@@ -1,0 +1,33 @@
+{
+  "name": "conictypst",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@monaco-editor/react": "^4.7.0",
+    "@myriaddreamin/typst-ts-renderer": "^0.7.0-rc2",
+    "@myriaddreamin/typst-ts-web-compiler": "^0.7.0-rc2",
+    "@myriaddreamin/typst.ts": "^0.7.0-rc2",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "react-resizable-panels": "^4.10.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-wasm": "^6.2.2",
+    "@vitejs/plugin-react": "^6.0.1",
+    "esbuild": "^0.28.0",
+    "rollup": "^4.60.2",
+    "vite": "^8.0.10",
+    "vite-plugin-top-level-await": "^1.4.4",
+    "vite-plugin-wasm": "^3.6.0"
+  },
+  "type": "module"
+}

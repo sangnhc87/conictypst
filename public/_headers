@@ -1,0 +1,8 @@
+/*
+  Cloudflare Pages — COOP/COEP headers
+  Cần thiết để SharedArrayBuffer (Typst WASM) hoạt động
+*/
+/*
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Embedder-Policy: require-corp
+  Cross-Origin-Resource-Policy: cross-origin

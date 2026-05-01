@@ -13,11 +13,10 @@ let _compilerPromise = null
 async function getCompiler() {
   if (_compilerPromise) return _compilerPromise
   _compilerPromise = (async () => {
-    const { createTypstCompiler, loadFonts } = await import(
-      '@myriaddreamin/typst.ts/dist/esm/main.mjs'
-    )
+    const { createTypstCompiler, loadFonts, compilerWasmUrl } = await import('./typstBundle.js')
     const compiler = createTypstCompiler()
     await compiler.init({
+      getModule: () => compilerWasmUrl,
       beforeBuild: [loadFonts([], { assets: ['text'] })],
     })
     return compiler
@@ -28,11 +27,9 @@ async function getCompiler() {
 let _renderer = null
 async function getRenderer() {
   if (_renderer) return _renderer
-  const { createTypstRenderer } = await import(
-    '@myriaddreamin/typst.ts/dist/esm/main.mjs'
-  )
+  const { createTypstRenderer, rendererWasmUrl } = await import('./typstBundle.js')
   _renderer = createTypstRenderer()
-  await _renderer.init()
+  await _renderer.init({ getModule: () => rendererWasmUrl })
   return _renderer
 }
 
@@ -164,9 +161,9 @@ export default function TypstEditor() {
 
       await renderer.runWithSession(async (session) => {
         renderer.manipulateData({ renderSession: session, action: 'reset', data: artifact })
-        const count = renderer.getPageCount(session)
-        for (let i = 0; i < count; i++) {
-          pages.push(renderer.renderSvg({ renderSession: session, pageOffset: i }))
+        const pageInfos = session.retrievePagesInfo()
+        for (const { pageOffset } of pageInfos) {
+          pages.push(await session.renderSvg({ pageOffset }))
         }
       })
 

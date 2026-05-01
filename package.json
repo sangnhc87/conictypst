@@ -27,7 +27,8 @@
     "rollup": "^4.60.2",
     "vite": "^8.0.10",
     "vite-plugin-top-level-await": "^1.4.4",
-    "vite-plugin-wasm": "^3.6.0"
+    "vite-plugin-wasm": "^3.6.0",
+    "wrangler": "^4.86.0"
   },
   "type": "module"
 }

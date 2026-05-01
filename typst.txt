@@ -1,0 +1,2 @@
+typst.txt
+https://github.com/sangnhc87/conictypst.git

@@ -1,0 +1,13 @@
+// main.typ — Chỉ include đề, mọi cấu hình trong file đề
+// #include "exams/de-01.typ"
+// #include "exams/1-dem.typ"
+// #include "exams/CD-MatCau.typ"
+// #include "exams/CD-Parabol.typ"
+// #include "exams/Đánh-Trận-Có Vận Tốc.typ"
+// #include "exams/Da-Giac-Deu.typ"
+// #include "exams/Cầu Bị Gió Thổi.typ"
+#include "exams/Xác-Suât-Đối Kháng.typ"
+// #include "exams/Sơ-Đồ-Cây-1-3-6.typ"
+// #include "exams/Tốc Độ Vật Trượt.typ"
+// #include "exams/Parabol-Oxyz.typ"
+// #include "exams/Dien-Tich-Conic-Ẩn.typ"

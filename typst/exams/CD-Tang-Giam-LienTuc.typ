@@ -638,7 +638,170 @@
   ],
 )
 
+// CÂU SÁNG TÁC 3: BÀI TOÁN QUẢN LÝ TỒN KHO CHUỖI CUNG ỨNG
+#tln(
+  [
+    Một tổng kho phân phối thiết bị điện tử hiện đang lưu trữ $100 000$ sản phẩm. Nhằm tối ưu hóa dòng tiền và không gian lưu trữ, ban giám đốc áp dụng mô hình xuất – nhập kho theo chu kỳ mỗi tháng. Dữ liệu phân tích cho thấy: trong nửa đầu tháng, hệ thống đại lý sẽ lấy đi $20%$ số lượng sản phẩm hiện có trong kho. Để bù đắp, vào nửa cuối tháng, tổng kho sẽ nhập một lô hàng mới có số lượng bằng $30%$ số sản phẩm vừa còn lại sau đợt xuất kho. Giả sử mô hình biến động này lặp lại đều đặn mỗi tháng và sức mua của thị trường không đổi. Hỏi sau ít nhất bao nhiêu tháng thì tổng lượng hàng tồn trong kho sẽ vượt mức $150 000$ sản phẩm?
+  ],
+  [$11$],
+  loigiai: [
+    #ppgiai[
+      - Bài toán vận dụng mô hình tăng trưởng/suy giảm kép trên một chu kỳ kinh doanh.
+      - Gọi lượng hàng ban đầu là $A_0$. Qua mỗi chu kỳ, nếu lượng hàng giảm $a%$ rồi lập tức nhập thêm $b%$ dựa trên lượng vừa giảm, thì hệ số thay đổi của toàn chu kỳ là:
+        $ q = (1 - a%) dot (1 + b%) $
+      - Số lượng hàng sau $n$ tháng sẽ tạo thành một cấp số nhân: $u_n = A_0 dot q^n$.
+      - Lập bất phương trình $u_n > M$ và dùng logarit cơ số $q$ để giải tìm $n$.
+    ]
 
+    #align(center)[
+      #cetz.canvas(length: 0.6cm, {
+        import cetz.draw: *
+        // Hệ trục tọa độ
+        line((-1, 0), (16, 0), mark: (end: ">"), stroke: 1pt)
+        content((16, -0.6), $n$ + " (tháng)", anchor: "north")
+        line((0, -1), (0, 18), mark: (end: ">"), stroke: 1pt)
+        content((-0.4, 18), $u_n$ + " (chục nghìn SP)", anchor: "east")
+        content((-0.3, -0.4), $O$)
+
+        // Đồ thị u_n = 10 * 1.04^n
+        let pts = ()
+        for i in range(0, 150) {
+          let x = i / 10
+          pts.push((x, 10 * calc.pow(1.04, x)))
+        }
+        line(..pts, stroke: (paint: rgb("FF4500"), thickness: 1.5pt))
+
+        // Điểm khởi đầu (10 chục nghìn = 100k)
+        circle((0, 10), radius: 2pt, fill: rgb("FF4500"))
+        content((-0.2, 10), text(weight: "bold")[$10$], anchor: "east")
+
+        // Đường mục tiêu (15 chục nghìn = 150k)
+        line((-0.5, 15), (16, 15), stroke: (dash: "dashed", paint: blue, thickness: 1.2pt))
+        content((6, 15.6), [Ngưỡng $150 000$ SP], fill: blue)
+        content((-0.2, 15), text(weight: "bold")[$15$], anchor: "east", fill: blue)
+
+        // Điểm cắt lý thuyết
+        let n_val = 10.34
+        line((n_val, 0), (n_val, 15), stroke: (dash: "dashed", paint: gray))
+        content((n_val, -0.6), $10","34$)
+        circle((n_val, 15), radius: 2pt, fill: blue)
+
+        // Điểm thực tế (n=11)
+        let y11 = 10 * calc.pow(1.04, 11)
+        line((11, 0), (11, y11), stroke: (dash: "dashed", paint: rgb("008080"), thickness: 1.2pt))
+        content((11.6, -0.6), text(weight: "bold")[$11$], fill: rgb("008080"))
+        circle((11, y11), radius: 2pt, fill: rgb("008080"))
+      })
+    ]
+
+    *Phân tích và giải chi tiết từng bước:*
+    - Gọi $u_n$ là lượng sản phẩm tồn kho sau $n$ tháng ($n in NN^*$). Quy đổi đơn vị sang "chục nghìn sản phẩm", ta có $u_0 = 10$.
+    - Trong mỗi tháng, lượng tồn kho trải qua hai giai đoạn biến động:
+      + *Xuất kho (Giảm):* Mất đi $20%$, số lượng còn lại tương ứng với hệ số $(100% - 20%) = 0","8$.
+      + *Nhập kho (Tăng):* Tăng thêm $30%$ trên nền lượng hàng vừa bị rút đi, tương ứng hệ số $(100% + 30%) = 1","3$.
+    - Như vậy, sau mỗi tháng trọn vẹn, hệ thống tồn kho biến đổi theo công bội:
+      $ q = 0","8 dot 1","3 = 1","04 $
+      _(Mỗi tháng kho hàng chỉ thực sự phình to thêm $4%$)._
+    - Lượng hàng trong kho ở tháng thứ $n$ tuân theo công thức:
+      $ u_n = u_0 dot q^n = 10 dot (1","04)^n $
+    - Để tổng lượng hàng vượt mức $150 000$ (tức là $15$ chục nghìn), ta thiết lập bất phương trình:
+      $ 10 dot (1","04)^n > 15 <=> (1","04)^n > 1","5 $
+    - Giải bất phương trình mũ (lấy logarit cơ số $1","04$ hai vế, giữ nguyên chiều do $1","04 > 1$):
+      $ n > log_(1","04) (1","5) $
+    - Sử dụng máy tính cầm tay, ta được:
+      $ n > 10","338... $
+    - Vì $n$ phải là số nguyên dương (đại diện cho số tháng trọn vẹn), ta cần lấy số nguyên nhỏ nhất lớn hơn $10","338$.
+    - Do đó, ta chọn $n = 11$.
+    - Kết luận: Cần ít nhất *$11$* tháng để lượng tồn kho của công ty vượt mốc $150 000$ sản phẩm.
+
+    #meo[
+      Khi thiết lập công bội $q$, cần đọc kỹ câu chữ "tăng thêm ... % so với phần *còn lại*". Khác biệt ở đây là lượng tăng $30%$ không tính trên mốc $100 000$ ban đầu, mà tính trên $80 000$ hàng còn lại. Đây là điểm mấu chốt để phân biệt bài toán lãi kép và bài toán tăng trưởng đơn thông thường.
+    ]
+  ],
+)
+
+// CÂU SÁNG TÁC 4: BÀI TOÁN DƯỢC ĐỘNG HỌC (ĐIỀU TRỊ KHÁNG SINH)
+#tln(
+  [
+    Một bệnh nhân bị nhiễm một loại vi khuẩn với số lượng ban đầu trong cơ thể được xác định là $500 000$ cá thể. Bác sĩ chỉ định phác đồ điều trị bằng kháng sinh đặc hiệu, mỗi ngày uống một liều. Các nghiên cứu dược động học cho thấy: mỗi liều kháng sinh khi đưa vào cơ thể sẽ tiêu diệt được $50%$ số lượng vi khuẩn hiện có. Tuy nhiên, trong thời gian giữa hai liều thuốc, do đặc tính sinh học, lượng vi khuẩn sống sót sẽ sinh sôi và tăng thêm $10%$ so với số lượng ngay sau khi bị tiêu diệt. Giả sử quá trình này lặp lại đều đặn mỗi ngày. Hỏi sau ít nhất bao nhiêu ngày (tương ứng với bao nhiêu liều thuốc) thì số lượng vi khuẩn trong cơ thể bệnh nhân giảm xuống dưới mức an toàn là $10 000$ cá thể?
+  ],
+  [$7$],
+  loigiai: [
+    #ppgiai[
+      - Bài toán sử dụng cấp số nhân lùi vô hạn có điều kiện (sự suy giảm có xen kẽ phục hồi).
+      - Số lượng ban đầu $A_0$.
+      - Khi bị tiêu diệt $a%$ rồi sinh sôi $b%$ trên lượng sống sót, hệ số sinh tồn sau mỗi ngày là:
+        $ q = (1 - a%) dot (1 + b%) $
+      - Số vi khuẩn sau $n$ ngày là $u_n = A_0 dot q^n$.
+      - Thiết lập bất phương trình $u_n < M$ để tìm $n$. Lưu ý bắt buộc đảo chiều bất đẳng thức khi lấy logarit nếu cơ số $0 < q < 1$.
+    ]
+
+    #align(center)[
+      #cetz.canvas(length: 0.6cm, {
+        import cetz.draw: *
+        // Hệ trục tọa độ
+        line((-1, 0), (10, 0), mark: (end: ">"), stroke: 1pt)
+        content((10, -0.6), $n$ + " (ngày)", anchor: "north")
+        line((0, -1), (0, 7), mark: (end: ">"), stroke: 1pt)
+        content((-0.4, 7), $u_n$ + " (trăm nghìn)", anchor: "east")
+        content((-0.3, -0.4), $O$)
+
+        // Đồ thị u_n = 5 * 0.55^n (trục y quy đổi ra trăm nghìn)
+        let pts = ()
+        for i in range(0, 90) {
+          let x = i / 10
+          pts.push((x, 5 * calc.pow(0.55, x)))
+        }
+        line(..pts, stroke: (paint: rgb("8A2BE2"), thickness: 1.5pt))
+
+        // Điểm khởi đầu (5 trăm nghìn)
+        circle((0, 5), radius: 2pt, fill: rgb("8A2BE2"))
+        content((0.2, 5), text(weight: "bold")[$5$], anchor: "south-west")
+
+        // Đường mục tiêu (0.1 trăm nghìn = 10 nghìn)
+        line((-0.5, 0.1), (10, 0.1), stroke: (dash: "dashed", paint: red, thickness: 1.2pt))
+        content((5, 0.7), [Ngưỡng an toàn ($10 000$)], fill: red)
+        content((-0.2, 0.1), text(weight: "bold")[$0","1$], anchor: "east", fill: red)
+
+        // Điểm cắt lý thuyết
+        let n_val = 6.549
+        line((n_val, 0), (n_val, 0.1), stroke: (dash: "dashed", paint: gray))
+        content((n_val, -0.6), $6","55$)
+        circle((n_val, 0.1), radius: 2pt, fill: red)
+
+        // Điểm thực tế (n=7)
+        let y7 = 5 * calc.pow(0.55, 7)
+        line((7, 0), (7, y7), stroke: (dash: "dashed", paint: blue, thickness: 1.2pt))
+        content((7.3, -0.6), text(weight: "bold")[$7$], fill: blue)
+        circle((7, y7), radius: 2pt, fill: blue)
+      })
+    ]
+
+    *Phân tích và giải chi tiết từng bước:*
+    - Gọi $u_n$ là lượng vi khuẩn còn lại sau $n$ ngày điều trị ($n in NN^*$). Ta chọn đơn vị tính là "trăm nghìn cá thể", suy ra $u_0 = 5$.
+    - Biến động của số lượng vi khuẩn trong một ngày gồm hai pha:
+      + *Pha tiêu diệt:* Giảm đi $50%$, lượng vi khuẩn sống sót nhân với hệ số $(100% - 50%) = 0","5$.
+      + *Pha sinh sôi:* Tăng thêm $10%$ trên nền số vi khuẩn sống sót, tương ứng nhân với hệ số $(100% + 10%) = 1","1$.
+    - Công bội $q$ biểu diễn tỷ lệ vi khuẩn còn lại sau một ngày trọn vẹn là:
+      $ q = 0","5 dot 1","1 = 0","55 $
+      _(Thực chất mỗi ngày phác đồ chỉ làm giảm được $45%$ tổng lượng vi khuẩn)._
+    - Hàm số lượng vi khuẩn ở ngày thứ $n$ là:
+      $ u_n = 5 dot (0","55)^n $
+    - Bác sĩ yêu cầu hạ lượng vi khuẩn xuống dưới mức an toàn là $10 000$ cá thể (tức là $0","1$ trăm nghìn). Ta có bất phương trình:
+      $ 5 dot (0","55)^n < 0","1 <=> (0","55)^n < 0","02 $
+    - Lấy logarit cơ số $0","55$ hai vế. *Chú ý: do cơ số $0 < 0","55 < 1$, ta bắt buộc phải đảo chiều bất phương trình:*
+      $ n > log_(0","55) (0","02) $
+    - Dùng máy tính tính giá trị xấp xỉ:
+      $ n > 6","549... $
+    - Do $n$ phải là số nguyên dương để tương ứng với số liều thuốc trọn vẹn, ta chọn số nguyên nhỏ nhất lớn hơn $6","549$.
+    - Suy ra $n = 7$.
+    - Kết luận: Cần ít nhất *$7$* ngày (tương ứng với $7$ liều thuốc) để số vi khuẩn hạ xuống dưới ngưỡng an toàn.
+
+    #luuy[
+      Cần hết sức cẩn thận khi giải bất phương trình mũ dạng $q^n < C$. Lỗi sai thường gặp nhất của học sinh là khi bấm máy ra $6","549$, các em lại viết $n < 6","549$ dẫn đến việc chọn đáp án $n=6$. Hãy luôn nhớ quy tắc bất biến: "Nếu cơ số nhỏ hơn 1, lập tức đảo chiều bất đẳng thức".
+    ]
+  ],
+)
 // Câu 1
 #tn(
   [Giả sử điểm tình cảm $P(t)$ của Nam dành cho Thư tại thời điểm $t$ ngày kể từ lúc chia tay ($t >= 0$) biến thiên liên tục. Qua nghiên cứu tâm lý, tốc độ lãng quên tự nhiên tỉ lệ thuận với lượng tình cảm đang có với hệ số $0","2$ (điểm/ngày). Đồng thời, những kỷ niệm hiển thị trên mạng xã hội giúp hâm nóng tình cảm với tốc độ không đổi $2$ (điểm/ngày). Phương trình vi phân nào sau đây mô tả đúng tốc độ biến thiên điểm tình cảm $P(t)$ của Nam?],

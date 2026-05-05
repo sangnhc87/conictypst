@@ -414,7 +414,7 @@
 
   [
     #q-state.markers
-    #_mcq-meta.update(m => m + ((num: num, ans: if ai >= 0 { labels.at(ai) } else { "?" }),))
+    #_mcq-meta.update(m => m + ((num: num, id: args.named().at("id", default: none), ans: if ai >= 0 { labels.at(ai) } else { "?" }),))
     #_question-frame(
       [
         #stem-row
@@ -530,7 +530,7 @@
 
   [
     #q-state.markers
-    #_tf-meta.update(m => m + ((num: num, ans: tf-row),))
+    #_tf-meta.update(m => m + ((num: num, id: args.named().at("id", default: none), ans: tf-row),))
     #_question-frame(
       [
         #stem-row
@@ -616,7 +616,7 @@
 
   [
     #q-state.markers
-    #_sh-meta.update(m => m + ((num: num, ans: answer),))
+    #_sh-meta.update(m => m + ((num: num, id: args.named().at("id", default: none), ans: answer),))
     #_question-frame(
       [
         #stem-row
@@ -691,7 +691,7 @@
 
   [
     #q-state.markers
-    #_tl-meta.update(m => m + ((num: num),))
+    #_tl-meta.update(m => m + ((num: num, id: args.named().at("id", default: none)),))
     #_question-frame(
       [
         #stem-row

@@ -1,0 +1,2 @@
+npm run deploy:gh-pages
+

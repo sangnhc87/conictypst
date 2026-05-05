@@ -603,6 +603,47 @@ function App() {
     setNotice({ tone: 'success', message: 'Đã khôi phục bộ dữ liệu mẫu' })
   }
 
+  async function handleCopyTypst() {
+    if (!selectedEntry || !editorDraft) return
+    const id = selectedEntry.id
+    const type = editorDraft.type
+    const d = editorDraft
+    
+    let code = `// ID: ${id}\n`
+    
+    if (type === 'tn') {
+      code += `#tn(\n  [${d.stem}],\n  ([${d.options[0]}], [${d.options[1]}], [${d.options[2]}], [${d.options[3]}]),\n  correct: ${d.correctAnswers[0] || 1},\n`
+    } else if (type === 'ds') {
+      const s = d.statements
+      code += `#ds(\n  [${d.stem}],\n  (\n`
+      for (let i=0; i<4; i++) {
+        if (s[i].correct) code += `    True([${s[i].text}]),\n`
+        else code += `    [${s[i].text}],\n`
+      }
+      code += `  ),\n`
+    } else if (type === 'tln') {
+      code += `#tln(\n  [${d.stem}],\n  [${d.shortAnswer}],\n`
+    } else {
+      code += `#tl(\n  [${d.stem}],\n`
+    }
+    
+    if (d.solution) {
+      code += `  loigiai: [\n    ${d.solution}\n  ]\n`
+    } else {
+      // Xoá dấu phẩy thừa ở cuối nếu không có lời giải
+      code = code.replace(/,\n$/, '\n')
+    }
+    
+    code += `)\n`
+    
+    try {
+      await navigator.clipboard.writeText(code)
+      setNotice({ tone: 'success', message: 'Đã copy mã Typst siêu gọn!' })
+    } catch {
+      setNotice({ tone: 'danger', message: 'Không thể copy mã Typst' })
+    }
+  }
+
   if (!selectedEntry || !editorDraft) {
     return null
   }
@@ -1022,6 +1063,9 @@ function App() {
           <div className="editor-actions">
             <button type="button" className="action-btn action-btn--accent" onClick={handleSaveRecord}>
               Lưu hồ sơ
+            </button>
+            <button type="button" className="action-btn action-btn--accent" onClick={handleCopyTypst}>
+              Copy mã Typst
             </button>
             <button type="button" className="action-btn" onClick={() => setEditorDraft(createRecordDraft(selectedEntry))}>
               Tạo trang mới

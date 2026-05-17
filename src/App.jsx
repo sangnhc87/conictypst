@@ -1,5 +1,9 @@
 import React, { startTransition, useDeferredValue, useEffect, useMemo, useRef, useState } from 'react'
 import bankCatalog from '../bank.json'
+import TemplateGen from './TemplateGen.jsx'
+import TypstEditor from './TypstEditor.jsx'
+import CeTZGallery from './CeTZGallery.jsx'
+import ExtractImages from './ExtractImages.jsx'
 import {
   DIFFICULTY_BY_CODE,
   DIFFICULTY_OPTIONS,
@@ -386,12 +390,17 @@ function App() {
   const [selectedId, setSelectedId] = useState(Object.keys(SAMPLE_RECORDS)[0] || catalogEntries[0]?.id || '')
   const [editorDraft, setEditorDraft] = useState(null)
   const [notice, setNotice] = useState(null)
+  const [activeView, setActiveView] = useState('bank')
   const importInputRef = useRef(null)
   const deferredQuery = useDeferredValue(filters.query.trim().toLowerCase())
 
   useEffect(() => {
-    document.title = 'ConicTypst - Quản lý ngân hàng câu hỏi'
-  }, [])
+    document.title = activeView === 'gen'
+      ? 'ConicTypst - Tạo khung dự án'
+      : activeView === 'editor'
+      ? 'ConicTypst - Editor'
+      : 'ConicTypst - Quản lý ngân hàng câu hỏi'
+  }, [activeView])
 
   useEffect(() => {
     setRecords(currentRecords => upgradeLegacySeedRecords(currentRecords))
@@ -608,34 +617,33 @@ function App() {
     const id = selectedEntry.id
     const type = editorDraft.type
     const d = editorDraft
-    
-    let code = `// ID: ${id}\n`
-    
+    let code = ''
+
     if (type === 'tn') {
-      code += `#tn(\n  [${d.stem}],\n  ([${d.options[0]}], [${d.options[1]}], [${d.options[2]}], [${d.options[3]}]),\n  correct: ${d.correctAnswers[0] || 1},\n`
+      code += `#tn(id: "${id}",\n  [${d.stem}],\n  ([${d.options[0]}], [${d.options[1]}], [${d.options[2]}], [${d.options[3]}]),\n  correct: ${d.correctAnswers[0] || 1},\n`
     } else if (type === 'ds') {
       const s = d.statements
-      code += `#ds(\n  [${d.stem}],\n  (\n`
-      for (let i=0; i<4; i++) {
+      code += `#ds(id: "${id}",\n  [${d.stem}],\n  (\n`
+      for (let i = 0; i < 4; i++) {
         if (s[i].correct) code += `    True([${s[i].text}]),\n`
         else code += `    [${s[i].text}],\n`
       }
       code += `  ),\n`
     } else if (type === 'tln') {
-      code += `#tln(\n  [${d.stem}],\n  [${d.shortAnswer}],\n`
+      code += `#tln(id: "${id}",\n  [${d.stem}],\n  [${d.shortAnswer}],\n`
     } else {
-      code += `#tl(\n  [${d.stem}],\n`
+      code += `#tl(id: "${id}",\n  [${d.stem}],\n`
     }
-    
+
     if (d.solution) {
       code += `  loigiai: [\n    ${d.solution}\n  ]\n`
     } else {
       // Xoá dấu phẩy thừa ở cuối nếu không có lời giải
       code = code.replace(/,\n$/, '\n')
     }
-    
+
     code += `)\n`
-    
+
     try {
       await navigator.clipboard.writeText(code)
       setNotice({ tone: 'success', message: 'Đã copy mã Typst siêu gọn!' })
@@ -649,7 +657,7 @@ function App() {
   }
 
   return (
-    <div className="dashboard-shell">
+    <div className={`dashboard-shell ${activeView === 'editor' ? 'dashboard-shell--editor' : ''} ${activeView === 'cetz' ? 'dashboard-shell--cetz' : ''}`}>
       <input
         ref={importInputRef}
         className="visually-hidden"
@@ -660,427 +668,458 @@ function App() {
 
       <header className="hero-panel paper-panel">
         <div className="hero-copy">
-          <span className="hero-kicker">ConicTypst Data Manager</span>
-          <h1>Quản lý ngân hàng câu hỏi trên web, không còn phụ thuộc WASM.</h1>
-          <p>
-            Dashboard này tách hẳn khỏi Typst runtime trong trình duyệt. Phân loại vẫn lấy từ
-            bank.json, còn nội dung câu hỏi được soạn, lọc, đóng gói và sao lưu trực tiếp trên Pages.
-          </p>
-          <div className="hero-tags">
-            <span className="pill">ID ổn định theo bank.json</span>
-            <span className="pill">Soạn nội dung theo loại câu hỏi</span>
-            <span className="pill">Import / export JSON để đồng bộ</span>
-          </div>
+          <h1>ConicTypst</h1>
         </div>
+
+        <nav className="app-tabs">
+          <button
+            type="button"
+            className={`app-tab ${activeView === 'bank' ? 'app-tab--active' : ''}`}
+            onClick={() => setActiveView('bank')}
+          >
+            Ngân hàng
+          </button>
+          <button
+            type="button"
+            className={`app-tab ${activeView === 'gen' ? 'app-tab--active' : ''}`}
+            onClick={() => setActiveView('gen')}
+          >
+            Tạo khung
+          </button>
+          <button
+            type="button"
+            className={`app-tab ${activeView === 'editor' ? 'app-tab--active' : ''}`}
+            onClick={() => setActiveView('editor')}
+          >
+            Editor
+          </button>
+          <button
+            type="button"
+            className={`app-tab ${activeView === 'cetz' ? 'app-tab--active' : ''}`}
+            onClick={() => setActiveView('cetz')}
+          >
+            CeTZ Gallery
+          </button>
+          <button
+            type="button"
+            className={`app-tab ${activeView === 'extract' ? 'app-tab--active' : ''}`}
+            onClick={() => setActiveView('extract')}
+          >
+            Xuất Ảnh CeTZ
+          </button>
+        </nav>
 
         <div className="hero-actions">
           <div className="action-stack">
             <button type="button" className="action-btn action-btn--accent" onClick={handleExportAll}>
-              Tải toàn bộ JSON
+              Xuất JSON
             </button>
             <button type="button" className="action-btn" onClick={handleImportClick}>
               Nhập JSON
             </button>
             <button type="button" className="action-btn" onClick={handleResetSeed}>
-              Khôi phục dữ liệu mẫu
+              Khôi phục mẫu
             </button>
-          </div>
-
-          <div className="hero-note">
-            <span className="hero-note__label">Lưu trữ</span>
-            <strong>Trình duyệt hiện tại</strong>
-            <p>
-              Bản Pages này là static app. Dữ liệu đang được lưu local trong trình duyệt và trao
-              đổi bằng JSON import / export. Khi cần đồng bộ nhiều thiết bị, mình có thể nâng cấp tiếp sang D1 hoặc API.
-            </p>
           </div>
 
           {notice ? <div className={`notice notice--${notice.tone}`}>{notice.message}</div> : null}
         </div>
       </header>
 
-      <section className="stats-grid">
-        <StatCard label="Phân loại" value={catalogEntries.length} meta="ID đã đồng bộ từ bank.json" tone="accent" />
-        <StatCard label="Đã soạn" value={authoredCount} meta={`${coverage}% độ phủ trên toàn bộ kho`} tone="copper" />
-        <StatCard label="Sẵn sàng" value={readyCount} meta="Hồ sơ có thể đưa vào gói đề" tone="ready" />
-        <StatCard label="Đang soát" value={reviewCount} meta="Cần kiểm tra lại lời giải / rubric" tone="review" />
-        <StatCard label="Giỏ đề" value={selectedCartRows.length} meta="Tập câu hỏi đang chọn để đóng gói" tone="ink" />
-      </section>
+      {activeView === 'gen' && <TemplateGen />}
 
-      <main className="workspace-grid">
-        <aside className="paper-panel sidebar-panel">
-          <section className="panel-section">
-            <div className="section-head">
-              <h2>Bộ lọc</h2>
-              <button
-                type="button"
-                className="text-link"
-                onClick={() => setFilters(DEFAULT_FILTERS)}
-              >
-                Đặt lại
-              </button>
-            </div>
+      {activeView === 'editor' && <TypstEditor />}
 
-            <label className="field">
-              <span className="field__label">Tìm nhanh theo ID / chủ đề / nội dung</span>
-              <input
-                className="field__control"
-                type="search"
-                value={filters.query}
-                placeholder="VD: 0D1N1-3, mệnh đề, phủ định..."
-                onChange={event => updateFilter('query', event.target.value)}
-              />
-            </label>
+      {activeView === 'cetz' && <CeTZGallery />}
 
-            <div className="field-grid">
-              <FilterField label="Khối lớp" value={filters.grade} options={filterOptions.grades} onChange={value => updateFilter('grade', value)} />
-              <FilterField label="Mạch kiến thức" value={filters.branch} options={filterOptions.branches} onChange={value => updateFilter('branch', value)} />
-              <FilterField label="Chương" value={filters.chapter} options={filterOptions.chapters} onChange={value => updateFilter('chapter', value)} />
-              <FilterField label="Bài" value={filters.lesson} options={filterOptions.lessons} onChange={value => updateFilter('lesson', value)} />
-              <FilterField label="Dạng" value={filters.form} options={filterOptions.forms} onChange={value => updateFilter('form', value)} />
-              <FilterField
-                label="Trạng thái"
-                value={filters.status}
-                options={['missing', ...STATUS_OPTIONS.map(option => option.value)]}
-                onChange={value => updateFilter('status', value)}
-              />
-              <FilterField
-                label="Loại câu"
-                value={filters.type}
-                options={QUESTION_TYPE_OPTIONS.map(option => option.value)}
-                onChange={value => updateFilter('type', value)}
-              />
+      {activeView === 'extract' && <ExtractImages />}
+
+      {activeView === 'bank' && (
+        <>
+          <section className="stats-grid">
+            <StatCard label="Phân loại" value={catalogEntries.length} meta="ID đã đồng bộ từ bank.json" tone="accent" />
+            <StatCard label="Đã soạn" value={authoredCount} meta={`${coverage}% độ phủ trên toàn bộ kho`} tone="copper" />
+            <StatCard label="Sẵn sàng" value={readyCount} meta="Hồ sơ có thể đưa vào gói đề" tone="ready" />
+            <StatCard label="Đang soát" value={reviewCount} meta="Cần kiểm tra lại lời giải / rubric" tone="review" />
+            <StatCard label="Giỏ đề" value={selectedCartRows.length} meta="Tập câu hỏi đang chọn để đóng gói" tone="ink" />
+          </section>
+
+          <main className="workspace-grid">
+            <aside className="paper-panel sidebar-panel">
+              <section className="panel-section">
+                <div className="section-head">
+                  <h2>Bộ lọc</h2>
+                  <button
+                    type="button"
+                    className="text-link"
+                    onClick={() => setFilters(DEFAULT_FILTERS)}
+                  >
+                    Đặt lại
+                  </button>
+                </div>
+
+                <label className="field">
+                  <span className="field__label">Tìm nhanh theo ID / chủ đề / nội dung</span>
+                  <input
+                    className="field__control"
+                    type="search"
+                    value={filters.query}
+                    placeholder="VD: 0D1N1-3, mệnh đề, phủ định..."
+                    onChange={event => updateFilter('query', event.target.value)}
+                  />
+                </label>
+
+                <div className="field-grid">
+                  <FilterField label="Khối lớp" value={filters.grade} options={filterOptions.grades} onChange={value => updateFilter('grade', value)} />
+                  <FilterField label="Mạch kiến thức" value={filters.branch} options={filterOptions.branches} onChange={value => updateFilter('branch', value)} />
+                  <FilterField label="Chương" value={filters.chapter} options={filterOptions.chapters} onChange={value => updateFilter('chapter', value)} />
+                  <FilterField label="Bài" value={filters.lesson} options={filterOptions.lessons} onChange={value => updateFilter('lesson', value)} />
+                  <FilterField label="Dạng" value={filters.form} options={filterOptions.forms} onChange={value => updateFilter('form', value)} />
+                  <FilterField
+                    label="Trạng thái"
+                    value={filters.status}
+                    options={['missing', ...STATUS_OPTIONS.map(option => option.value)]}
+                    onChange={value => updateFilter('status', value)}
+                  />
+                  <FilterField
+                    label="Loại câu"
+                    value={filters.type}
+                    options={QUESTION_TYPE_OPTIONS.map(option => option.value)}
+                    onChange={value => updateFilter('type', value)}
+                  />
+
+                  <label className="field">
+                    <span className="field__label">Độ phủ nội dung</span>
+                    <select
+                      className="field__control"
+                      value={filters.authored}
+                      onChange={event => updateFilter('authored', event.target.value)}
+                    >
+                      <option value="all">Tất cả</option>
+                      <option value="authored">Đã có nội dung</option>
+                      <option value="missing">Còn thiếu nội dung</option>
+                    </select>
+                  </label>
+                </div>
+              </section>
+
+              <section className="panel-section panel-section--accent">
+                <div className="section-head">
+                  <h2>Gói đề đang chọn</h2>
+                  <span className="muted-copy">{selectedCartRows.length} ID</span>
+                </div>
+
+                <div className="cart-actions">
+                  <button type="button" className="action-btn action-btn--accent" onClick={handleExportCart} disabled={selectedCartRows.length === 0}>
+                    Tải gói đề
+                  </button>
+                  <button type="button" className="action-btn" onClick={handleCopyCartIds} disabled={selectedCartRows.length === 0}>
+                    Sao chép ID
+                  </button>
+                </div>
+
+                <div className="cart-list">
+                  {selectedCartRows.length === 0 ? (
+                    <p className="empty-copy">Thêm các câu hỏi đã soạn vào giỏ đề để đóng gói nhanh.</p>
+                  ) : (
+                    selectedCartRows.map(row => (
+                      <button
+                        key={row.id}
+                        type="button"
+                        className="cart-chip"
+                        onClick={() => setSelectedId(row.id)}
+                      >
+                        <span>{row.id}</span>
+                        <strong>{TYPE_LABELS[row.record.type]?.shortLabel || 'NA'}</strong>
+                      </button>
+                    ))
+                  )}
+                </div>
+              </section>
+
+              <section className="panel-section">
+                <div className="section-head">
+                  <h2>Cảnh báo dữ liệu</h2>
+                </div>
+                <p className="muted-copy">
+                  Bản ghi mồ côi: <strong>{orphanIds.length}</strong>
+                </p>
+                <p className="muted-copy">
+                  Nếu có bản ghi mồ côi, nghĩa là có câu hỏi trong local JSON không còn tồn tại trong taxonomy hiện tại.
+                </p>
+              </section>
+            </aside>
+
+            <section className="paper-panel catalog-panel">
+              <div className="section-head section-head--space">
+                <div>
+                  <h2>Danh mục ID và tiến độ biên soạn</h2>
+                  <p className="muted-copy">
+                    {filteredEntries.length} kết quả{filteredEntries.length > VISIBLE_LIMIT ? `, đang hiện ${VISIBLE_LIMIT} mục đầu` : ''}
+                  </p>
+                </div>
+                <span className="tiny-note">Bấm vào dòng để chuyển sang trình soạn ở bên phải</span>
+              </div>
+
+              <div className="catalog-list">
+                {visibleEntries.map(entry => {
+                  const record = normalizedRecords[entry.id]
+                  const inCart = cartIds.includes(entry.id)
+                  const effectiveStatus = record ? record.status : 'missing'
+
+                  return (
+                    <article
+                      key={entry.id}
+                      className={`catalog-row ${selectedEntry.id === entry.id ? 'is-selected' : ''}`}
+                    >
+                      <button type="button" className="catalog-row__body" onClick={() => setSelectedId(entry.id)}>
+                        <div className="catalog-row__topline">
+                          <span className="catalog-id">{entry.id}</span>
+                          <span className={`status-badge status-badge--${getStatusTone(effectiveStatus)}`}>
+                            {STATUS_LABELS[effectiveStatus] || 'Chưa soạn'}
+                          </span>
+                        </div>
+
+                        <h3>{entry.chapter}</h3>
+                        <p className="catalog-meta">{entry.lesson}</p>
+                        <p className="catalog-preview">{getPreviewText(entry, record)}</p>
+
+                        <div className="catalog-foot">
+                          <span>{entry.form}</span>
+                          <span>{record ? TYPE_LABELS[record.type]?.shortLabel || record.type : 'MỚI'}</span>
+                          <span>{record ? DIFFICULTY_LABELS[record.difficulty] : DIFFICULTY_LABELS[entry.inferredDifficulty]}</span>
+                        </div>
+                      </button>
+
+                      <div className="catalog-row__actions">
+          <button
+                          type="button"
+                          className={`mini-btn ${inCart ? 'is-active' : ''}`}
+                          onClick={() => handleToggleCart(entry.id)}
+                          disabled={!record}
+                        >
+                          {inCart ? 'Bỏ khỏi gói' : 'Thêm gói đề'}
+                        </button>
+                      </div>
+                    </article>
+                  )
+                })}
+              </div>
+            </section>
+
+            <section className="paper-panel editor-panel">
+              <div className="section-head section-head--space">
+                <div>
+                  <h2>Trình soạn theo ID</h2>
+                  <p className="muted-copy">Lưu lần cuối: {formatDateTime(normalizedRecords[selectedEntry.id]?.updatedAt)}</p>
+                </div>
+                <span className={`status-badge status-badge--${editorDirty ? 'draft' : 'ready'}`}>
+                  {editorDirty ? 'Chưa lưu' : 'Đồng bộ'}
+                </span>
+              </div>
+
+              <div className="taxonomy-card">
+                <div>
+                  <span className="taxonomy-card__label">ID ổn định</span>
+                  <strong>{selectedEntry.id}</strong>
+                </div>
+                <div>
+                  <span className="taxonomy-card__label">Phân loại</span>
+                  <p>
+                    {selectedEntry.grade} / {selectedEntry.branch}
+                  </p>
+                </div>
+                <div>
+                  <span className="taxonomy-card__label">Mục tiêu</span>
+                  <p>
+                    {selectedEntry.chapter} / {selectedEntry.lesson} / {selectedEntry.form}
+                  </p>
+                </div>
+              </div>
+
+              <div className="field-grid">
+                <label className="field">
+                  <span className="field__label">Loại câu hỏi</span>
+                  <select className="field__control" value={editorDraft.type} onChange={event => setQuestionType(event.target.value)}>
+                    {QUESTION_TYPE_OPTIONS.map(option => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                <label className="field">
+                  <span className="field__label">Trạng thái</span>
+                  <select className="field__control" value={editorDraft.status} onChange={event => updateDraft({ status: event.target.value })}>
+                    {STATUS_OPTIONS.map(option => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                <label className="field">
+                  <span className="field__label">Độ khó</span>
+                  <select className="field__control" value={editorDraft.difficulty} onChange={event => updateDraft({ difficulty: event.target.value })}>
+                    {DIFFICULTY_OPTIONS.map(option => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                <label className="field">
+                  <span className="field__label">Thẻ</span>
+                  <input
+                    className="field__control"
+                    value={editorDraft.tags.join(', ')}
+                    onChange={event => updateDraft({ tags: normalizeTags(event.target.value) })}
+                    placeholder="lop10, menh-de, phu-dinh"
+                  />
+                </label>
+              </div>
 
               <label className="field">
-                <span className="field__label">Độ phủ nội dung</span>
-                <select
-                  className="field__control"
-                  value={filters.authored}
-                  onChange={event => updateFilter('authored', event.target.value)}
-                >
-                  <option value="all">Tất cả</option>
-                  <option value="authored">Đã có nội dung</option>
-                  <option value="missing">Còn thiếu nội dung</option>
-                </select>
+                <span className="field__label">Nội dung câu hỏi</span>
+                <textarea
+                  className="field__control field__control--tall"
+                  value={editorDraft.stem}
+                  onChange={event => updateDraft({ stem: event.target.value })}
+                  placeholder="Nhập đề bài, bối cảnh, yêu cầu và dữ liệu cần có..."
+                />
               </label>
-            </div>
-          </section>
 
-          <section className="panel-section panel-section--accent">
-            <div className="section-head">
-              <h2>Gói đề đang chọn</h2>
-              <span className="muted-copy">{selectedCartRows.length} ID</span>
-            </div>
-
-            <div className="cart-actions">
-              <button type="button" className="action-btn action-btn--accent" onClick={handleExportCart} disabled={selectedCartRows.length === 0}>
-                Tải gói đề
-              </button>
-              <button type="button" className="action-btn" onClick={handleCopyCartIds} disabled={selectedCartRows.length === 0}>
-                Sao chép ID
-              </button>
-            </div>
-
-            <div className="cart-list">
-              {selectedCartRows.length === 0 ? (
-                <p className="empty-copy">Thêm các câu hỏi đã soạn vào giỏ đề để đóng gói nhanh.</p>
-              ) : (
-                selectedCartRows.map(row => (
-                  <button
-                    key={row.id}
-                    type="button"
-                    className="cart-chip"
-                    onClick={() => setSelectedId(row.id)}
-                  >
-                    <span>{row.id}</span>
-                    <strong>{TYPE_LABELS[row.record.type]?.shortLabel || 'NA'}</strong>
-                  </button>
-                ))
-              )}
-            </div>
-          </section>
-
-          <section className="panel-section">
-            <div className="section-head">
-              <h2>Cảnh báo dữ liệu</h2>
-            </div>
-            <p className="muted-copy">
-              Bản ghi mồ côi: <strong>{orphanIds.length}</strong>
-            </p>
-            <p className="muted-copy">
-              Nếu có bản ghi mồ côi, nghĩa là có câu hỏi trong local JSON không còn tồn tại trong taxonomy hiện tại.
-            </p>
-          </section>
-        </aside>
-
-        <section className="paper-panel catalog-panel">
-          <div className="section-head section-head--space">
-            <div>
-              <h2>Danh mục ID và tiến độ biên soạn</h2>
-              <p className="muted-copy">
-                {filteredEntries.length} kết quả{filteredEntries.length > VISIBLE_LIMIT ? `, đang hiện ${VISIBLE_LIMIT} mục đầu` : ''}
-              </p>
-            </div>
-            <span className="tiny-note">Bấm vào dòng để chuyển sang trình soạn ở bên phải</span>
-          </div>
-
-          <div className="catalog-list">
-            {visibleEntries.map(entry => {
-              const record = normalizedRecords[entry.id]
-              const inCart = cartIds.includes(entry.id)
-              const effectiveStatus = record ? record.status : 'missing'
-
-              return (
-                <article
-                  key={entry.id}
-                  className={`catalog-row ${selectedEntry.id === entry.id ? 'is-selected' : ''}`}
-                >
-                  <button type="button" className="catalog-row__body" onClick={() => setSelectedId(entry.id)}>
-                    <div className="catalog-row__topline">
-                      <span className="catalog-id">{entry.id}</span>
-                      <span className={`status-badge status-badge--${getStatusTone(effectiveStatus)}`}>
-                        {STATUS_LABELS[effectiveStatus] || 'Chưa soạn'}
-                      </span>
-                    </div>
-
-                    <h3>{entry.chapter}</h3>
-                    <p className="catalog-meta">{entry.lesson}</p>
-                    <p className="catalog-preview">{getPreviewText(entry, record)}</p>
-
-                    <div className="catalog-foot">
-                      <span>{entry.form}</span>
-                      <span>{record ? TYPE_LABELS[record.type]?.shortLabel || record.type : 'MỚI'}</span>
-                      <span>{record ? DIFFICULTY_LABELS[record.difficulty] : DIFFICULTY_LABELS[entry.inferredDifficulty]}</span>
-                    </div>
-                  </button>
-
-                  <div className="catalog-row__actions">
+              {editorDraft.type === 'tn' ? (
+                <section className="editor-block">
+                  <div className="section-head section-head--space">
+                    <h3>Lựa chọn và đáp án</h3>
                     <button
                       type="button"
-                      className={`mini-btn ${inCart ? 'is-active' : ''}`}
-                      onClick={() => handleToggleCart(entry.id)}
-                      disabled={!record}
+                      className="text-link"
+                      onClick={() => updateDraft({ options: [...editorDraft.options, ''] })}
                     >
-                      {inCart ? 'Bỏ khỏi gói' : 'Thêm gói đề'}
+                      Thêm lựa chọn
                     </button>
                   </div>
-                </article>
-              )
-            })}
-          </div>
-        </section>
 
-        <section className="paper-panel editor-panel">
-          <div className="section-head section-head--space">
-            <div>
-              <h2>Trình soạn theo ID</h2>
-              <p className="muted-copy">Lưu lần cuối: {formatDateTime(normalizedRecords[selectedEntry.id]?.updatedAt)}</p>
-            </div>
-            <span className={`status-badge status-badge--${editorDirty ? 'draft' : 'ready'}`}>
-              {editorDirty ? 'Chưa lưu' : 'Đồng bộ'}
-            </span>
-          </div>
+                  <div className="stack-list">
+                    {editorDraft.options.map((option, index) => (
+                      <div key={`${selectedEntry.id}-option-${index}`} className="option-row">
+                        <label className="radio-pill">
+                          <input
+                            type="radio"
+                            name="correct-answer"
+                            checked={editorDraft.correctAnswers[0] === index + 1}
+                            onChange={() => updateDraft({ correctAnswers: [index + 1] })}
+                          />
+                          <span>Đáp án {index + 1}</span>
+                        </label>
+                        <textarea
+                          className="field__control option-row__control"
+                          value={option}
+                          onChange={event => updateOption(index, event.target.value)}
+                          placeholder={`Lựa chọn ${index + 1}`}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              ) : null}
 
-          <div className="taxonomy-card">
-            <div>
-              <span className="taxonomy-card__label">ID ổn định</span>
-              <strong>{selectedEntry.id}</strong>
-            </div>
-            <div>
-              <span className="taxonomy-card__label">Phân loại</span>
-              <p>
-                {selectedEntry.grade} / {selectedEntry.branch}
-              </p>
-            </div>
-            <div>
-              <span className="taxonomy-card__label">Mục tiêu</span>
-              <p>
-                {selectedEntry.chapter} / {selectedEntry.lesson} / {selectedEntry.form}
-              </p>
-            </div>
-          </div>
+              {editorDraft.type === 'ds' ? (
+                <section className="editor-block">
+                  <div className="section-head section-head--space">
+                    <h3>Phát biểu đúng / sai</h3>
+                    <button
+                      type="button"
+                      className="text-link"
+                      onClick={() => updateDraft({ statements: [...editorDraft.statements, { text: '', correct: false }] })}
+                    >
+                      Thêm phát biểu
+                    </button>
+                  </div>
 
-          <div className="field-grid">
-            <label className="field">
-              <span className="field__label">Loại câu hỏi</span>
-              <select className="field__control" value={editorDraft.type} onChange={event => setQuestionType(event.target.value)}>
-                {QUESTION_TYPE_OPTIONS.map(option => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </label>
+                  <div className="stack-list">
+                    {editorDraft.statements.map((statement, index) => (
+                      <div key={`${selectedEntry.id}-statement-${index}`} className="statement-row">
+                        <label className="toggle-pill">
+                          <input
+                            type="checkbox"
+                            checked={statement.correct}
+                            onChange={event => updateStatement(index, { correct: event.target.checked })}
+                          />
+                          <span>{statement.correct ? 'Đúng' : 'Sai'}</span>
+                        </label>
+                        <textarea
+                          className="field__control statement-row__control"
+                          value={statement.text}
+                          onChange={event => updateStatement(index, { text: event.target.value })}
+                          placeholder={`Phát biểu ${index + 1}`}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              ) : null}
 
-            <label className="field">
-              <span className="field__label">Trạng thái</span>
-              <select className="field__control" value={editorDraft.status} onChange={event => updateDraft({ status: event.target.value })}>
-                {STATUS_OPTIONS.map(option => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </label>
+              {editorDraft.type === 'tln' ? (
+                <label className="field">
+                  <span className="field__label">Đáp án ngắn</span>
+                  <input
+                    className="field__control"
+                    value={editorDraft.shortAnswer}
+                    onChange={event => updateDraft({ shortAnswer: event.target.value })}
+                    placeholder="Nhập đáp án ngắn / giá trị kỳ vọng"
+                  />
+                </label>
+              ) : null}
 
-            <label className="field">
-              <span className="field__label">Độ khó</span>
-              <select className="field__control" value={editorDraft.difficulty} onChange={event => updateDraft({ difficulty: event.target.value })}>
-                {DIFFICULTY_OPTIONS.map(option => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </label>
+              <label className="field">
+                <span className="field__label">Lời giải / rubric</span>
+                <textarea
+                  className="field__control field__control--medium"
+                  value={editorDraft.solution}
+                  onChange={event => updateDraft({ solution: event.target.value })}
+                  placeholder="Nhập hướng giải, đáp án mẫu hoặc rubric chấm điểm"
+                />
+              </label>
 
-            <label className="field">
-              <span className="field__label">Thẻ</span>
-              <input
-                className="field__control"
-                value={editorDraft.tags.join(', ')}
-                onChange={event => updateDraft({ tags: normalizeTags(event.target.value) })}
-                placeholder="lop10, menh-de, phu-dinh"
-              />
-            </label>
-          </div>
+              <label className="field">
+                <span className="field__label">Ghi chú biên soạn</span>
+                <textarea
+                  className="field__control"
+                  value={editorDraft.note}
+                  onChange={event => updateDraft({ note: event.target.value })}
+                  placeholder="Cảnh báo, yêu cầu hình vẽ, tài liệu gốc hoặc ghi chú nội bộ"
+                />
+              </label>
 
-          <label className="field">
-            <span className="field__label">Nội dung câu hỏi</span>
-            <textarea
-              className="field__control field__control--tall"
-              value={editorDraft.stem}
-              onChange={event => updateDraft({ stem: event.target.value })}
-              placeholder="Nhập đề bài, bối cảnh, yêu cầu và dữ liệu cần có..."
-            />
-          </label>
-
-          {editorDraft.type === 'tn' ? (
-            <section className="editor-block">
-              <div className="section-head section-head--space">
-                <h3>Lựa chọn và đáp án</h3>
+              <div className="editor-actions">
+                <button type="button" className="action-btn action-btn--accent" onClick={handleSaveRecord}>
+                  Lưu hồ sơ
+                </button>
+                <button type="button" className="action-btn action-btn--accent" onClick={handleCopyTypst}>
+                  Copy mã Typst
+                </button>
+                <button type="button" className="action-btn" onClick={() => setEditorDraft(createRecordDraft(selectedEntry))}>
+                  Tạo trang mới
+                </button>
                 <button
                   type="button"
-                  className="text-link"
-                  onClick={() => updateDraft({ options: [...editorDraft.options, ''] })}
+                  className="action-btn action-btn--danger"
+                  onClick={handleDeleteRecord}
+                  disabled={!normalizedRecords[selectedEntry.id]}
                 >
-                  Thêm lựa chọn
+                  Xóa nội dung
                 </button>
               </div>
-
-              <div className="stack-list">
-                {editorDraft.options.map((option, index) => (
-                  <div key={`${selectedEntry.id}-option-${index}`} className="option-row">
-                    <label className="radio-pill">
-                      <input
-                        type="radio"
-                        name="correct-answer"
-                        checked={editorDraft.correctAnswers[0] === index + 1}
-                        onChange={() => updateDraft({ correctAnswers: [index + 1] })}
-                      />
-                      <span>Đáp án {index + 1}</span>
-                    </label>
-                    <textarea
-                      className="field__control option-row__control"
-                      value={option}
-                      onChange={event => updateOption(index, event.target.value)}
-                      placeholder={`Lựa chọn ${index + 1}`}
-                    />
-                  </div>
-                ))}
-              </div>
             </section>
-          ) : null}
-
-          {editorDraft.type === 'ds' ? (
-            <section className="editor-block">
-              <div className="section-head section-head--space">
-                <h3>Phát biểu đúng / sai</h3>
-                <button
-                  type="button"
-                  className="text-link"
-                  onClick={() => updateDraft({ statements: [...editorDraft.statements, { text: '', correct: false }] })}
-                >
-                  Thêm phát biểu
-                </button>
-              </div>
-
-              <div className="stack-list">
-                {editorDraft.statements.map((statement, index) => (
-                  <div key={`${selectedEntry.id}-statement-${index}`} className="statement-row">
-                    <label className="toggle-pill">
-                      <input
-                        type="checkbox"
-                        checked={statement.correct}
-                        onChange={event => updateStatement(index, { correct: event.target.checked })}
-                      />
-                      <span>{statement.correct ? 'Đúng' : 'Sai'}</span>
-                    </label>
-                    <textarea
-                      className="field__control statement-row__control"
-                      value={statement.text}
-                      onChange={event => updateStatement(index, { text: event.target.value })}
-                      placeholder={`Phát biểu ${index + 1}`}
-                    />
-                  </div>
-                ))}
-              </div>
-            </section>
-          ) : null}
-
-          {editorDraft.type === 'tln' ? (
-            <label className="field">
-              <span className="field__label">Đáp án ngắn</span>
-              <input
-                className="field__control"
-                value={editorDraft.shortAnswer}
-                onChange={event => updateDraft({ shortAnswer: event.target.value })}
-                placeholder="Nhập đáp án ngắn / giá trị kỳ vọng"
-              />
-            </label>
-          ) : null}
-
-          <label className="field">
-            <span className="field__label">Lời giải / rubric</span>
-            <textarea
-              className="field__control field__control--medium"
-              value={editorDraft.solution}
-              onChange={event => updateDraft({ solution: event.target.value })}
-              placeholder="Nhập hướng giải, đáp án mẫu hoặc rubric chấm điểm"
-            />
-          </label>
-
-          <label className="field">
-            <span className="field__label">Ghi chú biên soạn</span>
-            <textarea
-              className="field__control"
-              value={editorDraft.note}
-              onChange={event => updateDraft({ note: event.target.value })}
-              placeholder="Cảnh báo, yêu cầu hình vẽ, tài liệu gốc hoặc ghi chú nội bộ"
-            />
-          </label>
-
-          <div className="editor-actions">
-            <button type="button" className="action-btn action-btn--accent" onClick={handleSaveRecord}>
-              Lưu hồ sơ
-            </button>
-            <button type="button" className="action-btn action-btn--accent" onClick={handleCopyTypst}>
-              Copy mã Typst
-            </button>
-            <button type="button" className="action-btn" onClick={() => setEditorDraft(createRecordDraft(selectedEntry))}>
-              Tạo trang mới
-            </button>
-            <button
-              type="button"
-              className="action-btn action-btn--danger"
-              onClick={handleDeleteRecord}
-              disabled={!normalizedRecords[selectedEntry.id]}
-            >
-              Xóa nội dung
-            </button>
-          </div>
-        </section>
-      </main>
+          </main>
+        </>
+      )}
     </div>
   )
 }

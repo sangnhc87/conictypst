@@ -115,7 +115,7 @@ Macro mới là `#smartbox(...)`, alias ngắn là `#khung(...)`.
   Đây là khung lưu ý dạng gọn.
 ]
 
-#khung(kind: "summary", title: [Chốt kiến thức])[ 
+#khung(kind: "summary", title: [Chốt kiến thức])[
   Đây là alias ngắn cho smartbox.
 ]
 ```
@@ -149,7 +149,7 @@ Macro mới là `#smartbox(...)`, alias ngắn là `#khung(...)`.
 
 #section([Chẩn đoán đúng hiện trạng hiện nay])
 
-#smartbox(kind: "warning", title: [Điểm cần chốt ngay])[ 
+#smartbox(kind: "warning", title: [Điểm cần chốt ngay])[
   `bank.json` hiện tại *chưa phải* là ngân hàng câu hỏi hoàn chỉnh.
 
   Nó mới là *metadata index*: mỗi mã như `0D1N1-1` đang trỏ tới một dòng mô tả phân loại theo lớp, mạch kiến thức, chương, bài và dạng.
@@ -201,7 +201,7 @@ Hiện đã có thêm các hàm mới trong `template.typ`:
 
 #section([Thống kê thật từ bank.json hiện tại])
 
-#smartbox(kind: "summary", title: [Tổng quan dữ liệu thật])[ 
+#smartbox(kind: "summary", title: [Tổng quan dữ liệu thật])[
   - Tổng số mã hiện có trong `bank.json`: #bank.len().
   - Số mã thuộc Đại số: #dai-so.len().
   - Số mã thuộc Hình học: #hinh-hoc.len().
@@ -212,12 +212,12 @@ Hiện đã có thêm các hàm mới trong `template.typ`:
 #tieumuc([Một vài chương đang có dữ liệu])
 
 #for item in chapter-counts.slice(0, 8) [
-- *#item.label*: #item.count mã.
+  - *#item.label*: #item.count mã.
 ]
 
 #section([Kế hoạch chuẩn từ đầu để dùng lâu dài])
 
-#smartbox(kind: "method", title: [Mô hình 3 lớp khuyến nghị])[ 
+#smartbox(kind: "method", title: [Mô hình 3 lớp khuyến nghị])[
   Hãy giữ hệ thống theo ba lớp riêng:
 
   - Lớp 1: `bank.json` chỉ giữ metadata phân loại.
@@ -292,13 +292,109 @@ Từ đó mỗi câu sẽ có hai lớp thông tin:
 
 #section([Kết luận quản lý bank hiện tại])
 
-#smartbox(kind: "summary", title: [Nên làm ngay từ bây giờ])[ 
+#smartbox(kind: "summary", title: [Nên làm ngay từ bây giờ])[
   - Giữ `bank.json` như bản đồ mã chuẩn.
   - Không nhét trực tiếp đề bài và đáp án vào đúng file đó nữa.
   - Tạo `typst/questions.typ` để lưu câu hỏi thật bằng Typst-native content.
   - Dùng `question-select(...)` để lấy đúng câu theo chương, bài, dạng, mức độ và trạng thái.
   - Dùng `render-selection(...)` để dựng đề trực tiếp từ danh sách ID đã chọn.
 ]
+
+#chapter([Đặt hình vẽ linh hoạt trong câu hỏi])
+
+#muctieu[
+  - Hình xuất hiện *đúng vị trí* trong đề bài, không ép toàn bộ stem vào một cột hẹp.
+  - Có thể đặt nhiều hình ở nhiều đoạn khác nhau trong cùng một câu.
+  - Phần văn bản trước/sau hình vẫn giữ full-width.
+]
+
+#section([Vấn đề khi dùng `fig:` và `fig-pos:`])
+
+Tham số `fig:` của các macro `#tln`, `#tn`, `#ds` đặt *toàn bộ stem* vào một cột hẹp nằm bên cạnh hình. Nếu đề bài dài, toàn bộ văn bản bị bóp lại suốt từ đầu đến cuối — trông rất kỳ và khó đọc.
+
+#smartbox(kind: "warning", title: [Không nên])[
+  ```typst
+  #tln(
+    [Đề bài rất dài nhiều dòng...
+     + Điều kiện 1
+     + Điều kiện 2
+     Hỏi ...],
+    [$42$],
+    fig: cetz.canvas({...}),   // ← Ép toàn bộ stem vào 60% chiều rộng
+    fig-pos: "right",
+    fig-width: 40%,
+  )
+  ```
+]
+
+#section([Giải pháp: nhúng `#grid()` trực tiếp trong stem])
+
+Thay vì truyền `fig:`, hãy đặt `#grid(...)` *tại đúng vị trí trong nội dung stem* nơi muốn hình xuất hiện. Phần văn bản ở ngoài `grid` vẫn giữ full-width bình thường.
+
+#smartbox(kind: "method", title: [Cú pháp chuẩn — hình bên phải])[
+  ```typst
+  #tln(
+    [
+      Đoạn mở đầu đề bài... (full-width)
+
+      #grid(
+        columns: (1fr, 38%),        // 62% text | 38% hình
+        column-gutter: 14pt,
+        align: (left + top, center + top),
+        [
+          Đoạn văn song song với hình...
+          + Điều kiện 1
+          + Điều kiện 2
+        ],
+        cetz.canvas(length: 1cm, { ... }),
+      )
+
+      Đoạn text tiếp theo full-width...
+      Câu hỏi kết thúc...
+    ],
+    [$42$],
+    // KHÔNG truyền fig:, fig-pos:, fig-width:
+  )
+  ```
+]
+
+#smartbox(kind: "method", title: [Hình bên trái])[
+  ```typst
+  #grid(
+    columns: (35%, 1fr),           // 35% hình | 65% text
+    column-gutter: 14pt,
+    align: (center + top, left + top),
+    cetz.canvas({ ... }),          // ← hình trước
+    [Đoạn text bên phải hình...],
+  )
+  ```
+]
+
+#y([Nhiều hình trong một câu], look: "minimal")
+Có thể đặt nhiều `#grid(...)` ở nhiều vị trí khác nhau trong cùng một stem — mỗi grid là một hình độc lập tại một điểm trong văn bản:
+
+```typst
+#tln(
+  [
+    Mô tả bối cảnh chung...
+
+    #grid(columns: (1fr, 35%), column-gutter: 14pt,
+      align: (left + top, center + top),
+      [Giải thích phần 1...], cetz.canvas({ /* hình 1 */ }),
+    )
+
+    Tiếp theo...
+
+    #grid(columns: (32%, 1fr), column-gutter: 14pt,
+      align: (center + top, left + top),
+      cetz.canvas({ /* hình 2 */ }), [Giải thích phần 2...],
+    )
+
+    Câu hỏi cuối...
+  ],
+  [$answer$],
+)
+```
 
 #chapter([Quy trình vận hành khuyến nghị])
 

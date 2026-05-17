@@ -1,6 +1,6 @@
 #import "../sang-exam.typ": *
 #import "../template.typ": *
-#import "@preview/cetz:0.5.0"
+#import "@preview/cetz:0.5.2"
 
 #set page(
   paper: "a4",

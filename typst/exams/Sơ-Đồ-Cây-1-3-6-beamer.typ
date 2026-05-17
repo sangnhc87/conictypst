@@ -5,7 +5,7 @@
 
 // Import hàm slide từ beamer module (KHÔNG import sang-exam.typ)
 #import "../sang-beamer.typ": True, classic, exam-part, luuy, mcq, meo, ppgiai, tf
-#import "@preview/cetz:0.5.0"
+#import "@preview/cetz:0.5.2"
 
 // ── Cấu hình scale cetz dùng chung ─────────────────────────
 // Slide 16:9 ≈ 22cm usable width, fig-width: 45% ≈ 99mm → length: 0.9cm

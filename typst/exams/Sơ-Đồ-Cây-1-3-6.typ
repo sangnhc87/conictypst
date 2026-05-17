@@ -2,7 +2,7 @@
 
 #import "../sang-exam.typ": *
 #import "../template.typ": *
-#import "@preview/cetz:0.5.0"
+#import "@preview/cetz:0.5.2"
 #set page(
   margin: (top: 1.5cm, bottom: 1.5cm, left: 2cm, right: 1.5cm)
 )
@@ -17,23 +17,23 @@
 #let math-color = rgb("#000000") 
 #show math.equation: set text(fill: math-color)
 
+═══════════════════════════════════════════════════════════
+TIÊU ĐỀ CHUYÊN ĐỀ VÀ MỤC LỤC
 // ═══════════════════════════════════════════════════════════
-// TIÊU ĐỀ CHUYÊN ĐỀ VÀ MỤC LỤC
-// // ═══════════════════════════════════════════════════════════
-// #v(1em)
-// #block(
-//   width: 100%,
-//   fill: rgb("#f4f8fc"),
-//   stroke: (left: 6pt + classic.blue, top: 0.5pt + rgb("#dbe4f0"), right: 0.5pt + rgb("#dbe4f0"), bottom: 0.5pt + rgb("#dbe4f0")),
-//   inset: 16pt,
-//   radius: (right: 4pt)
-// )[
-//   #text(size: 16pt, weight: "bold", fill: classic.blue)[CHUYÊN ĐỀ: Sơ Đồ Cây 1-3-6]
+#v(1em)
+#block(
+  width: 100%,
+  fill: rgb("#f4f8fc"),
+  stroke: (left: 6pt + classic.blue, top: 0.5pt + rgb("#dbe4f0"), right: 0.5pt + rgb("#dbe4f0"), bottom: 0.5pt + rgb("#dbe4f0")),
+  inset: 16pt,
+  radius: (right: 4pt)
+)[
+  #text(size: 16pt, weight: "bold", fill: classic.blue)[CHUYÊN ĐỀ: Sơ Đồ Cây 1-3-6]
   
-//   #v(0.8em)
-//   #text(style: "italic", size: 12pt, fill: rgb("#555555"))[Kỹ thuật tọa độ hóa và công thức giải nhanh bài toán Parabol nội tiếp hình chữ nhật.]
-// ]
-// #v(2em)
+  #v(0.8em)
+  #text(style: "italic", size: 12pt, fill: rgb("#555555"))[Kỹ thuật tọa độ hóa và công thức giải nhanh bài toán Parabol nội tiếp hình chữ nhật.]
+]
+#v(2em)
 
 // ═══════════════════════════════════════════════════════════
 // CẤU HÌNH ĐỀ THI — Chỉ thay đổi ở đây
@@ -182,6 +182,7 @@
     #meo[Ghi nhớ sơ đồ Bayes bằng hình chữ nhật tỉ trọng: Xác suất hậu nghiệm $P(B|M)$ chính là phần diện tích của nhóm $B$ chiếm trong tổng diện tích của toàn bộ hình chữ nhật $M$.]
   ]
 )
+
 #ds(
   [Một nhà máy có $3$ phân xưởng cùng sản xuất một loại linh kiện. Phân xưởng I chiếm $50%$ tổng sản lượng, phân xưởng II chiếm $30%$, số còn lại do phân xưởng III sản xuất. Theo thống kê từ bộ phận KCS, tỉ lệ phế phẩm của phân xưởng I là $2%$, của phân xưởng III là $3%$. Biết tỉ lệ phế phẩm chung của toàn nhà máy là $3,1%$. Chọn ngẫu nhiên một linh kiện do nhà máy sản xuất.],
   (

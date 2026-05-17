@@ -16,7 +16,14 @@ import {
   stripWorkspaceRoot,
   workspaceMode,
 } from './typstWorkspace.js'
+import { useTheme } from './editor/hooks/useTheme.js'
+import { useAutoSave } from './editor/hooks/useAutoSave.js'
+import { useKeyboardShortcuts } from './editor/hooks/useKeyboardShortcuts.js'
+import { rendererWasmUrl } from './typstBundle.js'
+import CommandPalette from './editor/CommandPalette.jsx'
 import './TypstEditor.css'
+import patrickHandRegularUrl from './assets/fonts/patrick-hand/PatrickHand-Regular.ttf?url'
+import hp0015HangNormalUrl from '../fonts/HP001_5_hang_normal.otf?url'
 
 const COMPILE_DEBOUNCE_MS = 180
 const MIN_SOURCE_NAV_TEXT_LENGTH = 4
@@ -67,6 +74,8 @@ const AUTHORING_ACTIONS = [
   },
 ]
 
+const CUSTOM_TYPST_FONT_URLS = [patrickHandRegularUrl, hp0015HangNormalUrl]
+
 // ── Typst WASM singleton ────────────────────────────────────────────────────
 let _compilerPromise = null
 
@@ -90,7 +99,7 @@ async function getCompiler() {
       beforeBuild: [
         withAccessModel(packageAccessModel),
         withPackageRegistry(new FetchPackageRegistry(packageAccessModel)),
-        loadFonts([], { assets: ['text'] }),
+        loadFonts(CUSTOM_TYPST_FONT_URLS, { assets: ['text'] }),
       ],
     })
     return compiler
@@ -113,13 +122,13 @@ function registerTypst(monaco) {
   monaco.languages.register({ id: 'typst', extensions: ['.typ'], aliases: ['Typst'] })
   monaco.languages.setMonarchTokensProvider('typst', {
     defaultToken: '',
-    keywords: ['let','set','show','import','include','if','else','for','while',
-      'break','continue','return','in','not','and','or','none','auto','true','false','as','from'],
-    builtins: ['align','block','box','circle','cite','columns','emph','figure',
-      'footnote','grid','heading','image','line','link','list','lorem','outline',
-      'page','pagebreak','par','place','raw','rect','ref','rotate','scale',
-      'smallcaps','square','stack','strike','strong','sub','super','table',
-      'text','underline','upper','v','h','linebreak','parbreak','math'],
+    keywords: ['let', 'set', 'show', 'import', 'include', 'if', 'else', 'for', 'while',
+      'break', 'continue', 'return', 'in', 'not', 'and', 'or', 'none', 'auto', 'true', 'false', 'as', 'from'],
+    builtins: ['align', 'block', 'box', 'circle', 'cite', 'columns', 'emph', 'figure',
+      'footnote', 'grid', 'heading', 'image', 'line', 'link', 'list', 'lorem', 'outline',
+      'page', 'pagebreak', 'par', 'place', 'raw', 'rect', 'ref', 'rotate', 'scale',
+      'smallcaps', 'square', 'stack', 'strike', 'strong', 'sub', 'super', 'table',
+      'text', 'underline', 'upper', 'v', 'h', 'linebreak', 'parbreak', 'math'],
     tokenizer: {
       root: [
         [/^=+\s.*$/, 'keyword.heading'],
@@ -129,7 +138,7 @@ function registerTypst(monaco) {
         [/`[^`]*`/, 'string'],
         [/\$[^$]+\$/, 'number'],
         [/"[^"]*"/, 'string'],
-        [/#[a-zA-Z_][a-zA-Z0-9_-]*/, { cases: { '@builtins': 'type', '@keywords': 'keyword', '@default': 'variable' }}],
+        [/#[a-zA-Z_][a-zA-Z0-9_-]*/, { cases: { '@builtins': 'type', '@keywords': 'keyword', '@default': 'variable' } }],
         [/\b(?:let|set|show|import|include|if|else|for|while|break|continue|return|in|not|and|or|none|auto|true|false|as|from)\b/, 'keyword'],
         [/[0-9]+(\.[0-9]+)?(pt|mm|cm|em|%)?/, 'number'],
         [/\*[^*\n]+\*/, 'strong'],
@@ -144,14 +153,14 @@ function registerTypst(monaco) {
   })
   monaco.languages.setLanguageConfiguration('typst', {
     comments: { lineComment: '//', blockComment: ['/*', '*/'] },
-    brackets: [['{','}'],['[',']'],['(',')']],
+    brackets: [['{', '}'], ['[', ']'], ['(', ')']],
     autoClosingPairs: [
-      {open:'{',close:'}'},{open:'[',close:']'},{open:'(',close:')'},
-      {open:'"',close:'"'},{open:'$',close:'$'},
+      { open: '{', close: '}' }, { open: '[', close: ']' }, { open: '(', close: ')' },
+      { open: '"', close: '"' }, { open: '$', close: '$' },
     ],
     surroundingPairs: [
-      {open:'{',close:'}'},{open:'[',close:']'},{open:'(',close:')'},
-      {open:'"',close:'"'},{open:'$',close:'$'},{open:'*',close:'*'},{open:'_',close:'_'},
+      { open: '{', close: '}' }, { open: '[', close: ']' }, { open: '(', close: ')' },
+      { open: '"', close: '"' }, { open: '$', close: '$' }, { open: '*', close: '*' }, { open: '_', close: '_' },
     ],
   })
 }
@@ -427,6 +436,9 @@ export default function TypstEditor() {
   const editorRef = useRef(null)
   const pendingSelectionRef = useRef(null)
 
+  const { theme, toggleTheme } = useTheme()
+  const [commandPaletteOpen, setCommandPaletteOpen] = useState(false)
+
   const workspaceFilePaths = useMemo(
     () => Object.keys(workspaceFiles).sort((left, right) => left.localeCompare(right)),
     [workspaceFiles],
@@ -506,6 +518,10 @@ export default function TypstEditor() {
 
   // Init WASM compiler + renderer in parallel so the first preview appears sooner.
   useEffect(() => {
+    document.documentElement.setAttribute('data-editor-theme', theme)
+  }, [theme])
+
+  useEffect(() => {
     let cancelled = false
 
     Promise.all([getCompiler(), getRenderer()])
@@ -559,18 +575,9 @@ export default function TypstEditor() {
       if (requestId !== compileRequestRef.current) return
 
       const renderer = await getRenderer()
-      let previewSession = previewSessionRef.current
-
-      if (!previewSession) {
-        previewSession = await renderer.createModule(result.result)
-        previewSessionRef.current = previewSession
-      } else {
-        renderer.manipulateData({
-          renderSession: previewSession,
-          action: 'reset',
-          data: result.result,
-        })
-      }
+      const data = result.result.slice(0)
+      const previewSession = await renderer.createModule(data)
+      previewSessionRef.current = previewSession
 
       await renderer.renderToCanvas({
         renderSession: previewSession,
@@ -653,6 +660,75 @@ export default function TypstEditor() {
       setStatus('idle')
     } catch (error) {
       setErrorMsg(formatRuntimeError(error))
+      setStatus('error')
+    }
+  }, [compileArtifact, entryPath, workspaceFiles])
+
+  const exportSvg = useCallback(async () => {
+    if (!compilerRef.current) return
+    setStatus('compiling')
+    setErrorMsg('')
+    try {
+      const result = await compileArtifact(workspaceFiles, entryPath, 2)
+      if (!result?.result) throw new Error('SVG compilation failed')
+      const svgStr = new TextDecoder().decode(result.result)
+      const blob = new Blob([svgStr], { type: 'image/svg+xml' })
+      const a = document.createElement('a')
+      a.href = URL.createObjectURL(blob)
+      a.download = `${getFileName(entryPath).replace(/\.typ$/, '') || 'output'}.svg`
+      a.click()
+      URL.revokeObjectURL(a.href)
+      setStatus('idle')
+    } catch (error) {
+      setErrorMsg(error.message)
+      setStatus('error')
+    }
+  }, [compileArtifact, entryPath, workspaceFiles])
+
+  const exportPng = useCallback(async () => {
+    if (!compilerRef.current) return
+    setStatus('compiling')
+    setErrorMsg('')
+    try {
+      const result = await compileArtifact(workspaceFiles, entryPath, 0)
+      if (!result?.result) throw new Error('PNG compilation failed')
+
+      const { createTypstRenderer } = await import('./typstBundle.js')
+      const renderer = createTypstRenderer()
+      await renderer.init({
+        getModule: () => rendererWasmUrl,
+      })
+
+      const session = await renderer.createModule(result.result)
+      const container = document.createElement('div')
+      container.style.width = '2480px'
+      container.style.height = '3508px'
+      container.style.position = 'absolute'
+      container.style.left = '-9999px'
+      document.body.appendChild(container)
+
+      await renderer.renderToCanvas({
+        renderSession: session,
+        container,
+        pixelPerPt: 4,
+        dataSelection: { body: true, semantics: true },
+      })
+
+      const canvas = container.querySelector('canvas')
+      if (!canvas) throw new Error('No canvas rendered')
+
+      const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'))
+      document.body.removeChild(container)
+      if (!blob) throw new Error('PNG export failed')
+
+      const a = document.createElement('a')
+      a.href = URL.createObjectURL(blob)
+      a.download = `${getFileName(entryPath).replace(/\.typ$/, '') || 'output'}.png`
+      a.click()
+      URL.revokeObjectURL(a.href)
+      setStatus('idle')
+    } catch (error) {
+      setErrorMsg(error.message)
       setStatus('error')
     }
   }, [compileArtifact, entryPath, workspaceFiles])
@@ -780,22 +856,67 @@ export default function TypstEditor() {
     setLastRenderMs(0)
   }, [])
 
+  const addProject = useCallback((name, entryPath) => {
+    try {
+      const raw = window.localStorage.getItem('conictypst.editor.recent.projects')
+      const projects = raw ? JSON.parse(raw) : []
+      const filtered = projects.filter(p => p.entryPath !== entryPath)
+      filtered.unshift({ name, entryPath, openedAt: Date.now() })
+      window.localStorage.setItem('conictypst.editor.recent.projects', JSON.stringify(filtered.slice(0, 10)))
+    } catch {}
+  }, [])
+
+  const getRecentProjects = useCallback(() => {
+    try {
+      return JSON.parse(window.localStorage.getItem('conictypst.editor.recent.projects') || '[]')
+    } catch { return [] }
+  }, [])
+
+  useAutoSave(activeFilePath, entryPath)
+  useKeyboardShortcuts({
+    onSave: () => {},
+    onExportPdf: exportPdf,
+    onToggleTheme: toggleTheme,
+    onToggleCommandPalette: () => setCommandPaletteOpen(o => !o),
+    onZoomIn: () => setZoom(z => Math.min(3.0, +(z + 0.1).toFixed(1))),
+    onZoomOut: () => setZoom(z => Math.max(0.3, +(z - 0.1).toFixed(1))),
+  })
+
+  const handleCommandPalette = useCallback((commandId, payload) => {
+    switch (commandId) {
+      case 'export-pdf': exportPdf(); break
+      case 'export-svg': exportSvg().catch(e => setErrorMsg(e.message)); break
+      case 'export-png': exportPng().catch(e => setErrorMsg(e.message)); break
+      case 'toggle-theme': toggleTheme(); break
+      case 'toggle-minimap': setShowMinimap(v => !v); break
+      case 'toggle-wrap': setWordWrap(v => v === 'on' ? 'off' : 'on'); break
+      case 'zoom-in': setZoom(z => Math.min(3.0, +(z + 0.1).toFixed(1))); break
+      case 'zoom-out': setZoom(z => Math.max(0.3, +(z - 0.1).toFixed(1))); break
+      case 'reset-zoom': setZoom(1.0); break
+      case 'reset-workspace': resetWorkspace(); break
+      case 'open-recent': if (payload?.entryPath) { setEntryPath(payload.entryPath); setActiveFilePath(payload.entryPath) }; break
+    }
+  }, [exportPdf, exportSvg, exportPng, toggleTheme, resetWorkspace])
+
+  useEffect(() => {
+    if (entryPath) {
+      addProject(getFileName(entryPath).replace(/\.typ$/, ''), entryPath)
+    }
+  }, [entryPath, addProject])
+
   const statusLabel = {
-    loading:   '⏳ Đang tải WASM…',
-    idle:      '● Sẵn sàng',
+    loading: '⏳ Đang tải WASM…',
+    idle: '● Sẵn sàng',
     compiling: '◌ Đang render…',
-    error:     '✕ Lỗi',
+    error: '✕ Lỗi',
   }[status]
+
+  const recentProjects = useMemo(() => getRecentProjects(), [])
 
   return (
     <div className="te-root">
       <div className="te-titlebar">
         <div className="te-titlebar-left">
-          <div className="te-window-controls" aria-hidden="true">
-            <span className="te-window-dot te-window-dot--close" />
-            <span className="te-window-dot te-window-dot--min" />
-            <span className="te-window-dot te-window-dot--max" />
-          </div>
           <div className="te-menubar">
             {MENU_ITEMS.map(item => (
               <button key={item} type="button" className="te-menubar-item">
@@ -804,20 +925,11 @@ export default function TypstEditor() {
             ))}
           </div>
         </div>
-
-        <div className="te-titlebar-meta">
-          <span className="te-titlebar-chip">{workspaceMode}</span>
-          <span className="te-titlebar-path">{stripWorkspaceRoot(entryPath)}</span>
-        </div>
       </div>
 
       <div className="te-toolbar">
-        <div className="te-brand">
-          <span className="te-logo">ConicTypst Workspace</span>
-          <span className="te-tagline">Workspace shell, authoring tools, live preview</span>
-        </div>
+        <span className="te-logo">ConicTypst</span>
         <div className="te-toolbar-shell">
-          <div className="te-toolbar-row">
             <label className="te-entry-picker">
               <span>Entry</span>
               <select value={entryPath} onChange={event => setEntryPath(event.target.value)}>
@@ -828,22 +940,6 @@ export default function TypstEditor() {
                 ))}
               </select>
             </label>
-            <button
-              type="button"
-              className="te-btn te-btn--ghost"
-              disabled={entryPath === activeFilePath}
-              onClick={() => setEntryPath(activeFilePath)}
-            >
-              Dùng file đang mở
-            </button>
-            <div className="te-toolbar-pills">
-              <span className="te-inline-pill">{workspaceFilePaths.length} files</span>
-              <span className="te-inline-pill">{dirtyFilePaths.length} modified</span>
-                <span className="te-inline-pill">Click preview to code</span>
-            </div>
-          </div>
-
-          <div className="te-toolbar-row te-toolbar-row--actions">
             <span className={`te-status te-status--${status}`}>{statusLabel}</span>
             <div className="te-zoom">
               <button type="button" onClick={() => setZoom(z => Math.max(0.3, +(z - 0.1).toFixed(1)))}>−</button>
@@ -857,11 +953,44 @@ export default function TypstEditor() {
               onClick={exportPdf}
               disabled={status === 'loading' || status === 'compiling'}
             >
-              ↓ Xuất PDF
+              ↓ PDF
+            </button>
+            <button
+              type="button"
+              className="te-btn te-btn--ghost"
+              onClick={exportSvg}
+              disabled={status === 'loading' || status === 'compiling'}
+              title="Export SVG"
+            >
+              SVG
+            </button>
+            <button
+              type="button"
+              className="te-btn te-btn--ghost"
+              onClick={exportPng}
+              disabled={status === 'loading' || status === 'compiling'}
+              title="Export PNG"
+            >
+              PNG
+            </button>
+            <button
+              type="button"
+              className="te-btn te-btn--ghost"
+              onClick={toggleTheme}
+              title="Toggle theme (⌘B)"
+            >
+              {theme === 'dark' ? '☀' : '☾'}
+            </button>
+            <button
+              type="button"
+              className="te-btn te-btn--ghost"
+              onClick={() => setCommandPaletteOpen(true)}
+              title="Command palette (⌘K)"
+            >
+              ⌘
             </button>
           </div>
         </div>
-      </div>
 
       <div className="te-workbench">
         <aside className="te-activitybar">
@@ -886,317 +1015,317 @@ export default function TypstEditor() {
         </aside>
 
         <PanelGroup direction="horizontal" className="te-panels">
-        <Panel defaultSize={18} minSize={14} maxSize={28}>
-          <aside className="te-pane te-sidebar">
-            <div className="te-pane-header">
-              <div className="te-pane-title">
-                <strong>{sidebarMeta.title}</strong>
-                <span>{sidebarMeta.detail}</span>
-              </div>
-              <button type="button" className="te-btn te-btn--ghost" onClick={resetWorkspace}>
-                Reset mẫu
-              </button>
-            </div>
-
-            {activeActivity !== 'preview' && (
-              <div className="te-sidebar-search">
-                <input
-                  className="te-search-input"
-                  value={workspaceFilter}
-                  onChange={event => setWorkspaceFilter(event.target.value)}
-                  placeholder={sidebarMeta.inputPlaceholder}
-                />
-                <span className="te-sidebar-search-meta">{filteredWorkspaceFilePaths.length} kết quả</span>
-              </div>
-            )}
-
-            {activeActivity === 'explorer' && starterFilePaths.length > 0 && (
-              <div className="te-starters">
-                <div className="te-section-label">Quick Open</div>
-                <div className="te-starter-list">
-                  {starterFilePaths.map(filePath => (
-                    <button
-                      key={filePath}
-                      type="button"
-                      className={`te-starter-chip ${activeFilePath === filePath ? 'is-active' : ''}`}
-                      onClick={() => openFile(filePath)}
-                    >
-                      {stripWorkspaceRoot(filePath)}
-                    </button>
-                  ))}
+          <Panel defaultSize={18} minSize={14} maxSize={28}>
+            <aside className="te-pane te-sidebar">
+              <div className="te-pane-header">
+                <div className="te-pane-title">
+                  <strong>{sidebarMeta.title}</strong>
+                  <span>{sidebarMeta.detail}</span>
                 </div>
-              </div>
-            )}
-
-            {activeActivity === 'explorer' && (
-              <div className="te-tree">
-                {filteredWorkspaceFilePaths.length > 0 ? (
-                  <WorkspaceNode
-                    node={workspaceTree}
-                    depth={0}
-                    activeFilePath={activeFilePath}
-                    entryPath={entryPath}
-                    expandedFolderPaths={expandedFolderPaths}
-                    dirtyFileSet={dirtyFileSet}
-                    onToggleFolder={toggleFolder}
-                    onOpenFile={openFile}
-                  />
-                ) : (
-                  <div className="te-sidebar-empty">Không có file nào khớp với bộ lọc hiện tại.</div>
-                )}
-              </div>
-            )}
-
-            {activeActivity === 'search' && (
-              <div className="te-sidebar-results">
-                {filteredWorkspaceFilePaths.length > 0 ? filteredWorkspaceFilePaths.map(filePath => (
-                  <button key={filePath} type="button" className="te-result-card" onClick={() => openFile(filePath)}>
-                    <strong>{getFileName(filePath)}</strong>
-                    <span>{stripWorkspaceRoot(filePath)}</span>
-                  </button>
-                )) : <div className="te-sidebar-empty">Nhập tên file hoặc thư mục để tìm nhanh trong workspace.</div>}
-              </div>
-            )}
-
-            {activeActivity === 'source-control' && (
-              <div className="te-sidebar-results">
-                {dirtyFilePaths.length > 0 ? filteredWorkspaceFilePaths.map(filePath => (
-                  <button key={filePath} type="button" className="te-result-card te-result-card--dirty" onClick={() => openFile(filePath)}>
-                    <strong>{getFileName(filePath)}</strong>
-                    <span>{stripWorkspaceRoot(filePath)}</span>
-                  </button>
-                )) : <div className="te-sidebar-empty">Chưa có thay đổi cục bộ. Hãy chỉnh nội dung để xem trạng thái modified.</div>}
-              </div>
-            )}
-
-            {activeActivity === 'preview' && (
-              <div className="te-sidebar-results te-sidebar-results--stacked">
-                <div className="te-panel-card">
-                  <strong>Preview workflow</strong>
-                  <span>Click text trong preview để nhảy lại editor tại đoạn tương ứng.</span>
-                </div>
-                <div className="te-panel-card">
-                  <strong>Export strategy</strong>
-                  <span>PDF chỉ dùng để tải xuống bản cuối, không dùng để điều hướng ngược về code.</span>
-                </div>
-                <div className="te-panel-card">
-                  <strong>Current entry</strong>
-                  <span>{stripWorkspaceRoot(entryPath)}</span>
-                </div>
-              </div>
-            )}
-          </aside>
-        </Panel>
-
-        <PanelResizeHandle className="te-handle" />
-
-        <Panel defaultSize={42} minSize={24}>
-          <section className="te-pane te-editor-pane">
-            <div className="te-pane-header">
-              <div className="te-pane-title te-pane-title--file">
-                <strong>{getFileName(activeFilePath)}</strong>
-                <span>{stripWorkspaceRoot(activeFilePath)}</span>
-              </div>
-              <div className="te-header-pills">
-                {dirtyFileSet.has(activeFilePath) && <span className="te-inline-pill te-inline-pill--dirty">modified</span>}
-                {entryPath === activeFilePath && <span className="te-inline-pill">entry</span>}
-                <button
-                  type="button"
-                  className="te-btn te-btn--ghost"
-                  disabled={entryPath === activeFilePath}
-                  onClick={() => setEntryPath(activeFilePath)}
-                >
-                  Đặt làm entry
+                <button type="button" className="te-btn te-btn--ghost" onClick={resetWorkspace}>
+                  Reset mẫu
                 </button>
               </div>
-            </div>
 
-            <div className="te-breadcrumbs">
-              {activeBreadcrumbs.map((segment, index) => (
-                <React.Fragment key={`${segment}-${index}`}>
-                  {index > 0 && <span className="te-breadcrumb-sep">/</span>}
-                  <span className={`te-breadcrumb ${index === activeBreadcrumbs.length - 1 ? 'is-current' : ''}`}>
-                    {segment}
-                  </span>
-                </React.Fragment>
-              ))}
-            </div>
+              {activeActivity !== 'preview' && (
+                <div className="te-sidebar-search">
+                  <input
+                    className="te-search-input"
+                    value={workspaceFilter}
+                    onChange={event => setWorkspaceFilter(event.target.value)}
+                    placeholder={sidebarMeta.inputPlaceholder}
+                  />
+                  <span className="te-sidebar-search-meta">{filteredWorkspaceFilePaths.length} kết quả</span>
+                </div>
+              )}
 
-            <div className="te-tabs">
-              {openTabs.map(filePath => {
-                const isActive = filePath === activeFilePath
-                const isEntry = filePath === entryPath
-
-                return (
-                  <button
-                    key={filePath}
-                    type="button"
-                    className={`te-tab ${isActive ? 'is-active' : ''}`}
-                    onClick={() => openFile(filePath)}
-                  >
-                    {dirtyFileSet.has(filePath) && <span className="te-tab-dirty" />}
-                    <span className="te-tab-name">{getFileName(filePath)}</span>
-                    {isEntry && <span className="te-tab-badge">entry</span>}
-                    {openTabs.length > 1 && (
-                      <span
-                        className="te-tab-close"
-                        onClick={event => {
-                          event.stopPropagation()
-                          closeTab(filePath)
-                        }}
+              {activeActivity === 'explorer' && starterFilePaths.length > 0 && (
+                <div className="te-starters">
+                  <div className="te-section-label">Quick Open</div>
+                  <div className="te-starter-list">
+                    {starterFilePaths.map(filePath => (
+                      <button
+                        key={filePath}
+                        type="button"
+                        className={`te-starter-chip ${activeFilePath === filePath ? 'is-active' : ''}`}
+                        onClick={() => openFile(filePath)}
                       >
-                        ×
-                      </span>
-                    )}
-                  </button>
-                )
-              })}
-            </div>
+                        {stripWorkspaceRoot(filePath)}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
 
-            <div className="te-editor-toolbar">
-              <div className="te-editor-toolbar-group">
-                {AUTHORING_ACTIONS.map(action => (
+              {activeActivity === 'explorer' && (
+                <div className="te-tree">
+                  {filteredWorkspaceFilePaths.length > 0 ? (
+                    <WorkspaceNode
+                      node={workspaceTree}
+                      depth={0}
+                      activeFilePath={activeFilePath}
+                      entryPath={entryPath}
+                      expandedFolderPaths={expandedFolderPaths}
+                      dirtyFileSet={dirtyFileSet}
+                      onToggleFolder={toggleFolder}
+                      onOpenFile={openFile}
+                    />
+                  ) : (
+                    <div className="te-sidebar-empty">Không có file nào khớp với bộ lọc hiện tại.</div>
+                  )}
+                </div>
+              )}
+
+              {activeActivity === 'search' && (
+                <div className="te-sidebar-results">
+                  {filteredWorkspaceFilePaths.length > 0 ? filteredWorkspaceFilePaths.map(filePath => (
+                    <button key={filePath} type="button" className="te-result-card" onClick={() => openFile(filePath)}>
+                      <strong>{getFileName(filePath)}</strong>
+                      <span>{stripWorkspaceRoot(filePath)}</span>
+                    </button>
+                  )) : <div className="te-sidebar-empty">Nhập tên file hoặc thư mục để tìm nhanh trong workspace.</div>}
+                </div>
+              )}
+
+              {activeActivity === 'source-control' && (
+                <div className="te-sidebar-results">
+                  {dirtyFilePaths.length > 0 ? filteredWorkspaceFilePaths.map(filePath => (
+                    <button key={filePath} type="button" className="te-result-card te-result-card--dirty" onClick={() => openFile(filePath)}>
+                      <strong>{getFileName(filePath)}</strong>
+                      <span>{stripWorkspaceRoot(filePath)}</span>
+                    </button>
+                  )) : <div className="te-sidebar-empty">Chưa có thay đổi cục bộ. Hãy chỉnh nội dung để xem trạng thái modified.</div>}
+                </div>
+              )}
+
+              {activeActivity === 'preview' && (
+                <div className="te-sidebar-results te-sidebar-results--stacked">
+                  <div className="te-panel-card">
+                    <strong>Preview workflow</strong>
+                    <span>Click text trong preview để nhảy lại editor tại đoạn tương ứng.</span>
+                  </div>
+                  <div className="te-panel-card">
+                    <strong>Export strategy</strong>
+                    <span>PDF chỉ dùng để tải xuống bản cuối, không dùng để điều hướng ngược về code.</span>
+                  </div>
+                  <div className="te-panel-card">
+                    <strong>Current entry</strong>
+                    <span>{stripWorkspaceRoot(entryPath)}</span>
+                  </div>
+                </div>
+              )}
+            </aside>
+          </Panel>
+
+          <PanelResizeHandle className="te-handle" />
+
+          <Panel defaultSize={42} minSize={24}>
+            <section className="te-pane te-editor-pane">
+              <div className="te-pane-header">
+                <div className="te-pane-title te-pane-title--file">
+                  <strong>{getFileName(activeFilePath)}</strong>
+                  <span>{stripWorkspaceRoot(activeFilePath)}</span>
+                </div>
+                <div className="te-header-pills">
+                  {dirtyFileSet.has(activeFilePath) && <span className="te-inline-pill te-inline-pill--dirty">modified</span>}
+                  {entryPath === activeFilePath && <span className="te-inline-pill">entry</span>}
                   <button
-                    key={action.id}
                     type="button"
-                    className="te-chip-btn"
-                    onClick={() => insertAuthoringTemplate(action.buildText)}
-                    title={action.title}
+                    className="te-btn te-btn--ghost"
+                    disabled={entryPath === activeFilePath}
+                    onClick={() => setEntryPath(activeFilePath)}
                   >
-                    {action.label}
+                    Đặt làm entry
                   </button>
+                </div>
+              </div>
+
+              <div className="te-breadcrumbs">
+                {activeBreadcrumbs.map((segment, index) => (
+                  <React.Fragment key={`${segment}-${index}`}>
+                    {index > 0 && <span className="te-breadcrumb-sep">/</span>}
+                    <span className={`te-breadcrumb ${index === activeBreadcrumbs.length - 1 ? 'is-current' : ''}`}>
+                      {segment}
+                    </span>
+                  </React.Fragment>
                 ))}
               </div>
 
-              <div className="te-editor-toolbar-group">
-                <button
-                  type="button"
-                  className={`te-chip-btn ${wordWrap === 'on' ? 'is-active' : ''}`}
-                  onClick={() => setWordWrap(currentValue => currentValue === 'on' ? 'off' : 'on')}
+              <div className="te-tabs">
+                {openTabs.map(filePath => {
+                  const isActive = filePath === activeFilePath
+                  const isEntry = filePath === entryPath
+
+                  return (
+                    <button
+                      key={filePath}
+                      type="button"
+                      className={`te-tab ${isActive ? 'is-active' : ''}`}
+                      onClick={() => openFile(filePath)}
+                    >
+                      {dirtyFileSet.has(filePath) && <span className="te-tab-dirty" />}
+                      <span className="te-tab-name">{getFileName(filePath)}</span>
+                      {isEntry && <span className="te-tab-badge">entry</span>}
+                      {openTabs.length > 1 && (
+                        <span
+                          className="te-tab-close"
+                          onClick={event => {
+                            event.stopPropagation()
+                            closeTab(filePath)
+                          }}
+                        >
+                          ×
+                        </span>
+                      )}
+                    </button>
+                  )
+                })}
+              </div>
+
+              <div className="te-editor-toolbar">
+                <div className="te-editor-toolbar-group">
+                  {AUTHORING_ACTIONS.map(action => (
+                    <button
+                      key={action.id}
+                      type="button"
+                      className="te-chip-btn"
+                      onClick={() => insertAuthoringTemplate(action.buildText)}
+                      title={action.title}
+                    >
+                      {action.label}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="te-editor-toolbar-group">
+                  <button
+                    type="button"
+                    className={`te-chip-btn ${wordWrap === 'on' ? 'is-active' : ''}`}
+                    onClick={() => setWordWrap(currentValue => currentValue === 'on' ? 'off' : 'on')}
+                  >
+                    Wrap {wordWrap === 'on' ? 'on' : 'off'}
+                  </button>
+                  <button
+                    type="button"
+                    className={`te-chip-btn ${showMinimap ? 'is-active' : ''}`}
+                    onClick={() => setShowMinimap(currentValue => !currentValue)}
+                  >
+                    Map {showMinimap ? 'on' : 'off'}
+                  </button>
+                  <button type="button" className="te-chip-btn" onClick={() => setFontSize(size => Math.max(12, size - 1))}>A−</button>
+                  <button type="button" className="te-chip-btn" onClick={() => setFontSize(size => Math.min(18, size + 1))}>A+</button>
+                </div>
+              </div>
+
+              <div className="te-editor-hints">
+                <span>{activeMetrics.lineCount} lines</span>
+                <span>{activeMetrics.wordCount} words</span>
+                <span>{activeMetrics.charCount} chars</span>
+                <span>Snippet toolbar for faster Typst authoring</span>
+              </div>
+
+              <div className="te-editor-shell">
+                <Editor
+                  path={activeFilePath}
+                  height="100%"
+                  defaultLanguage="typst"
+                  value={activeSource}
+                  onChange={updateActiveFile}
+                  onMount={(editor, monaco) => {
+                    editorRef.current = editor
+                    registerTypst(monaco)
+                  }}
+                  theme="vs-dark"
+                  options={{
+                    fontSize,
+                    lineHeight: 1.72,
+                    minimap: { enabled: showMinimap, showSlider: 'mouseover', size: 'fill' },
+                    scrollBeyondLastLine: false,
+                    wordWrap,
+                    tabSize: 2,
+                    fontFamily: '"JetBrains Mono","Cascadia Code","Fira Code",monospace',
+                    fontLigatures: true,
+                    automaticLayout: true,
+                    smoothScrolling: true,
+                    cursorBlinking: 'smooth',
+                    cursorSmoothCaretAnimation: 'on',
+                    renderLineHighlight: 'all',
+                    renderWhitespace: 'selection',
+                    bracketPairColorization: { enabled: true },
+                    guides: { indentation: true, bracketPairs: true, highlightActiveBracketPair: true },
+                    folding: true,
+                    stickyScroll: { enabled: true },
+                    overviewRulerBorder: false,
+                    quickSuggestions: { other: true, comments: false, strings: true },
+                    suggest: { preview: true, showWords: true, snippetsPreventQuickSuggestions: false },
+                    padding: { top: 12, bottom: 12 },
+                  }}
+                />
+              </div>
+            </section>
+          </Panel>
+
+          <PanelResizeHandle className="te-handle" />
+
+          <Panel defaultSize={40} minSize={20}>
+            <section className="te-pane">
+              <div className="te-pane-header">
+                <div className="te-pane-title te-pane-title--file">
+                  <strong>Preview</strong>
+                  <span>{stripWorkspaceRoot(entryPath)}</span>
+                </div>
+                <div className="te-header-pills">
+                  <span className="te-inline-pill">click to code</span>
+                  <span className="te-inline-pill">PDF download only</span>
+                  {lastRenderMs > 0 && <span className="te-preview-metric">~{lastRenderMs} ms</span>}
+                </div>
+              </div>
+
+              <div className="te-preview">
+                {status === 'loading' && !hasPreview && (
+                  <div className="te-center">
+                    <div className="te-spinner" />
+                    <p>Đang khởi động Typst runtime…</p>
+                    <small>Compiler và renderer được tải song song để preview hiện sớm hơn.</small>
+                  </div>
+                )}
+
+                {status === 'error' && (
+                  <div className="te-error">
+                    <strong>Lỗi biên dịch</strong>
+                    <pre>{errorMsg}</pre>
+                  </div>
+                )}
+
+                <div
+                  className="te-preview-stage"
+                  style={{ '--te-preview-scale': zoom }}
                 >
-                  Wrap {wordWrap === 'on' ? 'on' : 'off'}
-                </button>
-                <button
-                  type="button"
-                  className={`te-chip-btn ${showMinimap ? 'is-active' : ''}`}
-                  onClick={() => setShowMinimap(currentValue => !currentValue)}
-                >
-                  Map {showMinimap ? 'on' : 'off'}
-                </button>
-                <button type="button" className="te-chip-btn" onClick={() => setFontSize(size => Math.max(12, size - 1))}>A−</button>
-                <button type="button" className="te-chip-btn" onClick={() => setFontSize(size => Math.min(18, size + 1))}>A+</button>
+                  <div
+                    ref={previewMountRef}
+                    className="te-preview-mount"
+                    onClick={jumpToPreviewSource}
+                  />
+                </div>
+
+                {status === 'compiling' && !hasPreview && (
+                  <div className="te-center">
+                    <div className="te-spinner" />
+                    <p>Đang render preview…</p>
+                    <small>Preview DOM cho phép click ngược lại editor mà không cần mở PDF.</small>
+                  </div>
+                )}
+
+                {!hasPreview && status === 'idle' && (
+                  <div className="te-center te-center--empty">
+                    <p>Chưa có preview</p>
+                    <small>Chọn một file entry hoặc sửa nội dung để render.</small>
+                  </div>
+                )}
               </div>
-            </div>
-
-            <div className="te-editor-hints">
-              <span>{activeMetrics.lineCount} lines</span>
-              <span>{activeMetrics.wordCount} words</span>
-              <span>{activeMetrics.charCount} chars</span>
-              <span>Snippet toolbar for faster Typst authoring</span>
-            </div>
-
-            <div className="te-editor-shell">
-              <Editor
-                path={activeFilePath}
-                height="100%"
-                defaultLanguage="typst"
-                value={activeSource}
-                onChange={updateActiveFile}
-                onMount={(editor, monaco) => {
-                  editorRef.current = editor
-                  registerTypst(monaco)
-                }}
-                theme="vs-dark"
-                options={{
-                  fontSize,
-                  lineHeight: 1.72,
-                  minimap: { enabled: showMinimap, showSlider: 'mouseover', size: 'fill' },
-                  scrollBeyondLastLine: false,
-                  wordWrap,
-                  tabSize: 2,
-                  fontFamily: '"JetBrains Mono","Cascadia Code","Fira Code",monospace',
-                  fontLigatures: true,
-                  automaticLayout: true,
-                  smoothScrolling: true,
-                  cursorBlinking: 'smooth',
-                  cursorSmoothCaretAnimation: 'on',
-                  renderLineHighlight: 'all',
-                  renderWhitespace: 'selection',
-                  bracketPairColorization: { enabled: true },
-                  guides: { indentation: true, bracketPairs: true, highlightActiveBracketPair: true },
-                  folding: true,
-                  stickyScroll: { enabled: true },
-                  overviewRulerBorder: false,
-                  quickSuggestions: { other: true, comments: false, strings: true },
-                  suggest: { preview: true, showWords: true, snippetsPreventQuickSuggestions: false },
-                  padding: { top: 12, bottom: 12 },
-                }}
-              />
-            </div>
-          </section>
-        </Panel>
-
-        <PanelResizeHandle className="te-handle" />
-
-        <Panel defaultSize={40} minSize={20}>
-          <section className="te-pane">
-            <div className="te-pane-header">
-              <div className="te-pane-title te-pane-title--file">
-                <strong>Preview</strong>
-                <span>{stripWorkspaceRoot(entryPath)}</span>
-              </div>
-              <div className="te-header-pills">
-                <span className="te-inline-pill">click to code</span>
-                <span className="te-inline-pill">PDF download only</span>
-                {lastRenderMs > 0 && <span className="te-preview-metric">~{lastRenderMs} ms</span>}
-              </div>
-            </div>
-
-            <div className="te-preview">
-            {status === 'loading' && !hasPreview && (
-              <div className="te-center">
-                <div className="te-spinner" />
-                <p>Đang khởi động Typst runtime…</p>
-                <small>Compiler và renderer được tải song song để preview hiện sớm hơn.</small>
-              </div>
-            )}
-
-            {status === 'error' && (
-              <div className="te-error">
-                <strong>Lỗi biên dịch</strong>
-                <pre>{errorMsg}</pre>
-              </div>
-            )}
-
-            <div
-              className="te-preview-stage"
-              style={{ '--te-preview-scale': zoom }}
-            >
-              <div
-                ref={previewMountRef}
-                className="te-preview-mount"
-                onClick={jumpToPreviewSource}
-              />
-            </div>
-
-            {status === 'compiling' && !hasPreview && (
-              <div className="te-center">
-                <div className="te-spinner" />
-                <p>Đang render preview…</p>
-                <small>Preview DOM cho phép click ngược lại editor mà không cần mở PDF.</small>
-              </div>
-            )}
-
-            {!hasPreview && status === 'idle' && (
-              <div className="te-center te-center--empty">
-                <p>Chưa có preview</p>
-                <small>Chọn một file entry hoặc sửa nội dung để render.</small>
-              </div>
-            )}
-            </div>
-          </section>
-        </Panel>
-      </PanelGroup>
+            </section>
+          </Panel>
+        </PanelGroup>
       </div>
 
       <div className="te-statusbar">
@@ -1209,6 +1338,13 @@ export default function TypstEditor() {
         <span>Font: {fontSize}px</span>
         {previewJumpLabel && <span>{previewJumpLabel}</span>}
       </div>
+
+      <CommandPalette
+        open={commandPaletteOpen}
+        onClose={() => setCommandPaletteOpen(false)}
+        onCommand={handleCommandPalette}
+        recentProjects={recentProjects}
+      />
     </div>
   )
 }

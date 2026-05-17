@@ -615,7 +615,7 @@
 
 #let bai = lesson
 
-#let topic(title, prefix: "Dạng", theme-color: classic.blue, look: auto, boxed: true, fill: auto, stroke: auto, radius: 5pt, num: auto) = {
+#let topic(title, prefix: "Chủ Đề", theme-color: classic.blue, look: auto, boxed: true, fill: auto, stroke: auto, radius: 5pt, num: auto) = {
   lesson(title, prefix: prefix, theme-color: theme-color, look: look, boxed: boxed, fill: fill, stroke: stroke, radius: radius, num: num)
 }
 

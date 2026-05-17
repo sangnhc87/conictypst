@@ -1,7 +1,6 @@
 #import "../sang-exam.typ": *
 #import "../template.typ": *
-#import "@preview/cetz:0.5.0"
-#set text(font: "Noto Serif")
+#import "@preview/cetz:0.5.2"
 
 #set page(
   paper: "a4",

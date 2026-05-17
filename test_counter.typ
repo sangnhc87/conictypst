@@ -1,0 +1,6 @@
+#let c = counter("myc")
+#c.step()
+#c.display()
+#c.update(0)
+#c.step()
+#c.display()

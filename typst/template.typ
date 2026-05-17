@@ -4,11 +4,25 @@
 // ═══════════════════════════════════════════════════════════
 
 // Export các công cụ dùng chung
-#import "modules/exam.typ": palette, classic, True, tn, ds, tln, tl, mcq, tf, short, exam-part, het, print-answer-key, exam-mode, ppgiai, luuy, meo, giainhanh, lythuyet, note, dn, dl, tc, bode, setcounter, resetcounter, setcau, resetcau, setphan, resetphan, resetexamstate, thpt-school-exam
-#import "modules/book.typ": stexgv-book, setbookcounter, resetbookcounter, setchuong, resetchuong, setbai, resetbai, setmuc, resetmuc, settieumuc, resettieumuc, sety, resety, setphuluc, resetphuluc, setvd, resetvd, setbt, resetbt, loinoidau, gioithieu, huongdansudung, muctieuchung, bangthuatngu, tailieuthamkhao, references, glossary, preface, introduction, part, unit, chapter, lesson, bai, topic, dang, section, muc, subsection, tieumuc, microsection, y, appendix, phuluc, appendix-section, mucphuluc, vd, vidu, bt, baitap, cauhoi, hoatdongn, hd, onluyen, smartbox, khung, muctieu, chuanbi, khoidong, khampha, hoatdong, luyentap, vandung, morang, tomtat, duan, nhanxet, ghinho, phuongphap, definition
-#import "modules/exam-set.typ": stexgv-exam-set, de, dethi, matran, dacta, huongdancham, luuybode
-#import "modules/bank.typ": load-bank, bank-field, bank-filter, bank-count, bank-lookup, bank-attach
-#import "modules/question-bank.typ": ds-item, question-tn, question-ds, question-tln, question-tl, question-list, question-filter, question-lookup, question-select, question-missing, question-orphans, render-question, render-selection
+#import "modules/exam.typ": (
+  True, bode, classic, dl, dn, ds, exam-mode, exam-part, giainhanh, het, luuy, lythuyet, mcq, meo, note, palette,
+  ppgiai, print-answer-key, resetcau, resetcounter, resetexamstate, resetphan, setcau, setcounter, setphan, short, tc,
+  tf, thpt-school-exam, tl, tln, tn,
+)
+#import "modules/book.typ": (
+  appendix, appendix-section, bai, baitap, bangthuatngu, bt, cauhoi, chapter, chuanbi, dang, definition, duan, ghinho,
+  gioithieu, glossary, hd, hoatdong, hoatdongn, huongdansudung, introduction, khampha, khoidong, khung, lesson,
+  loinoidau, luyentap, microsection, morang, muc, mucphuluc, muctieu, muctieuchung, nhanxet, onluyen, part, phuluc,
+  phuongphap, preface, references, resetbai, resetbookcounter, resetbt, resetchuong, resetmuc, resetphuluc,
+  resettieumuc, resetvd, resety, section, setbai, setbookcounter, setbt, setchuong, setmuc, setphuluc, settieumuc,
+  setvd, sety, smartbox, stexgv-book, subsection, tailieuthamkhao, tieumuc, tomtat, topic, unit, vandung, vd, vidu, y,
+)
+#import "modules/exam-set.typ": dacta, de, dethi, huongdancham, luuybode, matran, stexgv-exam-set
+#import "modules/bank.typ": bank-attach, bank-count, bank-field, bank-filter, bank-lookup, load-bank
+#import "modules/question-bank.typ": (
+  ds-item, question-ds, question-filter, question-list, question-lookup, question-missing, question-orphans,
+  question-select, question-tl, question-tln, question-tn, render-question, render-selection,
+)
 #import "modules/research.typ": stexgv-research
 
 // ─────────────────────────────────────────────────────────
@@ -20,7 +34,6 @@
   subtitle: none,
   author: "Tác Giả",
   theme-color: classic.blue,
-
   // Tham số chung cho tài liệu học tập / bộ đề
   institution: none,
   subject: none,
@@ -32,7 +45,6 @@
   show-cover: true,
   show-outline: true,
   outline-depth: 4,
-  
   // Tham số cho đề thi
   department: "BỘ GIÁO DỤC VÀ ĐÀO TẠO",
   school: "SỞ GIÁO DỤC VÀ ĐÀO TẠO",
@@ -40,15 +52,22 @@
   structure: auto,
   code: "",
   footer-left: none,
-  
   // Tham số cho NCKH
   abstract: none,
   keywords: (),
   two-columns: true,
-
-  body
+  body,
 ) = {
   let kind = lower(str(doc-type))
+
+  // Tự động chuyển C, A, P (những chữ số gán sub/sup) thành chữ đứng (chuẩn Toán VN)
+  show math.attach: it => {
+    let f = it.base.fields()
+    if "text" in f and f.text in ("C", "A", "P") {
+      return math.attach(math.upright(f.text), t: it.t, b: it.b, tl: it.tl, bl: it.bl, tr: it.tr, br: it.br)
+    }
+    it
+  }
 
   if kind == "exam" {
     show: thpt-school-exam.with(
@@ -60,7 +79,7 @@
       structure: structure,
       code: code,
       footer-left: footer-left,
-      accent: theme-color
+      accent: theme-color,
     )
     body
   } else if ("book", "outline", "sgk", "textbook", "chuyende").contains(kind) {
@@ -79,7 +98,7 @@
       cover-note: cover-note,
       show-cover: show-cover,
       show-outline: show-outline,
-      outline-depth: outline-depth
+      outline-depth: outline-depth,
     )
     body
   } else if ("bo-de", "exam-set").contains(kind) {
@@ -97,7 +116,7 @@
       theme-color: theme-color,
       show-cover: show-cover,
       show-outline: show-outline,
-      outline-depth: outline-depth
+      outline-depth: outline-depth,
     )
     body
   } else if kind == "research" {
@@ -107,7 +126,7 @@
       abstract: abstract,
       keywords: keywords,
       two-columns: two-columns,
-      theme-color: theme-color
+      theme-color: theme-color,
     )
     body
   } else {

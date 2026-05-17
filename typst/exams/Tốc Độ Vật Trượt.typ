@@ -1,12 +1,13 @@
 #import "../sang-exam.typ": *
 #import "../template.typ": *
-#import "@preview/cetz:0.5.0"
+#import "@preview/cetz:0.5.2"
 
 #set page(
   paper: "a4",
   margin: (x: 1.5cm, y: 2cm),
 )
-#set text(font: "New Computer Modern", size: 11pt, lang: "vi")
+#show math.equation: set text(font: "New Computer Modern Math", fallback: true)
+#set text(font: "New Computer Modern", size: 12pt, lang: "vi")
 #set par(justify: true, leading: 0.8em)
 #set list(indent: 1em, body-indent: 0.5em)
 
@@ -41,7 +42,7 @@
 // ═══════════════════════════════════════════════════════════
 // CẤU HÌNH ĐỀ THI — Chỉ thay đổi ở đây
 // ═══════════════════════════════════════════════════════════
-#let mode = "loigiai"   // dethi | loigiai | solcolor
+#let mode = "dethi"   // dethi | loigiai | solcolor
 #let accent = classic.blue // classic.blue | classic.emerald | classic.crimson
 
 #let (tn, ds, tln, tl) = exam-mode(mode: mode, accent: accent)
@@ -74,7 +75,6 @@
 
 
 #tl(
-  mode: "loigiai",
   [Để làm rõ cơ sở lý thuyết về bài toán động học vật rắn (chiếc thang trượt), chúng ta cùng xét một bài toán tổng quát và chi tiết hơn như sau:
 
     Một chiếc thang $A B$ thẳng, dài $5$ m được đặt tựa vào một bức tường thẳng đứng. Chân thang (điểm $A$) trượt trên mặt sàn nằm ngang ra xa góc tường với tốc độ không đổi $v_A = 0.6$ m/s. Đỉnh thang (điểm $B$) trượt dọc theo bức tường. Trên thang có hai điểm đáng chú ý: điểm $C$ (vị trí con mèo) cách chân thang $A$ một khoảng $2$ m, và điểm $I$ là trung điểm của thang.
@@ -221,7 +221,7 @@
   ],
 )
 #tln(
-  mode: "loigiai",
+  // mode: "loigiai",
   [Một chiếc thang thẳng dài $5$ m được đặt tựa vào một bức tường thẳng đứng. Chân thang (điểm $A$) đang trượt trên mặt sàn nằm ngang ra xa góc tường. Một con mèo đang ngồi im trên thang tại điểm $C$, biết khoảng cách từ chân thang $A$ đến $C$ bằng $2$ m. Tại thời điểm chân thang cách góc tường $3$ m, người ta đo được tốc độ di chuyển của con mèo so với mặt sàn là $(3sqrt(5))/10$ m/s. Hỏi tại thời điểm đó, tốc độ trượt của chân thang bằng bao nhiêu m/s?],
   [$1$],
   fig: cetz.canvas(length: 1.2cm, {
@@ -863,6 +863,7 @@
   ],
 )
 #tln(
+  // mode:"loigiai",
   [Một cột đèn đường có bóng đèn được treo cố định ở độ cao $6$ m so với mặt đất nằm ngang. Một người đi bộ cao $1.5$ m đang đi thẳng đều ra xa khỏi chân cột đèn với tốc độ $1.2$ m/s. Ánh sáng từ ngọn đèn chiếu xuống tạo ra bóng của người đó trên mặt đất. Hỏi đỉnh bóng của người đó trên mặt đất đang di chuyển ra xa chân cột đèn với tốc độ bằng bao nhiêu m/s (không làm tròn kết quả)?],
   [$1,6$],
   fig: cetz.canvas(length: 1.1cm, {
@@ -993,7 +994,7 @@
 )
 
 #tln(
-  mode: "loigiai",
+  // mode: "loigiai",
   [Một tấm bảng hiệu quảng cáo hình bán nguyệt có đường kính $A B = 5$ m. Tấm bảng được đặt dựng đứng sao cho đường kính $A B$ tựa vào góc tạo bởi một bức tường thẳng đứng và mặt sàn ngang (đỉnh $A$ trượt trên mặt sàn, đỉnh $B$ trượt dọc theo bức tường). Điểm $C$ là điểm cao nhất trên cung tròn của tấm bảng (cách $A B$ một đoạn bằng bán kính $2.5$ m). Trong quá trình trượt, mặt phẳng của tấm bảng luôn song song với bức tường bên cạnh và điểm $C$ luôn hướng ra xa góc tường. Tại thời điểm chân $A$ cách góc tường $3$ m, đỉnh $A$ đang trượt ra xa với tốc độ không đổi $v_A = 0.8$ m/s. Hỏi tại thời điểm đó, tốc độ di chuyển của điểm $C$ so với mặt sàn bằng bao nhiêu m/s (làm tròn kết quả đến hàng phần trăm)?],
   [$0.14$],
   fig: cetz.canvas(length: 1.2cm, {
@@ -1432,77 +1433,77 @@
   ],
 )
 
-#tln(
-  [Một tấm kim loại hình chữ nhật $A B C D$ có chiều dài $A B = 80 " cm"$ và chiều rộng $B C = 60 " cm"$. Tấm kim loại được đặt dựng đứng sao cho cạnh $A B$ nằm trên mặt sàn ngang và cạnh $A D$ tựa sát vào bức tường thẳng đứng (góc tường tại $A$ vuông góc). Người ta bắt đầu kéo đỉnh $B$ trượt trên mặt sàn ra xa bức tường với tốc độ không đổi $v_B = 5 " cm/s"$, đỉnh $D$ trượt dọc xuống dưới trên bức tường. Gọi $M$ là trung điểm của đoạn thẳng $C D$. Hỏi tại thời điểm đỉnh $D$ cách mặt sàn $36 " cm"$, tốc độ biến thiên khoảng cách từ điểm $M$ đến góc tường $A$ bằng bao nhiêu cm/s (_làm tròn kết quả đến hàng phần trăm_)?],
-  [$0$],
-  fig: cetz.canvas(length: 1cm, {
-    import cetz.draw: *
-    let xB = 6.4
-    let yD = 4.8
-    let A = (0, 0)
-    let B = (xB, 0)
-    let D = (0, yD)
-    let C = (xB, yD)
-    let M = (xB / 2, yD)
+// #tln(
+//   [Một tấm kim loại hình chữ nhật $A B C D$ có chiều dài $A B = 80 " cm"$ và chiều rộng $B C = 60 " cm"$. Tấm kim loại được đặt dựng đứng sao cho cạnh $A B$ nằm trên mặt sàn ngang và cạnh $A D$ tựa sát vào bức tường thẳng đứng (góc tường tại $A$ vuông góc). Người ta bắt đầu kéo đỉnh $B$ trượt trên mặt sàn ra xa bức tường với tốc độ không đổi $v_B = 5 " cm/s"$, đỉnh $D$ trượt dọc xuống dưới trên bức tường. Gọi $M$ là trung điểm của đoạn thẳng $C D$. Hỏi tại thời điểm đỉnh $D$ cách mặt sàn $36 " cm"$, tốc độ biến thiên khoảng cách từ điểm $M$ đến góc tường $A$ bằng bao nhiêu cm/s (_làm tròn kết quả đến hàng phần trăm_)?],
+//   [$0$],
+//   fig: cetz.canvas(length: 1cm, {
+//     import cetz.draw: *
+//     let xB = 6.4
+//     let yD = 4.8
+//     let A = (0, 0)
+//     let B = (xB, 0)
+//     let D = (0, yD)
+//     let C = (xB, yD)
+//     let M = (xB / 2, yD)
 
-    // Sàn và tường
-    line((-0.5, 0), (8, 0), stroke: 1pt)
-    line((0, -0.5), (0, 6), stroke: 1pt)
+//     // Sàn và tường
+//     line((-0.5, 0), (8, 0), stroke: 1pt)
+//     line((0, -0.5), (0, 6), stroke: 1pt)
 
-    // Hình chữ nhật ABCD
-    rect(A, C, stroke: (paint: rgb("5d4037"), thickness: 1.5pt), fill: rgb("efebe9"))
+//     // Hình chữ nhật ABCD
+//     rect(A, C, stroke: (paint: rgb("5d4037"), thickness: 1.5pt), fill: rgb("efebe9"))
 
-    // Điểm M
-    circle(M, radius: 2pt, fill: orange)
-    content(M, $M$, anchor: "south", padding: 3pt)
+//     // Điểm M
+//     circle(M, radius: 2pt, fill: orange)
+//     content(M, $M$, anchor: "south", padding: 3pt)
 
-    // Vận tốc vB
-    line(B, (xB + 1.2, 0), mark: (end: "stealth", fill: red), stroke: (paint: red, thickness: 1.2pt))
-    content((xB + 0.6, 0.3), $v_B$, fill: red)
+//     // Vận tốc vB
+//     line(B, (xB + 1.2, 0), mark: (end: "stealth", fill: red), stroke: (paint: red, thickness: 1.2pt))
+//     content((xB + 0.6, 0.3), $v_B$, fill: red)
 
-    // Kích thước
-    content((xB / 2, -0.4), $80$, size: 9pt)
-    content((-0.4, yD / 2), $60$, size: 9pt)
+//     // Kích thước
+//     content((xB / 2, -0.4), $80$, size: 9pt)
+//     content((-0.4, yD / 2), $60$, size: 9pt)
 
-    // Nhãn điểm
-    circle(A, radius: 1.5pt, fill: black)
-    content(A, $A$, anchor: "north-east")
-    circle(B, radius: 1.5pt, fill: black)
-    content(B, $B$, anchor: "north-west")
-    circle(D, radius: 1.5pt, fill: black)
-    content(D, $D$, anchor: "south-east")
-    circle(C, radius: 1.5pt, fill: black)
-    content(C, $C$, anchor: "south-west")
-  }),
-  fig-pos: "right",
-  fig-width: 40%,
-  loigiai: [
-    #ppgiai[
-      - Gắn hệ trục tọa độ $O x y$ trùng với góc tường $A$, tia $A x$ nằm trên mặt sàn, tia $A y$ dọc theo bức tường[cite: 1, 2].
-      - Tọa độ các đỉnh: $A(0; 0)$, $B(x; 0)$, $D(0; y)$. Do $A B C D$ là hình chữ nhật nên $A B = D C = 80$ và $A D = B C = 60$. Tuy nhiên, khi trượt, độ dài các cạnh không đổi nhưng vị trí $B, D$ thay đổi sao cho $B$ luôn nằm trên $O x$ và $D$ luôn trên $O y$[cite: 1, 5].
-      - Lưu ý: Trong bài toán vật rắn biến dạng vị trí này, thực tế đoạn liên kết cố định là đường chéo $B D = sqrt(80^2 + 60^2) = 100 " cm"$.
-      - Khoảng cách $d = A M = sqrt(x_M^2 + y_M^2)$. Tốc độ biến thiên là đạo hàm $d'$ theo thời gian $t$[cite: 1, 2].
-    ]
-    Thiết lập tọa độ: $A(0; 0)$, $B(x; 0)$, $D(0; y)$. Vì $A B C D$ là hình chữ nhật nên đường chéo $B D$ có độ dài không đổi: $x^2 + y^2 = 100^2$.
-    Đạo hàm: $2x x' + 2y y' = 0 <=> y' = -x/y x'$.
+//     // Nhãn điểm
+//     circle(A, radius: 1.5pt, fill: black)
+//     content(A, $A$, anchor: "north-east")
+//     circle(B, radius: 1.5pt, fill: black)
+//     content(B, $B$, anchor: "north-west")
+//     circle(D, radius: 1.5pt, fill: black)
+//     content(D, $D$, anchor: "south-east")
+//     circle(C, radius: 1.5pt, fill: black)
+//     content(C, $C$, anchor: "south-west")
+//   }),
+//   fig-pos: "right",
+//   fig-width: 40%,
+//   loigiai: [
+//     #ppgiai[
+//       - Gắn hệ trục tọa độ $O x y$ trùng với góc tường $A$, tia $A x$ nằm trên mặt sàn, tia $A y$ dọc theo bức tường[cite: 1, 2].
+//       - Tọa độ các đỉnh: $A(0; 0)$, $B(x; 0)$, $D(0; y)$. Do $A B C D$ là hình chữ nhật nên $A B = D C = 80$ và $A D = B C = 60$. Tuy nhiên, khi trượt, độ dài các cạnh không đổi nhưng vị trí $B, D$ thay đổi sao cho $B$ luôn nằm trên $O x$ và $D$ luôn trên $O y$[cite: 1, 5].
+//       - Lưu ý: Trong bài toán vật rắn biến dạng vị trí này, thực tế đoạn liên kết cố định là đường chéo $B D = sqrt(80^2 + 60^2) = 100 " cm"$.
+//       - Khoảng cách $d = A M = sqrt(x_M^2 + y_M^2)$. Tốc độ biến thiên là đạo hàm $d'$ theo thời gian $t$[cite: 1, 2].
+//     ]
+//     Thiết lập tọa độ: $A(0; 0)$, $B(x; 0)$, $D(0; y)$. Vì $A B C D$ là hình chữ nhật nên đường chéo $B D$ có độ dài không đổi: $x^2 + y^2 = 100^2$.
+//     Đạo hàm: $2x x' + 2y y' = 0 <=> y' = -x/y x'$.
 
-    Tọa độ đỉnh $C$ là $(x; y)$. Vì $M$ là trung điểm $C D$ và $D(0; y)$, $C(x; y)$ nên:
-    $ M = ( (x+0)/2 ; (y+y)/2 ) = (x/2 ; y) $
-    Khoảng cách $d$ từ $M$ đến $A(0; 0)$ là: $d = sqrt((x/2)^2 + y^2) = sqrt(x^2/4 + y^2)$.
-    Đạo hàm theo thời gian $t$:
-    $ d' = (x/2 x' + 2y y') / (2 sqrt(x^2/4 + y^2)) $
+//     Tọa độ đỉnh $C$ là $(x; y)$. Vì $M$ là trung điểm $C D$ và $D(0; y)$, $C(x; y)$ nên:
+//     $ M = ( (x+0)/2 ; (y+y)/2 ) = (x/2 ; y) $
+//     Khoảng cách $d$ từ $M$ đến $A(0; 0)$ là: $d = sqrt((x/2)^2 + y^2) = sqrt(x^2/4 + y^2)$.
+//     Đạo hàm theo thời gian $t$:
+//     $ d' = (x/2 x' + 2y y') / (2 sqrt(x^2/4 + y^2)) $
 
-    Tại thời điểm $y = 36$, ta có $x = sqrt(100^2 - 36^2) = 92$.
-    Vận tốc $x' = 5$. Suy ra $y' = -92/36 dot 5 = -115/9$.
-    Thay vào biểu thức $d'$:
-    $
-      d' = (92/2 dot 5 + 2 dot 36 dot (-115/9)) / (2 sqrt(92^2/4 + 36^2)) = (230 - 920) / (2 sqrt(2116 + 1296)) = -690 / (2 sqrt(3412)) approx -5.91
-    $
+//     Tại thời điểm $y = 36$, ta có $x = sqrt(100^2 - 36^2) = 92$.
+//     Vận tốc $x' = 5$. Suy ra $y' = -92/36 dot 5 = -115/9$.
+//     Thay vào biểu thức $d'$:
+//     $
+//       d' = (92/2 dot 5 + 2 dot 36 dot (-115/9)) / (2 sqrt(92^2/4 + 36^2)) = (230 - 920) / (2 sqrt(2116 + 1296)) = -690 / (2 sqrt(3412)) approx -5.91
+//     $
 
-    *Lưu ý:* Nếu $M$ là trung điểm đường chéo $B D$ thì $d$ không đổi, nhưng đây là trung điểm cạnh $C D$.
+//     *Lưu ý:* Nếu $M$ là trung điểm đường chéo $B D$ thì $d$ không đổi, nhưng đây là trung điểm cạnh $C D$.
 
-    #nhanxet[
-      Bài toán yêu cầu tính tốc độ biến thiên khoảng cách, tức là độ lớn vận tốc theo phương nối tâm. Nếu kết quả đạo hàm âm, khoảng cách đang co lại.
-    ]
-  ],
-)
+//     #nhanxet[
+//       Bài toán yêu cầu tính tốc độ biến thiên khoảng cách, tức là độ lớn vận tốc theo phương nối tâm. Nếu kết quả đạo hàm âm, khoảng cách đang co lại.
+//     ]
+//   ],
+// )

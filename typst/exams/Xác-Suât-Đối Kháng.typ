@@ -2,7 +2,7 @@
 
 #import "../sang-exam.typ": *
 #import "../template.typ": *
-#import "@preview/cetz:0.5.0"
+#import "@preview/cetz:0.5.2"
 #set page(
   margin: (top: 1.5cm, bottom: 1.5cm, left: 2cm, right: 1.5cm)
 )

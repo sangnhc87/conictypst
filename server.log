@@ -1,0 +1,8 @@
+
+  ✅ typ2docx SMART tại  http://localhost:5050
+  📁 Workspace: /Users/admin/conictypst
+
+ * Serving Flask app 'typ2docx'
+ * Debug mode: off
+Address already in use
+Port 5050 is in use by another program. Either identify and stop that program, or start the server with a different port.

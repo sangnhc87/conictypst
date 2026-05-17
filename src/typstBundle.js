@@ -12,8 +12,5 @@ export {
   withPackageRegistry,
 } from '@myriaddreamin/typst.ts/dist/esm/options.init.mjs'
 
-export const compilerWasmUrl =
-  'https://cdn.jsdelivr.net/npm/@myriaddreamin/typst-ts-web-compiler@0.7.0-rc2/pkg/typst_ts_web_compiler_bg.wasm'
-
-export const rendererWasmUrl =
-  'https://cdn.jsdelivr.net/npm/@myriaddreamin/typst-ts-renderer@0.7.0-rc2/pkg/typst_ts_renderer_bg.wasm'
+export { default as compilerWasmUrl } from '@myriaddreamin/typst-ts-web-compiler/pkg/typst_ts_web_compiler_bg.wasm?url'
+export { default as rendererWasmUrl } from '@myriaddreamin/typst-ts-renderer/pkg/typst_ts_renderer_bg.wasm?url'

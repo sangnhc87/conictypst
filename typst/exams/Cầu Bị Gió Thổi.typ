@@ -1,16 +1,16 @@
 #import "../sang-exam.typ": *
 #import "../template.typ": *
-#import "@preview/cetz:0.5.0"
+#import "@preview/cetz:0.5.2"
 #set page(
   margin: (top: 1.5cm, bottom: 1.5cm, left: 2cm, right: 1.5cm)
 )
 
-#show: stexgv-doc.with(
-  doc-type: "book",
-  title: "CHUYÊN ĐỀ: Mặt Cầu",
-  author: "GV Nguyễn Văn Sang",
-  theme-color: classic.blue
-)
+// #show: stexgv-doc.with(
+//   doc-type: "book",
+//   title: "CHUYÊN ĐỀ: XÁC SUẤT ĐỐI KHÁNG",
+//   author: "GV Nguyễn Văn Sang",
+//   theme-color: classic.blue
+// )
 
 #let math-color = rgb("#000000") 
 #show math.equation: set text(fill: math-color)
@@ -26,17 +26,17 @@
   inset: 16pt,
   radius: (right: 4pt)
 )[
-  #text(size: 16pt, weight: "bold", fill: classic.blue)[CHUYÊN ĐỀ: Mặt Cầu]
+  #text(size: 16pt, weight: "bold", fill: classic.blue)[CHUYÊN ĐỀ: XÁC SUẤT ĐỐI KHÁNG]
   
   #v(0.8em)
-  #text(style: "italic", size: 12pt, fill: rgb("#555555"))[Kỹ thuật tọa độ hóa và công thức giải nhanh bài toán Parabol nội tiếp hình chữ nhật.]
+  #text(style: "italic", size: 12pt, fill: rgb("#555555"))[CHỦ YẾU TÍNH XÁC SUẤT HOÀ.]
 ]
 #v(2em)
 
 // ═══════════════════════════════════════════════════════════
 // CẤU HÌNH ĐỀ THI — Chỉ thay đổi ở đây
 // ═══════════════════════════════════════════════════════════
-#let mode = "loigiai"   // dethi | loigiai | solcolor
+#let mode = "dethi"   // dethi | loigiai | solcolor
 #let accent = classic.blue // classic.blue | classic.emerald | classic.crimson
 
 #let (tn, ds, tln, tl) = exam-mode(mode: mode, accent: accent)
@@ -633,8 +633,23 @@ Vì hai người có vai trò đối xứng nên chỉ cần tính xác suất h
     ]
   ]
 )
+#v(1em)
+#block(
+  width: 100%,
+  fill: rgb("#f4f8fc"),
+  stroke: (left: 6pt + classic.blue, top: 0.5pt + rgb("#dbe4f0"), right: 0.5pt + rgb("#dbe4f0"), bottom: 0.5pt + rgb("#dbe4f0")),
+  inset: 16pt,
+  radius: (right: 4pt)
+)[
+  #text(size: 16pt, weight: "bold", fill: classic.blue)[CHUYÊN ĐỀ: QUẢ CẦU BỊ GIÓ THÔI]
+  
+  #v(0.8em)
+  #text(style: "italic", size: 12pt, fill: rgb("#555555"))[LIÊN QUAN GÓC LƯỢN GIÁC.]
+]
+#v(2em)
 
 #ds(
+  mode:"dethi",
   [Để theo dõi thời tiết, trạm khí tượng tại $O$ thả một bóng thám không lên bầu trời. Bóng thám không gồm một quả bóng hình cầu chứa khí Heli và một hộp thiết bị đo đạc (radiosonde) treo bên dưới, nối với tâm quả bóng bằng dây cáp. Khi không có gió, quả bóng bay thẳng đứng phía trên trạm và có phương trình mặt cầu $(S): x^2 + y^2 + (z-12)^2 = 100$ (đơn vị: mét) _(Kết quả tính toán làm tròn đến hàng phần mười)_ đổi ra.
  #align(center)[
       #grid(

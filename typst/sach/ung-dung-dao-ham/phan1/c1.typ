@@ -891,9 +891,9 @@
       #canvas(length: 0.6cm, {
         import draw: *
         // Vẽ hình trụ
-        arc((0,4), start: 0deg, stop: 360deg, radius: (2, 0.6), stroke: 1pt+black, fill: rgb("ccc"))
-        arc((0,0), start: 180deg, stop: 360deg, radius: (2, 0.6), stroke: 1pt+black)
-        arc((0,0), start: 0deg, stop: 180deg, radius: (2, 0.6), stroke: (dash: "dashed", paint: black))
+        circle((0,4), radius: (2, 0.6), stroke: 1pt+black, fill: rgb("ccc"))
+        arc((-2,0), start: 180deg, stop: 360deg, radius: (2, 0.6), stroke: 1pt+black)
+        arc((2,0), start: 0deg, stop: 180deg, radius: (2, 0.6), stroke: (dash: "dashed", paint: black))
         line((-2,4), (-2,0), stroke: 1pt+black)
         line((2,4), (2,0), stroke: 1pt+black)
         
@@ -1025,5 +1025,41 @@
   #step[Đạo hàm $S'(x) = 4 - 400/x^2 = 0 <=> x^2 = 100 <=> x = 10$. Bảng biến thiên chứng tỏ $S$ đạt min tại $x=10$.]
   #step[Khi đó $S_(min) = 4(10) + 400/10 + 208 = 40+40+208 = 288$ cm².]
   #resetstep()
+  ]
+)
+
+#tln(
+  [
+    Một khu đất hình chữ nhật được rào dọc theo một con sông (bờ sông không cần rào). Người ta có $100$ mét lưới rào. Kích thước hình chữ nhật (chiều rộng $x$ mét và chiều dài $y$ mét dọc theo con sông) phải tối ưu ra sao để diện tích là lớn nhất, khi đó diện tích lớn nhất bằng bao nhiêu m²?
+  ],
+  [1250],
+  loigiai: [
+    #ppgiai[
+      - Biểu diễn đại lượng cần tối ưu theo 1 biến số.
+      - Khảo sát sự biến thiên của hàm số trên tập xác định.
+    ]
+    #step[Chiều dài hàng rào là $2x + y = 100 <=> y = 100 - 2x$. Điều kiện $0 < x < 50$.]
+    #step[Diện tích khu đất: $S(x) = x y = x(100 - 2x) = -2x^2 + 100x$.]
+    #step[Đạo hàm: $S'(x) = -4x + 100$. Cho $S'(x) = 0 <=> x = 25$.]
+    #step[Bảng biến thiên cho thấy $S$ đạt đại cực đại tại đỉnh parabol $x=25$. Khi đó $y = 100 - 50 = 50$.]
+    #step[Diện tích lớn nhất: $S_(max) = S(25) = -2(25)^2 + 100(25) = 1250$ (m²).]
+  ]
+)
+
+#tln(
+  [
+    Một doanh nghiệp bán một loại sản phẩm. Nếu giá bán là $x$ (nghìn đồng) mỗi sản phẩm, thì số lượng bán được mỗi tháng dự kiến là $p(x) = 1200 - 10x$ (sản phẩm). Biết chi phí sản xuất mỗi sản phẩm là $40$ nghìn đồng. Doanh nghiệp cần định giá bán $x$ là bao nhiêu để đạt lợi nhuận lớn nhất? (đơn vị: nghìn đồng).
+  ],
+  [80],
+  loigiai: [
+    #ppgiai[
+      - Hàm Lợi nhuận = (Giá bán $-$ Chi phí) $times$ Số lượng.
+      - Khảo sát sự biến thiên của hàm số Lợi nhuận.
+    ]
+    #step[Doanh thu trên mỗi sản phẩm sau khi trừ chi phí (lợi nhuận cốt lõi): $x - 40$.]
+    #step[Tổng lợi nhuận mỗi tháng: $L(x) = (x - 40) dot.c (1200 - 10x) = -10x^2 + 1600x - 48000$.]
+    #step[Đạo hàm $L'(x) = -20x + 1600$. Cho $L'(x) = 0 <=> x = 80$.]
+    #step[Bảng biến thiên chứng tỏ parabol bề lõm hướng xuống, $L$ đạt max tại đỉnh $x = 80$.]
+    #step[Vậy giá bán cần thiết để tối ưu hóa lợi nhuận là $80$ nghìn đồng.]
   ]
 )

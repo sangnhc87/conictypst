@@ -128,29 +128,26 @@
     radius: 12pt,
     width: 100%,
   )[
-    #text(
+    #align(center)[#text(
       fill: white,
       weight: "bold",
       size: 24pt,
-      align: center,
-    )[🎉 Chúc mừng! / Congratulations!]
+    )[🎉 Chúc mừng! / Congratulations!]]
     #v(0.5em)
-    #text(
+    #align(center)[#text(
       fill: white,
       size: 14pt,
-      align: center,
-    )[Bạn đã hoàn thành Quyển I — Toán Lớp 3]
+    )[Bạn đã hoàn thành Quyển I — Toán Lớp 3]]
     #v(0.3em)
-    #text(
+    #align(center)[#text(
       fill: white,
       size: 12pt,
-      align: center,
-    )[You have completed Book I — Grade 3 Mathematics]
+    )[You have completed Book I — Grade 3 Mathematics]]
   ]
   #v(2cm)
-  #text(size: 10pt, align: center)[
+  #align(center)[#text(size: 10pt)[
     Hãy tiếp tục với Quyển II — Toán Nâng Cao!
     #v(0.3em)
     Continue with Book II — Advanced Mathematics!
-  ]
+  ]]
 ]

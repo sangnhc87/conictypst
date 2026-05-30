@@ -187,29 +187,26 @@
     radius: 12pt,
     width: 100%,
   )[
-    #text(
+    #align(center)[#text(
       fill: white,
       weight: "bold",
       size: 24pt,
-      align: center,
-    )[🏅 Huy chương vàng! / Gold Medal!]
+    )[🏅 Huy chương vàng! / Gold Medal!]]
     #v(0.5em)
-    #text(
+    #align(center)[#text(
       fill: white,
       size: 14pt,
-      align: center,
-    )[Bạn đã hoàn thành Quyển II — Toán Lớp 3 Nâng Cao]
+    )[Bạn đã hoàn thành Quyển II — Toán Lớp 3 Nâng Cao]]
     #v(0.3em)
-    #text(
+    #align(center)[#text(
       fill: white,
       size: 12pt,
-      align: center,
-    )[You have completed Book II — Advanced Grade 3 Mathematics]
+    )[You have completed Book II — Advanced Grade 3 Mathematics]]
   ]
   #v(2cm)
-  #text(size: 10pt, align: center)[
+  #align(center)[#text(size: 10pt)[
     Bạn xứng đáng với huy chương vàng! 🏅
     #v(0.3em)
     You deserve the gold medal!
-  ]
+  ]]
 ]

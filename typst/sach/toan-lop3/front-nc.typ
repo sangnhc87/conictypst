@@ -13,31 +13,27 @@
     radius: 12pt,
     width: 100%,
   )[
-    #text(
+    #align(center)[#text(
       fill: white,
       weight: "bold",
       size: 28pt,
-      align: center,
-    )[Toán Lớp 3 — Nâng Cao]
+    )[Toán Lớp 3 — Nâng Cao]]
     #v(0.3em)
-    #text(
+    #align(center)[#text(
       fill: white,
       size: 16pt,
-      align: center,
-    )[Grade 3 Mathematics — Advanced]
+    )[Grade 3 Mathematics — Advanced]]
   ]
   #v(1cm)
-  #text(
+  #align(center)[#text(
     fill: C-TEXT-NC,
     size: 14pt,
-    align: center,
-  )[Quyển II — Phát Triển Toàn Diện]
+  )[Quyển II — Phát Triển Toàn Diện]]
   #v(0.5em)
-  #text(
+  #align(center)[#text(
     fill: C-TEXT-NC,
     size: 12pt,
-    align: center,
-  )[Book II — Comprehensive Enrichment]
+  )[Book II — Comprehensive Enrichment]]
   #v(2cm)
   #block(
     fill: white,
@@ -45,20 +41,20 @@
     radius: 8pt,
     stroke: 1pt + C-TEAL-NC,
   )[
-    #text(size: 10pt, align: center)[
+    #align(center)[#text(size: 10pt)[
       Dành cho học sinh lớp 3 / For Grade 3 Students
       #v(0.3em)
       Song ngữ Việt – Anh / Bilingual Vietnamese – English
       #v(0.3em)
       Dành cho 20% học sinh xuất sắc / For Top 20% Students
-    ]
+    ]]
   ]
   #v(3cm)
-  #text(size: 9pt, fill: gray, align: center)[
+  #align(center)[#text(size: 9pt, fill: gray)[
     Biên soạn theo chương trình Giáo dục Phổ thông 2018
     #v(0.2em)
     Aligned with the 2018 National Curriculum
-  ]
+  ]]
 ]
 
 // Table of Contents

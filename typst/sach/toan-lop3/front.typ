@@ -13,31 +13,27 @@
     radius: 12pt,
     width: 100%,
   )[
-    #text(
+    #align(center)[#text(
       fill: white,
       weight: "bold",
       size: 28pt,
-      align: center,
-    )[Toán Lớp 3]
+    )[Toán Lớp 3]]
     #v(0.3em)
-    #text(
+    #align(center)[#text(
       fill: white,
       size: 16pt,
-      align: center,
-    )[Grade 3 Mathematics]
+    )[Grade 3 Mathematics]]
   ]
   #v(1cm)
-  #text(
+  #align(center)[#text(
     fill: C-TEXT,
     size: 14pt,
-    align: center,
-  )[Quyển I — Cơ Bản & Tư Duy]
+  )[Quyển I — Cơ Bản & Tư Duy]]
   #v(0.5em)
-  #text(
+  #align(center)[#text(
     fill: C-TEXT,
     size: 12pt,
-    align: center,
-  )[Book I — Core Curriculum & Thinking Skills]
+  )[Book I — Core Curriculum & Thinking Skills]]
   #v(2cm)
   #block(
     fill: white,
@@ -45,18 +41,18 @@
     radius: 8pt,
     stroke: 1pt + C-TEAL,
   )[
-    #text(size: 10pt, align: center)[
+    #align(center)[#text(size: 10pt)[
       Dành cho học sinh lớp 3 / For Grade 3 Students
       #v(0.3em)
       Song ngữ Việt – Anh / Bilingual Vietnamese – English
-    ]
+    ]]
   ]
   #v(3cm)
-  #text(size: 9pt, fill: gray, align: center)[
+  #align(center)[#text(size: 9pt, fill: gray)[
     Biên soạn theo chương trình Giáo dục Phổ thông 2018
     #v(0.2em)
     Aligned with the 2018 National Curriculum
-  ]
+  ]]
 ]
 
 // Table of Contents

@@ -25,7 +25,7 @@
 
 // Font settings
 #set text(
-  font: ("New Computer Modern", "Noto Sans", "DejaVu Sans"),
+  font: ("New Computer Modern",),
   size: 11pt,
   fill: C-TEXT,
 )
@@ -117,12 +117,11 @@
     radius: 8pt,
     width: 100%,
   )[
-    #text(
+    #align(center)[#text(
       fill: white,
       weight: "bold",
       size: 20pt,
-      align: center,
-    )[Chương #num: #title]
+    )[Chương #num: #title]]
   ]
   v(0.5em)
 }

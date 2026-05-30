@@ -129,8 +129,8 @@
 // Learning objectives
 #let learning-objectives-nc(objectives) = {
   info-box-nc(
-    title: "📚 Mục tiêu bài học / Learning Objectives",
-    body: objectives,
+    "📚 Mục tiêu bài học / Learning Objectives",
+    objectives,
   )
 }
 
@@ -150,16 +150,16 @@
 // Example
 #let example-nc(content) = {
   example-box-nc(
-    title: "📝 Ví dụ / Example",
-    body: content,
+    "📝 Ví dụ / Example",
+    content,
   )
 }
 
 // Exercise section
 #let exercise-section-nc(title, content) = {
   exercise-box-nc(
-    title: title,
-    body: content,
+    title,
+    content,
   )
 }
 

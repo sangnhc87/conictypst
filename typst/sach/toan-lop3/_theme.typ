@@ -129,8 +129,8 @@
 // Learning objectives
 #let learning-objectives(objectives) = {
   info-box(
-    title: "📚 Mục tiêu bài học / Learning Objectives",
-    body: objectives,
+    "📚 Mục tiêu bài học / Learning Objectives",
+    objectives,
   )
 }
 
@@ -150,16 +150,16 @@
 // Example
 #let example(content) = {
   example-box(
-    title: "📝 Ví dụ / Example",
-    body: content,
+    "📝 Ví dụ / Example",
+    content,
   )
 }
 
 // Exercise section
 #let exercise-section(title, content) = {
   exercise-box(
-    title: title,
-    body: content,
+    title,
+    content,
   )
 }
 

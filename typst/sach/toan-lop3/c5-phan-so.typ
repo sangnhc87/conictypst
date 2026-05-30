@@ -35,7 +35,7 @@
     #v(0.3em)
     So sánh: ½ > ¼ (vì 1/2 lớn hơn 1/4)
     #v(0.3em)
-    So sánh: ⅓ < ½ (vì 1/3 nhỏ hơn 1/2)
+    So sánh: ⅓ \< ½ (vì 1/3 nhỏ hơn 1/2)
   ]
 
   #section-divider()

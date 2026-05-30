@@ -20,7 +20,7 @@
     - Trừ từ phải sang trái, mượn khi số bị trừ nhỏ hơn số trừ
     - Đặt thẳng hàng: nghìn, trăm, chục, đơn vị
     - English: Add from right to left, carry when sum ≥ 10
-    - Subtract from right to left, borrow when minuend < subtrahend
+    - Subtract from right to left, borrow when minuend \< subtrahend
   ]
 
   #section-divider()

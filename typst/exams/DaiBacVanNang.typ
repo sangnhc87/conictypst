@@ -2020,12 +2020,26 @@ Khi bài toán cho hình vẽ vùng (bản đồ, các miếng ghép), *không c
 #cannon-box("Ví dụ 24 — Chuỗi 6 hạt ngọc xếp hàng thẳng (k=4 màu)", [
   *Đề bài:* Có 6 hạt ngọc được xếp thành một hàng thẳng. Người ta muốn tô màu các hạt ngọc bằng 4 màu sao cho hai hạt cạnh nhau luôn khác màu nhau. Tính số cách tô màu.
 
+  #align(center)[
+    #cetz.canvas(length: 1cm, {
+      import cetz.draw: *
+      for i in range(5) {
+        line((i,0), (i+1,0), stroke: 1.3pt + rgb("4A148C"))
+      }
+      for i in range(6) {
+        circle((i,0), radius: 0.22, fill: white, stroke: 1.3pt + rgb("4A148C"))
+        content((i,0), text(size: 8pt, weight: "bold")[#str(i+1)])
+      }
+    })
+  ]
+  #v(0.3em)
+
   *Giải:*
   Đây là đồ thị đường thẳng $P_6$ gồm 6 đỉnh. Áp dụng công thức đường thẳng với $n=6, k=4$:
   1. Hạt thứ nhất: Có $k = 4$ cách chọn màu.
   2. Mỗi hạt trong 5 hạt tiếp theo chỉ kề với đúng 1 hạt đã tô màu ở trước nó, nên luôn có $k-1 = 3$ cách chọn màu.
   
-  $$N = k(k-1)^(n-1) = 4 \times 3^5 = 4 \times 243 = \mathbf{972} \text{ cách.}$$
+  $ N = k(k-1)^(n-1) = 4 times 3^5 = 4 times 243 = bold(972) " cách." $
 ])
 
 #v(0.5em)
@@ -2033,12 +2047,36 @@ Khi bài toán cho hình vẽ vùng (bản đồ, các miếng ghép), *không c
 #cannon-box("Ví dụ 25 — Đồ thị cây gia phả phân nhánh 7 nút (k=5 màu)", [
   *Đề bài:* Cho một sơ đồ cây gồm 7 nút (1 nút gốc chia làm 2 nhánh, mỗi nhánh lại chia tiếp làm các nút con). Có 5 màu để tô các nút này sao cho hai nút nối với nhau luôn khác màu nhau. Tính số cách tô.
 
+  #align(center)[
+    #cetz.canvas(length: 0.8cm, {
+      import cetz.draw: *
+      let p0 = (0, 0)
+      let p1 = (-1.5, -1); let p2 = (1.5, -1)
+      let p3 = (-2.2, -2); let p4 = (-0.8, -2)
+      let p5 = (0.8, -2); let p6 = (2.2, -2)
+      
+      line(p0, p1, stroke: 1.3pt + rgb("E65100"))
+      line(p0, p2, stroke: 1.3pt + rgb("E65100"))
+      line(p1, p3, stroke: 1.3pt + rgb("E65100"))
+      line(p1, p4, stroke: 1.3pt + rgb("E65100"))
+      line(p2, p5, stroke: 1.3pt + rgb("E65100"))
+      line(p2, p6, stroke: 1.3pt + rgb("E65100"))
+      
+      let pts = (p0, p1, p2, p3, p4, p5, p6)
+      for (i, p) in pts.enumerate() {
+        circle(p, radius: 0.25, fill: white, stroke: 1.3pt + rgb("E65100"))
+        content(p, text(size: 8pt, weight: "bold")[#str(i+1)])
+      }
+    })
+  ]
+  #v(0.3em)
+
   *Giải:*
   Vì sơ đồ là đồ thị cây không chứa chu trình ($T_7$), ta áp dụng công thức cho cây với $n=7, k=5$:
   1. Nút gốc: Có $5$ cách chọn màu.
   2. Mỗi nút con trong 6 nút tiếp theo luôn chỉ liên kết trực tiếp với đúng 1 nút cha ở phía trên nó, do đó luôn có $k-1 = 4$ cách chọn màu cho mỗi nút con.
   
-  $$N = k(k-1)^(n-1) = 5 \times 4^6 = 5 \times 4096 = \mathbf{20.480} \text{ cách.}$$
+  $ N = k(k-1)^(n-1) = 5 times 4^6 = 5 times 4096 = bold(20.480) " cách." $
 ])
 
 #v(0.8em)
@@ -2051,10 +2089,26 @@ Khi bài toán cho hình vẽ vùng (bản đồ, các miếng ghép), *không c
 #cannon-box("Ví dụ 26 — Tô màu ngũ giác đều 5 đỉnh (k=3 màu)", [
   *Đề bài:* Người ta muốn tô màu 5 đỉnh của một ngũ giác đều bằng 3 màu sao cho hai đỉnh kề nhau luôn khác màu nhau. Tính số cách tô.
 
+  #align(center)[
+    #cetz.canvas(length: 1cm, {
+      import cetz.draw: *
+      for i in range(5) {
+        let a = i * 72deg + 90deg
+        let an = (i + 1) * 72deg + 90deg
+        let p = (calc.cos(a)*1.1, calc.sin(a)*1.1)
+        let pn = (calc.cos(an)*1.1, calc.sin(an)*1.1)
+        line(p, pn, stroke: 1.3pt + rgb("00695C"))
+        circle(p, radius: 0.22, fill: white, stroke: 1.3pt + rgb("00695C"))
+        content(p, text(size: 8pt, weight: "bold")[#str(i+1)])
+      }
+    })
+  ]
+  #v(0.3em)
+
   *Giải:*
   Đây là đồ thị vòng tròn $C_5$ gồm 5 đỉnh. Áp dụng công thức vòng tròn với $n=5, k=3$:
-  $$P(C_5, 3) = (3-1)^5 + (-1)^5 \times (3-1)$$
-  $$P(C_5, 3) = 2^5 - 2 = 32 - 2 = \mathbf{30} \text{ cách.}$$
+  $ P(C_5, 3) = (3-1)^5 + (-1)^5 times (3-1) $
+  $ P(C_5, 3) = 2^5 - 2 = 32 - 2 = bold(30) " cách." $
 ])
 
 #v(0.5em)
@@ -2062,10 +2116,26 @@ Khi bài toán cho hình vẽ vùng (bản đồ, các miếng ghép), *không c
 #cannon-box("Ví dụ 27 — Tô màu lục giác đều 6 đỉnh (k=4 màu)", [
   *Đề bài:* Có bao nhiêu cách tô màu các đỉnh của một lục giác đều bằng 4 màu sao cho hai đỉnh chung cạnh luôn khác màu nhau?
 
+  #align(center)[
+    #cetz.canvas(length: 1cm, {
+      import cetz.draw: *
+      for i in range(6) {
+        let a = i * 60deg + 90deg
+        let an = (i + 1) * 60deg + 90deg
+        let p = (calc.cos(a)*1.1, calc.sin(a)*1.1)
+        let pn = (calc.cos(an)*1.1, calc.sin(an)*1.1)
+        line(p, pn, stroke: 1.3pt + rgb("00695C"))
+        circle(p, radius: 0.22, fill: white, stroke: 1.3pt + rgb("00695C"))
+        content(p, text(size: 8pt, weight: "bold")[#str(i+1)])
+      }
+    })
+  ]
+  #v(0.3em)
+
   *Giải:*
   Đây là đồ thị vòng tròn $C_6$ gồm 6 đỉnh. Áp dụng công thức vòng tròn với $n=6, k=4$:
-  $$P(C_6, 4) = (4-1)^6 + (-1)^6 \times (4-1)$$
-  $$P(C_6, 4) = 3^6 + 3 = 729 + 3 = \mathbf{732} \text{ cách.}$$
+  $ P(C_6, 4) = (4-1)^6 + (-1)^6 times (4-1) $
+  $ P(C_6, 4) = 3^6 + 3 = 729 + 3 = bold(732) " cách." $
 ])
 
 #v(0.8em)
@@ -2078,12 +2148,28 @@ Khi bài toán cho hình vẽ vùng (bản đồ, các miếng ghép), *không c
 #cannon-box("Ví dụ 28 — Bông hoa 5 cánh chạm nhị ở tâm (k=4 màu)", [
   *Đề bài:* Một bông hoa đồ họa gồm 1 nhị ở tâm và 5 cánh hoa xung quanh. Biết rằng các cánh hoa không chạm nhau mà chỉ chạm nhị ở tâm. Có 4 màu để tô các phần sao cho hai phần chạm nhau phải khác màu nhau. Tính số cách tô.
 
+  #align(center)[
+    #cetz.canvas(length: 1cm, {
+      import cetz.draw: *
+      for i in range(5) {
+        let a = i * 72deg + 90deg
+        let p = (calc.cos(a)*1.2, calc.sin(a)*1.2)
+        line((0,0), p, stroke: 1.3pt + rgb("C2185B"))
+        circle(p, radius: 0.22, fill: white, stroke: 1.3pt + rgb("C2185B"))
+        content(p, text(size: 8pt, weight: "bold")[#str(i+1)])
+      }
+      circle((0,0), radius: 0.28, fill: rgb("F8BBD0"), stroke: 1.5pt + rgb("C2185B"))
+      content((0,0), text(size: 8pt, weight: "bold")[T])
+    })
+  ]
+  #v(0.3em)
+
   *Giải:*
   Đây là đồ thị hình sao gồm 1 tâm và 5 cánh ($K_{1,5}$). Áp dụng công thức hình sao với $n=5, k=4$:
   1. Tô nhị hoa ở tâm: Có $k = 4$ cách chọn màu.
   2. Mỗi cánh hoa trong 5 cánh hoa xung quanh chỉ kề với duy nhất nhị hoa, nên luôn có $k-1 = 3$ cách chọn màu độc lập.
   
-  $$N = k(k-1)^n = 4 \times 3^5 = 4 \times 243 = \mathbf{972} \text{ cách.}$$
+  $ N = k(k-1)^n = 4 times 3^5 = 4 times 243 = bold(972) " cách." $
 ])
 
 #v(0.5em)
@@ -2091,12 +2177,27 @@ Khi bài toán cho hình vẽ vùng (bản đồ, các miếng ghép), *không c
 #cannon-box("Ví dụ 29 — Hệ thống mạng sao 1 trạm chủ và 8 máy vệ tinh (k=5 màu)", [
   *Đề bài:* Một mạng máy tính gồm 1 máy chủ kết nối trực tiếp đến 8 máy vệ tinh xung quanh (các máy vệ tinh không kết nối với nhau). Người ta muốn phân bổ 5 kênh tần số cho các máy sao cho hai máy kết nối trực tiếp thì khác tần số. Tính số cách phân bổ.
 
+  #align(center)[
+    #cetz.canvas(length: 1cm, {
+      import cetz.draw: *
+      for i in range(8) {
+        let a = i * 45deg + 90deg
+        let p = (calc.cos(a)*1.4, calc.sin(a)*1.4)
+        line((0,0), p, stroke: 1.3pt + rgb("00796B"))
+        circle(p, radius: 0.18, fill: white, stroke: 1.3pt + rgb("00796B"))
+      }
+      circle((0,0), radius: 0.35, fill: rgb("B2DFDB"), stroke: 1.5pt + rgb("00796B"))
+      content((0,0), text(size: 7.5pt, weight: "bold")[Chủ])
+    })
+  ]
+  #v(0.3em)
+
   *Giải:*
   Đây là mô hình đồ thị sao $K_{1,8}$ gồm 1 tâm và 8 cánh với $k=5$ màu:
   1. Máy chủ ở tâm: Có $5$ cách phân tần số.
   2. Mỗi máy vệ tinh chỉ cần khác tần số của máy chủ: Có $k-1 = 4$ cách chọn cho mỗi máy vệ tinh.
   
-  $$N = k(k-1)^n = 5 \times 4^8 = 5 \times 65.536 = \mathbf{327.680} \text{ cách.}$$
+  $ N = k(k-1)^n = 5 times 4^8 = 5 times 65.536 = bold(327.680) " cách." $
 ])
 
 #v(0.8em)
@@ -2109,13 +2210,32 @@ Khi bài toán cho hình vẽ vùng (bản đồ, các miếng ghép), *không c
 #cannon-box("Ví dụ 30 — Đồ thị bánh xe W₄ gồm 1 tâm và vòng 4 nút vành (k=4 màu)", [
   *Đề bài:* Cho bánh xe gồm 1 đỉnh tâm C nối với 4 đỉnh vành $v_1, v_2, v_3, v_4$ tạo thành một vòng tròn. Có 4 màu. Tính số cách tô.
 
+  #align(center)[
+    #cetz.canvas(length: 0.9cm, {
+      import cetz.draw: *
+      for i in range(4) {
+        let a = i * 90deg + 45deg
+        let an = (i+1) * 90deg + 45deg
+        let p = (calc.cos(a)*1.2, calc.sin(a)*1.2)
+        let pn = (calc.cos(an)*1.2, calc.sin(an)*1.2)
+        line(p, pn, stroke: 1.3pt + rgb("0D47A1"))
+        line((0,0), p, stroke: (dash: "dashed", paint: rgb("1B5E20"), thickness: 1.1pt))
+        circle(p, radius: 0.25, fill: white, stroke: 1.3pt + rgb("0D47A1"))
+        content(p, text(size: 7.5pt, weight: "bold")[v#str(i+1)])
+      }
+      circle((0,0), radius: 0.28, fill: rgb("FFF9C4"), stroke: 1.5pt + rgb("1B5E20"))
+      content((0,0), text(size: 8pt, weight: "bold")[C])
+    })
+  ]
+  #v(0.3em)
+
   *Giải:*
   Áp dụng công thức bánh xe $W_4$ với $n=4, k=4$:
   1. Chọn màu cho đỉnh tâm C: Có $k = 4$ cách.
   2. Tô 4 đỉnh vành bằng $k-1 = 3$ màu còn lại (vòng tròn $C_4$):
-     $$P(C_4, 3) = (3-1)^4 + (-1)^4 \times (3-1) = 2^4 + 2 = 16 + 2 = 18 \text{ cách.}$$
+     $ P(C_4, 3) = (3-1)^4 + (-1)^4 times (3-1) = 2^4 + 2 = 16 + 2 = 18 " cách." $
   
-  $$N = k \times P(C_4, k-1) = 4 \times 18 = \mathbf{72} \text{ cách.}$$
+  $ N = k times P(C_4, k-1) = 4 times 18 = bold(72) " cách." $
 ])
 
 #v(0.5em)
@@ -2123,13 +2243,32 @@ Khi bài toán cho hình vẽ vùng (bản đồ, các miếng ghép), *không c
 #cannon-box("Ví dụ 31 — Đồ thị bánh xe W₅ gồm 1 tâm và vòng 5 nút vành (k=5 màu)", [
   *Đề bài:* Có bao nhiêu cách tô màu các đỉnh của đồ thị bánh xe $W_5$ (gồm 1 tâm và 5 vành) bằng 5 màu sao cho các đỉnh kề nhau khác màu?
 
+  #align(center)[
+    #cetz.canvas(length: 0.9cm, {
+      import cetz.draw: *
+      for i in range(5) {
+        let a = i * 72deg + 90deg
+        let an = (i+1) * 72deg + 90deg
+        let p = (calc.cos(a)*1.2, calc.sin(a)*1.2)
+        let pn = (calc.cos(an)*1.2, calc.sin(an)*1.2)
+        line(p, pn, stroke: 1.3pt + rgb("0D47A1"))
+        line((0,0), p, stroke: (dash: "dashed", paint: rgb("1B5E20"), thickness: 1.1pt))
+        circle(p, radius: 0.25, fill: white, stroke: 1.3pt + rgb("0D47A1"))
+        content(p, text(size: 7.5pt, weight: "bold")[v#str(i+1)])
+      }
+      circle((0,0), radius: 0.28, fill: rgb("FFF9C4"), stroke: 1.5pt + rgb("1B5E20"))
+      content((0,0), text(size: 8pt, weight: "bold")[C])
+    })
+  ]
+  #v(0.3em)
+
   *Giải:*
   Áp dụng công thức bánh xe $W_5$ với $n=5, k=5$:
   1. Chọn màu cho đỉnh tâm: Có $k = 5$ cách.
   2. Tô 5 đỉnh vành bằng $k-1 = 4$ màu còn lại (vòng tròn $C_5$):
-     $$P(C_5, 4) = (4-1)^5 + (-1)^5 \times (4-1) = 3^5 - 3 = 243 - 3 = 240 \text{ cách.}$$
+     $ P(C_5, 4) = (4-1)^5 + (-1)^5 times (4-1) = 3^5 - 3 = 243 - 3 = 240 " cách." $
   
-  $$N = k \times P(C_5, k-1) = 5 \times 240 = \mathbf{1200} \text{ cách.}$$
+  $ N = k times P(C_5, k-1) = 5 times 240 = bold(1200) " cách." $
 ])
 
 #v(0.8em)
@@ -2142,14 +2281,33 @@ Khi bài toán cho hình vẽ vùng (bản đồ, các miếng ghép), *không c
 #cannon-box("Ví dụ 32 — Nhóm 4 kỳ thủ đấu cờ chéo và chọn mũ (k=5 màu)", [
   *Đề bài:* Có 4 kỳ thủ tham gia thi đấu cờ. Mỗi người đều phải đấu với tất cả những người còn lại. Ban tổ chức chuẩn bị sẵn các mũ thuộc 5 màu khác nhau để phát cho họ. Tính số cách phát mũ sao cho không có hai kỳ thủ nào đấu với nhau đội mũ trùng màu.
 
+  #align(center)[
+    #cetz.canvas(length: 1.1cm, {
+      import cetz.draw: *
+      let p1 = (-0.8, 0.8); let p2 = (0.8, 0.8)
+      let p3 = (-0.8, -0.8); let p4 = (0.8, -0.8)
+      let pts = (p1, p2, p3, p4)
+      for i in range(4) {
+        for j in range(i+1, 4) {
+          line(pts.at(i), pts.at(j), stroke: 1.3pt + rgb("4A148C"))
+        }
+      }
+      for (i, p) in pts.enumerate() {
+        circle(p, radius: 0.25, fill: white, stroke: 1.3pt + rgb("4A148C"))
+        content(p, text(size: 8pt, weight: "bold")[#str(i+1)])
+      }
+    })
+  ]
+  #v(0.3em)
+
   *Giải:*
   Vì mọi cặp kỳ thủ đều đấu với nhau, mô hình liên kết này tạo thành đồ thị đầy đủ $K_4$ gồm 4 đỉnh. Có $k=5$ màu:
   1. Người thứ 1: Có 5 cách chọn màu mũ.
-  2. Người thứ 2: Phải khác màu người 1 $\to$ 4 cách.
-  3. Người thứ 3: Phải khác màu người 1 và người 2 $\to$ 3 cách.
-  4. Người thứ 4: Phải khác màu cả 3 người trước $\to$ 2 cách.
+  2. Người thứ 2: Phải khác màu người 1 $->$ 4 cách.
+  3. Người thứ 3: Phải khác màu người 1 và người 2 $->$ 3 cách.
+  4. Người thứ 4: Phải khác màu cả 3 người trước $->$ 2 cách.
   
-  $$N = 5 \times 4 \times 3 \times 2 = \mathbf{120} \text{ cách.}$$
+  $ N = 5 times 4 times 3 times 2 = bold(120) " cách." $
 ])
 
 #v(0.5em)
@@ -2157,9 +2315,33 @@ Khi bài toán cho hình vẽ vùng (bản đồ, các miếng ghép), *không c
 #cannon-box("Ví dụ 33 — Khung chóp tam giác đều tứ diện (k=4 màu)", [
   *Đề bài:* Cho một hình chóp tam giác đều S.ABC. Người ta muốn tô màu 4 đỉnh của hình chóp bằng 4 màu sao cho hai đỉnh thuộc cùng một cạnh luôn khác màu nhau. Tính số cách tô.
 
+  #align(center)[
+    #cetz.canvas(length: 1.2cm, {
+      import cetz.draw: *
+      let pS = (0, 1)
+      let pA = (-0.9, -0.4); let pB = (0.9, -0.4)
+      let pC = (0, -0.9)
+      
+      line(pS, pA, stroke: 1.3pt + rgb("4A148C"))
+      line(pS, pB, stroke: 1.3pt + rgb("4A148C"))
+      line(pS, pC, stroke: 1.3pt + rgb("4A148C"))
+      line(pA, pC, stroke: 1.3pt + rgb("4A148C"))
+      line(pB, pC, stroke: 1.3pt + rgb("4A148C"))
+      line(pA, pB, stroke: (dash: "dashed", paint: rgb("4A148C"), thickness: 1.3pt))
+      
+      let lbls = ("S", "A", "B", "C")
+      let pts = (pS, pA, pB, pC)
+      for (i, p) in pts.enumerate() {
+        circle(p, radius: 0.22, fill: white, stroke: 1.3pt + rgb("4A148C"))
+        content(p, text(size: 8pt, weight: "bold")[#lbls.at(i)])
+      }
+    })
+  ]
+  #v(0.3em)
+
   *Giải:*
   Hình chóp tam giác đều có 4 đỉnh và 6 cạnh nối tất cả các cặp đỉnh với nhau, tạo thành đồ thị đầy đủ $K_4$ với $k=4$ màu:
-  $$N = P(K_4, 4) = 4 \times 3 \times 2 \times 1 = \mathbf{24} \text{ cách.}$$
+  $ N = P(K_4, 4) = 4 times 3 times 2 times 1 = bold(24) " cách." $
 ])
 
 #v(0.8em)
@@ -2172,14 +2354,32 @@ Khi bài toán cho hình vẽ vùng (bản đồ, các miếng ghép), *không c
 #cannon-box("Ví dụ 34 — Đồ thị hình thoi thêm đường chéo (k=4 màu)", [
   *Đề bài:* Đồ thị $G$ gồm 4 đỉnh $A, B, C, D$ tạo thành hình thoi kèm đường chéo $A-C$ (tổng cộng 5 cạnh). Có 4 màu để tô các đỉnh sao cho các đỉnh kề nhau khác màu. Tính số cách tô.
 
+  #align(center)[
+    #cetz.canvas(length: 1.1cm, {
+      import cetz.draw: *
+      let pA = (-0.9, 0.0); let pB = (0.0, 0.9)
+      let pC = (0.9, 0.0); let pD = (0.0, -0.9)
+      for (p, q) in ((pA, pB), (pB, pC), (pC, pD), (pD, pA)) {
+        line(p, q, stroke: 1.3pt + rgb("0D47A1"))
+      }
+      line(pA, pC, stroke: (dash: "dashed", paint: rgb("BF360C"), thickness: 1.3pt))
+      
+      for (p, l) in ((pA,"A"),(pB,"B"),(pC,"C"),(pD,"D")) {
+        circle(p, radius: 0.22, fill: white, stroke: 1.3pt + rgb("0D47A1"))
+        content(p, text(size: 8pt, weight: "bold")[#l])
+      }
+    })
+  ]
+  #v(0.3em)
+
   *Giải:*
   Ta chọn cạnh đường chéo $e = A-C$ để thực hiện phép co-xóa:
   1. *Xóa cạnh $e$ ($G backslash e$):* Đồ thị trở thành vòng tròn 4 đỉnh $C_4$. Số cách tô bằng 4 màu là:
-     $$P(C_4, 4) = (4-1)^4 + (-1)^4 times (4-1) = 3^4 + 3 = 81 + 3 = 84 \text{ cách.}$$
-  2. *Co cạnh $e$ ($G \/ e$):* Chập hai đỉnh $A$ và $C$ thành một đỉnh duy nhất. Đồ thị còn lại 3 đỉnh tạo thành đường thẳng $P_3$. Số cách tô bằng 4 màu là:
-     $$P(P_3, 4) = 4 \times 3^2 = 36 \text{ cách.}$$
+     $ P(C_4, 4) = (4-1)^4 + (-1)^4 times (4-1) = 3^4 + 3 = 81 + 3 = 84 " cách." $
+  2. *Co cạnh $e$ ($G / e$):* Chập hai đỉnh $A$ và $C$ thành một đỉnh duy nhất. Đồ thị còn lại 3 đỉnh tạo thành đường thẳng $P_3$. Số cách tô bằng 4 màu là:
+     $ P(P_3, 4) = 4 times 3^2 = 36 " cách." $
   
-  $$N = P(G backslash e, 4) - P(G \/ e, 4) = 84 - 36 = bold(48) \text{ cách.}$$
+  $ N = P(G backslash e, 4) - P(G / e, 4) = 84 - 36 = bold(48) " cách." $
 ])
 
 #v(0.5em)
@@ -2187,14 +2387,33 @@ Khi bài toán cho hình vẽ vùng (bản đồ, các miếng ghép), *không c
 #cannon-box("Ví dụ 35 — Hai tam giác ghép chung nhau 1 cạnh (k=3 màu)", [
   *Đề bài:* Một đồ thị gồm 4 đỉnh tạo thành hai tam giác ghép chung cạnh đáy BC. Có 3 màu để tô các đỉnh sao cho các đỉnh chung cạnh khác màu. Tính số cách tô.
 
+  #align(center)[
+    #cetz.canvas(length: 1.1cm, {
+      import cetz.draw: *
+      let pA = (-0.9, 0.5); let pB = (0.0, -0.4)
+      let pC = (0.0, 0.8); let pD = (0.9, 0.5)
+      
+      for (p, q) in ((pA, pB), (pA, pC), (pD, pB), (pD, pC)) {
+        line(p, q, stroke: 1.3pt + rgb("0D47A1"))
+      }
+      line(pB, pC, stroke: (dash: "dashed", paint: rgb("BF360C"), thickness: 1.3pt))
+      
+      for (p, l) in ((pA,"A"),(pB,"B"),(pC,"C"),(pD,"D")) {
+        circle(p, radius: 0.22, fill: white, stroke: 1.3pt + rgb("0D47A1"))
+        content(p, text(size: 8pt, weight: "bold")[#l])
+      }
+    })
+  ]
+  #v(0.3em)
+
   *Giải:*
   Gọi cạnh chung là $e = B C$. Ta chọn cạnh này để thực hiện phép co-xóa:
   1. *Xóa cạnh $e$ ($G backslash e$):* Bỏ cạnh BC, đồ thị trở thành một vòng tròn 4 đỉnh $C_4$ ($A-B-D-C-A$). Số cách tô bằng 3 màu là:
-     $$P(C_4, 3) = (3-1)^4 + (-1)^4 times (3-1) = 2^4 + 2 = 16 + 2 = 18 \text{ cách.}$$
-  2. *Co cạnh $e$ ($G \/ e$):* Chập hai đỉnh $B$ và $C$ thành một đỉnh chung BC. Đồ thị còn lại 3 đỉnh tạo thành đường thẳng A-BC-D ($P_3$). Số cách tô bằng 3 màu là:
-     $$P(P_3, 3) = 3 \times 2^2 = 12 \text{ cách.}$$
+     $ P(C_4, 3) = (3-1)^4 + (-1)^4 times (3-1) = 2^4 + 2 = 16 + 2 = 18 " cách." $
+  2. *Co cạnh $e$ ($G / e$):* Chập hai đỉnh $B$ và $C$ thành một đỉnh chung BC. Đồ thị còn lại 3 đỉnh tạo thành đường thẳng A-BC-D ($P_3$). Số cách tô bằng 3 màu là:
+     $ P(P_3, 3) = 3 times 2^2 = 12 " cách." $
   
-  $$N = P(G backslash e, 3) - P(G \/ e, 3) = 18 - 12 = bold(6) \text{ cách.}$$
+  $ N = P(G backslash e, 3) - P(G / e, 3) = 18 - 12 = bold(6) " cách." $
 ])
 
 

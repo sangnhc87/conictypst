@@ -2481,3 +2481,87 @@ Khi bài toán cho hình vẽ vùng (bản đồ, các miếng ghép), *không c
 )
 
 
+
+
+#pagebreak()
+
+== 12. Bí Ẩn Của Lưới Cao Tầng (3xN, 4xN) — Khái Niệm Phân Tách Trạng Thái
+
+Khi chiều cao cột $h \ge 3$, chúng ta *không thể* tiếp tục nhân với một hệ số $H$ đơn giản như lưới 2 hàng. Tại sao vậy? 
+
+Hãy xét một cột 3 ô ($h=3$). Ô đỉnh và ô đáy của nó tuy không kề nhau, nhưng màu của chúng lại ảnh hưởng sâu sắc đến cột tiếp theo. 
+- Nếu Ô đỉnh và Ô đáy *trùng màu*, cột tiếp theo sẽ "dễ thở" hơn (ít bị cấm màu hơn).
+- Nếu Ô đỉnh và Ô đáy *khác màu*, cột tiếp theo sẽ bị cấm nhiều màu hơn.
+
+Do tính đối xứng bị phá vỡ, ta bắt buộc phải chia cột thành các *Trạng Thái (States)* khác nhau và lập *Ma trận chuyển trạng thái (Transfer Matrix)*.
+
+=== 12.1 — Ma trận trạng thái cho lưới 3 hàng ($k=4$ màu)
+
+Xét một cột 3 ô (đỉnh $c_1$, giữa $c_2$, đáy $c_3$). Với $k=4$, cột đầu tiên có $4 times 3 times 3 = 36$ cách tô. Ta phân 36 cách này thành 2 trạng thái:
+- *Trạng thái A (Đỉnh và Đáy trùng màu, $c_1 = c_3$):* Có $4 times 3 times 1 = 12$ cách.
+- *Trạng thái B (Đỉnh và Đáy khác màu, $c_1 \neq c_3$):* Có $4 times 3 times 2 = 24$ cách.
+*(Tổng $12 + 24 = 36$ cách).*
+
+Khi gắn thêm cột tiếp theo vào bên phải, số cách để tạo ra Trạng thái A hay B ở cột mới phụ thuộc vào cột cũ:
+- Từ cột A cũ $\to$ tạo ra $7$ cột A mới, và $10$ cột B mới.
+- Từ cột B cũ $\to$ tạo ra $5$ cột A mới, và $11$ cột B mới.
+
+Ta có hệ phương trình chuyển trạng thái (Ma trận):
+$ A_("mới") = 7 times A_("cũ") + 5 times B_("cũ") $
+$ B_("mới") = 10 times A_("cũ") + 11 times B_("cũ") $
+
+#v(0.5em)
+
+#cannon-box("Ví dụ 36 — Lưới 3x4 khuyết ô giữa ở cột cuối (k=4)", [
+  *Đề bài:* Cho một lưới gồm 3 hàng và 4 cột. Cột 1, 2, 3 hoàn chỉnh (3 ô). Riêng cột số 4 bị khuyết (rỗng) ở ô chính giữa, chỉ còn ô trên cùng và ô dưới cùng. Có 4 màu để tô sao cho các ô chung cạnh khác màu. Tính tổng số cách tô.
+
+  #align(center)[
+    #cetz.canvas(length: 0.85cm, {
+      import cetz.draw: *
+      let X = rgb("F5F5F5")
+      let xs = 0.5pt + rgb("BBBBBB")
+      // Col 1, 2, 3
+      for c in range(3) {
+        for r in range(3) {
+          rect((c, r), (c+1, r+1), fill: rgb("E3F2FD"), stroke: 1.1pt+black)
+        }
+        content((c+0.5, -0.4), text(size: 8pt, weight: "bold")[C.#(c+1)])
+      }
+      // Col 4 (Khuyết ô giữa r=1)
+      rect((3, 0), (4, 1), fill: rgb("FFE0B2"), stroke: 1.1pt+black)
+      rect((3, 2), (4, 3), fill: rgb("FFE0B2"), stroke: 1.1pt+black)
+      // Ô khuyết vẽ mờ nét đứt
+      rect((3, 1), (4, 2), stroke: (dash: "dashed", paint: rgb("CCCCCC"), thickness: 1pt))
+      content((3.5, 1.5), text(size: 8pt, fill: rgb("999999"))[x])
+      content((3.5, -0.4), text(size: 8pt, weight: "bold", fill: rgb("BF360C"))[C.4])
+    })
+  ]
+  #v(0.3em)
+
+  *Giải:*
+
+  *Bước 1: Tính số trạng thái của 3 cột đầu tiên (C.1, C.2, C.3) bằng Ma trận:*
+  - *Cột 1:* $A_1 = 12$, $B_1 = 24$.
+  - *Cột 2:* 
+    - $A_2 = 7 times 12 + 5 times 24 = 84 + 120 = 204$
+    - $B_2 = 10 times 12 + 11 times 24 = 120 + 264 = 384$
+  - *Cột 3:*
+    - $A_3 = 7 times 204 + 5 times 384 = 1428 + 1920 = 3348$
+    - $B_3 = 10 times 204 + 11 times 384 = 2040 + 4224 = 6264$
+  
+  Tổng số cách tô cho lưới $3 times 3$ ban đầu là: $A_3 + B_3 = 3348 + 6264 = 9612$ cách.
+
+  *Bước 2: Nối Cột 4 (bị khuyết)*
+  Cột 4 bị khuyết ô ở giữa, nghĩa là ô trên cùng và ô dưới cùng của Cột 4 *không hề chạm nhau*. Chúng trở thành 2 "nhánh cây" hoàn toàn độc lập bám vào Cột 3!
+  - Ô trên cùng Cột 4 chỉ chạm vào ô trên cùng Cột 3 $\to$ Có $k-1 = 3$ cách chọn.
+  - Ô dưới cùng Cột 4 chỉ chạm vào ô dưới cùng Cột 3 $\to$ Có $k-1 = 3$ cách chọn.
+  
+  Do hai ô này không kề nhau, chúng không có bất cứ ràng buộc nào với nhau. Số cách tô của Cột 4 luôn luôn là: $3 times 3 = 9$ cách, bất chấp Cột 3 đang ở Trạng thái A hay B!
+
+  *Kết quả:*
+  $ N = ("Tổng C.3") times 9 = 9612 times 9 = bold(86.508) " cách." $
+])
+
+#v(0.5em)
+
+_Lưu ý:_ Khi bài toán thi học sinh giỏi xuất hiện lưới từ 3 hàng trở lên, đây là tín hiệu bắt buộc phải sử dụng *Phân tách trạng thái (Ma trận)* vì tính đối xứng trong mỗi cột không còn giữ được nữa. Đó là đỉnh cao của hình học tổ hợp.

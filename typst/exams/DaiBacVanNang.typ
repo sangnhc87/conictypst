@@ -2565,3 +2565,56 @@ $ B_("mới") = 10 times A_("cũ") + 11 times B_("cũ") $
 #v(0.5em)
 
 _Lưu ý:_ Khi bài toán thi học sinh giỏi xuất hiện lưới từ 3 hàng trở lên, đây là tín hiệu bắt buộc phải sử dụng *Phân tách trạng thái (Ma trận)* vì tính đối xứng trong mỗi cột không còn giữ được nữa. Đó là đỉnh cao của hình học tổ hợp.
+
+=== 12.2 — Tổng quát hóa Ma Trận Chuyển cho lưới $3 times N$ với $k$ màu bất kỳ
+
+Nếu đề thi không cho $k=4$ mà cho $k=5$ hoặc $k$ bất kỳ, chúng ta có bộ công thức tổng quát tuyệt đẹp để lập ma trận chuyển như sau:
+
+- *Cột đầu tiên:* 
+  - $A_1 = k(k-1)$
+  - $B_1 = k(k-1)(k-2)$
+- *Hệ số Ma trận chuyển từ Cột sang Cột:*
+  - $M_(A A) = k^2 - 3k + 3$
+  - $M_(B A) = k^2 - 4k + 5$
+  - $M_(A B) = (k-2)(k^2 - 4k + 5)$
+  - $M_(B B) = k^3 - 6k^2 + 14k - 13$
+
+Hệ phương trình trạng thái tổng quát:
+$ A_("mới") = M_(A A) times A_("cũ") + M_(B A) times B_("cũ") $
+$ B_("mới") = M_(A B) times A_("cũ") + M_(B B) times B_("cũ") $
+
+#v(0.5em)
+
+#cannon-box("Ví dụ 37 — Lưới 3x4 trọn vẹn với k=5 màu", [
+  *Đề bài:* Cho một lưới gồm 3 hàng và 4 cột ($3 times 4$). Có 5 màu để tô sao cho các ô chung cạnh khác màu. Tính tổng số cách tô.
+
+  *Giải:*
+
+  Thay $k=5$ vào bộ công thức tổng quát trên, ta lập được Ma trận chuyển:
+  - $M_(A A) = 5^2 - 3(5) + 3 = 13$
+  - $M_(B A) = 5^2 - 4(5) + 5 = 10$
+  - $M_(A B) = (5-2) times 10 = 30$
+  - $M_(B B) = 5^3 - 6(5^2) + 14(5) - 13 = 125 - 150 + 70 - 13 = 32$
+
+  *Bước 1: Cột 1*
+  - $A_1 = 5 times 4 = 20$
+  - $B_1 = 5 times 4 times 3 = 60$
+  *(Tổng Cột 1: $80$ cách)*
+
+  *Bước 2: Cột 2*
+  - $A_2 = 13 times 20 + 10 times 60 = 860$
+  - $B_2 = 30 times 20 + 32 times 60 = 2520$
+  *(Tổng Cột 2: $3.380$ cách)*
+
+  *Bước 3: Cột 3*
+  - $A_3 = 13 times 860 + 10 times 2520 = 36.380$
+  - $B_3 = 30 times 860 + 32 times 2520 = 106.440$
+  *(Tổng Cột 3: $142.820$ cách)*
+
+  *Bước 4: Cột 4*
+  - $A_4 = 13 times 36380 + 10 times 106440 = 1.537.340$
+  - $B_4 = 30 times 36380 + 32 times 106440 = 4.497.480$
+  *(Tổng Cột 4: $6.034.820$ cách)*
+
+  *Kết quả:* Số cách tô màu cho lưới $3 times 4$ bằng 5 màu là $bold(6.034.820)$ cách.
+])

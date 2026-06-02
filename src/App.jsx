@@ -3,7 +3,11 @@ import bankCatalog from '../bank.json'
 import TemplateGen from './TemplateGen.jsx'
 import TypstEditor from './TypstEditor.jsx'
 import CeTZGallery from './CeTZGallery.jsx'
+import ExamShuffler from './ExamShuffler.jsx'
 import ExtractImages from './ExtractImages.jsx'
+import Pdv3StudioPage from './Pdv3StudioPage.jsx'
+import ExamApp from './exam/ExamApp.jsx'
+import GiaiToanApp from './giaitoan/GiaiToanApp.jsx'
 import {
   DIFFICULTY_BY_CODE,
   DIFFICULTY_OPTIONS,
@@ -382,6 +386,7 @@ function FilterField({ label, value, options, onChange }) {
 }
 
 function App() {
+  const isDesktopRuntime = typeof window !== 'undefined' && Boolean(window.desktopApi)
   const catalogEntries = useMemo(() => parseBankCatalog(bankCatalog), [])
   const catalogById = useMemo(() => new Map(catalogEntries.map(entry => [entry.id, entry])), [catalogEntries])
   const [records, setRecords] = useLocalStorageState(STORAGE_KEY, SAMPLE_RECORDS)
@@ -390,7 +395,7 @@ function App() {
   const [selectedId, setSelectedId] = useState(Object.keys(SAMPLE_RECORDS)[0] || catalogEntries[0]?.id || '')
   const [editorDraft, setEditorDraft] = useState(null)
   const [notice, setNotice] = useState(null)
-  const [activeView, setActiveView] = useState('bank')
+  const [activeView, setActiveView] = useState(isDesktopRuntime ? 'extract' : 'bank')
   const importInputRef = useRef(null)
   const deferredQuery = useDeferredValue(filters.query.trim().toLowerCase())
 
@@ -398,9 +403,36 @@ function App() {
     document.title = activeView === 'gen'
       ? 'ConicTypst - Tạo khung dự án'
       : activeView === 'editor'
-      ? 'ConicTypst - Editor'
-      : 'ConicTypst - Quản lý ngân hàng câu hỏi'
+        ? 'ConicTypst - Editor'
+        : activeView === 'texdocx'
+          ? 'ConicTypst - TeX to DOCX'
+          : activeView === 'shuffle'
+            ? 'ConicTypst - Trộn đề'
+            : activeView === 'exam'
+              ? 'ConicTypst - Thi Online'
+              : activeView === 'giaitoan'
+                ? 'ConicTypst - Giải Toán'
+                : activeView === 'extract'
+                  ? 'ConicTypst - Typ to DOCX'
+                  : 'ConicTypst - Quản lý ngân hàng câu hỏi'
   }, [activeView])
+
+  const navTabs = isDesktopRuntime
+    ? [
+      { id: 'extract', label: 'Typ -> DOCX' },
+      { id: 'texdocx', label: 'TeX -> DOCX' },
+    ]
+    : [
+      { id: 'bank', label: 'Ngân hàng' },
+      { id: 'gen', label: 'Tạo khung' },
+      { id: 'editor', label: 'Editor' },
+      { id: 'cetz', label: 'CeTZ Gallery' },
+      { id: 'shuffle', label: 'Trộn đề' },
+      { id: 'exam', label: '🎓 Thi Online' },
+      { id: 'giaitoan', label: '🧮 Giải Toán' },
+      { id: 'extract', label: 'Typ -> DOCX' },
+      { id: 'texdocx', label: 'TeX -> DOCX' },
+    ]
 
   useEffect(() => {
     setRecords(currentRecords => upgradeLegacySeedRecords(currentRecords))
@@ -668,48 +700,23 @@ function App() {
 
       <header className="hero-panel paper-panel">
         <div className="hero-copy">
-          <h1>ConicTypst</h1>
+          <h1>{isDesktopRuntime ? 'ConicTypst Desktop' : 'ConicTypst'}</h1>
         </div>
 
         <nav className="app-tabs">
-          <button
-            type="button"
-            className={`app-tab ${activeView === 'bank' ? 'app-tab--active' : ''}`}
-            onClick={() => setActiveView('bank')}
-          >
-            Ngân hàng
-          </button>
-          <button
-            type="button"
-            className={`app-tab ${activeView === 'gen' ? 'app-tab--active' : ''}`}
-            onClick={() => setActiveView('gen')}
-          >
-            Tạo khung
-          </button>
-          <button
-            type="button"
-            className={`app-tab ${activeView === 'editor' ? 'app-tab--active' : ''}`}
-            onClick={() => setActiveView('editor')}
-          >
-            Editor
-          </button>
-          <button
-            type="button"
-            className={`app-tab ${activeView === 'cetz' ? 'app-tab--active' : ''}`}
-            onClick={() => setActiveView('cetz')}
-          >
-            CeTZ Gallery
-          </button>
-          <button
-            type="button"
-            className={`app-tab ${activeView === 'extract' ? 'app-tab--active' : ''}`}
-            onClick={() => setActiveView('extract')}
-          >
-            Xuất Ảnh CeTZ
-          </button>
+          {navTabs.map(tab => (
+            <button
+              key={tab.id}
+              type="button"
+              className={`app-tab ${activeView === tab.id ? 'app-tab--active' : ''}`}
+              onClick={() => setActiveView(tab.id)}
+            >
+              {tab.label}
+            </button>
+          ))}
         </nav>
 
-        <div className="hero-actions">
+        {!isDesktopRuntime && <div className="hero-actions">
           <div className="action-stack">
             <button type="button" className="action-btn action-btn--accent" onClick={handleExportAll}>
               Xuất JSON
@@ -723,7 +730,7 @@ function App() {
           </div>
 
           {notice ? <div className={`notice notice--${notice.tone}`}>{notice.message}</div> : null}
-        </div>
+        </div>}
       </header>
 
       {activeView === 'gen' && <TemplateGen />}
@@ -732,7 +739,15 @@ function App() {
 
       {activeView === 'cetz' && <CeTZGallery />}
 
+      {activeView === 'shuffle' && <ExamShuffler />}
+
+      {activeView === 'exam' && <ExamApp />}
+
+      {activeView === 'giaitoan' && <GiaiToanApp />}
+
       {activeView === 'extract' && <ExtractImages />}
+
+      {activeView === 'texdocx' && <Pdv3StudioPage />}
 
       {activeView === 'bank' && (
         <>
@@ -892,7 +907,7 @@ function App() {
                       </button>
 
                       <div className="catalog-row__actions">
-          <button
+                        <button
                           type="button"
                           className={`mini-btn ${inCart ? 'is-active' : ''}`}
                           onClick={() => handleToggleCart(entry.id)}

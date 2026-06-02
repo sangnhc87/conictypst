@@ -1,3 +1,18 @@
 {
-    "cSpell.enabled": false
+    "cSpell.enabled": false,
+    "python-envs.defaultEnvManager": "ms-python.python:system",
+    "aider.providers": {
+        "deepseek": {
+            "endpoint": "https://api.deepseek.ai/v1",
+            "defaultModel": "v4-pro",
+            "availableModels": [
+                "v4-pro",
+                "flash"
+            ],
+            "headers": {
+                "Authorization": "Bearer ${env:DEEPSEEK_API_KEY}"
+            }
+        }
+    },
+    "aider.defaultProvider": "deepseek"
 }

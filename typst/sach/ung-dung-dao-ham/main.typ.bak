@@ -1,0 +1,1068 @@
+// ═══════════════════════════════════════════════════════════════════
+// ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM & MÔ HÌNH HÓA TOÁN HỌC
+// Chuyên đề Toán 12 — Chương trình 2018 & Luyện thi ĐGNL
+// Tác giả: GV Nguyễn Văn Sang
+// ═══════════════════════════════════════════════════════════════════
+
+#import "../../modules/book.typ": *
+
+// ─── Màu chủ đề theo từng Phần ──────────────────────────────────
+#let c-book = rgb("#0c4a6e")   // màu chủ đạo toàn quyển
+#let c-p1 = rgb("#0369a1")   // Phần 1 – xanh dương nhạt
+#let c-p2 = rgb("#065f46")   // Phần 2 – lá cây
+#let c-p3 = rgb("#92400e")   // Phần 3 – hổ phách
+#let c-p4 = rgb("#4c1d95")   // Phần 4 – tím trầm
+#let c-p5 = rgb("#991b1b")   // Phần 5 – đỏ thực chiến
+
+#show: stexgv-book.with(
+  title: "ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM",
+  subtitle: "Mô hình hóa Toán học & Tư duy Conan Logic",
+  author: "GV Nguyễn Văn Sang",
+  theme-color: c-book,
+  doc-type: "chuyende",
+  institution: "Tổ Toán – Tài liệu Chuyên sâu",
+  subject: "Toán",
+  grade: "Lớp 12",
+  series: "Bộ tài liệu Thực chiến ĐGNL",
+  academic-year: "2025 – 2026",
+  outline-depth: 4,
+)
+
+// ═══════════════════════════════════════════════════════════════════
+// PHẦN MỞ ĐẦU
+// ═══════════════════════════════════════════════════════════════════
+
+#loinoidau(theme-color: c-book)[
+  Đạo hàm không chỉ là công cụ tính toán thuần túy — đó là ngôn ngữ mà
+  Tự nhiên dùng để viết lên những quy luật vận động, tối ưu và thay đổi.
+  Từ người nông dân chia lô đất sao cho tối đa diện tích, kỹ sư thiết kế
+  bồn chứa tiết kiệm vật liệu nhất, bác sĩ theo dõi nồng độ thuốc trong
+  máu, đến nhà kinh tế tìm điểm lợi nhuận cực đại — tất cả đều đang giải
+  một bài toán đạo hàm.
+
+  Quyển sách này ra đời với triết lý: *học toán qua chính những câu hỏi
+  mà cuộc sống đặt ra*. Thay vì ghi nhớ công thức, học sinh sẽ luyện kỹ
+  năng *mô hình hóa* — chuyển ngôn ngữ mô tả đời sống thành ngôn ngữ đại
+  số, rồi dùng đạo hàm để khai thác kết quả.
+
+  Phương pháp dẫn dắt xuyên suốt là *"Conan Logic"*: trước mỗi bài toán,
+  thay vì tính ngay, hãy hỏi _"Bài toán này đang ẩn những gì? Ràng buộc
+  nào giúp rút biến? Hàm mục tiêu là gì?"_. Chỉ khi hiểu đúng bản chất,
+  việc tính đạo hàm mới có ý nghĩa.
+
+  Chúc các em học tốt và thực sự *thấy được vẻ đẹp ứng dụng* của Toán học!
+]
+
+#huongdansudung(theme-color: c-book)[
+  Mỗi *Chủ đề* được tổ chức theo bốn lớp nhất quán:
+
+  + *Hộp Phương pháp* — Tóm tắt 3–4 bước giải tư duy "Conan Logic", chốt
+    công thức/bất đẳng thức cần nhớ.
+  + *Ví dụ mẫu* — Bài toán ngữ cảnh thực tế, giải chi tiết từng bước.
+    Hình vẽ minh họa kèm theo (kể cả khi đề không yêu cầu) giúp học sinh
+    hình dung mô hình.
+  + *Lưu ý / Bẫy thường gặp* — Những sai lầm điển hình cần tránh.
+  + *Bài tập tự luyện* — Phân hóa từ nhận biết đến vận dụng cao, kèm
+    gợi ý hướng giải khi cần.
+
+  Các ký hiệu hộp được dùng thống nhất trong toàn quyển:
+
+  #grid(
+    columns: (1fr, 1fr),
+    column-gutter: 1em,
+    row-gutter: 0.6em,
+    phuongphap[Hộp *Phương pháp* — Quy trình giải], ghinho[Hộp *Ghi nhớ* — Công thức, tính chất quan trọng],
+    luuy[Hộp *Lưu ý* — Bẫy thường gặp, điều kiện dễ quên], nhanxet[Hộp *Nhận xét* — Mở rộng, liên hệ liên môn],
+  )
+]
+
+#muctieuchung(theme-color: c-book)[
+  Sau khi hoàn thành chuyên đề, học sinh đạt được:
+
+  *Kiến thức:*
+  - Hiểu ý nghĩa hình học và thực tế của đạo hàm: tốc độ tăng trưởng,
+    cực trị, tốc độ thay đổi tức thời.
+  - Nắm vững kỹ thuật rút thế từ ràng buộc để đưa hàm hai biến về một biến.
+  - Hiểu nguyên lý biên tế (marginal analysis) trong kinh tế học vi mô.
+  - Nắm phương pháp vi phân xấp xỉ và ứng dụng trong phân tích sai số.
+
+  *Kỹ năng:*
+  - Dịch bài toán thực tế thành mô hình toán học (hàm mục tiêu + ràng buộc).
+  - Tìm giá trị lớn nhất/nhỏ nhất trên đoạn đóng và trên khoảng mở.
+  - Đọc hiểu đồ thị $f'(x)$ để suy luận về $f(x)$.
+  - Vận dụng linh hoạt các dạng hàm: đa thức, phân thức, vô tỉ,
+    lượng giác, mũ, logarit.
+
+  *Thái độ:*
+  - Nhận ra và trân trọng sự hiện diện của Toán học trong đời sống.
+  - Hình thành tư duy mô hình hóa — kỹ năng nền tảng trong khoa học dữ liệu,
+    kỹ thuật và kinh tế thế kỷ 21.
+]
+
+// ═══════════════════════════════════════════════════════════════════
+// PHẦN 1: KHỞI ĐỘNG – TƯ DUY MÔ HÌNH HÓA VỚI HÀM ĐA THỨC
+// ═══════════════════════════════════════════════════════════════════
+
+#part([Khởi Động — Tư Duy Mô Hình Hóa với Hàm Đa Thức], theme-color: c-p1)
+
+#ghinho(theme-color: c-p1)[
+  *Lộ trình Phần 1:* Hàm đa thức bậc 2, bậc 3 là điểm xuất phát lý tưởng
+  vì phương trình đạo hàm giải được bằng đại số sơ cấp. Mục tiêu chính
+  không phải tính toán — mà là *tập dịch ngôn ngữ*: từ "tối đa diện tích",
+  "chi phí nhỏ nhất", "vận tốc lớn nhất" sang $f(x)$ cụ thể.
+]
+
+// ─── Chủ đề 1.1 ────────────────────────────────────────────────
+#chapter([Tối Ưu Hóa Hình Phẳng 2D Cơ Bản], theme-color: c-p1)
+
+#phuongphap(theme-color: c-p1)[
+  *Quy trình "Conan Logic" — 4 bước cho bài toán tối ưu hình phẳng:*
+
+  + *Nhận diện:* Xác định hai đại lượng chính — cái *cố định* (chu vi, diện
+    tích vật liệu, ngân sách) và cái cần *tối ưu* (diện tích, chi phí, lợi nhuận).
+  + *Rút thế:* Dùng ràng buộc cố định để biểu diễn một ẩn theo ẩn kia,
+    đưa hàm mục tiêu về *một biến* duy nhất. Xác định miền xác định $(0; a)$.
+  + *Đạo hàm và cực trị:* Giải $f'(x) = 0$, kiểm tra dấu $f'(x)$ hoặc
+    dùng $f''(x)$. Đừng quên so sánh với giá trị tại biên nếu đoạn đóng!
+  + *Kết luận thực tế:* Trả lời bằng đơn vị của bài toán (m, m², đồng...),
+    ghi rõ giá trị tối ưu đạt được.
+]
+
+#topic([Bài Toán Rào Mảnh Vườn & Phân Lô], prefix: "Bài", theme-color: c-p1)
+
+#vd(
+  [Một nhà vườn có *60 m hàng rào* để quây một mảnh đất hình chữ nhật sát
+    một bức tường thẳng dài (không cần rào phía tường). Hỏi phải bố trí
+    chiều dài, chiều rộng bao nhiêu để *diện tích lớn nhất*?],
+  loigiai: [
+    *Đặt ẩn và ràng buộc.* Gọi $x$ (m) là chiều vuông góc với tường ($x > 0$).
+    Khi đó chiều song song với tường bằng $60 - 2x$ (m).
+    Điều kiện: $60 - 2x > 0 => 0 < x < 30$.
+
+    *Hàm mục tiêu.* Diện tích $S(x) = x(60 - 2x) = 60x - 2x^2$.
+
+    *Tìm cực trị.* $S'(x) = 60 - 4x = 0 => x = 15$.
+
+    Vì $S''(x) = -4 < 0$ nên $x = 15$ là điểm cực đại toàn cục trên $(0; 30)$.
+
+    *Kết luận.* Chiều vuông góc tường: $x = 15$ m; chiều song song tường:
+    $60 - 2 times 15 = 30$ m. Diện tích lớn nhất: $S = 15 times 30 = 450$ m².
+
+    _(Lưu ý đẹp: tỉ lệ 1:2 — phía tường bằng hai lần phía vuông góc.)_
+  ],
+  theme-color: c-p1,
+)
+
+#vd(
+  [Một bãi đỗ xe hình chữ nhật được chia thành 3 ô bằng nhau bởi *2 hàng
+    rào song song chiều rộng*. Tổng chiều dài hàng rào dùng là *240 m*.
+    Tìm kích thước bãi đỗ xe để *diện tích tổng lớn nhất*.],
+  loigiai: [
+    Gọi $x$ = chiều rộng, $y$ = chiều dài. Ràng buộc: $2x + 4y = 240$, tức
+    $y = (240 - 2x)/4 = (120 - x)/2$ (với $0 < x < 120$).
+
+    Diện tích: $S(x) = x dot.c frac(120 - x, 2) = frac(x(120-x), 2)$.
+
+    $S'(x) = frac(120 - 2x, 2) = 0 => x = 60$, $y = 30$.
+
+    $S_(max) = 60 times 30 = 1800$ m².
+  ],
+  theme-color: c-p1,
+)
+
+#luuy(theme-color: c-p1)[
+  - *Sai lầm số 1:* Quên đặt điều kiện $x > 0$ và chiều kia $> 0$ — dẫn
+    đến nghiệm âm vô nghĩa.
+  - *Sai lầm số 2:* Đếm nhầm số đoạn hàng rào (xem kỹ hình vẽ: 3 ô cần
+    $4$ đoạn dọc, không phải $3$).
+  - *Mẹo:* Nếu $f'(x_0) = 0$ và bậc hàm mục tiêu là bậc 2 thì nghiệm
+    *luôn là cực trị toàn cục* — không cần bảng biến thiên dài.
+]
+
+#bt(
+  [Một người có 80 m dây thép để rào một khu vườn hình chữ nhật ở góc hai
+    bức tường giao nhau vuông góc (không rào hai phía tường). Tính kích thước
+    khu vườn để diện tích lớn nhất.],
+  lines: 6,
+  theme-color: c-p1,
+)
+
+#bt(
+  [Một nhà nông muốn chia một khoảnh đất hình chữ nhật thành *6 ô vuông
+    bằng nhau* (chia đôi theo cả chiều dài lẫn chiều rộng thành lưới $2 times 3$).
+    Cho biết tổng chiều dài hàng rào là 200 m. Tìm diện tích lớn nhất.],
+  lines: 8,
+  theme-color: c-p1,
+)
+
+#topic([Cắt Bìa Gấp Hộp Không Nắp], prefix: "Bài", theme-color: c-p1)
+
+#ghinho(theme-color: c-p1)[
+  *Dạng kinh điển:* Từ tấm bìa $a times b$, cắt $4$ góc vuông cạnh $x$,
+  gấp lên. Thể tích hộp $V(x) = x(a-2x)(b-2x)$. Luôn nhớ: $0 < x < min(a, b)/2$.
+]
+
+#vd(
+  [Từ tấm bìa hình vuông cạnh *36 cm*, người ta cắt ở mỗi góc một hình
+    vuông cạnh $x$ (cm) rồi gấp lên thành hộp không nắp. Tìm $x$ để
+    *thể tích hộp lớn nhất*.],
+  loigiai: [
+    Thể tích: $V(x) = x(36 - 2x)^2$, với $0 < x < 18$.
+
+    $V'(x) = (36 - 2x)^2 + x dot.c 2(36 - 2x)(-2) = (36 - 2x)[(36 - 2x) - 4x]$
+    $= (36 - 2x)(36 - 6x)$.
+
+    $V'(x) = 0 => x = 18$ (loại) hoặc $x = 6$.
+
+    Bảng biến thiên: $V'(x) > 0$ khi $x in (0; 6)$, $V'(x) < 0$ khi $x in (6; 18)$.
+    Vậy $x = 6$ cm cho thể tích lớn nhất:
+    $V_(max) = 6 times 24^2 = 3456$ cm³.
+  ],
+  theme-color: c-p1,
+)
+
+#nhanxet(theme-color: c-p1)[
+  *Kết nối thực tế:* Bài toán cắt hộp xuất hiện trong thiết kế bao bì,
+  hộp đựng quà, khay đựng thức ăn công nghiệp. Các kỹ sư bao bì thực sự
+  dùng đạo hàm (hoặc tối ưu số) để giảm lãng phí vật liệu — tiết kiệm
+  hàng tỉ đồng mỗi năm cho các nhà máy lớn.
+]
+
+#bt(
+  [Từ tấm bìa hình chữ nhật $12 times 20$ cm, cắt 4 góc vuông cạnh $x$
+    để gấp hộp không nắp. Tìm $x$ để thể tích lớn nhất.
+    _(Gợi ý: Phương trình $V'(x) = 0$ là bậc 2 sau khi rút gọn.)_],
+  lines: 8,
+  theme-color: c-p1,
+)
+
+#topic([Thiết Kế Cửa Sổ Vòm — Ghép Hình Chữ Nhật với Nửa Hình Tròn], prefix: "Bài", theme-color: c-p1)
+
+#vd(
+  [Một cửa sổ được tạo thành từ một hình chữ nhật ghép với một nửa hình
+    tròn (đường kính bằng chiều rộng hình chữ nhật) ở phía trên.
+    Chu vi cửa sổ (không kể đáy hình chữ nhật đặt trên khung cửa) là *6 m*.
+    Tìm chiều rộng của hình chữ nhật để *diện tích cửa sổ lớn nhất*
+    (cho ánh sáng vào nhiều nhất).],
+  loigiai: [
+    Gọi $r$ (m) là bán kính nửa hình tròn (tức $2r$ là chiều rộng hình chữ nhật),
+    $h$ (m) là chiều cao hình chữ nhật.
+
+    Chu vi: $2h + 2r + pi r = 6$ (cạnh dưới chữ nhật không tính).
+    Suy ra $h = frac(6 - 2r - pi r, 2) = 3 - r - frac(pi r, 2)$.
+
+    Điều kiện: $h > 0 => r < frac(6, 2 + pi) approx 1{,}17$ m.
+
+    Diện tích: $S(r) = 2r dot.c h + frac(pi r^2, 2)$
+    $= 2r\!((3 - r - frac(pi r, 2)) + frac(pi r^2, 2)$
+    $= 6r - 2r^2 - pi r^2 + frac(pi r^2, 2) = 6r - 2r^2 - frac(pi r^2, 2)$.
+
+    $S'(r) = 6 - 4r - pi r = 6 - (4 + pi)r = 0$
+    $=> r = frac(6, 4 + pi) approx 0{,}84$ m.
+
+    $S''(r) = -(4 + pi) < 0$: điểm cực đại. Chiều rộng tối ưu $2r = frac(12, 4+pi) approx 1{,}68$ m.
+  ],
+  theme-color: c-p1,
+)
+
+// ─── Chủ đề 1.2 ────────────────────────────────────────────────
+#chapter([Động Học Tuyến Tính — Đạo Hàm theo Thời Gian], theme-color: c-p1)
+
+#phuongphap(theme-color: c-p1)[
+  *Bộ ba $s -> v -> a$:*
+  - *Quãng đường/vị trí:* $s = s(t)$ (đơn vị: m, km, ...)
+  - *Vận tốc tức thời:* $v(t) = s'(t)$ — vật đứng yên khi $v = 0$, chuyển
+    động theo chiều dương khi $v > 0$.
+  - *Gia tốc:* $a(t) = v'(t) = s''(t)$ — gia tốc dương: vật tăng tốc (cùng
+    chiều $v$); gia tốc âm: vật giảm tốc.
+  - *Quãng đường thực đi* (không phải độ dịch chuyển!) $=$ tổng $|s(t_i)|$
+    trên từng đoạn vật không đổi chiều.
+]
+
+#vd(
+  [Một vật chuyển động theo quy luật $s(t) = t^3 - 6t^2 + 9t + 2$ (m),
+    với $t$ tính bằng giây ($t >= 0$).
+    _(a)_ Tìm thời điểm vật đứng yên.
+    _(b)_ Tìm vận tốc lớn nhất của vật trên đoạn $[0; 4]$.
+    _(c)_ Tính quãng đường vật đi được trong 4 giây đầu.],
+  loigiai: [
+    $v(t) = s'(t) = 3t^2 - 12t + 9 = 3(t-1)(t-3)$.
+
+    *(a)* $v(t) = 0 => t = 1$ s hoặc $t = 3$ s.
+
+    *(b)* $a(t) = v'(t) = 6t - 12 = 0 => t = 2$ (nghiệm duy nhất trong $(0;4)$).
+    So sánh: $v(0) = 9$, $v(2) = 12 - 24 + 9 = -3$, $v(4) = 48 - 48 + 9 = 9$.
+    Vậy $v_(max) = 9$ m/s đạt tại $t = 0$ và $t = 4$.
+
+    *(c)* Dấu $v(t)$: dương trên $(0;1)$, âm trên $(1;3)$, dương trên $(3;4)$.
+    $s(0) = 2$, $s(1) = 1 - 6 + 9 + 2 = 6$, $s(3) = 27 - 54 + 27 + 2 = 2$, $s(4) = 64 - 96 + 36 + 2 = 6$.
+    Quãng đường $= (6-2) + (6-2) + (6-2) = 4 + 4 + 4 = 12$ m.
+  ],
+  theme-color: c-p1,
+)
+
+#vd(
+  [Một vật được ném thẳng đứng lên với vận tốc đầu $v_0 = 30$ m/s từ
+    độ cao $h_0 = 20$ m so với mặt đất. Phương trình độ cao (lấy $g = 10$ m/s²):
+    $h(t) = -5t^2 + 30t + 20$.
+    *(a)* Vật đạt độ cao lớn nhất vào lúc nào? Độ cao đó là bao nhiêu?
+    *(b)* Vật chạm đất vào lúc nào?],
+  loigiai: [
+    *(a)* $h'(t) = -10t + 30 = 0 => t = 3$ s.
+    $h(3) = -45 + 90 + 20 = 65$ m.
+
+    *(b)* $h(t) = 0 => 5t^2 - 30t - 20 = 0 => t^2 - 6t - 4 = 0$.
+    $t = frac(6 + sqrt(52), 2) = 3 + sqrt(13) approx 6{,}6$ s (lấy nghiệm dương).
+  ],
+  theme-color: c-p1,
+)
+
+#luuy(theme-color: c-p1)[
+  - *Quãng đường ≠ Độ dịch chuyển*: Nếu vật đổi chiều (có $t$ mà $v(t) = 0$),
+    quãng đường phải cộng từng đoạn theo trị tuyệt đối.
+  - *$v_(max)$ ≠ $a = 0$*: Cực trị của $v(t)$ xảy ra khi $a(t) = v'(t) = 0$.
+    Nhưng giá trị lớn nhất của $|v(t)|$ trên đoạn đóng có thể ở biên!
+]
+
+#bt(
+  [Một xe máy chuyển động theo quy luật $s(t) = 2t^3 - 9t^2 + 12t$ (m).
+    Tìm gia tốc tại thời điểm vận tốc bằng $3$ m/s. Vật đang tăng hay giảm tốc?],
+  lines: 6,
+  theme-color: c-p1,
+)
+
+// ─── Chủ đề 1.3 ────────────────────────────────────────────────
+#chapter([Kinh Tế Vi Mô & Giáo Dục Tài Chính Gen Z], theme-color: c-p1)
+
+#phuongphap(theme-color: c-p1)[
+  *Các hàm kinh tế cơ bản:*
+  - *Chi phí:* $C(x)$ — tổng chi phí sản xuất $x$ đơn vị.
+  - *Doanh thu:* $R(x) = p(x) dot.c x$ — $p(x)$ là hàm giá (thường nghịch biến).
+  - *Lợi nhuận:* $P(x) = R(x) - C(x)$.
+  - *Chi phí biên:* $C'(x)$ — chi phí tăng thêm để sản xuất thêm 1 đơn vị.
+  - *Doanh thu biên:* $R'(x)$ — doanh thu tăng thêm khi bán thêm 1 đơn vị.
+  - *Lợi nhuận tối đa* khi $P'(x) = 0$, tức $R'(x) = C'(x)$.
+]
+
+#vd(
+  [Một cửa hàng bán áo thun. Khi giá bán là $p$ (nghìn đồng/chiếc), lượng
+    cầu (theo khảo sát) là $x = 100 - 2p$ (chiếc/ngày). Chi phí sản xuất:
+    $C(x) = 500 + 20x$ (nghìn đồng). Tìm giá bán tối ưu để *lợi nhuận lớn nhất*.],
+  loigiai: [
+    Từ $x = 100 - 2p => p = frac(100 - x, 2) = 50 - frac(x, 2)$.
+
+    Điều kiện: $x in (0; 100)$.
+
+    $R(x) = p dot.c x = ((50 - frac(x, 2))x = 50x - frac(x^2, 2)$.
+
+    $P(x) = R(x) - C(x) = 50x - frac(x^2, 2) - 500 - 20x = 30x - frac(x^2, 2) - 500$.
+
+    $P'(x) = 30 - x = 0 => x = 30$ (chiếc/ngày).
+
+    Giá tối ưu: $p = 50 - 15 = 35$ nghìn đồng/chiếc.
+
+    Lợi nhuận tối đa: $P(30) = 900 - 450 - 500 = -50$. Ôi — đang *lỗ*! 😱
+
+    *Nhận xét:* Chi phí cố định 500 nghìn đồng quá lớn. Với mô hình này,
+    cần bán ít nhất $x$ chiếc thỏa $P(x) >= 0$, tức $30x - x^2/2 >= 500$.
+    Giải được $10 <= x <= 50$ — phải bán từ 10 đến 50 chiếc mới có lãi,
+    lãi nhiều nhất ở $x = 30$.
+  ],
+  theme-color: c-p1,
+)
+
+#nhanxet(theme-color: c-p1)[
+  *Ý nghĩa thực tế của chi phí biên:* Một startup sản xuất app. Nếu
+  chi phí cận biên $C'(x) = 5000$ đồng/người dùng mà doanh thu biên
+  $R'(x) = 3000$ đồng/người dùng — bạn đang *mất tiền với mỗi người
+  dùng thêm*. Đây là dấu hiệu mô hình kinh doanh chưa đạt điểm đòn bẩy.
+  Bài toán tối ưu hóa không chỉ là Toán — đó là *tư duy chiến lược*.
+]
+
+#bt(
+  [Một công ty sản xuất $x$ sản phẩm/ngày với chi phí
+    $C(x) = x^3 - 6x^2 + 15x + 50$ (triệu đồng) và giá bán
+    $p(x) = 23 - x^2$ (triệu đồng/sản phẩm). Tìm sản lượng tối ưu và
+    lợi nhuận tối đa.],
+  lines: 10,
+  theme-color: c-p1,
+)
+
+// ═══════════════════════════════════════════════════════════════════
+// PHẦN 2: VƯỢT CHƯỚNG NGẠI VẬT – KHÔNG GIAN 3D & HÀM PHÂN THỨC
+// ═══════════════════════════════════════════════════════════════════
+
+#part([Vượt Chướng Ngại Vật — Không Gian 3D & Hàm Phân Thức], theme-color: c-p2)
+
+#ghinho(theme-color: c-p2)[
+  *Bước ngoặt tư duy ở Phần 2:* Biến mục tiêu không còn là hàm đa thức
+  — việc "rút thế" từ ràng buộc thể tích/diện tích sẽ sinh ra *hàm phân thức*
+  có dạng $f(x) = A x + B/x^k$. Kỹ thuật chủ lực: *Bất đẳng thức AM–GM*
+  để phát hiện nhanh giá trị cực trị và kiểm tra lại bằng đạo hàm.
+]
+
+// ─── Chủ đề 2.1 ────────────────────────────────────────────────
+#chapter([Tối Ưu Hóa Khối Đa Diện & Chi Phí Chênh Lệch], theme-color: c-p2)
+
+#phuongphap(theme-color: c-p2)[
+  *Quy trình cho bài toán bể/hộp 3D:*
+
+  + *Vẽ hình và đặt biến:* Gọi kích thước cạnh/bán kính/chiều cao là $x$, $y$.
+  + *Lập ràng buộc thể tích/diện tích đáy* cố định: $V = a$ hoặc $S_("đáy") = a$.
+  + *Rút một biến:* Ví dụ từ $V = x^2 h => h = V/x^2$.
+  + *Viết hàm chi phí/diện tích* theo $x$ duy nhất, tìm min bằng đạo hàm
+    hoặc AM–GM.
+  + *Chú ý chi phí chênh lệch:* Nếu đáy dày hơn (giá $k_1$) và thành mỏng (giá $k_2$),
+    hàm chi phí = $k_1 dot.c S_("đáy") + k_2 dot.c S_("xung quanh")$.
+]
+
+#vd(
+  [Một bể bơi hình hộp chữ nhật đáy vuông, không có nắp, có *thể tích
+    $V = 32$ m³*. Đáy bể làm bằng vật liệu đắt gấp đôi thành bể (tính
+    trên diện tích). Đặt đơn giá vật liệu thành là $k$ đồng/m². Tìm kích
+    thước bể để *tổng chi phí vật liệu nhỏ nhất*.],
+  loigiai: [
+    Gọi $x$ (m) là cạnh đáy vuông, $h$ (m) là chiều cao. Ràng buộc: $x^2 h = 32$.
+    Suy ra $h = 32/x^2$.
+
+    Diện tích đáy: $x^2$. Diện tích bốn thành: $4x h = 4x dot.c 32/x^2 = 128/x$.
+
+    Chi phí: $C(x) = 2k dot.c x^2 + k dot.c frac(128, x) = k\!((2x^2 + frac(128, x))$.
+
+    $C'(x) = k\!((4x - frac(128, x^2)) = 0 => 4x^3 = 128 => x^3 = 32 => x = 2sqrt[3]{4}$ m.
+
+    Chiều cao: $h = frac{32}{(2sqrt[3]{4})^2} = frac{32}{4sqrt[3]{16}} = frac{8}{sqrt[3]{16}} = frac{8}{2sqrt[3]{2}} = frac{4}{sqrt[3]{2}} = 2sqrt[3]{4}$ m.
+
+    Nhận xét: $h = x$ — bể *đáy vuông tối ưu có chiều cao bằng cạnh đáy*.
+    Đây là kết quả tổng quát khi giá đáy = 2 lần giá thành.
+  ],
+  theme-color: c-p2,
+)
+
+#bt(
+  [Thiết kế một thùng chứa nước hình hộp chữ nhật có đáy hình vuông,
+    *thể tích $54$ m³*, không nắp. Biết chi phí làm đáy là 500.000 đồng/m²
+    và chi phí làm thành là 200.000 đồng/m². Tìm kích thước tối ưu để
+    chi phí nhỏ nhất.],
+  lines: 10,
+  theme-color: c-p2,
+)
+
+// ─── Chủ đề 2.2 ────────────────────────────────────────────────
+#chapter([Tối Ưu Hóa Khối Tròn Xoay — Trụ, Nón, Cầu], theme-color: c-p2)
+
+#phuongphap(theme-color: c-p2)[
+  *Công thức cần nhớ:*
+  - *Hình trụ:* $V = pi r^2 h$, $S_("toàn phần") = 2pi r^2 + 2pi r h$,
+    $S_("xung quanh") = 2pi r h$.
+  - *Hình nón:* $V = frac(1, 3)pi r^2 h$, $S_("xq") = pi r l$
+    (với $l = sqrt(r^2 + h^2)$ là đường sinh).
+  - *Hình cầu:* $V = frac(4, 3)pi R^3$, $S = 4pi R^2$.
+  - *Hình trụ nội tiếp cầu:* $R^2 = r^2 + (h/2)^2$.
+]
+
+#vd(
+  [_(Bài toán "lon sữa bò")_ Một hộp trụ tròn (có nắp) được làm từ vật
+    liệu đồng nhất, có *thể tích $V = 250pi$ cm³*. Tìm bán kính $r$ và
+    chiều cao $h$ để *diện tích toàn phần nhỏ nhất* (tiết kiệm vật liệu).],
+  loigiai: [
+    Ràng buộc: $pi r^2 h = 250pi => h = 250/r^2$.
+
+    Diện tích toàn phần: $S(r) = 2pi r^2 + 2pi r h = 2pi r^2 + frac(500pi, r)$.
+
+    $S'(r) = 4pi r - frac(500pi, r^2) = 0 => 4r^3 = 500 => r^3 = 125 => r = 5$ cm.
+
+    $h = 250/25 = 10$ cm. Tỉ lệ đẹp: $h = 2r$ (chiều cao bằng đường kính).
+
+    $S_(min) = 2pi dot.c 25 + 500pi/5 = 50pi + 100pi = 150pi approx 471$ cm².
+  ],
+  theme-color: c-p2,
+)
+
+#vd(
+  [Một cái cốc giấy hình nón (không đáy) có *thể tích $V_0$ cố định*.
+    Chứng minh rằng diện tích xung quanh nhỏ nhất khi *góc ở đỉnh nón
+    bằng $2arctan(sqrt(2)) approx 109{,}47°$*
+    (tức $h = r sqrt(2)$).],
+  loigiai: [
+    Với $V = frac(1, 3)pi r^2 h = V_0$, suy ra $h = frac(3V_0, pi r^2)$.
+
+    Đường sinh: $l = sqrt(r^2 + h^2)$. Diện tích xq: $S = pi r l = pi r sqrt(r^2 + h^2)$.
+
+    Để tối ưu, đặt $f(r) = S^2/pi^2 = r^2(r^2 + h^2) = r^4 + r^2 h^2$.
+    Thay $h = 3V_0/(pi r^2)$:
+
+    $f(r) = r^4 + frac(9V_0^2, pi^2 r^2)$.
+
+    $f'(r) = 4r^3 - frac(18V_0^2, pi^2 r^3) = 0 => r^6 = frac(9V_0^2, 2pi^2)$.
+
+    Thay lại: $h^2 = 9V_0^2/(pi^2 r^4)$ và $r^6 = 9V_0^2/(2pi^2)$, suy ra
+    $h^2/r^2 = 2 => h = r sqrt(2)$. (đpcm)
+  ],
+  theme-color: c-p2,
+)
+
+#luuy(theme-color: c-p2)[
+  *Bài toán nón nội tiếp cầu / trụ nội tiếp cầu:* Luôn thiết lập hệ thức
+  Pytago từ hình vẽ mặt cắt. Ví dụ: trụ nội tiếp cầu bán kính $R$ thì
+  $r^2 + (h/2)^2 = R^2$ — đây là ràng buộc để rút $h$ theo $r$.
+]
+
+#bt(
+  [Một bình nước hình trụ có nắp bán cầu ở trên và đáy phẳng, tổng thể tích
+    (trụ + nửa cầu) là $V = 36pi$ m³. Tìm bán kính $r$ của trụ để
+    diện tích bề mặt (kể cả mặt cầu và đáy trụ, không tính mặt ghép)
+    là nhỏ nhất.],
+  lines: 10,
+  theme-color: c-p2,
+)
+
+// ─── Chủ đề 2.3 ────────────────────────────────────────────────
+#chapter([Phân Tích Biên Tế (Marginal Analysis) trong Doanh Nghiệp], theme-color: c-p2)
+
+#phuongphap(theme-color: c-p2)[
+  *Ý nghĩa thực chiến:*
+  - $C'(x)$: *Chi phí biên* — chi phí tăng thêm khi sản xuất thêm 1 đơn vị.
+    Doanh nghiệp mở rộng sản xuất khi $C'(x) < p$ (giá bán).
+  - $R'(x)$: *Doanh thu biên* — doanh thu tăng thêm khi bán thêm 1 đơn vị.
+  - *Điều kiện tối ưu:* $R'(x) = C'(x)$ (doanh thu biên = chi phí biên).
+  - *EOQ (Economic Order Quantity):* Tổng chi phí tồn kho = chi phí đặt hàng
+    + chi phí lưu kho. Tối ưu khi hai thành phần này bằng nhau (AM–GM).
+]
+
+#vd(
+  [_(Mô hình EOQ)_ Một cửa hàng bán $D = 1200$ hộp sản phẩm/năm. Chi phí
+    mỗi lần đặt hàng: $S = 50$ nghìn đồng. Chi phí lưu kho: $H = 2$ nghìn
+    đồng/hộp/năm. Tìm *lượng đặt hàng tối ưu* $Q^*$ (EOQ) để *tổng chi
+    phí tồn kho nhỏ nhất*.],
+  loigiai: [
+    Nếu mỗi lần đặt $Q$ hộp, số lần đặt hàng trong năm là $D/Q$.
+
+    Tổng chi phí: $"TC"(Q) = underbrace(frac(D, Q) dot.c S, "Chi phí đặt hàng") + underbrace(frac(Q, 2) dot.c H, "Chi phí lưu kho")$.
+
+    $"TC"'(Q) = -frac(D S, Q^2) + frac(H, 2) = 0 => Q^* = sqrt(frac(2D S, H))$.
+
+    Thay số: $Q^* = sqrt(frac(2 times 1200 times 50, 2)) = sqrt(60000) approx 245$ hộp/lần.
+
+    *AM–GM xác nhận:* $"TC" >= 2 sqrt(D S dot.c H/2) = sqrt(2D S H)$ — tối ưu
+    khi hai thành phần chi phí bằng nhau: $"DS"/Q = Q H/2$.
+  ],
+  theme-color: c-p2,
+)
+
+#nhanxet(theme-color: c-p2)[
+  *Kết nối liên môn (Kinh tế):* Công thức EOQ được Harris & Wilson phát
+  triển từ đầu thế kỷ 20, hiện vẫn là nền tảng của *Quản trị chuỗi cung ứng*.
+  Amazon, Vinmart, Circle K — tất cả đều dùng biến thể của mô hình này để
+  quyết định khi nào nhập hàng và nhập bao nhiêu.
+]
+
+// ═══════════════════════════════════════════════════════════════════
+// PHẦN 3: TĂNG TỐC – HÀM VÔ TỈ, LƯỢNG GIÁC & KHOẢNG CÁCH CỰC TRỊ
+// ═══════════════════════════════════════════════════════════════════
+
+#part([Tăng Tốc — Hàm Vô Tỉ, Lượng Giác & Khoảng Cách Cực Trị], theme-color: c-p3)
+
+// ─── Chủ đề 3.1 ────────────────────────────────────────────────
+#chapter([Chuyển Động Đa Môi Trường & Nguyên Lý Fermat], theme-color: c-p3)
+
+#phuongphap(theme-color: c-p3)[
+  *Bài toán "nhân viên cứu hộ bãi biển":*
+  - Người bơi từ $A$ (trên biển) vào bờ theo hướng xiên, chạm bờ tại điểm
+    $P$, rồi chạy dọc bờ đến $B$.
+  - Vận tốc bơi $v_1 < v_2$ = vận tốc chạy.
+  - Thời gian: $T(x) = frac(sqrt(a^2 + x^2), v_1) + frac(d - x, v_2)$
+    (với $x$ là khoảng cách từ hình chiếu của $A$ lên bờ đến $P$).
+  - $T'(x) = 0$ cho góc tối ưu: $frac(sin theta_1, v_1) = frac(sin theta_2, v_2)$
+    — chính là *Định luật Snell khúc xạ ánh sáng*!
+]
+
+#vd(
+  [Một nhân viên cứu hộ đứng ở điểm $A$ cách bờ biển *60 m* (vuông góc).
+    Điểm cần đến $B$ nằm trên bờ, cách hình chiếu $H$ của $A$ xuống bờ
+    là *100 m*. Vận tốc bơi $v_1 = 2$ m/s, vận tốc chạy $v_2 = 5$ m/s.
+    Chọn điểm $P$ trên bờ (cách $H$ một đoạn $x$, $0 <= x <= 100$)
+    để *thời gian đến $B$ ngắn nhất*.],
+  loigiai: [
+    $T(x) = frac(sqrt(3600 + x^2), 2) + frac(100 - x, 5)$.
+
+    $T'(x) = frac(x, 2 sqrt(3600 + x^2)) - frac(1, 5) = 0$.
+
+    $frac(5x, 2) = sqrt(3600 + x^2) => frac(25x^2, 4) = 3600 + x^2$
+    $=> frac(21x^2, 4) = 3600 => x^2 = frac(14400, 21) => x = frac(120, sqrt(21)) = frac(120 sqrt(21), 21) = frac(40 sqrt(21), 7) approx 26{,}2$ m.
+
+    $T_(min) = frac(sqrt(3600 + (40 sqrt(21)/7)^2), 2) + frac(100 - 40 sqrt(21)/7, 5) approx 38{,}7$ s.
+  ],
+  theme-color: c-p3,
+)
+
+#luuy(theme-color: c-p3)[
+  - Khi giải $T'(x) = 0$ với hàm căn, luôn *bình phương hai vế* để loại
+    căn — nhớ kiểm tra lại nghiệm có thỏa điều kiện $T'(x) = 0$ không (vì
+    bình phương có thể sinh nghiệm ngoại lai).
+  - Nếu $x > d$ (điểm P vượt qua B), nghĩa là bơi thẳng vào bờ gần B hơn —
+    kiểm tra xem có nên bỏ bờ chạy hoàn toàn không.
+]
+
+#bt(
+  [Một bưu kiện cần vận chuyển từ đảo $A$ (cách bờ 4 km, đối diện điểm $H$)
+    đến kho $B$ trên bờ (cách $H$ 9 km). Thuê thuyền: 3 triệu/km, thuê xe:
+    1 triệu/km. Tìm điểm $P$ trên bờ để *tổng chi phí nhỏ nhất*.],
+  lines: 8,
+  theme-color: c-p3,
+)
+
+// ─── Chủ đề 3.2 ────────────────────────────────────────────────
+#chapter([Tối Ưu Hóa Mạng Lưới Cơ Sở Hạ Tầng], theme-color: c-p3)
+
+#vd(
+  [Hai nhà máy $A$ và $B$ nằm trên cùng một bờ sông thẳng, cách nhau *12 km*,
+    cần xây một trạm bơm nước $P$ trên bờ sông đối diện (cách bờ $A, B$ là
+    *5 km* và *4 km* theo thứ tự). Vị trí $P$ tối ưu là điểm nào để
+    *tổng đường ống từ $P$ đến $A$ và $P$ đến $B$ ngắn nhất*?],
+  loigiai: [
+    Đây là bài toán *phản xạ gương* (Heron's principle). Lấy ảnh của $A$ qua
+    bờ đối diện: $A'$ cách bờ đó 5 km. Bờ hai nhà máy cách bờ sông (phía $A$)
+    là 5 km, bờ kia (phía $B$) là 4 km — toàn bộ chiều ngang sông là 5 + 4 = 9 km.
+
+    _(Trường hợp đơn giản: đặt hệ tọa độ — lời giải theo biến $x$)_
+
+    Gọi $x$ là khoảng cách từ $P$ đến chân đường vuông từ $A$ xuống bờ.
+    $A P = sqrt(25 + x^2)$; $B P = sqrt(16 + (12-x)^2)$.
+    $L(x) = sqrt(x^2 + 25) + sqrt((12-x)^2 + 16)$.
+    $L'(x) = frac(x, sqrt(x^2+25)) - frac(12-x, sqrt((12-x)^2+16)) = 0$.
+    Điều kiện tối ưu: $sin alpha = sin beta$ — góc hai đường ống với bờ
+    bằng nhau (nguyên lý phản xạ). Giải số: $x approx 6{,}67$ km.
+  ],
+  theme-color: c-p3,
+)
+
+#bt(
+  [Ba thành phố $A$, $B$, $C$ tạo thành tam giác đều cạnh 100 km. Cần chọn
+    điểm $T$ bên trong tam giác để *tổng khoảng cách $|T A| + |T B| + |T C|$ nhỏ nhất*.
+    Không cần tính cụ thể — hãy mô tả vị trí điểm $T$ tối ưu (điểm Fermat–Torricelli)
+    và nêu điều kiện góc tại $T$.],
+  lines: 6,
+  theme-color: c-p3,
+)
+
+// ─── Chủ đề 3.3 ────────────────────────────────────────────────
+#chapter([Tối Ưu Góc Nhìn & Cường Độ Chiếu Sáng], theme-color: c-p3)
+
+#vd(
+  [Trong một phòng triển lãm, một bức tranh cao *3 m* được treo sao cho
+    cạnh dưới cao *1 m* so với tầm mắt người xem. Người xem đứng cách tường
+    $x$ (m). Tìm $x$ để *góc nhìn $alpha$ (góc giữa hai tia nhìn đến hai
+    cạnh của bức tranh) lớn nhất*.],
+  loigiai: [
+    Gọi $beta$ là góc tạo bởi tia nhìn đến cạnh dưới và mặt phẳng nằm ngang.
+    $tan beta = 1/x$, $tan(beta + alpha) = 4/x$.
+
+    $tan alpha = tan((beta + alpha) - beta) = frac(4/x - 1/x, 1 + 4/x^2)
+    = frac(3/x, 1 + 4/x^2) = frac(3x, x^2 + 4)$.
+
+    Vì $alpha in (0°; 90°)$, $tan alpha$ tối đa $<=> alpha$ tối đa.
+
+    $f(x) = frac(3x, x^2 + 4)$; $f'(x) = frac(3(x^2+4) - 3x dot.c 2x, (x^2+4)^2)
+    = frac(3(4 - x^2), (x^2+4)^2) = 0 => x = 2$ m.
+
+    $alpha_(max) = arctan(3 dot.c 2 / 8) = arctan(3/4) approx 36{,}87°$.
+  ],
+  theme-color: c-p3,
+)
+
+#bt(
+  [Một đèn đường treo ở độ cao $h$ (m) chiếu sáng tại điểm $P$ cách
+    cột đèn 6 m. Cường độ chiếu sáng tỉ lệ với $sin theta / d^2$, với
+    $theta$ là góc giữa tia sáng và mặt đất, $d$ là khoảng cách từ đèn đến $P$.
+    Tìm $h$ để cường độ chiếu sáng tại $P$ lớn nhất.
+    _(Đáp số: $h = 6/sqrt(2) = 3 sqrt(2)$ m.)_],
+  lines: 8,
+  theme-color: c-p3,
+)
+
+// ═══════════════════════════════════════════════════════════════════
+// PHẦN 4: VỀ ĐÍCH – TỐC ĐỘ THAY ĐỔI LIÊN QUAN & HÀM SIÊU VIỆT
+// ═══════════════════════════════════════════════════════════════════
+
+#part([Về Đích — Tốc Độ Thay Đổi Liên Quan & Hàm Siêu Việt], theme-color: c-p4)
+
+#ghinho(theme-color: c-p4)[
+  *Đỉnh cao của chuyên đề này là hai kỹ thuật:*
+  ① *Related Rates* — dùng đạo hàm ẩn (theo thời gian) để tìm tốc độ thay đổi
+  của một đại lượng khi biết tốc độ đại lượng liên quan.
+  ② *Hàm mũ–logarit* — mô hình các quá trình tăng trưởng/phân rã liên tục
+  trong sinh học, dược học và tài chính.
+]
+
+// ─── Chủ đề 4.1 ────────────────────────────────────────────────
+#chapter([Tốc Độ Thay Đổi Liên Quan (Related Rates)], theme-color: c-p4)
+
+#phuongphap(theme-color: c-p4)[
+  *Quy trình "Related Rates" — 5 bước:*
+  + *Vẽ hình và gán tên biến* cho tất cả đại lượng thay đổi theo thời gian $t$.
+  + *Tìm phương trình liên hệ* giữa các biến đó (dùng hình học, Pytago, ...).
+  + *Đạo hàm hai vế theo $t$* (dùng chain rule).
+  + *Thay giá trị tại thời điểm đang xét* vào phương trình vừa đạo hàm.
+  + *Giải ẩn* là tốc độ thay đổi cần tìm.
+  *Chú ý:* Tốc độ tăng → dương; tốc độ giảm → âm.
+]
+
+#vd(
+  [Một chiếc thang dài *5 m* dựa vào tường thẳng đứng. Chân thang trượt
+    ra xa tường với tốc độ *0,5 m/s*. Hỏi khi chân thang cách tường *3 m*,
+    đỉnh thang đang hạ xuống với tốc độ bao nhiêu?],
+  loigiai: [
+    Gọi $x(t)$ = khoảng cách chân thang đến tường, $y(t)$ = chiều cao đỉnh thang.
+
+    *Phương trình liên hệ:* $x^2 + y^2 = 25$ (Pytago, thang dài 5 m).
+
+    *Đạo hàm theo $t$:* $2x dot(x) + 2y dot(y) = 0 => dot(y) = -frac(x, y)dot(x)$.
+
+    *Tại $x = 3$:* $y = sqrt(25 - 9) = 4$ m.
+
+    $dot(y) = -frac(3, 4) times 0{,}5 = -0{,}375$ m/s.
+
+    Đỉnh thang hạ xuống với tốc độ $0{,}375$ m/s (dấu "−" là đang giảm).
+  ],
+  theme-color: c-p4,
+)
+
+#vd(
+  [Nước được bơm vào bồn hình nón ngược (đỉnh quay xuống), chiều cao
+    bồn $H = 4$ m, bán kính miệng $R = 3$ m. Tốc độ bơm nước vào
+    *$2$ m³/phút*. Khi mực nước cao $h = 2$ m, mực nước đang dâng
+    với tốc độ bao nhiêu?],
+  loigiai: [
+    Bán kính mặt nước: $r/h = R/H = 3/4 => r = 3h/4$.
+
+    Thể tích nước: $V = frac(1, 3)pi r^2 h = frac(1, 3)pi dot.c frac(9h^2, 16) dot.c h = frac(3pi h^3, 16)$.
+
+    Đạo hàm theo $t$: $dot(V) = frac(9pi h^2, 16) dot(h)$.
+
+    Tại $h = 2$: $2 = frac(9pi dot.c 4, 16) dot(h) = frac(9pi, 4) dot(h)$.
+
+    $dot(h) = frac(8, 9pi) approx 0{,}283$ m/phút.
+  ],
+  theme-color: c-p4,
+)
+
+#bt(
+  [Một vết dầu loang trên mặt biển có dạng hình tròn. Diện tích vết dầu
+    tăng với tốc độ $10$ m²/giây. Tính tốc độ tăng của bán kính khi
+    bán kính vết dầu là $50$ m.],
+  lines: 6,
+  theme-color: c-p4,
+)
+
+#bt(
+  [Một người đứng cách gốc đèn 5 m, bóng người dài $ell(t)$, người cao 2 m,
+    đèn cao 5 m. Nếu người đi ra xa đèn với tốc độ $1{,}5$ m/s, tính
+    tốc độ kéo dài của bóng.],
+  lines: 8,
+  theme-color: c-p4,
+)
+
+// ─── Chủ đề 4.2 ────────────────────────────────────────────────
+#chapter([Y Sinh Học, Môi Trường & Lãi Suất Kép — Hàm Mũ & Logarit], theme-color: c-p4)
+
+#phuongphap(theme-color: c-p4)[
+  *Các mô hình tăng trưởng/suy giảm theo hàm mũ:*
+  - *Tăng trưởng liên tục:* $N(t) = N_0 e^(k t)$ ($k > 0$: tốc độ tăng trưởng riêng).
+  - *Phân rã phóng xạ / thuốc trong máu:* $A(t) = A_0 e^(-k t)$ ($k > 0$).
+  - *Chu kỳ bán rã:* $T_(1/2) = ln 2 / k$.
+  - *Lãi suất kép liên tục:* $A(t) = P e^(r t)$ ($r$ = lãi suất/năm, $P$ = vốn ban đầu).
+  - *Thời gian tối ưu bán tài sản:* tìm $t$ cực đại của $V(t) e^(-r t)$
+    (giá trị hiện tại của tài sản).
+]
+
+#vd(
+  [_(Dược động học)_ Sau khi tiêm, nồng độ thuốc trong máu (mg/L) theo thời gian:
+    $C(t) = 10 e^{-0{,}3t}$ với $t$ tính bằng giờ.
+    *(a)* Tốc độ thay đổi nồng độ thuốc tại $t = 2$ giờ là bao nhiêu?
+    *(b)* Nồng độ thuốc giảm xuống còn 2 mg/L sau bao nhiêu giờ?
+    *(c)* Thuốc có hiệu quả khi $C(t) >= 3$ mg/L. Tìm khoảng thời gian thuốc có hiệu quả.],
+  loigiai: [
+    *(a)* $C'(t) = -3e^{-0{,}3t}$. Tại $t = 2$: $C'(2) = -3e^{-0{,}6} approx -1{,}65$ mg/L/giờ.
+    Nồng độ giảm khoảng 1,65 mg/L mỗi giờ tại thời điểm đó.
+
+    *(b)* $10e^{-0{,}3t} = 2 => e^{-0{,}3t} = 0{,}2 => t = frac{ln 5}{0{,}3} approx 5{,}37$ giờ.
+
+    *(c)* $10e^{-0{,}3t} >= 3 => t <= frac{ln(10/3)}{0{,}3} approx 4{,}02$ giờ.
+    Thuốc có hiệu quả trong khoảng $[0; 4{,}02]$ giờ (kể từ khi tiêm).
+  ],
+  theme-color: c-p4,
+)
+
+#vd(
+  [_(Tài chính cá nhân)_ Bạn mua một mảnh đất với giá $P = 500$ triệu đồng.
+    Giá đất tăng theo mô hình $V(t) = 500 e^{0{,}08t}$ (triệu đồng), với
+    $t$ là số năm. Lãi suất ngân hàng $r = 6\%$/năm (lãi kép liên tục).
+    Tìm thời điểm *tối ưu để bán đất*, tức là tối đa hóa *giá trị hiện tại*
+    $"PV"(t) = V(t) e^{-0{,}06t}$.],
+  loigiai: [
+    $"PV"(t) = 500 e^{0{,}08t} dot.c e^{-0{,}06t} = 500 e^{0{,}02t}$.
+
+    $"PV"'(t) = 500 times 0{,}02 times e^{0{,}02t} = 10 e^{0{,}02t} > 0$ với mọi $t$.
+
+    *Kết luận:* $"PV"(t)$ luôn tăng — giá trị hiện tại của mảnh đất tăng mãi.
+    Mô hình này nghĩa là: giữ đất càng lâu càng tốt vì tốc độ tăng giá đất
+    ($8\%$) lớn hơn lãi suất ngân hàng ($6\%$). Điểm tối ưu khi $g = r$.
+  ],
+  theme-color: c-p4,
+)
+
+#nhanxet(theme-color: c-p4)[
+  *Nguyên tắc tổng quát:* Tài sản tăng giá với tỉ lệ $g$ nên bán khi
+  $g < r$ (lãi suất cơ hội). Nếu $g > r$: giữ. Nếu $g = r$: thời điểm
+  tối ưu (hoặc bất kỳ thời điểm nào cũng như nhau). Đây là ứng dụng cơ bản
+  của *Optimal Stopping Theory* trong tài chính.
+]
+
+#bt(
+  [Lượng chất phóng xạ Carbon-14 trong một mẫu hóa thạch hiện chỉ còn
+    $30\%$ lượng ban đầu. Biết chu kỳ bán rã của C-14 là 5730 năm.
+    Tính tuổi của mẫu hóa thạch.],
+  lines: 6,
+  theme-color: c-p4,
+)
+
+#bt(
+  [Một dịch bệnh lây lan theo mô hình logistic:
+    $I(t) = frac(K, 1 + A e^(-r t))$,
+    với $K = 10\,000$ người (sức chứa dân số), $A = 999$, $r = 0{,}5$/ngày.
+    *(a)* Tìm thời điểm tốc độ lây lan nhanh nhất.
+    *(b)* Tính tốc độ lây lan tối đa đó (số người mắc mới/ngày).],
+  lines: 10,
+  theme-color: c-p4,
+)
+
+// ═══════════════════════════════════════════════════════════════════
+// PHẦN 5: THỰC CHIẾN ĐGNL – ĐỒ THỊ, DỮ LIỆU & SAI SỐ
+// ═══════════════════════════════════════════════════════════════════
+
+#part([Thực Chiến ĐGNL — Phân Tích Đồ Thị, Dữ Liệu & Sai Số], theme-color: c-p5)
+
+#ghinho(theme-color: c-p5)[
+  *Đặc trưng của ĐGNL:* Câu hỏi không chỉ hỏi tính toán — mà hỏi
+  *suy luận từ dữ liệu*. Thí sinh thường có đồ thị $f'(x)$, bảng số liệu
+  rời rạc, hoặc thông tin lời văn và phải suy ra tính chất của $f(x)$.
+  Phần này luyện "đọc toán như đọc văn" — bước đột phá điểm số.
+]
+
+// ─── Chủ đề 5.1 ────────────────────────────────────────────────
+#chapter([Đọc Hiểu Đồ Thị & Nội Suy Dữ Liệu Thực Nghiệm], theme-color: c-p5)
+
+#phuongphap(theme-color: c-p5)[
+  *Kỹ thuật đọc đồ thị $f'(x)$ để suy ra $f(x)$:*
+  - $f'(x) > 0$ (đồ thị $f'$ trên trục $O x$) $=>$ $f$ *tăng*.
+  - $f'(x) < 0$ (đồ thị $f'$ dưới trục $O x$) $=>$ $f$ *giảm*.
+  - $f'(x_0) = 0$ và $f'$ đổi dấu $+$ sang $-$ $=>$ $x_0$ là *cực đại* của $f$.
+  - $f'(x_0) = 0$ và $f'$ đổi dấu $-$ sang $+$ $=>$ $x_0$ là *cực tiểu* của $f$.
+  - $f''(x) > 0$ (tức $f'$ tăng) $=>$ $f$ *lõm* (đồ thị cong lên).
+  - $f'(a)$ = độ dốc tiếp tuyến với đồ thị $f$ tại $x = a$.
+]
+
+#vd(
+  [Đồ thị sau mô tả vận tốc $v(t)$ (m/s) của một vật theo thời gian $t$ (giây):
+    $v(t) = 0$ tại $t = 0$; tăng đến cực đại $v = 12$ m/s tại $t = 3$;
+    giảm về $0$ tại $t = 6$; tiếp tục giảm về $-6$ m/s tại $t = 8$.
+    *(a)* Vật đứng yên tại những thời điểm nào? Ở đó gia tốc bằng bao nhiêu?
+    *(b)* Tính quãng đường vật đi được trong $[0; 8]$ giây nếu biết diện tích
+    dưới đường cong vận tốc: $integral_0^3 v dif t = 20$, $integral_3^6 v dif t = 15$,
+    $integral_6^8 v dif t = -8$.],
+  loigiai: [
+    *(a)* Vật đứng yên khi $v = 0$: $t = 0$ và $t = 6$ s.
+    Tại $t = 0$: $a = v'(0)$ — đồ thị $v$ tăng, nên $a > 0$ (đang tăng tốc).
+    Tại $t = 6$: $v$ đang giảm (từ 12 về 0 rồi xuống $-6$), nên $a < 0$ (đang giảm tốc).
+
+    *(b)* Độ dịch chuyển: $Delta s = 20 + 15 + (-8) = 27$ m.
+    Quãng đường thực đi: $|20| + |15| + |-8| = 20 + 15 + 8 = 43$ m.
+  ],
+  theme-color: c-p5,
+)
+
+#vd(
+  [Bảng dưới đây ghi nhiệt độ (°C) đo được của một phòng lạnh theo giờ:
+
+    #table(
+      columns: 7,
+      align: center,
+      [*$t$ (giờ)*], [0], [1], [2], [3], [4], [5],
+      [*$T(t)$ (°C)*], [25], [19], [14], [10], [7], [5],
+    )
+
+    *(a)* Ước tính *tốc độ làm lạnh tại $t = 2$ h* bằng sai phân trung tâm.
+    *(b)* Phòng lạnh đang được làm lạnh nhanh nhất vào khoảng giờ nào?],
+  loigiai: [
+    *(a)* Sai phân trung tâm tại $t = 2$:
+    $T'(2) approx frac(T(3) - T(1), 3 - 1) = frac(10 - 19, 2) = -4{,}5$ °C/giờ.
+
+    *(b)* Tính xấp xỉ tốc độ tại từng điểm nội:
+    $T'(1) approx (14-25)/2 = -5{,}5$;
+    $T'(2) approx -4{,}5$;
+    $T'(3) approx (7-14)/2 = -3{,}5$;
+    $T'(4) approx (5-10)/2 = -2{,}5$.
+    Tốc độ giảm nhanh nhất (trị tuyệt đối lớn nhất) tại $t approx 1$ giờ.
+  ],
+  theme-color: c-p5,
+)
+
+// ─── Chủ đề 5.2 ────────────────────────────────────────────────
+#chapter([Ứng Dụng Vi Phân trong Sai Số Thực Tế], theme-color: c-p5)
+
+#phuongphap(theme-color: c-p5)[
+  *Vi phân và xấp xỉ:* $Delta f approx f'(x_0) dot.c Delta x = upright(d)f$.
+  - *Sai số tuyệt đối:* $|Delta f| approx |f'(x_0)| dot.c |Delta x|$.
+  - *Sai số tương đối:* $frac(|Delta f|, |f(x_0)|) approx |frac(f'(x_0), f(x_0))| dot.c |Delta x|$.
+  - *Sai số truyền qua:* Nếu $f = f(x, y, ...)$ thì
+    $|Delta f| lt.tilde |frac(partial f, partial x)| |Delta x| + |frac(partial f, partial y)| |Delta y| + ...$
+]
+
+#vd(
+  [Trong một nhà máy bi thép, bán kính viên bi được đo là $r = 5$ mm
+    với sai số $|Delta r| <= 0{,}05$ mm.
+    *(a)* Tính sai số tuyệt đối của thể tích.
+    *(b)* Tính sai số tương đối của thể tích. Điều này có ý nghĩa gì về chất lượng sản xuất?],
+  loigiai: [
+    $V = frac(4, 3)pi r^3$, $V' = 4pi r^2$.
+
+    *(a)* $|Delta V| approx |V'(r)| dot.c |Delta r| = 4pi (5)^2 times 0{,}05 = 5pi approx 15{,}7$ mm³.
+
+    *(b)* $frac(|Delta V|, V) approx frac{4pi r^2 |Delta r|}{frac(4, 3)pi r^3}
+    = frac(3|Delta r|, r) = frac{3 times 0{,}05}{5} = 3\%$.
+
+    *Ý nghĩa:* Sai số bán kính 1% sẽ gây sai số thể tích 3%. Trong sản
+    xuất vòng bi, sai số thể tích ảnh hưởng trực tiếp đến lực chịu tải
+    và tuổi thọ sản phẩm — đây là lý do tiêu chuẩn ISO về dung sai kích thước
+    rất nghiêm ngặt.
+  ],
+  theme-color: c-p5,
+)
+
+#vd(
+  [Một máy kinh vĩ đo góc ngẩng $theta$ với sai số $|Delta theta| = 0{,}5°$.
+    Chiều cao công trình $h = d tan theta$, với $d = 50$ m là khoảng cách
+    nằm ngang (đo chính xác). Khi $theta = 60°$, tính sai số tuyệt đối
+    trong phép đo chiều cao.],
+  loigiai: [
+    $h(theta) = 50tan theta$, $h'(theta) = 50/cos^2theta$.
+
+    Đổi đơn vị: $|Delta theta| = 0{,}5° = pi/360$ rad.
+
+    $|Delta h| approx frac(50, cos^2(60°)) dot.c frac(pi, 360)
+    = frac(50, (1/2)^2) dot.c frac(pi, 360)
+    = 200 dot.c frac(pi, 360) approx 1{,}745$ m.
+
+    Sai số xấp xỉ gần 2 m — với công trình cao $h = 50tan 60° approx 86{,}6$ m,
+    sai số tương đối $approx 2\%$.
+  ],
+  theme-color: c-p5,
+)
+
+#bt(
+  [Độ sâu đáy biển được đo bằng sóng âm: $d = v dot.c t / 2$, với
+    $v = 1500$ m/s là tốc độ âm (biết chính xác), $t$ là thời gian sóng
+    phản hồi. Nếu $t$ đo được là 4 giây với sai số $|Delta t| = 0{,}01$ giây,
+    tính sai số tuyệt đối của kết quả đo độ sâu.],
+  lines: 5,
+  theme-color: c-p5,
+)
+
+// ─── Chủ đề 5.3 ────────────────────────────────────────────────
+#chapter([Nguồn Gốc Mô Hình Toán Học — Từ Thực Nghiệm đến Phương Trình], theme-color: c-p5)
+
+#phuongphap(theme-color: c-p5)[
+  *Nguyên lý thiết lập mô hình vi phân:* Nhiều định luật vật lý, hóa học,
+  sinh học đến từ nguyên tắc *"tốc độ thay đổi tỉ lệ với lượng hiện có":*
+  $frac(d N, d t) = k N => N(t) = N_0 e^(k t)$.
+  Hoặc *"tốc độ thay đổi tỉ lệ với độ lệch so với trạng thái cân bằng":*
+  $frac(d T, d t) = -k(T - T_("env"))$ — *Định luật Newton về làm nguội*.
+]
+
+#vd(
+  [_(Định luật Newton về làm nguội)_ Một tách cà phê $90°C$ được để trong
+    phòng $20°C$. Sau 5 phút, nhiệt độ còn $70°C$. Theo định luật Newton:
+    $T(t) = T_("env") + (T_0 - T_("env"))e^(-k t)$.
+    *(a)* Tìm hằng số $k$.
+    *(b)* Sau bao nhiêu phút thì cà phê nguội về $45°C$?],
+  loigiai: [
+    $T(t) = 20 + 70 e^(-k t)$.
+
+    *(a)* $T(5) = 70$: $20 + 70e^(-5k) = 70 => e^(-5k) = 50/70 = 5/7$.
+    $k = frac(1, 5)ln frac(7, 5) approx 0{,}0673$ phút⁻¹.
+
+    *(b)* $20 + 70e^(-k t) = 45 => e^(-k t) = 25/70 = 5/14$.
+    $t = frac(ln(14/5), k) = 5 dot.c frac(ln(14/5), ln(7/5)) approx 5 times frac{1{,}030}{0{,}336} approx 15{,}3$ phút.
+  ],
+  theme-color: c-p5,
+)
+
+#vd(
+  [_(Phân rã phóng xạ — Định tuổi C-14)_ Carbon-14 phân rã với chu kỳ bán
+    rã $T_(1/2) = 5730$ năm. Trong một mẫu xương, C-14 còn lại $40\%$ so
+    với cơ thể sống. Tính tuổi mẫu xương.],
+  loigiai: [
+    $A(t) = A_0 e^(-k t)$, $k = frac(ln 2, 5730)$.
+
+    $0{,}4 A_0 = A_0 e^(-k t) => e^(-k t) = 0{,}4 => k t = ln frac{1}{0{,}4} = ln 2{,}5$.
+
+    $t = frac{ln 2{,}5}{k} = frac{5730 ln 2{,}5}{ln 2} approx frac{5730 times 0{,}916}{0{,}693} approx 7575$ năm.
+  ],
+  theme-color: c-p5,
+)
+
+#nhanxet(theme-color: c-p5)[
+  *Kết nối liên môn (Khảo cổ học & Vật lý hạt nhân):* Phương pháp định
+  tuổi bằng C-14 (do Willard Libby phát triển, giải Nobel 1960) đã cách
+  mạng hóa khảo cổ học. Từ bộ xương pharaoh Ai Cập đến cuộn sách biển Chết,
+  tất cả được định tuổi bằng... *đạo hàm hàm mũ*!
+]
+
+#bt(
+  [Một loài vi khuẩn nhân đôi sau mỗi 20 phút. Sau 2 giờ, quần thể gồm
+    bao nhiêu vi khuẩn nếu ban đầu có 1000 con? Viết phương trình $N(t)$
+    và tính tốc độ sinh trưởng tại $t = 1$ giờ.],
+  lines: 6,
+  theme-color: c-p5,
+)
+
+// ═══════════════════════════════════════════════════════════════════
+// PHỤ LỤC
+// ═══════════════════════════════════════════════════════════════════
+
+#bangthuatngu(theme-color: c-book)[
+  #table(
+    columns: (auto, 1fr),
+    stroke: 0.4pt + luma(180),
+    inset: (x: 8pt, y: 6pt),
+    fill: (col, row) => if row == 0 { c-book.lighten(88%) } else { white },
+    [*Thuật ngữ*], [*Định nghĩa / Ghi chú*],
+    [Hàm mục tiêu], [Hàm cần tối ưu hóa (max hoặc min) trong bài toán tối ưu.],
+    [Ràng buộc], [Điều kiện cố định liên hệ các biến trong bài toán.],
+    [Đạo hàm biên tế],
+    [Đạo hàm của hàm chi phí $C'(x)$ hoặc doanh thu $R'(x)$ — giá trị tăng thêm khi sản xuất/bán thêm 1 đơn vị.],
+
+    [Related Rates], [Kỹ thuật tìm tốc độ thay đổi của một đại lượng thông qua đạo hàm ẩn theo thời gian.],
+    [EOQ], [Economic Order Quantity — lượng đặt hàng tối ưu trong mô hình quản lý tồn kho.],
+    [Vi phân $upright(d)f$], [Xấp xỉ tuyến tính của độ thay đổi hàm số: $upright(d)f = f'(x_0)upright(d)x$.],
+    [Sai số tương đối], [$|Delta f| / |f(x_0)|$ — sai số tính theo tỉ lệ phần trăm.],
+    [Chu kỳ bán rã], [Thời gian để chất phóng xạ giảm còn một nửa; $T_(1/2) = ln 2 / k$.],
+    [Điểm Fermat–Torricelli],
+    [Điểm $T$ bên trong tam giác sao cho $|T A| + |T B| + |T C|$ nhỏ nhất; mỗi góc tại $T$ bằng $120°$.],
+
+    [Nguyên lý Snell], [Trong bài toán thời gian ngắn nhất qua hai môi trường: $sin theta_1/v_1 = sin theta_2/v_2$.],
+  )
+]
+
+#tailieuthamkhao(theme-color: c-book)[
+  + *Nguyễn Văn Sang* — Bộ đề thi Toán THPT Quốc gia (Tổ Toán STEXGV).
+  + *Stewart, J.* — _Calculus: Early Transcendentals_ (9th ed.), Cengage, 2020.
+    (Nguồn tham khảo chính cho các bài toán Related Rates và Marginal Analysis.)
+  + *Larson, R., Edwards, B.* — _Calculus_ (11th ed.), Cengage, 2018.
+  + *Bộ GD&ĐT* — Sách giáo khoa Toán 12, Chương trình GDPT 2018.
+  + *College Board* — _AP Calculus AB & BC Curriculum Framework_, 2024.
+    (Tham khảo dạng bài related rates và data analysis theo chuẩn quốc tế.)
+  + *Khan Academy* — https://www.khanacademy.org/math/ap-calculus-ab
+    (Video minh họa trực quan cho người học lần đầu.)
+]

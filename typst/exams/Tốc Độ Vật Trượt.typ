@@ -42,7 +42,7 @@
 // ═══════════════════════════════════════════════════════════
 // CẤU HÌNH ĐỀ THI — Chỉ thay đổi ở đây
 // ═══════════════════════════════════════════════════════════
-#let mode = "dethi"   // dethi | loigiai | solcolor
+#let mode = "loigiai"   // dethi | loigiai | solcolor
 #let accent = classic.blue // classic.blue | classic.emerald | classic.crimson
 
 #let (tn, ds, tln, tl) = exam-mode(mode: mode, accent: accent)

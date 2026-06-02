@@ -5,7 +5,7 @@
 #import "@preview/cetz:0.5.2"
 #import "../math-sym.typ": *
 #set page(
-  margin: (top: 1.5cm, bottom: 1.5cm, left: 2cm, right: 1.5cm)
+  margin: (top: 1.5cm, bottom: 1.5cm, left: 2cm, right: 1.5cm),
 )
 
 // #show: stexgv-doc.with(
@@ -15,7 +15,7 @@
 //   theme-color: classic.blue
 // )
 
-#let math-color = rgb("#ee07b8") 
+#let math-color = rgb("#ee07b8")
 #show math.equation: set text(fill: math-color)
 
 // ═══════════════════════════════════════════════════════════
@@ -30,7 +30,7 @@
 //   radius: (right: 4pt)
 // )[
 //   #text(size: 16pt, weight: "bold", fill: classic.blue)[CHUYÊN ĐỀ: Mặt Cầu]
-  
+
 //   #v(0.8em)
 //   #text(style: "italic", size: 12pt, fill: rgb("#555555"))[Kỹ thuật tọa độ hóa và công thức giải nhanh bài toán Parabol nội tiếp hình chữ nhật.]
 // ]
@@ -45,9 +45,9 @@
 #let (tn, ds, tln, tl) = exam-mode(mode: mode, accent: accent)
 // Tuỳ chọn đổi màu công thức toán học
 #let math-color = rgb("#000000") // Thay rgb("#000000") bằng `accent` hoặc `blue` để đổi màu toán
-#show math.equation: set text(fill:  math-color)
+#show math.equation: set text(fill: math-color)
 #show math.equation.where(block: false): math.display
-#show math.frac: math.display 
+#show math.frac: math.display
 
 // ═══════════════════════════════════════════════════════════
 // THIẾT KẾ CHUYÊN ĐỀ MẪU: BÀI TOÁN THỰC TẾ & VẬN DỤNG CAO
@@ -65,9 +65,9 @@
       ]
       #v(0.3em)
       #text(size: 11pt, style: "italic", fill: rgb("555555"))[
-       Vấn đề di chuyển bi giữa các hộp.
+        Vấn đề di chuyển bi giữa các hộp.
       ]
-    ]
+    ],
   )
 ]
 #import "@preview/cetz:0.5.2": canvas, draw
@@ -78,23 +78,23 @@
   loigiai: [
     #step[
       Gọi $X$ là biến cố "Sau 2 lần gieo, số bóng ở hộp $A$ là số chẵn" và $Y$ là biến cố "Số bóng ở hộp $B$ nhiều hơn hộp $C$". Ta cần tính $P(Y | X) = (P(X inter Y)) / P(X)$.
-      
+
       Trước tiên, phân tích 3 khả năng (KN) có thể xảy ra trong *mỗi lần gieo*:
       - *KN1:* $k in {1; 2}$ $arrow$ Xác suất $1/3$, phân bổ bóng: $(+2A, 0B, 0C)$.
       - *KN2:* $k in {3; 4; 5}$ $arrow$ Xác suất $1/2$, phân bổ bóng: $(+1A, +1B, 0C)$.
       - *KN3:* $k = 6$ $arrow$ Xác suất $1/6$, phân bổ bóng: $(0A, +1B, +1C)$.
     ]
-    
+
     #step[
       *Sơ đồ cây biểu diễn phân bổ bóng sau 2 lần gieo:*
       #v(0.5em)
       #align(center)[
         #canvas(length: 1cm, {
           import draw: *
-          
+
           let edge-style = (mark: (end: ">", fill: black), stroke: 0.7pt)
           let lbl(txt) = box(fill: white, inset: 1pt, txt)
-          
+
           // Các điểm neo L1
           let p1_1 = (3.5, 4.5)
           let p1_2 = (3.5, 0)
@@ -102,19 +102,22 @@
 
           // Vẽ Nút gốc (Bắt đầu)
           content((0, 0), box(stroke: 1pt + black, inset: 5pt, radius: 4pt)[Bắt đầu], name: "N0")
-          
+
           // Vẽ Nút Lần 1
           content(p1_1, align(center)[*KN1* \ $(2A, 0B, 0C)$], name: "N1_1")
           content(p1_2, align(center)[*KN2* \ $(1A, 1B, 0C)$], name: "N1_2")
           content(p1_3, align(center)[*KN3* \ $(0A, 1B, 1C)$], name: "N1_3")
 
           // Nhánh Lần 1
-          line("N0", "N1_1", ..edge-style); content((1.75, 2.75), lbl[$1/3$])
-          line("N0", "N1_2", ..edge-style); content((1.75, 0), lbl[$1/2$])
-          line("N0", "N1_3", ..edge-style); content((1.75, -2.85), lbl[$1/6$])
+          line("N0", "N1_1", ..edge-style)
+          content((1.75, 2.75), lbl[$1/3$])
+          line("N0", "N1_2", ..edge-style)
+          content((1.75, 0), lbl[$1/2$])
+          line("N0", "N1_3", ..edge-style)
+          content((1.75, -2.85), lbl[$1/6$])
 
           // Nhánh Lần 2 (Viết tường minh, không dùng vòng lặp để tránh lỗi scope của Cetz)
-          
+
           // 1. Từ KN1 rẽ ra 3 nhánh
           line("N1_1", (7.5, 6.0), ..edge-style)
           content((5.5, 5.6), lbl[$1/3$])
@@ -122,7 +125,7 @@
 
           line("N1_1", (7.5, 4.5), ..edge-style)
           content((5.5, 4.4), lbl[$1/2$])
-          content((7.7, 4.5), [*KN2* $arrow (3A, 1B, 0C)$ #h(2pt) #text(fill: red)[(Loại)]], anchor: "west") 
+          content((7.7, 4.5), [*KN2* $arrow (3A, 1B, 0C)$ #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
 
           line("N1_1", (7.5, 3.0), ..edge-style)
           content((5.5, 3.25), lbl[$1/6$])
@@ -130,28 +133,32 @@
 
           // 2. Từ KN2 rẽ ra 3 nhánh
           line("N1_2", (7.5, 1.5), ..edge-style)
-          content((5.5, 0.8+.3), lbl[$1/3$])
+          content((5.5, 0.8 + .3), lbl[$1/3$])
           content((7.7, 1.5), [*KN1* $arrow (3A, 1B, 0C)$ #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
 
           line("N1_2", (7.5, 0), ..edge-style)
-          content((5.5, 0.1 -.2), lbl[$1/2$])
-          content((7.7, 0), [*KN2* $arrow (2A, 2B, 0C)$ #h(2pt) #text(fill: blue, weight: "bold")[($B>C$)]], anchor: "west")
+          content((5.5, 0.1 - .2), lbl[$1/2$])
+          content(
+            (7.7, 0),
+            [*KN2* $arrow (2A, 2B, 0C)$ #h(2pt) #text(fill: blue, weight: "bold")[($B>C$)]],
+            anchor: "west",
+          )
 
           line("N1_2", (7.5, -1.5), ..edge-style)
-          content((5.5, -0.5 -.8), lbl[$1/6$])
+          content((5.5, -0.5 - .8), lbl[$1/6$])
           content((7.7, -1.5), [*KN3* $arrow (1A, 2B, 1C)$ #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
 
           // 3. Từ KN3 rẽ ra 3 nhánh
           line("N1_3", (7.5, -3.0), ..edge-style)
-          content((5.5, -3.7 +.3), lbl[$1/3$])
+          content((5.5, -3.7 + .3), lbl[$1/3$])
           content((7.7, -3.0), [*KN1* $arrow (2A, 1B, 1C)$ #h(2pt) #text(fill: green)[(Nhận)]], anchor: "west")
 
           line("N1_3", (7.5, -4.5), ..edge-style)
-          content((5.5, -4.4 -.2), lbl[$1/2$])
+          content((5.5, -4.4 - .2), lbl[$1/2$])
           content((7.7, -4.5), [*KN2* $arrow (1A, 2B, 1C)$ #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
 
           line("N1_3", (7.5, -6.0), ..edge-style)
-          content((5.5, -5.1-.8), lbl[$1/6$])
+          content((5.5, -5.1 - .8), lbl[$1/6$])
           content((7.7, -6.0), [*KN3* $arrow (0A, 2B, 2C)$ #h(2pt) #text(fill: green)[(Nhận)]], anchor: "west")
         })
       ]
@@ -160,7 +167,7 @@
     #step[
       Dựa vào sơ đồ cây, ta lọc được các nhánh mà hộp $A$ có số bóng chẵn (biến cố $X$):
       $ P(X) = (1/3 times 1/3) + (1/3 times 1/6) + (1/2 times 1/2) + (1/6 times 1/3) + (1/6 times 1/6) = 1/2 $
-      
+
       Trong số các nhánh trên, nhánh duy nhất thỏa mãn điều kiện số bóng hộp $B$ nhiều hơn hộp $C$ (biến cố $X inter Y$) là nhánh gieo ra KN2 cả hai lần (được $2A, 2B, 0C$):
       $ P(X inter Y) = 1/2 times 1/2 = 1/4 $
     ]
@@ -169,7 +176,7 @@
       Xác suất cần tìm (xác suất có điều kiện) là:
       $ P(Y | X) = (P(X inter Y)) / P(X) = (1/4) / (1/2) = 1/2 $
     ]
-  ]
+  ],
 )
 
 #tln(
@@ -209,12 +216,17 @@
         [$X_1$], [$X_3$], [$1/3 times 1/6 = 1/18$], [$(2, 1, 1)$], text(palette.correct)[Nhận ($A=2$)], [Loại ($1=1$)],
 
         [$X_2$], [$X_1$], [$1/2 times 1/3 = 1/6$], [$(3, 1, 0)$], text(palette.wrong)[Loại ($A=3$)], [-],
-        [$X_2$], [$X_2$], [$(1/2)^2 = 1/4$], [$(2, 2, 0)$], text(palette.correct)[Nhận ($A=2$)], text(palette.correct)[Nhận ($2>0$)],
+        [$X_2$],
+        [$X_2$],
+        [$(1/2)^2 = 1/4$],
+        [$(2, 2, 0)$],
+        text(palette.correct)[Nhận ($A=2$)],
+        text(palette.correct)[Nhận ($2>0$)],
         [$X_2$], [$X_3$], [$1/2 times 1/6 = 1/12$], [$(1, 2, 1)$], text(palette.wrong)[Loại ($A=1$)], [-],
 
         [$X_3$], [$X_1$], [$1/6 times 1/3 = 1/18$], [$(2, 1, 1)$], text(palette.correct)[Nhận ($A=2$)], [Loại ($1=1$)],
         [$X_3$], [$X_2$], [$1/6 times 1/2 = 1/12$], [$(1, 2, 1)$], text(palette.wrong)[Loại ($A=1$)], [-],
-        [$X_3$], [$X_3$], [$(1/6)^2 = 1/36$], [$(0, 2, 2)$], text(palette.correct)[Nhận ($A=0$)], [Loại ($2=2$)]
+        [$X_3$], [$X_3$], [$(1/6)^2 = 1/36$], [$(0, 2, 2)$], text(palette.correct)[Nhận ($A=0$)], [Loại ($2=2$)],
       )
     ]
 
@@ -227,7 +239,7 @@
     - Theo công thức xác suất có điều kiện, ta có kết quả cuối cùng:
       $ P(N|M) = (P(N cap M))/(P(M)) = (1/4)/(1/2) = 1/2 $
     #reset-step()
-  ]
+  ],
 )
 
 #tln(
@@ -236,36 +248,39 @@
   loigiai: [
     #step[
       Gọi $X$ là biến cố "Sau 2 lần gieo, hộp $B$ có đúng 2 bóng" và $Y$ là biến cố "Hộp $A$ trống ($0$ bóng)". Ta cần tính $P(Y | X) = (P(X inter Y)) / P(X)$.
-      
+
       Phân tích 3 khả năng (KN) trong *mỗi lần gieo*:
       - *KN1:* $k in {1; 3; 5}$ $arrow$ Xác suất $1/2$, phân bổ bóng: $(+1A, +1B, 0C)$.
       - *KN2:* $k in {2; 4}$ $arrow$ Xác suất $1/3$, phân bổ bóng: $(0A, 0B, +2C)$.
       - *KN3:* $k = 6$ $arrow$ Xác suất $1/6$, phân bổ bóng: $(0A, +2B, 0C)$.
     ]
-    
+
     #step[
       *Sơ đồ cây biểu diễn phân bổ bóng sau 2 lần gieo:*
       #v(0.5em)
       #align(center)[
         #canvas(length: 1cm, {
           import draw: *
-          
+
           let edge-style = (mark: (end: ">", fill: black), stroke: 0.7pt)
           let lbl(txt) = box(fill: white, inset: 1pt, txt)
-          
+
           let p1_1 = (3.5, 4.5)
           let p1_2 = (3.5, 0)
           let p1_3 = (3.5, -4.5)
 
           content((0, 0), box(stroke: 1pt + black, inset: 5pt, radius: 4pt)[Bắt đầu], name: "N0")
-          
+
           content(p1_1, align(center)[*KN1* \ $(1A, 1B, 0C)$], name: "N1_1")
           content(p1_2, align(center)[*KN2* \ $(0A, 0B, 2C)$], name: "N1_2")
           content(p1_3, align(center)[*KN3* \ $(0A, 2B, 0C)$], name: "N1_3")
 
-          line("N0", "N1_1", ..edge-style); content((1.75, 2.75), lbl[$1/2$])
-          line("N0", "N1_2", ..edge-style); content((1.75, 0), lbl[$1/3$])
-          line("N0", "N1_3", ..edge-style); content((1.75, -2.85), lbl[$1/6$])
+          line("N0", "N1_1", ..edge-style)
+          content((1.75, 2.75), lbl[$1/2$])
+          line("N0", "N1_2", ..edge-style)
+          content((1.75, 0), lbl[$1/3$])
+          line("N0", "N1_3", ..edge-style)
+          content((1.75, -2.85), lbl[$1/6$])
 
           // 1. Từ KN1 rẽ ra 3 nhánh
           line("N1_1", (7.5, 6.0), ..edge-style)
@@ -274,7 +289,7 @@
 
           line("N1_1", (7.5, 4.5), ..edge-style)
           content((5.5, 4.4), lbl[$1/3$])
-          content((7.7, 4.5), [*KN2* $arrow (1A, 1B, 2C)$ #h(2pt) #text(fill: red)[(Loại)]], anchor: "west") 
+          content((7.7, 4.5), [*KN2* $arrow (1A, 1B, 2C)$ #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
 
           line("N1_1", (7.5, 3.0), ..edge-style)
           content((5.5, 3.25), lbl[$1/6$])
@@ -282,28 +297,36 @@
 
           // 2. Từ KN2 rẽ ra 3 nhánh
           line("N1_2", (7.5, 1.5), ..edge-style)
-          content((5.5, 0.8+.3), lbl[$1/2$])
+          content((5.5, 0.8 + .3), lbl[$1/2$])
           content((7.7, 1.5), [*KN1* $arrow (1A, 1B, 2C)$ #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
 
           line("N1_2", (7.5, 0), ..edge-style)
-          content((5.5, 0.1 -.2), lbl[$1/3$])
+          content((5.5, 0.1 - .2), lbl[$1/3$])
           content((7.7, 0), [*KN2* $arrow (0A, 0B, 4C)$ #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
 
           line("N1_2", (7.5, -1.5), ..edge-style)
-          content((5.5, -0.5 -.8), lbl[$1/6$])
-          content((7.7, -1.5), [*KN3* $arrow (0A, 2B, 2C)$ #h(2pt) #text(fill: blue, weight: "bold")[($A=0$)]], anchor: "west")
+          content((5.5, -0.5 - .8), lbl[$1/6$])
+          content(
+            (7.7, -1.5),
+            [*KN3* $arrow (0A, 2B, 2C)$ #h(2pt) #text(fill: blue, weight: "bold")[($A=0$)]],
+            anchor: "west",
+          )
 
           // 3. Từ KN3 rẽ ra 3 nhánh
           line("N1_3", (7.5, -3.0), ..edge-style)
-          content((5.5, -3.7 +.3), lbl[$1/2$])
+          content((5.5, -3.7 + .3), lbl[$1/2$])
           content((7.7, -3.0), [*KN1* $arrow (1A, 3B, 0C)$ #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
 
           line("N1_3", (7.5, -4.5), ..edge-style)
-          content((5.5, -4.4 -.2), lbl[$1/3$])
-          content((7.7, -4.5), [*KN2* $arrow (0A, 2B, 2C)$ #h(2pt) #text(fill: blue, weight: "bold")[($A=0$)]], anchor: "west")
+          content((5.5, -4.4 - .2), lbl[$1/3$])
+          content(
+            (7.7, -4.5),
+            [*KN2* $arrow (0A, 2B, 2C)$ #h(2pt) #text(fill: blue, weight: "bold")[($A=0$)]],
+            anchor: "west",
+          )
 
           line("N1_3", (7.5, -6.0), ..edge-style)
-          content((5.5, -5.1-.8), lbl[$1/6$])
+          content((5.5, -5.1 - .8), lbl[$1/6$])
           content((7.7, -6.0), [*KN3* $arrow (0A, 4B, 0C)$ #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
         })
       ]
@@ -312,7 +335,7 @@
     #step[
       Dựa vào sơ đồ cây, ta lọc được các nhánh mà hộp $B$ có đúng 2 bóng (biến cố $X$):
       $ P(X) = (1/2 times 1/2) + (1/3 times 1/6) + (1/6 times 1/3) = 1/4 + 1/18 + 1/18 = 13/36 $
-      
+
       Trong số các nhánh được "Nhận" đó, nhánh thỏa mãn điều kiện hộp $A$ trống (biến cố $X inter Y$) là 2 nhánh gieo ra tổ hợp (KN2, KN3) và (KN3, KN2):
       $ P(X inter Y) = (1/3 times 1/6) + (1/6 times 1/3) = 2/18 = 4/36 $
     ]
@@ -321,7 +344,7 @@
       Xác suất cần tìm là:
       $ P(Y | X) = (P(X inter Y)) / P(X) = (4/36) / (13/36) = 4/13 $
     ]
-  ]
+  ],
 )
 
 #tln(
@@ -343,7 +366,8 @@
       #table(
         columns: (auto, auto, auto, auto, auto, auto),
         align: center + horizon,
-        inset: (x: 8pt, y: 10pt), // <--- Thêm dòng này để tăng chiều cao hàng
+        inset: (x: 8pt, y: 10pt),
+        // <--- Thêm dòng này để tăng chiều cao hàng
         stroke: 0.5pt + palette.border,
         table.cell(fill: palette.accent)[#text(white, weight: "bold")[Bước 1]],
         table.cell(fill: palette.accent)[#text(white, weight: "bold")[Bước 2]],
@@ -374,7 +398,7 @@
     - Áp dụng công thức phá án ngược:
       $ P(N|M) = (P(N cap M))/(P(M)) = (12/36) / (13/36) = 12/13 $
     #reset-step()
-  ]
+  ],
 )
 
 #import "@preview/cetz:0.5.2": canvas, draw
@@ -385,13 +409,13 @@
   loigiai: [
     #step[
       Gọi $X$ là biến cố "Sau 2 lần gieo, hộp $B$ có đúng 2 bóng" và $Y$ là biến cố "Hộp $A$ có đúng 3 bóng". Cần tính $P(Y | X) = (P(X inter Y)) / P(X)$.
-      
+
       Phân tích 3 khả năng (KN) trong *mỗi lần gieo*:
       - *KN1:* $k=1$ $arrow$ Xác suất $1/6$, phân bổ: $(+3A, +2B, 0C)$.
       - *KN2:* $k in {2; 3; 4}$ $arrow$ Xác suất $3/6 = 1/2$, phân bổ: $(0A, 0B, +5C)$.
       - *KN3:* $k in {5; 6}$ $arrow$ Xác suất $2/6 = 1/3$, phân bổ: $(+2A, +1B, +2C)$.
     ]
-    
+
     #step[
       *Sơ đồ cây phân bổ bóng sau 2 lần gieo:*
       #v(0.5em)
@@ -400,40 +424,62 @@
           import draw: *
           let edge-style = (mark: (end: ">", fill: black), stroke: 0.7pt)
           let lbl(txt) = box(fill: white, inset: 1pt, txt)
-          
-          let p1_1 = (3.5, 4.5); let p1_2 = (3.5, 0); let p1_3 = (3.5, -4.5)
+
+          let p1_1 = (3.5, 4.5)
+          let p1_2 = (3.5, 0)
+          let p1_3 = (3.5, -4.5)
 
           content((0, 0), box(stroke: 1pt + black, inset: 5pt, radius: 4pt)[Bắt đầu], name: "N0")
           content(p1_1, align(center)[*KN1* \ $(3A, 2B, 0C)$], name: "N1_1")
           content(p1_2, align(center)[*KN2* \ $(0A, 0B, 5C)$], name: "N1_2")
           content(p1_3, align(center)[*KN3* \ $(2A, 1B, 2C)$], name: "N1_3")
 
-          line("N0", "N1_1", ..edge-style); content((1.75, 2.75), lbl[$1/6$])
-          line("N0", "N1_2", ..edge-style); content((1.75, 0), lbl[$1/2$])
-          line("N0", "N1_3", ..edge-style); content((1.75, -2.85), lbl[$1/3$])
+          line("N0", "N1_1", ..edge-style)
+          content((1.75, 2.75), lbl[$1/6$])
+          line("N0", "N1_2", ..edge-style)
+          content((1.75, 0), lbl[$1/2$])
+          line("N0", "N1_3", ..edge-style)
+          content((1.75, -2.85), lbl[$1/3$])
 
           // Từ KN1
-          line("N1_1", (7.5, 6.0), ..edge-style); content((5.5, 5.6), lbl[$1/6$])
+          line("N1_1", (7.5, 6.0), ..edge-style)
+          content((5.5, 5.6), lbl[$1/6$])
           content((7.7, 6.0), [*KN1* $arrow (6A, 4B, 0C)$ #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
-          line("N1_1", (7.5, 4.5), ..edge-style); content((5.5, 4.4), lbl[$1/2$])
-          content((7.7, 4.5), [*KN2* $arrow (3A, 2B, 5C)$ #h(2pt) #text(fill: blue, weight: "bold")[($A=3$)]], anchor: "west") 
-          line("N1_1", (7.5, 3.0), ..edge-style); content((5.5, 3.25), lbl[$1/3$])
+          line("N1_1", (7.5, 4.5), ..edge-style)
+          content((5.5, 4.4), lbl[$1/2$])
+          content(
+            (7.7, 4.5),
+            [*KN2* $arrow (3A, 2B, 5C)$ #h(2pt) #text(fill: blue, weight: "bold")[($A=3$)]],
+            anchor: "west",
+          )
+          line("N1_1", (7.5, 3.0), ..edge-style)
+          content((5.5, 3.25), lbl[$1/3$])
           content((7.7, 3.0), [*KN3* $arrow (5A, 3B, 2C)$ #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
 
           // Từ KN2
-          line("N1_2", (7.5, 1.5), ..edge-style); content((5.5, 0.8+.3), lbl[$1/6$])
-          content((7.7, 1.5), [*KN1* $arrow (3A, 2B, 5C)$ #h(2pt) #text(fill: blue, weight: "bold")[($A=3$)]], anchor: "west")
-          line("N1_2", (7.5, 0), ..edge-style); content((5.5, 0.1 -.2), lbl[$1/2$])
+          line("N1_2", (7.5, 1.5), ..edge-style)
+          content((5.5, 0.8 + .3), lbl[$1/6$])
+          content(
+            (7.7, 1.5),
+            [*KN1* $arrow (3A, 2B, 5C)$ #h(2pt) #text(fill: blue, weight: "bold")[($A=3$)]],
+            anchor: "west",
+          )
+          line("N1_2", (7.5, 0), ..edge-style)
+          content((5.5, 0.1 - .2), lbl[$1/2$])
           content((7.7, 0), [*KN2* $arrow (0A, 0B, 10C)$ #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
-          line("N1_2", (7.5, -1.5), ..edge-style); content((5.5, -0.5 -.8), lbl[$1/3$])
+          line("N1_2", (7.5, -1.5), ..edge-style)
+          content((5.5, -0.5 - .8), lbl[$1/3$])
           content((7.7, -1.5), [*KN3* $arrow (2A, 1B, 7C)$ #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
 
           // Từ KN3
-          line("N1_3", (7.5, -3.0), ..edge-style); content((5.5, -3.7 +.3), lbl[$1/6$])
+          line("N1_3", (7.5, -3.0), ..edge-style)
+          content((5.5, -3.7 + .3), lbl[$1/6$])
           content((7.7, -3.0), [*KN1* $arrow (5A, 3B, 2C)$ #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
-          line("N1_3", (7.5, -4.5), ..edge-style); content((5.5, -4.4 -.2), lbl[$1/2$])
+          line("N1_3", (7.5, -4.5), ..edge-style)
+          content((5.5, -4.4 - .2), lbl[$1/2$])
           content((7.7, -4.5), [*KN2* $arrow (2A, 1B, 7C)$ #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
-          line("N1_3", (7.5, -6.0), ..edge-style); content((5.5, -5.1-.8), lbl[$1/3$])
+          line("N1_3", (7.5, -6.0), ..edge-style)
+          content((5.5, -5.1 - .8), lbl[$1/3$])
           content((7.7, -6.0), [*KN3* $arrow (4A, 2B, 4C)$ #h(2pt) #text(fill: green)[(Nhận)]], anchor: "west")
         })
       ]
@@ -442,7 +488,7 @@
     #step[
       Từ sơ đồ trên, các nhánh thỏa mãn hộp $B$ có đúng 2 bóng (biến cố $X$) gồm các nhánh Xanh dương và Xanh lá:
       $ P(X) = (1/6 times 1/2) + (1/2 times 1/6) + (1/3 times 1/3) = 1/12 + 1/12 + 1/9 = 10/36 $
-      
+
       Trong số đó, những nhánh thỏa mãn có đúng 3 quả bóng ở hộp $A$ (biến cố $X inter Y$) chỉ có nhánh Xanh dương:
       $ P(X inter Y) = (1/6 times 1/2) + (1/2 times 1/6) = 1/12 + 1/12 = 6/36 $
     ]
@@ -451,7 +497,7 @@
       Xác suất cần tìm dưới dạng số thập phân là:
       $ P(Y | X) = (P(X inter Y)) / P(X) = (6/36) / (10/36) = 6/10 = 0.6 $
     ]
-  ]
+  ],
 )
 #import "@preview/cetz:0.5.2": canvas, draw
 
@@ -461,13 +507,13 @@
   loigiai: [
     #step[
       Gọi $X$ là biến cố "Sau 2 giai đoạn, Điểm kỹ năng $>= 2$" và $Y$ là biến cố "Điểm kỹ năng đạt tối đa (3 điểm)". Ta tính $P(Y | X) = (P(X inter Y)) / P(X)$.
-      
+
       Nhân vật bắt đầu với $1$ điểm. Phân tích 3 khả năng (KN) ở *mỗi giai đoạn*:
       - *KN1:* $k in {1; 2}$ $arrow$ Xác suất $1/3$, thay đổi điểm: $+1$.
       - *KN2:* $k in {3; 4; 5}$ $arrow$ Xác suất $1/2$, thay đổi điểm: $+0$.
       - *KN3:* $k = 6$ $arrow$ Xác suất $1/6$, thay đổi điểm: $-1$.
     ]
-    
+
     #step[
       *Sơ đồ cây biểu diễn quá trình thay đổi điểm (Ban đầu: 1đ):*
       #v(0.5em)
@@ -476,40 +522,58 @@
           import draw: *
           let edge-style = (mark: (end: ">", fill: black), stroke: 0.7pt)
           let lbl(txt) = box(fill: white, inset: 1pt, txt)
-          
-          let p1_1 = (3.5, 4.5); let p1_2 = (3.5, 0); let p1_3 = (3.5, -4.5)
+
+          let p1_1 = (3.5, 4.5)
+          let p1_2 = (3.5, 0)
+          let p1_3 = (3.5, -4.5)
 
           content((0, 0), box(stroke: 1pt + black, inset: 5pt, radius: 4pt)[Có 1 điểm], name: "N0")
           content(p1_1, align(center)[*KN1* \ ($+1$)], name: "N1_1")
           content(p1_2, align(center)[*KN2* \ ($+0$)], name: "N1_2")
           content(p1_3, align(center)[*KN3* \ ($-1$)], name: "N1_3")
 
-          line("N0", "N1_1", ..edge-style); content((1.75, 2.75), lbl[$1/3$])
-          line("N0", "N1_2", ..edge-style); content((1.75, 0), lbl[$1/2$])
-          line("N0", "N1_3", ..edge-style); content((1.75, -2.85), lbl[$1/6$])
+          line("N0", "N1_1", ..edge-style)
+          content((1.75, 2.75), lbl[$1/3$])
+          line("N0", "N1_2", ..edge-style)
+          content((1.75, 0), lbl[$1/2$])
+          line("N0", "N1_3", ..edge-style)
+          content((1.75, -2.85), lbl[$1/6$])
 
           // Từ nhánh GĐ 1: KN1 (Đang có 2 điểm)
-          line("N1_1", (7.0, 6.0), ..edge-style); content((5.25, 5.6), lbl[$1/3$])
-          content((7.2, 6.0), [*KN1* $arrow$ Cuối: 3đ #h(2pt) #text(fill: blue, weight: "bold")[($=3$đ)]], anchor: "west")
-          line("N1_1", (7.0, 4.5), ..edge-style); content((5.25, 4.4), lbl[$1/2$])
-          content((7.2, 4.5), [*KN2* $arrow$ Cuối: 2đ #h(2pt) #text(fill: green)[($>=2$đ)]], anchor: "west") 
-          line("N1_1", (7.0, 3.0), ..edge-style); content((5.25, 3.25), lbl[$1/6$])
+          line("N1_1", (7.0, 6.0), ..edge-style)
+          content((5.25, 5.6), lbl[$1/3$])
+          content(
+            (7.2, 6.0),
+            [*KN1* $arrow$ Cuối: 3đ #h(2pt) #text(fill: blue, weight: "bold")[($=3$đ)]],
+            anchor: "west",
+          )
+          line("N1_1", (7.0, 4.5), ..edge-style)
+          content((5.25, 4.4), lbl[$1/2$])
+          content((7.2, 4.5), [*KN2* $arrow$ Cuối: 2đ #h(2pt) #text(fill: green)[($>=2$đ)]], anchor: "west")
+          line("N1_1", (7.0, 3.0), ..edge-style)
+          content((5.25, 3.25), lbl[$1/6$])
           content((7.2, 3.0), [*KN3* $arrow$ Cuối: 1đ #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
 
           // Từ nhánh GĐ 1: KN2 (Đang có 1 điểm)
-          line("N1_2", (7.0, 1.5), ..edge-style); content((5.25, 0.8+.3), lbl[$1/3$])
+          line("N1_2", (7.0, 1.5), ..edge-style)
+          content((5.25, 0.8 + .3), lbl[$1/3$])
           content((7.2, 1.5), [*KN1* $arrow$ Cuối: 2đ #h(2pt) #text(fill: green)[($>=2$đ)]], anchor: "west")
-          line("N1_2", (7.0, 0), ..edge-style); content((5.25, 0.1 -.2), lbl[$1/2$])
+          line("N1_2", (7.0, 0), ..edge-style)
+          content((5.25, 0.1 - .2), lbl[$1/2$])
           content((7.2, 0), [*KN2* $arrow$ Cuối: 1đ #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
-          line("N1_2", (7.0, -1.5), ..edge-style); content((5.25, -0.5 -.8), lbl[$1/6$])
+          line("N1_2", (7.0, -1.5), ..edge-style)
+          content((5.25, -0.5 - .8), lbl[$1/6$])
           content((7.2, -1.5), [*KN3* $arrow$ Cuối: 0đ #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
 
           // Từ nhánh GĐ 1: KN3 (Đang có 0 điểm)
-          line("N1_3", (7.0, -3.0), ..edge-style); content((5.25, -3.7 +.3), lbl[$1/3$])
+          line("N1_3", (7.0, -3.0), ..edge-style)
+          content((5.25, -3.7 + .3), lbl[$1/3$])
           content((7.2, -3.0), [*KN1* $arrow$ Cuối: 1đ #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
-          line("N1_3", (7.0, -4.5), ..edge-style); content((5.25, -4.4 -.2), lbl[$1/2$])
+          line("N1_3", (7.0, -4.5), ..edge-style)
+          content((5.25, -4.4 - .2), lbl[$1/2$])
           content((7.2, -4.5), [*KN2* $arrow$ Cuối: 0đ #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
-          line("N1_3", (7.0, -6.0), ..edge-style); content((5.25, -5.1-.8), lbl[$1/6$])
+          line("N1_3", (7.0, -6.0), ..edge-style)
+          content((5.25, -5.1 - .8), lbl[$1/6$])
           content((7.2, -6.0), [*KN3* $arrow$ Cuối: -1đ #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
         })
       ]
@@ -518,7 +582,7 @@
     #step[
       Các nhánh thỏa mãn biến cố $X$ (tổng điểm $>= 2$) gồm nhánh Xanh lá và Xanh dương:
       $ P(X) = (1/3 times 1/3) + (1/3 times 1/2) + (1/2 times 1/3) = 1/9 + 1/6 + 1/6 = 4/36 + 6/36 + 6/36 = 16/36 $
-      
+
       Trong 3 nhánh trên, chỉ có duy nhất nhánh đạt tối đa 3 điểm (biến cố $X inter Y$, màu xanh dương):
       $ P(X inter Y) = 1/3 times 1/3 = 1/9 = 4/36 $
     ]
@@ -527,7 +591,7 @@
       Xác suất cần tìm dưới dạng số thập phân là:
       $ P(Y | X) = (P(X inter Y)) / P(X) = (4/36) / (16/36) = 4/16 = 1/4 = 0.25 $
     ]
-  ]
+  ],
 )
 
 #tln(
@@ -536,13 +600,13 @@
   loigiai: [
     #step[
       Gọi $X$ là biến cố "Tổng điểm sau 2 giai đoạn $>= 10$" (tức là có ít nhất 1 lần trúng hồng tâm) và $Y$ là biến cố "Tổng điểm là một số lẻ". Cần tính $P(Y | X) = (P(X inter Y)) / P(X)$.
-      
+
       Phân tích 3 khả năng (KN) trong *mỗi giai đoạn bắn*:
       - *KN1:* $k in {1; 2; 3}$ $arrow$ Xác suất $1/2$, ghi nhận: $1$ điểm.
       - *KN2:* $k in {4; 5}$ $arrow$ Xác suất $1/3$, ghi nhận: $10$ điểm.
       - *KN3:* $k = 6$ $arrow$ Xác suất $1/6$, ghi nhận: $0$ điểm.
     ]
-    
+
     #step[
       *Sơ đồ cây biểu diễn điểm số sau 2 giai đoạn:*
       #v(0.5em)
@@ -551,40 +615,54 @@
           import draw: *
           let edge-style = (mark: (end: ">", fill: black), stroke: 0.7pt)
           let lbl(txt) = box(fill: white, inset: 1pt, txt)
-          
-          let p1_1 = (3.5, 4.5); let p1_2 = (3.5, 0); let p1_3 = (3.5, -4.5)
+
+          let p1_1 = (3.5, 4.5)
+          let p1_2 = (3.5, 0)
+          let p1_3 = (3.5, -4.5)
 
           content((0, 0), box(stroke: 1pt + black, inset: 5pt, radius: 4pt)[Bắt đầu (0đ)], name: "N0")
           content(p1_1, align(center)[*KN1* \ (1đ)], name: "N1_1")
           content(p1_2, align(center)[*KN2* \ (10đ)], name: "N1_2")
           content(p1_3, align(center)[*KN3* \ (0đ)], name: "N1_3")
 
-          line("N0", "N1_1", ..edge-style); content((1.75, 2.75), lbl[$1/2$])
-          line("N0", "N1_2", ..edge-style); content((1.75, 0), lbl[$1/3$])
-          line("N0", "N1_3", ..edge-style); content((1.75, -2.85), lbl[$1/6$])
+          line("N0", "N1_1", ..edge-style)
+          content((1.75, 2.75), lbl[$1/2$])
+          line("N0", "N1_2", ..edge-style)
+          content((1.75, 0), lbl[$1/3$])
+          line("N0", "N1_3", ..edge-style)
+          content((1.75, -2.85), lbl[$1/6$])
 
           // Từ nhánh GĐ 1: KN1 (1đ)
-          line("N1_1", (7.0, 6.0), ..edge-style); content((5.25, 5.6), lbl[$1/2$])
+          line("N1_1", (7.0, 6.0), ..edge-style)
+          content((5.25, 5.6), lbl[$1/2$])
           content((7.2, 6.0), [*KN1* $arrow$ Tổng: 2đ #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
-          line("N1_1", (7.0, 4.5), ..edge-style); content((5.25, 4.4), lbl[$1/3$])
-          content((7.2, 4.5), [*KN2* $arrow$ Tổng: 11đ #h(2pt) #text(fill: blue, weight: "bold")[(Lẻ)]], anchor: "west") 
-          line("N1_1", (7.0, 3.0), ..edge-style); content((5.25, 3.25), lbl[$1/6$])
+          line("N1_1", (7.0, 4.5), ..edge-style)
+          content((5.25, 4.4), lbl[$1/3$])
+          content((7.2, 4.5), [*KN2* $arrow$ Tổng: 11đ #h(2pt) #text(fill: blue, weight: "bold")[(Lẻ)]], anchor: "west")
+          line("N1_1", (7.0, 3.0), ..edge-style)
+          content((5.25, 3.25), lbl[$1/6$])
           content((7.2, 3.0), [*KN3* $arrow$ Tổng: 1đ #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
 
           // Từ nhánh GĐ 1: KN2 (10đ)
-          line("N1_2", (7.0, 1.5), ..edge-style); content((5.25, 0.8+.3), lbl[$1/2$])
+          line("N1_2", (7.0, 1.5), ..edge-style)
+          content((5.25, 0.8 + .3), lbl[$1/2$])
           content((7.2, 1.5), [*KN1* $arrow$ Tổng: 11đ #h(2pt) #text(fill: blue, weight: "bold")[(Lẻ)]], anchor: "west")
-          line("N1_2", (7.0, 0), ..edge-style); content((5.25, 0.1 -.2), lbl[$1/3$])
+          line("N1_2", (7.0, 0), ..edge-style)
+          content((5.25, 0.1 - .2), lbl[$1/3$])
           content((7.2, 0), [*KN2* $arrow$ Tổng: 20đ #h(2pt) #text(fill: green)[(Chẵn)]], anchor: "west")
-          line("N1_2", (7.0, -1.5), ..edge-style); content((5.25, -0.5 -.8), lbl[$1/6$])
+          line("N1_2", (7.0, -1.5), ..edge-style)
+          content((5.25, -0.5 - .8), lbl[$1/6$])
           content((7.2, -1.5), [*KN3* $arrow$ Tổng: 10đ #h(2pt) #text(fill: green)[(Chẵn)]], anchor: "west")
 
           // Từ nhánh GĐ 1: KN3 (0đ)
-          line("N1_3", (7.0, -3.0), ..edge-style); content((5.25, -3.7 +.3), lbl[$1/2$])
+          line("N1_3", (7.0, -3.0), ..edge-style)
+          content((5.25, -3.7 + .3), lbl[$1/2$])
           content((7.2, -3.0), [*KN1* $arrow$ Tổng: 1đ #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
-          line("N1_3", (7.0, -4.5), ..edge-style); content((5.25, -4.4 -.2), lbl[$1/3$])
+          line("N1_3", (7.0, -4.5), ..edge-style)
+          content((5.25, -4.4 - .2), lbl[$1/3$])
           content((7.2, -4.5), [*KN2* $arrow$ Tổng: 10đ #h(2pt) #text(fill: green)[(Chẵn)]], anchor: "west")
-          line("N1_3", (7.0, -6.0), ..edge-style); content((5.25, -5.1-.8), lbl[$1/6$])
+          line("N1_3", (7.0, -6.0), ..edge-style)
+          content((5.25, -5.1 - .8), lbl[$1/6$])
           content((7.2, -6.0), [*KN3* $arrow$ Tổng: 0đ #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
         })
       ]
@@ -594,7 +672,7 @@
       Từ sơ đồ, các nhánh thỏa mãn biến cố $X$ (tổng điểm $>= 10$) gồm các nhánh Xanh lá và Xanh dương:
       $ P(X) = (1/2 times 1/3) + (1/3 times 1/2) + (1/3 times 1/3) + (1/3 times 1/6) + (1/6 times 1/3) $
       $ P(X) = 1/6 + 1/6 + 1/9 + 1/18 + 1/18 = 6/36 + 6/36 + 4/36 + 2/36 + 2/36 = 20/36 $
-      
+
       Trong số đó, những nhánh có tổng điểm là số lẻ (biến cố $X inter Y$) chỉ gồm 2 nhánh Xanh dương (đều ra $11$ điểm):
       $ P(X inter Y) = (1/2 times 1/3) + (1/3 times 1/2) = 1/6 + 1/6 = 12/36 $
     ]
@@ -603,7 +681,7 @@
       Xác suất cần tìm dưới dạng số thập phân là:
       $ P(Y | X) = (P(X inter Y)) / P(X) = (12/36) / (20/36) = 12/20 = 0.6 $
     ]
-  ]
+  ],
 )
 
 
@@ -613,18 +691,18 @@
   fig: canvas({
     import draw: *
     let lbl(txt) = box(fill: rgb("#eef6ed"), inset: 3pt, radius: 2pt, text(size: 8.5pt, txt))
-    
+
     // Icon xúc xắc giả lập (vuông bo góc)
-    rect((0,0), (1.2, 1.2), radius: 0.2, stroke: 1.2pt + palette.accent, fill: rgb("#e8f0fc"))
+    rect((0, 0), (1.2, 1.2), radius: 0.2, stroke: 1.2pt + palette.accent, fill: rgb("#e8f0fc"))
     content((0.6, 0.6), text(weight: "bold", fill: palette.accent)[Gieo])
-    
+
     // Phân nhánh quy tắc
     line((1.3, 0.9), (2.5, 1.5), mark: (end: ">", fill: black), stroke: 0.8pt)
-    content((2.6, 1.5), lbl[$ <= 3$ chấm: $+2A$], anchor: "west") 
-    
+    content((2.6, 1.5), lbl[$<= 3$ chấm: $+2A$], anchor: "west")
+
     line((1.3, 0.6), (2.5, 0.6), mark: (end: ">", fill: black), stroke: 0.8pt)
     content((2.6, 0.6), lbl[$4,5$ chấm: $+1A, +1B$], anchor: "west")
-    
+
     line((1.3, 0.3), (2.5, -0.3), mark: (end: ">", fill: black), stroke: 0.8pt)
     content((2.6, -0.3), lbl[$6$ chấm: $+1B, +1C$], anchor: "west")
   }),
@@ -648,7 +726,8 @@
       #table(
         columns: (auto, auto, auto, auto, auto, auto),
         align: center + horizon,
-        inset: (x: 8pt, y: 10pt), // <--- Thêm dòng này để tăng chiều cao hàng
+        inset: (x: 8pt, y: 10pt),
+        // <--- Thêm dòng này để tăng chiều cao hàng
         stroke: 0.5pt + palette.border,
         table.cell(fill: palette.accent)[#text(white, weight: "bold")[Lượt 1]],
         table.cell(fill: palette.accent)[#text(white, weight: "bold")[Lượt 2]],
@@ -667,7 +746,7 @@
 
         [$X_3$], [$X_1$], [$1/6 times 1/2 = 1/12$], [$(2, 1, 1)$], text(palette.correct)[Nhận], [Loại ($1=1$)],
         [$X_3$], [$X_2$], [$1/6 times 1/3 = 1/18$], [$(1, 2, 1)$], text(palette.wrong)[Loại ($A=1$)], [-],
-        [$X_3$], [$X_3$], [$(1/6)^2 = 1/36$], [$(0, 2, 2)$], text(palette.wrong)[Loại ($A=0$)], [-]
+        [$X_3$], [$X_3$], [$(1/6)^2 = 1/36$], [$(0, 2, 2)$], text(palette.wrong)[Loại ($A=0$)], [-],
       )
     ]
 
@@ -679,7 +758,7 @@
     - Xác suất cần tìm:
       $ P(N|M) = (P(N cap M))/(P(M)) = (1/9) / (5/18) = 2/5 = 0.4 $
     #reset-step()
-  ]
+  ],
 )
 
 #import "@preview/cetz:0.5.2": canvas, draw
@@ -690,13 +769,13 @@
   loigiai: [
     #step[
       Gọi $X$ là biến cố "Sau 2 giai đoạn, Điểm kỹ năng $>= 2$" và $Y$ là biến cố "Điểm kỹ năng đạt tối đa (3 điểm)". Ta tính $P(Y | X) = (P(X inter Y)) / P(X)$.
-      
+
       Nhân vật bắt đầu với $1$ điểm. Phân tích 3 khả năng (KN) ở *mỗi giai đoạn*:
       - *KN1:* $k in {1; 2}$ $arrow$ Xác suất $1/3$, thay đổi điểm: $+1$.
       - *KN2:* $k in {3; 4; 5}$ $arrow$ Xác suất $1/2$, thay đổi điểm: $+0$.
       - *KN3:* $k = 6$ $arrow$ Xác suất $1/6$, thay đổi điểm: $-1$.
     ]
-    
+
     #step[
       *Sơ đồ cây biểu diễn quá trình thay đổi điểm (Ban đầu: 1đ):*
       #v(0.5em)
@@ -705,40 +784,58 @@
           import draw: *
           let edge-style = (mark: (end: ">", fill: black), stroke: 0.7pt)
           let lbl(txt) = box(fill: white, inset: 1pt, txt)
-          
-          let p1_1 = (3.5, 4.5); let p1_2 = (3.5, 0); let p1_3 = (3.5, -4.5)
+
+          let p1_1 = (3.5, 4.5)
+          let p1_2 = (3.5, 0)
+          let p1_3 = (3.5, -4.5)
 
           content((0, 0), box(stroke: 1pt + black, inset: 5pt, radius: 4pt)[Có 1 điểm], name: "N0")
           content(p1_1, align(center)[*KN1* \ ($+1$)], name: "N1_1")
           content(p1_2, align(center)[*KN2* \ ($+0$)], name: "N1_2")
           content(p1_3, align(center)[*KN3* \ ($-1$)], name: "N1_3")
 
-          line("N0", "N1_1", ..edge-style); content((1.75, 2.75), lbl[$1/3$])
-          line("N0", "N1_2", ..edge-style); content((1.75, 0), lbl[$1/2$])
-          line("N0", "N1_3", ..edge-style); content((1.75, -2.85), lbl[$1/6$])
+          line("N0", "N1_1", ..edge-style)
+          content((1.75, 2.75), lbl[$1/3$])
+          line("N0", "N1_2", ..edge-style)
+          content((1.75, 0), lbl[$1/2$])
+          line("N0", "N1_3", ..edge-style)
+          content((1.75, -2.85), lbl[$1/6$])
 
           // Từ nhánh GĐ 1: KN1 (Đang có 2 điểm)
-          line("N1_1", (7.0, 6.0), ..edge-style); content((5.25, 5.6), lbl[$1/3$])
-          content((7.2, 6.0), [*KN1* $arrow$ Cuối: 3đ #h(2pt) #text(fill: blue, weight: "bold")[($=3$đ)]], anchor: "west")
-          line("N1_1", (7.0, 4.5), ..edge-style); content((5.25, 4.4), lbl[$1/2$])
-          content((7.2, 4.5), [*KN2* $arrow$ Cuối: 2đ #h(2pt) #text(fill: green)[($>=2$đ)]], anchor: "west") 
-          line("N1_1", (7.0, 3.0), ..edge-style); content((5.25, 3.25), lbl[$1/6$])
+          line("N1_1", (7.0, 6.0), ..edge-style)
+          content((5.25, 5.6), lbl[$1/3$])
+          content(
+            (7.2, 6.0),
+            [*KN1* $arrow$ Cuối: 3đ #h(2pt) #text(fill: blue, weight: "bold")[($=3$đ)]],
+            anchor: "west",
+          )
+          line("N1_1", (7.0, 4.5), ..edge-style)
+          content((5.25, 4.4), lbl[$1/2$])
+          content((7.2, 4.5), [*KN2* $arrow$ Cuối: 2đ #h(2pt) #text(fill: green)[($>=2$đ)]], anchor: "west")
+          line("N1_1", (7.0, 3.0), ..edge-style)
+          content((5.25, 3.25), lbl[$1/6$])
           content((7.2, 3.0), [*KN3* $arrow$ Cuối: 1đ #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
 
           // Từ nhánh GĐ 1: KN2 (Đang có 1 điểm)
-          line("N1_2", (7.0, 1.5), ..edge-style); content((5.25, 0.8+.3), lbl[$1/3$])
+          line("N1_2", (7.0, 1.5), ..edge-style)
+          content((5.25, 0.8 + .3), lbl[$1/3$])
           content((7.2, 1.5), [*KN1* $arrow$ Cuối: 2đ #h(2pt) #text(fill: green)[($>=2$đ)]], anchor: "west")
-          line("N1_2", (7.0, 0), ..edge-style); content((5.25, 0.1 -.2), lbl[$1/2$])
+          line("N1_2", (7.0, 0), ..edge-style)
+          content((5.25, 0.1 - .2), lbl[$1/2$])
           content((7.2, 0), [*KN2* $arrow$ Cuối: 1đ #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
-          line("N1_2", (7.0, -1.5), ..edge-style); content((5.25, -0.5 -.8), lbl[$1/6$])
+          line("N1_2", (7.0, -1.5), ..edge-style)
+          content((5.25, -0.5 - .8), lbl[$1/6$])
           content((7.2, -1.5), [*KN3* $arrow$ Cuối: 0đ #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
 
           // Từ nhánh GĐ 1: KN3 (Đang có 0 điểm)
-          line("N1_3", (7.0, -3.0), ..edge-style); content((5.25, -3.7 +.3), lbl[$1/3$])
+          line("N1_3", (7.0, -3.0), ..edge-style)
+          content((5.25, -3.7 + .3), lbl[$1/3$])
           content((7.2, -3.0), [*KN1* $arrow$ Cuối: 1đ #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
-          line("N1_3", (7.0, -4.5), ..edge-style); content((5.25, -4.4 -.2), lbl[$1/2$])
+          line("N1_3", (7.0, -4.5), ..edge-style)
+          content((5.25, -4.4 - .2), lbl[$1/2$])
           content((7.2, -4.5), [*KN2* $arrow$ Cuối: 0đ #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
-          line("N1_3", (7.0, -6.0), ..edge-style); content((5.25, -5.1-.8), lbl[$1/6$])
+          line("N1_3", (7.0, -6.0), ..edge-style)
+          content((5.25, -5.1 - .8), lbl[$1/6$])
           content((7.2, -6.0), [*KN3* $arrow$ Cuối: -1đ #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
         })
       ]
@@ -747,7 +844,7 @@
     #step[
       Các nhánh thỏa mãn biến cố $X$ (tổng điểm $>= 2$) gồm nhánh Xanh lá và Xanh dương:
       $ P(X) = (1/3 times 1/3) + (1/3 times 1/2) + (1/2 times 1/3) = 1/9 + 1/6 + 1/6 = 4/36 + 6/36 + 6/36 = 16/36 $
-      
+
       Trong 3 nhánh trên, chỉ có duy nhất nhánh đạt tối đa 3 điểm (biến cố $X inter Y$, màu xanh dương):
       $ P(X inter Y) = 1/3 times 1/3 = 1/9 = 4/36 $
     ]
@@ -756,7 +853,7 @@
       Xác suất cần tìm dưới dạng số thập phân là:
       $ P(Y | X) = (P(X inter Y)) / P(X) = (4/36) / (16/36) = 4/16 = 1/4 = 0.25 $
     ]
-  ]
+  ],
 )
 #import "@preview/cetz:0.5.2": canvas, draw
 
@@ -766,13 +863,13 @@
   loigiai: [
     #step[
       Gọi $X$ là biến cố "Sau 2 lượt chơi, tổng số Sao tích lũy là $4$" và $Y$ là biến cố "Số Sao nhận được ở 2 lượt chơi là bằng nhau". Ta cần tính $P(Y | X) = (P(X inter Y)) / P(X)$.
-      
+
       Phân tích 3 khả năng (KN) trong *mỗi lượt chơi*:
       - *KN1:* $k in {1; 2; 3}$ $arrow$ Xác suất $1/2$, nhận: $1$ Sao.
       - *KN2:* $k in {4; 5}$ $arrow$ Xác suất $1/3$, nhận: $2$ Sao.
       - *KN3:* $k = 6$ $arrow$ Xác suất $1/6$, nhận: $3$ Sao.
     ]
-    
+
     #step[
       *Sơ đồ cây biểu diễn tổng số Sao sau 2 lượt chơi:*
       #v(0.5em)
@@ -781,40 +878,58 @@
           import draw: *
           let edge-style = (mark: (end: ">", fill: black), stroke: 0.7pt)
           let lbl(txt) = box(fill: white, inset: 1pt, txt)
-          
-          let p1_1 = (3.5, 4.5); let p1_2 = (3.5, 0); let p1_3 = (3.5, -4.5)
+
+          let p1_1 = (3.5, 4.5)
+          let p1_2 = (3.5, 0)
+          let p1_3 = (3.5, -4.5)
 
           content((0, 0), box(stroke: 1pt + black, inset: 5pt, radius: 4pt)[Bắt đầu (0 Sao)], name: "N0")
           content(p1_1, align(center)[*KN1* \ (1 Sao)], name: "N1_1")
           content(p1_2, align(center)[*KN2* \ (2 Sao)], name: "N1_2")
           content(p1_3, align(center)[*KN3* \ (3 Sao)], name: "N1_3")
 
-          line("N0", "N1_1", ..edge-style); content((1.75, 2.75), lbl[$1/2$])
-          line("N0", "N1_2", ..edge-style); content((1.75, 0), lbl[$1/3$])
-          line("N0", "N1_3", ..edge-style); content((1.75, -2.85), lbl[$1/6$])
+          line("N0", "N1_1", ..edge-style)
+          content((1.75, 2.75), lbl[$1/2$])
+          line("N0", "N1_2", ..edge-style)
+          content((1.75, 0), lbl[$1/3$])
+          line("N0", "N1_3", ..edge-style)
+          content((1.75, -2.85), lbl[$1/6$])
 
           // Từ KN1 (Đang có 1 Sao)
-          line("N1_1", (7.0, 6.0), ..edge-style); content((5.25, 5.6), lbl[$1/2$])
+          line("N1_1", (7.0, 6.0), ..edge-style)
+          content((5.25, 5.6), lbl[$1/2$])
           content((7.2, 6.0), [*KN1* $arrow$ Tổng: 2 Sao #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
-          line("N1_1", (7.0, 4.5), ..edge-style); content((5.25, 4.4), lbl[$1/3$])
-          content((7.2, 4.5), [*KN2* $arrow$ Tổng: 3 Sao #h(2pt) #text(fill: red)[(Loại)]], anchor: "west") 
-          line("N1_1", (7.0, 3.0), ..edge-style); content((5.25, 3.25), lbl[$1/6$])
+          line("N1_1", (7.0, 4.5), ..edge-style)
+          content((5.25, 4.4), lbl[$1/3$])
+          content((7.2, 4.5), [*KN2* $arrow$ Tổng: 3 Sao #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
+          line("N1_1", (7.0, 3.0), ..edge-style)
+          content((5.25, 3.25), lbl[$1/6$])
           content((7.2, 3.0), [*KN3* $arrow$ Tổng: 4 Sao #h(2pt) #text(fill: green)[(Nhận)]], anchor: "west")
 
           // Từ KN2 (Đang có 2 Sao)
-          line("N1_2", (7.0, 1.5), ..edge-style); content((5.25, 0.8+.3), lbl[$1/2$])
+          line("N1_2", (7.0, 1.5), ..edge-style)
+          content((5.25, 0.8 + .3), lbl[$1/2$])
           content((7.2, 1.5), [*KN1* $arrow$ Tổng: 3 Sao #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
-          line("N1_2", (7.0, 0), ..edge-style); content((5.25, 0.1 -.2), lbl[$1/3$])
-          content((7.2, 0), [*KN2* $arrow$ Tổng: 4 Sao #h(2pt) #text(fill: blue, weight: "bold")[(Nhận, 2 lượt bằng nhau)]], anchor: "west")
-          line("N1_2", (7.0, -1.5), ..edge-style); content((5.25, -0.5 -.8), lbl[$1/6$])
+          line("N1_2", (7.0, 0), ..edge-style)
+          content((5.25, 0.1 - .2), lbl[$1/3$])
+          content(
+            (7.2, 0),
+            [*KN2* $arrow$ Tổng: 4 Sao #h(2pt) #text(fill: blue, weight: "bold")[(Nhận, 2 lượt bằng nhau)]],
+            anchor: "west",
+          )
+          line("N1_2", (7.0, -1.5), ..edge-style)
+          content((5.25, -0.5 - .8), lbl[$1/6$])
           content((7.2, -1.5), [*KN3* $arrow$ Tổng: 5 Sao #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
 
           // Từ KN3 (Đang có 3 Sao)
-          line("N1_3", (7.0, -3.0), ..edge-style); content((5.25, -3.7 +.3), lbl[$1/2$])
+          line("N1_3", (7.0, -3.0), ..edge-style)
+          content((5.25, -3.7 + .3), lbl[$1/2$])
           content((7.2, -3.0), [*KN1* $arrow$ Tổng: 4 Sao #h(2pt) #text(fill: green)[(Nhận)]], anchor: "west")
-          line("N1_3", (7.0, -4.5), ..edge-style); content((5.25, -4.4 -.2), lbl[$1/3$])
+          line("N1_3", (7.0, -4.5), ..edge-style)
+          content((5.25, -4.4 - .2), lbl[$1/3$])
           content((7.2, -4.5), [*KN2* $arrow$ Tổng: 5 Sao #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
-          line("N1_3", (7.0, -6.0), ..edge-style); content((5.25, -5.1-.8), lbl[$1/6$])
+          line("N1_3", (7.0, -6.0), ..edge-style)
+          content((5.25, -5.1 - .8), lbl[$1/6$])
           content((7.2, -6.0), [*KN3* $arrow$ Tổng: 6 Sao #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
         })
       ]
@@ -824,7 +939,7 @@
       Từ sơ đồ, các nhánh thỏa mãn biến cố $X$ (tổng đúng 4 Sao) gồm 2 nhánh màu Xanh lá và 1 nhánh màu Xanh dương:
       $ P(X) = (1/2 times 1/6) + (1/3 times 1/3) + (1/6 times 1/2) $
       $ P(X) = 1/12 + 1/9 + 1/12 = 3/36 + 4/36 + 3/36 = 10/36 $
-      
+
       Trong 3 nhánh đó, chỉ có nhánh nhận (2 Sao) ở cả 2 lượt chơi (màu Xanh dương) là thỏa mãn biến cố $X inter Y$:
       $ P(X inter Y) = 1/3 times 1/3 = 1/9 = 4/36 $
     ]
@@ -833,7 +948,7 @@
       Xác suất cần tìm dưới dạng số thập phân là:
       $ P(Y | X) = (P(X inter Y)) / P(X) = (4/36) / (10/36) = 4/10 = 0.4 $
     ]
-  ]
+  ],
 )
 
 #tln(
@@ -842,20 +957,20 @@
   fig: canvas({
     import draw: *
     let box-lbl(txt) = box(fill: white, inset: 2pt, text(size: 8.5pt, txt))
-    
+
     // Nút Gacha
-    rect((0,0), (1.5, 0.8), radius: 0.2, fill: palette.accent, stroke: none)
+    rect((0, 0), (1.5, 0.8), radius: 0.2, fill: palette.accent, stroke: none)
     content((0.75, 0.4), text(weight: "bold", fill: white)[Quay Gacha])
-    
+
     // Các đường phân nhánh
     line((1.6, 0.6), (2.8, 1.4), mark: (end: ">"), stroke: 0.8pt)
     content((3.0, 1.4), box-lbl[$2$ Vàng, $1$ Bạc], anchor: "west")
     content((1.8, 1.2), box-lbl[$k <= 2$])
-    
+
     line((1.6, 0.4), (2.8, 0.4), mark: (end: ">"), stroke: 0.8pt)
     content((3.0, 0.4), box-lbl[$1$ Vàng, $2$ Bạc], anchor: "west")
     content((2.2, 0.65), box-lbl[$k in {3, 4}$])
-    
+
     line((1.6, 0.2), (2.8, -0.6), mark: (end: ">"), stroke: 0.8pt)
     content((3.0, -0.6), box-lbl[$0$ Vàng, $1$ Bạc], anchor: "west")
     content((1.8, -0.4), box-lbl[$k in {5, 6}$])
@@ -889,15 +1004,30 @@
 
         [$X_1$], [$X_1$], [$(1/3)^2 = 1/9$], [$(4V, 2B)$], text(fill: palette.wrong)[Loại], [-],
         [$X_1$], [$X_2$], [$1/3 times 1/3 = 1/9$], [$(3V, 3B)$], text(fill: palette.wrong)[Loại], [-],
-        [$X_1$], [$X_3$], [$1/3 times 1/3 = 1/9$], [$(2V, 2B)$], text(fill: palette.correct)[Nhận], text(fill: palette.wrong)[Loại ($2=2$)],
+        [$X_1$],
+        [$X_3$],
+        [$1/3 times 1/3 = 1/9$],
+        [$(2V, 2B)$],
+        text(fill: palette.correct)[Nhận],
+        text(fill: palette.wrong)[Loại ($2=2$)],
 
         [$X_2$], [$X_1$], [$1/3 times 1/3 = 1/9$], [$(3V, 3B)$], text(fill: palette.wrong)[Loại], [-],
-        [$X_2$], [$X_2$], [$(1/3)^2 = 1/9$], [$(2V, 4B)$], text(fill: palette.correct)[Nhận], text(fill: palette.correct)[Nhận ($4>2$)],
+        [$X_2$],
+        [$X_2$],
+        [$(1/3)^2 = 1/9$],
+        [$(2V, 4B)$],
+        text(fill: palette.correct)[Nhận],
+        text(fill: palette.correct)[Nhận ($4>2$)],
         [$X_2$], [$X_3$], [$1/3 times 1/3 = 1/9$], [$(1V, 3B)$], text(fill: palette.wrong)[Loại], [-],
 
-        [$X_3$], [$X_1$], [$1/3 times 1/3 = 1/9$], [$(2V, 2B)$], text(fill: palette.correct)[Nhận], text(fill: palette.wrong)[Loại ($2=2$)],
+        [$X_3$],
+        [$X_1$],
+        [$1/3 times 1/3 = 1/9$],
+        [$(2V, 2B)$],
+        text(fill: palette.correct)[Nhận],
+        text(fill: palette.wrong)[Loại ($2=2$)],
         [$X_3$], [$X_2$], [$1/3 times 1/3 = 1/9$], [$(1V, 3B)$], text(fill: palette.wrong)[Loại], [-],
-        [$X_3$], [$X_3$], [$(1/3)^2 = 1/9$], [$(0V, 2B)$], text(fill: palette.wrong)[Loại], [-]
+        [$X_3$], [$X_3$], [$(1/3)^2 = 1/9$], [$(0V, 2B)$], text(fill: palette.wrong)[Loại], [-],
       )
     ]
 
@@ -909,7 +1039,7 @@
     - Vậy xác suất cần tìm là:
       $ P(N|M) = (P(N inter M))/(P(M)) = (1/9) / (1/3) = 1/3 approx 0.3333 $
     #reset-step()
-  ]
+  ],
 )
 
 #tln(
@@ -918,20 +1048,20 @@
   fig: canvas({
     import draw: *
     let box-lbl(txt) = box(fill: white, inset: 2pt, text(size: 8.5pt, txt))
-    
+
     // Gốc đổ bộ
-    circle((0,0), radius: 0.5, fill: rgb("#eff6ff"), stroke: 1pt + rgb("#1d4ed8"))
-    content((0,0), text(weight: "bold", fill: rgb("#1d4ed8"))[Nhảy])
-    
+    circle((0, 0), radius: 0.5, fill: rgb("#eff6ff"), stroke: 1pt + rgb("#1d4ed8"))
+    content((0, 0), text(weight: "bold", fill: rgb("#1d4ed8"))[Nhảy])
+
     // Các hướng kịch bản
     line((0.45, 0), (2.2, 1.2), mark: (end: ">"), stroke: 0.8pt)
     content((2.4, 1.2), box-lbl[$+3$ điểm], anchor: "west")
     content((1.2, 0.9), box-lbl[$k <= 2$])
-    
+
     line((0.45, 0), (2.2, 0), mark: (end: ">"), stroke: 0.8pt)
     content((2.4, 0), box-lbl[$+1$ điểm], anchor: "west")
     content((1.5, 0.25), box-lbl[$3 <= k <= 5$])
-    
+
     line((0.45, 0), (2.2, -1.2), mark: (end: ">"), stroke: 0.8pt)
     content((2.4, -1.2), box-lbl[$0$ điểm], anchor: "west")
     content((1.2, -0.9), box-lbl[$k = 6$])
@@ -959,24 +1089,56 @@
         align: center + horizon,
         inset: (x: 8pt, y: 10pt),
         stroke: 0.5pt + palette.border,
-        table.cell(fill: palette.accent)[#set text(fill: white); #show math.equation: set text(fill: white); #text(weight: "bold")[Trận 1]],
-        table.cell(fill: palette.accent)[#set text(fill: white); #show math.equation: set text(fill: white); #text(weight: "bold")[Trận 2]],
-        table.cell(fill: palette.accent)[#set text(fill: white); #show math.equation: set text(fill: white); #text(weight: "bold")[Xác suất ($p$)]],
-        table.cell(fill: palette.accent)[#set text(fill: white); #show math.equation: set text(fill: white); #text(weight: "bold")[Tổng điểm]],
-        table.cell(fill: palette.accent)[#set text(fill: white); #show math.equation: set text(fill: white); #text(weight: "bold")[Điều kiện $M$ (Lẻ)]],
-        table.cell(fill: palette.accent)[#set text(fill: white); #show math.equation: set text(fill: white); #text(weight: "bold")[Mục tiêu $N$ (Có $0$)]],
+        table.cell(fill: palette.accent)[#set text(fill: white); #show math.equation: set text(fill: white); #text(
+            weight: "bold",
+          )[Trận 1]],
+        table.cell(fill: palette.accent)[#set text(fill: white); #show math.equation: set text(fill: white); #text(
+            weight: "bold",
+          )[Trận 2]],
+        table.cell(fill: palette.accent)[#set text(fill: white); #show math.equation: set text(fill: white); #text(
+            weight: "bold",
+          )[Xác suất ($p$)]],
+        table.cell(fill: palette.accent)[#set text(fill: white); #show math.equation: set text(fill: white); #text(
+            weight: "bold",
+          )[Tổng điểm]],
+        table.cell(fill: palette.accent)[#set text(fill: white); #show math.equation: set text(fill: white); #text(
+            weight: "bold",
+          )[Điều kiện $M$ (Lẻ)]],
+        table.cell(fill: palette.accent)[#set text(fill: white); #show math.equation: set text(fill: white); #text(
+            weight: "bold",
+          )[Mục tiêu $N$ (Có $0$)]],
 
         [$X_1$], [$X_1$], [$(1/3)^2 = 1/9$], [$6$], text(fill: palette.wrong)[Loại (Chẵn)], [-],
         [$X_1$], [$X_2$], [$1/3 times 1/2 = 1/6$], [$4$], text(fill: palette.wrong)[Loại (Chẵn)], [-],
-        [$X_1$], [$X_3$], [$1/3 times 1/6 = 1/18$], [$3$], text(fill: palette.correct)[Nhận], text(fill: palette.correct)[Nhận],
+        [$X_1$],
+        [$X_3$],
+        [$1/3 times 1/6 = 1/18$],
+        [$3$],
+        text(fill: palette.correct)[Nhận],
+        text(fill: palette.correct)[Nhận],
 
         [$X_2$], [$X_1$], [$1/2 times 1/3 = 1/6$], [$4$], text(fill: palette.wrong)[Loại (Chẵn)], [-],
         [$X_2$], [$X_2$], [$(1/2)^2 = 1/4$], [$2$], text(fill: palette.wrong)[Loại (Chẵn)], [-],
-        [$X_2$], [$X_3$], [$1/2 times 1/6 = 1/12$], [$1$], text(fill: palette.correct)[Nhận], text(fill: palette.correct)[Nhận],
+        [$X_2$],
+        [$X_3$],
+        [$1/2 times 1/6 = 1/12$],
+        [$1$],
+        text(fill: palette.correct)[Nhận],
+        text(fill: palette.correct)[Nhận],
 
-        [$X_3$], [$X_1$], [$1/6 times 1/3 = 1/18$], [$3$], text(fill: palette.correct)[Nhận], text(fill: palette.correct)[Nhận],
-        [$X_3$], [$X_2$], [$1/6 times 1/2 = 1/12$], [$1$], text(fill: palette.correct)[Nhận], text(fill: palette.correct)[Nhận],
-        [$X_3$], [$X_3$], [$(1/6)^2 = 1/36$], [$0$], text(fill: palette.wrong)[Loại (Chẵn)], [-]
+        [$X_3$],
+        [$X_1$],
+        [$1/6 times 1/3 = 1/18$],
+        [$3$],
+        text(fill: palette.correct)[Nhận],
+        text(fill: palette.correct)[Nhận],
+        [$X_3$],
+        [$X_2$],
+        [$1/6 times 1/2 = 1/12$],
+        [$1$],
+        text(fill: palette.correct)[Nhận],
+        text(fill: palette.correct)[Nhận],
+        [$X_3$], [$X_3$], [$(1/6)^2 = 1/36$], [$0$], text(fill: palette.wrong)[Loại (Chẵn)], [-],
       )
     ]
 
@@ -990,7 +1152,7 @@
       $ P(N|M) = (P(N inter M))/(P(M)) = (5/18) / (5/18) = 1 $
     - Kết quả điền phiếu trắc nghiệm: $1$.
     #reset-step()
-  ]
+  ],
 )
 
 #import "@preview/cetz:0.5.2": canvas, draw
@@ -1001,13 +1163,13 @@
   loigiai: [
     #step[
       Gọi $X$ là biến cố "Sau 2 lần gieo, số bóng ở hộp $A$ là số chẵn ($0, 2, 4$)" và $Y$ là biến cố "Hộp $A$ có chính xác 2 quả bóng". Ta cần tính $P(Y | X) = (P(X inter Y)) / P(X)$.
-      
+
       Vì câu hỏi chỉ quan tâm đến hộp $A$, ta tóm tắt sự thay đổi của hộp $A$ trong *mỗi lần gieo*:
       - *KN1:* $k in {1; 2; 3}$ $arrow$ Xác suất $1/2$, hộp A nhận: $+2$ bóng.
       - *KN2:* $k in {4; 5}$ $arrow$ Xác suất $1/3$, hộp A nhận: $+1$ bóng.
       - *KN3:* $k = 6$ $arrow$ Xác suất $1/6$, hộp A nhận: $+0$ bóng.
     ]
-    
+
     #step[
       *Sơ đồ cây biểu diễn số bóng của hộp $A$ sau 2 lần gieo:*
       #v(0.5em)
@@ -1016,40 +1178,62 @@
           import draw: *
           let edge-style = (mark: (end: ">", fill: black), stroke: 0.7pt)
           let lbl(txt) = box(fill: white, inset: 1pt, txt)
-          
-          let p1_1 = (3.5, 4.5); let p1_2 = (3.5, 0); let p1_3 = (3.5, -4.5)
+
+          let p1_1 = (3.5, 4.5)
+          let p1_2 = (3.5, 0)
+          let p1_3 = (3.5, -4.5)
 
           content((0, 0), box(stroke: 1pt + black, inset: 5pt, radius: 4pt)[Hộp A (0)], name: "N0")
           content(p1_1, align(center)[*KN1* \ ($+2$)], name: "N1_1")
           content(p1_2, align(center)[*KN2* \ ($+1$)], name: "N1_2")
           content(p1_3, align(center)[*KN3* \ ($+0$)], name: "N1_3")
 
-          line("N0", "N1_1", ..edge-style); content((1.75, 2.75), lbl[$1/2$])
-          line("N0", "N1_2", ..edge-style); content((1.75, 0), lbl[$1/3$])
-          line("N0", "N1_3", ..edge-style); content((1.75, -2.85), lbl[$1/6$])
+          line("N0", "N1_1", ..edge-style)
+          content((1.75, 2.75), lbl[$1/2$])
+          line("N0", "N1_2", ..edge-style)
+          content((1.75, 0), lbl[$1/3$])
+          line("N0", "N1_3", ..edge-style)
+          content((1.75, -2.85), lbl[$1/6$])
 
           // Từ KN1 (Đang có 2 bóng)
-          line("N1_1", (7.0, 6.0), ..edge-style); content((5.25, 5.6), lbl[$1/2$])
+          line("N1_1", (7.0, 6.0), ..edge-style)
+          content((5.25, 5.6), lbl[$1/2$])
           content((7.2, 6.0), [*KN1* $arrow$ A có: 4 #h(2pt) #text(fill: green)[(Chẵn)]], anchor: "west")
-          line("N1_1", (7.0, 4.5), ..edge-style); content((5.25, 4.4), lbl[$1/3$])
-          content((7.2, 4.5), [*KN2* $arrow$ A có: 3 #h(2pt) #text(fill: red)[(Loại)]], anchor: "west") 
-          line("N1_1", (7.0, 3.0), ..edge-style); content((5.25, 3.25), lbl[$1/6$])
-          content((7.2, 3.0), [*KN3* $arrow$ A có: 2 #h(2pt) #text(fill: blue, weight: "bold")[($A=2$)]], anchor: "west")
+          line("N1_1", (7.0, 4.5), ..edge-style)
+          content((5.25, 4.4), lbl[$1/3$])
+          content((7.2, 4.5), [*KN2* $arrow$ A có: 3 #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
+          line("N1_1", (7.0, 3.0), ..edge-style)
+          content((5.25, 3.25), lbl[$1/6$])
+          content(
+            (7.2, 3.0),
+            [*KN3* $arrow$ A có: 2 #h(2pt) #text(fill: blue, weight: "bold")[($A=2$)]],
+            anchor: "west",
+          )
 
           // Từ KN2 (Đang có 1 bóng)
-          line("N1_2", (7.0, 1.5), ..edge-style); content((5.25, 0.8+.3), lbl[$1/2$])
+          line("N1_2", (7.0, 1.5), ..edge-style)
+          content((5.25, 0.8 + .3), lbl[$1/2$])
           content((7.2, 1.5), [*KN1* $arrow$ A có: 3 #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
-          line("N1_2", (7.0, 0), ..edge-style); content((5.25, 0.1 -.2), lbl[$1/3$])
+          line("N1_2", (7.0, 0), ..edge-style)
+          content((5.25, 0.1 - .2), lbl[$1/3$])
           content((7.2, 0), [*KN2* $arrow$ A có: 2 #h(2pt) #text(fill: blue, weight: "bold")[($A=2$)]], anchor: "west")
-          line("N1_2", (7.0, -1.5), ..edge-style); content((5.25, -0.5 -.8), lbl[$1/6$])
+          line("N1_2", (7.0, -1.5), ..edge-style)
+          content((5.25, -0.5 - .8), lbl[$1/6$])
           content((7.2, -1.5), [*KN3* $arrow$ A có: 1 #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
 
           // Từ KN3 (Đang có 0 bóng)
-          line("N1_3", (7.0, -3.0), ..edge-style); content((5.25, -3.7 +.3), lbl[$1/2$])
-          content((7.2, -3.0), [*KN1* $arrow$ A có: 2 #h(2pt) #text(fill: blue, weight: "bold")[($A=2$)]], anchor: "west")
-          line("N1_3", (7.0, -4.5), ..edge-style); content((5.25, -4.4 -.2), lbl[$1/3$])
+          line("N1_3", (7.0, -3.0), ..edge-style)
+          content((5.25, -3.7 + .3), lbl[$1/2$])
+          content(
+            (7.2, -3.0),
+            [*KN1* $arrow$ A có: 2 #h(2pt) #text(fill: blue, weight: "bold")[($A=2$)]],
+            anchor: "west",
+          )
+          line("N1_3", (7.0, -4.5), ..edge-style)
+          content((5.25, -4.4 - .2), lbl[$1/3$])
           content((7.2, -4.5), [*KN2* $arrow$ A có: 1 #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
-          line("N1_3", (7.0, -6.0), ..edge-style); content((5.25, -5.1-.8), lbl[$1/6$])
+          line("N1_3", (7.0, -6.0), ..edge-style)
+          content((5.25, -5.1 - .8), lbl[$1/6$])
           content((7.2, -6.0), [*KN3* $arrow$ A có: 0 #h(2pt) #text(fill: green)[(Chẵn)]], anchor: "west")
         })
       ]
@@ -1059,7 +1243,7 @@
       Dựa vào sơ đồ, các nhánh thỏa mãn biến cố $X$ (Hộp A có số bóng chẵn) gồm Xanh lá ($0, 4$) và Xanh dương ($2$):
       $ P(X) = (1/2 times 1/2) + (1/2 times 1/6) + (1/3 times 1/3) + (1/6 times 1/2) + (1/6 times 1/6) $
       $ P(X) = 1/4 + 1/12 + 1/9 + 1/12 + 1/36 = 9/36 + 3/36 + 4/36 + 3/36 + 1/36 = 20/36 $
-      
+
       Trong số đó, những nhánh thỏa mãn hộp A có đúng 2 bóng (biến cố $X inter Y$, màu xanh dương) là:
       $ P(X inter Y) = (1/2 times 1/6) + (1/3 times 1/3) + (1/6 times 1/2) = 1/12 + 1/9 + 1/12 = 10/36 $
     ]
@@ -1068,7 +1252,7 @@
       Xác suất cần tìm dưới dạng số thập phân là:
       $ P(Y | X) = (P(X inter Y)) / P(X) = (10/36) / (20/36) = 10/20 = 0.5 $
     ]
-  ]
+  ],
 )
 #import "@preview/cetz:0.5.2": canvas, draw
 
@@ -1078,13 +1262,13 @@
   loigiai: [
     #step[
       Gọi $X$ là biến cố "Sau 2 bước, tọa độ Robot là số chẵn ($... , -2, 0, 2, ...$)" và $Y$ là biến cố "Tọa độ Robot bằng $0$". Cần tính $P(Y | X) = (P(X inter Y)) / P(X)$.
-      
+
       Vì 6 mặt chia đều cho 3 hành động, xác suất *mỗi bước* đều là $1/3$:
       - *KN1:* Tiến $+1$ (Xác suất $1/3$).
       - *KN2:* Lùi $-1$ (Xác suất $1/3$).
       - *KN3:* Đứng im $+0$ (Xác suất $1/3$).
     ]
-    
+
     #step[
       *Sơ đồ cây biểu diễn tọa độ Robot sau 2 bước:*
       #v(0.5em)
@@ -1093,51 +1277,69 @@
           import draw: *
           let edge-style = (mark: (end: ">", fill: black), stroke: 0.7pt)
           let lbl(txt) = box(fill: white, inset: 1pt, txt)
-          
-          let p1_1 = (3.5, 4.5); let p1_2 = (3.5, 0); let p1_3 = (3.5, -4.5)
+
+          let p1_1 = (3.5, 4.5)
+          let p1_2 = (3.5, 0)
+          let p1_3 = (3.5, -4.5)
 
           content((0, 0), box(stroke: 1pt + black, inset: 5pt, radius: 4pt)[Vị trí (0)], name: "N0")
           content(p1_1, align(center)[*KN1* \ ($+1$)], name: "N1_1")
           content(p1_2, align(center)[*KN2* \ ($-1$)], name: "N1_2")
           content(p1_3, align(center)[*KN3* \ ($+0$)], name: "N1_3")
 
-          line("N0", "N1_1", ..edge-style); content((1.75, 2.75), lbl[$1/3$])
-          line("N0", "N1_2", ..edge-style); content((1.75, 0), lbl[$1/3$])
-          line("N0", "N1_3", ..edge-style); content((1.75, -2.85), lbl[$1/3$])
+          line("N0", "N1_1", ..edge-style)
+          content((1.75, 2.75), lbl[$1/3$])
+          line("N0", "N1_2", ..edge-style)
+          content((1.75, 0), lbl[$1/3$])
+          line("N0", "N1_3", ..edge-style)
+          content((1.75, -2.85), lbl[$1/3$])
 
           // Từ KN1 (Đang ở +1)
-          line("N1_1", (7.0, 6.0), ..edge-style); content((5.25, 5.6), lbl[$1/3$])
+          line("N1_1", (7.0, 6.0), ..edge-style)
+          content((5.25, 5.6), lbl[$1/3$])
           content((7.2, 6.0), [*KN1* $arrow$ Cuối: $+2$ #h(2pt) #text(fill: green)[(Chẵn)]], anchor: "west")
-          line("N1_1", (7.0, 4.5), ..edge-style); content((5.25, 4.4), lbl[$1/3$])
-          content((7.2, 4.5), [*KN2* $arrow$ Cuối: $0$ #h(2pt) #text(fill: blue, weight: "bold")[(=0)]], anchor: "west") 
-          line("N1_1", (7.0, 3.0), ..edge-style); content((5.25, 3.25), lbl[$1/3$])
+          line("N1_1", (7.0, 4.5), ..edge-style)
+          content((5.25, 4.4), lbl[$1/3$])
+          content((7.2, 4.5), [*KN2* $arrow$ Cuối: $0$ #h(2pt) #text(fill: blue, weight: "bold")[(=0)]], anchor: "west")
+          line("N1_1", (7.0, 3.0), ..edge-style)
+          content((5.25, 3.25), lbl[$1/3$])
           content((7.2, 3.0), [*KN3* $arrow$ Cuối: $+1$ #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
 
           // Từ KN2 (Đang ở -1)
-          line("N1_2", (7.0, 1.5), ..edge-style); content((5.25, 0.8+.3), lbl[$1/3$])
+          line("N1_2", (7.0, 1.5), ..edge-style)
+          content((5.25, 0.8 + .3), lbl[$1/3$])
           content((7.2, 1.5), [*KN1* $arrow$ Cuối: $0$ #h(2pt) #text(fill: blue, weight: "bold")[(=0)]], anchor: "west")
-          line("N1_2", (7.0, 0), ..edge-style); content((5.25, 0.1 -.2), lbl[$1/3$])
+          line("N1_2", (7.0, 0), ..edge-style)
+          content((5.25, 0.1 - .2), lbl[$1/3$])
           content((7.2, 0), [*KN2* $arrow$ Cuối: $-2$ #h(2pt) #text(fill: green)[(Chẵn)]], anchor: "west")
-          line("N1_2", (7.0, -1.5), ..edge-style); content((5.25, -0.5 -.8), lbl[$1/3$])
+          line("N1_2", (7.0, -1.5), ..edge-style)
+          content((5.25, -0.5 - .8), lbl[$1/3$])
           content((7.2, -1.5), [*KN3* $arrow$ Cuối: $-1$ #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
 
           // Từ KN3 (Đang ở 0)
-          line("N1_3", (7.0, -3.0), ..edge-style); content((5.25, -3.7 +.3), lbl[$1/3$])
+          line("N1_3", (7.0, -3.0), ..edge-style)
+          content((5.25, -3.7 + .3), lbl[$1/3$])
           content((7.2, -3.0), [*KN1* $arrow$ Cuối: $+1$ #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
-          line("N1_3", (7.0, -4.5), ..edge-style); content((5.25, -4.4 -.2), lbl[$1/3$])
+          line("N1_3", (7.0, -4.5), ..edge-style)
+          content((5.25, -4.4 - .2), lbl[$1/3$])
           content((7.2, -4.5), [*KN2* $arrow$ Cuối: $-1$ #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
-          line("N1_3", (7.0, -6.0), ..edge-style); content((5.25, -5.1-.8), lbl[$1/3$])
-          content((7.2, -6.0), [*KN3* $arrow$ Cuối: $0$ #h(2pt) #text(fill: blue, weight: "bold")[(=0)]], anchor: "west")
+          line("N1_3", (7.0, -6.0), ..edge-style)
+          content((5.25, -5.1 - .8), lbl[$1/3$])
+          content(
+            (7.2, -6.0),
+            [*KN3* $arrow$ Cuối: $0$ #h(2pt) #text(fill: blue, weight: "bold")[(=0)]],
+            anchor: "west",
+          )
         })
       ]
     ]
 
     #step[
       Tất cả 9 nhánh đều có xác suất bằng nhau là $1/3 times 1/3 = 1/9$.
-      
+
       Số nhánh thỏa mãn biến cố $X$ (tọa độ chẵn) gồm 2 nhánh Xanh lá ($+2, -2$) và 3 nhánh Xanh dương ($0$):
       $ P(X) = 5 times 1/9 = 5/9 $
-      
+
       Trong 5 nhánh đó, số nhánh nằm ngay tại $0$ (biến cố $X inter Y$, màu xanh dương) là 3 nhánh:
       $ P(X inter Y) = 3 times 1/9 = 3/9 $
     ]
@@ -1146,7 +1348,7 @@
       Xác suất cần tìm dưới dạng số thập phân là:
       $ P(Y | X) = (P(X inter Y)) / P(X) = (3/9) / (5/9) = 3/5 = 0.6 $
     ]
-  ]
+  ],
 )
 
 
@@ -1158,13 +1360,13 @@
   loigiai: [
     #step[
       Gọi $X$ là biến cố "Tổng của 2 chữ số tạo ra là số chẵn" và $Y$ là biến cố "Hai chữ số giống hệt nhau". Cần tính $P(Y | X) = (P(X inter Y)) / P(X)$.
-      
+
       Phân tích 3 khả năng (KN) tạo *mỗi chữ số*:
       - *KN1:* Số $1$ $arrow$ Xác suất $3/6 = 1/2$.
       - *KN2:* Số $2$ $arrow$ Xác suất $2/6 = 1/3$.
       - *KN3:* Số $3$ $arrow$ Xác suất $1/6$.
     ]
-    
+
     #step[
       *Sơ đồ cây biểu diễn mã PIN tạo được sau 2 giai đoạn:*
       #v(0.5em)
@@ -1173,41 +1375,67 @@
           import draw: *
           let edge-style = (mark: (end: ">", fill: black), stroke: 0.7pt)
           let lbl(txt) = box(fill: white, inset: 1pt, txt)
-          
-          let p1_1 = (3.5, 4.5); let p1_2 = (3.5, 0); let p1_3 = (3.5, -4.5)
+
+          let p1_1 = (3.5, 4.5)
+          let p1_2 = (3.5, 0)
+          let p1_3 = (3.5, -4.5)
 
           content((0, 0), box(stroke: 1pt + black, inset: 5pt, radius: 4pt)[Bắt đầu], name: "N0")
           content(p1_1, align(center)[*KN1* \ (Ra số 1)], name: "N1_1")
           content(p1_2, align(center)[*KN2* \ (Ra số 2)], name: "N1_2")
           content(p1_3, align(center)[*KN3* \ (Ra số 3)], name: "N1_3")
 
-          line("N0", "N1_1", ..edge-style); content((1.75, 2.75), lbl[$1/2$])
-          line("N0", "N1_2", ..edge-style); content((1.75, 0), lbl[$1/3$])
-          line("N0", "N1_3", ..edge-style); content((1.75, -2.85), lbl[$1/6$])
+          line("N0", "N1_1", ..edge-style)
+          content((1.75, 2.75), lbl[$1/2$])
+          line("N0", "N1_2", ..edge-style)
+          content((1.75, 0), lbl[$1/3$])
+          line("N0", "N1_3", ..edge-style)
+          content((1.75, -2.85), lbl[$1/6$])
 
           // Chữ số thứ nhất là 1
-          line("N1_1", (7.0, 6.0), ..edge-style); content((5.25, 5.6), lbl[$1/2$])
-          content((7.2, 6.0), [*KN1* $arrow$ Mã: 11 (Tổng 2) #h(2pt) #text(fill: blue, weight: "bold")[(Trùng)]], anchor: "west")
-          line("N1_1", (7.0, 4.5), ..edge-style); content((5.25, 4.4), lbl[$1/3$])
-          content((7.2, 4.5), [*KN2* $arrow$ Mã: 12 (Tổng 3) #h(2pt) #text(fill: red)[(Loại)]], anchor: "west") 
-          line("N1_1", (7.0, 3.0), ..edge-style); content((5.25, 3.25), lbl[$1/6$])
+          line("N1_1", (7.0, 6.0), ..edge-style)
+          content((5.25, 5.6), lbl[$1/2$])
+          content(
+            (7.2, 6.0),
+            [*KN1* $arrow$ Mã: 11 (Tổng 2) #h(2pt) #text(fill: blue, weight: "bold")[(Trùng)]],
+            anchor: "west",
+          )
+          line("N1_1", (7.0, 4.5), ..edge-style)
+          content((5.25, 4.4), lbl[$1/3$])
+          content((7.2, 4.5), [*KN2* $arrow$ Mã: 12 (Tổng 3) #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
+          line("N1_1", (7.0, 3.0), ..edge-style)
+          content((5.25, 3.25), lbl[$1/6$])
           content((7.2, 3.0), [*KN3* $arrow$ Mã: 13 (Tổng 4) #h(2pt) #text(fill: green)[(Chẵn)]], anchor: "west")
 
           // Chữ số thứ nhất là 2
-          line("N1_2", (7.0, 1.5), ..edge-style); content((5.25, 0.8+.3), lbl[$1/2$])
+          line("N1_2", (7.0, 1.5), ..edge-style)
+          content((5.25, 0.8 + .3), lbl[$1/2$])
           content((7.2, 1.5), [*KN1* $arrow$ Mã: 21 (Tổng 3) #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
-          line("N1_2", (7.0, 0), ..edge-style); content((5.25, 0.1 -.2), lbl[$1/3$])
-          content((7.2, 0), [*KN2* $arrow$ Mã: 22 (Tổng 4) #h(2pt) #text(fill: blue, weight: "bold")[(Trùng)]], anchor: "west")
-          line("N1_2", (7.0, -1.5), ..edge-style); content((5.25, -0.5 -.8), lbl[$1/6$])
+          line("N1_2", (7.0, 0), ..edge-style)
+          content((5.25, 0.1 - .2), lbl[$1/3$])
+          content(
+            (7.2, 0),
+            [*KN2* $arrow$ Mã: 22 (Tổng 4) #h(2pt) #text(fill: blue, weight: "bold")[(Trùng)]],
+            anchor: "west",
+          )
+          line("N1_2", (7.0, -1.5), ..edge-style)
+          content((5.25, -0.5 - .8), lbl[$1/6$])
           content((7.2, -1.5), [*KN3* $arrow$ Mã: 23 (Tổng 5) #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
 
           // Chữ số thứ nhất là 3
-          line("N1_3", (7.0, -3.0), ..edge-style); content((5.25, -3.7 +.3), lbl[$1/2$])
+          line("N1_3", (7.0, -3.0), ..edge-style)
+          content((5.25, -3.7 + .3), lbl[$1/2$])
           content((7.2, -3.0), [*KN1* $arrow$ Mã: 31 (Tổng 4) #h(2pt) #text(fill: green)[(Chẵn)]], anchor: "west")
-          line("N1_3", (7.0, -4.5), ..edge-style); content((5.25, -4.4 -.2), lbl[$1/3$])
+          line("N1_3", (7.0, -4.5), ..edge-style)
+          content((5.25, -4.4 - .2), lbl[$1/3$])
           content((7.2, -4.5), [*KN2* $arrow$ Mã: 32 (Tổng 5) #h(2pt) #text(fill: red)[(Loại)]], anchor: "west")
-          line("N1_3", (7.0, -6.0), ..edge-style); content((5.25, -5.1-.8), lbl[$1/6$])
-          content((7.2, -6.0), [*KN3* $arrow$ Mã: 33 (Tổng 6) #h(2pt) #text(fill: blue, weight: "bold")[(Trùng)]], anchor: "west")
+          line("N1_3", (7.0, -6.0), ..edge-style)
+          content((5.25, -5.1 - .8), lbl[$1/6$])
+          content(
+            (7.2, -6.0),
+            [*KN3* $arrow$ Mã: 33 (Tổng 6) #h(2pt) #text(fill: blue, weight: "bold")[(Trùng)]],
+            anchor: "west",
+          )
         })
       ]
     ]
@@ -1216,7 +1444,7 @@
       Các mã PIN có tổng chữ số là số chẵn (Biến cố $X$) bao gồm các nhánh Xanh lá và Xanh dương:
       $ P(X) = (1/2 times 1/2) + (1/2 times 1/6) + (1/3 times 1/3) + (1/6 times 1/2) + (1/6 times 1/6) $
       $ P(X) = 1/4 + 1/12 + 1/9 + 1/12 + 1/36 = 9/36 + 3/36 + 4/36 + 3/36 + 1/36 = 20/36 $
-      
+
       Các mã PIN có hai chữ số trùng nhau (Biến cố $X inter Y$, màu xanh dương) là $11, 22$ và $33$:
       $ P(X inter Y) = (1/2 times 1/2) + (1/3 times 1/3) + (1/6 times 1/6) $
       $ P(X inter Y) = 1/4 + 1/9 + 1/36 = 9/36 + 4/36 + 1/36 = 14/36 $
@@ -1226,6 +1454,315 @@
       Xác suất cần tìm dưới dạng số thập phân là:
       $ P(Y | X) = (P(X inter Y)) / P(X) = (14/36) / (20/36) = 14/20 = 7/10 = 0.7 $
     ]
-  ]
+  ],
+)
+
+#align(center)[
+  #rect(
+    fill: rgb("F8FBFF"),
+    stroke: (left: 4pt + rgb("1F618D")),
+    inset: (x: 14pt, y: 12pt),
+    width: 95%,
+    radius: (right: 5pt),
+    [
+      #text(size: 14pt, weight: "bold", fill: rgb("1F618D"))[
+        NHÓM BÀI BỔ SUNG: QUÉT BẢNG XÁC SUẤT KIỂU ĐỀ PHỔ THÔNG
+      ]
+      #v(0.25em)
+      #text(size: 10.5pt, style: "italic", fill: rgb("566573"))[
+        Tăng độ đa dạng bối cảnh nhưng vẫn giữ lõi xử lý bằng bảng $3 times 3$ sau 2 lần gieo.
+      ]
+    ],
+  )
+]
+
+#tln(
+  [Trong một mô phỏng giao hàng, một drone xuất phát từ $O(0;0)$ trên mặt phẳng tọa độ. Drone thực hiện $2$ chặng bay liên tiếp. Ở mỗi chặng, người điều khiển gieo một con xúc xắc cân đối: nếu $k in {1; 2}$ thì drone bay sang phải $2$ đơn vị; nếu $k in {3; 4; 5}$ thì drone bay lên trên $1$ đơn vị; nếu $k = 6$ thì drone bay chéo lên góc phần tư thứ nhất sao cho mỗi tọa độ đều tăng $1$ đơn vị. Biết rằng sau $2$ chặng, drone thỏa mãn $x + y = 3$. Tính xác suất để hoành độ của drone lớn hơn tung độ.],
+  [$2/3$],
+  loigiai: [
+    #ppgiai(title: [Quét bảng tọa độ sau 2 chặng])[
+      - Gọi $M$ là biến cố "Sau $2$ chặng, drone có $x + y = 3$".
+      - Gọi $N$ là biến cố "Hoành độ lớn hơn tung độ", tức là $x > y$.
+      - Ta cần tính $P(N|M) = (P(N cap M))/(P(M))$.
+    ]
+
+    #step[Phân tích một chặng bay]
+    - $X_1$ ($k in {1, 2}$): Drone đi $(2, 0)$. Xác suất $P(X_1) = 1/3$.
+    - $X_2$ ($k in {3, 4, 5}$): Drone đi $(0, 1)$. Xác suất $P(X_2) = 1/2$.
+    - $X_3$ ($k = 6$): Drone đi $(1, 1)$. Xác suất $P(X_3) = 1/6$.
+
+    #step[Bảng quét toàn bộ trạng thái sau 2 chặng]
+    #align(center)[
+      #table(
+        columns: (auto, auto, auto, auto, auto, auto),
+        align: center + horizon,
+        inset: (x: 8pt, y: 10pt),
+        stroke: 0.5pt + palette.border,
+        table.cell(fill: palette.accent)[#text(white, weight: "bold")[Chặng 1]],
+        table.cell(fill: palette.accent)[#text(white, weight: "bold")[Chặng 2]],
+        table.cell(fill: palette.accent)[#text(white, weight: "bold")[Xác suất ($p$)]],
+        table.cell(fill: palette.accent)[#text(white, weight: "bold")[Vị trí $(x, y)$]],
+        table.cell(fill: palette.accent)[#text(white, weight: "bold")[Điều kiện $M$ ($x+y=3$)]],
+        table.cell(fill: palette.accent)[#text(white, weight: "bold")[Mục tiêu $N$ ($x>y$)]],
+
+        [$X_1$], [$X_1$], [$(1/3)^2 = 1/9$], [$(4, 0)$], text(palette.wrong)[Loại], [-],
+        [$X_1$], [$X_2$], [$1/3 times 1/2 = 1/6$], [$(2, 1)$], text(palette.correct)[Nhận], text(palette.correct)[Nhận],
+        [$X_1$], [$X_3$], [$1/3 times 1/6 = 1/18$], [$(3, 1)$], text(palette.wrong)[Loại], [-],
+
+        [$X_2$], [$X_1$], [$1/2 times 1/3 = 1/6$], [$(2, 1)$], text(palette.correct)[Nhận], text(palette.correct)[Nhận],
+        [$X_2$], [$X_2$], [$(1/2)^2 = 1/4$], [$(0, 2)$], text(palette.wrong)[Loại], [-],
+        [$X_2$], [$X_3$], [$1/2 times 1/6 = 1/12$], [$(1, 2)$], text(palette.correct)[Nhận], text(palette.wrong)[Loại],
+
+        [$X_3$], [$X_1$], [$1/6 times 1/3 = 1/18$], [$(3, 1)$], text(palette.wrong)[Loại], [-],
+        [$X_3$], [$X_2$], [$1/6 times 1/2 = 1/12$], [$(1, 2)$], text(palette.correct)[Nhận], text(palette.wrong)[Loại],
+        [$X_3$], [$X_3$], [$(1/6)^2 = 1/36$], [$(2, 2)$], text(palette.wrong)[Loại], [-],
+      )
+    ]
+
+    #step[Tính xác suất có điều kiện]
+    - Xác suất để drone thỏa mãn $x+y=3$ là:
+      $ P(M) = 1/6 + 1/6 + 1/12 + 1/12 = 18/36 = 1/2 $
+    - Xác suất để vừa có $x+y=3$ vừa có $x>y$ là:
+      $ P(N cap M) = 1/6 + 1/6 = 12/36 = 1/3 $
+    - Do đó:
+      $ P(N|M) = (P(N cap M))/(P(M)) = (1/3)/(1/2) = 2/3 $
+    #reset-step()
+  ],
+)
+
+#tln(
+  [Trong $2$ buổi luyện đề, một học sinh được cộng điểm thưởng vào hai môn Toán và Lý theo kết quả gieo một con xúc xắc cân đối. Ở mỗi buổi: nếu $k <= 2$ thì môn Toán được cộng $2$ điểm; nếu $3 <= k <= 5$ thì môn Lý được cộng $1$ điểm; nếu $k = 6$ thì môn Toán được cộng $1$ điểm và môn Lý được cộng $2$ điểm. Ban đầu điểm thưởng của hai môn đều bằng $0$. Biết rằng sau $2$ buổi, điểm thưởng môn Lý đúng bằng $2$. Tính xác suất để điểm thưởng môn Toán lớn hơn điểm thưởng môn Lý.],
+  [$4/13$],
+  loigiai: [
+    #ppgiai(title: [Lập bảng điểm thưởng hai môn])[
+      - Gọi $M$ là biến cố "Sau $2$ buổi, điểm thưởng môn Lý bằng $2$".
+      - Gọi $N$ là biến cố "Điểm thưởng môn Toán lớn hơn môn Lý".
+      - Ta cần tính $P(N|M) = (P(N cap M))/(P(M))$.
+    ]
+
+    #step[Phân tích kết quả của một buổi]
+    - $X_1$ ($k <= 2$): Cộng $(2, 0)$ vào bộ điểm $(T, L)$. Xác suất $1/3$.
+    - $X_2$ ($3 <= k <= 5$): Cộng $(0, 1)$ vào bộ điểm $(T, L)$. Xác suất $1/2$.
+    - $X_3$ ($k = 6$): Cộng $(1, 2)$ vào bộ điểm $(T, L)$. Xác suất $1/6$.
+
+    #step[Bảng quét trạng thái sau 2 buổi]
+    #align(center)[
+      #table(
+        columns: (auto, auto, auto, auto, auto, auto),
+        align: center + horizon,
+        inset: (x: 8pt, y: 10pt),
+        stroke: 0.5pt + palette.border,
+        table.cell(fill: palette.accent)[#text(white, weight: "bold")[Buổi 1]],
+        table.cell(fill: palette.accent)[#text(white, weight: "bold")[Buổi 2]],
+        table.cell(fill: palette.accent)[#text(white, weight: "bold")[Xác suất ($p$)]],
+        table.cell(fill: palette.accent)[#text(white, weight: "bold")[Điểm $(T, L)$]],
+        table.cell(fill: palette.accent)[#text(white, weight: "bold")[Điều kiện $M$ ($L=2$)]],
+        table.cell(fill: palette.accent)[#text(white, weight: "bold")[Mục tiêu $N$ ($T>L$)]],
+
+        [$X_1$], [$X_1$], [$(1/3)^2 = 1/9$], [$(4, 0)$], text(palette.wrong)[Loại], [-],
+        [$X_1$], [$X_2$], [$1/3 times 1/2 = 1/6$], [$(2, 1)$], text(palette.wrong)[Loại], [-],
+        [$X_1$],
+        [$X_3$],
+        [$1/3 times 1/6 = 1/18$],
+        [$(3, 2)$],
+        text(palette.correct)[Nhận],
+        text(palette.correct)[Nhận],
+
+        [$X_2$], [$X_1$], [$1/2 times 1/3 = 1/6$], [$(2, 1)$], text(palette.wrong)[Loại], [-],
+        [$X_2$], [$X_2$], [$(1/2)^2 = 1/4$], [$(0, 2)$], text(palette.correct)[Nhận], text(palette.wrong)[Loại],
+        [$X_2$], [$X_3$], [$1/2 times 1/6 = 1/12$], [$(1, 3)$], text(palette.wrong)[Loại], [-],
+
+        [$X_3$],
+        [$X_1$],
+        [$1/6 times 1/3 = 1/18$],
+        [$(3, 2)$],
+        text(palette.correct)[Nhận],
+        text(palette.correct)[Nhận],
+        [$X_3$], [$X_2$], [$1/6 times 1/2 = 1/12$], [$(1, 3)$], text(palette.wrong)[Loại], [-],
+        [$X_3$], [$X_3$], [$(1/6)^2 = 1/36$], [$(2, 4)$], text(palette.wrong)[Loại], [-],
+      )
+    ]
+
+    #step[Tổng hợp xác suất]
+    - Xác suất để điểm môn Lý đúng bằng $2$ là:
+      $ P(M) = 1/18 + 1/4 + 1/18 = 13/36 $
+    - Xác suất để vừa có $L=2$ vừa có $T>L$ là:
+      $ P(N cap M) = 1/18 + 1/18 = 4/36 $
+    - Vậy:
+      $ P(N|M) = (P(N cap M))/(P(M)) = (4/36)/(13/36) = 4/13 $
+    #reset-step()
+  ],
+)
+
+#tln(
+  [Trên mặt phẳng tọa độ $O x y$, hoành độ $a$ và tung độ $b$ của điểm $M(a;b)$ được tạo độc lập bằng $2$ lần gieo một con xúc xắc cân đối. Với mỗi lần gieo: nếu $k <= 3$ thì nhận giá trị $1$; nếu $k in {4; 5}$ thì nhận giá trị $2$; nếu $k = 6$ thì nhận giá trị $4$. Biết rằng diện tích hình chữ nhật có hai cạnh lần lượt bằng $a$ và $b$ chia hết cho $4$. Tính xác suất để chu vi hình chữ nhật đó lớn hơn $10$.],
+  [$1/3$],
+  loigiai: [
+    #ppgiai(title: [Quét bảng giá trị $a, b$])[
+      - Gọi $M$ là biến cố "Diện tích hình chữ nhật chia hết cho $4$", tức là $a b$ chia hết cho $4$.
+      - Gọi $N$ là biến cố "Chu vi lớn hơn $10$", tức là $2(a+b) > 10$ hay $a+b > 5$.
+      - Ta cần tính $P(N|M) = (P(N cap M))/(P(M))$.
+    ]
+
+    #step[Phân tích kết quả của mỗi lần gieo]
+    - $X_1$ ($k <= 3$): Nhận giá trị $1$. Xác suất $1/2$.
+    - $X_2$ ($k in {4, 5}$): Nhận giá trị $2$. Xác suất $1/3$.
+    - $X_3$ ($k = 6$): Nhận giá trị $4$. Xác suất $1/6$.
+
+    #step[Bảng quét mọi hình chữ nhật có thể tạo]
+    #align(center)[
+      #table(
+        columns: (auto, auto, auto, auto, auto, auto),
+        align: center + horizon,
+        inset: (x: 8pt, y: 10pt),
+        stroke: 0.5pt + palette.border,
+        table.cell(fill: palette.accent)[#text(white, weight: "bold")[Gieo ra $a$]],
+        table.cell(fill: palette.accent)[#text(white, weight: "bold")[Gieo ra $b$]],
+        table.cell(fill: palette.accent)[#text(white, weight: "bold")[Xác suất ($p$)]],
+        table.cell(fill: palette.accent)[#text(white, weight: "bold")[Cặp $(a, b)$]],
+        table.cell(fill: palette.accent)[#text(white, weight: "bold")[Điều kiện $M$ ($4 | a b$)]],
+        table.cell(fill: palette.accent)[#text(white, weight: "bold")[Mục tiêu $N$ ($a+b>5$)]],
+
+        [$X_1$], [$X_1$], [$(1/2)^2 = 1/4$], [$(1, 1)$], text(palette.wrong)[Loại], [-],
+        [$X_1$], [$X_2$], [$1/2 times 1/3 = 1/6$], [$(1, 2)$], text(palette.wrong)[Loại], [-],
+        [$X_1$], [$X_3$], [$1/2 times 1/6 = 1/12$], [$(1, 4)$], text(palette.correct)[Nhận], text(palette.wrong)[Loại],
+
+        [$X_2$], [$X_1$], [$1/3 times 1/2 = 1/6$], [$(2, 1)$], text(palette.wrong)[Loại], [-],
+        [$X_2$], [$X_2$], [$(1/3)^2 = 1/9$], [$(2, 2)$], text(palette.correct)[Nhận], text(palette.wrong)[Loại],
+        [$X_2$],
+        [$X_3$],
+        [$1/3 times 1/6 = 1/18$],
+        [$(2, 4)$],
+        text(palette.correct)[Nhận],
+        text(palette.correct)[Nhận],
+
+        [$X_3$], [$X_1$], [$1/6 times 1/2 = 1/12$], [$(4, 1)$], text(palette.correct)[Nhận], text(palette.wrong)[Loại],
+        [$X_3$],
+        [$X_2$],
+        [$1/6 times 1/3 = 1/18$],
+        [$(4, 2)$],
+        text(palette.correct)[Nhận],
+        text(palette.correct)[Nhận],
+        [$X_3$], [$X_3$], [$(1/6)^2 = 1/36$], [$(4, 4)$], text(palette.correct)[Nhận], text(palette.correct)[Nhận],
+      )
+    ]
+
+    #step[Tính xác suất cần tìm]
+    - Xác suất để diện tích chia hết cho $4$ là:
+      $ P(M) = 1/12 + 1/9 + 1/18 + 1/12 + 1/18 + 1/36 = 15/36 = 5/12 $
+    - Xác suất để vừa có diện tích chia hết cho $4$ vừa có chu vi lớn hơn $10$ là:
+      $ P(N cap M) = 1/18 + 1/18 + 1/36 = 5/36 $
+    - Suy ra:
+      $ P(N|M) = (P(N cap M))/(P(M)) = (5/36)/(15/36) = 1/3 $
+    #reset-step()
+  ],
+)
+
+#tln(
+  [Một thư viện dùng $2$ lượt gieo xúc xắc để quyết định cách bổ sung sách lên hai giá $A$ và $C$. Ở mỗi lượt: nếu $k in {1; 2}$ thì thêm $1$ cuốn vào giá $A$; nếu $k in {3; 4}$ thì không thêm cuốn nào vào hai giá này; nếu $k in {5; 6}$ thì thêm đồng thời $1$ cuốn vào giá $A$ và $1$ cuốn vào giá $C$. Biết rằng sau $2$ lượt, giá $A$ có đúng $2$ cuốn sách mới. Tính xác suất để giá $C$ cũng có đúng $2$ cuốn sách mới.],
+  [$1/4$],
+  loigiai: [
+    #ppgiai(title: [Bảng quét số sách mới trên hai giá])[
+      - Gọi $M$ là biến cố "Sau $2$ lượt, giá $A$ có đúng $2$ cuốn sách mới".
+      - Gọi $N$ là biến cố "Giá $C$ có đúng $2$ cuốn sách mới".
+      - Ta cần tính $P(N|M) = (P(N cap M))/(P(M))$.
+    ]
+
+    #step[Phân tích một lượt bổ sung sách]
+    - $X_1$ ($k in {1, 2}$): Thêm $(1A, 0C)$. Xác suất $1/3$.
+    - $X_2$ ($k in {3, 4}$): Thêm $(0A, 0C)$. Xác suất $1/3$.
+    - $X_3$ ($k in {5, 6}$): Thêm $(1A, 1C)$. Xác suất $1/3$.
+
+    #step[Bảng quét sau 2 lượt]
+    #align(center)[
+      #table(
+        columns: (auto, auto, auto, auto, auto, auto),
+        align: center + horizon,
+        inset: (x: 8pt, y: 10pt),
+        stroke: 0.5pt + palette.border,
+        table.cell(fill: palette.accent)[#text(white, weight: "bold")[Lượt 1]],
+        table.cell(fill: palette.accent)[#text(white, weight: "bold")[Lượt 2]],
+        table.cell(fill: palette.accent)[#text(white, weight: "bold")[Xác suất ($p$)]],
+        table.cell(fill: palette.accent)[#text(white, weight: "bold")[Trạng thái $(A, C)$]],
+        table.cell(fill: palette.accent)[#text(white, weight: "bold")[Điều kiện $M$ ($A=2$)]],
+        table.cell(fill: palette.accent)[#text(white, weight: "bold")[Mục tiêu $N$ ($C=2$)]],
+
+        [$X_1$], [$X_1$], [$(1/3)^2 = 1/9$], [$(2, 0)$], text(palette.correct)[Nhận], text(palette.wrong)[Loại],
+        [$X_1$], [$X_2$], [$1/3 times 1/3 = 1/9$], [$(1, 0)$], text(palette.wrong)[Loại], [-],
+        [$X_1$], [$X_3$], [$1/3 times 1/3 = 1/9$], [$(2, 1)$], text(palette.correct)[Nhận], text(palette.wrong)[Loại],
+
+        [$X_2$], [$X_1$], [$1/3 times 1/3 = 1/9$], [$(1, 0)$], text(palette.wrong)[Loại], [-],
+        [$X_2$], [$X_2$], [$1/3 times 1/3 = 1/9$], [$(0, 0)$], text(palette.wrong)[Loại], [-],
+        [$X_2$], [$X_3$], [$1/3 times 1/3 = 1/9$], [$(1, 1)$], text(palette.wrong)[Loại], [-],
+
+        [$X_3$], [$X_1$], [$1/3 times 1/3 = 1/9$], [$(2, 1)$], text(palette.correct)[Nhận], text(palette.wrong)[Loại],
+        [$X_3$], [$X_2$], [$1/3 times 1/3 = 1/9$], [$(1, 1)$], text(palette.wrong)[Loại], [-],
+        [$X_3$], [$X_3$], [$1/3 times 1/3 = 1/9$], [$(2, 2)$], text(palette.correct)[Nhận], text(palette.correct)[Nhận],
+      )
+    ]
+
+    #step[Kết luận]
+    - Xác suất để giá $A$ có đúng $2$ cuốn sách mới là:
+      $ P(M) = 4 times 1/9 = 4/9 $
+    - Xác suất để đồng thời $A=2$ và $C=2$ là:
+      $ P(N cap M) = 1/9 $
+    - Do đó:
+      $ P(N|M) = (P(N cap M))/(P(M)) = (1/9)/(4/9) = 1/4 $
+    #reset-step()
+  ],
+)
+
+#tln(
+  [Trong một tòa nhà thông minh, một thang máy mini bắt đầu ở tầng $0$ và hoạt động qua $2$ nhịp. Mỗi nhịp được điều khiển bằng cách gieo một con xúc xắc cân đối: nếu $k in {1; 2}$ thì thang máy đi lên $2$ tầng; nếu $k in {3; 4}$ thì thang máy đi xuống $1$ tầng; nếu $k in {5; 6}$ thì thang máy đứng yên. Biết rằng sau $2$ nhịp, thang máy đang ở một tầng dương. Tính xác suất để thang máy đứng đúng ở tầng $1$.],
+  [0.4],
+  loigiai: [
+    #ppgiai(title: [Quét bảng vị trí thang máy])[
+      - Gọi $M$ là biến cố "Sau $2$ nhịp, thang máy ở tầng dương".
+      - Gọi $N$ là biến cố "Sau $2$ nhịp, thang máy ở đúng tầng $1$".
+      - Ta cần tính $P(N|M) = (P(N cap M))/(P(M))$.
+    ]
+
+    #step[Phân tích một nhịp hoạt động]
+    - $X_1$ ($k in {1, 2}$): Thang máy đổi tầng $+2$. Xác suất $1/3$.
+    - $X_2$ ($k in {3, 4}$): Thang máy đổi tầng $-1$. Xác suất $1/3$.
+    - $X_3$ ($k in {5, 6}$): Thang máy đổi tầng $0$. Xác suất $1/3$.
+
+    #step[Bảng quét tất cả vị trí sau 2 nhịp]
+    #align(center)[
+      #table(
+        columns: (auto, auto, auto, auto, auto, auto),
+        align: center + horizon,
+        inset: (x: 8pt, y: 10pt),
+        stroke: 0.5pt + palette.border,
+        table.cell(fill: palette.accent)[#text(white, weight: "bold")[Nhịp 1]],
+        table.cell(fill: palette.accent)[#text(white, weight: "bold")[Nhịp 2]],
+        table.cell(fill: palette.accent)[#text(white, weight: "bold")[Xác suất ($p$)]],
+        table.cell(fill: palette.accent)[#text(white, weight: "bold")[Tầng cuối]],
+        table.cell(fill: palette.accent)[#text(white, weight: "bold")[Điều kiện $M$ (dương)]],
+        table.cell(fill: palette.accent)[#text(white, weight: "bold")[Mục tiêu $N$ ($=1$)]],
+
+        [$X_1$], [$X_1$], [$(1/3)^2 = 1/9$], [$4$], text(palette.correct)[Nhận], text(palette.wrong)[Loại],
+        [$X_1$], [$X_2$], [$1/3 times 1/3 = 1/9$], [$1$], text(palette.correct)[Nhận], text(palette.correct)[Nhận],
+        [$X_1$], [$X_3$], [$1/3 times 1/3 = 1/9$], [$2$], text(palette.correct)[Nhận], text(palette.wrong)[Loại],
+
+        [$X_2$], [$X_1$], [$1/3 times 1/3 = 1/9$], [$1$], text(palette.correct)[Nhận], text(palette.correct)[Nhận],
+        [$X_2$], [$X_2$], [$1/3 times 1/3 = 1/9$], [$-2$], text(palette.wrong)[Loại], [-],
+        [$X_2$], [$X_3$], [$1/3 times 1/3 = 1/9$], [$-1$], text(palette.wrong)[Loại], [-],
+
+        [$X_3$], [$X_1$], [$1/3 times 1/3 = 1/9$], [$2$], text(palette.correct)[Nhận], text(palette.wrong)[Loại],
+        [$X_3$], [$X_2$], [$1/3 times 1/3 = 1/9$], [$-1$], text(palette.wrong)[Loại], [-],
+        [$X_3$], [$X_3$], [$1/3 times 1/3 = 1/9$], [$0$], text(palette.wrong)[Loại], [-],
+      )
+    ]
+
+    #step[Tính xác suất có điều kiện]
+    - Xác suất để thang máy ở tầng dương sau $2$ nhịp là:
+      $ P(M) = 5 times 1/9 = 5/9 $
+    - Xác suất để thang máy ở đúng tầng $1$ đồng thời vẫn ở tầng dương là:
+      $ P(N cap M) = 2 times 1/9 = 2/9 $
+    - Vậy:
+      $ P(N|M) = (P(N cap M))/(P(M)) = (2/9)/(5/9) = 2/5 = 0.4 $
+    #reset-step()
+  ],
 )
 

@@ -1,0 +1,39 @@
+=== TABLE FROM STEP 39 ===
+#table(
+865:       columns: (1.5fr, 2.5fr, 2.5fr),
+866:       align: left + horizon,
+867:       fill: (col, row) => if row == 0 { rgb("FCE4EC") } else { none },
+868:       stroke: 0.5pt + col-pink,
+869:       [*Tiêu chí*], [*Phương pháp Khung xương (Vách ngăn)*], [*Phương pháp Bù trừ Cặp kề trùng (PIE)*],
+870:       [*Đặc điểm cốt lõi*], [Dựng khung bằng nhóm lớn nhất, chèn các nhóm khác vào các khoảng trống (khe hở).], [Đếm tất cả các hoán vị tự do, sau đó trừ đi các trường hợp kề trùng bằng liên kết giả định.],
+871:       [*Ưu điểm nổi bật*], [Trực quan, dễ hình dung cấu trúc xếp chỗ thực tế.], [Hoàn toàn tự động hóa bằng bảng tính, không cần suy nghĩ chia trường hợp hình học.],
+872:       [*Nhược điểm*], [Bị bùng nổ số lượng cấu trúc và cực kỳ phức tạp khi có nhiều ghế trống hoặc nhiều nhóm học sinh.], [Số lượng dòng của bảng tăng nhanh khi số học sinh của mỗi nhóm lớn.],
+873:       [*Trường hợp tối ưu*], [Khi *không có ghế trống* ($n_E = 0$) hoặc chỉ có rất ít ghế trống ($n_E leq 2$).], [Khi bài toán *có nhiều ghế trống* ($n_E geq 3$) hoặc khi số lượng học sinh mỗi lớp nhỏ ($leq 3$).],
+874:     )
+
+=== TABLE FROM STEP 41 ===
+#table(
+995:       columns: (1.5fr, 2.5fr, 2.5fr),
+996:       align: left + horizon,
+997:       fill: (col, row) => if row == 0 { rgb("FCE4EC") } else { none },
+998:       stroke: 0.5pt + col-pink,
+999:       [*Tiêu chí*], [*Phương pháp Khung xương (Vách ngăn)*], [*Phương pháp Bù trừ Cặp kề trùng (PIE)*],
+1000:       [*Đặc điểm cốt lõi*], [Dựng khung bằng nhóm lớn nhất, chèn các nhóm khác vào các khoảng trống (khe hở).], [Đếm tất cả các hoán vị tự do, sau đó trừ đi các trường hợp kề trùng bằng liên kết giả định.],
+1001:       [*Ưu điểm nổi bật*], [Trực quan, dễ hình dung cấu trúc xếp chỗ thực tế.], [Hoàn toàn tự động hóa bằng bảng tính, không cần suy nghĩ chia trường hợp hình học.],
+1002:       [*Nhược điểm*], [Bị bùng nổ số lượng cấu trúc và cực kỳ phức tạp khi có nhiều ghế trống hoặc nhiều nhóm học sinh.], [Số lượng dòng của bảng tăng nhanh khi số học sinh của mỗi nhóm lớn.],
+1003:       [*Trường hợp tối ưu*], [Khi *không có ghế trống* ($n_E = 0$) hoặc chỉ có rất ít ghế trống ($n_E leq 2$).], [Khi bài toán *có nhiều ghế trống* ($n_E geq 3$) hoặc khi số lượng học sinh mỗi lớp nhỏ ($leq 3$).],
+1004:     )
+
+=== TABLE FROM STEP 128 ===
+#table(
+960:       columns: (1.5fr, 2.5fr, 2.5fr),
+961:       align: left + horizon,
+962:       fill: (col, row) => if row == 0 { rgb("FCE4EC") } else { none },
+963:       stroke: 0.5pt + col-pink,
+964:       [*Tiêu chí*], [*Phương pháp Khung xương (Vách ngăn)*], [*Phương pháp Bù trừ Cặp kề trùng (PIE)*],
+965:       [*Đặc điểm cốt lõi*], [Dựng khung bằng nhóm lớn nhất, chèn các nhóm khác vào các khoảng trống (khe hở).], [Đếm tất cả các hoán vị tự do, sau đó trừ đi các trường hợp kề trùng bằng liên kết giả định.],
+966:       [*Ưu điểm nổi bật*], [Trực quan, dễ hình dung cấu trúc xếp chỗ thực tế.], [Hoàn toàn tự động hóa bằng bảng tính, không cần suy nghĩ chia trường hợp hình học.],
+967:       [*Nhược điểm*], [Bị bùng nổ số lượng cấu trúc và cực kỳ phức tạp khi có nhiều ghế trống hoặc nhiều nhóm học sinh.], [Số lượng dòng của bảng tăng nhanh khi số học sinh của mỗi nhóm lớn.],
+968:       [*Trường hợp tối ưu*], [Khi *không có ghế trống* ($n_E = 0$) hoặc chỉ có rất ít ghế trống ($n_E leq 2$).], [Khi bài toán *có nhiều ghế trống* ($n_E geq 3$) hoặc khi số lượng học sinh mỗi lớp nhỏ ($leq 3$).],
+969:     )
+

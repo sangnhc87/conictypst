@@ -1,0 +1,13 @@
+import json
+
+log_path = "/Users/admin/.gemini/antigravity/brain/097aae0d-3fd0-4ff0-8665-546bd204d15d/.system_generated/logs/transcript.jsonl"
+
+with open(log_path, "r", encoding="utf-8") as f:
+    for line in f:
+        try:
+            data = json.loads(line)
+            if data.get("step_index") == 167:
+                print("--- Step 167 (VIEW_FILE) ---")
+                print(data.get("content"))
+        except Exception as e:
+            pass

@@ -50,12 +50,14 @@
   import cetz.draw: *
   let p = proj3d.with(sc: sc)
   line(p(0, 0, 0), p(xl, 0, 0), mark: (end: ">", fill: black), stroke: 0.7pt)
-  content(p(xl,  -0.12, 0), $x$)
+  content(p(xl, -0.12, 0), $x$)
   line(p(0, -1.2, 0), p(0, yl, 0), mark: (end: ">", fill: black), stroke: 0.7pt)
-  content(p(0, yl,  -0.1), $y$)
-  line(p(0, 0,  -0.3), p(0, 0, zl), mark: (end: ">", fill: black), stroke: 0.7pt)
-  content(p(0,  -0.1, zl), $z$)
+  content(p(0, yl, -0.1), $y$)
+  line(p(0, 0, -0.3), p(0, 0, zl), mark: (end: ">", fill: black), stroke: 0.7pt)
+  content(p(0, -0.1, zl), $z$)
 }
+
+#let section-grid-stroke = (paint: rgb("C0392B"), thickness: 0.95pt, dash: "dotted")
 
 // ═══════════════════════════════════════════════
 // TIÊU ĐỀ
@@ -140,7 +142,7 @@
         if z >= 0 { h-pts.push(p(0, y, z)) }
       }
       h-pts.push(p(0, 0.6, 0.8))
-      h-pts.push(p(0,  -0.6, 0.8))
+      h-pts.push(p(0, -0.6, 0.8))
       line(..h-pts, close: true, fill: hfill, stroke: none)
       line(p(0, -y0, 0), p(0, y0, 0), p(2, y0, 0), p(2, -y0, 0), close: true, fill: hfill, stroke: none)
 
@@ -153,7 +155,7 @@
       line(..bp, stroke: 0.5pt)
 
       // Biên bể — mặt sau
-      line(p(0,  -0.6, 0.8), p(0, 0.6, 0.8), stroke: 1.2pt + red)
+      line(p(0, -0.6, 0.8), p(0, 0.6, 0.8), stroke: 1.2pt + red)
       line(p(0, -y0, 0), p(0, y0, 0), stroke: (paint: red, thickness: 1.2pt, dash: "dashed"))
       let bl = ()
       let br = ()
@@ -173,13 +175,13 @@
           let z = 25.0 / 9.0 * y * y - 0.2
           if z >= 0 { pts.push(p(xv, y, z)) }
         }
-        line(..pts, stroke: (paint: red.lighten(30%), thickness: 0.8pt, dash: "dotted"))
-        line(p(xv,  -0.6, 0.8), p(xv, 0.6, 0.8), stroke: (paint: red.lighten(30%), thickness: 0.8pt, dash: "dotted"))
-        line(p(xv, -y0, 0), p(xv, y0, 0), stroke: (paint: red.lighten(30%), thickness: 0.8pt, dash: "dotted"))
+        line(..pts, stroke: section-grid-stroke)
+        line(p(xv, -0.6, 0.8), p(xv, 0.6, 0.8), stroke: section-grid-stroke)
+        line(p(xv, -y0, 0), p(xv, y0, 0), stroke: section-grid-stroke)
       }
 
       // Biên bể — mặt trước
-      line(p(2,  -0.6, 0.8), p(2, 0.6, 0.8), stroke: 1.2pt + red)
+      line(p(2, -0.6, 0.8), p(2, 0.6, 0.8), stroke: 1.2pt + red)
       line(p(2, -y0, 0), p(2, y0, 0), stroke: 1.2pt + red)
       let fl = ()
       let fr = ()
@@ -198,64 +200,93 @@
       line(..fd, stroke: (paint: red, thickness: 1.2pt, dash: "dashed"))
 
       // Đường sinh
-      line(p(0,  -0.6, 0.8), p(2,  -0.6, 0.8), stroke: 1.2pt + red)
+      line(p(0, -0.6, 0.8), p(2, -0.6, 0.8), stroke: 1.2pt + red)
       line(p(0, 0.6, 0.8), p(2, 0.6, 0.8), stroke: 1.2pt + red)
       line(p(0, -y0, 0), p(2, -y0, 0), stroke: (paint: red, thickness: 1.2pt, dash: "dashed"))
       line(p(0, y0, 0), p(2, y0, 0), stroke: 1.2pt + red)
 
       // Nhãn
-      content(p(0,  -0.6, 0.9), $D'$)
+      content(p(0, -0.6, 0.9), $D'$)
       content(p(0, 0.6, 0.9), $C'$)
-      content(p(0, 0.05,  -0.1), $O$)
+      content(p(0, 0.05, -0.1), $O$)
       content(p(0, 0.35, 0.1), $C$)
-      content(p(2,  -0.65, 0.8), $A'$)
+      content(p(2, -0.65, 0.8), $A'$)
       content(p(2, 0.6, 0.85), $B'$)
-      content(p(2,  -0.35,  -0.1), $A$)
-      content(p(2, 0.35,  -0.1), $B$)
+      content(p(2, -0.35, -0.1), $A$)
+      content(p(2, 0.35, -0.1), $B$)
 
       // Kích thước
-      line(p(0,  -0.6, 1.05), p(0, 0.6, 1.05), mark: (start: ">", end: ">"), stroke: 0.5pt)
+      line(p(0, -0.6, 1.05), p(0, 0.6, 1.05), mark: (start: ">", end: ">"), stroke: 0.5pt)
       content(p(0, 0.2, 1.15), $1","2$)
       line(p(0, 0.9, 0), p(0, 0.9, 0.8), mark: (start: ">", end: ">"), stroke: 0.5pt)
       content(p(0, 1.05, 0.4), $0","8$)
-      line(p(-1,  -0.5,  -0.35), p(1,  -0.5,  -0.35), mark: (start: ">", end: ">"), stroke: 0.5pt)
-      content(p(1,  -0.4,  -0.45), $2$)
-      content(p(0, 0,  -0.28), $ -0","2$)
+      line(p(-1, -0.5, -0.35), p(1, -0.5, -0.35), mark: (start: ">", end: ">"), stroke: 0.5pt)
+      content(p(1, -0.4, -0.45), $2$)
+      content(p(0, 0, -0.28), $-0","2$)
 
       // Chú thích
       content(p(0, 0.3, 0.4), $(H)$)
-      content(p(0.5,  -0.5, 0.55), $(P)$)
-      line(p(0.4,  -0.5, 0.5), p(0,  -0.5, 0.3), mark: (end: ">"), stroke: 0.5pt)
-      content(p(1.5,  -0.65, 0.7), $(K)$)
-      line(p(1.5,  -0.55, 0.65), p(1.2,  -0.5, 0.5), mark: (end: ">"), stroke: 0.5pt)
+      content(p(0.5, -0.5, 0.55), $(P)$)
+      line(p(0.4, -0.5, 0.5), p(0, -0.5, 0.3), mark: (end: ">"), stroke: 0.5pt)
+      content(p(1.5, -0.65, 0.7), $(K)$)
+      line(p(1.5, -0.55, 0.65), p(1.2, -0.5, 0.5), mark: (end: ">"), stroke: 0.5pt)
     })
   ],
   fig-pos: "center",
   fig-width: 50%,
   loigiai: [
     #step([Lập phương trình parabol $(P)$])
-    Parabol có đỉnh $V(0;  -0","2)$ trên trục $O z$: dạng $z = a y^2 - 0","2$.
-    Điểm $C'(0","6;\ 0","8)$ thuộc $(P)$: $0","8 = a(0","6)^2 - 0","2 => a = 1/(0","36) = 25/9$.
-    Vậy $(P): z = (25)/9 y^2 - 0","2$. *Mệnh đề (a) ĐÚNG.*
+    Parabol có đỉnh $V(0; -0","2)$ nên có dạng $z = a y^2 - 0","2$.
+    Thay tọa độ điểm $C'(0","6; 0","8)$ vào phương trình, ta được
+    $
+      0","8 = a(0","6)^2 - 0","2
+      => 1 = 0","36 a
+      => a = 25/9.
+    $
+    Vậy $(P): z = 25/9 y^2 - 0","2$. *Mệnh đề (a) ĐÚNG.*
 
     #step([Tính diện tích $(H)$])
-    Bể giới hạn $z in [0;\ 0","8]$. Từ $(P)$: $y = plus.minus 3/5 sqrt(z+0","2)$, chiều rộng $w(z) = 6/5 sqrt(z+0","2)$.
+    Với $0 <= z <= 0","8$, từ $(P)$) suy ra
     $
-      S_(H) = integral_0^(0","8) 6/5 sqrt(z+0","2)  d z
-      = 6/5 dot [2/3 (z+0","2)^(3/2)]_0^(0","8)
+      y = plus.minus 3/5 sqrt(z+0","2),
+      quad w(z) = 6/5 sqrt(z+0","2).
+    $
+    Do đó
+    $
+      S_(H) = integral_0^(0","8) 6/5 sqrt(z+0","2) d z
+      = 6/5 dot 2/3 [(z+0","2)^(3/2)]_0^(0","8)
       = 4/5 [(1","0)^(3/2) - (0","2)^(3/2)]
-      approx 4/5 (1 - 0","0894) approx 0","7284 approx 0","73 space m^2.
+      approx 0","7284 space m^2.
     $
-    *Mệnh đề (b) ĐÚNG.*
+    Suy ra $S_(H) approx 0","73 space m^2$. *Mệnh đề (b) ĐÚNG.*
 
-    #step([Thời gian đầy bể])
-    $V = S_(H) dot 2 approx 0","7284 dot 2 = 1","4568 space m^3$.
-    $t = V / Q = 1","4568 / 0","02 = 72","84 approx 72","8$ phút. *Mệnh đề (c) ĐÚNG.*
+    #step([Thể tích và thời gian đầy bể])
+    Thể tích bể là
+    $
+      V = S_(H) dot 2 approx 0","7284 dot 2 = 1","4568 space m^3.
+    $
+    Do lưu lượng $Q = 0","02 space (m^3 / "phút")$, ta có
+    $
+      t = V / Q = 1","4568 / 0","02 = 72","84 approx 72","8.
+    $
+    Suy ra thời gian bơm đầy bể xấp xỉ $72","8$ phút. *Mệnh đề (c) ĐÚNG.*
 
     #step([Mực nước sau 60 phút])
-    $V_(60) = 60 dot 0","02 = 1","2 space m^3$. Diện tích mặt ngập: $A = V_(60)/2 = 0","6 space m^2$.
-    Giải $4/5 [(k+0","2)^(3/2) - (0","2)^(3/2)] = 0","6$:
-    $(k+0","2)^(3/2) = 0","75 + 0","0894 = 0","8394$, $k+0","2 = 0","8394^(2/3) approx 0","8899$, $k approx 0","69$ m.
+    Sau $60$ phút,
+    $
+      V_(60) = 60 dot 0","02 = 1","2 space m^3,
+      quad A = V_(60)/2 = 0","6 space m^2.
+    $
+    Ta giải phương trình
+    $
+      4/5 [(k+0","2)^(3/2) - (0","2)^(3/2)] = 0","6.
+    $
+    Suy ra
+    $
+      (k+0","2)^(3/2) = 0","75 + 0","0894 = 0","8394,
+      quad k+0","2 approx 0","8394^(2/3) approx 0","8899,
+      quad k approx 0","69.
+    $
     *Mệnh đề (d) ĐÚNG.*
   ],
 )
@@ -271,7 +302,7 @@
     True([Chiều rộng mặt cắt ngang tại cao độ $z$ ($0 <= z <= 1$) là $w(z) = 4 sqrt(1 - (z-1)^2) = 4 sqrt(z(2-z))$.]),
     True([Diện tích $(H)$ bằng $pi approx 3","14 space m^2$ (làm tròn đến hàng phần trăm).]),
     [Thể tích bể $(K)$ bằng $6 space m^3$.],
-    True([Sau $100$ phút, mực nước cao hơn $0","74$ m so với đáy (làm tròn đến hàng phần trăm).]),
+    True([Sau $100$ phút, mực nước cao hơn $0","43$ m so với đáy (làm tròn đến hàng phần trăm).]),
   ),
   fig: align(center)[
     #cetz.canvas({
@@ -364,23 +395,23 @@
       content(p(3, 2.1, 0.1), $B$)
       content(p(3, -2.1, 2.1), $A'$)
       content(p(3, 2.1, 2.1), $B'$)
-      content(p(0, 0.1,  -0.2), $O$)
+      content(p(0, 0.1, -0.2), $O$)
 
       // Trục
       line(p(0, 0, 0), p(3.2, 0, 0), mark: (end: ">", fill: black), stroke: 0.7pt)
-      content(p(3.2,  -0.1, 0), $x$)
+      content(p(3.2, -0.1, 0), $x$)
       line(p(0, -2.3, 0), p(0, 2.4, 0), mark: (end: ">", fill: black), stroke: 0.7pt)
-      content(p(0, 2.4,  -0.1), $y$)
-      line(p(0, 0,  -0.2), p(0, 0, 2.5), mark: (end: ">", fill: black), stroke: 0.7pt)
-      content(p(0,  -0.15, 2.4), $z$)
+      content(p(0, 2.4, -0.1), $y$)
+      line(p(0, 0, -0.2), p(0, 0, 2.5), mark: (end: ">", fill: black), stroke: 0.7pt)
+      content(p(0, -0.15, 2.4), $z$)
 
       // Kích thước
       line(p(0, -2, 2.3), p(0, 2, 2.3), mark: (start: ">", end: ">"), stroke: 0.5pt)
       content(p(0, 0.2, 2.5), $4$)
       line(p(0, 2.5, 0), p(0, 2.5, 1), mark: (start: ">", end: ">"), stroke: 0.5pt)
       content(p(0, 2.8, 0.5), $1$)
-      line(p( -0.5, -1.8,  -0.4), p(1.5, -1.8,  -0.4), mark: (start: ">", end: ">"), stroke: 0.5pt)
-      content(p(1.7, -1.7,  -0.5), $3$)
+      line(p(-0.5, -1.8, -0.4), p(1.5, -1.8, -0.4), mark: (start: ">", end: ">"), stroke: 0.5pt)
+      content(p(1.7, -1.7, -0.5), $3$)
 
       // Nhãn (H), (E')
       content(p(0, 0.5, 0.5), $(H)$)
@@ -392,36 +423,48 @@
   fig-width: 50%,
   loigiai: [
     #step([Chiều rộng mặt cắt ngang])
-    Elip $(E'): y^2/4 + (z-1)^2 = 1$ ($0 <= z <= 2$). Tại cao độ $z$: $(z-1)^2 + y^2/4 = 1 => y = plus.minus 2sqrt(1-(z-1)^2) = plus.minus 2sqrt(z(2-z))$.
-    $w(z) = 4sqrt(z(2-z)) = 4sqrt(1-(z-1)^2)$.
-    Nhưng bể chỉ có $0 <= z <= 1$ (nửa dưới). *Mệnh đề (a) ĐÚNG.*
+    Elip $(E')$ có phương trình $y^2/4 + (z-1)^2 = 1$.
+    Tại cao độ $z$, ta có
+    $
+      y^2/4 = 1 - (z-1)^2
+      => y = plus.minus 2sqrt(1-(z-1)^2)
+      => w(z) = 4sqrt(1-(z-1)^2) = 4sqrt(z(2-z)).
+    $
+    Vì bể chỉ lấy nửa dưới nên $0 <= z <= 1$. *Mệnh đề (a) ĐÚNG.*
 
     #step([Diện tích $(H)$])
+    Hình $(H)$ là nửa dưới của elip có hai bán trục lần lượt bằng $2$ và $1$.
+    Vì thế
     $
-      S_(H) = integral_0^1 4sqrt(1-(z-1)^2)  d z.
+      S_(H) = 1/2 pi dot 2 dot 1 = pi approx 3","14 space m^2.
     $
-    Đặt $u = z - 1$, $d u = d z$; khi $z=0$: $u=-1$; $z=1$: $u=0$:
-    $
-      S_(H) = integral_(-1)^0 4sqrt(1-u^2)  d u = 4 dot pi/4 = pi approx 3","14 space m^2.
-    $
-    (Tích phân là $1/4$ diện tích hình tròn bán kính $2$, nhân $2$ về hai phía — thực ra là nửa elip bán trục $a=1$, $b=2$: $S = (1/2) pi a b = pi$.)
     *Mệnh đề (b) ĐÚNG.*
 
     #step([Thể tích bể])
-    $V = S_(H) dot L = pi dot 3 = 3pi approx 9","42 space m^3 eq.not 6$. *Mệnh đề (c) SAI.*
+    $
+      V = S_(H) dot L = pi dot 3 = 3pi approx 9","42 space m^3.
+    $
+    Do đó khẳng định $V = 6 space m^3$ là sai. *Mệnh đề (c) SAI.*
 
     #step([Mực nước sau 100 phút])
-    $V_(100) = 100 dot 0","03 = 3 space m^3$. Diện tích ngập = $V_(100)/L = 3/3 = 1 space m^2$.
-    Giải: $integral_0^k 4sqrt(1-(z-1)^2) d z = 1$.
-
-    Đặt $u = z-1$: $4 integral_(-1)^(k-1) sqrt(1-u^2) d u = 1$.
-    $integral_(-1)^(k-1) sqrt(1-u^2) d u = 1/4$.
-
-    Hàm $F(t) = 1/2[t sqrt(1-t^2) + arcsin t]$. $F(-1) = 0$.
-    $F(k-1) = 1/4 => (k-1)sqrt(1-(k-1)^2) + arcsin(k-1) = 1/2$.
-    Thử $k = 0","74$: $(k-1) =  -0","26$, $sqrt(1 -0","0676) = 0","9653$, $( -0","26)(0","9653) + arcsin( -0","26) approx  -0","251 + ( -0","262) =  -0","513$... cộng $pi/2 = 1","571$ từ $F(-1)$... cần điều chỉnh hướng tính.
-
-    Kết quả số: $k approx 0","74$ m. *Mệnh đề (d) ĐÚNG.*
+    Sau $100$ phút,
+    $
+      V_(100) = 100 dot 0","03 = 3 space m^3,
+      quad A = V_(100)/3 = 1 space m^2.
+    $
+    Ta cần giải phương trình diện tích
+    $
+      integral_0^k 4sqrt(1-(z-1)^2) d z = 1.
+    $
+    Đặt $u = z-1$, suy ra
+    $
+      2[(k-1)sqrt(1-(k-1)^2) + arcsin(k-1)] + pi = 1.
+    $
+    Giải gần đúng được
+    $
+      k approx 0","4325 approx 0","43 space m.
+    $
+    *Mệnh đề (d) ĐÚNG.*
   ],
 )
 
@@ -438,7 +481,7 @@
     True(
       [Lưu lượng nước tràn là $Q = S times v times L = (8sqrt(2))/3 times 0","5 times 10 approx 18","86 space m^3/s$.],
     ),
-    True([Nếu lớp bùn dày $0","5$ m lắng từ đáy lên, diện tích hữu dụng giảm $approx 19","2\%$ so với ban đầu.]),
+    True([Nếu lớp bùn dày $0","5$ m lắng từ đáy lên, diện tích hữu dụng giảm $12","5\%$ so với ban đầu.]),
   ),
   fig: align(center)[
     #cetz.canvas({
@@ -539,58 +582,73 @@
 
       // Trục
       line(p(0, 0, 0), p(11.5, 0, 0), mark: (end: ">", fill: black), stroke: 0.7pt)
-      content(p(11.5,  -0.15, 0), $x$)
+      content(p(11.5, -0.15, 0), $x$)
       line(p(0, -1.6, 0), p(0, 1.8, 0), mark: (end: ">", fill: black), stroke: 0.7pt)
-      content(p(0, 1.8,  -0.15), $y$)
-      line(p(0, 0,  -0.2), p(0, 0, 2.7), mark: (end: ">", fill: black), stroke: 0.7pt)
-      content(p(0,  -0.15, 2.6), $z$)
-      content(p(0, 0.1,  -0.2), $O$)
+      content(p(0, 1.8, -0.15), $y$)
+      line(p(0, 0, -0.2), p(0, 0, 2.7), mark: (end: ">", fill: black), stroke: 0.7pt)
+      content(p(0, -0.15, 2.6), $z$)
+      content(p(0, 0.1, -0.2), $O$)
 
       // Kích thước
       line(p(0, -calc.sqrt(2), 2.3), p(0, calc.sqrt(2), 2.3), mark: (start: ">", end: ">"), stroke: 0.5pt)
       content(p(0, 0.1, 2.5), $2sqrt(2)$)
       line(p(0, 1.6, 0), p(0, 1.6, 2), mark: (start: ">", end: ">"), stroke: 0.5pt)
       content(p(0, 1.9, 1), $2$)
-      line(p(-1, -1,  -0.35), p(5, -1,  -0.35), mark: (start: ">", end: ">"), stroke: 0.5pt)
-      content(p(5.2,  -0.9,  -0.45), text(size: 9pt)[$10$])
+      line(p(-1, -1, -0.35), p(5, -1, -0.35), mark: (start: ">", end: ">"), stroke: 0.5pt)
+      content(p(5.2, -0.9, -0.45), text(size: 9pt)[$10$])
 
       // Nhãn
       content(p(0, calc.sqrt(2) + 0.25, 2.15), $C$)
       content(p(0, -calc.sqrt(2) - 0.25, 2.15), $D$)
-      content(p(0, 0.12,  -0.2), $O$)
+      content(p(0, 0.12, -0.2), $O$)
       content(p(0, 0.35, 1.1), $(H)$)
-      content(p(0,  -0.7, 0.6), $(P)$)
-      line(p(0,  -0.65, 0.55), p(0,  -0.5, 0.3), mark: (end: ">"), stroke: 0.4pt)
+      content(p(0, -0.7, 0.6), $(P)$)
+      line(p(0, -0.65, 0.55), p(0, -0.5, 0.3), mark: (end: ">"), stroke: 0.4pt)
     })
   ],
   fig-pos: "center",
   fig-width: 50%,
   loigiai: [
     #step([Chiều rộng mặt cắt tại cao độ $z$])
-    $(P): z = y^2 => y = plus.minus sqrt(z)$. Chiều rộng $w(z) = 2sqrt(z)$.
+    Từ $(P): z = y^2$, suy ra
+    $
+      y = plus.minus sqrt(z),
+      quad w(z) = 2sqrt(z).
+    $
     *Mệnh đề (a) ĐÚNG.*
 
     #step([Diện tích mặt cắt khi nước đầy ($z = 2$)])
     $
-      S = integral_0^2 2sqrt(z)  d z = lr((4/3 z^(3/2))|)_0^2 = 4/3 dot 2sqrt(2) = (8sqrt(2))/3 approx 3","771 approx 3","77 space m^2.
+      S = integral_0^2 2sqrt(z) d z
+      = [4/3 z^(3/2)]_0^2
+      = 4/3 dot 2sqrt(2)
+      = (8sqrt(2))/3
+      approx 3","77 space m^2.
     $
     *Mệnh đề (b) ĐÚNG.*
 
     #step([Lưu lượng nước tràn])
-    $Q = S dot v dot L = (8sqrt(2))/3 times 0","5 times 10 = (40sqrt(2))/3 approx 18","86 space m^3/s$.
+    $
+      Q = S dot v dot L
+      = (8sqrt(2))/3 times 0","5 times 10
+      = (40sqrt(2))/3
+      approx 18","86 space m^3/s.
+    $
     *Mệnh đề (c) ĐÚNG.*
 
     #step([Ảnh hưởng bùn lấp đến $z = 0","5$ m])
-    Diện tích phần bùn lấp ($0 <= z <= 0","5$):
-    $S_"bùn" = integral_0^(0","5) 2sqrt(z)  d z = [4/3 z^(3/2)]_0^(0.5) = 4/3 dot (0","5)^(3/2) = 4/3 dot (sqrt(2)/4) = sqrt(2)/3 approx 0","471 space m^2$.
-    Tỉ lệ diện tích mất: $S_"bùn"/S = (sqrt(2)/3)/((8sqrt(2))/3) = 1/8 = 12","5\%$...
-
-    #ppgiai[Xét kỹ hơn: $S_"bùn" = 4/3 dot (1/2)^(3/2) = 4/(3 dot 2 sqrt(2)) = 2/(3sqrt(2)) = sqrt(2)/3$. $S_"bùn"/S = (sqrt(2)/3) / (8sqrt(2)/3) = 1/8 = 12","5\%$. Vậy diện tích hữu dụng $= 100\% - 12","5\% = 87","5\%$, nghĩa là *giảm $12","5\%$*.]
-
-    Với lớp bùn $0","5$ m, diện tích hữu dụng giảm $12","5\%$ so với ban đầu.
-    *Mệnh đề (d) cần điều chỉnh: giảm đúng $12","5\%$, không phải $19","2\%$.*
-
-    #luuy[Số liệu $19","2\%$ đúng khi bùn dày $h_0$ thỏa $4/3 h_0^(3/2) / (8sqrt(2)/3) = 0","192 => h_0 approx 0","737$ m. Đề ra thường cho kết quả tròn — bài này chọn đáp án (d) ĐÚNG với $12","5\%$.]
+    Diện tích phần bùn lấp là
+    $
+      S_"bùn" = integral_0^(0","5) 2sqrt(z) d z
+      = [4/3 z^(3/2)]_0^(0","5)
+      = sqrt(2)/3
+      approx 0","471 space m^2.
+    $
+    Tỉ lệ diện tích bị mất bằng
+    $
+      S_"bùn"/S = (sqrt(2)/3)/((8sqrt(2))/3) = 1/8 = 12","5\%.
+    $
+    Vậy diện tích hữu dụng giảm đúng $12","5\%$ so với ban đầu. *Mệnh đề (d) ĐÚNG.*
   ],
 )
 
@@ -675,12 +733,12 @@
 
       // Trục
       line(p(0, 0, 0), p(6, 0, 0), mark: (end: ">", fill: black), stroke: 0.7pt)
-      content(p(6,  -0.1, 0), $x$)
+      content(p(6, -0.1, 0), $x$)
       line(p(0, -2.5, 0), p(0, 2.7, 0), mark: (end: ">", fill: black), stroke: 0.7pt)
-      content(p(0, 2.7,  -0.1), $y$)
-      line(p(0, 0,  -0.2), p(0, 0, 2.5), mark: (end: ">", fill: black), stroke: 0.7pt)
-      content(p(0,  -0.15, 2.4), $z$)
-      content(p(0, 0.1,  -0.2), $O$)
+      content(p(0, 2.7, -0.1), $y$)
+      line(p(0, 0, -0.2), p(0, 0, 2.5), mark: (end: ">", fill: black), stroke: 0.7pt)
+      content(p(0, -0.15, 2.4), $z$)
+      content(p(0, 0.1, -0.2), $O$)
 
       // Kích thước
       line(p(0, -2, 2.3), p(0, 2, 2.3), mark: (start: ">", end: ">"), stroke: 0.5pt)
@@ -697,39 +755,64 @@
   fig-width: 50%,
   loigiai: [
     #step([Diện tích mặt cắt ngang])
-    $(P_1): z = -(y^2)/2 + 2$ cắt $z=0$: $y = plus.minus 2$.
+    Từ $(P_1): z = -(y^2)/2 + 2$, giao với đáy $z = 0$ cho
     $
-      S = integral_(-2)^2 (2 - y^2/2) d y = lr(([2y - y^3/6])|)_(-2)^2 = 8 - 8/3 = 16/3 approx 5","33 space "dm"^2.
+      y = plus.minus 2.
+    $
+    Vì thế
+    $
+      S = integral_(-2)^2 (2 - y^2/2) d y
+      = [2y - y^3/6]_(-2)^2
+      = 8 - 8/3
+      = 16/3
+      approx 5","33 space "dm"^2.
     $
     *Mệnh đề (a) ĐÚNG.*
 
     #step([Lưu lượng nước])
-    $Q = S dot v = (16/3) times 0","4 = 6","4/3 approx 2","13 space "dm"^3/s$.
+    $
+      Q = S dot v = (16/3) times 0","4 = 6","4/3 approx 2","13 space "dm"^3/s.
+    $
     *Mệnh đề (b) ĐÚNG.*
 
     #step([Diện tích mặt trong vòm])
-    Cung parabol $z = 2 - y^2/2$, $y in [-2; 2]$.
-    $d z/d y = -y$. Độ dài vi phân: $d s = sqrt(1 + y^2)  d y$.
+    Với $z = 2 - y^2/2$, ta có $d z/d y = -y$, nên
     $
-      S_"vòm" = integral_(-2)^2 sqrt(1+y^2) d y = 2 integral_0^2 sqrt(1+y^2) d y.
+      d s = sqrt(1 + y^2) d y.
     $
-    Dùng công thức: $integral sqrt(1+y^2) d y = (y sqrt(1+y^2))/2 + (1/2) ln(y + sqrt(1+y^2))$.
-    Tại $y=2$: $(2sqrt(5))/2 + (1/2)ln(2+sqrt(5)) approx 2","236 + 0","481 dot 1","6094/2$... tính số:
-    $2integral_0^2 sqrt(1+y^2)dif y approx 2 dot 2","958 = 5","916 approx 5","92 space "dm"^2$.
+    Do đó
+    $
+      S_"vòm" = integral_(-2)^2 sqrt(1+y^2) d y
+      = 2 integral_0^2 sqrt(1+y^2) d y.
+    $
+    Dùng nguyên hàm chuẩn,
+    $
+      integral sqrt(1+y^2) d y = y sqrt(1+y^2)/2 + 1/2 ln(y + sqrt(1+y^2)).
+    $
+    Suy ra
+    $
+      S_"vòm"
+      = [y sqrt(1+y^2) + ln(y + sqrt(1+y^2))]_0^2
+      = 2sqrt(5) + ln(2 + sqrt(5))
+      approx 5","92 space "dm"^2.
+    $
     *Mệnh đề (c) ĐÚNG.*
 
     #step([Thể tích nước khi $z = 1$ dm])
-    Chiều rộng tại cao độ $z$: $y = plus.minus sqrt(2(2-z)) = plus.minus sqrt(4-2z)$.
-    $w(z) = 2sqrt(4-2z) = 2sqrt(2)sqrt(2-z)$.
+    Với $z = 1$, phần nước chiếm miền $0 <= z <= 1$.
+    Tại cao độ $z$, chiều rộng mặt cắt là
     $
-      V = 50 integral_0^1 2sqrt(2) sqrt(2-z)  d z
-      = 100 sqrt(2) [-2/3 (2-z)^(3/2)]_0^1
+      y = plus.minus sqrt(2(2-z)),
+      quad w(z) = 2sqrt(2)sqrt(2-z).
+    $
+    Vì thế
+    $
+      V = 50 integral_0^1 2sqrt(2) sqrt(2-z) d z
       = 100 sqrt(2) dot 2/3 [2^(3/2) - 1]
       = (200 sqrt(2))/3 (2sqrt(2) - 1)
-      approx (200 times 1","414)/3 times (2","828 - 1)
-      approx 94","28 times 1","828 approx 172","3 space "dm"^3.
+      approx 172","3 space "dm"^3.
     $
-    *Mệnh đề (d): Thể tích $approx 172","3 space "dm"^3$.*
+    *Mệnh đề (d) ĐÚNG.*
   ],
 )
 
@@ -773,7 +856,7 @@
       line(p(0, -1, 1), p(0, 1, 1), p(0, 1, 2), p(0, -1, 2), close: true, fill: hfill, stroke: none)
 
       // Tô đáy kênh (z=0)
-      line(p(0,  -0.01, 0), p(0, 0.01, 0), p(4, 0.01, 0), p(4,  -0.01, 0), close: true, fill: hfill, stroke: none)
+      line(p(0, -0.01, 0), p(0, 0.01, 0), p(4, 0.01, 0), p(4, -0.01, 0), close: true, fill: hfill, stroke: none)
       line(p(0, -1, 1), p(0, 1, 1), p(4, 1, 1), p(4, -1, 1), close: true, fill: hfill, stroke: none)
 
       // Vẽ parabol đầy
@@ -818,12 +901,12 @@
 
       // Trục
       line(p(0, 0, 0), p(5.2, 0, 0), mark: (end: ">", fill: black), stroke: 0.7pt)
-      content(p(5.2,  -0.1, 0), $x$)
+      content(p(5.2, -0.1, 0), $x$)
       line(p(0, -1.4, 0), p(0, 1.6, 0), mark: (end: ">", fill: black), stroke: 0.7pt)
-      content(p(0, 1.6,  -0.12), $y$)
-      line(p(0, 0,  -0.2), p(0, 0, 2.4), mark: (end: ">", fill: black), stroke: 0.7pt)
-      content(p(0,  -0.15, 2.3), $z$)
-      content(p(0, 0.1,  -0.2), $O$)
+      content(p(0, 1.6, -0.12), $y$)
+      line(p(0, 0, -0.2), p(0, 0, 2.4), mark: (end: ">", fill: black), stroke: 0.7pt)
+      content(p(0, -0.15, 2.3), $z$)
+      content(p(0, 0.1, -0.2), $O$)
 
       // Kích thước
       line(p(0, -1, 2.3), p(0, 1, 2.3), mark: (start: ">", end: ">"), stroke: 0.5pt)
@@ -833,27 +916,42 @@
 
       // Nhãn
       content(p(0, 0.2, 0.5), $(P)$)
-      content(p(2,  -0.3, 1.7), text(fill: rgb("555555"), size: 9pt)[Hình chữ nhật])
+      content(p(2, -0.3, 1.7), text(fill: rgb("555555"), size: 9pt)[Hình chữ nhật])
     })
   ],
   fig-pos: "center",
   fig-width: 50%,
   loigiai: [
     #step([Chiều rộng mặt cắt ngang])
-    - $z in [0;1]$: $(P): z = y^2 => y = plus.minus sqrt(z)$, $w_1(z) = 2sqrt(z)$.
-    - $z in [1;2]$: thành thẳng đứng, $w_2 = 2$.
+    Ở phần parabol $0 <= z <= 1$, ta có
+    $
+      z = y^2 => y = plus.minus sqrt(z) => w_1(z) = 2sqrt(z).
+    $
+    Ở phần hình chữ nhật $1 <= z <= 2$, chiều rộng không đổi nên $w_2 = 2$.
     *Mệnh đề (a) ĐÚNG.*
 
     #step([Diện tích mặt cắt tổng])
-    $S = integral_0^1 2sqrt(z) d z + integral_1^2 2  d z = [4/3 z^(3/2)]_0^1 + [2z]_1^2 = 4/3 + 2 = 10/3 approx 3","33 space m^2$.
+    $
+      S = integral_0^1 2sqrt(z) d z + integral_1^2 2 d z
+      = [4/3 z^(3/2)]_0^1 + [2z]_1^2
+      = 4/3 + 2
+      = 10/3
+      approx 3","33 space m^2.
+    $
     *Mệnh đề (b) ĐÚNG.*
 
     #step([Thể tích kênh])
-    $V = S dot L = (10/3) dot 100 = 1000/3 approx 333","33 space m^3$. *Mệnh đề (c) ĐÚNG.*
+    $
+      V = S dot L = (10/3) dot 100 = 1000/3 approx 333","33 space m^3.
+    $
+    *Mệnh đề (c) ĐÚNG.*
 
     #step([Thời gian bơm đầy])
-    $t = V/Q = (1000/3)/0","5 = 2000/3 approx 666","7$ giây $approx 11","1$ phút $eq.not 10$ phút.
-    *Mệnh đề (d) SAI.*
+    $
+      t = V/Q = (1000/3)/0","5 = 2000/3 approx 666","7.
+    $
+    Suy ra thời gian bơm đầy kênh xấp xỉ $666","7$ giây, tức khoảng $11","1$ phút.
+    Vì vậy khẳng định $10$ phút là sai. *Mệnh đề (d) SAI.*
   ],
 )
 
@@ -935,12 +1033,12 @@
 
       // Trục
       line(p(0, 0, 0), p(7.5, 0, 0), mark: (end: ">", fill: black), stroke: 0.7pt)
-      content(p(7.5,  -0.1, 0), $x$)
+      content(p(7.5, -0.1, 0), $x$)
       line(p(0, -2.5, 0), p(0, 2.8, 0), mark: (end: ">", fill: black), stroke: 0.7pt)
-      content(p(0, 2.8,  -0.12), $y$)
-      line(p(0, 0,  -0.2), p(0, 0, 4.7), mark: (end: ">", fill: black), stroke: 0.7pt)
-      content(p(0,  -0.15, 4.5), $z$)
-      content(p(0, 0.1,  -0.3), $O$)
+      content(p(0, 2.8, -0.12), $y$)
+      line(p(0, 0, -0.2), p(0, 0, 4.7), mark: (end: ">", fill: black), stroke: 0.7pt)
+      content(p(0, -0.15, 4.5), $z$)
+      content(p(0, 0.1, -0.3), $O$)
 
       // Kích thước
       line(p(0, -2, 4.4), p(0, 2, 4.4), mark: (start: ">", end: ">"), stroke: 0.5pt)
@@ -953,30 +1051,70 @@
       // Nhãn vòm
       content(p(0, 0.3, 2.5), $(P)$)
       // Nhãn 2a
-      line(p(6.5, -a,  -0.3), p(6.5, a,  -0.3), mark: (start: ">", end: ">"), stroke: 0.5pt)
-      content(p(6.5, 0,  -0.55), text(size: 9pt)[$2a$])
+      line(p(6.5, -a, -0.3), p(6.5, a, -0.3), mark: (start: ">", end: ">"), stroke: 0.5pt)
+      content(p(6.5, 0, -0.55), text(size: 9pt)[$2a$])
     })
   ],
   fig-pos: "center",
   fig-width: 50%,
   loigiai: [
     #step([Với $a=1$, chiều cao tối đa của kệ])
-    Kệ rộng $2a=2$, hai cạnh trên nằm tại $y = plus.minus 1$. Điểm vòm tại $y=1$: $z = 4 - 1 = 3$.
+    Khi $a = 1$, kệ rộng $2a = 2$ nên hai cạnh trên nằm tại $y = plus.minus 1$.
+    Trên vòm parabol,
+    $
+      z = 4 - y^2 => z = 4 - 1 = 3.
+    $
     Vậy chiều cao tối đa $h = 3$ m. *Mệnh đề (a) ĐÚNG.*
 
     #step([Thể tích kệ tổng quát])
-    Kệ cao $h = 4 - a^2$ (chạm vòm tại $y = plus.minus a$), rộng $2a$, dài $10$:
-    $V_"kệ" = 2a dot (4-a^2) dot 10 = 20a(4-a^2)$. *Mệnh đề (b) ĐÚNG.*
+    Khi kệ chạm vòm tại $y = plus.minus a$, chiều cao của kệ là
+    $
+      h = 4 - a^2.
+    $
+    Do đó
+    $
+      V_"kệ" = 2a dot h dot 10 = 2a(4-a^2) dot 10 = 20a(4-a^2).
+    $
+    *Mệnh đề (b) ĐÚNG.*
 
     #step([Thể tích kệ tối đa])
-    $V(a) = 20(4a - a^3)$. $V'(a) = 20(4 - 3a^2) = 0 => a = 2/sqrt(3)$.
-    $h = 4 - 4/3 = 8/3$. $V_max = 20 dot (2/sqrt(3)) dot (8/3) = 320/(3sqrt(3)) = (320 sqrt(3))/9 approx 61","6 space m^3$.
+    Xét hàm
+    $
+      V(a) = 20(4a - a^3).
+    $
+    Khi đó
+    $
+      V'(a) = 20(4 - 3a^2) = 0 => a = 2/sqrt(3).
+    $
+    Suy ra
+    $
+      h = 4 - a^2 = 4 - 4/3 = 8/3,
+    $
+    và
+    $
+      V_"max" = 20 dot 2/sqrt(3) dot 8/3
+      = 320/(3sqrt(3))
+      = (320sqrt(3))/9
+      approx 61","6 space m^3.
+    $
     *Mệnh đề (c) ĐÚNG.*
 
     #step([Tỉ lệ thể tích])
-    Thể tích vòm: $V_"vòm" = 10 dot integral_(-2)^2 (4-y^2) d y = 10 dot [4y - y^3/3]_(-2)^2 = 10 dot (32/3) = 320/3$.
-    Tỉ lệ: $V_max / V_"vòm" = (320sqrt(3)/9)/(320/3) = (3 sqrt(3))/9 = sqrt(3)/3 = 1/sqrt(3) approx 57","7\% eq.not 50\%$.
-    *Mệnh đề (d) SAI.*
+    Thể tích phần vòm là
+    $
+      V_"vòm" = 10 dot integral_(-2)^2 (4-y^2) d y
+      = 10 dot [4y - y^3/3]_(-2)^2
+      = 320/3.
+    $
+    Vì thế
+    $
+      V_"max" / V_"vòm"
+      = (320sqrt(3)/9)/(320/3)
+      = sqrt(3)/3
+      = 1/sqrt(3)
+      approx 57","7\%.
+    $
+    Khẳng định $50\%$ là sai. *Mệnh đề (d) SAI.*
   ],
 )
 
@@ -1040,9 +1178,9 @@
           let z = i * 1.0 / 100
           pts2.push(p(xv, calc.sqrt(z), z))
         }
-        line(p(xv, 0, 0), ..pts2, stroke: (paint: red.lighten(35%), thickness: 0.7pt, dash: "dotted"))
-        line(p(xv, 0, 0), ..pts, stroke: (paint: red.lighten(35%), thickness: 0.7pt, dash: "dotted"))
-        line(p(xv, -1, 1), p(xv, 1, 1), stroke: (paint: red.lighten(35%), thickness: 0.7pt, dash: "dotted"))
+        line(p(xv, 0, 0), ..pts2, stroke: section-grid-stroke)
+        line(p(xv, 0, 0), ..pts, stroke: section-grid-stroke)
+        line(p(xv, -1, 1), p(xv, 1, 1), stroke: section-grid-stroke)
       }
 
       // Biên máng mặt sau
@@ -1076,52 +1214,70 @@
 
       // Trục
       line(p(0, 0, 0), p(3.8, 0, 0), mark: (end: ">", fill: black), stroke: 0.7pt)
-      content(p(3.8,  -0.1, 0), $x$)
+      content(p(3.8, -0.1, 0), $x$)
       line(p(0, -1.4, 0), p(0, 1.6, 0), mark: (end: ">", fill: black), stroke: 0.7pt)
-      content(p(0, 1.6,  -0.1), $y$)
-      line(p(0, 0,  -0.1), p(0, 0, 1.4), mark: (end: ">", fill: black), stroke: 0.7pt)
-      content(p(0,  -0.12, 1.3), $z$)
+      content(p(0, 1.6, -0.1), $y$)
+      line(p(0, 0, -0.1), p(0, 0, 1.4), mark: (end: ">", fill: black), stroke: 0.7pt)
+      content(p(0, -0.12, 1.3), $z$)
 
       // Kích thước
       line(p(0, -1, 1.2), p(0, 1, 1.2), mark: (start: ">", end: ">"), stroke: 0.5pt)
       content(p(0, 0.1, 1.35), $2$)
       line(p(0, 1.3, 0), p(0, 1.3, 1), mark: (start: ">", end: ">"), stroke: 0.5pt)
       content(p(0, 1.55, 0.5), $1$)
-      line(p( -0.8,  -0.8,  -0.3), p(1.2,  -0.8,  -0.3), mark: (start: ">", end: ">"), stroke: 0.5pt)
-      content(p(1.5,  -0.7,  -0.4), $3$)
+      line(p(-0.8, -0.8, -0.3), p(1.2, -0.8, -0.3), mark: (start: ">", end: ">"), stroke: 0.5pt)
+      content(p(1.5, -0.7, -0.4), $3$)
 
       // Nhãn
       content(p(0, 0.4, 0.5), $(H)$)
-      content(p(0.4,  -0.7, 0.55), $(P)$)
-      line(p(0.3,  -0.7, 0.5), p(0,  -0.65, 0.42), mark: (end: ">"), stroke: 0.5pt)
-      content(p(1.8,  -0.6, 0.7), $(K)$)
+      content(p(0.4, -0.7, 0.55), $(P)$)
+      line(p(0.3, -0.7, 0.5), p(0, -0.65, 0.42), mark: (end: ">"), stroke: 0.5pt)
+      content(p(1.8, -0.6, 0.7), $(K)$)
     })
   ],
   fig-pos: "center",
   fig-width: 50%,
   loigiai: [
     #step([Lập phương trình parabol $(P)$])
-    Parabol có đỉnh tại gốc $O(0; 0; 0)$, trục đối xứng là trục $O z$: dạng $z = a y^2$.
-    Miệng máng $C'D'$ tại $z = 1$, rộng $2$ m nên $C'(1; 1)$ thuộc $(P)$:
-    $1 = a(1)^2 => a = 1$.
+    Parabol có đỉnh tại $O$ và trục đối xứng là trục $O z$ nên có dạng $z = a y^2$.
+    Miệng máng nằm ở cao độ $z = 1$ và rộng $2$ m, nên điểm $C'(1; 1)$ thuộc $(P)$.
+    Vì thế
+    $
+      1 = a(1)^2 => a = 1.
+    $
     Vậy $(P): z = y^2$. *Mệnh đề (a) ĐÚNG.*
 
     #step([Tính diện tích $(H)$])
-    $z in [0; 1]$. Từ $(P)$: $y = plus.minus sqrt(z)$, chiều rộng $w(z) = 2sqrt(z)$.
+    Với $0 <= z <= 1$, từ $(P)$ suy ra
     $
-      S_(H) = integral_0^1 2sqrt(z)  d z = [4/3 z^(3/2)]_0^1 = 4/3 approx 1","33 space m^2.
+      y = plus.minus sqrt(z),
+      quad w(z) = 2sqrt(z).
+    $
+    $
+      S_(H) = integral_0^1 2sqrt(z) d z = [4/3 z^(3/2)]_0^1 = 4/3 approx 1","33 space m^2.
     $
     *Mệnh đề (b) ĐÚNG.*
 
     #step([Thời gian chảy đầy máng])
-    $V = S_(H) times L = 4/3 times 3 = 4 space m^3$.
-    $t = V/Q = 4/0","04 = 100$ phút. *Mệnh đề (c) ĐÚNG.*
+    $
+      V = S_(H) times L = 4/3 times 3 = 4 space m^3,
+      quad t = V/Q = 4/0","04 = 100.
+    $
+    Suy ra thời gian chảy đầy máng là $100$ phút. *Mệnh đề (c) ĐÚNG.*
 
     #step([Mực nước sau 60 phút])
-    $V_(60) = 60 times 0","04 = 2","4 space m^3$.
-    Diện tích mặt cắt mực nước: $A = V_(60)/L = 2","4/3 = 0","8 space m^2$.
-    Giải $4/3 k^(3/2) = 0","8$:
-    $k^(3/2) = 0","6 => k = 0","6^(2/3) approx 0","7114 approx 0","71$ m.
+    Sau $60$ phút,
+    $
+      V_(60) = 60 times 0","04 = 2","4 space m^3,
+      quad A = V_(60)/L = 2","4/3 = 0","8 space m^2.
+    $
+    Khi đó
+    $
+      4/3 k^(3/2) = 0","8
+      => k^(3/2) = 0","6
+      => k = 0","6^(2/3) approx 0","7114.
+    $
+    Suy ra $k approx 0","71$ m.
     *Mệnh đề (d) ĐÚNG.*
   ],
 )
@@ -1199,9 +1355,9 @@
           let hw = 3 * calc.sqrt(calc.max(0, 1 - z * z / 4))
           pts2.push(p(xv, hw, z))
         }
-        line(p(xv, -3, 0), ..pts, stroke: (paint: red.lighten(40%), thickness: 0.7pt, dash: "dotted"))
-        line(p(xv, 3, 0), ..pts2, stroke: (paint: red.lighten(40%), thickness: 0.7pt, dash: "dotted"))
-        line(p(xv, -3, 0), p(xv, 3, 0), stroke: (paint: red.lighten(40%), thickness: 0.7pt, dash: "dotted"))
+        line(p(xv, -3, 0), ..pts, stroke: section-grid-stroke)
+        line(p(xv, 3, 0), ..pts2, stroke: section-grid-stroke)
+        line(p(xv, -3, 0), p(xv, 3, 0), stroke: section-grid-stroke)
       }
 
       // Biên cống mặt sau
@@ -1238,25 +1394,25 @@
       // Nhãn
       content(p(0, -3.2, 0.1), $D$)
       content(p(0, 3.2, 0.1), $C$)
-      content(p(0, 0.1,  -0.2), $O$)
+      content(p(0, 0.1, -0.2), $O$)
       content(p(4, -3.2, 0.1), $A$)
       content(p(4, 3.2, 0.1), $B$)
 
       // Trục
       line(p(0, 0, 0), p(5.3, 0, 0), mark: (end: ">", fill: black), stroke: 0.7pt)
-      content(p(5.3,  -0.1, 0), $x$)
+      content(p(5.3, -0.1, 0), $x$)
       line(p(0, -3.6, 0), p(0, 4.0, 0), mark: (end: ">", fill: black), stroke: 0.7pt)
-      content(p(0, 4.0,  -0.12), $y$)
-      line(p(0, 0,  -0.2), p(0, 0, 2.7), mark: (end: ">", fill: black), stroke: 0.7pt)
-      content(p(0,  -0.18, 2.6), $z$)
+      content(p(0, 4.0, -0.12), $y$)
+      line(p(0, 0, -0.2), p(0, 0, 2.7), mark: (end: ">", fill: black), stroke: 0.7pt)
+      content(p(0, -0.18, 2.6), $z$)
 
       // Kích thước
       line(p(0, -3, 2.4), p(0, 3, 2.4), mark: (start: ">", end: ">"), stroke: 0.5pt)
       content(p(0, 0.1, 2.65), $6$)
       line(p(0, 3.8, 0), p(0, 3.8, 2), mark: (start: ">", end: ">"), stroke: 0.5pt)
       content(p(0, 4.3, 1), $2$)
-      line(p(-1, -2.5,  -0.4), p(2, -2.5,  -0.4), mark: (start: ">", end: ">"), stroke: 0.5pt)
-      content(p(2.5, -2.4,  -0.55), text(size: 9pt)[$50$])
+      line(p(-1, -2.5, -0.4), p(2, -2.5, -0.4), mark: (start: ">", end: ">"), stroke: 0.5pt)
+      content(p(2.5, -2.4, -0.55), text(size: 9pt)[$50$])
 
       // Nhãn H, E
       content(p(0, 0.5, 1.0), $(H)$)
@@ -1268,35 +1424,51 @@
   fig-width: 50%,
   loigiai: [
     #step([Chiều rộng mặt cắt tại cao độ $z$])
-    $(E): y^2/9 + z^2/4 = 1 => y = plus.minus 3 sqrt(1 - z^2/4) = plus.minus (3/2) sqrt(4-z^2)$.
-    $w(z) = 2 times (3/2) sqrt(4-z^2) = 3sqrt(4-z^2)$.
+    Từ phương trình elip
+    $
+      y^2/9 + z^2/4 = 1,
+    $
+    suy ra
+    $
+      y = plus.minus 3 sqrt(1 - z^2/4) = plus.minus 3/2 sqrt(4-z^2).
+    $
+    Do đó
+    $
+      w(z) = 2 times 3/2 sqrt(4-z^2) = 3sqrt(4-z^2).
+    $
     *Mệnh đề (a) ĐÚNG.*
 
     #step([Diện tích tiết diện])
     $
-      S = integral_0^2 3 sqrt(4-z^2)  d z.
+      S = integral_0^2 3 sqrt(4-z^2) d z.
     $
-    Đặt $z = 2 sin theta$, $d z = 2 cos theta d theta$; $z=0 => theta=0$, $z=2 => theta = pi/2$:
+    Đặt $z = 2 sin theta$, khi đó $d z = 2 cos theta d theta$ và các cận trở thành $0$ đến $pi/2$.
     $
-      S = integral_0^(pi/2) 3 dot 2 cos theta dot 2 cos theta  d theta
-      = 12 integral_0^(pi/2) cos^2 theta  d theta = 12 dot pi/4 = 3 pi approx 9","42 space m^2.
+      S = integral_0^(pi/2) 3 dot 2 cos theta dot 2 cos theta d theta
+      = 12 integral_0^(pi/2) cos^2 theta d theta = 12 dot pi/4 = 3 pi approx 9","42 space m^2.
     $
-    Đây đúng bằng nửa diện tích elip: $(1/2) pi a b = (1/2) pi dot 3 dot 2 = 3 pi$ ✓.
+    Kết quả này cũng đúng với công thức nửa diện tích elip: $1/2 pi dot 3 dot 2 = 3 pi$.
     *Mệnh đề (b) ĐÚNG.*
 
     #step([Lưu lượng nước])
-    $Q = S dot v = 3 pi dot 0","1 = 0","3 pi approx 0","942 approx 0","94 space m^3/s$.
+    $
+      Q = S dot v = 3 pi dot 0","1 = 0","3 pi approx 0","94 space m^3/s.
+    $
     *Mệnh đề (c) ĐÚNG.*
 
     #step([Diện tích ngập khi $z = 1$ m])
     $
-      S_1 = integral_0^1 3 sqrt(4-z^2)  d z = 3 [z/2 sqrt(4-z^2) + 2 arcsin(z/2)]_0^1.
+      S_1 = integral_0^1 3 sqrt(4-z^2) d z = 3 [z/2 sqrt(4-z^2) + 2 arcsin(z/2)]_0^1.
     $
-    $= 3 [(1/2) sqrt(3) + 2 arcsin(1/2)] = 3 [sqrt(3)/2 + 2 dot pi/6] = 3 [sqrt(3)/2 + pi/3]$
-    $= (3 sqrt(3))/2 + pi approx 2","598 + 3","142 = 5","74 space m^2$.
-
-    Tỉ lệ: $S_1 / S = 5","74 / (3 pi) approx 5","74 / 9","42 approx 60","9\% eq.not 50\%$.
-    *Mệnh đề (d) SAI* — đúng là $approx 60","9\%$, do elip rộng hơn ở nửa dưới.
+    Suy ra
+    $
+      S_1 = 3 [sqrt(3)/2 + pi/3] = (3sqrt(3))/2 + pi approx 5","74 space m^2.
+    $
+    Do đó
+    $
+      S_1 / S = 5","74 / (3 pi) approx 60","9\%.
+    $
+    Khẳng định $50\%$ là sai. *Mệnh đề (d) SAI.*
   ],
 )
 
@@ -1355,10 +1527,10 @@
           pl.push(p(xv, -hw, z))
           pr.push(p(xv, hw, z))
         }
-        line(..pl, stroke: (paint: red.lighten(35%), thickness: 0.7pt, dash: "dotted"))
-        line(..pr, stroke: (paint: red.lighten(35%), thickness: 0.7pt, dash: "dotted"))
-        line(p(xv, -y0, 0), p(xv, y0, 0), stroke: (paint: red.lighten(35%), thickness: 0.7pt, dash: "dotted"))
-        line(p(xv, -1, 3), p(xv, 1, 3), stroke: (paint: red.lighten(35%), thickness: 0.7pt, dash: "dotted"))
+        line(..pl, stroke: section-grid-stroke)
+        line(..pr, stroke: section-grid-stroke)
+        line(p(xv, -y0, 0), p(xv, y0, 0), stroke: section-grid-stroke)
+        line(p(xv, -1, 3), p(xv, 1, 3), stroke: section-grid-stroke)
       }
 
       // Biên bể mặt sau
@@ -1392,41 +1564,41 @@
       content(p(0, 0.08, vz + 0.05), text(size: 9pt)[$V$])
       circle(p(0, 0, vz), radius: 1.5pt, fill: gray)
       line(p(0, 0, 0), p(0, 0, vz), stroke: (paint: gray, thickness: 0.5pt, dash: "dashed"))
-      content(p(0,  -0.15, vz - 0.05), text(size: 9pt)[$-1$])
+      content(p(0, -0.15, vz - 0.05), text(size: 9pt)[$-1$])
 
       // Nhãn đỉnh
       content(p(0, -1.15, 3.12), $D'$)
       content(p(0, 1.15, 3.12), $C'$)
-      content(p(0,  -0.55, 0.12), $D$)
+      content(p(0, -0.55, 0.12), $D$)
       content(p(0, 0.55, 0.12), $C$)
       content(p(4, -1.15, 3.12), $A'$)
       content(p(4, 1.15, 3.12), $B'$)
-      content(p(4,  -0.55, 0.12), $A$)
+      content(p(4, -0.55, 0.12), $A$)
       content(p(4, 0.55, 0.12), $B$)
 
       // Trục
       line(p(0, 0, 0), p(5.2, 0, 0), mark: (end: ">", fill: black), stroke: 0.7pt)
-      content(p(5.2,  -0.1, 0), $x$)
+      content(p(5.2, -0.1, 0), $x$)
       line(p(0, -1.4, 0), p(0, 1.6, 0), mark: (end: ">", fill: black), stroke: 0.7pt)
-      content(p(0, 1.6,  -0.12), $y$)
+      content(p(0, 1.6, -0.12), $y$)
       line(p(0, 0, -1.3), p(0, 0, 3.6), mark: (end: ">", fill: black), stroke: 0.7pt)
-      content(p(0,  -0.15, 3.5), $z$)
-      content(p(0, 0.08,  -0.12), $O$)
+      content(p(0, -0.15, 3.5), $z$)
+      content(p(0, 0.08, -0.12), $O$)
 
       // Kích thước
       line(p(0, -1, 3.4), p(0, 1, 3.4), mark: (start: ">", end: ">"), stroke: 0.5pt)
       content(p(0, 0.1, 3.6), $2$)
       line(p(0, 1.4, 0), p(0, 1.4, 3), mark: (start: ">", end: ">"), stroke: 0.5pt)
       content(p(0, 1.7, 1.5), $3$)
-      line(p(-1, -1,  -0.7), p(1, -1,  -0.7), mark: (start: ">", end: ">"), stroke: 0.5pt)
-      content(p(1.4,  -0.9,  -0.85), $4$)
+      line(p(-1, -1, -0.7), p(1, -1, -0.7), mark: (start: ">", end: ">"), stroke: 0.5pt)
+      content(p(1.4, -0.9, -0.85), $4$)
       line(p(0, -y0, 0.2), p(0, y0, 0.2), mark: (start: ">", end: ">"), stroke: 0.5pt)
       content(p(0, 0.1, 0.38), text(size: 9pt)[$1$])
 
       // Nhãn H, P, K
       content(p(0, 0.5, 1.5), $(H)$)
-      content(p(0,  -0.9, 2.0), $(P)$)
-      line(p(0,  -0.85, 1.85), p(0,  -0.7, 1.5), mark: (end: ">"), stroke: 0.5pt)
+      content(p(0, -0.9, 2.0), $(P)$)
+      line(p(0, -0.85, 1.85), p(0, -0.7, 1.5), mark: (end: ">"), stroke: 0.5pt)
       content(p(2, -1.0, 1.8), $(K)$)
     })
   ],
@@ -1434,29 +1606,42 @@
   fig-width: 40%,
   loigiai: [
     #step([Lập phương trình parabol $(P)$])
-    Parabol có đỉnh $V$ trên trục $O z$ ($y=0$): dạng $z = a y^2 + c$.
-    Đáy $C D$ tại $z=0$, rộng $2 times 0","5 = 1$ m → $C(0","5; 0)$:
-    $0 = a(0","5)^2 + c => c = -a/4$.
-    Miệng $C'D'$ tại $z=3$, rộng $2$ m → $C'(1; 3)$:
-    $3 = a(1)^2 + c = a - a/4 = 3a/4 => a = 4, c = -1$.
+    Parabol có đỉnh trên trục $O z$ nên có dạng $z = a y^2 + c$.
+    Từ đáy $C D$ tại $z = 0$ và bề rộng đáy bằng $1$ m, điểm $C(0","5; 0)$ thuộc $(P)$:
+    $
+      0 = a(0","5)^2 + c => c = -a/4.
+    $
+    Từ miệng $C'D'$ tại $z = 3$ và bề rộng miệng bằng $2$ m, điểm $C'(1; 3)$ cũng thuộc $(P)$:
+    $
+      3 = a + c = a - a/4 = 3a/4 => a = 4,
+      quad c = -1.
+    $
     Vậy $(P): z = 4y^2 - 1$. *Mệnh đề (a) ĐÚNG.*
 
     #step([Chiều rộng mặt cắt tại $z$])
-    $4y^2 = z + 1 => y = plus.minus 1/2 sqrt(z+1)$.
-    $w(z) = 2 times 1/2 sqrt(z+1) = sqrt(z+1)$.
+    Từ $4y^2 = z + 1$, suy ra
+    $
+      y = plus.minus 1/2 sqrt(z+1),
+      quad w(z) = sqrt(z+1).
+    $
     *Mệnh đề (b) ĐÚNG.*
 
     #step([Diện tích $(H)$])
     $
-      S_(H) = integral_0^3 sqrt(z+1)  dif z = [2/3 (z+1)^(3/2)]_0^3
+      S_(H) = integral_0^3 sqrt(z+1) dif z = [2/3 (z+1)^(3/2)]_0^3
       = 2/3 (4^(3/2) - 1) = 2/3 (8 - 1) = 14/3 approx 4","67 space m^2.
     $
     *Mệnh đề (c) ĐÚNG.*
 
     #step([Thời gian chảy đầy bể])
-    $V = S_(H) times L = 14/3 times 4 = 56/3 approx 18","67 space m^3$.
-    $t = V/Q = (56/3) / 0","2 = 56/(0","6) = 280/3 approx 93","3$ phút $eq.not 90$ phút.
-    *Mệnh đề (d) SAI* — thời gian đúng là $approx 93","3$ phút.
+    $
+      V = S_(H) times L = 14/3 times 4 = 56/3 approx 18","67 space m^3,
+    $
+    và
+    $
+      t = V/Q = (56/3) / 0","2 = 280/3 approx 93","3.
+    $
+    Vậy thời gian đúng là khoảng $93","3$ phút, không phải $90$ phút. *Mệnh đề (d) SAI.*
   ],
 )
 
@@ -1472,157 +1657,192 @@
   [Trong không gian $O x y z$ (đơn vị: mét), hình phẳng $(H)$ nằm trong mặt phẳng $(O y z)$, được giới hạn bởi parabol $(P)$ và hai đoạn $C D$, $C' D'$ như hình vẽ. Hình không gian $(K)$ có hai đáy dạng $(H)$ và chiều dài $5$ m. Bồn xăng hình $(K)$, đáy $A B C D$ kín nằm dưới, miệng $A' B' C' D'$ để hở ở trên. Vòi bơm lưu lượng không đổi $0","1 space (m^3 \/ "phút")$.],
   (
     True([Phương trình parabol $(P)$ là $z = 3y^2 - 0","3$.]),
-    True([Diện tích hình phẳng $(H)$ bằng $0","75 space m^2$ (làm tròn đến hàng phần trăm).]),
-    True([Thời gian để bơm đầy bồn là $37","5$ phút.]),
-    True([Sau $24$ phút, chiều cao mực xăng so với đáy bồn bằng $0","57$ m (làm tròn đến hàng phần trăm).]),
+    True([Diện tích hình phẳng $(H)$ bằng $0","89 space m^2$ (làm tròn đến hàng phần trăm).]),
+    True([Thời gian để bơm đầy bồn là khoảng $44","27$ phút.]),
+    True([Sau $24$ phút, chiều cao mực xăng so với đáy bồn bằng $0","55$ m (làm tròn đến hàng phần trăm).]),
   ),
   fig: align(center)[
     #cetz.canvas({
       import cetz.draw: *
       let sc = 3.5
-      let p(x, y, z) = ((y - 0.5*x)*sc, (z - 0.35*x)*sc)
+      let p(x, y, z) = ((y - 0.5 * x) * sc, (z - 0.35 * x) * sc)
       // y0: tại z=0, 3y^2=0.3 → y=sqrt(0.1)≈0.3162
       let y0 = calc.sqrt(0.1)
       // y1: tại z=0.9, 3y^2=1.2 → y=0.6325
       let y1 = calc.sqrt(0.4)
-      let hfill = rgb(255, 220, 100, 150)  // vàng xăng
+      let hfill = rgb(255, 220, 100, 150) // vàng xăng
 
       // Tô hình H (parabol z=3y^2 -0.3, z từ 0 đến 0.9)
       let left = ()
       let right = ()
       for i in range(0, 101) {
-        let z = i*0.9/100
-        let hw = calc.sqrt((z+0.3)/3)
+        let z = i * 0.9 / 100
+        let hw = calc.sqrt((z + 0.3) / 3)
         left.push(p(0, hw, z))
-        right.push(p(0,  -hw, z))
+        right.push(p(0, -hw, z))
       }
       let poly = ()
-      poly.push(p(0,-y0,0))
+      poly.push(p(0, -y0, 0))
       for pt in left.rev() { poly.push(pt) }
       for pt in right { poly.push(pt) }
-      poly.push(p(0,y1,0.9))
+      poly.push(p(0, y1, 0.9))
       line(..poly, close: true, fill: hfill, stroke: none)
       // Tô đáy ABCD
-      line(p(0,-y0,0), p(0,y0,0), p(5,y0,0), p(5,-y0,0), close: true, fill: hfill, stroke: none)
+      line(p(0, -y0, 0), p(0, y0, 0), p(5, y0, 0), p(5, -y0, 0), close: true, fill: hfill, stroke: none)
 
       // Vẽ parabol đầy mặt sau
       let para = ()
-      for i in range(-80,81) { let y=i*0.7/80; para.push(p(0, y, 3*y*y - 0.3)) }
+      for i in range(-80, 81) {
+        let y = i * 0.7 / 80
+        para.push(p(0, y, 3 * y * y - 0.3))
+      }
       line(..para, stroke: 0.5pt)
 
       // Sườn giữa
       for xv in (1.25, 2.5, 3.75) {
         let pts = ()
-        for i in range(0,101) { let z=i*0.9/100; let hw=calc.sqrt((z+0.3)/3); pts.push(p(xv,-hw,z)) }
+        for i in range(0, 101) {
+          let z = i * 0.9 / 100
+          let hw = calc.sqrt((z + 0.3) / 3)
+          pts.push(p(xv, -hw, z))
+        }
         let pts2 = ()
-        for i in range(0,101) { let z=i*0.9/100; let hw=calc.sqrt((z+0.3)/3); pts2.push(p(xv,hw,z)) }
-        line(p(xv,-y0,0), ..pts, stroke:(paint:red.lighten(35%),thickness:0.7pt,dash:"dotted"))
-        line(p(xv, y0,0), ..pts2, stroke:(paint:red.lighten(35%),thickness:0.7pt,dash:"dotted"))
-        line(p(xv,-y1,0.9), p(xv,y1,0.9), stroke:(paint:red.lighten(35%),thickness:0.7pt,dash:"dotted"))
-        line(p(xv,-y0,0), p(xv,y0,0), stroke:(paint:red.lighten(35%),thickness:0.7pt,dash:"dotted"))
+        for i in range(0, 101) {
+          let z = i * 0.9 / 100
+          let hw = calc.sqrt((z + 0.3) / 3)
+          pts2.push(p(xv, hw, z))
+        }
+        line(p(xv, -y0, 0), ..pts, stroke: section-grid-stroke)
+        line(p(xv, y0, 0), ..pts2, stroke: section-grid-stroke)
+        line(p(xv, -y1, 0.9), p(xv, y1, 0.9), stroke: section-grid-stroke)
+        line(p(xv, -y0, 0), p(xv, y0, 0), stroke: section-grid-stroke)
       }
 
       // Biên bồn mặt sau
-      line(p(0,-y1,0.9), p(0,y1,0.9), stroke: 1.2pt + red)
-      line(p(0,-y0,0), p(0,y0,0), stroke: (paint:red, thickness:1.2pt, dash:"dashed"))
-      line(..left,  stroke: (paint:red, thickness:1.2pt, dash:"dashed"))
+      line(p(0, -y1, 0.9), p(0, y1, 0.9), stroke: 1.2pt + red)
+      line(p(0, -y0, 0), p(0, y0, 0), stroke: (paint: red, thickness: 1.2pt, dash: "dashed"))
+      line(..left, stroke: (paint: red, thickness: 1.2pt, dash: "dashed"))
       line(..right, stroke: 1.2pt + red)
 
       // Biên mặt trước
-      line(p(5,-y1,0.9), p(5,y1,0.9), stroke: 1.2pt + red)
-      line(p(5,-y0,0),   p(5,y0,0),   stroke: 1.2pt + red)
+      line(p(5, -y1, 0.9), p(5, y1, 0.9), stroke: 1.2pt + red)
+      line(p(5, -y0, 0), p(5, y0, 0), stroke: 1.2pt + red)
       let fl = ()
       let fr = ()
-      for i in range(0,101) { let z=i*0.9/100; let hw=calc.sqrt((z+0.3)/3); fl.push(p(5,-hw,z)); fr.push(p(5,hw,z)) }
+      for i in range(0, 101) {
+        let z = i * 0.9 / 100
+        let hw = calc.sqrt((z + 0.3) / 3)
+        fl.push(p(5, -hw, z))
+        fr.push(p(5, hw, z))
+      }
       line(..fl, stroke: 1.2pt + red)
       line(..fr, stroke: 1.2pt + red)
 
       // Đường sinh
-      line(p(0,-y1,0.9), p(5,-y1,0.9), stroke: 1.2pt + red)
-      line(p(0, y1,0.9), p(5, y1,0.9), stroke: 1.2pt + red)
-      line(p(0,-y0,0),   p(5,-y0,0),   stroke: (paint:red, thickness:1.2pt, dash:"dashed"))
-      line(p(0, y0,0),   p(5, y0,0),   stroke: 1.2pt + red)
+      line(p(0, -y1, 0.9), p(5, -y1, 0.9), stroke: 1.2pt + red)
+      line(p(0, y1, 0.9), p(5, y1, 0.9), stroke: 1.2pt + red)
+      line(p(0, -y0, 0), p(5, -y0, 0), stroke: (paint: red, thickness: 1.2pt, dash: "dashed"))
+      line(p(0, y0, 0), p(5, y0, 0), stroke: 1.2pt + red)
 
       // Đỉnh parabol V (dưới đáy, z= -0.3)
-      let vz =  -0.3
-      circle(p(0,0,vz), radius:1.5pt, fill:gray)
-      content(p(0,0.08,vz -0.08), text(size:8pt)[$V$])
-      line(p(0,0,0), p(0,0,vz), stroke:(paint:gray, thickness:0.4pt, dash:"dashed"))
-      content(p(0, -0.2,vz -0.05), text(size:8pt)[$ -0","3$])
+      let vz = -0.3
+      circle(p(0, 0, vz), radius: 1.5pt, fill: gray)
+      content(p(0, 0.08, vz - 0.08), text(size: 8pt)[$V$])
+      line(p(0, 0, 0), p(0, 0, vz), stroke: (paint: gray, thickness: 0.4pt, dash: "dashed"))
+      content(p(0, -0.2, vz - 0.05), text(size: 8pt)[$-0","3$])
 
       // Nhãn đỉnh
-      content(p(0,-y1 -0.1,  1.0), $D'$)
-      content(p(0, y1+0.1,  1.0), $C'$)
-      content(p(0,-y0 -0.05, 0.1), $D$)
-      content(p(0, y0+0.05, 0.1), $C$)
-      content(p(5,-y1 -0.1,  1.0), $A'$)
-      content(p(5, y1+0.1,  1.0), $B'$)
-      content(p(5,-y0 -0.05, 0.1), $A$)
-      content(p(5, y0+0.05, 0.1), $B$)
+      content(p(0, -y1 - 0.1, 1.0), $D'$)
+      content(p(0, y1 + 0.1, 1.0), $C'$)
+      content(p(0, -y0 - 0.05, 0.1), $D$)
+      content(p(0, y0 + 0.05, 0.1), $C$)
+      content(p(5, -y1 - 0.1, 1.0), $A'$)
+      content(p(5, y1 + 0.1, 1.0), $B'$)
+      content(p(5, -y0 - 0.05, 0.1), $A$)
+      content(p(5, y0 + 0.05, 0.1), $B$)
 
       // Trục
-      line(p(0,0,0), p(6.5,0,0), mark:(end:">",fill:black), stroke:0.7pt)
-      content(p(6.5, -0.1,0), $x$)
-      line(p(0, -0.8,0), p(0,0.9,0), mark:(end:">",fill:black), stroke:0.7pt)
-      content(p(0,0.9, -0.1), $y$)
-      line(p(0,0, -0.5), p(0,0,1.3), mark:(end:">",fill:black), stroke:0.7pt)
-      content(p(0, -0.12,1.2), $z$)
-      content(p(0,0.08, -0.1), $O$)
+      line(p(0, 0, 0), p(6.5, 0, 0), mark: (end: ">", fill: black), stroke: 0.7pt)
+      content(p(6.5, -0.1, 0), $x$)
+      line(p(0, -0.8, 0), p(0, 0.9, 0), mark: (end: ">", fill: black), stroke: 0.7pt)
+      content(p(0, 0.9, -0.1), $y$)
+      line(p(0, 0, -0.5), p(0, 0, 1.3), mark: (end: ">", fill: black), stroke: 0.7pt)
+      content(p(0, -0.12, 1.2), $z$)
+      content(p(0, 0.08, -0.1), $O$)
 
       // Kích thước
-      line(p(0,-y1,1.1), p(0,y1,1.1), mark:(start:">",end:">"), stroke:0.5pt)
-      content(p(0,0.1,1.25), $approx 1","26$)
-      line(p(0,0.8,0), p(0,0.8,0.9), mark:(start:">",end:">"), stroke:0.5pt)
-      content(p(0,1.0,0.45), $0","9$)
-      line(p( -0.8, -0.7, -0.15), p(2, -0.7, -0.15), mark:(start:">",end:">"), stroke:0.5pt)
+      line(p(0, -y1, 1.1), p(0, y1, 1.1), mark: (start: ">", end: ">"), stroke: 0.5pt)
+      content(p(0, 0.1, 1.25), $approx 1","26$)
+      line(p(0, 0.8, 0), p(0, 0.8, 0.9), mark: (start: ">", end: ">"), stroke: 0.5pt)
+      content(p(0, 1.0, 0.45), $0","9$)
+      line(p(-0.8, -0.7, -0.15), p(2, -0.7, -0.15), mark: (start: ">", end: ">"), stroke: 0.5pt)
       content(p(2.3, -0.6, -0.22), $5$)
 
       // Nhãn H, P, K
-      content(p(0,0.25,0.45), $(H)$)
-      content(p(0, -0.55,0.5), $(P)$)
-      line(p(0, -0.5,0.45), p(0, -0.4,0.25), mark:(end:">"), stroke:0.4pt)
-      content(p(2.5, -0.6,0.6), $(K)$)
+      content(p(0, 0.25, 0.45), $(H)$)
+      content(p(0, -0.55, 0.5), $(P)$)
+      line(p(0, -0.5, 0.45), p(0, -0.4, 0.25), mark: (end: ">"), stroke: 0.4pt)
+      content(p(2.5, -0.6, 0.6), $(K)$)
     })
   ],
-  fig-pos: "center", fig-width: 50%,
+  fig-pos: "center",
+  fig-width: 50%,
   loigiai: [
     #step([Lập phương trình parabol $(P)$])
-    Parabol đỉnh $V(0;  -0","3)$: dạng $z = a y^2 - 0","3$.
-    Điểm $C'(y_1; 0","9)$ thuộc $(P)$, miệng bồn rộng $2y_1$ m. Từ hình, miệng rộng $approx 1","265$ m nên $y_1 = approx 0","6325$.
-    Kiểm tra: $0","9 = a(0","6325)^2 - 0","3 => a(0","4) = 1","2 => a = 3$.
-    Vậy $(P): z = 3y^2 - 0","3$. *Mệnh đề (a) ĐÚNG.*
+    Parabol có đỉnh $V(0; -0","3)$ nên có dạng $z = a y^2 - 0","3$.
+    Nếu $a = 3$ thì tại cao độ $z = 0","9$ ta có
+    $
+      y = plus.minus sqrt((0","9 + 0","3)/3) = plus.minus sqrt(0","4),
+    $
+    nên bề rộng miệng là $2sqrt(0","4) approx 1","26$ m, khớp với hình vẽ.
+    Vậy mô hình $(P): z = 3y^2 - 0","3$ là phù hợp. *Mệnh đề (a) ĐÚNG.*
 
     #step([Tính diện tích $(H)$])
-    $z in [0; 0","9]$. Từ $(P)$: $y = plus.minus sqrt((z+0","3)/3)$, $w(z) = 2sqrt((z+0","3)/3) = (2/sqrt(3))sqrt(z+0","3)$.
+    Với $0 <= z <= 0","9$, từ $(P)$ suy ra
     $
-      S_(H) = integral_0^(0","9) (2/sqrt(3)) sqrt(z+0","3)  d z
-            = (2/sqrt(3)) [2/3 (z+0","3)^(3/2)]_0^(0","9)
-            = (4)/(3sqrt(3)) [(1","2)^(3/2) - (0","3)^(3/2)].
+      y = plus.minus sqrt((z+0","3)/3),
+      quad w(z) = 2sqrt((z+0","3)/3) = 2/sqrt(3) sqrt(z+0","3).
     $
-    $(1","2)^(3/2) = 1","2 dot sqrt(1","2) approx 1","2 dot 1","0954 = 1","3145$.
-    $(0","3)^(3/2) = 0","3 dot sqrt(0","3) approx 0","3 dot 0","5477 = 0","1643$.
-    $S_(H) approx (4)/(3 dot 1","7321) (1","3145 - 0","1643) = (4/5","196) dot 1","1502 approx 0","7697 dot 1","1502 approx 0","8852 space m^2$...
-
-    #ppgiai[Điều chỉnh: với $C'(0","6; 0","9)$ (rộng miệng $1","2$ m), $a = 0","9/0","36 = 2","5$: $z = 2","5y^2 - 0","3$. Đáy bồn tại $y = plus.minus sqrt(0","12) approx 0","346$ m. $w(z) = 2sqrt((z+0","3)/2","5)$. $S = integral_0^(0","9) 2sqrt((z+0","3)/2","5)dif z  = (2/sqrt(2","5))[2/3(z+0","3)^(3/2)]_0^(0","9) = (4)/(3sqrt(2","5))[(1","2)^(3/2)-(0","3)^(3/2)] approx (4/4","743) dot 1","150 approx 0","970 space m^2$.
-
-    Chọn $C'(0","55; 0","75)$, $a = 1","05/0","3025 approx 3","47$... Để $S = 0","75 space m^2$ đúng, chọn $a = 3$, $H = 0","9$: $S approx 0","75$. Kiểm tra lại $C'$: $y_1 = sqrt((0","9+0","3)/3) = sqrt(0","4) = 2/sqrt(10) approx 0","6325$.]
-
-    Với $(P): z = 3y^2 - 0","3$, $w(z) = (2/sqrt(3))sqrt(z+0","3)$:
-    $S_(H) = (4)/(3sqrt(3))[(1","2)^(3/2)-(0","3)^(3/2)] approx (4/5","196)(1","3145 -0","1643) approx 0","885 space m^2$.
-
-    #luuy[Để $S = 0","75$ chính xác, cần chọn parabol phù hợp. Bài này dùng $a=3$, $V = (0;  -0","3)$, $H = 0","9$, kết quả $S approx 0","885$ m².]
-
-    *Mệnh đề (b): $S approx 0","89 space m^2$.*
+    Do đó
+    $
+      S_(H) = integral_0^(0","9) 2/sqrt(3) sqrt(z+0","3) d z
+      = 4/(3sqrt(3)) [(z+0","3)^(3/2)]_0^(0","9)
+      = 4/(3sqrt(3)) ((1","2)^(3/2) - (0","3)^(3/2)).
+    $
+    Tính gần đúng,
+    $
+      S_(H) approx 0","8852 space m^2 approx 0","89 space m^2.
+    $
+    *Mệnh đề (b) ĐÚNG.*
 
     #step([Thời gian bơm đầy bồn])
-    $V = S dot L approx 0","885 times 5 = 4","425 space m^3$. $t = V/Q = 4","425 / 0","1 = 44","25$ phút.
-    *Mệnh đề (c) kiểm tra với số liệu cụ thể.*
+    $
+      V = S_(H) times L approx 0","8852 times 5 = 4","426 space m^3,
+      quad t = V/Q approx 4","426/0","1 = 44","27.
+    $
+    Suy ra thời gian bơm đầy bồn khoảng $44","27$ phút. *Mệnh đề (c) ĐÚNG.*
 
-    #step([Mực xăng sau 24 phút])
-    $V_(24) = 24 times 0","1 = 2","4 space m^3$. $A = V_(24)/L = 0","48 space m^2$.
-    Giải $(4)/(3sqrt(3))[(k+0","3)^(3/2)-(0","3)^(3/2)] = 0","48$ để tìm $k$.
-    *Mệnh đề (d): tính số cho kết quả $k approx 0","57$ m.*
-  ]
+    #step([Mực xăng sau $24$ phút])
+    Sau $24$ phút,
+    $
+      V_(24) = 24 times 0","1 = 2","4 space m^3,
+      quad A = V_(24)/L = 2","4/5 = 0","48 space m^2.
+    $
+    Khi đó $k$ thỏa
+    $
+      4/(3sqrt(3)) ((k+0","3)^(3/2) - (0","3)^(3/2)) = 0","48.
+    $
+    Suy ra
+    $
+      (k+0","3)^(3/2) = 0","48 dot 3sqrt(3)/4 + (0","3)^(3/2) approx 0","7879,
+    $
+    nên
+    $
+      k+0","3 approx 0","7879^(2/3) approx 0","8530
+      => k approx 0","5530.
+    $
+    Vậy chiều cao mực xăng xấp xỉ $0","55$ m. *Mệnh đề (d) ĐÚNG.*
+  ],
 )
 
 // ═══════════════════════════════════════════════════════════════════════
@@ -1636,13 +1856,13 @@
     True([Tại cao độ $z in [0; 1]$, chiều rộng mặt cắt ngang là $w(z) = 2sqrt(1-z)$.]),
     True([Diện tích hình phẳng $(H)$ bằng $4/3 approx 1","33 space m^2$ (làm tròn đến hàng phần trăm).]),
     True([Thể tích bể $(K)$ bằng $16/3 approx 5","33 space m^3$. Thời gian đầy bể là $200/3 approx 66","7$ phút.]),
-    True([Sau $48$ phút, chiều cao mực nước so với đáy bồn bằng $0","64$ m (làm tròn đến hàng phần trăm).]),
+    True([Sau $48$ phút, chiều cao mực nước so với đáy bồn bằng $0","57$ m (làm tròn đến hàng phần trăm).]),
   ),
   fig: align(center)[
     #cetz.canvas({
       import cetz.draw: *
       let sc = 3.5
-      let p(x, y, z) = ((y - 0.5*x)*sc, (z - 0.35*x)*sc)
+      let p(x, y, z) = ((y - 0.5 * x) * sc, (z - 0.35 * x) * sc)
       let hfill = rgb(173, 216, 230, 150)
 
       // Tô hình H (parabol z=-y^2+1, z từ 0 đến 1)
@@ -1650,115 +1870,155 @@
       let left = ()
       let right = ()
       for i in range(0, 101) {
-        let z = i*1.0/100
+        let z = i * 1.0 / 100
         let hw = calc.sqrt(calc.max(0, 1 - z))
         left.push(p(0, hw, z))
-        right.push(p(0,  -hw, z))
+        right.push(p(0, -hw, z))
       }
       let poly = ()
-      poly.push(p(0,-1,0))
+      poly.push(p(0, -1, 0))
       for pt in left.rev() { poly.push(pt) }
       for pt in right { poly.push(pt) }
-      poly.push(p(0,1,0))
+      poly.push(p(0, 1, 0))
       line(..poly, close: true, fill: hfill, stroke: none)
       // Tô đáy ABCD (z=0)
-      line(p(0,-1,0), p(0,1,0), p(4,1,0), p(4,-1,0), close: true, fill: hfill, stroke: none)
+      line(p(0, -1, 0), p(0, 1, 0), p(4, 1, 0), p(4, -1, 0), close: true, fill: hfill, stroke: none)
 
       // Vẽ parabol đầy mặt sau
       let para = ()
-      for i in range(-80,81) { let y=i*1.2/80; para.push(p(0, y, -y*y+1)) }
+      for i in range(-80, 81) {
+        let y = i * 1.2 / 80
+        para.push(p(0, y, -y * y + 1))
+      }
       line(..para, stroke: 0.5pt)
 
       // Sườn giữa
       for xv in (1.0, 2.0, 3.0) {
         let pts = ()
-        for i in range(0,101) { let z=i*1.0/100; let hw=calc.sqrt(calc.max(0,1-z)); pts.push(p(xv,-hw,z)) }
+        for i in range(0, 101) {
+          let z = i * 1.0 / 100
+          let hw = calc.sqrt(calc.max(0, 1 - z))
+          pts.push(p(xv, -hw, z))
+        }
         let pts2 = ()
-        for i in range(0,101) { let z=i*1.0/100; let hw=calc.sqrt(calc.max(0,1-z)); pts2.push(p(xv,hw,z)) }
-        line(p(xv,-1,0), ..pts, p(xv,0,1), stroke:(paint:red.lighten(35%),thickness:0.7pt,dash:"dotted"))
-        line(p(xv, 1,0), ..pts2, p(xv,0,1), stroke:(paint:red.lighten(35%),thickness:0.7pt,dash:"dotted"))
-        line(p(xv,-1,0), p(xv,1,0), stroke:(paint:red.lighten(35%),thickness:0.7pt,dash:"dotted"))
+        for i in range(0, 101) {
+          let z = i * 1.0 / 100
+          let hw = calc.sqrt(calc.max(0, 1 - z))
+          pts2.push(p(xv, hw, z))
+        }
+        line(p(xv, -1, 0), ..pts, p(xv, 0, 1), stroke: section-grid-stroke)
+        line(p(xv, 1, 0), ..pts2, p(xv, 0, 1), stroke: section-grid-stroke)
+        line(p(xv, -1, 0), p(xv, 1, 0), stroke: section-grid-stroke)
       }
 
       // Biên bể mặt sau
-      line(p(0,-1,0), p(0,1,0), stroke: (paint:red, thickness:1.2pt, dash:"dashed"))
-      line(..left,  stroke: (paint:red, thickness:1.2pt, dash:"dashed"))
+      line(p(0, -1, 0), p(0, 1, 0), stroke: (paint: red, thickness: 1.2pt, dash: "dashed"))
+      line(..left, stroke: (paint: red, thickness: 1.2pt, dash: "dashed"))
       line(..right, stroke: 1.2pt + red)
 
       // Biên mặt trước
-      line(p(4,-1,0), p(4,1,0), stroke: 1.2pt + red)
+      line(p(4, -1, 0), p(4, 1, 0), stroke: 1.2pt + red)
       let fl = ()
       let fr = ()
-      for i in range(0,101) { let z=i*1.0/100; let hw=calc.sqrt(calc.max(0,1-z)); fl.push(p(4,-hw,z)); fr.push(p(4,hw,z)) }
+      for i in range(0, 101) {
+        let z = i * 1.0 / 100
+        let hw = calc.sqrt(calc.max(0, 1 - z))
+        fl.push(p(4, -hw, z))
+        fr.push(p(4, hw, z))
+      }
       line(..fl, stroke: 1.2pt + red)
       line(..fr, stroke: 1.2pt + red)
 
       // Đường sinh
-      line(p(0,-1,0), p(4,-1,0), stroke:(paint:red, thickness:1.2pt, dash:"dashed"))
-      line(p(0, 1,0), p(4, 1,0), stroke: 1.2pt + red)
-      line(p(0, 0,1), p(4, 0,1), stroke: 1.2pt + red)
+      line(p(0, -1, 0), p(4, -1, 0), stroke: (paint: red, thickness: 1.2pt, dash: "dashed"))
+      line(p(0, 1, 0), p(4, 1, 0), stroke: 1.2pt + red)
+      line(p(0, 0, 1), p(4, 0, 1), stroke: 1.2pt + red)
 
       // Nhãn đỉnh
-      content(p(0,-1.15, 0.12), $D$)
+      content(p(0, -1.15, 0.12), $D$)
       content(p(0, 1.15, 0.12), $C$)
       content(p(0, 0.12, 1.15), $V$)
-      content(p(4,-1.15, 0.12), $A$)
+      content(p(4, -1.15, 0.12), $A$)
       content(p(4, 1.15, 0.12), $B$)
       content(p(4, 0.12, 1.15), $V'$)
 
       // Trục
-      line(p(0,0,0), p(5.2,0,0), mark:(end:">",fill:black), stroke:0.7pt)
-      content(p(5.2, -0.12,0), $x$)
-      line(p(0,-1.4,0), p(0,1.6,0), mark:(end:">",fill:black), stroke:0.7pt)
-      content(p(0,1.6, -0.12), $y$)
-      line(p(0,0, -0.2), p(0,0,1.5), mark:(end:">",fill:black), stroke:0.7pt)
-      content(p(0, -0.15,1.4), $z$)
-      content(p(0,0.1, -0.18), $O$)
+      line(p(0, 0, 0), p(5.2, 0, 0), mark: (end: ">", fill: black), stroke: 0.7pt)
+      content(p(5.2, -0.12, 0), $x$)
+      line(p(0, -1.4, 0), p(0, 1.6, 0), mark: (end: ">", fill: black), stroke: 0.7pt)
+      content(p(0, 1.6, -0.12), $y$)
+      line(p(0, 0, -0.2), p(0, 0, 1.5), mark: (end: ">", fill: black), stroke: 0.7pt)
+      content(p(0, -0.15, 1.4), $z$)
+      content(p(0, 0.1, -0.18), $O$)
 
       // Kích thước
-      line(p(0,-1,1.25), p(0,1,1.25), mark:(start:">",end:">"), stroke:0.5pt)
-      content(p(0,0.1,1.4), $2$)
-      line(p(0,1.3,0), p(0,1.3,1), mark:(start:">",end:">"), stroke:0.5pt)
-      content(p(0,1.55,0.5), $1$)
-      line(p( -0.7,-1.1, -0.25), p(1.3,-1.1, -0.25), mark:(start:">",end:">"), stroke:0.5pt)
-      content(p(1.65,-1.0, -0.35), $4$)
+      line(p(0, -1, 1.25), p(0, 1, 1.25), mark: (start: ">", end: ">"), stroke: 0.5pt)
+      content(p(0, 0.1, 1.4), $2$)
+      line(p(0, 1.3, 0), p(0, 1.3, 1), mark: (start: ">", end: ">"), stroke: 0.5pt)
+      content(p(0, 1.55, 0.5), $1$)
+      line(p(-0.7, -1.1, -0.25), p(1.3, -1.1, -0.25), mark: (start: ">", end: ">"), stroke: 0.5pt)
+      content(p(1.65, -1.0, -0.35), $4$)
 
       // Nhãn H, P, K
-      content(p(0,0.4,0.35), $(H)$)
-      content(p(0, -0.7,0.55), $(P)$)
-      line(p(0, -0.65,0.5), p(0, -0.6,0.3), mark:(end:">"), stroke:0.4pt)
-      content(p(2, -0.8,0.6), $(K)$)
+      content(p(0, 0.4, 0.35), $(H)$)
+      content(p(0, -0.7, 0.55), $(P)$)
+      line(p(0, -0.65, 0.5), p(0, -0.6, 0.3), mark: (end: ">"), stroke: 0.4pt)
+      content(p(2, -0.8, 0.6), $(K)$)
     })
   ],
-  fig-pos: "center", fig-width: 50%,
+  fig-pos: "center",
+  fig-width: 50%,
   loigiai: [
     #step([Chiều rộng mặt cắt tại cao độ $z$])
-    $(P): z = -y^2 + 1 => y^2 = 1-z => y = plus.minus sqrt(1-z)$.
-    $w(z) = 2sqrt(1-z)$.
+    Từ $(P): z = -y^2 + 1$ suy ra
+    $
+      y^2 = 1-z,
+      quad y = plus.minus sqrt(1-z).
+    $
+    Do đó
+    $
+      w(z) = 2sqrt(1-z).
+    $
     *Mệnh đề (a) ĐÚNG.*
 
     #step([Diện tích $(H)$])
     $
-      S_(H) = integral_0^1 2sqrt(1-z)  d z = lr((-4/3(1-z)^(3/2))|)_0^1 = 0 - (-4/3) = 4/3 approx 1","33 space m^2.
+      S_(H) = integral_0^1 2sqrt(1-z) d z = lr((-4/3(1-z)^(3/2))|)_0^1 = 4/3 approx 1","33 space m^2.
     $
     *Mệnh đề (b) ĐÚNG.*
 
     #step([Thể tích và thời gian đầy])
-    $V = S_(H) times L = 4/3 times 4 = 16/3 approx 5","33 space m^3$.
-    $t = V / Q = (16/3) / 0","08 = 16/(0","24) = 200/3 approx 66","7$ phút.
+    $
+      V = S_(H) times L = 4/3 times 4 = 16/3 approx 5","33 space m^3,
+      quad t = V / Q = (16/3) / 0","08 = 200/3 approx 66","7.
+    $
     *Mệnh đề (c) ĐÚNG.*
 
     #step([Mực nước sau 48 phút])
-    $V_(48) = 48 times 0","08 = 3","84 space m^3$. Diện tích mặt ngập: $A = V_(48)/L = 3","84/4 = 0","96 space m^2$.
-    Giải $integral_0^k 2sqrt(1-z) d z = 0","96$:
-    $[-4/3(1-z)^(3/2)]_0^k = 0","96$
-    $4/3 - 4/3(1-k)^(3/2) = 0","96$
-    $(1-k)^(3/2) = (4/3 - 0","96) dot 3/4 = 0","28 space => 1-k = 0","28^(2/3)$.
-    $0","28^(2/3) = (0","28)^(2/3) approx 0","4265 => k approx 1 - 0","4265 = 0","5735 approx 0","57$ m.
-    *Mệnh đề (d): $k approx 0","57$ m. ĐÚNG.*
+    Sau $48$ phút,
+    $
+      V_(48) = 48 times 0","08 = 3","84 space m^3,
+      quad A = V_(48)/L = 3","84/4 = 0","96 space m^2.
+    $
+    Ta giải phương trình
+    $
+      integral_0^k 2sqrt(1-z) d z = 0","96.
+    $
+    Khi đó
+    $
+      [-4/3(1-z)^(3/2)]_0^k = 0","96
+      => 4/3 - 4/3(1-k)^(3/2) = 0","96
+      => (1-k)^(3/2) = 0","28.
+    $
+    Suy ra
+    $
+      1-k = 0","28^(2/3) approx 0","4265
+      => k approx 0","5735 approx 0","57.
+    $
+    Vậy chiều cao mực nước xấp xỉ $0","57$ m. *Mệnh đề (d) ĐÚNG.*
 
     #nhanxet[Parabol lật ngược có đặc tính thú vị: nước đầy nhanh hơn ở phần gần đáy (rộng) và chậm hơn ở phần trên (hẹp dần về đỉnh). Hoàn toàn ngược với bể parabol đứng (bài 1) — nơi nước đầy chậm ở dưới, nhanh hơn ở trên.]
-  ]
+  ],
 )
 
 = Bảng Tổng Kết & Công Thức Cần Nhớ
@@ -1785,7 +2045,11 @@
     [Bài 7], [Máng V-hình, đỉnh $O$], [$S = 4/3$; $k=0","6^(2/3)$], [Giải PT lũy thừa],
     [Bài 8], [Cống nửa elip đứng], [$S = 3 pi$; $Q = S dot v$], [Tích phân lượng giác],
     [Bài 9], [Bể parabol lõm (đỉnh $<0$)], [$S = 14/3$; $t = 280/3$], [Lập PT từ điều kiện],
-    [Bài 10], [Bồn xăng parabol thẳng], [$z=3y^2 -0","3$; $S approx 0","89$], [PT có đỉnh dưới đáy],
+    [Bài 10],
+    [Bồn xăng parabol thẳng],
+    [$S approx 0","89$; $t approx 44","27$; $k approx 0","55$],
+    [PT có đỉnh dưới đáy],
+
     [Bài 11], [Bể parabol lật ngược], [$S=4/3$; $t=200/3$; $k=0","57$], [Parabol đỉnh ở trên],
   )
 ]

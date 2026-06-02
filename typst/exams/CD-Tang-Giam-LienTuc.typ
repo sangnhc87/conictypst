@@ -1,985 +1,877 @@
 #import "../sang-exam.typ": *
 #import "../template.typ": *
-#import "@preview/cetz:0.5.2"
-
 
 #set page(
   paper: "a4",
-  margin: (x: 1.5cm, y: 2cm),
+  margin: (x: 1.45cm, y: 1.8cm),
 )
 #set text(font: "New Computer Modern", size: 11pt, lang: "vi")
-#set par(justify: true, leading: 0.8em)
+#set par(justify: true, leading: 0.84em)
 #set list(indent: 1em, body-indent: 0.5em)
 
-// ==========================================
-// THIẾT KẾ GIAO DIỆN TIÊU ĐỀ
-// ==========================================
 #show heading.where(level: 1): it => block(
   width: 100%,
-  stroke: (bottom: 1.5pt + rgb("1A5276")),
-  inset: (bottom: 0.5em),
-  above: 1.5em,
-  below: 1.2em,
-  text(fill: rgb("1A5276"), size: 15pt, weight: "bold", it.body),
+  fill: gradient.linear(rgb("0B1F54"), rgb("0D47A1"), rgb("006064"), angle: 135deg),
+  stroke: none,
+  inset: (x: 15pt, y: 11pt),
+  radius: 7pt,
+  above: 1.7em,
+  below: 1.1em,
+  text(fill: white, size: 14pt, weight: "bold", it.body),
 )
 
 #show heading.where(level: 2): it => block(
-  above: 1.5em,
-  below: 0.8em,
-  text(fill: rgb("900C3F"), size: 12pt, weight: "bold", it.body),
+  above: 1.35em,
+  below: 0.75em,
+  stroke: (left: 4pt + rgb("006064")),
+  inset: (left: 10pt, y: 5pt),
+  text(fill: rgb("006064"), size: 12pt, weight: "bold", it.body),
 )
 
-// ==========================================
-// HÀM VẼ ĐA GIÁC CƠ BẢN (DÙNG CHUNG)
-// ==========================================
-#let draw-poly(n, r: 1.2) = {
-  import cetz.draw: *
-  degreele((0, 0), radius: r, stroke: luma(200) + 0.5pt)
-  for i in range(n) {
-    degreele((90deg - i * 360deg / n, r), radius: 1.2pt, fill: gray)
-  }
-}
-// ═══════════════════════════════════════════════════════════
-// CẤU HÌNH ĐỀ THI — Chỉ thay đổi ở đây
-// ═══════════════════════════════════════════════════════════
-#let mode = "loigiai"   // dethi | loigiai | solcolor
-#let accent = classic.blue // classic.blue | classic.emerald | classic.crimson
+#show heading.where(level: 3): it => block(
+  above: 1.05em,
+  below: 0.45em,
+  text(fill: rgb("1565C0"), size: 11pt, weight: "bold", "- " + it.body),
+)
 
+#let mode = "loigiai"
+#let accent = classic.blue
 #let (tn, ds, tln, tl) = exam-mode(mode: mode, accent: accent)
-// Tuỳ chọn đổi màu công thức toán học
-#let math-color = rgb("#000000") // Thay rgb("#000000") bằng `accent` hoặc `blue` để đổi màu toán
-#show math.equation: set text(fill: math-color)
+#show math.equation: set text(fill: rgb("#000000"))
 #show math.equation.where(block: false): math.display
 #show math.frac: math.display
-// ==========================================
-// NỘI DUNG TÀI LIỆU
-// ==========================================
+
+#let col-navy = rgb("0B1F54")
+#let col-green = rgb("2E7D32")
+#let col-amber = rgb("E65100")
+#let col-red = rgb("C62828")
+
+#let intro-box(title: none, body) = block(
+  fill: rgb("EEF6FF"),
+  stroke: (left: 4pt + col-navy, rest: 0.6pt + rgb("CFD8DC")),
+  radius: (right: 7pt),
+  inset: (x: 15pt, y: 12pt),
+  width: 100%,
+)[
+  #if title != none [
+    #text(fill: col-navy, weight: "bold")[#title]
+    #v(0.3em)
+  ]
+  #body
+]
+
+#let note-box(title: none, body) = block(
+  fill: rgb("FFF8E1"),
+  stroke: (left: 4pt + col-amber, rest: 0.6pt + rgb("FFE082")),
+  radius: (right: 7pt),
+  inset: (x: 15pt, y: 12pt),
+  width: 100%,
+)[
+  #if title != none [
+    #text(fill: col-amber, weight: "bold")[#title]
+    #v(0.3em)
+  ]
+  #body
+]
+
+#let warn-box(body) = block(
+  fill: rgb("FFEBEE"),
+  stroke: (left: 4pt + col-red, rest: 0.6pt + rgb("FFCDD2")),
+  radius: (right: 7pt),
+  inset: (x: 15pt, y: 12pt),
+  width: 100%,
+)[
+  #text(fill: col-red, weight: "bold")[Bẫy cần tránh]
+  #v(0.3em)
+  #body
+]
+
+#let ans-box(body) = block(
+  fill: rgb("E8F5E9"),
+  stroke: (left: 4pt + col-green, rest: 0.6pt + rgb("C8E6C9")),
+  radius: (right: 7pt),
+  inset: (x: 15pt, y: 12pt),
+  width: 100%,
+)[
+  #text(fill: col-green, weight: "bold")[Kết luận]
+  #v(0.3em)
+  #body
+]
+
 #align(center)[
-  #rect(
-    fill: rgb("F4F9F9"),
-    stroke: (left: 4pt + rgb("1A5276")),
-    inset: (x: 15pt, y: 15pt),
-    width: 95%,
-    radius: (right: 5pt),
-    [
-      #text(size: 16pt, weight: "bold", fill: rgb("1A5276"))[
-        CHỦ ĐỀ TĂNG GIẢM LIÊN TỤC
-      ]
-      #v(0.3em)
-      #text(size: 11pt, style: "italic", fill: rgb("555555"))[
-        Vấn đề tốc độ thay đổi liên tục tăng và giảm.
-      ]
-    ],
+  #block(
+    width: 100%,
+    fill: gradient.linear(rgb("09152E"), rgb("0B1F54"), rgb("0D47A1"), rgb("006064"), angle: 135deg),
+    radius: 12pt,
+    inset: (x: 20pt, y: 24pt),
+  )[
+    #text(fill: rgb("B3E5FC"), size: 11pt, weight: "bold", tracking: 2pt)[CHUYÊN ĐỀ ỨNG DỤNG]
+    #v(0.5em)
+    #text(fill: white, size: 22pt, weight: "bold")[Chủ Đề Tăng Giảm Liên Tục]
+    #v(0.35em)
+    #text(fill: rgb("E1F5FE"), size: 12.5pt)[Nhìn đề qua bối cảnh thực tế, không hỏi thẳng công thức mô hình]
+    #v(0.5em)
+    #text(
+      fill: rgb("B3E5FC"),
+      size: 10.5pt,
+      style: "italic",
+    )[(Trọng tâm là đọc đúng quy luật biến thiên liên tục, suy ra ngưỡng, xu thế và thời điểm đạt mốc)]
+  ]
+]
+
+#v(0.9em)
+
+#intro-box(title: [Mục tiêu của file này])[
+  - Giúp học sinh nhận ra *đề đang giấu mô hình tăng giảm liên tục ở đâu* trong các bối cảnh công nghệ, y sinh, môi trường, nhiệt học và điện tử.
+
+  - Gói chuyên đề về đúng ba khung lõi: tăng hoặc giảm thuần, vừa hao hụt vừa được bổ sung đều, và nhiệt độ tiến dần về môi trường.
+
+  - Luyện đúng hai kiểu hỏi dự đoán thi phổ thông hay dùng: *đúng sai* và *trả lời ngắn*, thay vì hỏi trần “lập phương trình vi phân”.
+
+  - Tách thật rõ giữa bài toán *liên tục* và bài toán *rời rạc theo chu kỳ*; cuối file có thêm một phụ lục riêng cho kiểu “tăng $x\%$, rồi giảm $y\%$, rồi lại tăng...”.
+]
+
+= Phần I — Nhìn Đúng Chuyên Đề
+
+== 1.1 — Đâu Là “Liên Tục”, Đâu Là “Rời Rạc”?
+
+Trong chuyên đề này, biến thời gian $t$ chạy *liên tục*: phút, giờ, ngày, tháng... và đại lượng đang xét thay đổi ở *mọi thời điểm*. Trong đề thi phổ thông, học sinh hiếm khi bị hỏi thẳng “hãy lập phương trình vi phân”, mà thường bị hỏi *sau bao lâu đạt ngưỡng*, *về lâu dài tiến tới đâu*, hoặc *phát biểu nào đúng*.
+
+#note-box(title: [Nhận diện rất nhanh])[
+  - Nếu đề nói: *tốc độ tăng tỉ lệ với lượng đang có*, *mỗi giây thất thoát theo lượng hiện tại*, *nhiệt độ giảm nhanh hay chậm tùy độ chênh với môi trường*, thì đó là bài *liên tục*.
+
+  - Nếu đề nói: *cuối mỗi tháng tăng $5\%$*, *mỗi năm giảm $10\%$ rồi tăng lại $8\%$*, *qua từng chu kỳ*, thì đó là bài *rời rạc*; phần này không nằm trong lõi liên tục và được tách riêng ở *Phần IV*.
+]
+
+#align(center)[
+  #table(
+    columns: (1.2fr, 1.6fr, 1.6fr),
+    stroke: 0.45pt + rgb("B0BEC5"),
+    inset: (x: 8pt, y: 7pt),
+    fill: (x, y) => if y == 0 { rgb("E3F2FD") } else if calc.odd(y) { rgb("FAFAFA") } else { white },
+    align: (left, left, left),
+    table.header([*Kiểu đề*], [*Dấu hiệu lời văn*], [*Công cụ chính*]),
+    [Liên tục], [Tốc độ thay đổi tại mọi thời điểm], [Đạo hàm, phương trình vi phân],
+    [Rời rạc], [Lặp lại theo ngày, tháng, quý, năm], [Cấp số nhân, công bội],
   )
 ]
 
-#tln(
-  [
-    _Câu chuyện về mối tình đầu của giới trẻ thì nó rất là thú vị và hấp dẫn, yêu thì nồng nhiệt hết mình mà chia tay thì cũng phũ phàng quyết liệt không kém. Thế nhưng dù có như thế nào thì mối tình đầu cũng rất là khó phai._ \
-    Giả sử có một mối tình đầu giữa hai bạn *Huỳnh Thanh Nam* và *Nguyễn Minh Thư* khi còn yêu nhau ta coi như có $100$ điểm tình cảm. Vào một ngày nọ, vì một số lí do hiểu lầm không thể nào giải thích giữa đôi nam nữ này mà dẫn tới họ quyết định chia tay nhau. Ở những ngày sau đó coi như họ gặp nhau mỗi ngày một lần, coi như sau một ngày không gặp nhau thì tình cảm giảm đi $30%$ so với lúc vừa gặp nhau xong, mỗi lần gặp nhau lại hâm nóng tình cảm và tăng lên $12%$ so với ngày trước đó. Với giả sử điểm tình cảm nhỏ hơn $10$ thì coi như quên hẳn được nhau và khi gặp sẽ không còn hâm nóng lên được nữa. Hỏi sau tối thiểu bao nhiêu ngày kể từ lúc chia tay thì hai bạn này quên được nhau (_làm tròn kết quả đến hàng đơn vị_)?
-  ],
-  [$10$],
+== 1.2 — Ba Mô Hình Gốc Cần Thuộc
+
+#align(center)[
+  #table(
+    columns: (1.5fr, 1.3fr, 1.7fr),
+    stroke: 0.45pt + rgb("B0BEC5"),
+    inset: (x: 8pt, y: 7pt),
+    fill: (x, y) => if y == 0 { rgb("E8F5E9") } else if calc.odd(y) { rgb("FBFBFB") } else { white },
+    align: (left, center, left),
+    table.header([*Dấu hiệu lời văn*], [*Khung toán học ẩn*], [*Công thức dùng khi giải*]),
+    [Tốc độ tăng hoặc giảm tỉ lệ với lượng đang có], [$y'(t) = k y(t)$], [$y(t) = y_0 e^(k t)$],
+    [Vừa hao hụt theo lượng đang có, vừa được bổ sung đều], [$y'(t) = a y(t) + b$], [$y(t) = -frac(b, a) + C e^(a t)$],
+    [Nhiệt độ tiến dần về nhiệt độ môi trường],
+    [$T'(t) = -k (T(t) - T_"mt")$],
+    [$T(t) = T_"mt" + (T_0 - T_"mt") e^(-k t)$],
+  )
+]
+
+== 1.3 — Quy Trình 5 Bước Làm Đề Không Bị Rối
+
+#intro-box(title: [Quy trình nên làm cố định])[
+  1. Chọn đại lượng cần theo dõi: số lượng, nhiệt độ, nồng độ, số người dùng...
+
+  2. Đọc kỹ lời văn để viết đúng *tốc độ biến thiên* của đại lượng đó: tăng theo lượng đang có, giảm theo độ chênh, hay vừa hao hụt vừa được bổ sung.
+
+  3. Từ quy luật biến thiên, suy ra công thức theo thời gian.
+
+  4. Dùng điều kiện ban đầu để tìm hằng số.
+
+  5. Trả lời đúng câu hỏi thực tế: thời gian đạt ngưỡng, giá trị sau $t$ đơn vị, trạng thái lâu dài, hay nhận xét đúng sai.
+]
+
+== 1.4 — Bốn Sai Lầm Học Sinh Hay Mắc
+
+#warn-box[
+  1. Vừa thấy chữ “tăng giảm” là lao vào nhân phần trăm theo chu kỳ, trong khi bài đang nói về tốc độ thay đổi liên tục.
+
+  2. Viết sai dấu của tốc độ biến thiên: hao hụt phải mang dấu âm, bổ sung phải mang dấu dương.
+
+  3. Tìm được công thức $y(t)$ rồi nhưng quên dùng điều kiện ban đầu để xác định hằng số $C$.
+
+  4. Giải đúng phương trình nhưng kết luận sai đơn vị: phút, giờ, ngày, tháng phải bám đúng đề.
+]
+
+#pagebreak()
+
+= Phần II — Bộ Câu Hỏi Dự Đoán Thi Phổ Thông
+
+#intro-box(title: [Tinh thần ra đề nên luyện])[
+  - Không hỏi trần “lập phương trình vi phân”, mà giấu mô hình trong tình huống thực tế rồi hỏi *sau bao lâu đạt mốc*, *về lâu dài tiến tới đâu*, hoặc *phát biểu nào đúng*.
+
+  - Cùng một lõi toán nhưng ngữ cảnh có thể rơi vào nền tảng số, xử lý môi trường, y sinh, nhiệt học, điện tử, hóa học hay sinh thái.
+]
+
+== Dạng I — Nhìn Ra Mô Hình Ẩn Trong Lời Văn
+
+#ds(
+  [Xét bốn nhận xét sau về những tình huống biến thiên theo thời gian trong đề toán thực tế.],
+  (
+    True([Một quần thể sinh vật có tốc độ tăng tỉ lệ với số lượng đang có là một bài tăng trưởng liên tục.]),
+    [Một khoản tiền tăng $2\%$ vào cuối mỗi quý vẫn là đúng mô hình liên tục của chuyên đề này.],
+    True([Nhiệt độ của một vật đặt trong phòng thường tiến dần về nhiệt độ phòng chứ không rời xa mãi.]),
+    True([Một bể nước vừa rò theo lượng nước đang có vừa được bơm thêm đều thường có một mức ổn định lâu dài.]),
+  ),
   loigiai: [
     #ppgiai[
-      - Bài toán liên quan đến tăng trưởng / suy giảm kép.
-      - Nếu một đại lượng $A$ ban đầu, qua mỗi chu kỳ (mỗi ngày) bị giảm $a%$ rồi ngay lập tức tăng $b%$ (trên nền lượng vừa giảm), thì sau một chu kỳ đại lượng đó trở thành:
-        $ A_1 = A dot (1 - a%) dot (1 + b%) $
-      - Lặp lại quá trình này $n$ chu kỳ, ta thu được dãy số là một cấp số nhân với công thức số hạng tổng quát:
-        $ A_n = A dot q^n quad "với công bội " q = (1 - a%) dot (1 + b%) $
+      - Muốn phân loại đúng, phải đọc xem đề mô tả *biến thiên ở mọi thời điểm* hay *chỉ cập nhật theo từng chu kỳ*.
+      - Hai tín hiệu mạnh của chuyên đề này là: tốc độ tỉ lệ với lượng đang có, hoặc tốc độ tỉ lệ với độ chênh so với một mức cân bằng.
     ]
 
-    #align(center)[
-      #cetz.canvas(length: 0.8cm, {
-        import cetz.draw: *
-        // Vẽ hệ trục tọa độ
-        line((-0.5, 0), (11.5, 0), mark: (end: ">"), stroke: 1pt)
-        content((11.5, -0.4), $n$ + " (ngày)", anchor: "north")
-        line((0, -0.5), (0, 11), mark: (end: ">"), stroke: 1pt)
-        content((-0.4, 11), $u_n$ + " (điểm)", anchor: "east")
-        content((-0.3, -0.3), $O$)
+    - *Ý a) Đúng.* Đây chính là mô hình tăng liên tục theo lượng đang có.
 
-        // Vẽ đồ thị hàm số mũ y = 10 * (0.784)^x (scale y xuống 10 lần)
-        let pts = ()
-        for i in range(0, 113) {
-          let x = i / 10
-          pts.push((x, 10 * calc.pow(0.784, x)))
-        }
-        line(..pts, stroke: (paint: red, thickness: 1.2pt))
+    - *Ý b) Sai.* “Cuối mỗi quý” là bài toán *rời rạc theo chu kỳ*, không thuộc lõi liên tục của phần đầu file.
 
-        // Đánh dấu điểm khởi đầu
-        circle((0, 10), radius: 2pt, fill: red)
-        content((-0.2, 10), text(weight: "bold")[$100$], anchor: "east", fill: black)
+    - *Ý c) Đúng.* Theo định luật làm nguội Newton, nhiệt độ sẽ tiến dần về nhiệt độ môi trường.
 
-        // Đường ranh giới "Quên nhau" tại mức 10 điểm (y=1)
-        line((-0.5, 1), (11.5, 1), stroke: (dash: "dashed", paint: blue, thickness: 1.2pt))
-        content((6, 1.3), [Ngưỡng quên nhau ($< 10$ điểm)], fill: blue)
-        content((-0.2, 1), text(weight: "bold")[$10$], anchor: "east", fill: blue)
+    - *Ý d) Đúng.* Khi vừa có phần giảm theo lượng hiện có vừa có phần bổ sung đều, hệ thường tiến về một mức ổn định.
 
-        // Vị trí giao điểm lý thuyết n ~ 9.47
-        line((9.47, 0), (9.47, 1), stroke: (dash: "dashed", paint: gray))
-        content((9.47, -0.4), $9","47$)
-        circle((9.47, 1), radius: 2pt, fill: blue)
+    #ans-box[Các phát biểu đúng là *a, c, d*; phát biểu *b* sai.]
+  ],
+)
 
-        // Vị trí ngày thứ 10
-        let y10 = 10 * calc.pow(0.784, 10)
-        line((10, 0), (10, y10), stroke: (dash: "dashed", paint: rgb("008080"), thickness: 1.2pt))
-        content((10, -0.4), text(weight: "bold")[$10$], fill: rgb("008080"))
-        circle((10, y10), radius: 2pt, fill: rgb("008080"))
+== Dạng II — Tăng Hoặc Giảm Thuần, Nhưng Đề Giấu Trong Bối Cảnh
 
-        // Chú thích hàm số
-        content((3.5, 6.5), $u_n = 100 dot (0","784)^n$, fill: red)
-      })
+#tln(
+  id: "TG-LT-01",
+  [Một nền tảng luyện thi trực tuyến có số tài khoản hoạt động là $N(t)$ tại thời điểm $t$ tháng. Tốc độ tăng của số tài khoản luôn tỉ lệ với số tài khoản đang có. Biết lúc bắt đầu có $12000$ tài khoản hoạt động, sau $4$ tháng có $18000$ tài khoản. Nếu xu thế đó tiếp tục đúng, hỏi sau khoảng bao nhiêu tháng kể từ lúc bắt đầu thì nền tảng đạt $50000$ tài khoản hoạt động? (_làm tròn đến hàng phần mười_).],
+  [$14","1$],
+  loigiai: [
+    #ppgiai[
+      - “Tốc độ tăng tỉ lệ với lượng đang có” là dấu hiệu của mô hình tăng trưởng liên tục.
+      - Vì thế ta dùng dạng $N(t) = N_0 e^(k t)$ với $k > 0$.
     ]
 
-    *Phân tích và giải chi tiết từng bước:*
-    - Gọi $u_n$ là điểm tình cảm của hai bạn sau ngày thứ $n$ ($n in NN^*$). Khởi điểm khi vừa chia tay, ta có $u_0 = 100$.
-    - Trong một ngày, điểm tình cảm trải qua hai giai đoạn biến đổi liên tiếp:
-      + *Giai đoạn 1 (Không gặp nhau):* Tình cảm giảm đi $30%$, tức là lượng còn lại được nhân với hệ số $(100% - 30%) = 0","7$.
-      + *Giai đoạn 2 (Gặp nhau cuối ngày):* Tình cảm được hâm nóng tăng $12%$ so với mức vừa bị giảm, tức là nhân tiếp với hệ số $(100% + 12%) = 1","12$.
-    - Tổng hợp lại, sau mỗi ngày trôi qua, điểm tình cảm bị biến đổi theo một tỷ lệ chung (công bội):
-      $ q = 0","7 dot 1","12 = 0","784 $
-    - Điều này có nghĩa là dãy số $(u_n)$ lập thành một cấp số nhân lùi vô hạn. Số hạng tổng quát tính điểm tình cảm ở ngày thứ $n$ là:
-      $ u_n = u_0 dot q^n = 100 dot (0","784)^n $
-    - Theo giả thiết, hai người sẽ chính thức "quên hẳn được nhau" khi điểm tình cảm sụt giảm xuống dưới mức $10$. Ta thiết lập bất phương trình:
-      $ u_n < 10 <=> 100 dot (0","784)^n < 10 $
-      $ <=> (0","784)^n < 10/100 <=> (0","784)^n < 0","1 $
-    - Do cơ số $q = 0","784 < 1$, khi lấy logarit hai vế ta bắt buộc phải *đảo chiều bất đẳng thức*:
-      $ n > log_(0","784) (0","1) $
-    - Sử dụng máy tính cầm tay để tính giá trị gần đúng:
-      $ n > 9","471... $
-    - Vì $n$ phải là số nguyên dương (đại diện cho số ngày) và bài toán yêu cầu tìm số ngày *tối thiểu* để thỏa mãn điều kiện, ta cần tìm số nguyên nhỏ nhất lớn hơn $9","471$.
-    - Vậy ta chọn $n = 10$. Nghĩa là sau $10$ ngày kể từ lúc chia tay, điểm tình cảm mới chính thức tụt xuống dưới mức $10$ và hai bạn quên được nhau.
+    Từ $N(0) = 12000$, suy ra
+    $
+      N(t) = 12000 e^(k t).
+    $
 
-    #luuy[
-      Khi giải bất phương trình logarit hoặc mũ dạng $q^n < C$. Nếu cơ số $0 < q < 1$, ta bắt buộc phải *đổi chiều bất phương trình* ($n > log_q C$).
-    ]
+    Dùng dữ kiện $N(4) = 18000$:
+    $
+      12000 e^(4 k) = 18000
+      <=> e^(4 k) = frac(3, 2)
+      <=> k = frac(1, 4) ln (3 / 2).
+    $
+
+    Khi $N(t) = 50000$, ta có
+    $
+      12000 e^(k t) = 50000
+      <=> e^(k t) = frac(25, 6)
+      <=> t = frac(ln (25 / 6), k)
+      = frac(4 ln (25 / 6), ln (3 / 2)).
+    $
+
+    Bấm máy tính:
+    $
+      t approx 14","078...
+    $
+
+    #ans-box[Sau khoảng *$14","1$ tháng* thì nền tảng đạt $50000$ tài khoản hoạt động.]
   ],
 )
 
 #tln(
-  [
-    Tại một khu bảo tồn thiên nhiên, một quần thể chim quý hiếm ban đầu được ghi nhận có $500$ cá thể. Khí hậu ở đây chia làm hai mùa rõ rệt trong một năm. Theo thống kê của các nhà sinh học, trải qua mỗi mùa khô khắc nghiệt, số lượng cá thể của quần thể bị sụt giảm $15%$. Tuy nhiên, ngay sau đó bước vào mùa sinh sản, số lượng cá thể lại được gia tăng $20%$ so với số lượng còn sống sót sau mùa khô. Giả sử chu kỳ này lặp lại đều đặn và các tỷ lệ biến động là không đổi qua các năm. Hỏi sau ít nhất bao nhiêu năm (tính trọn vẹn cả hai mùa) thì số lượng cá thể của quần thể chim quý này vượt mức $700$ cá thể?
-  ],
-  [$17$],
+  id: "TG-LT-02",
+  [Nồng độ một chất khử khuẩn trong bể xử lí nước được ký hiệu là $C(t)$ (mg/L) sau $t$ giờ kể từ lúc ngừng bổ sung thêm hóa chất. Người ta thấy tốc độ giảm của nồng độ luôn tỉ lệ với nồng độ đang có. Biết ban đầu nồng độ là $80$ mg/L, sau $5$ giờ còn $50$ mg/L. Hỏi sau khoảng bao nhiêu giờ thì nồng độ giảm xuống dưới mức $10$ mg/L? (_làm tròn đến hàng phần mười_).],
+  [$22","1$],
   loigiai: [
     #ppgiai[
-      - Bài toán thực tế liên quan đến mô hình tăng trưởng/suy giảm kép.
-      - Nếu một đại lượng $A$ ban đầu, qua mỗi chu kỳ bị giảm $a%$ rồi ngay lập tức tăng $b%$ (trên nền lượng vừa giảm), thì sau một chu kỳ đại lượng đó trở thành:
-        $ A_1 = A dot (1 - a%) dot (1 + b%) $
-      - Lặp lại quá trình này $n$ chu kỳ, ta thu được dãy số là một cấp số nhân với công thức số hạng tổng quát:
-        $ A_n = A dot q^n quad "với công bội " q = (1 - a%) dot (1 + b%) $
+      - Vì tốc độ giảm tỉ lệ với lượng đang có nên đây là mô hình giảm liên tục thuần.
+      - Ta dùng dạng $C(t) = C_0 e^(-k t)$ với $k > 0$.
     ]
 
-    #align(center)[
-      #cetz.canvas(length: 0.6cm, {
-        import cetz.draw: *
-        // Hệ trục tọa độ
-        line((-1, 0), (20, 0), mark: (end: ">"), stroke: 1pt)
-        content((20, -0.5), $n$ + " (năm)", anchor: "north")
-        line((0, -1), (0, 10), mark: (end: ">"), stroke: 1pt)
-        content((-0.4, 10), $u_n$ + " (trăm cá thể)", anchor: "east")
-        content((-0.3, -0.3), $O$)
+    Từ $C(0) = 80$, suy ra
+    $
+      C(t) = 80 e^(-k t).
+    $
 
-        // Đồ thị u_n = 5 * 1.02^n
-        let pts = ()
-        for i in range(0, 190) {
-          let x = i / 10
-          pts.push((x, 5 * calc.pow(1.02, x)))
-        }
-        line(..pts, stroke: (paint: rgb("008080"), thickness: 1.5pt))
+    Dùng dữ kiện $C(5) = 50$:
+    $
+      80 e^(-5 k) = 50
+      <=> e^(-5 k) = frac(5, 8)
+      <=> k = frac(1, 5) ln (8 / 5).
+    $
 
-        // Điểm khởi đầu
-        circle((0, 5), radius: 2pt, fill: rgb("008080"))
-        content((-0.2, 5), text(weight: "bold")[$500$], anchor: "east")
+    Để $C(t) < 10$, ta giải:
+    $
+      80 e^(-k t) < 10
+      <=> e^(-k t) < frac(1, 8)
+      <=> t > frac(ln 8, k)
+      = frac(5 ln 8, ln (8 / 5)).
+    $
 
-        // Đường mục tiêu 700
-        line((-0.5, 7), (20, 7), stroke: (dash: "dashed", paint: red, thickness: 1.2pt))
-        content((10, 7.3), [Ngưỡng $700$ cá thể], fill: red)
-        content((-0.2, 7), text(weight: "bold")[$700$], anchor: "east", fill: red)
+    Bấm máy tính:
+    $
+      t approx 22","118...
+    $
 
-        // Điểm cắt lý thuyết
-        let n_val = 16.99
-        line((n_val, 0), (n_val, 7), stroke: (dash: "dashed", paint: gray))
-        content((n_val, -0.5), $16","99$)
-        circle((n_val, 7), radius: 2pt, fill: red)
+    #ans-box[Sau khoảng *$22","1$ giờ* thì nồng độ giảm xuống dưới $10$ mg/L.]
+  ],
+)
 
-        // Điểm thực tế (n=17)
-        let y17 = 5 * calc.pow(1.02, 17)
-        line((17, 0), (17, y17), stroke: (dash: "dashed", paint: blue, thickness: 1.2pt))
-        content((17.5, -0.5), text(weight: "bold")[$17$], fill: blue)
-        circle((17, y17), radius: 2pt, fill: blue)
-      })
+#pagebreak()
+
+== Dạng III — Vừa Hao Hụt Vừa Được Bổ Sung, Nên Có Mức Ổn Định
+
+#tln(
+  id: "TG-LT-03",
+  [Một bộ pin dự phòng đang được sạc. Gọi $Q(t)$ là mức năng lượng của pin sau $t$ giờ. Mỗi giờ, pin nhận thêm đều đặn $20$ đơn vị năng lượng, nhưng đồng thời tự hao hụt một lượng tỉ lệ với mức năng lượng hiện có theo hệ số $0","25$. Biết lúc bắt đầu xét thì pin có $15$ đơn vị năng lượng. Hỏi sau khoảng bao nhiêu giờ thì pin đạt mức $60$ đơn vị? (_làm tròn đến hàng phần mười_).],
+  [$4","7$],
+  loigiai: [
+    #ppgiai[
+      - Phần hao hụt cho ta một hạng tử âm tỉ lệ với $Q(t)$.
+      - Phần sạc đều cho ta một hạng tử dương không đổi.
     ]
 
-    *Phân tích và giải chi tiết từng bước:*
-    - Gọi $u_n$ là số lượng cá thể của quần thể chim sau $n$ năm ($n in NN^*$). Số lượng ban đầu là $u_0 = 500$.
-    - Trong một năm, số lượng chim trải qua hai đợt biến đổi liên tiếp:
-      + *Giai đoạn 1 (Mùa khô):* Quần thể giảm $15%$, lượng chim còn lại được tính bằng cách nhân với hệ số $(100% - 15%) = 85% = 0","85$.
-      + *Giai đoạn 2 (Mùa sinh sản):* Quần thể tăng $20%$ so với số lượng vừa sụt giảm, tức là lượng chim lại được nhân với hệ số $(100% + 20%) = 120% = 1","2$.
-    - Tổng hợp lại, sau mỗi năm trôi qua, số lượng cá thể bị biến đổi theo một tỷ lệ chung (công bội) là:
-      $ q = 0","85 dot 1","2 = 1","02 $
-    - Dãy số $(u_n)$ lập thành một cấp số nhân. Công thức tính tổng số lượng cá thể ở năm thứ $n$ là:
-      $ u_n = u_0 dot q^n = 500 dot (1","02)^n $
-    - Đề bài yêu cầu tìm số năm $n$ tối thiểu để số lượng cá thể vượt mức $700$, ta thiết lập bất phương trình:
-      $ u_n > 700 <=> 500 dot (1","02)^n > 700 $
-      $ <=> (1","02)^n > 700/500 <=> (1","02)^n > 1","4 $
-    - Do cơ số $q = 1","02 > 1$, khi lấy logarit hai vế ta giữ nguyên chiều bất phương trình:
-      $ n > log_(1","02) (1","4) $
-    - Sử dụng máy tính cầm tay để tính giá trị gần đúng:
-      $ n > 16","989... $
-    - Vì $n$ phải là số nguyên dương (đại diện cho số năm trọn vẹn) và bài toán yêu cầu tìm số năm *ít nhất*, ta cần tìm số nguyên nhỏ nhất lớn hơn $16","989$.
-    - Vậy chọn $n = 17$. 
+    Vì thế mô hình là
+    $
+      Q'(t) = -0","25 Q(t) + 20.
+    $
 
-    #luuy[
-      Nhiều học sinh thường mắc sai lầm khi cộng trừ trực tiếp các số phần trăm: lấy tăng $20%$ trừ đi giảm $15%$ thành tăng $5%$ (tương ứng $q=1","05$). Đây là tư duy sai lầm trong bài toán biến động kép. Phải tính chính xác theo hệ số nhân: $(1 - 15%) dot (1 + 20%) = 1","02$ (tức là thực chất quần thể chỉ tăng $2%$ sau mỗi chu kỳ một năm).
+    Mức cân bằng của hệ là
+    $
+      Q_* = -frac(20, -0","25) = 80.
+    $
+
+    Do đó nghiệm có dạng
+    $
+      Q(t) = 80 + C e^(-0","25 t).
+    $
+
+    Dùng điều kiện đầu $Q(0) = 15$:
+    $
+      15 = 80 + C => C = -65.
+    $
+
+    Suy ra
+    $
+      Q(t) = 80 - 65 e^(-0","25 t).
+    $
+
+    Tìm thời điểm $Q(t) = 60$:
+    $
+      80 - 65 e^(-0","25 t) = 60
+      <=> 65 e^(-0","25 t) = 20
+      <=> e^(-0","25 t) = frac(4, 13).
+    $
+
+    Suy ra
+    $
+      t = 4 ln (13 / 4) approx 4","715...
+    $
+
+    #ans-box[Sau khoảng *$4","7$ giờ* thì bộ pin đạt mức $60$ đơn vị năng lượng.]
+  ],
+)
+
+#ds(
+  [Trong một bể nuôi vi sinh, lượng dinh dưỡng hòa tan $D(t)$ (g/L) giảm theo lượng đang có với hệ số $0","3$ mỗi giờ, nhưng đồng thời được bổ sung đều $9$ g/L mỗi giờ. Biết ban đầu $D(0) = 45$.],
+  (
+    True([Công thức đúng là $D(t) = 30 + 15 e^(-0","3 t)$.]),
+    True([Trên khoảng $[0; +oo)$, lượng dinh dưỡng $D(t)$ luôn giảm.]),
+    True([Khi $t -> +oo$, lượng dinh dưỡng tiến dần về $30$ g/L.]),
+    [Có một thời điểm để $D(t) = 20$ g/L.],
+  ),
+  loigiai: [
+    #ppgiai[
+      - Đây là mô hình vừa hao hụt theo lượng đang có, vừa được bổ sung đều.
+      - Mức cân bằng là giá trị lâu dài khi phần mũ triệt tiêu dần.
     ]
+
+    Ta có mô hình
+    $
+      D'(t) = -0","3 D(t) + 9.
+    $
+
+    Mức cân bằng là
+    $
+      D_* = -frac(9, -0","3) = 30.
+    $
+
+    Do đó
+    $
+      D(t) = 30 + C e^(-0","3 t).
+    $
+
+    Từ $D(0) = 45$, suy ra $C = 15$, nên
+    $
+      D(t) = 30 + 15 e^(-0","3 t).
+    $
+
+    - *Ý a) Đúng.* Khớp đúng công thức vừa tìm.
+
+    - *Ý b) Đúng.* Ta có
+      $
+        D'(t) = -4","5 e^(-0","3 t) < 0
+      $
+      với mọi $t >= 0$, nên $D(t)$ luôn giảm.
+
+    - *Ý c) Đúng.* Vì $e^(-0","3 t) -> 0$ khi $t -> +oo$, nên
+      $
+        lim_(t -> +oo) D(t) = 30.
+      $
+
+    - *Ý d) Sai.* Công thức $D(t) = 30 + 15 e^(-0","3 t)$ luôn lớn hơn $30$, nên không thể bằng $20$.
+
+    #ans-box[Các phát biểu đúng là *a, b, c*; phát biểu *d* sai.]
+  ],
+)
+
+== Dạng IV — Nhiệt Độ Tiến Dần Về Môi Trường
+
+#tln(
+  id: "TG-LT-04",
+  [Một thanh kim loại vừa được nung nóng đến $150$°C rồi đưa vào phòng có nhiệt độ không đổi $30$°C. Sau $10$ phút, nhiệt độ của thanh còn $90$°C. Nếu quá trình nguội tiếp tục theo đúng mô hình Newton, hỏi sau bao nhiêu phút kể từ lúc đưa vào phòng thì nhiệt độ thanh còn $45$°C?],
+  [$30$],
+  loigiai: [
+    #ppgiai[
+      - Với mô hình Newton, nhiệt độ luôn có dạng “nhiệt độ môi trường + phần chênh lệch giảm mũ”.
+      - Ở đây nhiệt độ môi trường là $30$°C.
+    ]
+
+    Gọi $T(t)$ là nhiệt độ của thanh sau $t$ phút. Khi đó
+    $
+      T(t) = 30 + (150 - 30) e^(-k t) = 30 + 120 e^(-k t).
+    $
+
+    Dùng dữ kiện $T(10) = 90$:
+    $
+      30 + 120 e^(-10 k) = 90
+      <=> 120 e^(-10 k) = 60
+      <=> e^(-10 k) = frac(1, 2).
+    $
+
+    Khi $T(t) = 45$:
+    $
+      30 + 120 e^(-k t) = 45
+      <=> 120 e^(-k t) = 15
+      <=> e^(-k t) = frac(1, 8).
+    $
+
+    Từ $e^(-10 k) = 1 / 2$, suy ra $e^(-30 k) = 1 / 8$. Vậy
+    $
+      t = 30.
+    $
+
+    #ans-box[Sau *$30$ phút* thì nhiệt độ thanh còn $45$°C.]
+  ],
+)
+
+#ds(
+  [Một khay bánh được lấy ra khỏi lò và để trong phòng có nhiệt độ không đổi $26$°C. Nhiệt độ của bánh sau $t$ phút được mô hình hóa bởi
+    $T(t) = 26 + 54 e^(-0","2 t).$],
+  (
+    True([Lúc $t = 0$, nhiệt độ của bánh là $80$°C.]),
+    True([Trên khoảng $[0; +oo)$, nhiệt độ của bánh luôn giảm và tiến dần về $26$°C.]),
+    [Sau một thời gian đủ dài, nhiệt độ bánh có thể xuống thấp hơn $20$°C.],
+    True([Thời điểm bánh còn $44$°C là $t = 5 ln 3$ phút.]),
+  ),
+  loigiai: [
+    #ppgiai[
+      - Đây là công thức chuẩn của mô hình nguội dần về môi trường.
+      - Muốn xét đúng sai, ta chỉ cần đọc giá trị đầu, giới hạn và giải phương trình ngưỡng nhiệt độ.
+    ]
+
+    - *Ý a) Đúng.* Ta có
+      $
+        T(0) = 26 + 54 = 80.
+      $
+
+    - *Ý b) Đúng.* Vì $e^(-0","2 t)$ giảm dần về $0$, nên $T(t)$ giảm dần và tiến về $26$°C.
+
+    - *Ý c) Sai.* Nhiệt độ luôn lớn hơn hoặc bằng $26$°C, nên không thể xuống dưới $20$°C.
+
+    - *Ý d) Đúng.* Giải phương trình
+      $
+        26 + 54 e^(-0","2 t) = 44
+        <=> 54 e^(-0","2 t) = 18
+        <=> e^(-0","2 t) = frac(1, 3)
+        <=> t = 5 ln 3.
+      $
+
+    #ans-box[Các phát biểu đúng là *a, b, d*; phát biểu *c* sai.]
+  ],
+)
+
+#pagebreak()
+
+== Dạng V — Bộ Tự Luyện Quét Đủ Chủ Đề Dự Đoán Thi
+
+#tln(
+  id: "TG-LT-05",
+  [Diện tích phủ của một đám bèo trên mặt hồ được ký hiệu là $A(t)$ (m²) sau $t$ ngày. Tốc độ lan rộng của bèo tỉ lệ với diện tích đang có. Biết ban đầu đám bèo phủ $300$ m², sau $6$ ngày phủ $450$ m². Nếu mô hình tiếp tục đúng, hỏi sau khoảng bao nhiêu ngày thì diện tích phủ đạt $1000$ m²? (_làm tròn đến hàng phần mười_).],
+  [$17","8$],
+  loigiai: [
+    #ppgiai[
+      - Đây là mô hình tăng trưởng liên tục theo lượng đang có.
+      - Ta dùng công thức $A(t) = A_0 e^(k t)$.
+    ]
+
+    Từ $A(0) = 300$, suy ra
+    $
+      A(t) = 300 e^(k t).
+    $
+
+    Dùng dữ kiện $A(6) = 450$:
+    $
+      300 e^(6 k) = 450
+      <=> e^(6 k) = frac(3, 2).
+    $
+
+    Khi $A(t) = 1000$:
+    $
+      300 e^(k t) = 1000
+      <=> e^(k t) = frac(10, 3)
+      <=> t = frac(6 ln (10 / 3), ln (3 / 2)).
+    $
+
+    Bấm máy tính:
+    $
+      t approx 17","819...
+    $
+
+    #ans-box[Sau khoảng *$17","8$ ngày* thì diện tích bèo đạt $1000$ m².]
   ],
 )
 
 #tln(
-  [
-    Một nền tảng học trực tuyến vừa mới ra mắt và đạt được $50 000$ tài khoản người dùng hoạt động. Theo dữ liệu phân tích hành vi, mỗi năm lượng người dùng của nền tảng này biến động theo hai giai đoạn đặc thù. Vào giai đoạn nghỉ hè, lượng người dùng giảm $25%$ so với đầu năm do học sinh ít có nhu cầu học tập. Sau đó, bước vào giai đoạn năm học mới, nhờ các chiến dịch truyền thông và nhu cầu học tăng cao, lượng người dùng lại tăng $40%$ so với số lượng còn lại ngay sau kỳ nghỉ hè. Giả sử chu kỳ biến động này lặp lại đều đặn hàng năm và xu hướng không thay đổi. Hỏi sau ít nhất bao nhiêu năm thì nền tảng này sẽ cán mốc vượt $100 000$ tài khoản hoạt động?
-  ],
-  [$15$],
+  id: "TG-LT-06",
+  [Nồng độ bụi mịn PM2.5 trong một phòng học sau khi bật máy lọc được ký hiệu là $C(t)$ (µg/m³) sau $t$ giờ. Biết tốc độ giảm của nồng độ luôn tỉ lệ với nồng độ đang có. Lúc bật máy, nồng độ là $120$ µg/m³; sau $2$ giờ còn $90$ µg/m³. Hỏi sau khoảng bao nhiêu giờ thì nồng độ giảm xuống dưới mức $30$ µg/m³? (_làm tròn đến hàng phần mười_).],
+  [$9","6$],
   loigiai: [
     #ppgiai[
-      - Bài toán thực tế liên quan đến mô hình tăng trưởng/suy giảm kép.
-      - Gọi đại lượng ban đầu là $A$. Qua mỗi chu kỳ, nếu đại lượng bị giảm $a%$ rồi ngay lập tức tăng $b%$ (trên nền lượng vừa giảm), thì sau một chu kỳ đại lượng đó trở thành:
-        $ A_1 = A dot (1 - a%) dot (1 + b%) $
-      - Lặp lại quá trình này $n$ chu kỳ, ta thu được dãy số là một cấp số nhân với công thức số hạng tổng quát:
-        $ A_n = A dot q^n quad "với công bội " q = (1 - a%) dot (1 + b%) $
+      - Đây là mô hình giảm mũ theo lượng đang có.
+      - Ta dùng công thức $C(t) = C_0 e^(-k t)$.
     ]
 
-    #align(center)[
-      #cetz.canvas(length: 0.6cm, {
-        import cetz.draw: *
-        // Hệ trục tọa độ
-        line((-1, 0), (18, 0), mark: (end: ">"), stroke: 1pt)
-        content((18, -0.5), $n$ + " (năm)", anchor: "north")
-        line((0, -1), (0, 13), mark: (end: ">"), stroke: 1pt)
-        content((-0.4, 13), $u_n$ + " (chục nghìn)", anchor: "east")
-        content((-0.3, -0.3), $O$)
+    Từ $C(0) = 120$, suy ra
+    $
+      C(t) = 120 e^(-k t).
+    $
 
-        // Đồ thị u_n = 5 * 1.05^n
-        let pts = ()
-        for i in range(0, 165) {
-          let x = i / 10
-          pts.push((x, 5 * calc.pow(1.05, x)))
-        }
-        line(..pts, stroke: (paint: rgb("d81b60"), thickness: 1.5pt))
+    Dùng dữ kiện $C(2) = 90$:
+    $
+      120 e^(-2 k) = 90
+      <=> e^(-2 k) = frac(3, 4).
+    $
 
-        // Điểm khởi đầu
-        circle((0, 5), radius: 2pt, fill: rgb("d81b60"))
-        content((-0.2, 5), text(weight: "bold")[$50$], anchor: "east")
+    Muốn $C(t) < 30$, ta giải:
+    $
+      120 e^(-k t) < 30
+      <=> e^(-k t) < frac(1, 4)
+      <=> t > frac(ln 4, k)
+      = frac(2 ln 4, ln (4 / 3)).
+    $
 
-        // Đường mục tiêu 100k (y=10)
-        line((-0.5, 10), (18, 10), stroke: (dash: "dashed", paint: blue, thickness: 1.2pt))
-        content((6, 10.5), [Ngưỡng $100 000$ tài khoản], fill: blue)
-        content((-0.2, 10), text(weight: "bold")[$100$], anchor: "east", fill: blue)
+    Bấm máy tính:
+    $
+      t approx 9","637...
+    $
 
-        // Điểm cắt lý thuyết
-        let n_val = 14.206
-        line((n_val, 0), (n_val, 10), stroke: (dash: "dashed", paint: gray))
-        content((n_val, -0.5), $14","2$)
-        circle((n_val, 10), radius: 2pt, fill: blue)
-
-        // Điểm thực tế (n=15)
-        let y15 = 5 * calc.pow(1.05, 15)
-        line((15, 0), (15, y15), stroke: (dash: "dashed", paint: rgb("008080"), thickness: 1.2pt))
-        content((15.5, -0.5), text(weight: "bold")[$15$], fill: rgb("008080"))
-        circle((15, y15), radius: 2pt, fill: rgb("008080"))
-      })
-    ]
-
-    *Phân tích và giải chi tiết từng bước:*
-    - Gọi $u_n$ là số lượng tài khoản người dùng của nền tảng sau $n$ năm ($n in NN^*$). Số lượng ban đầu là $u_0 = 50 000$.
-    - Trong một năm, lượng người dùng trải qua hai đợt biến đổi liên tiếp:
-      + *Giai đoạn 1 (Nghỉ hè):* Lượng người dùng giảm $25%$, tức là nhân với hệ số $(100% - 25%) = 0","75$.
-      + *Giai đoạn 2 (Năm học mới):* Lượng người dùng tăng $40%$ so với số lượng vừa sụt giảm, tức là nhân tiếp với hệ số $(100% + 40%) = 1","4$.
-    - Tổng hợp lại, sau mỗi năm trôi qua, lượng người dùng bị biến đổi theo một tỷ lệ chung (công bội) là:
-      $ q = 0","75 dot 1","4 = 1","05 $
-    - Vậy dãy số $(u_n)$ lập thành một cấp số nhân. Công thức tính lượng người dùng ở năm thứ $n$ là:
-      $ u_n = u_0 dot q^n = 50 000 dot (1","05)^n $
-    - Đề bài yêu cầu tìm số năm $n$ tối thiểu để lượng người dùng vượt mức $100 000$, ta thiết lập bất phương trình:
-      $ u_n > 100 000 <=> 50 000 dot (1","05)^n > 100 000 $
-      $ <=> (1","05)^n > 100 000/50 000 <=> (1","05)^n > 2 $
-    - Lấy logarit cơ số $1","05$ hai vế (do $1","05 > 1$ nên giữ nguyên chiều bất phương trình):
-      $ n > log_(1","05) 2 $
-    - Sử dụng máy tính cầm tay để tính giá trị gần đúng:
-      $ n > 14","206... $
-    - Vì $n$ là số nguyên (đại diện cho số năm) và cần tìm số năm *ít nhất*, ta chọn số nguyên dương nhỏ nhất lớn hơn $14","206$.
-    - Vậy ta chọn $n = 15$. Nghĩa là sau trọn vẹn $15$ năm, nền tảng này sẽ vượt mốc $100 000$ tài khoản.
-
-    #nhanxet[
-      Nhiều bạn có thói quen cộng trừ trực tiếp các tỷ lệ phần trăm: lấy tăng $40%$ trừ đi giảm $25%$ thì nghĩ rằng sau một năm lượng người dùng tăng $15%$. Tuy nhiên, do nền giá bị thay đổi sau đợt giảm, mức tăng thực tế chỉ là $5%$ mỗi năm ($q = 1","05$). Đây là bẫy phổ biến nhất trong các bài toán tăng trưởng/suy giảm liên tục!
-    ]
-  ],
-)
-#tln(
-  [
-    Một kênh YouTube giáo dục hiện đang có $50 000$ người đăng ký (subscribers). Theo thuật toán định kỳ của nền tảng, vào ngày đầu tiên của mỗi tháng, hệ thống sẽ tự động quét và xóa đi $10%$ số lượng tài khoản ảo hoặc không hoạt động so với tháng trước đó. Tuy nhiên, nhờ việc đăng tải video đều đặn và chất lượng, trong suốt tháng đó kênh lại thu hút thêm được một lượng người đăng ký mới bằng $15%$ số lượng người đăng ký còn lại ngay sau đợt quét. Giả sử biến động này lặp lại đều đặn mỗi tháng. Hỏi sau ít nhất bao nhiêu tháng thì kênh YouTube này sẽ nhận được Nút Bạc (đạt mốc $100 000$ người đăng ký, _làm tròn kết quả đến hàng đơn vị_)?
-  ],
-  [$21$],
-  loigiai: [
-    #ppgiai[
-      - Đây là bài toán thực tế vận dụng mô hình tăng trưởng và suy giảm kép trên cùng một chu kỳ.
-      - Gọi lượng ban đầu là $A$. Qua mỗi chu kỳ, đại lượng sụt giảm $a%$ rồi lập tức tăng trưởng $b%$ trên nền số lượng vừa giảm.
-      - Sau chu kỳ thứ nhất, đại lượng là: $A_1 = A dot (1 - a%) dot (1 + b%)$.
-      - Sau $n$ chu kỳ, ta thu được cấp số nhân có số hạng tổng quát:
-        $ A_n = A dot q^n quad "với công bội " q = (1 - a%) dot (1 + b%) $
-    ]
-
-    #align(center)[
-      #cetz.canvas(length: 0.5cm, {
-        import cetz.draw: *
-        // Hệ trục tọa độ
-        line((-1, 0), (25, 0), mark: (end: ">"), stroke: 1pt)
-        content((25, -0.5), $n$ + " (tháng)", anchor: "north")
-        line((0, -1), (0, 13), mark: (end: ">"), stroke: 1pt)
-        content((-0.4, 13), $u_n$ + " (chục nghìn sub)", anchor: "east")
-        content((-0.3, -0.3), $O$)
-
-        // Đồ thị u_n = 5 * 1.035^n
-        let pts = ()
-        for i in range(0, 240) {
-          let x = i / 10
-          pts.push((x, 5 * calc.pow(1.035, x)))
-        }
-        line(..pts, stroke: (paint: rgb("FF0000"), thickness: 1.5pt))
-
-        // Điểm khởi đầu (5 chục nghìn)
-        circle((0, 5), radius: 2pt, fill: rgb("FF0000"))
-        content((-0.2, 5), text(weight: "bold")[$50$], anchor: "east")
-
-        // Đường mục tiêu 10 chục nghìn (100k)
-        line((-0.5, 10), (25, 10), stroke: (dash: "dashed", paint: blue, thickness: 1.2pt))
-        content((8, 10.6), [Ngưỡng Nút Bạc ($100 000$ sub)], fill: blue)
-        content((-0.2, 10), text(weight: "bold")[$100$], anchor: "east", fill: blue)
-
-        // Điểm cắt lý thuyết
-        let n_val = 20.148
-        line((n_val, 0), (n_val, 10), stroke: (dash: "dashed", paint: gray))
-        content((n_val, -0.6), $20","14$)
-        circle((n_val, 10), radius: 2pt, fill: blue)
-
-        // Điểm thực tế (n=21)
-        let y21 = 5 * calc.pow(1.035, 21)
-        line((21, 0), (21, y21), stroke: (dash: "dashed", paint: rgb("008080"), thickness: 1.2pt))
-        content((21.8, -0.6), text(weight: "bold")[$21$], fill: rgb("008080"))
-        circle((21, y21), radius: 2pt, fill: rgb("008080"))
-      })
-    ]
-
-    *Phân tích và giải chi tiết từng bước:*
-    - Gọi $u_n$ là số lượng người đăng ký kênh sau $n$ tháng ($n in NN^*$). Số lượng ban đầu quy đổi ra "nghìn" là $u_0 = 50$ (tức $50 000$).
-    - Trong một tháng, lượng người đăng ký trải qua hai biến động:
-      + *Giai đoạn 1 (Quét tài khoản ảo):* Giảm $10%$, tức là nhân với hệ số $(100% - 10%) = 0","9$.
-      + *Giai đoạn 2 (Người dùng mới):* Tăng $15%$ so với số lượng vừa sụt giảm, tức là nhân tiếp với hệ số $(100% + 15%) = 1","15$.
-    - Tổng hợp lại, sau mỗi tháng trôi qua, lượng người đăng ký thực tế tăng theo công bội:
-      $ q = 0","9 dot 1","15 = 1","035 $
-      _(Thực tế kênh chỉ tăng $3","5%$ mỗi tháng, không phải $15% - 10% = 5%$)._
-    - Ta có công thức tính số lượng người đăng ký ở tháng thứ $n$ là:
-      $ u_n = u_0 dot q^n = 50 dot (1","035)^n $
-    - Để kênh nhận được Nút Bạc, lượng người đăng ký phải đạt tối thiểu $100 000$ (tức là $100$). Ta thiết lập bất phương trình:
-      $ u_n >= 100 <=> 50 dot (1","035)^n >= 100 $
-      $ <=> (1","035)^n >= 2 $
-    - Lấy logarit cơ số $1","035$ hai vế (vì $1","035 > 1$ nên giữ nguyên chiều bất phương trình):
-      $ n >= log_(1","035) 2 $
-    - Sử dụng máy tính cầm tay, ta được:
-      $ n >= 20","1487... $
-    - Do $n$ phải là số nguyên dương (số tháng trọn vẹn), ta cần tìm số nguyên nhỏ nhất lớn hơn $20","1487$.
-    - Vậy ta chọn $n = 21$. Suy ra, sau $21$ tháng thì kênh sẽ chính thức đạt mốc $100 000$ lượt đăng ký.
-
-    #meo[
-      Khi giải bài toán có điều kiện "sau ít nhất bao nhiêu kỳ", kết quả logarit thường ra số thập phân. Ta luôn luôn phải *làm tròn lên* (hàm trần - ceiling) số nguyên gần nhất. Ví dụ $n >= 20","14$ thì dù phần thập phân rất nhỏ, ta vẫn phải chọn $n=21$ vì ở tháng thứ $20$ mục tiêu vẫn chưa hoàn thành!
-    ]
-  ],
-)
-#tln(
-  [
-    Tại một trang trại chăn nuôi thủy sản, ban đầu người chủ thả $10 \ 000$ con cá giống vào hồ. Hàng năm, quy trình chăn nuôi được chia làm hai đợt rõ rệt. Đợt 1 là mùa thu hoạch tỉa, nhà vườn tiến hành đánh bắt làm giảm $20%$ tổng đàn cá hiện có trong hồ. Ngay sau đó bước vào đợt 2 là mùa sinh sản và thả bổ sung giống, lượng cá trong hồ tăng thêm $30%$ so với số lượng vừa còn lại sau đợt thu hoạch. Biết rằng chu kỳ này lặp lại đều đặn hàng năm và tỉ lệ hao hụt do các nguyên nhân khác là không đáng kể. Hỏi sau ít nhất bao nhiêu năm thì tổng đàn cá trong hồ vượt mức $20 \ 000$ con?
-  ],
-  [$18$],
-  loigiai: [
-    #ppgiai[
-      - Bài toán thực tế sử dụng mô hình cấp số nhân với sự biến thiên kép (tăng/giảm liên tiếp) trong cùng một chu kỳ.
-      - Gọi số lượng ban đầu là $A$. Trong mỗi chu kỳ, nếu đại lượng giảm $a%$ rồi lập tức tăng $b%$ trên nền số lượng vừa sụt giảm, thì đại lượng mới sau một chu kỳ là:
-        $ A_1 = A dot (1 - a%) dot (1 + b%) $
-      - Sau $n$ chu kỳ, số lượng tuân theo công thức cấp số nhân:
-        $ A_n = A dot q^n quad "với công bội " q = (1 - a%) dot (1 + b%) $
-    ]
-
-    #align(center)[
-      #cetz.canvas(length: 0.5cm, {
-        import cetz.draw: *
-        // Hệ trục tọa độ
-        line((-1, 0), (22, 0), mark: (end: ">"), stroke: 1pt)
-        content((22, -0.6), $n$ + " (năm)", anchor: "north")
-        line((0, -1), (0, 25), mark: (end: ">"), stroke: 1pt)
-        content((-0.4, 25), $u_n$ + " (nghìn con)", anchor: "east")
-        content((-0.3, -0.4), $O$)
-
-        // Đồ thị u_n = 10 * 1.04^n
-        let pts = ()
-        for i in range(0, 210) {
-          let x = i / 10
-          pts.push((x, 10 * calc.pow(1.04, x)))
-        }
-        line(..pts, stroke: (paint: rgb("FF8C00"), thickness: 1.5pt))
-
-        // Điểm khởi đầu (10 nghìn)
-        circle((0, 10), radius: 2pt, fill: rgb("FF8C00"))
-        content((-0.2, 10), text(weight: "bold")[$10$], anchor: "east")
-
-        // Đường mục tiêu (20 nghìn)
-        line((-0.5, 20), (22, 20), stroke: (dash: "dashed", paint: blue, thickness: 1.2pt))
-        content((7, 20.7), [Ngưỡng $20 \ 000$ con], fill: blue)
-        content((-0.2, 20), text(weight: "bold")[$20$], anchor: "east", fill: blue)
-
-        // Điểm cắt lý thuyết
-        let n_val = 17.67
-        line((n_val, 0), (n_val, 20), stroke: (dash: "dashed", paint: gray))
-        content((n_val, -0.6), $17","67$)
-        circle((n_val, 20), radius: 2pt, fill: blue)
-
-        // Điểm thực tế (n=18)
-        let y18 = 10 * calc.pow(1.04, 18)
-        line((18, 0), (18, y18), stroke: (dash: "dashed", paint: rgb("008080"), thickness: 1.2pt))
-        content((18.8, -0.6), text(weight: "bold")[$18$], fill: rgb("008080"))
-        circle((18, y18), radius: 2pt, fill: rgb("008080"))
-      })
-    ]
-
-    *Phân tích và giải chi tiết từng bước:*
-    - Gọi $u_n$ là tổng số lượng cá trong hồ sau $n$ năm ($n in NN^*$). Số lượng ban đầu quy đổi ra "nghìn con" là $u_0 = 10$ (tương đương $10 \ 000$ con).
-    - Trong mỗi năm, số cá trải qua hai đợt biến động liên tiếp:
-      + *Giai đoạn 1 (Thu hoạch):* Lượng cá giảm $20%$, tức là nhân với hệ số $(100% - 20%) = 80% = 0","8$.
-      + *Giai đoạn 2 (Sinh sản & Thả thêm):* Lượng cá tăng $30%$ so với phần còn lại, tức là nhân tiếp với hệ số $(100% + 30%) = 130% = 1","3$.
-    - Tổng hợp lại, sau mỗi năm, đàn cá biến đổi theo một tỷ lệ chung (công bội) là:
-      $ q = 0","8 dot 1","3 = 1","04 $
-    - Dãy số $(u_n)$ là một cấp số nhân. Công thức tính tổng đàn cá ở năm thứ $n$ là:
-      $ u_n = u_0 dot q^n = 10 dot (1","04)^n $
-    - Đề bài yêu cầu tìm số năm tối thiểu để lượng cá vượt mức $20 \ 000$ con (tương ứng với $20$ nghìn con), ta thiết lập bất phương trình:
-      $ u_n > 20 <=> 10 dot (1","04)^n > 20 $
-      $ <=> (1","04)^n > 2 $
-    - Lấy logarit cơ số $1","04$ hai vế (vì $1","04 > 1$ nên giữ nguyên chiều bất phương trình):
-      $ n > log_(1","04) 2 $
-    - Bấm máy tính, ta được kết quả:
-      $ n > 17","6729... $
-    - Vì $n$ phải là số nguyên dương (đại diện cho số năm trọn vẹn) và bài toán hỏi "sau ít nhất bao nhiêu năm", ta cần tìm số nguyên nhỏ nhất lớn hơn $17","67$.
-    - Vậy ta chọn $n = 18$. Nghĩa là sau $18$ năm thì đàn cá sẽ vượt mức $20 \ 000$ con.
-
-    #luuy[
-      Cần đặc biệt lưu ý học sinh về "Ảo giác %". Nhìn lướt qua bài toán: giảm $20%$ rồi lại tăng $30%$, nhiều người sẽ nhầm tưởng rằng mỗi năm đàn cá tăng $10%$ ($30% - 20% = 10%$). Tuy nhiên, phép toán phần trăm không có tính chất cộng trừ trực tiếp. Sự sụt giảm $20%$ đã làm *giảm nền cơ sở* trước khi tăng. Do đó, mức tăng trưởng thực tế mỗi năm chỉ là $4%$ (vì $0,8 times 1,3 = 1,04$). Việc phân tích rõ ràng công bội $q$ giúp tránh sai lầm chết người này!
-    ]
-  ],
-)
-// CÂU SÁNG TÁC 1: BÀI TOÁN BẢO TỒN RỪNG
-#tln(
-  [
-    Một khu bảo tồn sinh thái hiện có $20 000$ hecta rừng nguyên sinh. Do tác động của biến đổi khí hậu, mỗi năm khu rừng trải qua một mùa hanh khô kéo dài. Qua thống kê nhiều năm, các chuyên gia lâm nghiệp nhận thấy: sau mỗi mùa hanh khô, nạn cháy rừng và hạn hán làm mất đi $8%$ diện tích rừng hiện có. Tuy nhiên, ngay sau đó vào mùa mưa, nhờ nỗ lực trồng rừng thay thế và sự phục hồi tự nhiên, diện tích rừng lại tăng thêm $12%$ so với diện tích vừa còn sót lại. Giả sử chu kỳ này lặp lại đều đặn hàng năm. Hỏi sau ít nhất bao nhiêu năm thì diện tích rừng của khu bảo tồn này phục hồi và vượt mức $25 000$ hecta?
-  ],
-  [$8$],
-  loigiai: [
-    #ppgiai[
-      - Đây là dạng toán tăng giảm liên tiếp trong cùng một chu kỳ (kép).
-      - Diện tích rừng ban đầu là $A_0$.
-      - Hệ số thay đổi sau mỗi năm (bao gồm cả giảm và tăng) là công bội $q$:
-        $ q = (1 - a%) dot (1 + b%) $
-      - Diện tích rừng sau $n$ năm lập thành cấp số nhân: $A_n = A_0 dot q^n$.
-      - Giải bất phương trình mũ $A_0 dot q^n > M$ để tìm $n$.
-    ]
-
-    #align(center)[
-      #cetz.canvas(length: 0.6cm, {
-        import cetz.draw: *
-        // Hệ trục tọa độ
-        line((-1, 0), (12, 0), mark: (end: ">"), stroke: 1pt)
-        content((12, -0.6), $n$ + " (năm)", anchor: "north")
-        line((0, -1), (0, 32), mark: (end: ">"), stroke: 1pt)
-        content((-0.4, 32), $u_n$ + " (nghìn ha)", anchor: "east")
-        content((-0.3, -0.4), $O$)
-
-        // Đồ thị u_n = 20 * 1.0304^n
-        let pts = ()
-        for i in range(0, 110) {
-          let x = i / 10
-          pts.push((x, 20 * calc.pow(1.0304, x)))
-        }
-        line(..pts, stroke: (paint: rgb("2E8B57"), thickness: 1.5pt))
-
-        // Điểm khởi đầu (20 nghìn ha)
-        circle((0, 20), radius: 2pt, fill: rgb("2E8B57"))
-        content((-0.2, 20), text(weight: "bold")[$20$], anchor: "east")
-
-        // Đường mục tiêu (25 nghìn ha)
-        line((-0.5, 25), (12, 25), stroke: (dash: "dashed", paint: red, thickness: 1.2pt))
-        content((4, 25.8), [Ngưỡng $25 000$ ha], fill: red)
-        content((-0.2, 25), text(weight: "bold")[$25$], anchor: "east", fill: red)
-
-        // Điểm cắt lý thuyết
-        let n_val = 7.43
-        line((n_val, 0), (n_val, 25), stroke: (dash: "dashed", paint: gray))
-        content((n_val, -0.6), $7","43$)
-        circle((n_val, 25), radius: 2pt, fill: red)
-
-        // Điểm thực tế (n=8)
-        let y8 = 20 * calc.pow(1.0304, 8)
-        line((8, 0), (8, y8), stroke: (dash: "dashed", paint: blue, thickness: 1.2pt))
-        content((8.6, -0.6), text(weight: "bold")[$8$], fill: blue)
-        circle((8, y8), radius: 2pt, fill: blue)
-      })
-    ]
-
-    *Phân tích và giải chi tiết từng bước:*
-    - Gọi $u_n$ là diện tích rừng sau $n$ năm ($n in NN^*$). Ta quy đổi đơn vị sang "nghìn hecta", suy ra $u_0 = 20$.
-    - Trong mỗi năm, diện tích rừng trải qua hai giai đoạn:
-      + *Mùa hanh khô (Giảm):* Mất đi $8%$, phần còn lại được nhân với hệ số $(100% - 8%) = 0","92$.
-      + *Mùa mưa (Tăng):* Tăng thêm $12%$ trên nền diện tích vừa giảm, tức là nhân tiếp với hệ số $(100% + 12%) = 1","12$.
-    - Công bội $q$ biểu diễn sự thay đổi sau một năm trọn vẹn là:
-      $ q = 0","92 dot 1","12 = 1","0304 $
-    - Ta có công thức tính diện tích rừng ở năm thứ $n$ là:
-      $ u_n = u_0 dot q^n = 20 dot (1","0304)^n $
-    - Để diện tích rừng vượt mức $25 000$ hecta (tức là $25$), ta có bất phương trình:
-      $ 20 dot (1","0304)^n > 25 $
-      $ <=> (1","0304)^n > 25/20 = 1","25 $
-    - Lấy logarit cơ số $1","0304$ hai vế:
-      $ n > log_(1","0304) (1","25) $
-    - Bấm máy tính, ta thu được:
-      $ n > 7","433... $
-    - Vì $n$ phải là số nguyên dương (đại diện cho số năm), ta chọn số nguyên nhỏ nhất thỏa mãn là $n = 8$.
-    - Vậy sau ít nhất *$8$* năm thì diện tích rừng sẽ vượt mức $25 000$ hecta.
-
-    #nhanxet[
-      Để ý rằng mức tăng $12%$ dường như bù đắp dư sức cho mức giảm $8%$ (chênh lệch $4%$). Nhưng thực tế hệ số $q = 1,0304$ cho thấy rừng chỉ tăng khoảng $3,04%$ mỗi năm. Việc giảm đi trước làm cho "cái gốc" để tăng lên bị bé lại, nên tốc độ phục hồi sẽ chậm hơn trực giác suy nghĩ thông thường.
-    ]
+    #ans-box[Sau khoảng *$9","6$ giờ* thì nồng độ bụi xuống dưới $30$ µg/m³.]
   ],
 )
 
-// CÂU SÁNG TÁC 2: BÀI TOÁN QUẢN LÝ DỮ LIỆU ĐÁM MÁY
 #tln(
-  [
-    Một công ty cung cấp dịch vụ lưu trữ đám mây (Cloud Storage) hiện đang lưu trữ tổng cộng $5000$ Terabyte (TB) dữ liệu người dùng. Để tối ưu hóa không gian máy chủ, công ty thiết lập một quy trình tự động quét và dọn dẹp theo từng quý ($3$ tháng một lần). Ở đầu mỗi quý, hệ thống tự động xóa đi $15%$ dữ liệu rác, tệp tin tạm và tài khoản không hoạt động. Tuy nhiên, trong suốt phần còn lại của quý đó, lượng khách hàng mới đăng ký và tải dữ liệu lên làm cho tổng dung lượng tăng thêm $25%$ so với lượng dữ liệu vừa còn lại ngay sau khi dọn dẹp. Hỏi sau ít nhất bao nhiêu quý thì tổng dung lượng dữ liệu trên máy chủ của công ty này sẽ chạm ngưỡng $10 000$ TB (gấp đôi sức chứa ban đầu)?
+  id: "TG-LT-07",
+  [Khối lượng muối hòa tan trong một bể trộn được ký hiệu là $S(t)$ (kg) sau $t$ giờ. Muối bị cuốn ra ngoài với tốc độ tỉ lệ với lượng muối đang có theo hệ số $0","5$, đồng thời một dòng dung dịch khác chảy vào làm tăng thêm đều đặn $15$ kg muối mỗi giờ. Biết ban đầu trong bể có $8$ kg muối. Hỏi sau khoảng bao nhiêu giờ thì lượng muối đạt $25$ kg? (_làm tròn đến hàng phần mười_).],
+  [$3","0$],
+  loigiai: [
+    #ppgiai[
+      - Đây là mô hình vừa hao hụt vừa được bổ sung đều.
+      - Ta tìm mức cân bằng trước rồi ghép với phần mũ.
+    ]
+
+    Mô hình là
+    $
+      S'(t) = -0","5 S(t) + 15.
+    $
+
+    Mức cân bằng là
+    $
+      S_* = -frac(15, -0","5) = 30.
+    $
+
+    Do đó
+    $
+      S(t) = 30 + C e^(-0","5 t).
+    $
+
+    Từ $S(0) = 8$, suy ra
+    $
+      8 = 30 + C => C = -22.
+    $
+
+    Vậy
+    $
+      S(t) = 30 - 22 e^(-0","5 t).
+    $
+
+    Tìm thời điểm $S(t) = 25$:
+    $
+      30 - 22 e^(-0","5 t) = 25
+      <=> 22 e^(-0","5 t) = 5
+      <=> e^(-0","5 t) = frac(5, 22).
+    $
+
+    Suy ra
+    $
+      t = 2 ln (22 / 5) approx 2","963...
+    $
+
+    #ans-box[Sau khoảng *$3","0$ giờ* thì lượng muối đạt $25$ kg.]
   ],
+)
+
+#pagebreak()
+
+= Phần III — Chốt Lại 5 Ý Phải Thuộc
+
+#intro-box(title: [Checklist cuối file])[
+  1. Đề thi phổ thông thường *không hỏi thẳng mô hình*, mà hỏi ngưỡng, xu thế, hay phát biểu đúng sai.
+
+  2. Thấy cụm “tốc độ thay đổi tỉ lệ với lượng đang có” thì nghĩ ngay đến tăng hoặc giảm mũ.
+
+  3. Thấy vừa hao hụt theo lượng hiện tại, vừa được cấp thêm đều thì nghĩ đến một *mức cân bằng lâu dài*.
+
+  4. Bài nhiệt độ môi trường cố định gần như luôn đưa về dạng “nhiệt độ môi trường + phần chênh lệch giảm mũ”.
+
+  5. Cần luyện đủ ba đích hỏi: *thời điểm đạt mốc*, *trạng thái khi $t -> +oo$*, và *nhận xét đúng sai về đồ thị hay giới hạn*.
+]
+
+#note-box(title: [Một câu nhắc rất quan trọng])[
+  Nếu đề mô tả biến thiên theo *chu kỳ rời rạc* như cuối tháng, cuối năm, đầu quý..., thì không được bê nguyên bộ công thức liên tục sang. Lúc đó ta phải quay lại mô hình cấp số nhân hoặc công bội theo chu kỳ; ngay dưới đây là phần phụ lục dành riêng cho kiểu đó.
+]
+
+#align(center)[
+  #table(
+    columns: 4,
+    stroke: 0.45pt + rgb("B0BEC5"),
+    inset: (x: 8pt, y: 7pt),
+    fill: (x, y) => if y == 0 { rgb("E3F2FD") } else if calc.odd(y) { rgb("FAFAFA") } else { white },
+    align: center,
+    table.header([*Câu*], [*Đáp số nhanh*], [*Câu*], [*Đáp số nhanh*]),
+    [$1$], [a, c, d đúng], [$6$], [$30$],
+    [$2$], [$14","1$], [$7$], [a, b, d đúng],
+    [$3$], [$22","1$], [$8$], [$17","8$],
+    [$4$], [$4","7$], [$9$], [$9","6$],
+    [$5$], [a, b, c đúng], [$10$], [$3","0$],
+  )
+]
+
+#pagebreak()
+
+= Phần IV — Bổ Sung: Tăng Giảm Theo Chu Kỳ Rời Rạc
+
+#intro-box(title: [Mẫu tư duy cho kiểu “tăng $x\%$, rồi giảm $y\%$”])[
+  - Đây là dạng *rời rạc theo chu kỳ*, không dùng đạo hàm. Mỗi bước là một *phép nhân hệ số*.
+
+  - Nếu một chu kỳ gồm nhiều lần điều chỉnh, chẳng hạn tăng $x\%$, rồi giảm $y\%$, rồi tăng $z\%$, thì hệ số nhân sau một chu kỳ là:
+  $ q = (1 + x/100) (1 - y/100) (1 + z/100). $
+
+  - Sau $n$ chu kỳ giống nhau, đại lượng có dạng:
+  $ A_n = A_0 q^n. $
+
+  - Sai lầm lớn nhất là *cộng trừ phần trăm trực tiếp*. Ví dụ tăng $10\%$ rồi giảm $10\%$ không quay về ban đầu vì $1","10 dot 0","90 = 0","99$.
+]
+
+== Dạng VI — Nhận Diện Hệ Số Nhân Sau Một Chu Kỳ
+
+#ds(
+  [Một mặt hàng được điều chỉnh giá theo chu kỳ 3 ngày: ngày thứ nhất tăng $10\%$, ngày thứ hai giảm $15\%$, ngày thứ ba tăng $5\%$, rồi lặp lại đúng chu kỳ đó.],
+  (
+    True([Hệ số nhân sau đúng một chu kỳ là $q = 1","10 dot 0","85 dot 1","05 = 0","98175$.]),
+    [Vì $10 - 15 + 5 = 0$ nên sau mỗi chu kỳ giá quay về đúng mức ban đầu.],
+    True([Sau mỗi chu kỳ, giá thực chất giảm $1","825\%$.]),
+    [Vì có hai lần tăng nên nếu lặp mãi thì giá sẽ tăng không giới hạn.],
+  ),
+  loigiai: [
+    #ppgiai[
+      - Dạng rời rạc theo chu kỳ phải xử lí bằng *hệ số nhân*, không cộng trừ phần trăm theo cảm giác.
+      - Chỉ cần chốt được $q$ của một chu kỳ là ta quyết định được xu hướng dài hạn.
+    ]
+
+    - *Ý a) Đúng.* Hệ số nhân của chu kỳ là:
+      $
+        q = 1","10 dot 0","85 dot 1","05 = 0","98175.
+      $
+
+    - *Ý b) Sai.* Tổng phần trăm bằng $0$ không có nghĩa là quay về ban đầu; phải nhìn vào tích các hệ số.
+
+    - *Ý c) Đúng.* Vì:
+      $
+        1 - q = 1 - 0","98175 = 0","01825,
+      $
+      nên sau mỗi chu kỳ giá giảm $1","825\%$.
+
+    - *Ý d) Sai.* Vì $q < 1$, nên nếu lặp lại nhiều chu kỳ thì giá giảm dần, không tăng mãi.
+
+    #ans-box[Các phát biểu đúng là *a, c*; phát biểu *b, d* sai.]
+  ],
+)
+
+== Dạng VII — Tìm Thời Điểm Vượt Ngưỡng Sau Nhiều Chu Kỳ
+
+#tln(
+  id: "TG-CK-01",
+  [Giá một chiếc máy tính ở đầu ngày thứ nhất là $2$ triệu đồng. Cứ sau mỗi 2 ngày, giá lặp đúng một chu kỳ: ngày đầu tăng $20\%$, ngày sau giảm $10\%$. Hỏi sau ít nhất bao nhiêu ngày thì giá chiếc máy tính vượt $3$ triệu đồng?],
   [$12$],
   loigiai: [
     #ppgiai[
-      - Bài toán mô hình hóa sự tăng trưởng dữ liệu với hai tác động ngược chiều trong một khoảng thời gian (một quý).
-      - Dữ liệu bị xóa $a%$ $=> "Nhân với " (1 - a%)$.
-      - Dữ liệu tăng thêm $b%$ $=> "Nhân với " (1 + b%)$.
-      - Công bội của chu kỳ là $q = (1 - a%) dot (1 + b%)$.
-      - Áp dụng công thức $A_n = A_0 dot q^n$ để thiết lập bất phương trình tìm số kỳ $n$.
+      - Một chu kỳ 2 ngày có hệ số nhân:
+      $ q = 1","20 dot 0","90 = 1","08. $
+      - Vì đề hỏi *ít nhất bao nhiêu ngày*, ta phải tìm số chu kỳ nguyên nhỏ nhất làm giá vượt ngưỡng.
     ]
 
-    #align(center)[
-      #cetz.canvas(length: 0.6cm, {
-        import cetz.draw: *
-        // Hệ trục tọa độ
-        line((-1, 0), (16, 0), mark: (end: ">"), stroke: 1pt)
-        content((16, -0.6), $n$ + " (quý)", anchor: "north")
-        line((0, -1), (0, 15), mark: (end: ">"), stroke: 1pt)
-        content((-0.4, 15), $u_n$ + " (nghìn TB)", anchor: "east")
-        content((-0.3, -0.4), $O$)
+    Sau $n$ chu kỳ, giá máy tính là:
+    $
+      P_n = 2 dot 1","08^n
+    $
+    (triệu đồng).
 
-        // Đồ thị u_n = 5 * 1.0625^n
-        let pts = ()
-        for i in range(0, 150) {
-          let x = i / 10
-          pts.push((x, 5 * calc.pow(1.0625, x)))
-        }
-        line(..pts, stroke: (paint: rgb("8A2BE2"), thickness: 1.5pt))
+    Cần:
+    $
+      2 dot 1","08^n > 3
+      <=> 1","08^n > 1","5.
+    $
 
-        // Điểm khởi đầu (5 nghìn TB)
-        circle((0, 5), radius: 2pt, fill: rgb("8A2BE2"))
-        content((-0.2, 5), text(weight: "bold")[$5$], anchor: "east")
+    Thử các số nguyên gần đúng:
+    $
+      1","08^5 approx 1","4693 < 1","5,
+    $
+    nhưng
+    $
+      1","08^6 approx 1","5869 > 1","5.
+    $
 
-        // Đường mục tiêu (10 nghìn TB)
-        line((-0.5, 10), (16, 10), stroke: (dash: "dashed", paint: orange, thickness: 1.2pt))
-        content((6, 10.6), [Ngưỡng $10 000$ TB], fill: orange)
-        content((-0.2, 10), text(weight: "bold")[$10$], anchor: "east", fill: orange)
+    Vậy cần $6$ chu kỳ, tức là:
+    $
+      6 dot 2 = 12
+    $
+    ngày.
 
-        // Điểm cắt lý thuyết
-        let n_val = 11.43
-        line((n_val, 0), (n_val, 10), stroke: (dash: "dashed", paint: gray))
-        content((n_val, -0.6), $11","43$)
-        circle((n_val, 10), radius: 2pt, fill: orange)
-
-        // Điểm thực tế (n=12)
-        let y12 = 5 * calc.pow(1.0625, 12)
-        line((12, 0), (12, y12), stroke: (dash: "dashed", paint: rgb("0000CD"), thickness: 1.2pt))
-        content((12.6, -0.6), text(weight: "bold")[$12$], fill: rgb("0000CD"))
-        circle((12, y12), radius: 2pt, fill: rgb("0000CD"))
-      })
-    ]
-
-    *Phân tích và giải chi tiết từng bước:*
-    - Gọi $u_n$ là lượng dữ liệu lưu trữ sau $n$ quý ($n in NN^*$). Sử dụng đơn vị "nghìn TB", ta có $u_0 = 5$.
-    - Xét sự biến đổi trong một quý:
-      + *Giai đoạn dọn dẹp:* Giảm $15%$, tương đương nhân với $(1 - 0","15) = 0","85$.
-      + *Giai đoạn tải lên:* Tăng $25%$ trên số liệu mới, tương đương nhân với $(1 + 0","25) = 1","25$.
-    - Công bội $q$ đại diện cho sự tăng trưởng tịnh tiến sau một quý là:
-      $ q = 0","85 dot 1","25 = 1","0625 $
-    - Lượng dữ liệu trên máy chủ sau $n$ quý được tính bởi:
-      $ u_n = 5 dot (1","0625)^n $
-    - Ta cần tìm $n$ sao cho lượng dữ liệu chạm ngưỡng $10 000$ TB (tức là $10$):
-      $ 5 dot (1","0625)^n >= 10 $
-      $ <=> (1","0625)^n >= 2 $
-    - Giải bất phương trình lôgarit cơ số $1","0625$:
-      $ n >= log_(1","0625) 2 $
-    - Bấm máy tính tính giá trị xấp xỉ:
-      $ n >= 11","433... $
-    - Vì $n$ phải là số nguyên đại diện cho số quý, ta chọn $n$ nguyên nhỏ nhất lớn hơn hoặc bằng $11","433$.
-    - Do đó, $n = 12$.
-    - Kết luận: Cần ít nhất *$12$* quý (tương đương $3$ năm) để hệ thống máy chủ bị đẩy lên mức $10 000$ TB.
-
-    #luuy[
-      Dữ kiện "3 tháng một lần" chỉ là thông tin gây nhiễu để giải thích chữ "Quý". Học sinh khi đặt $n$ là "số quý" thì không cần chia hay nhân $n$ với $3$. Việc hiểu rõ đại lượng $n$ đại diện cho chu kỳ nào (năm, tháng, quý) là rất quan trọng để không bị kết luận nhầm.
-    ]
+    #ans-box[Sau *$12$ ngày* thì giá máy tính vượt $3$ triệu đồng.]
   ],
 )
 
-// CÂU SÁNG TÁC 3: BÀI TOÁN QUẢN LÝ TỒN KHO CHUỖI CUNG ỨNG
 #tln(
-  [
-    Một tổng kho phân phối thiết bị điện tử hiện đang lưu trữ $100 000$ sản phẩm. Nhằm tối ưu hóa dòng tiền và không gian lưu trữ, ban giám đốc áp dụng mô hình xuất – nhập kho theo chu kỳ mỗi tháng. Dữ liệu phân tích cho thấy: trong nửa đầu tháng, hệ thống đại lý sẽ lấy đi $20%$ số lượng sản phẩm hiện có trong kho. Để bù đắp, vào nửa cuối tháng, tổng kho sẽ nhập một lô hàng mới có số lượng bằng $30%$ số sản phẩm vừa còn lại sau đợt xuất kho. Giả sử mô hình biến động này lặp lại đều đặn mỗi tháng và sức mua của thị trường không đổi. Hỏi sau ít nhất bao nhiêu tháng thì tổng lượng hàng tồn trong kho sẽ vượt mức $150 000$ sản phẩm?
-  ],
-  [$11$],
+  id: "TG-CK-02",
+  [Một nền tảng học trực tuyến có $5000$ người dùng hoạt động ở đầu chu kỳ đầu tiên. Cứ mỗi chu kỳ 3 ngày, số người dùng biến động như sau: ngày thứ nhất tăng $15\%$ nhờ quảng cáo, ngày thứ hai giảm $5\%$ vì người dùng rời ứng dụng, ngày thứ ba tăng tiếp $10\%$ nhờ nội dung mới. Nếu chu kỳ này lặp lại đúng như cũ, hỏi sau $12$ ngày nền tảng có khoảng bao nhiêu người dùng hoạt động? (_làm tròn đến số nguyên gần nhất_).],
+  [$10429$],
   loigiai: [
     #ppgiai[
-      - Bài toán vận dụng mô hình tăng trưởng/suy giảm kép trên một chu kỳ kinh doanh.
-      - Gọi lượng hàng ban đầu là $A_0$. Qua mỗi chu kỳ, nếu lượng hàng giảm $a%$ rồi lập tức nhập thêm $b%$ dựa trên lượng vừa giảm, thì hệ số thay đổi của toàn chu kỳ là:
-        $ q = (1 - a%) dot (1 + b%) $
-      - Số lượng hàng sau $n$ tháng sẽ tạo thành một cấp số nhân: $u_n = A_0 dot q^n$.
-      - Lập bất phương trình $u_n > M$ và dùng logarit cơ số $q$ để giải tìm $n$.
+      - Một chu kỳ 3 ngày có hệ số nhân:
+      $ q = 1","15 dot 0","95 dot 1","10 = 1","20175. $
+      - Sau $12$ ngày có đúng $4$ chu kỳ hoàn chỉnh.
     ]
 
-    #align(center)[
-      #cetz.canvas(length: 0.6cm, {
-        import cetz.draw: *
-        // Hệ trục tọa độ
-        line((-1, 0), (16, 0), mark: (end: ">"), stroke: 1pt)
-        content((16, -0.6), $n$ + " (tháng)", anchor: "north")
-        line((0, -1), (0, 18), mark: (end: ">"), stroke: 1pt)
-        content((-0.4, 18), $u_n$ + " (chục nghìn SP)", anchor: "east")
-        content((-0.3, -0.4), $O$)
+    Số người dùng sau $12$ ngày là:
+    $
+      N = 5000 dot 1","20175^4.
+    $
 
-        // Đồ thị u_n = 10 * 1.04^n
-        let pts = ()
-        for i in range(0, 150) {
-          let x = i / 10
-          pts.push((x, 10 * calc.pow(1.04, x)))
-        }
-        line(..pts, stroke: (paint: rgb("FF4500"), thickness: 1.5pt))
+    Bấm máy tính:
+    $
+      N approx 10428","612...
+    $
 
-        // Điểm khởi đầu (10 chục nghìn = 100k)
-        circle((0, 10), radius: 2pt, fill: rgb("FF4500"))
-        content((-0.2, 10), text(weight: "bold")[$10$], anchor: "east")
+    Làm tròn đến số nguyên gần nhất, ta được:
+    $
+      N approx 10429.
+    $
 
-        // Đường mục tiêu (15 chục nghìn = 150k)
-        line((-0.5, 15), (16, 15), stroke: (dash: "dashed", paint: blue, thickness: 1.2pt))
-        content((6, 15.6), [Ngưỡng $150 000$ SP], fill: blue)
-        content((-0.2, 15), text(weight: "bold")[$15$], anchor: "east", fill: blue)
-
-        // Điểm cắt lý thuyết
-        let n_val = 10.34
-        line((n_val, 0), (n_val, 15), stroke: (dash: "dashed", paint: gray))
-        content((n_val, -0.6), $10","34$)
-        circle((n_val, 15), radius: 2pt, fill: blue)
-
-        // Điểm thực tế (n=11)
-        let y11 = 10 * calc.pow(1.04, 11)
-        line((11, 0), (11, y11), stroke: (dash: "dashed", paint: rgb("008080"), thickness: 1.2pt))
-        content((11.6, -0.6), text(weight: "bold")[$11$], fill: rgb("008080"))
-        circle((11, y11), radius: 2pt, fill: rgb("008080"))
-      })
-    ]
-
-    *Phân tích và giải chi tiết từng bước:*
-    - Gọi $u_n$ là lượng sản phẩm tồn kho sau $n$ tháng ($n in NN^*$). Quy đổi đơn vị sang "chục nghìn sản phẩm", ta có $u_0 = 10$.
-    - Trong mỗi tháng, lượng tồn kho trải qua hai giai đoạn biến động:
-      + *Xuất kho (Giảm):* Mất đi $20%$, số lượng còn lại tương ứng với hệ số $(100% - 20%) = 0","8$.
-      + *Nhập kho (Tăng):* Tăng thêm $30%$ trên nền lượng hàng vừa bị rút đi, tương ứng hệ số $(100% + 30%) = 1","3$.
-    - Như vậy, sau mỗi tháng trọn vẹn, hệ thống tồn kho biến đổi theo công bội:
-      $ q = 0","8 dot 1","3 = 1","04 $
-      _(Mỗi tháng kho hàng chỉ thực sự phình to thêm $4%$)._
-    - Lượng hàng trong kho ở tháng thứ $n$ tuân theo công thức:
-      $ u_n = u_0 dot q^n = 10 dot (1","04)^n $
-    - Để tổng lượng hàng vượt mức $150 000$ (tức là $15$ chục nghìn), ta thiết lập bất phương trình:
-      $ 10 dot (1","04)^n > 15 <=> (1","04)^n > 1","5 $
-    - Giải bất phương trình mũ (lấy logarit cơ số $1","04$ hai vế, giữ nguyên chiều do $1","04 > 1$):
-      $ n > log_(1","04) (1","5) $
-    - Sử dụng máy tính cầm tay, ta được:
-      $ n > 10","338... $
-    - Vì $n$ phải là số nguyên dương (đại diện cho số tháng trọn vẹn), ta cần lấy số nguyên nhỏ nhất lớn hơn $10","338$.
-    - Do đó, ta chọn $n = 11$.
-    - Kết luận: Cần ít nhất *$11$* tháng để lượng tồn kho của công ty vượt mốc $150 000$ sản phẩm.
-
-    #meo[
-      Khi thiết lập công bội $q$, cần đọc kỹ câu chữ "tăng thêm ... % so với phần *còn lại*". Khác biệt ở đây là lượng tăng $30%$ không tính trên mốc $100 000$ ban đầu, mà tính trên $80 000$ hàng còn lại. Đây là điểm mấu chốt để phân biệt bài toán lãi kép và bài toán tăng trưởng đơn thông thường.
-    ]
+    #ans-box[Sau $12$ ngày có khoảng *$10429$ người dùng hoạt động*.]
   ],
 )
 
-// CÂU SÁNG TÁC 4: BÀI TOÁN DƯỢC ĐỘNG HỌC (ĐIỀU TRỊ KHÁNG SINH)
 #tln(
-  [
-    Một bệnh nhân bị nhiễm một loại vi khuẩn với số lượng ban đầu trong cơ thể được xác định là $500 000$ cá thể. Bác sĩ chỉ định phác đồ điều trị bằng kháng sinh đặc hiệu, mỗi ngày uống một liều. Các nghiên cứu dược động học cho thấy: mỗi liều kháng sinh khi đưa vào cơ thể sẽ tiêu diệt được $50%$ số lượng vi khuẩn hiện có. Tuy nhiên, trong thời gian giữa hai liều thuốc, do đặc tính sinh học, lượng vi khuẩn sống sót sẽ sinh sôi và tăng thêm $10%$ so với số lượng ngay sau khi bị tiêu diệt. Giả sử quá trình này lặp lại đều đặn mỗi ngày. Hỏi sau ít nhất bao nhiêu ngày (tương ứng với bao nhiêu liều thuốc) thì số lượng vi khuẩn trong cơ thể bệnh nhân giảm xuống dưới mức an toàn là $10 000$ cá thể?
-  ],
-  [$7$],
+  id: "TG-CK-03",
+  [Lượng một chất ô nhiễm trong hồ là $400$ đơn vị ở đầu đợt xử lí. Cứ mỗi chu kỳ 3 ngày, lượng chất này biến động theo mẫu: ngày thứ nhất giảm $20\%$, ngày thứ hai tăng lại $5\%$ do dòng chảy bên ngoài đưa vào, ngày thứ ba giảm tiếp $10\%$ nhờ xử lí bổ sung. Hỏi sau ít nhất bao nhiêu ngày thì lượng chất ô nhiễm giảm xuống dưới $100$ đơn vị?],
+  [$15$],
   loigiai: [
     #ppgiai[
-      - Bài toán sử dụng cấp số nhân lùi vô hạn có điều kiện (sự suy giảm có xen kẽ phục hồi).
-      - Số lượng ban đầu $A_0$.
-      - Khi bị tiêu diệt $a%$ rồi sinh sôi $b%$ trên lượng sống sót, hệ số sinh tồn sau mỗi ngày là:
-        $ q = (1 - a%) dot (1 + b%) $
-      - Số vi khuẩn sau $n$ ngày là $u_n = A_0 dot q^n$.
-      - Thiết lập bất phương trình $u_n < M$ để tìm $n$. Lưu ý bắt buộc đảo chiều bất đẳng thức khi lấy logarit nếu cơ số $0 < q < 1$.
+      - Hệ số nhân của một chu kỳ 3 ngày là:
+      $ q = 0","80 dot 1","05 dot 0","90 = 0","756. $
+      - Vì đề hỏi “ít nhất bao nhiêu ngày”, ta cần số chu kỳ nguyên nhỏ nhất sao cho lượng còn lại nhỏ hơn ngưỡng.
     ]
 
-    #align(center)[
-      #cetz.canvas(length: 0.6cm, {
-        import cetz.draw: *
-        // Hệ trục tọa độ
-        line((-1, 0), (10, 0), mark: (end: ">"), stroke: 1pt)
-        content((10, -0.6), $n$ + " (ngày)", anchor: "north")
-        line((0, -1), (0, 7), mark: (end: ">"), stroke: 1pt)
-        content((-0.4, 7), $u_n$ + " (trăm nghìn)", anchor: "east")
-        content((-0.3, -0.4), $O$)
+    Sau $n$ chu kỳ, lượng chất ô nhiễm là:
+    $
+      A_n = 400 dot 0","756^n.
+    $
 
-        // Đồ thị u_n = 5 * 0.55^n (trục y quy đổi ra trăm nghìn)
-        let pts = ()
-        for i in range(0, 90) {
-          let x = i / 10
-          pts.push((x, 5 * calc.pow(0.55, x)))
-        }
-        line(..pts, stroke: (paint: rgb("8A2BE2"), thickness: 1.5pt))
+    Cần:
+    $
+      400 dot 0","756^n < 100
+      <=> 0","756^n < 0","25.
+    $
 
-        // Điểm khởi đầu (5 trăm nghìn)
-        circle((0, 5), radius: 2pt, fill: rgb("8A2BE2"))
-        content((0.2, 5), text(weight: "bold")[$5$], anchor: "south-west")
+    Tính gần đúng cho thấy:
+    $
+      n > 4","956...
+    $
+    nên số chu kỳ nguyên nhỏ nhất là $n = 5$.
 
-        // Đường mục tiêu (0.1 trăm nghìn = 10 nghìn)
-        line((-0.5, 0.1), (10, 0.1), stroke: (dash: "dashed", paint: red, thickness: 1.2pt))
-        content((5, 0.7), [Ngưỡng an toàn ($10 000$)], fill: red)
-        content((-0.2, 0.1), text(weight: "bold")[$0","1$], anchor: "east", fill: red)
+    Vậy số ngày ít nhất là:
+    $
+      5 dot 3 = 15.
+    $
 
-        // Điểm cắt lý thuyết
-        let n_val = 6.549
-        line((n_val, 0), (n_val, 0.1), stroke: (dash: "dashed", paint: gray))
-        content((n_val, -0.6), $6","55$)
-        circle((n_val, 0.1), radius: 2pt, fill: red)
-
-        // Điểm thực tế (n=7)
-        let y7 = 5 * calc.pow(0.55, 7)
-        line((7, 0), (7, y7), stroke: (dash: "dashed", paint: blue, thickness: 1.2pt))
-        content((7.3, -0.6), text(weight: "bold")[$7$], fill: blue)
-        circle((7, y7), radius: 2pt, fill: blue)
-      })
-    ]
-
-    *Phân tích và giải chi tiết từng bước:*
-    - Gọi $u_n$ là lượng vi khuẩn còn lại sau $n$ ngày điều trị ($n in NN^*$). Ta chọn đơn vị tính là "trăm nghìn cá thể", suy ra $u_0 = 5$.
-    - Biến động của số lượng vi khuẩn trong một ngày gồm hai pha:
-      + *Pha tiêu diệt:* Giảm đi $50%$, lượng vi khuẩn sống sót nhân với hệ số $(100% - 50%) = 0","5$.
-      + *Pha sinh sôi:* Tăng thêm $10%$ trên nền số vi khuẩn sống sót, tương ứng nhân với hệ số $(100% + 10%) = 1","1$.
-    - Công bội $q$ biểu diễn tỷ lệ vi khuẩn còn lại sau một ngày trọn vẹn là:
-      $ q = 0","5 dot 1","1 = 0","55 $
-      _(Thực chất mỗi ngày phác đồ chỉ làm giảm được $45%$ tổng lượng vi khuẩn)._
-    - Hàm số lượng vi khuẩn ở ngày thứ $n$ là:
-      $ u_n = 5 dot (0","55)^n $
-    - Bác sĩ yêu cầu hạ lượng vi khuẩn xuống dưới mức an toàn là $10 000$ cá thể (tức là $0","1$ trăm nghìn). Ta có bất phương trình:
-      $ 5 dot (0","55)^n < 0","1 <=> (0","55)^n < 0","02 $
-    - Lấy logarit cơ số $0","55$ hai vế. *Chú ý: do cơ số $0 < 0","55 < 1$, ta bắt buộc phải đảo chiều bất phương trình:*
-      $ n > log_(0","55) (0","02) $
-    - Dùng máy tính tính giá trị xấp xỉ:
-      $ n > 6","549... $
-    - Do $n$ phải là số nguyên dương để tương ứng với số liều thuốc trọn vẹn, ta chọn số nguyên nhỏ nhất lớn hơn $6","549$.
-    - Suy ra $n = 7$.
-    - Kết luận: Cần ít nhất *$7$* ngày (tương ứng với $7$ liều thuốc) để số vi khuẩn hạ xuống dưới ngưỡng an toàn.
-
-    #luuy[
-      Cần hết sức cẩn thận khi giải bất phương trình mũ dạng $q^n < C$. Lỗi sai thường gặp nhất của học sinh là khi bấm máy ra $6","549$, các em lại viết $n < 6","549$ dẫn đến việc chọn đáp án $n=6$. Hãy luôn nhớ quy tắc bất biến: "Nếu cơ số nhỏ hơn 1, lập tức đảo chiều bất đẳng thức".
-    ]
+    #ans-box[Sau *$15$ ngày* thì lượng chất ô nhiễm giảm xuống dưới $100$ đơn vị.]
   ],
 )
-// Câu 1
-#tn(
-  [Giả sử điểm tình cảm $P(t)$ của Nam dành cho Thư tại thời điểm $t$ ngày kể từ lúc chia tay ($t >= 0$) biến thiên liên tục. Qua nghiên cứu tâm lý, tốc độ lãng quên tự nhiên tỉ lệ thuận với lượng tình cảm đang có với hệ số $0","2$ (điểm/ngày). Đồng thời, những kỷ niệm hiển thị trên mạng xã hội giúp hâm nóng tình cảm với tốc độ không đổi $2$ (điểm/ngày). Phương trình vi phân nào sau đây mô tả đúng tốc độ biến thiên điểm tình cảm $P(t)$ của Nam?],
-  (
-    [$P'(t) = 0","2 P(t) + 2$],
-    [$P'(t) = -0","2 P(t) - 2$],
-    [$P'(t) = 0","2 P(t) - 2$],
-    True([$P'(t) = -0","2 P(t) + 2$])
-  ),
-  fig: cetz.canvas(length: 0.8cm, {
-    import cetz.draw: *
-    // Thùng chứa tình cảm
-    rect((-1.5, 0), (1.5, 3), radius: 0.2, stroke: (paint: blue, thickness: 1.5pt))
-    rect((-1.5, 0), (1.5, 2), radius: 0.2, fill: rgb("ffcccc"), stroke: none)
-    content((0, 1), text(weight: "bold", fill: red)[$P(t)$])
-    
-    // Nguồn thêm vào (hâm nóng)
-    line((-3, 2.5), (-1.6, 2.5), mark: (end: ">"), stroke: (paint: green, thickness: 1.5pt))
-    content((-2.3, 3), [Nhớ kỉ niệm], fill: green, size: 9pt)
-    content((-2.3, 2), [$+2$], fill: green, weight: "bold")
 
-    // Nguồn vơi đi (lãng quên)
-    line((1.6, 0.5), (3, 0.5), mark: (end: ">"), stroke: (paint: gray, thickness: 1.5pt))
-    content((2.3, 1), [Lãng quên], fill: gray, size: 9pt)
-    content((2.3, 0), [$-0","2 P(t)$], fill: gray, weight: "bold")
-  }),
-  fig-pos: "center",
-  fig-width: 40%,
-  loigiai: [
-    #ppgiai[
-      - Tốc độ biến thiên của một đại lượng $P(t)$ chính là đạo hàm bậc nhất $P'(t)$.
-      - Tốc độ này bằng tổng các yếu tố làm tăng đại lượng trừ đi tổng các yếu tố làm giảm đại lượng (mô hình bài toán bể chứa).
-    ]
-    *Phân tích các yếu tố:*
-    - Yếu tố làm giảm (lãng quên): Tỉ lệ thuận với $P(t)$ theo hệ số $0","2$, tức là $-0","2 P(t)$.
-    - Yếu tố làm tăng (hâm nóng): Tốc độ không đổi là $+2$.
-    - Do đó, phương trình mô tả tốc độ biến thiên điểm tình cảm là:
-      $ P'(t) = -0","2 P(t) + 2 $
-    Vậy chọn đáp án *D*.
-    
-    #luuy[
-      Dấu âm thể hiện sự suy giảm (tiêu hao), dấu dương thể hiện sự gia tăng (tích lũy). Cần phân biệt rõ tốc độ thay đổi liên tục ($P'(t)$) và sự thay đổi rời rạc ($Delta P$).
-    ]
-  ]
-)
-
-// Câu 2
-#ds(
-  [Điểm tình cảm của Nam dành cho Thư sau $t$ ngày chia tay ($t >= 0$) biến thiên liên tục và thỏa mãn phương trình vi phân $P'(t) = -0","2 P(t) + 2$. Biết rằng ngay tại thời điểm chia tay, điểm tình cảm là $P(0) = 100$.],
-  (
-    True([Hàm số thể hiện điểm tình cảm của Nam theo thời gian là $P(t) = 10 + 90 e^(-0","2 t)$.]),
-    [Điểm tình cảm của Nam luôn giảm nhưng có thể tụt về mức $0$ điểm nếu thời gian đủ lâu ($t -> +oo$).],
-    True([Sau đúng $5$ ngày, điểm tình cảm của Nam đã giảm đi hơn một nửa so với lúc vừa chia tay.]),
-    [Tốc độ giảm tình cảm lớn nhất xảy ra vào thời điểm $t = 5$ ngày.]
-  ),
-  loigiai: [
-    #ppgiai[
-      - Giải phương trình vi phân tuyến tính cấp 1 dạng $y' = a y + b$ có nghiệm tổng quát $y(t) = -b/a + C e^(a t)$.
-      - Tìm hằng số $C$ nhờ điều kiện ban đầu $P(0)$.
-      - Khảo sát giới hạn $lim_(t -> +oo) P(t)$ để xét mức độ tiệm cận.
-      - Tốc độ giảm là đại lượng $|P'(t)| = -P'(t)$. Hàm số suy giảm theo quy luật mũ sẽ có tốc độ biến thiên lớn nhất tại thời điểm ban đầu $t=0$.
-    ]
-
-    #align(center)[
-      #cetz.canvas(length: 0.6cm, {
-        import cetz.draw: *
-        line((0, 0), (15, 0), mark: (end: ">"), stroke: 1pt)
-        content((15, -0.6), $t$)
-        line((0, 0), (0, 11), mark: (end: ">"), stroke: 1pt)
-        content((-0.6, 11), $P(t)$)
-        content((-0.4, -0.4), $O$)
-
-        line((0, 1), (14, 1), stroke: (dash: "dashed", paint: gray, thickness: 1pt))
-        content((-0.6, 1), $10$, fill: gray)
-
-        let pts = ()
-        for i in range(0, 140) {
-          let x = i / 10
-          let y = 1 + 9 * calc.exp(-0.2 * x)
-          pts.push((x, y))
-        }
-        line(..pts, stroke: (paint: red, thickness: 1.5pt))
-        circle((0, 10), radius: 2.5pt, fill: red)
-        content((-0.8, 10), $100$, fill: red)
-
-        // Điểm t = 5
-        let y5 = 1 + 9 * calc.exp(-1)
-        line((5, 0), (5, y5), stroke: (dash: "dashed", paint: blue))
-        line((0, y5), (5, y5), stroke: (dash: "dashed", paint: blue))
-        circle((5, y5), radius: 2.5pt, fill: blue)
-        content((5, -0.6), $5$, fill: blue)
-        content((-1.2, y5), $43","1$, fill: blue)
-      })
-    ]
-
-    - *Ý a) Đúng.* Phương trình $P'(t) = -0","2 P(t) + 2$ có nghiệm:
-      $ P(t) = -2/(-0","2) + C e^(-0","2 t) = 10 + C e^(-0","2 t) $
-      Tại $t = 0, P(0) = 100 => 10 + C e^0 = 100 => C = 90$.
-      Vậy $P(t) = 10 + 90 e^(-0","2 t)$.
-    - *Ý b) Sai.* Ta có giới hạn khi $t -> +oo$:
-      $ lim_(t -> +oo) P(t) = lim_(t -> +oo) (10 + 90 e^(-0","2 t)) = 10 + 0 = 10 $
-      Điểm tình cảm chỉ tiệm cận về mức $10$ điểm chứ không bao giờ tụt về $0$.
-    - *Ý c) Đúng.* Sau $5$ ngày ($t = 5$), điểm tình cảm còn lại là:
-      $ P(5) = 10 + 90 e^(-0","2 times 5) = 10 + 90 e^(-1) approx 10 + 90 times 0","3678 = 43","1 " (điểm)" $
-      Vì $43","1 < 50$ (một nửa ban đầu), nên tình cảm đã giảm đi hơn một nửa.
-    - *Ý d) Sai.* Tốc độ biến thiên là $P'(t) = -18 e^(-0","2 t)$. 
-      Vì hàm $e^(-0","2 t)$ nghịch biến và luôn dương trên $[0; +oo)$, giá trị lớn nhất của $|P'(t)|$ (tốc độ giảm mạnh nhất) đạt được tại $t = 0$ (với $|P'(0)| = 18$ điểm/ngày), chứ không phải tại $t = 5$.
-
-    #nhanxet[
-      Trong tâm lý học, những cú sốc tình cảm thường có tốc độ "nguội lạnh" nhanh nhất ở giai đoạn đầu tiên (ngay sau khi chia tay), sau đó tốc độ quên sẽ chậm dần và chuyển sang trạng thái chai sạn (tiệm cận).
-    ]
-  ]
-)
-
-// Câu 3
 #tln(
-  [Điểm tình cảm của Nam dành cho Thư biến thiên liên tục theo phương trình $P'(t) = -0","2 P(t) + 2$ với điều kiện ban đầu $P(0) = 100$. Nam được khuyên rằng chỉ nên tìm kiếm một mối quan hệ mới khi điểm tình cảm dành cho người cũ giảm xuống mức đúng $15$ điểm. Hỏi sau khoảng bao nhiêu ngày kể từ lúc chia tay, điểm tình cảm của Nam đạt được mức này? (_làm tròn kết quả đến hàng phần mười_).],
-  [$14","5$],
-  fig: cetz.canvas(length: 0.6cm, {
-    import cetz.draw: *
-    // Hệ trục toạ độ
-    line((0, 0), (18, 0), mark: (end: ">"), stroke: 1pt)
-    content((18, -0.6), $t$)
-    line((0, 0), (0, 11), mark: (end: ">"), stroke: 1pt)
-    content((-0.6, 11), $P(t)$)
-    content((-0.4, -0.4), $O$)
-
-    // Đường tiệm cận
-    line((0, 1), (17, 1), stroke: (dash: "dashed", paint: gray))
-    
-    // Đồ thị
-    let pts = ()
-    for i in range(0, 170) {
-      let x = i / 10
-      let y = 1 + 9 * calc.exp(-0.2 * x)
-      pts.push((x, y))
-    }
-    line(..pts, stroke: (paint: red, thickness: 1.5pt))
-    
-    // Ngưỡng 15 điểm
-    line((0, 1.5), (17, 1.5), stroke: (dash: "dashed", paint: blue, thickness: 1pt))
-    content((-0.6, 1.5), $15$, fill: blue)
-    content((15, 2), [Ngưỡng $15$ điểm], fill: blue)
-
-    // Giao điểm
-    line((14.45, 0), (14.45, 1.5), stroke: (dash: "dashed", paint: rgb("008080")))
-    circle((14.45, 1.5), radius: 2.5pt, fill: rgb("008080"))
-    content((14.45, -0.6), $t_0$, fill: rgb("008080"))
-  }),
-  fig-pos: "center",
-  fig-width: 35%,
+  id: "TG-CK-04",
+  [Một mã cổ phiếu cứ lặp đúng chu kỳ 2 phiên giao dịch: phiên đầu tăng $20\%$, phiên sau giảm $10\%$. Nếu muốn thay cả chu kỳ này bằng một mức tăng đều như nhau ở *mỗi phiên* sao cho sau 2 phiên kết quả vẫn giữ nguyên, thì mức tăng hiệu dụng mỗi phiên là bao nhiêu phần trăm? (_làm tròn đến hàng phần trăm_).],
+  [$3","92\%$],
   loigiai: [
     #ppgiai[
-      - Xây dựng hàm số $P(t)$ từ phương trình vi phân và điều kiện ban đầu.
-      - Giải phương trình $P(t) = 15$ để tìm thời gian $t$.
-      - Dùng hàm logarit tự nhiên (ln) để giải phương trình mũ và làm tròn đúng yêu cầu.
+      - Một chu kỳ 2 phiên có hệ số nhân tổng là:
+      $ q = 1","20 dot 0","90 = 1","08. $
+      - Nếu mỗi phiên cùng tăng một tỉ lệ $r$, thì sau 2 phiên phải có:
+      $ (1 + r)^2 = 1","08. $
     ]
-    
-    *Phân tích và giải chi tiết:*
-    - Từ quá trình giải phương trình vi phân $P'(t) = -0","2 P(t) + 2$ với $P(0) = 100$, ta đã tìm được hàm số điểm tình cảm:
-      $ P(t) = 10 + 90 e^(-0","2 t) $
-    - Nam cần thời điểm $t$ sao cho điểm tình cảm bằng $15$, ta có phương trình:
-      $ 10 + 90 e^(-0","2 t) = 15 $
-      $ <=> 90 e^(-0","2 t) = 5 $
-      $ <=> e^(-0","2 t) = 5/90 = 1/18 $
-    - Lấy logarit tự nhiên (ln) hai vế, ta được:
-      $ -0","2 t = ln(1/18) <=> -0","2 t = -ln 18 $
-    - Rút $t$ ta được:
-      $ t = (ln 18)/(0","2) = 5 ln 18 $
-    - Sử dụng máy tính cầm tay:
-      $ t approx 5 times 2","89037... approx 14","4518... " (ngày)" $
-    - Bài toán yêu cầu làm tròn kết quả đến hàng phần mười. Do chữ số hàng phần trăm là $5$, ta làm tròn lên:
-      $ t approx 14","5 $
-    - Vậy sau khoảng *$14","5$* ngày, Nam sẽ đạt được trạng thái sẵn sàng cho mối quan hệ mới.
 
-    #meo[
-      Khi giải tự luận hoặc trắc nghiệm điền khuyết, tuyệt đối không làm tròn các con số trung gian (như $ln 18$). Hãy giữ nguyên biểu thức chính xác nhất $t = 5 ln 18$ cho đến bước cuối cùng mới bấm máy tính để tránh sai số tích lũy. Việc dùng `","` cho số thập phân ở kết quả cuối cùng đảm bảo đúng chuẩn trình bày toán học Việt Nam.
-    ]
-  ]
+    Suy ra:
+    $
+      1 + r = sqrt(1","08)
+      <=> r = sqrt(1","08) - 1.
+    $
+
+    Bấm máy tính:
+    $
+      r approx 0","03923 = 3","923\%.
+    $
+
+    Làm tròn đến hàng phần trăm:
+    $
+      r approx 3","92\%.
+    $
+
+    #ans-box[Mức tăng hiệu dụng mỗi phiên là khoảng *$3","92\%$*.]
+  ],
 )
 
+#align(center)[
+  #table(
+    columns: 4,
+    stroke: 0.45pt + rgb("B0BEC5"),
+    inset: (x: 8pt, y: 7pt),
+    fill: (x, y) => if y == 0 { rgb("FFF8E1") } else if calc.odd(y) { rgb("FFFCF4") } else { white },
+    align: center,
+    table.header([*Câu phụ lục*], [*Đáp số nhanh*], [*Câu phụ lục*], [*Đáp số nhanh*]),
+    [$11$], [a, c đúng], [$13$], [$10429$],
+    [$12$], [$12$], [$14$], [$15$],
+    [$15$], [$3","92\%$], [], [],
+  )
+]

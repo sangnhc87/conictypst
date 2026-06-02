@@ -13,6 +13,47 @@ TYPST_BIN  = shutil.which("typst") or "typst"
 PANDOC_BIN = shutil.which("pandoc") or "pandoc"
 app = Flask(__name__)
 
+TYPST_PANDOC_COMPAT_PREAMBLE = """#let hoac(..args) = math.cases(delim: \"[\", ..args.named(), ..args.pos().map(math.display))
+#let heva(..args) = math.cases(delim: \"{\", ..args.named(), ..args.pos().map(math.display))
+#let cases(..args) = math.cases(..args.named(), ..args.pos().map(math.display))
+#let ldots = "…"
+#let cdots = "⋯"
+#let cap = "∩"
+#let cup = "∪"
+#let inter = "∩"
+#let dif = "d"
+#let dot = "·"
+#let times = "×"
+#let approx = "≈"
+#let ZZ = "ℤ"
+#let NN = "ℕ"
+#let QQ = "ℚ"
+#let RR = "ℝ"
+#let quad = " "
+#let qquad = "  "
+#let circ = "°"
+#let notin = "∉"
+#let parallel = "∥"
+#let perp = "⊥"
+#let tfrac(a, b) = {
+    show math.frac: f => f
+    math.frac(a, b)
+}
+#let vect(..args) = {
+    let items = args.pos()
+    if items.len() == 1 {
+        let body = str(items.at(0))
+        if body.contains(" ") {
+            "→" + body
+        } else {
+            body + "⃗"
+        }
+    } else {
+        items.map(a => str(a) + "⃗").join()
+    }
+}
+"""
+
 # ── Typst parser ──────────────────────────────────────────────────────────────
 class TP:
     def __init__(self, text): self.t = text; self.i = 0
@@ -263,6 +304,7 @@ def _clean_stem(text):
     return ''.join(out)
 
 def _extract_preamble(src):
+    page_rule = '#set page(width: auto, height: auto, margin: 6pt, fill: white)'
     """Extract imports/setup/lets before the first question macro.
     For make-questions wrapper files uses that as boundary.
     Strips #show: document-level rules so they don't override the standalone figure page."""
@@ -279,9 +321,9 @@ def _extract_preamble(src):
             m_head = re.search(r'\n= ', src)
             preamble = src[:m_head.start()].strip() if m_head else src.strip()
     # Replace page setup with auto-size for standalone figure rendering
-    preamble = re.sub(
+    preamble, page_rule_count = re.subn(
         r'#set\s+page\s*\([^()]*(?:\([^()]*\)[^()]*)*\)',
-        '#set page(width: auto, height: auto, margin: 6pt, fill: white)',
+        page_rule,
         preamble
     )
     # Strip #show: whole-document rules (exam template sets A4 page, overriding our auto)
@@ -297,7 +339,10 @@ def _extract_preamble(src):
             while pp.i < len(pp.t) and pp.cur != '\n': pp.i += 1
             continue
         out.append(pp.cur); pp.i += 1
-    return ''.join(out)
+    preamble = ''.join(out)
+    if page_rule_count == 0 and page_rule not in preamble:
+        preamble = page_rule + '\n' + preamble
+    return preamble
 
 def _compile_fig(fig_expr, typ_path, tmpdir, qnum):
     """Compile a Typst figure expression to PNG. Returns Path or None."""
@@ -316,7 +361,7 @@ def _compile_fig(fig_expr, typ_path, tmpdir, qnum):
             if fp.exists(): font_args += ['--font-path', str(fp)]
         r = subprocess.run(
             [TYPST_BIN, 'compile', '--root', str(WORKSPACE)] + font_args +
-            ['--format', 'png', '--ppi', '300', str(fig_typ), fig_png_tmpl],
+            ['--format', 'png', '--ppi', '450', str(fig_typ), fig_png_tmpl],
             capture_output=True, text=True, cwd=str(WORKSPACE)
         )
         fig_out = typ_path.parent / f'{fig_id}-1.png'
@@ -368,7 +413,7 @@ def _compile_opt_figs(opts_raw, typ_path, tmpdir, qnum):
             if fp.exists(): font_args += ['--font-path', str(fp)]
         r = subprocess.run(
             [TYPST_BIN, 'compile', '--root', str(WORKSPACE)] + font_args +
-            ['--format', 'png', '--ppi', '300', str(fig_typ), fig_png_tmpl],
+            ['--format', 'png', '--ppi', '450', str(fig_typ), fig_png_tmpl],
             capture_output=True, text=True, cwd=str(WORKSPACE)
         )
         fig_out = typ_path.parent / f'{fig_id}-1.png'
@@ -499,7 +544,7 @@ def preprocess(content, typ_path=None, tmpdir=None, include_solutions=False):
             out.append(f'\n*Câu {q}.* {_clean_stem(stem).strip()}\n\n')
             if fig:
                 try:    w_pct = float(fig_width.strip().rstrip('%'))
-                except: w_pct = 55.0
+                except: w_pct = 42.0
                 out.append(f'%%FIG_{q}%%\n\n')
                 pending_figs[q] = (fig, w_pct)
             if qtype == 'tn' and opts:
@@ -587,7 +632,8 @@ def _run_pandoc_to_docx(clean_text, out_stem, tmpdir):
     Uses cwd=tmpdir so relative image paths in #image() resolve correctly."""
     clean_name = f'clean_{out_stem}.typ'
     docx_name  = f'{out_stem}.docx'
-    (tmpdir / clean_name).write_text(clean_text, encoding='utf-8')
+    clean_payload = TYPST_PANDOC_COMPAT_PREAMBLE + '\n' + clean_text
+    (tmpdir / clean_name).write_text(clean_payload, encoding='utf-8')
     r = subprocess.run(
         [PANDOC_BIN, '--from', 'typst', '--to', 'docx',
          '-o', docx_name, clean_name],

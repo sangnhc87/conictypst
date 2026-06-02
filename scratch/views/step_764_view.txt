@@ -1,0 +1,118 @@
+Created At: 2026-05-26T03:44:33Z
+Completed At: 2026-05-26T03:44:33Z
+File Path: `file:///Users/admin/conictypst/typst/exams/CD-XepGhe-KhongKe.typ`
+Total Lines: 3124
+Total Bytes: 127911
+Showing lines 1 to 800
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: #import "../sang-exam.typ": *
+2: #import "../template.typ": *
+3: #import "@preview/cetz:0.5.2"
+4: 
+5: // ═══════════════════════════════════════════════
+6: // CẤU HÌNH TRANG
+7: // ═══════════════════════════════════════════════
+8: #set page(paper: "a4", margin: (x: 1.4cm, y: 1.8cm))
+9: #set text(font: "New Computer Modern", size: 11pt, lang: "vi")
+10: #set par(justify: true, leading: 0.85em)
+11: #set list(indent: 1em, body-indent: 0.5em)
+12: #set enum(indent: 0.5em, body-indent: 0.5em)
+13: 
+14: #show heading.where(level: 1): it => block(
+15:   width: 100%,
+16:   fill: gradient.linear(rgb("4A148C"), rgb("6A1B9A"), rgb("880E4F"), angle: 135deg),
+17:   stroke: none,
+18:   inset: (x: 15pt, y: 11pt),
+19:   radius: 7pt,
+20:   above: 1.8em,
+21:   below: 1.2em,
+22:   text(fill: white, size: 14pt, weight: "bold", it.body),
+23: )
+24: #show heading.where(level: 2): it => block(
+25:   above: 1.5em,
+26:   below: 0.8em,
+27:   stroke: (left: 4pt + rgb("6A1B9A")),
+28:   inset: (left: 10pt, y: 5pt),
+29:   text(fill: rgb("6A1B9A"), size: 12pt, weight: "bold", it.body),
+30: )
+31: #show heading.where(level: 3): it => block(
+32:   above: 1.2em,
+33:   below: 0.5em,
+34:   text(fill: rgb("1565C0"), size: 11pt, weight: "bold", "⬧ " + it.body),
+35: )
+36: 
+37: #let mode = "loigiai"
+38: #let accent = classic.blue
+39: #let (tn, ds, tln, tl) = exam-mode(mode: mode, accent: accent)
+40: #show math.equation: set 
+<truncated 36425 bytes>
+imes 2 = 8.
+733:   $
+734: 
+735:   Tuy nhiên cần chú ý: khi khe kép nằm ở đầu, cặp $B B$ ở đầu cũng vẫn là hai học sinh lớp B ngồi cạnh nhau nên vẫn bị loại. Do đó kết quả trên đúng.
+736: 
+737:   *4. Gán học sinh phân biệt:*
+738: 
+739:   $
+740:     N = 8 times 3! times 2! = 8 times 6 times 2 = 96.
+741:   $
+742: ]
+743: 
+744: #ans-box[
+745:   Số cách xếp thỏa mãn là *96 cách*.
+746: ]
+747: 
+748: 
+749: = Bài toán 5.3
+750: 
+751: *Đề bài:* Có $3$ học sinh lớp A, $2$ học sinh lớp B và $2$ ghế trống. Xếp vào một dãy gồm $7$ ghế hàng ngang. Tính số cách xếp sao cho không có hai học sinh cùng lớp nào ngồi cạnh nhau.
+752: 
+753: #cach1-box[
+754:   *1. Đồng nhất phần tử:*
+755: 
+756:   Xét:
+757:   $
+758:     A, A, A, B, B, E, E.
+759:   $
+760: 
+761:   *2. Dựng khung A:*
+762: 
+763:   Đặt 3 chữ A:
+764:   $
+765:     \_ \; A \; \_ \; A \; \_ \; A \; \_
+766:   $
+767: 
+768:   Cần đặt 4 phần tử còn lại $B, B, E, E$ vào 4 khe.
+769: 
+770:   Hai khe giữa phải có ít nhất 1 phần tử:
+771:   $
+772:     x_1 + x_2 + x_3 + x_4 = 4,
+773:     quad x_2, x_3 >= 1.
+774:   $
+775: 
+776:   Đặt:
+777:   $
+778:     y_2 = x_2 - 1, quad y_3 = x_3 - 1.
+779:   $
+780: 
+781:   Ta có:
+782:   $
+783:     x_1 + y_2 + y_3 + x_4 = 2.
+784:   $
+785: 
+786:   Số cấu trúc khe:
+787:   $
+788:     C_(2 + 4 - 1)^(4 - 1) = C_5^3 = 10.
+789:   $
+790: 
+791:   *3. Loại trường hợp có cặp B B:*
+792: 
+793:   Với mỗi cấu trúc khe, ta xếp $B, B, E, E$ vào các vị trí X.
+794: 
+795:   Nếu không xét điều kiện $B B$, số cách là:
+796:   $
+797:     frac(4!, 2!2!) = 6.
+798:   $
+799: 
+800:   Nhưng nếu trong một khe có từ 2 vị trí liên tiếp và cả hai B cùng nằm trong khe đó thì tạo ra $B B$.
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

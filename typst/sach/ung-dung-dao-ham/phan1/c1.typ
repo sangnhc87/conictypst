@@ -1,4 +1,6 @@
 #import "../_config.typ": *
+
+
 #chapter([Tối Ưu Hóa Hình Phẳng 2D Cơ Bản], theme-color: c-p1)
 
 #phuongphap(theme-color: c-p1)[
@@ -204,6 +206,90 @@
   ],
 )
 
+#bt(
+  [Một khu đất hình chữ nhật sát một bức tường được chia thành hai ô bằng một hàng rào phụ vuông góc với tường. Người ta có $72$ m hàng rào. Hỏi phải chọn chiều rộng và chiều dài của khu đất như thế nào để tổng diện tích là lớn nhất?],
+  loigiai: [
+    #ppgiai[
+      - Gọi cạnh vuông góc với tường là $x$, cạnh song song với tường là $y$.
+      - Dùng điều kiện tổng chiều dài hàng rào để biểu diễn $y$ theo $x$.
+      - Khảo sát hàm diện tích bằng đạo hàm và bảng biến thiên.
+    ]
+
+    #step[Gọi $x$ (m) là chiều rộng của khu đất, tức là cạnh vuông góc với tường, và $y$ (m) là chiều dài song song với tường. Vì có hai cạnh ngoài và một vách ngăn cùng vuông góc với tường nên ta có:
+      $ 3x + y = 72 <=> y = 72 - 3x. $
+      Điều kiện hình học là $x > 0$ và $y > 0$, suy ra $0 < x < 24$.]
+
+    #step[Diện tích khu đất là:
+      $ S(x) = x y = x(72 - 3x) = 72x - 3x^2. $
+      Đây là hàm số cần tối ưu trên khoảng $(0; 24)$.]
+
+    #step[Tính đạo hàm:
+      $ S'(x) = 72 - 6x. $
+      Cho $S'(x) = 0 <=> x = 12$.]
+
+    #step[Bảng biến thiên của $S(x)$ trên $(0; 24)$ là:
+      #align(center)[
+        #bbt-opt(
+          var: $x$,
+          der: $S'$,
+          func: $S$,
+          x-vals: ($0$, $12$, $24$),
+          d-signs: ($+$, $0$, $-$),
+          v-vals: ($0$, $432$, $0$),
+          is-min: false,
+        )
+      ]]
+
+    #step[Từ bảng biến thiên, diện tích lớn nhất khi $x = 12$ m. Khi đó $y = 72 - 3 dot.c 12 = 36$ m và
+      $ S_(max) = 12 dot.c 36 = 432 $ m².
+      Vậy kích thước tối ưu là chiều rộng $12$ m, chiều dài $36$ m.]
+    #resetstep()
+  ],
+  theme-color: c-p1,
+)
+
+#bt(
+  [Một sân chơi hình chữ nhật được rào kín bằng $80$ m lưới thép. Bên trong sân có thêm một vách ngăn song song với chiều rộng để chia sân thành hai khu. Hỏi phải chọn kích thước sân như thế nào để diện tích sân lớn nhất?],
+  loigiai: [
+    #ppgiai[
+      - Chọn cạnh xuất hiện ba lần trong tổng chiều dài hàng rào làm biến $x$.
+      - Đưa diện tích về hàm một biến rồi khảo sát bằng đạo hàm.
+      - Dựa vào BBT để kết luận kích thước tối ưu.
+    ]
+
+    #step[Gọi $x$ (m) là chiều rộng của sân, tức là cạnh song song với vách ngăn phụ, và $y$ (m) là chiều dài của sân. Vì hàng rào gồm $3$ đoạn dài $x$ và $2$ đoạn dài $y$, ta có:
+      $ 3x + 2y = 80 <=> y = (80 - 3x)/2. $
+      Điều kiện: $0 < x < 80/3$.]
+
+    #step[Diện tích sân là:
+      $ S(x) = x y = x dot.c (80 - 3x)/2 = 40x - 3x^2/2. $
+      Ta cần tìm giá trị lớn nhất của $S(x)$ trên khoảng $(0; 80/3)$.]
+
+    #step[Đạo hàm của $S$ là:
+      $ S'(x) = 40 - 3x. $
+      Cho $S'(x) = 0 <=> x = 40/3$.]
+
+    #step[Bảng biến thiên:
+      #align(center)[
+        #bbt-opt(
+          var: $x$,
+          der: $S'$,
+          func: $S$,
+          x-vals: ($0$, $40/3$, $80/3$),
+          d-signs: ($+$, $0$, $-$),
+          v-vals: ($0$, $800/3$, $0$),
+          is-min: false,
+        )
+      ]]
+
+    #step[Từ bảng biến thiên, diện tích lớn nhất tại $x = 40/3$ m. Khi đó:
+      $ y = (80 - 3 dot.c 40/3)/2 = 20. $
+      Vậy sân chơi có diện tích lớn nhất khi chiều rộng bằng $40/3$ m, chiều dài bằng $20$ m.]
+    #resetstep()
+  ],
+  theme-color: c-p1,
+)
+
 #topic([Cắt Bìa Gấp Hộp Không Nắp], prefix: "Bài", theme-color: c-p1)
 #vd(
   id: "2D1H3-6",
@@ -303,7 +389,49 @@
       Khi đó, thể tích lớn nhất là $V_(max) = 6 times 24^2 = 3456$ cm³.]
     #resetstep()
 
-    ],
+  ],
+)
+
+#bt(
+  [Từ một tấm bìa hình chữ nhật kích thước $32$ cm và $20$ cm, người ta cắt ở bốn góc bốn hình vuông cạnh $x$ cm rồi gấp lên thành một hộp không nắp. Tìm $x$ để thể tích của hộp lớn nhất.],
+  loigiai: [
+    #ppgiai[
+      - Xác định đáy hộp sau khi cắt là hình chữ nhật kích thước $32 - 2x$ và $20 - 2x$.
+      - Lập hàm thể tích theo biến $x$.
+      - Dùng đạo hàm và BBT để tìm GTLN.
+    ]
+
+    #step[Gọi $x$ (cm) là cạnh hình vuông cắt ở mỗi góc. Khi gấp lên, hộp có chiều cao $x$, đáy là hình chữ nhật kích thước $32 - 2x$ và $20 - 2x$. Do đó:
+      $ 0 < x < 10. $]
+
+    #step[Thể tích hộp là:
+      $ V(x) = x(32 - 2x)(20 - 2x). $
+      Khai triển được:
+      $ V(x) = 4x^3 - 104x^2 + 640x. $]
+
+    #step[Tính đạo hàm:
+      $ V'(x) = 12x^2 - 208x + 640 = 4(x - 4)(3x - 40). $
+      Trong khoảng $(0; 10)$ chỉ có nghiệm $x = 4$ thỏa mãn.]
+
+    #step[Bảng biến thiên của $V(x)$:
+      #align(center)[
+        #bbt-opt(
+          var: $x$,
+          der: $V'$,
+          func: $V$,
+          x-vals: ($0$, $4$, $10$),
+          d-signs: ($+$, $0$, $-$),
+          v-vals: ($0$, $1152$, $0$),
+          is-min: false,
+        )
+      ]]
+
+    #step[Từ bảng biến thiên, thể tích lớn nhất của hộp đạt được khi $x = 4$ cm.
+      Khi đó:
+      $ V_(max) = 4 dot.c 24 dot.c 12 = 1152 $ cm³.]
+    #resetstep()
+  ],
+  theme-color: c-p1,
 )
 
 #topic([Thiết Kế Hình Trong Hình], prefix: "Bài", theme-color: c-p1)
@@ -353,7 +481,7 @@
     #ppgiai[
       - *Mô hình hóa:* Gọi tọa độ đỉnh của hình chữ nhật nằm trên trục $O x$ (phần dương) là $(x; 0)$. Khi đó, các kích thước của hình chữ nhật sẽ được biểu diễn theo $x$.
       - *Thiết lập hàm số:* Tính diện tích $S(x)$ của hình chữ nhật.
-      - *Tối ưu hóa:* Sử dụng đạo hàm (hoặc bất đẳng thức) để tìm giá trị lớn nhất của $S(x)$ trên khoảng xác định.
+      - *Tối ưu hóa:* Sử dụng đạo hàm và bảng biến thiên để tìm giá trị lớn nhất của $S(x)$ trên khoảng xác định.
     ]
 
     #step[Do tính đối xứng của parabol qua trục tung, ta gọi tọa độ hai đỉnh của hình chữ nhật nằm trên $O x$ là $(x; 0)$ và $(-x; 0)$ với $0 < x < 3$. \
@@ -388,7 +516,47 @@
       $ S_(max) = S(sqrt(3)) = 18 sqrt(3) - 2(sqrt(3))^3 = 12 sqrt(3) $]
     #resetstep()
 
-    ],
+  ],
+)
+
+#bt(
+  [Một hình chữ nhật nội tiếp trong nửa đường tròn bán kính $5$ cm sao cho đáy của hình chữ nhật nằm trên đường kính của nửa đường tròn. Tìm kích thước hình chữ nhật để diện tích của nó lớn nhất.],
+  loigiai: [
+    #ppgiai[
+      - Gọi nửa chiều rộng của hình chữ nhật là $x$.
+      - Từ phương trình đường tròn suy ra chiều cao theo $x$.
+      - Lập hàm diện tích rồi dùng đạo hàm và BBT để tối ưu.
+    ]
+
+    #step[Gọi hai đỉnh đáy của hình chữ nhật là $(-x; 0)$ và $(x; 0)$ với $0 < x < 5$. Khi đó hai đỉnh trên nằm trên nửa đường tròn $x^2 + y^2 = 25$, nên chiều cao của hình chữ nhật là:
+      $ y = sqrt(25 - x^2). $]
+
+    #step[Diện tích hình chữ nhật là:
+      $ S(x) = 2x sqrt(25 - x^2), " với " x in (0; 5). $]
+
+    #step[Tính đạo hàm:
+      $ S'(x) = 2 sqrt(25 - x^2) - 2x^2 / sqrt(25 - x^2) = 2(25 - 2x^2) / sqrt(25 - x^2). $
+      Cho $S'(x) = 0 <=> 25 - 2x^2 = 0 <=> x = 5 / sqrt(2)$.]
+
+    #step[Bảng biến thiên của $S(x)$:
+      #align(center)[
+        #bbt-opt(
+          var: $x$,
+          der: $S'$,
+          func: $S$,
+          x-vals: ($0$, $5 / sqrt(2)$, $5$),
+          d-signs: ($+$, $0$, $-$),
+          v-vals: ($0$, $25$, $0$),
+          is-min: false,
+        )
+      ]]
+
+    #step[Từ bảng biến thiên, diện tích lớn nhất bằng $25$ cm² khi $x = 5 / sqrt(2)$.
+      Do đó chiều rộng của hình chữ nhật là $2x = 5 sqrt(2)$ cm, còn chiều cao là:
+      $ y = sqrt(25 - 25/2) = 5 / sqrt(2) $ cm.]
+    #resetstep()
+  ],
+  theme-color: c-p1,
 )
 
 
@@ -472,6 +640,54 @@
   ],
 )
 
+#bt(
+  [Một cửa sổ kiểu Norman có chu vi ngoài bằng $4 + pi$ mét. Hỏi phải chọn bán kính phần nửa đường tròn phía trên bằng bao nhiêu để diện tích cửa sổ lớn nhất? Từ đó suy ra chiều rộng và chiều cao phần hình chữ nhật.],
+  loigiai: [
+    #ppgiai[
+      - Gọi bán kính nửa đường tròn là $x$, chiều cao phần chữ nhật là $y$.
+      - Từ chu vi cố định, biểu diễn $y$ theo $x$.
+      - Lập hàm diện tích và khảo sát bằng đạo hàm, BBT.
+    ]
+
+    #step[Gọi $x$ (m) là bán kính của nửa đường tròn, $y$ (m) là chiều cao phần hình chữ nhật. Khi đó chiều rộng cửa sổ là $2x$.
+      Chu vi ngoài của cửa sổ là:
+      $ 2y + 2x + pi x = 4 + pi. $
+      Suy ra:
+      $ y = (4 + pi - (2 + pi)x)/2. $
+      Điều kiện $y > 0$ cho ta $0 < x < (4 + pi)/(2 + pi)$.]
+
+    #step[Diện tích cửa sổ là tổng diện tích hình chữ nhật và nửa hình tròn:
+      $
+        S(x) & = 2x y + 1/2 pi x^2 \
+             & = x(4 + pi - (2 + pi)x) + 1/2 pi x^2 \
+             & = (4 + pi)x - (2 + pi/2)x^2.
+      $]
+
+    #step[Tính đạo hàm:
+      $ S'(x) = (4 + pi) - (4 + pi)x = (4 + pi)(1 - x). $
+      Cho $S'(x) = 0 <=> x = 1$.]
+
+    #step[Bảng biến thiên của $S(x)$:
+      #align(center)[
+        #bbt-opt(
+          var: $x$,
+          der: $S'$,
+          func: $S$,
+          x-vals: ($0$, $1$, $(4 + pi)/(2 + pi)$),
+          d-signs: ($+$, $0$, $-$),
+          v-vals: ($0$, $2 + pi/2$, $pi (4 + pi)^2 / (2(2 + pi)^2)$),
+          is-min: false,
+        )
+      ]]
+
+    #step[Từ bảng biến thiên, diện tích cửa sổ lớn nhất khi $x = 1$ m.
+      Khi đó chiều rộng cửa sổ là $2x = 2$ m, còn chiều cao phần hình chữ nhật là:
+      $ y = (4 + pi - (2 + pi) dot.c 1)/2 = 1 $ m.]
+    #resetstep()
+  ],
+  theme-color: c-p1,
+)
+
 
 #topic([Bài Toán Tối Ưu Vật Liệu (In Ấn & Poster)], prefix: "Bài", theme-color: c-p1)
 
@@ -506,7 +722,7 @@
     ]
 
     #step[Gọi $x, y$ (cm) lần lượt là chiều rộng và chiều cao của *phần in chữ* ($x, y > 0$). \
-      Theo giả thiết, diện tích phần in chữ là $x y = 384 <=> y = 384/x$.]
+      Theo giả thiết, diện tích phần in chữ là $x dot.c y = 384 <=> y = 384/x$.]
 
     #step[Do lề trên/dưới là $3$ cm và lề trái/phải là $2$ cm, kích thước của *toàn bộ tấm poster* sẽ là:
       - Chiều rộng: $x + 2 + 2 = x + 4$ (cm).
@@ -543,6 +759,48 @@
   ],
 )
 
+#bt(
+  [Một tấm bìa quảng cáo có phần in chữ hình chữ nhật diện tích $256$ cm². Lề trái và lề phải đều rộng $1$ cm, lề trên và lề dưới đều rộng $4$ cm. Tìm kích thước của cả tấm bìa sao cho diện tích toàn bộ tấm bìa nhỏ nhất.],
+  loigiai: [
+    #ppgiai[
+      - Gọi kích thước phần in chữ là $x$ và $y$.
+      - Dùng điều kiện diện tích phần in chữ để biểu diễn $y$ theo $x$.
+      - Lập hàm diện tích toàn tấm bìa và khảo sát bằng BBT.
+    ]
+
+    #step[Gọi $x, y$ (cm) lần lượt là chiều rộng và chiều cao của phần in chữ. Theo giả thiết:
+      $ x y = 256 <=> y = 256/x, " với " x > 0. $]
+
+    #step[Chiều rộng cả tấm bìa là $x + 2$, chiều cao cả tấm bìa là $y + 8$. Vì thế diện tích toàn bộ tấm bìa là:
+      $
+        S(x) & = (x + 2)(y + 8) = (x + 2)(256/x + 8) \
+             & = 8x + 512/x + 272.
+      $]
+
+    #step[Tính đạo hàm:
+      $ S'(x) = 8 - 512/x^2. $
+      Cho $S'(x) = 0 <=> x^2 = 64 <=> x = 8$.]
+
+    #step[Bảng biến thiên của $S(x)$ trên $(0; +oo)$:
+      #align(center)[
+        #bbt-opt(
+          var: $x$,
+          der: $S'$,
+          func: $S$,
+          x-vals: ($0$, $8$, $+oo$),
+          d-signs: ($-$, $0$, $+$),
+          v-vals: ($+oo$, $400$, $+oo$),
+          is-min: true,
+        )
+      ]]
+
+    #step[Vậy diện tích nhỏ nhất của cả tấm bìa là $400$ cm² khi $x = 8$ cm.
+      Khi đó $y = 256/8 = 32$ cm, nên kích thước tối ưu của tấm bìa là $10$ cm và $40$ cm.]
+    #resetstep()
+  ],
+  theme-color: c-p1,
+)
+
 
 #topic([Bài Toán Chia Cắt Dây (Lựa Chọn Hình Khối)], prefix: "Bài", theme-color: c-p1)
 
@@ -575,6 +833,12 @@
       })
     ]
 
+    #ppgiai[
+      - Gọi đoạn dây làm hình vuông là $x$, khi đó đoạn còn lại làm hình tròn là $10 - x$.
+      - Biểu diễn diện tích hai hình theo $x$ rồi cộng lại thành hàm mục tiêu.
+      - Tìm điểm tới hạn và dùng BBT để kết luận GTNN.
+    ]
+
     #step[Gọi $x$ (m) là chiều dài của đoạn dây thứ nhất dùng để uốn thành hình vuông ($0 < x < 10$). \
       Khi đó, chiều dài đoạn dây thứ hai uốn thành hình tròn là $10 - x$ (m).]
 
@@ -593,10 +857,64 @@
     #step[Cho $S'(x) = 0$:
       $ => pi x - 4(10 - x) = 0 <=> (pi + 4)x = 40 <=> x = 40/(pi + 4) approx 5.60 "(m)" $]
 
-    #step[Nhận thấy $S''(x) = 1/8 + 1/(2pi) > 0$, hàm số luôn lõm nên đạt giá trị *nhỏ nhất* tại điểm $x = 40/(pi + 4)$. \
-      *Kết luận:* Cần cắt đoạn uốn làm hình vuông dài $x = 40/(pi + 4) approx 5.60$ m để tổng diện tích là nhỏ nhất.]
+    #step[Bảng biến thiên của hàm số $S(x)$ trên $(0; 10)$ là:
+      #align(center)[
+        #bbt-opt(
+          var: $x$,
+          der: $S'$,
+          func: $S$,
+          x-vals: ($0$, $40/(pi + 4)$, $10$),
+          d-signs: ($-$, $0$, $+$),
+          v-vals: ($25/pi$, $25/(pi + 4)$, $25/4$),
+          is-min: true,
+        )
+      ]]
+
+    #step[Từ bảng biến thiên, tổng diện tích nhỏ nhất tại $x = 40/(pi + 4) approx 5.60$ m.
+      Vậy cần cắt đoạn dây dùng làm hình vuông dài khoảng $5.60$ m.]
     #resetstep()
   ],
+)
+
+#bt(
+  [Một sợi dây dài $20$ m được cắt thành hai đoạn. Một đoạn uốn thành hình vuông, đoạn còn lại uốn thành hình tròn. Hỏi phải cắt như thế nào để tổng diện tích hai hình thu được là lớn nhất?],
+  loigiai: [
+    #ppgiai[
+      - Gọi đoạn dây làm hình vuông là $x$.
+      - Thiết lập hàm tổng diện tích trên đoạn đóng $[0; 20]$.
+      - Khảo sát BBT rồi so sánh giá trị tại các biên để kết luận GTLN.
+    ]
+
+    #step[Gọi $x$ (m) là chiều dài đoạn dây dùng làm hình vuông. Khi đó đoạn còn lại dài $20 - x$ (m) dùng làm hình tròn. Điều kiện: $0 <= x <= 20$.]
+
+    #step[Diện tích hình vuông là $x^2/16$, diện tích hình tròn là $(20 - x)^2/(4pi)$. Do đó:
+      $ S(x) = x^2/16 + (20 - x)^2/(4pi). $]
+
+    #step[Tính đạo hàm:
+      $ S'(x) = x/8 - (20 - x)/(2pi). $
+      Cho $S'(x) = 0 <=> pi x = 4(20 - x) <=> x = 80/(pi + 4).$]
+
+    #step[Bảng biến thiên của $S(x)$ trên $[0; 20]$ là:
+      #align(center)[
+        #bbt-opt(
+          var: $x$,
+          der: $S'$,
+          func: $S$,
+          x-vals: ($0$, $80/(pi + 4)$, $20$),
+          d-signs: ($-$, $0$, $+$),
+          v-vals: ($100/pi$, $100/(pi + 4)$, $25$),
+          is-min: true,
+        )
+      ]]
+
+    #step[Từ bảng biến thiên, $S(x)$ đạt giá trị nhỏ nhất ở điểm trong là $x = 80/(pi + 4)$. Vì bài toán hỏi GTLN trên đoạn $[0; 20]$, ta so sánh hai đầu mút:
+      $ S(0) = 100/pi, quad S(20) = 25. $
+      Do $100/pi > 25$, tổng diện tích lớn nhất khi $x = 0$.]
+
+    #step[Vậy không nên dùng đoạn nào để uốn thành hình vuông; toàn bộ sợi dây $20$ m nên được uốn thành hình tròn thì tổng diện tích thu được là lớn nhất.]
+    #resetstep()
+  ],
+  theme-color: c-p1,
 )
 
 
@@ -632,47 +950,53 @@
       })
     ]
   ],
-  ([1 cm], True([2 cm]), [3 cm], [4 cm])
-,
+  ([1 cm], True([2 cm]), [3 cm], [4 cm]),
   loigiai: [
     #ppgiai[
       - Biểu diễn đại lượng cần tối ưu theo 1 biến số.
       - Khảo sát sự biến thiên của hàm số trên tập xác định.
     ]
 
-  #align(center)[
-    #canvas(length: 0.8cm, {
-      import draw: *
-      // Hình hộp chữ nhật 3D (Minh hoạ lời giải)
-      let w = 2.5; let h = 1.2; let dx = 0.8; let dy = 0.5
-      line((0,h), (w,h), (w+dx, h+dy), (dx, h+dy), close: true, fill: rgb("e0f2fe"), stroke: 1.5pt + blue)
-      line((0,h), (0,0), (w,0), (w,h), fill: rgb("bae6fd"), stroke: 1.5pt + blue)
-      line((w,0), (w+dx, dy), (w+dx, h+dy), stroke: 1.5pt + blue)
-      // Đường đứt nét bên trong
-      line((0,0), (dx, dy), (w+dx, dy), stroke: (dash: "dashed", paint: blue))
-      line((dx, dy), (dx, h+dy), stroke: (dash: "dashed", paint: blue))
-      
-      content((w/2, -0.4), text(fill: blue, size: 9pt)[$12 - 2x$])
-      content((w + dx/2 + 0.3, dy/2 - 0.2), text(fill: blue, size: 9pt)[$12 - 2x$])
-      content((-0.4, h/2), text(fill: blue, size: 9pt)[$x$])
-    })
-  ]
-  #step[Gọi $x>0$ là độ dài cạnh cắt ở $4$ góc $(0 < x < 6)$. Sau khi gấp lên, đáy hộp là hình vuông cạnh $12 - 2x$, chiều cao hộp là $x$.]
-  #step[Thể tích hộp: $V(x) = x(12 - 2x)^2$.]
-  #step[Đạo hàm $V'(x) = (12 - 2x)^2 + 2(12 - 2x)(-2)x = (12 - 2x)(12 - 6x)$.
-  Cho $V'(x) = 0 <=> hoac(x = 6 " (loại)", x = 2 " (nhận)").$]
-  #step[Bảng biến thiên:
     #align(center)[
-      #bbt-opt(
-        var: $x$, der: $V'$, func: $V$,
-        x-vals: ($0$, $2$, $6$), d-signs: ($+$, $0$, $-$),
-        v-vals: ($0$, $128$, $0$), is-min: false
-      )
+      #canvas(length: 0.8cm, {
+        import draw: *
+        // Hình hộp chữ nhật 3D (Minh hoạ lời giải)
+        let w = 2.5
+        let h = 1.2
+        let dx = 0.8
+        let dy = 0.5
+        line((0, h), (w, h), (w + dx, h + dy), (dx, h + dy), close: true, fill: rgb("e0f2fe"), stroke: 1.5pt + blue)
+        line((0, h), (0, 0), (w, 0), (w, h), fill: rgb("bae6fd"), stroke: 1.5pt + blue)
+        line((w, 0), (w + dx, dy), (w + dx, h + dy), stroke: 1.5pt + blue)
+        // Đường đứt nét bên trong
+        line((0, 0), (dx, dy), (w + dx, dy), stroke: (dash: "dashed", paint: blue))
+        line((dx, dy), (dx, h + dy), stroke: (dash: "dashed", paint: blue))
+
+        content((w / 2, -0.4), text(fill: blue, size: 9pt)[$12 - 2x$])
+        content((w + dx / 2 + 0.3, dy / 2 - 0.2), text(fill: blue, size: 9pt)[$12 - 2x$])
+        content((-0.4, h / 2), text(fill: blue, size: 9pt)[$x$])
+      })
     ]
-    Vậy thể tích lớn nhất khi $x = 2$ cm.
-  ]
-  #resetstep()
-  ]
+    #step[Gọi $x>0$ là độ dài cạnh cắt ở $4$ góc $(0 < x < 6)$. Sau khi gấp lên, đáy hộp là hình vuông cạnh $12 - 2x$, chiều cao hộp là $x$.]
+    #step[Thể tích hộp: $V(x) = x(12 - 2x)^2$.]
+    #step[Đạo hàm $V'(x) = (12 - 2x)^2 + 2(12 - 2x)(-2)x = (12 - 2x)(12 - 6x)$.
+      Cho $V'(x) = 0 <=> hoac(x = 6 " (loại)", x = 2 " (nhận)").$]
+    #step[Bảng biến thiên:
+      #align(center)[
+        #bbt-opt(
+          var: $x$,
+          der: $V'$,
+          func: $V$,
+          x-vals: ($0$, $2$, $6$),
+          d-signs: ($+$, $0$, $-$),
+          v-vals: ($0$, $128$, $0$),
+          is-min: false,
+        )
+      ]
+      Vậy thể tích lớn nhất khi $x = 2$ cm.
+    ]
+    #resetstep()
+  ],
 )
 
 #tn(
@@ -683,15 +1007,15 @@
         import draw: *
         // Trải phẳng
         line((-1, 3), (6, 3), stroke: 1.5pt)
-        line((1, 2.8), (1, 3.2), stroke: 1pt+red)
-        line((4, 2.8), (4, 3.2), stroke: 1pt+red)
+        line((1, 2.8), (1, 3.2), stroke: 1pt + red)
+        line((4, 2.8), (4, 3.2), stroke: 1pt + red)
         content((0, 3.5), text(size: 8pt)[$x$])
         content((2.5, 3.5), text(size: 8pt)[$30-2x$])
         content((5, 3.5), text(size: 8pt)[$x$])
-        
+
         // Mũi tên uốn
         line((2.5, 2.3), (2.5, 1.5), mark: (end: ">"))
-        
+
         // Mặt cắt chữ U
         line((1.5, 1), (1.5, -0.5), (3.5, -0.5), (3.5, 1), stroke: 2pt + blue)
         content((2.5, -0.9), text(size: 8pt)[$30-2x$])
@@ -703,22 +1027,33 @@
       })
     ]
   ],
-  ([$x = 5$ cm], True([$x = 7.5$ cm]), [$x = 10$ cm], [$x = 12.5$ cm])
-,
+  ([$x = 5$ cm], True([$x = 7.5$ cm]), [$x = 10$ cm], [$x = 12.5$ cm]),
   loigiai: [
     #ppgiai[
       - Biểu diễn đại lượng cần tối ưu theo 1 biến số.
       - Khảo sát sự biến thiên của hàm số trên tập xác định.
     ]
 
-  #step[Kích thước mặt cắt ngang của máng: Chiều rộng là $30 - 2x$, chiều cao là $x$. Điều kiện: $0 < x < 15$.]
-  #step[Diện tích mặt cắt ngang là hàm số mục tiêu:
-  $ S(x) = x(30 - 2x) = 30x - 2x^2 $]
-  #step[Đạo hàm $S'(x) = 30 - 4x$.
-  Cho $S'(x) = 0 <=> x = 30/4 = 7.5$.]
-  #step[Vì $S''(x) = -4 < 0$ nên $x = 7.5$ là điểm cực đại. Diện tích mặt cắt ngang đạt lớn nhất tại $x = 7.5$ cm.]
-  #resetstep()
-  ]
+    #step[Kích thước mặt cắt ngang của máng: Chiều rộng là $30 - 2x$, chiều cao là $x$. Điều kiện: $0 < x < 15$.]
+    #step[Diện tích mặt cắt ngang là hàm số mục tiêu:
+      $ S(x) = x(30 - 2x) = 30x - 2x^2 $]
+    #step[Đạo hàm $S'(x) = 30 - 4x$.
+      Cho $S'(x) = 0 <=> x = 30/4 = 7.5$.]
+    #step[Bảng biến thiên của $S(x)$ trên $(0; 15)$ là:
+      #align(center)[
+        #bbt-opt(
+          var: $x$,
+          der: $S'$,
+          func: $S$,
+          x-vals: ($0$, $7.5$, $15$),
+          d-signs: ($+$, $0$, $-$),
+          v-vals: ($0$, $112.5$, $0$),
+          is-min: false,
+        )
+      ]]
+    #step[Từ bảng biến thiên, diện tích mặt cắt ngang lớn nhất khi $x = 7.5$ cm.]
+    #resetstep()
+  ],
 )
 
 #tn(
@@ -733,104 +1068,108 @@
         let d = 2.4
         let h = 1.5
         let alpha = 30deg // Góc xiên
-        
+
         // Hàm tính tọa độ 3D thành 2D
         let p3(x, y, z) = (x - y * calc.cos(alpha), z - y * calc.sin(alpha))
-        
+
         // Tọa độ các đỉnh đáy
         let A = p3(0, d, 0)
         let B = p3(r, d, 0)
         let C = p3(r, 0, 0)
         let D = p3(0, 0, 0)
-        
+
         // Tọa độ các đỉnh trên
         let A1 = p3(0, d, h)
         let B1 = p3(r, d, h)
         let C1 = p3(r, 0, h)
         let D1 = p3(0, 0, h)
-        
+
         // Vách chìm (nhìn xuyên qua kính - đứt nét nhẹ hoặc vẽ mảnh)
         line(A, A1, stroke: (dash: "dashed", paint: luma(180)))
         line(A, B, stroke: (dash: "dashed", paint: luma(180)))
         line(A, D, stroke: (dash: "dashed", paint: luma(180)))
-        
+
         // Tô màu đáy
         fill(rgb("a5f3fc55"))
-        line(A, B, C, D, close: true, stroke: 0.5pt+blue)
-        
+        line(A, B, C, D, close: true, stroke: 0.5pt + blue)
+
         // Tô màu và vẽ 3 vách xung quanh (vách trong/vách ngoài xen kẽ)
         // Vách D-C-C1-D1 (trước)
         fill(rgb("bfdbfe44"))
-        line(D, C, C1, D1, close: true, stroke: 1pt+blue)
+        line(D, C, C1, D1, close: true, stroke: 1pt + blue)
         // Vách C-B-B1-C1 (phải)
         fill(rgb("93c5fd44"))
-        line(C, B, B1, C1, close: true, stroke: 1pt+blue)
+        line(C, B, B1, C1, close: true, stroke: 1pt + blue)
         // Vách đáy không nắp -> miêu tả khung viền trên
-        line(D1, C1, stroke: 1.5pt+blue)
-        line(C1, B1, stroke: 1.5pt+blue)
-        line(B1, A1, stroke: 1pt+blue)
-        line(A1, D1, stroke: 1pt+blue)
-        
+        line(D1, C1, stroke: 1.5pt + blue)
+        line(C1, B1, stroke: 1.5pt + blue)
+        line(B1, A1, stroke: 1pt + blue)
+        line(A1, D1, stroke: 1pt + blue)
+
         // Các viền nổi
-        line(D, D1, stroke: 1pt+blue)
-        line(C, C1, stroke: 1pt+blue)
-        line(B, B1, stroke: 1pt+blue)
-        line(D, C, stroke: 1pt+blue)
-        line(C, B, stroke: 1pt+blue)
+        line(D, D1, stroke: 1pt + blue)
+        line(C, C1, stroke: 1pt + blue)
+        line(B, B1, stroke: 1pt + blue)
+        line(D, C, stroke: 1pt + blue)
+        line(C, B, stroke: 1pt + blue)
 
         // Ghim text
         // Cạnh D-C (chiều rộng)
-        content(p3(r/2, 0, -0.2), text(size: 9pt)[$x$])
+        content(p3(r / 2, 0, -0.2), text(size: 9pt)[$x$])
         // Cạnh C-B (chiều dài)
-        content(p3(r + 0.2, d/2, -0.2), text(size: 9pt)[$2x$])
+        content(p3(r + 0.2, d / 2, -0.2), text(size: 9pt)[$2x$])
         // Cạnh C-C1 (chiều cao)
-        content(p3(r + 0.1, 0, h/2), text(size: 9pt)[$h$])
+        content(p3(r + 0.1, 0, h / 2), text(size: 9pt)[$h$])
       })
     ]
   ],
-  ([$1.520.000$ đồng], [$1.800.000$ đồng], True([$2.160.000$ đồng]), [$2.450.000$ đồng])
-,
+  ([$1.520.000$ đồng], [$1.800.000$ đồng], True([$2.160.000$ đồng]), [$2.450.000$ đồng]),
   loigiai: [
     #ppgiai[
       - Biểu diễn đại lượng cần tối ưu theo 1 biến số.
       - Khảo sát sự biến thiên của hàm số trên tập xác định.
     ]
 
-  #step[Gọi kích thước của bể cá là: chiều rộng $x$ (dm), chiều dài $2x$ (dm) và chiều cao $h$ (dm) với $x>0, h>0$.]
-  #step[Thể tích của bể cá là $V = x dot.c 2x dot.c h = 2x^2 h$.]
-  #step[Theo giả thiết, $V = 576 => 2x^2 h = 576 => h = 288/x^2$.]
-  #step[Chi phí làm bể kính gồm hai phần: phần đáy và phần vách xung quanh (không nắp đậy).
-  
-  - Diện tích đáy: $S_("đáy") = x dot.c 2x = 2x^2$ (dm²).
-  - Diện tích vách xung quanh: $S_("vách") = 2(x h + 2x h) = 6x h$ (dm²).]
-  #step[Hàm chi phí vật liệu $C(x)$ (đơn vị: đồng) là:
-  $ C(x) &= 100.000 dot.c S_("đáy") + 50.000 dot.c S_("vách") \
-         &= 100.000 dot.c (2x^2) + 50.000 dot.c (6x h) \
-         &= 200.000 x^2 + 300.000 x dot.c 288/x^2 \
-         &= 200.000 x^2 + 86.400.000/x $
-  ]
-  #step[Tính đạo hàm để tìm giá trị nhỏ nhất: 
-  $ C'(x) &= 400.000 x - 86.400.000/x^2 \
-  C'(x) = 0 &<=> 400.000 x^3 = 86.400.000 <=> x^3 = 216 => x = 6. $
-  
-  Lập bảng biến thiên:
-  #align(center)[
-    #bbt-opt(
-      var: $x$,
-      der: $C'(x)$,
-      func: $C(x)$,
-      x-vals: ($0$, $6$, $+oo$),
-      d-signs: ($-$, $0$, $+$),
-      v-vals: ($+oo$, $2.160.000$, $+oo$),
-      is-min: true
-    )
-  ]
-  Từ bảng biến thiên, hàm số đạt giá trị nhỏ nhất kéo theo chi phí mua kính thấp nhất tại $x=6$.]
-  #step[Khi $x = 6$, chi phí thấp nhất là: $ C(6) = 2.160.000 " (đồng)". $
-  ]
-  #resetstep()
+    #step[Gọi kích thước của bể cá là: chiều rộng $x$ (dm), chiều dài $2x$ (dm) và chiều cao $h$ (dm) với $x>0, h>0$.]
+    #step[Thể tích của bể cá là $V = x dot.c 2x dot.c h = 2x^2 h$.]
+    #step[Theo giả thiết, $V = 576 => 2x^2 h = 576 => h = 288/x^2$.]
+    #step[Chi phí làm bể kính gồm hai phần: phần đáy và phần vách xung quanh (không nắp đậy).
 
-  ]
+      - Diện tích đáy: $S_("đáy") = x dot.c 2x = 2x^2$ (dm²).
+      - Diện tích vách xung quanh: $S_("vách") = 2(x h + 2x h) = 6x h$ (dm²).
+    ]
+    #step[Hàm chi phí vật liệu $C(x)$ (đơn vị: đồng) là:
+      $
+        C(x) & = 100.000 dot.c S_("đáy") + 50.000 dot.c S_("vách") \
+             & = 100.000 dot.c (2x^2) + 50.000 dot.c (6x h) \
+             & = 200.000 x^2 + 300.000 x dot.c 288/x^2 \
+             & = 200.000 x^2 + 86.400.000/x
+      $
+    ]
+    #step[Tính đạo hàm để tìm giá trị nhỏ nhất:
+      $
+            C'(x) & = 400.000 x - 86.400.000/x^2 \
+        C'(x) = 0 & <=> 400.000 x^3 = 86.400.000 <=> x^3 = 216 => x = 6.
+      $
+
+      Lập bảng biến thiên:
+      #align(center)[
+        #bbt-opt(
+          var: $x$,
+          der: $C'(x)$,
+          func: $C(x)$,
+          x-vals: ($0$, $6$, $+oo$),
+          d-signs: ($-$, $0$, $+$),
+          v-vals: ($+oo$, $2.160.000$, $+oo$),
+          is-min: true,
+        )
+      ]
+      Từ bảng biến thiên, hàm số đạt giá trị nhỏ nhất kéo theo chi phí mua kính thấp nhất tại $x=6$.]
+    #step[Khi $x = 6$, chi phí thấp nhất là: $ C(6) = 2.160.000 " (đồng)". $
+    ]
+    #resetstep()
+
+  ],
 )
 
 #tn(
@@ -842,43 +1181,55 @@
         // Trục tọa độ
         line((-3, 0), (3, 0), mark: (end: ">"))
         line((0, -0.5), (0, 5), mark: (end: ">"))
-        content((2.8, -0.6), [$x$]); content((-0.6, 4.8), [$y$])
-        
+        content((2.8, -0.6), [$x$])
+        content((-0.6, 4.8), [$y$])
+
         // Parabol
         let pts = ()
         for i in range(-25, 26) {
-          pts.push((i*0.1, 4 - (i*0.1)*(i*0.1)))
+          pts.push((i * 0.1, 4 - (i * 0.1) * (i * 0.1)))
         }
         line(..pts, stroke: 1.5pt + red)
-        
+
         // HCN
         let x = 1.1547
-        let y = 4 - x*x
+        let y = 4 - x * x
         rect((-x, 0), (x, y), fill: rgb("00ff0033"), stroke: 1pt + black)
-        content((0, y/2), text(weight: "bold")[$S$])
+        content((0, y / 2), text(weight: "bold")[$S$])
         content((x, -0.5), [$x$])
         content((-x, -0.5), [$-x$])
       })
     ]
   ],
-  ([$16/9$], True([$32/(3sqrt(3))$]), [$12/sqrt(3)$], [$10$])
-,
+  ([$16/9$], True([$32/(3sqrt(3))$]), [$12/sqrt(3)$], [$10$]),
   loigiai: [
     #ppgiai[
       - Biểu diễn đại lượng cần tối ưu theo 1 biến số.
       - Khảo sát sự biến thiên của hàm số trên tập xác định.
     ]
 
-  #step[Gọi tọa độ góc chữ nhật nằm ở nửa trục ngang dương là $(x; 0)$ với $0 < x < 2$. \
-  Khi đó đỉnh nằm trên Parabol có tọa độ $(x; 4-x^2)$.]
-  #step[Chiều rộng tấm tranh là $2x$, chiều cao là $4-x^2$. \
-  Diện tích $S(x) = 2x(4-x^2) = 8x - 2x^3$.]
-  #step[Đạo hàm $S'(x) = 8 - 6x^2$. Cho $S'(x) = 0 <=> x^2 = 4/3 <=> x = 2/sqrt(3)$. \
-  Bảng biến thiên chứng tỏ $S$ đạt cực đại tại đây.]
-  #step[Diện tích max: $S_(max) = S(2/sqrt(3)) = 2(2/sqrt(3))(4 - 4/3) = 4/sqrt(3) dot.c 8/3 = 32/(3sqrt(3))$.]
-  #resetstep()
+    #step[Gọi tọa độ góc chữ nhật nằm ở nửa trục ngang dương là $(x; 0)$ với $0 < x < 2$. \
+      Khi đó đỉnh nằm trên Parabol có tọa độ $(x; 4-x^2)$.]
+    #step[Chiều rộng tấm tranh là $2x$, chiều cao là $4-x^2$. \
+      Diện tích $S(x) = 2x(4-x^2) = 8x - 2x^3$.]
+    #step[Đạo hàm $S'(x) = 8 - 6x^2$. Cho $S'(x) = 0 <=> x^2 = 4/3 <=> x = 2/sqrt(3)$. \
+    ]
+    #step[Bảng biến thiên của $S(x)$ trên $(0; 2)$ là:
+      #align(center)[
+        #bbt-opt(
+          var: $x$,
+          der: $S'$,
+          func: $S$,
+          x-vals: ($0$, $2/sqrt(3)$, $2$),
+          d-signs: ($+$, $0$, $-$),
+          v-vals: ($0$, $32/(3sqrt(3))$, $0$),
+          is-min: false,
+        )
+      ]]
+    #step[Diện tích max: $S_(max) = S(2/sqrt(3)) = 2(2/sqrt(3))(4 - 4/3) = 4/sqrt(3) dot.c 8/3 = 32/(3sqrt(3))$.]
+    #resetstep()
 
-  ]
+  ],
 )
 
 #q-label([B. ĐÚNG – S A I — Xét tính đúng/sai của mỗi phát biểu], c-p1)
@@ -891,15 +1242,15 @@
       #canvas(length: 0.6cm, {
         import draw: *
         // Vẽ hình trụ
-        circle((0,4), radius: (2, 0.6), stroke: 1pt+black, fill: rgb("ccc"))
-        arc((-2,0), start: 180deg, stop: 360deg, radius: (2, 0.6), stroke: 1pt+black)
-        arc((2,0), start: 0deg, stop: 180deg, radius: (2, 0.6), stroke: (dash: "dashed", paint: black))
-        line((-2,4), (-2,0), stroke: 1pt+black)
-        line((2,4), (2,0), stroke: 1pt+black)
-        
+        circle((0, 4), radius: (2, 0.6), stroke: 1pt + black, fill: rgb("ccc"))
+        arc((-2, 0), start: 180deg, stop: 360deg, radius: (2, 0.6), stroke: 1pt + black)
+        arc((2, 0), start: 0deg, stop: 180deg, radius: (2, 0.6), stroke: (dash: "dashed", paint: black))
+        line((-2, 4), (-2, 0), stroke: 1pt + black)
+        line((2, 4), (2, 0), stroke: 1pt + black)
+
         // R và H
-        circle((0,4), radius: 1pt, fill: black)
-        line((0,4), (2,4), stroke: 1pt+black)
+        circle((0, 4), radius: 1pt, fill: black)
+        line((0, 4), (2, 4), stroke: 1pt + black)
         content((1, 4.4), [$r$])
         line((2.5, 0), (2.5, 4), mark: (start: ">", end: ">"), stroke: 0.5pt)
         content((3, 2), [$h$])
@@ -910,26 +1261,38 @@
     True([Chiều cao $h$ được biểu diễn qua $r$ bằng công thức $h = 32 / r^2$.]), // đúng là h = 32/r^2. Câu này là TRUE.
     True([Diện tích toàn phần của lon nước ngọt là $S(r) = 2pi r^2 + 64pi / r$.]),
     True([Hãng cần thiết kế lon có chiều cao gấp đôi bán kính đáy ($h=2r$) để tối ưu.]),
-    [Bán kính đáy tạo ra sự tối ưu là $r = 4$ cm.] // r= root(3, 16) ko phai 4.
-  )
-,
+    [Bán kính đáy tạo ra sự tối ưu là $r = 4$ cm.], // r= root(3, 16) ko phai 4.
+  ),
   loigiai: [
     #ppgiai[
       - Biểu diễn đại lượng cần tối ưu theo 1 biến số.
       - Khảo sát sự biến thiên của hàm số trên tập xác định.
     ]
 
-  #step[Phát biểu 1: Thể tích khối trụ $V = pi r^2 h = 32pi <=> r^2 h = 32 <=> h = 32/r^2$. (Sửa đáp án trong macro TRUE). Thật ra Phát biểu 1 là Đúng, nhưng phía trên thiết lập là không bọc bằng `True`, để check lại macro cho kĩ. Ta quy ước mảng truyền vào là tùy macro check.]
-  #step[Phát biểu 1 là *Đúng*. $V = pi r^2 h = 32 pi => h = 32 / r^2$.]
-  #step[Phát biểu 2 là *Đúng*. Diện tích toàn phần (2 đáy + xung quanh):
-  $S(r) = 2pi r^2 + 2pi r h = 2pi r^2 + 2pi r(32/r^2) = 2pi r^2 + 64pi / r$.]
-  #step[Phát biểu 3 là *Đúng*. Tính đạo hàm $S'(r) = 4pi r - 64pi / r^2$.
-  Cho $S'(r) = 0 <=> 4pi r^3 = 64pi <=> r^3 = 16 <=> r = root(3, 16) approx 2.52$.
-  Lập bảng biến thiên dễ thấy $S$ đạt giá trị nhỏ nhất tại $r = root(3, 16)$, khi đó $h = 32 / (root(3, 16))^2 = 32/r^2 = 2r$. Chiều cao gấp đôi bán kính.]
-  #step[Phát biểu 4 là *Sai*. Bán kính $r = root(3, 16) approx 2.52$ chứ không phải $4$.]
-  #resetstep()
+    #step[Phát biểu 1 là *Đúng*. $V = pi r^2 h = 32 pi => h = 32 / r^2$.]
+    #step[Phát biểu 2 là *Đúng*. Diện tích toàn phần (2 đáy + xung quanh):
+      $S(r) = 2pi r^2 + 2pi r h = 2pi r^2 + 2pi r(32/r^2) = 2pi r^2 + 64pi / r$.]
+    #step[Phát biểu 3 là *Đúng*. Tính đạo hàm $S'(r) = 4pi r - 64pi / r^2$.
+      Cho $S'(r) = 0 <=> 4pi r^3 = 64pi <=> r^3 = 16 <=> r = root(3, 16) approx 2.52$.]
+    #step[Bảng biến thiên của $S(r)$ trên $(0; +oo)$ là:
+      #align(center)[
+        #bbt-opt(
+          var: $r$,
+          der: $S'$,
+          func: $S$,
+          x-vals: ($0$, $root(3, 16)$, $+oo$),
+          d-signs: ($-$, $0$, $+$),
+          v-vals: ($+oo$, $6 pi root(3, 256)$, $+oo$),
+          is-min: true,
+        )
+      ]]
+    #step[Từ bảng biến thiên, diện tích toàn phần nhỏ nhất khi $r = root(3, 16)$. Khi đó:
+      $ h = 32 / r^2 = 32 / root(3, 256) = 2 root(3, 16) = 2r. $
+      Vì vậy phát biểu 3 là *Đúng*.]
+    #step[Phát biểu 4 là *Sai* vì bán kính tối ưu là $r = root(3, 16) approx 2.52$ cm, không phải $4$ cm.]
+    #resetstep()
 
-  ]
+  ],
 )
 
 #ds(
@@ -940,24 +1303,35 @@
     [Sau khi gấp, đáy hộp là hình chữ nhật có chu vi là $260 - 4x$.],
     True([Thể tích của hộp được tính bởi $V(x) = 4x^3 - 260x^2 + 4000x$.]),
     True([Phương trình $V'(x) = 0$ có một nghiệm nguyên là $x = 10$.]),
-    [Giá trị lớn nhất của $V(x)$ là $15000$ cm³.]
-  )
-,
+    [Giá trị lớn nhất của $V(x)$ là $15000$ cm³.],
+  ),
   loigiai: [
     #ppgiai[
       - Biểu diễn đại lượng cần tối ưu theo 1 biến số.
       - Khảo sát sự biến thiên của hàm số trên tập xác định.
     ]
 
-  #step[Đáy hộp là hình chữ nhật có cạnh $80 - 2x$ và $50 - 2x$. 
-  Chu vi đáy là $2((80 - 2x) + (50 - 2x)) = 260 - 8x$ => Ý $1$ Sai.]
-  #step[Thể tích hộp: $V(x) = x(80-2x)(50-2x) = x(4000 - 260x + 4x^2) = 4x^3 - 260x^2 + 4000x$ với $0 < x < 25$ => Ý $2$ Đúng.]
-  #step[Đạo hàm $V'(x) = 12x^2 - 520x + 4000 = 4(3x^2 - 130x + 1000)$.
-  Cho $V'(x) = 0 <=> hoac(x = 10 " (nhận)", x = 100/3 " (loại)")$. Vậy có 1 nghiệm nguyên là $x=10$ => Ý $3$ Đúng.]
-  #step[Bảng biến thiên xác nhận $V_(max) = V(10) = 10(60)(30) = 18000$ cm³, do đó ý 4 sai.]
-  #resetstep()
+    #step[Đáy hộp là hình chữ nhật có cạnh $80 - 2x$ và $50 - 2x$.
+      Chu vi đáy là $2((80 - 2x) + (50 - 2x)) = 260 - 8x$ => Ý $1$ Sai.]
+    #step[Thể tích hộp: $V(x) = x(80-2x)(50-2x) = x(4000 - 260x + 4x^2) = 4x^3 - 260x^2 + 4000x$ với $0 < x < 25$ => Ý $2$ Đúng.]
+    #step[Đạo hàm $V'(x) = 12x^2 - 520x + 4000 = 4(3x^2 - 130x + 1000)$.
+      Cho $V'(x) = 0 <=> hoac(x = 10 " (nhận)", x = 100/3 " (loại)")$. Vậy có 1 nghiệm nguyên là $x=10$ => Ý $3$ Đúng.]
+    #step[Bảng biến thiên của $V(x)$ trên $(0; 25)$ là:
+      #align(center)[
+        #bbt-opt(
+          var: $x$,
+          der: $V'$,
+          func: $V$,
+          x-vals: ($0$, $10$, $25$),
+          d-signs: ($+$, $0$, $-$),
+          v-vals: ($0$, $18000$, $0$),
+          is-min: false,
+        )
+      ]]
+    #step[Từ bảng biến thiên, $V_(max) = V(10) = 18000$ cm³, nên ý $4$ là *Sai*.]
+    #resetstep()
 
-  ]
+  ],
 )
 
 
@@ -968,31 +1342,43 @@
   [
     Một sợi dây có chiều dài $28$ m được chia làm $2$ phần. Phần thứ nhất uốn thành một hình vuông, phần thứ hai uốn thành một hình tròn. Hỏi chiều dài (m) đoạn uốn thành vuông bằng bao nhiêu (làm tròn đến hàng phần mười) để tổng diện tích hai hình thu được là nhỏ nhất? (Lấy $pi approx 3.14$).
     #align(center)[
-      #canvas(length: 0.6cm, {
+      #canvas(length: 0.986cm, {
         import draw: *
-        rect((0,0), (1.5,1.5), stroke: 1.5pt+blue, fill: rgb("0000ff11"))
-        circle((4.5, 0.75), radius: 0.8, stroke: 1.5pt+red, fill: rgb("ff000011"))
-        content((1.5/2, -0.6), [$S_1$])
+        rect((0, 0), (1.5, 1.5), stroke: 1.5pt + blue, fill: rgb("0000ff11"))
+        circle((4.5, 0.75), radius: 0.8, stroke: 1.5pt + red, fill: rgb("ff000011"))
+        content((1.5 / 2, -0.6), [$S_1$])
         content((4.5, -0.6), [$S_2$])
       })
     ]
   ],
-  [$15,7$]
-,
+  [$15,7$],
   loigiai: [
     #ppgiai[
       - Biểu diễn đại lượng cần tối ưu theo 1 biến số.
       - Khảo sát sự biến thiên của hàm số trên tập xác định.
     ]
 
-  #step[Gọi $x>0$ là chiều dài đoạn tạo hình vuông. Cạnh hình vuông là $x/4$, diện tích $S_1 = (x/4)^2 = x^2/16$.]
-  #step[Chiều dài đoạn làm hình tròn là $28-x$. Bán kính $r = (28-x)/(2pi)$, diện tích $S_2 = pi r^2 = (28-x)^2/(4pi)$.]
-  #step[Hàm tổng diện tích $S(x) = x^2/16 + (28-x)^2/(4pi)$. 
-  Đạo hàm $S'(x) = x/8 - (28-x)/(2pi) = 0 <=> pi x = 4(28-x) <=> (pi+4)x = 112 <=> x = 112/(pi+4)$.]
-  #step[Với $pi approx 3.14$, $x approx 112 / 7.14 approx 15.686 approx 15.7$ (m).]
-  #resetstep()
+    #step[Gọi $x>0$ là chiều dài đoạn tạo hình vuông. Cạnh hình vuông là $x/4$, diện tích $S_1 = (x/4)^2 = x^2/16$.]
+    #step[Chiều dài đoạn làm hình tròn là $28-x$. Bán kính $r = (28-x)/(2pi)$, diện tích $S_2 = pi r^2 = (28-x)^2/(4pi)$.]
+    #step[Hàm tổng diện tích $S(x) = x^2/16 + (28-x)^2/(4pi)$.
+      Đạo hàm $S'(x) = x/8 - (28-x)/(2pi) = 0 <=> pi x = 4(28-x) <=> (pi+4)x = 112 <=> x = 112/(pi+4)$.]
+    #step[Bảng biến thiên của $S(x)$ trên $(0; 28)$ là:
+      #align(center)[
+        #bbt-opt(
+          var: $x$,
+          der: $S'$,
+          func: $S$,
+          x-vals: ($0$, $112/(pi + 4)$, $28$),
+          d-signs: ($-$, $0$, $+$),
+          v-vals: ($196/pi$, $196/(pi + 4)$, $49$),
+          is-min: true,
+        )
+      ]]
+    #step[Từ bảng biến thiên, tổng diện tích nhỏ nhất khi $x = 112/(pi + 4)$. Với $pi approx 3.14$,
+      $ x approx 112 / 7.14 approx 15.686 approx 15.7 $ (m).]
+    #resetstep()
 
-  ]
+  ],
 )
 
 #tln(
@@ -1001,7 +1387,7 @@
     #align(center)[
       #canvas(length: 0.6cm, {
         import draw: *
-        rect((0,0), (4,6), fill: rgb("eee"))
+        rect((0, 0), (4, 6), fill: rgb("eee"))
         rect((0.5, 1), (3.5, 5), fill: white, stroke: (dash: "dashed", paint: rgb("444")))
         content((2, 3), [*In chữ*])
         content((2, 5.5), text(size: 8pt)[$2$])
@@ -1011,21 +1397,32 @@
       })
     ]
   ],
-  [$288$]
-,
+  [$288$],
   loigiai: [
     #ppgiai[
       - Biểu diễn đại lượng cần tối ưu theo 1 biến số.
       - Khảo sát sự biến thiên của hàm số trên tập xác định.
     ]
 
-  #step[Gọi $x, y$ lần lượt là chiều rộng, chiều cao phần in chữ ($x > 0$). Diện tích $x y = 200 <=> y = 200/x$.]
-  #step[Kích thước poster: Rộng $x+2$ (do lề 1+1), Cao $y+4$ (do lề 2+2).]
-  #step[Diện tích $S(x) = (x+2)(y+4) = (x+2)(200/x+4) = 200 + 4x + 400/x + 8 = 4x + 400/x + 208$.]
-  #step[Đạo hàm $S'(x) = 4 - 400/x^2 = 0 <=> x^2 = 100 <=> x = 10$. Bảng biến thiên chứng tỏ $S$ đạt min tại $x=10$.]
-  #step[Khi đó $S_(min) = 4(10) + 400/10 + 208 = 40+40+208 = 288$ cm².]
-  #resetstep()
-  ]
+    #step[Gọi $x, y$ lần lượt là chiều rộng, chiều cao phần in chữ ($x > 0$). Diện tích $x dot.c y = 200 <=> y = 200/x$.]
+    #step[Kích thước poster: Rộng $x+2$ (do lề 1+1), Cao $y+4$ (do lề 2+2).]
+    #step[Diện tích $S(x) = (x+2)(y+4) = (x+2)(200/x+4) = 200 + 4x + 400/x + 8 = 4x + 400/x + 208$.]
+    #step[Đạo hàm $S'(x) = 4 - 400/x^2 = 0 <=> x^2 = 100 <=> x = 10$.]
+    #step[Bảng biến thiên của $S(x)$ trên $(0; +oo)$ là:
+      #align(center)[
+        #bbt-opt(
+          var: $x$,
+          der: $S'$,
+          func: $S$,
+          x-vals: ($0$, $10$, $+oo$),
+          d-signs: ($-$, $0$, $+$),
+          v-vals: ($+oo$, $288$, $+oo$),
+          is-min: true,
+        )
+      ]]
+    #step[Khi đó $S_(min) = 4(10) + 400/10 + 208 = 40+40+208 = 288$ cm².]
+    #resetstep()
+  ],
 )
 
 #tln(
@@ -1041,9 +1438,21 @@
     #step[Chiều dài hàng rào là $2x + y = 100 <=> y = 100 - 2x$. Điều kiện $0 < x < 50$.]
     #step[Diện tích khu đất: $S(x) = x y = x(100 - 2x) = -2x^2 + 100x$.]
     #step[Đạo hàm: $S'(x) = -4x + 100$. Cho $S'(x) = 0 <=> x = 25$.]
-    #step[Bảng biến thiên cho thấy $S$ đạt đại cực đại tại đỉnh parabol $x=25$. Khi đó $y = 100 - 50 = 50$.]
+    #step[Bảng biến thiên của $S(x)$ trên $(0; 50)$ là:
+      #align(center)[
+        #bbt-opt(
+          var: $x$,
+          der: $S'$,
+          func: $S$,
+          x-vals: ($0$, $25$, $50$),
+          d-signs: ($+$, $0$, $-$),
+          v-vals: ($0$, $1250$, $0$),
+          is-min: false,
+        )
+      ]]
+    #step[Từ bảng biến thiên, $S$ đạt giá trị lớn nhất tại $x = 25$. Khi đó $y = 100 - 50 = 50$.]
     #step[Diện tích lớn nhất: $S_(max) = S(25) = -2(25)^2 + 100(25) = 1250$ (m²).]
-  ]
+  ],
 )
 
 #tln(
@@ -1058,8 +1467,335 @@
     ]
     #step[Doanh thu trên mỗi sản phẩm sau khi trừ chi phí (lợi nhuận cốt lõi): $x - 40$.]
     #step[Tổng lợi nhuận mỗi tháng: $L(x) = (x - 40) dot.c (1200 - 10x) = -10x^2 + 1600x - 48000$.]
-    #step[Đạo hàm $L'(x) = -20x + 1600$. Cho $L'(x) = 0 <=> x = 80$.]
-    #step[Bảng biến thiên chứng tỏ parabol bề lõm hướng xuống, $L$ đạt max tại đỉnh $x = 80$.]
+    #step[Điều kiện để còn bán được hàng là $1200 - 10x > 0 <=> 0 < x < 120$. Đạo hàm:
+      $ L'(x) = -20x + 1600. $
+      Cho $L'(x) = 0 <=> x = 80$.]
+    #step[Bảng biến thiên của $L(x)$ trên $(0; 120)$ là:
+      #align(center)[
+        #bbt-opt(
+          var: $x$,
+          der: $L'$,
+          func: $L$,
+          x-vals: ($0$, $80$, $120$),
+          d-signs: ($+$, $0$, $-$),
+          v-vals: ($-48000$, $16000$, $0$),
+          is-min: false,
+        )
+      ]]
     #step[Vậy giá bán cần thiết để tối ưu hóa lợi nhuận là $80$ nghìn đồng.]
-  ]
+  ],
+)
+
+
+// ════════════════════════════════════════════════════════════
+#bt-header(c-p1)
+#resetexamstate()
+
+#q-label([A. TRẮC NGHIỆM — Chọn một đáp án đúng], c-p1)
+
+#tn(
+  [
+    Một mảnh vườn hình chữ nhật sát một bức tường thẳng. Người ta có $80$ m hàng rào để rào ba cạnh còn lại. Hỏi chiều rộng vuông góc với tường phải bằng bao nhiêu để diện tích mảnh vườn lớn nhất?
+  ],
+  ([10 m], True([20 m]), [30 m], [40 m]),
+  loigiai: [
+    #ppgiai[
+      - Gọi chiều rộng vuông góc với tường là $x$.
+      - Dùng điều kiện tổng chiều dài hàng rào để biểu diễn chiều dài theo $x$.
+      - Khảo sát hàm diện tích bằng đạo hàm và BBT.
+    ]
+
+    #step[Gọi $x$ (m) là chiều rộng vuông góc với tường. Khi đó chiều dài còn lại là $80 - 2x$ (m), với điều kiện $0 < x < 40$.]
+    #step[Diện tích mảnh vườn là:
+      $ S(x) = x(80 - 2x) = 80x - 2x^2. $]
+    #step[Đạo hàm:
+      $ S'(x) = 80 - 4x. $
+      Cho $S'(x) = 0 <=> x = 20$.]
+    #step[Bảng biến thiên của $S(x)$ trên $(0; 40)$ là:
+      #align(center)[
+        #bbt-opt(
+          var: $x$,
+          der: $S'$,
+          func: $S$,
+          x-vals: ($0$, $20$, $40$),
+          d-signs: ($+$, $0$, $-$),
+          v-vals: ($0$, $800$, $0$),
+          is-min: false,
+        )
+      ]]
+    #step[Từ bảng biến thiên, diện tích lớn nhất khi $x = 20$ m.]
+    #resetstep()
+  ],
+)
+
+#tn(
+  [
+    Từ một tấm bìa hình chữ nhật kích thước $16$ cm và $10$ cm, người ta cắt ở bốn góc bốn hình vuông cạnh $x$ cm rồi gấp thành một hộp không nắp. Giá trị của $x$ để thể tích hộp lớn nhất là
+  ],
+  ([1 cm], True([2 cm]), [3 cm], [4 cm]),
+  loigiai: [
+    #ppgiai[
+      - Xác định thể tích hộp theo biến $x$.
+      - Tính đạo hàm và tìm điểm tới hạn phù hợp điều kiện hình học.
+      - Kết luận bằng BBT.
+    ]
+
+    #step[Điều kiện: $0 < x < 5$. Sau khi cắt và gấp lên, hộp có chiều cao $x$, đáy là hình chữ nhật kích thước $16 - 2x$ và $10 - 2x$.]
+    #step[Thể tích hộp là:
+      $ V(x) = x(16 - 2x)(10 - 2x). $]
+    #step[Tính đạo hàm:
+      $ V'(x) = 12x^2 - 104x + 160 = 4(3x^2 - 26x + 40) = 4(x - 2)(3x - 20). $
+      Trong khoảng $(0; 5)$ chỉ có nghiệm $x = 2$.]
+    #step[Bảng biến thiên của $V(x)$ trên $(0; 5)$ là:
+      #align(center)[
+        #bbt-opt(
+          var: $x$,
+          der: $V'$,
+          func: $V$,
+          x-vals: ($0$, $2$, $5$),
+          d-signs: ($+$, $0$, $-$),
+          v-vals: ($0$, $144$, $0$),
+          is-min: false,
+        )
+      ]]
+    #step[Vậy thể tích lớn nhất khi $x = 2$ cm.]
+    #resetstep()
+  ],
+)
+
+#tn(
+  [
+    Cho parabol $(P): y = 9 - x^2$. Một hình chữ nhật nội tiếp trong hình phẳng giới hạn bởi $(P)$ và trục hoành, có đáy nằm trên trục hoành. Diện tích lớn nhất của hình chữ nhật bằng
+  ],
+  ([$9$], [$6 sqrt(3)$], True([$12 sqrt(3)$]), [$18$]),
+  loigiai: [
+    #ppgiai[
+      - Gọi nửa chiều rộng hình chữ nhật là $x$.
+      - Biểu diễn chiều cao theo phương trình parabol.
+      - Khảo sát hàm diện tích bằng đạo hàm và BBT.
+    ]
+
+    #step[Gọi hai đỉnh đáy là $(-x; 0)$ và $(x; 0)$ với $0 < x < 3$. Khi đó chiều cao hình chữ nhật là $9 - x^2$.]
+    #step[Diện tích hình chữ nhật là:
+      $ S(x) = 2x(9 - x^2) = 18x - 2x^3. $]
+    #step[Đạo hàm:
+      $ S'(x) = 18 - 6x^2. $
+      Cho $S'(x) = 0 <=> x = sqrt(3)$.]
+    #step[Bảng biến thiên của $S(x)$ trên $(0; 3)$ là:
+      #align(center)[
+        #bbt-opt(
+          var: $x$,
+          der: $S'$,
+          func: $S$,
+          x-vals: ($0$, $sqrt(3)$, $3$),
+          d-signs: ($+$, $0$, $-$),
+          v-vals: ($0$, $12 sqrt(3)$, $0$),
+          is-min: false,
+        )
+      ]]
+    #step[Từ bảng biến thiên, diện tích lớn nhất là $12 sqrt(3)$.]
+    #resetstep()
+  ],
+)
+
+#q-label([B. ĐÚNG – S A I — Xét tính đúng/sai của mỗi phát biểu], c-p1)
+#resetexamstate()
+
+#ds(
+  [
+    Một tấm poster hình chữ nhật có diện tích phần in chữ bằng $384$ cm². Lề trái và lề phải đều rộng $2$ cm, lề trên và lề dưới đều rộng $3$ cm.
+  ],
+  (
+    True([Nếu gọi chiều rộng phần in chữ là $x$ thì diện tích toàn bộ tấm poster là $S(x) = 6x + 1536/x + 408$.]),
+    True([Phương trình $S'(x) = 0$ có nghiệm dương duy nhất là $x = 16$.]),
+    True([Kích thước tối ưu của cả tấm poster là $20$ cm và $30$ cm.]),
+    [Diện tích nhỏ nhất của cả tấm poster là $576$ cm².],
+  ),
+  loigiai: [
+    #ppgiai[
+      - Biểu diễn diện tích toàn phần theo một biến $x$.
+      - Tính đạo hàm để tìm điểm tối ưu.
+      - Dùng BBT để kiểm tra GTNN và đối chiếu từng phát biểu.
+    ]
+
+    #step[Đặt chiều rộng, chiều cao phần in chữ lần lượt là $x, y$ thì $x dot.c y = 384 <=> y = 384/x$.]
+    #step[Kích thước poster là $x + 4$ và $y + 6$, do đó:
+      $
+        S(x) & = (x + 4)(y + 6) = (x + 4)(384/x + 6) \
+             & = 6x + 1536/x + 408.
+      $
+      Vì vậy phát biểu $1$ là *Đúng*.]
+    #step[Đạo hàm:
+      $ S'(x) = 6 - 1536/x^2. $
+      Cho $S'(x) = 0 <=> x^2 = 256 <=> x = 16$.
+      Do đó phát biểu $2$ là *Đúng*.]
+    #step[Bảng biến thiên của $S(x)$ trên $(0; +oo)$ là:
+      #align(center)[
+        #bbt-opt(
+          var: $x$,
+          der: $S'$,
+          func: $S$,
+          x-vals: ($0$, $16$, $+oo$),
+          d-signs: ($-$, $0$, $+$),
+          v-vals: ($+oo$, $600$, $+oo$),
+          is-min: true,
+        )
+      ]]
+    #step[Từ bảng biến thiên, diện tích nhỏ nhất là $600$ cm². Khi đó $y = 384/16 = 24$, nên kích thước tối ưu là $20$ cm và $30$ cm. Vì vậy phát biểu $3$ *Đúng* và phát biểu $4$ *Sai*.]
+    #resetstep()
+  ],
+)
+
+#ds(
+  [
+    Một sợi dây dài $10$ m được cắt thành hai đoạn. Đoạn thứ nhất uốn thành hình vuông, đoạn thứ hai uốn thành hình tròn. Gọi $x$ (m) là độ dài đoạn dùng uốn hình vuông.
+  ],
+  (
+    True([Tổng diện tích hai hình là $S(x) = x^2/16 + (10 - x)^2/(4pi)$ với $0 < x < 10$.]),
+    True([Phương trình $S'(x) = 0$ có nghiệm $x = 40/(pi + 4)$.]),
+    [Giá trị $x = 40/(pi + 4)$ làm tổng diện tích lớn nhất.],
+    True(
+      [Nếu dùng toàn bộ sợi dây để uốn thành hình tròn thì diện tích nhận được lớn hơn khi dùng toàn bộ sợi dây để uốn thành hình vuông.],
+    ),
+  ),
+  loigiai: [
+    #ppgiai[
+      - Thiết lập công thức diện tích của hình vuông và hình tròn theo $x$.
+      - Xét đạo hàm của tổng diện tích.
+      - Dựa vào BBT để xác định bản chất cực trị và kiểm tra các phát biểu.
+    ]
+
+    #step[Hình vuông có cạnh $x/4$ nên diện tích là $x^2/16$. Hình tròn có chu vi $10 - x$ nên diện tích là $(10 - x)^2/(4pi)$. Vì vậy phát biểu $1$ là *Đúng*.]
+    #step[Đạo hàm:
+      $ S'(x) = x/8 - (10 - x)/(2pi). $
+      Cho $S'(x) = 0 <=> pi x = 4(10 - x) <=> x = 40/(pi + 4)$.
+      Vậy phát biểu $2$ là *Đúng*.]
+    #step[Bảng biến thiên của $S(x)$ trên $(0; 10)$ là:
+      #align(center)[
+        #bbt-opt(
+          var: $x$,
+          der: $S'$,
+          func: $S$,
+          x-vals: ($0$, $40/(pi + 4)$, $10$),
+          d-signs: ($-$, $0$, $+$),
+          v-vals: ($25/pi$, $25/(pi + 4)$, $25/4$),
+          is-min: true,
+        )
+      ]]
+    #step[Từ bảng biến thiên, $x = 40/(pi + 4)$ cho tổng diện tích *nhỏ nhất*, nên phát biểu $3$ là *Sai*. Ngoài ra:
+      $ S(0) = 25/pi > 25/4 = S(10). $
+      Do đó phát biểu $4$ là *Đúng*.]
+    #resetstep()
+  ],
+)
+
+#q-label([C. TỰ LUẬN NGẮN — Ghi đáp số vào ô trống], c-p1)
+#resetexamstate()
+
+#tln(
+  [
+    Từ tấm bìa hình vuông cạnh $24$ cm, người ta cắt ở bốn góc bốn hình vuông cạnh $x$ cm rồi gấp thành hộp không nắp. Thể tích lớn nhất của hộp bằng bao nhiêu cm³?
+  ],
+  [$1024$],
+  loigiai: [
+    #ppgiai[
+      - Lập hàm thể tích theo biến $x$.
+      - Tìm nghiệm của phương trình đạo hàm bằng $0$.
+      - Dùng BBT để suy ra GTLN.
+    ]
+
+    #step[Điều kiện: $0 < x < 12$. Khi đó hộp có chiều cao $x$ và đáy là hình vuông cạnh $24 - 2x$.]
+    #step[Thể tích hộp là:
+      $ V(x) = x(24 - 2x)^2. $]
+    #step[Đạo hàm:
+      $ V'(x) = (24 - 2x)(24 - 6x). $
+      Cho $V'(x) = 0 <=> hoac(x = 12 " (loại)", x = 4 " (nhận)").$]
+    #step[Bảng biến thiên của $V(x)$ trên $(0; 12)$ là:
+      #align(center)[
+        #bbt-opt(
+          var: $x$,
+          der: $V'$,
+          func: $V$,
+          x-vals: ($0$, $4$, $12$),
+          d-signs: ($+$, $0$, $-$),
+          v-vals: ($0$, $1024$, $0$),
+          is-min: false,
+        )
+      ]]
+    #step[Vậy thể tích lớn nhất là $1024$ cm³.]
+    #resetstep()
+  ],
+)
+
+#tln(
+  [
+    Một tấm poster hình chữ nhật có diện tích phần in chữ bằng $288$ cm². Lề trái và lề phải đều rộng $1$ cm, lề trên và lề dưới đều rộng $2$ cm. Hỏi diện tích nhỏ nhất của cả tấm poster là bao nhiêu cm²?
+  ],
+  [$392$],
+  loigiai: [
+    #ppgiai[
+      - Đặt chiều rộng phần in chữ là $x$ và rút $y$ theo $x$.
+      - Lập hàm diện tích toàn tấm poster.
+      - Dùng đạo hàm và BBT để tìm GTNN.
+    ]
+
+    #step[Gọi kích thước phần in chữ là $x, y$ (cm). Khi đó $x dot.c y = 288 <=> y = 288/x$, với $x > 0$.]
+    #step[Kích thước toàn tấm poster là $x + 2$ và $y + 4$, nên:
+      $
+        S(x) & = (x + 2)(y + 4) = (x + 2)(288/x + 4) \
+             & = 4x + 576/x + 296.
+      $]
+    #step[Đạo hàm:
+      $ S'(x) = 4 - 576/x^2. $
+      Cho $S'(x) = 0 <=> x^2 = 144 <=> x = 12$.]
+    #step[Bảng biến thiên của $S(x)$ trên $(0; +oo)$ là:
+      #align(center)[
+        #bbt-opt(
+          var: $x$,
+          der: $S'$,
+          func: $S$,
+          x-vals: ($0$, $12$, $+oo$),
+          d-signs: ($-$, $0$, $+$),
+          v-vals: ($+oo$, $392$, $+oo$),
+          is-min: true,
+        )
+      ]]
+    #step[Vậy diện tích nhỏ nhất của cả tấm poster là $392$ cm².]
+    #resetstep()
+  ],
+)
+
+#tln(
+  [
+    Một mảnh đất hình chữ nhật sát bờ sông, không cần rào cạnh sát sông. Người ta có $120$ m hàng rào để rào ba cạnh còn lại. Diện tích lớn nhất của mảnh đất là bao nhiêu m²?
+  ],
+  [$1800$],
+  loigiai: [
+    #ppgiai[
+      - Gọi chiều rộng vuông góc với sông là $x$.
+      - Lập hàm diện tích theo một biến.
+      - Khảo sát bằng đạo hàm và BBT để lấy GTLN.
+    ]
+
+    #step[Gọi $x$ (m) là chiều rộng vuông góc với bờ sông. Khi đó chiều dài là $120 - 2x$ (m), với $0 < x < 60$.]
+    #step[Diện tích mảnh đất là:
+      $ S(x) = x(120 - 2x) = 120x - 2x^2. $]
+    #step[Đạo hàm:
+      $ S'(x) = 120 - 4x. $
+      Cho $S'(x) = 0 <=> x = 30$.]
+    #step[Bảng biến thiên của $S(x)$ trên $(0; 60)$ là:
+      #align(center)[
+        #bbt-opt(
+          var: $x$,
+          der: $S'$,
+          func: $S$,
+          x-vals: ($0$, $30$, $60$),
+          d-signs: ($+$, $0$, $-$),
+          v-vals: ($0$, $1800$, $0$),
+          is-min: false,
+        )
+      ]]
+    #step[Vậy diện tích lớn nhất của mảnh đất là $1800$ m².]
+    #resetstep()
+  ],
 )

@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chuyên Đề Hàm Sinh - Đa Lớp Bài Tập</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: 'New Computer Modern', 'Segoe UI', serif; background-color: #f0f4f8; color: #1e293b; line-height: 1.6; }
+        .math-display { overflow-x: auto; padding: 5px 0; }
+        
+        /* Gradient Header từ file Typst */
+        .typst-header {
+            background: linear-gradient(135deg, #001F3F, #003366, #004E89, #1A936F);
+            color: white; padding: 15pt 20pt; border-radius: 10pt;
+            margin-top: 1em; margin-bottom: 1.5em; text-align: center;
+            box-shadow: 0 10px 25px -5px rgba(0, 78, 137, 0.4);
+        }
+
+        /* Tái tạo các Box từ file Typst */
+        .note-box {
+            background-color: #FFF8E1; border-left: 5px solid #E65100;
+            border-top: 1px solid #FFCC80; border-right: 1px solid #FFCC80; border-bottom: 1px solid #FFCC80;
+            border-radius: 0 8pt 8pt 0; padding: 12pt 16pt; margin-bottom: 1.2rem;
+        }
+        .method-box {
+            background-color: #E0F7FA; border-left: 5px solid #1A936F;
+            border-top: 1px solid #80DEEA; border-right: 1px solid #80DEEA; border-bottom: 1px solid #80DEEA;
+            border-radius: 0 8pt 8pt 0; padding: 12pt 16pt; margin-bottom: 1.2rem;
+        }
+        .thm-box {
+            background-color: #FCE4EC; border-left: 5px solid #880E4F;
+            border-top: 1px solid #F48FB1; border-right: 1px solid #F48FB1; border-bottom: 1px solid #F48FB1;
+            border-radius: 0 8pt 8pt 0; padding: 14pt 18pt; margin-bottom: 1.2rem;
+        }
+        .cach2-box {
+            background-color: #F3E5F5; border-left: 5px solid #6A1B9A;
+            border-top: 1px solid #CE93D8; border-right: 1px solid #CE93D8; border-bottom: 1px solid #CE93D8;
+            border-radius: 0 8pt 8pt 0; padding: 12pt 16pt; margin-bottom: 1.2rem;
+        }
+        .ans-box {
+            background-color: #F1F8E9; border-left: 5px solid #2E7D32;
+            border-top: 1px solid #A5D6A7; border-right: 1px solid #A5D6A7; border-bottom: 1px solid #A5D6A7;
+            border-radius: 0 8pt 8pt 0; padding: 12pt 16pt; margin-top: 1.2rem;
+        }
+
+        /* Tabs Menu */
+        .tab-btn { transition: all 0.3s ease; }
+        .tab-btn.active { background-color: #004E89; color: white; border-color: #004E89; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        .tab-btn:not(.active) { background-color: white; color: #475569; border-color: #cbd5e1; }
+        .tab-btn:not(.active):hover { background-color: #f1f5f9; color: #004E89; }
+    </style>
+</head>
+<body class="p-4 md:p-6 max-w-5xl mx-auto">
+
+    <!-- Header -->
+    <div class="typst-header">
+        <div class="text-[10pt] tracking-widest uppercase mb-2 opacity-80 font-semibold">Chuyên đề Toán 12 • HSG</div>
+        <div class="text-[22pt] md:text-[28pt] font-extrabold mb-1 drop-shadow-md">HÀM SINH (GENERATING FUNCTION)</div>
+        <div class="text-[14pt] text-[#E0F7FA] font-bold tracking-wide">12 LỚP BÀI TẬP ĐẠI BÁC VẠN NĂNG</div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="flex flex-wrap gap-2 md:gap-4 mb-6 justify-center">
+        <button onclick="switchTab(1)" id="btnTab1" class="tab-btn active px-5 py-3 rounded-xl border-2 font-bold text-sm md:text-base flex items-center">
+            <span class="text-xl mr-2">🍬</span> Lớp 1: Chia Kẹo Euler
+        </button>
+        <button onclick="switchTab(2)" id="btnTab2" class="tab-btn px-5 py-3 rounded-xl border-2 font-bold text-sm md:text-base flex items-center">
+            <span class="text-xl mr-2">🎲</span> Lớp 2: Tổ Hợp Xúc Xắc
+        </button>
+        <button onclick="switchTab(3)" id="btnTab3" class="tab-btn px-5 py-3 rounded-xl border-2 font-bold text-sm md:text-base flex items-center">
+            <span class="text-xl mr-2">💰</span> Lớp 3: Đổi Tiền (Phân Hoạch)
+        </button>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VIEW 1: LỚP 1 (CHIA KẸO EULER CÓ ĐIỀU KIỆN) -->
+    <!-- ========================================== -->
+    <div id="view1" class="view-panel">
+        <div class="bg-white border-2 border-[#004E89] p-5 rounded-xl mb-6 shadow-md">
+            <h3 class="font-bold text-[#004E89] text-lg mb-4">⚙️ Cấu hình: Chia đồ vật vào 3 nhóm</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <label class="font-semibold text-gray-700 mt-2">Tổng số đồ vật cần lấy ($N$):</label>
+                <input type="number" id="v1_N" value="10" min="1" max="1000" class="w-full px-3 py-2 border-2 border-gray-300 rounded-lg text-lg font-bold">
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
+                    <label class="font-bold text-red-700 block mb-2">Nhóm A</label>
+                    <select id="v1_condA" onchange="toggleV1Param('A')" class="w-full p-2 border rounded">
+                        <option value="all">Tùy ý</option><option value="even" selected>Chỉ số chẵn</option><option value="odd">Chỉ số lẻ</option><option value="at_least">Ít nhất k</option>
+                    </select>
+                    <div id="v1_paramA_box" class="hidden mt-2"><input type="number" id="v1_paramA_val" value="2" class="w-full p-1 border rounded text-center"></div>
+                </div>
+                <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
+                    <label class="font-bold text-orange-600 block mb-2">Nhóm B</label>
+                    <select id="v1_condB" onchange="toggleV1Param('B')" class="w-full p-2 border rounded">
+                        <option value="all">Tùy ý</option><option value="even">Chỉ số chẵn</option><option value="odd">Chỉ số lẻ</option><option value="at_least" selected>Ít nhất k</option>
+                    </select>
+                    <div id="v1_paramB_box" class="mt-2"><input type="number" id="v1_paramB_val" value="3" class="w-full p-1 border rounded text-center"></div>
+                </div>
+                <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
+                    <label class="font-bold text-blue-700 block mb-2">Nhóm C</label>
+                    <select id="v1_condC" onchange="toggleV1Param('C')" class="w-full p-2 border rounded">
+                        <option value="all" selected>Tùy ý</option><option value="even">Chỉ số chẵn</option><option value="odd">Chỉ số lẻ</option><option value="at_least">Ít nhất k</option>
+                    </select>
+                    <div id="v1_paramC_box" class="hidden mt-2"><input type="number" id="v1_paramC_val" value="2" class="w-full p-1 border rounded text-center"></div>
+                </div>
+            </div>
+            <button onclick="solveClass1()" class="w-full py-3 bg-[#004E89] hover:bg-[#003366] text-white font-bold rounded-lg transition-colors">Tạo Lời Giải Bài Toán Euler</button>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VIEW 2: LỚP 2 (TỔ HỢP XÚC XẮC) -->
+    <!-- ========================================== -->
+    <div id="view2" class="view-panel hidden">
+        <div class="bg-white border-2 border-indigo-700 p-5 rounded-xl mb-6 shadow-md">
+            <h3 class="font-bold text-indigo-700 text-lg mb-4">⚙️ Cấu hình: Tổng Biến Ngẫu Nhiên (Xúc Xắc)</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
+                <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-200">
+                    <label class="font-bold text-indigo-900 block mb-2">Số lượng Xúc xắc ($K$):</label>
+                    <input type="number" id="v2_K" value="5" min="1" max="100" class="w-full px-3 py-2 border-2 border-indigo-300 rounded-lg text-lg font-bold text-center text-indigo-800">
+                </div>
+                <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-200">
+                    <label class="font-bold text-indigo-900 block mb-2">Số mặt của Xúc xắc ($M$):</label>
+                    <input type="number" id="v2_M" value="6" min="2" max="20" class="w-full px-3 py-2 border-2 border-indigo-300 rounded-lg text-lg font-bold text-center text-indigo-800">
+                    <p class="text-xs text-indigo-600 mt-2 text-center">(Thường là 6 mặt: 1 đến 6)</p>
+                </div>
+                <div class="bg-red-50 p-4 rounded-xl border border-red-200">
+                    <label class="font-bold text-red-900 block mb-2">Tổng điểm Mục tiêu ($S$):</label>
+                    <input type="number" id="v2_S" value="18" min="1" max="1000" class="w-full px-3 py-2 border-2 border-red-300 rounded-lg text-lg font-bold text-center text-red-700">
+                </div>
+            </div>
+            <button onclick="solveClass2()" class="w-full py-3 bg-indigo-700 hover:bg-indigo-900 text-white font-bold rounded-lg transition-colors">Tạo Lời Giải Bài Toán Xúc Xắc</button>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VIEW 3: LỚP 3 (BÀI TOÁN ĐỔI TIÊN) -->
+    <!-- ========================================== -->
+    <div id="view3" class="view-panel hidden">
+        <div class="bg-white border-2 border-teal-700 p-5 rounded-xl mb-6 shadow-md">
+            <h3 class="font-bold text-teal-700 text-lg mb-4">⚙️ Cấu hình: Phân Hoạch Nguyên (Đổi Tiền Xu)</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                <div class="bg-teal-50 p-4 rounded-xl border border-teal-200">
+                    <label class="font-bold text-teal-900 block mb-2">Các mệnh giá đồng xu:</label>
+                    <input type="text" id="v3_Coins" value="1, 2, 5" placeholder="VD: 1, 2, 5" class="w-full px-3 py-2 border-2 border-teal-300 rounded-lg text-lg font-bold text-center text-teal-800">
+                    <p class="text-xs text-teal-600 mt-2 text-center">(Ngăn cách nhau bằng dấu phẩy. Giả sử số lượng xu mỗi loại là vô hạn)</p>
+                </div>
+                <div class="bg-amber-50 p-4 rounded-xl border border-amber-200">
+                    <label class="font-bold text-amber-900 block mb-2">Tổng số tiền cần đổi ($V$):</label>
+                    <input type="number" id="v3_V" value="20" min="1" max="1000" class="w-full px-3 py-2 border-2 border-amber-300 rounded-lg text-lg font-bold text-center text-amber-700">
+                </div>
+            </div>
+            <button onclick="solveClass3()" class="w-full py-3 bg-teal-700 hover:bg-teal-900 text-white font-bold rounded-lg transition-colors">Tạo Lời Giải Bài Toán Đổi Tiền</button>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- KHU VỰC RENDER KẾT QUẢ ĐỘNG (DÙNG CHUNG) -->
+    <!-- ========================================== -->
+    <div id="dynamicContentContainer" class="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-gray-200 hidden">
+        <!-- Javascript sẽ tiêm Lời giải theo chuẩn Typst vào đây -->
+    </div>
+
+    <!-- Core Logic Engine -->
+    <script>
+        // --- 1. UI TABS CONTROL ---
+        function switchTab(tabIndex) {
+            for(let i=1; i<=3; i++) {
+                document.getElementById('btnTab' + i).classList.remove('active');
+                document.getElementById('view' + i).classList.add('hidden');
+            }
+            document.getElementById('btnTab' + tabIndex).classList.add('active');
+            document.getElementById('view' + tabIndex).classList.remove('hidden');
+            document.getElementById('dynamicContentContainer').classList.add('hidden');
+        }
+
+        // --- 2. CORE MATH ENGINE (BigInt Polynomials) ---
+        function multiplyPolynomials(p1, p2, maxDegree) {
+            let result = new Array(maxDegree + 1).fill(0n);
+            for (let i = 0; i < p1.length; i++) {
+                if (p1[i] === 0n) continue;
+                for (let j = 0; j < p2.length; j++) {
+                    if (p2[j] === 0n) continue;
+                    if (i + j <= maxDegree) {
+                        result[i + j] += p1[i] * p2[j];
+                    }
+                }
+            }
+            return result;
+        }
+
+        function powerPolynomial(poly, exponent, maxDegree) {
+            let result = new Array(maxDegree + 1).fill(0n);
+            result[0] = 1n; // result = 1 (đa thức rỗng)
+            let base = [...poly];
+            
+            // Exponentiation by squaring (tối ưu hóa phép mũ)
+            let e = exponent;
+            while(e > 0) {
+                if (e % 2 === 1) result = multiplyPolynomials(result, base, maxDegree);
+                base = multiplyPolynomials(base, base, maxDegree);
+                e = Math.floor(e / 2);
+            }
+            return result;
+        }
+
+        function polyToLatex(poly, maxDisplay = 4) {
+            let terms = [];
+            let count = 0;
+            for (let i = 0; i < poly.length; i++) {
+                if (poly[i] !== 0n) {
+                    if (count >= maxDisplay) { terms.push("\\dots"); break; }
+                    if (i === 0) terms.push(`${poly[i]}`);
+                    else if (i === 1) terms.push(poly[i] === 1n ? `x` : `${poly[i]}x`);
+                    else terms.push(poly[i] === 1n ? `x^{${i}}` : `${poly[i]}x^{${i}}`);
+                    count++;
+                }
+            }
+            return terms.length > 0 ? terms.join(" + ") : "0";
+        }
+
+        // --- 3. RENDER FUNCTION ---
+        function renderToDOM(htmlContent) {
+            const container = document.getElementById('dynamicContentContainer');
+            container.innerHTML = htmlContent;
+            container.classList.remove('hidden');
+            if (window.MathJax) {
+                MathJax.typesetPromise([container]).then(() => {
+                    container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+            }
+        }
+
+        // ==============================================================
+        // CLASS 1 LOGIC: CHIA KẸO EULER
+        // ==============================================================
+        function toggleV1Param(group) {
+            const cond = document.getElementById('v1_cond' + group).value;
+            const box = document.getElementById('v1_param' + group + '_box');
+            if (cond === 'at_least') box.classList.remove('hidden');
+            else box.classList.add('hidden');
+        }
+
+        function getV1CondText(cond, val, name) {
+            if (cond === 'all') return `Nhóm <strong>${name}</strong>: số lượng tùy ý.`;
+            if (cond === 'even') return `Nhóm <strong>${name}</strong>: số chẵn ($0, 2, 4\\dots$).`;
+            if (cond === 'odd') return `Nhóm <strong>${name}</strong>: số lẻ ($1, 3, 5\\dots$).`;
+            if (cond === 'at_least') return `Nhóm <strong>${name}</strong>: ít nhất ${val} phần tử.`;
+        }
+
+        function createV1Poly(cond, val, maxD) {
+            let p = new Array(maxD + 1).fill(0n);
+            let v = parseInt(val) || 1;
+            for (let i = 0; i <= maxD; i++) {
+                if (cond === 'all') p[i] = 1n;
+                else if (cond === 'even' && i % 2 === 0) p[i] = 1n;
+                else if (cond === 'odd' && i % 2 !== 0) p[i] = 1n;
+                else if (cond === 'at_least' && i >= v) p[i] = 1n;
+            }
+            return p;
+        }
+
+        function solveClass1() {
+            const N = parseInt(document.getElementById('v1_N').value);
+            if (isNaN(N) || N < 1) return alert("N không hợp lệ!");
+            
+            const cA = document.getElementById('v1_condA').value, pA = document.getElementById('v1_paramA_val').value;
+            const cB = document.getElementById('v1_condB').value, pB = document.getElementById('v1_paramB_val').value;
+            const cC = document.getElementById('v1_condC').value, pC = document.getElementById('v1_paramC_val').value;
+
+            const PA = createV1Poly(cA, pA, N), PB = createV1Poly(cB, pB, N), PC = createV1Poly(cC, pC, N);
+            const PFinal = multiplyPolynomials(multiplyPolynomials(PA, PB, N), PC, N);
+            const ans = PFinal[N].toString();
+
+            const html = `
+                <div class="text-[12pt] font-bold text-[#004E89] border-l-[4px] border-[#004E89] pl-3 py-1 mb-4 uppercase tracking-wide bg-blue-50">Lớp 1: Phân Chia Đồ Vật (Euler)</div>
+                <div class="text-[14pt] mb-6">
+                    <strong>Đề bài:</strong> Có bao nhiêu cách chọn đúng <strong>${N}</strong> đồ vật từ 3 nhóm A, B, C sao cho:
+                    <ul class="list-disc ml-8 mt-2"><li>${getV1CondText(cA, pA, 'A')}</li><li>${getV1CondText(cB, pB, 'B')}</li><li>${getV1CondText(cC, pC, 'C')}</li></ul>
+                </div>
+                <div class="note-box">
+                    <div class="text-[#E65100] font-bold mb-2">📌 Tư duy nền tảng</div>
+                    Biểu diễn số lượng đồ vật được phép chọn của mỗi nhóm bằng số mũ của đa thức. Tổng đồ vật được chọn ứng với phép nhân số mũ $x^a \\cdot x^b = x^{a+b}$.
+                </div>
+                <div class="method-box">
+                    <div class="text-[#1A936F] font-bold mb-2">⚙️ Bước 1: Thiết lập Đa thức</div>
+                    <ul class="list-none ml-2 mt-2">
+                        <li>$P_A(x) = ${polyToLatex(PA)}$</li>
+                        <li>$P_B(x) = ${polyToLatex(PB)}$</li>
+                        <li>$P_C(x) = ${polyToLatex(PC)}$</li>
+                    </ul>
+                </div>
+                <div class="thm-box">
+                    <div class="text-[#880E4F] font-bold mb-2">📐 Bước 2: Hàm sinh tổ hợp</div>
+                    <div class="math-display">$$ G(x) = P_A(x) \\cdot P_B(x) \\cdot P_C(x) $$</div>
+                    Đáp án của bài toán là hệ số của $x^{${N}}$ trong khai triển.
+                </div>
+                <div class="ans-box">
+                    <div class="text-[#2E7D32] font-bold mb-1">✅ Kết Luận</div>
+                    Hệ số của $x^{${N}}$ là <strong><span class="text-red-600">${ans}</span></strong>. Có tất cả <strong>${ans}</strong> cách phân chia.
+                </div>
+            `;
+            renderToDOM(html);
+        }
+
+        // ==============================================================
+        // CLASS 2 LOGIC: TUNG XÚC XẮC (LŨY THỪA ĐA THỨC)
+        // ==============================================================
+        function solveClass2() {
+            const K = parseInt(document.getElementById('v2_K').value);
+            const M = parseInt(document.getElementById('v2_M').value);
+            const S = parseInt(document.getElementById('v2_S').value);
+            
+            if(isNaN(K) || isNaN(M) || isNaN(S) || K<1 || M<2 || S<1) return alert("Dữ liệu xúc xắc không hợp lệ!");
+            if(S < K || S > K * M) {
+                alert(`Với ${K} viên xúc xắc ${M} mặt, tổng chỉ có thể dao động từ ${K} đến ${K*M}.`);
+                return;
+            }
+
+            // Đa thức 1 viên xúc xắc: x^1 + x^2 + ... + x^M
+            let P1 = new Array(S + 1).fill(0n);
+            for(let i=1; i<=M && i<=S; i++) P1[i] = 1n;
+
+            const PFinal = powerPolynomial(P1, K, S);
+            const ans = PFinal[S].toString();
+
+            const html = `
+                <div class="text-[12pt] font-bold text-indigo-700 border-l-[4px] border-indigo-700 pl-3 py-1 mb-4 uppercase tracking-wide bg-indigo-50">Lớp 2: Tổng Biến Ngẫu Nhiên (Phương Trình Có Chặn)</div>
+                <div class="text-[14pt] mb-6">
+                    <strong>Đề bài:</strong> Tung <strong>${K}</strong> con xúc xắc cân đối, đồng chất loại <strong>${M} mặt</strong> (các mặt đánh số từ 1 đến ${M}). Hỏi có bao nhiêu kịch bản để tổng số chấm trên các mặt xuất hiện bằng đúng <strong>${S}</strong>?
+                </div>
+                <div class="note-box" style="background-color: #F8BBD0; border-color: #C2185B;">
+                    <div class="text-[#C2185B] font-bold mb-2">📌 Tư duy nền tảng</div>
+                    Đây là bài toán tìm số nghiệm nguyên của phương trình: $x_1 + x_2 + \\dots + x_{${K}} = ${S}$, với điều kiện ngặt $1 \\le x_i \\le ${M}$. Nếu dùng nguyên lý bù trừ (PIE) sẽ cực kỳ phức tạp. Hàm sinh sẽ giải quyết bằng 1 dòng đại số.
+                </div>
+                <div class="method-box" style="background-color: #E8EAF6; border-color: #3F51B5;">
+                    <div class="text-[#3F51B5] font-bold mb-2">⚙️ Bước 1: Đa thức cho 1 con xúc xắc</div>
+                    Mỗi con xúc xắc cho ta một điểm số từ $1$ đến $${M}$. Đa thức biểu diễn nó là:
+                    <div class="math-display">$$ P_1(x) = x^1 + x^2 + \\dots + x^{${M}} $$</div>
+                </div>
+                <div class="thm-box" style="background-color: #F3E5F5; border-color: #8E24AA;">
+                    <div class="text-[#8E24AA] font-bold mb-2">📐 Bước 2: Hàm sinh lũy thừa</div>
+                    Vì ta có ${K} con xúc xắc độc lập, hàm sinh cho tổng điểm là lũy thừa bậc ${K} của $P_1(x)$:
+                    <div class="math-display">$$ G(x) = \\left( x^1 + x^2 + \\dots + x^{${M}} \\right)^{${K}} $$</div>
+                </div>
+                <div class="ans-box" style="background-color: #E0F2F1; border-color: #009688;">
+                    <div class="text-[#009688] font-bold mb-1">✅ Kết Luận (Khai triển tới bậc ${S})</div>
+                    Khai triển $G(x)$ và trích xuất hệ số của $x^{${S}}$, ta được đáp án là <strong><span class="text-red-600">${ans}</span></strong>.
+                    <br><br>Vậy có <strong>${ans}</strong> khả năng để tổng điểm xúc xắc bằng ${S}.
+                </div>
+            `;
+            renderToDOM(html);
+        }
+
+        // ==============================================================
+        // CLASS 3 LOGIC: ĐỔI TIỀN (PHÂN HOẠCH SỐ NGUYÊN)
+        // ==============================================================
+        function solveClass3() {
+            const coinsRaw = document.getElementById('v3_Coins').value;
+            const V = parseInt(document.getElementById('v3_V').value);
+            
+            if(isNaN(V) || V < 1) return alert("Tổng tiền V không hợp lệ!");
+            
+            let coins = coinsRaw.split(',').map(s => parseInt(s.trim())).filter(n => !isNaN(n) && n > 0);
+            if(coins.length === 0) return alert("Vui lòng nhập ít nhất 1 mệnh giá đồng xu hợp lệ!");
+
+            let PFinal = new Array(V + 1).fill(0n);
+            PFinal[0] = 1n; // Khởi tạo G(x) = 1
+
+            let polyStrs = [];
+
+            // Nhân tuần tự vô hạn đa thức của từng đồng xu
+            for(let c of coins) {
+                let P_coin = new Array(V + 1).fill(0n);
+                // Đồng mệnh giá c, có thể dùng 0, 1, 2... lần => số mũ là 0, c, 2c, 3c...
+                for(let i = 0; i <= V; i += c) P_coin[i] = 1n;
+                PFinal = multiplyPolynomials(PFinal, P_coin, V);
+                
+                polyStrs.push(`(1 + x^{${c}} + x^{${c*2}} + \\dots)`);
+            }
+
+            const ans = PFinal[V].toString();
+            let latexCoins = coins.join(", ");
+
+            const html = `
+                <div class="text-[12pt] font-bold text-teal-700 border-l-[4px] border-teal-700 pl-3 py-1 mb-4 uppercase tracking-wide bg-teal-50">Lớp 3: Phân Hoạch Số Nguyên (Bài Toán Đổi Tiền)</div>
+                <div class="text-[14pt] mb-6">
+                    <strong>Đề bài:</strong> Một quốc gia có lưu hành các đồng tiền xu với mệnh giá thuộc tập $C = \\{${latexCoins}\\}$, số lượng xu của mỗi mệnh giá là không giới hạn. Có bao nhiêu cách đổi một tờ tiền trị giá <strong>$V = ${V}$</strong> thành các đồng xu này?
+                </div>
+                <div class="note-box" style="background-color: #FFF3E0; border-color: #EF6C00;">
+                    <div class="text-[#EF6C00] font-bold mb-2">📌 Tư duy nền tảng</div>
+                    Đây là bài toán chia một số nguyên $V$ thành tổng các bội số của tập $C$. Bài toán kinh điển này cực kỳ khó dùng công thức tổ hợp thường, nhưng lại là đất diễn hoàn hảo nhất của Hàm Sinh, biểu diễn qua dạng phân thức nghịch đảo.
+                </div>
+                <div class="method-box" style="background-color: #E0F7FA; border-color: #00838F;">
+                    <div class="text-[#00838F] font-bold mb-2">⚙️ Bước 1: Đa thức cho từng loại xu</div>
+                    Với một đồng xu mệnh giá $c$, nếu ta dùng $k$ đồng thì tổng tiền là $k \\cdot c$. Đa thức biểu diễn số lượng vô hạn đồng xu này là một cấp số nhân:
+                    <div class="math-display">$$ 1 + x^c + x^{2c} + x^{3c} + \\dots = \\frac{1}{1-x^c} $$</div>
+                </div>
+                <div class="thm-box" style="background-color: #E8F5E9; border-color: #2E7D32;">
+                    <div class="text-[#2E7D32] font-bold mb-2">📐 Bước 2: Tích chập các đa thức (Dạng đóng)</div>
+                    Hàm sinh $G(x)$ của hệ thống tiền tệ này là tích của các cấp số nhân vô hạn tương ứng với từng mệnh giá:
+                    <div class="math-display">
+                        \\begin{aligned}
+                        G(x) &= ${polyStrs.slice(0, 3).join(' \\cdot ')} \\dots \\\\
+                        &= \\prod_{c \\in C} \\frac{1}{1-x^c}
+                        \\end{aligned}
+                    </div>
+                </div>
+                <div class="ans-box" style="background-color: #F9FBE7; border-color: #9E9D24;">
+                    <div class="text-[#9E9D24] font-bold mb-1">✅ Kết Luận</div>
+                    Để tìm số cách đổi $V = ${V}$, thuật toán tiến hành khai triển $G(x)$ và trích xuất hệ số của $x^{${V}}$.
+                    <br><br>Nhận thấy hệ số của $x^{${V}}$ là <strong><span class="text-red-600 text-xl">${ans}</span></strong>. Vậy có ${ans} cách đổi tiền.
+                </div>
+            `;
+            renderToDOM(html);
+        }
+
+        // Init: Mở tab 1 mặc định
+        window.onload = function() {
+            switchTab(1);
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+Created At: 2026-05-26T03:45:48Z
+Completed At: 2026-05-26T03:45:48Z
+File Path: `file:///Users/admin/conictypst/typst/exams/CD-XepGhe-KhongKe.typ`
+Total Lines: 3124
+Total Bytes: 127911
+Showing lines 1200 to 1250
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1200: 
+1201:   *3. Dùng bù trừ cặp kề trùng:*
+1202: 
+1203:   Với:
+1204:   $
+1205:     n_A = 4, quad n_B = 2, quad n_C = 2, quad n_E = 2.
+1206:   $
+1207: 
+1208:   Gọi:
+1209:   - $i$ là số liên kết ghép trong lớp A, $i = 0,1,2,3$.
+1210:   - $j$ là số liên kết ghép trong lớp B, $j = 0,1$.
+1211:   - $k$ là số liên kết ghép trong lớp C, $k = 0,1$.
+1212: 
+1213:   Khi đó số cấu trúc đồng nhất được tính bởi:
+1214:   $
+1215:     S_("cấu trúc")
+1216:     =
+1217:     sum_(i=0)^3 sum_(j=0)^1 sum_(k=0)^1
+1218:     (-1)^(i+j+k)
+1219:     C_3^i C_1^j C_1^k
+1220:     frac((10 - i - j - k)!,
+1221:     (4-i)! (2-j)! (2-k)! 2!)
+1222:   $
+1223: 
+1224:   Tính ra:
+1225:   $
+1226:     S_("cấu trúc") = 2310.
+1227:   $
+1228: 
+1229:   *4. Gán học sinh phân biệt:*
+1230: 
+1231:   $
+1232:     N = 2310 times 4! times 2! times 2!
+1233:       = 2310 times 96
+1234:       = 221760.
+1235:   $
+1236: ]
+1237: 
+1238: #ans-box[
+1239:   Số cách xếp thỏa mãn là *221760 cách*.
+1240: ]
+1241: 
+1242: == 3.4 — Bài toán 4: Vận dụng cao (Học sinh giỏi)
+1243: 
+1244: *Bài toán 6.1:* Xếp ngẫu nhiên $8$ bạn học sinh lớp A, $3$ bạn học sinh lớp B, $2$ bạn học sinh lớp C vào $16$ ghế hàng ngang. Gọi $p$ là xác suất để không có hai học sinh nào cùng lớp ngồi ở hai ghế kề nhau. Hãy tính $10^6 p$ (không làm tròn ở các phép tính trung gian và làm tròn kết quả cuối cùng đến hàng đơn vị).
+1245: 
+1246: #block(
+1247:   fill: rgb("E3F2FD"),
+1248:   stroke: (left: 4pt + col-blue, rest: 0.5pt + rgb("90CAF9")),
+1249:   radius: (right: 6pt),
+1250:   inset: (x: 13pt, y: 10pt),
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

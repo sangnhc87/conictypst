@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chuyên Đề Conic - Giải Mã & Tích Phân Mở Rộng</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: 'New Computer Modern', 'Segoe UI', serif; background-color: #f8fafc; color: #1e293b; line-height: 1.6; }
+        .math-display { overflow-x: auto; padding: 5px 0; }
+        
+        /* Gradient Header */
+        .typst-header {
+            background: linear-gradient(135deg, #0D47A1, #1565C0, #1976D2, #004D40);
+            color: white; padding: 15pt 20pt; border-radius: 8pt;
+            margin-top: 1em; margin-bottom: 1.5em; text-align: center;
+            box-shadow: 0 10px 25px -5px rgba(13, 71, 161, 0.4);
+        }
+
+        /* Box Styles theo Typst */
+        .theory-box {
+            background-color: #E3F2FD; border-left: 5px solid #0D47A1;
+            border-top: 1px solid #BBDEFB; border-right: 1px solid #BBDEFB; border-bottom: 1px solid #BBDEFB;
+            border-radius: 0 8pt 8pt 0; padding: 14pt 18pt; margin-bottom: 1.2rem;
+        }
+        .formula-box {
+            background-color: #FFFDE7; border: 2px solid #F9A825;
+            border-radius: 8pt; padding: 12pt 16pt; margin-bottom: 1.2rem;
+        }
+        .step-box {
+            background-color: #F0F8FF; border-left: 4px solid #1565C0;
+            border-radius: 0 6pt 6pt 0; padding: 10pt 14pt; margin-bottom: 1rem;
+        }
+        .ans-box {
+            background-color: #E8F5E9; border-left: 5px solid #2E7D32;
+            border-top: 1px solid #A5D6A7; border-right: 1px solid #A5D6A7; border-bottom: 1px solid #A5D6A7;
+            border-radius: 0 8pt 8pt 0; padding: 12pt 16pt; margin-top: 1.2rem;
+        }
+
+        /* Tabs Menu */
+        .tab-btn { transition: all 0.3s ease; }
+        .tab-btn.active { background-color: #0D47A1; color: white; border-color: #0D47A1; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2); transform: translateY(-2px); }
+        .tab-btn:not(.active) { background-color: white; color: #475569; border-color: #cbd5e1; }
+        .tab-btn:not(.active):hover { background-color: #f1f5f9; color: #0D47A1; }
+
+        /* Custom Toast Notification */
+        #errorToast {
+            visibility: hidden; min-width: 250px; background-color: #d32f2f; color: #fff;
+            text-align: center; border-radius: 8px; padding: 16px; position: fixed;
+            z-index: 1000; left: 50%; bottom: 30px; font-weight: bold; transform: translateX(-50%);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3); opacity: 0; transition: opacity 0.3s, bottom 0.3s;
+        }
+        #errorToast.show { visibility: visible; opacity: 1; bottom: 50px; }
+    </style>
+</head>
+<body class="p-4 md:p-6 max-w-6xl mx-auto">
+
+    <!-- Global Error Toast -->
+    <div id="errorToast">Error Message</div>
+
+    <!-- Header -->
+    <div class="typst-header">
+        <div class="text-[10pt] tracking-widest uppercase mb-2 opacity-80 font-semibold">Toán 12 • Ứng dụng Tích Phân Toàn Diện</div>
+        <div class="text-[20pt] md:text-[28pt] font-extrabold mb-1 drop-shadow-md">TÍCH PHÂN & ỨNG DỤNG THỰC TIỄN</div>
+        <div class="text-[12pt] text-blue-100 font-medium tracking-wide">Diện Tích · Thể Tích · Bài Toán Kinh Tế · Giải Mã Conic</div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="flex flex-wrap gap-2 md:gap-3 mb-6 justify-center">
+        <button onclick="switchTab(1)" id="btnTab1" class="tab-btn active px-4 py-2 rounded-xl border-2 font-bold text-sm md:text-base">
+            🌉 Loại 1: Cổng Parabol
+        </button>
+        <button onclick="switchTab(2)" id="btnTab2" class="tab-btn px-4 py-2 rounded-xl border-2 font-bold text-sm md:text-base">
+            🏈 Loại 2: Elip Hình Học
+        </button>
+        <button onclick="switchTab(3)" id="btnTab3" class="tab-btn px-4 py-2 rounded-xl border-2 font-bold text-sm md:text-base">
+            🏭 Loại 3: Tháp Hypebol
+        </button>
+        <button onclick="switchTab(4)" id="btnTab4" class="tab-btn px-4 py-2 rounded-xl border-2 font-bold text-sm md:text-base">
+            🎩 Loại 4: Chiếc Mũ (Khối Xoay)
+        </button>
+        <button onclick="switchTab(5)" id="btnTab5" class="tab-btn px-4 py-2 rounded-xl border-2 font-bold text-sm md:text-base">
+            💰 Loại 5: Chi Phí Bảo Trì
+        </button>
+        <button onclick="switchTab(6)" id="btnTab6" class="tab-btn px-4 py-2 rounded-xl border-2 font-bold text-sm md:text-base">
+            🎨 Loại 6: Sơn Cổng Phức Hợp
+        </button>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VIEW 1: CỔNG PARABOL THỰC TẾ -->
+    <!-- ========================================== -->
+    <div id="view1" class="view-panel">
+        <div class="bg-white border-2 border-[#0D47A1] p-5 rounded-xl mb-6 shadow-md">
+            <h3 class="font-bold text-[#0D47A1] text-lg mb-2">⚙️ Truy hồi phương trình Parabol từ kích thước</h3>
+            <p class="text-sm text-gray-600 mb-4">Một cổng chào có hình dáng Parabol. Đề bài chỉ cho biết <strong>Chiều rộng chân cổng (Span)</strong> và <strong>Chiều cao cổng (Height)</strong>. Hãy lập phương trình và tính diện tích mặt cổng.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                <div class="bg-blue-50 p-4 rounded-xl border border-blue-200">
+                    <label class="font-bold text-blue-900 block mb-2">Chiều rộng chân cổng $W$ (m):</label>
+                    <input type="number" id="v1_W" value="8" min="1" class="w-full px-3 py-2 border border-blue-300 rounded-lg text-lg font-bold text-center">
+                </div>
+                <div class="bg-blue-50 p-4 rounded-xl border border-blue-200">
+                    <label class="font-bold text-blue-900 block mb-2">Chiều cao đỉnh cổng $H$ (m):</label>
+                    <input type="number" id="v1_H" value="4" min="1" class="w-full px-3 py-2 border border-blue-300 rounded-lg text-lg font-bold text-center">
+                </div>
+            </div>
+            <button onclick="solveClass1()" class="w-full py-3 bg-[#0D47A1] hover:bg-[#1565C0] text-white font-bold rounded-lg transition-colors">Giải Mã Parabol & Tính Diện Tích</button>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VIEW 2: ELIP TỪ DỮ KIỆN HÌNH HỌC -->
+    <!-- ========================================== -->
+    <div id="view2" class="view-panel hidden">
+        <div class="bg-white border-2 border-[#C62828] p-5 rounded-xl mb-6 shadow-md">
+            <h3 class="font-bold text-[#C62828] text-lg mb-2">⚙️ Truy hồi phương trình Elip</h3>
+            <p class="text-sm text-gray-600 mb-4">Đề bài ẩn các mẫu số $a^2, b^2$ thông qua các kích thước đặc trưng. Hãy tìm phương trình chính tắc và tính thể tích khối tròn xoay quanh trục $Ox$.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                <div class="bg-red-50 p-4 rounded-xl border border-red-200">
+                    <label class="font-bold text-red-900 block mb-2">Độ dài trục lớn ($2a$):</label>
+                    <input type="number" id="v2_2a" value="10" min="2" step="1" class="w-full px-3 py-2 border border-red-300 rounded-lg text-lg font-bold text-center">
+                </div>
+                <div class="bg-red-50 p-4 rounded-xl border border-red-200">
+                    <label class="font-bold text-red-900 block mb-2">Tiêu cự ($2c$):</label>
+                    <input type="number" id="v2_2c" value="6" min="1" step="1" class="w-full px-3 py-2 border border-red-300 rounded-lg text-lg font-bold text-center">
+                </div>
+            </div>
+            <button onclick="solveClass2()" class="w-full py-3 bg-[#C62828] hover:bg-[#b71c1c] text-white font-bold rounded-lg transition-colors">Giải Mã Elip & Tính Thể Tích</button>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VIEW 3: THÁP GIẢI NHIỆT HYPEBOL -->
+    <!-- ========================================== -->
+    <div id="view3" class="view-panel hidden">
+        <div class="bg-white border-2 border-[#2E7D32] p-5 rounded-xl mb-6 shadow-md">
+            <h3 class="font-bold text-[#2E7D32] text-lg mb-2">⚙️ Truy hồi phương trình Hypebol</h3>
+            <p class="text-sm text-gray-600 mb-4">Một tháp giải nhiệt có hình Hypeboloit tròn xoay. Cho biết các bán kính thực tế, lập phương trình mặt cắt và tính thể tích phần dưới cổ tháp.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div class="bg-green-50 p-3 rounded-xl border border-green-200">
+                    <label class="font-bold text-green-900 block mb-2 text-sm">Bán kính cổ tháp ($r_{min}$):</label>
+                    <input type="number" id="v3_rmin" value="2" min="1" class="w-full p-2 border border-green-300 rounded-lg font-bold text-center">
+                </div>
+                <div class="bg-green-50 p-3 rounded-xl border border-green-200">
+                    <label class="font-bold text-green-900 block mb-2 text-sm">Bán kính đáy ($R_{base}$):</label>
+                    <input type="number" id="v3_Rbase" value="4" min="2" class="w-full p-2 border border-green-300 rounded-lg font-bold text-center">
+                </div>
+                <div class="bg-green-50 p-3 rounded-xl border border-green-200">
+                    <label class="font-bold text-green-900 block mb-2 text-sm">C/cao từ cổ tới đáy ($h$):</label>
+                    <input type="number" id="v3_h" value="6" min="1" class="w-full p-2 border border-green-300 rounded-lg font-bold text-center">
+                </div>
+            </div>
+            <button onclick="solveClass3()" class="w-full py-3 bg-[#2E7D32] hover:bg-[#1B5E20] text-white font-bold rounded-lg transition-colors">Giải Mã Hypebol & Tính Thể Tích</button>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VIEW 4: CHIẾC MŨ TRÒN XOAY (TRỤ + PARABOL) -->
+    <!-- ========================================== -->
+    <div id="view4" class="view-panel hidden">
+        <div class="bg-white border-2 border-[#6A1B9A] p-5 rounded-xl mb-6 shadow-md">
+            <h3 class="font-bold text-[#6A1B9A] text-lg mb-2">⚙️ Khối Tròn Xoay Phức Hợp (Chiếc Mũ)</h3>
+            <p class="text-sm text-gray-600 mb-4">Chiếc mũ gồm phần đế hình trụ (vành mũ) và phần chóp trên là Paraboloid tròn xoay. Tính tổng thể tích chiếc mũ.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div class="bg-purple-50 p-3 rounded-xl border border-purple-200">
+                    <label class="font-bold text-purple-900 block mb-2 text-sm">Bán kính đáy $OA$ (cm):</label>
+                    <input type="number" id="v4_r" value="10" min="1" class="w-full p-2 border border-purple-300 rounded-lg font-bold text-center">
+                </div>
+                <div class="bg-purple-50 p-3 rounded-xl border border-purple-200">
+                    <label class="font-bold text-purple-900 block mb-2 text-sm">C.cao đế trụ $OO'$ (cm):</label>
+                    <input type="number" id="v4_h1" value="6" min="0" class="w-full p-2 border border-purple-300 rounded-lg font-bold text-center">
+                </div>
+                <div class="bg-purple-50 p-3 rounded-xl border border-purple-200">
+                    <label class="font-bold text-purple-900 block mb-2 text-sm">C.cao chóp $OB$ (cm):</label>
+                    <input type="number" id="v4_H" value="20" min="1" class="w-full p-2 border border-purple-300 rounded-lg font-bold text-center">
+                </div>
+            </div>
+            <button onclick="solveClass4()" class="w-full py-3 bg-[#6A1B9A] hover:bg-[#4A148C] text-white font-bold rounded-lg transition-colors">Phân Tích Thể Tích Khối Xoay</button>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VIEW 5: TÍCH PHÂN KINH TẾ (CHI PHÍ BẢO TRÌ) -->
+    <!-- ========================================== -->
+    <div id="view5" class="view-panel hidden">
+        <div class="bg-white border-2 border-[#E65100] p-5 rounded-xl mb-6 shadow-md">
+            <h3 class="font-bold text-[#E65100] text-lg mb-2">⚙️ Hàm Tích Phân Kinh Tế (Mua & Bảo Trì)</h3>
+            <p class="text-sm text-gray-600 mb-4">Mô hình hóa chi phí thiết bị: $C(x) = C_0 \left(A + B \displaystyle\int_0^x t^{1/4} dt\right)$ trong đó $x$ là số năm vận hành.</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                <div class="bg-orange-50 p-3 rounded-xl border border-orange-200">
+                    <label class="font-bold text-orange-900 block mb-2 text-sm">Hằng số $C_0$:</label>
+                    <input type="number" id="v5_C0" value="5000" min="1" class="w-full p-2 border border-orange-300 rounded-lg font-bold text-center">
+                </div>
+                <div class="bg-orange-50 p-3 rounded-xl border border-orange-200">
+                    <label class="font-bold text-orange-900 block mb-2 text-sm">Hệ số $A$ (Giá gốc):</label>
+                    <input type="number" id="v5_A" value="25" min="1" class="w-full p-2 border border-orange-300 rounded-lg font-bold text-center">
+                </div>
+                <div class="bg-orange-50 p-3 rounded-xl border border-orange-200">
+                    <label class="font-bold text-orange-900 block mb-2 text-sm">Hệ số $B$ (Bảo trì):</label>
+                    <input type="number" id="v5_B" value="3" min="1" class="w-full p-2 border border-orange-300 rounded-lg font-bold text-center">
+                </div>
+                <div class="bg-orange-100 p-3 rounded-xl border border-orange-400">
+                    <label class="font-bold text-orange-900 block mb-2 text-sm">Số năm cần tính ($x$):</label>
+                    <input type="number" id="v5_x" value="10" min="1" step="0.5" class="w-full p-2 border border-orange-500 rounded-lg font-bold text-center">
+                </div>
+            </div>
+            <button onclick="solveClass5()" class="w-full py-3 bg-[#E65100] hover:bg-[#BF360C] text-white font-bold rounded-lg transition-colors">Giải Bài Toán Chi Phí Tích Lũy</button>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VIEW 6: SƠN CỔNG PARABOL (DIỆN TÍCH PHỨC HỢP) -->
+    <!-- ========================================== -->
+    <div id="view6" class="view-panel hidden">
+        <div class="bg-white border-2 border-[#00695C] p-5 rounded-xl mb-6 shadow-md">
+            <h3 class="font-bold text-[#00695C] text-lg mb-2">⚙️ Sơn Trang Trí Cổng Parabol</h3>
+            <p class="text-sm text-gray-600 mb-4">Cổng Parabol có $R_{ộng}=4m$, $C_{ao}=4m$. Phía dưới là hình quạt bán kính $R=2m$. Hình được chia thành 3 phần: Hình quạt (giữa), Kẻ sọc (trên) và Còn lại (xung quanh). Hãy thiết lập đơn giá sơn để tính tổng chi phí.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div class="bg-teal-50 p-3 rounded-xl border border-teal-200">
+                    <label class="font-bold text-teal-900 block mb-2 text-sm">Giá Sơn Phần Quạt ($c_1$):</label>
+                    <input type="number" id="v6_c1" value="150000" min="0" step="1000" class="w-full p-2 border border-teal-300 rounded-lg font-bold text-center">
+                </div>
+                <div class="bg-teal-50 p-3 rounded-xl border border-teal-200">
+                    <label class="font-bold text-teal-900 block mb-2 text-sm">Giá Sơn Phần Sọc ($c_2$):</label>
+                    <input type="number" id="v6_c2" value="140000" min="0" step="1000" class="w-full p-2 border border-teal-300 rounded-lg font-bold text-center">
+                </div>
+                <div class="bg-teal-50 p-3 rounded-xl border border-teal-200">
+                    <label class="font-bold text-teal-900 block mb-2 text-sm">Giá Sơn Còn Lại ($c_3$):</label>
+                    <input type="number" id="v6_c3" value="160000" min="0" step="1000" class="w-full p-2 border border-teal-300 rounded-lg font-bold text-center">
+                </div>
+            </div>
+            <button onclick="solveClass6()" class="w-full py-3 bg-[#00695C] hover:bg-[#004D40] text-white font-bold rounded-lg transition-colors">Tính Toán Diện Tích Tích Phân & Chi Phí</button>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- KHU VỰC RENDER KẾT QUẢ ĐỘNG (DÙNG CHUNG) -->
+    <!-- ========================================== -->
+    <div id="dynamicContentContainer" class="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-gray-200 hidden mt-6">
+        <!-- Javascript sẽ tiêm Lời giải theo chuẩn Typst vào đây -->
+    </div>
+
+    <!-- Core Logic Engine -->
+    <script>
+        // --- 1. UTILS & UI CONTROL ---
+        function showError(msg) {
+            const toast = document.getElementById('errorToast');
+            toast.innerText = msg;
+            toast.className = "show";
+            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+        }
+
+        function switchTab(tabIndex) {
+            for(let i=1; i<=6; i++) {
+                document.getElementById('btnTab' + i).classList.remove('active');
+                document.getElementById('view' + i).classList.add('hidden');
+            }
+            document.getElementById('btnTab' + tabIndex).classList.add('active');
+            document.getElementById('view' + tabIndex).classList.remove('hidden');
+            document.getElementById('dynamicContentContainer').classList.add('hidden');
+        }
+
+        function renderToDOM(htmlContent) {
+            const container = document.getElementById('dynamicContentContainer');
+            container.innerHTML = htmlContent;
+            container.classList.remove('hidden');
+            if (window.MathJax) {
+                MathJax.typesetPromise([container]).then(() => {
+                    container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+            }
+        }
+
+        function fmt(num) {
+            return Number.isInteger(num) ? num.toString() : num.toFixed(2);
+        }
+        function fmtF(num) {
+            return Number.isInteger(num) ? num.toString() : num.toFixed(4);
+        }
+
+        // ==============================================================
+        // CLASS 1 LOGIC: CỔNG PARABOL THỰC TẾ
+        // ==============================================================
+        function solveClass1() {
+            const W = parseFloat(document.getElementById('v1_W').value);
+            const H = parseFloat(document.getElementById('v1_H').value);
+            
+            if(isNaN(W) || isNaN(H) || W <= 0 || H <= 0) return showError("Kích thước cổng phải là số dương!");
+
+            const halfW = W / 2;
+            const a = (-4 * H) / (W * W);
+            const S = (2/3) * W * H;
+
+            const html = `
+                <div class="text-[14pt] mb-6 border-l-4 border-[#0D47A1] pl-4">
+                    <strong class="text-[#0D47A1]">Bài toán Thực tế:</strong> Một cổng chào có hình dạng Parabol. Biết khoảng cách giữa hai chân cổng là $${fmt(W)}$ m và chiều cao tính từ mặt đất lên đỉnh cổng là $${fmt(H)}$ m. Tính diện tích bề mặt của cổng.
+                </div>
+                <div class="theory-box">
+                    <div class="text-[#0D47A1] font-bold text-[11pt] mb-2">💡 Kỹ thuật Dời trục tọa độ</div>
+                    Để phương trình đơn giản nhất, ta luôn chọn <strong>trục $Oy$ đi qua đỉnh cổng</strong> (trục đối xứng) và <strong>trục $Ox$ nằm trên mặt đất</strong>. Khi đó parabol có dạng $y = ax^2 + c$.
+                </div>
+                <div class="step-box">
+                    <strong class="text-[#1565C0]">Bước 1: Giải mã phương trình Parabol $(P)$</strong>
+                    <br>Chọn hệ trục $Oxy$ như trên. 
+                    <br>- Đỉnh cổng nằm trên trục $Oy$ có tọa độ $(0; ${fmt(H)})$, do đó $c = ${fmt(H)}$. Phương trình có dạng $y = ax^2 + ${fmt(H)}$.
+                    <br>- Cổng rộng $${fmt(W)}$ m nên chân cổng phía bên phải có tọa độ $\\left(\\displaystyle\\frac{${fmt(W)}}{2}; 0\\right) = (${fmt(halfW)}; 0)$.
+                    <br>Thay tọa độ chân cổng vào phương trình:
+                    <div class="math-display">
+                        \\[ \\begin{aligned} 
+                        a \\cdot (${fmt(halfW)})^2 + ${fmt(H)} &= 0 \\\\
+                        ${fmt(halfW * halfW)}a &= -${fmt(H)} \\\\
+                        a &= -\\displaystyle\\frac{${fmt(H)}}{${fmt(halfW * halfW)}} = ${fmtF(a)}
+                        \\end{aligned} \\]
+                    </div>
+                    Vậy phương trình của Parabol là: $(P): y = ${fmtF(a)}x^2 + ${fmt(H)}$.
+                </div>
+                <div class="step-box">
+                    <strong class="text-[#1565C0]">Bước 2: Thiết lập Tích phân Diện tích</strong>
+                    <br>Diện tích cổng giới hạn bởi $(P)$ và trục $Ox$ trên đoạn $[-${fmt(halfW)}, ${fmt(halfW)}]$ là:
+                    <div class="math-display">
+                        \\[ \\begin{aligned}
+                        S &= \\displaystyle\\int_{-${fmt(halfW)}}^{${fmt(halfW)}} \\left( ${fmtF(a)}x^2 + ${fmt(H)} \\right) dx \\\\
+                        &= \\left[ \\displaystyle\\frac{${fmtF(a)}x^3}{3} + ${fmt(H)}x \\right]_{-${fmt(halfW)}}^{${fmt(halfW)}}
+                        \\end{aligned} \\]
+                    </div>
+                </div>
+                <div class="ans-box">
+                    <div class="text-[#2E7D32] font-bold mb-1">✅ Kết Luận</div>
+                    Tính toán tích phân (hoặc dùng công thức nhanh Archimedes $S = \\displaystyle\\frac{2}{3}WH$), ta được diện tích cổng là:
+                    <div class="math-display text-lg text-red-600 font-bold">$$S = \\displaystyle\\frac{2}{3} \\cdot ${fmt(W)} \\cdot ${fmt(H)} \\approx ${S.toFixed(2)} \\text{ (m}^2)$$</div>
+                </div>
+            `;
+            renderToDOM(html);
+        }
+
+        // ==============================================================
+        // CLASS 2 LOGIC: ELIP TỪ DỮ KIỆN HÌNH HỌC
+        // ==============================================================
+        function solveClass2() {
+            const len2a = parseFloat(document.getElementById('v2_2a').value);
+            const len2c = parseFloat(document.getElementById('v2_2c').value);
+            
+            if(isNaN(len2a) || isNaN(len2c) || len2a <= 0 || len2c <= 0) return showError("Các độ dài phải là số dương!");
+            if(len2c >= len2a) return showError("Lỗi Hình Học: Tiêu cự (2c) bắt buộc phải nhỏ hơn Trục lớn (2a) đối với Elip!");
+
+            const a = len2a / 2;
+            const c = len2c / 2;
+            const a2 = a * a;
+            const c2 = c * c;
+            const b2 = a2 - c2;
+            const b = Math.sqrt(b2);
+            const V_coef = (4/3) * a * b2;
+
+            const html = `
+                <div class="text-[14pt] mb-6 border-l-4 border-[#C62828] pl-4">
+                    <strong class="text-[#C62828]">Bài toán Hình học:</strong> Cho một khối tròn xoay tạo thành khi quay hình Elip $(E)$ quanh trục $Ox$. Biết Elip có độ dài trục lớn là $${fmt(len2a)}$ và tiêu cự bằng $${fmt(len2c)}$. Tính thể tích khối tròn xoay đó.
+                </div>
+                <div class="formula-box">
+                    <div class="text-[#F57F17] font-bold text-[11pt] mb-2">📋 Nhắc lại tính chất Elip</div>
+                    Phương trình chính tắc của Elip có dạng: $\\displaystyle\\frac{x^2}{a^2} + \\displaystyle\\frac{y^2}{b^2} = 1$.<br>
+                    Mối liên hệ giữa các bán trục và tiêu cự $c$: $\\mathbf{a^2 = b^2 + c^2}$.
+                </div>
+                <div class="step-box" style="border-color: #C62828; background-color: #FFEBEE;">
+                    <strong class="text-[#C62828]">Bước 1: Giải mã phương trình Elip $(E)$</strong>
+                    <br>Từ giả thiết đề bài, ta suy ra:
+                    <ul class="list-disc ml-8 mt-1 space-y-1">
+                        <li>Độ dài trục lớn $2a = ${fmt(len2a)} \\implies a = ${fmt(a)} \\implies a^2 = ${fmt(a2)}$.</li>
+                        <li>Tiêu cự $2c = ${fmt(len2c)} \\implies c = ${fmt(c)} \\implies c^2 = ${fmt(c2)}$.</li>
+                    </ul>
+                    <br>Sử dụng hệ thức Elip để tìm $b^2$:
+                    <div class="math-display">$$b^2 = a^2 - c^2 = ${fmt(a2)} - ${fmt(c2)} = ${fmt(b2)}$$</div>
+                    Vậy phương trình chính tắc của Elip là: $(E): \\displaystyle\\frac{x^2}{${fmt(a2)}} + \\displaystyle\\frac{y^2}{${fmt(b2)}} = 1$.
+                </div>
+                <div class="step-box" style="border-color: #C62828; background-color: #FFEBEE;">
+                    <strong class="text-[#C62828]">Bước 2: Thiết lập tích phân khối tròn xoay</strong>
+                    <br>Rút $y^2$ từ phương trình Elip: $y^2 = ${fmt(b2)} \\left(1 - \\displaystyle\\frac{x^2}{${fmt(a2)}}\\right)$.
+                    <br>Thể tích khối tròn xoay quanh trục $Ox$ được tính bằng:
+                    <div class="math-display">
+                        \\[ \\begin{aligned}
+                        V &= \\pi \\displaystyle\\int_{-${fmt(a)}}^{${fmt(a)}} y^2 dx \\\\
+                        &= \\pi \\displaystyle\\int_{-${fmt(a)}}^{${fmt(a)}} ${fmt(b2)} \\left(1 - \\displaystyle\\frac{x^2}{${fmt(a2)}}\\right) dx \\\\
+                        &= ${fmt(b2)}\\pi \\left[ x - \\displaystyle\\frac{x^3}{3 \\cdot ${fmt(a2)}} \\right]_{-${fmt(a)}}^{${fmt(a)}}
+                        \\end{aligned} \\]
+                    </div>
+                </div>
+                <div class="ans-box">
+                    <div class="text-[#2E7D32] font-bold mb-1">✅ Kết Luận</div>
+                    Thể tích khối Ellipsoid thu được là (có thể đối chiếu bằng công thức nhanh $V = \\frac{4}{3}\\pi ab^2$):
+                    <div class="math-display text-lg text-red-600 font-bold">$$V = ${fmt(V_coef)} \\pi \\approx ${(V_coef * Math.PI).toFixed(2)} \\text{ (đvtt)}$$</div>
+                </div>
+            `;
+            renderToDOM(html);
+        }
+
+        // ==============================================================
+        // CLASS 3 LOGIC: THÁP HYPEBOL
+        // ==============================================================
+        function solveClass3() {
+            const rmin = parseFloat(document.getElementById('v3_rmin').value);
+            const Rbase = parseFloat(document.getElementById('v3_Rbase').value);
+            const h = parseFloat(document.getElementById('v3_h').value);
+            
+            if(isNaN(rmin) || isNaN(Rbase) || isNaN(h) || rmin<=0 || Rbase<=0 || h<=0) return showError("Các tham số phải là số dương!");
+            if(Rbase <= rmin) return showError("Lỗi Vật Lý: Bán kính đáy phải LỚN HƠN bán kính cổ tháp!");
+
+            const a = rmin;
+            const a2 = a * a;
+            const Rbase2 = Rbase * Rbase;
+            const h2 = h * h;
+            const b2 = h2 / ((Rbase2 / a2) - 1);
+            const V_coef = a2 * (h + Math.pow(h, 3) / (3 * b2));
+
+            const html = `
+                <div class="text-[14pt] mb-6 border-l-4 border-[#2E7D32] pl-4">
+                    <strong class="text-[#2E7D32]">Bài toán Thực tiễn:</strong> Một tháp giải nhiệt nhà máy điện hạt nhân có hình Hypeboloit. Biết bán kính tại phần hẹp nhất (cổ tháp) là $${fmt(rmin)}$ m, bán kính tại đáy tháp là $${fmt(Rbase)}$ m. Chiều cao từ đáy tháp đến phần hẹp nhất là $${fmt(h)}$ m. Tính thể tích phần không gian bên trong tháp (từ đáy đến phần hẹp nhất).
+                </div>
+                <div class="theory-box" style="border-color: #2E7D32; background-color: #E8F5E9;">
+                    <div class="text-[#2E7D32] font-bold text-[11pt] mb-2">💡 Gắn hệ trục tọa độ cho Tháp</div>
+                    Để dễ giải mã nhất, ta gắn <strong>gốc tọa độ $O$ ngay tại tâm của phần hẹp nhất</strong> (cổ tháp). Trục $Oy$ là trục dọc của tháp. Khi đó mặt cắt tháp là một đường Hypebol có dạng: $\\displaystyle\\frac{x^2}{a^2} - \\displaystyle\\frac{y^2}{b^2} = 1$.
+                </div>
+                <div class="step-box" style="border-color: #00695C; background-color: #E0F2F1;">
+                    <strong class="text-[#00695C]">Bước 1: Giải mã phương trình Hypebol</strong>
+                    <br>Tại cổ tháp ($y=0$), bán kính là $x = ${fmt(rmin)}$. Suy ra $a = ${fmt(rmin)} \\implies a^2 = ${fmt(a2)}$.
+                    <br>Tại đáy tháp (cách cổ $${fmt(h)}$ m xuống dưới), tọa độ là $y = -${fmt(h)}$ và bán kính $x = ${fmt(Rbase)}$.
+                    <br>Thay điểm $(${fmt(Rbase)}; -${fmt(h)})$ vào phương trình:
+                    <div class="math-display">
+                        \\[ \\begin{aligned}
+                        \\displaystyle\\frac{${fmt(Rbase)}^2}{${fmt(a2)}} - \\displaystyle\\frac{(-${fmt(h)})^2}{b^2} &= 1 \\\\
+                        \\displaystyle\\frac{${fmt(h2)}}{b^2} &= \\displaystyle\\frac{${fmt(Rbase2)}}{${fmt(a2)}} - 1 = ${fmtF((Rbase2/a2) - 1)} \\\\
+                        b^2 &= \\displaystyle\\frac{${fmt(h2)}}{${fmtF((Rbase2/a2) - 1)}} = ${fmtF(b2)}
+                        \\end{aligned} \\]
+                    </div>
+                    Phương trình đường Hypebol: $(H): \\displaystyle\\frac{x^2}{${fmt(a2)}} - \\displaystyle\\frac{y^2}{${fmtF(b2)}} = 1$.
+                </div>
+                <div class="step-box" style="border-color: #00695C; background-color: #E0F2F1;">
+                    <strong class="text-[#00695C]">Bước 2: Thiết lập Tích phân thể tích tròn xoay</strong>
+                    <br>Thể tích tháp là thể tích khối tròn xoay sinh bởi $(H)$ quay quanh trục $Oy$, giới hạn từ $y = -${fmt(h)}$ đến $y = 0$.
+                    <br>Rút $x^2$ từ phương trình: $x^2 = ${fmt(a2)} \\left(1 + \\displaystyle\\frac{y^2}{${fmtF(b2)}}\\right)$.
+                    <div class="math-display">
+                        \\[ \\begin{aligned}
+                        V &= \\pi \\displaystyle\\int_{-${fmt(h)}}^{0} x^2 dy \\\\
+                        &= \\pi \\displaystyle\\int_{-${fmt(h)}}^{0} ${fmt(a2)} \\left(1 + \\displaystyle\\frac{y^2}{${fmtF(b2)}}\\right) dy \\\\
+                        &= ${fmt(a2)}\\pi \\left[ y + \\displaystyle\\frac{y^3}{3 \\cdot ${fmtF(b2)}} \\right]_{-${fmt(h)}}^{0}
+                        \\end{aligned} \\]
+                    </div>
+                </div>
+                <div class="ans-box">
+                    <div class="text-[#2E7D32] font-bold mb-1">✅ Kết Luận</div>
+                    Tính toán tích phân xác định ở trên, ta được thể tích không gian bên dưới cổ tháp là:
+                    <div class="math-display text-lg text-red-600 font-bold">$$V = ${fmtF(V_coef)} \\pi \\approx ${(V_coef * Math.PI).toFixed(2)} \\text{ (m}^3)$$</div>
+                </div>
+            `;
+            renderToDOM(html);
+        }
+
+        // ==============================================================
+        // CLASS 4 LOGIC: CHIẾC MŨ TRÒN XOAY
+        // ==============================================================
+        function solveClass4() {
+            const r = parseFloat(document.getElementById('v4_r').value);
+            const h1 = parseFloat(document.getElementById('v4_h1').value);
+            const H = parseFloat(document.getElementById('v4_H').value);
+            
+            if(isNaN(r) || isNaN(h1) || isNaN(H) || r<=0 || h1<0 || H<=0) return showError("Kích thước mũ không hợp lệ!");
+
+            const V1 = Math.PI * Math.pow(r, 2) * h1;
+            const V2_coef = 0.5 * Math.pow(r, 2) * H;
+            const V2 = V2_coef * Math.PI;
+            const V_total = V1 + V2;
+
+            const html = `
+                <div class="text-[14pt] mb-6 border-l-4 border-[#6A1B9A] pl-4">
+                    <strong class="text-[#6A1B9A]">Bài toán Chiếc Mũ:</strong> Chiếc mũ có phần đế là khối trụ tròn xoay bán kính đáy $R = ${fmt(r)}$ cm, chiều cao $h_1 = ${fmt(h1)}$ cm. Phần chóp là khối tròn xoay sinh bởi một Parabol đỉnh cách đáy chóp đoạn $H = ${fmt(H)}$ cm. Tính tổng thể tích chiếc mũ.
+                </div>
+                <div class="theory-box" style="border-color: #6A1B9A; background-color: #F3E5F5;">
+                    <div class="text-[#6A1B9A] font-bold text-[11pt] mb-2">💡 Tư duy chia nhỏ khối</div>
+                    Tổng thể tích chiếc mũ $V = V_{đế} + V_{chóp}$. Trong đó $V_{đế}$ là thể tích hình trụ cơ bản. $V_{chóp}$ tính bằng ứng dụng tích phân mặt tròn xoay của parabol $(P)$ quanh trục tung $Oy$.
+                </div>
+                <div class="step-box" style="border-color: #8E24AA; background-color: #FCE4EC;">
+                    <strong class="text-[#8E24AA]">Bước 1: Tính thể tích phần đế hình trụ ($V_1$)</strong>
+                    <br>Khối trụ có bán kính đáy $R = ${fmt(r)}$ cm, chiều cao $h_1 = ${fmt(h1)}$ cm.
+                    <div class="math-display">$$V_1 = \\pi R^2 h_1 = \\pi \\cdot ${fmt(r)}^2 \\cdot ${fmt(h1)} = ${fmt(r*r*h1)}\\pi \\text{ (cm}^3)$$</div>
+                </div>
+                <div class="step-box" style="border-color: #8E24AA; background-color: #FCE4EC;">
+                    <strong class="text-[#8E24AA]">Bước 2: Thiết lập Tích phân phần chóp ($V_2$)</strong>
+                    <br>Gắn hệ trục tọa độ $Oxy$ với $O$ tại tâm đáy chóp, trục $Oy$ trùng với trục đối xứng.
+                    <br>Parabol đi qua đỉnh $(0; ${fmt(H)})$ và điểm mép đáy $(${fmt(r)}; 0)$ có dạng:
+                    <div class="math-display">$$y = a x^2 + ${fmt(H)} \\implies 0 = a \\cdot ${fmt(r)}^2 + ${fmt(H)} \\implies a = -\\displaystyle\\frac{${fmt(H)}}{${fmt(r*r)}}$$</div>
+                    <br>Phương trình Parabol $(P): y = -\\displaystyle\\frac{${fmt(H)}}{${fmt(r*r)}} x^2 + ${fmt(H)}$. Rút $x^2$ theo $y$:
+                    <div class="math-display">$$x^2 = ${fmt(r*r)} \\left( 1 - \\displaystyle\\frac{y}{${fmt(H)}} \\right)$$</div>
+                    Thể tích phần chóp quay quanh $Oy$ (cận $y$ từ $0$ đến $${fmt(H)}$):
+                    <div class="math-display">
+                        \\[ \\begin{aligned}
+                        V_2 &= \\pi \\displaystyle\\int_{0}^{${fmt(H)}} x^2 dy = \\pi \\displaystyle\\int_{0}^{${fmt(H)}} ${fmt(r*r)} \\left( 1 - \\displaystyle\\frac{y}{${fmt(H)}} \\right) dy \\\\
+                        &= ${fmt(r*r)}\\pi \\left[ y - \\displaystyle\\frac{y^2}{2 \\cdot ${fmt(H)}} \\right]_{0}^{${fmt(H)}} = ${fmt(V2_coef)}\\pi \\text{ (cm}^3)
+                        \\end{aligned} \\]
+                    </div>
+                </div>
+                <div class="ans-box">
+                    <div class="text-[#2E7D32] font-bold mb-1">✅ Kết Luận</div>
+                    Tổng thể tích của chiếc mũ là:
+                    <div class="math-display text-lg text-red-600 font-bold">$$V = V_1 + V_2 = ${fmt(r*r*h1)}\\pi + ${fmt(V2_coef)}\\pi = ${fmt(r*r*h1 + V2_coef)}\\pi \\approx ${V_total.toFixed(0)} \\text{ (cm}^3)$$</div>
+                </div>
+            `;
+            renderToDOM(html);
+        }
+
+        // ==============================================================
+        // CLASS 5 LOGIC: TÍCH PHÂN KINH TẾ
+        // ==============================================================
+        function solveClass5() {
+            const C0 = parseFloat(document.getElementById('v5_C0').value);
+            const A = parseFloat(document.getElementById('v5_A').value);
+            const B = parseFloat(document.getElementById('v5_B').value);
+            const X = parseFloat(document.getElementById('v5_x').value);
+            
+            if(isNaN(C0) || isNaN(A) || isNaN(B) || isNaN(X) || X<0) return showError("Dữ liệu kinh tế không hợp lệ!");
+
+            const cost_buy = C0 * A;
+            const integral_val = (4/5) * Math.pow(X, 1.25);
+            const cost_maintain = C0 * B * integral_val;
+            const total = cost_buy + cost_maintain;
+
+            const html = `
+                <div class="text-[14pt] mb-6 border-l-4 border-[#E65100] pl-4">
+                    <strong class="text-[#E65100]">Tích Phân Ứng Dụng:</strong> Chi phí mua và bảo trì một thiết bị trong $x$ năm được mô hình hóa bởi hàm:
+                    <div class="math-display">$$C(x) = ${fmt(C0)}\\left(${fmt(A)} + ${fmt(B)} \\displaystyle\\int_0^x t^{1/4} dt\\right)$$</div>
+                    Tính chi phí ròng sau <strong>$${fmt(X)}$ năm</strong> vận hành.
+                </div>
+                <div class="theory-box" style="border-color: #E65100; background-color: #FFF3E0;">
+                    <div class="text-[#E65100] font-bold text-[11pt] mb-2">💡 Khái niệm Hàm Tích Lũy</div>
+                    Trong kinh tế học, hàm chi phí bảo trì thường là một hàm tích lũy $B(x) = \\int_0^x f(t) dt$. Tại $x=0$, $C(0)$ chính là chi phí mua ban đầu của thiết bị.
+                </div>
+                <div class="step-box" style="border-color: #E65100; background-color: #FFF8E1;">
+                    <strong class="text-[#E65100]">Bước 1: Tính tích phân bất định</strong>
+                    <div class="math-display">
+                        \\[ \\displaystyle\\int_0^x t^{1/4} dt = \\left[ \\displaystyle\\frac{t^{\\frac{1}{4} + 1}}{\\frac{1}{4} + 1} \\right]_0^x = \\displaystyle\\frac{4}{5} x^{\\frac{5}{4}} \\]
+                    </div>
+                </div>
+                <div class="step-box" style="border-color: #E65100; background-color: #FFF8E1;">
+                    <strong class="text-[#E65100]">Bước 2: Phân tách cấu trúc chi phí</strong>
+                    <br>Thế kết quả tích phân vào phương trình gốc, ta được:
+                    <div class="math-display">$$C(x) = ${fmt(C0 * A)} + ${fmt(C0 * B)} \\cdot \\displaystyle\\frac{4}{5} x^{\\frac{5}{4}} = ${fmt(C0 * A)} + ${fmt(C0 * B * 0.8)} x^{\\frac{5}{4}}$$</div>
+                    <ul class="list-disc ml-8 mt-2 space-y-1">
+                        <li><strong>Chi phí mua ban đầu:</strong> $C(0) = ${fmt(cost_buy).replace(/\B(?=(\d{3})+(?!\d))/g, ".")} \\text{ VNĐ}$.</li>
+                        <li><strong>Chi phí bảo trì lũy kế sau $${fmt(X)}$ năm:</strong> $B(${fmt(X)}) = ${fmt(C0 * B * 0.8)} \\cdot (${fmt(X)})^{1.25} \\approx ${cost_maintain.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".")} \\text{ VNĐ}$.</li>
+                    </ul>
+                </div>
+                <div class="ans-box">
+                    <div class="text-[#2E7D32] font-bold mb-1">✅ Kết Luận</div>
+                    Tổng số tiền phải bỏ ra để mua và duy trì thiết bị trong suốt $${fmt(X)}$ năm là:
+                    <div class="math-display text-lg text-red-600 font-bold">$$C_{total} = ${cost_buy.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".")} + ${cost_maintain.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".")} = ${total.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".")} \\text{ VNĐ}$$</div>
+                </div>
+            `;
+            renderToDOM(html);
+        }
+
+        // ==============================================================
+        // CLASS 6 LOGIC: SƠN CỔNG PARABOL (DIỆN TÍCH PHỨC TẠP)
+        // ==============================================================
+        function solveClass6() {
+            const c1 = parseFloat(document.getElementById('v6_c1').value);
+            const c2 = parseFloat(document.getElementById('v6_c2').value);
+            const c3 = parseFloat(document.getElementById('v6_c3').value);
+            
+            if(isNaN(c1) || isNaN(c2) || isNaN(c3) || c1<0 || c2<0 || c3<0) return showError("Đơn giá sơn phải là số dương!");
+
+            // Các hằng số diện tích từ bài toán lõi Parabol-Oxyz.typ
+            const S_quat = (4 * Math.PI) / 3;
+            const S_soc = 5 * Math.sqrt(3) - (4 * Math.PI) / 3;
+            const S_tong = 32 / 3;
+            const S_conlai = S_tong - 5 * Math.sqrt(3);
+
+            const cost_quat = S_quat * c1;
+            const cost_soc = S_soc * c2;
+            const cost_conlai = S_conlai * c3;
+            const cost_total = cost_quat + cost_soc + cost_conlai;
+
+            const html = `
+                <div class="text-[14pt] mb-6 border-l-4 border-[#00695C] pl-4">
+                    <strong class="text-[#00695C]">Bài toán Diện Tích Phức Hợp:</strong> Một hình phẳng dạng Parabol có đáy $AB=4m$, đỉnh $S$ cao $4m$. Parabol chia làm 3 phần:
+                    <ul class="list-disc ml-8 mt-1 space-y-1 text-[12pt]">
+                        <li><strong>Phần giữa:</strong> Hình quạt tâm $O$ (trung điểm đáy), bán kính $R=2m$. Đơn giá: $${c1.toLocaleString("vi-VN")} \\text{ VNĐ/m}^2$.</li>
+                        <li><strong>Phần trên:</strong> Nằm giữa Parabol và cung tròn (kẻ sọc). Đơn giá: $${c2.toLocaleString("vi-VN")} \\text{ VNĐ/m}^2$.</li>
+                        <li><strong>Phần còn lại:</strong> Đơn giá $${c3.toLocaleString("vi-VN")} \\text{ VNĐ/m}^2$.</li>
+                    </ul>
+                </div>
+                <div class="theory-box" style="border-color: #00695C; background-color: #E0F2F1;">
+                    <div class="text-[#00695C] font-bold text-[11pt] mb-2">💡 Phân tích hình phẳng </div>
+                    Gắn tọa độ $O(0;0)$. Parabol qua đỉnh $(0; 4)$ và chân đáy $(\\pm 2; 0)$ có PT: $(P): y = 4 - x^2$.<br>
+                    Đường tròn tâm $O$ bán kính $2$: $(C): y = \\sqrt{4 - x^2}$.<br>
+                    Hoành độ giao điểm của $(P)$ và $(C)$: giải $4-x^2 = \\sqrt{4-x^2} \\implies x = \\pm \\sqrt{3}$.
+                </div>
+                <div class="step-box" style="border-color: #00897B; background-color: #B2DFDB;">
+                    <strong class="text-[#00897B]">Bước 1: Tính diện tích các phần rời rạc</strong>
+                    <br>👉 <strong>Phần giữa (Hình quạt):</strong> Giao điểm tại $x=\\sqrt{3}, y=1 \\implies$ góc quạt là $120^{\\circ} \\implies \\alpha = \\frac{2\\pi}{3}$.
+                    <div class="math-display">$$S_1 = \\displaystyle\\frac{1}{2}R^2 \\alpha = \\displaystyle\\frac{1}{2}(2)^2 \\left(\\displaystyle\\frac{2\\pi}{3}\\right) = \\displaystyle\\frac{4\\pi}{3} \\approx ${S_quat.toFixed(4)} \\text{ (m}^2)$$</div>
+                    <br>👉 <strong>Phần trên (Kẻ sọc):</strong> Lấy phần Parabol trừ đi Hình tròn (phần lồi lên trên). Bằng thủ thuật hình học (cung tròn + tam giác), ta tính được chính xác:
+                    <div class="math-display">$$S_2 = 5\\sqrt{3} - \\displaystyle\\frac{4\\pi}{3} \\approx ${S_soc.toFixed(4)} \\text{ (m}^2)$$</div>
+                    <br>👉 <strong>Phần còn lại:</strong> Lấy tổng diện tích Parabol $\\left(\\int_{-2}^2 (4-x^2)dx = \\frac{32}{3}\\right)$ trừ đi hai phần trên:
+                    <div class="math-display">$$S_3 = \\displaystyle\\frac{32}{3} - 5\\sqrt{3} \\approx ${S_conlai.toFixed(4)} \\text{ (m}^2)$$</div>
+                </div>
+                <div class="step-box" style="border-color: #00897B; background-color: #B2DFDB;">
+                    <strong class="text-[#00897B]">Bước 2: Hạch toán kinh phí</strong>
+                    <div class="math-display">
+                        \\[ \\begin{aligned}
+                        C_1 &= S_1 \\times c_1 = ${S_quat.toFixed(4)} \\times ${c1.toLocaleString("vi-VN")} \\approx ${cost_quat.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".")} \\\\
+                        C_2 &= S_2 \\times c_2 = ${S_soc.toFixed(4)} \\times ${c2.toLocaleString("vi-VN")} \\approx ${cost_soc.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".")} \\\\
+                        C_3 &= S_3 \\times c_3 = ${S_conlai.toFixed(4)} \\times ${c3.toLocaleString("vi-VN")} \\approx ${cost_conlai.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+                        \\end{aligned} \\]
+                    </div>
+                </div>
+                <div class="ans-box">
+                    <div class="text-[#2E7D32] font-bold mb-1">✅ Kết Luận</div>
+                    Tổng kinh phí để hoàn thiện công trình trang trí cổng là (chênh lệch vài đồng do làm tròn số thập phân vô tỉ):
+                    <div class="math-display text-lg text-red-600 font-bold">$$C_{total} = C_1 + C_2 + C_3 \\approx ${cost_total.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".")} \\text{ VNĐ}$$</div>
+                </div>
+            `;
+            renderToDOM(html);
+        }
+
+        // Init: Mở tab 1 mặc định
+        window.onload = function() {
+            switchTab(1);
+        };
+    </script>
+</body>
+</html>

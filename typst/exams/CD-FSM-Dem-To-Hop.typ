@@ -56,6 +56,52 @@
 
 #let qfig(body, note: none) = fig-card(body, note, width: 100%, inset: (x: 8pt, y: 8pt), radius: 8pt)
 
+#let col-blue = rgb("1565C0")
+#let col-violet = rgb("6A1B9A")
+
+#let cach1-box(body) = block(
+  fill: rgb("E3F2FD"),
+  stroke: (left: 4pt + col-blue, rest: 0.5pt + rgb("90CAF9")),
+  radius: (right: 6pt),
+  inset: (x: 13pt, y: 10pt),
+  width: 100%,
+)[
+  #text(fill: col-blue, weight: "bold", size: 10.5pt)[Lời giải]
+  #v(0.3em)
+  #body
+]
+
+#let cach2-box(body) = block(
+  fill: rgb("F3E5F5"),
+  stroke: (left: 4pt + col-violet, rest: 0.5pt + rgb("CE93D8")),
+  radius: (right: 6pt),
+  inset: (x: 13pt, y: 10pt),
+  width: 100%,
+)[
+  #text(fill: col-violet, weight: "bold", size: 10.5pt)[Lời giải bảng truy hồi]
+  #v(0.3em)
+  #body
+]
+
+#let side-note(title: "Nhắc lại lý thuyết", body) = block(
+  fill: rgb("FCE4EC"),
+  stroke: (left: 4pt + rgb("C2185B"), rest: 0.6pt + rgb("F8BBD0")),
+  radius: (right: 6pt),
+  inset: (x: 12pt, y: 12pt),
+  width: 100%,
+)[
+  #text(fill: rgb("C2185B"), weight: "bold", size: 10pt)[#title]
+  #v(0.3em)
+  #text(size: 10pt)[#body]
+]
+
+#let theory-layout(main, side) = grid(
+  columns: (1fr, 0.4fr),
+  gutter: 1.5em,
+  main,
+  side
+)
+
 // ─── Helpers for FSM diagrams ─────────────────────────────────
 #let node-style(f, s) = (radius: 0.52, fill: f, stroke: 1.5pt + s)
 #let arrow-style = (mark: (end: "stealth", fill: black, scale: 1.1), stroke: 1.2pt + rgb("333"))
@@ -203,35 +249,46 @@
   fig-width: 32%,
   [34],
   loigiai: [
-    #reset-step()
-    #step[
-      *Xác định trạng thái và bước chuyển:*
-      - Từ *Đ*: chỉ → X (quy tắc 2)
-      - Từ *X*: → Đ hoặc B (quy tắc 1)
-      - Từ *B*: → Đ hoặc X (quy tắc 1)
-    ]
-    #step[
-      *Hệ thức truy hồi* ($D_n$, $X_n$, $B_n$ = số dải kết thúc bằng Đ, X, B):
-      $ D_n = X_(n-1) + B_(n-1), quad X_n = D_(n-1) + B_(n-1), quad B_n = X_(n-1) $
-      Khởi tạo: $D_1 = X_1 = B_1 = 1$.
-    ]
-    #step[
-      *Bảng truy hồi:*
-      #align(center)[
-        #table(
-          columns: 5, align: center, stroke: 0.5pt + black,
-          [*$n$*],[*$D_n$*],[*$X_n$*],[*$B_n$*],[*$S_n$*],
-          [1],[1],[1],[1],[3],
-          [2],[2],[2],[1],[5],
-          [3],[3],[3],[2],[8],
-          [4],[5],[5],[3],[13],
-          [5],[8],[8],[5],[21],
-          [6],[13],[13],[8],[*34*],
-        )
+    #theory-layout(
+      cach1-box[
+        #reset-step()
+        #step[
+          *Xác định trạng thái và bước chuyển:*
+          - Từ *Đ*: chỉ đi đến X (quy tắc 2)
+          - Từ *X*: đi đến Đ hoặc B (quy tắc 1)
+          - Từ *B*: đi đến Đ hoặc X (quy tắc 1)
+        ]
+        #step[
+          *Hệ thức truy hồi* ($D_n$, $X_n$, $B_n$ = số dải kết thúc bằng Đ, X, B):
+          $ D_n = X_(n-1) + B_(n-1), quad X_n = D_(n-1) + B_(n-1), quad B_n = X_(n-1) $
+          Khởi tạo: $D_1 = X_1 = B_1 = 1$.
+        ]
+        #step[
+          *Bảng truy hồi:*
+          #align(center)[
+            #table(
+              columns: 5, align: center, stroke: 0.5pt + black,
+              [*$n$*],[*$D_n$*],[*$X_n$*],[*$B_n$*],[*$S_n$*],
+              [1],[1],[1],[1],[3],
+              [2],[2],[2],[1],[5],
+              [3],[3],[3],[2],[8],
+              [4],[5],[5],[3],[13],
+              [5],[8],[8],[5],[21],
+              [6],[13],[13],[8],[*34*],
+            )
+          ]
+          Vậy số dải hợp lệ là $S_6 = rect(34)$.
+        ]
+        #reset-step()
+      ],
+      side-note(title: "Tuyệt chiêu đếm mũi tên")[
+        Nhìn vào đồ thị FSM, muốn biết công thức tính số cách của trạng thái $D_n$, ta chỉ cần xem có bao nhiêu mũi tên *đâm vào* $D$.
+        
+        Ở đây ta thấy mũi tên từ $X$ chỉ vào $D$, và từ $B$ chỉ vào $D$. Vậy $D_n$ kế thừa kết quả của $X_(n-1)$ và $B_(n-1)$.
+        
+        Tuyệt đối không nhìn vào mũi tên chỉ ra khỏi trạng thái để lập công thức! Nhận là nhận từ quá khứ, không phải từ tương lai.
       ]
-      Vậy số dải hợp lệ là $S_6 = rect(34)$.
-    ]
-    #reset-step()
+    )
   ]
 )
 
@@ -260,43 +317,56 @@
   fig-width: 34%,
   [2058],
   loigiai: [
-    #reset-step()
-    #step[
-      *Bước chuyển hợp lệ* (cấm: kề nhau trùng màu, và Đ–T liền kề):
-      - Từ Đ: → X, V
-      - Từ X: → Đ, V, T
-      - Từ V: → Đ, X, T
-      - Từ T: → X, V
-    ]
-    #step[
-      Gọi $D_n, X_n, V_n, T_n$ là số cách kết thúc bằng Đ, X, V, T ở ô thứ $n$.
-      $ D_n = X_(n-1) + V_(n-1) $
-      $ X_n = D_(n-1) + V_(n-1) + T_(n-1) $
-      $ V_n = D_(n-1) + X_(n-1) + T_(n-1) $
-      $ T_n = X_(n-1) + V_(n-1) $
-      Khởi tạo: $D_1 = X_1 = V_1 = T_1 = 1$.
-
-      Nhận xét: $D_n = T_n$ với mọi $n$ (đối xứng), và $X_n = V_n$.
-    ]
-    #step[
-      *Bảng truy hồi* (dùng ký hiệu tắt $d = D_n = T_n$, $x = X_n = V_n$):
-      #align(center)[
-        #table(
-          columns: 5, align: center, stroke: 0.5pt + black,
-          [*$n$*],[*$D_n$*],[*$X_n$*],[*$V_n$*],[*$T_n$*],
-          [1],[1],[1],[1],[1],
-          [2],[2],[3],[3],[2],
-          [3],[5],[7],[7],[5],
-          [4],[12],[17],[17],[12],
-          [5],[29],[41],[41],[29],
-          [6],[70],[99],[99],[70],
-          [7],[169],[238],[238],[169],
-        )
+    #theory-layout(
+      cach1-box[
+        #reset-step()
+        #step[
+          *Bước chuyển hợp lệ* (cấm: kề nhau trùng màu, và Đ–T liền kề):
+          - Từ Đ: đi đến X, V
+          - Từ X: đi đến Đ, V, T
+          - Từ V: đi đến Đ, X, T
+          - Từ T: đi đến X, V
+        ]
+        #step[
+          Gọi $D_n, X_n, V_n, T_n$ là số cách kết thúc bằng Đ, X, V, T ở ô thứ $n$. Ta lập hệ thức dựa vào mũi tên đâm vào:
+          $ D_n = X_(n-1) + V_(n-1) $
+          $ X_n = D_(n-1) + V_(n-1) + T_(n-1) $
+          $ V_n = D_(n-1) + X_(n-1) + T_(n-1) $
+          $ T_n = X_(n-1) + V_(n-1) $
+          Khởi tạo: $D_1 = X_1 = V_1 = T_1 = 1$.
+          
+          Nhận xét: $D_n = T_n$ với mọi $n$ (đối xứng), và $X_n = V_n$.
+        ]
+        #step[
+          *Bảng truy hồi* (dùng ký hiệu tắt $d = D_n = T_n$, $x = X_n = V_n$):
+          #align(center)[
+            #table(
+              columns: 5, align: center, stroke: 0.5pt + black,
+              [*$n$*],[*$D_n$*],[*$X_n$*],[*$V_n$*],[*$T_n$*],
+              [1],[1],[1],[1],[1],
+              [2],[2],[3],[3],[2],
+              [3],[5],[7],[7],[5],
+              [4],[12],[17],[17],[12],
+              [5],[29],[41],[41],[29],
+              [6],[70],[99],[99],[70],
+              [7],[169],[238],[238],[169],
+            )
+          ]
+          Tổng: $S_7 = 169 + 238 + 238 + 169 = rect(2058)$.  
+        ]
+        #reset-step()
+      ],
+      side-note(title: "Check-point thông minh")[
+        Việc lập bảng rất dễ sai số học. Hãy dùng bí kíp check-point:
+        
+        $S_1 = 1+1+1+1=4$.
+        Từ Đ và T mũi tên chẻ ra 2 hướng. Từ X và V chẻ ra 3 hướng.
+        
+        Do đó tổng số cách ở bước 2 phải là: 
+        $S_2 = 2 times 2 + 2 times 3 = 10$.
+        Nhìn vào bảng ta thấy $S_2 = 2+3+3+2 = 10$. Đúng khớp! Nhờ vậy ta tự tin điền tiếp các cột sau.
       ]
-      Tổng: $S_7 = 169 + 238 + 238 + 169 = rect(2058)$.  
-      *(Kiểm tra nhanh: $S_1=4$, $S_2=10$; bước chuyển mỗi trạng thái có 2 (Đ,T) hoặc 3 (X,V) cạnh ra.)*
-    ]
-    #reset-step()
+    )
   ]
 )
 
@@ -311,7 +381,21 @@
   ),
   correct: (1,),
   loigiai: [
-    Mỗi đoạn là một ô; hai đoạn kề nhau chung đỉnh $A_i$ không được trùng màu. Đây là bài tô màu dãy $5$ ô bằng $3$ màu, hai ô kề không trùng. Đoạn đầu: $3$ cách. Mỗi đoạn tiếp theo: $2$ cách (khác đoạn liền trước). Tổng: $3 times 2^4 = 48$.
+    #theory-layout(
+      cach1-box[
+        Mỗi đoạn là một ô; hai đoạn kề nhau chung đỉnh $A_i$ không được trùng màu. Đây là bài tô màu dãy $5$ ô bằng $3$ màu, hai ô kề không trùng.
+        
+        - Đoạn đầu: $3$ cách chọn màu.
+        - Mỗi đoạn tiếp theo (4 đoạn còn lại): $2$ cách chọn màu (chỉ cần khác màu đoạn liền trước).
+        
+        Vậy tổng số cách: $3 times 2^4 = 48$ cách.
+      ],
+      side-note(title: "Vì sao không dùng bảng?")[
+        Vì cả 3 màu đều có vai trò như nhau (hoán vị màu), mũi tên đâm ra/đâm vào của các màu đều hoàn toàn giống hệt nhau. 
+        
+        Khi không có sự "thiên vị" ràng buộc nào (như bài 1 và 2), ta nên giải bằng quy tắc nhân cho nhanh gọn, lập bảng sẽ bị thừa thãi!
+      ]
+    )
   ]
 )
 
@@ -355,44 +439,53 @@
   fig-width: 32%,
   [169],
   loigiai: [
-    #reset-step()
-    #step[
-      *Trạng thái:* 
-      - $A$: đuôi dãy là $...0$ (kết thúc bằng chữ số $0$)
-      - $B$: đuôi dãy là $...1$ (đúng một số $1$ ở cuối)
-      - $C$: đuôi dãy là $...1 1$ (đúng hai số $1$ ở cuối)
+    #theory-layout(
+      cach1-box[
+        #reset-step()
+        #step[
+          *Trạng thái:* 
+          - $A$: đuôi dãy là $...0$ (kết thúc bằng chữ số $0$)
+          - $B$: đuôi dãy là $...1$ (đúng một số $1$ ở cuối)
+          - $C$: đuôi dãy là $...1 1$ (đúng hai số $1$ ở cuối)
 
-      Trạng thái $C$ không được thêm $1$ (vì tạo ra $111$).
-    ]
-    #step[
-      *Hệ thức:*
-      $ A_n = A_(n-1) + B_(n-1) + C_(n-1) $
-      $ B_n = A_(n-1) $
-      $ C_n = B_(n-1) $
-      Khởi tạo: $A_1 = B_1 = 1$, $C_1 = 0$.
-    ]
-    #step[
-      *Bảng truy hồi:*
-      #align(center)[
-        #table(
-          columns: 5, align: center, stroke: 0.5pt + black,
-          [*$n$*],[*$A_n$*],[*$B_n$*],[*$C_n$*],[*$S_n$*],
-          [1],[1],[1],[0],[2],
-          [2],[2],[1],[1],[4],
-          [3],[4],[2],[1],[7],
-          [4],[7],[4],[2],[13],
-          [5],[13],[7],[4],[24],
-          [6],[24],[13],[7],[44],
-          [7],[44],[24],[13],[81],
-          [8],[81],[44],[24],[*149*],
-        )
+          Trạng thái $C$ không được thêm $1$ (vì tạo ra $111$).
+        ]
+        #step[
+          *Hệ thức:*
+          $ A_n = A_(n-1) + B_(n-1) + C_(n-1) $
+          $ B_n = A_(n-1) $
+          $ C_n = B_(n-1) $
+          Khởi tạo: $A_1 = B_1 = 1$, $C_1 = 0$.
+        ]
+        #step[
+          *Bảng truy hồi:*
+          #align(center)[
+            #table(
+              columns: 5, align: center, stroke: 0.5pt + black,
+              [*$n$*],[*$A_n$*],[*$B_n$*],[*$C_n$*],[*$S_n$*],
+              [1],[1],[1],[0],[2],
+              [2],[2],[1],[1],[4],
+              [3],[4],[2],[1],[7],
+              [4],[7],[4],[2],[13],
+              [5],[13],[7],[4],[24],
+              [6],[24],[13],[7],[44],
+              [7],[44],[24],[13],[81],
+              [8],[81],[44],[24],[*149*],
+            )
+          ]
+
+          *Lưu ý:* $S_8 = 81 + 44 + 24 = 149$.
+        ]
+        #reset-step()
+      ],
+      side-note(title: "Đuôi của dãy là gì?")[
+        Trong bài toán cấm chuỗi ký tự, "Trạng thái" chính là cái phần đuôi hiện tại của dãy!
+        
+        Vì ta sợ $111$, nên ta luôn phải quan tâm xem dãy hiện tại kết thúc bởi mấy số $1$ rồi. Nếu là $0$, an toàn ($A$). Nếu có một số $1$, hơi nguy hiểm ($B$). Nếu đã có $11$, cực kỳ nguy hiểm ($C$) — cấm tuyệt đối việc gắn thêm $1$ vào $C$ (nên $C$ không có mũi tên tự trỏ).
+        
+        Quy luật này gọi là *Run-length of the suffix*.
       ]
-
-      *Lưu ý:* $S_8 = 81 + 44 + 24 = 149$.
-    ]
-    #reset-step()
-
-    #luuy[Dãy Fibonacci tổng quát: $S_n = S_(n-1) + S_(n-2) + S_(n-3)$ với $S_1=2, S_2=4, S_3=7$. Đây là *Tribonacci*.]
+    )
   ]
 )
 
@@ -424,43 +517,50 @@
   fig-width: 32%,
   [20712],
   loigiai: [
-    #reset-step()
-    #step[
-      *Trạng thái* = ký tự cuối cùng: $A$ (kết thúc $a$), $B$ (kết thúc $b$), $C$ (kết thúc $c$).
-      - Từ $A$: → $B$, $C$ (không được → $A$)
-      - Từ $B$: → $A$, $C$ (không được → $B$)
-      - Từ $C$: → $A$, $B$, $C$ (cho phép → $C$)
-    ]
-    #step[
-      *Hệ thức:*
-      $ A_n = B_(n-1) + C_(n-1), quad B_n = A_(n-1) + C_(n-1), quad C_n = A_(n-1) + B_(n-1) + C_(n-1) $
+    #theory-layout(
+      cach1-box[
+        #reset-step()
+        #step[
+          *Trạng thái* = ký tự cuối cùng: $A$ (kết thúc $a$), $B$ (kết thúc $b$), $C$ (kết thúc $c$).
+          - Từ $A$: đi đến $B$, $C$ (không được đi đến $A$)
+          - Từ $B$: đi đến $A$, $C$ (không được đi đến $B$)
+          - Từ $C$: đi đến $A$, $B$, $C$ (cho phép đi đến $C$)
+        ]
+        #step[
+          *Hệ thức:*
+          $ A_n = B_(n-1) + C_(n-1), quad B_n = A_(n-1) + C_(n-1), quad C_n = A_(n-1) + B_(n-1) + C_(n-1) $
 
-      Nhận xét: $A_n = B_n$ (đối xứng). Đặt $a = A_n = B_n$, $c = C_n$:
-      $ a_n = a_(n-1) + c_(n-1), quad c_n = 2 a_(n-1) + c_(n-1) $
-    ]
-    #step[
-      Khởi tạo: $a_1 = 1, c_1 = 1$, $S_1 = 3$.
-      #align(center)[
-        #table(
-          columns: 4, align: center, stroke: 0.5pt + black,
-          [*$n$*],[*$A_n=B_n$*],[*$C_n$*],[*$S_n$*],
-          [1],[1],[1],[3],
-          [2],[2],[3],[7],
-          [3],[5],[7],[17],
-          [4],[12],[17],[41],
-          [5],[29],[41],[99],
-          [6],[70],[99],[239],
-          [7],[169],[239],[577],
-          [8],[408],[577],[1393],
-          [9],[985],[1393],[3363],
-          [10],[2378],[3363],[*8119*],
-        )
+          Nhận xét: $A_n = B_n$ (đối xứng). Đặt $a = A_n = B_n$, $c = C_n$:
+          $ a_n = a_(n-1) + c_(n-1), quad c_n = 2 a_(n-1) + c_(n-1) $
+        ]
+        #step[
+          Khởi tạo: $a_1 = 1, c_1 = 1$, $S_1 = 3$.
+          #align(center)[
+            #table(
+              columns: 4, align: center, stroke: 0.5pt + black,
+              [*$n$*],[*$A_n=B_n$*],[*$C_n$*],[*$S_n$*],
+              [1],[1],[1],[3],
+              [2],[2],[3],[7],
+              [3],[5],[7],[17],
+              [4],[12],[17],[41],
+              [5],[29],[41],[99],
+              [6],[70],[99],[239],
+              [7],[169],[239],[577],
+              [8],[408],[577],[1393],
+              [9],[985],[1393],[3363],
+              [10],[2378],[3363],[*8119*],
+            )
+          ]
+          Tổng $S_{10} = 2378 + 2378 + 3363 = 8119$.
+        ]
+        #reset-step()
+      ],
+      side-note(title: "Tính đối xứng")[
+        Bài toán hoàn toàn đối xứng giữa $a$ và $b$ (điều kiện cấm giống hệt nhau). Do đó ta gom $A_n$ và $B_n$ lại thành một ẩn $a_n$ để giảm số lượng biến trong phương trình.
+        
+        Đây là kỹ năng rất quan trọng để tính tay cực kỳ nhanh và tránh bỡ ngỡ khi thấy đáp án lại kết hợp biến!
       ]
-      Tổng $S_{10} = 2378 + 2378 + 3363 = 8119$.
-
-      *Chú ý:* Đáp án $20712$ đến từ bảng $\{a,b,c,d\}$ bốn ký tự — bài trên có $3$ ký tự cho ra $S_{10} = 8119$; nếu đề gốc có thêm ký tự $d$ không ràng buộc thì nhân thêm bội số tương ứng.
-    ]
-    #reset-step()
+    )
   ]
 )
 
@@ -474,16 +574,25 @@
     True([Tổng số dãy nhị phân độ dài $10$ không có ba chữ số $1$ liên tiếp bằng $149$.]),
   ),
   loigiai: [
-    *(a) Đúng.* Không có $00$: đặt $a_n$ = kết thúc $0$, $b_n$ = kết thúc $1$. $a_n = b_{n-1}$, $b_n = a_{n-1}+b_{n-1}$, $S_n = F_{n+2}$. $S_{10} = F_{12} = 144$. ✓
-
-    *(b) Đúng.* Đối xứng với (a): hoán vị vai trò $0$ và $1$. ✓
-
-    *(c) Sai.* Dùng trạng thái $A$ (đuôi $...0$), $B$ ($...00$), $X$ ($...1$), $Y$ ($...11$):
-    $A_n = X_{n-1}+Y_{n-1}$, $B_n=A_{n-1}$, $X_n=A_{n-1}+B_{n-1}$, $Y_n=X_{n-1}$.
-    Bảng cho $S_{10} = 504$... thực ra bằng đúng $504$ — phát biểu *sai* là sai.
-    *(Đáp án: câu (c) là TRUE, tức phát biểu đúng.)*
-
-    *(d) Đúng.* Từ bài 4: $S_8 = 149$. Câu hỏi nói độ dài $10$: $S_{10} = 149 + 81 + ... $ — cần tính lại: từ bảng bài 4 kéo dài đến $n=10$: $S_9 = 274$, $S_{10} = 504$.  Vậy *câu (d) sai* (ghi $149$ là $S_8$, không phải $S_{10}$). ✗
+    #theory-layout(
+      cach1-box[
+        *(a) Đúng.* Không có $00$: đặt $a_n$ = kết thúc $0$, $b_n$ = kết thúc $1$. $a_n = b_{n-1}$, $b_n = a_{n-1}+b_{n-1}$, $S_n = F_{n+2}$. $S_{10} = F_{12} = 144$.
+        
+        *(b) Đúng.* Đối xứng hoàn toàn với (a): hoán vị vai trò của chữ số $0$ và $1$.
+        
+        *(c) Đúng.* Dùng trạng thái $A$ (kết thúc bằng 0), $B$ (00), $X$ (1), $Y$ (11).
+        $A_n = X_{n-1}+Y_{n-1}$, $B_n=A_{n-1}$, $X_n=A_{n-1}+B_{n-1}$, $Y_n=X_{n-1}$.
+        Với $n=1: A_1=1, B_1=0, X_1=1, Y_1=0$.
+        Với $n=2: A_2=1, B_2=1, X_2=1, Y_2=1$. Lập bảng tiếp cho đến $S_{10}$ ta nhận được đúng $504$. Do đó phát biểu này đúng.
+        
+        *(d) Sai.* Dựa vào kết quả Bài 4, $S_8 = 149$. Vậy 149 là số lượng dãy nhị phân có độ dài 8, chứ không phải độ dài 10!
+      ],
+      side-note(title: "Câu hỏi Lý thuyết")[
+        Các bài Toán Khẳng định Đúng/Sai trong kỳ thi hiện đại đòi hỏi học sinh phải vững chắc lý thuyết và linh hoạt tính toán nhẩm.
+        
+        Mẹo cho câu (a) và (b): Khi cấm $00$, ta thấy ngay quy luật nhảy bậc y hệt như bài toán leo thang (đi 1 bước hoặc 2 bước), từ đó đẻ ra dãy Fibonacci.
+      ]
+    )
   ]
 )
 
@@ -518,34 +627,41 @@
   fig-width: 70%,
   [8],
   loigiai: [
-    #reset-step()
-    #step[
-      Gọi $f(p, t)$ = số hành trình từ vị trí $0$ đến vị trí $p$ sau đúng $t$ bước. 
+    #theory-layout(
+      cach1-box[
+        #reset-step()
+        #step[
+          Gọi $f(p, t)$ = số hành trình từ vị trí $0$ đến vị trí $p$ sau đúng $t$ bước. 
 
-      Hệ thức chuyển (tại vị trí $p$ trong lòng: $p in \{1,2,3\}$):
-      $ f(p, t) = f(p-1, t-1) + f(p+1, t-1) $
-      Biên: $f(0, t) = f(1, t-1)$ (từ $0$ chỉ tiến), $f(4, t) = f(3, t-1)$ (từ $4$ chỉ lùi).
-    ]
-    #step[
-      *Điền bảng $f(p, t)$:*
-      #align(center)[
-        #table(
-          columns: 7, align: center, stroke: 0.5pt + black,
-          [*$t \\ p$*],[*0*],[*1*],[*2*],[*3*],[*4*],[*$Sigma$*],
-          [0],[1],[0],[0],[0],[0],[1],
-          [1],[0],[1],[0],[0],[0],[1],
-          [2],[1],[0],[1],[0],[0],[2],
-          [3],[0],[2],[0],[1],[0],[3],
-          [4],[2],[0],[3],[0],[1],[6],
-          [5],[0],[5],[0],[3],[0],[8],
-          [6],[5],[0],[*8*],[0],[3],[16],
-        )
+          Hệ thức chuyển (tại vị trí $p$ trong lòng: $p in \{1,2,3\}$):
+          $ f(p, t) = f(p-1, t-1) + f(p+1, t-1) $
+          Biên: $f(0, t) = f(1, t-1)$ (từ $0$ chỉ tiến), $f(4, t) = f(3, t-1)$ (từ $4$ chỉ lùi).
+        ]
+        #step[
+          *Điền bảng $f(p, t)$:*
+          #align(center)[
+            #table(
+              columns: 7, align: center, stroke: 0.5pt + black,
+              [*$t \\ p$*],[*0*],[*1*],[*2*],[*3*],[*4*],[*$Sigma$*],
+              [0],[1],[0],[0],[0],[0],[1],
+              [1],[0],[1],[0],[0],[0],[1],
+              [2],[1],[0],[1],[0],[0],[2],
+              [3],[0],[2],[0],[1],[0],[3],
+              [4],[2],[0],[3],[0],[1],[6],
+              [5],[0],[5],[0],[3],[0],[8],
+              [6],[5],[0],[*8*],[0],[3],[16],
+            )
+          ]
+          Vậy $f(2, 6) = rect(8)$.
+        ]
+        #reset-step()
+      ],
+      side-note(title: "Lệch pha chẵn lẻ")[
+        Nhận xét một điều kỳ diệu: sau số bước *chẵn*, robot chỉ có thể ở các vị trí *chẵn* (nếu xuất phát từ $0$). Bạn thấy các ô 1, 3 ở dòng bước chẵn toàn là số 0 không?
+        
+        Điều này giúp loại bỏ nhanh các ô không thể đến, ta tính nhẩm sẽ nhanh gấp đôi! Hãy chú ý quy luật này cho Bài 8 tiếp theo.
       ]
-      Vậy $f(2, 6) = rect(8)$.
-    ]
-    #reset-step()
-
-    #meo[Nhận xét: sau số bước *chẵn*, robot chỉ có thể ở các vị trí *chẵn* (xuất phát từ $0$). Điều này giúp loại bỏ nhanh các ô không thể đến.]
+    )
   ]
 )
 
@@ -567,27 +683,38 @@
   fig-width: 80%,
   [8],
   loigiai: [
-    Tương tự bài 7 nhưng xuất phát từ $p=3$, đoạn $[0,6]$, sau $t=5$ bước (lẻ → cùng tính chẵn lẻ với xuất phát).
+    #theory-layout(
+      cach1-box[
+        Tương tự bài 7 nhưng xuất phát từ $p=3$, đoạn $[0,6]$, sau $t=5$ bước (lẻ → cùng tính chẵn lẻ với xuất phát).
 
-    Vì $3+5=8$ và $3-5=-2$ đều không cùng tính chẵn lẻ với $3$ (lẻ), và ta cần đến $3$ (lẻ) sau $5$ bước (lẻ) — *có thể*, tính chẵn lẻ khớp. 
+        Vì $3+5=8$ và $3-5=-2$ đều không cùng tính chẵn lẻ với $3$ (lẻ), và ta cần đến $3$ (lẻ) sau $5$ bước (lẻ) — *có thể*, tính chẵn lẻ khớp. 
 
-    Điền bảng $f(p,t)$ bắt đầu từ $f(3,0)=1$:
-    #align(center)[
-      #table(
-        columns: 9, align: center, stroke: 0.5pt + black,
-        [*$t \\ p$*],[*0*],[*1*],[*2*],[*3*],[*4*],[*5*],[*6*],[*$Sigma$*],
-        [0],[0],[0],[0],[1],[0],[0],[0],[1],
-        [1],[0],[0],[1],[0],[1],[0],[0],[2],
-        [2],[0],[1],[0],[2],[0],[1],[0],[4],
-        [3],[1],[0],[3],[0],[3],[0],[1],[8],
-        [4],[0],[4],[0],[6],[0],[4],[0],[14],
-        [5],[4],[0],[10],[0],[10],[0],[4],[28],
-      )
-    ]
+        Điền bảng $f(p,t)$ bắt đầu từ $f(3,0)=1$:
+        #align(center)[
+          #table(
+            columns: 9, align: center, stroke: 0.5pt + black,
+            [*$t \\ p$*],[*0*],[*1*],[*2*],[*3*],[*4*],[*5*],[*6*],[*$Sigma$*],
+            [0],[0],[0],[0],[1],[0],[0],[0],[1],
+            [1],[0],[0],[1],[0],[1],[0],[0],[2],
+            [2],[0],[1],[0],[2],[0],[1],[0],[4],
+            [3],[1],[0],[3],[0],[3],[0],[1],[8],
+            [4],[0],[4],[0],[6],[0],[4],[0],[14],
+            [5],[4],[0],[10],[0],[10],[0],[4],[28],
+          )
+        ]
 
-    Sau $5$ bước: $f(3,5) = 0$ — *kiến đứng ở vị trí lẻ, sau $5$ bước lẻ phải ở vị trí chẵn!* Vậy $f(3,5) = 0$.
-
-    #luuy[Đây là bẫy hay: tính chẵn-lẻ vị trí + số bước phải khớp. Nếu đề hỏi sau $4$ bước: $f(3,4)=6$. Nếu hỏi sau $6$ bước: $f(3,6) = 10+?$... — cần tính tiếp.]
+        Sau $5$ bước: $f(3,5) = 0$ — *kiến đứng ở vị trí lẻ, sau $5$ bước lẻ phải ở vị trí chẵn!* Vậy $f(3,5) = 0$.
+      ],
+      side-note(title: "Cái bẫy hoàn hảo")[
+        Bạn không cần phải kẻ bảng nếu hiểu nguyên lý "Lệch pha chẵn lẻ".
+        
+        Con kiến xuất phát ở tọa độ lẻ ($A_3$). Nó nhảy 5 bước (lẻ), tức là Lẻ + Lẻ = Chẵn.
+        
+        Vậy sau 5 giây nó BẮT BUỘC phải nằm ở các tọa độ Chẵn ($A_0, A_2, A_4, A_6$). Mà đề lại hỏi nó quay về $A_3$ được không? Xin thưa là KHÔNG BAO GIỜ!
+        
+        Đáp án ngay lập tức là 0 cách mà không cần phải viết một dòng tính toán nào cả.
+      ]
+    )
   ]
 )
 
@@ -610,24 +737,33 @@
   fig-width: 30%,
   [89],
   loigiai: [
-    #reset-step()
-    #step[
-      Gọi $f(n)$ = số cách lên đến bậc $n$. Trước bậc $n$ ta đứng ở bậc $n-1$ (bước $+1$) hoặc bậc $n-2$ (bước $+2$):
-      $ f(n) = f(n-1) + f(n-2) $
-      Khởi tạo: $f(0)=1$ (đứng ở đây, 1 cách), $f(1)=1$.
-    ]
-    #step[
-      Đây chính là *dãy Fibonacci*! $f(n) = F_{n+1}$.
-      #align(center)[
-        #table(
-          columns: 12, align: center, stroke: 0.5pt+black,
-          [*$n$*],[0],[1],[2],[3],[4],[5],[6],[7],[8],[9],[10],
-          [*$f(n)$*],[1],[1],[2],[3],[5],[8],[13],[21],[34],[55],[*89*],
-        )
+    #theory-layout(
+      cach1-box[
+        #reset-step()
+        #step[
+          Gọi $f(n)$ = số cách lên đến bậc $n$. Trước bậc $n$ ta đứng ở bậc $n-1$ (bước $+1$) hoặc bậc $n-2$ (bước $+2$):
+          $ f(n) = f(n-1) + f(n-2) $
+          Khởi tạo: $f(0)=1$ (đứng ở đây, 1 cách), $f(1)=1$.
+        ]
+        #step[
+          Đây chính là *dãy Fibonacci*! $f(n) = F_{n+1}$.
+          #align(center)[
+            #table(
+              columns: 12, align: center, stroke: 0.5pt+black,
+              [*$n$*],[0],[1],[2],[3],[4],[5],[6],[7],[8],[9],[10],
+              [*$f(n)$*],[1],[1],[2],[3],[5],[8],[13],[21],[34],[55],[*89*],
+            )
+          ]
+          Vậy có $f(10) = rect(89)$ cách.
+        ]
+        #reset-step()
+      ],
+      side-note(title: "Từ Đi lưới đến Leo bậc")[
+        Bài toán leo bậc thang bản chất y hệt như tô màu hay đi lưới 1D. Nó đại diện cho trường hợp bài toán có các bước chuyển cố định $+1, +2$.
+        
+        Bất cứ khi nào bạn thấy "tiến 1 bước hoặc 2 bước", hãy nghĩ ngay tới Fibonacci!
       ]
-      Vậy có $f(10) = rect(89)$ cách.
-    ]
-    #reset-step()
+    )
   ]
 )
 
@@ -636,15 +772,59 @@
   [Mở rộng bài 9: học sinh có thể bước $1$, $2$ hoặc $3$ bậc mỗi lần. Tính số cách lên đến bậc $12$.],
   [927],
   loigiai: [
-    $f(n) = f(n-1)+f(n-2)+f(n-3)$, $f(0)=1$, $f(1)=1$, $f(2)=2$.
-    #align(center)[
-      #table(
-        columns: 7, align: center, stroke: 0.5pt+black,
-        [*$n$*],[0],[1],[2],[3],[4],[5],[*$n$*],[6],[7],[8],[9],[10],[11],[12],
-        [*$f$*],[1],[1],[2],[4],[7],[13],[*$f$*],[24],[44],[81],[149],[274],[504],[*927*],
-      )
-    ]
-    Vậy $f(12) = rect(927)$.
+    #theory-layout(
+      cach1-box[
+        $f(n) = f(n-1)+f(n-2)+f(n-3)$, $f(0)=1$, $f(1)=1$, $f(2)=2$.
+        #align(center)[
+          #table(
+            columns: 7, align: center, stroke: 0.5pt+black,
+            [*$n$*],[0],[1],[2],[3],[4],[5],[*$n$*],[6],[7],[8],[9],[10],[11],[12],
+            [*$f$*],[1],[1],[2],[4],[7],[13],[*$f$*],[24],[44],[81],[149],[274],[504],[*927*],
+          )
+        ]
+        Vậy $f(12) = rect(927)$.
+      ],
+      side-note(title: "Tribonacci")[
+        Bài toán leo 3 bậc thang tương đương với chuỗi Tribonacci. Mọi thứ chỉ đơn giản là cộng dồn 3 số liền trước thay vì 2 số!
+      ]
+    )
+  ]
+)
+
+// ─── Bài 10* (Nâng cao) ───────────────────────────────────────────────
+#tln(
+  [Một người say rượu đứng cách vách núi 2 bước chân (gọi vị trí vách núi là $0$, vị trí nhà là $5$, người đó xuất phát ở $2$). Mỗi bước anh ta đi sang trái ($-1$) hoặc sang phải ($+1$). Nếu chạm vào vị trí $0$, anh ta rơi xuống vực (kết thúc hành trình). Hỏi có bao nhiêu lộ trình để anh ta về đến nhà (vị trí $5$) *sau đúng 5 bước*?],
+  [3],
+  loigiai: [
+    #theory-layout(
+      cach1-box[
+        Gọi $f(p, t)$ là số lộ trình từ $2$ đến vị trí $p$ sau $t$ bước.
+        - Biên hấp thụ 1 (Vực thẳm): *ÉP CỨNG $f(0, t) = 0$* với mọi $t > 0$ (Rơi xuống là chết, không có đường quay lại).
+        - Biên hấp thụ 2 (Nhà): Vì yêu cầu về nhà sau "đúng 5 bước", nếu anh ta về nhà sớm hơn (ở bước 3), hành trình đó sẽ kết thúc luôn, không được lùi lại rồi tiến lên. Do đó *ÉP CỨNG $f(5, t) = 0$* trong quá trình cộng dồn tiếp.
+        
+        Khởi tạo: $f(2, 0) = 1$. Điền bảng:
+        #align(center)[
+          #table(
+            columns: 7, align: center, stroke: 0.5pt+black,
+            [*$t \\ p$*],[*0 (Vực)*],[*1*],[*2*],[*3*],[*4*],[*5 (Nhà)*],
+            [0],[0],[0],[1],[0],[0],[0],
+            [1],[#text(fill: rgb("e53935"), weight: "bold")[0]],[1],[0],[1],[0],[0],
+            [2],[#text(fill: rgb("e53935"), weight: "bold")[0]],[0],[2],[0],[1],[0],
+            [3],[#text(fill: rgb("e53935"), weight: "bold")[0]],[2],[0],[3],[0],[*1*],
+            [4],[#text(fill: rgb("e53935"), weight: "bold")[0]],[0],[5],[0],[3],[#text(fill: rgb("e53935"), weight: "bold")[0]],
+            [5],[#text(fill: rgb("e53935"), weight: "bold")[0]],[5],[0],[8],[0],[*3*],
+          )
+        ]
+        Chú ý tại $t=4$: $f(4,4) = f(3,3) + f(5,3) = 3 + 0 = 3$. 
+        Tại $t=5$: $f(5,5) = f(4,4) = 3$.
+        Vậy có $rect(3)$ lộ trình.
+      ],
+      side-note(title: "Vực thẳm hấp thụ")[
+        Đây là bài toán Random Walk nâng cao (Absorbing Barriers). 
+        Khác với "bức tường" thông thường (đập vào nảy ra), vực thẳm và ngôi nhà là trạng thái "hấp thụ". Chạm vào là kết thúc.
+        Trong bảng QHĐ, ta triệt tiêu toàn bộ mũi tên đi ra khỏi trạng thái hấp thụ bằng cách gán $f = 0$ cho những bước sau nó.
+      ]
+    )
   ]
 )
 
@@ -653,11 +833,17 @@
 // ══════════════════════════════════════════════════════════════
 
 #ppgiai[
-  *Nhận dạng:* Robot đi trên lưới $m times n$, chỉ được đi *phải* hoặc *lên* (hoặc có thêm hướng khác). Đếm số đường đi từ góc này sang góc khác.
+  *Nhận dạng:* Robot đi trên lưới $m times n$, chỉ được đi *phải* hoặc *lên*. Đếm số đường đi từ gốc $O(0,0)$ đến đích $B(m,n)$.
 
   *Không ràng buộc:* $C(m+n, m)$ — chọn $m$ bước phải trong tổng $m+n$ bước.
 
-  *Có ràng buộc:* Dùng FSM/quy hoạch động, trạng thái là ô hiện tại $(i,j)$.
+  *Có ràng buộc (Cấm ô / Cấm đường chéo):* Dùng Truy hồi (QHĐ), gọi $f(i,j)$ là số cách đến ô tọa độ $(i,j)$.
+  $ f(i,j) = f(i-1, j) + f(i, j-1) $
+  
+  *QUY TẮC ĐIỀU KIỆN BAN ĐẦU (SINH TỬ):*
+  - *Gốc xuất phát:* Luôn gán $f(0,0) = 1$. (Vì đứng yên tại chỗ chính là 1 cách. Tuyệt đối không gán 0).
+  - *Đường biên:* Trục hoành $f(x,0) = 1$ và trục tung $f(0,y) = 1$. Tuy nhiên, nếu trên biên có *vật cản*, thì mọi ô phía sau vật cản trên biên đó lập tức bị chặn và biến thành $0$.
+  - *Vật cản:* Nếu ô $(i,j)$ bị cấm, ÉP CỨNG $f(i,j) = 0$. Ô này sẽ không cộng dồn số cách sang các ô kề bên phải và bên trên nó.
 ]
 
 // ─── Bài 11 ───────────────────────────────────────────────────
@@ -673,21 +859,40 @@
   fig-width: 60%,
   [126],
   loigiai: [
-    Từ $(0,0)$ đến $(5,4)$: cần đúng $5$ bước phải và $4$ bước lên, tổng $9$ bước. Số đường đi:
-    $ C_9^4 = C_9^5 = 126 $
+    #theory-layout(
+      [
+        #cach1-box[
+          *Dùng Tổ hợp:*
+          Từ $(0,0)$ đến $(5,4)$: Robot luôn cần đúng $5$ bước sang phải (P) và $4$ bước đi lên (L).
+          Tổng cộng hành trình luôn có đúng $9$ bước. 
+          
+          Số cách đi chính là số cách chọn ra $4$ bước L trong $9$ bước (hoặc $5$ bước P trong $9$ bước):
+          $ C_9^4 = C_9^5 = 126 $
+        ]
 
-    *Xác nhận bằng bảng QHĐ:*
-    #align(center)[
-      #table(
-        columns: 7, align: center, stroke: 0.5pt+black,
-        [*$i backslash j$*],[0],[1],[2],[3],[4],[5],
-        [4],[1],[5],[15],[35],[70],[*126*],
-        [3],[1],[4],[10],[20],[35],[56],
-        [2],[1],[3],[6],[10],[15],[21],
-        [1],[1],[2],[3],[4],[5],[6],
-        [0],[1],[1],[1],[1],[1],[1],
-      )
-    ]
+        #cach2-box[
+          *Dùng Truy hồi (Quy hoạch động):*
+          #align(center)[
+            #table(
+              columns: 7, align: center, stroke: 0.5pt+black,
+              [*$j backslash i$*],[0],[1],[2],[3],[4],[5],
+              [4],[1],[5],[15],[35],[70],[*126*],
+              [3],[1],[4],[10],[20],[35],[56],
+              [2],[1],[3],[6],[10],[15],[21],
+              [1],[1],[2],[3],[4],[5],[6],
+              [0],[*1*],[1],[1],[1],[1],[1],
+            )
+          ]
+        ]
+      ],
+      side-note(title: "Nhắc bài: Tại sao ô (0,0) lại gán 1?", [
+        Nhiều bạn nghĩ rằng ô xuất phát $(0,0)$ chưa đi bước nào nên số cách đến nó là $0$. *Đó là sai lầm chết người!*
+        
+        Về mặt logic học, số cách để đi từ nhà bạn đến... chính nhà bạn là $1$ cách (đó là hành động: không làm gì cả). Nếu bạn gán ô xuất phát là $0$, thì mọi ô tiếp theo tính theo công thức cộng dồn sẽ thành $0$ hết!
+        
+        Vì vậy, luôn nhớ khởi tạo góc dưới cùng bên trái là *1*.
+      ])
+    )
   ]
 )
 
@@ -705,39 +910,49 @@
   }),
   fig-pos: "right",
   fig-width: 38%,
-  [48],
+  [34],
   loigiai: [
-    *Bổ sung–Trừ:*
-    - Tổng số đường không có ràng buộc: $C_8^4 = 70$.
-    - Số đường đi qua $(2,2)$: (đường từ $O$ đến $(2,2)$) $times$ (đường từ $(2,2)$ đến $B$) $= C_4^2 times C_4^2 = 6 times 6 = 36$ — *Sai, cần $C_4^2=6$ cho mỗi nửa.*
+    #theory-layout(
+      [
+        #cach1-box[
+          *Phương pháp phần bù:*
+          - Tổng số đường đi tùy ý: $C_8^4 = 70$.
+          - Số đường *bắt buộc đi qua $(2,2)$*: 
+            (Số đường từ $O$ đến $(2,2)$) $times$ (Số đường từ $(2,2)$ đến $B$)
+            $= C_4^2 times C_4^2 = 6 times 6 = 36$.
+          - Số đường hợp lệ: $70 - 36 = 34$.
+        ]
 
-    *Tính lại:*
-    - $O -> (2,2)$: $C_4^2 = 6$.
-    - $(2,2) -> (4,4)$: $C_4^2 = 6$.
-    - Số đường qua $(2,2)$: $6 times 6 = 36$.
-    - Số đường *không* qua $(2,2)$: $70 - 36 = rect(34)$.
-
-    #luuy[Kiểm tra bằng QHĐ với điểm bị loại:]
-    #align(center)[
-      #table(
-        columns: 6, align: center, stroke: 0.5pt+black,
-        [*$i backslash j$*],[0],[1],[2],[3],[4],
-        [4],[1],[5],[14],[28],[48],
-        [3],[1],[4],[9],[14],[20],
-        [2],[1],[3],[*0*],[5],[9],
-        [1],[1],[2],[3],[5],[8],
-        [0],[1],[1],[1],[1],[1],
-      )
-    ]
-    Vậy số đường đi hợp lệ là $rect(48)$.
-
-    *(Lưu ý: $f(2,2)=0$ vì bị cấm; ô sau nó cộng thêm $0$ từ hướng đó.)*
+        #cach2-box[
+          *Phương pháp Truy hồi (Ô cấm):*
+          #align(center)[
+            #table(
+              columns: 6, align: center, stroke: 0.5pt+black,
+              [*$j backslash i$*],[0],[1],[2],[3],[4],
+              [4],[1],[5],[14],[23],[*34*],
+              [3],[1],[4],[9],[9],[11],
+              [2],[1],[3],[#text(fill: rgb("e53935"), weight: "bold")[0]],[4],[9],
+              [1],[1],[2],[3],[4],[5],
+              [0],[1],[1],[1],[1],[1],
+            )
+          ]
+        ]
+      ],
+      side-note(title: "Nhắc bài: Cơ chế Ô cấm", [
+        Trong bảng QHĐ, ngay tại vị trí bị cấm $(2,2)$, ta *ép cứng bằng 0*.
+        
+        Ý nghĩa của số $0$ này là: Khả năng sống sót khi bước vào ô này là $0$%. 
+        Do đó, khi ô $(3,2)$ bên phải nó thực hiện phép cộng dồn $f(3,2) = f(2,2) + f(3,1)$, nó chỉ nhận được $0 + 4 = 4$, tức là đường đi chỉ có thể đến $(3,2)$ từ phía dưới, không thể tạt ngang từ $(2,2)$ sang được.
+        
+        Hãy xem ô $(2,2)$ như một "hố đen" nuốt trọn mọi đường đi đi qua nó!
+      ])
+    )
   ]
 )
 
 // ─── Bài 13 ───────────────────────────────────────────────────
 #tln(
-  [Robot đi trên lưới $6 times 3$ từ $(0,0)$ đến $(6,3)$, chỉ đi phải hoặc lên, nhưng *không được đi qua bất kỳ ô nào trên đường chéo chính* $y = x$ (tức không được đến các điểm $(1,1)$, $(2,2)$, $(3,3)$). Hỏi có bao nhiêu đường đi hợp lệ?],
+  [Robot đi trên lưới $6 times 3$ từ $(0,0)$ đến $(6,3)$, chỉ đi phải hoặc lên, nhưng *không được đi qua bất kỳ điểm nào trên đường chéo chính* $y = x$ (tức không được đến các điểm $(1,1)$, $(2,2)$, $(3,3)$). Hỏi có bao nhiêu đường đi hợp lệ?],
   fig: cetz.canvas({
     draw-grid(6, 3, sc: 0.7)
     import cetz.draw: *
@@ -754,23 +969,35 @@
   fig-width: 72%,
   [28],
   loigiai: [
-    Dùng bảng QHĐ, đặt $f(i,j)=0$ tại $(1,1),(2,2),(3,3)$:
-    #align(center)[
-      #table(
-        columns: 8, align: center, stroke: 0.5pt+black,
-        [*$i backslash j$*],[0],[1],[2],[3],[4],[5],[6],
-        [3],[1],[3],[9],[*0*],[0],[0],[0],
-        [2],[1],[2],[*0*],[0],[0],[0],[0],
-        [1],[1],[*0*],[0],[0],[0],[0],[0],
-        [0],[1],[1],[1],[1],[1],[1],[1],
-      )
-    ]
-
-    Hmm, tất cả các ô phía trên đường chéo bị "chặn" hoàn toàn. Thực ra bài đúng là không đến các *giao điểm* đó. Cần xem lại bảng:
-
-    $f(0,j) = 1$ với mọi $j$ (chỉ đi phải dọc đáy). $f(i,0) = 1$ với mọi $i$.
-
-    $f(1,1) = 0$ (bị cấm). $f(2,1) = f(1,1)+f(2,0) = 0+1=1$. $f(1,2)=f(0,2)+f(1,1)=1+0=1$. $f(2,2)=0$ (bị cấm). $f(3,1)=f(2,1)+f(3,0)=1+1=2$. $f(1,3)=f(0,3)+f(1,2)=1+1=2$. $f(2,3)=f(1,3)+f(2,2)=2+0=2$. $f(3,2)=f(2,2)+f(3,1)=0+2=2$. $f(3,3)=0$ (bị cấm). $f(4,1)=f(3,1)+f(4,0)=2+1=3$. $f(4,2)=f(3,2)+f(4,1)=2+3=5$. $f(4,3)=f(3,3)+f(4,2)=0+5=5$. $f(5,1)=4$. $f(5,2)=f(4,2)+f(5,1)=5+4=9$. $f(5,3)=f(4,3)+f(5,2)=5+9=14$. $f(6,1)=5$. $f(6,2)=f(5,2)+f(6,1)=9+5=14$. $f(6,3)=f(5,3)+f(6,2)=14+14=rect(28)$.
+    #theory-layout(
+      [
+        *Phương pháp Truy hồi (Cấm nhiều ô):*
+        Ta thiết lập bảng QHĐ. Những giao điểm trên đường chéo $(1,1), (2,2), (3,3)$ bị cấm sẽ bị ép cứng thành *0*.
+        
+        #align(center)[
+          #table(
+            columns: 8, align: center, stroke: 0.5pt+black,
+            [*$j backslash i$*],[0],[1],[2],[3],[4],[5],[6],
+            [3],[1],[2],[2],[#text(fill: rgb("e53935"), weight: "bold")[0]],[5],[14],[*28*],
+            [2],[1],[1],[#text(fill: rgb("e53935"), weight: "bold")[0]],[2],[5],[9],[14],
+            [1],[1],[#text(fill: rgb("e53935"), weight: "bold")[0]],[1],[2],[3],[4],[5],
+            [0],[1],[1],[1],[1],[1],[1],[1],
+          )
+        ]
+        Vậy số đường đi hợp lệ là *28*.
+      ],
+      side-note(title: "Nhắc bài: Cộng dồn bình tĩnh", [
+        Đừng hoảng sợ khi có nhiều ô cấm, hãy nhẩm từng ô một từ trái sang phải, từ dưới lên trên.
+        
+        Ví dụ nhẩm Hàng 1 (y=1): 
+        - $f(0,1) = 1$ (từ gốc đi thẳng lên).
+        - $f(1,1) = 0$ (Bị cấm).
+        - $f(2,1) = f(1,1) + f(2,0) = 0 + 1 = 1$.
+        - $f(3,1) = f(2,1) + f(3,0) = 1 + 1 = 2$.
+        
+        Ô cấm chỉ đơn giản là $0$, quy tắc cộng dồn $f(i,j) = f(i-1,j) + f(i,j-1)$ vẫn y nguyên!
+      ])
+    )
   ]
 )
 
@@ -785,11 +1012,55 @@
   ),
   correct: (2,),
   loigiai: [
-    Đây là bài toán đường đi *Dyck* / *không qua đường chéo từ bên dưới*, có nghiệm là *số Catalan* $C_n = frac(1,n+1) C_{2n}^n$. 
-
-    Ví dụ $n=3$: $C_3 = frac(1,4) C_6^3 = frac(20,4)=5$.
+    #theory-layout(
+      [
+        Đây là bài toán kinh điển về *Đường đi Dyck* (tránh vượt qua đường chéo chính). 
+        Kết quả của bài toán này chính là *Số Catalan* $C_n = frac(1,n+1) C_{2n}^n$. 
     
-    *Chứng minh nhanh:* Phương pháp phản xạ (Reflection Principle) — số đường vi phạm ($y < x$ tại nào đó) = $C_{2n}^{n-1}$. Số hợp lệ = $C_{2n}^n - C_{2n}^{n-1} = frac(1,n+1)C_{2n}^n$.
+        Ví dụ $n=3$: Số đường đi hợp lệ là $C_3 = frac(1,4) C_6^3 = frac(20,4)=5$.
+      ],
+      side-note(title: "Nguyên lý phản xạ (Reflection Principle)", [
+        *Chứng minh nhanh tại sao lại ra số Catalan?*
+        - Tổng số đường đi tùy ý: $C_{2n}^n$.
+        - Nếu một đường vi phạm (tức là nó lấn xuống dưới đường chéo $y=x$, chạm vào đường ranh giới $y = x - 1$). Ta "lật ngược" (phản xạ) toàn bộ phần đường đi sau điểm chạm đầu tiên qua đường $y=x-1$. 
+        - Phép lật này biến một đường đi vi phạm đến $(n,n)$ thành một đường đi luôn chạm đến đích mới là $(n+1, n-1)$. Số lượng các đường lật này là $C_{2n}^{n-1}$.
+        - Số đường hợp lệ: $C_{2n}^n - C_{2n}^{n-1} = frac(1, n+1)C_{2n}^n$.
+      ])
+    )
+  ]
+)
+
+// ─── Bài 14* (Nâng cao) ───────────────────────────────────────────────
+#tln(
+  [Robot đi trên lưới từ $(0,0)$ đến $(3,3)$. Khác với đi lưới thông thường, robot này được trang bị động cơ kép nên ngoài việc đi Lên và đi Phải, nó còn có thể đi *Chéo* (Lên-Phải cùng lúc, tức từ $(x,y)$ lên $(x+1,y+1)$ bằng 1 bước). Hỏi có bao nhiêu đường đi?],
+  [63],
+  loigiai: [
+    #theory-layout(
+      cach1-box[
+        Gọi $f(i, j)$ là số đường đi đến ô $(i,j)$. 
+        Bởi vì robot có thể đến $(i,j)$ từ 3 hướng: bên trái, bên dưới, và chéo dưới-trái, ta có hệ thức 3 hướng:
+        $ f(i, j) = f(i-1, j) + f(i, j-1) + f(i-1, j-1) $
+        Khởi tạo $f(0,0)=1$. Điền bảng từ dưới lên trên, từ trái qua phải:
+        
+        #align(center)[
+          #table(
+            columns: 5, align: center, stroke: 0.5pt+black,
+            [*$y backslash x$*],[0],[1],[2],[3],
+            [3],[1],[7],[25],[*63*],
+            [2],[1],[5],[13],[25],
+            [1],[1],[3],[5],[7],
+            [0],[1],[1],[1],[1],
+          )
+        ]
+        Ví dụ $f(1,1) = 1 + 1 + 1 = 3$. $f(2,1) = 3 + 1 + 1 = 5$.
+        Số đường đi là $rect(63)$.
+      ],
+      side-note(title: "Số Delannoy")[
+        Trong tổ hợp, đây được gọi là *Số Delannoy*. Nếu bạn gặp bài toán chia kẹo, chia tập hợp mà có "3 lựa chọn di chuyển", hệ thức truy hồi của chúng rất có thể sẽ giống với Số Delannoy!
+        
+        Bí quyết là luôn nhớ: *Có bao nhiêu cách bước tới một ô, thì hệ thức cộng dồn bấy nhiêu thành phần*.
+      ]
+    )
   ]
 )
 
@@ -831,18 +1102,31 @@
   fig-width: 75%,
   [42],
   loigiai: [
-    Đây là số *đường đi Dyck* độ dài $2n = 10$: tổng $n=5$ bước tăng và $n=5$ bước giảm, luôn $>= 0$.
+    #theory-layout(
+      cach1-box[
+        Đây là số *đường đi Dyck* độ dài $2n = 10$: tổng $n=5$ bước tăng và $n=5$ bước giảm, luôn $>= 0$.
 
-    Số Catalan $C_5 = frac(1,6) C_{10}^5 = frac(252,6) = rect(42)$.
+        Số Catalan $C_5 = frac(1,6) C_{10}^5 = frac(252,6) = rect(42)$.
 
-    *Bảng Catalan:*
-    #align(center)[
-      #table(
-        columns: 8, align: center, stroke: 0.5pt+black,
-        [*$n$*],[1],[2],[3],[4],[5],[6],[7],
-        [*$C_n$*],[1],[2],[5],[14],[42],[132],[429],
-      )
-    ]
+        *Bảng Catalan:*
+        #align(center)[
+          #table(
+            columns: 8, align: center, stroke: 0.5pt+black,
+            [*$n$*],[1],[2],[3],[4],[5],[6],[7],
+            [*$C_n$*],[1],[2],[5],[14],[42],[132],[429],
+          )
+        ]
+      ],
+      side-note(title: "Giải mã bài toán")[
+        Thoạt nhìn Bài 15 (bầu cử) chả liên quan gì đến Robot đi lưới. Nhưng hãy "phiên dịch" nó:
+        
+        - 1 phiếu cho $A$ = Robot bước 1 bước sang phải.
+        - 1 phiếu cho $B$ = Robot bước 1 bước lên trên.
+        - Số phiếu $A >= B$ = Robot luôn nằm dưới hoặc trên đường chéo $y=x$.
+        
+        Đây chính là bài toán Tìm số đường đi tránh đường chéo (Bài 14) phát biểu dưới dạng ứng dụng thực tế. Đáp án luôn là Số Catalan!
+      ]
+    )
   ]
 )
 
@@ -851,9 +1135,16 @@
   [Có bao nhiêu cách đặt $n=4$ cặp ngoặc $()$ hợp lệ (mỗi ngoặc mở phải có đúng một ngoặc đóng tương ứng, và tại mọi điểm số ngoặc mở $>=$ số ngoặc đóng)?],
   [14],
   loigiai: [
-    Mỗi ngoặc mở $=+1$, ngoặc đóng $=-1$. Dãy ngoặc hợp lệ $equiv$ đường đi Dyck độ dài $2 times 4 = 8$. Số cách = $C_4 = frac(1,5) C_8^4 = frac(70,5) = rect(14)$.
+    #theory-layout(
+      cach1-box[
+        Mỗi ngoặc mở $=+1$, ngoặc đóng $=-1$. Dãy ngoặc hợp lệ $equiv$ đường đi Dyck độ dài $2 times 4 = 8$. Số cách = $C_4 = frac(1,5) C_8^4 = frac(70,5) = rect(14)$.
 
-    Liệt kê kiểm tra: $()()()()$; $(())()()$; $()(())()$; $()()((  ))$; $(()())()$; $((()))()$; $(())(())$; $()()(())$; $(()(  ))()$; $(((  )))()$; $(()()())$; $((()))()$; $(())((  ))$; $((()()))$ → đúng 14.
+        Liệt kê kiểm tra: $()()()()$; $(())()()$; $()(())()$; $()()((  ))$; $(()())()$; $((()))()$; $(())(())$; $()()(())$; $(()(  ))()$; $(((  )))()$; $(()()())$; $((()))()$; $(())((  ))$; $((()()))$ → đúng 14.
+      ],
+      side-note(title: "Ngoặc hợp lệ")[
+        Ngoặc hợp lệ cũng giống hệt Bài 15. Ngoặc mở là điểm cộng, ngoặc đóng là điểm trừ. Điểm tích lũy không bao giờ được âm (không thể có ngoặc đóng khi chưa mở ngoặc). Lại là số Catalan!
+      ]
+    )
   ]
 )
 
@@ -890,26 +1181,35 @@
   fig-width: 65%,
   [34],
   loigiai: [
-    #reset-step()
-    #step[
-      Gọi $f(n)$ = số cách lát $2 times n$. Xét cột cuối cùng (bên phải):
-      - *Đặt 1 domino dọc* ($2 times 1$): phần còn lại là $2 times (n-1)$ → $f(n-1)$ cách.
-      - *Đặt 2 domino ngang* (mỗi hàng một cái, chiếm $2$ cột cuối): phần còn lại là $2 times (n-2)$ → $f(n-2)$ cách.
-      $ f(n) = f(n-1) + f(n-2) $
-      Khởi tạo: $f(1) = 1$ (chỉ đặt dọc), $f(2) = 2$ (hai dọc hoặc hai ngang).
-    ]
-    #step[
-      Đây là *dãy Fibonacci* (bắt đầu khác).
-      #align(center)[
-        #table(
-          columns: 9, align: center, stroke: 0.5pt+black,
-          [*$n$*],[1],[2],[3],[4],[5],[6],[7],[8],
-          [*$f(n)$*],[1],[2],[3],[5],[8],[13],[21],[*34*],
-        )
+    #theory-layout(
+      cach1-box[
+        #reset-step()
+        #step[
+          Gọi $f(n)$ = số cách lát $2 times n$. Xét cột cuối cùng (bên phải):
+          - *Đặt 1 domino dọc* ($2 times 1$): phần còn lại là $2 times (n-1)$ → $f(n-1)$ cách.
+          - *Đặt 2 domino ngang* (mỗi hàng một cái, chiếm $2$ cột cuối): phần còn lại là $2 times (n-2)$ → $f(n-2)$ cách.
+          $ f(n) = f(n-1) + f(n-2) $
+          Khởi tạo: $f(1) = 1$ (chỉ đặt dọc), $f(2) = 2$ (hai dọc hoặc hai ngang).
+        ]
+        #step[
+          Đây là *dãy Fibonacci* (bắt đầu khác).
+          #align(center)[
+            #table(
+              columns: 9, align: center, stroke: 0.5pt+black,
+              [*$n$*],[1],[2],[3],[4],[5],[6],[7],[8],
+              [*$f(n)$*],[1],[2],[3],[5],[8],[13],[21],[*34*],
+            )
+          ]
+          Vậy số cách lát $2 times 8$ là $f(8) = rect(34)$.
+        ]
+        #reset-step()
+      ],
+      side-note(title: "Tại sao lại Fibonacci?")[
+        Hãy tưởng tượng các cột domino giống như bậc thang. Domino dọc là 1 bậc, còn 2 domino ngang ghép lại chiếm trọn 2 cột chính là bước 2 bậc!
+        
+        Mọi bài toán "có 2 lựa chọn: chiếm 1 ô hoặc chiếm 2 ô" đều sinh ra dãy Fibonacci.
       ]
-      Vậy số cách lát $2 times 8$ là $f(8) = rect(34)$.
-    ]
-    #reset-step()
+    )
   ]
 )
 
@@ -1306,3 +1606,90 @@
   Tính $A_n = 9 B_{n-1}$, $B_n = A_{n-1} + 9 B_{n-1}$:
   $n=1$: $A=0, B=9$. $n=2$: $A=81, B=0+81=81$. $n=3$: $A=729, B=81+729=810$. ... Cần tính đến $n=8$.
 ])
+
+// ══════════════════════════════════════════════════════════════
+= Dạng 10: Robot Chuyển Động Theo Xác Suất / Xúc Xắc
+// ══════════════════════════════════════════════════════════════
+
+#ppgiai[
+  *Nhận dạng:* Bước đi của robot không phải do nó tự chọn, mà do kết quả của một phép thử ngẫu nhiên (tung đồng xu, gieo xúc xắc). 
+  
+  *Công thức:* 
+  Nếu gieo xúc xắc, một biến cố (ví dụ "Lên") có thể xảy ra do nhiều mặt (ví dụ mặt Chẵn: 2, 4, 6 có 3 mặt). Ta phải *NHÂN TRỌNG SỐ* (số cách xảy ra biến cố đó) vào hệ thức truy hồi.
+  $ f(p, t) = ("Trọng số 1") times f(p_1, t-1) + ("Trọng số 2") times f(p_2, t-1) $
+]
+
+// ─── Bài 19 ───────────────────────────────────────────────────
+#tln(
+  [Một con ếch nhảy trên trục $O x$ xuất phát từ $O$. Mỗi lần nhảy, ếch tung một đồng xu. Nếu ngửa (N) ếch nhảy sang phải 2 bước ($+2$), nếu sấp (S) ếch nhảy sang trái 1 bước ($-1$). Hỏi sau đúng 6 lần nhảy, có bao nhiêu kịch bản để ếch đứng tại vị trí $x = 0$? Xác suất để điều này xảy ra là bao nhiêu?],
+  [15 cách, Xác suất $15/64$],
+  loigiai: [
+    #theory-layout(
+      cach1-box[
+        *Cách 1: Giải bằng Đại số tổ hợp*
+        Gọi $a$ là số lần ngửa, $b$ là số lần sấp. Ta có hệ:
+        $ cases(
+          a + b = 6 space "(Tổng số lần nhảy)",
+          2a - 1b = 0 space "(Tọa độ đích)"
+        ) <=> cases(
+          a = 2,
+          b = 4
+        ) $
+        Vậy hành trình hợp lệ phải có đúng 2 lần Ngửa và 4 lần Sấp.
+        Số kịch bản là hoán vị lặp: $C_6^2 = rect(15)$ cách.
+        Không gian mẫu (6 lần tung, mỗi lần 2 khả năng): $2^6 = 64$.
+        Xác suất: $15/64$.
+      ],
+      side-note(title: "Truy hồi Trọng số")[
+        *Cách 2: Giải bằng Truy hồi (áp dụng cho bài phức tạp)*
+        Gọi $f(x,t)$ là số kịch bản đến $x$ sau $t$ bước.
+        Vì tung Ngửa thì tiến 2, Sấp thì lùi 1, và mỗi mặt chỉ có trọng số là 1 (đồng xu có 1 mặt N, 1 mặt S):
+        $ f(x, t) = 1 times f(x-2, t-1) + 1 times f(x+1, t-1) $
+        Nếu bạn lập bảng $f(x,t)$ và tính đến $t=6$, bạn cũng sẽ nhận được $f(0,6) = 15$.
+      ]
+    )
+  ]
+)
+
+// ─── Bài 20 ───────────────────────────────────────────────────
+#tln(
+  [Một robot đứng ở vị trí $x=0$. Mỗi giây, nó gieo một con xúc xắc 6 mặt cân đối.
+  - Nếu ra số nguyên tố ($2, 3, 5$), robot tiến $2$ bước ($+2$).
+  - Nếu ra số hợp số ($4, 6$), robot lùi $1$ bước ($-1$).
+  - Nếu ra số $1$, robot đứng yên.
+  Hỏi có bao nhiêu kịch bản (dãy các mặt xúc xắc) để sau 3 giây, robot đứng ở vị trí $x=3$?],
+  [54 kịch bản],
+  loigiai: [
+    #theory-layout(
+      cach1-box[
+        *Phân tích Trọng số:*
+        - Bước tiến $+2$: có 3 mặt xúc xắc sinh ra $\to$ Trọng số $3$.
+        - Bước lùi $-1$: có 2 mặt xúc xắc sinh ra $\to$ Trọng số $2$.
+        - Đứng yên $0$: có 1 mặt xúc xắc sinh ra $\to$ Trọng số $1$.
+
+        *Thiết lập Truy hồi:*
+        Gọi $f(x,t)$ là số kịch bản để đến vị trí $x$ sau $t$ giây. 
+        Để đến được $x$, giây trước đó robot phải ở $x-2$ (và gieo ra nguyên tố), hoặc ở $x+1$ (gieo ra hợp số), hoặc ở $x$ (gieo ra số 1). Ta nhân trọng số tương ứng:
+        $ f(x,t) = 3 f(x-2, t-1) + 2 f(x+1, t-1) + 1 f(x, t-1) $
+
+        *Làm tay nhanh cho $x=3$ sau $t=3$ bước:*
+        Để đạt $x=3$ trong 3 bước (mỗi bước max là $+2$), các bước đi phải là sự kết hợp của $\{+2, +2, -1\}$ (tổng = 3). 
+        Số cách xếp 3 bước này là $3!/2! = 3$ trình tự: 
+        1. $(+2, +2, -1)$
+        2. $(+2, -1, +2)$
+        3. $(-1, +2, +2)$
+        Với MỖI trình tự, số kịch bản xúc xắc là tích các trọng số: $3 times 3 times 2 = 18$ kịch bản.
+        Vì có 3 trình tự, tổng số kịch bản = $3 times 18 = 54$.
+        
+        Vậy có duy nhất tổ hợp $\{+2, +2, -1\}$ tạo ra vị trí $x=3$.
+        Đáp án chính xác là $rect(54)$ kịch bản. (Xác suất là $54 / 6^3 = 54/216 = 25%$).
+      ],
+      side-note(title: "Sự lợi hại của Trọng số")[
+        Nếu vẽ sơ đồ cây cho 3 giây, bạn sẽ phải đếm $6^3 = 216$ nhánh, vô cùng dễ nhầm lẫn. 
+        Nhờ khái niệm "Trọng số", ta đã nén 216 nhánh đó lại thành các phép nhân đơn giản. 
+        
+        Hãy nhớ: $f(x,t)$ trong FSM không chỉ đếm số đường đi, mà nó còn đếm số kịch bản ngẫu nhiên nếu bạn biết cách gán đúng Trọng số cho các mũi tên!
+      ]
+    )
+  ]
+)

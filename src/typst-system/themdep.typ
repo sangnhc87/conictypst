@@ -293,7 +293,7 @@
     #line(length: 60%, stroke: 0.5pt + luma(180))
     #v(0.3em)
     #text(size: 9pt, fill: luma(150), style: "italic")[
-      Thí sinh không được sử dụng tài liệu. Cán bộ coi thi không giải thích gì thêm.
+      Thí sinh không được sử dụng tài liệu. Giám thị không giải thích gì thêm.
     ]
   ]
 ]

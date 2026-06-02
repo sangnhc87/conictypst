@@ -1,0 +1,1707 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đại Bác Vạn Năng Đa Giác Đều - Bộ Giải Toán Toàn Diện</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- MathJax for rendering beautiful LaTeX -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        :root {
+            /* Dark Theme Colors (Default) */
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #020617 100%);
+            --panel-bg: rgba(30, 41, 59, 0.7);
+            --panel-border: rgba(255, 255, 255, 0.08);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent-teal: #14b8a6;
+            --accent-teal-glow: rgba(20, 184, 166, 0.15);
+            --accent-coral: #f97316;
+            --accent-coral-glow: rgba(249, 115, 22, 0.2);
+            --accent-indigo: #6366f1;
+            --accent-indigo-glow: rgba(99, 102, 241, 0.15);
+            --card-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+            --node-color: #38bdf8;
+            --node-stroke: #0284c7;
+            --polygon-stroke: rgba(148, 163, 184, 0.3);
+            --active-shape-fill: rgba(20, 184, 166, 0.15);
+            --active-shape-stroke: #14b8a6;
+        }
+
+        [data-theme="light"] {
+            /* Light Theme Colors */
+            --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 50%, #f1f5f9 100%);
+            --panel-bg: rgba(255, 255, 255, 0.8);
+            --panel-border: rgba(99, 102, 241, 0.12);
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --accent-teal: #0d9488;
+            --accent-teal-glow: rgba(13, 148, 136, 0.1);
+            --accent-coral: #ea580c;
+            --accent-coral-glow: rgba(234, 88, 12, 0.1);
+            --accent-indigo: #4f46e5;
+            --accent-indigo-glow: rgba(79, 70, 229, 0.1);
+            --card-shadow: 0 20px 40px -15px rgba(99, 102, 241, 0.12);
+            --node-color: #0ea5e9;
+            --node-stroke: #0284c7;
+            --polygon-stroke: rgba(71, 85, 105, 0.2);
+            --active-shape-fill: rgba(13, 148, 136, 0.1);
+            --active-shape-stroke: #0d9488;
+        }
+
+        * {
+            box-sizing: border-box;
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--text-primary);
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(var(--panel-bg), 0.8);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--panel-border);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .logo span {
+            color: var(--accent-coral);
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--panel-border);
+            border-radius: 999px;
+            padding: 8px 16px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-1px);
+        }
+
+        .main-container {
+            max-width: 1400px;
+            margin: 24px auto 60px;
+            padding: 0 24px;
+            display: grid;
+            grid-template-columns: 420px 1fr;
+            gap: 32px;
+        }
+
+        @media (max-width: 1024px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .glass-panel {
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 24px;
+            padding: 28px;
+            backdrop-filter: blur(12px);
+            box-shadow: var(--card-shadow);
+        }
+
+        .sidebar-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-primary);
+        }
+
+        .sidebar-title i {
+            color: var(--accent-teal);
+        }
+
+        /* Controls styling */
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .control-label {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .control-label span.value-badge {
+            background: var(--accent-indigo-glow);
+            color: var(--accent-indigo);
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-family: 'Outfit', sans-serif;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .slider-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        input[type="range"] {
+            flex-grow: 1;
+            height: 6px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.1);
+            outline: none;
+            accent-color: var(--accent-indigo);
+            cursor: pointer;
+        }
+
+        input[type="number"] {
+            width: 80px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--panel-border);
+            border-radius: 8px;
+            padding: 8px;
+            color: var(--text-primary);
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-align: center;
+            outline: none;
+        }
+
+        input[type="number"]:focus {
+            border-color: var(--accent-indigo);
+        }
+
+        .shape-selector {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        /* Custom Scrollbar for Selector */
+        .shape-selector::-webkit-scrollbar {
+            width: 6px;
+        }
+        .shape-selector::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .shape-selector::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 999px;
+        }
+
+        .shape-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 12px 16px;
+            text-align: left;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .shape-btn:hover {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            transform: translateX(4px);
+        }
+
+        .shape-btn.active {
+            background: var(--accent-teal-glow);
+            border-color: var(--accent-teal);
+            color: var(--text-primary);
+            box-shadow: 0 0 15px rgba(20, 184, 166, 0.1);
+        }
+
+        .shape-btn .count-badge {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-family: 'Outfit', sans-serif;
+            color: var(--text-muted);
+        }
+
+        .shape-btn.active .count-badge {
+            background: var(--accent-teal);
+            color: #0f172a;
+            font-weight: 700;
+        }
+
+        .content-area {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        /* Interactive Grid Layout */
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 32px;
+        }
+
+        @media (max-width: 1200px) {
+            .workspace-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Visualizer Panel */
+        .visualizer-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .svg-container {
+            width: 100%;
+            aspect-ratio: 1;
+            max-width: 450px;
+            position: relative;
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .svg-polygon-bg {
+            fill: rgba(255, 255, 255, 0.01);
+            stroke: var(--polygon-stroke);
+            stroke-width: 1.5;
+        }
+
+        .svg-vertex {
+            fill: var(--node-color);
+            stroke: var(--node-stroke);
+            stroke-width: 2;
+            cursor: pointer;
+            transition: transform 0.2s ease, fill 0.2s ease;
+        }
+
+        .svg-vertex:hover {
+            transform: scale(1.3);
+            fill: #f59e0b;
+        }
+
+        .svg-vertex-label {
+            fill: var(--text-secondary);
+            font-size: 11px;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+            text-anchor: middle;
+            dominant-baseline: central;
+            pointer-events: none;
+        }
+
+        .svg-shape-highlight {
+            fill: var(--active-shape-fill);
+            stroke: var(--active-shape-stroke);
+            stroke-width: 3;
+            stroke-linejoin: round;
+            filter: drop-shadow(0 0 8px var(--accent-teal));
+            animation: pulse-stroke 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse-stroke {
+            0%, 100% {
+                stroke-width: 3px;
+                opacity: 0.95;
+            }
+            50% {
+                stroke-width: 4.5px;
+                opacity: 1;
+            }
+        }
+
+        .visualizer-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 20px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--panel-border);
+            color: var(--text-primary);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 1.2rem;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        .shape-info-badge {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--panel-border);
+            padding: 8px 18px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            min-width: 140px;
+            text-align: center;
+        }
+
+        /* Derivation panel */
+        .deriv-card {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-header-tab {
+            display: inline-flex;
+            background: var(--accent-indigo-glow);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            color: var(--accent-indigo);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            padding: 6px 12px;
+            border-radius: 8px;
+            align-self: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .deriv-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin: 0 0 16px;
+            color: var(--text-primary);
+        }
+
+        .deriv-content {
+            flex-grow: 1;
+            font-size: 0.98rem;
+            color: var(--text-secondary);
+        }
+
+        .deriv-formula {
+            background: rgba(0, 0, 0, 0.15);
+            border-left: 4px solid var(--accent-indigo);
+            padding: 16px;
+            border-radius: 0 12px 12px 0;
+            margin: 16px 0;
+            font-family: monospace;
+            overflow-x: auto;
+        }
+
+        /* Problem Solver Section */
+        .tabs-header {
+            display: flex;
+            gap: 12px;
+            border-bottom: 1px solid var(--panel-border);
+            margin-bottom: 24px;
+        }
+
+        .tab-link {
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid transparent;
+            color: var(--text-secondary);
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            padding: 12px 24px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .tab-link:hover {
+            color: var(--text-primary);
+        }
+
+        .tab-link.active {
+            color: var(--accent-coral);
+            border-bottom-color: var(--accent-coral);
+        }
+
+        .tab-pane {
+            display: none;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        /* Quiz templates */
+        .quiz-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .quiz-question {
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--text-primary);
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        @media (max-width: 600px) {
+            .quiz-options {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .option-btn {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 14px 20px;
+            text-align: left;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.15);
+            color: var(--text-primary);
+            transform: translateY(-1px);
+        }
+
+        .option-btn.correct {
+            background: rgba(16, 185, 129, 0.15);
+            border-color: #10b981;
+            color: #10b981;
+            font-weight: 700;
+        }
+
+        .option-btn.wrong {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: #ef4444;
+            color: #ef4444;
+            font-weight: 700;
+        }
+
+        .solution-btn {
+            background: var(--accent-indigo);
+            border: none;
+            color: white;
+            border-radius: 12px;
+            padding: 10px 20px;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer;
+            align-self: flex-start;
+            transition: all 0.2s ease;
+        }
+
+        .solution-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .solution-panel {
+            background: rgba(99, 102, 241, 0.05);
+            border: 1px dashed rgba(99, 102, 241, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            display: none;
+            margin-top: 12px;
+        }
+
+        .solution-panel.open {
+            display: block;
+            animation: slide-down 0.3s ease;
+        }
+
+        @keyframes slide-down {
+            from {
+                opacity: 0;
+                transform: translateY(-8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Table inside derivations */
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+
+        .info-table th, .info-table td {
+            border: 1px solid var(--panel-border);
+            padding: 10px 12px;
+            text-align: left;
+        }
+
+        .info-table th {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        /* Banner warning when n is too large for rendering */
+        .rendering-warning {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+            padding: 12px 18px;
+            border-radius: 12px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">
+                ⚡ ĐẠI BÁC VẠN NĂNG <span>ĐA GIÁC ĐỀU</span>
+            </a>
+            <div class="header-controls">
+                <button class="theme-toggle" id="themeToggleBtn" onclick="toggleTheme()">
+                    🌙 Chế độ tối
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <!-- Sidebar controls -->
+        <section class="sidebar">
+            <div class="glass-panel">
+                <h2 class="sidebar-title">
+                    ⚙️ THIẾT LẬP ĐA GIÁC
+                </h2>
+
+                <div class="control-group">
+                    <label class="control-label" for="nVerticesSlider">
+                        Số đỉnh đa giác $n$
+                        <span class="value-badge" id="nVerticesBadge">12 đỉnh</span>
+                    </label>
+                    <div class="slider-wrapper">
+                        <input type="range" id="nVerticesSlider" min="3" max="60" value="12" oninput="handleVerticesInput(this.value, 'slider')" />
+                        <input type="number" id="nVerticesNum" min="3" max="10000" value="12" onchange="handleVerticesInput(this.value, 'num')" />
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">
+                        Chọn loại hình cần đếm
+                    </label>
+                    <div class="shape-selector" id="shapeSelectorList">
+                        <!-- Buttons injected dynamically -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Content Area -->
+        <section class="content-area">
+            <!-- Visualizer & Quick Solver info -->
+            <div class="workspace-grid">
+                <!-- Visualizer -->
+                <div class="glass-panel visualizer-card">
+                    <div class="card-header-tab">Trực quan hóa hình học</div>
+                    <div class="rendering-warning" id="renderingWarning">
+                        ⚠️ Số đỉnh $n > 120$: Chế độ vẽ hình 2D tạm tắt để tối ưu hóa hiệu năng. Tính toán công thức vẫn hoạt động chính xác!
+                    </div>
+                    <div class="svg-container" id="svgContainer">
+                        <!-- SVG polygon injected here dynamically -->
+                    </div>
+                    <div class="visualizer-controls" id="visualizerControls">
+                        <button class="nav-btn" onclick="navigateShape(-1)">◀</button>
+                        <span class="shape-info-badge" id="shapeInfoBadge">Không có hình</span>
+                        <button class="nav-btn" onclick="navigateShape(1)">▶</button>
+                    </div>
+                </div>
+
+                <!-- Derivation and steps -->
+                <div class="glass-panel deriv-card">
+                    <div class="card-header-tab" id="derivTabLabel">Tâm pháp giải thuật</div>
+                    <h3 class="deriv-title" id="derivTitle">Đang tải dữ liệu...</h3>
+                    <div class="deriv-content" id="derivContent">
+                        <!-- Step-by-step text injected dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Full problem templates and quizzing -->
+            <div class="glass-panel">
+                <div class="tabs-header">
+                    <button class="tab-link active" onclick="switchTab(event, 'quizTab')">✍️ Luyện Đề Thực Chiến</button>
+                    <button class="tab-link" onclick="switchTab(event, 'cheatsheetTab')">📋 Bảng Tâm Pháp Tổng Hợp</button>
+                </div>
+
+                <!-- Tab content -->
+                <div id="quizTab" class="tab-pane active">
+                    <div class="control-group" style="flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <div>
+                            <h3 style="margin: 0; font-family: 'Outfit', sans-serif;">Bộ câu hỏi trắc nghiệm tự động</h3>
+                            <p style="margin: 4px 0 0; font-size: 0.9rem; color: var(--text-secondary);">Hệ thống tự động sinh các dạng đề thi dựa trên số đỉnh $n$ hiện tại.</p>
+                        </div>
+                        <button class="solution-btn" onclick="generateQuizzes()" style="background: var(--accent-teal); color: #0f172a;">
+                            🔄 Đổi đề khác
+                        </button>
+                    </div>
+                    <div id="quizContainer">
+                        <!-- Quiz cards injected here -->
+                    </div>
+                </div>
+
+                <div id="cheatsheetTab" class="tab-pane">
+                    <h3 style="font-family: 'Outfit', sans-serif; margin-top: 0;">Bảng Tóm Tắt Toàn Bộ Công Thức Đếm Hình</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem;">Hệ đa giác đều nội tiếp đường tròn gồm $n$ đỉnh ($n \ge 3$).</p>
+                    <div style="overflow-x: auto;">
+                        <table class="info-table">
+                            <thead>
+                                <tr>
+                                    <th>Loại hình cần đếm</th>
+                                    <th>Điều kiện của $n$</th>
+                                    <th>Công thức đếm</th>
+                                    <th>Ý nghĩa & Phương pháp giải</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Hình vuông</strong></td>
+                                    <td>$n \bmod 4 == 0$</td>
+                                    <td>$n / 4$</td>
+                                    <td>4 đỉnh cách đều nhau, chia đường tròn thành 4 cung bằng nhau.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Hình chữ nhật</strong></td>
+                                    <td>$n$ chẵn</td>
+                                    <td>$C_{n/2}^2$</td>
+                                    <td>Chọn 2 đường chéo (đường kính) đi qua tâm.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Tam giác vuông</strong></td>
+                                    <td>$n$ chẵn</td>
+                                    <td>$\frac{n}{2}(n - 2)$</td>
+                                    <td>Cạnh huyền là đường kính ($n/2$ cách), đỉnh góc vuông chọn từ $n-2$ đỉnh còn lại.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Tam giác đều</strong></td>
+                                    <td>$n \bmod 3 == 0$</td>
+                                    <td>$n / 3$</td>
+                                    <td>3 đỉnh cách đều nhau, chia đường tròn thành 3 cung bằng nhau.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Tam giác cân</strong></td>
+                                    <td>Bất kỳ</td>
+                                    <td>$n$ lẻ: $\frac{n(n-1)}{2}$ (nếu $3 \nmid n$) hoặc $\frac{n(3n-7)}{6}$ (nếu $3 \mid n$)<br>$n$ chẵn: $\frac{n(n-2)}{2}$ (nếu $3 \nmid n$) hoặc $\frac{n(3n-10)}{6}$ (nếu $3 \mid n$)</td>
+                                    <td>Chọn 1 đỉnh làm đỉnh cân, các đỉnh còn lại tạo thành các cặp đối xứng qua trục đi qua đỉnh đó.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Tam giác vuông cân</strong></td>
+                                    <td>$n \bmod 4 == 0$</td>
+                                    <td>$n$</td>
+                                    <td>Nhận đường kính làm cạnh huyền và đỉnh góc vuông nằm chính giữa cung tròn.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Tam giác tù</strong></td>
+                                    <td>Bất kỳ</td>
+                                    <td>$n$ chẵn: $n \cdot C_{(n-2)/2}^2$<br>$n$ lẻ: $n \cdot C_{(n-1)/2}^2$</td>
+                                    <td>Chọn 1 đỉnh có góc tù làm mốc, 2 đỉnh còn lại phải nằm cùng 1 phía của đường kính đi qua đỉnh đó.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Tam giác nhọn</strong></td>
+                                    <td>Bất kỳ</td>
+                                    <td>$C_n^3 - \text{TG Vuông} - \text{TG Tù}$</td>
+                                    <td>Đếm bằng phương pháp phần bù.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Hình thang cân</strong></td>
+                                    <td>Bất kỳ</td>
+                                    <td>$n$ lẻ: $n \cdot C_{(n-1)/2}^2$<br>$n$ chẵn: $\frac{n}{2} C_{(n-2)/2}^2 + (\frac{n}{2} - 1) C_{n/2}^2$</td>
+                                    <td>Mọi hình thang nội tiếp đều là hình thang cân, đếm đối xứng qua các trục đối xứng của đa giác.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Tam giác không chung cạnh</strong></td>
+                                    <td>$n \ge 6$</td>
+                                    <td>$\frac{n(n-4)(n-5)}{6}$</td>
+                                    <td>Chọn 3 đỉnh không có 2 đỉnh nào kề nhau (Đại bác vách ngăn Euler).</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Tứ giác không chung cạnh</strong></td>
+                                    <td>$n \ge 8$</td>
+                                    <td>$\frac{n(n-5)(n-6)(n-7)}{24}$</td>
+                                    <td>Chọn 4 đỉnh không có 2 đỉnh nào kề nhau (Vách ngăn Euler cho 4 đỉnh).</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // State variables
+        let N = 12;
+        let selectedCategory = "rectangles";
+        let activeShapeIndex = 0;
+        let generatedShapes = [];
+        let theme = "dark";
+
+        // Category configurations with formulas and templates
+        const categories = {
+            "squares": {
+                name: "Hình vuông",
+                condition: (n) => n % 4 === 0,
+                calculate: (n) => n % 4 === 0 ? n / 4 : 0,
+                generator: (n) => {
+                    if (n % 4 !== 0) return [];
+                    const list = [];
+                    const step = n / 4;
+                    for (let i = 0; i < step; i++) {
+                        list.push([i, i + step, i + 2 * step, i + 3 * step]);
+                    }
+                    return list;
+                },
+                explain: (n) => {
+                    if (n % 4 !== 0) {
+                        return `<p class="text-red">Vì $n = ${n}$ không chia hết cho $4$, nên không thể chọn ra 4 đỉnh cách đều nhau. Số hình vuông tạo thành là <b>0</b>.</p>`;
+                    }
+                    const step = n / 4;
+                    return `<p>Để tạo thành hình vuông, 4 đỉnh của đa giác phải cách đều nhau, nghĩa là khoảng cách đỉnh liên tiếp phải là $n / 4 = ${n} / 4 = ${step}$ cạnh.</p>
+                            <p>Bắt đầu từ đỉnh bất kỳ từ $A_1$ đến $A_{${step}}$, cứ nhảy cách $${step}$ đỉnh ta thu được một hình vuông duy nhất.</p>
+                            <div class="deriv-formula">$$\\text{Số hình vuông} = \\frac{n}{4} = \\frac{${n}}{4} = ${n/4}$$</div>`;
+                }
+            },
+            "rectangles": {
+                name: "Hình chữ nhật",
+                condition: (n) => n % 2 === 0,
+                calculate: (n) => n % 2 === 0 ? (n / 2) * (n / 2 - 1) / 2 : 0,
+                generator: (n) => {
+                    if (n % 2 !== 0) return [];
+                    const list = [];
+                    const half = n / 2;
+                    for (let i = 0; i < half; i++) {
+                        for (let j = i + 1; j < half; j++) {
+                            list.push([i, j, i + half, j + half]);
+                        }
+                    }
+                    return list;
+                },
+                explain: (n) => {
+                    if (n % 2 !== 0) {
+                        return `<p class="text-red">Vì $n = ${n}$ là số lẻ, đa giác không có các đường chéo đi qua tâm (đường kính). Do đó số hình chữ nhật nội tiếp bằng <b>0</b>.</p>`;
+                    }
+                    const half = n / 2;
+                    const ans = (half * (half - 1)) / 2;
+                    return `<p>Một hình chữ nhật nội tiếp đường tròn được tạo thành bằng cách chọn <b>2 đường kính</b> của đường tròn.</p>
+                            <p>Đa giác đều $n = ${n}$ đỉnh chẵn có đúng $n / 2 = ${half}$ đường chéo đi qua tâm (đường kính).</p>
+                            <p>Chọn 2 đường chéo bất kỳ từ $${half}$ đường chéo này ta được 1 hình chữ nhật:</p>
+                            <div class="deriv-formula">$$\\text{Số hình chữ nhật} = C_{n/2}^2 = C_{${half}}^2 = \\frac{${half} \\cdot ${half - 1}}{2} = ${ans}$$</div>`;
+                }
+            },
+            "right_triangles": {
+                name: "Tam giác vuông",
+                condition: (n) => n % 2 === 0,
+                calculate: (n) => n % 2 === 0 ? (n / 2) * (n - 2) : 0,
+                generator: (n) => {
+                    if (n % 2 !== 0) return [];
+                    const list = [];
+                    const half = n / 2;
+                    for (let i = 0; i < half; i++) {
+                        const diameter_start = i;
+                        const diameter_end = i + half;
+                        for (let j = 0; j < n; j++) {
+                            if (j !== diameter_start && j !== diameter_end) {
+                                list.push([diameter_start, diameter_end, j]);
+                            }
+                        }
+                    }
+                    // Deduplicate
+                    const map = new Map();
+                    list.forEach(t => {
+                        const sorted = [...t].sort((a,b)=>a-b);
+                        map.set(sorted.join(','), sorted);
+                    });
+                    return Array.from(map.values());
+                },
+                explain: (n) => {
+                    if (n % 2 !== 0) {
+                        return `<p class="text-red">Vì $n = ${n}$ lẻ, đường tròn ngoại tiếp không chứa đường kính đi qua các đỉnh đa giác. Số tam giác vuông bằng <b>0</b>.</p>`;
+                    }
+                    const half = n / 2;
+                    const ans = half * (n - 2);
+                    return `<p>Theo định lý Thales, tam giác nội tiếp đường tròn là tam giác vuông khi và chỉ khi nó nhận 1 đường kính làm cạnh huyền.</p>
+                            <ul>
+                                <li>Chọn 1 đường kính từ $n / 2 = ${half}$ đường chéo qua tâm của đa giác.</li>
+                                <li>Đỉnh góc vuông thứ 3 chọn từ $n - 2 = ${n - 2}$ đỉnh còn lại.</li>
+                            </ul>
+                            <div class="deriv-formula">$$\\text{Số tam giác vuông} = \\frac{n}{2} \\cdot (n - 2) = ${half} \\cdot ${n - 2} = ${ans}$$</div>`;
+                }
+            },
+            "equilateral_triangles": {
+                name: "Tam giác đều",
+                condition: (n) => n % 3 === 0,
+                calculate: (n) => n % 3 === 0 ? n / 3 : 0,
+                generator: (n) => {
+                    if (n % 3 !== 0) return [];
+                    const list = [];
+                    const step = n / 3;
+                    for (let i = 0; i < step; i++) {
+                        list.push([i, i + step, i + 2 * step]);
+                    }
+                    return list;
+                },
+                explain: (n) => {
+                    if (n % 3 !== 0) {
+                        return `<p class="text-red">Vì $n = ${n}$ không chia hết cho $3$, ta không thể chọn được 3 đỉnh cách đều nhau. Số tam giác đều tạo thành là <b>0</b>.</p>`;
+                    }
+                    const step = n / 3;
+                    return `<p>Để tạo thành tam giác đều, 3 đỉnh phải cách đều nhau, tức khoảng cách giữa 2 đỉnh liên tiếp là $n / 3 = ${n} / 3 = ${step}$ cạnh.</p>
+                            <p>Bắt đầu từ đỉnh bất kỳ từ $A_1$ đến $A_{${step}}$, cứ nhảy cách $${step}$ đỉnh ta thu được một tam giác đều.</p>
+                            <div class="deriv-formula">$$\\text{Số tam giác đều} = \\frac{n}{3} = \\frac{${n}}{3} = ${n/3}$$</div>`;
+                }
+            },
+            "isosceles_triangles": {
+                name: "Tam giác cân (gồm cả đều)",
+                condition: (n) => true,
+                calculate: (n) => {
+                    if (n % 2 === 1) {
+                        return n % 3 === 0 ? n * (3 * n - 7) / 6 : n * (n - 1) / 2;
+                    } else {
+                        return n % 3 === 0 ? n * (3 * n - 10) / 6 : n * (n - 2) / 2;
+                    }
+                },
+                generator: (n) => {
+                    const list = [];
+                    if (n % 2 === 1) {
+                        const pairs = (n - 1) / 2;
+                        for (let i = 0; i < n; i++) {
+                            for (let j = 1; j <= pairs; j++) {
+                                list.push([i, (i - j + n) % n, (i + j) % n]);
+                            }
+                        }
+                    } else {
+                        const pairs = (n - 2) / 2;
+                        for (let i = 0; i < n; i++) {
+                            for (let j = 1; j <= pairs; j++) {
+                                list.push([i, (i - j + n) % n, (i + j) % n]);
+                            }
+                        }
+                    }
+                    // Deduplicate
+                    const map = new Map();
+                    list.forEach(t => {
+                        const sorted = [...t].sort((a,b)=>a-b);
+                        map.set(sorted.join(','), sorted);
+                    });
+                    return Array.from(map.values());
+                },
+                explain: (n) => {
+                    let ans = 0;
+                    let formula = "";
+                    if (n % 2 === 1) {
+                        const pairs = (n - 1) / 2;
+                        if (n % 3 === 0) {
+                            ans = n * (3 * n - 7) / 6;
+                            formula = `\\text{Số tam giác cân} = \\frac{n(3n - 7)}{6} = \\frac{${n} \\cdot ${3*n - 7}}{6} = ${ans}`;
+                        } else {
+                            ans = n * (n - 1) / 2;
+                            formula = `\\text{Số tam giác cân} = \\frac{n(n - 1)}{2} = \\frac{${n} \\cdot ${n - 1}}{2} = ${ans}`;
+                        }
+                        return `<p>Xét đa giác có $n = ${n}$ đỉnh (lẻ):</p>
+                                <p>Chọn 1 đỉnh làm đỉnh cân ($n = ${n}$ cách). Trục đối xứng đi qua đỉnh này chia $n - 1 = ${n-1}$ đỉnh còn lại thành $(n - 1) / 2 = ${pairs}$ cặp đối xứng.</p>
+                                <p>Mỗi cách chọn 1 cặp đối xứng và kết hợp với đỉnh cân cho ta 1 tam giác cân.</p>
+                                ${n % 3 === 0 ? `<p>Lưu ý: Đa giác có $n/3 = ${n/3}$ tam giác đều. Mỗi tam giác đều có 3 trục đối xứng nên đã bị đếm lặp 3 lần trong cách đếm trên. Ta phải trừ bớt lượng lặp này.</p>` : `<p>Do $n = ${n}$ không chia hết cho 3 nên không có tam giác đều nào bị đếm lặp.</p>`}
+                                <div class="deriv-formula">$$${formula}$$</div>`;
+                    } else {
+                        const pairs = (n - 2) / 2;
+                        if (n % 3 === 0) {
+                            ans = n * (3 * n - 10) / 6;
+                            formula = `\\text{Số tam giác cân} = \\frac{n(3n - 10)}{6} = \\frac{${n} \\cdot ${3*n - 10}}{6} = ${ans}`;
+                        } else {
+                            ans = n * (n - 2) / 2;
+                            formula = `\\text{Số tam giác cân} = \\frac{n(n - 2)}{2} = \\frac{${n} \\cdot ${n - 2}}{2} = ${ans}`;
+                        }
+                        return `<p>Xét đa giác có $n = ${n}$ đỉnh (chẵn):</p>
+                                <p>Chọn 1 đỉnh làm đỉnh cân ($n = ${n}$ cách). Trục đối xứng đi qua đỉnh cân và đỉnh đối diện chia $n - 2 = ${n-2}$ đỉnh còn lại thành $(n - 2) / 2 = ${pairs}$ cặp đối xứng.</p>
+                                <p>Mỗi cách chọn 1 cặp đối xứng và kết hợp với đỉnh cân cho ta 1 tam giác cân.</p>
+                                ${n % 3 === 0 ? `<p>Lưu ý: Đa giác có $n/3 = ${n/3}$ tam giác đều. Mỗi tam giác đều có 3 trục đối xứng nên đã bị đếm lặp 3 lần trong cách đếm trên. Ta phải trừ bớt lượng lặp này.</p>` : `<p>Do $n = ${n}$ không chia hết cho 3 nên không có tam giác đều nào bị đếm lặp.</p>`}
+                                <div class="deriv-formula">$$${formula}$$</div>`;
+                    }
+                }
+            },
+            "right_isosceles_triangles": {
+                name: "Tam giác vuông cân",
+                condition: (n) => n % 4 === 0,
+                calculate: (n) => n % 4 === 0 ? n : 0,
+                generator: (n) => {
+                    if (n % 4 !== 0) return [];
+                    const list = [];
+                    const half = n / 2;
+                    const step = n / 4;
+                    for (let i = 0; i < half; i++) {
+                        const d1 = i;
+                        const d2 = i + half;
+                        list.push([d1, d2, (d1 + step) % n]);
+                        list.push([d1, d2, (d1 + 3 * step) % n]);
+                    }
+                    const map = new Map();
+                    list.forEach(t => {
+                        const sorted = [...t].sort((a,b)=>a-b);
+                        map.set(sorted.join(','), sorted);
+                    });
+                    return Array.from(map.values());
+                },
+                explain: (n) => {
+                    if (n % 4 !== 0) {
+                        return `<p class="text-red">Vì $n = ${n}$ không chia hết cho $4$, ta không thể vẽ được tam giác vuông cân nào. Số tam giác vuông cân là <b>0</b>.</p>`;
+                    }
+                    return `<p>Một tam giác nội tiếp là tam giác vuông cân khi và chỉ khi:</p>
+                            <ul>
+                                <li>Cạnh huyền của nó phải là một đường chéo đi qua tâm (đường kính), có $n / 2 = ${n/2}$ cách chọn.</li>
+                                <li>Đỉnh góc vuông thứ 3 phải nằm chính giữa cung tròn tạo bởi đường kính, có đúng $2$ vị trí (đỉnh đối xứng qua đường kính).</li>
+                            </ul>
+                            <div class="deriv-formula">$$\\text{Số tam giác vuông cân} = \\frac{n}{2} \\cdot 2 = n = ${n}$$</div>`;
+                }
+            },
+            "obtuse_triangles": {
+                name: "Tam giác tù",
+                condition: (n) => true,
+                calculate: (n) => {
+                    const k = n % 2 === 0 ? (n - 2) / 2 : (n - 1) / 2;
+                    return n * k * (k - 1) / 2;
+                },
+                generator: (n) => {
+                    const list = [];
+                    const k = n % 2 === 0 ? (n - 2) / 2 : (n - 1) / 2;
+                    for (let i = 0; i < n; i++) {
+                        for (let j1 = 1; j1 < k; j1++) {
+                            for (let j2 = j1 + 1; j2 <= k; j2++) {
+                                list.push([i, (i + j1) % n, (i + j2) % n]);
+                            }
+                        }
+                    }
+                    return list;
+                },
+                explain: (n) => {
+                    const isEven = n % 2 === 0;
+                    const k = isEven ? (n - 2) / 2 : (n - 1) / 2;
+                    const ways = k * (k - 1) / 2;
+                    const ans = n * ways;
+                    return `<p>Sử dụng <b>Đại bác số 1 (Tư duy đường kính):</b></p>
+                            <p>Tam giác tù là tam giác có cả 3 đỉnh cùng nằm trên một nửa đường tròn (không chứa đường kính).</p>
+                            <p>Cố định đỉnh có góc lớn nhất (góc tù) là $A_i$ (có $n = ${n}$ cách chọn).</p>
+                            <p>Hai đỉnh còn lại phải nằm cùng một phía so với trục đối xứng đi qua $A_i$. Số đỉnh tối đa trên nửa đường tròn cùng một phía là $k = ${k}$ đỉnh.</p>
+                            <p>Chọn $2$ đỉnh từ $k$ đỉnh này có $C_{${k}}^2 = ${ways}$ cách.</p>
+                            <div class="deriv-formula">$$\\text{Số tam giác tù} = n \\cdot C_{${k}}^2 = ${n} \\cdot ${ways} = ${ans}$$</div>`;
+                }
+            },
+            "acute_triangles": {
+                name: "Tam giác nhọn",
+                condition: (n) => true,
+                calculate: (n) => {
+                    const total = n * (n - 1) * (n - 2) / 6;
+                    const right = n % 2 === 0 ? (n / 2) * (n - 2) : 0;
+                    const k = n % 2 === 0 ? (n - 2) / 2 : (n - 1) / 2;
+                    const obtuse = n * k * (k - 1) / 2;
+                    return total - right - obtuse;
+                },
+                generator: (n) => {
+                    // Lazy generate by checking all combos if n <= 20
+                    // If larger, just generate first 100
+                    const list = [];
+                    const half = n / 2;
+                    for (let a = 0; a < n; a++) {
+                        for (let b = a + 1; b < n; b++) {
+                            for (let c = b + 1; c < n; c++) {
+                                const d1 = b - a;
+                                const d2 = c - b;
+                                const d3 = n - (c - a);
+                                const max_d = Math.max(d1, d2, d3);
+                                if (max_d * 2 < n) {
+                                    list.push([a, b, c]);
+                                    if (list.length >= 100) return list; // Cap visualizer list
+                                }
+                            }
+                        }
+                    }
+                    return list;
+                },
+                explain: (n) => {
+                    const total = n * (n - 1) * (n - 2) / 6;
+                    const right = n % 2 === 0 ? (n / 2) * (n - 2) : 0;
+                    const k = n % 2 === 0 ? (n - 2) / 2 : (n - 1) / 2;
+                    const obtuse = n * k * (k - 1) / 2;
+                    const ans = total - right - obtuse;
+                    return `<p>Đếm tam giác nhọn bằng phương pháp phần bù:</p>
+                            <ul>
+                                <li>Tổng số tam giác có thể tạo ra: $C_{${n}}^3 = ${total}$.</li>
+                                <li>Số tam giác vuông: $${right}$.</li>
+                                <li>Số tam giác tù: $${obtuse}$.</li>
+                            </ul>
+                            <div class="deriv-formula">$$\\text{Số tam giác nhọn} = C_n^3 - N_{\\text{vuông}} - N_{\\text{tù}}$$</div>
+                            <div class="deriv-formula">$$= ${total} - ${right} - ${obtuse} = ${ans}$$</div>`;
+                }
+            },
+            "trapezoids": {
+                name: "Hình thang cân",
+                condition: (n) => true,
+                calculate: (n) => {
+                    if (n % 2 === 1) {
+                        const k = (n - 1) / 2;
+                        return n * k * (k - 1) / 2;
+                    } else {
+                        const k1 = (n - 2) / 2;
+                        const k2 = n / 2;
+                        return (n / 2) * (k1 * (k1 - 1) / 2) + (n / 2 - 1) * (k2 * (k2 - 1) / 2);
+                    }
+                },
+                generator: (n) => {
+                    const list = [];
+                    // Generate using axes of symmetry and deduplicate
+                    const map = new Map();
+                    if (n % 2 === 1) {
+                        const pairs = (n - 1) / 2;
+                        for (let i = 0; i < n; i++) {
+                            for (let j1 = 1; j1 < pairs; j1++) {
+                                for (let j2 = j1 + 1; j2 <= pairs; j2++) {
+                                    const t = [(i - j1 + n) % n, (i + j1) % n, (i + j2) % n, (i - j2 + n) % n];
+                                    const sorted = [...t].sort((a,b)=>a-b);
+                                    map.set(sorted.join(','), sorted);
+                                }
+                            }
+                        }
+                    } else {
+                        // Type 1: axes through 2 opposite vertices
+                        const k1 = (n - 2) / 2;
+                        for (let i = 0; i < n / 2; i++) {
+                            for (let j1 = 1; j1 < k1; j1++) {
+                                for (let j2 = j1 + 1; j2 <= k1; j2++) {
+                                    const t = [(i - j1 + n) % n, (i + j1) % n, (i + i + n/2 - j2 + 2*n) % n, (i + n/2 + j2) % n]; // symmetric
+                                    // Actually symmetric coordinates are:
+                                    // x is axis. relative pairs:
+                                    // (i-j, i+j) and (i-k, i+k)
+                                    const t2 = [(i - j1 + n) % n, (i + j1) % n, (i + n/2 - j2 + n) % n, (i + n/2 + j2) % n];
+                                    const sorted = [...t2].sort((a,b)=>a-b);
+                                    map.set(sorted.join(','), sorted);
+                                }
+                            }
+                        }
+                        // Type 2: axes through midpoints of sides
+                        const k2 = n / 2;
+                        for (let i = 0; i < n / 2; i++) {
+                            for (let j1 = 0; j1 < k2; j1++) {
+                                for (let j2 = j1 + 1; j2 < k2; j2++) {
+                                    // symmetric to midpoint between i and i+1
+                                    const t = [(i - j1 + n) % n, (i + 1 + j1) % n, (i + 1 + j2) % n, (i - j2 + n) % n];
+                                    const sorted = [...t].sort((a,b)=>a-b);
+                                    map.set(sorted.join(','), sorted);
+                                }
+                            }
+                        }
+                    }
+                    return Array.from(map.values());
+                },
+                explain: (n) => {
+                    if (n % 2 === 1) {
+                        const k = (n - 1) / 2;
+                        const ways = k * (k - 1) / 2;
+                        const ans = n * ways;
+                        return `<p>Nhận xét: Mọi hình thang nội tiếp đường tròn bắt buộc phải là <b>hình thang cân</b>.</p>
+                                <p>Với $n = ${n}$ lẻ, đa giác có $n$ trục đối xứng qua đỉnh và trung điểm cạnh đối diện. Mỗi trục đối xứng có $k = (n-1)/2 = ${k}$ cặp đỉnh đối xứng.</p>
+                                <p>Chọn 2 cặp đối xứng bất kỳ từ $${k}$ cặp này ta được 1 hình thang cân.</p>
+                                <div class="deriv-formula">$$\\text{Số hình thang} = n \\cdot C_{(n-1)/2}^2 = ${n} \\cdot C_{${k}}^2 = ${ans}$$</div>`;
+                    } else {
+                        const k1 = (n - 2) / 2;
+                        const k2 = n / 2;
+                        const ways1 = k1 * (k1 - 1) / 2;
+                        const ways2 = k2 * (k2 - 1) / 2;
+                        const ans = (n / 2) * ways1 + (n / 2 - 1) * ways2; // Subtracting rectangles correctly
+                        return `<p>Với $n = ${n}$ chẵn, đa giác có 2 loại trục đối xứng:</p>
+                                <ul>
+                                    <li>$n / 2 = ${n/2}$ trục đi qua 2 đỉnh đối diện (chứa $k_1 = ${k1}$ cặp đối xứng). Chọn 2 cặp được $C_{${k1}}^2 = ${ways1}$ hình.</li>
+                                    <li>$n / 2 = ${n/2}$ trục đi qua trung điểm 2 cạnh đối diện (chứa $k_2 = ${k2}$ cặp đối xứng). Chọn 2 cặp được $C_{${k2}}^2 = ${ways2}$ hình.</li>
+                                </ul>
+                                <p>Do hình chữ nhật bị đếm lặp 2 lần ở cả 2 loại trục, ta trừ đi lượng lặp (bằng số hình chữ nhật):</p>
+                                <div class="deriv-formula">$$\\text{Số hình thang} = \\frac{n}{2} C_{k_1}^2 + \\left(\\frac{n}{2} - 1\\right) C_{k_2}^2 = ${n/2} \\cdot ${ways1} + ${n/2 - 1} \\cdot ${ways2} = ${ans}$$</div>`;
+                    }
+                }
+            },
+            "no_common_edge_tri": {
+                name: "Tam giác không chung cạnh",
+                condition: (n) => n >= 6,
+                calculate: (n) => n >= 6 ? n * (n - 4) * (n - 5) / 6 : 0,
+                generator: (n) => {
+                    const list = [];
+                    for (let a = 0; a < n - 4; a++) {
+                        for (let b = a + 2; b < n - 2; b++) {
+                            for (let c = b + 2; c < n; c++) {
+                                if (c - a <= n - 2) {
+                                    list.push([a, b, c]);
+                                    if (list.length >= 100) return list;
+                                }
+                            }
+                        }
+                    }
+                    return list;
+                },
+                explain: (n) => {
+                    if (n < 6) return `<p class="text-red">Không có tam giác nào không chung cạnh với đa giác gốc cho $n < 6$.</p>`;
+                    const ans = n * (n - 4) * (n - 5) / 6;
+                    return `<p>Áp dụng <b>Đại bác số 2 (Vách ngăn Euler cho đường tròn):</b></p>
+                            <p>Chọn $k=3$ đỉnh không kề nhau từ $n = ${n}$ đỉnh trên vòng tròn.</p>
+                            <p>Công thức Euler bẻ thẳng đường tròn:</p>
+                            <div class="deriv-formula">$$\\text{Số tam giác không chung cạnh} = \\frac{n}{n-k} C_{n-k}^k = \\frac{n}{${n-3}} C_{${n-3}}^3 = ${ans}$$</div>
+                            <p>Hoặc rút gọn dạng tích phân mảnh:</p>
+                            <div class="deriv-formula">$$\\frac{n(n-4)(n-5)}{6} = \\frac{${n} \\cdot ${n-4} \\cdot ${n-5}}{6} = ${ans}$$</div>`;
+                }
+            },
+            "no_common_edge_quad": {
+                name: "Tứ giác không chung cạnh",
+                condition: (n) => n >= 8,
+                calculate: (n) => n >= 8 ? n * (n - 5) * (n - 6) * (n - 7) / 24 : 0,
+                generator: (n) => {
+                    const list = [];
+                    for (let a = 0; a < n - 6; a++) {
+                        for (let b = a + 2; b < n - 4; b++) {
+                            for (let c = b + 2; c < n - 2; c++) {
+                                for (let d = c + 2; d < n; d++) {
+                                    if (d - a <= n - 2) {
+                                        list.push([a, b, c, d]);
+                                        if (list.length >= 100) return list;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    return list;
+                },
+                explain: (n) => {
+                    if (n < 8) return `<p class="text-red">Không có tứ giác nào không chung cạnh với đa giác gốc cho $n < 8$.</p>`;
+                    const ans = n * (n - 5) * (n - 6) * (n - 7) / 24;
+                    return `<p>Áp dụng <b>Đại bác số 2 (Vách ngăn Euler cho đường tròn):</b></p>
+                            <p>Chọn $k=4$ đỉnh không kề nhau từ $n = ${n}$ đỉnh trên vòng tròn.</p>
+                            <p>Công thức Euler bẻ thẳng đường tròn:</p>
+                            <div class="deriv-formula">$$\\text{Số tứ giác không chung cạnh} = \\frac{n}{n-k} C_{n-k}^k = \\frac{n}{${n-4}} C_{${n-4}}^4 = ${ans}$$</div>
+                            <p>Dưới dạng rút gọn tích phân mảnh:</p>
+                            <div class="deriv-formula">$$\\frac{n(n-5)(n-6)(n-7)}{24} = \\frac{${n} \\cdot ${n-5} \\cdot ${n-6} \\cdot ${n-7}}{24} = ${ans}$$</div>`;
+                }
+            }
+        };
+
+        // Initialize Web Application
+        window.addEventListener("DOMContentLoaded", () => {
+            initSelectorList();
+            renderAll();
+            generateQuizzes();
+        });
+
+        // Populate Category Buttons
+        function initSelectorList() {
+            const listContainer = document.getElementById("shapeSelectorList");
+            listContainer.innerHTML = "";
+            
+            Object.keys(categories).forEach(key => {
+                const cat = categories[key];
+                const btn = document.createElement("button");
+                btn.className = `shape-btn ${key === selectedCategory ? 'active' : ''}`;
+                btn.id = `btn-${key}`;
+                btn.onclick = () => selectCategory(key);
+                
+                btn.innerHTML = `
+                    <span>${cat.name}</span>
+                    <span class="count-badge" id="badge-${key}">0</span>
+                `;
+                listContainer.appendChild(btn);
+            });
+        }
+
+        // Handle vertex slider/num inputs
+        function handleVerticesInput(val, source) {
+            let num = parseInt(val);
+            if (isNaN(num) || num < 3) num = 3;
+            if (num > 10000) num = 10000;
+
+            N = num;
+            
+            // Sync slider and input field
+            if (source === 'slider') {
+                document.getElementById("nVerticesNum").value = N;
+            } else {
+                // If number input is larger than slider max, just set slider to max
+                document.getElementById("nVerticesSlider").value = Math.min(N, 60);
+            }
+
+            document.getElementById("nVerticesBadge").textContent = `${N} đỉnh`;
+            
+            // Show rendering warning for large n
+            const warning = document.getElementById("renderingWarning");
+            const controls = document.getElementById("visualizerControls");
+            if (N > 120) {
+                warning.style.display = "block";
+                document.getElementById("svgContainer").style.display = "none";
+                controls.style.display = "none";
+            } else {
+                warning.style.display = "none";
+                document.getElementById("svgContainer").style.display = "block";
+                controls.style.display = "flex";
+            }
+
+            activeShapeIndex = 0;
+            renderAll();
+        }
+
+        // Theme Toggle
+        function toggleTheme() {
+            const body = document.body;
+            const btn = document.getElementById("themeToggleBtn");
+            if (body.getAttribute("data-theme") === "light") {
+                body.removeAttribute("data-theme");
+                btn.textContent = "🌙 Chế độ tối";
+                theme = "dark";
+            } else {
+                body.setAttribute("data-theme", "light");
+                btn.textContent = "☀️ Chế độ sáng";
+                theme = "light";
+            }
+        }
+
+        // Tab switcher
+        function switchTab(evt, tabId) {
+            const panes = document.getElementsByClassName("tab-pane");
+            for (let pane of panes) {
+                pane.classList.remove("active");
+            }
+            const links = document.getElementsByClassName("tab-link");
+            for (let link of links) {
+                link.classList.remove("active");
+            }
+            document.getElementById(tabId).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+
+        // Selection event
+        function selectCategory(catKey) {
+            document.querySelectorAll(".shape-btn").forEach(btn => btn.classList.remove("active"));
+            document.getElementById(`btn-${catKey}`).classList.add("active");
+            selectedCategory = catKey;
+            activeShapeIndex = 0;
+            renderAll();
+        }
+
+        // Global Render
+        function renderAll() {
+            // Update all counts in badges
+            Object.keys(categories).forEach(key => {
+                const val = categories[key].calculate(N);
+                document.getElementById(`badge-${key}`).textContent = val.toLocaleString();
+            });
+
+            // Generate active shapes
+            generatedShapes = categories[selectedCategory].generator(N);
+            
+            // Draw SVG
+            drawPolygonSVG();
+
+            // Populate Derivation
+            const currentCat = categories[selectedCategory];
+            document.getElementById("derivTitle").textContent = currentCat.name;
+            document.getElementById("derivContent").innerHTML = currentCat.explain(N);
+
+            // Typeset LaTeX equations using MathJax
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                window.MathJax.typesetPromise();
+            }
+        }
+
+        // Generate polygon SVG
+        function drawPolygonSVG() {
+            const container = document.getElementById("svgContainer");
+            container.innerHTML = "";
+            if (N > 120) return; // Guard rail
+
+            const width = 450;
+            const height = 450;
+            const cx = width / 2;
+            const cy = height / 2;
+            const r = 180;
+
+            const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+
+            // Draw outer circle
+            const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            circle.setAttribute("cx", cx);
+            circle.setAttribute("cy", cy);
+            circle.setAttribute("r", r);
+            circle.setAttribute("fill", "none");
+            circle.setAttribute("stroke", "rgba(99, 102, 241, 0.1)");
+            circle.setAttribute("stroke-width", "1");
+            svg.appendChild(circle);
+
+            // Compute coordinates
+            const points = [];
+            for (let i = 0; i < N; i++) {
+                const angle = (Math.PI / 2) - (i * 2 * Math.PI / N);
+                const x = cx + r * Math.cos(angle);
+                const y = cy - r * Math.sin(angle);
+                points.push({x, y});
+            }
+
+            // Draw regular polygon background
+            const polyBg = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+            polyBg.className.baseVal = "svg-polygon-bg";
+            polyBg.setAttribute("points", points.map(p => `${p.x},${p.y}`).join(" "));
+            svg.appendChild(polyBg);
+
+            // Draw highlighted shape if any
+            if (generatedShapes.length > 0) {
+                // Ensure index is valid
+                if (activeShapeIndex >= generatedShapes.length) activeShapeIndex = 0;
+                if (activeShapeIndex < 0) activeShapeIndex = generatedShapes.length - 1;
+
+                const shapePointsIndices = generatedShapes[activeShapeIndex];
+                const shapePoints = shapePointsIndices.map(idx => points[idx]);
+
+                const shapePoly = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+                shapePoly.className.baseVal = "svg-shape-highlight";
+                shapePoly.setAttribute("points", shapePoints.map(p => `${p.x},${p.y}`).join(" "));
+                svg.appendChild(shapePoly);
+
+                // Update shape badge
+                // Note indices in Typst are 1-based, we display them as A_1, A_2...
+                const indexLabels = shapePointsIndices.map(idx => `A_{${idx + 1}}`).join("");
+                document.getElementById("shapeInfoBadge").textContent = `${activeShapeIndex + 1} / ${generatedShapes.length} ($${indexLabels}$)`;
+            } else {
+                document.getElementById("shapeInfoBadge").textContent = "0 / 0";
+            }
+
+            // Draw vertices and labels
+            points.forEach((p, i) => {
+                const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+
+                const node = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                node.className.baseVal = "svg-vertex";
+                node.setAttribute("cx", p.x);
+                node.setAttribute("cy", p.y);
+                node.setAttribute("r", N > 40 ? "4" : "6");
+                group.appendChild(node);
+
+                // Vertex label slightly shifted outwards
+                if (N <= 32) {
+                    const angle = (Math.PI / 2) - (i * 2 * Math.PI / N);
+                    const labelDist = 20;
+                    const lx = cx + (r + labelDist) * Math.cos(angle);
+                    const ly = cy - (r + labelDist) * Math.sin(angle);
+
+                    const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                    label.className.baseVal = "svg-vertex-label";
+                    label.setAttribute("x", lx);
+                    label.setAttribute("y", ly);
+                    label.textContent = `A${i + 1}`;
+                    group.appendChild(label);
+                }
+
+                svg.appendChild(group);
+            });
+
+            container.appendChild(svg);
+        }
+
+        // Navigate visualizer shape
+        function navigateShape(direction) {
+            if (generatedShapes.length === 0) return;
+            activeShapeIndex += direction;
+            if (activeShapeIndex >= generatedShapes.length) activeShapeIndex = 0;
+            if (activeShapeIndex < 0) activeShapeIndex = generatedShapes.length - 1;
+            drawPolygonSVG();
+        }
+
+        // Quiz Generator Logic
+        function generateQuizzes() {
+            const container = document.getElementById("quizContainer");
+            container.innerHTML = "";
+
+            const quizTemplates = [
+                {
+                    generate: (n) => {
+                        const total = n * (n - 1) * (n - 2) / 6;
+                        const right = n % 2 === 0 ? (n / 2) * (n - 2) : 0;
+                        const k = n % 2 === 0 ? (n - 2) / 2 : (n - 1) / 2;
+                        const obtuse = n * k * (k - 1) / 2;
+                        const acute = total - right - obtuse;
+                        const prob = (acute / total).toFixed(4);
+                        
+                        return {
+                            question: `Chọn ngẫu nhiên 3 đỉnh của một đa giác đều $${n}$ đỉnh để tạo thành một tam giác. Xác suất thu được một <b>tam giác nhọn</b> là bao nhiêu?`,
+                            options: [
+                                `\\frac{${acute}}{${total}}`,
+                                `\\frac{${obtuse}}{${total}}`,
+                                `\\frac{${right}}{${total}}`,
+                                `\\frac{${total - acute}}{${total}}`
+                            ],
+                            correctIdx: 0,
+                            solution: `<p>Không gian mẫu là số tam giác chọn từ $${n}$ đỉnh: $n(\\Omega) = C_{${n}}^3 = ${total}$.</p>
+                                       <p>Số tam giác không phải nhọn gồm:</p>
+                                       <ul>
+                                           <li>Tam giác vuông: ${n % 2 === 0 ? `$\\frac{${n}}{2} \\cdot (${n} - 2) = ${right}$` : `$0$ (do $n$ lẻ)`}</li>
+                                           <li>Tam giác tù: $${n} \\cdot C_{${k}}^2 = ${n} \\cdot ${k*(k-1)/2} = ${obtuse}$</li>
+                                       </ul>
+                                       <p>Số tam giác nhọn: $${total} - ${right} - ${obtuse} = ${acute}$.</p>
+                                       <p>Xác suất cần tính: $P = \\frac{${acute}}{${total}} \\approx ${prob}$.</p>`
+                        };
+                    }
+                },
+                {
+                    generate: (n) => {
+                        const total = n * (n - 1) * (n - 2) * (n - 3) / 24;
+                        const rects = n % 2 === 0 ? (n / 2) * (n / 2 - 1) / 2 : 0;
+                        const sqs = n % 4 === 0 ? n / 4 : 0;
+                        const target = rects - sqs;
+                        
+                        return {
+                            question: `Từ các đỉnh của một đa giác đều $${n}$ đỉnh, chọn ngẫu nhiên 4 đỉnh để tạo thành một tứ giác. Xác suất để tứ giác đó là <b>hình chữ nhật nhưng không phải hình vuông</b> là bao nhiêu?`,
+                            options: [
+                                `\\frac{${target}}{${total}}`,
+                                `\\frac{${rects}}{${total}}`,
+                                `\\frac{${sqs}}{${total}}`,
+                                `\\frac{${target + 5}}{${total}}`
+                            ],
+                            correctIdx: 0,
+                            solution: `<p>Không gian mẫu là số tứ giác tạo thành từ $${n}$ đỉnh: $n(\\Omega) = C_{${n}}^4 = ${total}$.</p>
+                                       <p>Số hình chữ nhật được tạo bởi 2 đường kính: ${n % 2 === 0 ? `$C_{${n/2}}^2 = ${rects}$` : `$0$ (do $n$ lẻ)`}.</p>
+                                       <p>Số hình vuông được tạo bởi 4 đỉnh cách đều nhau: ${n % 4 === 0 ? `$${n}/4 = ${sqs}$` : `$0$ (do $n$ không chia hết cho 4)`}.</p>
+                                       <p>Số hình chữ nhật không phải hình vuông là: $${rects} - ${sqs} = ${target}$.</p>
+                                       <p>Xác suất cần tính: $P = \\frac{${target}}{${total}}$.</p>`
+                        };
+                    }
+                },
+                {
+                    generate: (n) => {
+                        const total = n * (n - 1) * (n - 2) / 6;
+                        const no_common = n >= 6 ? n * (n - 4) * (n - 5) / 6 : 0;
+                        
+                        return {
+                            question: `Chọn ngẫu nhiên 3 đỉnh của một đa giác đều $${n}$ đỉnh để tạo thành một tam giác. Xác suất để tam giác được chọn <b>không có cạnh nào</b> là cạnh của đa giác gốc là bao nhiêu?`,
+                            options: [
+                                `\\frac{${no_common}}{${total}}`,
+                                `\\frac{${total - no_common}}{${total}}`,
+                                `\\frac{${n * (n - 4)}}{${total}}`,
+                                `\\frac{${n}}{${total}}`
+                            ],
+                            correctIdx: 0,
+                            solution: `<p>Không gian mẫu: $n(\\Omega) = C_{${n}}^3 = ${total}$.</p>
+                                       <p>Áp dụng Đại bác vách ngăn Euler (hoặc phương pháp phần bù):</p>
+                                       <ul>
+                                           <li>Số tam giác chung đúng 2 cạnh: $${n}$.</li>
+                                           <li>Số tam giác chung đúng 1 cạnh: $${n} \\cdot (${n} - 4) = ${n * (n-4)}$.</li>
+                                       </ul>
+                                       <p>Số tam giác không chung cạnh nào: $C_{${n}}^3 - ${n} - ${n * (n-4)} = ${no_common}$.</p>
+                                       <p>Xác suất: $P = \\frac{${no_common}}{${total}}$.</p>`
+                        };
+                    }
+                }
+            ];
+
+            quizTemplates.forEach((template, index) => {
+                const data = template.generate(N);
+                const card = document.createElement("div");
+                card.className = "quiz-card";
+                card.id = `quiz-${index}`;
+
+                // Question text
+                const questionEl = document.createElement("div");
+                questionEl.className = "quiz-question";
+                questionEl.innerHTML = `Câu ${index + 1}: ${data.question}`;
+                card.appendChild(questionEl);
+
+                // Option buttons
+                const optionsEl = document.createElement("div");
+                optionsEl.className = "quiz-options";
+                
+                // Shuffle options to make it fun, keeping track of the correct answer
+                const optionObjects = data.options.map((opt, oIdx) => ({
+                    text: opt,
+                    isCorrect: oIdx === data.correctIdx
+                }));
+                
+                // Deterministic shuffle using index so it's consistent but mixed
+                const shuffled = optionObjects.slice();
+                shuffled.sort((a,b) => (index * 3 + a.text.length) % 2 - 0.5);
+
+                shuffled.forEach(opt => {
+                    const optBtn = document.createElement("button");
+                    optBtn.className = "option-btn";
+                    optBtn.innerHTML = `$$${opt.text}$$`;
+                    optBtn.onclick = () => {
+                        // Mark correct / incorrect
+                        if (opt.isCorrect) {
+                            optBtn.classList.add("correct");
+                        } else {
+                            optBtn.classList.add("wrong");
+                            // Find and highlight correct one
+                            Array.from(optionsEl.children).forEach(child => {
+                                if (child.dataset.isCorrect === "true") {
+                                    child.classList.add("correct");
+                                }
+                            });
+                        }
+                        // Open solution
+                        document.getElementById(`solution-${index}`).classList.add("open");
+                    };
+                    optBtn.dataset.isCorrect = opt.isCorrect;
+                    optionsEl.appendChild(optBtn);
+                });
+
+                card.appendChild(optionsEl);
+
+                // Solution toggle and panel
+                const solBtn = document.createElement("button");
+                solBtn.className = "solution-btn";
+                solBtn.textContent = "Xem lời giải chi tiết";
+                solBtn.onclick = () => {
+                    document.getElementById(`solution-${index}`).classList.toggle("open");
+                };
+                card.appendChild(solBtn);
+
+                const solPanel = document.createElement("div");
+                solPanel.className = "solution-panel";
+                solPanel.id = `solution-${index}`;
+                solPanel.innerHTML = data.solution;
+                card.appendChild(solPanel);
+
+                container.appendChild(card);
+            });
+
+            // Typeset math in quizzes
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                window.MathJax.typesetPromise();
+            }
+        }
+    </script>
+</body>
+
+</html>

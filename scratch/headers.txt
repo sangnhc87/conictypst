@@ -1,0 +1,238 @@
+=== 1-dem.typ ===
+
+=== CD-ChiPhi-An-VanToc.typ ===
+  [Heading]: Mô Hình Chi Phí Ẩn: Nền Tảng Lý Thuyết
+  [Heading]: = Bài Toán Cốt Lõi
+  [Heading]: = Đồ Thị — Sự Đánh Đổi Ẩn
+
+=== CD-Chia-Keo-Euler.typ ===
+  [Heading]: I. Lý Thuyết Trọng Tâm
+  [Heading]: Dạng 1: Đếm Số Nghiệm Nguyên — Bài Toán Chia Kẹo Cơ Bản
+  [Heading]: Dạng 2: Bài Toán Nhiều Biến — Chia Kẹo Cho Nhiều Nhóm
+
+=== CD-Chim-Săn-Mồi.typ ===
+
+=== CD-ChuoiTrangThai-Markov.typ ===
+  [Heading]: PHẦN 1. LÝ THUYẾT NỀN TẢNG CHUỖI TRẠNG THÁI & CHUỖI MARKOV
+  [Heading]: PHẦN 2. HỆ THỐNG BÀI TẬP CHUYÊN ĐỀ CHUỖI TRẠNG THÁI & CHUỖI MARKOV
+  [Heading]: = LỚP BÀI TOÁN 1: TRÒ CHƠI LUÂN PHIÊN VÀ VÒNG LẶP XÁC SUẤT VÔ HẠN
+
+=== CD-Conic-DayDu.typ ===
+  [Heading]: Phần I: Lý Thuyết Nền — Ba Đường Conic
+  [Heading]: = 1.1 Định nghĩa thống nhất và tâm sai
+  [Heading]: = 1.2 Bảng tổng hợp ba đường Conic
+
+=== CD-Conic-KhoiQuay copy.typ ===
+  [Heading]: Lý Thuyết Tích Phân Tính Diện Tích & Thể Tích
+  [Heading]: Bài 1 — Bể Nước Tiết Diện Parabol
+  [Heading]: Bài 2 — Bể Nước Tiết Diện Nửa Elip
+
+=== CD-Conic-KhoiQuay.typ ===
+  [Heading]: Lý Thuyết Tích Phân Tính Diện Tích & Thể Tích
+  [Heading]: Bài 1 — Bể Nước Tiết Diện Parabol
+  [Heading]: Bài 2 — Bể Nước Tiết Diện Nửa Elip
+
+=== CD-DaiSo-ToHop-content.typ ===
+  [Heading]: Bản Đồ Tư Duy Hệ Thống
+  [Heading]: 1 — Nguyên Lý Cộng, Nguyên Lý Nhân Và Sơ Đồ Cây
+  [Heading]: = Lý Thuyết
+
+=== CD-DaiSo-ToHop.typ ===
+
+=== CD-DuongThang-Oxyz.typ ===
+  [Heading]: Dạng 1 — Xác Định Phương Trình Đường Thẳng & Vị Trí Tương Đối
+  [Heading]: = Bài 1.1 — Đường thẳng qua hai điểm, song song, cắt
+  [Heading]: = Bài 1.2 — Vị trí tương đối của hai đường thẳng
+
+=== CD-FSM-Dem-To-Hop.typ ===
+  [Heading]: Dạng 1: Tô màu dãy (Coloring Sequences)
+  [Heading]: Dạng 2: Dãy ký tự có ràng buộc (Binary/Alphabet Sequences)
+  [Heading]: Dạng 3: Robot di chuyển trên đoạn thẳng (Tiến–Lùi)
+
+=== CD-Goc-Khoang-Cach.typ ===
+
+=== CD-HHKG.typ ===
+
+=== CD-Hai-con-bo.typ ===
+
+=== CD-HamSinh-GeneratingFunction-content.typ ===
+  [Heading]: Lý Thuyết Nền Tảng — Xây Dựng Từ Đầu
+  [Heading]: = 0.1 — Tiếp Cận Từ Các Bài Toán Đếm Phổ Thông (Bắt Đầu Từ Số Không)
+  [Heading]: = 0.2 — Ý Tưởng Ban Đầu: Tại Sao Cần Hàm Sinh?
+
+=== CD-HamSinh-GeneratingFunction.typ ===
+  [Heading]: Lý Thuyết Nền Tảng — Xây Dựng Từ Đầu
+  [Heading]: = 0.1 — Tiếp Cận Từ Các Bài Toán Đếm Phổ Thông (Bắt Đầu Từ Số Không)
+  [Heading]: = 0.2 — Ý Tưởng Ban Đầu: Tại Sao Cần Hàm Sinh?
+
+=== CD-HamSinh-LoiBai-NangCao-content.typ ===
+  [Heading]: Khởi Động — Đọc Hàm Sinh Bằng Tiếng Việt
+  [Heading]: Bản Đồ Dạng Bài — Gặp Kiểu Nào Nghĩ Kiểu Đó
+  [Heading]: Dạng 1 — EGF: Đếm Chuỗi Có Ràng Buộc Trên Số Lần Xuất Hiện
+
+=== CD-HamSinh-LoiBai-NangCao.typ ===
+
+=== CD-HamSinh-TronBo.typ ===
+
+=== CD-Kinh-Te-Tich-Phan.typ ===
+  [Heading]: I. LÝ THUYẾT NỀN TẢNG
+  [Heading]: = 1. Hàm cung, hàm cầu và điểm cân bằng
+  [Heading]: = 2. Thặng dư tiêu dùng và thặng dư sản xuất
+
+=== CD-MatCau.typ ===
+
+=== CD-NangSuat-NhaMay-ToiUu.typ ===
+  [Heading]: Đề Bài Gốc và Mô Hình Hóa
+  [Heading]: = Đề Bài — Nhà Máy Z
+  [Heading]: = Bảng Phân Tích — Lập Hàm Theo Hai Cách
+
+=== CD-Oxyz-ChuyenDong-CamBien.typ ===
+  [Heading]: Phần 0 — Lý thuyết nền tảng & Trực giác động học
+  [Heading]: = 0.1 — Tại sao cần Tọa độ hóa Chuyển động?
+  [Heading]: = 0.2 — Phương trình chuyển động thẳng đều trong Oxyz
+
+=== CD-Parabol.typ ===
+
+=== CD-PhanPhoi-4TruongHop.typ ===
+  [Heading]: I. Bản chất Đại số của Đối tượng Đếm: Phân biệt vs Giống nhau
+  [Heading]: = 1. Cấu trúc Labeled (Nhãn) vs Unlabeled (Không nhãn)
+  [Heading]: = 2. Giải mã dễ hiểu: Thế nào là "Chia nhóm không tên" (Số Stirling)?
+
+=== CD-QuyDaoTron-KhoangCach.typ ===
+  [Heading]: Lý Thuyết Nền
+  [Heading]: Bài Toán Nguồn — Phân Tích Từng Bước
+  [Heading]: = Đề bài
+
+=== CD-SoDoCay-XacSuat.typ ===
+  [Heading]: I. Phương Pháp Sơ Đồ Cây Xác Suất — Tư Duy Đỉnh Cao Cho Bài Toán Phân Nhánh
+  [Heading]: = 1. Cấu trúc của một Sơ đồ Cây
+  [Heading]: = 2. Hai Quy Tắc Vàng Khi Tính Toán Trên Sơ Đồ Cây
+
+=== CD-Sự-Tiếp-Xúc-2-Đường-Cong.typ ===
+  [Heading]: I. LÝ THUYẾT NỀN TẢNG
+  [Heading]: II. CÁC MÔ HÌNH THỰC TẾ
+  [Heading]: = Bài 1. Vòng Nhẫn Cưới - Mép Bo Tròn Ghép Với Parabol
+
+=== CD-Tang-Giam-LienTuc.typ ===
+
+=== CD-Thiet-Dien-Parabol-Hinh-Non.typ ===
+  [Heading]: Lý Thuyết Nền
+  [Heading]: Dạng 1 — Trắc Nghiệm: Nhận Diện & Phương Trình Thiết Diện
+  [Heading]: = Bài 1: Loại conic của thiết diện
+
+=== CD-TichPhan-TocDo-DoanhThu.typ ===
+  [Heading]: Lý Thuyết Nền Tảng
+  [Heading]: = Nguyên Lý Cốt Lõi: Tích Phân = Tổng Lũy Tích
+  [Heading]: = Mô Hình Ba Giai Đoạn
+
+=== CD-ToMau.typ ===
+  [Heading]: Tổng Quan: Bản Đồ Nhận Diện
+  [Heading]: Phần I — Hai Công Thức Nền
+  [Heading]: = 1.1 Hàng Thẳng: $k(k-1)^(n-1)$
+
+=== CD-ToiUu-KinhTe-DaDieuKien.typ ===
+  [Heading]: Phần I — Lý Thuyết Nền Tảng & Quy Trình Lập Hàm
+  [Heading]: = 1.1 — Hàm Phân Đoạn (Piecewise Functions) Trong Kinh Tế
+  [Heading]: = 1.2 — Các Mô Hình Kinh Tế Cơ Bản
+
+=== CD-TongHop-YTuong-DeThi.typ ===
+  [Heading]: NHÓM 1: TỔ HỢP, XÁC SUẤT VÀ MÔ HÌNH TRẠNG THÁI (COMBINATORICS & PROBABILITY)
+  [Heading]: = 1. Sơ đồ cây xác suất cho giải đấu & trò chơi (CD-SoDoCay-XacSuat)
+  [Heading]: = 2. Phân phối vật vào hộp & Hàm sinh (CD-PhanPhoi-4TruongHop / CD-HamSinh-GeneratingFunction)
+
+=== CD-TrangThai-ToHop-XacSuat.typ ===
+  [Heading]: Tổng Quan: Một Framework Cho Toàn Bộ Chương
+  [Heading]: Phần I — Trạng Thái Là Gì?
+  [Heading]: = 1.1 Bắt Đầu Từ Trực Giác
+
+=== CD-Treo-Vật.typ ===
+
+=== CD-Vật-Chắn-Tầm-Nhìn.typ ===
+
+=== CD-Xac-Suất-Bayes-Tim-x.typ ===
+  [Heading]: I. Lý Thuyết Trọng Tâm
+  [Heading]: II. Phân Tích Ý Tưởng & Mô Hình Gốc
+  [Heading]: III. Bài Tập Vận Dụng & Mở Rộng
+
+=== CD-XacSuat-DieuKien-Gia.typ ===
+  [Heading]: 0. Tiền Đề — Xác Suất Có Điều Kiện
+  [Heading]: = Định Nghĩa và Quy Tắc Cơ Bản
+  [Heading]: I. Lý Thuyết Nền Tảng — Bộ Vũ Khí Của Thám Tử
+
+=== CD-XacSuat-DieuKien-PhanPhoi.typ ===
+  [Heading]: I. Cơ Sở Lý Thuyết
+  [Heading]: = 1. Bài Toán Phân Phối (Ball-and-Box Models)
+  [Heading]: = 2. Nguyên Lý Bù Trừ (PIE) Trên Không Gian Điều Kiện
+
+=== CD-min-max-DT-DuongTron.typ ===
+  [Heading]: Trường Hợp A — Đường Thẳng Nằm Trong Mặt Phẳng Chứa Đường Tròn
+  [Heading]: = A1. Bài mẫu: Đường thẳng nằm ngoài đường tròn
+  [Heading]: = A2. Đường thẳng cắt đường tròn
+
+=== CD-tich-Phan-đọc lạ.typ ===
+
+=== CD-Đếm Nâng Cao.typ ===
+
+=== CHủ Đề Thay Đổi Bảo Hoà.typ ===
+
+=== Cầu Bị Gió Thổi.typ ===
+  [Heading]: frac(1^2 + 2^2 + 3^2 + 4^2 + 5^2 + 6^2 + 5^2 + 4^2 + 3^2 + 2^2 + 1^2, 36^2)
+  [Heading]: frac(146, 1296)
+  [Heading]: frac(73, 648).
+
+=== Cánh-Tay-Robot.typ ===
+
+=== Da-Giac-Deu.typ ===
+  [Heading]: BẢNG TÓM TẮT CÔNG THỨC
+  [Heading]: CHỨNG MINH CHI TIẾT KÈM HÌNH ẢNH
+  [Heading]: = 1. Hình vuông và Tam giác đều
+
+=== Di-Chuyển-Qua-Nhiều-Môi-Trường-Có-Vận-Tốc.typ ===
+
+=== Dien-Tich-Conic-Ẩn.typ ===
+
+=== FSM-To-Mau.typ ===
+
+=== FSM.typ ===
+
+=== Gieo-Xúc-Sắc-Xác-Suất-Bốc-Bi.typ ===
+
+=== Parabol-Oxyz-Có-Vận-Tốc.typ ===
+
+=== Parabol-Oxyz.typ ===
+
+=== Quả-Cầu-Di-Chuyển.typ ===
+
+=== Sơ-Đồ-Cây-1-3-6.typ ===
+
+=== Sơ-Đồ-Cây-1-3-6-beamer.typ ===
+
+=== Sơ-Đồ-Cây-2-4-8.typ ===
+
+=== Tốc Độ Vật Trượt.typ ===
+
+=== Xác-Suât-Đối Kháng.typ ===
+  [Heading]: frac(1^2 + 2^2 + 3^2 + 4^2 + 5^2 + 6^2 + 5^2 + 4^2 + 3^2 + 2^2 + 1^2, 36^2)
+  [Heading]: frac(146, 1296)
+  [Heading]: frac(73, 648).
+
+=== Xác-Suất-Bốc-Bi.typ ===
+
+=== de-01.typ ===
+
+=== de-02.typ ===
+
+=== de-03-beamer.typ ===
+
+=== de-03.typ ===
+
+=== de-tu-web.typ ===
+
+=== min-đường-thẳng-đường-tròn.typ ===
+
+=== Đon-Bắt-Mục tiêu.typ ===
+
+=== Đánh-Trận-Có Vận Tốc.typ ===
+
+=== Đếm-FSM-NxN.typ ===
+

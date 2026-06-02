@@ -1,0 +1,59 @@
+Created At: 2026-05-26T03:49:27Z
+Completed At: 2026-05-26T03:49:27Z
+File Path: `file:///Users/admin/conictypst/typst/exams/CD-XepGhe-KhongKe.typ`
+Total Lines: 1976
+Total Bytes: 88128
+Showing lines 270 to 400
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+270:   },
+271: )
+272: 
+273: // ═══════════════════════════════════════════════
+274: // CHƯƠNG 1: PHƯƠNG PHÁP KHUNG XƯƠNG DIOPHANTINE
+275: // ═══════════════════════════════════════════════
+276: = Chương 1 — Phương pháp Vách Ngăn (Slot Method / Insertion)
+277: 
+278: Phương pháp Vách ngăn (còn gọi là phương pháp khe hở) là kỹ thuật trực quan nhất để giải quyết các bài toán "không kề nhau" trong tổ hợp phổ thông. Ý tưởng cốt lõi của nó là chia bài toán làm hai bước độc lập:
+279: 
+280: #rev-box(title: "⚙️ Nguyên lý Vách Ngăn Phổ Thông")[
+281:   Để xếp $k$ phần tử thuộc nhóm bị ràng buộc cấm kề (ví dụ: nhóm A) vào hàng ngang cùng các phần tử tự do khác:
+282:   1. *Bước 1:* Ta xếp các phần tử tự do (các vách ngăn) thành hàng ngang trước. Nếu có $m$ phần tử tự do, chúng sẽ tạo ra đúng $m + 1$ khe trống xung quanh (bao gồm cả hai đầu):
+283:      $ "_" quad "X" quad "_" quad "X" quad "_" quad dots quad "_" quad "X" quad "_" $
+284:   2. *Bước 2:* Để đảm bảo các phần tử nhóm A không kề nhau, ta chỉ việc chọn $k$ khe trong số $m + 1$ khe này và đặt các phần tử nhóm A vào (mỗi khe chứa tối đa 1 phần tử).
+285:   
+286:   - Số cách chọn các khe hở: $C_(m + 1)^k$ cách.
+287:  
+<truncated 6282 bytes>
+c:
+370:     - *Dạng 1:* `A B A B A B A B`.
+371:       - Xếp 4 bạn A vào 4 vị trí lẻ: có $4!$ cách.
+372:       - Xếp 4 bạn B vào 4 vị trí chẵn: có $4!$ cách.
+373:       - Số cách xếp: $4! times 4! = 576$ cách.
+374:     - *Dạng 2:* `B A B A B A B A`.
+375:       - Tương tự, số cách xếp là $4! times 4! = 576$ cách.
+376:     - *Tổng số cách xếp:* $576 + 576 = 1152$ cách.
+377:     
+378:   - *Trường hợp 2.2: Có 4 học sinh lớp A và 3 học sinh lớp B (Lệch nhau 1 học sinh)*
+379:     Vì số học sinh lớp A nhiều hơn lớp B đúng 1 bạn, cấu trúc hợp lệ duy nhất là A nằm ở hai đầu và xen kẽ ở giữa:
+380:     - *Cấu trúc:* `A B A B A B A`.
+381:       - Xếp 4 bạn A vào 4 vị trí của A: có $4! = 24$ cách.
+382:       - Xếp 3 bạn B vào 3 vị trí của B: có $3! = 6$ cách.
+383:     - *Tổng số cách xếp:* $24 times 6 = 144$ cách.
+384:     
+385:   - *Trường hợp 2.3: Có 5 học sinh lớp A và 3 học sinh lớp B (Lệch từ 2 học sinh trở lên)*
+386:     - Nếu ta xếp 3 bạn B trước để tạo vách ngăn: `_ B _ B _ B _`. Số khe hở tối đa để chèn A vào chỉ là 4 khe.
+387:     - Nhưng ta có đến 5 học sinh lớp A cần xếp không kề nhau. Theo nguyên lý Dirichlet, khi xếp 5 bạn A vào 4 khe, bắt buộc phải có ít nhất một khe chứa từ 2 bạn A trở lên, dẫn đến hai bạn A ngồi cạnh nhau.
+388:     - *Tổng số cách xếp:* $0$ cách.
+389: ]
+390: 
+391: #ans-box[
+392:   - Trường hợp 2.1: *1152 cách*.
+393:   - Trường hợp 2.2: *144 cách*.
+394:   - Trường hợp 2.3: *0 cách*.
+395: ]
+396: 
+397: ---
+398: 
+399: === Cấp độ 1.3: Ba nhóm đối tượng trở lên, đều không được kề nhau (Mức độ Nâng cao)
+400: 
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

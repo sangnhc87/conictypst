@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chuyên Đề: Hàm Phân Đoạn & Thuế Lũy Tiến</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0fdfa; }
+        .glass { background: white; border-radius: 1rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
+    </style>
+</head>
+<body class="text-gray-800 p-4 md:p-8 min-h-screen">
+    <div class="max-w-6xl mx-auto space-y-6">
+        
+        <div class="bg-teal-700 text-white rounded-2xl p-8 shadow-lg text-center">
+            <h1 class="text-3xl font-bold mb-2">💸 Tiền Thuê Nhà Bậc Thang & Thuế Lũy Tiến</h1>
+            <p class="text-teal-100">Hiểu tường tận sự "Biến Hình" của các quy luật kinh tế tại những Điểm Gãy</p>
+        </div>
+
+        <div class="glass p-8">
+            <h2 class="text-2xl font-bold mb-4 text-teal-800">1. Đời Không Như Là Đường Thẳng (Mở Màn)</h2>
+            <p class="mb-4 text-lg">Hồi học THCS, bạn mua 1 cây bút giá 5k, 10 cây giá 50k. Đời trôi chảy trên một đường thẳng $y = 5000x$. Nhẹ nhàng và êm ả.</p>
+            <p class="font-bold text-red-600 mb-2">Nhưng Kinh Tế Xã Hội thì "Khó Ở" hơn thế:</p>
+            <ul class="list-disc pl-6 space-y-2 mb-6">
+                <li>Đi taxi nghìn mét đầu 20k, các mét sau 15k... đi quá 15km lại giảm 10% để khuyến khích. Giả sử đi 14.9 km có khi ĐẮT HƠN đi 15.1 km!</li>
+                <li>Quán lẩu buffet: Nhóm 2 người giá 200k/người. Đi 5 người thì chỉ còn 160k/người! Khách càng đông, tiền cưa đầu người càng rẻ.</li>
+                <li>Bạn làm lương 10 triệu không sao. Lương 20 triệu nhà nước bắt đầu thu Thuế thu nhập cá nhân!</li>
+            </ul>
+            <p class="bg-yellow-50 p-4 rounded border-l-4 border-yellow-500">Người ta gọi những kiểu "Đổi luật giữa dòng" như vậy là <b>Hàm Số Phân Đoạn</b>. Đồ thị của chúng thường có những góc <b>cạnh sắc nhọn (điểm gãy)</b>.</p>
+        </div>
+
+        <div class="glass p-8">
+            <h2 class="text-2xl font-bold mb-4 text-teal-800">2. Thuế Lũy Tiến: Bí quyết không bị "Lừa"</h2>
+            <p class="mb-2">Một sai lầm "chí mạng" của 90% học sinh khi làm bài toán THUẾ LŨY TIẾN:</p>
+            <div class="flex flex-col md:flex-row gap-6 mb-6">
+                <div class="flex-1 bg-red-50 p-4 rounded-lg border-2 border-red-200">
+                    <p class="text-red-700 font-bold mb-2">❌ Hiểu Sai:</p>
+                    <p class="text-sm">"Lương dưới 10tr không tính thuế. Lương > 10tr đóng thuế 10%."<br><br> Bạn kiếm <b>9tr900k</b> -> Bạn ẵm trọn <b>9tr900k</b>.<br>Tháng sau bạn được sếp tăng lương lên <b>10tr100k</b> -> Bị đánh thuế 10% -> Lấy $10.1 \times 10\% = 1.01$ triệu. Mất đứt 1 triệu, đem về nhà có <b>9tr090k</b>!! 😱<br><br><i>Trời ơi! Làm nhiều tiền hơn lại mang về ít đi! Đâu ai chịu!</i></p>
+                </div>
+                <div class="flex-1 bg-green-50 p-4 rounded-lg border-2 border-green-200">
+                    <p class="text-green-700 font-bold mb-2">✅ Sự Thật (Hiểu Đúng):</p>
+                    <p class="text-sm">Để ngăn cản sự bất công trên, Thuế Lũy Tiến chỉ đánh vào <b>PHẦN VƯỢT QUÁ</b>.<br><br>Lương <b>10tr100k</b>. Phân ra: 10tr nằm trong mốc an toàn. Chỉ đóng thuế cho 100k vượt múc kia!<br> Thuế = $100\text{k} \times 10\% = 10\text{k}$.<br>Đem về <b>10,090,000</b> (vẫn cao hơn ban đầu nha). Trái đất vẫn hòa bình.</p>
+                </div>
+            </div>
+            
+            <p class="font-bold mt-4 mb-2">Biểu diễn mô hình toán:</p>
+            <div class="bg-gray-100 p-4 rounded-lg overflow-x-auto text-center font-mono">
+                $$T(x) = \begin{cases} 0 & \text{nếu } x \le 10 \\ 0.1 \times (x - 10) & \text{nếu } x > 10 \end{cases}$$
+            </div>
+        </div>
+
+        <div class="glass p-8">
+            <h2 class="text-2xl font-bold mb-4 text-teal-800">3. Áp dụng: Bài Toán Doanh Thu "Bẫy Quy Mô"</h2>
+            <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg mb-6">
+                <p class="font-bold mb-2">Câu Hỏi Mẫu:</p>
+                <p>Công ty cho thuê xe du lịch 30 chỗ. Nếu đi 15 khách, giá 400k/người. Thêm 1 khách, giá vé CỦA CẢ ĐOÀN sẽ giảm 10k/người (kích cầu). Nên từ chối nhận thêm khách từ mốc nào để công ty không bị lỗ, biết càng đông tiền thu về càng cao TRƯỚC khi chạm "đỉnh" rồi lại tụt xuống?</p>
+                
+                <h4 class="font-bold mt-4 mb-2 text-indigo-700">Tư Duy Giải Tuyệt Đỉnh:</h4>
+                <ol class="list-decimal pl-5 space-y-2 text-gray-800">
+                    <li>Gọi $x$ là số khách tăng thêm. Tổng số khách: $15 + x$. Tiền mỗi người: $(400 - 10x)$.</li>
+                    <li>
+                        Doanh thu $R(x) = (15 + x)(400 - 10x) = 6000 + 250x - 10x^2$.<br>
+                        Nhìn vào hàm bậc hai $-10x^2$, đây là đồ thị "Úp Mâm". Lên hương rạng rỡ rồi lao dốc!
+                    </li>
+                    <li>
+                        Điểm cực đại của Parabol (học từ cấp 2) là ở $-\frac{b}{2a} = \frac{-250}{-20} = 12.5$.
+                        Nghĩa là ở mức tăng khoảng 12 hoặc 13 người (tổng 27, 28 khách), công ty sẽ hốt nhiều tiền nhất. Nhận thêm khách thứ 30 sẽ mệt thân mà số tiền cuối ngày gom lại còn BỊ ÍT ĐI!
+                    </li>
+                </ol>
+            </div>
+        </div>
+        
+    </div>
+</body>
+</html>

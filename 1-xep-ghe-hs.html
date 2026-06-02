@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giải Toán Tổ Hợp: Nguyên Lý Bù Trừ (PIE)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- MathJax for LaTeX rendering -->
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8fafc; }
+        .math-block { overflow-x: auto; padding: 10px 0; }
+        .row-even { background-color: #F3E5F5; }
+        .row-odd { background-color: #FBF5FF; }
+        .glass-panel { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); }
+    </style>
+</head>
+<body class="text-gray-800 p-4 md:p-8 min-h-screen">
+
+    <div class="max-w-6xl mx-auto space-y-6">
+        <!-- Header -->
+        <div class="text-center bg-violet-600 text-white p-6 rounded-2xl shadow-lg">
+            <h1 class="text-2xl md:text-3xl font-bold mb-2">Bộ Giải Bài Toán Xếp Ghế Không Kề Nhau</h1>
+            <p class="text-violet-100">Áp dụng Phương pháp Bù trừ Ghép Cặp Kề Trùng (PIE)</p>
+        </div>
+
+        <!-- Input Section -->
+        <div class="bg-white p-6 rounded-2xl shadow border-t-4 border-violet-500">
+            <h2 class="text-xl font-bold mb-4 text-violet-700">1. Nhập Dữ Liệu Bài Toán</h2>
+            <p class="text-sm text-gray-600 mb-4">Nhập số lượng học sinh của từng lớp để tính số cách xếp sao cho không có 2 học sinh cùng lớp nào ngồi cạnh nhau.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Học sinh lớp A ($n_A$)</label>
+                    <input type="number" id="inputA" value="4" min="1" max="15" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-violet-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Học sinh lớp B ($n_B$)</label>
+                    <input type="number" id="inputB" value="3" min="1" max="15" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-violet-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Học sinh lớp C ($n_C$)</label>
+                    <input type="number" id="inputC" value="1" min="0" max="15" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-violet-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-2 text-blue-600">Tổng số ghế ($H$)</label>
+                    <input type="number" id="inputH" value="12" min="1" max="30" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                </div>
+            </div>
+            
+            <button onclick="calculate()" class="w-full md:w-auto px-8 py-3 bg-violet-600 hover:bg-violet-700 text-white font-bold rounded-lg transition-colors shadow-md">
+                Phân Tích & Tính Toán
+            </button>
+        </div>
+
+        <!-- Result Section (Hidden by default) -->
+        <div id="resultContainer" class="hidden space-y-6">
+            
+            <!-- Final Answer Box -->
+            <div class="bg-green-50 p-6 rounded-2xl shadow border-2 border-green-500 text-center">
+                <h2 class="text-xl font-bold text-green-700 mb-2">Kết Quả Cuối Cùng</h2>
+                <div id="finalAnswerHtml" class="text-2xl text-gray-800"></div>
+            </div>
+
+            <!-- Analysis Section -->
+            <div class="bg-white p-6 rounded-2xl shadow border-l-4 border-blue-500">
+                <h2 class="text-xl font-bold mb-4 text-blue-700">2. Phân Tích Kịch Bản (Cấu trúc đồng nhất)</h2>
+                <div id="analysisText" class="mb-4 space-y-2 text-gray-700"></div>
+                
+                <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-sm mt-4">
+                    <table class="w-full text-center border-collapse">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 text-sm">
+                                <th class="p-3 border">Kịch bản $(i,j,k)$</th>
+                                <th class="p-3 border">Chọn cặp</th>
+                                <th class="p-3 border">Thực thể còn lại</th>
+                                <th class="p-3 border">Tổng thực thể</th>
+                                <th class="p-3 border">Hoán vị đồng nhất</th>
+                                <th class="p-3 border">Dấu</th>
+                                <th class="p-3 border">Đóng góp</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <!-- Rows will be injected here via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Detailed Explanation Box -->
+            <div class="bg-white p-6 rounded-2xl shadow border-l-4 border-yellow-500">
+                <h2 class="text-xl font-bold mb-4 text-yellow-700">3. Lời Giải Chi Tiết</h2>
+                <div id="detailedExplanation" class="space-y-4 text-gray-700 leading-relaxed">
+                    <!-- Text injected via JS -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // --- Toán học Cơ bản ---
+        // Hàm tính giai thừa
+        function fact(n) {
+            if (n < 0) return 0;
+            if (n === 0 || n === 1) return 1;
+            let res = 1;
+            for (let i = 2; i <= n; i++) res *= i;
+            return res;
+        }
+
+        // Hàm tính tổ hợp chập r của n (C_n^r)
+        function nCr(n, r) {
+            if (r > n || r < 0) return 0;
+            return fact(n) / (fact(r) * fact(n - r));
+        }
+
+        // --- Logic Xử Lý Chính ---
+        function calculate() {
+            // Lấy dữ liệu
+            const nA = parseInt(document.getElementById('inputA').value) || 0;
+            const nB = parseInt(document.getElementById('inputB').value) || 0;
+            const nC = parseInt(document.getElementById('inputC').value) || 0;
+            const H = parseInt(document.getElementById('inputH').value) || 0;
+
+            const tongHocSinh = nA + nB + nC;
+
+            if (tongHocSinh === 0) {
+                alert("Vui lòng nhập số học sinh lớn hơn 0");
+                return;
+            }
+            
+            if (H < tongHocSinh) {
+                alert(`Số ghế (${H}) không được nhỏ hơn tổng số học sinh (${tongHocSinh})`);
+                return;
+            }
+
+            const nE = H - tongHocSinh; // Số ghế trống
+
+            // Số khe dính tối đa của từng lớp
+            const maxI = Math.max(0, nA - 1);
+            const maxJ = Math.max(0, nB - 1);
+            const maxK = Math.max(0, nC - 1);
+
+            let tableHTML = "";
+            let totalStructures = 0;
+            let currentLayer = -1;
+            let rowColorClass = "";
+
+            // Duyệt qua tất cả các cấu hình (i, j, k)
+            for (let layer = 0; layer <= (maxI + maxJ + maxK); layer++) {
+                // Xác định màu nền theo tầng để dễ đọc (gom nhóm cùng dấu)
+                rowColorClass = (layer % 2 === 0) ? "row-even" : "row-odd";
+
+                for (let i = 0; i <= maxI; i++) {
+                    for (let j = 0; j <= maxJ; j++) {
+                        for (let k = 0; k <= maxK; k++) {
+                            if (i + j + k !== layer) continue;
+
+                            // 1. Hệ số chọn cặp (C_{n-1}^p)
+                            const chonA = nCr(maxI, i);
+                            const chonB = nCr(maxJ, j);
+                            const chonC = nCr(maxK, k);
+                            const chonCap = chonA * chonB * chonC;
+
+                            // 2. Số thực thể còn lại
+                            const thucTheA = nA - i;
+                            const thucTheB = nB - j;
+                            const thucTheC = nC - k;
+                            const tongThucThe = thucTheA + thucTheB + thucTheC + nE;
+
+                            // 3. Hoán vị đồng nhất (Tổng! / (A! * B! * C! * E!))
+                            let denomStr = `${thucTheA}! ${thucTheB}! ${thucTheC}!`;
+                            if (nE > 0) denomStr += ` ${nE}!`;
+                            
+                            const hoanViStr = `\\dfrac{${tongThucThe}!}{${denomStr}}`;
+                            const hoanViVal = fact(tongThucThe) / (fact(thucTheA) * fact(thucTheB) * fact(thucTheC) * fact(nE));
+
+                            // 4. Xác định dấu
+                            const isPositive = (layer % 2 === 0);
+                            const signStr = isPositive ? "$+$" : "$-$";
+                            const signMult = isPositive ? 1 : -1;
+
+                            // 5. Đóng góp
+                            const dongGop = signMult * chonCap * hoanViVal;
+                            totalStructures += dongGop;
+
+                            // Tạo mô tả ngắn
+                            let desc = "";
+                            if (layer === 0) desc = "tự do";
+                            else {
+                                let parts = [];
+                                if (i > 0) parts.push(`${i} cặp AA`);
+                                if (j > 0) parts.push(`${j} cặp BB`);
+                                if (k > 0) parts.push(`${k} cặp CC`);
+                                desc = parts.join(' + ');
+                            }
+
+                            // Dấu hiển thị ở cột đóng góp
+                            const displayDongGop = dongGop > 0 ? `+${dongGop}` : `${dongGop}`;
+                            const textColor = dongGop > 0 ? "text-green-600" : "text-red-600";
+
+                            // Thêm dòng vào bảng
+                            const theThucStr = nE > 0 ? `(${thucTheA},${thucTheB},${thucTheC},${nE})` : `(${thucTheA},${thucTheB},${thucTheC})`;
+                            tableHTML += `
+                                <tr class="${rowColorClass} border-b border-gray-200 hover:bg-violet-100 transition-colors">
+                                    <td class="p-3 border font-medium">\\((${i},${j},${k})\\)<br><span class="text-xs text-gray-500">${desc}</span></td>
+                                    <td class="p-3 border">\\(${chonCap}\\)</td>
+                                    <td class="p-3 border">\\(${theThucStr}\\)</td>
+                                    <td class="p-3 border font-semibold">\\(${tongThucThe}\\)</td>
+                                    <td class="p-3 border">\\(${hoanViStr} = ${hoanViVal}\\)</td>
+                                    <td class="p-3 border font-bold text-lg">${signStr}</td>
+                                    <td class="p-3 border font-bold ${textColor}">\\(${displayDongGop}\\)</td>
+                                </tr>
+                            `;
+                        }
+                    }
+                }
+            }
+
+            // Hoán vị nội bộ của từng lớp phân biệt
+            const hvPhanBietA = fact(nA);
+            const hvPhanBietB = fact(nB);
+            const hvPhanBietC = fact(nC);
+            const tongCach = totalStructures * hvPhanBietA * hvPhanBietB * hvPhanBietC;
+
+            // --- Render nội dung HTML ---
+            
+            // 1. Kết quả
+            document.getElementById('finalAnswerHtml').innerHTML = `
+                Tổng số cách xếp là: <strong>${tongCach.toLocaleString('vi-VN')}</strong> cách.
+            `;
+
+            // 2. Text phân tích đầu bảng
+            const tongSoDong = (maxI + 1) * (maxJ + 1) * (maxK + 1);
+            let eText = nE > 0 ? `<li>Có <strong>${nE} ghế trống</strong>. Các ghế trống được xem như một nhóm thực thể thứ 4 (đồng nhất) không có điều kiện kề nhau.</li>` : '';
+            
+            document.getElementById('analysisText').innerHTML = `
+                <ul class="list-disc pl-6">
+                    <li>Nhóm A có ${nA} học sinh, có tối đa <strong>${maxI}</strong> khe dính (chọn $i = 0 \\dots ${maxI}$).</li>
+                    <li>Nhóm B có ${nB} học sinh, có tối đa <strong>${maxJ}</strong> khe dính (chọn $j = 0 \\dots ${maxJ}$).</li>
+                    <li>Nhóm C có ${nC} học sinh, có tối đa <strong>${maxK}</strong> khe dính (chọn $k = 0 \\dots ${maxK}$).</li>
+                    ${eText}
+                </ul>
+                <p class="mt-2">Tổng số dòng kịch bản cần xét là: $${maxI+1} \\times ${maxJ+1} \\times ${maxK+1} = ${tongSoDong}$ dòng.</p>
+                <p class="italic text-sm text-violet-600">* Bảng được gom theo các "tầng" $s = i + j + k$. Cùng tầng sẽ cùng màu nền và cùng dấu.</p>
+            `;
+
+            // 3. Bảng
+            document.getElementById('tableBody').innerHTML = tableHTML;
+
+            // 4. Lời giải chi tiết
+            document.getElementById('detailedExplanation').innerHTML = `
+                <p><strong>Bước 1: Thiết lập mô hình Bù trừ (PIE) cho cấu trúc đồng nhất.</strong></p>
+                <p>Ta xem các học sinh trong cùng một lớp là <em>giống nhau</em> (đồng nhất). Ta gọi "khe dính" là vị trí giữa 2 học sinh cùng lớp ngồi cạnh nhau.</p>
+                <p>Mỗi kịch bản được đặc trưng bởi bộ 3 số $(i, j, k)$, trong đó:</p>
+                <ul class="list-disc pl-6">
+                    <li>$i$ là số cặp học sinh lớp A bị ép dính lại. Số cách chọn cặp: $C_{${maxI}}^i$</li>
+                    <li>$j$ là số cặp học sinh lớp B bị ép dính lại. Số cách chọn cặp: $C_{${maxJ}}^j$</li>
+                    <li>$k$ là số cặp học sinh lớp C bị ép dính lại. Số cách chọn cặp: $C_{${maxK}}^k$</li>
+                </ul>
+                <p>Khi ép dính $p$ cặp trong một nhóm $n$ người, số khối (thực thể) của nhóm đó giảm đi $p$, chỉ còn $n - p$ khối.</p>
+                
+                <p class="mt-4"><strong>Bước 2: Tính hoán vị và áp dụng dấu nguyên lý bù trừ.</strong></p>
+                <p>Tổng số thực thể còn lại là tổng các khối của 3 nhóm ${nE > 0 ? 'và <strong>' + nE + ' ghế trống</strong>' : ''}. Vì các phần tử trong cùng nhóm (và các ghế trống) được coi là giống nhau, số hoán vị của các khối này là hoán vị lặp (hay hoán vị đồng nhất).</p>
+                <p>Nguyên lý bù trừ yêu cầu: nếu tổng số cặp bị dính ($s = i + j + k$) là <strong>chẵn</strong> thì mang dấu <strong>$+$</strong>, nếu <strong>lẻ</strong> thì mang dấu <strong>$-$</strong>.</p>
+                <p>Tổng đại số cột đóng góp ở bảng trên chính là số cấu trúc phân bố chỗ ngồi hợp lệ mà không có học sinh cùng lớp nào kề nhau.</p>
+                <div class="math-block bg-gray-50 p-3 rounded text-center my-2 border">
+                    $$ S_{cấu\\ trúc} = ${totalStructures} $$
+                </div>
+
+                <p class="mt-4"><strong>Bước 3: Gán danh tính (Hoán vị nội bộ).</strong></p>
+                <p>Trong thực tế, các học sinh là phân biệt (khác nhau). Do đó, với mỗi cấu trúc chỗ ngồi hợp lệ, ta cần xếp cụ thể từng học sinh vào chỗ của nhóm mình:</p>
+                <ul class="list-disc pl-6">
+                    <li>Xếp ${nA} học sinh lớp A vào ${nA} vị trí dành cho A: có $${nA}! = ${hvPhanBietA}$ cách.</li>
+                    <li>Xếp ${nB} học sinh lớp B vào ${nB} vị trí dành cho B: có $${nB}! = ${hvPhanBietB}$ cách.</li>
+                    <li>Xếp ${nC} học sinh lớp C vào ${nC} vị trí dành cho C: có $${nC}! = ${hvPhanBietC}$ cách.</li>
+                </ul>
+                <p>Tổng số cách xếp thực tế cuối cùng là:</p>
+                <div class="math-block bg-violet-50 p-4 rounded-lg font-semibold text-center border border-violet-300">
+                    \\[ N = ${totalStructures} \\times ${nA}! \\times ${nB}! \\times ${nC}! \\]
+                    \\[ N = ${totalStructures} \\times ${hvPhanBietA} \\times ${hvPhanBietB} \\times ${hvPhanBietC} = ${tongCach.toLocaleString('vi-VN')} \\text{ (cách)} \\]
+                </div>
+                ${nE > 0 ? `<p class="text-sm italic text-gray-500 mt-2">* Lưu ý: Các ghế trống là hoàn toàn giống nhau nên ta không nhân thêm hoán vị của các ghế trống ở bước cuối (số cách hoán vị nội bộ của ${nE} ghế trống là 1).</p>` : ''}
+            `;
+
+            // Hiển thị kết quả và Render lại công thức toán học
+            document.getElementById('resultContainer').classList.remove('hidden');
+            if (window.MathJax) {
+                MathJax.typesetPromise().then(() => {
+                    console.log('MathJax rendered newly added content');
+                });
+            }
+        }
+
+        // Tự động tính toán lần đầu khi load trang với dữ liệu mặc định
+        window.onload = function() {
+            calculate();
+        }
+    </script>
+</body>
+</html>

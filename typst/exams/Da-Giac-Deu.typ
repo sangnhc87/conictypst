@@ -73,18 +73,48 @@
   )
 ]
 
+= TÂM PHÁP ĐA GIÁC ĐỀU: HAI CỖ ĐẠI BÁC VẠN NĂNG
+
+Trước khi chìm đắm vào hàng tá công thức tính toán, học sinh cần nắm được "sợi chỉ đỏ" xuyên suốt mọi bài toán đa giác đều. Thay vì học vẹt, ta có thể đập tan 100% các bài toán đếm hình chỉ bằng 2 cỗ "Đại Bác" sau đây:
+
+#rect(fill: rgb("FDEBD0"), stroke: (left: 4pt + rgb("E67E22")), inset: 12pt, width: 100%, radius: 4pt)[
+  #text(weight: "bold", size: 12pt, fill: rgb("D35400"))[💥 Đại bác số 1: Tư duy "Đường Kính" (Chuyên trị Toán Góc)]
+  #v(0.5em)
+  Mọi góc vuông, góc tù, hay tính chất đối xứng của hình chữ nhật đều xoay quanh *đường kính* của đường tròn ngoại tiếp. Một đa giác đều có $2n$ đỉnh sẽ có đúng $n$ đường kính.
+  
+  - *Hình chữ nhật:* Là hình có $2$ đường chéo cắt nhau tại trung điểm $=>$ Cứ chập $2$ đường kính bất kỳ lại, ta được $1$ hình chữ nhật (Số lượng: $C_n^2$).
+  - *Tam giác vuông:* Phải có cạnh huyền là đường kính. Chọn $1$ đường kính ($n$ cách) và $1$ đỉnh góc vuông từ $2n-2$ đỉnh còn lại.
+  - *Tam giác tù:* Cả $3$ đỉnh phải "co cụm" về một phía của một đường kính nào đó. Cố định $1$ đỉnh làm mốc, $2$ đỉnh còn lại bốc từ nhóm các đỉnh nằm cùng một nửa đường tròn.
+]
+
+#v(1em)
+
+#rect(fill: rgb("E8F8F5"), stroke: (left: 4pt + rgb("1ABC9C")), inset: 12pt, width: 100%, radius: 4pt)[
+  #text(weight: "bold", size: 12pt, fill: rgb("0E6655"))[💥 Đại bác số 2: Tư duy "Vách Ngăn Đường Tròn" (Chuyên trị Cạnh Chung)]
+  #v(0.5em)
+  Khi đề bài hỏi đếm số đa giác *không có cạnh chung*, *chung đúng 1 cạnh*, v.v... với đa giác gốc, bản chất đây chính là bài toán *Chia Kẹo Euler* (Phương pháp Vách ngăn). 
+  
+  - Khi ta chọn $k$ đỉnh trên một đường tròn $n$ đỉnh, chúng sẽ cắt đường tròn thành $k$ "khoảng trống". 
+  - Gọi số đỉnh không được chọn nằm trong các khoảng trống này là $x_1, x_2, dots, x_k$. Ta luôn có phương trình bảo toàn tổng số đỉnh không được chọn:
+    $ x_1 + x_2 + dots + x_k = n - k $
+  - *Không chung cạnh nào:* Ép các khoảng trống $x_i >= 1$ (các đỉnh bị cách ly hoàn toàn).
+  - *Chung đúng 1 cạnh:* Ép có đúng một khoảng trống $x_i = 0$, các khoảng còn lại $>= 1$. 
+  
+  Nhờ cỗ đại bác này, ta không cần phải vẽ hình hay đếm thủ công mà chỉ việc giải hệ phương trình chia kẹo!
+]
+
 = BẢNG TÓM TẮT CÔNG THỨC
 
 #align(center)[
   #table(
-    columns: (auto, auto, 1fr),
-    align: (center + horizon, center + horizon, left + horizon),
+    columns: (1.5fr, 1.2fr, 2.3fr),
+    align: (left + horizon, center + horizon, left + horizon),
     stroke: (x, y) => (
       bottom: if y == 0 { 1.5pt + rgb("1A5276") } else { 0.5pt + luma(220) },
       top: if y == 0 { 1.5pt + rgb("1A5276") } else { none }
     ),
     fill: (x, y) => if y == 0 { rgb("EBF5FB") } else if calc.even(y) { rgb("FAFDFF") } else { white },
-    inset: (x: 12pt, y: 10pt),
+    inset: (x: 10pt, y: 8pt),
     
     text(weight: "bold", fill: rgb("1A5276"))[Loại hình cần đếm],
     text(weight: "bold", fill: rgb("1A5276"))[Điều kiện của $n$],
@@ -94,11 +124,22 @@
     [Hình chữ nhật], [$n$ chẵn], [$C_{n/2}^2$],
     [Tam giác vuông], [$n$ chẵn], [$n/2 dot (n - 2)$],
     [Tam giác đều], [$n$ chia hết cho $3$], [$n / 3$],
+    [Tam giác cân (gồm cả đều)], [$n$ lẻ], [Nếu $n$ chia hết cho $3$: $n(3n-7)/6$\ Ngược lại: $n(n-1)/2$],
+    [Tam giác cân (gồm cả đều)], [$n$ chẵn], [Nếu $n$ chia hết cho $3$: $n(3n-10)/6$\ Ngược lại: $n(n-2)/2$],
+    [Tam giác vuông cân], [$n$ chia hết cho $4$], [$n$],
     [Tam giác tù], [$n$ bất kỳ], [$n dot C_(floor((n-1)/2))^2$],
     [Tam giác nhọn], [$n$ bất kỳ], [$C_n^3 - n("TG vuông") - n("TG tù")$],
     [Tam giác có góc $>= 120 degree$], [$n$ bất kỳ], [$n dot C_(floor(n/3))^2$],
     [Hình thang (và HT Cân)], [$n$ lẻ], [$n dot C_((n-1)/2)^2$],
-    [Hình thang (và HT Cân)], [$n$ chẵn], [$n/2 dot C_((n-2)/2)^2 + (n/2 - 1) dot C_{n/2}^2$]
+    [Hình thang (và HT Cân)], [$n$ chẵn], [$n/2 dot C_((n-2)/2)^2 + (n/2 - 1) dot C_{n/2}^2$],
+    [Tam giác không chung cạnh], [$n >= 6$], [$n/3 dot C_(n-4)^2 = (n(n-4)(n-5))/6$],
+    [Tam giác chung đúng 1 cạnh], [$n >= 5$], [$n dot (n - 4)$],
+    [Tam giác chung đúng 2 cạnh], [$n >= 3$], [$n$],
+    [Tứ giác không chung cạnh], [$n >= 8$], [$n/4 dot C_(n-5)^3 = (n(n-5)(n-6)(n-7))/24$],
+    [Tứ giác chung đúng 1 cạnh], [$n >= 6$], [$n dot C_(n-5)^2 = (n(n-5)(n-6))/2$],
+    [Tứ giác chung đúng 2 cạnh kề], [$n >= 5$], [$n dot (n-5)$],
+    [Tứ giác chung đúng 2 cạnh đối], [$n >= 6$], [$n dot (n-5)/2$],
+    [Tứ giác chung đúng 3 cạnh], [$n >= 4$], [$n$]
   )
 ]
 
@@ -108,14 +149,19 @@
   #text(weight: "bold", fill: rgb("333333"))[- #tên:] #nội_dung
 ]
 
-== 1. Hình vuông và Tam giác đều
+== 1. Hình vuông, Tam giác đều, Tam giác cân và Vuông cân
 #grid(
   columns: (1fr, auto), gutter: 2em,
   [
     #mục("Hình vuông")[Đa giác chia đường tròn thành $n$ cung bằng nhau. Để tạo thành hình vuông, $4$ đỉnh phải cách đều nhau, tức là $n$ phải chia hết cho $4$. Cứ lấy $1$ đỉnh, nhảy cách $n/4$ bước ta được $1$ hình vuông. Tổng số: #strong[$n/4$] hình.]
     
     #mục("Tam giác đều")[Tương tự, $3$ đỉnh phải cách đều nhau, $n$ phải chia hết cho $3$. Nhảy cách $n/3$ bước. Tổng số: #strong[$n/3$] hình.]
-    #text(style: "italic", size: 10pt)[(Hình minh họa xét $n=12$)]
+    
+    #mục("Tam giác cân")[Chọn 1 đỉnh làm đỉnh cân ($n$ cách). Trục đối xứng đi qua đỉnh cân và tâm đường tròn chia các đỉnh còn lại thành các cặp đối xứng.
+    - Với $n$ lẻ: Có $(n-1)/2$ cặp đối xứng. Số tam giác cân là $n(n-1)/2$ (nếu $n$ không chia hết cho $3$) hoặc $n(3n-7)/6$ (nếu $n$ chia hết cho $3$, do tam giác đều có 3 trục đối xứng nên bị lặp 3 lần).
+    - Với $n$ chẵn: Có $(n-2)/2$ cặp đối xứng. Số tam giác cân là $n(n-2)/2$ (nếu $n$ không chia hết cho $3$) hoặc $n(3n-10)/6$ (nếu $n$ chia hết cho $3$).]
+    
+    #mục("Tam giác vuông cân")[Để tam giác vuông cân tại $A$, cạnh đối diện $B C$ phải là đường kính, và $A$ phải nằm chính giữa nửa đường tròn. Điều này chỉ xảy ra khi nửa đường tròn có số đỉnh chẵn (tức $n$ chia hết cho $4$). Khi đó, với mỗi đường kính ($n/2$ cách), chọn được $2$ đỉnh $A$ ở 2 phía $=>$ Có #strong[$n$] tam giác vuông cân. Nếu $n$ không chia hết cho 4, không có tam giác vuông cân nào.]
   ],
   cetz.canvas({
     import cetz.draw: *
@@ -238,6 +284,59 @@
     ]
   ]
 )
+
+== 5. Đa giác chung cạnh và Không chung cạnh (Toán Cạnh)
+#grid(
+  columns: (1fr, auto), gutter: 2em,
+  [
+    #mục("Phương pháp Phần bù (Dễ hình dung)")[Để đếm số đa giác *không chung cạnh* nào với đa giác gốc, ta đếm phần bù:
+    - Tam giác chung 2 cạnh: Chọn 3 đỉnh liên tiếp $=> n$ (tam giác).
+    - Tam giác chung đúng 1 cạnh: Chọn 1 cạnh ($n$ cách). Chọn đỉnh thứ 3 sao cho không kề với 2 đỉnh của cạnh đó (loại bỏ 4 đỉnh) $=> n(n-4)$.
+    - Vậy số Tam giác *không chung cạnh* là: $C_n^3 - n - n(n-4)$.]
+    
+    #mục("Đại bác Vách Ngăn (Sức mạnh vô cực)")[Chia kẹo Euler bẻ thẳng đường tròn:
+    Để chọn $k$ đỉnh trên đường tròn $n$ đỉnh sao cho không có 2 đỉnh nào kề nhau:
+    $=> "Số cách" = n/k C_{n-k-1}^{k-1} = n/(n-k) C_{n-k}^k$
+    *Nguyên lý:* $k$ đỉnh được chọn cắt đường tròn thành $k$ vách ngăn. Số đỉnh trống ở các vách là $x_1, x_2, dots, x_k >= 1$. Tổng $x_1 + x_2 + dots + x_k = n - k$. Phương pháp này giúp đếm các đa giác nhiều cạnh (tứ giác, ngũ giác) mà phương pháp phần bù sẽ bị quá rườm rà.]
+  ],
+  cetz.canvas({
+    import cetz.draw: *
+    group({
+      draw-poly(10, r: 1.4)
+      let step = 360deg / 10
+      line((90deg, 1.4), (90deg - step, 1.4), stroke: red + 1.5pt)
+      line((90deg, 1.4), (90deg - step, 1.4), (90deg - 5*step, 1.4), close: true, stroke: blue + 1pt, fill: rgb("0000FF20"))
+      content((0, -1.8), text(size: 9pt)[Chung đúng 1 cạnh])
+    })
+    group({
+      translate(x: 3.5)
+      draw-poly(10, r: 1.4)
+      let step = 360deg / 10
+      line((90deg, 1.4), (90deg - 2*step, 1.4), (90deg - 5*step, 1.4), close: true, stroke: green.darken(20%) + 1pt, fill: rgb("00800020"))
+      content((0, -1.8), text(size: 9pt)[Không chung cạnh])
+    })
+  })
+)
+
+== 6. Toán Cạnh cho Tứ giác (Chung cạnh và Không chung cạnh)
+
+Bài toán đếm số tứ giác có số cạnh chung cụ thể với đa giác gốc $n$ đỉnh ($n >= 4$) được đập tan bằng cỗ Đại bác số 2 (Vách ngăn Euler) kết hợp với phân tích phân mảnh:
+
+- *Tứ giác không chung cạnh nào:* Ta chọn $k=4$ đỉnh không kề nhau trên vòng tròn. Áp dụng công thức vách ngăn Euler dạng vòng tròn:
+  $ n/4 C_(n-5)^3 = (n(n-5)(n-6)(n-7))/24 " (tứ giác, với " n >= 8")" $
+  
+- *Tứ giác chung đúng 1 cạnh:* Chọn $1$ cạnh của đa giác gốc ($n$ cách). Để tứ giác chỉ có đúng 1 cạnh chung này, hai đỉnh còn lại phải được chọn từ $n-4$ đỉnh còn lại sao cho không kề nhau và không kề với cạnh đã chọn. Số cách chọn $2$ đỉnh không kề nhau từ $n-4$ đỉnh thẳng hàng là $C_(n-5)^2$:
+  $ n dot C_(n-5)^2 = (n(n-5)(n-6))/2 " (tứ giác, với " n >= 6")" $
+  
+- *Tứ giác chung đúng 2 cạnh kề nhau:* Chọn $3$ đỉnh liên tiếp của đa giác gốc ($n$ cách). Đỉnh thứ 4 chọn từ $n-5$ đỉnh còn lại để tránh kề sát tạo thành $3$ cạnh chung:
+  $ n(n-5) " (tứ giác, với " n >= 5")" $
+
+- *Tứ giác chung đúng 2 cạnh đối nhau (rời nhau):* Chọn $2$ cạnh rời nhau của đa giác gốc. Ta có $C_n^2 - n$ cặp cạnh không kề nhau. Trừ đi $n$ cặp cạnh mà khoảng cách giữa chúng chỉ bằng 1 cạnh (để tránh khi nối lại tạo thành 3 cạnh chung):
+  $ C_n^2 - n - n = (n(n-5))/2 " (tứ giác, với " n >= 6")" $
+  *Tổng số tứ giác chung đúng 2 cạnh là:* $n(n-5) + (n(n-5))/2 = 3/2 n(n-5)$.
+
+- *Tứ giác chung đúng 3 cạnh:* Chọn $4$ đỉnh liên tiếp của đa giác gốc:
+  $ n " (tứ giác, với " n >= 4")" $
 
 #tln(
   [Cho đa giác đều $(H)$ có $18$ đỉnh nội tiếp trong một đường tròn. Chọn ngẫu nhiên $3$ đỉnh của $(H)$ để tạo thành một tam giác. Gọi $P$ là xác suất để tam giác được tạo thành là tam giác nhọn. Hãy tính $1000P$ (làm tròn kết quả đến hàng đơn vị).],
@@ -927,238 +1026,110 @@
 )
 
 #tln(
-  [Trên mặt phẳng tọa độ với đơn vị dài trên mỗi trục là kilômét có một khẩu pháo đặt tại gốc tọa độ và một mục tiêu chuyển động thẳng đều ở thời điểm ban đầu có tọa độ $A(0.5; 6)$. Ở thời điểm $20$ giây khoảng cách từ mục tiêu đến $3$ radar đặt tại $O, G(0.1; 0), H(0; 0.1)$ lần lượt là $sqrt(97)/2$ km; $sqrt(2386)/10$ km; $(2 sqrt(146))/5$ km. Ngay sau đó từ khẩu pháo bắn ra một viên đạn bay với tốc độ $v_0$ m/s để đón bắt mục tiêu. Hãy tính theo đơn vị m/s giá trị nhỏ nhất $v_0$ *(làm tròn kết quả đến hàng đơn vị)*.],
-  [$99$],
-  fig: cetz.canvas(length: 1cm, {
+  [Cho đa giác đều $(H)$ có $20$ đỉnh nội tiếp đường tròn. Chọn ngẫu nhiên $3$ đỉnh của $(H)$ để tạo thành một tam giác. Gọi $P$ là xác suất để tam giác được chọn *không có cạnh nào* là cạnh của đa giác $(H)$. Hãy tính $1000P$ (làm tròn kết quả đến hàng đơn vị).],
+  [$702$],
+  fig: cetz.canvas(length: 1.2cm, {
     import cetz.draw: *
-    
-    // Vẽ vùng mặt biển (bo góc)
-    rect((0.2, 0.2), (5, 4.5), radius: 0.3, fill: rgb("90E0EF"), stroke: blue + 1pt)
-    content((3.5, 2.2), text(weight: "bold")[Mặt biển])
-    
-    // Trục tọa độ
-    line((-0.3, 0), (5.5, 0), mark: (end: ">"), stroke: 0.8pt)
-    line((0, -0.3), (0, 4.8), mark: (end: ">"), stroke: 0.8pt)
-    content((5.5, -0.2), $x$, anchor: "north")
-    content((-0.2, 4.8), $y$, anchor: "east")
-    
-    // Gốc tọa độ và các điểm radar
-    circle((0,0), radius: 1.5pt, fill: black); content((-0.2, -0.2), $O$, anchor: "north-east")
-    circle((0.6,0), radius: 1pt, fill: black); content((0.6, -0.2), $G$, anchor: "north")
-    circle((0,0.6), radius: 1pt, fill: black); content((-0.2, 0.6), $H$, anchor: "east")
-    
-    // Quỹ đạo mục tiêu
-    line((0.5, 4.2), (4.2, 0.5), stroke: (dash: "dashed", paint: luma(70), thickness: 0.8pt))
-    circle((0.8, 3.9), radius: 1.5pt, fill: black)
-    content((0.8, 3.9), $A$, anchor: "south-west", padding: 3pt)
-    
-    // Viên đạn pháo (Sửa lỗi vectơ chuẩn Typst)
-    line((0,0), (1.5, 1.1), mark: (end: ">"), stroke: blue + 1.2pt)
-    content((1.2, 1.1), text(fill: blue)[$arrow(v)_0$], anchor: "south")
-    content((0, -0.6), text(size: 9pt)[Khẩu pháo], anchor: "north")
+    circle((0,0), radius: 2, stroke: black + 0.8pt)
+    let n = 20
+    let step = 360deg / n
+    for i in range(n) { circle((90deg - i * step, 2), radius: 1pt, fill: gray) }
+    // Tam giác không chung cạnh
+    let p1 = (90deg, 2)
+    let p2 = (90deg - 3 * step, 2)
+    let p3 = (90deg - 10 * step, 2)
+    line(p1, p2, p3, close: true, stroke: blue + 1pt, fill: rgb("0000FF20"))
+    content(p1, $A_1$, anchor: "south", padding: 4pt)
   }),
   fig-pos: "right",
-  fig-width: 45%,
+  fig-width: 35%,
   loigiai: [
     #ppgiai[
-      - *Bước 1:* Lập hệ phương trình khoảng cách từ mục tiêu đến $O, G, H$ tại thời điểm $t=20$s để tìm tọa độ điểm $B$ của mục tiêu.
-      - *Bước 2:* Tính vectơ vận tốc của mục tiêu $arrow(v)$. Chuyển đổi toàn bộ đơn vị về *mét* và *giây* cho khớp với yêu cầu đề bài ($v_0$ tính bằng m/s).
-      - *Bước 3:* Giả sử thời gian đạn bay là $tau$. Lập phương trình khoảng cách từ khẩu pháo đến mục tiêu theo $tau$. Tốc độ đạn $v_0 = "Khoảng cách" / tau$.
-      - *Bước 4:* Đưa biểu thức $v_0^2$ về dạng hàm bậc hai theo biến $X = 1 / tau$ và tìm giá trị nhỏ nhất bằng cách xét đỉnh parabol.
+      - *Cách 1: Tư duy Phần bù.* Lấy tổng số tam giác trừ đi (số tam giác chung 2 cạnh + số tam giác chung đúng 1 cạnh).
+      - *Cách 2: Áp dụng Đại Bác Vách Ngăn.* Áp dụng công thức chọn $3$ đỉnh không kề nhau trên vòng tròn.
     ]
     
-    *1. Xác định vị trí mục tiêu tại $t=20$ giây* \
-    Gọi $B(x; y)$ là vị trí của mục tiêu sau $20$ giây. Ta có hệ phương trình khoảng cách (bình phương hai vế):
-    $ cases(
-      O B^2 = x^2 + y^2 = (sqrt(97)/2)^2 = 24.25 quad (1),
-      G B^2 = (x - 0.1)^2 + y^2 = (sqrt(2386)/10)^2 = 23.86 quad (2),
-      H B^2 = x^2 + (y - 0.1)^2 = (2 sqrt(146)/5)^2 = 23.36 quad (3)
-    ) $
-    Lấy $(1) - (2)$ ta được: $0.2x - 0.01 = 24.25 - 23.86 = 0.39 => 0.2x = 0.4 => x = 2$. \
-    Lấy $(1) - (3)$ ta được: $0.2y - 0.01 = 24.25 - 23.36 = 0.89 => 0.2y = 0.9 => y = 4.5$. \
-    Thử lại $x^2 + y^2 = 2^2 + 4.5^2 = 24.25$ (thỏa mãn). Vậy tại $t=20$s, mục tiêu ở vị trí $B(2; 4.5)$ km.
+    *Cách 1 (Phương pháp phần bù):*
+    Tổng số tam giác tạo thành là: $n(Omega) = C_20^3 = 1140$.
     
-    *2. Tính vận tốc mục tiêu (Đổi về m/s)* \
-    Vị trí ban đầu $A(0.5; 6)$ km, vị trí lúc sau $B(2; 4.5)$ km. Thời gian di chuyển là $20$s. \
-    Vectơ vận tốc mục tiêu:
-    $ arrow(v)_M = arrow(A B) / 20 = ( (2 - 0.5)/20; (4.5 - 6)/20 ) = (0.075; -0.075) " km/s" $
-    Đổi đơn vị sang mét: Vị trí bắt đầu bắn là $B(2000; 4500)$ (mét) và vận tốc mục tiêu là $arrow(v)_M = (75; -75)$ (m/s).
+    - Tam giác *chung 2 cạnh* với đa giác gốc: $3$ đỉnh của tam giác phải là $3$ đỉnh liên tiếp của $(H)$. Đa giác có $20$ đỉnh nên có đúng $20$ tam giác loại này.
+    - Tam giác *chung đúng 1 cạnh*: Chọn $1$ cạnh của đa giác gốc (có $20$ cách). Đỉnh thứ $3$ của tam giác không được trùng với $2$ đầu mút của cạnh đó, và cũng không được kề với $2$ đầu mút đó (để tránh rơi vào TH chung 2 cạnh). Vậy ta phải loại đi $4$ đỉnh. Đỉnh thứ $3$ có $20 - 4 = 16$ cách chọn.
+      Số tam giác chung đúng 1 cạnh là: $20 dot 16 = 320$.
+      
+    Vậy số tam giác không chung cạnh nào là:
+    $ n("Không chung cạnh") = 1140 - 20 - 320 = 800 " (tam giác)" $
     
-    *3. Tối ưu hóa vận tốc viên đạn $v_0$* \
-    Gọi $tau > 0$ (giây) là thời gian từ lúc bắn đến lúc đạn trúng mục tiêu. \
-    Tọa độ mục tiêu lúc trúng đạn: $M(tau) = (2000 + 75 tau; 4500 - 75 tau)$. \
-    Quãng đường viên đạn bay từ $O(0;0)$ đến $M$ là:
-    $ S^2 = (2000 + 75 tau)^2 + (4500 - 75 tau)^2 $
-    Vận tốc đạn pháo là $v_0$. Ta có $S = v_0 tau => v_0^2 = S^2 / tau^2$. Thay vào ta được:
-    $ v_0^2 = (2000/tau + 75)^2 + (4500/tau - 75)^2 $
-    Đặt $X = 1/tau > 0$, hàm số trở thành parabol theo biến $X$:
-    $ v_0^2 = (2000 X + 75)^2 + (4500 X - 75)^2 $
-    $ v_0^2 = 24250000 X^2 - 375000 X + 11250 $
-    Hàm số bậc hai đạt giá trị nhỏ nhất tại $X = (-b)/(2a) = 375000 / (2 dot 24250000) = 3/388$. \
-    Thay $X = 3/388$ vào, ta tính được giá trị nhỏ nhất của $v_0^2$:
-    $ min(v_0^2) = 11250 - 375000^2 / (4 dot 24250000) = 950625 / 97 $
-    Suy ra tốc độ đạn nhỏ nhất cần thiết là:
-    $ v_0 = sqrt(950625/97) approx 98.996 " (m/s)" $
-    Làm tròn kết quả đến hàng đơn vị, ta thu được đáp án là *$99$*.
-
-  ]
-)
-
-#tln(
-  [Tại thời điểm $t = 0$, đài kiểm soát không lưu phát hiện hai thiết bị bay không người lái (drone). Drone thứ nhất xuất phát từ điểm $A(0; 40)$ di chuyển thẳng đều với vectơ vận tốc $arrow(v)_1 = (30; -10)$ km/h. Drone thứ hai xuất phát từ điểm $B(30; 0)$ di chuyển thẳng đều với vectơ vận tốc $arrow(v)_2 = (0; 20)$ km/h. Gọi $d$ (km) là khoảng cách ngắn nhất giữa hai drone trong suốt quá trình bay. Hãy tính giá trị của $d^2$.],
-  [$50$],
-  fig: cetz.canvas(length: 1cm, {
-    import cetz.draw: *
+    *Cách 2 (Đại bác Vách ngăn Euler):*
+    Yêu cầu bài toán tương đương với việc chọn $k=3$ đỉnh từ $n=20$ đỉnh trên đường tròn sao cho không có $2$ đỉnh nào kề nhau. Áp dụng công thức Đại bác chia kẹo trên đường tròn:
+    $ n("Không chung cạnh") = 20 / 3 dot C_{20-3-1}^{3-1} = 20 / 3 dot C_16^2 = 20 / 3 dot 120 = 800 " (tam giác)" $
+    (Hoặc dùng cấu trúc tương đương $n/(n-k) C_{n-k}^k = 20/17 C_17^3 = 800$).
     
-    line((-0.5, 0), (4.5, 0), mark: (end: ">"), stroke: 0.8pt)
-    line((0, -0.5), (0, 4.5), mark: (end: ">"), stroke: 0.8pt)
-    content((4.5, -0.2), $x$, anchor: "north")
-    content((-0.2, 4.5), $y$, anchor: "east")
-    
-    // Tọa độ chia 10
-    let start-A = (0, 4)
-    let start-B = (3, 0)
-    
-    circle(start-A, radius: 1.5pt, fill: blue)
-    content(start-A, $A$, anchor: "east", padding: 3pt)
-    circle(start-B, radius: 1.5pt, fill: red)
-    content(start-B, $B$, anchor: "north", padding: 3pt)
-    
-    // Quỹ đạo bay (đến t = 1.5)
-    line(start-A, (4.5, 2.5), mark: (end: ">"), stroke: (dash: "dashed", paint: blue, thickness: 1pt))
-    content((2, 3.5), text(fill: blue)[Drone 1], anchor: "south-west")
-    
-    line(start-B, (3, 3), mark: (end: ">"), stroke: (dash: "dashed", paint: red, thickness: 1pt))
-    content((3.1, 1.5), text(fill: red)[Drone 2], anchor: "west")
-    
-    // Vị trí gần nhất (khoảng t = 1.16)
-    let min-A = (3.5, 2.83)
-    let min-B = (3, 2.33)
-    circle(min-A, radius: 1.5pt, fill: black)
-    circle(min-B, radius: 1.5pt, fill: black)
-    line(min-A, min-B, stroke: orange + 1.2pt)
-    content((3.25, 2.58), $d_("min")$, anchor: "east", padding: 2pt)
-  }),
-  fig-pos: "right",
-  fig-width: 40%,
-  loigiai: [
-    #ppgiai[
-      - *Bước 1:* Lập phương trình tham số tọa độ của hai drone $M_1(t)$ và $M_2(t)$.
-      - *Bước 2:* Lập biểu thức tọa độ của vectơ $arrow(M_1 M_2)$.
-      - *Bước 3:* Viết hàm số $f(t) = |arrow(M_1 M_2)|^2 = (x_2 - x_1)^2 + (y_2 - y_1)^2$.
-      - *Bước 4:* Đây là một hàm bậc hai theo $t$. Tìm đỉnh của parabol (sử dụng $-b/2a$ hoặc đạo hàm) để tìm khoảng cách bình phương nhỏ nhất.
-    ]
-    
-    Gọi $t > 0$ (giờ) là thời gian di chuyển của hai drone. 
-    Tọa độ của Drone 1 tại thời điểm $t$ là:
-    $ M_1(t) = (0 + 30t ; 40 - 10t) = (30t ; 40 - 10t) $
-    
-    Tọa độ của Drone 2 tại thời điểm $t$ là:
-    $ M_2(t) = (30 + 0t ; 0 + 20t) = (30 ; 20t) $
-    
-    Khoảng cách bình phương giữa hai drone tại thời điểm $t$ là $d^2 = M_1 M_2^2$:
-    $ d^2(t) = (x_2 - x_1)^2 + (y_2 - y_1)^2 $
-    $ d^2(t) = (30 - 30t)^2 + (20t - (40 - 10t))^2 $
-    $ d^2(t) = (30 - 30t)^2 + (30t - 40)^2 $
-    
-    Rút nhân tử chung $10^2 = 100$ ra ngoài để dễ tính toán:
-    $ d^2(t) = 100 [ (3 - 3t)^2 + (3t - 4)^2 ] $
-    $ d^2(t) = 100 [ (9 - 18t + 9t^2) + (9t^2 - 24t + 16) ] $
-    $ d^2(t) = 100 [ 18t^2 - 42t + 25 ] $
-    
-    Xét hàm số bậc hai bên trong ngoặc vuông $f(t) = 18t^2 - 42t + 25$.
-    Đồ thị là một parabol quay bề lõm lên trên, do đó nó đạt giá trị nhỏ nhất tại đỉnh:
-    $ t = (-b)/(2a) = 42 / (2 dot 18) = 42 / 36 = 7/6 " (giờ)" $
-    
-    Thay $t = 7/6$ vào hàm số để tìm giá trị nhỏ nhất của $d^2$:
-    $ min(d^2) = 100 [ 18 (7/6)^2 - 42(7/6) + 25 ] $
-    $ min(d^2) = 100 [ 18 (49/36) - 49 + 25 ] $
-    $ min(d^2) = 100 [ 49/2 - 24 ] = 100 [ 24.5 - 24 ] = 100 dot 0.5 = 50 $
-    
-    Khoảng cách ngắn nhất giữa hai drone là $d_("min") = sqrt(50) = 5 sqrt(2) approx 7.07$ km.
-    Bài toán yêu cầu tính giá trị của $d^2$, ta thu được kết quả là *$50$*.
+    Xác suất cần tính là:
+    $ P = 800 / 1140 = 40 / 57 $
+    $ 1000 P = 1000 dot 40 / 57 approx 701.75 $
+    Làm tròn đến hàng đơn vị ta được kết quả *$702$*.
     
     #nhanxet[
-      Bài toán tìm khoảng cách ngắn nhất giữa hai vật thể chuyển động có thể được giải cực nhanh bằng vật lý: Coi hệ quy chiếu gắn với Drone 1 (Drone 1 đứng yên). Vận tốc tương đối của Drone 2 so với Drone 1 là $arrow(v)_(21) = arrow(v)_2 - arrow(v)_1$. Khi đó quỹ đạo tương đối của Drone 2 là một đường thẳng, và khoảng cách ngắn nhất chính là *khoảng cách từ A đến đường thẳng đó*.
+      Đại bác Vách ngăn Euler tính thẳng ra kết quả chỉ trong $1$ dòng mà không cần phân tích rườm rà.
     ]
   ]
 )
 
 #tln(
-  [Trên màn hình radar phòng không (với mặt phẳng tọa độ $O x y$, đơn vị kilômét), một UAV mục tiêu xuất hiện tại điểm $A(50; 5)$ và bay thẳng đều với vectơ vận tốc $arrow(v)_1 = (-7; 3)$ km/phút. Ngay tại thời điểm đó, từ trạm phòng không tại gốc tọa độ $O(0;0)$, một tên lửa đánh chặn được phóng đi với tốc độ không đổi $v_2 = 5$ km/phút để đón đầu UAV. Giả sử cả hai bay trên cùng một mặt phẳng, hãy tính thời gian $t$ (phút) kể từ lúc phóng đến khi tên lửa tiêu diệt được mục tiêu.],
-  [$5$],
-  fig: cetz.canvas(length: 1cm, {
+  [Cho đa giác đều $(H)$ có $24$ đỉnh nội tiếp đường tròn. Chọn ngẫu nhiên $4$ đỉnh của $(H)$ để tạo thành một tứ giác. Gọi $P$ là xác suất để tứ giác được chọn *chung đúng 2 cạnh* với đa giác $(H)$. Hãy tính $1000P$ (làm tròn kết quả đến hàng đơn vị).],
+  [$26$],
+  fig: cetz.canvas(length: 1.2cm, {
     import cetz.draw: *
-    
-    // Lưới tọa độ minh họa
-    rect((-0.5, -0.5), (5.5, 3), stroke: luma(200) + 0.5pt, fill: rgb("F8F9FA"))
-    line((-0.5, 0), (5.8, 0), mark: (end: ">"), stroke: 0.8pt)
-    line((0, -0.5), (0, 3.2), mark: (end: ">"), stroke: 0.8pt)
-    content((5.8, -0.2), $x$, anchor: "north")
-    content((-0.2, 3.2), $y$, anchor: "east")
-    
-    // Tọa độ thực chia 10 để vẽ
-    let start-uav = (5, 0.5)
-    let intercept-pt = (1.5, 2.0)
-    
-    // Trạm phòng không O
-    circle((0,0), radius: 1.5pt, fill: red)
-    content((-0.2, -0.2), $O$, anchor: "north-east", fill: red)
-    
-    // Vị trí ban đầu của UAV
-    circle(start-uav, radius: 1.5pt, fill: black)
-    content(start-uav, $A$, anchor: "north-west", padding: 3pt)
-    
-    // Quỹ đạo UAV
-    line(start-uav, intercept-pt, mark: (end: ">"), stroke: (dash: "dashed", paint: black, thickness: 0.8pt))
-    content((3.5, 1.5), $arrow(v)_1$, anchor: "south-west")
-    
-    // Quỹ đạo tên lửa
-    line((0,0), intercept-pt, mark: (end: ">"), stroke: red + 1.2pt)
-    content((0.7, 1.2), text(fill: red)[$v_2 = 5$], anchor: "south-east")
-    
-    // Điểm đánh chặn
-    circle(intercept-pt, radius: 2pt, fill: rgb("FFA500"))
-    content(intercept-pt, text(weight: "bold", fill: rgb("D2691E"))[Mục tiêu bị diệt], anchor: "south", padding: 4pt)
+    circle((0,0), radius: 2, stroke: black + 0.8pt)
+    let n = 24
+    let step = 360deg / n
+    for i in range(n) { circle((90deg - i * step, 2), radius: 1pt, fill: gray) }
+    // Tứ giác chung 2 cạnh rời nhau
+    let p1 = (90deg, 2)
+    let p2 = (90deg - 1 * step, 2)
+    let p3 = (90deg - 8 * step, 2)
+    let p4 = (90deg - 9 * step, 2)
+    line(p1, p2, stroke: red + 1.5pt)
+    line(p3, p4, stroke: red + 1.5pt)
+    line(p1, p2, p3, p4, close: true, stroke: green.darken(20%) + 1pt, fill: rgb("00800020"))
+    content((0,-2.3), text(size: 9pt)[Tứ giác có 2 cạnh chung rời nhau])
   }),
   fig-pos: "right",
-  fig-width: 45%,
+  fig-width: 35%,
   loigiai: [
     #ppgiai[
-      - *Bước 1:* Lập phương trình tham số tọa độ của mục tiêu (UAV) theo thời gian $t$.
-      - *Bước 2:* Tính bình phương khoảng cách từ trạm $O$ đến mục tiêu $M(t)$.
-      - *Bước 3:* Quãng đường tên lửa bay được trong thời gian $t$ là $S = v_2 dot t$. Bình phương quãng đường này phải bằng bình phương khoảng cách $O M^2$.
-      - *Bước 4:* Giải phương trình bậc hai ẩn $t$ và chọn nghiệm dương nhỏ nhất (thời điểm va chạm đầu tiên).
+      Tứ giác chung đúng 2 cạnh có $2$ trường hợp xảy ra:
+      - TH1: 2 cạnh chung đó *kề nhau* (chọn cụm 4 đỉnh liên tiếp).
+      - TH2: 2 cạnh chung đó *rời nhau* (chọn 2 đoạn thẳng tách biệt trên đường tròn).
     ]
     
-    Gọi $t > 0$ (phút) là thời gian bay cho đến khi đánh chặn thành công.
-    Tọa độ của mục tiêu UAV tại thời điểm $t$ là:
-    $ M(t) = (x_A + v_(1x) t ; y_A + v_(1y) t) = (50 - 7t ; 5 + 3t) $
+    Tổng số tứ giác tạo thành: $n(Omega) = C_24^4 = 10626$.
     
-    Khoảng cách từ trạm $O(0;0)$ đến mục tiêu $M(t)$ lúc này là đoạn $O M$. Bình phương khoảng cách:
-    $ O M^2 = (50 - 7t)^2 + (5 + 3t)^2 $
-    $ O M^2 = (2500 - 700t + 49t^2) + (25 + 30t + 9t^2) $
-    $ O M^2 = 58t^2 - 670t + 2525 quad (1) $
+    *Trường hợp 1: Tứ giác có 2 cạnh kề nhau.*
+    Nghĩa là $4$ đỉnh của tứ giác là $4$ đỉnh liên tiếp của đa giác gốc. 
+    Cứ bắt đầu từ một đỉnh $A_i$ và lấy thêm $3$ đỉnh tiếp theo, ta được $1$ tứ giác. Có $24$ đỉnh nên có đúng *$24$* tứ giác loại này.
     
-    Mặt khác, tên lửa bay từ $O$ với tốc độ không đổi $v_2 = 5$ km/phút. Quãng đường tên lửa bay được trong thời gian $t$ là $S = 5t$. 
-    Để đánh chặn thành công, tên lửa phải chạm đúng vị trí $M(t)$, nghĩa là:
-    $ O M^2 = S^2 => O M^2 = (5t)^2 = 25t^2 quad (2) $
+    *Trường hợp 2: Tứ giác có 2 cạnh rời nhau.*
+    Đa giác có $24$ cạnh. Số cách chọn $2$ cạnh bất kỳ là $C_24^2 = 276$.
+    Trong số này, có $24$ cặp cạnh là kề nhau (chung đỉnh). Vậy số cách chọn $2$ cạnh rời nhau là:
+    $ 276 - 24 = 252 " (cặp cạnh)" $
+    Khi nối $4$ đầu mút của $2$ cạnh rời nhau này, ta thu được một tứ giác. Tứ giác này đã mang sẵn $2$ cạnh của đa giác. Các cạnh còn lại của tứ giác là các dây cung nối chéo, không thể trùng với cạnh đa giác gốc (do $2$ cạnh được chọn đã rời nhau). Do đó, tứ giác sinh ra thoả mãn chung *đúng $2$ cạnh*.
+    Vậy có đúng *$252$* tứ giác loại này.
     
-    Từ $(1)$ và $(2)$ ta có phương trình:
-    $ 58t^2 - 670t + 2525 = 25t^2 $
-    $ 33t^2 - 670t + 2525 = 0 $
+    Tổng số tứ giác chung đúng 2 cạnh là:
+    $ n("Chung đúng 2 cạnh") = 24 + 252 = 276 $
     
-    Tính $Delta' = 335^2 - 33 dot 2525 = 112225 - 83325 = 28900$. Suy ra $sqrt(Delta') = 170$.
-    Phương trình có hai nghiệm:
-    $ cases(
-      t_1 = (335 - 170)/33 = 165/33 = 5,
-      t_2 = (335 + 170)/33 = 505/33 approx 15.3
-    ) $
+    #text(style: "italic", weight: "bold")[
+      (Chú thích: Nếu dùng Đại bác vách ngăn Euler với tứ giác: Chọn 4 đỉnh chia thành 4 vách $x_1, x_2, x_3, x_4$. Để chung đúng 2 cạnh, thì có 2 vách bằng 0 và 2 vách $>= 1$. 
+      - Hai vách 0 kề nhau sinh ra 24 cấu hình. 
+      - Hai vách 0 rời nhau sinh ra 252 cấu hình. Hoàn toàn khớp!)
+    ]
     
-    Thời điểm đánh chặn thành công là lần gặp nhau đầu tiên, do đó ta chọn $t = 5$ (phút).
-    Tại $t=5$, vị trí đánh chặn là $M(50 - 35; 5 + 15) = M(15; 20)$. Quãng đường bay của tên lửa là $sqrt(15^2 + 20^2) = 25$ km (đúng bằng $5 dot 5$).
+    Xác suất là:
+    $ P = 276 / 10626 = 46 / 1771 $
     
-    Vậy thời gian cần thiết là *$5$* phút.
+    $ 1000 P = 1000 dot 46 / 1771 approx 25.97 $
+    Làm tròn đến hàng đơn vị ta được kết quả *$26$*.
   ]
 )
 

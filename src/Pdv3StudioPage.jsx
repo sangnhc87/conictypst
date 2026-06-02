@@ -354,6 +354,7 @@ const QuestionCard = ({ question }) => {
 
 const Pdv3StudioPage = () => {
     const textareaRef = useRef(null);
+    const sourceFileInputRef = useRef(null);
     const [source, setSource] = useState(DEFAULT_PDV3_SOURCE);
     const [isExporting, setIsExporting] = useState(false);
     const [isCopying, setIsCopying] = useState(false);
@@ -451,6 +452,22 @@ const Pdv3StudioPage = () => {
             toast.error('Không thể sao chép bản text sạch.');
         } finally {
             setIsCopying(false);
+        }
+    };
+
+    const handleSourceFileSelect = async (event) => {
+        const file = event.target.files?.[0];
+        if (!file) {
+            return;
+        }
+
+        try {
+            const nextSource = await file.text();
+            updateSource(nextSource, `Đã nạp ${file.name}.`);
+        } catch {
+            toast.error('Không thể đọc file nguồn.');
+        } finally {
+            event.target.value = '';
         }
     };
 
@@ -634,6 +651,13 @@ const Pdv3StudioPage = () => {
 
     return (
         <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(251,191,36,0.16),transparent_24%),radial-gradient(circle_at_top_right,rgba(20,184,166,0.12),transparent_28%),linear-gradient(180deg,#fffdf7_0%,#f8fafc_100%)] px-4 py-5 sm:px-6 lg:px-8">
+            <input
+                ref={sourceFileInputRef}
+                type="file"
+                accept=".tex,.txt,.md"
+                className="hidden"
+                onChange={handleSourceFileSelect}
+            />
             <div className="mx-auto max-w-[1500px] space-y-5">
                 <section className="overflow-hidden rounded-[32px] border border-slate-200 bg-white/90 p-6 shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur sm:p-8">
                     <div className="flex flex-col gap-5 xl:flex-row xl:items-start xl:justify-between">
@@ -646,7 +670,7 @@ const Pdv3StudioPage = () => {
                                 Phan De V3 Studio
                             </h1>
                             <p className="max-w-3xl text-base leading-7 text-slate-600 sm:text-lg">
-                                Dán nguồn, sửa nhanh, xem lỗi theo dòng và xuất DOCX trong một bố cục gọn hơn, đỡ rối mắt hơn.
+                                Dán hoặc mở file TeX/text, sửa nhanh, xem lỗi theo dòng và xuất DOCX trong một bố cục gọn hơn.
                             </p>
                             <div className="text-sm font-medium text-slate-500">
                                 Hỗ trợ cả chuẩn ex lẫn văn bản thường.
@@ -656,6 +680,9 @@ const Pdv3StudioPage = () => {
                         <div className="flex flex-wrap gap-2 xl:max-w-[360px] xl:justify-end">
                             <AppButton variant="outline" size="md" onClick={() => updateSource(DEFAULT_PDV3_SOURCE, 'Đã nạp ví dụ mẫu.') }>
                                 <FiLayers /> Nạp mẫu
+                            </AppButton>
+                            <AppButton variant="outline" size="md" onClick={() => sourceFileInputRef.current?.click()}>
+                                <FiFileText /> Mở .tex/.txt
                             </AppButton>
                             <AppButton variant="secondary" size="md" onClick={handleCopySource} disabled={isCopying}>
                                 <FiClipboard /> Sao chép nguồn

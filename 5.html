@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Lucky Light STEM</title>
+<style>
+    body {
+        font-family: Arial;
+        text-align: center;
+        background: #f5f5f5;
+    }
+    h1 { color: #2c3e50; }
+    .controls { margin: 15px; }
+    .bulb {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        display: inline-block;
+        margin: 4px;
+        background-color: red;
+    }
+    .green { background-color: green !important; }
+    .info {
+        margin-top: 15px;
+        font-size: 18px;
+    }
+</style>
+</head>
+
+<body>
+
+<h1>🎮 Lucky Light STEM</h1>
+
+<div class="controls">
+    Nhập số bóng: 
+    <input type="number" id="n" value="50">
+    <button onclick="init()">Khởi tạo</button>
+    <br><br>
+    <button onclick="step()">Chạy từng bước</button>
+    <button onclick="runAll()">Chạy nhanh</button>
+</div>
+
+<div id="bulbs"></div>
+
+<div class="info" id="info"></div>
+
+<script>
+let bulbs = [];
+let stepCount = 1;
+let n = 50;
+
+function init() {
+    n = parseInt(document.getElementById("n").value);
+    bulbs = new Array(n).fill(0); // 0: đỏ, 1: xanh
+    stepCount = 1;
+
+    const container = document.getElementById("bulbs");
+    container.innerHTML = "";
+
+    for (let i = 0; i < n; i++) {
+        let div = document.createElement("div");
+        div.className = "bulb";
+        div.id = "b" + i;
+        container.appendChild(div);
+    }
+
+    document.getElementById("info").innerHTML = "Đã khởi tạo!";
+}
+
+function step() {
+    if (stepCount > n) return;
+
+    for (let i = stepCount - 1; i < n; i += stepCount) {
+        bulbs[i] ^= 1;
+    }
+
+    updateUI();
+    document.getElementById("info").innerHTML = "Bước: " + stepCount;
+    stepCount++;
+}
+
+function runAll() {
+    while (stepCount <= n) {
+        step();
+    }
+    showResult();
+}
+
+function updateUI() {
+    for (let i = 0; i < n; i++) {
+        let div = document.getElementById("b" + i);
+        if (bulbs[i] === 1) {
+            div.classList.add("green");
+        } else {
+            div.classList.remove("green");
+        }
+    }
+}
+
+function showResult() {
+    let green = [];
+    let red = [];
+
+    for (let i = 0; i < n; i++) {
+        if (bulbs[i] === 1) green.push(i + 1);
+        else red.push(i + 1);
+    }
+
+    document.getElementById("info").innerHTML =
+        "✅ Xanh (chính phương): " + green.join(", ") +
+        "<br>✅ Số lượng: " + green.length +
+        "<br>🔴 Đỏ: " + red.length;
+}
+</script>
+
+</body>
+</html>

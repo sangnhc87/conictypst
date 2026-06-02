@@ -59,6 +59,7 @@
   ],
   fig: cetz.canvas(length: 1cm, {
     import cetz.draw: *
+      grid((-2,-2), (9, 7), step: 1, stroke: (paint: gray.lighten(80%), thickness: 0.5pt))
     
     // Tọa độ các điểm (mô phỏng trạng thái hình thang cân để giống hình gốc)
     // AD = 6, BC = 3. Hình chiếu của C và B xuống AD cách D và A một đoạn (6-3)/2 = 1.5
@@ -77,10 +78,10 @@
     line(b, a, stroke: (paint: blue, thickness: 1.5pt))
 
     // Vẽ các chốt bản lề
-    circle(d, radius: 2pt, fill: black)
-    circle(a, radius: 2pt, fill: black)
-    circle(c, radius: 2pt, fill: black)
-    circle(b, radius: 2pt, fill: black)
+    circle(d, radius: 2pt, fill: rgb("2C3E50"))
+    circle(a, radius: 2pt, fill: rgb("2C3E50"))
+    circle(c, radius: 2pt, fill: rgb("2C3E50"))
+    circle(b, radius: 2pt, fill: rgb("2C3E50"))
 
     // Gắn nhãn các điểm
     content(d, $D$, anchor: "south-east", padding: 5pt)
@@ -151,6 +152,7 @@
     #align(center)[
       #cetz.canvas(length: 1cm, {
         import cetz.draw: *
+      grid((-2,-2), (9, 7), step: 1, stroke: (paint: gray.lighten(80%), thickness: 0.5pt))
         let d = (0, 0)
         let a = (6, 0)
         let c = (1.5, 4.77)
@@ -162,10 +164,10 @@
         line(c, b, stroke: (paint: blue, thickness: 1.5pt))
         line(b, a, stroke: (paint: blue, thickness: 1.5pt))
 
-        circle(d, radius: 2pt, fill: black)
-        circle(a, radius: 2pt, fill: black)
-        circle(c, radius: 2pt, fill: black)
-        circle(b, radius: 2pt, fill: black)
+        circle(d, radius: 2pt, fill: rgb("2C3E50"))
+        circle(a, radius: 2pt, fill: rgb("2C3E50"))
+        circle(c, radius: 2pt, fill: rgb("2C3E50"))
+        circle(b, radius: 2pt, fill: rgb("2C3E50"))
 
         content(d, $D$, anchor: "south-east", padding: 5pt)
         content(a, $A$, anchor: "south-west", padding: 5pt)
@@ -258,6 +260,7 @@
     #align(center)[
       #cetz.canvas(length: 1cm, {
         import cetz.draw: *
+      grid((-2,-2), (9, 7), step: 1, stroke: (paint: gray.lighten(80%), thickness: 0.5pt))
         // Chọn một trạng thái bất kỳ để vẽ hình minh họa (Ví dụ B(4,3) và C(6,3))
         let a = (0, 0)
         let d = (6, 0)
@@ -273,10 +276,10 @@
         line(c, d, stroke: (paint: blue, thickness: 1.5pt))
 
         // Bản lề
-        circle(a, radius: 2pt, fill: black)
-        circle(d, radius: 2pt, fill: black)
-        circle(b, radius: 2pt, fill: black)
-        circle(c, radius: 2pt, fill: black)
+        circle(a, radius: 2pt, fill: rgb("2C3E50"))
+        circle(d, radius: 2pt, fill: rgb("2C3E50"))
+        circle(b, radius: 2pt, fill: rgb("2C3E50"))
+        circle(c, radius: 2pt, fill: rgb("2C3E50"))
 
         // Nhãn điểm
         content(a, $A$, anchor: "north-east", padding: 5pt)
@@ -371,6 +374,7 @@
     #align(center)[
       #cetz.canvas(length: 1cm, {
         import cetz.draw: *
+      grid((-2,-2), (9, 7), step: 1, stroke: (paint: gray.lighten(80%), thickness: 0.5pt))
         // Tọa độ thu nhỏ 1/2 để vừa trang: A(0,0), D(7,0), B(2.5, 6), C(4, 4)
         let a = (0, 0)
         let d = (7, 0)
@@ -383,10 +387,10 @@
         line(b, c, stroke: (paint: red, thickness: 1.5pt))
         line(c, d, stroke: (paint: blue, thickness: 1.5pt))
 
-        circle(a, radius: 2pt, fill: black)
-        circle(d, radius: 2pt, fill: black)
-        circle(b, radius: 2pt, fill: black)
-        circle(c, radius: 2pt, fill: black)
+        circle(a, radius: 2pt, fill: rgb("2C3E50"))
+        circle(d, radius: 2pt, fill: rgb("2C3E50"))
+        circle(b, radius: 2pt, fill: rgb("2C3E50"))
+        circle(c, radius: 2pt, fill: rgb("2C3E50"))
 
         content(a, $A$, anchor: "north-east", padding: 5pt)
         content(d, $D$, anchor: "north-west", padding: 5pt)
@@ -409,6 +413,7 @@
     #align(center)[
       #cetz.canvas(length: 1cm, {
         import cetz.draw: *
+      grid((-2,-2), (9, 7), step: 1, stroke: (paint: gray.lighten(80%), thickness: 0.5pt))
         let a = (0, 0)
         let d = (7, 0)
         let b = (2.5, 6)
@@ -431,9 +436,9 @@
         content((2.5, 3), $y$, anchor: "west", padding: 3pt)
         content(h, $H(x;0)$, anchor: "north", padding: 3pt)
         
-        circle(a, radius: 2pt, fill: black)
-        circle(d, radius: 2pt, fill: black)
-        circle(b, radius: 2pt, fill: black)
+        circle(a, radius: 2pt, fill: rgb("2C3E50"))
+        circle(d, radius: 2pt, fill: rgb("2C3E50"))
+        circle(b, radius: 2pt, fill: rgb("2C3E50"))
         content(d, $D(14;0)$, anchor: "north-west", padding: 3pt)
         content(b, $B(x;y)$, anchor: "south", padding: 5pt)
       })
@@ -466,6 +471,7 @@
     #align(center)[
       #cetz.canvas(length: 1cm, {
         import cetz.draw: *
+      grid((-2,-2), (9, 7), step: 1, stroke: (paint: gray.lighten(80%), thickness: 0.5pt))
         let a = (0, 0)
         let d = (7, 0)
         let b = (2.5, 6)
@@ -477,16 +483,16 @@
         line(b, d, stroke: (paint: red, thickness: 1.5pt))
         
         // Đánh dấu góc alpha
-        arc(a, start: 0deg, stop: 67.38deg, radius: 0.8, name: "ang")
+        arc((a.at(0) + 0.8, a.at(1)), start: 0deg, stop: 67.38deg, radius: 0.8, name: "ang")
         content((1.2, 0.5), $alpha$)
         
         // Đường cao
         line(b, (2.5, 0), stroke: (dash: "dashed", paint: green, thickness: 1pt))
         content((2.5, 3), $h_B$, anchor: "east", padding: 3pt)
 
-        circle(a, radius: 2pt, fill: black)
-        circle(d, radius: 2pt, fill: black)
-        circle(b, radius: 2pt, fill: black)
+        circle(a, radius: 2pt, fill: rgb("2C3E50"))
+        circle(d, radius: 2pt, fill: rgb("2C3E50"))
+        circle(b, radius: 2pt, fill: rgb("2C3E50"))
         
         content(a, $A$, anchor: "north", padding: 5pt)
         content(d, $D$, anchor: "north", padding: 5pt)
@@ -516,6 +522,7 @@
     #align(center)[
       #cetz.canvas(length: 1cm, {
         import cetz.draw: *
+      grid((-2,-2), (9, 7), step: 1, stroke: (paint: gray.lighten(80%), thickness: 0.5pt))
         let a = (0, 0)
         let d = (7, 0)
         let b = (2.5, 6)
@@ -533,9 +540,9 @@
         content((3, 2), text(fill: blue, weight: "bold")[$S_(A B D)$ lớn nhất])
         content((5, 3.5), $B D in [5; 15]$)
 
-        circle(a, radius: 2pt, fill: black)
-        circle(d, radius: 2pt, fill: black)
-        circle(b, radius: 2pt, fill: black)
+        circle(a, radius: 2pt, fill: rgb("2C3E50"))
+        circle(d, radius: 2pt, fill: rgb("2C3E50"))
+        circle(b, radius: 2pt, fill: rgb("2C3E50"))
       })
     ]
 
@@ -568,6 +575,7 @@
     #align(center)[
       #cetz.canvas(length: 0.15cm, {
         import cetz.draw: *
+      grid((-2,-2), (9, 7), step: 1, stroke: (paint: gray.lighten(80%), thickness: 0.5pt))
         // Vẽ trạng thái ngẫu nhiên
         let a = (0, 0)
         let b = (5, 14.1)
@@ -579,10 +587,10 @@
         line(c, d, stroke: (paint: blue, thickness: 1.5pt))
         line(d, a, stroke: (paint: red, thickness: 1.5pt))
 
-        circle(a, radius: 4pt, fill: black)
-        circle(b, radius: 4pt, fill: black)
-        circle(c, radius: 4pt, fill: black)
-        circle(d, radius: 4pt, fill: black)
+        circle(a, radius: 4pt, fill: rgb("2C3E50"))
+        circle(b, radius: 4pt, fill: rgb("2C3E50"))
+        circle(c, radius: 4pt, fill: rgb("2C3E50"))
+        circle(d, radius: 4pt, fill: rgb("2C3E50"))
 
         content(a, $A$, anchor: "east", padding: 5pt)
         content(b, $B$, anchor: "south", padding: 5pt)
@@ -603,6 +611,7 @@
     #align(center)[
       #cetz.canvas(length: 0.15cm, {
         import cetz.draw: *
+      grid((-2,-2), (9, 7), step: 1, stroke: (paint: gray.lighten(80%), thickness: 0.5pt))
         // Trạng thái tối ưu (Góc vuông)
         let a = (0, 0)
         let c = (25, 0)
@@ -623,10 +632,10 @@
         line((7.8, 11.1), (8.7, 10.5), (9.9, 11.3), stroke: 0.8pt)
         line((2.8, -5.6), (3.9, -6.5), (3.0, -7.5), stroke: 0.8pt)
 
-        circle(a, radius: 4pt, fill: black)
-        circle(b, radius: 4pt, fill: black)
-        circle(c, radius: 4pt, fill: black)
-        circle(d, radius: 4pt, fill: black)
+        circle(a, radius: 4pt, fill: rgb("2C3E50"))
+        circle(b, radius: 4pt, fill: rgb("2C3E50"))
+        circle(c, radius: 4pt, fill: rgb("2C3E50"))
+        circle(d, radius: 4pt, fill: rgb("2C3E50"))
         
         content((12.5, 1), $A C = 25$, anchor: "south")
         content(a, $A$, anchor: "east", padding: 5pt)
@@ -655,6 +664,7 @@
     #align(center)[
       #cetz.canvas(length: 0.15cm, {
         import cetz.draw: *
+      grid((-2,-2), (9, 7), step: 1, stroke: (paint: gray.lighten(80%), thickness: 0.5pt))
         // Vẽ trạng thái tổng quát để chứng minh
         let a = (0, 0)
         let b = (7, 13)
@@ -700,6 +710,7 @@
     #align(center)[
       #cetz.canvas(length: 0.15cm, {
         import cetz.draw: *
+      grid((-2,-2), (9, 7), step: 1, stroke: (paint: gray.lighten(80%), thickness: 0.5pt))
         let a = (0, 0)
         let c = (25, 0)
         let b = (9, 12)
@@ -714,10 +725,10 @@
         line(c, d, stroke: (paint: blue, thickness: 1.5pt))
         line(d, a, stroke: (paint: red, thickness: 1.5pt))
         
-        circle(a, radius: 4pt, fill: black)
-        circle(b, radius: 4pt, fill: black)
-        circle(c, radius: 4pt, fill: black)
-        circle(d, radius: 4pt, fill: black)
+        circle(a, radius: 4pt, fill: rgb("2C3E50"))
+        circle(b, radius: 4pt, fill: rgb("2C3E50"))
+        circle(c, radius: 4pt, fill: rgb("2C3E50"))
+        circle(d, radius: 4pt, fill: rgb("2C3E50"))
         circle(center, radius: 4pt, fill: gray)
 
         content(center, $I$, anchor: "south-east")
@@ -745,12 +756,13 @@
     Một vòm che di động (dùng cho các sự kiện ngoài trời) được thiết kế dưới dạng một khung cơ cấu phẳng gồm 3 thanh cứng $A B, B C, C D$ nối với nhau bằng các bản lề trơn. 
     Biết thanh mái $B C$ có chiều dài $17$ m và luôn được giữ song song với mặt đất nhờ hệ thống thủy lực. Hai thanh chống $A B$ và $C D$ có cùng chiều dài $10$ m. 
     Đầu $A$ được gắn cố định trên mặt đất, đầu $D$ được gắn vào một con trượt có thể di chuyển dọc theo mặt đất (đường thẳng đi qua $A$).
-    Người ta muốn điều chỉnh khoảng cách $A D$ sao cho **diện tích không gian bên dưới vòm che** (chính là diện tích hình thang cân $A B C D$) đạt giá trị **LỚN NHẤT** nhằm chứa được nhiều thiết bị nhất.
+    Người ta muốn điều chỉnh khoảng cách $A D$ sao cho *diện tích không gian bên dưới vòm che* (chính là diện tích hình thang cân $A B C D$) đạt giá trị *LỚN NHẤT* nhằm chứa được nhiều thiết bị nhất.
     Hỏi khoảng cách $A D$ lúc đó là bao nhiêu mét?
     
     #align(center)[
       #cetz.canvas(length: 0.3cm, {
         import cetz.draw: *
+      grid((-2,-2), (9, 7), step: 1, stroke: (paint: gray.lighten(80%), thickness: 0.5pt))
         let a = (0, 0)
         let d = (25, 0)
         let b = (4, 9.16)
@@ -768,9 +780,9 @@
         line(a, b, c, d, close: true, fill: rgb(0, 255, 0, 15%), stroke: none)
 
         // Bản lề và thanh trượt
-        circle(a, radius: 3pt, fill: black)
-        circle(b, radius: 3pt, fill: black)
-        circle(c, radius: 3pt, fill: black)
+        circle(a, radius: 3pt, fill: rgb("2C3E50"))
+        circle(b, radius: 3pt, fill: rgb("2C3E50"))
+        circle(c, radius: 3pt, fill: rgb("2C3E50"))
         rect((24.5, -0.5), (25.5, 0.5), fill: orange, stroke: black) // Con trượt tại D
 
         content(a, $A$, anchor: "north-east", padding: 5pt)
@@ -795,6 +807,7 @@
     #align(center)[
       #cetz.canvas(length: 0.3cm, {
         import cetz.draw: *
+      grid((-2,-2), (9, 7), step: 1, stroke: (paint: gray.lighten(80%), thickness: 0.5pt))
         let a = (0, 0)
         let d = (25, 0)
         let b = (4, 9.16)
@@ -864,6 +877,7 @@
     #align(center)[
       #cetz.canvas(length: 0.3cm, {
         import cetz.draw: *
+      grid((-2,-2), (9, 7), step: 1, stroke: (paint: gray.lighten(80%), thickness: 0.5pt))
         let a = (0, 0)
         let d = (25, 0)
         let b = (4, 9.16)
@@ -890,7 +904,7 @@
       })
     ]
 
-    Trong hình học có một định lý kinh điển ít người biết: **"Hình thang cân có 3 cạnh cố định đạt diện tích lớn nhất khi đường chéo vuông góc với cạnh bên"**.
+    Trong hình học có một định lý kinh điển ít người biết: *"Hình thang cân có 3 cạnh cố định đạt diện tích lớn nhất khi đường chéo vuông góc với cạnh bên"*.
     Thật vậy, hãy giả sử diện tích đang ở trạng thái lớn nhất, tức là $angle A B D = 90^degree$.
     
     Khi $Delta A B D$ vuông tại $B$ và có đường cao $B H$, theo hệ thức lượng trong tam giác vuông, ta phải có:
@@ -909,11 +923,12 @@
   [
     Trong một kho hàng tự động, một hệ thống cánh tay robot dạng thanh trượt thẳng ($A B$) được thiết kế để di chuyển tựa dọc theo vách tường thẳng đứng và mặt sàn nằm ngang. 
     Ở góc tường có đặt cố định một khối máy quét mã vạch hình hộp chữ nhật. Mặt cắt ngang của khối máy này có chiều rộng là $27$ cm và chiều cao là $64$ cm. 
-    Trong suốt quá trình trượt, thanh robot luôn phải chạm vào vách tường tại $A$, chạm sàn tại $B$ và tì lên góc $M$ của khối máy quét. Hãy tính chiều dài **ngắn nhất** mà thanh robot $A B$ cần có để không bị rơi khỏi khối máy (tính bằng centimet).
+    Trong suốt quá trình trượt, thanh robot luôn phải chạm vào vách tường tại $A$, chạm sàn tại $B$ và tì lên góc $M$ của khối máy quét. Hãy tính chiều dài *ngắn nhất* mà thanh robot $A B$ cần có để không bị rơi khỏi khối máy (tính bằng centimet).
     
     #align(center)[
       #cetz.canvas(length: 0.8cm, {
         import cetz.draw: *
+      grid((-2,-2), (9, 7), step: 1, stroke: (paint: gray.lighten(80%), thickness: 0.5pt))
         // Tọa độ đã thu nhỏ 1/10 (2.7 và 6.4)
         let a = (0, 10)
         let b = (7.5, 0)
@@ -932,8 +947,8 @@
         line(a, b, stroke: (paint: blue, thickness: 2.5pt))
 
         // Điểm tì
-        circle(a, radius: 3pt, fill: black)
-        circle(b, radius: 3pt, fill: black)
+        circle(a, radius: 3pt, fill: rgb("2C3E50"))
+        circle(b, radius: 3pt, fill: rgb("2C3E50"))
         circle(m, radius: 3pt, fill: red)
 
         content(a, $A$, anchor: "east", padding: 5pt)
@@ -963,6 +978,7 @@
     #align(center)[
       #cetz.canvas(length: 0.6cm, {
         import cetz.draw: *
+      grid((-2,-2), (9, 7), step: 1, stroke: (paint: gray.lighten(80%), thickness: 0.5pt))
         let a = (0, 10)
         let b = (7.5, 0)
         let m = (2.7, 6.4)
@@ -976,9 +992,9 @@
         line((0, 6.4), m, stroke: (dash: "dashed"))
         
         // Góc alpha
-        arc(b, start: 180deg, stop: 126.87deg, radius: 1.5)
+        arc((b.at(0) - 1.5, b.at(1)), start: 180deg, stop: 126.87deg, radius: 1.5)
         content((5.5, 0.5), $alpha$)
-        arc(m, start: 180deg, stop: 126.87deg, radius: 1.5)
+        arc((m.at(0) - 1.5, m.at(1)), start: 180deg, stop: 126.87deg, radius: 1.5)
         content((1.2, 6.9), $alpha$)
         
         content((1.35, 6.4), $27$, anchor: "south", padding: 3pt)
@@ -1009,6 +1025,7 @@
     #align(center)[
       #cetz.canvas(length: 0.6cm, {
         import cetz.draw: *
+      grid((-2,-2), (9, 7), step: 1, stroke: (paint: gray.lighten(80%), thickness: 0.5pt))
         let a = (0, 10)
         let b = (7.5, 0)
         let m = (2.7, 6.4)
@@ -1036,7 +1053,7 @@
 
     #text(fill: blue, weight: "bold")[Cách 3: Đòn "Cốt Tử" - Bất đẳng thức Hölder (Cách của Thủ khoa)]
     
-    Nếu bạn muốn một dòng duy nhất để triệt hạ bài toán này mà không cần đạo hàm, hãy dùng **Bất đẳng thức Hölder** (phiên bản 3 dãy số). 
+    Nếu bạn muốn một dòng duy nhất để triệt hạ bài toán này mà không cần đạo hàm, hãy dùng *Bất đẳng thức Hölder* (phiên bản 3 dãy số). 
     *Nhắc lại BĐT Hölder:* $ (a^3+b^3)(c^3+d^3)(e^3+f^3) >= (a c e + b d f)^3. $
     
     Hãy thiết lập 3 dãy số cực kỳ tinh tế như sau:

@@ -1,0 +1,81 @@
+Created At: 2026-05-26T03:45:11Z
+Completed At: 2026-05-26T03:45:12Z
+File Path: `file:///Users/admin/conictypst/typst/exams/CD-XepGhe-KhongKe.typ`
+Total Lines: 3124
+Total Bytes: 127911
+Showing lines 1800 to 1920
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1800:   *Cách giải bằng Phương pháp Hệ phương trình cột đặc trưng:*
+1801: 
+1802:   *Bước 1: Thiết lập hệ phương trình cột đặc trưng*
+1803:   Vì không có ghế trống, mỗi cột gồm 2 ghế đối diện nhau phải chứa 2 học sinh khác lớp. Các loại cột có thể có là:
+1804:   - Loại 1: $\{A, B\}$ (số lượng $x$)
+1805:   - Loại 2: $\{A, C\}$ (số lượng $y$)
+1806:   - Loại 3: $\{B, C\}$ (số lượng $z$)
+1807: 
+1808:   Hệ phương trình bảo toàn số lượng học sinh và cột:
+1809:   $
+1810:     cases(
+1811:       x + y + z = 3 & " (tổng số cột)",
+1812:       x + y = 2 & " (số chữ A)",
+1813:       x + z = 2 & " (số chữ B)",
+1814:       y + z = 2 & " (số chữ C)"
+1815:     )
+1816:   $
+1817:   Giải hệ phương trình này, ta thu được nghiệm duy nhất:
+1818:   $ x = 1, y = 1, z = 1 $
+1819:   Có nghĩa là mỗi cấu trúc hợp lệ bắt buộc phải chứa đúng: 1 cột $\{A, B\}$ (kí hiệu $X$), 1 cột $\{A, C\}$ (kí hiệu $Y$), và 1 cột $\{B, C\}$ (kí hiệu $Z$).
+1820: 
+1821:   Số cách xếp thứ tự 3 cột này thành một hàng ngang là:
+1822:   $ 3! = 6 " cách xếp cột." $
+1823: 
+1824:   *Bước 2: Biện luận hướng xoay (orientation)*
+1825:   Với mỗi cách xếp thứ tự cột, khi ta chọn hướng cho một cột bất kỳ (có 2 cách chọn hướng), hướng của các cột tiếp theo sẽ bị ràng buộc duy nhất để tránh kề trùng hàng.
+1826:   Ví dụ cụ thể cho thứ tự cột $X - 
+<truncated 2512 bytes>
+] ── [A] ── [B]`
+1877:           ],
+1878:         )
+1879:       ],
+1880:     )
+1881:   ]
+1882: 
+1883:   *Bước 3: Tính số cách xếp cho học sinh phân biệt*
+1884:   Xếp các học sinh phân biệt vào các lớp tương ứng:
+1885:   $ N = 12 " (cấu trúc)" times 2! " (A)" times 2! " (B)" times 2! " (C)" = 96 " cách." $
+1886: ]
+1887: 
+1888: #ans-box[
+1889:   Số cách xếp thỏa mãn yêu cầu đề bài là *96 cách*.
+1890: ]
+1891: = Câu tương tự 1
+1892: 
+1893: *Đề bài:* Có 2 học sinh lớp A, 2 học sinh lớp B và 2 học sinh lớp C. Xếp các học sinh vào 6 ghế chia thành 2 hàng song song đối diện nhau, mỗi hàng gồm 3 ghế. Tính số cách xếp sao cho không có 2 học sinh cùng lớp nào ngồi kề nhau cùng hàng hoặc ngồi đối diện nhau khác hàng.
+1894: 
+1895: #cach1-box[
+1896:   *Cách giải bằng Phương pháp Hệ phương trình cột đặc trưng:*
+1897: 
+1898:   *Bước 1: Xét cấu trúc lớp theo từng cột đối diện*
+1899: 
+1900:   Vì hai học sinh ngồi đối diện nhau không được cùng lớp, nên mỗi cột gồm 2 ghế đối diện phải chứa 2 học sinh khác lớp.
+1901: 
+1902:   Các loại cột có thể có là:
+1903:   - Loại 1: $\{A, B\}$, gọi số cột là $x$
+1904:   - Loại 2: $\{A, C\}$, gọi số cột là $y$
+1905:   - Loại 3: $\{B, C\}$, gọi số cột là $z$
+1906: 
+1907:   Ta có hệ phương trình:
+1908:   $
+1909:     cases(
+1910:       x + y + z = 3 & " (tổng số cột)",
+1911:       x + y = 2 & " (số chữ A)",
+1912:       x + z = 2 & " (số chữ B)",
+1913:       y + z = 2 & " (số chữ C)"
+1914:     )
+1915:   $
+1916: 
+1917:   Giải hệ, ta được:
+1918:   $x = 1, y = 1, z = 1.$
+1919: 
+1920:   Vậy mỗi cách xếp hợp lệ bắt buộc có đúng:
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

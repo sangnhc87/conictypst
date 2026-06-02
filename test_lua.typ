@@ -1,2 +1,0 @@
-XYZCAUHOIZYX *Câu 1:*
-a) XYZTABZYX b)

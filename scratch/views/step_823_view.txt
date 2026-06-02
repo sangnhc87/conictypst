@@ -1,0 +1,101 @@
+Created At: 2026-05-26T03:47:13Z
+Completed At: 2026-05-26T03:47:13Z
+File Path: `file:///Users/admin/conictypst/typst/exams/CD-XepGhe-KhongKe.typ`
+Total Lines: 3124
+Total Bytes: 127911
+Showing lines 1 to 100
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: #import "../sang-exam.typ": *
+2: #import "../template.typ": *
+3: #import "@preview/cetz:0.5.2"
+4: 
+5: // ═══════════════════════════════════════════════
+6: // CẤU HÌNH TRANG
+7: // ═══════════════════════════════════════════════
+8: #set page(paper: "a4", margin: (x: 1.4cm, y: 1.8cm))
+9: #set text(font: "New Computer Modern", size: 11pt, lang: "vi")
+10: #set par(justify: true, leading: 0.85em)
+11: #set list(indent: 1em, body-indent: 0.5em)
+12: #set enum(indent: 0.5em, body-indent: 0.5em)
+13: 
+14: #show heading.where(level: 1): it => block(
+15:   width: 100%,
+16:   fill: gradient.linear(rgb("4A148C"), rgb("6A1B9A"), rgb("880E4F"), angle: 135deg),
+17:   stroke: none,
+18:   inset: (x: 15pt, y: 11pt),
+19:   radius: 7pt,
+20:   above: 1.8em,
+21:   below: 1.2em,
+22:   text(fill: white, size: 14pt, weight: "bold", it.body),
+23: )
+24: #show heading.where(level: 2): it => block(
+25:   above: 1.5em,
+26:   below: 0.8em,
+27:   stroke: (left: 4pt + rgb("6A1B9A")),
+28:   inset: (left: 10pt, y: 5pt),
+29:   text(fill: rgb("6A1B9A"), size: 12pt, weight: "bold", it.body),
+30: )
+31: #show heading.where(level: 3): it => block(
+32:   above: 1.2em,
+33:   below: 0.5em,
+34:   text(fill: rgb("1565C0"), size: 11pt, weight: "bold", "⬧ " + it.body),
+35: )
+36: 
+37: #let mode = "loigiai"
+38: #let accent = classic.blue
+39: #let (tn, ds, tln, tl) = exam-mode(mode: mode, accent: accent)
+40: #show math.equation: set 
+<truncated 446 bytes>
+l-green = rgb("2E7D32")
+50: #let col-red = rgb("C62828")
+51: #let col-teal = rgb("006064")
+52: #let col-pink = rgb("880E4F")
+53: 
+54: // ─── Hộp Lý Thuyết ─────────────────────────────
+55: #let rev-box(title: none, body) = block(
+56:   fill: rgb("EDE7F6"),
+57:   stroke: (left: 4pt + col-purple, rest: 0.8pt + rgb("CE93D8")),
+58:   radius: (right: 7pt),
+59:   inset: (x: 16pt, y: 14pt),
+60:   width: 100%,
+61: )[
+62:   #if title != none [
+63:     #text(fill: col-purple, size: 11pt, weight: "bold")[#title]
+64:     #v(0.4em)
+65:   ]
+66:   #body
+67: ]
+68: 
+69: // ─── Hộp Ví Dụ Trực Quan ───────────────────────
+70: #let eg-box(title: "🎯 Ví Dụ Trực Quan", body) = block(
+71:   fill: rgb("E8F5E9"),
+72:   stroke: (left: 4pt + col-green, rest: 0.6pt + rgb("A5D6A7")),
+73:   radius: (right: 6pt),
+74:   inset: (x: 14pt, y: 11pt),
+75:   width: 100%,
+76: )[
+77:   #text(fill: col-green, weight: "bold")[#title]
+78:   #v(0.3em)
+79:   #body
+80: ]
+81: 
+82: // ─── Hộp Nhận Xét ───────────────────────────────
+83: #let note-box(title: "📌 Nhận Xét", body) = block(
+84:   fill: rgb("FFF8E1"),
+85:   stroke: (left: 4pt + col-amber, rest: 0.6pt + rgb("FFCC80")),
+86:   radius: (right: 6pt),
+87:   inset: (x: 14pt, y: 11pt),
+88:   width: 100%,
+89: )[
+90:   #text(fill: col-amber, weight: "bold")[#title]
+91:   #v(0.3em)
+92:   #body
+93: ]
+94: 
+95: // ─── Hộp Kết Luận ───────────────────────────────
+96: #let ans-box(body) = block(
+97:   fill: rgb("F1F8E9"),
+98:   stroke: (left: 4pt + col-green, rest: 0.6pt + rgb("A5D6A7")),
+99:   radius: (right: 6pt),
+100:   inset: (x: 14pt, y: 11pt),
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

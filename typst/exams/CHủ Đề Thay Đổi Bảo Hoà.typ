@@ -519,3 +519,445 @@
     $=>$ Mệnh đề d *Sai*.
   ]
 )
+
+
+
+= Phần 3: Bài tập vận dụng kiến thức về hàm logistic trong các tình huống thực tế (tiếp theo)
+
+#ds(
+  [Quan sát sự phát triển của một quần thể vi khuẩn trong môi trường nuôi cấy hạn chế, cho ta kết quả:
+
+  $bullet$ *Giai đoạn 1:* từ $t=0$ đến $t=4$ giờ, số lượng vi khuẩn tăng trưởng theo hàm mũ
+  $N(t)=60e^(0.5t)$, với $t$ tính bằng giờ, $N$ tính bằng nghìn cá thể.
+
+  $bullet$ *Giai đoạn 2:* sau $4$ giờ, do nguồn dinh dưỡng cạn kiệt, tốc độ tăng trưởng giảm dần. Từ thời điểm này, số lượng vi khuẩn tuân theo hàm số
+  $M(t)=A-B e^(-0.4t)$.
+
+  Biết tốc độ tăng trưởng của quần thể vi khuẩn này là một hàm liên tục trên $t in [0;+oo)$. Hỏi trong các mệnh đề dưới đây, mệnh đề nào *đúng*, mệnh đề nào *sai*?],
+  (
+    [Số lượng vi khuẩn ban đầu là $60$ con.],
+    True[$B=75e^2$.],
+    True[$A=135e^2$.],
+    [Sau khoảng thời gian rất lớn số lượng vi khuẩn đạt ổn định $999$ nghìn con, tính theo đơn vị nghìn và làm tròn kết quả đến hàng đơn vị.]
+  ),
+  loigiai: [
+    #step[Đọc đề theo dạng hệ đa trị]
+
+    Cụm từ *“Từ thời điểm này”* cho thấy hàm ở giai đoạn 2 được tính từ sau giờ thứ $4$. Đặt $u=t-4$, ta hiểu mô hình theo hai giai đoạn:
+
+    $ cases(
+      N(t)=60e^(0.5t) &\, 0 <= t <= 4,
+      M(u)=A-B e^(-0.4u) &\, u >= 0
+    ) $
+
+    Tại thời điểm chuyển giai đoạn, số lượng và tốc độ tăng trưởng liên tục nên $M(0)=N(4)$ và $M'(0)=N'(4)$.
+
+    Ta có $N(4)=60e^2$, $N'(t)=30e^(0.5t)$ nên $N'(4)=30e^2$.
+
+    Mặt khác, $M(0)=A-B$ và $M'(u)=0.4B e^(-0.4u)$ nên $M'(0)=0.4B$.
+
+    Do đó $A-B=60e^2$ và $0.4B=30e^2$. Suy ra $B=75e^2$ và $A=135e^2$.
+
+    #step[Kiểm tra các mệnh đề]
+
+    a) $N(0)=60$, nhưng $N$ tính bằng nghìn cá thể nên ban đầu có $60000$ con, không phải $60$ con. Mệnh đề a *Sai*.
+
+    b) Từ hệ trên, $B=75e^2$. Mệnh đề b *Đúng*.
+
+    c) Từ $A-B=60e^2$ và $B=75e^2$, suy ra $A=135e^2$. Mệnh đề c *Đúng*.
+
+    d) Khi thời gian rất lớn, $e^(-0.4u) -> 0$ nên số lượng ổn định là $A=135e^2 approx 997.5$ nghìn cá thể. Làm tròn đến hàng đơn vị được $998$ nghìn con, không phải $999$ nghìn con. Mệnh đề d *Sai*.
+  ]
+)
+
+#ds(
+  [Trong bình lên men, người ta ghi nhận:
+
+  $bullet$ *Giai đoạn 1:* từ $t=0$ đến $t=3$ giờ, số lượng nấm men tăng theo hàm mũ
+  $N(t)=40e^(0.6t)$, với $t$ tính bằng giờ, $N$ tính bằng triệu tế bào.
+
+  $bullet$ *Giai đoạn 2:* sau $3$ giờ, do lượng đường giảm dần, tốc độ tăng trưởng chậm lại. Từ thời điểm này, số lượng nấm men tuân theo hàm số
+  $M(t)=A-B e^(-0.3t)$.
+
+  Biết tốc độ tăng trưởng của quần thể nấm men là một hàm liên tục trên $t in [0;+oo)$. Hỏi trong các mệnh đề dưới đây, mệnh đề nào *đúng*, mệnh đề nào *sai*?],
+  (
+    [Số lượng nấm men ban đầu là $40$ tế bào.],
+    True[$B=80e^(1.8)$.],
+    True[$A=120e^(1.8)$.],
+    [Sau thời gian rất lớn, số lượng nấm men ổn định xấp xỉ $727$ triệu tế bào, làm tròn đến hàng đơn vị.]
+  ),
+  loigiai: [
+    #step[Đọc đề theo dạng hệ hai giai đoạn]
+
+    Cụm từ *“Từ thời điểm này”* cho thấy hàm ở giai đoạn 2 được tính từ sau giờ thứ $3$. Đặt $u=t-3$, ta hiểu mô hình là:
+
+    $ cases(
+      N(t)=40e^(0.6t) &\, 0 <= t <= 3,
+      M(u)=A-B e^(-0.3u) &\, u >= 0
+    ) $
+
+    Tại thời điểm chuyển giai đoạn, số lượng và tốc độ tăng trưởng liên tục nên $M(0)=N(3)$ và $M'(0)=N'(3)$.
+
+    Ta có:
+    $N(3)=40e^(1.8)$.
+
+    Lại có:
+    $N'(t)=24e^(0.6t)$ nên $N'(3)=24e^(1.8)$.
+
+    Mặt khác:
+    $M(0)=A-B$ và $M'(u)=0.3B e^(-0.3u)$ nên $M'(0)=0.3B$.
+
+    Do đó:
+    $A-B=40e^(1.8)$ và $0.3B=24e^(1.8)$.
+
+    Suy ra:
+    $B=80e^(1.8)$ và $A=120e^(1.8)$.
+
+    #step[Kiểm tra các mệnh đề]
+
+    a) $N(0)=40$, nhưng $N$ tính bằng triệu tế bào nên ban đầu có $40$ triệu tế bào, không phải $40$ tế bào. Mệnh đề a *Sai*.
+
+    b) Ta có $B=80e^(1.8)$. Mệnh đề b *Đúng*.
+
+    c) Ta có $A=120e^(1.8)$. Mệnh đề c *Đúng*.
+
+    d) Khi thời gian rất lớn, $e^(-0.3u)->0$ nên số lượng ổn định là:
+    $A=120e^(1.8) approx 725.6$ triệu tế bào.
+
+    Làm tròn đến hàng đơn vị được $726$ triệu tế bào, không phải $727$ triệu tế bào. Mệnh đề d *Sai*.
+  ]
+)
+
+#ds(
+  [Một hồ nuôi cá được thả giống và theo dõi trong thời gian dài. Số lượng cá trong hồ được mô hình hóa như sau:
+
+  $bullet$ *Giai đoạn 1:* từ $t=0$ đến $t=5$ tháng, số lượng cá tăng theo hàm mũ
+  $N(t)=12e^(0.2t)$, với $t$ tính bằng tháng, $N$ tính bằng nghìn con.
+
+  $bullet$ *Giai đoạn 2:* sau $5$ tháng, do diện tích hồ và lượng thức ăn có hạn, tốc độ tăng trưởng giảm dần. Từ thời điểm này, số lượng cá tuân theo hàm số
+  $M(t)=A-B e^(-0.1t)$.
+
+  Biết tốc độ tăng trưởng của số lượng cá là một hàm liên tục trên $t in [0;+oo)$. Hỏi trong các mệnh đề dưới đây, mệnh đề nào *đúng*, mệnh đề nào *sai*?],
+  (
+    [Lúc ban đầu hồ có $12000$ con cá.],
+    True[$B=24e$.],
+    [Ta có $A=30e$.],
+    True[Sau thời gian rất lớn, số lượng cá ổn định xấp xỉ $98$ nghìn con, làm tròn đến hàng đơn vị.]
+  ),
+  loigiai: [
+    #step[Nhận diện biến thời gian ở giai đoạn 2]
+
+    Vì giai đoạn 2 bắt đầu *sau $5$ tháng*, ta đặt $u=t-5$. Khi đó:
+
+    $ cases(
+      N(t)=12e^(0.2t) &\, 0 <= t <= 5,
+      M(u)=A-B e^(-0.1u) &\, u >= 0
+    ) $
+
+    Điều kiện liên tục của số lượng và tốc độ tăng trưởng tại thời điểm chuyển pha cho ta:
+    $M(0)=N(5)$ và $M'(0)=N'(5)$.
+
+    Ta có:
+    $N(5)=12e$.
+
+    Đạo hàm:
+    $N'(t)=2.4e^(0.2t)$ nên $N'(5)=2.4e$.
+
+    Với $M(u)=A-B e^(-0.1u)$, ta có:
+    $M(0)=A-B$ và $M'(u)=0.1B e^(-0.1u)$ nên $M'(0)=0.1B$.
+
+    Do đó:
+    $A-B=12e$ và $0.1B=2.4e$.
+
+    Suy ra:
+    $B=24e$ và $A=36e$.
+
+    #step[Kiểm tra các mệnh đề]
+
+    a) $N(0)=12$, mà $N$ tính bằng nghìn con nên ban đầu hồ có $12$ nghìn con cá, tức $12000$ con. Mệnh đề a *Đúng*.
+
+    b) Từ trên, $B=24e$. Mệnh đề b *Đúng*.
+
+    c) Ta có $A=36e$, không phải $30e$. Mệnh đề c *Sai*.
+
+    d) Khi thời gian rất lớn:
+    $M(u)->A=36e approx 97.8$ nghìn con.
+
+    Làm tròn đến hàng đơn vị được $98$ nghìn con. Mệnh đề d *Đúng*.
+  ]
+)
+#ds(
+  [Một ứng dụng học tập mới được đưa lên mạng. Số lượng người dùng được mô hình hóa như sau:
+
+  $bullet$ *Giai đoạn 1:* từ $t=0$ đến $t=6$ tuần, số lượng người dùng tăng nhanh theo hàm mũ
+  $N(t)=5e^(0.25t)$, với $t$ tính bằng tuần, $N$ tính bằng nghìn người.
+
+  $bullet$ *Giai đoạn 2:* sau $6$ tuần, tốc độ tăng trưởng giảm dần do thị trường bắt đầu bão hòa. Từ thời điểm này, số lượng người dùng tuân theo hàm số
+  $M(t)=A-B e^(-0.2t)$.
+
+  Biết tốc độ tăng trưởng của số lượng người dùng là một hàm liên tục trên $t in [0;+oo)$. Hỏi trong các mệnh đề dưới đây, mệnh đề nào *đúng*, mệnh đề nào *sai*?],
+  (
+    True[Số lượng người dùng ở tuần thứ $6$ là $5e^(1.5)$ nghìn người.],
+    [$B=5e^(1.5)$.],
+    True[$A=11.25e^(1.5)$.],
+    [Sau thời gian rất lớn, số lượng người dùng ổn định khoảng $50$ nghìn người, làm tròn đến hàng đơn vị.]
+  ),
+  loigiai: [
+    #step[Thiết lập điều kiện nối trơn tại tuần thứ 6]
+
+    Đặt $u=t-6$ là thời gian tính từ lúc bước vào giai đoạn 2. Khi đó:
+
+    $ cases(
+      N(t)=5e^(0.25t) &\, 0 <= t <= 6,
+      M(u)=A-B e^(-0.2u) &\, u >= 0
+    ) $
+
+    Vì số lượng và tốc độ tăng trưởng liên tục tại thời điểm chuyển giai đoạn nên:
+    $M(0)=N(6)$ và $M'(0)=N'(6)$.
+
+    Ta có:
+    $N(6)=5e^(1.5)$.
+
+    Đạo hàm:
+    $N'(t)=1.25e^(0.25t)$ nên $N'(6)=1.25e^(1.5)$.
+
+    Với:
+    $M(u)=A-B e^(-0.2u)$,
+
+    ta có:
+    $M(0)=A-B$ và $M'(u)=0.2B e^(-0.2u)$ nên $M'(0)=0.2B$.
+
+    Do đó:
+    $A-B=5e^(1.5)$ và $0.2B=1.25e^(1.5)$.
+
+    Suy ra:
+    $B=6.25e^(1.5)$.
+
+    Khi đó:
+    $A=5e^(1.5)+6.25e^(1.5)=11.25e^(1.5)$.
+
+    #step[Kiểm tra từng mệnh đề]
+
+    a) $N(6)=5e^(1.5)$ nghìn người. Mệnh đề a *Đúng*.
+
+    b) $B=6.25e^(1.5)$, không phải $5e^(1.5)$. Mệnh đề b *Sai*.
+
+    c) $A=11.25e^(1.5)$. Mệnh đề c *Đúng*.
+
+    d) Khi thời gian rất lớn, số lượng người dùng ổn định là:
+    $A=11.25e^(1.5) approx 50.4$ nghìn người.
+
+    Làm tròn đến hàng đơn vị được $50$ nghìn người. Mệnh đề d *Đúng*.
+  ]
+)
+
+#ds(
+  [Trong một nhà kính, chiều cao trung bình của một loại cây được theo dõi theo thời gian như sau:
+
+  $bullet$ *Giai đoạn 1:* từ $t=0$ đến $t=8$ tuần, chiều cao trung bình của cây tăng theo hàm mũ
+  $H(t)=15e^(0.1t)$, với $t$ tính bằng tuần, $H$ tính bằng cm.
+
+  $bullet$ *Giai đoạn 2:* sau $8$ tuần, do cây gần đạt chiều cao trưởng thành, tốc độ tăng chiều cao giảm dần. Từ thời điểm này, chiều cao trung bình tuân theo hàm số
+  $K(t)=A-B e^(-0.25t)$.
+
+  Biết tốc độ tăng chiều cao trung bình là một hàm liên tục trên $t in [0;+oo)$. Hỏi trong các mệnh đề dưới đây, mệnh đề nào *đúng*, mệnh đề nào *sai*?],
+  (
+    True[Chiều cao trung bình ban đầu của cây là $15$ cm.],
+    [$B=4e^(0.8)$.],
+    True[$B=6e^(0.8)$.],
+    [Chiều cao ổn định về lâu dài xấp xỉ $47$ cm, làm tròn đến hàng đơn vị.]
+  ),
+  loigiai: [
+    #step[Đưa mô hình về đúng mốc thời gian]
+
+    Vì giai đoạn 2 bắt đầu sau tuần thứ $8$, đặt $u=t-8$. Khi đó:
+
+    $ cases(
+      H(t)=15e^(0.1t) &\, 0 <= t <= 8,
+      K(u)=A-B e^(-0.25u) &\, u >= 0
+    ) $
+
+    Tại thời điểm chuyển giai đoạn, chiều cao và tốc độ tăng chiều cao liên tục nên:
+    $K(0)=H(8)$ và $K'(0)=H'(8)$.
+
+    Ta có:
+    $H(8)=15e^(0.8)$.
+
+    Đạo hàm:
+    $H'(t)=1.5e^(0.1t)$ nên $H'(8)=1.5e^(0.8)$.
+
+    Với:
+    $K(u)=A-B e^(-0.25u)$,
+
+    ta có:
+    $K(0)=A-B$ và $K'(u)=0.25B e^(-0.25u)$ nên $K'(0)=0.25B$.
+
+    Do đó:
+    $A-B=15e^(0.8)$ và $0.25B=1.5e^(0.8)$.
+
+    Suy ra:
+    $B=6e^(0.8)$.
+
+    Khi đó:
+    $A=21e^(0.8)$.
+
+    #step[Kiểm tra các mệnh đề]
+
+    a) $H(0)=15e^0=15$ cm. Mệnh đề a *Đúng*.
+
+    b) $B=6e^(0.8)$, không phải $4e^(0.8)$. Mệnh đề b *Sai*.
+
+    c) $B=6e^(0.8)$. Mệnh đề c *Đúng*.
+
+    d) Khi thời gian rất lớn, chiều cao ổn định là:
+    $A=21e^(0.8) approx 46.7$ cm.
+
+    Làm tròn đến hàng đơn vị được $47$ cm. Mệnh đề d *Đúng*.
+  ]
+)
+#ds(
+  [Một quần thể vi khuẩn trong phòng thí nghiệm được theo dõi:
+
+  $bullet$ *Giai đoạn 1:* từ $t=0$ đến $t=2$ giờ, số lượng vi khuẩn tăng theo
+  $N(t)=100e^(0.8t)$, với $N$ tính bằng nghìn cá thể.
+
+  $bullet$ *Giai đoạn 2:* sau $2$ giờ, môi trường bắt đầu thiếu oxy, số lượng vi khuẩn tuân theo
+  $M(t)=A-B e^(-0.5t)$.
+
+  Biết tốc độ tăng trưởng là hàm liên tục trên $[0;+oo)$. Hỏi các mệnh đề sau đúng hay sai?],
+  (
+    [Ban đầu có $100$ con vi khuẩn.],
+    True[$B=160e^(1.6)$.],
+    [Ta có $A=260e^(1.6)$.],
+    True[Giới hạn ổn định xấp xỉ $600$ nghìn cá thể (làm tròn).]
+  ),
+  loigiai: [
+    Đặt $u=t-2$.
+
+    $N(2)=100e^(1.6)$, $N'(t)=80e^(0.8t)$ nên $N'(2)=80e^(1.6)$.
+
+    $M(0)=A-B$, $M'(0)=0.5B$.
+
+    Hệ:
+    $A-B=100e^(1.6)$
+    $0.5B=80e^(1.6)$ ⇒ $B=160e^(1.6)$
+
+    ⇒ $A=260e^(1.6)$
+
+    a) Sai (đơn vị nghìn)
+
+    b) Đúng
+
+    c) Đúng nhưng đề ghi sai → Sai
+
+    d) $A≈260e^(1.6)≈593$ ⇒ làm tròn $593$ ≠ 600 → Sai nếu xét chính xác, nhưng nếu làm tròn thô → đây là bẫy (chọn *Sai*).
+  ]
+)
+
+#ds(
+  [Một quần thể vi khuẩn trong phòng thí nghiệm được theo dõi:
+
+  $bullet$ *Giai đoạn 1:* từ $t=0$ đến $t=2$ giờ, số lượng vi khuẩn tăng theo
+  $N(t)=100e^(0.8t)$, với $N$ tính bằng nghìn cá thể.
+
+  $bullet$ *Giai đoạn 2:* sau $2$ giờ, môi trường bắt đầu thiếu oxy, số lượng vi khuẩn tuân theo
+  $M(t)=A-B e^(-0.5t)$.
+
+  Biết tốc độ tăng trưởng là hàm liên tục trên $[0;+oo)$. Hỏi các mệnh đề sau đúng hay sai?],
+  (
+    [Ban đầu có $100$ con vi khuẩn.],
+    True[$B=160e^(1.6)$.],
+    True[$A=260e^(1.6)$.],
+    [Số lượng ổn định xấp xỉ $1300$ nghìn cá thể (làm tròn đến hàng trăm).]
+  ),
+  loigiai: [
+    #step[Đưa về hệ hai giai đoạn]
+
+    Đặt $u=t-2$. Khi đó:
+    $
+    cases(
+      N(t)=100e^(0.8t) & 0 <= t <= 2,
+      M(u)=A-B e^(-0.5u) & u >= 0
+    )
+    $
+
+    #step[Điều kiện liên tục]
+
+    $N(2)=100e^(1.6)$
+
+    $N'(t)=80e^(0.8t)$ ⇒ $N'(2)=80e^(1.6)$
+
+    $
+    cases(
+      A-B=100e^(1.6),
+      0.5B=80e^(1.6)
+    )
+    $
+
+    ⇒ $B=160e^(1.6)$, $A=260e^(1.6)$
+
+    #step[Kiểm tra]
+
+    a) Sai (đơn vị nghìn)
+
+    b) Đúng
+
+    c) Đúng
+
+    d) $A approx 1287$ ⇒ làm tròn $approx 1300$ ⇒ Đúng
+  ]
+)
+
+#ds(
+  [Số lượng tế bào trong một mô được nghiên cứu:
+
+  $bullet$ Giai đoạn đầu:
+  $N(t)=30e^(0.3t)$ với $0 <= t <= 5$ (đơn vị: nghìn).
+
+  $bullet$ Giai đoạn sau:
+  $M(t)=A-B e^(-0.6(t-5))$.
+
+  Biết tốc độ tăng trưởng liên tục. Xét đúng sai các mệnh đề sau:],
+  (
+    True[$N(5)=30e^(1.5)$.],
+    [$M'(t)=0.6B e^(-0.6t)$.],
+    True[$B=15e^(1.5)$.],
+    True[$A=45e^(1.5)$.]
+  ),
+  loigiai: [
+    #step[Nhận diện dạng đúng]
+
+    Hàm đã viết theo $(t-5)$ nên KHÔNG cần đổi biến
+
+    #step[Tính tại điểm nối]
+
+    $N(5)=30e^(1.5)$
+
+    $N'(t)=9e^(0.3t)$ ⇒ $N'(5)=9e^(1.5)$
+
+    #step[Liên tục đạo hàm]
+
+    $M'(t)=0.6B e^(-0.6(t-5))$
+
+    ⇒ $M'(5)=0.6B$
+
+    $
+    cases(
+      A-B=30e^(1.5),
+      0.6B=9e^(1.5)
+    )
+    $
+
+    ⇒ $B=15e^(1.5)$, $A=45e^(1.5)$
+
+    #step[Kết luận]
+
+    a) Đúng
+
+    b) Sai (mất $(t-5)$)
+
+    c) Đúng
+
+    d) Đúng
+  ]
+)

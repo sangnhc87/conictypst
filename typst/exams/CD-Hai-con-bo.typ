@@ -113,7 +113,7 @@
         content(M2, $M_2$, anchor: "south-east", padding: 0.15)
         
         // Góc 50 độ
-        arc(A, start: 0deg, stop: angle, radius: 1)
+        arc((1, 0), start: 0deg, stop: angle, radius: 1)
         content((1.3, 0.4), $50^degree$)
         
         // Điểm H (Hình chiếu của B)

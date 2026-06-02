@@ -1,0 +1,2131 @@
+B Ộ
+
+S Á C H
+
+K H A I
+
+M Ở
+
+T O Á N
+
+H Ọ C
+
+LỊCH SỬ ĐẠI SỐ TỔ HỢP
+Từ Đếm Đến Tất Cả
+Một Cái Cây Xuyên Suốt Lịch Sử Toán Học
+
+Hành trình qua các giai đoạn phát minh · bối cảnh lịch sử · tác giả và bài toán bước ngoặt
+Từ hang động Cổ đại · Ấn Độ · Trung Hoa · Ả Rập · Châu Âu Phục Hưng · Toán học
+Hiện đại
+
+Biên soạn: Nguyễn Văn Sang
+
+Lời dẫn của tác giả
+Cuốn sách này được viết với một tâm nguyện: giúp học sinh nhìn thấy rằng đại số tổ hợp không phải một
+mớ công thức rời rạc từ trên trời rơi xuống. Mỗi công thức ấy được sinh ra bởi một con người, trong một bối
+cảnh, vì một câu hỏi rất thật. Khi biết câu chuyện đằng sau, toán học không còn là vật cần ghi nhớ mà trở
+thành vật cần hiểu — và điều đó thay đổi tất cả.
+Tôi đã vẽ một cái cây. Gốc của nó là bài toán đếm thuần túy nhất của loài người — đếm con vật, đếm ngôi
+sao, đếm mùa. Từ gốc đó, những nhánh lớn dần qua thiên niên kỷ: tổ hợp sơ cấp, tam giác Pascal, hoán
+vị, chỉnh hợp, bao hàm–loại trừ, truy hồi, hàm sinh, lý thuyết đồ thị rời rạc. Và mỗi nhánh gắn với một tên
+người, một năm, một câu chuyện.
+Hãy đọc cuốn này không chỉ như một lịch sử mà như một bản đồ tư duy — để thấy rằng toán học là một
+cuộc trò chuyện xuyên thiên niên kỷ giữa những bộ óc vĩ đại nhất của nhân loại.
+— Nguyễn Văn Sang —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+MỤC LỤC
+NHẬP MÔN — CÁI CÂY XUYÊN THIÊN NIÊN KỶ . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠4
+Toán Tổ Hợp Là Gì? Tại Sao Cần Biết Lịch Sử Của Nó? . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠4
+Bản Đồ Tư Duy: Cái Cây Xuyên Lịch Sử . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠4
+CHƯƠNG 1 — ĐẾM TỪ THUỞ KHAI THIÊN: 30.000 TCN – 500 TCN . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠6
+Xương Ishango và Bảng Plimpton: Dấu Vết Đầu Tiên . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠6
+Hy Lạp Cổ Đại — Khi Triết Học Gặp Phép Đếm . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠7
+CHƯƠNG 2 — ẤN ĐỘ CỔ ĐẠI: NƠI HOÁ VỊ VÀ TỔ HỢP RA ĐỜI . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠9
+Vedic Sutras và Triết Học Đếm . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠9
+Varāhamihira và Hệ Số Tổ Hợp . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠10
+Āryabhaṭa và Brahmagupta — Nền Tảng Số Học Tổ Hợp . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠10
+Bhāskara II và Công Thức Hoán Vị Tường Minh . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠11
+CHƯƠNG 3 — TRUNG HOA: TAM GIÁC DƯƠNG HUY VÀ TƯ DUY SỐ HỌC . . . . . . . . . . . . . . . . . . . . . . ⁠13
+Cửu Chương Toán Thuật — Bộ Sách Toán Cổ Vĩ Đại . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠13
+Dương Huy và Tam Giác Pascal Trung Hoa . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠13
+Tống Toán và Hệ Phương Trình Tổ Hợp . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠14
+CHƯƠNG 4 — THẾ GIỚI Ả RẬP: NƠI ĐẠI SỐ VÀ TỔ HỢP GẶP NHAU . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠16
+Thời Đại Vàng Ả Rập (800–1200 SCN) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠16
+Al-Khalil và Tổ Hợp Ngữ Âm . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠16
+Al-Khawarizmi và Đại Số — Nền Tảng Cho Mọi Thứ . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠16
+Ibn Mun’im và Tam Giác Pascal Ả Rập . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠17
+Omar Khayyam và Nhị Thức Bậc Cao . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠17
+CHƯƠNG 5 — CHÂU ÂU PHỤC HƯNG: XÁC SUẤT VÀ TAM GIÁC PASCAL RA ĐỜI . . . . . . . . . . . . . . ⁠18
+Fibonacci và Dãy Số Thần Kỳ . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠18
+Tartaglia và Cardano — Cờ Bạc Sinh Ra Xác Suất . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠19
+Blaise Pascal — Tam Giác, Xác Suất, và Bài Toán Cược . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠19
+Pierre de Fermat — Người Cộng Sự Vĩ Đại . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠20
+CHƯƠNG 6 — THỜI ĐẠI ÁNH SÁNG: NEWTON, EULER VÀ HÀM SINH . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠22
+Newton và Nhị Thức Tổng Quát . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠22
+Leonhard Euler — Người Đặt Nền Móng Cho Mọi Thứ . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠23
+Jacob Bernoulli — Xác Suất và Luật Số Lớn . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠24
+CHƯƠNG 7 — THẾ KỶ 19: TỔ HỢP TRỞ THÀNH NGÀNH KHOA HỌC RIÊNG . . . . . . . . . . . . . . . . . . . . ⁠25
+Cauchy và Gauss — Nền Tảng Chặt Chẽ . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠25
+James Joseph Sylvester và Lý Thuyết Phân Hoạch . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠25
+Arthur Cayley và Cây Gán Nhãn . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠26
+Nguyên Lý Bao Hàm–Loại Trừ Được Chính Thức Hóa . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠26
+CHƯƠNG 8 — RAMANUJAN: THIÊN TÀI TỪ MADRAS VÀ SỰ HUYỀN BÍ CỦA PHÂN HOẠCH . . ⁠28
+Srinivasa Ramanujan — Câu Chuyện Kỳ Diệu Nhất Lịch Sử Toán . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠28
+Sự Kiện Taxi — Câu Chuyện Nổi Tiếng Nhất Lịch Sử Toán . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠29
+
+—2—
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+CHƯƠNG 9 — THẾ KỶ 20: TỔ HỢP CỰC TRỊ, ĐỒ THỊ VÀ MÁY TÍNH . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠30
+Paul Erdős — Người Đặt Câu Hỏi Hay Nhất . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠30
+Định Lý Ramsey — Trật Tự Ẩn Trong Hỗn Loạn . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠31
+Claude Shannon và Lý Thuyết Thông Tin . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠31
+Richard Stanley và Tổ Hợp Đại Số Hiện Đại . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠31
+CHƯƠNG 10 — CÁC PHƯƠNG PHÁP LỚN: HÀNH TRÌNH QUA CÁC KỸ THUẬT . . . . . . . . . . . . . . . . . ⁠33
+Nguyên Lý Cơ Bản: Cộng và Nhân . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠33
+Song Ánh (Bijection) — Nghệ Thuật Thay Thế . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠33
+Bao Hàm–Loại Trừ (Inclusion-Exclusion) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠33
+Hàm Sinh (Generating Functions) — Cây Cầu Giữa Hai Thế Giới . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠34
+Truy Hồi (Recurrence) — Địa Phương Sinh Toàn Cục . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠34
+Số Catalan — Số Xuất Hiện Ở Mọi Nơi . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠34
+CHƯƠNG 11 — CÁCH MẠNG MÁY TÍNH: TỔ HỢP TIẾP SỨC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠36
+Alan Turing và Độ Phức Tạp Tổ Hợp . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠36
+Bài Toán P ≠ NP — Câu Hỏi Tổ Hợp Của Thế Kỷ . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠36
+Mã Hóa RSA và Tổ Hợp Bảo Mật . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠36
+CHƯƠNG 12 — TỔNG KẾT: BÀI HỌC TỪ LỊCH SỬ . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠38
+Dòng Thời Gian Toàn Cảnh . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠38
+Sáu Bài Học Lớn Từ Lịch Sử . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠39
+CHƯƠNG 13 — BẢN ĐỒ CHO HỌC SINH: CÁC KHÁI NIỆM VÀ NGUỒN GỐC . . . . . . . . . . . . . . . . . . . . . ⁠41
+Mỗi Khái Niệm Bạn Học — Có Một Câu Chuyện Ở Sau . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠41
+Lời Khuyên Cho Học Sinh Yêu Toán . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠42
+PHỤ LỤC A — 20 TÁC GIẢ VĨ ĐẠI NHẤT CỦA ĐẠI SỐ TỔ HỢP . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠43
+PHỤ LỤC B — 15 BÀI TOÁN BẢN LỀ TRONG LỊCH SỬ TỔ HỢP . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠45
+LỜI KẾT — TIẾP TỤC HÀNH TRÌNH . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠48
+
+—3—
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+NHẬP MÔN — CÁI CÂY XUYÊN THIÊN NIÊN KỶ
+
+Toán Tổ Hợp Là Gì? Tại Sao Cần Biết Lịch Sử Của Nó?
+
+ĐẾM
+
+SẮP XẾP
+
+CHỌN LỌC
+
+Có bao nhiêu cách? Bao nhiêu khả
+
+Xếp theo thứ tự nào? Nhóm lại
+
+Chọn ra tập con nào? Lấy bao
+
+năng? Tổng là bao nhiêu? — Câu
+
+ra sao? Tổ chức cấu trúc của một
+
+nhiêu? Cấu trúc của tập hợp con
+
+hỏi đơn giản nhất của tư duy toán
+
+không gian khả năng.
+
+— trái tim của lý thuyết tổ hợp.
+
+học.
+
+Đại số tổ hợp — hay combinatorics trong tiếng Anh — là nhánh toán học nghiên cứu cách đếm, sắp xếp,
+và chọn lựa các đối tượng rời rạc theo những quy tắc nhất định. Nhưng đây là sự mô tả nghèo nàn nhất có
+thể. Bởi vì thực ra, tổ hợp là ngôn ngữ của khả năng — nó trả lời câu hỏi: trong vũ trụ của tất cả những
+điều có thể xảy ra, có bao nhiêu thứ thỏa mãn điều kiện này?
+Câu hỏi đó xuất hiện ở mọi nơi: từ cờ vua đến mật mã học, từ xác suất thống kê đến thuật toán máy tính,
+từ sinh học phân tử đến thiết kế thí nghiệm khoa học. Và nó đã xuất hiện từ rất, rất lâu trước khi loài người
+có tên gọi “toán học”.
+
+🧠 SIÊU TƯ DUY — Điều Này Dạy Ta Nghĩ Gì?
+Tại sao phải học lịch sử của một môn toán? Bởi vì mỗi công thức ta học hôm nay đã từng là một
+phát minh đột phá của người khác — người đó đang đau đầu vì một bài toán thực tế. Khi biết bài
+toán gốc, ta hiểu vì sao công thức lại có hình dạng như vậy, và khi ấy ta không còn cần “học thuộc”
+nữa — ta hiểu tự nhiên.
+
+Bản Đồ Tư Duy: Cái Cây Xuyên Lịch Sử
+Hãy hình dung lịch sử đại số tổ hợp như một cái cây lớn. Gốc của nó nằm ở thời cổ đại, khi con người bắt
+đầu đặt câu hỏi đơn giản nhất: có bao nhiêu? Từ gốc đó, những nhánh dần phân ly qua từng thời đại, mỗi
+nhánh mang theo tên một nhà toán học và một phát kiến mới.
+
+🌳 CÁI CÂY LỊCH SỬ ĐẠI SỐ TỔ HỢP
+🌱 GỐC CÂY: Đếm Nguyên Thủy (30.000 TCN – 2000 TCN)
+
+—4—
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+Xương thú khắc vạch · Bảng tính Babylon · Sổ thu thuế Ai Cập
+
+🌿 NHÁNH ẤN ĐỘ (200 TCN – 1200
+
+🌿 NHÁNH TRUNG HOA (600 TCN –
+
+SCN)
+
+1300 SCN)
+
+Vedic Sutras · Varāhamihira · Āryabhaṭa ·
+
+Cửu chương toán thuật · Dương Huy · Tống
+
+Brahmagupta · Bhāskara II
+
+toán
+
+Hoán vị, tổ hợp, số Fibonacci Ấn Độ
+
+Tam giác Pascal Trung Hoa · Hệ phương trình
+
+🌿 NHÁNH Ả RẬP (800 – 1200 SCN)
+
+🌿 NHÁNH CHÂU ÂU PHỤC HƯNG
+(1300 – 1650)
+
+Al-Khalil · Al-Khawarizmi · Ibn Mun’im ·
+Al-Tusi
+
+Tartaglia · Cardano · Pascal · Fermat
+
+Đại số chữ · Hoán vị vần thơ · Hệ số nhị thức
+
+Tam giác số học · Lý thuyết xác suất ra đời
+
+🌿 NHÁNH PHÂN TÍCH (1650 – 1800)
+
+🌿 NHÁNH HIỆN ĐẠI (1800 – nay)
+
+Newton · Leibniz · Euler · Bernoulli
+
+Cauchy · Sylvester · Ramanujan · Erdős ·
+
+Nhị thức Newton · Hàm sinh · Lý thuyết đồ thị
+
+Stanley
+Tổ hợp đại số · Lý thuyết phân hoạch · Tổ hợp
+cực trị
+
+🌳 TỔNG KẾT: Một cây, nhiều nhánh, một linh hồn — đếm để hiểu thế giới
+
+—5—
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+CHƯƠNG 1 — ĐẾM TỪ THUỞ KHAI THIÊN: 30.000 TCN
+– 500 TCN
+
+Xương Ishango và Bảng Plimpton: Dấu Vết Đầu Tiên
+
+📅 30.000 – 3.000 TCN · 🗺 Châu Phi · Lưỡng Hà · Ai Cập
+Đây là thời đại mà con người chưa có “toán học” theo nghĩa chúng ta biết. Nhưng họ đếm. Và từ
+việc đếm, những bước đầu tiên của tổ hợp dần hình thành.
+Năm 1960, tại làng Ishango bên hồ Edward thuộc Congo, các nhà khảo cổ tìm thấy một mảnh xương linh
+dương có niên đại khoảng 22.000 năm trước Công nguyên. Trên đó có những vạch khắc theo các nhóm
+kỳ lạ: 11, 13, 17, 19 — bốn số nguyên tố liên tiếp giữa 10 và 20. Không ai biết chính xác người cổ đại ấy đang
+nghĩ gì. Nhưng rõ ràng họ đang phân loại và nhóm — một thao tác tiền thân của tổ hợp.
+
+🔥 Bài Toán Cổ Đại — Đếm để sống còn
+Bài toán của người cổ đại: Một bộ lạc săn được 3 con nai, 5 con hươu, 2 con lợn rừng. Có bao
+nhiêu con vật tất cả?
+Tại sao điều này quan trọng? Đây không phải phép cộng tầm thường. Đây là lần đầu tiên tư
+duy “đếm tổng thể của nhiều loại” xuất hiện — nền tảng của nguyên lý cộng sau này.
+Nguyên lý cộng (hai nghìn năm sau được đặt tên): Nếu có 𝑎 đối tượng loại A và 𝑏 đối tượng loại
+B (không trùng nhau), thì tổng số đối tượng là 𝑎 + 𝑏.
+
+Bảng Đất Sét Babylon — Khi Đếm Gặp Cấu Trúc
+
+📅 3.000 – 500 TCN · 🗺 Babylon · Lưỡng Hà (nay là Iraq)
+Người Babylon không có chữ số như ta. Họ dùng hệ cơ số 60 và ghi trên đất sét. Nhưng họ đã giải
+những bài toán đặt nền móng cho tổ hợp.
+Bảng Plimpton 322 (khoảng 1800 TCN) chứa danh sách 15 bộ số nguyên Pythagorean, tức là các bộ số
+nguyên (𝑎, 𝑏, 𝑐) thỏa 𝑎2 + 𝑏2 = 𝑐2 . Người Babylon đã hệ thống hóa một lớp đối tượng toán học — đây là
+dấu hiệu đầu tiên của tư duy “phân loại và đếm cấu trúc”.
+Hơn nữa, người Babylon còn biết tính:
+• Số cách chia một số hàng hóa thành các phần
+• Số thứ tự trong danh sách
+
+—6—
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+• Các tổ hợp đơn giản trong giao dịch thương mại
+
+🔑 Ý NGHĨA SÂU XA — Tại Sao Điều Này Quan Trọng?
+Bài học từ Babylon: Đếm không bắt đầu từ trừu tượng. Nó bắt đầu từ nhu cầu thực tế — đếm
+hàng hóa, đo đất, chia tài sản. Toán học tổ hợp ra đời từ nền kinh tế, không phải từ tháp ngà.
+
+Ai Cập — Sổ Tính Ahmes và Nghệ Thuật Chia
+Khoảng năm 1650 TCN, một người tên Ahmes (còn gọi là Ahmes the Scribe) chép lại cuộn giấy cói Rhind
+Papyrus, ghi lại toán học Ai Cập từ khoảng 2000 TCN. Cuộn giấy có 87 bài toán, trong đó có các bài liên
+quan đến chia đều, phân phối khẩu phần — những dạng tổ hợp phân phối nguyên thủy.
+
+👤 Ahmes (Người Chép Sách) (khoảng 1650 TCN, Ai Cập)
+Ahmes không phải nhà toán học sáng tạo, nhưng ông là người lưu giữ tri thức quan trọng nhất
+của Ai Cập cổ đại. Cuộn Rhind Papyrus ông chép lại là một trong hai tài liệu toán học cổ nhất còn
+tồn tại đến nay.
+Bài toán tiêu biểu trong đó: “Chia 100 ổ bánh mì cho 10 người theo tỷ lệ nhất định.” — Đây chính
+là bài toán phân phối tổ hợp.
+
+Hy Lạp Cổ Đại — Khi Triết Học Gặp Phép Đếm
+
+📅 600 – 200 TCN · 🗺 Hy Lạp · Địa Trung Hải
+Người Hy Lạp không phát triển tổ hợp như một ngành riêng, nhưng họ đặt ra những câu hỏi triết
+học và toán học nền tảng mà sau này trở thành trái tim của tư duy tổ hợp.
+
+👤 Pythagoras (570 – 495 TCN, Samos, Hy Lạp)
+Pythagoras và trường phái của ông tin rằng “vạn vật là số”. Họ nghiên cứu các số tam giác, số
+vuông, số ngũ giác — thực chất là đang đếm số điểm trong các hình hình học, dấu hiệu đầu tiên
+của tổ hợp hình học.
+𝑛(𝑛 + 1)
+2
+Pythagorean đã chứng minh điều này bằng cách sắp hỏi điểm thành hình tam giác — một phương
+Số tam giác thứ 𝑛: 𝑇𝑛 = 1 + 2 + 3 + … + 𝑛 =
+pháp đếm hình học đẹp.
+
+—7—
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+💡 PHÁT MINH — Số Tam Giác — Đếm Bằng Hình
+Số tam giác 𝑇𝑛 đếm số điểm trong tam giác đều có 𝑛 hàng:
+𝑇1 = 1, 𝑇2 = 3,
+
+𝑇3 = 6, 𝑇4 = 10,
+
+𝑇5 = 15
+
+𝑛+1
+𝑛(𝑛 + 1)
+)=
+)
+2
+2
+𝑛+1
+Nhận ra điều gì không? Số tam giác chính là hệ số nhị thức (
+)! Người Pythagoras chưa biết
+2
+điều này, nhưng họ đã chạm tay vào nó.
+Công thức: 𝑇𝑛 = (
+
+👤 Aristotle (384 – 322 TCN, Athens, Hy Lạp)
+Aristotle không phải nhà tổ hợp, nhưng ông đặt ra logic phân loại — cách chia thế giới thành các
+lớp không trùng nhau và lập phần bù. Đây chính là nền tảng triết học của nguyên lý bao hàm–
+loại trừ sau này.
+Câu nói nổi tiếng: “Toàn thể lớn hơn tổng các bộ phận” — trong tổ hợp, điều ngược lại cũng thú vị:
+tập bao giờ cũng có ít phần tử hơn các tập con của nó cộng lại.
+
+—8—
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+CHƯƠNG 2 — ẤN ĐỘ CỔ ĐẠI: NƠI HOÁ VỊ VÀ TỔ HỢP
+RA ĐỜI
+
+Vedic Sutras và Triết Học Đếm
+
+📅 600 TCN – 200 SCN · 🗺 Ấn Độ cổ đại · Bờ sông Indus và Ganges
+Người Ấn Độ cổ đại đã phát triển toán học trong bối cảnh đặc biệt: phục vụ nghi lễ tôn giáo, âm
+nhạc, và ngôn ngữ học. Chính từ đây, những bài toán tổ hợp thực dụng nhưng sâu sắc đầu tiên
+xuất hiện.
+Trong truyền thống Ấn Độ cổ, Chandas (khoa học về vần điệu thơ Sanskrit) đòi hỏi phải đếm số cách sắp
+xếp các âm tiết dài–ngắn. Đây chính là bài toán hoán vị và tổ hợp thực chất, phát sinh từ nghệ thuật và
+ngôn ngữ học.
+
+👤 Pingala (khoảng 300 – 200 TCN, Ấn Độ)
+Pingala viết tác phẩm Chandaḥśāstra (Khoa Học Vần Điệu), trong đó ông:
+• Đếm số cách sắp xếp các âm tiết dài (guru) và ngắn (laghu) để tạo vần thơ có 𝑛 âm tiết
+• Phát hiện ra quy tắc xây dựng nhị thức từ các hàng trước — thực chất là tam giác Pascal,
+nhưng sớm hơn Pascal gần 2000 năm
+• Mô tả dãy số 1, 2, 3, 5, 8, 13, 21, … — dãy Fibonacci, nhưng sớm hơn Fibonacci hơn 1000 năm
+Bối cảnh: Ông làm việc với câu hỏi — vần thơ có 𝑛 âm tiết, mỗi âm tiết dài hoặc ngắn, có bao nhiêu
+cách? Đáp án: 2𝑛 . Ông đã chứng minh điều này!
+
+💡 PHÁT MINH — Pingala và Tam Giác Nhị Thức Đầu Tiên
+Pingala mô tả quy tắc: hệ số khai triển của (𝑎 + 𝑏)𝑛 được xây theo kiểu “cộng hai phần tử kề nhau
+của hàng trên”:
+𝑛 = 0: 1
+𝑛 = 1: 1
+
+1
+
+𝑛 = 2: 1
+
+2
+
+1
+
+𝑛 = 3: 1
+
+3
+
+3
+
+1
+
+Ông gọi đây là Meru-prastāra (Cầu thang Meru). Người Trung Hoa sau này sẽ gọi là “tam giác
+Dương Huy”. Châu Âu sẽ gọi là “tam giác Pascal”. Nhưng người Ấn Độ tìm ra trước tất cả.
+
+—9—
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+🔥 Bài Toán 1 — Đếm Vần Thơ Sanskrit
+Bài toán gốc của Pingala: Một vần thơ Sanskrit có 4 âm tiết. Mỗi âm tiết có thể là dài (guru,
+ký hiệu G) hoặc ngắn (laghu, ký hiệu L). Có bao nhiêu vần thơ khác nhau?
+Lời giải của Pingala: Mỗi vị trí có 2 lựa chọn, 4 vị trí độc lập nhau, nên tổng số là 24 = 16.
+Phân loại: Theo số âm tiết dài (0G, 1G, 2G, 3G, 4G), số vần tương ứng là
+4
+4
+4
+4
+4
+( ), ( ), ( ), ( ), ( ) = 1, 4, 6, 4, 1 — đúng là hàng thứ 4 của tam giác Meru!
+0
+1
+2
+3
+4
+Bài học: Một câu hỏi nghệ thuật đã tạo ra nền móng của định lý nhị thức.
+
+Varāhamihira và Hệ Số Tổ Hợp
+
+👤 Varāhamihira (505 – 587 SCN, Ujjain, Ấn Độ)
+Nhà thiên văn học kiêm toán học vĩ đại của Ấn Độ. Trong tác phẩm Bṛhatsaṃhitā, ông đề cập đến
+tổ hợp trong bối cảnh pha chế nước hoa: có 16 thành phần, chọn 4 thành phần để tạo hỗn hợp —
+có bao nhiêu loại nước hoa khác nhau?
+16
+Ông tính ra ( ) = 1820. Không chỉ ra công thức tường minh, nhưng phương pháp tính của ông cho
+4
+thấy ông đã hiểu cấu trúc tổ hợp.
+
+🔥 Bài Toán 2 — Pha Chế Nước Hoa — Tổ Hợp Ứng Dụng
+Bài toán của Varāhamihira (thế kỷ 6):
+Có 16 loại tinh dầu. Một người thợ pha hương cần chọn đúng 4 loại để tạo một công thức nước hoa.
+Có bao nhiêu công thức khác nhau?
+16
+16 × 15 × 14 × 13
+Lời giải: ( ) =
+= 1820
+4
+4×3×2×1
+Ý nghĩa: Đây là tổ hợp chập 4 của 16 phần tử — thứ ta học ở phổ thông. Nhưng Varāhamihira
+tính nó vào thế kỷ 6 để pha nước hoa — không phải để thi đại học.
+
+Āryabhaṭa và Brahmagupta — Nền Tảng Số Học Tổ Hợp
+
+👤 Āryabhaṭa (476 – 550 SCN, Kusumapura, Ấn Độ)
+Thiên tài toán học người Ấn Độ đầu tiên được ghi tên rõ ràng trong lịch sử. Tác phẩm Āryabhaṭīya
+(499 SCN) chứa công thức:
+
+— 10 —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+𝑛
+
+∑𝑘 =
+𝑘=1
+
+𝑛(𝑛 + 1)
+,
+2
+
+𝑛
+
+∑ 𝑘2 = 𝑛(𝑛 + 1)
+𝑘=1
+
+Nguyễn Văn Sang
+
+2𝑛 + 1
+6
+
+Đây là nền tảng của đếm tổng — linh hồn của nhiều công thức tổ hợp.
+
+👤 Brahmagupta (598 – 668 SCN, Bhillamāla, Ấn Độ)
+Trong Brāhmasphuṭasiddhānta (628 SCN), Brahmagupta đặt nền móng cho số học modular và
+các hệ phương trình Diophantine — mà ngày nay là nền tảng của mật mã học tổ hợp.
+Ông cũng phát biểu định lý nổi tiếng về tứ giác nội tiếp. Tư duy “đếm trong cấu trúc hình học” của
+ông ảnh hưởng đến nhiều thế hệ.
+
+Bhāskara II và Công Thức Hoán Vị Tường Minh
+
+👤 Bhāskara II (Bhāskara Acharya) (1114 – 1185 SCN, Bijapur, Ấn Độ)
+Ông là nhà toán học vĩ đại nhất Ấn Độ thế kỷ 12. Tác phẩm Līlāvatī (đặt theo tên con gái ông)
+là cuốn sách toán học đầu tiên của Ấn Độ viết theo dạng câu chuyện và bài thơ, để học sinh dễ
+thuộc và yêu toán.
+Đóng góp tổ hợp: Bhāskara II là người đầu tiên viết công thức hoán vị và tổ hợp tường minh:
+• Hoán vị của 𝑛 phần tử: 𝑃𝑛 = 𝑛!
+𝑛
+𝑛!
+• Tổ hợp chập 𝑟 của 𝑛: ( ) =
+𝑟
+𝑟!(𝑛 − 𝑟)!
+
+💡 PHÁT MINH — Công Thức $n!$ — Phát Minh Của Bhāskara II
+Trong Līlāvatī, Bhāskara II viết (dịch từ tiếng Phạn):
+“Có bao nhiêu cách sắp xếp các chữ cái của từ ŚIVA?”
+Ông trả lời: 4 × 3 × 2 × 1 = 24 cách.
+Và giải thích lý do: vị trí đầu tiên có 4 chọn lựa, vị trí thứ hai có 3 (vì một chữ đã dùng), tiếp tục
+như vậy. Đây là nguyên lý nhân được áp dụng để tính giai thừa.
+Bhāskara II không chỉ tính — ông giải thích tại sao. Đó là bước nhảy vọt từ kỹ thuật sang hiểu biết.
+
+🔥 Bài Toán 3 — Bài Thơ Tổ Hợp Của Bhāskara
+Từ Līlāvatī (bản dịch nghĩa): “Này nàng Lílavati xinh đẹp, hãy cho ta biết: có bao nhiêu cách để
+chọn 4 đóa hoa từ rổ 8 đóa hoa nhiều màu sắc?”
+
+— 11 —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+8
+8!
+8×7×6×5
+Lời giải của Bhāskara: ( ) =
+)=
+) = 70
+4
+4! ⋅ 4!
+4×3×2×1
+Tại sao bài toán được đặt trong thơ? Bhāskara hiểu tâm lý học sinh — khi toán được kể trong
+câu chuyện đẹp, não người giữ lại lâu hơn. Ông là nhà giáo dục toán học thiên tài.
+
+🌉 CẦU NỐI — Ấn Độ và Toán Học Phương Tây
+Toán học Ấn Độ truyền sang Ả Rập qua con đường thương mại (thế kỷ 7–9), rồi từ Ả Rập sang Châu
+Âu (thế kỷ 12–14). Hầu hết những gì ta học hôm nay như “số Ả Rập” thực ra là số Ấn Độ được
+người Ả Rập truyền đi. Bhāskara II mất năm 1185 — Pascal mới sinh năm 1623. Giữa hai người cách
+nhau 438 năm, nhưng họ đang nghĩ về cùng một tam giác.
+
+— 12 —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+CHƯƠNG 3 — TRUNG HOA: TAM GIÁC DƯƠNG HUY
+VÀ TƯ DUY SỐ HỌC
+
+Cửu Chương Toán Thuật — Bộ Sách Toán Cổ Vĩ Đại
+
+📅 200 TCN – 1300 SCN · 🗺 Trung Hoa cổ đại · từ nhà Hán đến nhà Tống
+Trung Hoa phát triển toán học theo một con đường riêng, thực dụng và hệ thống. Không bị ảnh
+hưởng bởi triết học trừu tượng Hy Lạp, người Trung Hoa xây dựng toán học phục vụ quản lý nhà
+nước, đo đất, và thương mại.
+Tác phẩm Cửu Chương Toán Thuật (Jiuzhang Suanshu, khoảng 100 SCN) là bộ sách toán học nền tảng
+của Trung Hoa cổ đại. Gồm 9 chương với 246 bài toán, nó bao quát từ đo đất, tính thuế, đến hệ phương trình
+tuyến tính. Đây là văn bản đầu tiên giải hệ phương trình tuyến tính bằng phương pháp loại trừ Gauss —
+nhưng sớm hơn Gauss 17 thế kỷ.
+
+🔑 Ý NGHĨA SÂU XA — Tại Sao Điều Này Quan Trọng?
+Bài học triết học từ Cửu Chương: Người Trung Hoa không hỏi “Tại sao đúng?” như Hy Lạp. Họ
+hỏi “Làm thế nào?” và “Dùng vào việc gì?” — và chính vì vậy, họ xây dựng được những thuật toán
+thực tế mạnh mẽ hơn người Hy Lạp rất nhiều. Toán học cần cả hai loại tư duy.
+
+Dương Huy và Tam Giác Pascal Trung Hoa
+
+👤 Dương Huy (Yang Hui) (1238 – 1298 SCN, Tiền Đường, Trung Hoa)
+Dương Huy là nhà toán học Trung Hoa triều Tống. Trong tác phẩm Tường giải Cửu chương toán
+pháp (1261), ông đăng bảng “Tam giác khai phương” (khai fang biao) — tức tam giác Pascal —
+và ghi chú rằng nó do Giả Hiến (Jia Xian, thế kỷ 11) phát hiện.
+Dương Huy sử dụng tam giác này để:
+• Tính các hệ số trong khai triển (𝑎 + 𝑏)𝑛
+• Tìm căn bậc cao hơn của các số
+• Giải các bài toán đếm tổ hợp
+Ông cũng viết sách dạy học với nhiều bài toán thực tế thú vị — một nhà giáo dục toán học thực sự.
+
+— 13 —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+💡 PHÁT MINH — Tam Giác Pascal Trung Hoa (1261 SCN — trước Pascal 400 năm)
+Dương Huy (và Giả Hiến trước đó) đã xây tam giác mà ta gọi là “tam giác Pascal”:
+1
+1·1
+1·2·1
+1·3·3·1
+1·4·6·4·1
+1 · 5 · 10 · 10 · 5 · 1
+1 · 6 · 15 · 20 · 15 · 6 · 1
+… và tiếp tục mãi …
+Quy tắc sinh: Mỗi số bằng tổng hai số kề phía trên nó.
+𝑛
+𝑛
+𝑛
+Tính chất kỳ diệu: Hàng thứ 𝑛 (bắt đầu từ 𝑛 = 0) chứa các số ( ), ( ), …, ( ).
+0
+1
+𝑛
+Người Trung Hoa gọi đây là “khai phương đồ”. Người Ả Rập gọi là “tam giác Khayyam”. Người
+Châu Âu gọi là “tam giác Pascal”. Thực ra, tất cả đang nói về cùng một thứ — và người Ấn Độ
+biết nó đầu tiên.
+
+Tống Toán và Hệ Phương Trình Tổ Hợp
+Nhà toán học Tần Cửu Thiệu (Qin Jiushao, 1202–1261) viết Toán học Chín Phần (Shushu Jiuzhang,
+1247), trong đó ông giải các hệ phương trình dư (congruences) bằng Định Lý Số Dư Trung Hoa — nền
+tảng của mật mã học hiện đại.
+
+🔥 Bài Toán 4 — Định Lý Số Dư Trung Hoa — Bài Toán 1247 SCN
+Bài toán của Tần Cửu Thiệu:
+“Một số khi chia 3 dư 2, khi chia 5 dư 3, khi chia 7 dư 2. Số đó là bao nhiêu?”
+Toán học hiện đại: Tìm 𝑥 thỏa:
+𝑥 ≡ 2(mod 3),
+
+𝑥 ≡ 3(mod 5),
+
+𝑥 ≡ 2(mod 7)
+
+Lời giải: 𝑥 = 23 (và các số dạng 𝑥 + 105𝑘).
+Ý nghĩa hiện đại: Định lý Số Dư Trung Hoa ngày nay là cốt lõi của mã hóa RSA — bảo vệ
+mọi giao dịch ngân hàng và mật khẩu trực tuyến của bạn. Bài toán 1247 SCN này đang chạy trên
+điện thoại của bạn.
+
+🌉 CẦU NỐI — Trung Hoa → Toán Học Hiện Đại
+
+— 14 —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+Toán học Trung Hoa ảnh hưởng đến Nhật Bản (qua trường phái Wasan), và gián tiếp đến Phương
+Tây qua các nhà truyền giáo Jesuit thế kỷ 16. Định lý Số Dư Trung Hoa được Euler và Gauss tái
+phát hiện độc lập và đặt nền móng cho lý thuyết số hiện đại.
+
+— 15 —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+CHƯƠNG 4 — THẾ GIỚI Ả RẬP: NƠI ĐẠI SỐ VÀ TỔ HỢP
+GẶP NHAU
+
+Thời Đại Vàng Ả Rập (800–1200 SCN)
+
+📅 750 – 1258 SCN · 🗺 Baghdad · Cairo · Samarkand · Al-Andalus (Tây Ban Nha)
+Trong khi Châu Âu chìm trong Thời Trung Cổ Tăm Tối, Thế Giới Ả Rập đang trải qua Thời Đại
+Vàng của khoa học và toán học. Các học giả Ả Rập không chỉ bảo tồn tri thức Hy Lạp — họ mở
+rộng và tổng hợp nó với toán học Ấn Độ, tạo ra những thành tựu hoàn toàn mới.
+Trung tâm của tất cả là Ngôi nhà Trí Tuệ (Bayt al-Hikmah) ở Baghdad — một viện nghiên cứu khổng lồ
+do Caliph Hārūn al-Rashīd thành lập khoảng 830 SCN. Tại đây, hàng trăm học giả dịch, nghiên cứu, và sáng
+tạo toán học từ nhiều nền văn hóa.
+
+Al-Khalil và Tổ Hợp Ngữ Âm
+
+👤 Al-Khalil ibn Ahmad al-Farahidi (718 – 786 SCN, Basra, Iraq)
+Nhà ngôn ngữ học và toán học người Ả Rập, là người đầu tiên xây dựng từ điển Ả Rập (Kitāb
+al-‘Ayn, 8 tập). Nhưng đóng góp tổ hợp của ông nằm ở chỗ khác: ông đặt câu hỏi:
+“Từ 28 chữ cái Ả Rập, có thể tạo ra bao nhiêu từ có 2, 3, 4, 5 chữ cái?”
+Để trả lời, ông đã phát triển lý thuyết hoán vị và tổ hợp một cách độc lập với Ấn Độ. Ông tính:
+• Số từ 2 chữ cái: 28 × 27 = 756 (không lặp), 282 = 784 (có lặp)
+• Số từ 3 chữ cái: 28 × 27 × 26 = 19.656 (không lặp)
+Al-Khalil là cha đẻ của ngôn ngữ học tính toán — và theo một nghĩa nào đó, của tổ hợp Ả Rập.
+
+Al-Khawarizmi và Đại Số — Nền Tảng Cho Mọi Thứ
+
+👤 Muḥammad ibn Mūsā al-Khawārizmī (780 – 850 SCN, Khwarazm (Uzbekistan
+ngày nay))
+Al-Khawarizmi là người mà tên ông đã trở thành từ tiếng Anh: algorithm (thuật toán). Tác phẩm
+Al-Kitāb al-mukhtaṣar fī ḥisāb al-jabr wa-l-muqābala (Cuốn Sách Vắn Tắt về Tính Toán bằng
+Cách Hoàn Tất và Cân Bằng) đã cho tiếng Anh từ algebra (đại số, từ al-jabr).
+
+— 16 —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+Đóng góp tổ hợp: Al-Khawarizmi không trực tiếp viết về tổ hợp. Nhưng ông tạo ra đại số ký hiệu
+— công cụ mà sau này cho phép tổ hợp nói chuyện bằng ngôn ngữ của phương trình và đẳng thức.
+Không có Al-Khawarizmi, sẽ không có hàm sinh, không có đại số tổ hợp hiện đại.
+
+Ibn Mun’im và Tam Giác Pascal Ả Rập
+
+👤 Ahmad ibn Mun'im al-'Abdarī (mất khoảng 1228 SCN, Marrakesh, Ma-rốc)
+Ibn Mun’im là nhà toán học Ma-rốc ít được nhắc đến nhưng vô cùng quan trọng. Trong tác phẩm
+Fiqh al-Ḥisāb (khoảng 1200), ông:
+• Độc lập xây dựng tam giác nhị thức (tam giác Pascal) đầy đủ đến hàng 12
+𝑛
+𝑛−1
+𝑛−1
+• Chứng minh công thức tổ hợp ( ) = (
+)+(
+)
+𝑘
+𝑘−1
+𝑘
+• Đặt câu hỏi về tổ hợp ngôn ngữ học Ả Rập (tương tự Al-Khalil nhưng sâu hơn)
+Bối cảnh thú vị: Ông sống ở Ma-rốc, cùng thời với Dương Huy ở Trung Hoa. Hai người, cùng thế
+kỷ 13, ở hai đầu của thế giới, đang độc lập xây dựng cùng một tam giác số học. Điều này cho
+thấy toán học không phụ thuộc vào địa lý — nó sinh ra từ logic nội tại của các con số.
+
+Omar Khayyam và Nhị Thức Bậc Cao
+
+👤 'Umar ibn Ibrāhīm al-Khayyām (Omar Khayyam) (1048 – 1131 SCN, Nishapur,
+Iran)
+Phương Tây biết Khayyam qua Rubaiyat — tập thơ tứ tuyệt nổi tiếng. Nhưng trong thế giới toán
+học, ông là người giải phương trình bậc ba và đặt nền móng cho hình học đại số.
+Đóng góp tổ hợp: Khayyam mô tả tam giác nhị thức và sử dụng nó để chiết căn bậc 𝑛 — phương
+pháp mà Newton sau này phát triển thành nhị thức Newton.
+Ông viết: “Phương pháp này chứa đựng những điều kỳ diệu mà tôi không thể mô tả hết
+trong một cuốn sách.” — Lời khiêm tốn của thiên tài.
+
+Sự hiểu biết về hệ số trong hàng lũy thừa thuộc loại kiến thức mà người Ấn Độ đã có. Khi
+người Ả Rập chúng ta kết hợp nó với đại số của Al-Khawarizmi, một cánh cửa mới mở ra.
+— Omar Khayyam, thế kỷ 12
+
+— 17 —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+CHƯƠNG 5 — CHÂU ÂU PHỤC HƯNG: XÁC SUẤT VÀ
+TAM GIÁC PASCAL RA ĐỜI
+
+Fibonacci và Dãy Số Thần Kỳ
+
+📅 1200 – 1600 SCN · 🗺 Italy · Pháp · Đức · Châu Âu
+Sau hàng thế kỷ Trung Cổ, Châu Âu bắt đầu tiếp xúc với toán học Ả Rập qua các bản dịch ở Toledo
+(Tây Ban Nha). Thời Phục Hưng mang theo không chỉ nghệ thuật mà cả cuộc cách mạng toán học.
+
+👤 Leonardo Fibonacci (Leonardo Pisano) (1170 – 1240 SCN, Pisa, Italy)
+Fibonacci đi du lịch khắp Địa Trung Hải cùng cha — một thương nhân. Tại Algérie và Ai Cập, ông
+học hệ số Ả Rập (thực ra là Ấn Độ) và mang về Châu Âu. Tác phẩm Liber Abaci (Sách về Tính
+Toán, 1202) đã cách mạng hóa số học Châu Âu.
+Bài toán thỏ — nguồn gốc dãy Fibonacci:
+“Nếu một đôi thỏ mỗi tháng sinh một đôi thỏ con, và đôi thỏ con sau 1 tháng sẽ sinh sản — hỏi sau
+12 tháng có bao nhiêu đôi thỏ?”
+Dãy kết quả: 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, …
+Quy tắc: 𝐹𝑛 = 𝐹𝑛−1 + 𝐹𝑛−2 — đây là hệ thức truy hồi đầu tiên được ghi lại bằng tiếng Latin.
+
+💡 PHÁT MINH — Dãy Fibonacci và Các Mối Liên Hệ Kỳ Diệu
+Dãy Fibonacci 1, 1, 2, 3, 5, 8, 13, 21, … ẩn chứa vô số bí ẩn tổ hợp:
+1. Liên hệ với tam giác Pascal: Tổng các đường chéo của tam giác Pascal cho số Fibonacci!
+2. Số Fibonacci đếm đường đi: 𝐹𝑛 là số cách lát gạch 1 × 𝑛 bằng các mảnh 1 × 1 và 1 × 2.
+√
+𝜑𝑛 − 𝜓 𝑛
+1+ 5
+√
+3. Công thức Binet: 𝐹𝑛 =
+với 𝜑 =
+(tỉ lệ vàng)
+2
+5
+⌊𝑛/2⌋
+𝑛−𝑘
+4. Liên hệ với tổ hợp: 𝐹𝑛+1 = ∑ (
+)
+𝑘
+𝑘=0
+5. Xuất hiện trong tự nhiên: Số cánh hoa, xoắn ốc sò, phân nhánh cây — đều là số Fibonacci.
+Một dãy số đơn giản, một quy tắc đơn giản — nhưng ẩn chứa vô tận cấu trúc tổ hợp.
+
+— 18 —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+Tartaglia và Cardano — Cờ Bạc Sinh Ra Xác Suất
+
+👤 Niccolò Fontana Tartaglia (1499 – 1557, Venice, Italy)
+Tartaglia (biệt danh có nghĩa là “người nói lắp”) là nhà toán học nghèo, tự học. Ông độc lập khám
+phá công thức giải phương trình bậc ba và xây dựng một phiên bản tam giác nhị thức vào
+năm 1523.
+Câu chuyện cuộc đời ông — bị Cardano phản bội, bị chiến tranh tàn phá (ông mất khả năng nói rõ
+ràng vì vết thương hàm lúc nhỏ) — là bi kịch của thiên tài nghèo trong Thế giới Phục Hưng.
+
+👤 Girolamo Cardano (1501 – 1576, Pavia, Italy)
+Cardano là thầy thuốc, triết học, nhà cờ bạc — và nhà toán học thiên tài. Tác phẩm Liber de Ludo
+Aleae (Sách về Trò Chơi Bài, viết 1526 nhưng công bố 1663) là cuốn sách đầu tiên phân tích
+xác suất một cách có hệ thống.
+Cardano đặt câu hỏi: “Khi tung xúc xắc hai lần, xác suất tổng bằng 7 là bao nhiêu?” Và
+6
+6
+1
+ông đếm cẩn thận: ( ) = 6 trường hợp ra tổng bằng 7, trên 62 = 36 tổng số. Xác suất =
+= .
+1
+36
+6
+Đây là khoảnh khắc khai sinh của xác suất cổ điển: xác suất = số trường hợp thuận lợi /
+tổng số trường hợp. Tổ hợp và xác suất bắt đầu bước đi cùng nhau.
+
+🔥 Bài Toán 5 — Bài Toán Chia Cược — Câu Hỏi Sinh Ra Lý Thuyết Xác Suất
+Vấn đề Chia Cược (Problème des parties), 1654:
+Hai người A và B chơi cờ bạc, mỗi người cược 32 franc. Người thắng trước 6 ván thắng tất cả. Khi A
+thắng 5 ván, B thắng 3 ván — trận đấu bị gián đoạn. Làm thế nào chia 64 franc một cách công bằng?
+Tại sao quan trọng: Đây là bài toán mà Chevalier de Méré hỏi Pascal và Fermat năm 1654. Cuộc
+thư từ giữa hai nhà toán học về bài toán này đã khai sinh lý thuyết xác suất toán học.
+Lời giải Pascal-Fermat: Cần tính xác suất mỗi người thắng nếu tiếp tục chơi. A còn cần 1 ván, B
+1
+còn cần 3 ván. Trong tối đa 3 ván tiếp theo, A thua khi và chỉ khi B thắng cả 3 — xác suất . Nên
+8
+7
+7
+A có xác suất thắng , nhận × 64 = 56 franc.
+8
+8
+
+Blaise Pascal — Tam Giác, Xác Suất, và Bài Toán Cược
+
+👤 Blaise Pascal (1623 – 1662, Clermont-Ferrand, Pháp)
+
+— 19 —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+Pascal là một trong những thiên tài vĩ đại nhất lịch sử toán học. Ông phát minh máy tính cơ học đầu
+tiên lúc 19 tuổi để giúp cha tính thuế. Nhưng đóng góp lớn nhất cho tổ hợp là Traité du triangle
+arithmétique (Khảo Luận Về Tam Giác Số Học, viết 1654, xuất bản 1665 sau khi ông mất).
+Thành tựu:
+• Hệ thống hóa hoàn toàn tam giác nhị thức, đặt tên và chứng minh mọi tính chất
+• Cùng Fermat xây dựng lý thuyết xác suất cổ điển
+• Phát hiện nguyên lý quy nạp toán học (induction)
+• Liên kết tổ hợp với xác suất — điều này thay đổi toán học mãi mãi
+Bi kịch: Pascal bệnh mãn tính suốt đời, mất lúc 39 tuổi. Phần lớn sự nghiệp toán học của ông hoàn
+thành trước tuổi 30.
+
+💡 PHÁT MINH — Tam Giác Pascal và 13 Tính Chất Kỳ Diệu
+Pascal không “phát minh” tam giác — ông tổng hợp và hệ thống hóa tất cả tính chất của nó:
+𝑛
+𝑛
+𝑛
+1. Hàng 𝑛 chứa ( ), ( ), …, ( )
+0
+1
+𝑛
+𝑛
+𝑛−1
+𝑛−1
+2. Công thức Pascal: ( ) = (
+)+(
+)
+𝑘
+𝑘−1
+𝑘
+𝑛
+𝑛
+3. Tổng hàng 𝑛: ∑( ) = 2𝑛
+𝑘
+𝑘=0
+𝑛
+𝑛
+4. Khai triển nhị thức: (𝑎 + 𝑏)𝑛 = ∑( )𝑎𝑘 𝑏𝑛−𝑘
+𝑘
+𝑘=0
+2𝑛
+5. Hệ số ở giữa ( ) là hệ số tổ hợp trung tâm
+𝑛
+6. Số Fibonacci ẩn trong đường chéo tam giác
+7. Mỗi số bằng tổng tất cả số phía trên bên trái
+8. Lũy thừa của 11 ẩn trong các hàng: 110 , 111 , 112 , 113 , …
+9. Tam giác Sierpiński ẩn khi tô màu số lẻ/chẵn
+Pascal chứng minh tất cả bằng quy nạp toán học — công cụ mà chính ông phát triển để làm
+điều này.
+
+Pierre de Fermat — Người Cộng Sự Vĩ Đại
+
+👤 Pierre de Fermat (1607 – 1665, Beaumont-de-Lomagne, Pháp)
+Fermat là luật sư và nhà toán học nghiệp dư — và là một trong những thiên tài toán học lớn nhất
+mọi thời đại. Ông rất ít xuất bản nhưng trao đổi thư từ với rất nhiều nhà toán học.
+Đóng góp cho tổ hợp:
+• Cùng Pascal phát triển lý thuyết xác suất qua thư từ 1654
+
+— 20 —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+• Định lý nhỏ Fermat (𝑎𝑝 ≡ 𝑎(mod 𝑝) khi 𝑝 nguyên tố) — nền tảng của mật mã học hiện đại
+• Nghiên cứu số hoàn hảo, số nguyên tố — kết nối số học và tổ hợp
+Bên lề cuốn Arithmetica của Diophantus, ông viết: “Tôi đã tìm ra một chứng minh kỳ diệu cho định
+lý này, nhưng lề sách quá hẹp để chứa.” — Định lý Fermat cuối cùng (1637), được chứng minh năm
+1995 bởi Andrew Wiles sau 358 năm.
+
+— 21 —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+CHƯƠNG 6 — THỜI ĐẠI ÁNH SÁNG: NEWTON, EULER
+VÀ HÀM SINH
+
+Newton và Nhị Thức Tổng Quát
+
+📅 1640 – 1800 · 🗺 Anh · Pháp · Thụy Sĩ · Đức · Nga
+Thế kỷ 17–18 là thời đại của những thiên tài cô đơn và tranh cãi quyết liệt. Newton và Leibniz phát
+minh giải tích gần như cùng lúc và tranh giành công nhận. Nhưng đây cũng là thời đại tổ hợp và
+giải tích bắt đầu bắt tay nhau — và Euler là người đứng giữa.
+
+👤 Isaac Newton (1643 – 1727, Woolsthorpe, Anh)
+Newton phát hiện nhị thức Newton tổng quát vào năm 1665 (lúc 22 tuổi, đang trú ẩn tránh
+bệnh dịch!):
+∞
+𝑛
+(1 + 𝑥)𝑛 = ∑( )𝑥𝑘
+𝑘
+𝑘=0
+
+Nhưng đây không còn là 𝑛 nguyên dương nữa — 𝑛 có thể là bất kỳ số thực nào! Khi 𝑛 = −1:
+(1 + 𝑥)−1 = 1 − 𝑥 + 𝑥2 − 𝑥3 + …
+1
+Khi 𝑛 = :
+2
+√
+1
+1
+1
+1 + 𝑥 = 1 + 𝑥 − 𝑥2 + 𝑥3 − …
+2
+8
+16
+Đây là khoảnh khắc mà tổ hợp gặp giải tích — và hàm sinh chuẩn bị ra đời.
+
+💡 PHÁT MINH — Nhị Thức Newton Tổng Quát — Khi Tổ Hợp Gặp Giải Tích
+Newton viết hệ số tổng quát:
+𝑛
+𝑛(𝑛 − 1)(𝑛 − 2)…(𝑛 − 𝑘 + 1)
+( )=
+𝑘
+𝑘!
+Với 𝑛 nguyên dương, đây là hệ số tổ hợp thông thường. Với 𝑛 bất kỳ, nó vẫn có nghĩa!
+Ý nghĩa sâu: Một công thức tổ hợp (hệ số nhị thức) được mở rộng sang phạm vi phân tích. Đây
+là tinh thần của toán học hiện đại: lấy một khái niệm, kiểm tra xem nó hoạt động trong phạm vi nào
+rộng hơn, và mở rộng nó.
+
+— 22 —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+Leonhard Euler — Người Đặt Nền Móng Cho Mọi Thứ
+
+👤 Leonhard Euler (1707 – 1783, Basel, Thụy Sĩ → St. Petersburg → Berlin)
+Euler là nhà toán học viết nhiều nhất trong lịch sử — hơn 800 bài báo, ngay cả khi đã mù hoàn toàn
+(ông mù năm 1771 và vẫn tiếp tục làm toán bằng cách đọc cho thư ký chép). Ông đặt ra hầu hết ký
+hiệu toán học ta dùng hôm nay: 𝑒, 𝑖, 𝜋, 𝑓(𝑥), Σ, Δ.
+Đóng góp khổng lồ cho tổ hợp và lý thuyết đồ thị:
+• Bài toán cầu Königsberg (1736): Khởi đầu lý thuyết đồ thị
+• Các số Eulerian: Đếm hoán vị theo số “đỉnh lên” (ascents)
+• Hàm sinh: Euler là người đầu tiên sử dụng chuỗi tạo sinh một cách có hệ thống
+• Phân hoạch số nguyên: Euler chứng minh đẳng thức nổi tiếng giữa phân hoạch thành số lẻ
+và phân hoạch thành số phân biệt
+• Định lý Euler về đa diện: 𝑉 − 𝐸 + 𝐹 = 2 — kết nối hình học và tổ hợp
+
+🔥 Bài Toán 6 — Bài Toán Cầu Königsberg — Khai Sinh Lý Thuyết Đồ Thị
+Bối cảnh (1736): Thành phố Königsberg (nay là Kaliningrad, Nga) có sông Pregel chảy qua, tạo
+ra hai đảo và bốn vùng đất được nối bằng 7 cầu. Câu hỏi dân gian: Có thể đi qua đúng một lần
+mỗi cây cầu và trở về điểm xuất phát không?
+Lời giải của Euler: Ông mô hình hóa bài toán bằng đồ thị: các vùng đất là đỉnh, cầu là cạnh. Ông
+chứng minh: hành trình qua tất cả cạnh đúng một lần (hành trình Euler) chỉ tồn tại khi mọi đỉnh có
+bậc chẵn. Trong đồ thị Königsberg, tất cả bốn đỉnh đều có bậc lẻ — nên không tồn tại hành trình
+như vậy.
+Tầm quan trọng: Euler không chỉ giải một câu hỏi vui. Ông tạo ra một ngôn ngữ mới — đồ
+thị — mà ngày nay là nền tảng của khoa học máy tính, mạng xã hội, logistics, và sinh học phân tử.
+
+💡 PHÁT MINH — Euler và Hàm Sinh — Đại Số Nói Tiếng Tổ Hợp
+Euler nghiên cứu phân hoạch số nguyên — số cách viết 𝑛 như tổng các số dương.
+Ví dụ, 4 = 4 = 3 + 1 = 2 + 2 = 2 + 1 + 1 = 1 + 1 + 1 + 1 — có 5 phân hoạch.
+∞
+∞
+1
+Euler dùng hàm sinh: 𝑃 (𝑥) = ∑ 𝑝(𝑛)𝑥𝑛 = ∏
+1
+−
+𝑥𝑘
+𝑛=0
+𝑘=1
+Trong đó 𝑝(𝑛) là số phân hoạch của 𝑛. Đây là công thức kỳ diệu: tích vô hạn bên phải, khi khai triển,
+cho ra đúng các hệ số 𝑝(𝑛)!
+Định lý Euler: Số phân hoạch 𝑛 thành các số lẻ bằng số phân hoạch 𝑛 thành các số phân biệt.
+
+— 23 —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+Ví dụ, 4: phân hoạch thành số lẻ: 3 + 1, 1 + 1 + 1 + 1 — 2 cách. Phân hoạch thành số phân biệt: 4, 3 +
+1 — 2 cách. Bằng nhau! Euler chứng minh điều này bằng hàm sinh.
+
+Jacob Bernoulli — Xác Suất và Luật Số Lớn
+
+👤 Jacob Bernoulli (1655 – 1705, Basel, Thụy Sĩ)
+Bernoulli là người đầu tiên chứng minh Luật Số Lớn — một trong những định lý nền tảng nhất của
+xác suất. Tác phẩm Ars Conjectandi (Nghệ Thuật Suy Đoán, xuất bản 1713 sau khi ông mất) là
+cuốn sách đầu tiên phát triển lý thuyết xác suất một cách hệ thống.
+Số Bernoulli: Ông phát hiện chuỗi số 𝐵0 , 𝐵1 , 𝐵2 , … xuất hiện trong công thức tính tổng lũy thừa:
+𝑛
+𝑚
+1
+𝑚+1
+∑ 𝑘𝑚 =
+∑(
+)𝐵𝑗 𝑛𝑚+1−𝑗
+𝑚
++
+1
+𝑗
+𝑗=0
+𝑘=1
+𝑛
+Phân phối Bernoulli: Khi tung đồng xu 𝑛 lần, xác suất được đúng 𝑘 mặt ngửa là ( )𝑝𝑘 (1 − 𝑝)𝑛−𝑘
+𝑘
+— nền tảng của thống kê hiện đại.
+
+— 24 —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+CHƯƠNG 7 — THẾ KỶ 19: TỔ HỢP TRỞ THÀNH NGÀNH
+KHOA HỌC RIÊNG
+
+Cauchy và Gauss — Nền Tảng Chặt Chẽ
+
+📅 1800 – 1900 · 🗺 Châu Âu · Pháp · Đức · Anh
+Thế kỷ 19 là thế kỷ toán học trở nên nghiêm ngặt. Cauchy và Weierstrass đặt nền móng chặt chẽ
+cho giải tích. Gauss thống trị số học. Và tổ hợp bắt đầu phát triển như một ngành độc lập, không
+chỉ là công cụ của các ngành khác.
+
+👤 Carl Friedrich Gauss (1777 – 1855, Braunschweig, Đức)
+“Hoàng tử toán học” người Đức đóng góp cho tổ hợp qua:
+• Định lý số dư Gauss — tổng quát hóa Định lý số dư Trung Hoa
+• Hàm tổng ước và hàm Euler totient 𝜑(𝑛) — đếm số nguyên tố cùng nhau với 𝑛
+• Luật bù đắp bậc hai (quadratic reciprocity) — kết nối số học và tổ hợp đại số
+Gauss
+
+tính
+
+tổng
+
+1 + 2 + … + 100 = 5050
+
+lúc
+
+7
+
+tuổi
+
+bằng
+
+cách
+
+nhận
+
+ra:
+
+ghép
+
+cặp
+
+(1, 100), (2, 99), …, (50, 51) — mỗi cặp cộng bằng 101, có 50 cặp. Đây là tư duy song ánh — linh
+hồn của tổ hợp.
+
+James Joseph Sylvester và Lý Thuyết Phân Hoạch
+
+👤 James Joseph Sylvester (1814 – 1897, London, Anh)
+Sylvester — cùng với Arthur Cayley — là người xây dựng lý thuyết ma trận và bất biến hiện đại.
+Nhưng đóng góp tổ hợp quan trọng nhất của ông là lý thuyết phân hoạch.
+Sylvester phát minh đồ thị Young (Young diagram) và đồng nhất thức Sylvester — những công
+cụ đếm phân hoạch bằng hình học. Ông cũng đặt tên “graphe” cho khái niệm đồ thị, mặc dù người
+phát minh là Euler.
+
+💡 PHÁT MINH — Đồ Thị Young — Hình Học Của Phân Hoạch
+Phân hoạch 7 = 4 + 2 + 1 được biểu diễn bằng đồ thị Young:
+
+— 25 —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+Phân hoạch 7 = 4 + 2 + 1 — 4 ô hàng 1, 2 ô hàng 2, 1 ô hàng 3
+
+Tính chất kỳ diệu: Phân hoạch liên hợp (conjugate) thu được bằng cách đổi hàng và cột của đồ
+thị Young. Điều này cho phép đếm bằng đối xứng — một trong những kỹ thuật đẹp nhất của
+tổ hợp.
+
+Arthur Cayley và Cây Gán Nhãn
+
+👤 Arthur Cayley (1821 – 1895, Richmond, Anh)
+Cayley là luật sư và nhà toán học — giống Fermat. Ông đặt nền móng cho lý thuyết đồ thị hiện
+đại với công thức Cayley (1889):
+Số cây gán nhãn (labeled tree) trên 𝑛 đỉnh là 𝑛𝑛−2 .
+Ví dụ: 𝑛 = 4 có 42 = 16 cây gán nhãn.
+Chứng minh Prüfer (1918): Tương ứng song ánh giữa cây gán nhãn và chuỗi Prüfer độ dài 𝑛 − 2.
+Mỗi cây được mã hóa thành một chuỗi duy nhất — đây là song ánh điển hình nhất của tổ hợp.
+
+Nguyên Lý Bao Hàm–Loại Trừ Được Chính Thức Hóa
+Nguyên lý bao hàm–loại trừ (Inclusion-Exclusion Principle) là một trong những công cụ đếm mạnh mẽ nhất:
+|𝐴1 ∪ 𝐴2 ∪ … ∪ 𝐴𝑛 | = ∑|𝐴𝑖 | − ∑|𝐴𝑖 ∩ 𝐴𝑗 | + ∑|𝐴𝑖 ∩ 𝐴𝑗 ∩ 𝐴𝑘 | − …
+Công thức này có nguồn gốc xa xôi từ Hy Lạp cổ đại (Aristotle), nhưng được chính thức hóa trong
+thế kỷ 19 bởi Sylvester và sau đó được Jordan trình bày hoàn chỉnh.
+
+🔥 Bài Toán 7 — Bài Toán Phong Bì — Ứng Dụng Bao Hàm–Loại Trừ
+Bài toán Phong bì (Problème des ménages):
+Có 𝑛 lá thư và 𝑛 phong bì. Nếu cho ngẫu nhiên vào phong bì, xác suất để không có lá thư nào
+vào đúng phong bì của nó là bao nhiêu?
+Đây là bài toán Đố Phức Xếp (Derangement). Số cách như vậy ký hiệu 𝐷𝑛 (hay !𝑛):
+𝑛
+1
+1
+(−1)𝑛
+(−1)𝑘
+𝐷𝑛 = 𝑛!(1 − 1 + − + … +
+) = 𝑛! ∑
+2! 3!
+𝑛!
+𝑘!
+𝑘=0
+
+— 26 —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+𝐷𝑛
+1
+→ ≈ 0.3679 khi 𝑛 → ∞.
+𝑛!
+𝑒
+1
+Kỳ diệu: Xác suất này tiến về một hằng số — số Euler! Tổ hợp và giải tích lại gặp nhau.
+𝑒
+Lịch sử: Bài toán này được Nicolas Bernoulli nêu năm 1708, Euler giải năm 1740, và nguyên lý bao
+Xác suất: 𝑃𝑛 =
+
+hàm–loại trừ là công cụ tự nhiên nhất.
+
+— 27 —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+CHƯƠNG 8 — RAMANUJAN: THIÊN TÀI TỪ MADRAS
+VÀ SỰ HUYỀN BÍ CỦA PHÂN HOẠCH
+
+Srinivasa Ramanujan — Câu Chuyện Kỳ Diệu Nhất Lịch Sử Toán
+
+👤 Srinivasa Ramanujan (1887 – 1920, Erode, Ấn Độ)
+Ramanujan là câu chuyện huyền thoại nhất trong lịch sử toán học. Không có bằng đại học, không có
+thầy hướng dẫn, không có sách giáo khoa đầy đủ — ông tự học toán trong ngôi làng nghèo ở miền
+Nam Ấn Độ và tái phát minh hàng trăm định lý toán học vốn đã có (mà ông không biết), đồng thời
+sáng tạo hàng nghìn kết quả mới hoàn toàn.
+Năm 1913, ông viết thư cho nhà toán học người Anh G.H. Hardy tại Cambridge, kèm theo một
+danh sách 120 kết quả toán học. Hardy đọc, đọc lại, và tuyên bố: “Đây không thể là người lừa
+đảo. Không ai có thể bịa ra những kết quả này.” Ông mời Ramanujan sang Cambridge — và
+lịch sử toán học thay đổi.
+Đóng góp cho tổ hợp và phân hoạch:
+• Cùng Hardy chứng minh công thức tiệm cận cho 𝑝(𝑛) (số phân hoạch)
+• Phát minh hàm theta Ramanujan và các đẳng thức modular kỳ lạ
+• Hàng nghìn công thức liên phân số, chuỗi vô hạn, và đẳng thức tổ hợp
+
+💡 PHÁT MINH — Công Thức Hardy–Ramanujan Cho Phân Hoạch
+Hãy xem bảng 𝑝(𝑛) — số phân hoạch:
+𝑛
+1
+2
+3
+4
+5
+
+𝑝(𝑛)
+1
+2
+3
+5
+7
+
+𝑛
+6
+7
+8
+9
+10
+100
+
+𝑝(𝑛)
+11
+15
+22
+30
+42
+190.569.292
+
+𝑝(𝑛) tăng cực nhanh — nhưng có công thức gần đúng!
+
+𝑛
+𝜋 √2
+1
+3
+Công thức Hardy–Ramanujan (1918): 𝑝(𝑛) ≈ √ ⋅ 𝑒
+4𝑛 3
+200
+𝜋
+1
+3 ≈ 2 × 108 — sai số chỉ khoảng 0.1% so với giá trị thực!
+√
+√ ⋅𝑒
+Ví dụ: 𝑝(100) ≈
+400 3
+
+— 28 —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+Tại sao kỳ diệu: 𝑝(𝑛) là một hàm nguyên (giá trị nguyên) nhưng lại gần đúng bởi một biểu thức
+siêu việt chứa 𝑒 và 𝜋. Đây là nơi tổ hợp rời rạc và giải tích liên tục gặp nhau theo cách đẹp nhất.
+
+Tôi đã làm toán cả đời, và tôi nhận ra rằng mình là một toán học gia hạng nhất. Ramanujan
+là một toán học gia hạng nhất một cách thực sự. So sánh những gì tôi làm với những gì ông
+làm — đó là chỉnh tề so sánh với thuần túy thiên tài.
+— G.H. Hardy, về Ramanujan
+
+Sự Kiện Taxi — Câu Chuyện Nổi Tiếng Nhất Lịch Sử Toán
+Hardy đến thăm Ramanujan trong bệnh viện (Ramanujan ốm nặng, sau này mất năm 33 tuổi vì bệnh lao):
+“Tôi đi xe taxi số 1729. Số khá chán, không có gì thú vị.”
+Ramanujan đáp ngay: “Ngược lại, đó là số nhỏ nhất được viết như tổng hai lập phương theo hai cách khác
+nhau: 1729 = 13 + 123 = 93 + 103 .”
+
+🔑 Ý NGHĨA SÂU XA — Tại Sao Điều Này Quan Trọng?
+Câu chuyện xe taxi không chỉ là giai thoại. Nó minh họa điều quan trọng nhất về tư duy tổ hợp: mọi
+con số đều có cấu trúc và tính chất ẩn. Người thường nhìn thấy số. Nhà tổ hợp nhìn thấy họ
+hàng và tổ chức của số. Ramanujan nhìn thấy điều đó tức thời, như nhìn màu sắc.
+
+— 29 —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+CHƯƠNG 9 — THẾ KỶ 20: TỔ HỢP CỰC TRỊ, ĐỒ THỊ
+VÀ MÁY TÍNH
+
+Paul Erdős — Người Đặt Câu Hỏi Hay Nhất
+
+📅 1900 – nay · 🗺 Toàn thế giới — Toán học không có biên giới
+Thế kỷ 20 chứng kiến bùng nổ của tổ hợp. Từ một ngành bị coi là “toán học vui” phụ, tổ hợp trở
+thành một trong những lĩnh vực sâu sắc và quan trọng nhất, nhờ sự phát triển của khoa học máy
+tính, lý thuyết thông tin, và sinh học phân tử.
+
+👤 Paul Erdős (1913 – 1996, Budapest, Hungary)
+Erdős là nhà toán học kỳ lạ nhất thế kỷ 20. Ông không có nhà cố định — ông đi từ đại học này sang
+đại học khác, mang theo vali nhỏ, gõ cửa đồng nghiệp và hỏi: “Trí óc của bạn còn mở không?” (Is
+your mind open?). Ông hợp tác với hơn 500 nhà toán học, xuất bản hơn 1500 bài báo — kỷ lục lịch sử.
+Đóng góp cho tổ hợp cực trị:
+• Định lý Erdős–Ko–Rado: Hệ thống phân tích tập hợp con
+• Số Ramsey: Định lý Ramsey — tổ hợp và lý thuyết trò chơi
+• Phương pháp xác suất trong tổ hợp
+• Hàng trăm phỏng đoán mở, nhiều trong số đó còn chưa được giải
+Ông gọi toán học là “cuốn sách” (The Book) — cuốn sách hoàn hảo của Chúa chứa đựng những chứng
+minh đẹp nhất cho mọi định lý.
+
+💡 PHÁT MINH — Phương Pháp Xác Suất Trong Tổ Hợp — Phát Minh Của Erdős
+Ý tưởng cách mạng: Để chứng minh một đối tượng tổ hợp tồn tại, đôi khi không cần tìm ra nó
+— chỉ cần chứng minh xác suất để nó xuất hiện trong một quá trình ngẫu nhiên là dương.
+Ví dụ: Erdős chứng minh tồn tại đồ thị với 𝑛 đỉnh không có clique lớn và không có independent set
+lớn — bằng cách chứng minh xác suất để một đồ thị ngẫu nhiên có tính chất này là lớn hơn 0.
+Tại sao cách mạng: Đây là lần đầu tiên xác suất được dùng không phải để đo sự kiện, mà để
+chứng minh sự tồn tại. Một công cụ của một ngành (xác suất) giải quyết vấn đề của ngành khác
+(tổ hợp). Toán học hiện đại đầy những cây cầu như vậy.
+
+— 30 —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+Định Lý Ramsey — Trật Tự Ẩn Trong Hỗn Loạn
+
+💡 PHÁT MINH — Định Lý Ramsey — Khi Vũ Trụ Không Thể Hoàn Toàn Hỗn Loạn
+Frank Plumpton Ramsey (1903–1930): Triết học gia và nhà toán học người Anh, mất năm 26
+tuổi — nhưng để lại một định lý làm thay đổi tư duy tổ hợp.
+Định Lý Ramsey (dạng đồ thị):
+Cho trước hai số nguyên dương 𝑟, 𝑠. Tồn tại số 𝑅(𝑟, 𝑠) (số Ramsey) sao cho: mọi đồ thị 𝐾𝑅(𝑟,𝑠) khi tô
+hai màu các cạnh đều chứa một clique đỏ kích cỡ 𝑟 hoặc một clique xanh kích cỡ 𝑠.
+Ví dụ: 𝑅(3, 3) = 6 — trong bất kỳ bữa tiệc 6 người nào, luôn có 3 người quen nhau từng cặp, hoặc
+3 người lạ nhau từng cặp!
+Hệ quả triết học: “Sự hoàn toàn hỗn loạn là bất khả thi” — trong một cấu trúc đủ lớn, luôn ẩn
+chứa trật tự. Đây là một trong những định lý đẹp nhất và bí ẩn nhất của toán học — vì hầu hết các
+số Ramsey đều chưa tính được.
+
+Claude Shannon và Lý Thuyết Thông Tin
+
+👤 Claude Shannon (1916 – 2001, Petoskey, Michigan, Mỹ)
+Shannon không phải nhà tổ hợp thuần túy, nhưng Lý Thuyết Thông Tin (1948) ông xây dựng dựa
+hoàn toàn trên tổ hợp và xác suất. Khái niệm entropy của ông:
+𝐻 = − ∑ 𝑝𝑖 log2 𝑝𝑖
+𝑖
+
+là thước đo tổ hợp xác suất về lượng thông tin — và là nền tảng của mọi hệ thống truyền thông,
+nén dữ liệu, và mã hóa hiện đại.
+Bộ nhớ flash, WiFi, Bluetooth, MP3, JPEG — tất cả đều hoạt động dựa trên lý thuyết Shannon —
+và dưới đó là tổ hợp.
+
+Richard Stanley và Tổ Hợp Đại Số Hiện Đại
+
+👤 Richard Stanley (sinh 1944, New York, Mỹ)
+Stanley là nhà tổ hợp vĩ đại nhất đương đại. Bộ sách Enumerative Combinatorics (2 tập, 1986 và
+1999) là kinh điển tổ hợp hiện đại, tổng hợp toàn bộ phương pháp đếm từ elementary đến algebraic.
+Đóng góp lớn nhất: Kết nối tổ hợp với đại số giao hoán và hình học đại số qua lý thuyết Ppartitions, symmetric functions, và Cohen-Macaulay complexes.
+
+— 31 —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+Stanley chứng minh Converse của Định lý McMullen — một bài toán mở 30 năm về f-vectors
+của polytopes đơn giản — bằng cách kết nối tổ hợp với đại số đa thức. Đây là minh họa hoàn hảo
+của tinh thần tổ hợp hiện đại: nhìn một bài toán rời rạc qua lăng kính đại số.
+
+— 32 —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+CHƯƠNG 10 — CÁC PHƯƠNG PHÁP LỚN: HÀNH
+TRÌNH QUA CÁC KỸ THUẬT
+
+Nguyên Lý Cơ Bản: Cộng và Nhân
+Hai nguyên lý đơn giản nhất của tổ hợp đã được sử dụng từ thời cổ đại, nhưng chỉ được đặt tên và hệ
+thống hóa trong thế kỷ 19:
+Nguyên lý Cộng (Rule of Sum):
+
+Nguyên lý Nhân (Rule of Product):
+
+Nếu công việc A có 𝑎 cách thực hiện và công việc
+
+Nếu công việc A có 𝑎 cách và công việc B có 𝑏
+
+B có 𝑏 cách thực hiện, và hai công việc loại trừ
+
+cách, và hai công việc độc lập, thì số cách thực
+
+nhau, thì tổng số cách là 𝑎 + 𝑏.
+
+hiện cả hai là 𝑎 × 𝑏.
+
+Nguồn gốc: logic phân loại Aristotle — “A hoặc
+
+Nguồn gốc: đếm trên cây quyết định — “A rồi B”
+
+B”
+
+Song Ánh (Bijection) — Nghệ Thuật Thay Thế
+Kỹ thuật song ánh là trái tim của tổ hợp hiện đại: để đếm tập 𝐴, ta tìm song ánh 𝐴 ↔ 𝐵 với 𝐵 dễ đếm hơn.
+
+🔥 Bài Toán 8 — Song Ánh Đẹp Nhất: Chuỗi Nhị Phân và Tập Con
+Bài toán: Chứng minh một tập 𝑛 phần tử có 2𝑛 tập con.
+Lời giải qua song ánh: Với mỗi tập con 𝑆 ⊆ {1, 2, …, 𝑛}, gán chuỗi nhị phân 𝑏1 𝑏2 …𝑏𝑛 với 𝑏𝑖 = 1
+nếu 𝑖 ∈ 𝑆, 𝑏𝑖 = 0 nếu 𝑖 ∉ 𝑆.
+Song ánh này là: tập con ↔ chuỗi nhị phân. Số chuỗi nhị phân độ dài 𝑛 là 2𝑛 . Vậy số tập con là
+2𝑛 . □
+Kỹ thuật: Ta không đếm tập con. Ta biến đổi bài toán thành đếm chuỗi nhị phân — dễ hơn nhiều.
+
+Bao Hàm–Loại Trừ (Inclusion-Exclusion)
+Công thức bao hàm–loại trừ — được hệ thống hóa trong thế kỷ 19 — giải quyết bài toán đếm tập hợp hợp:
+|𝐴1 ∪ … ∪ 𝐴𝑛 | = ∑|𝐴𝑖 | − ∑|𝐴𝑖 ∩ 𝐴𝑗 | + ∑ |𝐴𝑖 ∩ 𝐴𝑗 ∩ 𝐴𝑘 | − …
+𝑖
+
+𝑖<𝑗
+
+𝑖<𝑗<𝑘
+
+Ý nghĩa hình học: Khi tô màu nhiều hình tròn chồng lên nhau, để tính diện tích tổng, ta cộng từng hình
+tròn, rừ bỏ phần giao đôi (đếm hai lần), cộng lại phần giao ba (trừ thiếu), v.v.
+
+— 33 —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+Hàm Sinh (Generating Functions) — Cây Cầu Giữa Hai Thế Giới
+Hàm sinh được Euler phát minh, nhưng Polya, Comtet, và Stanley hoàn thiện thành công cụ mạnh:
+∞
+
+𝐹 (𝑥) = ∑ 𝑎𝑛 𝑥𝑛
+𝑛=0
+
+Trong đó 𝑎𝑛 là số cấu hình cỡ 𝑛 cần đếm. Bằng cách thao tác đại số trên 𝐹 (𝑥), ta rút ra thông tin về 𝑎𝑛 .
+
+🔥 Bài Toán 9 — Hàm Sinh Giải Bài Toán Chia Tiền
+Bài toán: Có bao nhiêu cách trả 10.000đ chỉ bằng tiền mệnh giá 1.000đ, 2.000đ, và 5.000đ?
+1
+1
+1
+Hàm sinh: 𝐹 (𝑥) = (1 + 𝑥 + 𝑥2 + …)(1 + 𝑥2 + 𝑥4 + …)(1 + 𝑥5 + 𝑥10 + …) =
+⋅
+⋅
+1 − 𝑥 1 − 𝑥2 1 − 𝑥 5
+Hệ số của 𝑥10 trong khai triển là số cách cần tìm.
+Khai triển và tính: hệ số của 𝑥10 là 10.
+Ý nghĩa: Hàm sinh biến bài toán đếm thành bài toán đại số. Thay vì đếm thủ công, ta khai
+triển đa thức — và máy tính làm điều đó trong chớp mắt.
+
+Truy Hồi (Recurrence) — Địa Phương Sinh Toàn Cục
+Quan hệ truy hồi biểu diễn 𝑎𝑛 theo các 𝑎𝑘 với 𝑘 < 𝑛:
+𝑛−1
+
+Truy hồi Fibonacci: 𝐹𝑛 = 𝐹𝑛−1 + 𝐹𝑛−2
+
+Truy hồi Catalan: 𝐶𝑛 = ∑ 𝐶𝑘 𝐶𝑛−1−𝑘
+
+Fibonacci (1202) · Pingala (300 TCN)
+Truy hồi hoán vị lệch: 𝐷𝑛 = (𝑛 − 1)(𝐷𝑛−1 +
+𝐷{𝑛−2) )
+
+𝑘=0
+
+Catalan (1838) — số cách tam giác hóa đa giác
+Truy hồi phân hoạch: 𝑝(𝑛) = ∑ 𝑝odd (𝑛, 𝑘)
+𝑘
+
+Euler (1740) — qua hàm sinh
+
+Nicolas Bernoulli (1708), Euler (1740)
+
+Số Catalan — Số Xuất Hiện Ở Mọi Nơi
+
+👤 Eugène Charles Catalan (1814 – 1894, Bruges, Bỉ)
+Catalan là nhà toán học Bỉ, phát hiện năm 1838 rằng số cách đặt dấu ngoặc cho tích 𝑛 + 1 thừa số là:
+1
+2𝑛
+𝐶𝑛 =
+( ) = 1, 1, 2, 5, 14, 42, 132, 429, …
+𝑛+1 𝑛
+Nhưng thực ra, dãy số này đã xuất hiện trong bài báo của Euler (1751) khi ông đếm số cách tam
+giác hóa đa giác lồi.
+
+💡 PHÁT MINH — Số Catalan — Nhiều Khuôn Mặt Tổ Hợp
+
+— 34 —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+Số Catalan 𝐶𝑛 đếm rất nhiều thứ khác nhau — đây là điều làm tổ hợp hấp dẫn:
+• Số cách đặt 𝑛 cặp ngoặc hợp lệ: 𝐶3 = 5: ((())), (()()), (())(), ()(()), ()()(())
+• Số cách tam giác hóa đa giác lồi 𝑛 + 2 cạnh
+• Số đường đi từ (0, 0) đến (2𝑛, 0) không xuống âm
+• Số cây nhị phân có 𝑛 nút trong
+• Số hoán vị tránh mẫu 123
+• Số cách xếp 𝑛 học sinh gái và 𝑛 học sinh trai sao cho trong bất kỳ tiền tố nào, số gái ≥ số trai
+Tất cả cùng số 𝐶𝑛 ! Đây là nguyên lý thống nhất của tổ hợp: nhiều bài toán trông khác nhau
+lại đếm cùng một thứ.
+
+— 35 —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+CHƯƠNG 11 — CÁCH MẠNG MÁY TÍNH: TỔ HỢP TIẾP
+SỨC
+
+Alan Turing và Độ Phức Tạp Tổ Hợp
+
+👤 Alan Turing (1912 – 1954, London, Anh)
+Turing là cha đẻ của khoa học máy tính. Nhưng ít ai biết rằng nhiều câu hỏi nền tảng của khoa học
+máy tính là câu hỏi tổ hợp:
+• Bài toán P vs NP: Có bao nhiêu cách để một máy tính giải một bài toán? Đây là câu hỏi tổ
+hợp về không gian tìm kiếm.
+• Độ phức tạp thuật toán: Tính số bước tối thiểu để giải một bài toán — đây là đếm theo
+nghĩa tổ hợp.
+• Máy Turing: Một mô hình tổ hợp (hữu hạn bảng trạng thái, hữu hạn ký hiệu) đủ để mô tả
+mọi tính toán.
+Turing phá mã Enigma trong Thế Chiến II — một bài toán tổ hợp về không gian khóa cực lớn.
+
+Bài Toán P ≠ NP — Câu Hỏi Tổ Hợp Của Thế Kỷ
+Câu hỏi P ≠ NP — được đặt ra năm 1971 bởi Stephen Cook — hỏi liệu:
+Nếu một lời giải bài toán có thể được kiểm tra nhanh (polynomial time), có nghĩa là nó có
+thể được tìm ra nhanh không?
+Đây là câu hỏi về không gian tổ hợp của các giải pháp — và nó là một trong bảy Bài Toán Thiên
+Niên Kỷ với giải thưởng 1.000.000 USD. Chưa ai giải được.
+
+🔑 Ý NGHĨA SÂU XA — Tại Sao Điều Này Quan Trọng?
+Bài toán P vs NP là ví dụ điển hình nhất về sức mạnh của tư duy tổ hợp trong thời đại số. Nếu P
+= NP, mọi mã hóa dữ liệu ngày nay sẽ sụp đổ — vì mã có thể bẻ khóa nhanh như kiểm tra. Tổ hợp
+không chỉ là môn học trong nhà trường — nó bảo vệ nền kinh tế số của nhân loại.
+
+Mã Hóa RSA và Tổ Hợp Bảo Mật
+Hệ mã hóa RSA (Rivest-Shamir-Adleman, 1977) dựa trên một sự kiện tổ hợp đơn giản nhưng sâu sắc:
+Nhân hai số nguyên tố lớn 𝑝 và 𝑞 để ra 𝑛 = 𝑝𝑞 rất dễ. Nhưng từ 𝑛, tìm lại 𝑝 và 𝑞 cực kỳ khó.
+√
+
+Cụ thể, không có thuật toán nào tốt hơn 𝑂(𝑒 ln 𝑛⋅ ln ln 𝑛 ) — một hàm tăng siêu nhanh.
+
+— 36 —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+Điều này dựa vào Định lý Euler: 𝑎𝜑(𝑛) ≡ 1(mod 𝑛) với (𝑎, 𝑛) = 1, trong đó 𝜑(𝑛) = (𝑝 − 1)(𝑞 − 1).
+Toàn bộ nền tảng của thương mại điện tử, ngân hàng trực tuyến, và mạng xã hội đặt trên một sự kiện tổ
+hợp–số học từ thế kỷ 18.
+
+— 37 —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+CHƯƠNG 12 — TỔNG KẾT: BÀI HỌC TỪ LỊCH SỬ
+
+Dòng Thời Gian Toàn Cảnh
+
+📅 DÒNG THỜI GIAN ĐẠI SỐ TỔ HỢP — 4000 NĂM LỊCH SỬ
+30.000 TCN
+
+Xương Ishango — vạch đếm đầu tiên (Châu Phi)
+
+3.000 TCN
+
+Babylon — bảng tính đất sét, Ai Cập — Papyrus Rhind
+
+600 TCN
+
+Pythagoras — số tam giác, số ngũ giác
+
+300 TCN
+
+Pingala — Meru-prastāra (tam giác nhị thức Ấn Độ), dãy Fibonacci Ấn Độ
+
+200 TCN
+
+Cửu Chương Toán Thuật (Trung Hoa) — hệ phương trình
+
+499 SCN
+
+Āryabhaṭa — công thức tổng lũy thừa
+
+598
+
+Brahmagupta — số học modular, phương trình Diophantine
+
+628
+
+Varāhamihira — tổ hợp nước hoa (
+
+720
+
+Al-Khalil — tổ hợp ngôn ngữ học Ả Rập đầu tiên
+
+820
+
+Al-Khawarizmi — đại số (Al-jabr), thuật toán
+
+1114
+
+Bhāskara II — Līlāvatī, công thức 𝑛! và tổ hợp tường minh
+
+1170
+
+Fibonacci — Liber Abaci, dãy Fibonacci Latin, số Ả Rập vào Châu Âu
+
+1200
+
+Ibn Mun’im (Ma-rốc) — tam giác nhị thức độc lập, đến hàng 12
+
+1247
+
+Tần Cửu Thiệu — Định Lý Số Dư Trung Hoa
+
+1261
+
+Dương Huy (Trung Hoa) — công bố tam giác Pascal Trung Hoa
+
+1526
+
+Cardano — Liber de Ludo Aleae, xác suất cổ điển đầu tiên
+
+1623
+
+Pascal sinh — bắt đầu đếm ngược đến cách mạng tổ hợp
+
+1654
+
+Thư từ Pascal–Fermat — khai sinh lý thuyết xác suất
+
+1665
+
+Newton — nhị thức tổng quát (1 + 𝑥)𝑛
+
+1713
+
+Jacob Bernoulli — Ars Conjectandi, luật số lớn
+
+16
+)
+4
+
+— 38 —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+1736
+
+Euler — bài toán cầu Königsberg → lý thuyết đồ thị ra đời
+
+1740
+
+Euler — phân hoạch, hàm sinh, đẳng thức phân hoạch
+
+1798
+
+Gauss — số nguyên tố, hàm totient
+
+1838
+
+Catalan — số Catalan, tam giác hóa đa giác
+
+1847
+
+Sylvester — đồ thị Young, phân hoạch đại số
+
+1889
+
+Cayley — công thức cây gán nhãn 𝑛𝑛−2
+
+1900
+
+Hilbert — 23 bài toán mở, khai mở thế kỷ 20
+
+1913
+
+Thư Ramanujan gửi Hardy — câu chuyện huyền thoại nhất
+
+1918
+
+Hardy–Ramanujan — công thức tiệm cận phân hoạch
+
+1930
+
+Định lý Ramsey — trật tự ẩn trong hỗn loạn
+
+1936
+
+Turing — máy Turing, nền tảng tổ hợp–logic của máy tính
+
+1948
+
+Shannon — lý thuyết thông tin, entropy
+
+1947–96
+
+Erdős — phương pháp xác suất, 1500 bài báo
+
+1971
+
+Cook — bài toán P vs NP
+
+1977
+
+RSA — mã hóa tổ hợp bảo vệ internet
+
+1986
+
+Stanley — Enumerative Combinatorics, tổ hợp đại số
+
+Nay
+
+Tổ hợp là trái tim của AI, mật mã học, sinh học hệ thống
+
+Sáu Bài Học Lớn Từ Lịch Sử
+
+🌟 SÁU BÀI HỌC LỚN TỪ LỊCH SỬ ĐẠI SỐ TỔ HỢP
+1
+
+Toán học ra đời từ bài toán thực tế, không từ tháp ngà.
+Bhāskara II viết về pha nước hoa. Cardano viết về cờ bạc. Fibonacci viết về thương mại.
+Pascal viết về cược. Euler viết về cầu. Tất cả đều bắt đầu từ cuộc sống thực — và đi đến
+toán học sâu sắc.
+
+2
+
+Cùng một ý tưởng, nhiều nền văn hóa khám phá độc lập.
+
+— 39 —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+Tam giác Pascal xuất hiện ở Ấn Độ (Pingala, 300 TCN), Trung Hoa (Giả Hiến, Dương Huy,
+thế kỷ 11–13), Ả Rập (Ibn Mun’im, Khayyam, thế kỷ 11–12), và Châu Âu (Tartaglia, Pascal,
+thế kỷ 16–17). Điều này không phải ngẫu nhiên — đây là dấu hiệu rằng toán học khám phá
+sự thật, không phát minh ra nó.
+3
+
+Mọi công cụ lớn đều là cây cầu giữa hai thế giới.
+Hàm sinh nối tổ hợp và đại số. Nhị thức Newton nối tổ hợp và giải tích. Định lý Ramsey nối
+tổ hợp và lý thuyết trò chơi. Xác suất nối tổ hợp và thống kê. Học một công cụ là học một
+ngôn ngữ nối hai thế giới.
+
+4
+
+Thiên tài không bao giờ một mình.
+Ramanujan cần Hardy. Pascal cần Fermat. Newton cần Leibniz (dù họ tranh cãi). Euler xây
+dựng trên Bernoulli. Lịch sử toán học là một cuộc đối thoại xuyên thời gian — và bạn
+đang tham gia vào cuộc đối thoại đó khi học toán.
+
+5
+
+Bài toán chưa giải hôm nay là cơ hội của bạn ngày mai.
+P vs NP chưa giải. Hầu hết số Ramsey chưa tính. Giả thuyết Collatz chưa chứng minh. Lịch
+sử không kết thúc — nó đang tiếp diễn. Và người viết chương tiếp theo có thể chính là học
+sinh đang đọc cuốn sách này.
+
+6
+
+Tổ hợp không phải học để thi — mà để thấy.
+Khi học số Fibonacci, bạn đang thấy cấu trúc của sự tăng trưởng. Khi học tam giác Pascal,
+bạn đang thấy đối xứng ẩn trong khai triển. Khi học số Catalan, bạn đang thấy rằng nhiều
+thứ trông khác nhau lại là một. Đây không phải kỹ năng thi cử — đây là cách nhìn thế giới.
+
+— 40 —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+CHƯƠNG 13 — BẢN ĐỒ CHO HỌC SINH: CÁC KHÁI
+NIỆM VÀ NGUỒN GỐC
+
+Mỗi Khái Niệm Bạn Học — Có Một Câu Chuyện Ở Sau
+
+📚 TỪ SÁCH GIÁO KHOA → LỊCH SỬ
+Khái Niệm Bạn Học
+
+Nguồn Gốc Lịch Sử
+
+Quy tắc cộng, quy tắc nhân
+
+→ Aristotle ( 350 TCN) · Phát triển chính thức
+
+Hoán vị 𝑃𝑛 = 𝑛!
+
+thế kỷ 19
+→ Bhāskara II (1150) · Ông tính bằng câu thơ
+
+Chỉnh hợp 𝐴𝑘𝑛 =
+
+𝑛!
+(𝑛 − 𝑘)!
+
+Sanskrit
+→ Al-Khalil (750 SCN) · Đếm từ 2–5 chữ cái Ả
+
+𝑛
+Tổ hợp 𝐶𝑛𝑘 = ( )
+
+Rập
+→ Varāhamihira (587 SCN) · Pha nước hoa,
+
+Tam giác Pascal
+
+Bhāskara (1150)
+→ Pingala (300 TCN) · Giả Hiến (thế kỷ 11) ·
+
+𝑘
+
+Nhị thức Newton (𝑎 + 𝑏)
+
+𝑛
+
+Pascal (1654)
+→ Pingala–Meru · Newton (1665) · Tổng quát
+
+Dãy Fibonacci
+
+hóa vĩ đại
+→ Pingala (300 TCN) · Fibonacci (1202) · Cassini
+
+Nguyên lý bao hàm–loại trừ
+
+(1680)
+→ Aristotle (logic) · Sylvester (1850s) · Jordan
+
+Số Catalan
+
+(1867)
+→ Euler (1751) · Catalan (1838) · 200+ diễn giải
+
+Phân hoạch số nguyên
+Lý thuyết đồ thị
+Xác suất cổ điển
+
+tổ hợp
+→ Euler (1740) · Hardy–Ramanujan (1918)
+→ Euler (1736) · Cayley (1889) · Ramsey (1930)
+→ Cardano (1526) · Pascal–Fermat (1654) ·
+
+Hàm sinh
+
+Bernoulli (1713)
+→ Euler (1740s) · Polya (1937) · Stanley (1986)
+
+— 41 —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+Lời Khuyên Cho Học Sinh Yêu Toán
+
+💡 NẾU BẠN YÊU TOÁN TỔ HỢP — HÃY ĐỌC VÀ THỰC HÀNH NHỮNG
+ĐIỀU SAU:
+1. Luôn hỏi “Tại sao công thức này có hình dạng như vậy?” Đừng học thuộc. Hãy hỏi nguồn
+gốc. Mỗi công thức đều có một bài toán đằng sau nó.
+2. Đọc lịch sử toán học — ít nhất một cuốn. Gợi ý: “The Man Who Loved Only Numbers” (về
+Erdős), “A Mathematician’s Apology” (Hardy), “Fermat’s Last Theorem” (Simon Singh).
+3. Tự đặt câu hỏi mở. Sau mỗi khái niệm, hỏi: “Nếu tôi thay đổi điều kiện này, điều gì xảy ra?”
+Đây là cách tất cả nhà toán học bắt đầu.
+4. Tìm cấu trúc, không phải công thức. Khi gặp bài toán đếm, đừng hỏi “Dùng công thức nào?”
+Hãy hỏi “Đối tượng này có cấu trúc gì?”
+5. Chấp nhận câu hỏi chưa có lời giải. Nhiều câu hỏi đẹp nhất của toán học vẫn chưa có đáp
+án. Đó không phải thất bại của toán học — đó là bằng chứng rằng hành trình vẫn đang tiếp diễn.
+
+— 42 —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+PHỤ LỤC A — 20 TÁC GIẢ VĨ ĐẠI NHẤT CỦA ĐẠI SỐ
+TỔ HỢP
+
+1. Pingala (300 TCN, Ấn Độ)
+
+2. Varāhamihira (587 SCN, Ấn Độ)
+
+Tam giác Meru · Dãy Fibonacci Ấn Độ · Tổ hợp vần thơ
+
+Tổ hợp nước hoa · (
+
+3. Al-Khalil (718 – 786, Iraq)
+
+4. Al-Khawarizmi (780 – 850, Uzbekistan)
+
+Tổ hợp ngôn ngữ học · Đếm từ Ả Rập · Cha đẻ ngôn
+
+Algebra (Al-jabr) · Thuật toán · Nền tảng của tất cả
+
+16
+) · Thiên văn và toán học
+4
+
+ngữ học tính toán
+
+5. Bhāskara II (1114 – 1185, Ấn Độ)
+
+6. Fibonacci (1170 – 1240, Italy)
+
+𝑛
+Līlāvatī · 𝑛! tường minh · ( ) công thức · Nhà giáo
+𝑘
+dục thiên tài
+
+Liber Abaci · Dãy Fibonacci · Số Ả Rập vào Châu Âu
+
+7. Omar Khayyam (1048 – 1131, Iran)
+
+8. Dương Huy (1238 – 1298, Trung Hoa)
+
+Tam giác nhị thức Ả Rập · Phương trình bậc ba · Thơ
+
+Tam giác khai phương · Xuất bản tam giác Pascal
+
+và toán học
+
+Trung Hoa
+
+9. Girolamo Cardano (1501 – 1576, Italy)
+
+10. Blaise Pascal (1623 – 1662, Pháp)
+
+Liber de Ludo Aleae · Xác suất cổ điển · Cờ bạc và
+
+Tam giác Pascal · Lý thuyết xác suất · Quy nạp toán
+
+toán học
+
+học · Máy tính cơ học
+
+11. Pierre de Fermat (1607 – 1665, Pháp)
+
+12. Isaac Newton (1643 – 1727, Anh)
+
+Lý thuyết xác suất · Định lý nhỏ Fermat · Định lý
+
+Nhị thức Newton tổng quát · Giải tích · Vật lý cơ học
+
+cuối Fermat
+
+thiên thể
+
+13. Leonhard Euler (1707 – 1783, Thụy Sĩ)
+
+14. Jacob Bernoulli (1655 – 1705, Thụy Sĩ)
+
+Lý thuyết đồ thị · Hàm sinh · Phân hoạch · 𝑉 − 𝐸 +
+
+Ars Conjectandi · Luật số lớn · Số Bernoulli · Phân
+
+𝐹 = 2 · Mù vẫn làm toán
+
+phối nhị thức
+
+15. Arthur Cayley (1821 – 1895, Anh)
+
+16. Eugène Catalan (1814 – 1894, Bỉ)
+
+Công thức cây 𝑛𝑛−2 · Lý thuyết nhóm · Đồ thị hữu hạn
+
+Số Catalan 𝐶𝑛 =
+
+— 43 —
+
+( 2𝑛
+𝑛 )
+· 200+ diễn giải tổ hợp
+𝑛+1
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+17. Srinivasa Ramanujan (1887 – 1920, Ấn
+
+18. Alan Turing (1912 – 1954, Anh)
+
+Độ)
+
+Máy Turing · Phá mã Enigma · P vs NP · Cha đẻ
+
+Phân hoạch · Hardy–Ramanujan · Modular forms ·
+
+khoa học máy tính
+
+Huyền thoại thiên tài tự học
+
+19. Paul Erdős (1913 – 1996, Hungary)
+
+20. Richard Stanley (sinh 1944, Mỹ)
+
+1500 bài báo · Phương pháp xác suất · Số Ramsey ·
+
+Enumerative Combinatorics · Tổ hợp đại số · Kinh điển
+
+Nhà lang thang vĩ đại
+
+hiện đại
+
+— 44 —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+PHỤ LỤC B — 15 BÀI TOÁN BẢN LỀ TRONG LỊCH SỬ
+TỔ HỢP
+Dưới đây là 15 bài toán đã thay đổi lịch sử đại số tổ hợp — mỗi bài đều là khởi đầu của một ngành mới hoặc
+một công cụ mới.
+
+🔥 Bài Toán B.1 — Đếm Vần Thơ Sanskrit [Pingala, ~300 TCN]
+Có bao nhiêu vần thơ Sanskrit độ dài 𝑛 âm tiết, mỗi âm tiết dài hoặc ngắn?
+Trả lời: 2𝑛 — và cách đếm sinh ra tam giác Meru (Pascal).
+
+🔥 Bài Toán B.2 — Pha Nước Hoa [Varāhamihira, 587 SCN]
+Từ 16 tinh dầu, chọn 4 loại. Có bao nhiêu công thức?
+16
+Trả lời: ( ) = 1820
+4
+
+🔥 Bài Toán B.3 — Xếp Các Chữ Cái [Bhāskara II, 1150 SCN]
+Có bao nhiêu cách sắp xếp chữ cái của từ RĀMA (4 chữ)?
+Trả lời: 4! = 24 — công thức hoán vị 𝑛! đầu tiên tường minh.
+
+🔥 Bài Toán B.4 — Thỏ Sinh Sản [Fibonacci, 1202]
+Sau 12 tháng, một đôi thỏ sinh ra bao nhiêu đôi con cháu?
+Trả lời: 𝐹14 = 377 — sinh ra dãy Fibonacci và tư duy truy hồi.
+
+🔥 Bài Toán B.5 — Chia Cược [Pascal–Fermat, 1654]
+A thắng 5 ván, B thắng 3 ván, ai thắng trước 6 ván thắng cả. Chia thế nào?
+7
+Trả lời: A lấy × 64 = 56 franc — khai sinh lý thuyết xác suất.
+8
+
+🔥 Bài Toán B.6 — Cầu Königsberg [Euler, 1736]
+
+— 45 —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+Có thể đi qua 7 cây cầu Königsberg, mỗi cây đúng một lần, không?
+Trả lời: Không — vì có đỉnh bậc lẻ. Đây là khởi đầu của lý thuyết đồ thị.
+
+🔥 Bài Toán B.7 — Phân Hoạch Số Nguyên [Euler, 1740]
+Có bao nhiêu cách viết 𝑛 = 7 như tổng các số dương? (Thứ tự không quan trọng.)
+Trả lời: 𝑝(7) = 15 — Euler chứng minh bằng hàm sinh.
+
+🔥 Bài Toán B.8 — Phong Bì Lộn Xộn [Bernoulli–Euler, 1708–1740]
+𝑛 lá thư vào 𝑛 phong bì ngẫu nhiên. Xác suất không có thư nào đúng chỗ?
+1
+1
+1
+Trả lời: 𝑃𝑛 = 1 − 1 + − + … → ≈ 36.79%
+2! 3!
+𝑒
+
+🔥 Bài Toán B.9 — Chia Kẹo [Bài toán Vách Ngăn, thế kỷ 19]
+Có 𝑛 viên kẹo giống nhau, chia cho 𝑘 người, mỗi người ít nhất 0 viên. Bao nhiêu cách?
+𝑛+𝑘−1
+Trả lời: (
+) — “Stars and Bars”, công cụ tổ hợp vô cùng mạnh.
+𝑘−1
+
+🔥 Bài Toán B.10 — Cây Gán Nhãn [Cayley, 1889]
+Có bao nhiêu cây khác nhau trên 𝑛 đỉnh đánh số từ 1 đến 𝑛?
+Trả lời: 𝑛𝑛−2 — Công thức Cayley kỳ diệu, chứng minh bằng song ánh Prüfer.
+
+🔥 Bài Toán B.11 — Đặt Dấu Ngoặc [Euler–Catalan, 1751–1838]
+Có bao nhiêu cách đặt dấu ngoặc cho tích 𝑎1 × 𝑎2 × … × 𝑎𝑛+1 ?
+1
+2𝑛
+Trả lời: 𝐶𝑛 =
+( ) — số Catalan, xuất hiện khắp nơi.
+𝑛+1 𝑛
+
+🔥 Bài Toán B.12 — Bữa Tiệc 6 Người [Định Lý Ramsey, 1930]
+Trong bữa tiệc 6 người, luôn có 3 người quen hết, hoặc 3 người lạ hết — đúng không?
+Trả lời: Đúng — 𝑅(3, 3) = 6. Nền tảng của tổ hợp cực trị.
+
+— 46 —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+🔥 Bài Toán B.13 — Phân Hoạch p(100) - Hardy-Ramanujan 1918
+Số cách viết 100 như tổng các số dương là bao nhiêu?
+Trả lời: 𝑝(100) = 190.569.292 — Hardy–Ramanujan tính bằng công thức tiệm cận.
+
+🔥 Bài Toán B.14 — Mã Hóa RSA [Rivest–Shamir–Adleman, 1977]
+Biết 𝑛 = 3233 = 61 × 53. Mã hóa tin nhắn 𝑚 = 65 với khóa công khai 𝑒 = 17.
+Trả lời: 𝑐 = 6517 (mod 3233) = 2790 — dựa vào định lý Euler và số học modular.
+
+🔥 Bài Toán B.15 — P vs NP [Cook, 1971 — Chưa Giải]
+Nếu một lời giải có thể được kiểm tra nhanh (polynomial time), liệu nó có thể được tìm ra nhanh
+không?
+Trả lời: Chưa biết — giải thưởng 1.000.000 USD đang chờ. Đây là câu hỏi tổ hợp quan trọng nhất
+chưa được giải của nhân loại.
+
+— 47 —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+LỜI KẾT — TIẾP TỤC HÀNH TRÌNH
+
+🌳 MỘT CÁI CÂY, 4000 NĂM, VÔ SỐ NHÁNH
+Từ những vạch khắc trên xương thú của người cổ đại Châu Phi, đến những dòng mã Python
+chạy trên siêu máy tính ngày nay — đại số tổ hợp đã đi một hành trình dài 30.000 năm.
+Nhưng mỗi bước trong hành trình đó đều được tạo ra bởi một con người, với một câu hỏi,
+trong một bối cảnh cụ thể. Pingala hỏi về vần thơ. Bhāskara hỏi về nước hoa. Fibonacci hỏi
+về thỏ. Euler hỏi về cầu. Ramanujan hỏi về số — và rồi trả lời mà không ai nghĩ đến.
+Cái cây này chưa dừng lại. Bạn đang đọc cuốn sách này và học những khái niệm mà hàng
+nghìn năm trước là bí ẩn chưa ai giải được. Và có những câu hỏi hôm nay — P vs NP, số
+Ramsey lớn, cấu trúc ẩn của phân hoạch — vẫn đang chờ người trả lời.
+Người trả lời đó có thể chính là bạn.
+
+“Toán học không phải môn học — đó là ngôn ngữ của vũ trụ. Học nó, và bạn bắt đầu nghe được tiếng
+của thế giới.”
+— Nguyễn Văn Sang —
+
+📖 Tài Liệu Để Đọc Thêm
+Lịch sử toán học:
+• Boyer, C.B. — A History of Mathematics (lịch sử toán học toàn diện nhất)
+• Katz, V.J. — A History of Mathematics: An Introduction
+• Stillwell, J. — Mathematics and Its History
+Đại số tổ hợp:
+• Stanley, R. — Enumerative Combinatorics (Vol. 1 & 2) — kinh điển
+• Graham, Knuth, Patashnik — Concrete Mathematics (cầu nối toán học và máy tính)
+• van Lint & Wilson — A Course in Combinatorics
+Truyện kể về nhà toán học:
+• Kanigel, R. — The Man Who Knew Infinity (về Ramanujan)
+
+— 48 —
+
+Lịch Sử Đại Số Tổ Hợp — Từ Đếm Đến Toán Học Hiện Đại
+
+Nguyễn Văn Sang
+
+• Hoffman, P. — The Man Who Loved Only Numbers (về Erdős)
+• Singh, S. — Fermat’s Last Theorem (về bài toán 358 năm)
+• Hardy, G.H. — A Mathematician’s Apology (tiểu luận kinh điển)
+Trực tuyến:
+• OEIS — Online Encyclopedia of Integer Sequences (oeis.org) — tra cứu bất kỳ dãy số nào
+• MacTutor — History of Mathematics (mathshistory.st-andrews.ac.uk)
+
+Cuốn sách này là một phần của Bộ Sách Khai Mở Toán Học.
+Soạn bởi: Nguyễn Văn Sang · Năm 2025–2026
+Phát hành nội bộ phục vụ giảng dạy.
+
+— 49 —
+
+

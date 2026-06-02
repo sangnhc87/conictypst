@@ -1,0 +1,428 @@
+[
+  {
+    "file": "1-dem.typ",
+    "title": "THI THỬ THPT QUỐC GIA 2026,",
+    "raw_prob": "Trong một kì thi học sinh giỏi Toán cấp tỉnh, hai bạn Minh Châu và Tiến Hân cùng đạt điểm tuyệt đối và chia sẻ vị trí thủ khoa. Tuy nhiên, Ban tổ chức chỉ có một suất học bổng đặc biệt dành cho vị trí xuất sắc nhất. Để quyết định người nhận học bổ...",
+    "category": "Khác"
+  },
+  {
+    "file": "CD-ChiPhi-An-VanToc.typ",
+    "title": "📌 Nhận Xét, body",
+    "raw_prob": "id: \"2D1V1-1\"",
+    "category": "Tích phân & Tối ưu hóa Kinh tế - Kỹ thuật"
+  },
+  {
+    "file": "CD-Chia-Keo-Euler.typ",
+    "title": "Chia Kẹo Euler — Sao và Vạch",
+    "raw_prob": "Có bao nhiêu cách chia $12$ viên kẹo *giống hệt nhau* cho $5$ em bé phân biệt sao cho: 1. Mỗi em có ít nhất $1$ viên? 2. Có em có thể không có kẹo? 3. Em thứ nhất có ít nhất $2$ viên, em thứ hai có ít nhất $3$ viên, các em còn lại tùy ý?",
+    "category": "Bài toán Chia kẹo Euler (Stars & Bars)"
+  },
+  {
+    "file": "CD-Chim-Săn-Mồi.typ",
+    "title": "CD-Chim-Săn-Mồi",
+    "raw_prob": "",
+    "category": "Mô hình hóa Vật lý & Cơ học"
+  },
+  {
+    "file": "CD-ChuoiTrangThai-Markov.typ",
+    "title": "💡 Trực Giác Sư Phạm, body",
+    "raw_prob": "",
+    "category": "Mô hình Trạng thái & Chuỗi Markov"
+  },
+  {
+    "file": "CD-Conic-DayDu.typ",
+    "title": "BA ĐƯỜNG CONIC VÀ ỨNG DỤNG TÍCH PHÂN",
+    "raw_prob": "Trong mặt phẳng $O x y$, cho hai điểm $F_1(-3, 0)$ và $F_2(3, 0)$. Gọi $(E)$ là tập hợp các điểm $M$ thỏa mãn $|M F_1| + |M F_2| = 10$.",
+    "category": "Đường Conic & Sự tiếp xúc đường cong"
+  },
+  {
+    "file": "CD-Conic-KhoiQuay copy.typ",
+    "title": "Conic Và Khối Không Gian\\",
+    "raw_prob": "Trong không gian $O x y z$ (đơn vị: mét), hình phẳng $(H)$ nằm trong mặt phẳng $(O y z)$, được giới hạn bởi parabol $(P)$ và hai đoạn $C D$, $C' D'$ như hình vẽ. Hình không gian $(K)$ có hai đáy dạng $(H)$ và chiều dài $2$ m. Bể nước hình $(K)$, đ...",
+    "category": "Đường Conic & Sự tiếp xúc đường cong"
+  },
+  {
+    "file": "CD-Conic-KhoiQuay.typ",
+    "title": "Conic Và Khối Không Gian\\",
+    "raw_prob": "Trong không gian $O x y z$ (đơn vị: mét), hình phẳng $(H)$ nằm trong mặt phẳng $(O y z)$, được giới hạn bởi parabol $(P)$ và hai đoạn $C D$, $C' D'$ như hình vẽ. Hình không gian $(K)$ có hai đáy dạng $(H)$ và chiều dài $2$ m. Bể nước hình $(K)$, đ...",
+    "category": "Đường Conic & Sự tiếp xúc đường cong"
+  },
+  {
+    "file": "CD-DaiSo-ToHop-content.typ",
+    "title": "none, body",
+    "raw_prob": "tags: (\"Dễ\"",
+    "category": "Tổ hợp & Đếm nâng cao"
+  },
+  {
+    "file": "CD-DaiSo-ToHop.typ",
+    "title": "Mục Lục Chuyên Đề Đại Số Tổ Hợp",
+    "raw_prob": "",
+    "category": "Tổ hợp & Đếm nâng cao"
+  },
+  {
+    "file": "CD-DuongThang-Oxyz.typ",
+    "title": "Đường Thẳng Trong Không Gian $O x y z$\\",
+    "raw_prob": "Cho $d_1: cases(x = 1 + 2t, y = -1 + t, z = 3 - t)$ và $d_2: cases(x = 3 + s, y = 1 - s, z = 1 + s)$. Vị trí tương đối của $d_1$ và $d_2$ là:",
+    "category": "Hình học Oxyz & Không gian"
+  },
+  {
+    "file": "CD-FSM-Dem-To-Hop.typ",
+    "title": "Sơ Đồ Trạng Thái Hữu Hạn (FSM",
+    "raw_prob": "Một dải gồm $6$ bóng đèn LED xếp thành hàng ngang. Mỗi bóng có thể phát một trong ba màu: Đỏ (Đ), Xanh lá (X), Xanh dương (B). Các quy tắc: 1. Hai bóng kề nhau không được cùng màu. 2. Sau bóng Đỏ, bóng tiếp theo *bắt buộc* là Xanh lá (không được l...",
+    "category": "Mô hình Trạng thái & Chuỗi Markov"
+  },
+  {
+    "file": "CD-Goc-Khoang-Cach.typ",
+    "title": "CHUYÊN ĐỀ GÓC - KHOẢNG CÁCH,",
+    "raw_prob": "Cho khối chóp $S.A B C D$ có đáy là hình vuông cạnh bằng $6 \" cm\"$, cạnh bên $S A$ vuông góc với mặt phẳng đáy và số đo của góc nhị diện $[B, S C, D",
+    "category": "Khác"
+  },
+  {
+    "file": "CD-HHKG.typ",
+    "title": "HHKG KHÓ,",
+    "raw_prob": "Cho tứ diện $A B C D$ có $d(A, C D)=8$, $d(B, C D)=10$, $d(A B, C D)=5$, $A B=7$. Hãy tính theo đơn vị độ tổng số đo góc nhị diện $[A, C D, B",
+    "category": "Hình học Oxyz & Không gian"
+  },
+  {
+    "file": "CD-Hai-con-bo.typ",
+    "title": "CD-Hai-con-bo",
+    "raw_prob": "Từ điểm $A$ trên mặt đất hai con bọ rùa I và II bò sát mặt đất theo hai hướng tạo với nhau một góc $50^degree$, với tốc độ lần lượt là $4 \" cm/s\"$ và $5 \" cm/s\"$, sau đó $20$ giây thì hai con bọ rùa bắt đầu đổi hướng bay lên trên không theo hai hư...",
+    "category": "Khác"
+  },
+  {
+    "file": "CD-HamSinh-GeneratingFunction-content.typ",
+    "title": "none, body",
+    "raw_prob": "id: \"1GF-1A\"",
+    "category": "Hàm sinh (Generating Functions)"
+  },
+  {
+    "file": "CD-HamSinh-GeneratingFunction.typ",
+    "title": "none, body",
+    "raw_prob": "id: \"1GF-1A\"",
+    "category": "Hàm sinh (Generating Functions)"
+  },
+  {
+    "file": "CD-HamSinh-LoiBai-NangCao-content.typ",
+    "title": "none, body",
+    "raw_prob": "id: \"GF2-1-1\"",
+    "category": "Hàm sinh (Generating Functions)"
+  },
+  {
+    "file": "CD-HamSinh-LoiBai-NangCao.typ",
+    "title": "none, body",
+    "raw_prob": "",
+    "category": "Hàm sinh (Generating Functions)"
+  },
+  {
+    "file": "CD-HamSinh-TronBo.typ",
+    "title": "Mục Lục Trọn Bộ Chuyên Đề",
+    "raw_prob": "",
+    "category": "Hàm sinh (Generating Functions)"
+  },
+  {
+    "file": "CD-Kinh-Te-Tich-Phan.typ",
+    "title": "Phân tích tác động chính sách",
+    "raw_prob": "id: \"0D8V2-7\"",
+    "category": "Tích phân & Tối ưu hóa Kinh tế - Kỹ thuật"
+  },
+  {
+    "file": "CD-MatCau.typ",
+    "title": "Mặt Cầu,",
+    "raw_prob": "Trong không gian $O x y z$, coi Trái Đất là một hình cầu có tâm là gốc tọa độ và có bán kính bằng $16$, đơn vị dài trên mỗi trục tọa độ là $400 \" km\"$, đường xích đạo nằm trong mặt phẳng $(O x y)$. Tại điểm $A(0; 16; 0)$, người ta phóng một tàu vũ...",
+    "category": "Hình học Oxyz & Không gian"
+  },
+  {
+    "file": "CD-NangSuat-NhaMay-ToiUu.typ",
+    "title": "none, body",
+    "raw_prob": "id: \"2Z-DS1\"",
+    "category": "Tích phân & Tối ưu hóa Kinh tế - Kỹ thuật"
+  },
+  {
+    "file": "CD-Oxyz-ChuyenDong-CamBien.typ",
+    "title": "none, body",
+    "raw_prob": "id: \"2D4H3-5\"",
+    "category": "Hình học Oxyz & Không gian"
+  },
+  {
+    "file": "CD-Parabol.typ",
+    "title": "ỨNG DỤNG TÍCH PHÂN TRONG BÀI TOÁN THỰC TẾ,",
+    "raw_prob": "Diện tích phần hình phẳng $(H)$ được tô màu vàng trong hình vẽ bên dưới bằng bao nhiêu (làm tròn kết quả đến hàng phần mười)? #align(center)[ #cetz.canvas(length: 0.5cm, { import cetz.draw: * let w = 6 let h = 12 let h1 = 8 let a = -(4 + 2 * calc....",
+    "category": "Đường Conic & Sự tiếp xúc đường cong"
+  },
+  {
+    "file": "CD-PhanPhoi-4TruongHop.typ",
+    "title": "none, body",
+    "raw_prob": "",
+    "category": "Khác"
+  },
+  {
+    "file": "CD-QuyDaoTron-KhoangCach.typ",
+    "title": "Lý Thuyết Nền",
+    "raw_prob": "Trong không gian $O x y z$ (đơn vị: mét), mặt đất là $z + 8 = 0$. Vật $M$ chuyển động trên quỹ đạo tròn, qua ba điểm $A(1; 0; 6)$, $B(3; 2; 4)$, $C(5; 0; 4)$. Tính khoảng cách ngắn nhất từ vật đến mặt đất (làm tròn đến hàng phần trăm).",
+    "category": "Khác"
+  },
+  {
+    "file": "CD-SoDoCay-XacSuat-TroChoi.typ",
+    "title": "none, body",
+    "raw_prob": "",
+    "category": "Xác suất & Sơ đồ cây (Probability)"
+  },
+  {
+    "file": "CD-Sự-Tiếp-Xúc-2-Đường-Cong.typ",
+    "title": "Khung trình bày sư phạm",
+    "raw_prob": "Nửa phải của rãnh một chiếc *nhẫn cưới* được tạo bởi hai nét ghép trơn: - Cung parabol $y = x^2 - 1$ từ $V(0; -1)$ đến $N(1; 0)$. - Một cung tròn ghép trơn với parabol tại $N$, có tâm nằm trên trục $O y$. Hãy tìm tâm $I$, bán kính $R$ của cung trò...",
+    "category": "Khác"
+  },
+  {
+    "file": "CD-Tang-Giam-LienTuc.typ",
+    "title": "CD-Tang-Giam-LienTuc",
+    "raw_prob": "_Câu chuyện về mối tình đầu của giới trẻ thì nó rất là thú vị và hấp dẫn, yêu thì nồng nhiệt hết mình mà chia tay thì cũng phũ phàng quyết liệt không kém. Thế nhưng dù có như thế nào thì mối tình đầu cũng rất là khó phai._ \\ Giả sử có một mối tình...",
+    "category": "Khác"
+  },
+  {
+    "file": "CD-Thiet-Dien-Parabol-Hinh-Non.typ",
+    "title": "Thiết Diện Parabol Của Hình Nón",
+    "raw_prob": "Cắt hình nón tròn xoay bởi một mặt phẳng $(alpha)$ song song với đúng *một* đường sinh và không đi qua đỉnh. Thiết diện thu được là đường conic loại nào?",
+    "category": "Đường Conic & Sự tiếp xúc đường cong"
+  },
+  {
+    "file": "CD-TichPhan-TocDo-DoanhThu.typ",
+    "title": "* Tích Phân Ứng Dụng",
+    "raw_prob": "id: \"1DP-TT-1\"",
+    "category": "Tích phân & Tối ưu hóa Kinh tế - Kỹ thuật"
+  },
+  {
+    "file": "CD-ToMau.typ",
+    "title": "💡 Trực Giác, body",
+    "raw_prob": "Có bao nhiêu số tự nhiên có $4$ chữ số (khác $0$ ở hàng nghìn), lấy từ tập $\\{0, 1, 2, 3, 4\\}$, sao cho không có hai chữ số liên tiếp nào bằng nhau?",
+    "category": "Khác"
+  },
+  {
+    "file": "CD-ToiUu-KinhTe-DaDieuKien.typ",
+    "title": "none, body",
+    "raw_prob": "id: \"CD-KT-01\"",
+    "category": "Tích phân & Tối ưu hóa Kinh tế - Kỹ thuật"
+  },
+  {
+    "file": "CD-TongHop-YTuong-DeThi.typ",
+    "title": "none, body",
+    "raw_prob": "",
+    "category": "Khác"
+  },
+  {
+    "file": "CD-TrangThai-ToHop-XacSuat.typ",
+    "title": "💡 Trực Giác, body",
+    "raw_prob": "Từ các chữ số $1, 2, 3, 4, 5, 6$ (không được lặp lại), lập các số tự nhiên có *3 chữ số*. Có bao nhiêu số như vậy?",
+    "category": "Mô hình Trạng thái & Chuỗi Markov"
+  },
+  {
+    "file": "CD-Treo-Vật.typ",
+    "title": "Treo Vật",
+    "raw_prob": "Trên trần nhà được coi là phẳng song song với mặt đất có bốn điểm $A, B, C, D$ theo thứ tự tạo thành một hình thang vuông tại $A$ và $B$, có các kích thước $A B = 40$ cm, $B C = 40$ cm, $A D = 60$ cm. Người ta dự định đặt mua một quả cầu phong thu...",
+    "category": "Mô hình hóa Vật lý & Cơ học"
+  },
+  {
+    "file": "CD-Vật-Chắn-Tầm-Nhìn.typ",
+    "title": "VẬT CHẮN TẦM NHÌN,",
+    "raw_prob": "Một sân khấu ngoài trời có mặt sân khấu nằm trên mặt phẳng ngang. Khán giả ngồi trên một khán đài với các hàng ghế được sắp xếp theo các bậc thang. Bậc thấp nhất có độ cao $h_1 = 0,5$ m so với mặt sân khấu. Các bậc tiếp theo có độ cao tăng dần, mỗ...",
+    "category": "Mô hình hóa Vật lý & Cơ học"
+  },
+  {
+    "file": "CD-Xac-Suất-Bayes-Tim-x.typ",
+    "title": "Xác Suất Hậu Nghiệm & Công Thức Bayes\\",
+    "raw_prob": "id: \"2D6V2-3\"",
+    "category": "Xác suất & Sơ đồ cây (Probability)"
+  },
+  {
+    "file": "CD-XacSuat-DieuKien-Gia.typ",
+    "title": "🔍 Manh Mối, body",
+    "raw_prob": "id: \"BAYES-VU1\"",
+    "category": "Xác suất & Sơ đồ cây (Probability)"
+  },
+  {
+    "file": "CD-XacSuat-DieuKien-PhanPhoi.typ",
+    "title": "⚙️ Công Cụ Phân Tích, body",
+    "raw_prob": "id: \"PPD-01\"",
+    "category": "Xác suất & Sơ đồ cây (Probability)"
+  },
+  {
+    "file": "CD-min-max-DT-DuongTron.typ",
+    "title": "Khoảng Cách Nhỏ Nhất & Lớn Nhất\\",
+    "raw_prob": "Trong không gian $O x y z$, cho mặt cầu $(S): x^2 + y^2 + z^2 = 9$ và mặt phẳng $(alpha): z = 0$. Gọi $(C)$ là đường tròn giao tuyến của $(S)$ và $(alpha)$. Cho đường thẳng $d: cases(x = 5, z = 0)$. Gọi $M in (C)$, $N in d$. Khoảng cách ngắn nhất ...",
+    "category": "Khác"
+  },
+  {
+    "file": "CD-tich-Phan-đọc lạ.typ",
+    "title": "CD-tich-Phan-đọc lạ",
+    "raw_prob": "Một đường hầm mô hình có chiều dài là $6 \" cm\"$. Thiết diện vuông góc với mặt đáy là một nửa hình elip, thiết diện có độ dài cạnh đáy (trục lớn) luôn gấp $3$ lần chiều cao (nửa trục bé). Chiều cao của mỗi thiết diện nửa elip cho bởi công thức $h(x...",
+    "category": "Khác"
+  },
+  {
+    "file": "CD-Đếm Nâng Cao.typ",
+    "title": "CD-Đếm Nâng Cao",
+    "raw_prob": "Cho tập $X = {1; 2; dots; 14}$ và 7 ô tròn $a, b, c, d, e, f, g$ được bố trí như hình vẽ bên dưới. Mỗi ô tròn nhỏ chỉ xếp được đúng một số từ $X$. Biết rằng có tất cả $T$ cách chọn ra $7$ số khác nhau từ tập $X$ để xếp vào 7 ô tròn, sao cho có ít ...",
+    "category": "Tổ hợp & Đếm nâng cao"
+  },
+  {
+    "file": "CHủ Đề Thay Đổi Bảo Hoà.typ",
+    "title": "SUY DIỄN LOGISTIC - GIỚI HẠN CỦA SỰ THAY ĐỔI,",
+    "raw_prob": "Doanh thu hằng tháng $R$ của một sản phẩm mới trong một khoảng thời gian dự kiến tuân theo hàm logistic: $R = R(t) = A / (1+55e^(-t)) - B$ (sản phẩm), với $A, B$ là các hệ số thực và $t$ là thời gian được tính bằng tháng. Biết tốc độ bán hàng là đ...",
+    "category": "Khác"
+  },
+  {
+    "file": "Cầu Bị Gió Thổi.typ",
+    "title": "XÁC SUẤT ĐỐI KHÁNG,",
+    "raw_prob": "Trong một cuộc thi Toán, hai học sinh Minh Châu và Tiến Hân cùng đạt điểm cao nhất. Ban tổ chức quyết định chọn ra một bạn để trao thưởng đặc biệt bằng cách cho mỗi bạn cầm hai con xúc xắc cân đối đồng chất và cùng gieo, bạn nào có tổng số chấm lớ...",
+    "category": "Xác suất & Sơ đồ cây (Probability)"
+  },
+  {
+    "file": "Cánh-Tay-Robot.typ",
+    "title": "HHKG KHÓ,",
+    "raw_prob": "Cho ba thanh cứng $A B, B C, C D$ gắn với nhau bằng hai bản lề tại $B$ và $C$, hai đầu còn lại được gắn cố định với sàn nhà tại hai bản lề $A$ và $D$. Biết rằng $A B = C D = 5$ m, $B C = 3$ m, $A D = 6$ m, mặt phẳng $(A B C D)$ luôn vuông góc với ...",
+    "category": "Mô hình hóa Vật lý & Cơ học"
+  },
+  {
+    "file": "Da-Giac-Deu.typ",
+    "title": "BẢNG TÓM TẮT CÔNG THỨC",
+    "raw_prob": "Cho đa giác đều $(H)$ có $18$ đỉnh nội tiếp trong một đường tròn. Chọn ngẫu nhiên $3$ đỉnh của $(H)$ để tạo thành một tam giác. Gọi $P$ là xác suất để tam giác được tạo thành là tam giác nhọn. Hãy tính $1000P$ (làm tròn kết quả đến hàng đơn vị).",
+    "category": "Khác"
+  },
+  {
+    "file": "Di-Chuyển-Qua-Nhiều-Môi-Trường-Có-Vận-Tốc.typ",
+    "title": "Di-Chuyển-Qua-Nhiều-Môi-Trường-Có-Vận-Tốc",
+    "raw_prob": "Một phương tiện cần di chuyển từ điểm $A$ đến điểm $D$ thông qua điểm $B$ nằm trên đoạn $A C$. Biết $A C = 30$ km, $C D perp A C$ tại $C$ và $C D = 40$ km. Vận tốc di chuyển trên đoạn $A B$ là $v_1 = 80$ km/h, vận tốc di chuyển trên đoạn $B D$ là ...",
+    "category": "Khác"
+  },
+  {
+    "file": "Dien-Tich-Conic-Ẩn.typ",
+    "title": "Lý thuyết: 3 đường Conic & Nhận diện Parabol ẩn",
+    "raw_prob": "Cho hình vuông $A B C D$ có $A B = 60 sqrt(2)$ cm. Gọi $(H)$ là tập hợp các điểm $M$ nằm trong hình vuông $A B C D$ và thỏa mãn $d(M; B D) - 20 >= M A$. Hãy tính diện tích hình phẳng $(H)$ theo đơn vị centimét vuông (_làm tròn kết quả đến hàng đơn...",
+    "category": "Đường Conic & Sự tiếp xúc đường cong"
+  },
+  {
+    "file": "FSM-To-Mau.typ",
+    "title": "TƯ DUY TRẠNG THÁI FSM TRONG BÀI TOÁN ĐẾM TỔ HỢP,",
+    "raw_prob": "Một dải băng giấy được chia làm $6$ ô vuông liên tiếp từ trái qua phải. Có $4$ loại màu sơn khác nhau. Cần tô màu cho $6$ ô vuông này sao cho hai ô liền kề nhau luôn được sơn khác màu. Hỏi có bao nhiêu cách tô sao cho *ô số 6 CÙNG MÀU với ô số 1*?",
+    "category": "Mô hình Trạng thái & Chuỗi Markov"
+  },
+  {
+    "file": "FSM.typ",
+    "title": "Thiết Diện Parabol Của Hình Nón",
+    "raw_prob": "Một dải đèn LED trang trí được cấu tạo từ $n$ bóng đèn xếp thành một hàng ngang. Mỗi bóng đèn có thể phát ra một trong $3$ màu: Đỏ (Đ), Xanh lá (X), Xanh dương (B). Để dải đèn đạt được hiệu ứng thị giác theo thiết kế của kỹ sư, hệ thống được lập t...",
+    "category": "Mô hình Trạng thái & Chuỗi Markov"
+  },
+  {
+    "file": "Gieo-Xúc-Sắc-Xác-Suất-Bốc-Bi.typ",
+    "title": "Xác Suất Đối Kháng,",
+    "raw_prob": "Có 3 chiếc hộp trống được ký hiệu là $A$, $B$ và $C$. Người ta thực hiện một phép thử như sau: Gieo một con xúc xắc cân đối và đồng chất, gọi $k$ là số chấm xuất hiện. Mỗi lần gieo, người ta lấy đúng 2 quả bóng để cho vào các hộp theo quy tắc: nếu...",
+    "category": "Xác suất & Sơ đồ cây (Probability)"
+  },
+  {
+    "file": "Parabol-Oxyz-Có-Vận-Tốc.typ",
+    "title": "Sự tinh tế của người ra đề",
+    "raw_prob": "mode:\"loigiai\"",
+    "category": "Đường Conic & Sự tiếp xúc đường cong"
+  },
+  {
+    "file": "Parabol-Oxyz.typ",
+    "title": "Parabol-Oxyz",
+    "raw_prob": "Trên bức tường cần trang trí một hình phẳng dạng parabol đỉnh $S$ như hình vẽ, biết rằng $S O = A B = 4\"m\"$, $O$ là trung điểm của $A B$. Parabol được chia thành 3 phần để sơn ba màu khác nhau với mức chi phí: phần trên là phần kẻ sọc $140.000$ đồ...",
+    "category": "Đường Conic & Sự tiếp xúc đường cong"
+  },
+  {
+    "file": "Quả-Cầu-Di-Chuyển.typ",
+    "title": "QUẢ CẦU DI CHUYỂN,",
+    "raw_prob": "Trong không gian $O x y z$ có đơn vị dài trên mỗi trục là centimet, cho một quả cầu $(S)$ có bán kính bằng $30\" cm\"$, ở thời điểm ban đầu $t_0 = 0$ có tọa độ tâm là $I_0(20;10;0)$ và hai điểm cố định trong không gian có tọa độ $A(25;56;9)$, $B(21;...",
+    "category": "Mô hình hóa Vật lý & Cơ học"
+  },
+  {
+    "file": "Sơ-Đồ-Cây-1-3-6.typ",
+    "title": "SƠ ĐỒ CÂY 1-3-6,",
+    "raw_prob": "Một công ty sản xuất một loại sản phẩm. Trước khi bán ra thị trường, công ty đã phỏng vấn $200$ khách hàng và thấy có $88$ người trả lời \"sẽ mua\", $52$ người trả lời \"không mua\", số còn lại trả lời \"sẽ cân nhắc\" thêm và hiện tại chưa quyết định sẽ...",
+    "category": "Xác suất & Sơ đồ cây (Probability)"
+  },
+  {
+    "file": "Sơ-Đồ-Cây-1-3-6-beamer.typ",
+    "title": "SƠ ĐỒ CÂY 1-3-6",
+    "raw_prob": "",
+    "category": "Xác suất & Sơ đồ cây (Probability)"
+  },
+  {
+    "file": "Sơ-Đồ-Cây-2-4-8.typ",
+    "title": "SƠ ĐỒ CÂY 1-3-6,",
+    "raw_prob": "Một công ty bảo hiểm thực hiện thống kê trên $20.000$ khách hàng đăng ký. Các khách hàng được phân loại dựa trên ba tiêu chí độc lập: - Độ tuổi: Trẻ hoặc Già; - Giới tính: Nam hoặc Nữ; - Tình trạng hôn nhân: Đã lập gia đình hoặc Độc thân. Dữ liệu ...",
+    "category": "Xác suất & Sơ đồ cây (Probability)"
+  },
+  {
+    "file": "Tốc Độ Vật Trượt.typ",
+    "title": "Cơ sở nền tảng: Vectơ vị trí và Vectơ vận tốc",
+    "raw_prob": "",
+    "category": "Mô hình hóa Vật lý & Cơ học"
+  },
+  {
+    "file": "Xác-Suât-Đối Kháng.typ",
+    "title": "Xác Suất Đối Kháng,",
+    "raw_prob": "Một công ty sản xuất một loại sản phẩm. Trước khi bán ra thị trường, công ty đã phỏng vấn $200$ khách hàng và thấy có $88$ người trả lời \"sẽ mua\", $52$ người trả lời \"không mua\", số còn lại trả lời \"sẽ cân nhắc\" thêm và hiện tại chưa quyết định sẽ...",
+    "category": "Xác suất & Sơ đồ cây (Probability)"
+  },
+  {
+    "file": "Xác-Suất-Bốc-Bi.typ",
+    "title": "Xác Suất Đối Kháng,",
+    "raw_prob": "Ban đầu cho hai hộp bi riêng biệt đựng những viên bi có cùng kích thước và cùng khối lượng. Hộp I đựng 4 viên bi màu đỏ, 2 viên bi màu xanh, 1 viên bi vàng còn hộp II đựng 5 viên bi màu đỏ và 2 viên bi màu xanh. Tiến hành lấy ngẫu nhiên hai viên b...",
+    "category": "Xác suất & Sơ đồ cây (Probability)"
+  },
+  {
+    "file": "de-01.typ",
+    "title": "THI THỬ THPT QUỐC GIA 2026,",
+    "raw_prob": "Tính tích phân $I = integral_0^(pi/2) cos x dif x$.",
+    "category": "Khác"
+  },
+  {
+    "file": "de-02.typ",
+    "title": "THI THỬ THPT QUỐC GIA 2026,",
+    "raw_prob": "Hai dây xích $\"AC\"$ và $\"BD\"$ giữ khúc gỗ $\"CD\"$ dài $2,5\" m\"$ nằm ngang, cách mặt đất $1,2\" m\"$. Cột $A$ cao $9\" m\"$, cột $B$ cao $4\" m\"$, khoảng cách hai cột $13\" m\"$. Chi phí: $\"AC\"$ là $0,4$ triệu VNĐ/$1\" m\"$, $\"BD\"$ là $0,1$ triệu VNĐ/$1\" m\"$...",
+    "category": "Khác"
+  },
+  {
+    "file": "de-03-beamer.typ",
+    "title": "ĐỀ THI THỬ THPT 2026,",
+    "raw_prob": "Đề bài câu đúng/sai 1.",
+    "category": "Khác"
+  },
+  {
+    "file": "de-03.typ",
+    "title": "THI THỬ THPT QUỐC GIA 2026,",
+    "raw_prob": "Đề bài câu 1.",
+    "category": "Khác"
+  },
+  {
+    "file": "de-tu-web.typ",
+    "title": "ĐỀ THI TỰ CHỌN TỪ WEB EDITOR,",
+    "raw_prob": "",
+    "category": "Khác"
+  },
+  {
+    "file": "min-đường-thẳng-đường-tròn.typ",
+    "title": "TRẮC NGHIỆM NHIỀU PHƯƠNG ÁN LỰA CHỌN",
+    "raw_prob": "Trong không gian $O x y z$, cho mặt cầu $(S): x^2 + y^2 + z^2 = 9$ và mặt phẳng $(alpha): z = 0$. Gọi $(C)$ là đường tròn giao tuyến của $(S)$ và $(alpha)$. Cho đường thẳng $d$ có phương trình $cases(x = 5, z = 0)$. Gọi $M$ là điểm chạy trên $(C)$...",
+    "category": "Khác"
+  },
+  {
+    "file": "Đon-Bắt-Mục tiêu.typ",
+    "title": "Đon-Bắt-Mục tiêu",
+    "raw_prob": "Trên mặt phẳng tọa độ với đơn vị dài trên mỗi trục là kilômét có một khẩu pháo đặt tại gốc tọa độ và một mục tiêu chuyển động thẳng đều ở thời điểm ban đầu có tọa độ $A(0\",\"5; 6)$. Ở thời điểm $20$ giây khoảng cách từ mục tiêu đến $3$ radar đặt tạ...",
+    "category": "Mô hình hóa Vật lý & Cơ học"
+  },
+  {
+    "file": "Đánh-Trận-Có Vận Tốc.typ",
+    "title": "Đánh-Trận-Có Vận Tốc",
+    "raw_prob": "mode: \"loigiai\"",
+    "category": "Mô hình hóa Vật lý & Cơ học"
+  },
+  {
+    "file": "Đếm-FSM-NxN.typ",
+    "title": "KỲ THI KHẢO SÁT CHẤT LƯỢNG,",
+    "raw_prob": "Người ta trang trí một bảng ô vuông $5 times 5$ bằng các *Ngôi sao* và *Bông hoa* $(*)$ giống nhau. Mỗi ô vuông nhỏ được dán một đối tượng sao cho trong mỗi hàng và mỗi cột của bảng đó đều có đúng *2 Ngôi sao* (và $3$ Bông hoa). Có tất cả bao nhiê...",
+    "category": "Mô hình Trạng thái & Chuỗi Markov"
+  }
+]

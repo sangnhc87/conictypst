@@ -1,0 +1,223 @@
+import os
+import re
+import json
+
+exams_dir = "/Users/admin/conictypst/typst/exams"
+files = [f for f in os.listdir(exams_dir) if f.endswith(".typ")]
+
+def find_brackets(text, start_pos):
+    first_bracket = text.find('[', start_pos)
+    if first_bracket == -1:
+        return None, start_pos
+    
+    count = 1
+    i = first_bracket + 1
+    content = ""
+    while i < len(text):
+        if text[i] == '[':
+            count += 1
+        elif text[i] == ']':
+            count -= 1
+            if count == 0:
+                return content, i + 1
+        content += text[i]
+        i += 1
+    return None, start_pos
+
+def find_parentheses(text, start_pos):
+    first_paren = text.find('(', start_pos)
+    if first_paren == -1:
+        return None, start_pos
+    
+    count = 1
+    i = first_paren + 1
+    content = ""
+    while i < len(text):
+        if text[i] == '(':
+            count += 1
+        elif text[i] == ')':
+            count -= 1
+            if count == 0:
+                return content, i + 1
+        content += text[i]
+        i += 1
+    return None, start_pos
+
+def extract_choices(text):
+    choices = []
+    pos = 0
+    while True:
+        choice, next_pos = find_brackets(text, pos)
+        if choice is None:
+            break
+        choices.append(choice.strip())
+        pos = next_pos
+    return choices
+
+def find_next_q_pos(text, start_pos):
+    m = re.search(r"#(tln|tn|ds|example-box|eg-box)\b", text[start_pos:])
+    if m:
+        return start_pos + m.start()
+    return len(text)
+
+def extract_solution_boxes_in_range(text, start_pos, end_pos):
+    sol_parts = []
+    pos = start_pos
+    
+    valid_boxes = ['cach1-box', 'cach2-box', 'ans-box', 'loigiai-box', 'loigiai', 
+                   'ppgiai', 'step', 'reset-step', 'luuy', 'meo', 'callout', 
+                   'theory-box', 'insight-box', 'warn-box', 'key-box', 'compare-box', 'sol-diagram']
+    
+    pattern = re.compile(r"#(" + "|".join(valid_boxes) + r")\b")
+    
+    while pos < end_pos:
+        m = pattern.search(text, pos, end_pos)
+        if not m:
+            break
+            
+        box_type = m.group(1)
+        box_start = m.start()
+        
+        # Check if there are parentheses first
+        paren_content, paren_next = find_parentheses(text, box_start + len(box_type) + 1)
+        if paren_content is not None and paren_next <= end_pos:
+            # find brackets after paren
+            inner, next_pos = find_brackets(text, paren_next)
+            if inner is not None and next_pos <= end_pos:
+                title_match = re.search(r'title:\s*"([^"]+)"', paren_content)
+                title = title_match.group(1) if title_match else ""
+                sol_parts.append({
+                    "type": box_type,
+                    "title": title,
+                    "content": inner.strip()
+                })
+                pos = next_pos
+            else:
+                pos = paren_next
+        else:
+            # check directly for brackets
+            inner, next_pos = find_brackets(text, box_start + len(box_type) + 1)
+            if inner is not None and next_pos <= end_pos:
+                sol_parts.append({
+                    "type": box_type,
+                    "content": inner.strip()
+                })
+                pos = next_pos
+            else:
+                pos = box_start + len(box_type) + 1
+                
+    return sol_parts
+
+def extract_problems_with_solutions(filepath):
+    with open(filepath, "r", encoding="utf-8", errors="ignore") as f:
+        content = f.read()
+    
+    problems = []
+    
+    # 1. First find all question occurrences and their positions
+    q_matches = []
+    pos = 0
+    while True:
+        m = re.search(r"#(tln|tn|ds|example-box|eg-box)\b", content[pos:])
+        if not m:
+            break
+        start_idx = pos + m.start()
+        q_type = m.group(1)
+        q_matches.append((q_type, start_idx))
+        pos = start_idx + len(m.group(0))
+        
+    # Process each question match
+    for idx, (q_type, start_idx) in enumerate(q_matches):
+        if len(problems) >= 2:
+            break
+            
+        # Find the question block content
+        q_content, next_pos = find_brackets(content, start_idx)
+        if q_content is None:
+            continue
+            
+        # Find where the next question starts, to bound our solution search
+        next_q_pos = q_matches[idx + 1][1] if idx + 1 < len(q_matches) else len(content)
+        
+        q_clean = q_content.strip()
+        ans_content = ""
+        sol_parts = []
+        
+        if q_type == "tln":
+            ans_content, next_ans_pos = find_brackets(content, next_pos)
+            if ans_content:
+                ans_content = ans_content.strip()
+            
+            # Check for loigiai: [ ... ] inside this function call
+            loigiai_idx = content.find('loigiai:', next_ans_pos)
+            if loigiai_idx != -1 and loigiai_idx < next_q_pos:
+                sol_content, _ = find_brackets(content, loigiai_idx)
+                if sol_content:
+                    sol_parts.append({
+                        "type": "loigiai",
+                        "content": sol_content.strip()
+                    })
+        elif q_type in ["tn", "ds"]:
+            first_paren = content.find('(', next_pos)
+            if first_paren != -1 and first_paren < next_q_pos:
+                count = 1
+                j = first_paren + 1
+                paren_inner = ""
+                while j < len(content):
+                    if content[j] == '(':
+                        count += 1
+                    elif content[j] == ')':
+                        count -= 1
+                        if count == 0:
+                            break
+                    paren_inner += content[j]
+                    j += 1
+                
+                choices = extract_choices(paren_inner)
+                ans_content = " / ".join(choices)
+                next_ans_pos = j + 1
+                
+                # Check for loigiai: [ ... ] inside this function call
+                loigiai_idx = content.find('loigiai:', next_ans_pos)
+                if loigiai_idx != -1 and loigiai_idx < next_q_pos:
+                    sol_content, _ = find_brackets(content, loigiai_idx)
+                    if sol_content:
+                        sol_parts.append({
+                            "type": "loigiai",
+                            "content": sol_content.strip()
+                        })
+        else:
+            # Custom box types: example-box or eg-box
+            # Title is extracted from parenthesis if present
+            title = "Ví dụ"
+            paren_content, paren_next = find_parentheses(content, start_idx + len(q_type) + 1)
+            if paren_content is not None and paren_next <= next_pos:
+                title_match = re.search(r'(title|n):\s*"([^"]+)"', paren_content)
+                if title_match:
+                    title = title_match.group(2)
+            
+            q_clean = f"*{title}*: {q_clean}"
+            
+            # Find any solution boxes in the range between this question's end and the next question
+            sol_parts = extract_solution_boxes_in_range(content, next_pos, next_q_pos)
+            
+        problems.append({
+            "type": q_type,
+            "q": q_clean,
+            "ans": ans_content,
+            "solutions": sol_parts
+        })
+        
+    return problems
+
+results = {}
+for filename in sorted(files):
+    filepath = os.path.join(exams_dir, filename)
+    probs = extract_problems_with_solutions(filepath)
+    results[filename] = probs
+
+output_path = "/Users/admin/conictypst/scratch/extracted_questions_solutions_v2.json"
+with open(output_path, "w", encoding="utf-8") as f:
+    json.dump(results, f, indent=2, ensure_ascii=False)
+
+print(f"Extracted questions and solutions from {len(files)} files. Written to {output_path}")

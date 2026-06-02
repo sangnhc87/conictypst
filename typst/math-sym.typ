@@ -129,6 +129,12 @@
 // Alias để tránh nhầm:
 #let overrightarrow(x) = math.arrow(x)  // \overrightarrow{AB} → overrightarrow(A B)
 #let vec(x) = math.arrow(x)             // \vec{v} → vec(v)    (override nếu cần)
+#let prod = sym.product                 // \prod → prod
+#let pmat = math.mat                    // \pmatrix / \pmat → mat
+#let Tr = math.op("Tr")                 // Trace of a matrix
+
+
+
 
 // ─── Phân số & căn ──────────────────────────────────────────
 // LaTeX: \frac{a}{b} → Typst: $a/b$   hoặc $frac(a, b)$
@@ -168,3 +174,6 @@
 //  \cot            —               cot (math.op)
 //  \arcsin         —               arcsin (math.op)
 //  \vec{v}         arrow(v)        vec(v) / overrightarrow(v)
+
+#let boxed(x) = box(stroke: 0.5pt, inset: 3pt, outset: 0pt)[#x]
+

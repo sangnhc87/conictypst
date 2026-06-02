@@ -1,0 +1,1497 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>12. Chi Phí Ẩn — Vận Tốc Tối Ưu</title>
+    <script>MathJax = { tex: { inlineMath: [['$', '$']], displayMath: [['$$', '$$']] }, startup: { typeset: false } };</script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <style>
+        :root {
+            --navy: #1A5276;
+            --crimson: #900C3F;
+            --teal: #0E6655;
+            --orange: #E67E22;
+            --green: #1E8449;
+            --gold: #B7950B;
+            --blue: #2980B9;
+            --red: #C0392B;
+            --bg: #F0F4F8;
+            --card: #fff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: #222;
+            font-size: 15px;
+            line-height: 1.65;
+        }
+
+        header {
+            background: linear-gradient(135deg, #0D1B2A, #1B3A6B, #0D1B2A);
+            color: #fff;
+            padding: 20px 24px;
+        }
+
+        header h1 {
+            font-size: 1.4rem;
+            margin-bottom: 4px;
+        }
+
+        header p {
+            opacity: .8;
+            font-size: .9rem;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            padding: 10px 14px 0;
+            background: #dce8f5;
+            border-bottom: 2px solid var(--navy);
+        }
+
+        .tab-btn {
+            padding: 8px 15px;
+            border: none;
+            background: #b9d0e8;
+            border-radius: 6px 6px 0 0;
+            cursor: pointer;
+            font-size: .85rem;
+            font-weight: 700;
+            color: #333;
+            transition: .2s;
+        }
+
+        .tab-btn.active {
+            background: var(--navy);
+            color: #fff;
+        }
+
+        .tab-panel {
+            display: none;
+            padding: 18px;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        .card {
+            background: var(--card);
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .09);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .card-head {
+            padding: 10px 16px;
+            font-weight: 700;
+            font-size: .93rem;
+            color: #fff;
+        }
+
+        .bg-navy {
+            background: var(--navy);
+        }
+
+        .bg-teal {
+            background: var(--teal);
+        }
+
+        .bg-green {
+            background: var(--green);
+        }
+
+        .bg-orange {
+            background: var(--orange);
+        }
+
+        .bg-red {
+            background: var(--red);
+        }
+
+        .bg-gold {
+            background: var(--gold);
+        }
+
+        .bg-blue {
+            background: var(--blue);
+        }
+
+        .bg-crimson {
+            background: var(--crimson);
+        }
+
+        .card-body {
+            padding: 16px;
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .three-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+        }
+
+        @media(max-width:640px) {
+
+            .two-col,
+            .three-col {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .prob-layout {
+            display: grid;
+            grid-template-columns: 1fr 230px;
+            gap: 16px;
+            align-items: start;
+        }
+
+        @media(max-width:660px) {
+            .prob-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Boxes */
+        .eco-box {
+            background: #1A2B40;
+            border: 1px solid #2E4A6E;
+            padding: 14px 18px;
+            border-radius: 8px;
+            margin: 10px 0;
+            color: #E8F4F8;
+        }
+
+        .eco-box b {
+            color: #F0B429;
+        }
+
+        .note-box {
+            background: #FEF9E7;
+            border-left: 4px solid var(--gold);
+            padding: 10px 14px;
+            border-radius: 0 6px 6px 0;
+            margin: 10px 0;
+            font-size: .9rem;
+        }
+
+        .note-box b {
+            color: var(--gold);
+        }
+
+        .ans-box {
+            background: #FDFAF2;
+            border-left: 4px solid var(--gold);
+            border: 1px solid #F0D060;
+            padding: 10px 14px;
+            border-radius: 6px;
+            margin: 10px 0;
+        }
+
+        .ans-box b {
+            color: var(--gold);
+        }
+
+        .warn-box {
+            background: #FDEDEC;
+            border-left: 4px solid var(--red);
+            padding: 10px 14px;
+            border-radius: 0 6px 6px 0;
+            margin: 10px 0;
+            font-size: .9rem;
+        }
+
+        .warn-box b {
+            color: var(--red);
+        }
+
+        .rev-box {
+            background: #EBF5FB;
+            border-left: 4px solid var(--blue);
+            padding: 10px 14px;
+            border-radius: 0 6px 6px 0;
+            margin: 10px 0;
+        }
+
+        .rev-box b {
+            color: var(--navy);
+        }
+
+        .hint-box {
+            background: #E8F8F5;
+            border-left: 4px solid var(--teal);
+            padding: 10px 14px;
+            border-radius: 0 6px 6px 0;
+            margin: 10px 0;
+            font-size: .9rem;
+        }
+
+        .hint-box b {
+            color: var(--teal);
+        }
+
+        /* Sol */
+        .sol-toggle {
+            width: 100%;
+            text-align: left;
+            background: #f0f5ff;
+            border: 1px solid #bbd;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: .86rem;
+            margin-top: 10px;
+            color: var(--navy);
+        }
+
+        .sol-toggle:hover {
+            background: #daeeff;
+        }
+
+        .sol-body {
+            display: none;
+            padding: 12px 14px;
+            background: #f8faff;
+            border: 1px solid #dde;
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+            font-size: .87rem;
+            line-height: 1.7;
+        }
+
+        .sol-body.open {
+            display: block;
+        }
+
+        .ans-inline {
+            background: var(--navy);
+            color: #fff;
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 4px;
+            font-weight: 700;
+            margin-left: 5px;
+            font-size: .9rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: .78rem;
+            font-weight: 700;
+            margin-right: 6px;
+        }
+
+        .bd1 {
+            background: #dbeafe;
+            color: #1565C0;
+        }
+
+        .bd2 {
+            background: #d4efdf;
+            color: #1E8449;
+        }
+
+        .bd3 {
+            background: #fef9e7;
+            color: #B7950B;
+        }
+
+        .bd4 {
+            background: #fde8d8;
+            color: #E65100;
+        }
+
+        .btrap {
+            background: #C0392B;
+            color: #fff;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: .87rem;
+            margin: 8px 0;
+        }
+
+        th {
+            background: var(--navy);
+            color: #fff;
+            padding: 8px;
+            text-align: left;
+        }
+
+        td {
+            padding: 7px 8px;
+            border: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) td {
+            background: #f5f8fc;
+        }
+
+        /* BBT */
+        .bbt-wrap {
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+
+        .bbt {
+            border-collapse: collapse;
+            font-size: .87rem;
+            min-width: 320px;
+        }
+
+        .bbt td,
+        .bbt th {
+            border: 1px solid #999;
+            padding: 7px 14px;
+            text-align: center;
+        }
+
+        .bbt .r-var {
+            background: #1A5276;
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .bbt .r-der {
+            background: #EEF4FB;
+        }
+
+        .bbt .r-func {
+            background: #E8F8F5;
+        }
+
+        .bbt .plus {
+            color: var(--green);
+            font-weight: 700;
+        }
+
+        .bbt .minus {
+            color: var(--red);
+            font-weight: 700;
+        }
+
+        .bbt .zero {
+            font-weight: 700;
+        }
+
+        /* Quiz */
+        .quiz-q {
+            margin-bottom: 16px;
+        }
+
+        .quiz-q p {
+            font-weight: 700;
+            margin-bottom: 7px;
+        }
+
+        .quiz-opt label {
+            display: block;
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 4px;
+            border: 1px solid #ddd;
+            font-size: .88rem;
+        }
+
+        .quiz-opt label:hover {
+            background: #eef3f7;
+        }
+
+        .quiz-opt label.correct {
+            background: #d4efdf;
+            border-color: var(--green);
+        }
+
+        .quiz-opt label.wrong {
+            background: #fdedec;
+            border-color: var(--red);
+        }
+
+        .quiz-btn {
+            background: var(--navy);
+            color: #fff;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: .9rem;
+            margin-top: 6px;
+        }
+
+        .quiz-result {
+            font-weight: 700;
+            margin-top: 10px;
+        }
+
+        /* Step */
+        .step {
+            margin-bottom: 13px;
+            padding-left: 10px;
+            border-left: 3px solid var(--teal);
+        }
+
+        .step .step-t {
+            font-weight: 700;
+            color: var(--teal);
+            margin-bottom: 3px;
+        }
+
+        /* Summary table dark */
+        .sum-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: .87rem;
+        }
+
+        .sum-table th {
+            background: #0D1B2A;
+            color: #F0B429;
+            padding: 9px;
+            text-align: center;
+        }
+
+        .sum-table td {
+            padding: 8px 10px;
+            border: 1px solid #4A6FA5;
+            color: #E8F4F8;
+            background: #1A2B40;
+            text-align: center;
+        }
+
+        .sum-table tr:nth-child(even) td {
+            background: #162840;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Chi Phí Ẩn — Vận Tốc Tối Ưu</h1>
+        <p>Chuyên đề tối ưu hóa toán kinh tế vận tải · $C(v)=av^2+b/v$ · 4 dạng · 12 bài tập</p>
+    </header>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="sw(0)">📐 Lý Thuyết</button>
+        <button class="tab-btn" onclick="sw(1)">① 3 Cách Đọc $a,b$</button>
+        <button class="tab-btn" onclick="sw(2)">② Ràng Buộc $v$</button>
+        <button class="tab-btn" onclick="sw(3)">③ Bài Toán Ngược</button>
+        <button class="tab-btn" onclick="sw(4)">④ Nâng Cao</button>
+        <button class="tab-btn" onclick="sw(5)">✏️ Quiz</button>
+    </div>
+
+    <!-- ===== TAB 0: LÝ THUYẾT ===== -->
+    <div class="tab-panel active" id="tab0">
+        <div class="card">
+            <div class="card-head bg-navy">MÔ HÌNH CHI PHÍ ẨN — BÀI TOÁN CỐT LÕI</div>
+            <div class="card-body">
+                <div class="two-col">
+                    <div class="rev-box">
+                        <b>🔥 Chi phí nhiên liệu $C_1$</b><br>
+                        Tỉ lệ bình phương vận tốc <i>trên mỗi km</i>:<br>
+                        $$C_1(v)=k_1\cdot v^2\cdot S$$
+                        Đi nhanh hơn → tốn nhiên liệu hơn nhiều.
+                    </div>
+                    <div
+                        style="background:#E8F8F0;border-left:4px solid var(--green);padding:12px 14px;border-radius:0 6px 6px 0;">
+                        <b style="color:var(--green)">⏰ Chi phí thời gian $C_2$</b><br>
+                        Tỉ lệ thời gian hoạt động $t=S/v$:<br>
+                        $$C_2(v)=k_2\cdot\frac{S}{v}$$
+                        Đi chậm hơn → mất thời gian → tốn nhân công.
+                    </div>
+                </div>
+                <div class="ans-box" style="margin-top:12px;">
+                    <b>Hàm chi phí tổng:</b><br>
+                    $$C(v)=\underbrace{Sk_1v^2}_{C_1\text{ tăng theo }v}+\underbrace{\frac{Sk_2}{v}}_{C_2\text{ giảm
+                    theo }v}=av^2+\frac{b}{v}$$
+                    trong đó $a=Sk_1>0$, $b=Sk_2>0$, $v\in(0,v_{\max}]$.
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-head bg-teal">ĐỒ THỊ VÀ ĐIỂM CÂN BẰNG</div>
+            <div class="card-body">
+                <div class="prob-layout">
+                    <div>
+                        <p>Đường <b style="color:var(--blue)">xanh</b> ($C_1=av^2$): tăng đơn điệu — đi nhanh → nhiều
+                            nhiên liệu.</p>
+                        <p style="margin-top:6px">Đường <b style="color:var(--red)">đỏ</b> ($C_2=b/v$): giảm đơn điệu —
+                            đi nhanh → tiết kiệm thời gian.</p>
+                        <p style="margin-top:6px">Đường <b style="color:var(--green)">xanh lá</b> ($C=C_1+C_2$): lõm,
+                            tạo <b>điểm cực tiểu</b> tại $v_0$.</p>
+                        <div class="note-box" style="margin-top:10px;"><b>💡 Chi Phí Ẩn:</b> Học sinh thường chỉ thấy
+                            một trong hai chi phí. Bài toán "chi phí ẩn" yêu cầu nhìn thấy <b>cả hai cùng lúc</b>.</div>
+                    </div>
+                    <canvas id="cvGraph" width="230" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-head bg-navy">PHƯƠNG PHÁP CHUẨN: ĐẠO HÀM VÀ BBT</div>
+            <div class="card-body">
+                <div class="two-col">
+                    <div class="eco-box">
+                        <b>Bước 1 — Lấy đạo hàm</b><br>
+                        $$C'(v)=2av-\frac{b}{v^2}=\frac{2av^3-b}{v^2}$$
+                        Dấu của $C'(v)$ = dấu của tử $2av^3-b$.<br><br>
+                        Giải $C'(v)=0$:<br>
+                        $$\boxed{v_0=\sqrt[3]{\frac{b}{2a}}}$$
+                    </div>
+                    <div class="eco-box">
+                        <b>Bước 2 — Bảng biến thiên</b><br>
+                        <div class="bbt-wrap" style="margin-top:8px;">
+                            <table class="bbt">
+                                <tr>
+                                    <td class="r-var">$v$</td>
+                                    <td class="r-var">$0^+$</td>
+                                    <td class="r-var"></td>
+                                    <td class="r-var">$v_0$</td>
+                                    <td class="r-var"></td>
+                                    <td class="r-var">$+\infty$</td>
+                                </tr>
+                                <tr>
+                                    <td class="r-der">$C'(v)$</td>
+                                    <td></td>
+                                    <td class="minus">$-$</td>
+                                    <td class="zero">$0$</td>
+                                    <td class="plus">$+$</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="r-func">$C(v)$</td>
+                                    <td class="r-func">$+\infty$</td>
+                                    <td class="minus">↘</td>
+                                    <td class="r-func" style="color:var(--orange);font-weight:700;">$C_{\min}$</td>
+                                    <td class="plus">↗</td>
+                                    <td class="r-func">$+\infty$</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="note-box" style="margin-top:10px;">
+                    <b>🏆 Tỉ Lệ Vàng tại $v_0$:</b> Từ điều kiện $2av_0^3=b$, suy ra $C_2(v_0)=2C_1(v_0)$, tức là:<br>
+                    $$C_1(v_0):\,C_2(v_0)=1:2\qquad C_{\min}=3av_0^2$$
+                    <b>2/3 tổng chi phí tối thiểu đến từ chi phí thời gian — đây chính là "chi phí ẩn"!</b>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-head bg-orange">KỸ THUẬT ĐỌC ĐỀ — TÌM $a$ VÀ $b$ KHÔNG NHẦM</div>
+            <div class="card-body">
+                <p style="margin-bottom:10px;"><b>Đối với nhiên liệu</b> — mục tiêu: tìm $k_1$ (K/km/(km/h)²):</p>
+                <div class="three-col">
+                    <div style="background:#fff;border:2px solid var(--teal);padding:12px;border-radius:8px;">
+                        <b style="color:var(--teal)">Cách 1: Đề cho per km</b><br><br>
+                        Tại $v_*$, chi phí nhiên liệu <b>1 km</b> là $M$.<br><br>
+                        $$k_1v_*^2=M\Rightarrow k_1=\frac{M}{v_*^2}$$
+                    </div>
+                    <div style="background:#fff;border:2px solid var(--gold);padding:12px;border-radius:8px;">
+                        <b style="color:var(--gold)">Cách 2: Đề cho per giờ</b><br><br>
+                        Tại $v_*$, chi phí nhiên liệu <b>1 giờ</b> là $M$.<br>
+                        1 giờ đi được $v_*$ km, nên per-km $=M/v_*$:<br>
+                        $$k_1v_*^2=\frac{M}{v_*}\Rightarrow k_1=\frac{M}{v_*^3}$$
+                    </div>
+                    <div style="background:#fff;border:2px solid var(--green);padding:12px;border-radius:8px;">
+                        <b style="color:var(--green)">Cách 3: Đề cho cả chuyến</b><br><br>
+                        Tại $v_*$, chi phí nhiên liệu <b>cả chuyến</b> là $M$.<br><br>
+                        $$av_*^2=M\Rightarrow a=\frac{M}{v_*^2}$$
+                        (Trực tiếp → dễ nhất!)
+                    </div>
+                </div>
+                <p style="margin-top:14px;margin-bottom:10px;"><b>Đối với chi phí thời gian</b> — mục tiêu: tìm $k_2$
+                    (K/giờ):</p>
+                <div class="two-col">
+                    <div style="background:#fff;border:1.5px solid var(--green);padding:12px;border-radius:8px;">
+                        <b style="color:var(--green)">Đề cho per giờ:</b><br>
+                        "$k_2$ nghìn đồng mỗi giờ" → lấy ngay $k_2$.
+                        $$b=Sk_2$$
+                    </div>
+                    <div style="background:#fff;border:1.5px solid var(--red);padding:12px;border-radius:8px;">
+                        <b style="color:var(--red)">Đề cho per km tại $v_*$:</b><br>
+                        Chi phí nhân công 1 km tại $v_*$ là $M$. Vì per-km $=k_2/v_*$:
+                        $$\frac{k_2}{v_*}=M\Rightarrow k_2=Mv_*$$
+                    </div>
+                </div>
+                <div class="warn-box" style="margin-top:10px;">
+                    <b>⚠️ Hai bẫy nhầm nhiều nhất:</b><br>
+                    • Nhiên liệu <b>per giờ</b>: phải chia cho $v_*$ để ra per km.<br>
+                    • Nhân công <b>per km</b>: phải nhân với $v_*$ để ra per giờ.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== TAB 1: DẠNG I ===== -->
+    <div class="tab-panel" id="tab1">
+        <div class="card">
+            <div class="card-head bg-navy"><span class="badge bd1">Dạng I</span> Ba Cách Đề Hay Cho Để Tìm $a$ và $b$
+            </div>
+            <div class="card-body">
+
+                <!-- Bài 1.1 — Per giờ -->
+                <div class="card" style="margin-bottom:14px;border:1.5px solid var(--blue);">
+                    <div class="card-head bg-blue" style="font-size:.88rem;">Bài 1.1 — Nhiên liệu per giờ + Nhân công
+                        per km (Giải chậm, đầy đủ)</div>
+                    <div class="card-body">
+                        <div class="prob-layout">
+                            <div>
+                                <p>Ca nô du lịch tuyến sông dài <b>20 km</b>, $v_{\max}=120$ km/h.<br>
+                                    • Nhiên liệu: tại $v=10$ km/h, <b>chi phí 1 giờ là 60K</b>.<br>
+                                    • Nhân công: tại $v=10$ km/h, <b>chi phí 1 km là 5K</b>.<br>
+                                    Vận tốc tối ưu? Chi phí tối thiểu?</p>
+                                <div class="hint-box"><b>Nhận dạng:</b> Nhiên liệu <span style="color:var(--gold)">per
+                                        giờ → Cách 2</span>; Nhân công <span style="color:var(--red)">per km → nhân với
+                                        $v_*$</span>.</div>
+                            </div>
+                            <div><canvas id="cv11" width="220" height="170"></canvas></div>
+                        </div>
+                        <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải đầy đủ</button>
+                        <div class="sol-body">
+                            <div class="step">
+                                <div class="step-t">Tách dữ kiện thành 4 dòng ngắn</div>
+                                $S=20$ km, $v\le120$ km/h, nhiên liệu: $v_*=10$, per giờ $=60$K, nhân công: per km
+                                $=5$K.
+                            </div>
+                            <div class="step">
+                                <div class="step-t">Bước 1 — Tìm $a$ (Cách 2: per giờ)</div>
+                                Chi phí nhiên liệu per km tại $v_*=10$: $\;60/10=6$K.<br>
+                                $k_1\cdot10^2=6\Rightarrow k_1=0.06$. Suy ra: $a=Sk_1=20\times0.06=1.2$.
+                            </div>
+                            <div class="step">
+                                <div class="step-t">Bước 2 — Tìm $b$ (per km nhân với $v_*$)</div>
+                                $k_2/10=5\Rightarrow k_2=50$. $b=Sk_2=20\times50=1000$.
+                            </div>
+                            <div class="step">
+                                <div class="step-t">Bước 3 — Hàm chi phí và đạo hàm</div>
+                                $C(v)=1.2v^2+1000/v$, $v\in(0,120]$.<br>
+                                $C'(v)=2.4v-1000/v^2=0\Rightarrow v_0^3=1000/2.4=1250/3\Rightarrow
+                                v_0=\sqrt[3]{1250/3}\approx7.47$ km/h.
+                            </div>
+                            <div class="step">
+                                <div class="step-t">Bước 4 — Kiểm tra miền và tính $C_{\min}$</div>
+                                $v_0\approx7.47<120$ ✓. Tại $v_0$: $b/v_0=2av_0^2$, nên:<br>
+                                    $C_{\min}=3\times1.2\times v_0^2=3.6\times(1250/3)^{2/3}\approx200.83$K.
+                            </div>
+                            <div class="ans-box" style="margin-top:8px;"><b>✅</b> Vận tốc tối ưu
+                                $v_0\approx\mathbf{7.47}$ km/h, chi phí tối thiểu $\approx\mathbf{201}$K.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bài 1.2 — Per km -->
+                <div class="card" style="margin-bottom:14px;border:1.5px solid var(--teal);">
+                    <div class="card-head bg-teal" style="font-size:.88rem;">Bài 1.2 — Nhiên liệu per km (đáp số nguyên
+                        đẹp)</div>
+                    <div class="card-body">
+                        <p>Ca nô 50 km, $v_{\max}=90$ km/h. Nhiên liệu: tại $v=10$ km/h, <b>chi phí 1 km là 2K</b>. Nhân
+                            công: <b>40K mỗi giờ</b>. $C_{\min}=?$</p>
+                        <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải</button>
+                        <div class="sol-body">
+                            <div class="step">
+                                <div class="step-t">Tìm $a$: Cách 1 (per km → trực tiếp)</div>
+                                $k_1\times10^2=2\Rightarrow k_1=0.02$. $a=50\times0.02=1$.
+                            </div>
+                            <div class="step">
+                                <div class="step-t">Tìm $b$</div>
+                                $k_2=40$ K/giờ. $b=40\times50=2000$.
+                            </div>
+                            <div class="step">
+                                <div class="step-t">Tối ưu</div>
+                                $C'(v)=2v-2000/v^2=0\Rightarrow v_0^3=1000\Rightarrow v_0=10$ km/h $<90$ ✓.<br>
+                                    $C_{\min}=C(10)=100+200=\mathbf{300}$K. Kiểm tra tỉ lệ vàng: $C_1=100$,
+                                    $C_2=200=2\times100$ ✓.
+                            </div>
+                            <div class="ans-box" style="margin-top:8px;"><b>✅</b> $v_0=10$ km/h,
+                                $C_{\min}=\mathbf{300}$K.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bài 1.3 — Per chuyến -->
+                <div class="card" style="margin-bottom:14px;border:1.5px solid var(--green);">
+                    <div class="card-head bg-green" style="font-size:.88rem;">Bài 1.3 — Nhiên liệu cả chuyến (tìm $a$
+                        trực tiếp)</div>
+                    <div class="card-body">
+                        <p>Xe tải 100 km, $v_{\max}=90$ km/h. Nhiên liệu: tại $v=50$ km/h, <b>chi phí cả chuyến là
+                                500K</b>. Lái xe: <b>32K mỗi giờ</b>. Tìm $v_0$ và $C_{\min}$.</p>
+                        <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải</button>
+                        <div class="sol-body">
+                            <div class="step">
+                                <div class="step-t">Tìm $a$: Cách 3 (per chuyến)</div>
+                                $a\times50^2=500\Rightarrow a=500/2500=0.2$.
+                            </div>
+                            <div class="step">
+                                <div class="step-t">Tìm $b$</div>
+                                $b=32\times100=3200$.
+                            </div>
+                            <div class="step">
+                                <div class="step-t">Tối ưu</div>
+                                $v_0^3=3200/0.4=8000\Rightarrow v_0=20$ km/h $<90$ ✓.<br>
+                                    $C_{\min}=C(20)=0.2\times400+3200/20=80+160=\mathbf{240}$K.
+                            </div>
+                            <div class="ans-box" style="margin-top:8px;"><b>✅</b> $v_0=20$ km/h,
+                                $C_{\min}=\mathbf{240}$K.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trắc nghiệm Dạng I -->
+                <div class="card" style="border:1px solid #bcd;">
+                    <div class="card-head bg-blue" style="font-size:.88rem;"><span class="badge bd1">TN</span> 5 câu
+                        trắc nghiệm — Dạng I</div>
+                    <div class="card-body">
+                        <div class="quiz-q" id="d1q1">
+                            <p>TN1. Ca nô 20 km: nhiên liệu cả chuyến tại $v=10$ là 120K; nhân công 50K/giờ. $C_{\min}$
+                                (làm tròn) gần nhất với?</p>
+                            <div class="quiz-opt">
+                                <label><input type="radio" name="d1q1" value="a"> A. 198K</label>
+                                <label><input type="radio" name="d1q1" value="b"> B. 200K</label>
+                                <label><input type="radio" name="d1q1" value="c"> C. 201K</label>
+                                <label><input type="radio" name="d1q1" value="d"> D. 205K</label>
+                            </div>
+                        </div>
+                        <div class="quiz-q" id="d1q2">
+                            <p>TN2. Cùng bài trên, vận tốc tối ưu $v_0$ gần nhất với?</p>
+                            <div class="quiz-opt">
+                                <label><input type="radio" name="d1q2" value="a"> A. 5 km/h</label>
+                                <label><input type="radio" name="d1q2" value="b"> B. 7 km/h</label>
+                                <label><input type="radio" name="d1q2" value="c"> C. 9 km/h</label>
+                                <label><input type="radio" name="d1q2" value="d"> D. 12 km/h</label>
+                            </div>
+                        </div>
+                        <div class="quiz-q" id="d1q3">
+                            <p>TN3. Ca nô 20 km ($C=1.2v^2+1000/v$), nhưng $v_{\max}=6$ km/h. $C_{\min}$ gần nhất?</p>
+                            <div class="quiz-opt">
+                                <label><input type="radio" name="d1q3" value="a"> A. 200K</label>
+                                <label><input type="radio" name="d1q3" value="b"> B. 204K</label>
+                                <label><input type="radio" name="d1q3" value="c"> C. 207K</label>
+                                <label><input type="radio" name="d1q3" value="d"> D. 210K</label>
+                            </div>
+                        </div>
+                        <div class="quiz-q" id="d1q4">
+                            <p>TN4. Tại $v_0$, chi phí nhiên liệu $=100$K. Chi phí nhân công tại $v_0$ bằng?</p>
+                            <div class="quiz-opt">
+                                <label><input type="radio" name="d1q4" value="a"> A. 100K</label>
+                                <label><input type="radio" name="d1q4" value="b"> B. 150K</label>
+                                <label><input type="radio" name="d1q4" value="c"> C. 200K</label>
+                                <label><input type="radio" name="d1q4" value="d"> D. 300K</label>
+                            </div>
+                        </div>
+                        <div class="quiz-q" id="d1q5">
+                            <p>TN5. Xe tải: $C(v)=0.2v^2+k/v$, vận tốc tối ưu $v_0=20$ km/h. Giá trị $k$ bằng?</p>
+                            <div class="quiz-opt">
+                                <label><input type="radio" name="d1q5" value="a"> A. 1200</label>
+                                <label><input type="radio" name="d1q5" value="b"> B. 2400</label>
+                                <label><input type="radio" name="d1q5" value="c"> C. 3200</label>
+                                <label><input type="radio" name="d1q5" value="d"> D. 4000</label>
+                            </div>
+                        </div>
+                        <button class="quiz-btn" onclick="checkD1()">Nộp bài</button>
+                        <div class="quiz-result" id="d1_result"></div>
+                        <div style="font-size:.82rem;margin-top:6px;color:#555;" id="d1_explain"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== TAB 2: RÀNG BUỘC ===== -->
+    <div class="tab-panel" id="tab2">
+        <div class="card">
+            <div class="card-head bg-crimson"><span class="badge bd2">Dạng II</span> Vận Tốc Bị Ràng Buộc — 3 Tình Huống
+            </div>
+            <div class="card-body">
+                <div class="eco-box">
+                    <b>📋 Sau khi tìm $v_0$, phải kiểm tra:</b>
+                    <div class="three-col" style="margin-top:10px;">
+                        <div style="text-align:center;padding:8px;background:rgba(255,255,255,.1);border-radius:6px;">
+                            <b style="color:#F0B429">TH1</b><br>$v_{\min}\le v_0\le v_{\max}$<br>→ Cực tiểu tại
+                            $v_0$<br>$C_{\min}=C(v_0)$
+                        </div>
+                        <div style="text-align:center;padding:8px;background:rgba(255,255,255,.1);border-radius:6px;">
+                            <b style="color:#F0B429">TH2</b><br>$v_0>v_{\max}$<br>→ $C$ giảm trên
+                            $(0,v_{\max}]$<br>$C_{\min}=C(v_{\max})$
+                        </div>
+                        <div style="text-align:center;padding:8px;background:rgba(255,255,255,.1);border-radius:6px;">
+                            <b style="color:#F0B429">TH3</b><br>$v_0<v_{\min}$<br>→ $C$ tăng trên
+                                $[v_{\min},v_{\max}]$<br>$C_{\min}=C(v_{\min})$
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TN Bài 2.1 -->
+                <div class="card" style="margin-top:14px;border:1.5px solid var(--crimson);">
+                    <div class="card-head bg-crimson" style="font-size:.88rem;">Bài TN 2.1 — $v_{\max}$ bị chặn ép (TH2)
+                    </div>
+                    <div class="card-body">
+                        <p>Xe tải $C(v)=v^2+2000/v$ (K), $v_{\max}=8$ km/h. $C_{\min}=?$</p>
+                        <div class="quiz-opt" id="d2q1">
+                            <label><input type="radio" name="d2q1" value="a"> A. 300K</label>
+                            <label><input type="radio" name="d2q1" value="b"> B. 310K</label>
+                            <label><input type="radio" name="d2q1" value="c"> C. 314K</label>
+                            <label><input type="radio" name="d2q1" value="d"> D. 320K</label>
+                        </div>
+                        <button class="quiz-btn"
+                            onclick="chkSingle('d2q1','c','$v_0=10>8=v_{\\max}$ → TH2 → $C_{\\min}=C(8)=64+250=314$K.')">Kiểm
+                            tra</button>
+                        <div id="d2q1_fb" style="margin-top:8px;font-size:.88rem;"></div>
+                    </div>
+                </div>
+
+                <!-- Bài 2.2 — Tàu biển -->
+                <div class="card" style="margin-bottom:14px;border:1.5px solid var(--navy);">
+                    <div class="card-head bg-navy" style="font-size:.88rem;">Bài 2.2 — Tàu biển $v\in[4,30]$ km/h (TH1)
+                    </div>
+                    <div class="card-body">
+                        <div class="prob-layout">
+                            <div>
+                                <p>Tàu container 150 km, $v\in[4,30]$. Nhiên liệu: tại $v=12$, cả chuyến 432K. Vận hành:
+                                    150K/giờ. $v_0=?$ $C_{\min}=?$</p>
+                                <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải</button>
+                                <div class="sol-body">
+                                    <div class="step">
+                                        <div class="step-t">Tìm $a,b$</div>
+                                        $a\times144=432\Rightarrow a=3$. $b=150\times150=22500$.
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-t">Tìm $v_0$</div>
+                                        $v_0=\sqrt[3]{22500/6}=\sqrt[3]{3750}\approx15.54$ km/h. $\in[4,30]$ ✓ → TH1.
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-t">BBT trên $[4,30]$</div>
+                                        <div class="bbt-wrap">
+                                            <table class="bbt">
+                                                <tr>
+                                                    <td class="r-var">$v$</td>
+                                                    <td class="r-var">$4$</td>
+                                                    <td class="r-var"></td>
+                                                    <td class="r-var">$\approx15.54$</td>
+                                                    <td class="r-var"></td>
+                                                    <td class="r-var">$30$</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="r-der">$C'$</td>
+                                                    <td></td>
+                                                    <td class="minus">$-$</td>
+                                                    <td class="zero">$0$</td>
+                                                    <td class="plus">$+$</td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="r-func">$C$</td>
+                                                    <td class="r-func">$5673$</td>
+                                                    <td class="minus">↘</td>
+                                                    <td class="r-func" style="color:var(--orange);font-weight:700;">
+                                                        $\approx2134$</td>
+                                                    <td class="plus">↗</td>
+                                                    <td class="r-func">$3450$</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="ans-box" style="margin-top:8px;"><b>✅</b> $v_0\approx15.54$ km/h,
+                                        $C_{\min}\approx2134$K.</div>
+                                </div>
+                            </div>
+                            <canvas id="cv22" width="220" height="175"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bài 2.3 — Máy bay -->
+                <div class="card" style="margin-bottom:14px;border:2px solid var(--red);">
+                    <div class="card-head" style="background:var(--red);font-size:.88rem;"><span
+                            class="badge btrap">BẪY</span> Bài 2.3 — Máy bay $v\in[400,900]$ km/h (TH3 ẩn)</div>
+                    <div class="card-body">
+                        <p>Máy bay 2000 km, $v\in[400,900]$ km/h. Nhiên liệu: tại $v=500$ km/h, <b>chi phí 1 giờ là
+                                2500K</b>. Phi hành đoàn: 1800K/giờ. Tìm $C_{\min}$.</p>
+                        <div class="warn-box"><b>BẪY:</b> Nhân viên dễ tính $k_1=2500/500^2=1/100$ (nhầm) thay vì
+                            $k_1=2500/(500\times500^2)$ → Đây là nhiên liệu <b>per giờ</b>, không phải per km!</div>
+                        <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải</button>
+                        <div class="sol-body">
+                            <div class="step">
+                                <div class="step-t">Tìm $k_1$ đúng (per giờ → Cách 2)</div>
+                                Per giờ tại $v_*=500$: $M=2500$. $k_1=M/v_*^3=2500/125000000=1/50000$.
+                            </div>
+                            <div class="step">
+                                <div class="step-t">Tìm $a,b$</div>
+                                $a=2000/50000=0.04$. $b=1800\times2000=3600000$.
+                            </div>
+                            <div class="step">
+                                <div class="step-t">Kiểm tra $v_0$</div>
+                                $v_0=\sqrt[3]{3600000/(2\times0.04)}=\sqrt[3]{45000000}\approx355$ km/h $<400=v_{\min}$
+                                    → <b>TH3!</b>
+                            </div>
+                            <div class="step">
+                                <div class="step-t">$C$ tăng trên $[400,900]$ → $C_{\min}=C(400)$</div>
+                                <div class="bbt-wrap">
+                                    <table class="bbt">
+                                        <tr>
+                                            <td class="r-var">$v$</td>
+                                            <td class="r-var">$400$</td>
+                                            <td class="r-var"></td>
+                                            <td class="r-var">$900$</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="r-der">$C'$</td>
+                                            <td></td>
+                                            <td class="plus">$+$</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="r-func">$C$</td>
+                                            <td class="r-func" style="color:var(--orange);font-weight:700;">$15400$</td>
+                                            <td class="plus">↗</td>
+                                            <td class="r-func">$36400$</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                $C(400)=0.04\times160000+3600000/400=6400+9000=15400$K.
+                            </div>
+                            <div class="ans-box" style="margin-top:8px;"><b>✅</b> $C_{\min}=\mathbf{15400}$K tại $v=400$
+                                km/h (cận dưới), không phải tại $v_0\approx355$!</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== TAB 3: BÀI TOÁN NGƯỢC ===== -->
+    <div class="tab-panel" id="tab3">
+        <div class="card">
+            <div class="card-head bg-green"><span class="badge bd3">Dạng III</span> Bài Toán Ngược — Tìm Tham Số</div>
+            <div class="card-body">
+                <div class="rev-box">
+                    <b>🔑 Ba quan hệ ngược hữu dụng (chỉ cần nhớ 2 trong 3):</b><br>
+                    <div class="three-col" style="margin-top:8px;">
+                        <div style="text-align:center;padding:8px;background:#EBF5FB;border-radius:6px;">
+                            $(1)\quad v_0=\sqrt[3]{\dfrac{b}{2a}}$
+                        </div>
+                        <div style="text-align:center;padding:8px;background:#EBF5FB;border-radius:6px;">
+                            $(2)\quad b=2av_0^3$
+                        </div>
+                        <div style="text-align:center;padding:8px;background:#EBF5FB;border-radius:6px;">
+                            $(3)\quad C_{\min}=3av_0^2$
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3.1 — Tỉ lệ vàng thuần lý -->
+                <div class="card" style="margin-top:14px;border:1.5px solid var(--green);">
+                    <div class="card-head bg-green" style="font-size:.88rem;">Bài 3.1 — Tỉ Lệ Vàng Thuần Lý</div>
+                    <div class="card-body">
+                        <p>Tại $v_0$, chi phí nhiên liệu $=120$K. Hỏi chi phí nhân công tại $v_0$? Tổng $C_{\min}$?</p>
+                        <p style="font-size:.88rem;color:#555">(Không cần biết $a$, $b$, hay $v_0$ cụ thể.)</p>
+                        <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải</button>
+                        <div class="sol-body">
+                            <div class="step">
+                                <div class="step-t">Áp dụng tỉ lệ vàng</div>
+                                Tại $v_0$: $C_2(v_0)=2C_1(v_0)=2\times120=240$K.<br>
+                                $C_{\min}=120+240=360$K.
+                            </div>
+                            <div class="ans-box" style="margin-top:8px;"><b>✅</b> Chi phí nhân công $\mathbf{240}$K,
+                                tổng $C_{\min}=\mathbf{360}$K. <i>Không cần biết bất kỳ hệ số nào!</i></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3.2 — Tăng lương nhân viên -->
+                <div class="card" style="margin-bottom:14px;border:1.5px solid var(--gold);">
+                    <div class="card-head bg-gold" style="font-size:.88rem;color:#fff;">Bài 3.2 — Tăng Lương Nhân Viên
+                        50%</div>
+                    <div class="card-body">
+                        <p>Ca nô $C(v)=v^2+2000/v$ ($S=50$km), $v_0=10$, $C_{\min}=300$K. Nếu tăng lương 50% ($k_2$ tăng
+                            50%): tính $b'$, $v_0'$, $C_{\min}'$.</p>
+                        <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải</button>
+                        <div class="sol-body">
+                            <div class="step">
+                                <div class="step-t">Cập nhật $b$</div>
+                                $b'=2000\times1.5=3000$.
+                            </div>
+                            <div class="step">
+                                <div class="step-t">Vận tốc mới</div>
+                                $v_0'=\sqrt[3]{3000/2}=\sqrt[3]{1500}\approx11.45$ km/h.
+                            </div>
+                            <div class="step">
+                                <div class="step-t">Chi phí mới</div>
+                                $C_{\min}'=3av_0'^2=3\times1500^{2/3}\approx3\times131.04\approx393$K.
+                            </div>
+                            <div class="note-box" style="margin-top:8px;"><b>Quan sát:</b> Tăng lương 50% → chi phí tăng
+                                ~31%. Vận tốc tối ưu cũng tăng: nhân công đắt hơn → nên đi nhanh hơn.</div>
+                            <div class="ans-box" style="margin-top:4px;"><b>✅</b> $b'=3000$, $v_0'\approx11.45$ km/h,
+                                $C_{\min}'\approx393$K.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3.3 — Quãng đường ẩn -->
+                <div class="card" style="margin-bottom:14px;border:1.5px solid var(--orange);">
+                    <div class="card-head bg-orange" style="font-size:.88rem;">Bài 3.3 — Quãng Đường Ẩn</div>
+                    <div class="card-body">
+                        <p>$k_1=0.06$ K/(km·(km/h)²), $k_2=50$ K/giờ. Biết $C_{\min}=402$K. Tìm $S$.</p>
+                        <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải</button>
+                        <div class="sol-body">
+                            <div class="step">
+                                <div class="step-t">Đặt $a,b$ theo $S$</div>
+                                $a=0.06S$, $b=50S$. $C(v)=S(0.06v^2+50/v)$.
+                            </div>
+                            <div class="step">
+                                <div class="step-t">Vận tốc tối ưu (không phụ thuộc $S$)</div>
+                                $v_0=\sqrt[3]{50/(2\times0.06)}=\sqrt[3]{1250/3}\approx7.47$ km/h.
+                            </div>
+                            <div class="step">
+                                <div class="step-t">$C_{\min}$ theo $S$</div>
+                                $C_{\min}=S\times3\times0.06\times v_0^2=S\times3\times0.06\times(1250/3)^{2/3}\approx
+                                S\times10.04$.
+                            </div>
+                            <div class="step">
+                                <div class="step-t">Tìm $S$</div>
+                                $S\times10.04=402\Rightarrow S\approx40$ km.
+                            </div>
+                            <div class="ans-box" style="margin-top:8px;"><b>✅</b> $S=\mathbf{40}$ km.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== TAB 4: NÂNG CAO ===== -->
+    <div class="tab-panel" id="tab4">
+        <div class="card">
+            <div class="card-head bg-crimson"><span class="badge bd4">Dạng IV</span> Nâng Cao — Mở Rộng Mô Hình</div>
+            <div class="card-body">
+
+                <!-- Đúng/Sai máy bay -->
+                <div class="card" style="margin-bottom:14px;border:2px solid var(--red);">
+                    <div class="card-head bg-red" style="font-size:.88rem;"><span class="badge btrap">Đúng/Sai</span>
+                        Bài 4.1 — Máy bay 2000 km — 4 mệnh đề</div>
+                    <div class="card-body">
+                        <p>$S=2000$ km, $v\in[400,900]$. Nhiên liệu: tại $v=500$, <b>1 giờ bay = 2500K</b>. Phi hành
+                            đoàn: 1800K/giờ.</p>
+                        <div
+                            style="background:#FFF8E1;border:1px solid #F0D060;padding:12px;border-radius:6px;margin:10px 0;font-size:.9rem;">
+                            <b>a)</b> Hệ số $k_1$ thỏa mãn $k_1=1/50$. <br>
+                            <b>b)</b> Tổng chi phí: $C(v)=10v^2+3600000/v$.<br>
+                            <b>c)</b> Vận tốc tối ưu không ràng buộc $\approx564.5$ km/h.<br>
+                            <b>d)</b> Vì $v_0\in[400,900]$, $C_{\min}$ đạt tại $v_0\approx4800$K.
+                        </div>
+                        <button class="sol-toggle" onclick="togSol(this)">▶ Xem đáp án đúng/sai</button>
+                        <div class="sol-body">
+                            <div class="warn-box"><b>a) SAI</b> — Chi phí nhiên liệu per giờ tại $v_*=500$:
+                                $k_1v_*^2=M/v_*\Rightarrow k_1=2500/500^3=1/50000$.</div>
+                            <div class="warn-box" style="margin-top:6px;"><b>b) SAI</b> — $a=2000/50000=0.04$,
+                                $b=1800\times2000=3600000$. Đúng là $C(v)=0.04v^2+3600000/v$.</div>
+                            <div class="warn-box" style="margin-top:6px;"><b>c) SAI</b> —
+                                $v_0=\sqrt[3]{3600000/0.08}=\sqrt[3]{45000000}\approx355$ km/h.</div>
+                            <div class="warn-box" style="margin-top:6px;"><b>d) SAI</b> — $v_0\approx355<400=v_{\min}$ →
+                                    TH3 → $C_{\min}=C(400)=6400+9000=15400$K.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Lực cản khí áp bậc 3 -->
+                    <div class="card" style="margin-bottom:14px;border:1.5px solid var(--navy);">
+                        <div class="card-head bg-navy" style="font-size:.88rem;">Bài 4.2 — Nhiên liệu per giờ $\sim v^3$
+                            (Lực cản khí áp)</div>
+                        <div class="card-body">
+                            <p>$S=60$ km. Chi phí nhiên liệu <b>per giờ</b> $=\alpha v^3$ với $\alpha=0.001$. Nhân công:
+                                90K/giờ. Tìm $v_0$ và so sánh tỉ lệ $C_1:C_2$.</p>
+                            <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải</button>
+                            <div class="sol-body">
+                                <div class="step">
+                                    <div class="step-t">Lập $C(v)$</div>
+                                    $C_1(v)=0.001v^3\times(60/v)=0.06v^2$. $C_2(v)=90\times60/v=5400/v$.<br>
+                                    $C(v)=0.06v^2+5400/v$ — <b>vẫn cùng dạng $av^2+b/v$!</b>
+                                </div>
+                                <div class="step">
+                                    <div class="step-t">Tìm $v_0$</div>
+                                    $v_0=\sqrt[3]{5400/(2\times0.06)}=\sqrt[3]{45000}\approx35.57$ km/h.
+                                </div>
+                                <div class="step">
+                                    <div class="step-t">Tỉ lệ tại $v_0$</div>
+                                    $C_1(v_0)=0.06\times35.57^2\approx75.95$K, $C_2(v_0)=5400/35.57\approx151.8$K.<br>
+                                    Tỉ lệ $C_1:C_2=1:2$ — <b>vẫn đúng với mọi hàm dạng $av^2+b/v$!</b>
+                                </div>
+                                <div class="ans-box" style="margin-top:8px;"><b>✅</b> $v_0\approx35.57$ km/h,
+                                    $C_{\min}\approx228$K, $C_1:C_2=1:2$.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chi phí cố định -->
+                    <div class="card" style="margin-bottom:14px;border:1.5px solid var(--teal);">
+                        <div class="card-head bg-teal" style="font-size:.88rem;">Bài 4.3 — Thêm Chi Phí Cố Định</div>
+                        <div class="card-body">
+                            <p>$C(v)=0.2v^2+3200/v+150$ (phí đường cầu $c=150$K). Chứng minh $v_0$ không đổi.
+                                $C_{\min}=?$</p>
+                            <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải</button>
+                            <div class="sol-body">
+                                <div class="step">
+                                    <div class="step-t">$v_0$ không thay đổi</div>
+                                    $C'(v)=0.4v-3200/v^2$ — hằng số $c$ không ảnh hưởng đến đạo hàm.<br>
+                                    $C'(v)=0\Rightarrow v_0=20$ km/h — giống hệt bài không có $c$.
+                                </div>
+                                <div class="step">
+                                    <div class="step-t">$C_{\min}$ mới</div>
+                                    $C_{\min}'=0.2\times400+3200/20+150=80+160+150=\mathbf{390}$K.
+                                </div>
+                                <div class="note-box" style="margin-top:8px;"><b>Kết luận quan trọng:</b> Thêm hằng số
+                                    $c$ vào hàm chỉ <b>tịnh tiến đồ thị lên trên</b>; vị trí cực tiểu theo $v$ không
+                                    đổi. Giảm $C_{\min}$ dễ nhất bằng cách giảm $c$ (chi phí cố định).</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== TAB 5: QUIZ ===== -->
+        <div class="tab-panel" id="tab5">
+            <div class="card">
+                <div class="card-head bg-navy">BẢNG TỔNG KẾT CÔNG THỨC CỐT LÕI</div>
+                <div class="card-body">
+                    <table class="sum-table">
+                        <tr>
+                            <th>Đại lượng</th>
+                            <th>Công thức</th>
+                            <th>Ghi chú</th>
+                        </tr>
+                        <tr>
+                            <td>Hàm chi phí</td>
+                            <td>$C(v)=av^2+b/v$</td>
+                            <td>$a=Sk_1$, $b=Sk_2$</td>
+                        </tr>
+                        <tr>
+                            <td>Vận tốc tối ưu</td>
+                            <td>$v_0=\sqrt[3]{b/(2a)}$</td>
+                            <td>Từ $C'(v_0)=0$</td>
+                        </tr>
+                        <tr>
+                            <td>Chi phí tối thiểu</td>
+                            <td>$C_{\min}=3av_0^2$</td>
+                            <td>$=3\sqrt[3]{a(b/2)^2}$</td>
+                        </tr>
+                        <tr>
+                            <td>Tỉ lệ vàng</td>
+                            <td>$C_1:C_2=1:2$ tại $v_0$</td>
+                            <td>Luôn đúng</td>
+                        </tr>
+                        <tr>
+                            <td>TH2: $v_0>v_{\max}$</td>
+                            <td>$C_{\min}=C(v_{\max})$</td>
+                            <td>$C$ giảm trên $(0,v_0)$</td>
+                        </tr>
+                        <tr>
+                            <td>TH3: $v_0<v_{\min}$< /td>
+                            <td>$C_{\min}=C(v_{\min})$</td>
+                            <td>$C$ tăng trên $(v_0,+\infty)$</td>
+                        </tr>
+                        <tr>
+                            <td>Thêm hằng số $c$</td>
+                            <td>$v_0$ không đổi</td>
+                            <td>$c$ không ảnh hưởng $C'$</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-head bg-navy">KIỂM TRA NHANH — 8 CÂU TỔNG HỢP</div>
+                <div class="card-body">
+                    <div class="quiz-q" id="fq1">
+                        <p>1. $C(v)=2v^2+250/v$. $v_0=?$</p>
+                        <div class="quiz-opt">
+                            <label><input type="radio" name="fq1" value="a"> A. $\sqrt[3]{62.5}$</label>
+                            <label><input type="radio" name="fq1" value="b"> B. $\sqrt[3]{125}=5$</label>
+                            <label><input type="radio" name="fq1" value="c"> C. $\sqrt[3]{250}$</label>
+                        </div>
+                    </div>
+                    <div class="quiz-q" id="fq2">
+                        <p>2. Tại $v_0$, $C_1=50$K. $C_{\min}=?$</p>
+                        <div class="quiz-opt">
+                            <label><input type="radio" name="fq2" value="a"> A. 100K</label>
+                            <label><input type="radio" name="fq2" value="b"> B. 150K</label>
+                            <label><input type="radio" name="fq2" value="c"> C. 200K</label>
+                        </div>
+                    </div>
+                    <div class="quiz-q" id="fq3">
+                        <p>3. Nhiên liệu per giờ tại $v=20$: 800K. Per km là?</p>
+                        <div class="quiz-opt">
+                            <label><input type="radio" name="fq3" value="a"> A. 40K/km</label>
+                            <label><input type="radio" name="fq3" value="b"> B. 400K/km</label>
+                            <label><input type="radio" name="fq3" value="c"> C. 16000K/km</label>
+                        </div>
+                    </div>
+                    <div class="quiz-q" id="fq4">
+                        <p>4. $v_0=15$ km/h, $a=0.5$. $C_{\min}=?$</p>
+                        <div class="quiz-opt">
+                            <label><input type="radio" name="fq4" value="a"> A. 337.5K</label>
+                            <label><input type="radio" name="fq4" value="b"> B. 225K</label>
+                            <label><input type="radio" name="fq4" value="c"> C. 112.5K</label>
+                        </div>
+                    </div>
+                    <div class="quiz-q" id="fq5">
+                        <p>5. $v_0=10$ km/h, $C_{\min}=300$K. Giá trị $a$ bằng?</p>
+                        <div class="quiz-opt">
+                            <label><input type="radio" name="fq5" value="a"> A. 0.5</label>
+                            <label><input type="radio" name="fq5" value="b"> B. 1</label>
+                            <label><input type="radio" name="fq5" value="c"> C. 2</label>
+                        </div>
+                    </div>
+                    <div class="quiz-q" id="fq6">
+                        <p>6. $C(v)=v^2+500/v+80$. $v_0=?$</p>
+                        <div class="quiz-opt">
+                            <label><input type="radio" name="fq6" value="a"> A. $\sqrt[3]{250}$</label>
+                            <label><input type="radio" name="fq6" value="b"> B. $\sqrt[3]{500}$</label>
+                            <label><input type="radio" name="fq6" value="c"> C. Không tồn tại</label>
+                        </div>
+                    </div>
+                    <div class="quiz-q" id="fq7">
+                        <p>7. $v_0=8$ km/h, $v_{\max}=6$ km/h. $C_{\min}$ đạt tại?</p>
+                        <div class="quiz-opt">
+                            <label><input type="radio" name="fq7" value="a"> A. $v=8$</label>
+                            <label><input type="radio" name="fq7" value="b"> B. $v=6$</label>
+                            <label><input type="radio" name="fq7" value="c"> C. $v=7$</label>
+                        </div>
+                    </div>
+                    <div class="quiz-q" id="fq8">
+                        <p>8. $v_0=30$ km/h, $v_{\min}=40$ km/h. Nhận xét đúng?</p>
+                        <div class="quiz-opt">
+                            <label><input type="radio" name="fq8" value="a"> A. $C_{\min}=C(30)$</label>
+                            <label><input type="radio" name="fq8" value="b"> B. $C$ giảm trên $[40,v_{\max}]$</label>
+                            <label><input type="radio" name="fq8" value="c"> C. $C$ tăng trên $[40,v_{\max}]$,
+                                $C_{\min}=C(40)$</label>
+                        </div>
+                    </div>
+                    <button class="quiz-btn" onclick="checkFinal()">Nộp bài</button>
+                    <div class="quiz-result" id="fq_result"></div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // ===== TABS =====
+            function sw(n) {
+                document.querySelectorAll('.tab-panel').forEach((p, i) => p.classList.toggle('active', i === n));
+                document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === n));
+            }
+            function togSol(btn) {
+                const b = btn.nextElementSibling;
+                b.classList.toggle('open');
+                btn.textContent = b.classList.contains('open') ? '▼ Ẩn lời giải' : '▶ Xem lời giải';
+                if (b.classList.contains('open') && window.MathJax) MathJax.typesetPromise([b]);
+            }
+
+            // ===== SINGLE CHECK =====
+            function chkSingle(name, correct, msg) {
+                const sel = document.querySelector(`input[name="${name}"]:checked`);
+                const fb = document.getElementById(name + '_fb');
+                if (!sel) { fb.textContent = 'Hãy chọn một đáp án.'; fb.style.color = '#666'; return; }
+                const labels = document.querySelectorAll(`#${name} label`);
+                labels.forEach(l => l.classList.remove('correct', 'wrong'));
+                if (sel.value === correct) {
+                    sel.parentElement.classList.add('correct');
+                    fb.innerHTML = '<span style="color:var(--green);font-weight:700;">✓ Đúng!</span> ' + msg;
+                } else {
+                    sel.parentElement.classList.add('wrong');
+                    labels.forEach(l => { if (l.querySelector('input').value === correct) l.classList.add('correct'); });
+                    fb.innerHTML = '<span style="color:var(--red);font-weight:700;">✗ Sai.</span> ' + msg;
+                }
+                if (window.MathJax) MathJax.typesetPromise([fb]);
+            }
+
+            // ===== DẠNG I QUIZ =====
+            const d1ans = { d1q1: 'c', d1q2: 'b', d1q3: 'd', d1q4: 'c', d1q5: 'c' };
+            const d1exp = {
+                d1q1: '$a=120/(100\\times20)=0.06$, $b=50\\times20=1000$. $C_\\min=3\\times1.2\\times v_0^2\\approx201$K.',
+                d1q2: '$v_0=\\sqrt[3]{1000/2.4}\\approx7.47$ → gần 7 nhất.',
+                d1q3: '$v_0\\approx7.47>6=v_{\\max}$ → TH2 → $C(6)=43.2+166.67\\approx210$K.',
+                d1q4: 'Tỉ lệ vàng: $C_2=2C_1=200$K.',
+                d1q5: '$v_0=20=\\sqrt[3]{k/0.4}\\Rightarrow k=0.4\\times8000=3200$.'
+            };
+            function checkD1() {
+                let sc = 0;
+                Object.keys(d1ans).forEach(q => {
+                    const sel = document.querySelector(`input[name="${q}"]:checked`);
+                    document.querySelectorAll(`#${q} label`).forEach(l => l.classList.remove('correct', 'wrong'));
+                    if (sel) {
+                        if (sel.value === d1ans[q]) { sc++; sel.parentElement.classList.add('correct'); }
+                        else {
+                            sel.parentElement.classList.add('wrong');
+                            document.querySelectorAll(`#${q} label`).forEach(l => { if (l.querySelector('input').value === d1ans[q]) l.classList.add('correct'); });
+                        }
+                    }
+                });
+                document.getElementById('d1_result').textContent = `${sc}/5 — ${sc >= 4 ? 'Xuất sắc!' : sc >= 3 ? 'Khá' : 'Cần ôn lại'}`;
+                document.getElementById('d1_result').style.color = sc >= 4 ? 'var(--green)' : sc >= 3 ? 'var(--gold)' : 'var(--red)';
+                let expHTML = '<b>Giải thích:</b><ol style="padding-left:18px;margin-top:4px;">';
+                ['d1q1', 'd1q2', 'd1q3', 'd1q4', 'd1q5'].forEach((q, i) => { expHTML += `<li>TN${i + 1}: ${d1exp[q]}</li>`; });
+                expHTML += '</ol>';
+                document.getElementById('d1_explain').innerHTML = expHTML;
+                if (window.MathJax) MathJax.typesetPromise([document.getElementById('d1_explain')]);
+            }
+
+            // ===== FINAL QUIZ =====
+            const fans = { fq1: 'a', fq2: 'b', fq3: 'a', fq4: 'a', fq5: 'b', fq6: 'a', fq7: 'b', fq8: 'c' };
+            function checkFinal() {
+                let sc = 0;
+                Object.keys(fans).forEach(q => {
+                    const sel = document.querySelector(`input[name="${q}"]:checked`);
+                    document.querySelectorAll(`#${q} label`).forEach(l => l.classList.remove('correct', 'wrong'));
+                    if (sel) {
+                        if (sel.value === fans[q]) { sc++; sel.parentElement.classList.add('correct'); }
+                        else {
+                            sel.parentElement.classList.add('wrong');
+                            document.querySelectorAll(`#${q} label`).forEach(l => { if (l.querySelector('input').value === fans[q]) l.classList.add('correct'); });
+                        }
+                    }
+                });
+                const r = document.getElementById('fq_result');
+                r.textContent = `Kết quả: ${sc}/8 — ${sc >= 7 ? '🌟 Xuất sắc!' : sc >= 6 ? '✓ Khá tốt' : sc >= 4 ? 'Cần ôn thêm' : 'Ôn kỹ lại lý thuyết'}`;
+                r.style.color = sc >= 7 ? 'var(--green)' : sc >= 5 ? 'var(--gold)' : 'var(--red)';
+            }
+
+            // ===== CANVAS: C(v) GRAPH =====
+            function drawGraph() {
+                const c = document.getElementById('cvGraph'); if (!c) return;
+                const ctx = c.getContext('2d');
+                const W = c.width, H = c.height, pl = 32, pb = 28;
+                ctx.clearRect(0, 0, W, H);
+                // a=0.5, b=4 → v0=∛4≈1.587, Cmin≈3.78. scale x*48=px, y*40=py
+                const sx = (W - pl - 8) / 3.5, sy = (H - pb - 12) / 6;
+                function px(x) { return pl + x * sx; }
+                function py(y) { return H - pb - y * sy; }
+                // axes
+                ctx.strokeStyle = '#333'; ctx.lineWidth = 1.5;
+                ctx.beginPath(); ctx.moveTo(pl, 12); ctx.lineTo(pl, H - pb); ctx.lineTo(W - 8, H - pb); ctx.stroke();
+                ctx.fillStyle = '#333'; ctx.font = '11px sans-serif';
+                ctx.fillText('v', W - 12, H - pb + 4); ctx.fillText('C', pl + 4, 18);
+                // C1=0.5v²
+                ctx.strokeStyle = '#2980B9'; ctx.lineWidth = 2;
+                ctx.beginPath(); ctx.moveTo(px(0), py(0));
+                for (let v = 0.05; v <= 3.3; v += 0.05) ctx.lineTo(px(v), py(0.5 * v * v));
+                ctx.stroke();
+                ctx.fillStyle = '#2980B9'; ctx.font = '10px sans-serif'; ctx.fillText('C₁', px(3.2) + 2, py(0.5 * 3.2 * 3.2));
+                // C2=4/v
+                ctx.strokeStyle = '#C0392B'; ctx.lineWidth = 2;
+                ctx.beginPath(); ctx.moveTo(px(0.7), py(4 / 0.7));
+                for (let v = 0.7; v <= 3.3; v += 0.05) ctx.lineTo(px(v), py(4 / v));
+                ctx.stroke();
+                ctx.fillStyle = '#C0392B'; ctx.fillText('C₂', px(3.2) + 2, py(4 / 3.2));
+                // C=0.5v²+4/v
+                ctx.strokeStyle = '#1E8449'; ctx.lineWidth = 2.5;
+                ctx.beginPath(); ctx.moveTo(px(0.7), py(0.5 * 0.49 + 4 / 0.7));
+                for (let v = 0.7; v <= 3.3; v += 0.05) ctx.lineTo(px(v), py(0.5 * v * v + 4 / v));
+                ctx.stroke();
+                ctx.fillStyle = '#1E8449'; ctx.fillText('C', px(0.8), py(0.5 * 0.64 + 4 / 0.8) - 6);
+                // minimum at v0=∛4≈1.587
+                const v0 = Math.cbrt(4), cy = 0.5 * v0 * v0 + 4 / v0;
+                ctx.setLineDash([4, 3]); ctx.strokeStyle = '#888'; ctx.lineWidth = 1;
+                ctx.beginPath(); ctx.moveTo(px(v0), py(0)); ctx.lineTo(px(v0), py(cy)); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(pl, py(cy)); ctx.lineTo(px(v0), py(cy)); ctx.stroke();
+                ctx.setLineDash([]);
+                ctx.fillStyle = '#E67E22'; ctx.beginPath(); ctx.arc(px(v0), py(cy), 4, 0, Math.PI * 2); ctx.fill();
+                ctx.fillStyle = '#E67E22'; ctx.font = '10px sans-serif'; ctx.fillText('v₀', px(v0) - 4, H - pb + 12);
+                ctx.fillStyle = '#888'; ctx.font = '9px sans-serif';
+                ctx.fillText('Cₘᵢₙ', 4, py(cy) + 3);
+            }
+
+            function drawCv11() {
+                const c = document.getElementById('cv11'); if (!c) return;
+                const ctx = c.getContext('2d');
+                const W = c.width, H = c.height, pl = 30, pb = 26;
+                ctx.clearRect(0, 0, W, H);
+                // C(v)=1.2v²+1000/v on v∈[1,15]
+                const sx = (W - pl - 8) / 15, sy = (H - pb - 12) / 700;
+                function px(v) { return pl + v * sx; }
+                function py(y) { return H - pb - y * sy; }
+                ctx.strokeStyle = '#333'; ctx.lineWidth = 1.5;
+                ctx.beginPath(); ctx.moveTo(pl, 12); ctx.lineTo(pl, H - pb); ctx.lineTo(W - 8, H - pb); ctx.stroke();
+                ctx.fillStyle = '#333'; ctx.font = '10px sans-serif'; ctx.fillText('v', W - 12, H - pb + 4); ctx.fillText('C', pl + 2, 16);
+                // curve
+                ctx.strokeStyle = '#1E8449'; ctx.lineWidth = 2.5;
+                ctx.beginPath(); ctx.moveTo(px(1), py(1.2 + 1000));
+                for (let v = 1; v <= 14; v += 0.1) ctx.lineTo(px(v), py(1.2 * v * v + 1000 / v));
+                ctx.stroke();
+                // minimum at v0≈7.47
+                const v0 = Math.cbrt(1000 / 2.4);
+                const cm = 1.2 * v0 * v0 + 1000 / v0;
+                ctx.setLineDash([4, 3]); ctx.strokeStyle = '#888'; ctx.lineWidth = 1;
+                ctx.beginPath(); ctx.moveTo(px(v0), py(0)); ctx.lineTo(px(v0), py(cm)); ctx.stroke();
+                ctx.setLineDash([]);
+                ctx.fillStyle = '#E67E22'; ctx.beginPath(); ctx.arc(px(v0), py(cm), 4, 0, Math.PI * 2); ctx.fill();
+                ctx.fillStyle = '#E67E22'; ctx.font = '9px sans-serif'; ctx.fillText('v₀≈7.47', px(v0) - 14, H - pb + 12);
+                ctx.fillStyle = '#1E8449'; ctx.font = '9px sans-serif'; ctx.fillText('Cₘᵢₙ≈201K', px(v0) + 4, py(cm) - 4);
+            }
+
+            function drawCv22() {
+                const c = document.getElementById('cv22'); if (!c) return;
+                const ctx = c.getContext('2d');
+                const W = c.width, H = c.height, pl = 36, pb = 26;
+                ctx.clearRect(0, 0, W, H);
+                // C(v)=3v²+22500/v on [4,30]
+                const sx = (W - pl - 8) / 30, sy = (H - pb - 12) / 6000;
+                function px(v) { return pl + v * sx; }
+                function py(y) { return H - pb - y * sy; }
+                ctx.strokeStyle = '#333'; ctx.lineWidth = 1.5;
+                ctx.beginPath(); ctx.moveTo(pl, 12); ctx.lineTo(pl, H - pb); ctx.lineTo(W - 8, H - pb); ctx.stroke();
+                ctx.fillStyle = '#333'; ctx.font = '10px sans-serif'; ctx.fillText('v', W - 12, H - pb + 4); ctx.fillText('C', pl + 2, 16);
+                ctx.strokeStyle = '#1E8449'; ctx.lineWidth = 2.5;
+                ctx.beginPath(); ctx.moveTo(px(4), py(3 * 16 + 22500 / 4));
+                for (let v = 4; v <= 30; v += 0.5) ctx.lineTo(px(v), py(3 * v * v + 22500 / v));
+                ctx.stroke();
+                const v0 = Math.cbrt(22500 / 6);
+                const cm = 3 * v0 * v0 + 22500 / v0;
+                ctx.setLineDash([4, 3]); ctx.strokeStyle = '#888'; ctx.lineWidth = 1;
+                ctx.beginPath(); ctx.moveTo(px(v0), py(0)); ctx.lineTo(px(v0), py(cm)); ctx.stroke();
+                ctx.setLineDash([]);
+                ctx.fillStyle = '#E67E22'; ctx.beginPath(); ctx.arc(px(v0), py(cm), 4, 0, Math.PI * 2); ctx.fill();
+                ctx.fillStyle = '#E67E22'; ctx.font = '9px sans-serif'; ctx.fillText('v₀≈15.54', px(v0) - 16, H - pb + 12);
+                // dots at endpoints
+                [[4, 3 * 16 + 22500 / 4], [30, 3 * 900 + 22500 / 30]].forEach(([v, y]) => {
+                    ctx.fillStyle = '#1565C0'; ctx.beginPath(); ctx.arc(px(v), py(y), 3, 0, Math.PI * 2); ctx.fill();
+                });
+                ctx.fillStyle = '#888'; ctx.font = '9px sans-serif';
+                [4, 10, 15, 20, 30].forEach(v => ctx.fillText(v, px(v) - 4, H - pb + 12));
+            }
+
+            window.addEventListener('DOMContentLoaded', () => {
+                drawGraph(); drawCv11(); drawCv22();
+                if (window.MathJax) MathJax.typesetPromise();
+            });
+        </script>
+</body>
+
+</html>

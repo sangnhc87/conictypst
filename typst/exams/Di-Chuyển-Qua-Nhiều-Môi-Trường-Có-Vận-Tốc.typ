@@ -1002,9 +1002,9 @@
       line((16, 4), (16, 20), stroke: (dash: "dashed", paint: gray))
       
       // Góc tới và góc khúc xạ
-      arc(M, start: 90deg, stop: 143.13deg, radius: 4, stroke: 0.5pt)
+      arc((M.at(0), M.at(1) + 4), start: 90deg, stop: 143.13deg, radius: 4, stroke: 0.5pt)
       content((13, 17.5), $theta_2$)
-      arc(M, start: -90deg, stop: -53.13deg, radius: 4, stroke: 0.5pt)
+      arc((M.at(0), M.at(1) - 4), start: -90deg, stop: -53.13deg, radius: 4, stroke: 0.5pt)
       content((18.5, 7), $theta_1$)
       
       circle(M, radius: 1.5pt, fill: black); content((17.5, 11), $M$)
@@ -1127,9 +1127,9 @@
       
       // Vẽ góc khúc xạ minh họa tại N
       line((70, 55), (70, 85), stroke: (dash: "dashed", paint: gray))
-      arc((70,70), start: 90deg, stop: 111.8deg, radius: 10, stroke: 0.5pt)
+      arc((70, 80), start: 90deg, stop: 111.8deg, radius: 10, stroke: 0.5pt)
       content((64, 78), $theta_3$)
-      arc((70,70), start: -90deg, stop: -53.1deg, radius: 10, stroke: 0.5pt)
+      arc((70, 60), start: -90deg, stop: -53.1deg, radius: 10, stroke: 0.5pt)
       content((77, 60), $theta_2$)
     })
   ]
@@ -1164,6 +1164,7 @@
     
     Biểu diễn các độ dời ngang $x_i$ theo ẩn $k$:
     - $x_1 = 40 tan theta_1 = (40 dot 15k) / sqrt(1 - 15^2 k^2) = (600k) / sqrt(1 - 225k^2)$
+    
     - $x_2 = 30 tan theta_2 = (30 dot 20k) / sqrt(1 - 20^2 k^2) = (600k) / sqrt(1 - 400k^2)$
     - $x_3 = 48 tan theta_3 = (48 dot 7k) / sqrt(1 - 7^2 k^2) = (336k) / sqrt(1 - 49k^2)$
     

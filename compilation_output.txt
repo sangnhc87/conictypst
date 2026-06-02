@@ -1,0 +1,11 @@
+warning: the name `pattern` is deprecated, use `tiling` instead
+    ┌─ typst/sach/ham-so-chuong1/_config.typ:132:20
+    │
+132 │ #let line-pattern = pattern(size: (20cm, 22pt))[
+    │                     ^^^^^^^
+    │
+    = hint: it will be removed in Typst 0.15.0
+
+warning: layout did not converge within 5 attempts
+ = hint: check if any states or queries are updating themselves
+

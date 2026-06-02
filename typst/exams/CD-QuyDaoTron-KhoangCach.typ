@@ -302,7 +302,7 @@ $
   ],
 )
 
-== Bài 2 — Mặt phẳng quỹ đạo nằm ngang ($z = const$)
+== Bài 2 — Mặt phẳng quỹ đạo nằm ngang ($z = "const"$)
 
 #tln(
   [Trong không gian $O x y z$ (đơn vị: mét), mặt đất là $z + 5 = 0$. Vật $M$ chuyển động trên quỹ đạo tròn qua $A(0; 0; 7)$, $B(4; 0; 7)$, $C(2; 3; 7)$. Khoảng cách ngắn nhất từ vật đến mặt đất là bao nhiêu mét?],

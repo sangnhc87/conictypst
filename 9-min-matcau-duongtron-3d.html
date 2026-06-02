@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>9. Cực Trị KĐ Mặt Cầu — Đường Tròn 3D</title>
+    <script>MathJax = { tex: { inlineMath: [['$', '$']], displayMath: [['$$', '$$']] }, startup: { typeset: false } };</script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <style>
+        :root {
+            --navy: #1A5276;
+            --crimson: #900C3F;
+            --teal: #0E6655;
+            --orange: #E67E22;
+            --green: #1E8449;
+            --bg: #F4F9F9;
+            --card: #fff;
+            --gold: #B7950B;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: #222;
+            font-size: 15px;
+        }
+
+        header {
+            background: var(--navy);
+            color: #fff;
+            padding: 18px 24px;
+        }
+
+        header h1 {
+            font-size: 1.35rem;
+            margin-bottom: 4px;
+        }
+
+        header p {
+            opacity: .8;
+            font-size: .9rem;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            padding: 12px 16px 0;
+            background: #eef3f7;
+            border-bottom: 2px solid var(--navy);
+        }
+
+        .tab-btn {
+            padding: 8px 16px;
+            border: none;
+            background: #ccd8e8;
+            border-radius: 6px 6px 0 0;
+            cursor: pointer;
+            font-size: .88rem;
+            font-weight: 600;
+            color: #444;
+            transition: .2s;
+        }
+
+        .tab-btn.active {
+            background: var(--navy);
+            color: #fff;
+        }
+
+        .tab-panel {
+            display: none;
+            padding: 20px;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        .card {
+            background: var(--card);
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .08);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            background: var(--navy);
+            color: #fff;
+            padding: 10px 16px;
+            font-weight: 700;
+            font-size: .95rem;
+        }
+
+        .card-header.crim {
+            background: var(--crimson);
+        }
+
+        .card-header.teal {
+            background: var(--teal);
+        }
+
+        .card-header.gold {
+            background: var(--gold);
+        }
+
+        .card-body {
+            padding: 16px;
+        }
+
+        .prob-layout {
+            display: grid;
+            grid-template-columns: 1fr 230px;
+            gap: 16px;
+            align-items: start;
+        }
+
+        @media(max-width:640px) {
+            .prob-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .formula-box {
+            background: #eaf4fb;
+            border-left: 4px solid var(--navy);
+            padding: 12px 16px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-size: .97rem;
+        }
+
+        .formula-box.orange {
+            background: #fff3e0;
+            border-left-color: var(--orange);
+        }
+
+        .formula-box.green {
+            background: #eafaf1;
+            border-left-color: var(--green);
+        }
+
+        .formula-box.big {
+            background: #1A5276;
+            color: #fff;
+            padding: 16px 20px;
+            text-align: center;
+            font-size: 1.05rem;
+            border-radius: 8px;
+            border: none;
+            margin: 16px 0;
+        }
+
+        .warning-box {
+            background: #fff5f5;
+            border: 2px solid var(--crimson);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin: 10px 0;
+        }
+
+        .note-box {
+            background: #fffbe6;
+            border-left: 4px solid var(--gold);
+            padding: 10px 14px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-size: .9rem;
+        }
+
+        .sol-toggle {
+            width: 100%;
+            text-align: left;
+            background: #f0f7ff;
+            border: 1px solid #bbd;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: .88rem;
+            margin-top: 10px;
+            color: var(--navy);
+        }
+
+        .sol-toggle:hover {
+            background: #daeeff;
+        }
+
+        .sol-body {
+            display: none;
+            padding: 12px;
+            background: #f9fbff;
+            border: 1px solid #dde;
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+            font-size: .88rem;
+            line-height: 1.65;
+        }
+
+        .sol-body.open {
+            display: block;
+        }
+
+        .sol-body ol {
+            padding-left: 20px;
+            margin-top: 6px;
+        }
+
+        .sol-body li {
+            margin-bottom: 7px;
+        }
+
+        .ans-box {
+            background: var(--navy);
+            color: #fff;
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 4px;
+            font-weight: 700;
+            margin-left: 6px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: .78rem;
+            font-weight: 700;
+            margin-right: 6px;
+        }
+
+        .badge.b1 {
+            background: #d4efdf;
+            color: #1E8449;
+        }
+
+        .badge.b2 {
+            background: #eaf4fb;
+            color: #1A5276;
+        }
+
+        .badge.b3 {
+            background: #fef9e7;
+            color: #B7950B;
+        }
+
+        .badge.b4 {
+            background: #fde8d8;
+            color: #E67E22;
+        }
+
+        .badge.b5 {
+            background: #f9d6d5;
+            color: #C0392B;
+        }
+
+        .badge.b6 {
+            background: #e8d5f5;
+            color: #7D3C98;
+        }
+
+        canvas {
+            border-radius: 6px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: .88rem;
+            margin-top: 10px;
+        }
+
+        th {
+            background: var(--navy);
+            color: #fff;
+            padding: 8px;
+            text-align: center;
+        }
+
+        td {
+            padding: 7px 8px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        tr:nth-child(even) td {
+            background: #f5f8fc;
+        }
+
+        .step-flow {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin: 12px 0;
+        }
+
+        .step-box {
+            background: #eaf4fb;
+            border: 1px solid #93c5fd;
+            border-radius: 6px;
+            padding: 8px 12px;
+            text-align: center;
+            font-size: .85rem;
+            flex: 1;
+            min-width: 130px;
+        }
+
+        .step-box b {
+            display: block;
+            color: var(--navy);
+            font-size: .8rem;
+            margin-bottom: 3px;
+        }
+
+        .arrow {
+            font-size: 1.4rem;
+            align-self: center;
+            color: var(--navy);
+            flex: 0;
+        }
+
+        .quiz-q {
+            margin-bottom: 18px;
+        }
+
+        .quiz-q p {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .quiz-opt label {
+            display: block;
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 4px;
+            border: 1px solid #ddd;
+        }
+
+        .quiz-opt label:hover {
+            background: #eef3f7;
+        }
+
+        .quiz-opt label.correct {
+            background: #d4efdf;
+            border-color: var(--green);
+        }
+
+        .quiz-opt label.wrong {
+            background: #fdedec;
+            border-color: var(--crimson);
+        }
+
+        .quiz-btn {
+            background: var(--navy);
+            color: #fff;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: .9rem;
+            margin-top: 8px;
+        }
+
+        .quiz-result {
+            font-weight: 700;
+            margin-top: 10px;
+            font-size: 1rem;
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        @media(max-width:600px) {
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Cực Trị Khoảng Cách Mặt Cầu — Đường Tròn Trong Không Gian</h1>
+        <p>8 bài tập phân cấp bậc 1–6 · Minh hoạ 3D chính xác</p>
+    </header>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab(0)">📐 Lý Thuyết</button>
+        <button class="tab-btn" onclick="switchTab(1)">Bậc 1–2</button>
+        <button class="tab-btn" onclick="switchTab(2)">Bậc 3–4</button>
+        <button class="tab-btn" onclick="switchTab(3)">Bậc 5–6</button>
+        <button class="tab-btn" onclick="switchTab(4)">✏️ Quiz</button>
+    </div>
+
+    <!-- ======================== TAB 1: LÝ THUYẾT ======================== -->
+    <div class="tab-panel active" id="tab0">
+        <div class="card">
+            <div class="card-header">CÔNG THỨC CỐT LÕI</div>
+            <div class="card-body">
+                <div class="formula-box big">
+                    Cho mặt cầu $(S)$ tâm $I$, bán kính $R_S$ và đường tròn $(C)$ tâm $J$, bán kính $R_C$ trên mặt phẳng
+                    $(P)$.<br>
+                    Gọi $H$ là hình chiếu vuông góc của $I$ lên $(P)$.<br><br>
+                    $$\boxed{MN_{\min} = \sqrt{\,d^2(I,(P)) + \bigl(|HJ| - R_C\bigr)^2\,} - R_S}$$
+                </div>
+                <div class="two-col" style="margin-top:12px;">
+                    <div>
+                        <div class="step-flow" style="flex-direction:column;gap:6px;">
+                            <div class="step-box" style="background:#d4efdf;border-color:#16a34a;"><b>Bước 1</b>$H$ =
+                                hình chiếu vuông góc của $I$ lên $(P)$<br>$IH = d(I, (P))$</div>
+                            <div class="step-box"><b>Bước 2</b>Tính $HJ$ = khoảng cách từ $H$ đến tâm đường tròn $J$
+                            </div>
+                            <div class="step-box" style="background:#fff3e0;border-color:#fbbf24;"><b>Bước 3 — Khoảng
+                                    cách ngang</b>• Nếu $HJ > R_C$: $\delta = HJ - R_C$ (H ngoài C)<br>• Nếu $HJ < R_C$:
+                                    $\delta=R_C - HJ$ (H trong C)<br>• Nếu $HJ = R_C$: $\delta = 0$</div>
+                            <div class="step-box" style="background:#eaf4fb;border-color:#93c5fd;"><b>Bước
+                                    4</b>$IN_{\min} = \sqrt{IH^2 + \delta^2}$</div>
+                            <div class="step-box" style="background:#fdedec;border-color:#dc2626;"><b>Bước
+                                    5</b>$MN_{\min} = IN_{\min} - R_S$</div>
+                        </div>
+                    </div>
+                    <div>
+                        <canvas id="cvTheory" width="240" height="260"></canvas>
+                        <div class="note-box" style="margin-top:8px;">
+                            <b>Lưu ý:</b> Công thức $\delta = |HJ - R_C|$ chỉ đúng khi $HJ \ge R_C$. Trường hợp tổng
+                            quát: $\delta = \bigl||HJ| - R_C\bigr|$ (xem Bước 3).
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header teal">BẢNG TRƯỜNG HỢP ĐẶC BIỆT</div>
+            <div class="card-body">
+                <table>
+                    <tr>
+                        <th>Vị trí của $H$ so với $(C)$</th>
+                        <th>Điều kiện</th>
+                        <th>$\delta$ (khoảng cách ngang)</th>
+                    </tr>
+                    <tr>
+                        <td>$H$ nằm ngoài $(C)$</td>
+                        <td>$HJ > R_C$</td>
+                        <td>$HJ - R_C$</td>
+                    </tr>
+                    <tr>
+                        <td>$H$ nằm trên $(C)$</td>
+                        <td>$HJ = R_C$</td>
+                        <td>$0$ — điểm gần nhất nằm thẳng đứng</td>
+                    </tr>
+                    <tr>
+                        <td>$H$ nằm trong $(C)$</td>
+                        <td>$HJ < R_C$</td>
+                        <td>$R_C - HJ$</td>
+                    </tr>
+                    <tr>
+                        <td>$H = J$ (tâm đường tròn)</td>
+                        <td>$HJ = 0$</td>
+                        <td>$R_C$</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================== TAB 2: BẬC 1–2 ======================== -->
+    <div class="tab-panel" id="tab1">
+        <!-- Bậc 1 — Bài 1 -->
+        <div class="card">
+            <div class="card-header"><span class="badge b1">Bậc 1</span> Bài 1 — Phao tiêu biển &amp; cảm biến sonar
+            </div>
+            <div class="card-body">
+                <div class="prob-layout">
+                    <div>
+                        <p>Mặt cầu $(S): (x-6)^2+(y-8)^2+(z-12)^2=4$. Đường tròn $(C): x^2+y^2=16$, $z=0$. Tính
+                            $MN_{\min}$.</p>
+                        <div class="formula-box">$I(6,8,12)$, $R_S=2$; $J(0,0,0)$ (tâm $(C)$), $R_C=4$, mặt phẳng $z=0$.
+                        </div>
+                        <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải</button>
+                        <div class="sol-body">
+                            <ol>
+                                <li><b>H = chiếu I xuống z=0:</b> $H = (6,8,0)$. $IH = 12$.</li>
+                                <li>$HJ = \sqrt{6^2+8^2} = \sqrt{100} = 10$. Vì $HJ=10 > R_C=4$: $H$ ngoài $(C)$.</li>
+                                <li>$\delta = HJ - R_C = 10 - 4 = 6$.</li>
+                                <li>$IN_{\min} = \sqrt{IH^2+\delta^2} = \sqrt{144+36} = \sqrt{180} = 6\sqrt{5}$.</li>
+                                <li>$MN_{\min} = IN_{\min} - R_S = 6\sqrt{5} - 2$.</li>
+                            </ol>
+                            <div style="margin-top:8px;">Đáp số: <span class="ans-box">$MN_{\min} = 6\sqrt{5}-2 \approx
+                                    11.42$</span></div>
+                        </div>
+                    </div>
+                    <canvas id="cv_b1_1" width="220" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bậc 1 — Bài 2 -->
+        <div class="card">
+            <div class="card-header"><span class="badge b1">Bậc 1</span> Bài 2 — Vệ tinh viễn thông &amp; đĩa viễn vọng
+            </div>
+            <div class="card-body">
+                <div class="prob-layout">
+                    <div>
+                        <p>Mặt cầu $(S): x^2+(y-15)^2+(z-8)^2=9$. Đường tròn $(C): x^2+y^2=49$, $z=0$. Tính $MN_{\min}$.
+                        </p>
+                        <div class="formula-box">$I(0,15,8)$, $R_S=3$; $J(0,0,0)$, $R_C=7$, mặt phẳng $z=0$.</div>
+                        <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải</button>
+                        <div class="sol-body">
+                            <ol>
+                                <li>$H=(0,15,0)$, $IH=8$.</li>
+                                <li>$HJ=15 > 7 = R_C$ → $H$ ngoài $(C)$.</li>
+                                <li>$\delta = 15-7 = 8$.</li>
+                                <li>$IN_{\min} = \sqrt{64+64} = 8\sqrt{2}$.</li>
+                                <li>$MN_{\min} = 8\sqrt{2} - 3$.</li>
+                            </ol>
+                            <div style="margin-top:8px;">Đáp số: <span class="ans-box">$MN_{\min} = 8\sqrt{2}-3 \approx
+                                    8.31$</span></div>
+                        </div>
+                    </div>
+                    <canvas id="cv_b1_2" width="220" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bậc 2 — Bài 3 -->
+        <div class="card">
+            <div class="card-header"><span class="badge b2">Bậc 2</span> Bài 3 — Khinh khí cầu &amp; flycam vòng tròn
+            </div>
+            <div class="card-body">
+                <div class="prob-layout">
+                    <div>
+                        <p>$(S): (x-3)^2+(y-4)^2+(z-15)^2=25$. $(C): (x-8)^2+(y-16)^2=64$, $z=10$. Tính $MN_{\min}$.</p>
+                        <div class="formula-box">$I(3,4,15)$, $R_S=5$; $J(8,16,10)$, $R_C=8$, mặt phẳng $z=10$.</div>
+                        <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải</button>
+                        <div class="sol-body">
+                            <ol>
+                                <li>$H=(3,4,10)$ (chiếu $I$ xuống $z=10$). $IH=|15-10|=5$.</li>
+                                <li>$HJ = \sqrt{(8-3)^2+(16-4)^2} = \sqrt{25+144} = \sqrt{169} = 13$.</li>
+                                <li>$\delta = 13 - 8 = 5$.</li>
+                                <li>$IN_{\min} = \sqrt{25+25} = 5\sqrt{2}$.</li>
+                                <li>$MN_{\min} = 5\sqrt{2} - 5$.</li>
+                            </ol>
+                            <div style="margin-top:8px;">Đáp số: <span class="ans-box">$MN_{\min} = 5\sqrt{2}-5 \approx
+                                    2.07$</span></div>
+                        </div>
+                    </div>
+                    <canvas id="cv_b2_1" width="220" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bậc 2 — Bài 4 -->
+        <div class="card">
+            <div class="card-header"><span class="badge b2">Bậc 2</span> Bài 4 — Drone công nghiệp &amp; vòng đệm thẳng
+                đứng</div>
+            <div class="card-body">
+                <div class="prob-layout">
+                    <div>
+                        <p>$(S): (x-12)^2+(y-10)^2+(z-5)^2=4$. $(C): (y+2)^2+z^2=49$, $x=3$. Tính $MN_{\min}$.</p>
+                        <div class="formula-box">$I(12,10,5)$, $R_S=2$; $J(3,-2,0)$ (tâm C trong mặt phẳng $x=3$,
+                            $y=-2,z=0$), $R_C=7$. Mặt phẳng $x=3$.</div>
+                        <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải</button>
+                        <div class="sol-body">
+                            <ol>
+                                <li>$H=(3,10,5)$ (chiếu $I$ vuông góc lên mặt phẳng $x=3$). $IH=|12-3|=9$.</li>
+                                <li>$HJ = \sqrt{(10-(-2))^2+(5-0)^2} = \sqrt{144+25} = \sqrt{169} = 13$.</li>
+                                <li>$\delta = 13-7 = 6$.</li>
+                                <li>$IN_{\min} = \sqrt{81+36} = \sqrt{117} = 3\sqrt{13}$.</li>
+                                <li>$MN_{\min} = 3\sqrt{13} - 2$.</li>
+                            </ol>
+                            <div style="margin-top:8px;">Đáp số: <span class="ans-box">$MN_{\min} = 3\sqrt{13}-2 \approx
+                                    8.82$</span></div>
+                        </div>
+                    </div>
+                    <canvas id="cv_b2_2" width="220" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================== TAB 3: BẬC 3–4 ======================== -->
+    <div class="tab-panel" id="tab2">
+        <!-- Bậc 3 -->
+        <div class="card">
+            <div class="card-header"><span class="badge b3">Bậc 3</span> Bài 5 — Hành tinh &amp; tàu trinh sát vũ trụ
+            </div>
+            <div class="card-body">
+                <div class="prob-layout">
+                    <div>
+                        <p>$(S_2): (x-8)^2+(y-15)^2+(z-24)^2=16$. Mặt cầu $(S_1): x^2+y^2+z^2=25$ giao với mặt phẳng
+                            $z=4$ tạo ra đường tròn $(C)$. Tính khoảng cách nhỏ nhất giữa $(S_2)$ và $(C)$.</p>
+                        <div class="formula-box">
+                            <b>Tìm $(C)$:</b> Thế $z=4$ vào $S_1$: $x^2+y^2 = 25-16 = 9$. Vậy $(C)$: tâm $J(0,0,4)$,
+                            $R_C=3$, mặt phẳng $z=4$.
+                        </div>
+                        <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải</button>
+                        <div class="sol-body">
+                            <ol>
+                                <li>$(C)$: $J(0,0,4)$, $R_C=3$, $z=4$. $I(8,15,24)$, $R_S=4$.</li>
+                                <li>$H=(8,15,4)$, $IH=20$.</li>
+                                <li>$HJ = \sqrt{64+225} = \sqrt{289} = 17$.</li>
+                                <li>$\delta = 17 - 3 = 14$.</li>
+                                <li>$IN_{\min} = \sqrt{400+196} = \sqrt{596} = 2\sqrt{149}$.</li>
+                                <li>$MN_{\min} = 2\sqrt{149} - 4$.</li>
+                            </ol>
+                            <div style="margin-top:8px;">Đáp số: <span class="ans-box">$MN_{\min} = 2\sqrt{149}-4
+                                    \approx 20.41$</span></div>
+                        </div>
+                    </div>
+                    <canvas id="cv_b3" width="220" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bậc 4 -->
+        <div class="card">
+            <div class="card-header"><span class="badge b4">Bậc 4</span> Bài 6 — Đĩa mặt trời &amp; vệ tinh nghiêng
+            </div>
+            <div class="card-body">
+                <div class="prob-layout">
+                    <div>
+                        <p>$(S): (x-11)^2+(y-14)^2+(z-15)^2=4$. $(C)$: tâm $J(2,2,2)$, $R_C=5$, trên mặt phẳng $(P):
+                            2x+2y-z-6=0$. Tính $MN_{\min}$.</p>
+                        <div class="formula-box">$I(11,14,15)$, $R_S=2$. Mặt phẳng nghiêng có pháp tuyến $(2,2,-1)$.
+                        </div>
+                        <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải</button>
+                        <div class="sol-body">
+                            <ol>
+                                <li>$IH = d(I,(P)) = \dfrac{|2\cdot11+2\cdot14-15-6|}{3} = \dfrac{29}{3}$.</li>
+                                <li>Đường thẳng qua $I$ vuông góc $(P)$: $\mathbf{r} = (11+2t,\ 14+2t,\ 15-t)$.<br>Thế
+                                    vào $(P)$: $2(11+2t)+2(14+2t)-(15-t)-6=0 \Rightarrow 9t = -29 \Rightarrow
+                                    t=-\tfrac{29}{9}$.<br>$H = \left(\tfrac{41}{9},\tfrac{68}{9},\tfrac{164}{9}\right)$.
+                                </li>
+                                <li>$HJ^2 = \left(\tfrac{41}{9}-2\right)^2 + \left(\tfrac{68}{9}-2\right)^2 +
+                                    \left(\tfrac{164}{9}-2\right)^2 = \tfrac{23^2+50^2+146^2}{81} =
+                                    \tfrac{24345}{81}$.<br>$HJ = \tfrac{\sqrt{24345}}{9} \approx 17.34 > 5 = R_C$.</li>
+                                <li>$\delta = HJ - 5 \approx 12.34$.</li>
+                                <li>$IN_{\min} = \sqrt{(29/3)^2 + 12.34^2} \approx \sqrt{93.07 + 152.3} \approx 15.67$.
+                                </li>
+                                <li>$MN_{\min} \approx 15.67 - 2 \approx 13.67$.</li>
+                            </ol>
+                            <div style="margin-top:8px;">Đáp số: <span class="ans-box">$MN_{\min} \approx 13.67$</span>
+                            </div>
+                        </div>
+                    </div>
+                    <canvas id="cv_b4" width="220" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================== TAB 4: BẬC 5–6 ======================== -->
+    <div class="tab-panel" id="tab3">
+        <!-- Bậc 5 -->
+        <div class="card">
+            <div class="card-header"><span class="badge b5">Bậc 5</span> Bài 7 — Vòng quay &amp; quả bóng bay</div>
+            <div class="card-body">
+                <div class="prob-layout">
+                    <div>
+                        <p>$(S): x^2+(y-12)^2+(z-20)^2=16$. $(C)$: tâm $J(3,4,5)$, $R_C=10$, nằm trên mặt phẳng $z=5$.
+                            Tính $MN_{\min}$.</p>
+                        <div class="formula-box">$I(0,12,20)$, $R_S=4$. Mặt phẳng $z=5$.</div>
+                        <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải</button>
+                        <div class="sol-body">
+                            <ol>
+                                <li>$H=(0,12,5)$ (chiếu $I$ xuống $z=5$). $IH=15$.</li>
+                                <li>$HJ = \sqrt{(0-3)^2+(12-4)^2} = \sqrt{9+64} = \sqrt{73}$.</li>
+                                <li>$\sqrt{73} \approx 8.54 < 10=R_C$ → $H$ nằm <b>trong</b> $(C)$!</li>
+                                <li>$\delta = R_C - HJ = 10 - \sqrt{73}$.</li>
+                                <li>$IN_{\min} = \sqrt{225 + (10-\sqrt{73})^2} = \sqrt{225+100-20\sqrt{73}+73} =
+                                    \sqrt{398-20\sqrt{73}}$.</li>
+                                <li>$MN_{\min} = \sqrt{398-20\sqrt{73}} - 4$.</li>
+                            </ol>
+                            <div class="note-box" style="margin-top:8px;"><b>Lưu ý:</b> Khi $HJ < R_C$, H nằm trong
+                                    đường tròn, $\delta=R_C - HJ$ (điểm gần nhất trên C ở phía ngược!).</div>
+                                    <div style="margin-top:8px;">Đáp số: <span class="ans-box">$MN_{\min} =
+                                            \sqrt{398-20\sqrt{73}}-4 \approx 11.07$</span></div>
+                            </div>
+                        </div>
+                        <canvas id="cv_b5" width="220" height="210"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bậc 6 -->
+            <div class="card">
+                <div class="card-header"><span class="badge b6">Bậc 6</span> Bài 8 — Trạm vũ trụ, tìm tham số $m$</div>
+                <div class="card-body">
+                    <div class="prob-layout">
+                        <div>
+                            <p>Mặt cầu $(S): (x-m)^2+y^2+z^2=1$ (tâm $I(m,0,0)$, $R_S=1$). Đường tròn $(C): x^2+y^2=16$,
+                                $z=4$ (tâm $J(0,0,4)$, $R_C=4$). Biết $MN_{\min}=4$. Tìm $m$.</p>
+                            <div class="formula-box">Mặt phẳng $z=4$. $H=(m,0,4)$. $IH=4$. $HJ=m$.</div>
+                            <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải</button>
+                            <div class="sol-body">
+                                <ol>
+                                    <li>$H=(m,0,4)$, $IH=|0-4|=4$.</li>
+                                    <li>$HJ = \sqrt{m^2+0^2} = |m|$.</li>
+                                    <li>Giả sử $m>0$: Xét hai trường hợp.<br>
+                                        <b>TH1</b> $m > R_C = 4$: $\delta = m-4$. $IN_{\min}=\sqrt{16+(m-4)^2}$. Phương
+                                        trình: $\sqrt{16+(m-4)^2}-1=4 \Rightarrow (m-4)^2=9 \Rightarrow m=7$ (nhận,
+                                        $m>4$).<br>
+                                        <b>TH2</b> $m < R_C=4$: $\delta=4-m$. $IN_{\min}=\sqrt{16+(4-m)^2}$. Phương
+                                            trình tương tự: $m-4=-3 \Rightarrow m=1$ (nhận, $0 < 1 < 4$).<br>
+                                            <b>TH3</b> $m=4$: $\delta=0$, $IN_{\min}=4$, $MN_{\min}=3 \ne 4$.
+                                    </li>
+                                </ol>
+                                <div style="margin-top:8px;">Đáp số: <span class="ans-box">$m = 1$ hoặc $m = 7$</span>
+                                </div>
+                            </div>
+                        </div>
+                        <canvas id="cv_b6" width="220" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header teal">TỔNG HỢP 8 BÀI</div>
+                <div class="card-body">
+                    <table>
+                        <tr>
+                            <th>Bài</th>
+                            <th>$I$</th>
+                            <th>$R_S$</th>
+                            <th>$J$</th>
+                            <th>$R_C$</th>
+                            <th>$IH$</th>
+                            <th>$HJ$</th>
+                            <th>$\delta$</th>
+                            <th>Đáp số</th>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>(6,8,12)</td>
+                            <td>2</td>
+                            <td>(0,0,0)</td>
+                            <td>4</td>
+                            <td>12</td>
+                            <td>10</td>
+                            <td>6</td>
+                            <td>$6\sqrt{5}-2$</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>(0,15,8)</td>
+                            <td>3</td>
+                            <td>(0,0,0)</td>
+                            <td>7</td>
+                            <td>8</td>
+                            <td>15</td>
+                            <td>8</td>
+                            <td>$8\sqrt{2}-3$</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>(3,4,15)</td>
+                            <td>5</td>
+                            <td>(8,16,10)</td>
+                            <td>8</td>
+                            <td>5</td>
+                            <td>13</td>
+                            <td>5</td>
+                            <td>$5\sqrt{2}-5$</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>(12,10,5)</td>
+                            <td>2</td>
+                            <td>(3,-2,0)</td>
+                            <td>7</td>
+                            <td>9</td>
+                            <td>13</td>
+                            <td>6</td>
+                            <td>$3\sqrt{13}-2$</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>(8,15,24)</td>
+                            <td>4</td>
+                            <td>(0,0,4)</td>
+                            <td>3</td>
+                            <td>20</td>
+                            <td>17</td>
+                            <td>14</td>
+                            <td>$2\sqrt{149}-4$</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>(11,14,15)</td>
+                            <td>2</td>
+                            <td>(2,2,2)</td>
+                            <td>5</td>
+                            <td>29/3</td>
+                            <td>≈17.34</td>
+                            <td>≈12.34</td>
+                            <td>≈13.67</td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td>(0,12,20)</td>
+                            <td>4</td>
+                            <td>(3,4,5)</td>
+                            <td>10</td>
+                            <td>15</td>
+                            <td>$\sqrt{73}$</td>
+                            <td>$10-\sqrt{73}$</td>
+                            <td>$\sqrt{398-20\sqrt{73}}-4$</td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td>(m,0,0)</td>
+                            <td>1</td>
+                            <td>(0,0,4)</td>
+                            <td>4</td>
+                            <td>4</td>
+                            <td>|m|</td>
+                            <td>|m-4|</td>
+                            <td>$m=1$ hoặc $m=7$</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======================== TAB 5: QUIZ ======================== -->
+        <div class="tab-panel" id="tab4">
+            <div class="card">
+                <div class="card-header">KIỂM TRA NHANH — 5 CÂU</div>
+                <div class="card-body">
+                    <div class="quiz-q" id="q1">
+                        <p>Câu 1. $I(0,0,10)$, $R_S=2$; $(C)$: tâm $J(0,0,0)$, $R_C=6$, $z=0$. $IH=?$, $HJ=?$</p>
+                        <div class="quiz-opt">
+                            <label><input type="radio" name="q1" value="a"> a) $IH=10$, $HJ=0$</label>
+                            <label><input type="radio" name="q1" value="b"> b) $IH=6$, $HJ=10$</label>
+                            <label><input type="radio" name="q1" value="c"> c) $IH=10$, $HJ=6$</label>
+                            <label><input type="radio" name="q1" value="d"> d) $IH=0$, $HJ=10$</label>
+                        </div>
+                    </div>
+                    <div class="quiz-q" id="q2">
+                        <p>Câu 2. (Tiếp câu 1) $\delta = ?$ và $MN_{\min} = ?$</p>
+                        <div class="quiz-opt">
+                            <label><input type="radio" name="q2" value="a"> a) $\delta=6$,
+                                $MN_{\min}=\sqrt{136}-2$</label>
+                            <label><input type="radio" name="q2" value="b"> b) $\delta=6$,
+                                $MN_{\min}=2\sqrt{34}-2$</label>
+                            <label><input type="radio" name="q2" value="c"> c) $\delta=0$, $MN_{\min}=8$</label>
+                            <label><input type="radio" name="q2" value="d"> d) $\delta=4$,
+                                $MN_{\min}=\sqrt{116}-2$</label>
+                        </div>
+                    </div>
+                    <div class="quiz-q" id="q3">
+                        <p>Câu 3. $I(0,12,20)$, $R_S=4$; $J(3,4,5)$, $R_C=10$, $z=5$. Vị trí của $H$ so với $(C)$?</p>
+                        <div class="quiz-opt">
+                            <label><input type="radio" name="q3" value="a"> a) $H$ nằm ngoài $(C)$ vì $HJ=\sqrt{73} >
+                                10$</label>
+                            <label><input type="radio" name="q3" value="b"> b) $H$ nằm trên $(C)$ vì $HJ=10$</label>
+                            <label><input type="radio" name="q3" value="c"> c) $H$ nằm trong $(C)$ vì $HJ=\sqrt{73} <
+                                    10$</label>
+                                    <label><input type="radio" name="q3" value="d"> d) $H=J$</label>
+                        </div>
+                    </div>
+                    <div class="quiz-q" id="q4">
+                        <p>Câu 4. Bài 6 tìm $m$: Khi $m=7$ thì $\delta=?$</p>
+                        <div class="quiz-opt">
+                            <label><input type="radio" name="q4" value="a"> a) $\delta=7$</label>
+                            <label><input type="radio" name="q4" value="b"> b) $\delta=3$</label>
+                            <label><input type="radio" name="q4" value="c"> c) $\delta=4$</label>
+                            <label><input type="radio" name="q4" value="d"> d) $\delta=11$</label>
+                        </div>
+                    </div>
+                    <div class="quiz-q" id="q5">
+                        <p>Câu 5. Cho $IH=5$, $HJ=12$, $R_C=8$, $R_S=3$. $MN_{\min}=?$</p>
+                        <div class="quiz-opt">
+                            <label><input type="radio" name="q5" value="a"> a) $\sqrt{41}-3$</label>
+                            <label><input type="radio" name="q5" value="b"> b) $\sqrt{61}-3$</label>
+                            <label><input type="radio" name="q5" value="c"> c) $\sqrt{25+16}-3=\sqrt{41}-3$</label>
+                            <label><input type="radio" name="q5" value="d"> d) $\sqrt{169+16}-3 = \sqrt{185}-3$</label>
+                        </div>
+                    </div>
+                    <button class="quiz-btn" onclick="checkQuiz()">Nộp bài</button>
+                    <div class="quiz-result" id="quizResult"></div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // ========== TAB SWITCHING ==========
+            function switchTab(n) {
+                document.querySelectorAll('.tab-panel').forEach((p, i) => p.classList.toggle('active', i === n));
+                document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === n));
+            }
+            function togSol(btn) {
+                const body = btn.nextElementSibling;
+                body.classList.toggle('open');
+                btn.textContent = body.classList.contains('open') ? '▼ Ẩn lời giải' : '▶ Xem lời giải';
+            }
+
+            // ========== 3D ENGINE ==========
+            const _A = -30 * Math.PI / 180, _B = 20 * Math.PI / 180;
+            const CA = Math.cos(_A), SA = Math.sin(_A), CB = Math.cos(_B), SB = Math.sin(_B);
+            function P3(x, y, z, s, ox, oy) {
+                const xp = x * CA - y * SA, yp = x * SA + y * CA, ypp = yp * SB + z * CB;
+                return [xp * s + ox, -ypp * s + oy];
+            }
+            function plane3D(ctx, corners, s, ox, oy, fill, stroke) {
+                const pts = corners.map(([x, y, z]) => P3(x, y, z, s, ox, oy));
+                ctx.beginPath(); ctx.moveTo(...pts[0]);
+                for (let i = 1; i < pts.length; i++) ctx.lineTo(...pts[i]);
+                ctx.closePath(); ctx.fillStyle = fill; ctx.fill();
+                ctx.strokeStyle = stroke; ctx.lineWidth = 0.8; ctx.stroke();
+            }
+            function hPlane(ctx, cx, cy, cz, pw, s, ox, oy, fill, stroke) {
+                plane3D(ctx, [[cx - pw, cy - pw, cz], [cx + pw, cy - pw, cz], [cx + pw, cy + pw, cz], [cx - pw, cy + pw, cz]], s, ox, oy, fill, stroke);
+            }
+            function yzPlane(ctx, xv, cy, cz, pw, s, ox, oy, fill, stroke) {
+                plane3D(ctx, [[xv, cy - pw, cz - pw], [xv, cy + pw, cz - pw], [xv, cy + pw, cz + pw], [xv, cy - pw, cz + pw]], s, ox, oy, fill, stroke);
+            }
+            function circ3D(ctx, cx, cy, cz, r, ux, uy, uz, vx, vy, vz, s, ox, oy, color, lw, dashed) {
+                const N = 48;
+                if (dashed) ctx.setLineDash([4, 3]); else ctx.setLineDash([]);
+                ctx.beginPath();
+                for (let i = 0; i <= N; i++) {
+                    const t = i * 2 * Math.PI / N;
+                    const x = cx + r * (Math.cos(t) * ux + Math.sin(t) * vx);
+                    const y = cy + r * (Math.cos(t) * uy + Math.sin(t) * vy);
+                    const z = cz + r * (Math.cos(t) * uz + Math.sin(t) * vz);
+                    const [px, py] = P3(x, y, z, s, ox, oy);
+                    if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+                }
+                ctx.strokeStyle = color; ctx.lineWidth = lw || 1.5; ctx.stroke();
+                ctx.setLineDash([]);
+            }
+            function hCirc(ctx, cx, cy, cz, r, s, ox, oy, color, lw, dashed) {
+                circ3D(ctx, cx, cy, cz, r, 1, 0, 0, 0, 1, 0, s, ox, oy, color, lw, dashed);
+            }
+            function yzCirc(ctx, cx, cy, cz, r, s, ox, oy, color, lw) {
+                circ3D(ctx, cx, cy, cz, r, 0, 1, 0, 0, 0, 1, s, ox, oy, color, lw);
+            }
+            function seg3D(ctx, x1, y1, z1, x2, y2, z2, s, ox, oy, color, lw, dashed) {
+                const [px1, py1] = P3(x1, y1, z1, s, ox, oy), [px2, py2] = P3(x2, y2, z2, s, ox, oy);
+                if (dashed) ctx.setLineDash([4, 3]); else ctx.setLineDash([]);
+                ctx.beginPath(); ctx.moveTo(px1, py1); ctx.lineTo(px2, py2);
+                ctx.strokeStyle = color; ctx.lineWidth = lw || 1; ctx.stroke();
+                ctx.setLineDash([]);
+            }
+            function dot3D(ctx, x, y, z, s, ox, oy, color, r) {
+                const [px, py] = P3(x, y, z, s, ox, oy);
+                ctx.beginPath(); ctx.arc(px, py, r || 2.5, 0, Math.PI * 2);
+                ctx.fillStyle = color; ctx.fill();
+            }
+            function txt3D(ctx, x, y, z, text, s, ox, oy, color, dx, dy) {
+                const [px, py] = P3(x, y, z, s, ox, oy);
+                ctx.fillStyle = color || '#000'; ctx.font = '11px sans-serif';
+                ctx.fillText(text, px + (dx || 0), py + (dy || 0));
+            }
+            // Draw sphere as circle with equatorial dashed ellipse
+            function sphere3D(ctx, ix, iy, iz, rs, s, ox, oy) {
+                const [px, py] = P3(ix, iy, iz, s, ox, oy);
+                const r = rs * s;
+                ctx.beginPath(); ctx.arc(px, py, r, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(254,243,199,0.65)'; ctx.fill();
+                ctx.strokeStyle = '#d97706'; ctx.lineWidth = 1.5; ctx.stroke();
+                ctx.beginPath(); ctx.ellipse(px, py, r, r * 0.28, 0, 0, Math.PI * 2);
+                ctx.setLineDash([3, 3]); ctx.strokeStyle = '#b45309'; ctx.lineWidth = 0.8; ctx.stroke();
+                ctx.setLineDash([]);
+            }
+
+            // ========== THEORY CANVAS ==========
+            function drawTheory() {
+                const c = document.getElementById('cvTheory'); if (!c) return;
+                const ctx = c.getContext('2d'); const s = 7, ox = 120, oy = 180;
+                ctx.clearRect(0, 0, c.width, c.height);
+                // plane at z=0
+                hPlane(ctx, 0, 0, 0, 12, s, ox, oy, 'rgba(219,234,254,0.45)', '#93c5fd');
+                // circle C on plane
+                hCirc(ctx, -2, 0, 0, 7, s, ox, oy, '#16a34a', 2);
+                // sphere S above
+                sphere3D(ctx, 4, 6, 16, 3, s, ox, oy);
+                // sphere center I
+                dot3D(ctx, 4, 6, 16, s, ox, oy, '#000'); txt3D(ctx, 4, 6, 16, 'I', s, ox, oy, '#000', 3, -2);
+                // J (circle center)
+                dot3D(ctx, -2, 0, 0, s, ox, oy, '#000'); txt3D(ctx, -2, 0, 0, 'J', s, ox, oy, '#000', 3, 3);
+                // H = projection of I on plane
+                dot3D(ctx, 4, 6, 0, s, ox, oy, '#b45309'); txt3D(ctx, 4, 6, 0, 'H', s, ox, oy, '#b45309', 3, 3);
+                // IH vertical dashed
+                seg3D(ctx, 4, 6, 0, 4, 6, 16, s, ox, oy, '#2563eb', 1.5, true);
+                // label IH
+                const [ihx, ihy] = P3(5, 6, 8, s, ox, oy);
+                ctx.fillStyle = '#2563eb'; ctx.font = '10px sans-serif'; ctx.fillText('IH', ihx + 3, ihy);
+                // HJ horizontal dashed
+                seg3D(ctx, -2, 0, 0, 4, 6, 0, s, ox, oy, '#b45309', 1.5, true);
+                const [hjx, hjy] = P3(1, 3, 0, s, ox, oy);
+                ctx.fillStyle = '#b45309'; ctx.font = '10px sans-serif'; ctx.fillText('HJ', hjx, hjy + 10);
+                // N = closest point on circle to H (on the segment HJ extended)
+                // direction from J to H: (6,6)/sqrt(72)
+                const d = Math.sqrt(72); const ux = 6 / d, uy = 6 / d;
+                const Nx = -2 + 7 * ux, Ny = 0 + 7 * uy;
+                dot3D(ctx, Nx, Ny, 0, s, ox, oy, '#dc2626'); txt3D(ctx, Nx, Ny, 0, 'N', s, ox, oy, '#dc2626', 3, 3);
+                // MN line (N to a point on sphere)
+                // M = closest point on sphere surface toward N
+                const INx = 4 - Nx, INy = 6 - Ny, INz = 16, INlen = Math.sqrt(INx * INx + INy * INy + INz * INz);
+                const Mx = 4 - 3 * INx / INlen, My = 6 - 3 * INy / INlen, Mz = 16 - 3 * INz / INlen;
+                seg3D(ctx, Mx, My, Mz, Nx, Ny, 0, s, ox, oy, '#ea580c', 2.5);
+                dot3D(ctx, Mx, My, Mz, s, ox, oy, '#dc2626'); txt3D(ctx, Mx, My, Mz, 'M', s, ox, oy, '#dc2626', -12, -3);
+                // delta line H to N on plane
+                seg3D(ctx, -2, 0, 0, Nx, Ny, 0, s, ox, oy, '#16a34a', 1, true);
+                const [dx2, dy2] = P3((-2 + Nx) / 2, (0 + Ny) / 2, 0, s, ox, oy);
+                ctx.fillStyle = '#16a34a'; ctx.font = '10px sans-serif'; ctx.fillText('δ', dx2 - 8, dy2);
+            }
+
+            // ========== PROBLEM CANVASES ==========
+
+            function makeBasicDiagram(canvasId, ix, iy, iz, rs, jx, jy, jz, rc, planeDim, s, ox, oy, planeType) {
+                const c = document.getElementById(canvasId); if (!c) return;
+                const ctx = c.getContext('2d');
+                ctx.clearRect(0, 0, c.width, c.height);
+                if (planeType === 'h') {
+                    hPlane(ctx, jx, jy, jz, planeDim, s, ox, oy, 'rgba(219,234,254,0.45)', '#93c5fd');
+                    hCirc(ctx, jx, jy, jz, rc, s, ox, oy, '#16a34a', 2);
+                } else if (planeType === 'yz') {
+                    yzPlane(ctx, jx, jy, jz, planeDim, s, ox, oy, 'rgba(219,234,254,0.45)', '#93c5fd');
+                    yzCirc(ctx, jx, jy, jz, rc, s, ox, oy, '#16a34a', 2);
+                }
+                sphere3D(ctx, ix, iy, iz, rs, s, ox, oy);
+                dot3D(ctx, ix, iy, iz, s, ox, oy, '#000'); txt3D(ctx, ix, iy, iz, 'I', s, ox, oy, '#000', 3, -2);
+                dot3D(ctx, jx, jy, jz, s, ox, oy, '#000'); txt3D(ctx, jx, jy, jz, 'J', s, ox, oy, '#000', 3, 3);
+                // H
+                if (planeType === 'h') { dot3D(ctx, ix, iy, jz, s, ox, oy, '#b45309'); txt3D(ctx, ix, iy, jz, 'H', s, ox, oy, '#b45309', 3, 3); seg3D(ctx, ix, iy, jz, ix, iy, iz, s, ox, oy, '#2563eb', 1, true); }
+                else if (planeType === 'yz') { dot3D(ctx, jx, iy, iz, s, ox, oy, '#b45309'); txt3D(ctx, jx, iy, iz, 'H', s, ox, oy, '#b45309', 3, 3); seg3D(ctx, jx, iy, iz, ix, iy, iz, s, ox, oy, '#2563eb', 1, true); }
+            }
+
+            // Bài 1: I(6,8,12) RS=2, J(0,0,0) RC=4, z=0
+            function draw_b1_1() {
+                const c = document.getElementById('cv_b1_1'); if (!c) return;
+                const ctx = c.getContext('2d'); const s = 5, ox = 80, oy = 155;
+                ctx.clearRect(0, 0, c.width, c.height);
+                hPlane(ctx, 3, 4, 0, 12, s, ox, oy, 'rgba(219,234,254,0.45)', '#93c5fd');
+                hCirc(ctx, 0, 0, 0, 4, s, ox, oy, '#16a34a', 2);
+                sphere3D(ctx, 6, 8, 12, 2, s, ox, oy);
+                dot3D(ctx, 6, 8, 12, s, ox, oy, '#000'); txt3D(ctx, 6, 8, 12, 'I', s, ox, oy, '#000', 3, -2);
+                dot3D(ctx, 0, 0, 0, s, ox, oy, '#000'); txt3D(ctx, 0, 0, 0, 'J', s, ox, oy, '#000', -10, 3);
+                dot3D(ctx, 6, 8, 0, s, ox, oy, '#b45309'); txt3D(ctx, 6, 8, 0, 'H', s, ox, oy, '#b45309', 3, 3);
+                seg3D(ctx, 6, 8, 0, 6, 8, 12, s, ox, oy, '#2563eb', 1, true);
+                seg3D(ctx, 0, 0, 0, 6, 8, 0, s, ox, oy, '#b45309', 1, true);
+                const [hx, hy] = P3(6, 8, 6, s, ox, oy); ctx.fillStyle = '#2563eb'; ctx.font = '10px sans-serif'; ctx.fillText('IH=12', hx + 3, hy);
+                const [hjx, hjy] = P3(3, 4, 0, s, ox, oy); ctx.fillStyle = '#b45309'; ctx.font = '10px sans-serif'; ctx.fillText('HJ=10', hjx, hjy + 10);
+            }
+
+            // Bài 2: I(0,15,8) RS=3, J(0,0,0) RC=7, z=0
+            function draw_b1_2() {
+                const c = document.getElementById('cv_b1_2'); if (!c) return;
+                const ctx = c.getContext('2d'); const s = 5, ox = 110, oy = 150;
+                ctx.clearRect(0, 0, c.width, c.height);
+                hPlane(ctx, 0, 7, 0, 12, s, ox, oy, 'rgba(219,234,254,0.45)', '#93c5fd');
+                hCirc(ctx, 0, 0, 0, 7, s, ox, oy, '#16a34a', 2);
+                sphere3D(ctx, 0, 15, 8, 3, s, ox, oy);
+                dot3D(ctx, 0, 15, 8, s, ox, oy, '#000'); txt3D(ctx, 0, 15, 8, 'I', s, ox, oy, '#000', 3, -2);
+                dot3D(ctx, 0, 0, 0, s, ox, oy, '#000'); txt3D(ctx, 0, 0, 0, 'J', s, ox, oy, '#000', -10, 3);
+                dot3D(ctx, 0, 15, 0, s, ox, oy, '#b45309'); txt3D(ctx, 0, 15, 0, 'H', s, ox, oy, '#b45309', 3, 3);
+                seg3D(ctx, 0, 15, 0, 0, 15, 8, s, ox, oy, '#2563eb', 1, true);
+                seg3D(ctx, 0, 0, 0, 0, 15, 0, s, ox, oy, '#b45309', 1, true);
+            }
+
+            // Bài 3: I(3,4,15) RS=5, J(8,16,10) RC=8, z=10
+            function draw_b2_1() {
+                const c = document.getElementById('cv_b2_1'); if (!c) return;
+                const ctx = c.getContext('2d'); const s = 4, ox = 80, oy = 170;
+                ctx.clearRect(0, 0, c.width, c.height);
+                hPlane(ctx, 5, 10, 10, 10, s, ox, oy, 'rgba(219,234,254,0.45)', '#93c5fd');
+                hCirc(ctx, 8, 16, 10, 8, s, ox, oy, '#16a34a', 2);
+                sphere3D(ctx, 3, 4, 15, 5, s, ox, oy);
+                dot3D(ctx, 3, 4, 15, s, ox, oy, '#000'); txt3D(ctx, 3, 4, 15, 'I', s, ox, oy, '#000', 3, -2);
+                dot3D(ctx, 8, 16, 10, s, ox, oy, '#000'); txt3D(ctx, 8, 16, 10, 'J', s, ox, oy, '#000', 3, 3);
+                dot3D(ctx, 3, 4, 10, s, ox, oy, '#b45309'); txt3D(ctx, 3, 4, 10, 'H', s, ox, oy, '#b45309', -12, 3);
+                seg3D(ctx, 3, 4, 10, 3, 4, 15, s, ox, oy, '#2563eb', 1, true);
+                seg3D(ctx, 3, 4, 10, 8, 16, 10, s, ox, oy, '#b45309', 1, true);
+            }
+
+            // Bài 4: I(12,10,5) RS=2, J(3,-2,0) RC=7, x=3 plane
+            function draw_b2_2() {
+                const c = document.getElementById('cv_b2_2'); if (!c) return;
+                const ctx = c.getContext('2d'); const s = 5, ox = 90, oy = 130;
+                ctx.clearRect(0, 0, c.width, c.height);
+                yzPlane(ctx, 3, 4, 2, 9, s, ox, oy, 'rgba(219,234,254,0.45)', '#93c5fd');
+                yzCirc(ctx, 3, -2, 0, 7, s, ox, oy, '#16a34a', 2);
+                sphere3D(ctx, 12, 10, 5, 2, s, ox, oy);
+                dot3D(ctx, 12, 10, 5, s, ox, oy, '#000'); txt3D(ctx, 12, 10, 5, 'I', s, ox, oy, '#000', 3, -2);
+                dot3D(ctx, 3, -2, 0, s, ox, oy, '#000'); txt3D(ctx, 3, -2, 0, 'J', s, ox, oy, '#000', 3, 3);
+                dot3D(ctx, 3, 10, 5, s, ox, oy, '#b45309'); txt3D(ctx, 3, 10, 5, 'H', s, ox, oy, '#b45309', 3, 3);
+                seg3D(ctx, 3, 10, 5, 12, 10, 5, s, ox, oy, '#2563eb', 1, true);
+                seg3D(ctx, 3, -2, 0, 3, 10, 5, s, ox, oy, '#b45309', 1, true);
+            }
+
+            // Bài 5: I(8,15,24) RS=4, J(0,0,4) RC=3, z=4
+            function draw_b3() {
+                const c = document.getElementById('cv_b3'); if (!c) return;
+                const ctx = c.getContext('2d'); const s = 4, ox = 100, oy = 175;
+                ctx.clearRect(0, 0, c.width, c.height);
+                hPlane(ctx, 4, 7, 4, 9, s, ox, oy, 'rgba(219,234,254,0.45)', '#93c5fd');
+                // Also show sphere S1 as dashed outline
+                const [s1x, s1y] = P3(0, 0, 0, s, ox, oy);
+                ctx.beginPath(); ctx.arc(s1x, s1y, 5 * s, 0, Math.PI * 2);
+                ctx.strokeStyle = '#93c5fd'; ctx.lineWidth = 1; ctx.setLineDash([3, 3]); ctx.stroke(); ctx.setLineDash([]);
+                hCirc(ctx, 0, 0, 4, 3, s, ox, oy, '#16a34a', 2);
+                sphere3D(ctx, 8, 15, 24, 4, s, ox, oy);
+                dot3D(ctx, 8, 15, 24, s, ox, oy, '#000'); txt3D(ctx, 8, 15, 24, 'I', s, ox, oy, '#000', 3, -2);
+                dot3D(ctx, 0, 0, 4, s, ox, oy, '#000'); txt3D(ctx, 0, 0, 4, 'J', s, ox, oy, '#000', -10, 3);
+                dot3D(ctx, 8, 15, 4, s, ox, oy, '#b45309'); txt3D(ctx, 8, 15, 4, 'H', s, ox, oy, '#b45309', 3, 3);
+                seg3D(ctx, 8, 15, 4, 8, 15, 24, s, ox, oy, '#2563eb', 1.2, true);
+                seg3D(ctx, 0, 0, 4, 8, 15, 4, s, ox, oy, '#b45309', 1.2, true);
+                const [ihx, ihy] = P3(9, 15, 14, s, ox, oy); ctx.fillStyle = '#2563eb'; ctx.font = '10px sans-serif'; ctx.fillText('IH=20', ihx, ihy);
+            }
+
+            // Bài 6: oblique plane
+            function draw_b4() {
+                const c = document.getElementById('cv_b4'); if (!c) return;
+                const ctx = c.getContext('2d'); const s = 5, ox = 80, oy = 150;
+                ctx.clearRect(0, 0, c.width, c.height);
+                // tilted plane normal (2,2,-1)/3
+                const sq2 = Math.sqrt(2);
+                const ux = -1 / sq2, uy = 1 / sq2, uz = 0;
+                const vx = 1 / 3, vy = 1 / 3, vz = 4 / 3;
+                const pw = 5;
+                plane3D(ctx, [
+                    [2 + pw * ux + pw * vx, 2 + pw * uy + pw * vy, 2 + pw * uz + pw * vz],
+                    [2 + pw * ux - pw * vx, 2 + pw * uy - pw * vy, 2 + pw * uz - pw * vz],
+                    [2 - pw * ux - pw * vx, 2 - pw * uy - pw * vy, 2 - pw * uz - pw * vz],
+                    [2 - pw * ux + pw * vx, 2 - pw * uy + pw * vy, 2 - pw * uz + pw * vz]
+                ], s, ox, oy, 'rgba(219,234,254,0.45)', '#93c5fd');
+                circ3D(ctx, 2, 2, 2, 5, ux, uy, uz, vx, vy, vz, s, ox, oy, '#16a34a', 2);
+                sphere3D(ctx, 11, 14, 15, 2, s, ox, oy);
+                dot3D(ctx, 11, 14, 15, s, ox, oy, '#000'); txt3D(ctx, 11, 14, 15, 'I', s, ox, oy, '#000', 3, -2);
+                dot3D(ctx, 2, 2, 2, s, ox, oy, '#000'); txt3D(ctx, 2, 2, 2, 'J', s, ox, oy, '#000', 3, 3);
+                dot3D(ctx, 41 / 9, 68 / 9, 164 / 9, s, ox, oy, '#b45309'); txt3D(ctx, 41 / 9, 68 / 9, 164 / 9, 'H', s, ox, oy, '#b45309', 3, 3);
+                seg3D(ctx, 41 / 9, 68 / 9, 164 / 9, 11, 14, 15, s, ox, oy, '#2563eb', 1, true);
+                seg3D(ctx, 2, 2, 2, 41 / 9, 68 / 9, 164 / 9, s, ox, oy, '#b45309', 1, true);
+            }
+
+            // Bài 7: I(0,12,20) RS=4, J(3,4,5) RC=10, z=5. H inside circle
+            function draw_b5() {
+                const c = document.getElementById('cv_b5'); if (!c) return;
+                const ctx = c.getContext('2d'); const s = 4, ox = 100, oy = 170;
+                ctx.clearRect(0, 0, c.width, c.height);
+                hPlane(ctx, 1, 8, 5, 13, s, ox, oy, 'rgba(219,234,254,0.45)', '#93c5fd');
+                hCirc(ctx, 3, 4, 5, 10, s, ox, oy, '#16a34a', 2);
+                // H=(0,12,5) shown inside the circle
+                dot3D(ctx, 0, 12, 5, s, ox, oy, '#b45309', 3.5); txt3D(ctx, 0, 12, 5, 'H', s, ox, oy, '#b45309', -14, -2);
+                sphere3D(ctx, 0, 12, 20, 4, s, ox, oy);
+                dot3D(ctx, 0, 12, 20, s, ox, oy, '#000'); txt3D(ctx, 0, 12, 20, 'I', s, ox, oy, '#000', 3, -2);
+                dot3D(ctx, 3, 4, 5, s, ox, oy, '#000'); txt3D(ctx, 3, 4, 5, 'J', s, ox, oy, '#000', 3, 3);
+                seg3D(ctx, 0, 12, 5, 0, 12, 20, s, ox, oy, '#2563eb', 1.2, true);
+                seg3D(ctx, 3, 4, 5, 0, 12, 5, s, ox, oy, '#b45309', 1, true);
+                // Show delta: from H outward past C
+                const d = Math.sqrt(73); const nx = (0 - 3) / d, ny = (12 - 4) / d;
+                const Nx = 3 + 10 * nx, Ny = 4 + 10 * ny;
+                dot3D(ctx, Nx, Ny, 5, s, ox, oy, '#dc2626'); txt3D(ctx, Nx, Ny, 5, 'N', s, ox, oy, '#dc2626', 3, 3);
+                seg3D(ctx, 0, 12, 5, Nx, Ny, 5, s, ox, oy, '#16a34a', 1, true);
+                ctx.fillStyle = '#dc2626'; ctx.font = 'bold 10px sans-serif';
+                const [tx, ty] = P3(-2, 12, 5, s, ox, oy); ctx.fillText('H trong C!', tx - 5, ty - 8);
+            }
+
+            // Bài 8: parametric
+            function draw_b6() {
+                const c = document.getElementById('cv_b6'); if (!c) return;
+                const ctx = c.getContext('2d'); const s = 8, ox = 110, oy = 145;
+                ctx.clearRect(0, 0, c.width, c.height);
+                hPlane(ctx, 0, 0, 4, 7, s, ox, oy, 'rgba(219,234,254,0.45)', '#93c5fd');
+                hCirc(ctx, 0, 0, 4, 4, s, ox, oy, '#16a34a', 2);
+                // Show two sphere positions m=1 and m=7
+                sphere3D(ctx, 1, 0, 0, 1, s, ox, oy);
+                txt3D(ctx, 1, 0, 0, 'm=1', s, ox, oy, '#d97706', -10, -13);
+                sphere3D(ctx, 7, 0, 0, 1, s, ox, oy);
+                txt3D(ctx, 7, 0, 0, 'm=7', s, ox, oy, '#d97706', 3, -5);
+                // J
+                dot3D(ctx, 0, 0, 4, s, ox, oy, '#000'); txt3D(ctx, 0, 0, 4, 'J', s, ox, oy, '#000', -10, 3);
+                // H1, H2
+                dot3D(ctx, 1, 0, 4, s, ox, oy, '#b45309'); dot3D(ctx, 7, 0, 4, s, ox, oy, '#b45309');
+                seg3D(ctx, 1, 0, 0, 1, 0, 4, s, ox, oy, '#2563eb', 1, true);
+                seg3D(ctx, 7, 0, 0, 7, 0, 4, s, ox, oy, '#2563eb', 1, true);
+            }
+
+            // ========== QUIZ ==========
+            const answers = { q1: 'a', q2: 'b', q3: 'c', q4: 'b', q5: 'a' };
+            function checkQuiz() {
+                let score = 0;
+                ['q1', 'q2', 'q3', 'q4', 'q5'].forEach(q => {
+                    const sel = document.querySelector(`input[name="${q}"]:checked`);
+                    const labels = document.querySelectorAll(`#${q} label`);
+                    labels.forEach(l => l.classList.remove('correct', 'wrong'));
+                    if (sel) {
+                        if (sel.value === answers[q]) { score++; sel.parentElement.classList.add('correct'); }
+                        else {
+                            sel.parentElement.classList.add('wrong');
+                            labels.forEach(l => { if (l.querySelector('input').value === answers[q]) l.classList.add('correct'); });
+                        }
+                    }
+                });
+                const r = document.getElementById('quizResult');
+                r.textContent = `Kết quả: ${score}/5 ${score >= 4 ? '🌟 Xuất sắc!' : score >= 3 ? '✓ Khá tốt' : '✗ Cần ôn lại'}`;
+                r.style.color = score >= 4 ? 'var(--green)' : score >= 3 ? 'var(--orange)' : 'var(--crimson)';
+            }
+
+            // ========== INIT ==========
+            window.addEventListener('DOMContentLoaded', () => {
+                drawTheory();
+                draw_b1_1(); draw_b1_2(); draw_b2_1(); draw_b2_2();
+                draw_b3(); draw_b4(); draw_b5(); draw_b6();
+                if (window.MathJax) MathJax.typesetPromise();
+            });
+        </script>
+</body>
+
+</html>

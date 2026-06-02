@@ -106,7 +106,9 @@
 
 // Star rating for progress
 #let star-rating(count) = {
-  str("🌟").repeat(count)
+  if count <= 0 { "" } else if count == 1 { "🌟" } else if count == 2 { "🌟🌟" } else if count == 3 {
+    "🌟🌟🌟"
+  } else if count == 4 { "🌟🌟🌟🌟" } else { "🌟🌟🌟🌟🌟" }
 }
 
 // Chapter header

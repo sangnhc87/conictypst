@@ -113,6 +113,53 @@
   )
 ]
 
+#ppgiai(title: [Cách học nhanh chuyên đề này])[
+  - Bài 1, 2, 7, 9, 10, 11: ưu tiên dựng đúng chiều rộng mặt cắt $w(z)$ rồi mới tích phân theo độ cao.
+  - Bài 3, 4, 8: ngoài diện tích và thể tích còn phải đọc thêm ý nghĩa vật lý như lưu lượng, vận tốc, lớp bùn hoặc mực nước.
+  - Bài 5, 6: xuất hiện tư duy ghép miền và tối ưu, nên tách riêng từng giai đoạn trước khi tính toán.
+]
+
+#luuy[
+  Trong toàn bộ chuyên đề, biến $z$ đóng vai trò “độ cao” rất thường xuyên. Nếu đọc đề mà chưa chốt được $w(z)$ là bề rộng nào, ta chưa nên tích phân ngay. Hầu hết lỗi rối lời giải đều bắt đầu từ việc chọn sai lát cắt.
+]
+
+#align(center)[
+  #table(
+    columns: (1.2fr, 1.2fr, 2.3fr),
+    inset: (x: 8pt, y: 8pt),
+    stroke: 0.5pt + gray,
+    fill: (c, r) => if r == 0 { rgb("1A5276") } else if calc.odd(r) { rgb("F8FBFF") } else { white },
+    table.cell(fill: rgb("1A5276"))[#text(fill: white, weight: "bold")[Cụm bài]],
+    table.cell(fill: rgb("1A5276"))[#text(fill: white, weight: "bold")[Bài]],
+    table.cell(fill: rgb("1A5276"))[#text(fill: white, weight: "bold")[Trọng tâm đọc đề]],
+
+    [Phần A], [1-2], [Dựng phương trình conic và đọc bề rộng mặt cắt ngang],
+    [Phần B], [3-5], [Gắn tích phân với lưu lượng, lớp bùn, tiết diện ghép],
+    [Phần C], [6-8], [Tối ưu kích thước và xử lý thêm yếu tố hình học],
+    [Phần D], [9-11], [Biến thể khó khi đỉnh nằm ngoài đáy hoặc parabol lật ngược],
+  )
+]
+
+#v(0.8em)
+
+#align(center)[
+  #rect(
+    fill: rgb("F8FBFF"),
+    stroke: (left: 4pt + rgb("1A5276")),
+    inset: (x: 14pt, y: 12pt),
+    width: 95%,
+    radius: (right: 5pt),
+  )[
+    #text(size: 13pt, weight: "bold", fill: rgb("1A5276"))[
+      PHẦN A — DỰNG MÔ HÌNH BỂ CHỨA CƠ BẢN
+    ]
+    #v(0.2em)
+    #text(size: 10pt, style: "italic", fill: rgb("566573"))[
+      Hai bài mở đầu giúp khóa chặt thao tác quan trọng nhất: đọc hình, dựng $w(z)$, rồi suy ra diện tích và thể tích.
+    ]
+  ]
+]
+
 // ═══════════════════════════════════════════════════════════════════════
 // BÀI 1 — BỂ NƯỚC PARABOL (bài gốc mở rộng thêm câu hỏi)
 // ═══════════════════════════════════════════════════════════════════════
@@ -471,6 +518,24 @@
 // ═══════════════════════════════════════════════════════════════════════
 // BÀI 3 — ĐẬP TRÀN (PARABOL — MÔ HÌNH THỦY LỢI)
 // ═══════════════════════════════════════════════════════════════════════
+#align(center)[
+  #rect(
+    fill: rgb("F6FBF8"),
+    stroke: (left: 4pt + rgb("117A65")),
+    inset: (x: 14pt, y: 12pt),
+    width: 95%,
+    radius: (right: 5pt),
+  )[
+    #text(size: 13pt, weight: "bold", fill: rgb("117A65"))[
+      PHẦN B — DÒNG CHẢY, ĐẬP TRÀN VÀ ỐNG DẪN
+    ]
+    #v(0.2em)
+    #text(size: 10pt, style: "italic", fill: rgb("566573"))[
+      Ở cụm này, tích phân không chỉ cho diện tích mà còn phải nối với lưu lượng, vận tốc và phần thể tích hữu dụng.
+    ]
+  ]
+]
+
 = Bài 3 — Đập Tràn Hình Parabol
 
 #ds(
@@ -958,6 +1023,24 @@
 // ═══════════════════════════════════════════════════════════════════════
 // BÀI 6 — SÀN NHÀ VÒM (KHỐI TRỤ PARABOL)
 // ═══════════════════════════════════════════════════════════════════════
+#align(center)[
+  #rect(
+    fill: rgb("FFF8F4"),
+    stroke: (left: 4pt + rgb("AF601A")),
+    inset: (x: 14pt, y: 12pt),
+    width: 95%,
+    radius: (right: 5pt),
+  )[
+    #text(size: 13pt, weight: "bold", fill: rgb("AF601A"))[
+      PHẦN C — TỐI ƯU THIẾT KẾ VÀ GHÉP MIỀN
+    ]
+    #v(0.2em)
+    #text(size: 10pt, style: "italic", fill: rgb("566573"))[
+      Đây là đoạn chuyển từ tính trực tiếp sang tối ưu hóa và nhận diện nhiều miền hình học chồng ghép.
+    ]
+  ]
+]
+
 = Bài 6 — Nhà Kho Mái Vòm Parabol
 
 #ds(
@@ -1475,6 +1558,24 @@
 // ═══════════════════════════════════════════════════════════════════════
 // BÀI 9 — BỂ NƯỚC PARABOL DẠNG GỐC (ĐỈNH DƯỚI ĐÁY)
 // ═══════════════════════════════════════════════════════════════════════
+#align(center)[
+  #rect(
+    fill: rgb("FFF7FB"),
+    stroke: (left: 4pt + rgb("8E2C4F")),
+    inset: (x: 14pt, y: 12pt),
+    width: 95%,
+    radius: (right: 5pt),
+  )[
+    #text(size: 13pt, weight: "bold", fill: rgb("8E2C4F"))[
+      PHẦN D — BIẾN THỂ KHÓ CỦA PARABOL VÀ MỰC CHỨA
+    ]
+    #v(0.2em)
+    #text(size: 10pt, style: "italic", fill: rgb("566573"))[
+      Nhóm cuối là nơi dễ rối nhất: đỉnh có thể nằm ngoài đáy, ngoài miền chứa hoặc bị lật ngược so với trực giác ban đầu.
+    ]
+  ]
+]
+
 = Bài 9 — Bể Chứa Nước Mưa Tiết Diện Parabol Lõm
 
 #ds(

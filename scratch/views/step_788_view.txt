@@ -1,0 +1,78 @@
+Created At: 2026-05-26T03:45:29Z
+Completed At: 2026-05-26T03:45:29Z
+File Path: `file:///Users/admin/conictypst/typst/exams/cleaned/CD-XepGhe-KhongKe.typ`
+Total Lines: 1188
+Total Bytes: 77861
+Showing lines 1 to 800
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: #import "../../sang-exam.typ": *
+2: #import "../../template.typ": *
+3: #import "@preview/cetz:0.5.2"
+4: 
+5: // ═══════════════════════════════════════════════
+6: // CẤU HÌNH TRANG
+7: // ═══════════════════════════════════════════════
+8: 
+9: #set text(font: "New Computer Modern", size: 11pt, lang: "vi")
+10: #set par(justify: true, leading: 0.85em)
+11: #set list(indent: 1em, body-indent: 0.5em)
+12: #set enum(indent: 0.5em, body-indent: 0.5em)
+13: 
+14: #show heading.where(level: 1): it => block(
+15:   width: 100%,
+16:   fill: gradient.linear(rgb("4A148C"), rgb("6A1B9A"), rgb("880E4F"), angle: 135deg),
+17:   stroke: none,
+18:   inset: (x: 15pt, y: 11pt),
+19:   radius: 7pt,
+20:   above: 1.8em,
+21:   below: 1.2em,
+22:   text(fill: white, size: 14pt, weight: "bold", it.body),
+23: )
+24: #show heading.where(level: 2): it => block(
+25:   above: 1.5em,
+26:   below: 0.8em,
+27:   stroke: (left: 4pt + rgb("6A1B9A")),
+28:   inset: (left: 10pt, y: 5pt),
+29:   text(fill: rgb("6A1B9A"), size: 12pt, weight: "bold", it.body),
+30: )
+31: #show heading.where(level: 3): it => block(
+32:   above: 1.2em,
+33:   below: 0.5em,
+34:   text(fill: rgb("1565C0"), size: 11pt, weight: "bold", "⬧ " + it.body),
+35: )
+36: 
+37: #let mode = "loigiai"
+38: #let accent = classic.blue
+39: #let (tn, ds, tln, tl) = exam-mode(mode: mode, accent: accent)
+40: #show math.equation: set text(fill: rgb("#000000"))
+41: #show ma
+<truncated 45282 bytes>
+cách xếp học sinh phân biệt:*
+735:     $ N = 70 " (cấu trúc)" times 6! " (A)" times 4! " (B)" times 2! " (C)" = 70 times 720 times 24 times 2 = 2.419.200 " cách." $
+736: ]
+737: 
+738: #cach2-box[
+739:   *Phân tích theo Phương pháp Bù trừ Cặp kề trùng (Adjacent-Pair PIE):*
+740:   Ta có các liên kết ghép vi phạm:
+741:   - Nhóm A ($n_A = 6$): $i in {0, 1, 2, 3, 4, 5}$, hệ số chọn tương ứng là $C_5^i in \{1, 5, 10, 10, 5, 1\}$.
+742:   - Nhóm B ($n_B = 4$): $j in {0, 1, 2, 3}$, hệ số chọn tương ứng là $C_3^j in \{1, 3, 3, 1\}$.
+743:   - Nhóm C ($n_C = 2$): $k in {0, 1}$, hệ số chọn tương ứng là $C_1^k in \{1, 1\}$.
+744:   Với mỗi bộ $(i, j, k)$, số thực thể còn lại là: $b_A = 6-i, b_B = 4-j, b_C = 2-k$. Tổng số thực thể $B = b_A + b_B + b_C = 12 - i - j - k$.
+745:   Cộng dồn tất cả các đóng góp theo công thức:
+746:   $ S_("cấu trúc") = sum_(i, j, k) (-1)^(i+j+k) C_5^i C_3^j C_1^k frac(B!, b_A! b_B! b_C!) = 70 " cấu trúc." $
+747:   Số cách xếp học sinh phân biệt:
+748:   $ N = 70 times 6! times 4! times 2! = 2.419.200 " cách." $
+749: ]
+750: 
+751: #note-box(title: "💡 Nhận Xét then chốt về Ví dụ 5")[
+752:   Khi số ghế trống $n_E = 0$ (hoặc rất bé), phương pháp Khung xương hoạt động cực kỳ nhanh vì phương trình Diophantine có số nghiệm rất ít (chỉ có 7 nghiệm). Việc phân nhóm nghiệm và loại trừ phần tử kề trùng cũng vô cùng đơn giản.
+753: ]
+754: 
+755: ---
+756: 
+757: === Ví dụ 6: Bài toán xếp $6$A, $4$B, $2$C vào $20$ ghế (Có $8$ ghế trống)
+758: 
+759: *Đề bài:* Xếp $6$ học sinh lớp A, $4$ học sinh lớp B, $2$ học sinh lớp C và $8$ ghế trống vào một hàng gồm $20$ ghế. Tính số cách xếp sao cho không có hai học sinh c
+<truncated 3553 bytes>
+
+NOTE: The output was truncated because it was too long. Use a more targeted query or a smaller range to get the information you need.

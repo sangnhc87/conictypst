@@ -28,9 +28,15 @@ styles = styles.replace(/w:cs="Cambria"/g, 'w:cs="Times New Roman"');
 styles = styles.replace(/w:ascii="Calibri"/g, 'w:ascii="Times New Roman"');
 styles = styles.replace(/w:hAnsi="Calibri"/g, 'w:hAnsi="Times New Roman"');
 
-// Replace size to 12pt (24 half-points)
-styles = styles.replace(/<w:sz w:val="22"\/>/g, '<w:sz w:val="24"/>');
-styles = styles.replace(/<w:szCs w:val="22"\/>/g, '<w:szCs w:val="24"/>');
+// Normalize all style sizes to 12pt (24 half-points)
+styles = styles.replace(/<w:sz w:val="\d+"\/>/g, '<w:sz w:val="24"/>');
+styles = styles.replace(/<w:szCs w:val="\d+"\/>/g, '<w:szCs w:val="24"/>');
+
+// Set a stable default line spacing similar to the direct DOCX exporter in stexgv.
+styles = styles.replace(
+  /<w:pPrDefault>\s*<w:pPr>\s*<w:spacing w:after="200" \/>\s*<\/w:pPr>\s*<\/w:pPrDefault>/,
+  '<w:pPrDefault><w:pPr><w:spacing w:after="200" w:line="300" w:lineRule="auto"/></w:pPr></w:pPrDefault>'
+);
 
 // Beautiful Heading 2 (for Câu 1)
 // We will replace Heading 2 style properties
@@ -42,10 +48,22 @@ const optionsStyle = `
     <w:basedOn w:val="Normal"/>
     <w:qFormat/>
     <w:pPr>
+      <w:spacing w:before="0" w:after="80" w:line="300" w:lineRule="auto"/>
       <w:tabs>
-        <w:tab w:val="left" w:pos="2835"/> <!-- 5cm (approx) -->
-        <w:tab w:val="left" w:pos="5670"/> <!-- 10cm (approx) -->
-        <w:tab w:val="left" w:pos="8505"/> <!-- 15cm (approx) -->
+        <w:tab w:val="left" w:pos="4536"/>
+      </w:tabs>
+    </w:pPr>
+  </w:style>
+  <w:style w:type="paragraph" w:customStyle="1" w:styleId="OptionsLayout1x4">
+    <w:name w:val="OptionsLayout1x4"/>
+    <w:basedOn w:val="Normal"/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:spacing w:before="0" w:after="80" w:line="300" w:lineRule="auto"/>
+      <w:tabs>
+        <w:tab w:val="left" w:pos="2268"/>
+        <w:tab w:val="left" w:pos="4536"/>
+        <w:tab w:val="left" w:pos="6804"/>
       </w:tabs>
     </w:pPr>
   </w:style>
@@ -54,12 +72,18 @@ const optionsStyle = `
     <w:basedOn w:val="Normal"/>
     <w:qFormat/>
     <w:pPr>
-      <w:spacing w:before="240" w:after="120"/>
+      <w:spacing w:before="200" w:after="60" w:line="300" w:lineRule="auto"/>
+      <w:ind w:left="504" w:hanging="504"/>
     </w:pPr>
-    <w:rPr>
-      <w:b/>
-      <w:color w:val="1A5276"/>
-    </w:rPr>
+  </w:style>
+  <w:style w:type="paragraph" w:customStyle="1" w:styleId="CenteredImage">
+    <w:name w:val="CenteredImage"/>
+    <w:basedOn w:val="Normal"/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:spacing w:before="40" w:after="80" w:line="300" w:lineRule="auto"/>
+      <w:jc w:val="center"/>
+    </w:pPr>
   </w:style>
 `;
 styles = styles.replace('</w:styles>', optionsStyle + '</w:styles>');

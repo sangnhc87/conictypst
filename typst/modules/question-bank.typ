@@ -4,7 +4,7 @@
 // ═══════════════════════════════════════════════════════════
 
 #import "bank.typ": bank-filter, bank-lookup
-#import "exam.typ": palette, tn, ds, tln, tl
+#import "exam.typ": ds, palette, tl, tln, tn
 
 #let _as-array(value) = {
   if value == none {
@@ -69,6 +69,7 @@
     options: _as-array(item.at("options", default: ())),
     statements: statements,
     correct: item.at("correct", default: none),
+    cols: item.at("cols", default: none),
     answer: item.at("answer", default: none),
     solution: item.at("solution", default: item.at("loigiai", default: none)),
     tags: _as-array(item.at("tags", default: ())),
@@ -90,6 +91,7 @@
   stem,
   options,
   correct: 1,
+  cols: none,
   solution: none,
   tags: (),
   difficulty: none,
@@ -104,6 +106,7 @@
   stem: stem,
   options: _as-array(options),
   correct: correct,
+  cols: cols,
   solution: solution,
   tags: _as-array(tags),
   difficulty: difficulty,
@@ -226,7 +229,22 @@
   let questions = ()
 
   for item in question-list(registry) {
-    let keep = (ids.len() == 0 or ids.contains(item.id)) and not exclude-ids.contains(item.id) and _matches(item.type, type) and _matches(item.difficulty, difficulty) and _matches(item.status, status) and _matches(item.source, source) and _has-tags(item.tags, tags) and (query == none or _matches(item.id, query) or _matches(item.stem, query) or _matches(item.source, query) or _matches(item.tags.join(" "), query))
+    let keep = (
+      (ids.len() == 0 or ids.contains(item.id))
+        and not exclude-ids.contains(item.id)
+        and _matches(item.type, type)
+        and _matches(item.difficulty, difficulty)
+        and _matches(item.status, status)
+        and _matches(item.source, source)
+        and _has-tags(item.tags, tags)
+        and (
+          query == none
+            or _matches(item.id, query)
+            or _matches(item.stem, query)
+            or _matches(item.source, query)
+            or _matches(item.tags.join(" "), query)
+        )
+    )
 
     if keep {
       questions.push(item)
@@ -346,6 +364,7 @@
         data.stem,
         data.options,
         correct: _correct-indices(data.correct),
+        cols: if data.cols != none { data.cols } else { 0 },
         loigiai: solution,
         mode: mode,
         accent: accent,

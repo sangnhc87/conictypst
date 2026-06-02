@@ -1,0 +1,1720 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xếp Ghế Không Kề — Bảng PIE Đại Bác Vạn Năng</title>
+    <script>
+        MathJax = {
+            tex: { inlineMath: [['$', '$']], displayMath: [['$$', '$$']], packages: { '[+]': ['ams'] } },
+            options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea'] }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" defer></script>
+    <style>
+        :root {
+            --purple: #4A148C;
+            --violet: #6A1B9A;
+            --blue: #1565C0;
+            --amber: #E65100;
+            --green: #2E7D32;
+            --red: #C62828;
+            --teal: #006064;
+            --pink: #880E4F;
+            --bg: #f5f0ff;
+            --card: #ffffff;
+            --border: #CE93D8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f0edf7;
+            color: #1a1a2e;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        /* ── HEADER ── */
+        .hero {
+            background: linear-gradient(135deg, #0D0030 0%, #4A148C 40%, #7B1FA2 70%, #880E4F 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2rem;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            margin-bottom: .5rem;
+        }
+
+        .hero .sub {
+            font-size: 1.05rem;
+            color: #E1BEE7;
+            max-width: 700px;
+            margin: 0 auto .5rem;
+        }
+
+        .hero .tags {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .hero .tag {
+            background: rgba(255, 255, 255, .15);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: .82rem;
+            color: #D1C4E9;
+            border: 1px solid rgba(255, 255, 255, .25);
+        }
+
+        /* ── NAV TABS ── */
+        .tab-bar {
+            background: white;
+            display: flex;
+            overflow-x: auto;
+            border-bottom: 2px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .1);
+        }
+
+        .tab-btn {
+            padding: .75rem 1.4rem;
+            font-size: .92rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            background: none;
+            color: #666;
+            white-space: nowrap;
+            transition: all .2s;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+        }
+
+        .tab-btn.active {
+            color: var(--violet);
+            border-bottom-color: var(--violet);
+            background: #f5f0ff;
+        }
+
+        .tab-btn:hover {
+            color: var(--violet);
+            background: #f5f0ff;
+        }
+
+        /* ── MAIN LAYOUT ── */
+        .main {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 2rem 1.2rem;
+        }
+
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        /* ── BOXES ── */
+        .box {
+            border-radius: 8px;
+            padding: 1.2rem 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .box-purple {
+            background: #EDE7F6;
+            border-left: 4px solid var(--purple);
+        }
+
+        .box-green {
+            background: #E8F5E9;
+            border-left: 4px solid var(--green);
+        }
+
+        .box-amber {
+            background: #FFF8E1;
+            border-left: 4px solid var(--amber);
+        }
+
+        .box-red {
+            background: #FFEBEE;
+            border-left: 4px solid var(--red);
+        }
+
+        .box-blue {
+            background: #E3F2FD;
+            border-left: 4px solid var(--blue);
+        }
+
+        .box-teal {
+            background: #E0F7FA;
+            border-left: 4px solid var(--teal);
+        }
+
+        .box-pink {
+            background: #FCE4EC;
+            border-left: 5px solid var(--pink);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .box-violet {
+            background: #F3E5F5;
+            border-left: 4px solid var(--violet);
+        }
+
+        .box-title {
+            font-weight: 700;
+            font-size: .95rem;
+            margin-bottom: .5rem;
+        }
+
+        /* ── SECTION HEADINGS ── */
+        .sec-h1 {
+            background: linear-gradient(135deg, #4A148C, #6A1B9A, #880E4F);
+            color: white;
+            padding: .8rem 1.2rem;
+            border-radius: 8px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin: 1.8rem 0 1rem;
+        }
+
+        .sec-h2 {
+            color: var(--violet);
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin: 1.4rem 0 .6rem;
+            padding-left: .8rem;
+            border-left: 4px solid var(--violet);
+        }
+
+        .sec-h3 {
+            color: var(--blue);
+            font-size: .98rem;
+            font-weight: 700;
+            margin: 1rem 0 .4rem;
+        }
+
+        /* ── SEAT VISUAL ── */
+        .seats-row {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin: .8rem 0;
+            align-items: center;
+        }
+
+        .seat {
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: .82rem;
+            border: 2px solid;
+            flex-shrink: 0;
+        }
+
+        .seat-A {
+            background: #BBDEFB;
+            border-color: #1565C0;
+            color: #1565C0;
+        }
+
+        .seat-B {
+            background: #F8BBD9;
+            border-color: #880E4F;
+            color: #880E4F;
+        }
+
+        .seat-C {
+            background: #C8E6C9;
+            border-color: #2E7D32;
+            color: #2E7D32;
+        }
+
+        .seat-E {
+            background: #E0E0E0;
+            border-color: #757575;
+            color: #757575;
+            border-style: dashed;
+        }
+
+        .seat-slot {
+            background: #FFF8E1;
+            border-color: #E65100;
+            color: #E65100;
+            border-style: dotted;
+            font-size: .7rem;
+        }
+
+        .seat-label {
+            font-size: .8rem;
+            color: #666;
+            margin: 0 2px;
+            align-self: center;
+        }
+
+        /* ── PIE TABLE ── */
+        .pie-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: .88rem;
+        }
+
+        .pie-table th {
+            background: #F3E5F5;
+            color: var(--violet);
+            padding: 8px 10px;
+            text-align: center;
+            border: 1px solid #CE93D8;
+            font-weight: 700;
+        }
+
+        .pie-table td {
+            padding: 7px 10px;
+            text-align: center;
+            border: 1px solid #e0d0f0;
+            vertical-align: middle;
+        }
+
+        .pie-table tr:nth-child(even) td {
+            background: #FBF5FF;
+        }
+
+        .pie-table .tier0 td {
+            background: #E8F5E9 !important;
+        }
+
+        .pie-table .tier1 td {
+            background: #FFEBEE !important;
+        }
+
+        .pie-table .tier2 td {
+            background: #E3F2FD !important;
+        }
+
+        .pie-table .tier3 td {
+            background: #FFF3E0 !important;
+        }
+
+        .pie-table .tier4 td {
+            background: #E8F5E9 !important;
+        }
+
+        .sign-plus {
+            color: var(--green);
+            font-weight: 700;
+        }
+
+        .sign-minus {
+            color: var(--red);
+            font-weight: 700;
+        }
+
+        .contrib-plus {
+            color: var(--green);
+            font-weight: 700;
+        }
+
+        .contrib-minus {
+            color: var(--red);
+            font-weight: 700;
+        }
+
+        /* ── PROBLEM CARD ── */
+        .problem-card {
+            border: 1px solid #b39ddb;
+            border-radius: 10px;
+            margin: 1.2rem 0;
+            overflow: hidden;
+        }
+
+        .problem-header {
+            background: linear-gradient(135deg, var(--violet), var(--purple));
+            color: white;
+            padding: .8rem 1.2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .problem-header h3 {
+            font-size: .95rem;
+            font-weight: 700;
+        }
+
+        .problem-body {
+            padding: 1rem 1.2rem;
+        }
+
+        .problem-text {
+            background: #fafafa;
+            border: 1px solid #e0d0f0;
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: .8rem;
+            line-height: 1.8;
+        }
+
+        .sol-toggle {
+            background: var(--violet);
+            color: white;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: .85rem;
+            font-weight: 600;
+            margin-bottom: .5rem;
+            transition: background .2s;
+        }
+
+        .sol-toggle:hover {
+            background: var(--purple);
+        }
+
+        .sol-body {
+            display: none;
+            border-top: 2px solid var(--border);
+            padding-top: .8rem;
+            margin-top: .8rem;
+        }
+
+        .ans-box {
+            background: #E8F5E9;
+            border-left: 4px solid var(--green);
+            padding: .8rem 1.1rem;
+            border-radius: 0 6px 6px 0;
+            margin-top: .8rem;
+            font-weight: 600;
+            color: var(--green);
+        }
+
+        /* ── COMPARISON TABLE ── */
+        .cmp-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: .87rem;
+        }
+
+        .cmp-table th {
+            background: #FCE4EC;
+            color: var(--pink);
+            padding: 8px 12px;
+            border: 1px solid #F48FB1;
+            text-align: left;
+        }
+
+        .cmp-table td {
+            padding: 8px 12px;
+            border: 1px solid #e0d0f0;
+            vertical-align: top;
+        }
+
+        .cmp-table tr:nth-child(even) td {
+            background: #fdf0f5;
+        }
+
+        /* ── QUIZ ── */
+        .quiz-q {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem 1.3rem;
+            margin: 1rem 0;
+        }
+
+        .quiz-q .q-text {
+            font-weight: 600;
+            margin-bottom: .7rem;
+        }
+
+        .quiz-opts label {
+            display: block;
+            padding: 5px 10px;
+            margin: 3px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background .15s;
+        }
+
+        .quiz-opts label:hover {
+            background: #f0e8ff;
+        }
+
+        .quiz-opts input {
+            margin-right: 8px;
+        }
+
+        .quiz-opts label.correct {
+            background: #E8F5E9;
+            color: var(--green);
+            font-weight: 600;
+        }
+
+        .quiz-opts label.wrong {
+            background: #FFEBEE;
+            color: var(--red);
+        }
+
+        .check-btn {
+            background: var(--blue);
+            color: white;
+            border: none;
+            padding: 6px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: .85rem;
+            font-weight: 600;
+            margin-top: .5rem;
+        }
+
+        .quiz-result {
+            margin-top: .5rem;
+            font-weight: 700;
+            font-size: .9rem;
+        }
+
+        .result-ok {
+            color: var(--green);
+        }
+
+        .result-no {
+            color: var(--red);
+        }
+
+        /* ── GRID ── */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 640px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ── CANVAS ── */
+        canvas {
+            display: block;
+            max-width: 100%;
+        }
+
+        /* ── FORMULA BOX ── */
+        .formula {
+            background: #f5f0ff;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            font-size: 1.05rem;
+            margin: .8rem 0;
+        }
+
+        /* ── TIER BADGE ── */
+        .tier-badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: .78rem;
+            font-weight: 700;
+            margin-left: 6px;
+        }
+
+        .tier-easy {
+            background: #E8F5E9;
+            color: var(--green);
+        }
+
+        .tier-mid {
+            background: #FFF8E1;
+            color: var(--amber);
+        }
+
+        .tier-hard {
+            background: #FFEBEE;
+            color: var(--red);
+        }
+
+        .tier-hsg {
+            background: #EDE7F6;
+            color: var(--purple);
+        }
+
+        /* ── STEPS ── */
+        .steps {
+            list-style: none;
+            counter-reset: step;
+        }
+
+        .steps li {
+            counter-increment: step;
+            padding: .5rem 0 .5rem 2.5rem;
+            position: relative;
+            border-left: 2px solid var(--border);
+            margin-left: 1rem;
+        }
+
+        .steps li::before {
+            content: counter(step);
+            position: absolute;
+            left: -14px;
+            top: 4px;
+            width: 26px;
+            height: 26px;
+            background: var(--violet);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .78rem;
+            font-weight: 700;
+        }
+
+        .steps li:last-child {
+            border-left-color: transparent;
+        }
+
+        /* ── STAT PILLS ── */
+        .stat-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin: .5rem 0;
+        }
+
+        .stat {
+            background: #EDE7F6;
+            border-radius: 20px;
+            padding: 4px 14px;
+            font-size: .83rem;
+            font-weight: 600;
+            color: var(--purple);
+        }
+
+        /* ── SEAT GRID ── */
+        .seat-grid {
+            display: inline-grid;
+            gap: 4px;
+            margin: .5rem 0;
+        }
+
+        .seat-grid .sg-row {
+            display: flex;
+            gap: 4px;
+        }
+
+        .sg-cell {
+            width: 34px;
+            height: 34px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: .78rem;
+            border: 2px solid;
+        }
+
+        /* ── SLOT DIAGRAM ── */
+        .slot-row {
+            display: flex;
+            gap: 3px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: .5rem 0;
+        }
+
+        .slot-gap {
+            width: 30px;
+            height: 30px;
+            border: 2px dashed var(--amber);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--amber);
+            font-size: .7rem;
+            font-weight: 700;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <div class="hero">
+        <h1>🪑 Xếp Ghế Không Kề Nhau</h1>
+        <p class="sub">Bảng PIE Đại Bác Vạn Năng — Tư duy từ gốc rễ đến thực chiến</p>
+        <div class="tags">
+            <span class="tag">📐 Phương pháp Vách Ngăn</span>
+            <span class="tag">🔫 PIE Đại Bác</span>
+            <span class="tag">📊 Bảng Bù Trừ 12 Dòng</span>
+            <span class="tag">🎯 Bài thi Phổ Thông</span>
+        </div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tab-bar">
+        <button class="tab-btn active" onclick="switchTab('theory')">📖 Lý Thuyết</button>
+        <button class="tab-btn" onclick="switchTab('pie')">🔫 Bảng PIE Chi Tiết</button>
+        <button class="tab-btn" onclick="switchTab('practice')">✏️ Bài Tập (6 bài)</button>
+        <button class="tab-btn" onclick="switchTab('cau22')">⭐ Câu 22 — 3 Cột</button>
+        <button class="tab-btn" onclick="switchTab('quiz')">🎯 Quiz Nhanh</button>
+    </div>
+
+    <!-- ========== TAB 1: THEORY ========== -->
+    <div id="tab-theory" class="tab-panel active">
+        <div class="main">
+
+            <div class="sec-h1">📐 Chương 1 — Phương Pháp Vách Ngăn (Slot Method)</div>
+
+            <div class="box box-purple">
+                <div class="box-title" style="color:var(--purple)">⚙️ Nguyên Lý Cốt Lõi</div>
+                <p>Xếp $k$ phần tử nhóm <b>A</b> (bị cấm kề) cùng $m$ phần tử tự do vào hàng ngang:</p>
+                <ol class="steps" style="margin-top:.8rem">
+                    <li><b>Xếp $m$ phần tử tự do trước</b> — chúng tạo ra $m+1$ khe trống xung quanh</li>
+                    <li><b>Chọn $k$ khe trong $m+1$ khe</b> để đặt các phần tử nhóm A (mỗi khe ≤ 1)</li>
+                    <li><b>Nhân hoán vị</b>: $m! \times A_{m+1}^{k}$</li>
+                </ol>
+            </div>
+
+            <div class="box box-green" style="margin-top:1rem">
+                <div class="box-title" style="color:var(--green)">🎯 Ví dụ minh hoạ — 3A + 5B, cấm AA</div>
+                <p><b>Bước 1:</b> Xếp 5 bạn B tạo hàng, sinh ra 6 khe:</p>
+                <div class="slot-row">
+                    <div class="slot-gap">_</div>
+                    <div class="seat seat-B">B₁</div>
+                    <div class="slot-gap">_</div>
+                    <div class="seat seat-B">B₂</div>
+                    <div class="slot-gap">_</div>
+                    <div class="seat seat-B">B₃</div>
+                    <div class="slot-gap">_</div>
+                    <div class="seat seat-B">B₄</div>
+                    <div class="slot-gap">_</div>
+                    <div class="seat seat-B">B₅</div>
+                    <div class="slot-gap">_</div>
+                </div>
+                <p style="margin-top:.5rem"><b>Bước 2:</b> Chọn 3 khe trong 6 để đặt A → $A_6^3 = 120$ cách</p>
+                <div class="formula">$N = 5! \times A_6^3 = 120 \times 120 = \mathbf{14\,400}$ cách</div>
+            </div>
+
+            <div class="sec-h1" style="margin-top:2rem">🔫 Chương 2 — Bảng PIE Đại Bác Vạn Năng</div>
+
+            <div class="box box-teal">
+                <div class="box-title" style="color:var(--teal)">⚙️ Khi Nào Dùng PIE?</div>
+                <p>Khi có <b>≥ 2 nhóm bị cấm kề</b> (cấm AA, cấm BB, cấm CC, ...), vách ngăn trở nên rất phức tạp. PIE
+                    là vũ khí tự động hoá hoàn toàn.</p>
+            </div>
+
+            <div class="box box-violet" style="margin-top:1rem">
+                <div class="box-title" style="color:var(--violet)">🧩 Khuôn Chuẩn Của Một Dòng PIE</div>
+                <p>Với $n_A, n_B, n_C$ phần tử và có thể có $n_E$ ghế trống, một dòng $(i,j,k)$ tức là ghép $i$ cặp AA,
+                    $j$ cặp BB, $k$ cặp CC. Khi đó:</p>
+                <div style="overflow-x:auto; margin-top:.8rem">
+                    <table style="width:100%; border-collapse:collapse; font-size:.87rem">
+                        <tr style="background:#EDE7F6">
+                            <th style="padding:8px; border:1px solid #CE93D8">Cột</th>
+                            <th style="padding:8px; border:1px solid #CE93D8">Công thức</th>
+                        </tr>
+                        <tr>
+                            <td style="padding:8px; border:1px solid #e0d0f0; font-weight:700">Chọn cặp</td>
+                            <td style="padding:8px; border:1px solid #e0d0f0">$C_{n_A-1}^{i} \cdot C_{n_B-1}^{j} \cdot
+                                C_{n_C-1}^{k}$</td>
+                        </tr>
+                        <tr style="background:#fdf8ff">
+                            <td style="padding:8px; border:1px solid #e0d0f0; font-weight:700">Thực thể còn lại</td>
+                            <td style="padding:8px; border:1px solid #e0d0f0">$(n_A-i,\; n_B-j,\; n_C-k,\; n_E)$</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:8px; border:1px solid #e0d0f0; font-weight:700">Tổng thực thể $T$</td>
+                            <td style="padding:8px; border:1px solid #e0d0f0">$n_A+n_B+n_C+n_E - i - j - k$</td>
+                        </tr>
+                        <tr style="background:#fdf8ff">
+                            <td style="padding:8px; border:1px solid #e0d0f0; font-weight:700">Hoán vị đồng nhất</td>
+                            <td style="padding:8px; border:1px solid #e0d0f0">
+                                $\dfrac{T!}{(n_A-i)!\,(n_B-j)!\,(n_C-k)!\,n_E!}$</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:8px; border:1px solid #e0d0f0; font-weight:700">Dấu</td>
+                            <td style="padding:8px; border:1px solid #e0d0f0">$(-1)^{i+j+k}$ &nbsp;— <span
+                                    class="sign-plus">chẵn → +</span>, <span class="sign-minus">lẻ → −</span></td>
+                        </tr>
+                        <tr style="background:#fdf8ff">
+                            <td style="padding:8px; border:1px solid #e0d0f0; font-weight:700">Đóng góp</td>
+                            <td style="padding:8px; border:1px solid #e0d0f0">Chọn cặp × Hoán vị đồng nhất × Dấu</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="box box-amber" style="margin-top:.8rem">
+                    <div class="box-title" style="color:var(--amber)">📌 Quy tắc dấu theo tầng</div>
+                    <p>Sắp dòng theo $s = i+j+k$ (tổng số cặp ghép). Cùng tầng → cùng dấu. $s$ chẵn → $+$, $s$ lẻ → $-$.
+                    </p>
+                </div>
+            </div>
+
+            <div class="box box-red" style="margin-top:1rem">
+                <div class="box-title" style="color:var(--red)">⚠️ 3 Lỗi Cực Phổ Biến</div>
+                <ol style="padding-left:1.5rem; margin-top:.5rem">
+                    <li><b>Lỗi 1:</b> Dùng $C_n^i$ thay vì $C_{n-1}^i$ — lớp A có $n_A$ người thì chỉ có $n_A-1$ khe
+                        dính nội bộ</li>
+                    <li><b>Lỗi 2:</b> Nhân $n_A!, n_B!,...$ quá sớm — phải đếm cấu trúc đồng nhất TRƯỚC, rồi mới nhân
+                    </li>
+                    <li><b>Lỗi 3:</b> Ghép ghế trống EE — ghế trống <b>KHÔNG BAO GIỜ</b> bị ghép trong PIE hàng ngang
+                    </li>
+                </ol>
+            </div>
+
+            <div style="margin-top:2rem">
+                <table class="cmp-table">
+                    <tr>
+                        <th>Tiêu chí</th>
+                        <th>🔵 Vách Ngăn (Slot)</th>
+                        <th>🟣 PIE Đại Bác</th>
+                    </tr>
+                    <tr>
+                        <td><b>Đặc điểm</b></td>
+                        <td>Dựng khung, chèn nhóm A vào khe</td>
+                        <td>Đếm tự do rồi bù trừ vi phạm</td>
+                    </tr>
+                    <tr>
+                        <td><b>Ưu điểm</b></td>
+                        <td>Trực quan, dễ hình dung</td>
+                        <td>Tự động hoá, dùng cho mọi số nhóm</td>
+                    </tr>
+                    <tr>
+                        <td><b>Dùng khi</b></td>
+                        <td>1 nhóm bị cấm, $n_E \leq 2$</td>
+                        <td>Nhiều nhóm bị cấm, bài xác suất</td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ========== TAB 2: PIE DETAIL ========== -->
+    <div id="tab-pie" class="tab-panel">
+        <div class="main">
+
+            <div class="sec-h1">📊 Bảng PIE 12 Dòng — Ví Dụ 3A + 2B + 2C</div>
+
+            <div class="box box-purple">
+                <div class="box-title" style="color:var(--purple)">🗺️ Bài toán</div>
+                <p>Xếp <b>3 học sinh lớp A</b>, <b>2 học sinh lớp B</b>, <b>2 học sinh lớp C</b> vào một hàng 7 ghế.
+                    Tính số cách sao cho <b>không có hai học sinh cùng lớp nào ngồi kề nhau</b>.</p>
+            </div>
+
+            <div class="box box-teal" style="margin-top:.8rem">
+                <div class="box-title" style="color:var(--teal)">⚙️ Bước 0: Xác định số dòng</div>
+                <div class="stat-row">
+                    <span class="stat">A có 3 người → 2 khe dính → i = 0,1,2</span>
+                    <span class="stat">B có 2 người → 1 khe dính → j = 0,1</span>
+                    <span class="stat">C có 2 người → 1 khe dính → k = 0,1</span>
+                </div>
+                <div class="formula">Tổng số dòng $= 3 \times 2 \times 2 = \mathbf{12}$ dòng</div>
+            </div>
+
+            <p style="margin:.8rem 0; color:#555">Sắp dòng theo <b>tầng</b> $s = i+j+k$. Cùng tầng → cùng dấu.</p>
+
+            <div style="overflow-x:auto">
+                <table class="pie-table">
+                    <thead>
+                        <tr>
+                            <th>Kịch bản (i,j,k)</th>
+                            <th>Tầng s</th>
+                            <th>Chọn cặp</th>
+                            <th>Thực thể (A,B,C)</th>
+                            <th>Tổng T</th>
+                            <th>Hoán vị đồng nhất</th>
+                            <th>Dấu</th>
+                            <th>Đóng góp</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="tier0">
+                            <td>(0,0,0) — tự do</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>(3,2,2)</td>
+                            <td>7</td>
+                            <td>$7!/(3!\cdot2!\cdot2!)=210$</td>
+                            <td class="sign-plus">+</td>
+                            <td class="contrib-plus">+210</td>
+                        </tr>
+                        <tr class="tier1">
+                            <td>(0,0,1) — 1 cặp CC</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>(3,2,1)</td>
+                            <td>6</td>
+                            <td>$6!/(3!\cdot2!\cdot1!)=60$</td>
+                            <td class="sign-minus">−</td>
+                            <td class="contrib-minus">−60</td>
+                        </tr>
+                        <tr class="tier1">
+                            <td>(0,1,0) — 1 cặp BB</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>(3,1,2)</td>
+                            <td>6</td>
+                            <td>$6!/(3!\cdot1!\cdot2!)=60$</td>
+                            <td class="sign-minus">−</td>
+                            <td class="contrib-minus">−60</td>
+                        </tr>
+                        <tr class="tier1">
+                            <td>(1,0,0) — 1 cặp AA</td>
+                            <td>1</td>
+                            <td>$C_2^1=2$</td>
+                            <td>(2,2,2)</td>
+                            <td>6</td>
+                            <td>$6!/(2!\cdot2!\cdot2!)=90$</td>
+                            <td class="sign-minus">−</td>
+                            <td class="contrib-minus">−180</td>
+                        </tr>
+                        <tr class="tier2">
+                            <td>(0,1,1) — BB+CC</td>
+                            <td>2</td>
+                            <td>1</td>
+                            <td>(3,1,1)</td>
+                            <td>5</td>
+                            <td>$5!/(3!\cdot1!\cdot1!)=20$</td>
+                            <td class="sign-plus">+</td>
+                            <td class="contrib-plus">+20</td>
+                        </tr>
+                        <tr class="tier2">
+                            <td>(1,0,1) — AA+CC</td>
+                            <td>2</td>
+                            <td>$C_2^1\cdot1=2$</td>
+                            <td>(2,2,1)</td>
+                            <td>5</td>
+                            <td>$5!/(2!\cdot2!\cdot1!)=30$</td>
+                            <td class="sign-plus">+</td>
+                            <td class="contrib-plus">+60</td>
+                        </tr>
+                        <tr class="tier2">
+                            <td>(1,1,0) — AA+BB</td>
+                            <td>2</td>
+                            <td>$C_2^1\cdot1=2$</td>
+                            <td>(2,1,2)</td>
+                            <td>5</td>
+                            <td>$5!/(2!\cdot1!\cdot2!)=30$</td>
+                            <td class="sign-plus">+</td>
+                            <td class="contrib-plus">+60</td>
+                        </tr>
+                        <tr class="tier2">
+                            <td>(2,0,0) — 2 cặp AA</td>
+                            <td>2</td>
+                            <td>$C_2^2=1$</td>
+                            <td>(1,2,2)</td>
+                            <td>5</td>
+                            <td>$5!/(1!\cdot2!\cdot2!)=30$</td>
+                            <td class="sign-plus">+</td>
+                            <td class="contrib-plus">+30</td>
+                        </tr>
+                        <tr class="tier3">
+                            <td>(1,1,1) — AA+BB+CC</td>
+                            <td>3</td>
+                            <td>$2\cdot1\cdot1=2$</td>
+                            <td>(2,1,1)</td>
+                            <td>4</td>
+                            <td>$4!/(2!\cdot1!\cdot1!)=12$</td>
+                            <td class="sign-minus">−</td>
+                            <td class="contrib-minus">−24</td>
+                        </tr>
+                        <tr class="tier3">
+                            <td>(2,0,1) — 2AA+CC</td>
+                            <td>3</td>
+                            <td>1</td>
+                            <td>(1,2,1)</td>
+                            <td>4</td>
+                            <td>$4!/(1!\cdot2!\cdot1!)=12$</td>
+                            <td class="sign-minus">−</td>
+                            <td class="contrib-minus">−12</td>
+                        </tr>
+                        <tr class="tier3">
+                            <td>(2,1,0) — 2AA+BB</td>
+                            <td>3</td>
+                            <td>1</td>
+                            <td>(1,1,2)</td>
+                            <td>4</td>
+                            <td>$4!/(1!\cdot1!\cdot2!)=12$</td>
+                            <td class="sign-minus">−</td>
+                            <td class="contrib-minus">−12</td>
+                        </tr>
+                        <tr class="tier4">
+                            <td>(2,1,1) — 2AA+BB+CC</td>
+                            <td>4</td>
+                            <td>1</td>
+                            <td>(1,1,1)</td>
+                            <td>3</td>
+                            <td>$3!/(1!\cdot1!\cdot1!)=6$</td>
+                            <td class="sign-plus">+</td>
+                            <td class="contrib-plus">+6</td>
+                        </tr>
+                        <tr style="background:#e8e0ff; font-weight:700">
+                            <td colspan="7" style="text-align:right; padding:8px 12px">Tổng cấu trúc đồng nhất hợp lệ:
+                            </td>
+                            <td style="color:var(--purple); font-size:1rem">= <b>38</b></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="box box-green" style="margin-top:1rem">
+                <div class="box-title" style="color:var(--green)">✅ Kết luận</div>
+                <p>Số cấu trúc đồng nhất hợp lệ $= 210 - 60 - 60 - 180 + 20 + 60 + 60 + 30 - 24 - 12 - 12 + 6 =
+                    \mathbf{38}$</p>
+                <p style="margin-top:.5rem">Nhân hoán vị học sinh phân biệt:</p>
+                <div class="formula">$N = 38 \times \underbrace{3!}_{\text{xếp A}} \times \underbrace{2!}_{\text{xếp B}}
+                    \times \underbrace{2!}_{\text{xếp C}} = 38 \times 6 \times 2 \times 2 = \mathbf{912}$ cách</div>
+            </div>
+
+            <div class="sec-h1" style="margin-top:2rem">🔍 Mổ Xẻ Dòng (1,0,1) — Đọc Chậm</div>
+            <div class="box box-blue">
+                <p>Dòng $(1,0,1)$ nghĩa là ghép <b>1 cặp AA</b> và <b>1 cặp CC</b>. Quy trình 5 bước:</p>
+                <ol style="padding-left:1.5rem; margin-top:.5rem; line-height:2">
+                    <li><b>Chọn cặp:</b> Lớp A có 2 khe dính, chọn 1: $C_2^1 = 2$. Lớp C có 1 khe dính, chọn 1: $C_1^1 =
+                        1$. Tích: $\mathbf{2}$</li>
+                    <li><b>Thực thể còn lại:</b> A từ 3 còn 2 khối, B vẫn 2, C từ 2 còn 1 khối → $(2,2,1)$</li>
+                    <li><b>Tổng thực thể:</b> $2+2+1 = 5$</li>
+                    <li><b>Hoán vị đồng nhất:</b> $5!/(2!\cdot2!\cdot1!) = 30$</li>
+                    <li><b>Dấu:</b> $s = 1+0+1 = 2$ (chẵn) → <span class="sign-plus">dấu +</span></li>
+                </ol>
+                <div class="formula">Đóng góp $= +2 \times 30 = \mathbf{+60}$ ✓</div>
+            </div>
+
+            <div class="sec-h1" style="margin-top:2rem">🔢 Bảng Nhanh — 3A + 2B + 2E (có ghế trống)</div>
+            <div class="box box-amber" style="margin-bottom:.8rem">
+                <div class="box-title" style="color:var(--amber)">📌 Ghế trống KHÔNG bao giờ sinh cột i/j trong PIE!
+                </div>
+                <p>Ghế trống $E$ chỉ nằm im ở <b>cột thực thể</b> và <b>mẫu số hoán vị</b>. Dấu chỉ phụ thuộc $i+j$
+                    (không cộng $n_E$).</p>
+            </div>
+
+            <div style="overflow-x:auto">
+                <table class="pie-table">
+                    <thead>
+                        <tr>
+                            <th>Kịch bản (i,j)</th>
+                            <th>Tầng s</th>
+                            <th>Chọn cặp</th>
+                            <th>Thực thể (A,B,E)</th>
+                            <th>Tổng</th>
+                            <th>Hoán vị đồng nhất</th>
+                            <th>Dấu</th>
+                            <th>Đóng góp</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="tier0">
+                            <td>(0,0) — tự do</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>(3,2,2)</td>
+                            <td>7</td>
+                            <td>$7!/(3!\cdot2!\cdot2!)=210$</td>
+                            <td class="sign-plus">+</td>
+                            <td class="contrib-plus">+210</td>
+                        </tr>
+                        <tr class="tier1">
+                            <td>(0,1) — 1 cặp BB</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>(3,1,2)</td>
+                            <td>6</td>
+                            <td>$6!/(3!\cdot1!\cdot2!)=60$</td>
+                            <td class="sign-minus">−</td>
+                            <td class="contrib-minus">−60</td>
+                        </tr>
+                        <tr class="tier1">
+                            <td>(1,0) — 1 cặp AA</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>(2,2,2)</td>
+                            <td>6</td>
+                            <td>$6!/(2!\cdot2!\cdot2!)=90$</td>
+                            <td class="sign-minus">−</td>
+                            <td class="contrib-minus">−180</td>
+                        </tr>
+                        <tr class="tier2">
+                            <td>(1,1) — AA+BB</td>
+                            <td>2</td>
+                            <td>2</td>
+                            <td>(2,1,2)</td>
+                            <td>5</td>
+                            <td>$5!/(2!\cdot1!\cdot2!)=30$</td>
+                            <td class="sign-plus">+</td>
+                            <td class="contrib-plus">+60</td>
+                        </tr>
+                        <tr class="tier2">
+                            <td>(2,0) — 2 cặp AA</td>
+                            <td>2</td>
+                            <td>1</td>
+                            <td>(1,2,2)</td>
+                            <td>5</td>
+                            <td>$5!/(1!\cdot2!\cdot2!)=30$</td>
+                            <td class="sign-plus">+</td>
+                            <td class="contrib-plus">+30</td>
+                        </tr>
+                        <tr class="tier3">
+                            <td>(2,1) — 2AA+BB</td>
+                            <td>3</td>
+                            <td>1</td>
+                            <td>(1,1,2)</td>
+                            <td>4</td>
+                            <td>$4!/(1!\cdot1!\cdot2!)=12$</td>
+                            <td class="sign-minus">−</td>
+                            <td class="contrib-minus">−12</td>
+                        </tr>
+                        <tr style="background:#e8e0ff; font-weight:700">
+                            <td colspan="7" style="text-align:right; padding:8px">Tổng:</td>
+                            <td style="color:var(--purple)"><b>= 48</b></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="ans-box">$N = 48 \times 3! \times 2! = 576$ cách &nbsp;(ghế trống không nhân vì giống nhau)
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ========== TAB 3: PRACTICE ========== -->
+    <div id="tab-practice" class="tab-panel">
+        <div class="main">
+
+            <div class="sec-h1">✏️ 6 Bài Tập Thực Chiến — Từ Cơ Bản Đến Nâng Cao</div>
+
+            <!-- BÀI 1 -->
+            <div class="problem-card">
+                <div class="problem-header">
+                    <h3>Bài 1 <span class="tier-badge tier-easy">Cơ bản</span></h3>
+                    <span style="font-size:.85rem; opacity:.85">3A + 5B, cấm AA</span>
+                </div>
+                <div class="problem-body">
+                    <div class="problem-text">Xếp <b>3 học sinh lớp A</b> và <b>5 học sinh lớp B</b> vào một hàng gồm 8
+                        ghế. Tính số cách xếp sao cho <b>không có hai học sinh lớp A nào ngồi cạnh nhau</b>.</div>
+                    <button class="sol-toggle" onclick="toggleSol(this)">▶ Hiện lời giải</button>
+                    <div class="sol-body">
+                        <div class="box box-blue">
+                            <p><b>Phương pháp Vách Ngăn:</b></p>
+                            <ol style="padding-left:1.5rem; line-height:2">
+                                <li>Xếp 5 bạn B trước: $5! = 120$ cách, tạo ra 6 khe trống</li>
+                                <li>Chọn 3 khe trong 6 để đặt A (có thứ tự): $A_6^3 = 6\times5\times4 = 120$ cách</li>
+                            </ol>
+                        </div>
+                        <div class="ans-box">$N = 5! \times A_6^3 = 120 \times 120 = \mathbf{14\,400}$ cách</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BÀI 2 -->
+            <div class="problem-card">
+                <div class="problem-header">
+                    <h3>Bài 2 <span class="tier-badge tier-easy">Cơ bản</span></h3>
+                    <span style="font-size:.85rem; opacity:.85">A và B — không kề cùng lớp (3 TH)</span>
+                </div>
+                <div class="problem-body">
+                    <div class="problem-text">Xếp học sinh của hai lớp A và B vào một hàng ghế sao cho <b>không có hai
+                            học sinh cùng lớp nào ngồi cạnh nhau</b> trong các trường hợp: (1) 4A + 4B; (2) 4A + 3B; (3)
+                        5A + 3B.</div>
+                    <button class="sol-toggle" onclick="toggleSol(this)">▶ Hiện lời giải</button>
+                    <div class="sol-body">
+                        <div class="box box-blue">
+                            <p><b>TH1 — 4A + 4B (bằng nhau):</b> Cấu trúc bắt buộc xen kẽ, có 2 dạng: ABABABAB và
+                                BABABABA</p>
+                            <div class="seats-row" style="margin:.5rem 0">
+                                <div class="seat seat-A">A</div>
+                                <div class="seat seat-B">B</div>
+                                <div class="seat seat-A">A</div>
+                                <div class="seat seat-B">B</div>
+                                <div class="seat seat-A">A</div>
+                                <div class="seat seat-B">B</div>
+                                <div class="seat seat-A">A</div>
+                                <div class="seat seat-B">B</div>
+                            </div>
+                            <p>$N_1 = 2 \times 4! \times 4! = 2 \times 24 \times 24 = \mathbf{1152}$ cách</p>
+                            <p style="margin-top:.7rem"><b>TH2 — 4A + 3B (lệch 1):</b> Cấu trúc duy nhất: ABABABA</p>
+                            <p>$N_2 = 4! \times 3! = 24 \times 6 = \mathbf{144}$ cách</p>
+                            <p style="margin-top:.7rem"><b>TH3 — 5A + 3B (lệch ≥ 2):</b> 3B tạo 4 khe, nhưng cần 5 chỗ
+                                cho A → bất khả thi</p>
+                            <p>$N_3 = \mathbf{0}$ cách</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BÀI 3 -->
+            <div class="problem-card">
+                <div class="problem-header">
+                    <h3>Bài 3 <span class="tier-badge tier-mid">Khá</span></h3>
+                    <span style="font-size:.85rem; opacity:.85">3A + 2B + 2C — dùng PIE 12 dòng</span>
+                </div>
+                <div class="problem-body">
+                    <div class="problem-text">Có <b>3 học sinh lớp A</b>, <b>2 học sinh lớp B</b> và <b>2 học sinh lớp
+                            C</b>. Xếp vào một hàng 7 ghế sao cho <b>không có hai học sinh cùng lớp nào ngồi kề
+                            nhau</b>. Tính số cách xếp.</div>
+                    <button class="sol-toggle" onclick="toggleSol(this)">▶ Hiện lời giải</button>
+                    <div class="sol-body">
+                        <div class="box box-violet">
+                            <p><b>Dùng PIE:</b> $i=0,1,2$; $j=0,1$; $k=0,1$ → 12 dòng (xem tab Bảng PIE Chi Tiết)</p>
+                            <p>Tổng cấu trúc đồng nhất hợp lệ $= \mathbf{38}$</p>
+                        </div>
+                        <div class="ans-box">$N = 38 \times 3! \times 2! \times 2! = 38 \times 6 \times 2 \times 2 =
+                            \mathbf{912}$ cách</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BÀI 4 -->
+            <div class="problem-card">
+                <div class="problem-header">
+                    <h3>Bài 4 <span class="tier-badge tier-mid">Khá</span></h3>
+                    <span style="font-size:.85rem; opacity:.85">3A + 2B + 3E (ghế trống, chỉ cấm AA)</span>
+                </div>
+                <div class="problem-body">
+                    <div class="problem-text">Có <b>3 học sinh lớp A</b>, <b>2 học sinh lớp B</b> và <b>3 ghế trống</b>.
+                        Xếp vào một hàng 8 ghế sao cho <b>không có hai học sinh lớp A nào ngồi cạnh nhau</b> (B và ghế
+                        trống được kề thoải mái).</div>
+                    <button class="sol-toggle" onclick="toggleSol(this)">▶ Hiện lời giải</button>
+                    <div class="sol-body">
+                        <div class="box box-blue">
+                            <p><b>Cách 1 — Vách Ngăn:</b></p>
+                            <p>Xếp 5 đối tượng tự do (2B + 3E) trước: $A_5^2 = 20$ cách → tạo 6 khe</p>
+                            <p>Chọn 3 khe cho A: $A_6^3 = 120$ cách</p>
+                            <div class="formula">$N = 20 \times 120 = \mathbf{2400}$ cách</div>
+                            <p><b>Cách 2 — PIE (chỉ cột i):</b> A có 2 khe dính → 3 dòng</p>
+                            <p>$560 - 420 + 60 = 200$ cấu trúc đồng nhất</p>
+                            <p>Nhân: $200 \times 3! \times 2! = 200 \times 12 = 2400$ ✓</p>
+                        </div>
+                        <div class="ans-box">$N = \mathbf{2400}$ cách</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BÀI 5 -->
+            <div class="problem-card">
+                <div class="problem-header">
+                    <h3>Bài 5 <span class="tier-badge tier-hard">Nâng cao</span></h3>
+                    <span style="font-size:.85rem; opacity:.85">3A + 2B + 2E — cấm AA và BB</span>
+                </div>
+                <div class="problem-body">
+                    <div class="problem-text">Có <b>3 học sinh lớp A</b>, <b>2 học sinh lớp B</b> và <b>2 ghế trống</b>.
+                        Xếp vào hàng 7 ghế sao cho <b>không có hai học sinh cùng lớp nào ngồi kề nhau</b> (ghế trống
+                        thoải mái). Tính số cách.</div>
+                    <button class="sol-toggle" onclick="toggleSol(this)">▶ Hiện lời giải</button>
+                    <div class="sol-body">
+                        <div class="box box-violet">
+                            <p>PIE với $i=0,1,2$ và $j=0,1$ (E không ghép) → <b>6 dòng</b>:</p>
+                            <div style="overflow-x:auto; margin-top:.5rem">
+                                <table class="pie-table" style="font-size:.82rem">
+                                    <tr style="background:#F3E5F5">
+                                        <th>(i,j)</th>
+                                        <th>Chọn cặp</th>
+                                        <th>Thực thể (A,B,E)</th>
+                                        <th>Hoán vị đồng nhất</th>
+                                        <th>Dấu</th>
+                                        <th>Đóng góp</th>
+                                    </tr>
+                                    <tr class="tier0">
+                                        <td>(0,0)</td>
+                                        <td>1</td>
+                                        <td>(3,2,2)</td>
+                                        <td>$7!/(3!2!2!)=210$</td>
+                                        <td class="sign-plus">+</td>
+                                        <td class="contrib-plus">+210</td>
+                                    </tr>
+                                    <tr class="tier1">
+                                        <td>(0,1)</td>
+                                        <td>1</td>
+                                        <td>(3,1,2)</td>
+                                        <td>$6!/(3!1!2!)=60$</td>
+                                        <td class="sign-minus">−</td>
+                                        <td class="contrib-minus">−60</td>
+                                    </tr>
+                                    <tr class="tier1">
+                                        <td>(1,0)</td>
+                                        <td>2</td>
+                                        <td>(2,2,2)</td>
+                                        <td>$6!/(2!2!2!)=90$</td>
+                                        <td class="sign-minus">−</td>
+                                        <td class="contrib-minus">−180</td>
+                                    </tr>
+                                    <tr class="tier2">
+                                        <td>(1,1)</td>
+                                        <td>2</td>
+                                        <td>(2,1,2)</td>
+                                        <td>$5!/(2!1!2!)=30$</td>
+                                        <td class="sign-plus">+</td>
+                                        <td class="contrib-plus">+60</td>
+                                    </tr>
+                                    <tr class="tier2">
+                                        <td>(2,0)</td>
+                                        <td>1</td>
+                                        <td>(1,2,2)</td>
+                                        <td>$5!/(1!2!2!)=30$</td>
+                                        <td class="sign-plus">+</td>
+                                        <td class="contrib-plus">+30</td>
+                                    </tr>
+                                    <tr class="tier3">
+                                        <td>(2,1)</td>
+                                        <td>1</td>
+                                        <td>(1,1,2)</td>
+                                        <td>$4!/(1!1!2!)=12$</td>
+                                        <td class="sign-minus">−</td>
+                                        <td class="contrib-minus">−12</td>
+                                    </tr>
+                                    <tr style="background:#e8e0ff; font-weight:700">
+                                        <td colspan="5" style="text-align:right">Tổng:</td>
+                                        <td style="color:var(--purple)"><b>48</b></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="ans-box">$N = 48 \times 3! \times 2! = 48 \times 12 = \mathbf{576}$ cách</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BÀI 6 -->
+            <div class="problem-card">
+                <div class="problem-header">
+                    <h3>Bài 6 <span class="tier-badge tier-hsg">HSG / Xác suất</span></h3>
+                    <span style="font-size:.85rem; opacity:.85">8A + 3B + 2C + 3E, $10^6 p = ?$</span>
+                </div>
+                <div class="problem-body">
+                    <div class="problem-text">Xếp ngẫu nhiên 8 bạn lớp A, 3 bạn lớp B, 2 bạn lớp C vào hàng 16 ghế (có 3
+                        ghế trống). Gọi $p$ là xác suất để <b>không có hai học sinh cùng lớp ngồi kề nhau</b>. Tính
+                        $10^6 p$ (làm tròn đơn vị).</div>
+                    <button class="sol-toggle" onclick="toggleSol(this)">▶ Hiện lời giải</button>
+                    <div class="sol-body">
+                        <div class="box box-violet">
+                            <p><b>Tư duy:</b> $n_E = 16 - 8 - 3 - 2 = 3$. Nhóm A đông nhất → xây vách ngăn bằng A sau
+                                cùng.</p>
+                            <p>Dãy nền: 3B + 2C + 3E = 8 phần tử → tạo 9 khe. Phân tích cấu trúc dãy nền theo $k$ (khe
+                                bắt buộc đặt A):</p>
+                            <div style="overflow-x:auto; margin-top:.5rem">
+                                <table style="width:100%; border-collapse:collapse; font-size:.85rem">
+                                    <tr style="background:#EDE7F6; text-align:center">
+                                        <th style="padding:6px; border:1px solid #CE93D8">$k$</th>
+                                        <th style="padding:6px; border:1px solid #CE93D8">$N(k)$ dãy nền</th>
+                                        <th style="padding:6px; border:1px solid #CE93D8">Khe chọn cho A: $9-k$</th>
+                                        <th style="padding:6px; border:1px solid #CE93D8">Đóng góp</th>
+                                    </tr>
+                                    <tr style="text-align:center">
+                                        <td style="padding:6px; border:1px solid #e0d0f0">3</td>
+                                        <td style="padding:6px; border:1px solid #e0d0f0">20</td>
+                                        <td style="padding:6px; border:1px solid #e0d0f0">6</td>
+                                        <td style="padding:6px; border:1px solid #e0d0f0">120</td>
+                                    </tr>
+                                    <tr style="background:#fdf8ff; text-align:center">
+                                        <td style="padding:6px; border:1px solid #e0d0f0">2</td>
+                                        <td style="padding:6px; border:1px solid #e0d0f0">120</td>
+                                        <td style="padding:6px; border:1px solid #e0d0f0">7</td>
+                                        <td style="padding:6px; border:1px solid #e0d0f0">840</td>
+                                    </tr>
+                                    <tr style="text-align:center">
+                                        <td style="padding:6px; border:1px solid #e0d0f0">1</td>
+                                        <td style="padding:6px; border:1px solid #e0d0f0">260</td>
+                                        <td style="padding:6px; border:1px solid #e0d0f0">8</td>
+                                        <td style="padding:6px; border:1px solid #e0d0f0">2080</td>
+                                    </tr>
+                                    <tr style="background:#fdf8ff; text-align:center">
+                                        <td style="padding:6px; border:1px solid #e0d0f0">0</td>
+                                        <td style="padding:6px; border:1px solid #e0d0f0">160</td>
+                                        <td style="padding:6px; border:1px solid #e0d0f0">9</td>
+                                        <td style="padding:6px; border:1px solid #e0d0f0">1440</td>
+                                    </tr>
+                                    <tr style="background:#E8F5E9; text-align:center; font-weight:700">
+                                        <td colspan="3" style="padding:6px; border:1px solid #e0d0f0; text-align:right">
+                                            Tổng cấu trúc:</td>
+                                        <td style="padding:6px; border:1px solid #e0d0f0">4480</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <p style="margin-top:.8rem">Không gian mẫu: $A_{16}^{13} = 16!/3!$ (xếp 13 hs vào 16 ghế)
+                            </p>
+                            <p>Số cách hợp lệ: $4480 \times 8! \times 3! \times 2!$</p>
+                            <p>$p = \dfrac{4480 \times 8! \times 6 \times 2}{16!/3!} = \dfrac{4}{6435}$</p>
+                        </div>
+                        <div class="ans-box">$10^6 p = 10^6 \times \dfrac{4}{6435} \approx 621.6 \approx \mathbf{622}$
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ========== TAB 4: CÂU 22 ========== -->
+    <div id="tab-cau22" class="tab-panel">
+        <div class="main">
+
+            <div class="sec-h1">⭐ Câu 22 [TDM42] — Bài 3 Cột, Tính Xác Suất</div>
+
+            <div class="box box-pink">
+                <div class="box-title" style="color:var(--pink)">📋 Đề bài</div>
+                <p>Có 24 chiếc bàn học được chia thành <b>3 dãy 8 hàng</b>, mỗi hàng có <b>ba chiếc bàn</b> như hình vẽ.
+                    Thầy chủ nhiệm xếp ngẫu nhiên 24 em học sinh của lớp vào 24 chiếc bàn này sao cho mỗi em ngồi một
+                    bàn.</p>
+                <p style="margin-top:.5rem">Biết rằng lớp có <b>5 học sinh xuất sắc (E)</b>, <b>3 học sinh giỏi (G)</b>,
+                    <b>2 học sinh khá (K)</b> và còn lại là <b>trung bình (T)</b>. Gọi $p$ là xác suất để xếp được mỗi
+                    hàng <b>không có nhiều hơn một học sinh cùng xuất sắc hoặc cùng giỏi hoặc cùng khá</b>.</p>
+                <p style="margin-top:.5rem; font-weight:700; color:var(--pink)">Hãy tính $10000p$ (làm tròn kết quả đến
+                    hàng đơn vị)?</p>
+            </div>
+
+            <!-- Visual grid -->
+            <div class="sec-h2" style="margin-top:1.5rem">🖼️ Minh hoạ — 8 hàng × 3 cột = 24 bàn</div>
+            <div style="overflow-x:auto; margin: .8rem 0">
+                <canvas id="grid-canvas" width="300" height="400"
+                    style="border:1px solid #e0d0f0; border-radius:8px; background:#fafafa"></canvas>
+            </div>
+
+            <div class="sec-h2">💡 Tư Duy Giải — Phân Phối Theo Hàng</div>
+
+            <div class="box box-teal">
+                <div class="box-title" style="color:var(--teal)">⚙️ Điều kiện bài toán</div>
+                <ul style="padding-left:1.5rem; line-height:2">
+                    <li>Mỗi hàng (3 bàn) chứa <b>≤ 1 học sinh xuất sắc (E)</b></li>
+                    <li>Mỗi hàng chứa <b>≤ 1 học sinh giỏi (G)</b></li>
+                    <li>Mỗi hàng chứa <b>≤ 1 học sinh khá (K)</b></li>
+                </ul>
+                <p style="margin-top:.5rem">Đây là bài <b>phân phối 5E + 3G + 2K vào 8 hàng</b> với ràng buộc "mỗi loại
+                    ≤ 1 mỗi hàng".</p>
+            </div>
+
+            <div class="box box-blue" style="margin-top:.8rem">
+                <div class="box-title" style="color:var(--blue)">🔢 Bước 1 — Đếm cách chọn vị trí cho E, G, K</div>
+                <p><b>Chọn vị trí cho 5E:</b></p>
+                <ul style="padding-left:1.5rem; line-height:1.8">
+                    <li>Chọn 5 hàng (trong 8) có E: $C(8,5) = 56$ cách</li>
+                    <li>Trong mỗi hàng được chọn, chọn 1 trong 3 bàn: $3^5 = 243$ cách</li>
+                </ul>
+                <p style="margin-top:.5rem"><b>Chọn vị trí cho 3G:</b> (mỗi hàng có thể có cả E lẫn G, miễn ≤ 1 mỗi
+                    loại)</p>
+                <p>Sau khi E chiếm 5 hàng (mỗi hàng 1 bàn), 5 hàng đó còn 2 bàn trống, 3 hàng còn 3 bàn.</p>
+                <p>Với độ chồng lấp $k = |E\text{-rows} \cap G\text{-rows}|$ ($k = 0,1,2,3$):</p>
+                <div class="formula">$\text{Số cách chọn G} = \sum_{k=0}^{3} C_5^k \cdot C_3^{3-k} \cdot 2^k \cdot
+                    3^{3-k} = 27 + 270 + 360 + 80 = \mathbf{737}$</div>
+                <p style="margin-top:.5rem"><b>Chọn vị trí cho 2K:</b> (tương tự, độ chồng lấp với E∩G)</p>
+                <p>Với $k$ cố định, số cách chọn 2K = $\frac{1}{2}\left[({\sum s_i})^2 - \sum s_i^2\right] = 112 - k$
+                </p>
+            </div>
+
+            <div class="box box-violet" style="margin-top:.8rem">
+                <div class="box-title" style="color:var(--violet)">📊 Bước 2 — Tính tổng hợp lệ</div>
+                <p>Tổng số bộ ba (E-seats, G-seats, K-seats) hợp lệ:</p>
+                <div style="overflow-x:auto">
+                    <table style="width:100%; border-collapse:collapse; font-size:.87rem; margin:.5rem 0">
+                        <tr style="background:#EDE7F6; text-align:center">
+                            <th style="padding:7px; border:1px solid #CE93D8">$k$</th>
+                            <th style="padding:7px; border:1px solid #CE93D8">G-seat factor: $C_5^k C_3^{3-k} 2^k
+                                3^{3-k}$</th>
+                            <th style="padding:7px; border:1px solid #CE93D8">K-seats: $112-k$</th>
+                            <th style="padding:7px; border:1px solid #CE93D8">Tích</th>
+                        </tr>
+                        <tr style="text-align:center">
+                            <td style="padding:7px; border:1px solid #e0d0f0">0</td>
+                            <td style="padding:7px; border:1px solid #e0d0f0">$1\cdot1\cdot1\cdot27=27$</td>
+                            <td style="padding:7px; border:1px solid #e0d0f0">112</td>
+                            <td style="padding:7px; border:1px solid #e0d0f0">3024</td>
+                        </tr>
+                        <tr style="background:#fdf8ff; text-align:center">
+                            <td style="padding:7px; border:1px solid #e0d0f0">1</td>
+                            <td style="padding:7px; border:1px solid #e0d0f0">$5\cdot3\cdot2\cdot9=270$</td>
+                            <td style="padding:7px; border:1px solid #e0d0f0">111</td>
+                            <td style="padding:7px; border:1px solid #e0d0f0">29970</td>
+                        </tr>
+                        <tr style="text-align:center">
+                            <td style="padding:7px; border:1px solid #e0d0f0">2</td>
+                            <td style="padding:7px; border:1px solid #e0d0f0">$10\cdot3\cdot4\cdot3=360$</td>
+                            <td style="padding:7px; border:1px solid #e0d0f0">110</td>
+                            <td style="padding:7px; border:1px solid #e0d0f0">39600</td>
+                        </tr>
+                        <tr style="background:#fdf8ff; text-align:center">
+                            <td style="padding:7px; border:1px solid #e0d0f0">3</td>
+                            <td style="padding:7px; border:1px solid #e0d0f0">$10\cdot1\cdot8\cdot1=80$</td>
+                            <td style="padding:7px; border:1px solid #e0d0f0">109</td>
+                            <td style="padding:7px; border:1px solid #e0d0f0">8720</td>
+                        </tr>
+                        <tr style="background:#E8F5E9; font-weight:700; text-align:center">
+                            <td colspan="3" style="padding:7px; border:1px solid #e0d0f0; text-align:right">Tổng:
+                                $\Sigma$</td>
+                            <td style="padding:7px; border:1px solid #e0d0f0">81314</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="formula">$N_{\text{chọn vị trí}} = C_8^5 \times 3^5 \times 81314 = 56 \times 243 \times
+                    81314 = \mathbf{1\,106\,520\,912}$</div>
+            </div>
+
+            <div class="box box-green" style="margin-top:.8rem">
+                <div class="box-title" style="color:var(--green)">🧮 Bước 3 — Tính xác suất</div>
+                <p>Số cách hợp lệ (đã phân biệt học sinh):</p>
+                <div class="formula">$N_{\text{HV}} = 1\,106\,520\,912 \times \underbrace{5!}_{\text{E}} \times
+                    \underbrace{3!}_{\text{G}} \times \underbrace{2!}_{\text{K}} \times 14!$</div>
+                <p style="margin-top:.5rem">Tổng số cách xếp: $24!$</p>
+                <div class="formula">$p = \frac{N_{\text{HV}}}{24!} = \frac{1\,106\,520\,912 \times 1440 \times
+                    14!}{24!} = \frac{1\,593\,390\,113\,280}{7\,117\,005\,772\,800}$</div>
+                <p style="margin-top:.5rem">vì $24!/14! = 15\times16\times\cdots\times24 = 7\,117\,005\,772\,800$</p>
+                <div class="formula">$p \approx 0.22389$</div>
+            </div>
+
+            <div class="ans-box" style="font-size:1.15rem; text-align:center; padding:1.2rem">
+                $10000p \approx 2238.9 \approx \boxed{\mathbf{2239}}$
+            </div>
+
+            <div class="box box-amber" style="margin-top:1rem">
+                <div class="box-title" style="color:var(--amber)">📌 Tóm tắt tư duy</div>
+                <p>Đây là bài <b>xác suất phân phối 2D</b>, không phải xếp hàng ngang. Tư duy chính:</p>
+                <ol style="padding-left:1.5rem; line-height:1.9">
+                    <li>Xét riêng từng loại đặc biệt (E, G, K) — mỗi loại ≤ 1/hàng</li>
+                    <li>Dùng tích chập khi tính số cách chọn vị trí cho từng loại (có phụ thuộc qua độ chồng lấp $k$)
+                    </li>
+                    <li>Cuối cùng nhân hoán vị từng nhóm và chia tổng không gian mẫu</li>
+                </ol>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ========== TAB 5: QUIZ ========== -->
+    <div id="tab-quiz" class="tab-panel">
+        <div class="main">
+
+            <div class="sec-h1">🎯 Quiz Nhanh — Kiểm Tra Phản Xạ PIE</div>
+
+            <div class="quiz-q" id="q1">
+                <div class="q-text">1. Lớp A có 4 học sinh. Trong bảng PIE, chỉ số $i$ chạy từ 0 đến bao nhiêu?</div>
+                <div class="quiz-opts">
+                    <label><input type="radio" name="q1" value="a"> 4</label>
+                    <label><input type="radio" name="q1" value="b"> 3</label>
+                    <label><input type="radio" name="q1" value="c"> 2</label>
+                    <label><input type="radio" name="q1" value="d"> 1</label>
+                </div>
+                <button class="check-btn"
+                    onclick="checkQ('q1','b','Đúng! $n_A=4$ nên có $n_A-1=3$ khe dính nội bộ, i từ 0 đến 3.','Sai. Số khe dính nội bộ của lớp A là $n_A - 1 = 3$, nên i = 0,1,2,3.')">Kiểm
+                    tra</button>
+                <div class="quiz-result" id="q1-result"></div>
+            </div>
+
+            <div class="quiz-q" id="q2">
+                <div class="q-text">2. Bài có 2A + 2B + 1C. Số dòng trong bảng PIE là bao nhiêu?</div>
+                <div class="quiz-opts">
+                    <label><input type="radio" name="q2" value="a"> 6</label>
+                    <label><input type="radio" name="q2" value="b"> 4</label>
+                    <label><input type="radio" name="q2" value="c"> 8</label>
+                    <label><input type="radio" name="q2" value="d"> 3</label>
+                </div>
+                <button class="check-btn"
+                    onclick="checkQ('q2','b','Đúng! A: i=0,1; B: j=0,1; C chỉ có 1 người nên không ghép được → 2×2=4 dòng.','Sai. A có 2 người → 1 khe dính → i=0,1 (2 giá trị). B tương tự → j=0,1 (2 giá trị). C chỉ 1 người → không ghép. Tổng: 2×2=4 dòng.')">Kiểm
+                    tra</button>
+                <div class="quiz-result" id="q2-result"></div>
+            </div>
+
+            <div class="quiz-q" id="q3">
+                <div class="q-text">3. Dòng $(i,j,k) = (2,1,0)$ có $i+j+k = 3$ (lẻ). Dòng này mang dấu gì?</div>
+                <div class="quiz-opts">
+                    <label><input type="radio" name="q3" value="a"> Dấu +</label>
+                    <label><input type="radio" name="q3" value="b"> Dấu −</label>
+                    <label><input type="radio" name="q3" value="c"> Không có dấu</label>
+                </div>
+                <button class="check-btn"
+                    onclick="checkQ('q3','b','Đúng! Tổng số cặp ghép = 3 (lẻ) → dấu trừ.','Sai. Quy tắc: $(-1)^{i+j+k}$. Ở đây $2+1+0=3$ lẻ → dấu âm (−).')">Kiểm
+                    tra</button>
+                <div class="quiz-result" id="q3-result"></div>
+            </div>
+
+            <div class="quiz-q" id="q4">
+                <div class="q-text">4. Bài 3A + 2B + 4E (ghế trống). Số dòng trong bảng PIE là?</div>
+                <div class="quiz-opts">
+                    <label><input type="radio" name="q4" value="a"> 12</label>
+                    <label><input type="radio" name="q4" value="b"> 6</label>
+                    <label><input type="radio" name="q4" value="c"> 8</label>
+                    <label><input type="radio" name="q4" value="d"> 3</label>
+                </div>
+                <button class="check-btn"
+                    onclick="checkQ('q4','b','Đúng! A: i=0,1,2 (3 giá trị); B: j=0,1 (2 giá trị); E không ghép → 3×2=6 dòng.','Sai. Ghế trống E không tham gia ghép cặp. Chỉ A (i=0,1,2) và B (j=0,1) → 3×2=6 dòng.')">Kiểm
+                    tra</button>
+                <div class="quiz-result" id="q4-result"></div>
+            </div>
+
+            <div class="quiz-q" id="q5">
+                <div class="q-text">5. Sau khi tính được tổng cấu trúc đồng nhất $S$, kết quả cuối cùng $N$ bằng?</div>
+                <div class="quiz-opts">
+                    <label><input type="radio" name="q5" value="a"> $N = S$</label>
+                    <label><input type="radio" name="q5" value="b"> $N = S \times n_A! \times n_B! \times n_C!$</label>
+                    <label><input type="radio" name="q5" value="c"> $N = S \times n_A! \times n_B! \times n_C! \times
+                        n_E!$</label>
+                    <label><input type="radio" name="q5" value="d"> $N = S \times n!$ (tổng)</label>
+                </div>
+                <button class="check-btn"
+                    onclick="checkQ('q5','b','Đúng! Nhân hoán vị từng lớp học sinh phân biệt, nhưng KHÔNG nhân $n_E!$ vì ghế trống giống nhau.','Sai. Nhân $n_A! \times n_B! \times n_C!$ cho các học sinh phân biệt, nhưng KHÔNG nhân $n_E!$ vì các ghế trống là giống nhau.')">Kiểm
+                    tra</button>
+                <div class="quiz-result" id="q5-result"></div>
+            </div>
+
+            <div style="margin-top:1.5rem; text-align:center">
+                <button onclick="resetQuiz()"
+                    style="background:var(--purple); color:white; border:none; padding:10px 28px; border-radius:25px; font-size:.95rem; font-weight:700; cursor:pointer">🔄
+                    Làm lại Quiz</button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // ─── Tab switching ───
+        function switchTab(id) {
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('tab-' + id).classList.add('active');
+            event.target.classList.add('active');
+            if (window.MathJax) MathJax.typesetPromise();
+        }
+
+        // ─── Solution toggle ───
+        function toggleSol(btn) {
+            const body = btn.nextElementSibling;
+            const show = body.style.display !== 'block';
+            body.style.display = show ? 'block' : 'none';
+            btn.textContent = show ? '▼ Ẩn lời giải' : '▶ Hiện lời giải';
+            if (show && window.MathJax) MathJax.typesetPromise([body]);
+        }
+
+        // ─── Quiz ───
+        function checkQ(qid, correct, okMsg, failMsg) {
+            const sel = document.querySelector(`input[name="${qid}"]:checked`);
+            const res = document.getElementById(qid + '-result');
+            if (!sel) { res.textContent = 'Hãy chọn một đáp án!'; res.className = 'quiz-result'; return; }
+            const labels = document.querySelectorAll(`#${qid} .quiz-opts label`);
+            labels.forEach(l => { l.classList.remove('correct', 'wrong'); });
+            if (sel.value === correct) {
+                sel.parentElement.classList.add('correct');
+                res.innerHTML = '✅ ' + okMsg;
+                res.className = 'quiz-result result-ok';
+            } else {
+                sel.parentElement.classList.add('wrong');
+                labels.forEach(l => { if (l.querySelector('input').value === correct) l.classList.add('correct'); });
+                res.innerHTML = '❌ ' + failMsg;
+                res.className = 'quiz-result result-no';
+            }
+            if (window.MathJax) MathJax.typesetPromise([res]);
+        }
+
+        function resetQuiz() {
+            ['q1', 'q2', 'q3', 'q4', 'q5'].forEach(q => {
+                document.querySelectorAll(`input[name="${q}"]`).forEach(i => i.checked = false);
+                document.querySelectorAll(`#${q} label`).forEach(l => l.classList.remove('correct', 'wrong'));
+                document.getElementById(q + '-result').textContent = '';
+                document.getElementById(q + '-result').className = 'quiz-result';
+            });
+        }
+
+        // ─── Canvas: seat grid ───
+        function drawGrid() {
+            const canvas = document.getElementById('grid-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const W = 300, H = 400;
+            ctx.clearRect(0, 0, W, H);
+
+            // Labels
+            ctx.font = '700 13px Arial'; ctx.fillStyle = '#444'; ctx.textAlign = 'center';
+            ctx.fillText('Dãy 1', 75, 22); ctx.fillText('Dãy 2', 150, 22); ctx.fillText('Dãy 3', 225, 22);
+
+            const colors = {
+                E: { bg: '#BBDEFB', brd: '#1565C0', txt: '#1565C0' },
+                G: { bg: '#F8BBD9', brd: '#880E4F', txt: '#880E4F' },
+                K: { bg: '#C8E6C9', brd: '#2E7D32', txt: '#2E7D32' },
+                T: { bg: '#F5F5F5', brd: '#9E9E9E', txt: '#616161' }
+            };
+
+            // Representative layout: 5E spread, 3G spread, 2K spread, 14T
+            const layout = [
+                ['E', 'G', 'T'], ['E', 'T', 'K'], ['G', 'T', 'T'], ['E', 'T', 'T'],
+                ['T', 'G', 'K'], ['E', 'T', 'T'], ['T', 'T', 'T'], ['E', 'G', 'T']
+            ];
+
+            for (let r = 0; r < 8; r++) {
+                // Row label
+                ctx.font = '11px Arial'; ctx.fillStyle = '#888'; ctx.textAlign = 'right';
+                ctx.fillText('Hàng ' + (r + 1), 38, 45 + r * 42);
+                for (let c = 0; c < 3; c++) {
+                    const type = layout[r][c];
+                    const x = 52 + c * 75, y = 30 + r * 42;
+                    const col = colors[type];
+                    // Shadow
+                    ctx.fillStyle = 'rgba(0,0,0,.08)'; ctx.fillRect(x + 2, y + 2, 42, 30);
+                    // Seat
+                    ctx.fillStyle = col.bg; ctx.strokeStyle = col.brd; ctx.lineWidth = 2;
+                    roundRect(ctx, x, y, 42, 30, 5);
+                    // Text
+                    ctx.font = '700 11px Arial'; ctx.fillStyle = col.txt; ctx.textAlign = 'center';
+                    ctx.fillText(type, x + 21, y + 20);
+                }
+                // Row bracket
+                ctx.strokeStyle = '#ddd'; ctx.lineWidth = 1;
+                ctx.setLineDash([3, 3]);
+                ctx.beginPath(); ctx.moveTo(44, 30 + r * 42 + 15); ctx.lineTo(44, 30 + r * 42 + 15); ctx.stroke();
+                ctx.setLineDash([]);
+            }
+
+            // Legend
+            const lg = [['E', 'Xuất sắc', colors.E], ['G', 'Giỏi', colors.G], ['K', 'Khá', colors.K], ['T', 'T.Bình', colors.T]];
+            lg.forEach(([lbl, name, col], i) => {
+                const x = 15 + i * 68, y = 376;
+                ctx.fillStyle = col.bg; ctx.strokeStyle = col.brd; ctx.lineWidth = 1.5;
+                roundRect(ctx, x, y, 60, 18, 4);
+                ctx.font = '700 10px Arial'; ctx.fillStyle = col.txt; ctx.textAlign = 'center';
+                ctx.fillText(lbl + ': ' + name, x + 30, y + 13);
+            });
+        }
+
+        function roundRect(ctx, x, y, w, h, r) {
+            ctx.beginPath();
+            ctx.moveTo(x + r, y); ctx.lineTo(x + w - r, y);
+            ctx.arcTo(x + w, y, x + w, y + r, r);
+            ctx.lineTo(x + w, y + h - r);
+            ctx.arcTo(x + w, y + h, x + w - r, y + h, r);
+            ctx.lineTo(x + r, y + h);
+            ctx.arcTo(x, y + h, x, y + h - r, r);
+            ctx.lineTo(x, y + r);
+            ctx.arcTo(x, y, x + r, y, r);
+            ctx.closePath();
+            ctx.fill(); ctx.stroke();
+        }
+
+        window.addEventListener('load', () => { drawGrid(); if (window.MathJax) MathJax.typesetPromise(); });
+    </script>
+</body>
+
+</html>

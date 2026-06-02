@@ -7,7 +7,7 @@ import tailwindcss from '@tailwindcss/vite'
 
 import fs from 'node:fs'
 import path from 'node:path'
-import { execSync } from 'node:child_process'
+import { execFileSync, execSync } from 'node:child_process'
 import { getMockMacros, injectLayouts } from './scripts/docx_backend.js'
 
 const appMode = process.env.VITE_APP_MODE === 'private' ? 'private' : 'public'
@@ -125,7 +125,7 @@ ${allBlocks.join('\n#pagebreak()\n')}
             fs.mkdirSync(outDir);
             const outputPattern = path.join(outDir, 'fig-{p}.png');
             try {
-              execSync(`typst compile "${tempTypstFile}" "${outputPattern}" --root . --font-path src/assets/fonts --font-path fonts`, { encoding: 'utf-8' });
+              execSync(`typst compile "${tempTypstFile}" "${outputPattern}" --root . --font-path src/assets/fonts --font-path fonts --ppi 450`, { encoding: 'utf-8' });
             } catch (typstError) {
               throw new Error(`Typst compile error: ${typstError.stderr || typstError.stdout || typstError.message}`);
             }
@@ -156,11 +156,20 @@ ${allBlocks.join('\n#pagebreak()\n')}
             throw new Error('Không có nội dung file.');
           }
           let text = data.content;
+          const examTitle = data.examTitle || '';
+          const schoolName = data.schoolName || '';
+          const examCode = data.examCode || '';
+          const examSubject = data.examSubject || '';
+          const addFooter = data.addFooter || false;
           
-          function extractBlocksForDocx(content, keyword) {
+          function extractBlocksForDocx(content, keyword, options = {}) {
             const extracted = [];
             let sIdx = 0;
             while ((sIdx = content.indexOf(keyword, sIdx)) !== -1) {
+              if (options.skipDotPrefix && sIdx > 0 && content[sIdx - 1] === '.') {
+                sIdx += keyword.length;
+                continue;
+              }
               let blockStart = sIdx;
               let hasHash = false;
               if (sIdx > 0 && content[sIdx - 1] === '#') {
@@ -217,8 +226,9 @@ ${allBlocks.join('\n#pagebreak()\n')}
           }
 
           const cetzBlocks = extractBlocksForDocx(text, 'cetz.canvas');
+          const canvasBlocks = extractBlocksForDocx(text, 'canvas', { skipDotPrefix: true });
           const bbtBlocks = extractBlocksForDocx(text, 'bbt');
-          const allBlocks = [...cetzBlocks, ...bbtBlocks];
+          const allBlocks = [...cetzBlocks, ...canvasBlocks, ...bbtBlocks];
 
           let strippedContent = text.split('\n')
             .filter(line => !line.trim().startsWith('#import'))
@@ -227,6 +237,23 @@ ${allBlocks.join('\n#pagebreak()\n')}
             .join('\n');
           strippedContent = strippedContent.replace(/#show:\s*thpt-school-exam\.with\([\s\S]*?\n\)/g, '');
           strippedContent = strippedContent.replace(/#let\s+\(tn,\s*ds,\s*tln,\s*tl\)\s*=\s*exam-mode\([\s\S]*?\)/g, '');
+
+          // Prepend header block if metadata provided
+          if (examTitle || schoolName) {
+            let headerBlock = '#align(center)[\n';
+            if (schoolName) headerBlock += `  #text(size: 11pt)[${schoolName}]\\ \n`;
+            headerBlock += `  #text(size: 14pt, weight: "bold")[${examTitle || 'ĐỀ KIỂM TRA'}]\\ \n`;
+            if (examSubject || examCode) {
+              let subjectLine = '  #text(size: 11pt)[';
+              if (examSubject) subjectLine += `Môn: ${examSubject}`;
+              if (examSubject && examCode) subjectLine += '    —    ';
+              if (examCode) subjectLine += `Mã đề: *${examCode}*`;
+              subjectLine += ']\n';
+              headerBlock += subjectLine;
+            }
+            headerBlock += ']\n\n';
+            strippedContent = headerBlock + strippedContent;
+          }
 
           // Delay layout injection until after images are replaced
 
@@ -246,6 +273,18 @@ ${allBlocks.join('\n#pagebreak()\n')}
               else if (line.includes('math-sym.typ')) finalLine = '#import "/typst/math-sym.typ": *';
               imports += finalLine + '\n';
             });
+            // Include #let definitions from preamble so figures can reference variables
+            const firstQIdx = text.search(/^#(?:tn|ds|tln|tl|exam-part)\s*\(/m);
+            const preamble = firstQIdx > 0 ? text.substring(0, firstQIdx) : '';
+            const letLines = preamble.split('\n').filter(line => {
+              const t = line.trim();
+              return t.startsWith('#let ') &&
+                !t.startsWith('#let accent') &&
+                !t.startsWith('#let mode') &&
+                !t.match(/^#let\s+\(tn/);
+            });
+            if (letLines.length > 0) imports += letLines.join('\n') + '\n';
+
             const tempContent = `${imports}
 #set page(width: auto, height: auto, margin: 10pt)
 #show math.equation: set text(fill: black)
@@ -256,11 +295,11 @@ ${allBlocks.map(b => (b.hasHash ? b.text : '#' + b.text)).join('\n#pagebreak()\n
             fs.writeFileSync(tempTypstFile, tempContent);
             const outputPattern = path.join(outDir, 'fig-{p}.png');
             try {
-              execSync(`typst compile "${tempTypstFile}" "${outputPattern}" --root . --font-path src/assets/fonts --font-path fonts`, { encoding: 'utf-8' });
+              execSync(`typst compile "${tempTypstFile}" "${outputPattern}" --root . --font-path src/assets/fonts --font-path fonts --ppi 450`, { encoding: 'utf-8' });
             } catch (typstError) {}
             allBlocks.forEach((block, index) => {
               const figName = `figs/fig-${index + 1}.png`;
-              const replaceWith = block.hasHash ? `#image("${figName}")` : `image("${figName}")`;
+              const replaceWith = block.hasHash ? `#image("${figName}", width: 42%)` : `image("${figName}", width: 42%)`;
               if (strippedContent.indexOf(block.text) === -1) {
                 console.log("NOT FOUND BLOCK:", index, block.text.substring(0, 100).replace(/\n/g, '\\n'));
               }
@@ -290,6 +329,23 @@ ${allBlocks.map(b => (b.hasHash ? b.text : '#' + b.text)).join('\n#pagebreak()\n
               execSync(`pandoc pandoc_${mode}.typ -o "${fileNames[mode]}" --reference-doc="${referenceDoc}" --lua-filter="${luaFilter}"`, { cwd: tempDir, encoding: 'utf-8' });
             } catch (pandocError) {
               throw new Error(`Pandoc error on ${mode}: ${pandocError.stderr || pandocError.message}`);
+            }
+          }
+
+          const postProcessScript = path.join(process.cwd(), 'scripts', 'docx_postprocess.py');
+          for (const mode of ['hocsinh', 'loigiai', 'dapan']) {
+            const docxPath = path.join(tempDir, fileNames[mode]);
+            try {
+              const scriptArgs = [postProcessScript, docxPath];
+              if (examCode) {
+                scriptArgs.push('--exam-code', examCode);
+              }
+              if (addFooter) {
+                scriptArgs.push('--add-footer');
+              }
+              execFileSync('python3', scriptArgs, { encoding: 'utf-8', timeout: 15000 });
+            } catch (pyErr) {
+              console.warn(`DOCX post-process skipped for ${mode}: ${pyErr.message}`);
             }
           }
 

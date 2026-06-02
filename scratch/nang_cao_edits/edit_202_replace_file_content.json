@@ -1,0 +1,9 @@
+{
+  "line_num": 202,
+  "tool": "replace_file_content",
+  "StartLine": null,
+  "EndLine": "895",
+  "TargetContent": null,
+  "ReplacementContent": "\"= Chương 2 — Không Quá _k_ Học Sinh Cùng Lớp Liên Tiếp\\n\\nĐây là dạng bài *tổng quát hóa trực tiếp* của bài toán \\\"không ai cùng lớp ngồi kề nhau\\\" (tương ứng với trường hợp $k=1$). Thay vì cấm hoàn toàn, đề bài cho phép các bạn cùng lớp ngồi liền nhau, miễn là không vượt quá $k$ người. \\n\\nCông cụ chính để giải dạng này là **Phương pháp phân tích đợt** (Run-length decomposition) kết hợp với công thức **Sao và Thanh chắn** (Stars & Bars).\\n\\n== 2.1 — Khái Niệm \\\"Đợt\\\" (Run)\\n\\n#rev-box(title: \\\"📖 Định Nghĩa Đợt (Nhóm chạy liên tiếp)\\\")[\\n  Trong một hàng ghế, một **đợt** của lớp A là một đoạn gồm các học sinh lớp A ngồi kề nhau liên tiếp, sao cho đoạn đó **dài nhất có thể** (tức là hai đầu của đoạn đó phải là học sinh lớp khác hoặc là đầu hàng).\\n\\n  *Ví dụ trực quan:* Xếp dãy 8 người có cấu trúc: `A B B A A A B A`\\n  Ta thấy lớp A chia thành 3 đợt tách biệt:\\n  - Đợt 1: `A` (độ dài 1).\\n  - Đợt 2: `A A A` (độ dài 3).\\n  - Đợt 3: `A` (độ dài 1).\\n  \\n  (Còn lớp B có 2 đợt: `B B` dài 2 và `B` dài 1).\\n\\n  *Ý nghĩa:* Ràng buộc \\\"không quá $k$ học sinh A liên tiếp\\\" thực chất có nghĩa là **mỗi đợt của lớp A chỉ được có độ dài từ $1$ đến $k$**.\\n]\\n\\n== 2.2 — Phương Pháp Giải Quyết Hệ Thống\\n\\nĐể giải quyết bài toán xếp $n_A$ học sinh A và $n_B$ học sinh B sao cho lớp A không quá $k$ bạn liên tiếp (chưa xét ràng buộc của B):\\n\\n#method-box[\\n  **Quy trình 5 bước tư duy:**\\n\\n  1. **Bước 1 — Xác định số đợt $r$ của lớp A:**\\n     Gọi $r$ là số đợt của A. Vì mỗi đợt chứa tối đa $k$ học sinh nên số đợt $r$ tối thiểu phải là $\\\\lceil n_A / k \\\\rceil$. Số đợt tối đa là $n_A$ (mỗi đợt đúng 1 học\n<truncated 12171 bytes>",
+  "ReplacementChunks": null
+}

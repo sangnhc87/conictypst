@@ -1,0 +1,1 @@
+"    - *Nếu $n_E >= 2$ và số học sinh mỗi nhóm nhỏ ($leq 3$):* Hãy chọn ngay *Bù trừ Cặp kề trùng*. Lập bảng tính tay 18 dòng trong nháp, nhân chia phân số giản đơn, độ chính xác gần như 100% mà không sợ sót trường hợp hình học.\n]"

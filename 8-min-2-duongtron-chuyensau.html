@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8. Cực Trị KĐ Hai Đường Tròn Trong 3D — Chuyên Sâu</title>
+    <script>MathJax = { tex: { inlineMath: [['$', '$']], displayMath: [['$$', '$$']] }, startup: { typeset: false } };</script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <style>
+        :root {
+            --navy: #1A5276;
+            --crimson: #900C3F;
+            --teal: #0E6655;
+            --orange: #E67E22;
+            --green: #1E8449;
+            --bg: #F4F9F9;
+            --card: #fff;
+            --gold: #B7950B;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: #222;
+            font-size: 15px;
+        }
+
+        header {
+            background: var(--navy);
+            color: #fff;
+            padding: 18px 24px;
+        }
+
+        header h1 {
+            font-size: 1.35rem;
+            margin-bottom: 4px;
+        }
+
+        header p {
+            opacity: .8;
+            font-size: .9rem;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            padding: 12px 16px 0;
+            background: #eef3f7;
+            border-bottom: 2px solid var(--navy);
+        }
+
+        .tab-btn {
+            padding: 8px 16px;
+            border: none;
+            background: #ccd8e8;
+            border-radius: 6px 6px 0 0;
+            cursor: pointer;
+            font-size: .88rem;
+            font-weight: 600;
+            color: #444;
+            transition: .2s;
+        }
+
+        .tab-btn.active {
+            background: var(--navy);
+            color: #fff;
+        }
+
+        .tab-panel {
+            display: none;
+            padding: 20px;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        .card {
+            background: var(--card);
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .08);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            background: var(--navy);
+            color: #fff;
+            padding: 10px 16px;
+            font-weight: 700;
+            font-size: .95rem;
+        }
+
+        .card-header.crim {
+            background: var(--crimson);
+        }
+
+        .card-header.teal {
+            background: var(--teal);
+        }
+
+        .card-header.gold {
+            background: var(--gold);
+        }
+
+        .card-body {
+            padding: 16px;
+        }
+
+        .prob-layout {
+            display: grid;
+            grid-template-columns: 1fr 230px;
+            gap: 16px;
+            align-items: start;
+        }
+
+        @media(max-width:640px) {
+            .prob-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .formula-box {
+            background: #eaf4fb;
+            border-left: 4px solid var(--navy);
+            padding: 12px 16px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-size: .97rem;
+        }
+
+        .formula-box.orange {
+            background: #fff3e0;
+            border-left-color: var(--orange);
+        }
+
+        .formula-box.green {
+            background: #eafaf1;
+            border-left-color: var(--green);
+        }
+
+        .warning-box {
+            background: #fff5f5;
+            border: 2px solid var(--crimson);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin: 10px 0;
+        }
+
+        .warning-box .wh {
+            color: var(--crimson);
+            font-weight: 700;
+            font-size: .9rem;
+            margin-bottom: 4px;
+        }
+
+        .note-box {
+            background: #fffbe6;
+            border-left: 4px solid var(--gold);
+            padding: 10px 14px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-size: .9rem;
+        }
+
+        .sol-toggle {
+            width: 100%;
+            text-align: left;
+            background: #f0f7ff;
+            border: 1px solid #bbd;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: .88rem;
+            margin-top: 10px;
+            color: var(--navy);
+        }
+
+        .sol-toggle:hover {
+            background: #daeeff;
+        }
+
+        .sol-body {
+            display: none;
+            padding: 12px;
+            background: #f9fbff;
+            border: 1px solid #dde;
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+            font-size: .88rem;
+            line-height: 1.65;
+        }
+
+        .sol-body.open {
+            display: block;
+        }
+
+        .sol-body ol {
+            padding-left: 20px;
+            margin-top: 6px;
+        }
+
+        .sol-body li {
+            margin-bottom: 6px;
+        }
+
+        .ans-box {
+            background: var(--navy);
+            color: #fff;
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 4px;
+            font-weight: 700;
+            margin-left: 6px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: .78rem;
+            font-weight: 700;
+            margin-right: 6px;
+        }
+
+        .badge.easy {
+            background: #d4efdf;
+            color: #1E8449;
+        }
+
+        .badge.med {
+            background: #fef9e7;
+            color: #B7950B;
+        }
+
+        .badge.hard {
+            background: #fdedec;
+            color: #900C3F;
+        }
+
+        .badge.trap {
+            background: var(--crimson);
+            color: #fff;
+        }
+
+        canvas {
+            border-radius: 6px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .cfg-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .cfg-card {
+            background: #fff;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+            font-size: .82rem;
+        }
+
+        .cfg-card canvas {
+            margin-bottom: 6px;
+        }
+
+        .cfg-title {
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 2px;
+            font-size: .85rem;
+        }
+
+        .cfg-formula {
+            color: var(--crimson);
+            font-size: .8rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: .88rem;
+        }
+
+        th {
+            background: var(--navy);
+            color: #fff;
+            padding: 8px;
+            text-align: center;
+        }
+
+        td {
+            padding: 7px 8px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        tr:nth-child(even) td {
+            background: #f5f8fc;
+        }
+
+        .step {
+            padding: 4px 0;
+        }
+
+        .step b {
+            color: var(--navy);
+        }
+
+        /* Quiz */
+        .quiz-q {
+            margin-bottom: 18px;
+        }
+
+        .quiz-q p {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .quiz-opt label {
+            display: block;
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 4px;
+            border: 1px solid #ddd;
+        }
+
+        .quiz-opt label:hover {
+            background: #eef3f7;
+        }
+
+        .quiz-opt label.correct {
+            background: #d4efdf;
+            border-color: var(--green);
+        }
+
+        .quiz-opt label.wrong {
+            background: #fdedec;
+            border-color: var(--crimson);
+        }
+
+        .quiz-btn {
+            background: var(--navy);
+            color: #fff;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: .9rem;
+            margin-top: 8px;
+        }
+
+        .quiz-result {
+            font-weight: 700;
+            margin-top: 10px;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Cực Trị Khoảng Cách Hai Đường Tròn Trong Không Gian</h1>
+        <p>Chuyên đề chuyên sâu — 12 bài toán từ cơ bản đến nâng cao</p>
+    </header>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab(0)">📐 Lý Thuyết</button>
+        <button class="tab-btn" onclick="switchTab(1)">① Đồng Phẳng</button>
+        <button class="tab-btn" onclick="switchTab(2)">② Song Song</button>
+        <button class="tab-btn" onclick="switchTab(3)">③ Vuông Góc</button>
+        <button class="tab-btn" onclick="switchTab(4)">④ Ứng Dụng</button>
+        <button class="tab-btn" onclick="switchTab(5)">✏️ Quiz</button>
+    </div>
+
+    <!-- ======================== TAB 1: LÝ THUYẾT ======================== -->
+    <div class="tab-panel active" id="tab0">
+        <div class="card">
+            <div class="card-header">CÔNG CỤ CỐT LÕI</div>
+            <div class="card-body">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                    <div>
+                        <div class="formula-box">
+                            <b>Công cụ 1 — Chiếu + Pytago:</b><br>
+                            Gọi $J_1'$ là hình chiếu của $J_2$ lên mặt phẳng chứa $(C_1)$, $h$ là khoảng cách hai mặt
+                            phẳng song song, $d_\text{ngang}$ là khoảng cách tối thiểu giữa hai hình chiếu.<br>
+                            $$MN = \sqrt{h^2 + d_\text{ngang}^2}$$
+                        </div>
+                        <div class="formula-box green">
+                            <b>Công cụ 2 — Vị trí tương đối hình chiếu:</b><br>
+                            Gọi $d' = J_1J_2'$ (khoảng cách tâm trong cùng mặt phẳng).<br>
+                            • <b>Rời nhau</b> ($d' > R_1+R_2$): $d_\text{ngang,min} = d'-R_1-R_2$<br>
+                            • <b>Cắt nhau</b> hoặc <b>tiếp xúc</b> ($|R_1-R_2| \le d' \le R_1+R_2$): $d_\text{ngang,min}
+                            = 0 \Rightarrow \min MN = h$<br>
+                            • <b>Lọt vào trong</b> ($d' < |R_1-R_2|$): $d_\text{ngang,min}=|R_1-R_2| - d'$ </div>
+                                <div class="formula-box orange">
+                                    <b>Công cụ 3 — Tham số hóa + Cauchy-Schwarz:</b><br>
+                                    Khi hai mặt phẳng vuông góc/nghiêng, tham số hóa điểm trên từng đường tròn rồi tối
+                                    ưu hóa $MJ_2^2$ hoặc $MN^2$.
+                                </div>
+                        </div>
+                        <div>
+                            <canvas id="cvTheory" width="260" height="220"></canvas>
+                            <div class="note-box" style="margin-top:8px;">
+                                <b>Cảnh báo BẪY:</b> Nếu hình chiếu CẮT NHAU hoặc TIẾP XÚC TRONG thì $d_\text{ngang,min}
+                                = 0$, không dùng công thức khoảng cách ngoài!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header teal">BẢNG TÓM TẮT 6 CẤU HÌNH</div>
+                <div class="card-body">
+                    <table>
+                        <tr>
+                            <th>Cấu hình</th>
+                            <th>Điều kiện</th>
+                            <th>Min MN</th>
+                            <th>Max MN</th>
+                        </tr>
+                        <tr>
+                            <td><b>Đồng phẳng đồng tâm</b></td>
+                            <td>$J_1=J_2$, z=const</td>
+                            <td>$|R_1-R_2|$</td>
+                            <td>$R_1+R_2$</td>
+                        </tr>
+                        <tr>
+                            <td><b>Đồng phẳng rời nhau</b></td>
+                            <td>$d>R_1+R_2$</td>
+                            <td>$d-R_1-R_2$</td>
+                            <td>$d+R_1+R_2$</td>
+                        </tr>
+                        <tr>
+                            <td><b>Song song đồng trục</b></td>
+                            <td>chiếu $J_2'=J_1$</td>
+                            <td>$\sqrt{h^2+(R_1-R_2)^2}$</td>
+                            <td>$\sqrt{h^2+(R_1+R_2)^2}$</td>
+                        </tr>
+                        <tr>
+                            <td><b>Song song lệch trục (ngoài)</b></td>
+                            <td>chiếu $d'>R_1+R_2$</td>
+                            <td>$\sqrt{h^2+(d'-R_1-R_2)^2}$</td>
+                            <td>$\sqrt{h^2+(d'+R_1+R_2)^2}$</td>
+                        </tr>
+                        <tr>
+                            <td><b>Song song chiếu cắt/tiếp</b> ⚠️</td>
+                            <td>$|R_1-R_2|\le d'\le R_1+R_2$</td>
+                            <td>$h$</td>
+                            <td>$\sqrt{h^2+(d'+R_1+R_2)^2}$</td>
+                        </tr>
+                        <tr>
+                            <td><b>Vuông góc / Nghiêng</b></td>
+                            <td>hai mặt phẳng không song song</td>
+                            <td colspan="2">Tham số hóa + đạo hàm/CS</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======================== TAB 2: ĐỒNG PHẲNG ======================== -->
+        <div class="tab-panel" id="tab1">
+            <!-- Bài 1.1 -->
+            <div class="card">
+                <div class="card-header"><span class="badge easy">Bài 1.1</span> Sân vận động điền kinh — Đồng tâm đồng
+                    phẳng</div>
+                <div class="card-body">
+                    <div class="prob-layout">
+                        <div>
+                            <p>Hai đường chạy là các đường tròn đồng tâm nằm trên mặt phẳng $z=0$: $(C_1): x^2+y^2=100$
+                                và $(C_2): x^2+y^2=36$. Điểm $M\in(C_1)$, $N\in(C_2)$. Tính $MN_\min$.</p>
+                            <div class="formula-box green">$J_1=J_2=O(0,0,0)$; $R_1=10$, $R_2=6$. Đồng tâm, cùng mặt
+                                phẳng.</div>
+                            <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải</button>
+                            <div class="sol-body">
+                                <ol>
+                                    <li>$M$ và $N$ nằm trên hai đường tròn đồng tâm cùng mặt phẳng.</li>
+                                    <li>$MN$ ngắn nhất khi $M$, $N$, $O$ thẳng hàng, $M$ và $N$ cùng phía.</li>
+                                    <li>$MN_\min = R_1 - R_2 = 10 - 6 = \mathbf{4}$.</li>
+                                </ol>
+                                <div style="margin-top:8px;">Đáp số: <span class="ans-box">$MN_\min = 4$</span></div>
+                            </div>
+                        </div>
+                        <canvas id="cv11" width="220" height="180"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bài 1.2 -->
+            <div class="card">
+                <div class="card-header"><span class="badge med">Bài 1.2</span> Thiết bị tưới nước — Đồng phẳng, rời
+                    nhau</div>
+                <div class="card-body">
+                    <div class="prob-layout">
+                        <div>
+                            <p>$(C_1)$: tâm $J_1(0,0,0)$, $R_1=4$; $(C_2)$: tâm $J_2(9,12,0)$, $R_2=6$. Cả hai nằm trên
+                                $z=0$. Tính $MN_\min$.</p>
+                            <div class="formula-box">$J_1J_2 = \sqrt{81+144} = 15 > R_1+R_2 = 10$. Hai hình tròn <b>rời
+                                    nhau</b>.</div>
+                            <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải</button>
+                            <div class="sol-body">
+                                <ol>
+                                    <li>$J_1J_2 = \sqrt{9^2+12^2} = 15$.</li>
+                                    <li>Hai đường tròn rời nhau nên min đạt khi $M$, $N$ nằm trên đoạn $J_1J_2$:
+                                        $$MN_\min = J_1J_2 - R_1 - R_2 = 15 - 4 - 6 = 5.$$</li>
+                                </ol>
+                                <div style="margin-top:8px;">Đáp số: <span class="ans-box">$MN_\min = 5$</span></div>
+                            </div>
+                        </div>
+                        <canvas id="cv12" width="220" height="180"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bài 1.3 -->
+            <div class="card">
+                <div class="card-header"><span class="badge med">Bài 1.3</span> Vòng trang trí — Đồng phẳng, cắt nhau
+                    (hỏi MAX)</div>
+                <div class="card-body">
+                    <div class="prob-layout">
+                        <div>
+                            <p>$(C_1)$: tâm $J_1(0,0,0)$, $R_1=5$; $(C_2)$: tâm $J_2(6,8,0)$, $R_2=7$. Cùng trên $z=0$.
+                                Tính $MN_\max$.</p>
+                            <div class="formula-box">$J_1J_2 = \sqrt{36+64} = 10$. $|R_1-R_2|=2 < 10 < 12=R_1+R_2$. Hai
+                                    đường tròn <b>cắt nhau</b>.</div>
+                            <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải</button>
+                            <div class="sol-body">
+                                <ol>
+                                    <li>$J_1J_2 = 10$; hai đường tròn cắt nhau.</li>
+                                    <li>$MN$ lớn nhất khi $M$, $N$ nằm trên đoạn nối hai tâm, ở hai phía: $$MN_\max =
+                                        J_1J_2 + R_1 + R_2 = 10 + 5 + 7 = 22.$$</li>
+                                </ol>
+                                <div style="margin-top:8px;">Đáp số: <span class="ans-box">$MN_\max = 22$</span></div>
+                            </div>
+                        </div>
+                        <canvas id="cv13" width="220" height="180"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======================== TAB 3: SONG SONG ======================== -->
+        <div class="tab-panel" id="tab2">
+            <!-- Bài 2.1 -->
+            <div class="card">
+                <div class="card-header"><span class="badge med">Bài 2.1</span> Đĩa cơ khí — Song song, đồng trục</div>
+                <div class="card-body">
+                    <div class="prob-layout">
+                        <div>
+                            <p>$(C_1)$: $J_1(0,0,0)$, $R_1=8$, $z=0$; $(C_2)$: $J_2(0,0,12)$, $R_2=3$, $z=12$. Tính
+                                $MN_\min$.</p>
+                            <div class="formula-box">$h=12$. Chiếu $J_2$ lên $z=0$: $J_2'=(0,0,0)=J_1$ → <b>đồng
+                                    trục</b>. $d_\text{ngang,min}=|R_1-R_2|=5$.</div>
+                            <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải</button>
+                            <div class="sol-body">
+                                <ol>
+                                    <li>Hai mặt phẳng cách nhau $h=12$.</li>
+                                    <li>$J_2$ chiếu thẳng xuống $J_1$ → đồng trục. Khoảng cách ngang nhỏ nhất:
+                                        $|R_1-R_2|=5$.</li>
+                                    <li>$$MN_\min = \sqrt{h^2 + (R_1-R_2)^2} = \sqrt{144+25} = \sqrt{169} = 13.$$</li>
+                                </ol>
+                                <div style="margin-top:8px;">Đáp số: <span class="ans-box">$MN_\min = 13$</span></div>
+                            </div>
+                        </div>
+                        <canvas id="cv21" width="220" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bài 2.2 -->
+            <div class="card">
+                <div class="card-header"><span class="badge med">Bài 2.2</span> Hai Flycam — Song song, lệch trục ngoài
+                </div>
+                <div class="card-body">
+                    <div class="prob-layout">
+                        <div>
+                            <p>$(C_1)$: $J_1(0,0,0)$, $R_1=6$, $z=0$; $(C_2)$: $J_2(12,9,9)$, $R_2=4$, $z=9$. Tính
+                                $MN_\min$.</p>
+                            <div class="formula-box">$h=9$. $J_2'=(12,9,0)$ → $J_1J_2' = \sqrt{144+81} = 15 >
+                                R_1+R_2=10$. Chiếu <b>rời nhau</b>. $d_\text{ngang,min}=15-10=5$.</div>
+                            <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải</button>
+                            <div class="sol-body">
+                                <ol>
+                                    <li>$h=9$, $J_2'=(12,9,0)$, $J_1J_2'=15 > 10$.</li>
+                                    <li>$d_\text{ngang,min} = 15 - 6 - 4 = 5$.</li>
+                                    <li>$$MN_\min = \sqrt{9^2+5^2} = \sqrt{81+25} = \sqrt{106}.$$</li>
+                                </ol>
+                                <div style="margin-top:8px;">Đáp số: <span class="ans-box">$MN_\min = \sqrt{106}$</span>
+                                </div>
+                            </div>
+                        </div>
+                        <canvas id="cv22" width="220" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bài 2.3 BẪY -->
+            <div class="card">
+                <div class="card-header crim"><span class="badge trap">BẪY</span> Bài 2.3 — Cảm biến cơ khí, chiếu tiếp
+                    xúc trong</div>
+                <div class="card-body">
+                    <div class="warning-box">
+                        <div class="wh">⚠️ BẪY THƯỜNG GẶP</div>
+                        Nếu $d_\text{ngang,min} = 0$ (chiếu cắt/tiếp xúc), ĐỪNG dùng $\sqrt{h^2+(d'-R_1-R_2)^2}$. Đáp án
+                        đúng là $MN_\min = h$.
+                    </div>
+                    <div class="prob-layout">
+                        <div>
+                            <p>$(C_1)$: $J_1(0,0,0)$, $R_1=5$, $z=0$; $(C_2)$: $J_2(3,0,8)$, $R_2=2$, $z=8$. Tính
+                                $MN_\min$.</p>
+                            <div class="formula-box">$J_2'=(3,0,0)$ → $J_1J_2'=3$. $R_1-R_2=3$. Chiếu <b>tiếp xúc
+                                    trong</b> → $d_\text{ngang,min}=0$.</div>
+                            <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải</button>
+                            <div class="sol-body">
+                                <ol>
+                                    <li>$h=8$, $J_2'=(3,0,0)$, $J_1J_2'=3$.</li>
+                                    <li>$R_1-R_2 = 5-2=3 = J_1J_2'$ → chiếu $(C_2)$ <b>tiếp xúc trong</b> $(C_1)$.</li>
+                                    <li>Tồn tại $M=N'=(3,0,0)$ nằm trên cả hai hình chiếu. Khoảng cách ngang nhỏ nhất =
+                                        0.</li>
+                                    <li>Khi đó $M=(3,0,0)$, $N=(3,0,8)$: $MN_\min = h = 8$.</li>
+                                </ol>
+                                <div class="note-box" style="margin-top:8px;">Sai lầm phổ biến: tính $d'=3$,
+                                    $R_1+R_2=7$, nhầm "rời nhau" rồi dùng $d'-R_1-R_2 < 0$. Phải kiểm tra
+                                        $|R_1-R_2|$!</div>
+                                        <div style="margin-top:8px;">Đáp số: <span class="ans-box">$MN_\min = 8$</span>
+                                        </div>
+                                </div>
+                            </div>
+                            <canvas id="cv23" width="220" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ======================== TAB 4: VUÔNG GÓC & NGHIÊNG ======================== -->
+            <div class="tab-panel" id="tab3">
+                <!-- Bài 3.1 -->
+                <div class="card">
+                    <div class="card-header teal"><span class="badge hard">Bài 3.1</span> Bệ đỡ + Vòng quay đứng — Vuông
+                        góc, đối xứng</div>
+                    <div class="card-body">
+                        <div class="prob-layout">
+                            <div>
+                                <p>$(C_1)$: $J_1(0,0,0)$, $R_1=3$, mặt phẳng $z=0$; $(C_2)$: $J_2(0,6,8)$, $R_2=4$, mặt
+                                    phẳng $x=0$. Tính $MN_\min$.</p>
+                                <div class="formula-box">$M=(3\cos t, 3\sin t, 0)\in(C_1)$. Tính $MJ_2^2 = 9 + (3\sin t
+                                    - 6)^2 + 64 = 109 - 12\cdot 3\sin t$. Max khi $\sin t = 1$.</div>
+                                <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải</button>
+                                <div class="sol-body">
+                                    <ol>
+                                        <li>$M=(3\cos t, 3\sin t, 0)$ trên $(C_1)$.</li>
+                                        <li>$MJ_2^2 = (3\cos t)^2 + (3\sin t-6)^2 + 8^2 = 9 + 9\sin^2 t - 36\sin t + 36
+                                            + 64 = 109 - 36\sin t$.<br>Min khi $\sin t=1$ (tức $y_M=3$): $MJ_2^2_\min =
+                                            73$.</li>
+                                        <li>Khi $M=(0,3,0)$: khoảng cách từ $M$ đến tâm $J_2$ nhỏ nhất là
+                                            $\sqrt{73}$.<br>$MN_\min = MJ_{2,\min} - R_2 = \sqrt{73} - 4$.</li>
+                                    </ol>
+                                    <div style="margin-top:8px;">Đáp số: <span class="ans-box">$MN_\min = \sqrt{73} -
+                                            4$</span></div>
+                                </div>
+                            </div>
+                            <canvas id="cv31" width="220" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bài 3.2 -->
+                <div class="card">
+                    <div class="card-header teal"><span class="badge hard">Bài 3.2</span> Vuông góc lệch trục —
+                        Cauchy-Schwarz</div>
+                    <div class="card-body">
+                        <div class="prob-layout">
+                            <div>
+                                <p>$(C_1): x^2+y^2=25$, $z=0$; $(C_2): (y-8)^2+(z-6)^2=4$, $x=4$. Tính $MN_\min$.</p>
+                                <div class="formula-box">$M=(5\cos t, 5\sin t, 0)$, $J_2=(4,8,6)$, $R_2=2$.<br>$MJ_2^2 =
+                                    (5\cos t-4)^2+(5\sin t-8)^2+36 = 141 - 8(5\cos t + 2\cdot5\sin t)$.</div>
+                                <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải</button>
+                                <div class="sol-body">
+                                    <ol>
+                                        <li>$M=(5\cos t, 5\sin t, 0)$.</li>
+                                        <li>$MJ_2^2 = (5\cos t-4)^2+(5\sin t-8)^2+36 = 25 - 40\cos t + 16 + 25 - 80\sin
+                                            t + 64 + 36 = 141 - 40\cos t - 80\sin t$.</li>
+                                        <li>Cauchy-Schwarz: $40\cos t + 80\sin t \le \sqrt{40^2+80^2}\cdot 1 =
+                                            \sqrt{8000} = 40\sqrt{5}$.<br>→ $MJ_2^2_\min = 141 - 40\sqrt{5}$.</li>
+                                        <li>$MN_\min = \sqrt{141-40\sqrt{5}} - 2$.</li>
+                                    </ol>
+                                    <div style="margin-top:8px;">Đáp số: <span class="ans-box">$MN_\min =
+                                            \sqrt{141-40\sqrt{5}}-2$</span></div>
+                                </div>
+                            </div>
+                            <canvas id="cv32" width="220" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bài 4.1 -->
+                <div class="card">
+                    <div class="card-header teal"><span class="badge hard">Bài 4.1</span> Vành khuyên nghiêng 60°</div>
+                    <div class="card-body">
+                        <div class="prob-layout">
+                            <div>
+                                <p>$(C_1)$: $J_1(0,0,0)$, $R_1=4$, $z=0$; $(C_2)$: $J_2(3,0,3\sqrt{3})$, $R_2=2$, trên
+                                    mặt phẳng $z=\sqrt{3}x$. Tính $MN_\min$.</p>
+                                <div class="formula-box">$M=(4\cos t, 4\sin t, 0)$.<br>$MJ_2^2 = (4\cos t-3)^2 + (4\sin
+                                    t)^2 + 27 = 52 - 24\cos t$.<br>Min khi $\cos t = 1$.</div>
+                                <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải</button>
+                                <div class="sol-body">
+                                    <ol>
+                                        <li>$M=(4\cos t,4\sin t,0)$ trên $(C_1)$.</li>
+                                        <li>$MJ_2^2 = (4\cos t-3)^2 + 16\sin^2 t + (3\sqrt{3})^2 = 16 - 24\cos t + 9 +
+                                            27 = 52 - 24\cos t$.</li>
+                                        <li>Min khi $\cos t = 1$: $MJ_2^2_\min = 52-24 = 28$ → $MJ_{2,\min} =
+                                            2\sqrt{7}$.</li>
+                                        <li>$MN_\min = 2\sqrt{7} - R_2 = 2\sqrt{7} - 2$.</li>
+                                    </ol>
+                                    <div style="margin-top:8px;">Đáp số: <span class="ans-box">$MN_\min =
+                                            2\sqrt{7}-2$</span></div>
+                                </div>
+                            </div>
+                            <canvas id="cv41" width="220" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bài 5.1 -->
+                <div class="card">
+                    <div class="card-header teal"><span class="badge hard">Bài 5.1</span> Đoạn vuông góc chung — Hai quỹ
+                        đạo robot</div>
+                    <div class="card-body">
+                        <div class="prob-layout">
+                            <div>
+                                <p>$(C_1)$: $J_1(0,0,6)$, $R_1=3$, mặt phẳng $y=0$; $(C_2)$: $J_2(0,9,6)$, $R_2=4$, mặt
+                                    phẳng $x=0$. Tính $MN_\min$.</p>
+                                <div class="formula-box">$J_1J_2 = 9$. Trục $C_1$ song song $Oy$, trục $C_2$ song song
+                                    $Ox$. Đoạn $J_1J_2$ là đoạn vuông góc chung!</div>
+                                <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải</button>
+                                <div class="sol-body">
+                                    <ol>
+                                        <li>$J_1J_2 = \sqrt{(0-0)^2+(9-0)^2+(6-6)^2} = 9$.</li>
+                                        <li>Đường nối $J_1J_2$ song song $Oy$, vuông góc với cả hai mặt phẳng ($y=0$ và
+                                            $x=0$).</li>
+                                        <li>Đây là đoạn vuông góc chung. Khoảng cách min từ mép đến mép: $$MN_\min =
+                                            J_1J_2 - R_1 - R_2 = 9 - 3 - 4 = 2.$$</li>
+                                    </ol>
+                                    <div style="margin-top:8px;">Đáp số: <span class="ans-box">$MN_\min = 2$</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <canvas id="cv51" width="220" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ======================== TAB 5: ỨNG DỤNG ======================== -->
+            <div class="tab-panel" id="tab4">
+                <!-- App 1 -->
+                <div class="card">
+                    <div class="card-header gold"><span class="badge hard">Ứng dụng 1</span> Flycam nông nghiệp — Hai
+                        mặt phẳng nghiêng song song</div>
+                    <div class="card-body">
+                        <div class="prob-layout">
+                            <div>
+                                <p>$(C_1)$ trên $(P_1): x+y+z=6$, tâm $J_1(2,2,2)$, $R_1=3$; $(C_2)$ trên $(P_2):
+                                    x+y+z=15$, tâm $J_2(5,5,5)$, $R_2=2$. Tính $MN_\min$.</p>
+                                <div class="formula-box">
+                                    <b>Bước 1:</b> $h = \dfrac{|15-6|}{\sqrt{3}} = \dfrac{9}{\sqrt{3}} = 3\sqrt{3}$.<br>
+                                    <b>Bước 2:</b> Chiếu $J_2$ lên $(P_1)$: đường $x=5+t,y=5+t,z=5+t$ cắt $P_1$ khi
+                                    $t=-3$ → $J_2'=(2,2,2)=J_1$ → <b>đồng trục</b>.<br>
+                                    <b>Bước 3:</b> $d_\text{ngang,min} = |R_1-R_2| = 1$.<br>
+                                </div>
+                                <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải đầy đủ</button>
+                                <div class="sol-body">
+                                    <ol>
+                                        <li>Khoảng cách hai mặt phẳng song song: $h = \frac{9}{\sqrt{3}} = 3\sqrt{3}$.
+                                        </li>
+                                        <li>Hình chiếu $J_2'$ lên $(P_1)$ trùng $J_1$ → cấu hình đồng trục.</li>
+                                        <li>$d_\text{ngang,min} = |R_1-R_2| = 1$.</li>
+                                        <li>$$MN_\min = \sqrt{(3\sqrt{3})^2 + 1^2} = \sqrt{27+1} = \sqrt{28} =
+                                            2\sqrt{7}.$$</li>
+                                    </ol>
+                                    <div style="margin-top:8px;">Đáp số: <span class="ans-box">$MN_\min =
+                                            2\sqrt{7}$</span></div>
+                                </div>
+                            </div>
+                            <canvas id="cvA1" width="220" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- App 2 -->
+                <div class="card">
+                    <div class="card-header gold"><span class="badge hard">Ứng dụng 2</span> Đĩa mặt trời + cáp kết nối
+                    </div>
+                    <div class="card-body">
+                        <div class="prob-layout">
+                            <div>
+                                <p>$(C)$: tâm $J(2,2,2)$, $R_C=5$, trên $(P): 2x+2y-z-6=0$. Điểm $A(11,14,15)$ bên
+                                    ngoài. Tính khoảng cách ngắn nhất từ $A$ đến $(C)$.</p>
+                                <div class="formula-box">
+                                    <b>Bước 1:</b> $d(A,(P)) = \dfrac{|22+28-15-6|}{3} = \dfrac{29}{3}$.<br>
+                                    <b>Bước 2:</b> $A'$ trên đường $x=11+2t,y=14+2t,z=15-t$: $t=-29/9$ →
+                                    $A'=(41/9,68/9,164/9)$.<br>
+                                    <b>Bước 3:</b> $JA' = \sqrt{(23/9)^2+(50/9)^2+(146/9)^2} = \sqrt{24345}/9 \approx
+                                    17.34 > 5$.<br>
+                                    <b>Bước 4:</b> $d_\text{ngang} = JA' - R_C \approx 12.34$.<br>
+                                </div>
+                                <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải đầy đủ</button>
+                                <div class="sol-body">
+                                    <ol>
+                                        <li>$d(A,(P)) = 29/3$.</li>
+                                        <li>$JA' \approx 17.34 > R_C = 5$ → $A'$ nằm ngoài $(C)$.</li>
+                                        <li>$d_\text{ngang,min} = JA' - R_C \approx 12.34$.</li>
+                                        <li>$d(A,(C)) = \sqrt{(29/3)^2 + (JA'-R_C)^2} \approx \sqrt{93.07+152.3} \approx
+                                            15.67$.</li>
+                                    </ol>
+                                    <div style="margin-top:8px;">Đáp số: <span class="ans-box">$d_\min \approx
+                                            15.67$</span></div>
+                                </div>
+                            </div>
+                            <canvas id="cvA2" width="220" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- App 3 BẪY -->
+                <div class="card">
+                    <div class="card-header crim"><span class="badge trap">BẪY</span> Ứng dụng 3 — Tuabin gió, chiếu cắt
+                        nhau</div>
+                    <div class="card-body">
+                        <div class="warning-box">
+                            <div class="wh">⚠️ BẪY: Đừng nhầm "chiếu rời nhau"</div>
+                            $d'=3$, $R_1=5$, $R_2=3$ → $R_1-R_2=2 < 3 < 8=R_1+R_2$. Chiếu CẮT NHAU →
+                                $d_\text{ngang,min}=0$. </div>
+                                <div class="prob-layout">
+                                    <div>
+                                        <p>$(C_1)$: $J_1(0,0,0)$, $R_1=5$, $z=0$; $(C_2)$: $J_2(3,0,4)$, $R_2=3$, $z=4$.
+                                            Tính $MN_\min$.</p>
+                                        <div class="formula-box">$J_2'=(3,0,0)$, $J_1J_2'=3$. Kiểm tra: $|R_1-R_2|=2 < 3
+                                                < 8=R_1+R_2$. Chiếu <b>cắt nhau</b>!</div>
+                                        <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải</button>
+                                        <div class="sol-body">
+                                            <ol>
+                                                <li>$h=4$, $J_2'=(3,0,0)$, $J_1J_2'=3$.</li>
+                                                <li>$|R_1-R_2|=2 < 3 < 8=R_1+R_2$: hai hình chiếu CẮT NHAU.</li>
+                                                <li>Có điểm $P$ thuộc cả hai hình chiếu → có thể chọn $M,N$ thẳng đứng
+                                                    phía trên $P$: $MN = h = 4$.</li>
+                                                <li>Đây là min vì $MN \ge h$ (từ bất đẳng thức Pytago).</li>
+                                            </ol>
+                                            <div style="margin-top:8px;">Đáp số: <span class="ans-box">$MN_\min =
+                                                    4$</span></div>
+                                        </div>
+                                    </div>
+                                    <canvas id="cvA3" width="220" height="200"></canvas>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ======================== TAB 6: QUIZ ======================== -->
+                <div class="tab-panel" id="tab5">
+                    <div class="card">
+                        <div class="card-header">KIỂM TRA NHANH — 5 CÂU</div>
+                        <div class="card-body" id="quizBody">
+                            <div class="quiz-q" id="q1">
+                                <p>Câu 1. Hai đường tròn đồng phẳng, đồng tâm: $R_1=8$, $R_2=5$. $MN_\min = ?$</p>
+                                <div class="quiz-opt">
+                                    <label><input type="radio" name="q1" value="a"> a) 13</label>
+                                    <label><input type="radio" name="q1" value="b"> b) 3</label>
+                                    <label><input type="radio" name="q1" value="c"> c) $\sqrt{89}$</label>
+                                    <label><input type="radio" name="q1" value="d"> d) 5</label>
+                                </div>
+                            </div>
+                            <div class="quiz-q" id="q2">
+                                <p>Câu 2. Song song đồng trục: $R_1=6$, $R_2=2$, $h=3$. $MN_\min = ?$</p>
+                                <div class="quiz-opt">
+                                    <label><input type="radio" name="q2" value="a"> a) $\sqrt{9+16} = 5$</label>
+                                    <label><input type="radio" name="q2" value="b"> b) $\sqrt{9+64} = \sqrt{73}$</label>
+                                    <label><input type="radio" name="q2" value="c"> c) $\sqrt{9+4} = \sqrt{13}$</label>
+                                    <label><input type="radio" name="q2" value="d"> d) $3$</label>
+                                </div>
+                            </div>
+                            <div class="quiz-q" id="q3">
+                                <p>Câu 3. Song song, $h=8$, $J_2'=(4,0,0)$, $R_1=5$, $R_2=3$. Chiếu có vị trí gì?</p>
+                                <div class="quiz-opt">
+                                    <label><input type="radio" name="q3" value="a"> a) Rời nhau</label>
+                                    <label><input type="radio" name="q3" value="b"> b) Tiếp xúc ngoài</label>
+                                    <label><input type="radio" name="q3" value="c"> c) Cắt nhau</label>
+                                    <label><input type="radio" name="q3" value="d"> d) Tiếp xúc trong</label>
+                                </div>
+                            </div>
+                            <div class="quiz-q" id="q4">
+                                <p>Câu 4. Bài 3.1: $(C_1)$ nằm ngang $R_1=3$, tâm gốc O; $(C_2)$ đứng $R_2=4$, tâm
+                                    $J_2(0,6,8)$. $MN_\min = ?$</p>
+                                <div class="quiz-opt">
+                                    <label><input type="radio" name="q4" value="a"> a) $\sqrt{73}+4$</label>
+                                    <label><input type="radio" name="q4" value="b"> b) $\sqrt{73}-4$</label>
+                                    <label><input type="radio" name="q4" value="c"> c) $\sqrt{109}-4$</label>
+                                    <label><input type="radio" name="q4" value="d"> d) $\sqrt{85}-4$</label>
+                                </div>
+                            </div>
+                            <div class="quiz-q" id="q5">
+                                <p>Câu 5. Tuabin gió (App 3): $J_1J_2'=3$, $R_1=5$, $R_2=3$, $h=4$. $MN_\min = ?$</p>
+                                <div class="quiz-opt">
+                                    <label><input type="radio" name="q5" value="a"> a) $\sqrt{20}$</label>
+                                    <label><input type="radio" name="q5" value="b"> b) $\sqrt{16+4}=\sqrt{20}$</label>
+                                    <label><input type="radio" name="q5" value="c"> c) 4</label>
+                                    <label><input type="radio" name="q5" value="d"> d) 5</label>
+                                </div>
+                            </div>
+                            <button class="quiz-btn" onclick="checkQuiz()">Nộp bài</button>
+                            <div class="quiz-result" id="quizResult"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    // ========== TAB SWITCHING ==========
+                    function switchTab(n) {
+                        document.querySelectorAll('.tab-panel').forEach((p, i) => p.classList.toggle('active', i === n));
+                        document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === n));
+                    }
+
+                    // ========== SOLUTION TOGGLE ==========
+                    function togSol(btn) {
+                        const body = btn.nextElementSibling;
+                        body.classList.toggle('open');
+                        btn.textContent = body.classList.contains('open') ? '▼ Ẩn lời giải' : '▶ Xem lời giải';
+                    }
+
+                    // ========== 3D PROJECTION ENGINE ==========
+                    const _A = -30 * Math.PI / 180, _B = 20 * Math.PI / 180;
+                    const CA = Math.cos(_A), SA = Math.sin(_A), CB = Math.cos(_B), SB = Math.sin(_B);
+
+                    function P3(x, y, z, s, ox, oy) {
+                        const xp = x * CA - y * SA;
+                        const yp = x * SA + y * CA;
+                        const ypp = yp * SB + z * CB;
+                        return [xp * s + ox, -ypp * s + oy];
+                    }
+
+                    function plane3D(ctx, corners, s, ox, oy, fill, stroke) {
+                        const pts = corners.map(([x, y, z]) => P3(x, y, z, s, ox, oy));
+                        ctx.beginPath(); ctx.moveTo(...pts[0]);
+                        for (let i = 1; i < pts.length; i++) ctx.lineTo(...pts[i]);
+                        ctx.closePath(); ctx.fillStyle = fill; ctx.fill();
+                        ctx.strokeStyle = stroke; ctx.lineWidth = 0.8; ctx.stroke();
+                    }
+
+                    function circ3D(ctx, cx, cy, cz, r, ux, uy, uz, vx, vy, vz, s, ox, oy, color, lw, dashed) {
+                        const N = 48;
+                        if (dashed) ctx.setLineDash([4, 3]); else ctx.setLineDash([]);
+                        ctx.beginPath();
+                        for (let i = 0; i <= N; i++) {
+                            const t = i * 2 * Math.PI / N;
+                            const x = cx + r * (Math.cos(t) * ux + Math.sin(t) * vx);
+                            const y = cy + r * (Math.cos(t) * uy + Math.sin(t) * vy);
+                            const z = cz + r * (Math.cos(t) * uz + Math.sin(t) * vz);
+                            const [px, py] = P3(x, y, z, s, ox, oy);
+                            if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+                        }
+                        ctx.strokeStyle = color; ctx.lineWidth = lw || 1.5; ctx.stroke();
+                        ctx.setLineDash([]);
+                    }
+
+                    // Shorthands
+                    function hCirc(ctx, cx, cy, cz, r, s, ox, oy, color, lw, dashed) {
+                        circ3D(ctx, cx, cy, cz, r, 1, 0, 0, 0, 1, 0, s, ox, oy, color, lw, dashed);
+                    }
+                    function yzCirc(ctx, cx, cy, cz, r, s, ox, oy, color, lw) {
+                        circ3D(ctx, cx, cy, cz, r, 0, 1, 0, 0, 0, 1, s, ox, oy, color, lw);
+                    }
+                    function xzCirc(ctx, cx, cy, cz, r, s, ox, oy, color, lw) {
+                        circ3D(ctx, cx, cy, cz, r, 1, 0, 0, 0, 0, 1, s, ox, oy, color, lw);
+                    }
+
+                    function seg3D(ctx, x1, y1, z1, x2, y2, z2, s, ox, oy, color, lw, dashed) {
+                        const [px1, py1] = P3(x1, y1, z1, s, ox, oy);
+                        const [px2, py2] = P3(x2, y2, z2, s, ox, oy);
+                        if (dashed) ctx.setLineDash([4, 3]); else ctx.setLineDash([]);
+                        ctx.beginPath(); ctx.moveTo(px1, py1); ctx.lineTo(px2, py2);
+                        ctx.strokeStyle = color; ctx.lineWidth = lw || 1; ctx.stroke();
+                        ctx.setLineDash([]);
+                    }
+
+                    function dot3D(ctx, x, y, z, s, ox, oy, color, r) {
+                        const [px, py] = P3(x, y, z, s, ox, oy);
+                        ctx.beginPath(); ctx.arc(px, py, r || 2.5, 0, Math.PI * 2);
+                        ctx.fillStyle = color; ctx.fill();
+                    }
+
+                    function txt3D(ctx, x, y, z, text, s, ox, oy, color, dx, dy) {
+                        const [px, py] = P3(x, y, z, s, ox, oy);
+                        ctx.fillStyle = color || '#000'; ctx.font = '11px sans-serif';
+                        ctx.fillText(text, px + (dx || 0), py + (dy || 0));
+                    }
+
+                    function hPlane(ctx, cx, cy, cz, pw, s, ox, oy, fill, stroke) {
+                        plane3D(ctx, [[cx - pw, cy - pw, cz], [cx + pw, cy - pw, cz], [cx + pw, cy + pw, cz], [cx - pw, cy + pw, cz]], s, ox, oy, fill, stroke);
+                    }
+                    function yzPlane(ctx, xv, cy, cz, pw, s, ox, oy, fill, stroke) {
+                        plane3D(ctx, [[xv, cy - pw, cz - pw], [xv, cy + pw, cz - pw], [xv, cy + pw, cz + pw], [xv, cy - pw, cz + pw]], s, ox, oy, fill, stroke);
+                    }
+                    function xzPlane(ctx, cx, yv, cz, pw, s, ox, oy, fill, stroke) {
+                        plane3D(ctx, [[cx - pw, yv, cz - pw], [cx + pw, yv, cz - pw], [cx + pw, yv, cz + pw], [cx - pw, yv, cz + pw]], s, ox, oy, fill, stroke);
+                    }
+
+                    // ========== INDIVIDUAL CANVAS DRAWINGS ==========
+
+                    function drawTheory() {
+                        const c = document.getElementById('cvTheory'); if (!c) return;
+                        const ctx = c.getContext('2d'); const s = 10, ox = 130, oy = 130;
+                        ctx.clearRect(0, 0, c.width, c.height);
+                        hPlane(ctx, 0, 0, 0, 7, s, ox, oy, 'rgba(219,234,254,0.5)', '#93c5fd');
+                        hPlane(ctx, 0, 0, 8, 7, s, ox, oy, 'rgba(254,243,199,0.5)', '#fbbf24');
+                        hCirc(ctx, 0, 0, 0, 5, s, ox, oy, '#16a34a', 2);
+                        hCirc(ctx, -1, 0, 8, 4, s, ox, oy, '#dc2626', 2);
+                        seg3D(ctx, 0, 0, 0, -1, 0, 8, s, ox, oy, '#666', 1, true);
+                        // h line
+                        seg3D(ctx, -1, 0, 0, -1, 0, 8, s, ox, oy, '#2563eb', 1.5, true);
+                        dot3D(ctx, 0, 0, 0, s, ox, oy, '#000'); txt3D(ctx, 0, 0, 0, 'J₁', s, ox, oy, '#000', 4, -2);
+                        dot3D(ctx, -1, 0, 8, s, ox, oy, '#000'); txt3D(ctx, -1, 0, 8, 'J₂', s, ox, oy, '#000', 4, -2);
+                        dot3D(ctx, -1, 0, 0, s, ox, oy, '#b45309'); txt3D(ctx, -1, 0, 0, "J₂'", s, ox, oy, '#b45309', 4, 3);
+                        // MN
+                        const M = P3(5, 0, 0, s, ox, oy); const N = P3(3, 0, 8, s, ox, oy);
+                        ctx.beginPath(); ctx.moveTo(...M); ctx.lineTo(...N);
+                        ctx.strokeStyle = '#ea580c'; ctx.lineWidth = 2; ctx.stroke();
+                        ctx.fillStyle = '#ea580c'; ctx.font = 'bold 11px sans-serif';
+                        ctx.fillText('MN_min', Math.min(M[0], N[0]) + 4, (M[1] + N[1]) / 2);
+                        // h label
+                        const hA = P3(-1, 0, 0, s, ox, oy); const hB = P3(-1, 0, 8, s, ox, oy);
+                        ctx.fillStyle = '#2563eb'; ctx.font = '11px sans-serif';
+                        ctx.fillText('h', (hA[0] + hB[0]) / 2 - 12, (hA[1] + hB[1]) / 2);
+                    }
+
+                    function draw11() {
+                        const c = document.getElementById('cv11'); if (!c) return;
+                        const ctx = c.getContext('2d'); const s = 8, ox = 110, oy = 110;
+                        ctx.clearRect(0, 0, c.width, c.height);
+                        hPlane(ctx, 0, 0, 0, 12, s, ox, oy, 'rgba(219,234,254,0.4)', '#93c5fd');
+                        hCirc(ctx, 0, 0, 0, 10, s, ox, oy, '#16a34a', 2);
+                        hCirc(ctx, 0, 0, 0, 6, s, ox, oy, '#dc2626', 2);
+                        dot3D(ctx, 0, 0, 0, s, ox, oy, '#000'); txt3D(ctx, 0, 0, 0, 'O', s, ox, oy, '#000', 3, 3);
+                        const M = P3(10, 0, 0, s, ox, oy); const N = P3(6, 0, 0, s, ox, oy);
+                        ctx.beginPath(); ctx.moveTo(...M); ctx.lineTo(...N);
+                        ctx.strokeStyle = '#ea580c'; ctx.lineWidth = 2.5; ctx.stroke();
+                        dot3D(ctx, 10, 0, 0, s, ox, oy, '#16a34a'); txt3D(ctx, 10, 0, 0, 'M', s, ox, oy, '#16a34a', 3, -2);
+                        dot3D(ctx, 6, 0, 0, s, ox, oy, '#dc2626'); txt3D(ctx, 6, 0, 0, 'N', s, ox, oy, '#dc2626', 3, 3);
+                        ctx.fillStyle = '#16a34a'; ctx.font = '11px sans-serif'; ctx.fillText('R₁=10', P3(0, 10, 0, s, ox, oy)[0] - 10, P3(0, 10, 0, s, ox, oy)[1] - 3);
+                        ctx.fillStyle = '#dc2626'; ctx.fillText('R₂=6', P3(0, 6, 0, s, ox, oy)[0] - 8, P3(0, 6, 0, s, ox, oy)[1] - 3);
+                    }
+
+                    function draw12() {
+                        const c = document.getElementById('cv12'); if (!c) return;
+                        const ctx = c.getContext('2d'); const s = 8, ox = 70, oy = 130;
+                        ctx.clearRect(0, 0, c.width, c.height);
+                        hPlane(ctx, 5, 6, 0, 10, s, ox, oy, 'rgba(219,234,254,0.4)', '#93c5fd');
+                        hCirc(ctx, 0, 0, 0, 4, s, ox, oy, '#16a34a', 2);
+                        hCirc(ctx, 9, 12, 0, 6, s, ox, oy, '#dc2626', 2);
+                        dot3D(ctx, 0, 0, 0, s, ox, oy, '#000'); txt3D(ctx, 0, 0, 0, 'J₁', s, ox, oy, '#000', -14, 3);
+                        dot3D(ctx, 9, 12, 0, s, ox, oy, '#000'); txt3D(ctx, 9, 12, 0, 'J₂', s, ox, oy, '#000', 3, -2);
+                        seg3D(ctx, 0, 0, 0, 9, 12, 0, s, ox, oy, '#666', 1, true);
+                        // min points
+                        const d = 15; const ux = 9 / d, uy = 12 / d;
+                        const M = P3(4 * ux, 4 * uy, 0, s, ox, oy); const N = P3(9 - 6 * ux, 12 - 6 * uy, 0, s, ox, oy);
+                        ctx.beginPath(); ctx.moveTo(...M); ctx.lineTo(...N); ctx.strokeStyle = '#ea580c'; ctx.lineWidth = 2; ctx.stroke();
+                        ctx.fillStyle = '#666'; ctx.font = '10px sans-serif'; ctx.fillText('d=15', P3(4.5, 6, 0, s, ox, oy)[0] + 2, P3(4.5, 6, 0, s, ox, oy)[1] - 5);
+                    }
+
+                    function draw13() {
+                        const c = document.getElementById('cv13'); if (!c) return;
+                        const ctx = c.getContext('2d'); const s = 9, ox = 70, oy = 130;
+                        ctx.clearRect(0, 0, c.width, c.height);
+                        hPlane(ctx, 3, 4, 0, 10, s, ox, oy, 'rgba(219,234,254,0.4)', '#93c5fd');
+                        hCirc(ctx, 0, 0, 0, 5, s, ox, oy, '#16a34a', 2);
+                        hCirc(ctx, 6, 8, 0, 7, s, ox, oy, '#dc2626', 2);
+                        dot3D(ctx, 0, 0, 0, s, ox, oy, '#000'); txt3D(ctx, 0, 0, 0, 'J₁', s, ox, oy, '#000', -14, 3);
+                        dot3D(ctx, 6, 8, 0, s, ox, oy, '#000'); txt3D(ctx, 6, 8, 0, 'J₂', s, ox, oy, '#000', 3, -2);
+                        seg3D(ctx, 0, 0, 0, 6, 8, 0, s, ox, oy, '#666', 1, true);
+                        // max points
+                        const d = 10; const ux = 6 / d, uy = 8 / d;
+                        const M = P3(-5 * ux, -5 * uy, 0, s, ox, oy); const N = P3(6 + 7 * ux, 8 + 7 * uy, 0, s, ox, oy);
+                        ctx.beginPath(); ctx.moveTo(...M); ctx.lineTo(...N); ctx.strokeStyle = '#ea580c'; ctx.lineWidth = 2; ctx.stroke();
+                        dot3D(ctx, -5 * ux, -5 * uy, 0, s, ox, oy, '#16a34a');
+                        dot3D(ctx, 6 + 7 * ux, 8 + 7 * uy, 0, s, ox, oy, '#dc2626');
+                        ctx.fillStyle = '#ea580c'; ctx.font = 'bold 10px sans-serif'; ctx.fillText('max', P3(1, 2, 0, s, ox, oy)[0], P3(1, 2, 0, s, ox, oy)[1] - 6);
+                    }
+
+                    function draw21() {
+                        const c = document.getElementById('cv21'); if (!c) return;
+                        const ctx = c.getContext('2d'); const s = 7, ox = 110, oy = 150;
+                        ctx.clearRect(0, 0, c.width, c.height);
+                        hPlane(ctx, 0, 0, 0, 11, s, ox, oy, 'rgba(219,234,254,0.4)', '#93c5fd');
+                        hPlane(ctx, 0, 0, 12, 5, s, ox, oy, 'rgba(254,243,199,0.4)', '#fbbf24');
+                        hCirc(ctx, 0, 0, 0, 8, s, ox, oy, '#16a34a', 2);
+                        hCirc(ctx, 0, 0, 12, 3, s, ox, oy, '#dc2626', 2);
+                        dot3D(ctx, 0, 0, 0, s, ox, oy, '#000'); txt3D(ctx, 0, 0, 0, 'J₁', s, ox, oy, '#000', 3, 3);
+                        dot3D(ctx, 0, 0, 12, s, ox, oy, '#000'); txt3D(ctx, 0, 0, 12, 'J₂', s, ox, oy, '#000', 3, -2);
+                        seg3D(ctx, 0, 0, 0, 0, 0, 12, s, ox, oy, '#666', 1, true);
+                        // MN
+                        seg3D(ctx, 8, 0, 0, 3, 0, 12, s, ox, oy, '#ea580c', 2.5);
+                        dot3D(ctx, 8, 0, 0, s, ox, oy, '#16a34a'); txt3D(ctx, 8, 0, 0, 'M', s, ox, oy, '#16a34a', 3, 0);
+                        dot3D(ctx, 3, 0, 12, s, ox, oy, '#dc2626'); txt3D(ctx, 3, 0, 12, 'N', s, ox, oy, '#dc2626', 3, -2);
+                        ctx.fillStyle = '#1d4ed8'; ctx.font = '10px sans-serif';
+                        const hp = P3(0.5, 0, 6, s, ox, oy); ctx.fillText('h=12', hp[0] + 3, hp[1]);
+                    }
+
+                    function draw22() {
+                        const c = document.getElementById('cv22'); if (!c) return;
+                        const ctx = c.getContext('2d'); const s = 6, ox = 80, oy = 170;
+                        ctx.clearRect(0, 0, c.width, c.height);
+                        hPlane(ctx, 6, 4, 0, 11, s, ox, oy, 'rgba(219,234,254,0.4)', '#93c5fd');
+                        hPlane(ctx, 12, 9, 9, 7, s, ox, oy, 'rgba(254,243,199,0.4)', '#fbbf24');
+                        hCirc(ctx, 0, 0, 0, 6, s, ox, oy, '#16a34a', 2);
+                        hCirc(ctx, 12, 9, 9, 4, s, ox, oy, '#dc2626', 2);
+                        dot3D(ctx, 0, 0, 0, s, ox, oy, '#000'); txt3D(ctx, 0, 0, 0, 'J₁', s, ox, oy, '#000', -14, 3);
+                        dot3D(ctx, 12, 9, 9, s, ox, oy, '#000'); txt3D(ctx, 12, 9, 9, 'J₂', s, ox, oy, '#000', 3, -2);
+                        dot3D(ctx, 12, 9, 0, s, ox, oy, '#b45309'); txt3D(ctx, 12, 9, 0, "J₂'", s, ox, oy, '#b45309', 3, 3);
+                        seg3D(ctx, 12, 9, 9, 12, 9, 0, s, ox, oy, '#999', 1, true);
+                        seg3D(ctx, 0, 0, 0, 12, 9, 0, s, ox, oy, '#666', 1, true);
+                        ctx.fillStyle = '#b45309'; ctx.font = '10px sans-serif';
+                        const jp = P3(6, 4.5, 0, s, ox, oy); ctx.fillText("d'=15", jp[0] - 10, jp[1] + 10);
+                    }
+
+                    function draw23() {
+                        const c = document.getElementById('cv23'); if (!c) return;
+                        const ctx = c.getContext('2d'); const s = 9, ox = 110, oy = 150;
+                        ctx.clearRect(0, 0, c.width, c.height);
+                        hPlane(ctx, 1, 0, 0, 7, s, ox, oy, 'rgba(219,234,254,0.4)', '#93c5fd');
+                        hPlane(ctx, 3, 0, 8, 5, s, ox, oy, 'rgba(254,243,199,0.4)', '#fbbf24');
+                        hCirc(ctx, 0, 0, 0, 5, s, ox, oy, '#16a34a', 2);
+                        hCirc(ctx, 3, 0, 8, 2, s, ox, oy, '#dc2626', 2);
+                        dot3D(ctx, 0, 0, 0, s, ox, oy, '#000'); txt3D(ctx, 0, 0, 0, 'J₁', s, ox, oy, '#000', -14, 3);
+                        dot3D(ctx, 3, 0, 8, s, ox, oy, '#000'); txt3D(ctx, 3, 0, 8, 'J₂', s, ox, oy, '#000', 3, -2);
+                        dot3D(ctx, 3, 0, 0, s, ox, oy, '#b45309'); txt3D(ctx, 3, 0, 0, "J₂'(tiếp)", s, ox, oy, '#dc2626', 3, 3);
+                        seg3D(ctx, 3, 0, 8, 3, 0, 0, s, ox, oy, '#999', 1, true);
+                        seg3D(ctx, 3, 0, 0, 3, 0, 8, s, ox, oy, '#ea580c', 2.5);
+                        dot3D(ctx, 3, 0, 0, s, ox, oy, '#ea580c'); dot3D(ctx, 3, 0, 8, s, ox, oy, '#ea580c');
+                        ctx.fillStyle = '#dc2626'; ctx.font = 'bold 10px sans-serif';
+                        ctx.fillText('⚠️ TIẾP XÚC TRONG', 10, 15);
+                        ctx.fillStyle = '#1d4ed8'; ctx.font = '10px sans-serif';
+                        const hp = P3(4, 0, 4, s, ox, oy); ctx.fillText('h=8', hp[0] + 3, hp[1]);
+                    }
+
+                    function draw31() {
+                        const c = document.getElementById('cv31'); if (!c) return;
+                        const ctx = c.getContext('2d'); const s = 8, ox = 110, oy = 150;
+                        ctx.clearRect(0, 0, c.width, c.height);
+                        hPlane(ctx, 0, 0, 0, 6, s, ox, oy, 'rgba(219,234,254,0.4)', '#93c5fd');
+                        yzPlane(ctx, 0, 6, 8, 6, s, ox, oy, 'rgba(254,243,199,0.4)', '#fbbf24');
+                        hCirc(ctx, 0, 0, 0, 3, s, ox, oy, '#16a34a', 2);
+                        yzCirc(ctx, 0, 6, 8, 4, s, ox, oy, '#dc2626', 2);
+                        dot3D(ctx, 0, 0, 0, s, ox, oy, '#000'); txt3D(ctx, 0, 0, 0, 'J₁', s, ox, oy, '#000', -14, 3);
+                        dot3D(ctx, 0, 6, 8, s, ox, oy, '#000'); txt3D(ctx, 0, 6, 8, 'J₂', s, ox, oy, '#000', 3, -2);
+                        // optimal M=(0,3,0), N is closest point on C2
+                        seg3D(ctx, 0, 3, 0, 0, 6, 8, s, ox, oy, '#666', 1, true);
+                        seg3D(ctx, 0, 3, 0, 0, 3 + 4 * (-3 / Math.sqrt(73 + 0)), 0 + 4 * ((-5) / Math.sqrt(73)), 8 + 4 * (0 / Math.sqrt(73)), s, ox, oy, '#ea580c', 2);
+                        // Actually just draw M and the distance line schematically
+                        dot3D(ctx, 0, 3, 0, s, ox, oy, '#16a34a'); txt3D(ctx, 0, 3, 0, 'M', s, ox, oy, '#16a34a', 3, 3);
+                    }
+
+                    function draw32() {
+                        const c = document.getElementById('cv32'); if (!c) return;
+                        const ctx = c.getContext('2d'); const s = 7, ox = 100, oy = 160;
+                        ctx.clearRect(0, 0, c.width, c.height);
+                        hPlane(ctx, 0, 0, 0, 8, s, ox, oy, 'rgba(219,234,254,0.4)', '#93c5fd');
+                        yzPlane(ctx, 4, 8, 6, 6, s, ox, oy, 'rgba(254,243,199,0.4)', '#fbbf24');
+                        hCirc(ctx, 0, 0, 0, 5, s, ox, oy, '#16a34a', 2);
+                        yzCirc(ctx, 4, 8, 6, 2, s, ox, oy, '#dc2626', 2);
+                        dot3D(ctx, 0, 0, 0, s, ox, oy, '#000'); txt3D(ctx, 0, 0, 0, 'J₁', s, ox, oy, '#000', -14, 3);
+                        dot3D(ctx, 4, 8, 6, s, ox, oy, '#000'); txt3D(ctx, 4, 8, 6, 'J₂', s, ox, oy, '#000', 3, -2);
+                    }
+
+                    function draw41() {
+                        const c = document.getElementById('cv41'); if (!c) return;
+                        const ctx = c.getContext('2d'); const s = 8, ox = 110, oy = 160;
+                        ctx.clearRect(0, 0, c.width, c.height);
+                        hPlane(ctx, 0, 0, 0, 7, s, ox, oy, 'rgba(219,234,254,0.4)', '#93c5fd');
+                        // Tilted plane z=sqrt(3)*x, contains J2=(3,0,3√3)
+                        // Two basis vectors in plane: u=(1,0,√3)/2, v=(0,1,0)
+                        // Draw as parallelogram
+                        const sq3 = Math.sqrt(3);
+                        plane3D(ctx, [
+                            [3 - 4, 0, sq3 * (3 - 4)], [3 + 4, 0, sq3 * (3 + 4)],
+                            [3 + 4, 4, sq3 * (3 + 4)], [3 - 4, 4, sq3 * (3 - 4)]
+                        ], s, ox, oy, 'rgba(254,243,199,0.4)', '#fbbf24');
+                        hCirc(ctx, 0, 0, 0, 4, s, ox, oy, '#16a34a', 2);
+                        // C2 tilted: center J2=(3,0,3√3), in plane z=√3·x
+                        // Normal to plane: (√3,0,-1)/2. Basis: u=(1,0,√3)/2, v=(0,1,0)
+                        const n = 2; // ||(√3,0,-1)||
+                        const u2x = 1 / n, u2y = 0, u2z = sq3 / n;
+                        const v2x = 0, v2y = 1, v2z = 0;
+                        circ3D(ctx, 3, 0, 3 * sq3, 2, u2x, u2y, u2z, v2x, v2y, v2z, s, ox, oy, '#dc2626', 2);
+                        dot3D(ctx, 0, 0, 0, s, ox, oy, '#000'); txt3D(ctx, 0, 0, 0, 'J₁', s, ox, oy, '#000', -14, 3);
+                        dot3D(ctx, 3, 0, 3 * sq3, s, ox, oy, '#000'); txt3D(ctx, 3, 0, 3 * sq3, 'J₂', s, ox, oy, '#000', 3, -2);
+                        seg3D(ctx, 4, 0, 0, 3, 0, 3 * sq3, s, ox, oy, '#ea580c', 2.5);
+                        dot3D(ctx, 4, 0, 0, s, ox, oy, '#16a34a'); txt3D(ctx, 4, 0, 0, 'M', s, ox, oy, '#16a34a', 3, 3);
+                    }
+
+                    function draw51() {
+                        const c = document.getElementById('cv51'); if (!c) return;
+                        const ctx = c.getContext('2d'); const s = 8, ox = 110, oy = 130;
+                        ctx.clearRect(0, 0, c.width, c.height);
+                        xzPlane(ctx, 0, 0, 6, 6, s, ox, oy, 'rgba(219,234,254,0.4)', '#93c5fd');
+                        yzPlane(ctx, 0, 9, 6, 6, s, ox, oy, 'rgba(254,243,199,0.4)', '#fbbf24');
+                        xzCirc(ctx, 0, 0, 6, 3, s, ox, oy, '#16a34a', 2);
+                        yzCirc(ctx, 0, 9, 6, 4, s, ox, oy, '#dc2626', 2);
+                        dot3D(ctx, 0, 0, 6, s, ox, oy, '#000'); txt3D(ctx, 0, 0, 6, 'J₁', s, ox, oy, '#000', -14, 0);
+                        dot3D(ctx, 0, 9, 6, s, ox, oy, '#000'); txt3D(ctx, 0, 9, 6, 'J₂', s, ox, oy, '#000', 3, -2);
+                        seg3D(ctx, 0, 0, 6, 0, 9, 6, s, ox, oy, '#666', 1, true);
+                        // min MN
+                        seg3D(ctx, 3, 0, 6, 0, 5, 6, s, ox, oy, '#ea580c', 2.5);
+                        dot3D(ctx, 3, 0, 6, s, ox, oy, '#16a34a'); dot3D(ctx, 0, 5, 6, s, ox, oy, '#dc2626');
+                        ctx.fillStyle = '#1d4ed8'; ctx.font = '10px sans-serif';
+                        const jp = P3(0, 4.5, 6, s, ox, oy); ctx.fillText('d=9', jp[0] + 2, jp[1] - 5);
+                    }
+
+                    function drawA1() {
+                        const c = document.getElementById('cvA1'); if (!c) return;
+                        const ctx = c.getContext('2d'); const s = 10, ox = 110, oy = 150;
+                        ctx.clearRect(0, 0, c.width, c.height);
+                        // oblique plane x+y+z=6: normal=(1,1,1)/√3
+                        // basis: u=(-1,1,0)/√2, v=(-1,-1,2)/√6
+                        const sq2 = Math.sqrt(2), sq6 = Math.sqrt(6);
+                        const u1x = -1 / sq2, u1y = 1 / sq2, u1z = 0;
+                        const v1x = -1 / sq6, v1y = -1 / sq6, v1z = 2 / sq6;
+                        // plane corners around J1=(2,2,2)
+                        const pw = 5;
+                        plane3D(ctx, [
+                            [2 + pw * u1x + pw * v1x, 2 + pw * u1y + pw * v1y, 2 + pw * u1z + pw * v1z],
+                            [2 + pw * u1x - pw * v1x, 2 + pw * u1y - pw * v1y, 2 + pw * u1z - pw * v1z],
+                            [2 - pw * u1x - pw * v1x, 2 - pw * u1y - pw * v1y, 2 - pw * u1z - pw * v1z],
+                            [2 - pw * u1x + pw * v1x, 2 - pw * u1y + pw * v1y, 2 - pw * u1z + pw * v1z]
+                        ], s, ox, oy, 'rgba(219,234,254,0.4)', '#93c5fd');
+                        plane3D(ctx, [
+                            [5 + pw * u1x + pw * v1x, 5 + pw * u1y + pw * v1y, 5 + pw * u1z + pw * v1z],
+                            [5 + pw * u1x - pw * v1x, 5 + pw * u1y - pw * v1y, 5 + pw * u1z - pw * v1z],
+                            [5 - pw * u1x - pw * v1x, 5 - pw * u1y - pw * v1y, 5 - pw * u1z - pw * v1z],
+                            [5 - pw * u1x + pw * v1x, 5 - pw * u1y + pw * v1y, 5 - pw * u1z + pw * v1z]
+                        ], s, ox, oy, 'rgba(254,243,199,0.4)', '#fbbf24');
+                        circ3D(ctx, 2, 2, 2, 3, u1x, u1y, u1z, v1x, v1y, v1z, s, ox, oy, '#16a34a', 2);
+                        circ3D(ctx, 5, 5, 5, 2, u1x, u1y, u1z, v1x, v1y, v1z, s, ox, oy, '#dc2626', 2);
+                        dot3D(ctx, 2, 2, 2, s, ox, oy, '#000'); txt3D(ctx, 2, 2, 2, 'J₁', s, ox, oy, '#000', -14, 3);
+                        dot3D(ctx, 5, 5, 5, s, ox, oy, '#000'); txt3D(ctx, 5, 5, 5, 'J₂', s, ox, oy, '#000', 3, -2);
+                    }
+
+                    function drawA2() {
+                        const c = document.getElementById('cvA2'); if (!c) return;
+                        const ctx = c.getContext('2d'); const s = 6, ox = 80, oy = 150;
+                        ctx.clearRect(0, 0, c.width, c.height);
+                        const sq2 = Math.sqrt(2), sq6 = Math.sqrt(6);
+                        const u1x = -1 / sq2, u1y = 1 / sq2, u1z = 0;
+                        const v1x = 1 / 3, v1y = 1 / 3, v1z = 4 / 3 / Math.sqrt(2);
+                        // just draw the plane roughly
+                        hPlane(ctx, 2, 2, 2, 7, s, ox, oy, 'rgba(219,234,254,0.4)', '#93c5fd');
+                        circ3D(ctx, 2, 2, 2, 5, u1x, u1y, u1z, 1 / 3, 1 / 3, 1 / 3 * Math.sqrt(2), s, ox, oy, '#16a34a', 2);
+                        // sphere A
+                        const [sx, sy] = P3(11, 14, 15, s, ox, oy);
+                        ctx.beginPath(); ctx.arc(sx, sy, 10, 0, Math.PI * 2);
+                        ctx.fillStyle = 'rgba(254,243,199,0.6)'; ctx.fill();
+                        ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 1.5; ctx.stroke();
+                        dot3D(ctx, 2, 2, 2, s, ox, oy, '#000'); txt3D(ctx, 2, 2, 2, 'J', s, ox, oy, '#000', 3, 3);
+                        dot3D(ctx, 11, 14, 15, s, ox, oy, '#000'); txt3D(ctx, 11, 14, 15, 'A', s, ox, oy, '#000', 3, -2);
+                        seg3D(ctx, 2, 2, 2, 11, 14, 15, s, ox, oy, '#666', 1, true);
+                    }
+
+                    function drawA3() {
+                        const c = document.getElementById('cvA3'); if (!c) return;
+                        const ctx = c.getContext('2d'); const s = 9, ox = 110, oy = 155;
+                        ctx.clearRect(0, 0, c.width, c.height);
+                        hPlane(ctx, 1, 0, 0, 7, s, ox, oy, 'rgba(219,234,254,0.4)', '#93c5fd');
+                        hPlane(ctx, 3, 0, 4, 5, s, ox, oy, 'rgba(254,243,199,0.4)', '#fbbf24');
+                        hCirc(ctx, 0, 0, 0, 5, s, ox, oy, '#16a34a', 2);
+                        hCirc(ctx, 3, 0, 4, 3, s, ox, oy, '#dc2626', 2);
+                        dot3D(ctx, 0, 0, 0, s, ox, oy, '#000'); txt3D(ctx, 0, 0, 0, 'J₁', s, ox, oy, '#000', -14, 3);
+                        dot3D(ctx, 3, 0, 4, s, ox, oy, '#000'); txt3D(ctx, 3, 0, 4, 'J₂', s, ox, oy, '#000', 3, -2);
+                        dot3D(ctx, 3, 0, 0, s, ox, oy, '#b45309'); txt3D(ctx, 3, 0, 0, "J₂'", s, ox, oy, '#b45309', 3, 3);
+                        seg3D(ctx, 3, 0, 4, 3, 0, 0, s, ox, oy, '#999', 1, true);
+                        // Show the vertical MN
+                        seg3D(ctx, 3, 0, 0, 3, 0, 4, s, ox, oy, '#ea580c', 2.5);
+                        dot3D(ctx, 3, 0, 0, s, ox, oy, '#ea580c'); dot3D(ctx, 3, 0, 4, s, ox, oy, '#ea580c');
+                        ctx.fillStyle = '#dc2626'; ctx.font = 'bold 10px sans-serif'; ctx.fillText('⚠️ CẮT NHAU', 8, 16);
+                        ctx.fillStyle = '#ea580c'; ctx.font = '10px sans-serif';
+                        const hp = P3(4, 0, 2, s, ox, oy); ctx.fillText('min=h=4', hp[0] + 3, hp[1]);
+                    }
+
+                    // ========== QUIZ ==========
+                    const answers = { q1: 'b', q2: 'a', q3: 'c', q4: 'b', q5: 'c' };
+                    function checkQuiz() {
+                        let score = 0;
+                        ['q1', 'q2', 'q3', 'q4', 'q5'].forEach(q => {
+                            const sel = document.querySelector(`input[name="${q}"]:checked`);
+                            const labels = document.querySelectorAll(`#${q} label`);
+                            labels.forEach(l => { l.classList.remove('correct', 'wrong'); });
+                            if (sel) {
+                                if (sel.value === answers[q]) { score++; sel.parentElement.classList.add('correct'); }
+                                else {
+                                    sel.parentElement.classList.add('wrong');
+                                    labels.forEach(l => { if (l.querySelector('input').value === answers[q]) l.classList.add('correct'); });
+                                }
+                            }
+                        });
+                        const r = document.getElementById('quizResult');
+                        r.textContent = `Kết quả: ${score}/5 câu đúng ${score >= 4 ? '🌟 Xuất sắc!' : score >= 3 ? '✓ Khá tốt' : '✗ Cần ôn lại'}`;
+                        r.style.color = score >= 4 ? 'var(--green)' : score >= 3 ? 'var(--orange)' : 'var(--crimson)';
+                    }
+
+                    // ========== INIT ==========
+                    window.addEventListener('DOMContentLoaded', () => {
+                        drawTheory(); draw11(); draw12(); draw13();
+                        draw21(); draw22(); draw23();
+                        draw31(); draw32(); draw41(); draw51();
+                        drawA1(); drawA2(); drawA3();
+                        if (window.MathJax) MathJax.typesetPromise();
+                    });
+                </script>
+</body>
+
+</html>

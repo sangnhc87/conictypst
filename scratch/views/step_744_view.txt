@@ -1,0 +1,59 @@
+Created At: 2026-05-26T03:45:09Z
+Completed At: 2026-05-26T03:45:09Z
+File Path: `file:///Users/admin/conictypst/typst/exams/CD-XepGhe-KhongKe.typ`
+Total Lines: 3124
+Total Bytes: 127911
+Showing lines 250 to 300
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+250: ]
+251: 
+252: #pagebreak()
+253: 
+254: #set page(
+255:   header: context {
+256:     set text(size: 8.5pt, fill: rgb("6A1B9A"))
+257:     grid(
+258:       columns: (1fr, auto),
+259:       [Chuyên Đề Sắp Xếp Chỗ Ngồi — Bản chất & Tổng quát hóa], [GV Nguyễn Văn Sang · 0389.821.115],
+260:     )
+261:     v(-4pt)
+262:     line(length: 100%, stroke: 0.6pt + rgb("CE93D8"))
+263:   },
+264:   footer: context {
+265:     set text(size: 9pt, fill: rgb("6A1B9A"))
+266:     grid(
+267:       columns: (1fr, auto),
+268:       [], [Trang #counter(page).display()],
+269:     )
+270:   },
+271: )
+272: 
+273: // ═══════════════════════════════════════════════
+274: // CHƯƠNG 1: PHƯƠNG PHÁP KHUNG XƯƠNG DIOPHANTINE
+275: // ═══════════════════════════════════════════════
+276: = Chương 1 — Phương pháp Khung Xương Diophantine (Tổ hợp)
+277: 
+278: Đây là phương pháp nền tảng thuần túy tổ hợp, sử dụng nhóm có số lượng phần tử lớn nhất làm "vách ngăn" để phân hoạch không gian.
+279: 
+280: #rev-box(title: "⚙️ Nguyên lý Phân hoạch Khe hở")[
+281:   Để xếp $n$ phần tử cùng loại $A$ vào hàng ngang gồm $S$ vị trí sao cho không có hai phần tử $A$ nào kề nhau:
+282:   - Xếp $n$ phần tử $A$ trước, tạo ra $n+1$ khe hở xung quanh:
+283:     $ "_" "A" "_" "A" "_" dots "_" "A" "_" $
+284:   - Gọi $x_1, x_2, dots, x_(n+1)$ là số phần tử khác được xếp vào $n+1$ khe hở này. Ta có phương trình:
+285:     $ x_1 + x_2 + dots + x_(n+1) = S - n $
+286:     Với điều kiện: $x_2, x_3, dots, x_n >= 1$ (các khe ở giữa phải chứa ít nhất 1 phần tử để cách ly A) và $x_1, x_(n+1) >= 0$.
+287:   - Đặt $y_i = x_i - 1 >= 0$ với các biến ở giữa ($i = 2, dots, n$). Phương trình trở thành:
+288:     $ x_1 + y_2 + y_3 + dots + y_n + x_(n+1) = S - 2n + 1 $
+289:   - Số cách chọn kích thước cho các khe hở (gọi là số cấu trúc khung xương) chính là số nghiệm nguyên không âm của phương trình trên:
+290:     $ N_("khung") = C_(S - n + 1)^n $
+291: ]
+292: 
+293: // ═══════════════════════════════════════════════
+294: // CHƯƠNG 2: PHƯƠNG PHÁP BÙ TRỪ TRÊN CẶP KỀ TRÙNG (PIE)
+295: // ═══════════════════════════════════════════════
+296: = Chương 2 — Phương pháp Bù trừ trên Cặp kề trùng (PIE - Tính tay tối thượng)
+297: 
+298: Chuyên đề giới thiệu phương pháp *Bù trừ trên Cặp kề trùng (Adjacent-Pair PIE)*. Đây là một công cụ toàn năng, có tính hệ thống cao, loại bỏ hoàn toàn việc phân chia khối phức tạp và cho phép lập bảng tính tay cực nhanh.
+299: 
+300: == 2.1 — Bản chất của phép Bù trừ trên Cặp kề trùng
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

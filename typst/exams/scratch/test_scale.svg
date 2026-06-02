@@ -1,0 +1,11 @@
+<svg class="typst-doc" viewBox="0 0 595.2755905511812 841.8897637795276" width="595.2755905511812pt" height="841.8897637795276pt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:h5="http://www.w3.org/1999/xhtml">
+    <path class="typst-shape" fill="#ffffff" fill-rule="nonzero" d="M 0 0v 841.8898 h 595.2756 v -841.8898 Z "/>
+    <g>
+        <g class="typst-group" transform="matrix(1 0 0 1 70.86614173228347 70.86614173228347)">
+            <g>
+                <path class="typst-shape" fill="none" stroke="#ff4136" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" d="M 0 0m 68.031494 0 c -37.53869 0 -68.031494 30.492805 -68.031494 68.031494 c 0 37.538696 30.492805 68.031494 68.031494 68.031494 c 37.538696 0 68.031494 -30.492798 68.031494 -68.031494 c 0 -37.53869 -30.492798 -68.031494 -68.031494 -68.031494 Z "/>
+                <path class="typst-shape" fill="none" stroke="#0074d9" stroke-width="2" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" transform="matrix(1 0 0 1 0 68.03149606299213)" d="M 0 0h 136.06299 "/>
+            </g>
+        </g>
+    </g>
+</svg>

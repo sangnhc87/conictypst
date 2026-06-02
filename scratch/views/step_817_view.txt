@@ -1,0 +1,45 @@
+Created At: 2026-05-26T03:47:08Z
+Completed At: 2026-05-26T03:47:08Z
+File Path: `file:///Users/admin/.gemini/antigravity/brain/5471d837-a644-42ab-9263-2b18668e714e/implementation_plan.md`
+Total Lines: 50
+Total Bytes: 4646
+Showing lines 1 to 50
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: # Kế Hoạch Triển Khai: Tái Cấu Trúc và Đơn Giản Hóa Chuyên Đề Xếp Ghế Không Kề
+2: 
+3: Tài liệu hiện tại (`CD-XepGhe-KhongKe.typ`) được viết bằng ngôn ngữ khá hàn lâm (phương trình Diophantine, hệ số chọn liên kết, ma trận cột đặc trưng...), gây khó khăn lớn cho học sinh phổ thông. Chúng tôi sẽ viết lại toàn bộ phần lý thuyết nền tảng và các ví dụ cốt lõi để tạo ra một lộ trình học tập "mịn", dễ tiếp thu theo hai giai đoạn rõ ràng.
+4: 
+5: ## Đề Xuất Thay Đổi Sư Phạm
+6: 
+7: Chúng ta sẽ thay thế các ký hiệu phức tạp bằng các phương pháp trực quan quen thuộc của toán phổ thông:
+8: 1. **Phương pháp Vách ngăn (Slot Method / Insertion):** Thay vì dùng phương trình Diophantine $x_1 + x_2 + ... = S - n$, ta giải thích bằng việc xếp các đối tượng tự do trước để tạo ra các khe trống, sau đó chọn khe để xếp các đối tượng có ràng buộc "không kề nhau".
+9: 2. **Phương pháp Ghép khối (Glueing Method) cho Bù trừ (PIE):** Thay vì dùng "liên kết kề trùng" và "số lượng khối $b_A$", ta dùng hình ảnh "ghép các học sinh kề nhau thành một khối siêu lớn $\mathbf{A_2}$" - phương pháp kinh điển trong sách giáo khoa.
+10: 
+11: ---
+12: 
+13: ## Chi Tiết Lộ Trình Bài Tập "Mịn" (Smooth Progression)
+14: 
+15: Chúng ta sẽ tổ chức lại nội dung chương 3 thành hai giai 
+<truncated 1310 bytes>
+**Cấp độ 2.1: Chỉ có 1 nhóm có ràng buộc không kề nhau + Ghế trống (Cơ bản)**
+31:   - *Ví dụ:* Xếp 3 học sinh lớp A, 2 học sinh lớp B và 3 ghế trống vào 8 ghế sao cho không có 2 học sinh lớp A nào ngồi cạnh nhau.
+32:   - *Phương pháp:* Xem B và ghế trống là nhóm tự do. Xếp nhóm tự do trước, sau đó chèn A vào các khe.
+33: - **Cấp độ 2.2: Hai nhóm đối tượng đều không được kề nhau + Ghế trống (Khá)**
+34:   - *Ví dụ:* Xếp 3A, 2B và 2 ghế trống vào 7 ghế sao cho không có học sinh cùng lớp ngồi cạnh nhau.
+35:   - *Phương pháp:* Dựng vách ngăn bằng A, lập phương trình số phần tử trong các khe và phân loại đơn giản ("khe kép ở đầu" vs "khe kép ở giữa").
+36: - **Cấp độ 2.3: Ba nhóm đối tượng đều không được kề nhau + Ghế trống (Vận dụng cao - HSG)**
+37:   - *Ví dụ:* Bài toán 6.1 cũ (8A, 3B, 2C vào 16 ghế). Giữ nguyên lời giải nhưng diễn đạt mượt mà, dễ hiểu hơn.
+38: 
+39: ---
+40: 
+41: ## Kế Hoạch Thực Hiện
+42: 
+43: 1. **[MODIFY] [CD-XepGhe-KhongKe.typ](file:///Users/admin/conictypst/typst/exams/CD-XepGhe-KhongKe.typ)**
+44:    - Viết lại lý thuyết Chương 1 (Vách ngăn) và Chương 2 (Bù trừ) bằng ngôn ngữ sư phạm dễ hiểu.
+45:    - Viết lại toàn bộ phần bài tập trong Chương 3 để khớp với lộ trình mịn trên.
+46: 2. **[MODIFY] [CD-XepGhe-KhongKe.typ](file:///Users/admin/conictypst/typst/exams/cleaned/CD-XepGhe-KhongKe.typ)**
+47:    - Đồng bộ hóa các thay đổi sang phiên bản cleaned để không làm hỏng các tệp sách lớn khác.
+48: 3. **Biên dịch và kiểm tra:**
+49:    - Chạy `typst compile` với tham số `--root .` để đảm bảo tệp PDF được tạo ra thành công, không có lỗi cú pháp hoặc cảnh báo nào.
+50: 
+The above content shows the entire, complete file contents of the requested file.

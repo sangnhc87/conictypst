@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>10. Tối Ưu Kinh Tế Đa Điều Kiện — Hàm Phân Đoạn</title>
+<script>MathJax={tex:{inlineMath:[['$','$']],displayMath:[['$$','$$']]},startup:{typeset:false}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<style>
+:root{
+  --navy:#0D1B6E;--teal:#006064;--green:#2E7D32;
+  --amber:#E65100;--red:#C62828;--blue:#1565C0;
+  --bg:#F0F4F8;--card:#fff;--gold:#B7950B;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',sans-serif;background:var(--bg);color:#222;font-size:15px;line-height:1.6;}
+header{background:linear-gradient(135deg,#0A192F,var(--navy),var(--teal),var(--green));color:#fff;padding:20px 24px;}
+header h1{font-size:1.4rem;margin-bottom:4px;}
+header p{opacity:.8;font-size:.9rem;}
+.tabs{display:flex;flex-wrap:wrap;gap:4px;padding:10px 14px 0;background:#e8f0f7;border-bottom:2px solid var(--navy);}
+.tab-btn{padding:8px 15px;border:none;background:#c5d5e8;border-radius:6px 6px 0 0;cursor:pointer;font-size:.85rem;font-weight:700;color:#333;transition:.2s;}
+.tab-btn.active{background:var(--navy);color:#fff;}
+.tab-panel{display:none;padding:18px;}
+.tab-panel.active{display:block;}
+.card{background:var(--card);border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.09);margin-bottom:20px;overflow:hidden;}
+.card-head{padding:10px 16px;font-weight:700;font-size:.93rem;color:#fff;}
+.bg-navy{background:var(--navy);}
+.bg-teal{background:var(--teal);}
+.bg-green{background:var(--green);}
+.bg-amber{background:var(--amber);}
+.bg-red{background:var(--red);}
+.bg-blue{background:var(--blue);}
+.card-body{padding:16px;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+@media(max-width:640px){.two-col,.three-col{grid-template-columns:1fr;}}
+.prob-layout{display:grid;grid-template-columns:1fr 230px;gap:16px;align-items:start;}
+@media(max-width:660px){.prob-layout{grid-template-columns:1fr;}}
+/* Boxes */
+.rev-box{background:#E0F2F1;border-left:4px solid var(--teal);padding:12px 16px;border-radius:0 6px 6px 0;margin:10px 0;}
+.rev-box b{color:var(--teal);}
+.note-box{background:#FFF8E1;border-left:4px solid var(--amber);padding:10px 14px;border-radius:0 6px 6px 0;margin:10px 0;font-size:.9rem;}
+.note-box b{color:var(--amber);}
+.ans-box{background:#F1F8E9;border-left:4px solid var(--green);padding:10px 14px;border-radius:0 6px 6px 0;margin:10px 0;}
+.ans-box b{color:var(--green);}
+.warn-box{background:#FFEBEE;border-left:4px solid var(--red);padding:10px 14px;border-radius:0 6px 6px 0;margin:10px 0;font-size:.9rem;}
+.warn-box b{color:var(--red);}
+.eg-box{background:#E8F5E9;border-left:4px solid var(--green);padding:10px 14px;border-radius:0 6px 6px 0;margin:10px 0;font-size:.9rem;}
+/* Sol */
+.sol-toggle{width:100%;text-align:left;background:#f0f5ff;border:1px solid #bbd;padding:8px 14px;border-radius:6px;cursor:pointer;font-weight:700;font-size:.86rem;margin-top:10px;color:var(--navy);}
+.sol-toggle:hover{background:#daeeff;}
+.sol-body{display:none;padding:12px 14px;background:#f8faff;border:1px solid #dde;border-top:none;border-radius:0 0 6px 6px;font-size:.87rem;line-height:1.65;}
+.sol-body.open{display:block;}
+.sol-body ol{padding-left:22px;margin:6px 0;}
+.sol-body li{margin-bottom:7px;}
+.ans-inline{background:var(--navy);color:#fff;display:inline-block;padding:2px 12px;border-radius:4px;font-weight:700;margin-left:5px;font-size:.9rem;}
+.badge{display:inline-block;padding:2px 10px;border-radius:4px;font-size:.78rem;font-weight:700;margin-right:6px;}
+.b1{background:#d4efdf;color:#1E8449;}
+.b2{background:#dbeafe;color:#1565C0;}
+.b3{background:#fef9e7;color:#B7950B;}
+.b4{background:#fde8d8;color:#E65100;}
+.b5{background:#f3e8ff;color:#6B21A8;}
+.btrap{background:var(--red);color:#fff;}
+/* Tables */
+table{width:100%;border-collapse:collapse;font-size:.87rem;margin:8px 0;}
+th{background:var(--navy);color:#fff;padding:8px;text-align:left;}
+td{padding:7px 8px;border:1px solid #ddd;}
+tr:nth-child(even) td{background:#f5f8fc;}
+td:first-child{font-weight:700;color:var(--teal);}
+/* BBT */
+.bbt-wrap{overflow-x:auto;margin:10px 0;}
+.bbt{border-collapse:collapse;font-size:.85rem;min-width:300px;}
+.bbt td,.bbt th{border:1px solid #999;padding:6px 12px;text-align:center;}
+.bbt .bbt-var{background:#1A5276;color:#fff;font-weight:700;}
+.bbt .bbt-der{background:#EEF4FB;}
+.bbt .bbt-func{background:#E8F8F5;}
+.arrow-up::after{content:"↗";color:var(--green);font-size:1.1em;}
+.arrow-dn::after{content:"↘";color:var(--red);font-size:1.1em;}
+.arrow-lr::after{content:"→";color:var(--amber);font-size:1.1em;}
+/* Quiz */
+.quiz-q p{font-weight:700;margin-bottom:8px;}
+.quiz-opt label{display:block;padding:6px 10px;border-radius:4px;cursor:pointer;margin-bottom:4px;border:1px solid #ddd;font-size:.88rem;}
+.quiz-opt label:hover{background:#eef3f7;}
+.quiz-opt label.correct{background:#d4efdf;border-color:var(--green);}
+.quiz-opt label.wrong{background:#fdedec;border-color:var(--red);}
+.quiz-btn{background:var(--navy);color:#fff;border:none;padding:8px 20px;border-radius:6px;cursor:pointer;font-size:.9rem;margin-top:8px;}
+.quiz-result{font-weight:700;margin-top:10px;}
+/* Step */
+.step{margin-bottom:12px;padding-left:10px;border-left:3px solid var(--teal);}
+.step .step-title{font-weight:700;color:var(--teal);margin-bottom:4px;}
+/* canvas */
+canvas{border-radius:6px;display:block;}
+.group-label{font-size:.78rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;opacity:.75;margin-bottom:3px;}
+</style>
+</head>
+<body>
+<header>
+  <h1>Tối Ưu Hóa &amp; Mô Hình Kinh Tế Đa Điều Kiện</h1>
+  <p>Hàm phân đoạn · Cực trị biên · Thuế lũy tiến · 5 nhóm bài trọng điểm thi phổ thông</p>
+</header>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab(0)">📚 Lý Thuyết</button>
+  <button class="tab-btn" onclick="switchTab(1)">①&nbsp;Tour Du Lịch</button>
+  <button class="tab-btn" onclick="switchTab(2)">②&nbsp;Taxi Phân Đoạn</button>
+  <button class="tab-btn" onclick="switchTab(3)">③&nbsp;Chung Cư Rời Rạc</button>
+  <button class="tab-btn" onclick="switchTab(4)">④&nbsp;Thuế Lũy Tiến</button>
+  <button class="tab-btn" onclick="switchTab(5)">⑤&nbsp;Ràng Buộc Kỹ Thuật</button>
+  <button class="tab-btn" onclick="switchTab(6)">✏️ Quiz</button>
+</div>
+
+<!-- ===== TAB 0: LÝ THUYẾT ===== -->
+<div class="tab-panel active" id="tab0">
+  <div class="card">
+    <div class="card-head bg-navy">BẢN ĐỒ 5 NHÓM DẠNG RẤT DỄ GẶP</div>
+    <div class="card-body">
+      <table>
+        <tr><th>Nhóm</th><th>Dấu hiệu đề bài</th><th>Hàm cần dựng</th><th>Thao tác quyết định</th></tr>
+        <tr><td>① Tour DL</td><td>Giảm giá toàn đoàn, đổi đơn giá theo ngưỡng, hỏi không lỗ</td><td>Doanh thu / lợi nhuận phân đoạn</td><td>Giải BPT $R(x)\ge C$ từng đoạn</td></tr>
+        <tr><td>② Taxi / Điện / Nước</td><td>Biểu phí cước bậc thang, hỏi ngược đầu vào</td><td>Hàm giá cước phân đoạn $T(x)$</td><td>Giải PT $T(x)=m$ từng đoạn</td></tr>
+        <tr><td>③ Chung cư / rời rạc</td><td>Biến nguyên, chi phí bậc thang, hỏi max lợi nhuận</td><td>Lợi nhuận phân đoạn theo $x\in\mathbb{N}$</td><td>Xét hàm liên tục, so sánh các giá trị nguyên ứng viên</td></tr>
+        <tr><td>④ Thuế lũy tiến</td><td>Quota, ngưỡng thuế đổi suất</td><td>Lợi nhuận ròng sau thuế $P(q)$</td><td>Đạo hàm từng đoạn + kiểm tra điểm gãy</td></tr>
+        <tr><td>⑤ Pin / kho bãi kỹ thuật</td><td>Ràng buộc công suất, ngân sách, biên đóng</td><td>Hàm mục tiêu trên đoạn đóng</td><td>Đạo hàm + xét cả hai biên</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head bg-teal">QUY TRÌNH 6 BƯỚC DỰNG HÀM</div>
+    <div class="card-body">
+      <div class="two-col">
+        <div>
+          <div class="step"><div class="step-title">Bước 1 — Chọn biến thật đúng</div>Biến nên là đại lượng điều khiển quyết định kinh doanh.</div>
+          <div class="step"><div class="step-title">Bước 2 — Chốt miền xác định</div>Biến liên tục hay nguyên? Có bị chặn trên/dưới không?</div>
+          <div class="step"><div class="step-title">Bước 3 — Tìm các mốc làm đổi công thức</div>Mốc này tạo ra các phân đoạn.</div>
+        </div>
+        <div>
+          <div class="step"><div class="step-title">Bước 4 — Dựng từng hàm thành phần</div>Thứ tự: giá bán → doanh thu → chi phí → lợi nhuận ròng.</div>
+          <div class="step"><div class="step-title">Bước 5 — Giải trên từng đoạn</div>Phương trình, BPT, đạo hàm, hoặc xét đơn điệu.</div>
+          <div class="step"><div class="step-title">Bước 6 — Kết luận bằng ngôn ngữ bài toán</div>Đơn vị: người, km, lần tăng giá, tấn, kWh.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head bg-red">5 LỖI HỌC SINH RẤT HAY MẮC</div>
+    <div class="card-body">
+      <div class="warn-box">
+        <ol style="padding-left:20px;">
+          <li>Đặt biến đúng nhưng <b>quên ghi miền xác định</b> → kết luận ra giá trị vô nghĩa.</li>
+          <li>Viết được doanh thu nhưng <b>quên trừ chi phí hoặc thuế</b> khi đề hỏi lợi nhuận ròng.</li>
+          <li><b>Chỉ giải một đoạn</b> rồi kết luận, bỏ sót các đoạn còn lại.</li>
+          <li>Tìm điểm cực trị hàm liên tục rồi <b>quên rằng biến là số nguyên</b>.</li>
+          <li>Chỉ nhìn $f'(x)=0$ mà <b>quên so sánh thêm tại điểm gãy và hai đầu mút</b>.</li>
+        </ol>
+      </div>
+      <div class="rev-box" style="margin-top:12px;">
+        <b>Khi nào dùng đạo hàm, khi nào chỉ cần xét miền?</b><br>
+        • Hỏi <i>lớn nhất/nhỏ nhất</i>: dùng đạo hàm + BBT.<br>
+        • Hỏi <i>không lỗ / hòa vốn / biết tiền tìm quãng đường</i>: giải PT/BPT từng đoạn.<br>
+        • Biến số nguyên: đạo hàm chỉ tìm vùng nghi ngờ, đáp án cuối so sánh giá trị nguyên gần cực trị và biên.<br>
+        • Có <i>điểm gãy</i> do thuế/phụ phí: điểm gãy là ứng viên đặc biệt — <b>không được bỏ qua</b>.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TAB 1: NHÓM 1 — TOUR ===== -->
+<div class="tab-panel" id="tab1">
+  <div class="card">
+    <div class="card-head bg-blue"><span class="badge b1">Nhóm 1</span> Tour Du Lịch — Miền Không Lỗ Với Chính Sách Giảm Giá Toàn Đoàn</div>
+    <div class="card-body">
+      <div class="prob-layout">
+        <div>
+          <p>Một công ty du lịch: 20 khách đầu tiên giá $30$ USD/người; cứ thêm 1 người thì giá giảm $1$ USD/người cho <b>toàn đoàn</b>. Chi phí cố định $400$ USD. Hỏi giới hạn tối đa bao nhiêu khách để không lỗ?</p>
+          <div class="note-box"><b>Mấu chốt:</b> Khi $x>20$, giá giảm cho <i>tất cả</i> hành khách, không chỉ người thêm vào. Do đó $R(x)=x(50-x)$, không phải $30\cdot20+(x-20)\cdot(30-(x-20))$.</div>
+          <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải đầy đủ</button>
+          <div class="sol-body">
+            <div class="step">
+              <div class="step-title">Bước 1 — Đặt biến và dựng hàm doanh thu</div>
+              Gọi $x$ là số khách đăng ký, $x\in\mathbb{N}^*$.<br>
+              Khi $x>20$: đơn giá mới = $30-(x-20)=50-x$ (USD/người). Cần $50-x>0$ nên $x\le50$.<br>
+              $$R(x)=\begin{cases}30x & 1\le x\le20 \\ x(50-x)=50x-x^2 & 20<x\le50\end{cases}$$
+            </div>
+            <div class="step">
+              <div class="step-title">Bước 2 — Giải điều kiện không lỗ $R(x)\ge400$</div>
+              <b>Đoạn 1 ($1\le x\le20$):</b> $30x\ge400 \Rightarrow x\ge13.33$, nhận $14\le x\le20$.<br>
+              <b>Đoạn 2 ($20<x\le50$):</b> $50x-x^2\ge400 \Rightarrow x^2-50x+400\le0$.<br>
+              Nghiệm: $x_1=10,\ x_2=40$. Bất phương trình đúng khi $10\le x\le40$.<br>
+              Kết hợp điều kiện đoạn: $20<x\le40$.
+            </div>
+            <div class="step">
+              <div class="step-title">Bước 3 — Kết luận</div>
+              Gộp cả hai đoạn: $14\le x\le40$. Số khách tối đa: <b>40</b>.
+            </div>
+            <div class="ans-box" style="margin-top:8px;"><b>✅ Kết luận:</b> Giới hạn số hành khách tối đa là <b>40</b> người để không lỗ.</div>
+          </div>
+        </div>
+        <canvas id="cv_g1" width="220" height="200"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head bg-blue"><span class="badge b1">Biến thể</span> Tìm số khách cho doanh thu lớn nhất</div>
+    <div class="card-body">
+      <p>Với cùng chính sách trên, tìm số khách $x$ để doanh thu $R(x)$ lớn nhất.</p>
+      <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải</button>
+      <div class="sol-body">
+        <ol>
+          <li>Trên $[1,20]$: $R(x)=30x$ tăng, max tại $x=20$: $R(20)=600$.</li>
+          <li>Trên $(20,50]$: $R(x)=50x-x^2$. Đạo hàm $R'(x)=50-2x=0\Rightarrow x=25$. $R(25)=625$.</li>
+          <li>So sánh: $R(25)=625>R(20)=600$.</li>
+        </ol>
+        <div class="ans-box" style="margin-top:8px;"><b>✅</b> Doanh thu lớn nhất $625$ USD đạt khi $x=25$ khách.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head bg-blue"><span class="badge b1">Trắc nghiệm</span> Biến thể giá giảm $0.5$ USD mỗi người thêm</div>
+    <div class="card-body">
+      <p>Chính sách mới: 20 khách đầu giá $30$ USD/người; mỗi người thêm làm giá giảm $0.5$ USD cho toàn đoàn. Chi phí $400$ USD. Số khách nào để lợi nhuận lớn nhất?</p>
+      <div class="quiz-opt" id="g1tn">
+        <label><input type="radio" name="g1tn" value="a"> A. $x=30$</label>
+        <label><input type="radio" name="g1tn" value="b"> B. $x=40$</label>
+        <label><input type="radio" name="g1tn" value="c"> C. $x=45$</label>
+        <label><input type="radio" name="g1tn" value="d"> D. $x=50$</label>
+      </div>
+      <button class="quiz-btn" onclick="chkSingle('g1tn','a','Đúng: $x>20$ thì đơn giá $=30-0.5(x-20)=40-0.5x$. $R(x)=x(40-0.5x)$. Đỉnh tại $x=40$, nhưng $R(x)$ tiếp tục dương → tính $L(x)=R(x)-400$ → cực đại tại $x=40$.')">Kiểm tra</button>
+      <div id="g1tn_fb" style="margin-top:8px;font-size:.88rem;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TAB 2: NHÓM 2 — TAXI ===== -->
+<div class="tab-panel" id="tab2">
+  <div class="card">
+    <div class="card-head bg-teal"><span class="badge b2">Nhóm 2</span> Taxi Công Nghệ — Giải PT Trên Hàm Giá Cước Phân Đoạn</div>
+    <div class="card-body">
+      <div class="prob-layout">
+        <div>
+          <p>Biểu phí: 2 km đầu trọn gói 30K; km 3–10 thêm 15K/km; km 11–15 thêm 12K/km; trên 15 km: giảm 10% cước cơ bản, thêm phụ phí cao tốc 20K. Hành khách trả <b>209K</b> — đi bao nhiêu km?</p>
+          <div class="warn-box"><b>⚠️ BẪY:</b> Đoạn $x>15$: giảm 10% chỉ trên <i>cước cơ bản</i>, không giảm phụ phí! Nên $T(x)=0.9(12x+30)+20$.</div>
+          <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải đầy đủ</button>
+          <div class="sol-body">
+            <div class="step">
+              <div class="step-title">Bước 1 — Dựng hàm cước $T(x)$</div>
+              $$T(x)=\begin{cases}30 & 0<x\le2\\ 30+15(x-2)=15x & 2<x\le10\\ 150+12(x-10)=12x+30 & 10<x\le15\\ 0.9(12x+30)+20=10.8x+47 & x>15\end{cases}$$
+            </div>
+            <div class="step">
+              <div class="step-title">Bước 2 — Loại nhanh các đoạn không thể</div>
+              Đoạn 1: max = 30. Đoạn 2: max = 150. Cả hai đều $<209$ → không xét.<br>
+              Đoạn 3 max: $12\cdot15+30=210>209$ → có thể có nghiệm. Đoạn 4: $x>15$ → kiểm tra.
+            </div>
+            <div class="step">
+              <div class="step-title">Bước 3 — Giải $T(x)=209$</div>
+              <b>Đoạn 3 ($10<x\le15$):</b> $12x+30=209\Rightarrow x=14.92$. Thuộc $(10,15]$ → <b>nhận</b>.<br>
+              <b>Đoạn 4 ($x>15$):</b> $10.8x+47=209\Rightarrow x=15$. Không thuộc $(15,+\infty)$ → loại.
+            </div>
+            <div class="ans-box" style="margin-top:8px;"><b>✅ Kết luận:</b> Quãng đường <b>14,92 km</b>.</div>
+          </div>
+        </div>
+        <canvas id="cv_g2" width="220" height="200"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head bg-teal"><span class="badge b2">Biến thể</span> Hóa đơn tiền điện</div>
+    <div class="card-body">
+      <p>Biểu giá điện sinh hoạt (đồng/kWh): 50 kWh đầu: 1.700; kWh 51–100: 1.800; kWh 101–200: 2.074; kWh 201–300: 2.612; trên 300 kWh: 2.919. Hóa đơn một tháng là <b>488.850 đồng</b>. Hộ dùng bao nhiêu kWh?</p>
+      <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải</button>
+      <div class="sol-body">
+        <ol>
+          <li>Tính lũy tiến các mốc:<br>
+            $T(50)=85.000$.<br>
+            $T(100)=85.000+50\times1.800=175.000$.<br>
+            $T(200)=175.000+100\times2.074=382.400$.<br>
+            $T(300)=382.400+100\times2.612=643.600$.
+          </li>
+          <li>$488.850$ nằm giữa $382.400$ và $643.600$ → đoạn $200<x\le300$.</li>
+          <li>$382.400+2.612(x-200)=488.850\Rightarrow 2.612(x-200)=106.450\Rightarrow x-200\approx40.76\Rightarrow x\approx241$.</li>
+        </ol>
+        <div class="ans-box" style="margin-top:8px;"><b>✅</b> Hộ dùng khoảng <b>241 kWh</b>.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TAB 3: NHÓM 3 — CHUNG CƯ RỜI RẠC ===== -->
+<div class="tab-panel" id="tab3">
+  <div class="card">
+    <div class="card-head bg-amber"><span class="badge b3">Nhóm 3</span> Chung Cư Mini — Tối Ưu Rời Rạc Với Chi Phí Bậc Thang</div>
+    <div class="card-body">
+      <div class="prob-layout">
+        <div>
+          <p>50 căn hộ; giá thuê ban đầu 4 triệu/căn. Mỗi lần tăng thêm 200K/căn thì thêm 2 căn bỏ trống. Chi phí vận hành: ≥40 căn được thuê: 400K/căn; &lt;40 căn: 600K/căn. Tăng bao nhiêu lần để lợi nhuận ròng lớn nhất?</p>
+          <div class="warn-box"><b>⚠️ Hai bẫy:</b> (1) Biến $x$ phải là số nguyên → cực trị liên tục chỉ là mốc tham khảo. (2) Phải xét cả điểm gãy $x=5/6$.</div>
+          <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải đầy đủ</button>
+          <div class="sol-body">
+            <div class="step">
+              <div class="step-title">Bước 1 — Đặt biến, miền xác định</div>
+              $x$ = số lần tăng giá (nguyên, $0\le x\le25$).<br>
+              Giá = $4+0.2x$ (triệu), Số căn cho thuê = $50-2x$.
+            </div>
+            <div class="step">
+              <div class="step-title">Bước 2 — Dựng hai hàm lợi nhuận</div>
+              Mốc gãy: $50-2x=40\Rightarrow x=5$.<br>
+              <b>Nhánh 1 ($0\le x\le5$, chi phí 0.4 tr/căn):</b><br>
+              $L_1(x)=(50-2x)(4+0.2x)-0.4(50-2x)=(50-2x)(3.6+0.2x)=-0.4x^2+2.8x+180$<br>
+              <b>Nhánh 2 ($6\le x\le25$, chi phí 0.6 tr/căn):</b><br>
+              $L_2(x)=(50-2x)(3.4+0.2x)=-0.4x^2+3.2x+170$
+            </div>
+            <div class="step">
+              <div class="step-title">Bước 3 — Khảo sát từng nhánh</div>
+              <b>Nhánh 1:</b> $L_1'(x)=-0.8x+2.8=0\Rightarrow x=3.5$. Hai số nguyên ứng viên:<br>
+              $L_1(3)=-0.4(9)+2.8(3)+180=180+8.4-3.6=184.8$ triệu.<br>
+              $L_1(4)=-0.4(16)+2.8(4)+180=180+11.2-6.4=184.8$ triệu.<br><br>
+              <b>Nhánh 2:</b> $L_2'(x)=-0.8x+3.2=0\Rightarrow x=4<6$, nên $L_2$ giảm toàn bộ trên $[6,25]$.<br>
+              Max nhánh 2: $L_2(6)=-0.4(36)+3.2(6)+170=170+19.2-14.4=174.8$ triệu.
+            </div>
+            <div class="step">
+              <div class="step-title">Bước 4 — So sánh toàn cục</div>
+              $184.8 > 174.8$ → max toàn cục đạt tại $x=3$ hoặc $x=4$.
+            </div>
+            <div class="ans-box" style="margin-top:8px;"><b>✅ Kết luận:</b> Tăng giá <b>3 hoặc 4 lần</b>, lợi nhuận tối đa <b>184.8 triệu đồng/tháng</b>.</div>
+          </div>
+        </div>
+        <canvas id="cv_g3" width="220" height="200"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head bg-amber"><span class="badge b3">Trắc nghiệm nhanh</span></div>
+    <div class="card-body">
+      <p>Trong bài trên, nếu chi phí vận hành <i>không</i> đổi theo số căn (luôn 400K/căn), hàm lợi nhuận có bao nhiêu đoạn phân chia?</p>
+      <div class="quiz-opt" id="g3tn">
+        <label><input type="radio" name="g3tn" value="a"> A. 1 đoạn (không phân đoạn)</label>
+        <label><input type="radio" name="g3tn" value="b"> B. 2 đoạn</label>
+        <label><input type="radio" name="g3tn" value="c"> C. 3 đoạn</label>
+      </div>
+      <button class="quiz-btn" onclick="chkSingle('g3tn','a','Đúng! Không có điểm gãy chi phí → $L(x)=(50-2x)(3.6+0.2x)$ trên toàn bộ $[0,25]$.')">Kiểm tra</button>
+      <div id="g3tn_fb" style="margin-top:8px;font-size:.88rem;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TAB 4: NHÓM 4 — THUẾ LŨY TIẾN ===== -->
+<div class="tab-panel" id="tab4">
+  <div class="card">
+    <div class="card-head bg-red"><span class="badge b4">Nhóm 4</span> Khai Thác Khoáng Sản — Cực Đại Dưới Thuế Lũy Tiến</div>
+    <div class="card-body">
+      <div class="prob-layout">
+        <div>
+          <p>Chi phí $C(q)=q^2+10q+100$ (triệu). Giá bán 50 tr/tấn. Thuế suất: ≤600 triệu doanh thu → 10%; phần vượt 600 triệu → 25%. Tìm $q$ để lợi nhuận ròng lớn nhất.</p>
+          <div class="warn-box"><b>⚠️ Điểm gãy:</b> $50q=600\Rightarrow q=12$. Phải xét riêng $[0,12]$ và $(12,+\infty)$, và <b>kiểm tra điểm gãy $q=12$</b>.</div>
+          <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải đầy đủ</button>
+          <div class="sol-body">
+            <div class="step">
+              <div class="step-title">Bước 1 — Mốc thuế và hàm thuế</div>
+              $50q=600\Rightarrow q=12$.<br>
+              $q\le12$: $T(q)=0.1\times50q=5q$.<br>
+              $q>12$: $T(q)=60+0.25(50q-600)=12.5q-90$.
+            </div>
+            <div class="step">
+              <div class="step-title">Bước 2 — Lập hàm lợi nhuận ròng</div>
+              $$P(q)=50q-(q^2+10q+100)-T(q)=\begin{cases}-q^2+35q-100 & 0\le q\le12\\ -q^2+27.5q-10 & q>12\end{cases}$$
+            </div>
+            <div class="step">
+              <div class="step-title">Bước 3 — Đoạn $[0,12]$: đơn điệu tăng</div>
+              $P_1'(q)=-2q+35$. Với $q\le12$: $P_1'\ge11>0$ → hàm tăng.<br>
+              Max đoạn 1: $P_1(12)=-144+420-100=\mathbf{176}$ triệu.
+            </div>
+            <div class="step">
+              <div class="step-title">Bước 4 — Đoạn $(12,+\infty)$: có cực đại</div>
+              $P_2'(q)=-2q+27.5=0\Rightarrow q=13.75$.<br>
+              $P_2(13.75)=-189.0625+378.125-10=\mathbf{179.0625}$ triệu.
+            </div>
+            <div class="step">
+              <div class="step-title">Bước 5 — So sánh toàn cục</div>
+              $179.0625 > 176$ → max tại $q=13.75$.
+            </div>
+            <div class="ans-box" style="margin-top:8px;"><b>✅ Kết luận:</b> Sản lượng tối ưu <b>13,75 tấn/ngày</b>, lợi nhuận tối đa <b>179.0625 triệu đồng</b>.</div>
+          </div>
+        </div>
+        <canvas id="cv_g4" width="220" height="200"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head bg-red"><span class="badge b4">Biến thể — Thuế hai mức đổi vai</span></div>
+    <div class="card-body">
+      <p>Cùng bài trên nhưng thuế lũy tiến đổi: ≤ $q_0=15$ tấn: 10%; phần vượt: 20%. Tìm $q$ cực đại lợi nhuận ròng.</p>
+      <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải</button>
+      <div class="sol-body">
+        <ol>
+          <li>Mốc: $q_0=15$. Đoạn $[0,15]$: $T=5q$, $P_1=-q^2+35q-100$, $P_1'=-2q+35=0\Rightarrow q=17.5>15$ → $P_1$ tăng trên $[0,15]$, max $P_1(15)=-225+525-100=200$.</li>
+          <li>Đoạn $(15,+\infty)$: $T=0.1\times750+0.2(50q-750)=75+10q-150=10q-75$.<br>
+          $P_2=50q-(q^2+10q+100)-(10q-75)=-q^2+30q-25$. $P_2'=-2q+30=0\Rightarrow q=15$.<br>
+          Tại $q=15^+$: $P_2(15)=-225+450-25=200$ (liên tục), nhưng $P_2'(q)<0$ với $q>15$ → hàm giảm.</li>
+          <li>Max toàn cục: $q=15$, $P_{\max}=200$ triệu.</li>
+        </ol>
+        <div class="ans-box" style="margin-top:8px;"><b>✅</b> Sản lượng tối ưu $q=15$ tấn, lợi nhuận $200$ triệu.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TAB 5: NHÓM 5 — RÀNG BUỘC KỸ THUẬT ===== -->
+<div class="tab-panel" id="tab5">
+  <div class="card">
+    <div class="card-head bg-green"><span class="badge b5">Nhóm 5</span> Điện Mặt Trời — Cực Trị Biên Với Ràng Buộc Kỹ Thuật</div>
+    <div class="card-body">
+      <div class="prob-layout">
+        <div>
+          <p>Trang trại mặt trời 100 kW, 10 giờ. Giờ bình thường 2.000đ/kWh, thấp điểm (2 giờ) 1.200đ/kWh, cao điểm (2 giờ) 3.500đ/kWh. Pin $E$ kWh sạc giờ thấp điểm, xả giờ cao điểm. Chi phí khấu hao pin: $C(E)=200E+5.000$ đồng/ngày. Tìm $E$ tối ưu ($0\le E\le200$).</p>
+          <div class="note-box"><b>Chú ý:</b> Chỉ tối ưu <i>phần lợi nhuận tăng thêm</i>, không cần xét doanh thu cơ sở.</div>
+          <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải đầy đủ</button>
+          <div class="sol-body">
+            <div class="step">
+              <div class="step-title">Bước 1 — Miền xác định</div>
+              Trong 2 giờ thấp điểm, pin tối đa sạc được $100\times2=200$ kWh. Nên $0\le E\le200$.
+            </div>
+            <div class="step">
+              <div class="step-title">Bước 2 — Lợi nhuận tăng thêm do pin</div>
+              Mỗi kWh qua pin: mất 1.200đ (không bán giờ thấp) + được 3.500đ (bán giờ cao) → lãi thêm 2.300đ.<br>
+              $\Delta R(E)=2.300E$.<br>
+              $P(E)=\Delta R(E)-C(E)=2.300E-(200E+5.000)=2.100E-5.000$.
+            </div>
+            <div class="step">
+              <div class="step-title">Bước 3 — Cực trị biên</div>
+              $P'(E)=2.100>0$ → $P(E)$ tăng trên $[0,200]$. Max tại biên phải $E=200$.<br>
+              $P(200)=2.100\times200-5.000=420.000-5.000=415.000$ đồng/ngày.
+            </div>
+            <div class="ans-box" style="margin-top:8px;"><b>✅ Kết luận:</b> Lắp pin <b>200 kWh</b>, lợi nhuận tăng thêm <b>415.000 đồng/ngày</b>.</div>
+          </div>
+        </div>
+        <canvas id="cv_g5" width="220" height="180"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head bg-green"><span class="badge b5">Biến thể — Chi phí pin bậc hai</span></div>
+    <div class="card-body">
+      <p>Giả sử chi phí khấu hao pin thay đổi: $C(E)=E^2/100+200E+1.000$ đồng/ngày. Tìm $E\in[0,200]$ để lợi nhuận tăng thêm $P(E)$ lớn nhất.</p>
+      <button class="sol-toggle" onclick="togSol(this)">▶ Xem lời giải</button>
+      <div class="sol-body">
+        <ol>
+          <li>$P(E)=2.300E-(E^2/100+200E+1.000)=-E^2/100+2.100E-1.000$.</li>
+          <li>$P'(E)=-E/50+2.100=0\Rightarrow E=105.000$. Quá lớn so với miền $[0,200]$.</li>
+          <li>Vì $P'(E)>0$ trên $[0,200]$ (đạo hàm tại $E=200$: $-4+2.100>0$), hàm tăng → max tại $E=200$.</li>
+          <li>$P(200)=-400+420.000-1.000=418.600$ đồng/ngày.</li>
+        </ol>
+        <div class="ans-box" style="margin-top:8px;"><b>✅</b> Vẫn lắp pin tối đa $E=200$ kWh, lợi nhuận $418.600$ đồng/ngày.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TAB 6: QUIZ ===== -->
+<div class="tab-panel" id="tab6">
+  <div class="card">
+    <div class="card-head bg-navy">KIỂM TRA NHANH — 6 CÂU</div>
+    <div class="card-body">
+      <div class="quiz-q" id="qq1">
+        <p>Câu 1. Tour: 20 người đầu 30 USD; mỗi người thêm giảm 1 USD toàn đoàn. Với 25 khách, đơn giá là:</p>
+        <div class="quiz-opt">
+          <label><input type="radio" name="qq1" value="a"> A. 25 USD/người</label>
+          <label><input type="radio" name="qq1" value="b"> B. 30 USD/người</label>
+          <label><input type="radio" name="qq1" value="c"> C. 29 USD/người</label>
+        </div>
+      </div>
+      <div class="quiz-q" id="qq2">
+        <p>Câu 2. Hàm cước taxi $T(x)=\{30\ (x\le2);\ 15x\ (2<x\le10)\}$. Tại $x=6$:</p>
+        <div class="quiz-opt">
+          <label><input type="radio" name="qq2" value="a"> A. 90K</label>
+          <label><input type="radio" name="qq2" value="b"> B. 80K</label>
+          <label><input type="radio" name="qq2" value="c"> C. 100K</label>
+        </div>
+      </div>
+      <div class="quiz-q" id="qq3">
+        <p>Câu 3. Chung cư: $L_1(x)=-0.4x^2+2.8x+180$ trên $[0,5]$. Giá trị lớn nhất đạt tại:</p>
+        <div class="quiz-opt">
+          <label><input type="radio" name="qq3" value="a"> A. $x=3$ và $x=4$ (đều bằng 184.8)</label>
+          <label><input type="radio" name="qq3" value="b"> B. $x=3.5$</label>
+          <label><input type="radio" name="qq3" value="c"> C. $x=5$</label>
+        </div>
+      </div>
+      <div class="quiz-q" id="qq4">
+        <p>Câu 4. Bài khoáng sản: $P_2(q)=-q^2+27.5q-10$ ($q>12$). Cực đại tại $q=$:</p>
+        <div class="quiz-opt">
+          <label><input type="radio" name="qq4" value="a"> A. 13.75</label>
+          <label><input type="radio" name="qq4" value="b"> B. 12.75</label>
+          <label><input type="radio" name="qq4" value="c"> C. 14</label>
+        </div>
+      </div>
+      <div class="quiz-q" id="qq5">
+        <p>Câu 5. Điện mặt trời: $P(E)=2.100E-5.000$ trên $[0,200]$. Hàm này:</p>
+        <div class="quiz-opt">
+          <label><input type="radio" name="qq5" value="a"> A. Tăng trên toàn bộ $[0,200]$</label>
+          <label><input type="radio" name="qq5" value="b"> B. Có cực tiểu trong $(0,200)$</label>
+          <label><input type="radio" name="qq5" value="c"> C. Giảm trên toàn bộ $[0,200]$</label>
+        </div>
+      </div>
+      <div class="quiz-q" id="qq6">
+        <p>Câu 6. Dấu hiệu nào KHÔNG buộc phải chia miền?</p>
+        <div class="quiz-opt">
+          <label><input type="radio" name="qq6" value="a"> A. "Từ km thứ 11 trở đi, cước tăng thêm…"</label>
+          <label><input type="radio" name="qq6" value="b"> B. "Chi phí cố định 100 triệu mỗi tháng"</label>
+          <label><input type="radio" name="qq6" value="c"> C. "Nếu vượt 600 triệu doanh thu, thuế suất tăng"</label>
+        </div>
+      </div>
+      <button class="quiz-btn" onclick="checkQuiz6()">Nộp bài</button>
+      <div class="quiz-result" id="qr6"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== TABS =====
+function switchTab(n){
+  document.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active',i===n));
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',i===n));
+}
+function togSol(btn){
+  const b=btn.nextElementSibling;
+  b.classList.toggle('open');
+  btn.textContent=b.classList.contains('open')?'▼ Ẩn lời giải':'▶ Xem lời giải đầy đủ';
+  if(b.classList.contains('open')&&window.MathJax) MathJax.typesetPromise([b]);
+}
+
+// ===== SINGLE CHECK =====
+function chkSingle(name,correct,msg){
+  const sel=document.querySelector(`input[name="${name}"]:checked`);
+  const fb=document.getElementById(name+'_fb');
+  if(!sel){fb.textContent='Hãy chọn một đáp án.';fb.style.color='#666';return;}
+  const labels=document.querySelectorAll(`#${name} label`);
+  labels.forEach(l=>l.classList.remove('correct','wrong'));
+  if(sel.value===correct){
+    sel.parentElement.classList.add('correct');
+    fb.innerHTML='<span style="color:var(--green);font-weight:700;">✓ Đúng!</span> '+msg;
+  } else {
+    sel.parentElement.classList.add('wrong');
+    labels.forEach(l=>{if(l.querySelector('input').value===correct) l.classList.add('correct');});
+    fb.innerHTML='<span style="color:var(--red);font-weight:700;">✗ Sai.</span> '+msg;
+  }
+  if(window.MathJax) MathJax.typesetPromise([fb]);
+}
+
+// ===== QUIZ 6 =====
+const ans6={qq1:'a',qq2:'a',qq3:'a',qq4:'a',qq5:'a',qq6:'b'};
+function checkQuiz6(){
+  let sc=0;
+  Object.keys(ans6).forEach(q=>{
+    const sel=document.querySelector(`input[name="${q}"]:checked`);
+    document.querySelectorAll(`#${q} label`).forEach(l=>l.classList.remove('correct','wrong'));
+    if(sel){
+      if(sel.value===ans6[q]){sc++;sel.parentElement.classList.add('correct');}
+      else{sel.parentElement.classList.add('wrong');
+        document.querySelectorAll(`#${q} label`).forEach(l=>{if(l.querySelector('input').value===ans6[q]) l.classList.add('correct');});}
+    }
+  });
+  const r=document.getElementById('qr6');
+  r.textContent=`Kết quả: ${sc}/6 — ${sc>=5?'🌟 Xuất sắc!':sc>=4?'✓ Khá tốt':'✗ Cần ôn lại'}`;
+  r.style.color=sc>=5?'var(--green)':sc>=4?'var(--amber)':'var(--red)';
+}
+
+// ===== CANVAS DRAWINGS =====
+function drawG1(){
+  const c=document.getElementById('cv_g1');if(!c)return;
+  const ctx=c.getContext('2d');
+  ctx.clearRect(0,0,c.width,c.height);
+  const W=c.width,H=c.height,pad=30;
+  // axes
+  ctx.strokeStyle='#333';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(pad,10);ctx.lineTo(pad,H-pad);ctx.lineTo(W-10,H-pad);ctx.stroke();
+  ctx.fillStyle='#333';ctx.font='11px sans-serif';
+  ctx.fillText('x (khách)',W-45,H-pad+12);
+  ctx.fillText('R (USD)',pad+4,18);
+  // scale: x in [0,50] -> [pad, W-10], y in [0,650] -> [H-pad, 10]
+  const sx=(W-10-pad)/50, sy=(H-pad-10)/650;
+  function px(x){return pad+x*sx;}
+  function py(y){return H-pad-y*sy;}
+  // C=400 line
+  ctx.setLineDash([5,3]);ctx.strokeStyle='#C62828';ctx.lineWidth=1.2;
+  ctx.beginPath();ctx.moveTo(pad,py(400));ctx.lineTo(W-10,py(400));ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle='#C62828';ctx.font='10px sans-serif';ctx.fillText('C=400',W-55,py(400)-4);
+  // R1: x in [0,20], 30x
+  ctx.strokeStyle='#1565C0';ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(px(0),py(0));ctx.lineTo(px(20),py(600));ctx.stroke();
+  // R2: x in [20,50], 50x-x^2
+  ctx.beginPath();ctx.moveTo(px(20),py(600));
+  for(let x=21;x<=50;x++){ctx.lineTo(px(x),py(50*x-x*x));}
+  ctx.stroke();
+  // key points
+  ctx.fillStyle='#2E7D32';ctx.beginPath();ctx.arc(px(25),py(625),4,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#2E7D32';ctx.font='10px sans-serif';ctx.fillText('(25,625)',px(25)+4,py(625)-4);
+  ctx.fillStyle='#E65100';ctx.beginPath();ctx.arc(px(40),py(400),4,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#E65100';ctx.fillText('x=40',px(40)-10,py(400)+14);
+  // labels
+  ctx.fillStyle='#888';ctx.font='9px sans-serif';
+  [10,20,30,40,50].forEach(x=>{ctx.fillText(x,px(x)-4,H-pad+12);});
+  [200,400,600].forEach(y=>{ctx.fillText(y,4,py(y)+3);});
+}
+
+function drawG2(){
+  const c=document.getElementById('cv_g2');if(!c)return;
+  const ctx=c.getContext('2d');
+  ctx.clearRect(0,0,c.width,c.height);
+  const W=c.width,H=c.height,pad=30;
+  ctx.strokeStyle='#333';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(pad,10);ctx.lineTo(pad,H-pad);ctx.lineTo(W-10,H-pad);ctx.stroke();
+  ctx.fillStyle='#333';ctx.font='10px sans-serif';ctx.fillText('x(km)',W-38,H-pad+12);ctx.fillText('T(K)',pad+4,18);
+  const sx=(W-10-pad)/20, sy=(H-pad-10)/260;
+  function px(x){return pad+x*sx;}
+  function py(y){return H-pad-y*sy;}
+  // T=209 line
+  ctx.setLineDash([5,3]);ctx.strokeStyle='#C62828';ctx.lineWidth=1.2;
+  ctx.beginPath();ctx.moveTo(pad,py(209));ctx.lineTo(W-10,py(209));ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle='#C62828';ctx.font='9px sans-serif';ctx.fillText('T=209',W-45,py(209)-4);
+  // segments
+  ctx.strokeStyle='#1565C0';ctx.lineWidth=2;
+  // seg1 [0,2]
+  ctx.beginPath();ctx.moveTo(px(0),py(30));ctx.lineTo(px(2),py(30));ctx.stroke();
+  // seg2 [2,10]
+  ctx.beginPath();ctx.moveTo(px(2),py(30));ctx.lineTo(px(10),py(150));ctx.stroke();
+  // seg3 [10,15]
+  ctx.beginPath();ctx.moveTo(px(10),py(150));ctx.lineTo(px(15),py(210));ctx.stroke();
+  // seg4 [15,20]
+  ctx.strokeStyle='#2E7D32';
+  ctx.beginPath();ctx.moveTo(px(15),py(209));ctx.lineTo(px(20),py(10.8*20+47));ctx.stroke();
+  // answer point
+  ctx.fillStyle='#006064';ctx.beginPath();ctx.arc(px(14.917),py(209),4,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#006064';ctx.font='9px sans-serif';ctx.fillText('14.92',px(14.917)-10,py(209)+14);
+  ctx.fillStyle='#888';ctx.font='9px sans-serif';
+  [2,5,10,15,20].forEach(x=>{ctx.fillText(x,px(x)-4,H-pad+12);});
+}
+
+function drawG3(){
+  const c=document.getElementById('cv_g3');if(!c)return;
+  const ctx=c.getContext('2d');
+  ctx.clearRect(0,0,c.width,c.height);
+  const W=c.width,H=c.height,pad=32;
+  ctx.strokeStyle='#333';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(pad,10);ctx.lineTo(pad,H-pad);ctx.lineTo(W-10,H-pad);ctx.stroke();
+  ctx.fillStyle='#333';ctx.font='10px sans-serif';ctx.fillText('x(lần)',W-42,H-pad+12);ctx.fillText('L(tr)',pad+2,16);
+  const sx=(W-10-pad)/12, sy=(H-pad-10)/25;
+  function px(x){return pad+x*sx;}
+  function py(y){return H-pad-(y-160)*sy;}
+  // L1 [0,5]
+  ctx.strokeStyle='#1565C0';ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(px(0),py(180));
+  for(let x=0;x<=5;x+=0.2){ctx.lineTo(px(x),py(-0.4*x*x+2.8*x+180));}
+  ctx.stroke();
+  // L2 [6,11]
+  ctx.strokeStyle='#C62828';ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(px(6),py(-0.4*36+3.2*6+170));
+  for(let x=6;x<=11;x+=0.2){ctx.lineTo(px(x),py(-0.4*x*x+3.2*x+170));}
+  ctx.stroke();
+  // max points
+  ctx.fillStyle='#2E7D32';
+  [[3,-0.4*9+2.8*3+180],[4,-0.4*16+2.8*4+180]].forEach(([x,y])=>{
+    ctx.beginPath();ctx.arc(px(x),py(y),4,0,Math.PI*2);ctx.fill();
+  });
+  ctx.fillStyle='#2E7D32';ctx.font='9px sans-serif';ctx.fillText('184.8',px(3)-8,py(184.8)-6);
+  ctx.fillStyle='#888';ctx.font='9px sans-serif';
+  [0,2,4,6,8,10].forEach(x=>{ctx.fillText(x,px(x)-4,H-pad+12);});
+  // gap line
+  ctx.setLineDash([3,3]);ctx.strokeStyle='#999';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(px(5),py(184));ctx.lineTo(px(6),py(-0.4*36+3.2*6+170));ctx.stroke();
+  ctx.setLineDash([]);
+}
+
+function drawG4(){
+  const c=document.getElementById('cv_g4');if(!c)return;
+  const ctx=c.getContext('2d');
+  ctx.clearRect(0,0,c.width,c.height);
+  const W=c.width,H=c.height,pad=32;
+  ctx.strokeStyle='#333';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(pad,10);ctx.lineTo(pad,H-pad);ctx.lineTo(W-10,H-pad);ctx.stroke();
+  ctx.fillStyle='#333';ctx.font='10px sans-serif';ctx.fillText('q(tấn)',W-42,H-pad+12);ctx.fillText('P(tr)',pad+2,16);
+  const sx=(W-10-pad)/20, sy=(H-pad-10)/310;
+  function px(x){return pad+x*sx;}
+  function py(y){return H-pad-(y+100)*sy;}
+  // baseline
+  ctx.setLineDash([4,3]);ctx.strokeStyle='#999';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(pad,py(0));ctx.lineTo(W-10,py(0));ctx.stroke();
+  ctx.setLineDash([]);
+  // P1 [0,12]
+  ctx.strokeStyle='#1565C0';ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(px(0),py(-100));
+  for(let q=0;q<=12;q+=0.3){ctx.lineTo(px(q),py(-q*q+35*q-100));}
+  ctx.stroke();
+  // P2 (12,20]
+  ctx.strokeStyle='#C62828';ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(px(12),py(176));
+  for(let q=12;q<=20;q+=0.3){ctx.lineTo(px(q),py(-q*q+27.5*q-10));}
+  ctx.stroke();
+  // max point
+  ctx.fillStyle='#2E7D32';ctx.beginPath();ctx.arc(px(13.75),py(179.06),4,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#2E7D32';ctx.font='9px sans-serif';ctx.fillText('q=13.75',px(13.75)+4,py(179.06)-4);
+  // gap
+  ctx.setLineDash([3,3]);ctx.strokeStyle='#b45309';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(px(12),py(0));ctx.lineTo(px(12),py(200));ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle='#b45309';ctx.font='9px sans-serif';ctx.fillText('q=12',px(12)+2,py(20));
+  ctx.fillStyle='#888';ctx.font='9px sans-serif';
+  [0,5,10,15,20].forEach(q=>{ctx.fillText(q,px(q)-4,H-pad+12);});
+}
+
+function drawG5(){
+  const c=document.getElementById('cv_g5');if(!c)return;
+  const ctx=c.getContext('2d');
+  ctx.clearRect(0,0,c.width,c.height);
+  const W=c.width,H=c.height,pad=30;
+  ctx.strokeStyle='#333';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(pad,10);ctx.lineTo(pad,H-pad);ctx.lineTo(W-10,H-pad);ctx.stroke();
+  ctx.fillStyle='#333';ctx.font='10px sans-serif';ctx.fillText('E(kWh)',W-52,H-pad+12);ctx.fillText('P(đồng)',pad+2,16);
+  const sx=(W-10-pad)/200, sy=(H-pad-10)/430000;
+  function px(e){return pad+e*sx;}
+  function py(p){return H-pad-(p+5000)*sy;}
+  // P(E) = 2100E - 5000 linear
+  ctx.strokeStyle='#2E7D32';ctx.lineWidth=2.5;
+  ctx.beginPath();ctx.moveTo(px(0),py(-5000));ctx.lineTo(px(200),py(415000));ctx.stroke();
+  // max point
+  ctx.fillStyle='#2E7D32';ctx.beginPath();ctx.arc(px(200),py(415000),4,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#2E7D32';ctx.font='9px sans-serif';ctx.fillText('E=200, P=415K',px(170),py(415000)-6);
+  // zero crossing
+  const e0=5000/2100;
+  ctx.fillStyle='#C62828';ctx.beginPath();ctx.arc(px(e0),py(0),3,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#888';ctx.font='9px sans-serif';
+  [0,50,100,150,200].forEach(e=>{ctx.fillText(e,px(e)-8,H-pad+12);});
+  // label slope
+  const[mx,my]=[(pad+px(200))/2,(py(-5000)+py(415000))/2];
+  ctx.fillStyle='#006064';ctx.font='9px sans-serif';ctx.fillText('P\'=2100>0',mx+6,my);
+}
+
+window.addEventListener('DOMContentLoaded',()=>{
+  drawG1();drawG2();drawG3();drawG4();drawG5();
+  if(window.MathJax) MathJax.typesetPromise();
+});
+</script>
+</body>
+</html>

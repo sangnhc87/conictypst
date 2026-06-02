@@ -1,0 +1,1691 @@
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+MỤC LỤC
+PHẦN 1. Khởi Động — Tư Duy Mô Hình Hóa với Hàm Đa Thức
+2
+CHƯƠNG 1. Tối Ưu Hóa Hình Phẳng 2D Cơ Bản
+3
+Bài 1. Bài Toán Rào Mảnh Vườn & Phân Lô
+4
+Bài 2. Cắt Bìa Gấp Hộp Không Nắp
+10
+Bài 3. Thiết Kế Hình Trong Hình
+13
+Bài 4. Thiết Kế Cửa Sổ Vòm & Kiến Trúc
+15
+Bài 4. Bài Toán Tối Ưu Vật Liệu (In Ấn & Poster)
+18
+Bài 4. Bài Toán Chia Cắt Dây (Lựa Chọn Hình Khối)
+21
+Trang 1
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+Trang 2
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+PHẦN 1
+Khung nội dung lớn
+Khởi Động — Tư Duy Mô Hình Hóa 
+với Hàm Đa Thức
+★ Ghi nhớ
+Lộ trình Phần 1: Hàm đa thức bậc 2, bậc 3 là điểm xuất phát lý tưởng vì phương trình đạo hàm 
+giải được bằng đại số sơ cấp. Mục tiêu chính không phải tính toán — mà là tập dịch ngôn ngữ: 
+từ “tối đa diện tích”, “chi phí nhỏ nhất”, “vận tốc lớn nhất” sang 𝑓(𝑥) cụ thể.
+Trang 3
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+CHƯƠNG 1
+Nội dung trọng tâm
+Tối Ưu Hóa Hình Phẳng 2D Cơ Bản
+⚙ Phương pháp
+Quy trình “Conan Logic” — 4 bước cho bài toán tối ưu hình phẳng:
+1. Nhận diện: Xác định hai đại lượng chính — cái cố định (chu vi, diện tích vật liệu, ngân sách) 
+và cái cần tối ưu (diện tích, chi phí, lợi nhuận).
+2. Rút thế: Dùng ràng buộc cố định để biểu diễn một ẩn theo ẩn kia, đưa hàm mục tiêu về một 
+biến duy nhất. Xác định miền xác định (0; 𝑎).
+3. Đạo hàm và cực trị: Giải 𝑓′(𝑥) = 0, kiểm tra dấu 𝑓′(𝑥) hoặc dùng 𝑓″(𝑥). Đừng quên so sánh 
+với giá trị tại biên nếu đoạn đóng!
+4. Kết luận thực tế: Trả lời bằng đơn vị của bài toán (m, m², đồng…), ghi rõ giá trị tối ưu đạt được.
+Bài 1. Bài Toán Rào Mảnh Vườn & Phân Lô
+Ví dụ 1.
+Một nhà vườn có 60 m hàng rào để quây một mảnh đất hình chữ 
+nhật sát một bức tường thẳng dài (không cần rào phía tường). Hỏi 
+phải bố trí chiều dài, chiều rộng bao nhiêu để diện tích mảnh vườn 
+là lớn nhất?
+Bức tường
+𝑥
+𝑥
+60 −2𝑥
+Mảnh vườn
+Lời giải.
+💡 Phương pháp giải
+Trang 4
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+• Nhận diện: Đại lượng cố định là tổng chiều dài hàng rào (60 m). Đại lượng cần tối ưu 
+là diện tích 𝑆.
+• Rút thế: Dùng giả thiết chu vi hàng rào để biểu diễn chiều dài theo chiều rộng, đưa 
+hàm diện tích về một biến 𝑥.
+• Đạo hàm và cực trị: Tìm điểm làm đạo hàm bằng 0 và kết luận dựa trên bảng biến thiên.
+Bức tường
+𝑥
+𝑥
+60 −2𝑥
+Mảnh vườn
+Bước 1: Đặt ẩn và điều kiện.
+Gọi 𝑥 (m) là chiều dài của cạnh hàng rào vuông góc với bức tường (𝑥> 0).
+Vì tổng chiều dài hàng rào là 60 m gồm 2 cạnh vuông góc và 1 cạnh song song với tường, 
+nên chiều dài cạnh song song với tường là 60 −2𝑥 (m).
+Để mảnh vườn tồn tại, các cạnh phải dương:
+60 −2𝑥> 0 ⇔𝑥< 30
+Vậy miền xác định là 𝑥∈(0; 30).
+Bước 2: Thiết lập hàm mục tiêu.
+Diện tích của mảnh vườn hình chữ nhật là hàm số theo 𝑥:
+𝑆(𝑥) = 𝑥(60 −2𝑥) = 60𝑥−2𝑥2
+Bước 3: Đạo hàm và tìm cực trị.
+Ta có đạo hàm:
+𝑆′(𝑥) = 60 −4𝑥
+Cho 𝑆′(𝑥) = 0:
+60 −4𝑥= 0 ⇔𝑥= 15 (thỏa mãn)
+Bảng biến thiên của hàm số 𝑆(𝑥) trên khoảng (0; 30):
+Trang 5
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+𝑥
+𝑆′
+𝑆
+0
+15
+30
++
+0
+−
+0
+450
+0
+Bước 4: Kết luận thực tế.
+Dựa vào bảng biến thiên, diện tích lớn nhất đạt được là 𝑆max = 450 m² tại 𝑥= 15 m.
+Khi đó, chiều rộng (vuông góc với tường) là 15 m, và chiều dài (song song với tường) là 60 −
+2 · 15 = 30 m.
+Vậy nhà vườn cần bố trí kích thước 15 m và 30 m.
+Ví dụ 2.
+Một người chăn nuôi có 100 m hàng rào để quây một 
+khu đất hình chữ nhật sát một bức tường đá thẳng 
+dài (không cần rào phía tường). Khu đất này được 
+chia thành 4 ngăn nhỏ riêng biệt có kích thước bằng 
+nhau bởi ba vách ngăn vuông góc với bức tường. Hỏi 
+chiều dài và chiều rộng của toàn bộ khu đất bằng bao 
+nhiêu để tổng diện tích là lớn nhất?
+Bức tường
+𝑥
+100 −5𝑥
+Ngăn 1 Ngăn 2 Ngăn 3 Ngăn 4
+Lời giải.
+💡 Phương pháp giải
+• Nhận diện: Đại lượng cố định là tổng chiều dài hàng rào (100 m). Đại lượng cần tối ưu 
+là tổng diện tích 𝑆.
+• Rút thế: Dùng giả thiết tổng chiều dài hàng rào (gồm 1 cạnh song song tường và 5 
+cạnh vuông góc tường) để biểu diễn cạnh song song theo cạnh vuông góc, đưa hàm 
+diện tích về một biến 𝑥.
+• Đạo hàm và cực trị: Tìm điểm làm đạo hàm bằng 0 và kết luận cực đại dựa trên bảng 
+biến thiên.
+Trang 6
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+Bức tường
+𝑥
+100 −5𝑥
+Ngăn 1 Ngăn 2 Ngăn 3 Ngăn 4
+Bước 1: Đặt ẩn và điều kiện.
+Gọi 𝑥 (m) là chiều rộng của khu đất, tức là chiều dài cạnh hàng rào vuông góc với bức tường 
+(𝑥> 0).
+Tổng chiều dài hàng rào là 100 m gồm 1 cạnh chiều dài (song song tường) và 5 cạnh chiều 
+rộng (vuông góc tường do có 3 vách ngăn ở giữa). Gọi chiều dài toàn khu đất là 𝑦 (m), ta có 
+phương trình chu vi:
+5𝑥+ 𝑦= 100 ⇔𝑦= 100 −5𝑥
+Để khu đất tồn tại, kích thước phải dương:
+100 −5𝑥> 0 ⇔𝑥< 20
+Vậy miền xác định là 𝑥∈(0; 20).
+Bước 2: Thiết lập hàm mục tiêu.
+Tổng diện tích của toàn bộ khu đất là hàm số theo 𝑥:
+𝑆(𝑥) = 𝑥(100 −5𝑥) = 100𝑥−5𝑥2
+Bước 3: Đạo hàm và tìm cực trị.
+Ta có đạo hàm:
+𝑆′(𝑥) = 100 −10𝑥
+Cho 𝑆′(𝑥) = 0:
+100 −10𝑥= 0 ⇔𝑥= 10 (thỏa mãn)
+Bảng biến thiên của hàm số 𝑆(𝑥) trên khoảng (0; 20):
+𝑥
+𝑆′
+𝑆
+0
+10
+20
++
+0
+−
+0
+500
+0
+Bước 4: Kết luận thực tế.
+Dựa vào bảng biến thiên, tổng diện tích lớn nhất đạt được là 𝑆max = 500 m² tại 𝑥= 10 m.
+Trang 7
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+Khi đó, chiều rộng của khu đất là 10 m, và chiều dài là 𝑦= 100 −5 · 10 = 50 m.
+Vậy người chăn nuôi cần bố trí chiều dài 50 m và chiều rộng 10 m để tổng diện tích lớn nhất.
+Bài tập 1.
+Một khu đất hình chữ nhật sát một bức tường được chia thành hai ô bằng một hàng rào phụ vuông 
+góc với tường. Người ta có 72 m hàng rào. Hỏi phải chọn chiều rộng và chiều dài của khu đất như 
+thế nào để tổng diện tích là lớn nhất?
+Lời giải.
+💡 Phương pháp giải
+• Gọi cạnh vuông góc với tường là 𝑥, cạnh song song với tường là 𝑦.
+• Dùng điều kiện tổng chiều dài hàng rào để biểu diễn 𝑦 theo 𝑥.
+• Khảo sát hàm diện tích bằng đạo hàm và bảng biến thiên.
+Gọi 𝑥 (m) là chiều rộng của khu đất, tức là cạnh vuông góc với tường, và 𝑦 (m) là chiều dài 
+song song với tường. Vì có hai cạnh ngoài và một vách ngăn cùng vuông góc với tường nên 
+ta có:
+3𝑥+ 𝑦= 72 ⇔𝑦= 72 −3𝑥.
+Điều kiện hình học là 𝑥> 0 và 𝑦> 0, suy ra 0 < 𝑥< 24.
+Diện tích khu đất là:
+𝑆(𝑥) = 𝑥𝑦= 𝑥(72 −3𝑥) = 72𝑥−3𝑥2.
+Đây là hàm số cần tối ưu trên khoảng (0; 24).
+Tính đạo hàm:
+𝑆′(𝑥) = 72 −6𝑥.
+Cho 𝑆′(𝑥) = 0 ⇔𝑥= 12.
+Bảng biến thiên của 𝑆(𝑥) trên (0; 24) là:
+Trang 8
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+𝑥
+𝑆′
+𝑆
+0
+12
+24
++
+0
+−
+0
+432
+0
+Từ bảng biến thiên, diện tích lớn nhất khi 𝑥= 12 m. Khi đó 𝑦= 72 −3 · 12 = 36 m và
+𝑆max = 12 · 36 = 432
+m². Vậy kích thước tối ưu là chiều rộng 12 m, chiều dài 36 m.
+Bài tập 2.
+Một sân chơi hình chữ nhật được rào kín bằng 80 m lưới thép. Bên trong sân có thêm một vách 
+ngăn song song với chiều rộng để chia sân thành hai khu. Hỏi phải chọn kích thước sân như thế 
+nào để diện tích sân lớn nhất?
+Lời giải.
+💡 Phương pháp giải
+• Chọn cạnh xuất hiện ba lần trong tổng chiều dài hàng rào làm biến 𝑥.
+• Đưa diện tích về hàm một biến rồi khảo sát bằng đạo hàm.
+• Dựa vào BBT để kết luận kích thước tối ưu.
+Gọi 𝑥 (m) là chiều rộng của sân, tức là cạnh song song với vách ngăn phụ, và 𝑦 (m) là chiều 
+dài của sân. Vì hàng rào gồm 3 đoạn dài 𝑥 và 2 đoạn dài 𝑦, ta có:
+3𝑥+ 2𝑦= 80 ⇔𝑦= 80 −3𝑥
+2
+.
+Điều kiện: 0 < 𝑥< 80
+3 .
+Diện tích sân là:
+𝑆(𝑥) = 𝑥𝑦= 𝑥· 80 −3𝑥
+2
+= 40𝑥−3𝑥2
+2 .
+Ta cần tìm giá trị lớn nhất của 𝑆(𝑥) trên khoảng (0; 80
+3 ).
+Trang 9
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+Đạo hàm của 𝑆 là:
+𝑆′(𝑥) = 40 −3𝑥.
+Cho 𝑆′(𝑥) = 0 ⇔𝑥= 40
+3 .
+Bảng biến thiên:
+𝑥
+𝑆′
+𝑆
+0
+40
+3
+80
+3
++
+0
+−
+0
+800
+3
+0
+Từ bảng biến thiên, diện tích lớn nhất tại 𝑥= 40
+3  m. Khi đó:
+𝑦= 80 −3 · 40
+3
+2
+= 20.
+Vậy sân chơi có diện tích lớn nhất khi chiều rộng bằng 40
+3  m, chiều dài bằng 20 m.
+Bài 2. Cắt Bìa Gấp Hộp Không Nắp
+Ví dụ 1.
+Từ tấm bìa hình vuông cạnh 36 cm, người ta cắt ở mỗi góc một hình vuông cạnh 𝑥 (cm) rồi gấp 
+lên thành hộp không nắp. Tìm 𝑥 để thể tích hộp lớn nhất.
+36
+𝑥
+𝑥
+Đáy hộp
+⟹
+36 −2𝑥
+36 −2𝑥
+𝑥
+Trang 10
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+Lời giải.
+💡 Phương pháp giải
+• Nhận diện: Khi cắt 4 góc và gấp lên, đáy hộp là một hình vuông có cạnh bằng cạnh 
+bìa ban đầu trừ đi 2𝑥. Chiều cao của hộp chính là 𝑥.
+• Hàm mục tiêu: Thể tích 𝑉= diện tích đáy × chiều cao. Thiết lập hàm 𝑉(𝑥) theo 
+một biến 𝑥.
+• Đạo hàm và cực trị: Tìm điểm làm đạo hàm bằng 0 và kết luận GTLN dựa trên bảng 
+biến thiên.
+Gọi 𝑥 (cm) là độ dài cạnh hình vuông bị cắt ở các góc (0 < 𝑥< 18). Khi gấp phần thừa lên, 
+ta được một hình hộp chữ nhật không nắp có đáy là hình vuông cạnh 36 −2𝑥 và chiều cao 
+là 𝑥.
+Thể tích của khối hộp là hàm số theo 𝑥:
+𝑉(𝑥) = 𝑥(36 −2𝑥)2
+Ta có đạo hàm:
+𝑉′(𝑥) = (36 −2𝑥)2 + 𝑥· 2(36 −2𝑥) · (−2)
+= (36 −2𝑥)[(36 −2𝑥) −4𝑥] = (36 −2𝑥)(36 −6𝑥)
+Cho 𝑉′(𝑥) = 0:
+(36 −2𝑥)(36 −6𝑥) = 0 ⇔[𝑥= 18  (loại)
+𝑥= 6  (thỏa mãn)
+Bảng biến thiên của hàm số 𝑉(𝑥) trên khoảng (0; 18):
+𝑥
+𝑉′
+𝑉
+0
+6
+18
++
+0
+−
+0
+3456
+0
+Từ bảng biến thiên, thể tích hộp đạt giá trị lớn nhất khi 𝑥= 6 cm.
+Khi đó, thể tích lớn nhất là 𝑉max = 6 × 242 = 3456 cm³.
+Bài tập 1.
+Trang 11
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+Từ một tấm bìa hình chữ nhật kích thước 32 cm và 20 cm, người ta cắt ở bốn góc bốn hình vuông 
+cạnh 𝑥 cm rồi gấp lên thành một hộp không nắp. Tìm 𝑥 để thể tích của hộp lớn nhất.
+Lời giải.
+💡 Phương pháp giải
+• Xác định đáy hộp sau khi cắt là hình chữ nhật kích thước 32 −2𝑥 và 20 −2𝑥.
+• Lập hàm thể tích theo biến 𝑥.
+• Dùng đạo hàm và BBT để tìm GTLN.
+Gọi 𝑥 (cm) là cạnh hình vuông cắt ở mỗi góc. Khi gấp lên, hộp có chiều cao 𝑥, đáy là hình 
+chữ nhật kích thước 32 −2𝑥 và 20 −2𝑥. Do đó:
+0 < 𝑥< 10.
+Thể tích hộp là:
+𝑉(𝑥) = 𝑥(32 −2𝑥)(20 −2𝑥).
+Khai triển được:
+𝑉(𝑥) = 4𝑥3 −104𝑥2 + 640𝑥.
+Tính đạo hàm:
+𝑉′(𝑥) = 12𝑥2 −208𝑥+ 640 = 4(𝑥−4)(3𝑥−40).
+Trong khoảng (0; 10) chỉ có nghiệm 𝑥= 4 thỏa mãn.
+Bảng biến thiên của 𝑉(𝑥):
+𝑥
+𝑉′
+𝑉
+0
+4
+10
++
+0
+−
+0
+1152
+0
+Từ bảng biến thiên, thể tích lớn nhất của hộp đạt được khi 𝑥= 4 cm. Khi đó:
+𝑉max = 4 · 24 · 12 = 1152
+cm³.
+Trang 12
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+Bài 3. Thiết Kế Hình Trong Hình
+Ví dụ 1.
+Cho một parabol (𝑃) : 𝑦= 9 −𝑥2 và trục hoành 𝑂𝑥. Một 
+hình chữ nhật được nội tiếp trong hình phẳng giới hạn bởi 
+(𝑃) và trục 𝑂𝑥 sao cho một cạnh của hình chữ nhật nằm trên 
+trục hoành và hai đỉnh còn lại nằm trên parabol (tham khảo 
+hình vẽ). Tìm diện tích lớn nhất của hình chữ nhật đó.
+𝑥
+𝑦
+𝑂
+𝑥
+−𝑥
+(𝑃)
+Lời giải.
+💡 Phương pháp giải
+• Mô hình hóa: Gọi tọa độ đỉnh của hình chữ nhật nằm trên trục 𝑂𝑥 (phần dương) là 
+(𝑥; 0). Khi đó, các kích thước của hình chữ nhật sẽ được biểu diễn theo 𝑥.
+• Thiết lập hàm số: Tính diện tích 𝑆(𝑥) của hình chữ nhật.
+• Tối ưu hóa: Sử dụng đạo hàm và bảng biến thiên để tìm giá trị lớn nhất của 𝑆(𝑥) trên 
+khoảng xác định.
+Do tính đối xứng của parabol qua trục tung, ta gọi tọa độ hai đỉnh của hình chữ nhật nằm 
+trên 𝑂𝑥 là (𝑥; 0) và (−𝑥; 0) với 0 < 𝑥< 3.
+Khi đó, hai đỉnh phía trên nằm trên parabol (𝑃) : 𝑦= 9 −𝑥2 sẽ có tọa độ là (𝑥; 9 −𝑥2) và 
+(−𝑥; 9 −𝑥2).
+Kích thước của hình chữ nhật gồm:
+• Chiều rộng nằm trên trục hoành: 2𝑥.
+• Chiều cao: 9 −𝑥2.
+Hàm số biểu diễn diện tích hình chữ nhật là:
+𝑆(𝑥) = 2𝑥(9 −𝑥2) = 18𝑥−2𝑥3 với 𝑥∈(0; 3)
+Tính đạo hàm:
+Trang 13
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+𝑆′(𝑥) = 18 −6𝑥2
+Cho 𝑆′(𝑥) = 0 ⇔18 −6𝑥2 = 0 ⇔𝑥2 = 3 ⇔[𝑥=
+√
+3  (nhận)
+𝑥= −
+√
+3  (loại)
+Bảng biến thiên của hàm số 𝑆(𝑥) trên khoảng (0; 3):
+𝑥
+𝑆′
+𝑆
+0
+√
+3
+3
++
+0
+−
+0
+12
+√
+3
+0
+Từ bảng biến thiên, ta thấy diện tích đạt giá trị lớn nhất khi 𝑥=
+√
+3.
+Diện tích lớn nhất là:
+𝑆max = 𝑆(
+√
+3) = 18
+√
+3 −2(
+√
+3)
+3 = 12
+√
+3
+Bài tập 1.
+Một hình chữ nhật nội tiếp trong nửa đường tròn bán kính 5 cm sao cho đáy của hình chữ nhật nằm 
+trên đường kính của nửa đường tròn. Tìm kích thước hình chữ nhật để diện tích của nó lớn nhất.
+Lời giải.
+💡 Phương pháp giải
+• Gọi nửa chiều rộng của hình chữ nhật là 𝑥.
+• Từ phương trình đường tròn suy ra chiều cao theo 𝑥.
+• Lập hàm diện tích rồi dùng đạo hàm và BBT để tối ưu.
+Gọi hai đỉnh đáy của hình chữ nhật là (−𝑥; 0) và (𝑥; 0) với 0 < 𝑥< 5. Khi đó hai đỉnh trên 
+nằm trên nửa đường tròn 𝑥2 + 𝑦2 = 25, nên chiều cao của hình chữ nhật là:
+𝑦=
+√
+25 −𝑥2.
+Diện tích hình chữ nhật là:
+𝑆(𝑥) = 2𝑥
+√
+25 −𝑥2,  với 𝑥∈(0; 5).
+Trang 14
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+Tính đạo hàm:
+𝑆′(𝑥) = 2
+√
+25 −𝑥2 −2
+𝑥2
+√
+25 −𝑥2 = 2 25 −2𝑥2
+√
+25 −𝑥2 .
+Cho 𝑆′(𝑥) = 0 ⇔25 −2𝑥2 = 0 ⇔𝑥= 5
+√
+2
+.
+Bảng biến thiên của 𝑆(𝑥):
+𝑥
+𝑆′
+𝑆
+0
+5
+√
+2
+5
++
+0
+−
+0
+25
+0
+Từ bảng biến thiên, diện tích lớn nhất bằng 25 cm² khi 𝑥= 5
+√
+2
+. Do đó chiều rộng của hình 
+chữ nhật là 2𝑥= 5
+√
+2 cm, còn chiều cao là:
+𝑦= √25 −25
+2 = 5
+√
+2
+cm.
+Bài 4. Thiết Kế Cửa Sổ Vòm & Kiến Trúc
+Ví dụ 1.
+Một kiến trúc sư cần thiết kế một cửa sổ kiểu Norman (cửa sổ có dạng một hình chữ nhật phía 
+dưới và một nửa hình tròn phía trên). Biết rằng chu vi của toàn bộ cửa sổ (bỏ qua phần viền gạch 
+nối giữa cung tròn và hình chữ nhật) là 8 mét. Tìm chiều rộng của cửa sổ để phần diện tích đón 
+ánh sáng là lớn nhất.
+Lời giải.
+💡 Phương pháp giải
+Trang 15
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+• Mô hình hóa: Gọi bán kính của nửa hình tròn là 𝑥. Khi đó chiều rộng hình chữ nhật 
+là 2𝑥. Gọi chiều cao hình chữ nhật là 𝑦.
+• Thiết lập hàm số: Từ chu vi 𝑃= 8, biểu diễn 𝑦 theo 𝑥. Lập hàm diện tích 𝑆(𝑥).
+• Tối ưu hóa: Đạo hàm và tìm GTLN của 𝑆(𝑥).
+2𝑥
+𝑦
+𝑦
+𝑥
+Chiều rộng
+Gọi 𝑥 (m) là bán kính của nửa hình tròn phía trên (𝑥> 0).
+Khi đó, chiều rộng của phần hình chữ nhật là 2𝑥.
+Gọi 𝑦 (m) là chiều cao của phần hình chữ nhật (𝑦> 0).
+Chu vi của cửa sổ gồm 1 cạnh đáy (2𝑥), 2 cạnh bên (2𝑦) và độ dài nửa đường tròn (𝜋𝑥). Theo 
+giả thiết, ta có:
+2𝑥+ 2𝑦+ 𝜋𝑥= 8 ⇔2𝑦= 8 −(2 + 𝜋)𝑥⇔𝑦= 4 −2 + 𝜋
+2
+𝑥
+Điều kiện 𝑦> 0 ⇔4 −2 + 𝜋
+2
+𝑥> 0 ⇔𝑥<
+8
+2 + 𝜋.
+Diện tích cửa sổ là tổng diện tích hình chữ nhật và nửa hình tròn:
+𝑆(𝑥) = 2𝑥· 𝑦+ 1
+2𝜋𝑥2
+= 2𝑥(4 −2 + 𝜋
+2
+𝑥) + 1
+2𝜋𝑥2
+= 8𝑥−(2 + 𝜋)𝑥2 + 1
+2𝜋𝑥2
+= 8𝑥−(2 + 𝜋
+2)𝑥2
+Ta có đạo hàm:
+𝑆′(𝑥) = 8 −2(2 + 𝜋
+2)𝑥= 8 −(4 + 𝜋)𝑥
+Cho 𝑆′(𝑥) = 0 ⇔𝑥=
+8
+4 + 𝜋 (thỏa mãn điều kiện).
+Bảng biến thiên:
+Trang 16
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+𝑥
+𝑆′
+𝑆
+0
+8
+4 + 𝜋
+8
+2 + 𝜋
++
+0
+−
+0
+16
+4 + 𝜋
+0
+Dựa vào bảng biến thiên, diện tích lớn nhất đạt được khi 𝑥=
+8
+4 + 𝜋.
+Chiều rộng của cửa sổ khi đó là 2𝑥=
+16
+4 + 𝜋≈2.24 (m).
+Bài tập 1.
+Một cửa sổ kiểu Norman có chu vi ngoài bằng 4 + 𝜋 mét. Hỏi phải chọn bán kính phần nửa đường 
+tròn phía trên bằng bao nhiêu để diện tích cửa sổ lớn nhất? Từ đó suy ra chiều rộng và chiều cao 
+phần hình chữ nhật.
+Lời giải.
+💡 Phương pháp giải
+• Gọi bán kính nửa đường tròn là 𝑥, chiều cao phần chữ nhật là 𝑦.
+• Từ chu vi cố định, biểu diễn 𝑦 theo 𝑥.
+• Lập hàm diện tích và khảo sát bằng đạo hàm, BBT.
+Gọi 𝑥 (m) là bán kính của nửa đường tròn, 𝑦 (m) là chiều cao phần hình chữ nhật. Khi đó 
+chiều rộng cửa sổ là 2𝑥. Chu vi ngoài của cửa sổ là:
+2𝑦+ 2𝑥+ 𝜋𝑥= 4 + 𝜋.
+Suy ra:
+𝑦= 4 + 𝜋−(2 + 𝜋)𝑥
+2
+.
+Điều kiện 𝑦> 0 cho ta 0 < 𝑥< 4 + 𝜋
+2 + 𝜋.
+Diện tích cửa sổ là tổng diện tích hình chữ nhật và nửa hình tròn:
+Trang 17
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+𝑆(𝑥) = 2𝑥𝑦+ 1
+2𝜋𝑥2
+= 𝑥(4 + 𝜋−(2 + 𝜋)𝑥) + 1
+2𝜋𝑥2
+= (4 + 𝜋)𝑥−(2 + 𝜋
+2)𝑥2.
+Tính đạo hàm:
+𝑆′(𝑥) = (4 + 𝜋) −(4 + 𝜋)𝑥= (4 + 𝜋)(1 −𝑥).
+Cho 𝑆′(𝑥) = 0 ⇔𝑥= 1.
+Bảng biến thiên của 𝑆(𝑥):
+𝑥
+𝑆′
+𝑆
+0
+1
+4 + 𝜋
+2 + 𝜋
++
+0
+−
+0
+2 + 𝜋
+2
+𝜋(4 + 𝜋)2
+2(2 + 𝜋)2
+Từ bảng biến thiên, diện tích cửa sổ lớn nhất khi 𝑥= 1 m. Khi đó chiều rộng cửa sổ là 2𝑥=
+2 m, còn chiều cao phần hình chữ nhật là:
+𝑦= 4 + 𝜋−(2 + 𝜋) · 1
+2
+= 1
+m.
+Bài 5. Bài Toán Tối Ưu Vật Liệu (In Ấn & Poster)
+Ví dụ 1.
+Người ta muốn thiết kế một tấm poster hình chữ nhật có diện tích phần in chữ (phần lõi) là 384 
+cm². Lề trên và lề dưới của poster là 3 cm; lề trái và lề phải là 2 cm. Tìm các kích thước của tấm 
+poster sao cho nó sử dụng ít giấy nhất (nghĩa là diện tích toàn bộ tấm poster là nhỏ nhất).
+Trang 18
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+Lời giải.
+Phần in chữ
+384cm2
+𝑥
+𝑦
+Gọi 𝑥, 𝑦 (cm) lần lượt là chiều rộng và chiều cao của phần in chữ (𝑥, 𝑦> 0).
+Theo giả thiết, diện tích phần in chữ là 𝑥· 𝑦= 384 ⇔𝑦= 384
+𝑥.
+Do lề trên/dưới là 3 cm và lề trái/phải là 2 cm, kích thước của toàn bộ tấm poster sẽ là:
+• Chiều rộng: 𝑥+ 2 + 2 = 𝑥+ 4 (cm).
+• Chiều cao: 𝑦+ 3 + 3 = 𝑦+ 6 (cm).
+Diện tích toàn bộ tấm poster là:
+𝑆(𝑥) = (𝑥+ 4)(𝑦+ 6) = (𝑥+ 4)(384
+𝑥+ 6)
+= 384 + 6𝑥+ 1536
+𝑥
++ 24 = 6𝑥+ 1536
+𝑥
++ 408
+Đạo hàm:
+𝑆′(𝑥) = 6 −1536
+𝑥2
+Cho 𝑆′(𝑥) = 0 ⇔6𝑥2 = 1536 ⇔𝑥2 = 256 ⇔𝑥= 16  (do 𝑥> 0 ).
+Bảng biến thiên trên (0; +∞):
+𝑥
+𝑆′
+𝑆
+0
+16
++∞
+−
+0
++
++∞
+600
++∞
+Trang 19
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+Vậy diện tích nhỏ nhất đạt được khi 𝑥= 16.
+Khi đó, kích thước tổng thể của poster là 𝑥+ 4 = 20 (cm) và 𝑦+ 6 = 384
+16 + 6 = 30 (cm).
+Kết luận: Kích thước tối ưu của poster là 20 × 30 cm.
+Bài tập 1.
+Một tấm bìa quảng cáo có phần in chữ hình chữ nhật diện tích 256 cm². Lề trái và lề phải đều rộng 
+1 cm, lề trên và lề dưới đều rộng 4 cm. Tìm kích thước của cả tấm bìa sao cho diện tích toàn bộ 
+tấm bìa nhỏ nhất.
+Lời giải.
+💡 Phương pháp giải
+• Gọi kích thước phần in chữ là 𝑥 và 𝑦.
+• Dùng điều kiện diện tích phần in chữ để biểu diễn 𝑦 theo 𝑥.
+• Lập hàm diện tích toàn tấm bìa và khảo sát bằng BBT.
+Gọi 𝑥, 𝑦 (cm) lần lượt là chiều rộng và chiều cao của phần in chữ. Theo giả thiết:
+𝑥𝑦= 256 ⇔𝑦= 256
+𝑥,  với 𝑥> 0.
+Chiều rộng cả tấm bìa là 𝑥+ 2, chiều cao cả tấm bìa là 𝑦+ 8. Vì thế diện tích toàn bộ tấm 
+bìa là:
+𝑆(𝑥) = (𝑥+ 2)(𝑦+ 8) = (𝑥+ 2)(256
+𝑥+ 8)
+= 8𝑥+ 512
+𝑥+ 272.
+Tính đạo hàm:
+𝑆′(𝑥) = 8 −512
+𝑥2 .
+Cho 𝑆′(𝑥) = 0 ⇔𝑥2 = 64 ⇔𝑥= 8.
+Bảng biến thiên của 𝑆(𝑥) trên (0; +∞):
+Trang 20
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+𝑥
+𝑆′
+𝑆
+0
+8
++∞
+−
+0
++
++∞
+400
++∞
+Vậy diện tích nhỏ nhất của cả tấm bìa là 400 cm² khi 𝑥= 8 cm. Khi đó 𝑦= 256
+8
+= 32 cm, 
+nên kích thước tối ưu của tấm bìa là 10 cm và 40 cm.
+Bài 5. Bài Toán Chia Cắt Dây (Lựa Chọn Hình Khối)
+Ví dụ 1.
+Một sợi dây dài 10 mét được cắt làm hai đoạn. Đoạn thứ nhất được uốn thành một hình vuông, 
+đoạn thứ hai được uốn thành một hình tròn. Hỏi phải cắt sợi dây ở vị trí nào (tức là đoạn thứ nhất 
+dài bao nhiêu) để tổng diện tích của hình vuông và hình tròn thu được là nhỏ nhất?
+Lời giải.
+𝑥
+10 −𝑥
+Hình vuông
+Hình tròn
+💡 Phương pháp giải
+• Gọi đoạn dây làm hình vuông là 𝑥, khi đó đoạn còn lại làm hình tròn là 10 −𝑥.
+• Biểu diễn diện tích hai hình theo 𝑥 rồi cộng lại thành hàm mục tiêu.
+• Tìm điểm tới hạn và dùng BBT để kết luận GTNN.
+Trang 21
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+Gọi 𝑥 (m) là chiều dài của đoạn dây thứ nhất dùng để uốn thành hình vuông (0 < 𝑥< 10).
+Khi đó, chiều dài đoạn dây thứ hai uốn thành hình tròn là 10 −𝑥 (m).
+Diện tích hình vuông: Chu vi hình vuông là 𝑥, suy ra cạnh hình vuông là 𝑥
+4.
+⇒𝑆vuông = (𝑥
+4)
+2
+= 𝑥2
+16.
+Diện tích hình tròn: Chu vi hình tròn là 10 −𝑥, suy ra bán kính 𝑅= 10 −𝑥
+2𝜋
+.
+⇒𝑆tròn = 𝜋(10 −𝑥
+2𝜋
+)
+2
+= (10 −𝑥)2
+4𝜋
+.
+Tổng diện tích hai hình là:
+𝑆(𝑥) = 𝑥2
+16 + (10 −𝑥)2
+4𝜋
+Đạo hàm:
+𝑆′(𝑥) = 𝑥
+8 −210 −𝑥
+4𝜋
+= 𝑥
+8 −10 −𝑥
+2𝜋
+Cho 𝑆′(𝑥) = 0:
+⇒𝜋𝑥−4(10 −𝑥) = 0 ⇔(𝜋+ 4)𝑥= 40 ⇔𝑥=
+40
+𝜋+ 4 ≈5.60 (m)
+Bảng biến thiên của hàm số 𝑆(𝑥) trên (0; 10) là:
+𝑥
+𝑆′
+𝑆
+0
+40
+𝜋+ 4
+10
+−
+0
++
+25
+𝜋
+25
+𝜋+ 4
+25
+4
+Từ bảng biến thiên, tổng diện tích nhỏ nhất tại 𝑥=
+40
+𝜋+ 4 ≈5.60 m. Vậy cần cắt đoạn dây 
+dùng làm hình vuông dài khoảng 5.60 m.
+Bài tập 1.
+Một sợi dây dài 20 m được cắt thành hai đoạn. Một đoạn uốn thành hình vuông, đoạn còn lại uốn 
+thành hình tròn. Hỏi phải cắt như thế nào để tổng diện tích hai hình thu được là lớn nhất?
+Trang 22
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+Lời giải.
+💡 Phương pháp giải
+• Gọi đoạn dây làm hình vuông là 𝑥.
+• Thiết lập hàm tổng diện tích trên đoạn đóng [0; 20].
+• Khảo sát BBT rồi so sánh giá trị tại các biên để kết luận GTLN.
+Gọi 𝑥 (m) là chiều dài đoạn dây dùng làm hình vuông. Khi đó đoạn còn lại dài 20 −𝑥 (m) 
+dùng làm hình tròn. Điều kiện: 0 ≤𝑥≤20.
+Diện tích hình vuông là 𝑥2
+16, diện tích hình tròn là (20 −𝑥)2
+4𝜋
+. Do đó:
+𝑆(𝑥) = 𝑥2
+16 + (20 −𝑥)2
+4𝜋
+.
+Tính đạo hàm:
+𝑆′(𝑥) = 𝑥
+8 −20 −𝑥
+2𝜋
+.
+Cho 𝑆′(𝑥) = 0 ⇔𝜋𝑥= 4(20 −𝑥) ⇔𝑥=
+80
+𝜋+ 4.
+Bảng biến thiên của 𝑆(𝑥) trên [0; 20] là:
+𝑥
+𝑆′
+𝑆
+0
+80
+𝜋+ 4
+20
+−
+0
++
+100
+𝜋
+100
+𝜋+ 4
+25
+Từ bảng biến thiên, 𝑆(𝑥) đạt giá trị nhỏ nhất ở điểm trong là 𝑥=
+80
+𝜋+ 4. Vì bài toán hỏi 
+GTLN trên đoạn [0; 20], ta so sánh hai đầu mút:
+𝑆(0) = 100
+𝜋,
+𝑆(20) = 25.
+Do 100
+𝜋
+> 25, tổng diện tích lớn nhất khi 𝑥= 0.
+Vậy không nên dùng đoạn nào để uốn thành hình vuông; toàn bộ sợi dây 20 m nên được 
+uốn thành hình tròn thì tổng diện tích thu được là lớn nhất.
+Trang 23
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+◆BÀI TẬP TỔNG HỢP
+TN · DS · TLN
+A. TRẮC NGHIỆM — Chọn một đáp án đúng
+Câu 1. Một tấm bìa hình vuông cạnh 12 cm. Cắt bốn góc vuông mỗi góc cạnh 𝑥 cm rồi gấp thành hộp 
+không nắp. Thể tích hộp lớn nhất đạt được khi 𝑥 bằng
+12
+𝑥
+𝑥
+A.
+1 cm
+B.
+2 cm
+C.
+3 cm
+D.
+4 cm
+Lời giải.
+💡 Phương pháp giải
+• Biểu diễn đại lượng cần tối ưu theo 1 biến số.
+• Khảo sát sự biến thiên của hàm số trên tập xác định.
+12 −2𝑥
+12 −2𝑥
+𝑥
+Gọi 𝑥> 0 là độ dài cạnh cắt ở 4 góc (0 < 𝑥< 6). Sau khi gấp lên, đáy hộp là hình vuông cạnh 
+12 −2𝑥, chiều cao hộp là 𝑥.
+Thể tích hộp: 𝑉(𝑥) = 𝑥(12 −2𝑥)2.
+Đạo hàm 𝑉′(𝑥) = (12 −2𝑥)2 + 2(12 −2𝑥)(−2)𝑥= (12 −2𝑥)(12 −6𝑥). Cho 𝑉′(𝑥) = 0 ⇔
+[𝑥= 6  (loại)
+𝑥= 2  (nhận).
+Bảng biến thiên:
+Trang 24
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+𝑥
+𝑉′
+𝑉
+0
+2
+6
++
+0
+−
+0
+128
+0
+Vậy thể tích lớn nhất khi 𝑥= 2 cm.
+Câu 2. Người ta muốn làm một chiếc máng nước đúc từ tấm tôn phẳng có bề rộng 30 cm. Bằng cách 
+gập hai mép có cùng chiều rộng 𝑥 lên một góc 90𝑜 để tạo mặt cắt ngang là một hình chữ nhật hở nắp. 
+Tìm 𝑥 để sức chứa của máng nước là lớn nhất (diện tích mặt cắt ngang lớn nhất).
+𝑥
+30 −2𝑥
+𝑥
+30 −2𝑥
+𝑥
+𝑥
+A.
+𝑥= 5 cm
+B.
+𝑥= 7.5 cm
+C.
+𝑥= 10 cm
+D.
+𝑥= 12.5 cm
+Lời giải.
+💡 Phương pháp giải
+• Biểu diễn đại lượng cần tối ưu theo 1 biến số.
+• Khảo sát sự biến thiên của hàm số trên tập xác định.
+Kích thước mặt cắt ngang của máng: Chiều rộng là 30 −2𝑥, chiều cao là 𝑥. Điều kiện: 0 <
+𝑥< 15.
+Diện tích mặt cắt ngang là hàm số mục tiêu:
+𝑆(𝑥) = 𝑥(30 −2𝑥) = 30𝑥−2𝑥2
+Đạo hàm 𝑆′(𝑥) = 30 −4𝑥. Cho 𝑆′(𝑥) = 0 ⇔𝑥= 30
+4 = 7.5.
+Bảng biến thiên của 𝑆(𝑥) trên (0; 15) là:
+Trang 25
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+𝑥
+𝑆′
+𝑆
+0
+7.5
+15
++
+0
+−
+0
+112.5
+0
+Từ bảng biến thiên, diện tích mặt cắt ngang lớn nhất khi 𝑥= 7.5 cm.
+Câu 3. Một người muốn làm một bể cá bằng kính hở nắp (không có nắp đậy). Đáy bể là hình chữ nhật 
+có chiều dài gấp đôi chiều rộng. Bể cá có thể tích không đổi là 576 dm³ (tương đương 576 lít). Giá thành 
+kính làm đáy là 100.000 đồng/dm², và giá kính làm vách xung quanh là 50.000 đồng/dm². Chi phí mua 
+kính thấp nhất tiệm cận với số nào sau đây?
+𝑥
+2𝑥
+ℎ
+A.
+1.520.000 đồng
+B.
+1.800.000 đồng
+C.
+2.160.000 đồng
+D.
+2.450.000 đồng
+Lời giải.
+💡 Phương pháp giải
+• Biểu diễn đại lượng cần tối ưu theo 1 biến số.
+• Khảo sát sự biến thiên của hàm số trên tập xác định.
+Gọi kích thước của bể cá là: chiều rộng 𝑥 (dm), chiều dài 2𝑥 (dm) và chiều cao ℎ (dm) với 𝑥>
+0, ℎ> 0.
+Thể tích của bể cá là 𝑉= 𝑥· 2𝑥· ℎ= 2𝑥2ℎ.
+Theo giả thiết, 𝑉= 576 ⇒2𝑥2ℎ= 576 ⇒ℎ= 288
+𝑥2 .
+Chi phí làm bể kính gồm hai phần: phần đáy và phần vách xung quanh (không nắp đậy).
+• Diện tích đáy: 𝑆đáy = 𝑥· 2𝑥= 2𝑥2 (dm²).
+• Diện tích vách xung quanh: 𝑆vách = 2(𝑥ℎ+ 2𝑥ℎ) = 6𝑥ℎ (dm²).
+Hàm chi phí vật liệu 𝐶(𝑥) (đơn vị: đồng) là:
+Trang 26
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+𝐶(𝑥) = 100.000 · 𝑆đáy + 50.000 · 𝑆vách
+= 100.000 · (2𝑥2) + 50.000 · (6𝑥ℎ)
+= 200.000𝑥2 + 300.000𝑥· 288
+𝑥2
+= 200.000𝑥2 + 86.400.000
+𝑥
+Tính đạo hàm để tìm giá trị nhỏ nhất:
+𝐶′(𝑥) = 400.000𝑥−86.400.000
+𝑥2
+𝐶′(𝑥) = 0 ⇔400.000𝑥3 = 86.400.000 ⇔𝑥3 = 216 ⇒𝑥= 6.
+Lập bảng biến thiên:
+𝑥
+𝐶′(𝑥)
+𝐶(𝑥)
+0
+6
++∞
+−
+0
++
++∞
+2.160.000
++∞
+Từ bảng biến thiên, hàm số đạt giá trị nhỏ nhất kéo theo chi phí mua kính thấp nhất tại 𝑥= 6.
+Khi 𝑥= 6, chi phí thấp nhất là:
+𝐶(6) = 2.160.000  (đồng).
+Câu 4. Cho một parabol (𝑃) : 𝑦= 4 −𝑥2. Nửa bức tranh là một hình chữ nhật nội tiếp trong parabol 
+sao cho cạnh đáy nằm trên trục hoành. Tìm diện tích lớn nhất của bức tranh đó.
+𝑥
+𝑦
+𝑆
+𝑥
+−𝑥
+A.
+16
+9
+B.
+32
+3
+√
+3
+C.
+12
+√
+3
+D.
+10
+Lời giải.
+💡 Phương pháp giải
+Trang 27
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+• Biểu diễn đại lượng cần tối ưu theo 1 biến số.
+• Khảo sát sự biến thiên của hàm số trên tập xác định.
+Gọi tọa độ góc chữ nhật nằm ở nửa trục ngang dương là (𝑥; 0) với 0 < 𝑥< 2.
+Khi đó đỉnh nằm trên Parabol có tọa độ (𝑥; 4 −𝑥2).
+Chiều rộng tấm tranh là 2𝑥, chiều cao là 4 −𝑥2.
+Diện tích 𝑆(𝑥) = 2𝑥(4 −𝑥2) = 8𝑥−2𝑥3.
+Đạo hàm 𝑆′(𝑥) = 8 −6𝑥2. Cho 𝑆′(𝑥) = 0 ⇔𝑥2 = 4
+3 ⇔𝑥= 2
+√
+3
+.
+Bảng biến thiên của 𝑆(𝑥) trên (0; 2) là:
+𝑥
+𝑆′
+𝑆
+0
+2
+√
+3
+2
++
+0
+−
+0
+32
+3
+√
+3
+0
+Diện tích max: 𝑆max = 𝑆( 2
+√
+3
+) = 2( 2
+√
+3
+)(4 −4
+3) = 4
+√
+3
+· 8
+3 = 32
+3
+√
+3
+.
+B. ĐÚNG – S A I — Xét tính đúng/sai của mỗi phát biểu
+Câu 1. Một lon nước ngọt hình trụ tròn xoay có thể tích cố định là 𝑉= 32𝜋 (cm³). Hãng sản xuất 
+muốn tìm kích thước bán kính đáy 𝑟 và chiều cao ℎ của lon sao cho tốn ít vật liệu nhất (nghĩa là diện 
+tích toàn phần của hộp nhỏ nhất).
+𝑟
+ℎ
+Phát biểu
+Đ
+S
+a) Chiều cao ℎ được biểu diễn qua 𝑟 bằng công thức ℎ= 32
+𝑟2 .
+✓
+b) Diện tích toàn phần của lon nước ngọt là 𝑆(𝑟) = 2𝜋𝑟2 + 64𝜋
+𝑟.
+✓
+c) Hãng cần thiết kế lon có chiều cao gấp đôi bán kính đáy (ℎ= 2𝑟) để tối ưu.
+✓
+Trang 28
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+d) Bán kính đáy tạo ra sự tối ưu là 𝑟= 4 cm.
+✓
+Lời giải.
+💡 Phương pháp giải
+• Biểu diễn đại lượng cần tối ưu theo 1 biến số.
+• Khảo sát sự biến thiên của hàm số trên tập xác định.
+Phát biểu 1 là Đúng. 𝑉= 𝜋𝑟2ℎ= 32𝜋⇒ℎ= 32
+𝑟2 .
+Phát biểu 2 là Đúng. Diện tích toàn phần (2 đáy + xung quanh): 𝑆(𝑟) = 2𝜋𝑟2 + 2𝜋𝑟ℎ= 2𝜋𝑟2 +
+2𝜋𝑟(32
+𝑟2 ) = 2𝜋𝑟2 + 64𝜋
+𝑟.
+Phát biểu 3 là Đúng. Tính đạo hàm 𝑆′(𝑟) = 4𝜋𝑟−64 𝜋
+𝑟2 . Cho 𝑆′(𝑟) = 0 ⇔4𝜋𝑟3 = 64𝜋⇔
+𝑟3 = 16 ⇔𝑟=
+3√
+16 ≈2.52.
+Bảng biến thiên của 𝑆(𝑟) trên (0; +∞) là:
+𝑟
+𝑆′
+𝑆
+0
+3√
+16
++∞
+−
+0
++
++∞
+6𝜋
+3√
+256
++∞
+Từ bảng biến thiên, diện tích toàn phần nhỏ nhất khi 𝑟=
+3√
+16. Khi đó:
+ℎ= 32
+𝑟2 =
+32
+3√
+256
+= 2
+3√
+16 = 2𝑟.
+Vì vậy phát biểu 3 là Đúng.
+Phát biểu 4 là Sai vì bán kính tối ưu là 𝑟=
+3√
+16 ≈2.52 cm, không phải 4 cm.
+Câu 2. Cho một miếng tôn hình chữ nhật có kích thước 50 cm và 80 cm. Người ta cắt 4 góc của tấm 
+tôn 4 hình vuông bằng nhau cạnh 𝑥 để gấp thành một hộp không nắp.
+Phát biểu
+Đ
+S
+a) Sau khi gấp, đáy hộp là hình chữ nhật có chu vi là 260 −4𝑥.
+✓
+Trang 29
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+b) Thể tích của hộp được tính bởi 𝑉(𝑥) = 4𝑥3 −260𝑥2 + 4000𝑥.
+✓
+c) Phương trình 𝑉′(𝑥) = 0 có một nghiệm nguyên là 𝑥= 10.
+✓
+d) Giá trị lớn nhất của 𝑉(𝑥) là 15000 cm³.
+✓
+Lời giải.
+💡 Phương pháp giải
+• Biểu diễn đại lượng cần tối ưu theo 1 biến số.
+• Khảo sát sự biến thiên của hàm số trên tập xác định.
+Đáy hộp là hình chữ nhật có cạnh 80 −2𝑥 và 50 −2𝑥. Chu vi đáy là 2((80 −2𝑥) + (50 −2𝑥)) =
+260 −8𝑥 => Ý 1 Sai.
+Thể tích hộp: 𝑉(𝑥) = 𝑥(80 −2𝑥)(50 −2𝑥) = 𝑥(4000 −260𝑥+ 4𝑥2) = 4𝑥3 −260𝑥2 + 4000𝑥 
+với 0 < 𝑥< 25 => Ý 2 Đúng.
+Đạo 
+hàm 
+𝑉′(𝑥) = 12𝑥2 −520𝑥+ 4000 = 4(3𝑥2 −130𝑥+ 1000). 
+Cho 
+𝑉′(𝑥) = 0 ⇔
+[
+𝑥= 10  (nhận)
+𝑥= 100
+3
+ (loại). Vậy có 1 nghiệm nguyên là 𝑥= 10 => Ý 3 Đúng.
+Bảng biến thiên của 𝑉(𝑥) trên (0; 25) là:
+𝑥
+𝑉′
+𝑉
+0
+10
+25
++
+0
+−
+0
+18000
+0
+Từ bảng biến thiên, 𝑉max = 𝑉(10) = 18000 cm³, nên ý 4 là Sai.
+C. TỰ LUẬN NGẮN — Ghi đáp số vào ô trống
+Câu 1. Một sợi dây có chiều dài 28 m được chia làm 2 phần. Phần thứ nhất uốn thành một hình vuông, 
+phần thứ hai uốn thành một hình tròn. Hỏi chiều dài (m) đoạn uốn thành vuông bằng bao nhiêu (làm 
+tròn đến hàng phần mười) để tổng diện tích hai hình thu được là nhỏ nhất? (Lấy 𝜋≈3.14).
+Trang 30
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+𝑆1
+𝑆2
+Đáp số:
+15, 7
+Lời giải.
+💡 Phương pháp giải
+• Biểu diễn đại lượng cần tối ưu theo 1 biến số.
+• Khảo sát sự biến thiên của hàm số trên tập xác định.
+Gọi 𝑥> 0 là chiều dài đoạn tạo hình vuông. Cạnh hình vuông là 𝑥
+4, diện tích 𝑆1 = (𝑥
+4)
+2
+= 𝑥2
+16.
+Chiều dài đoạn làm hình tròn là 28 −𝑥. Bán kính 𝑟= 28 −𝑥
+2𝜋
+, diện tích 𝑆2 = 𝜋𝑟2 = (28 −𝑥)2
+4𝜋
+.
+Hàm tổng diện tích 𝑆(𝑥) = 𝑥2
+16 + (28 −𝑥)2
+4𝜋
+. Đạo hàm 𝑆′(𝑥) = 𝑥
+8 −28 −𝑥
+2𝜋
+= 0 ⇔𝜋𝑥=
+4(28 −𝑥) ⇔(𝜋+ 4)𝑥= 112 ⇔𝑥= 112
+𝜋+ 4.
+Bảng biến thiên của 𝑆(𝑥) trên (0; 28) là:
+𝑥
+𝑆′
+𝑆
+0
+112
+𝜋+ 4
+28
+−
+0
++
+196
+𝜋
+196
+𝜋+ 4
+49
+Từ bảng biến thiên, tổng diện tích nhỏ nhất khi 𝑥= 112
+𝜋+ 4. Với 𝜋≈3.14,
+𝑥≈112
+7.14 ≈15.686 ≈15.7
+(m).
+Câu 2. Người ta muốn thiết kế một tấm poster hình chữ nhật có diện tích phần in chữ là 200 cm², lề 
+trên/dưới mỗi lề bao 2 cm, lề trái/phải mỗi lề bao 1 cm. Tính diện tích toàn bộ tấm poster nhỏ nhất có 
+thể (cm²).
+Trang 31
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+In chữ
+2
+2
+1
+1
+Đáp số:
+288
+Lời giải.
+💡 Phương pháp giải
+• Biểu diễn đại lượng cần tối ưu theo 1 biến số.
+• Khảo sát sự biến thiên của hàm số trên tập xác định.
+Gọi 𝑥, 𝑦 lần lượt là chiều rộng, chiều cao phần in chữ (𝑥> 0). Diện tích 𝑥· 𝑦= 200 ⇔𝑦= 200
+𝑥.
+Kích thước poster: Rộng 𝑥+ 2 (do lề 1+1), Cao 𝑦+ 4 (do lề 2+2).
+Diện tích 𝑆(𝑥) = (𝑥+ 2)(𝑦+ 4) = (𝑥+ 2)(200
+𝑥+ 4) = 200 + 4𝑥+ 400
+𝑥+ 8 = 4𝑥+ 400
+𝑥+
+208.
+Đạo hàm 𝑆′(𝑥) = 4 −400
+𝑥2 = 0 ⇔𝑥2 = 100 ⇔𝑥= 10.
+Bảng biến thiên của 𝑆(𝑥) trên (0; +∞) là:
+𝑥
+𝑆′
+𝑆
+0
+10
++∞
+−
+0
++
++∞
+288
++∞
+Khi đó 𝑆min = 4(10) + 400
+10 + 208 = 40 + 40 + 208 = 288 cm².
+Câu 3. Một khu đất hình chữ nhật được rào dọc theo một con sông (bờ sông không cần rào). Người 
+ta có 100 mét lưới rào. Kích thước hình chữ nhật (chiều rộng 𝑥 mét và chiều dài 𝑦 mét dọc theo con 
+sông) phải tối ưu ra sao để diện tích là lớn nhất, khi đó diện tích lớn nhất bằng bao nhiêu m²?
+Đáp số:
+1250
+Trang 32
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+Lời giải.
+💡 Phương pháp giải
+• Biểu diễn đại lượng cần tối ưu theo 1 biến số.
+• Khảo sát sự biến thiên của hàm số trên tập xác định.
+Chiều dài hàng rào là 2𝑥+ 𝑦= 100 ⇔𝑦= 100 −2𝑥. Điều kiện 0 < 𝑥< 50.
+Diện tích khu đất: 𝑆(𝑥) = 𝑥𝑦= 𝑥(100 −2𝑥) = −2𝑥2 + 100𝑥.
+Đạo hàm: 𝑆′(𝑥) = −4𝑥+ 100. Cho 𝑆′(𝑥) = 0 ⇔𝑥= 25.
+Bảng biến thiên của 𝑆(𝑥) trên (0; 50) là:
+𝑥
+𝑆′
+𝑆
+0
+25
+50
++
+0
+−
+0
+1250
+0
+Từ bảng biến thiên, 𝑆 đạt giá trị lớn nhất tại 𝑥= 25. Khi đó 𝑦= 100 −50 = 50.
+Diện tích lớn nhất: 𝑆max = 𝑆(25) = −2(25)2 + 100(25) = 1250 (m²).
+Câu 4. Một doanh nghiệp bán một loại sản phẩm. Nếu giá bán là 𝑥 (nghìn đồng) mỗi sản phẩm, thì 
+số lượng bán được mỗi tháng dự kiến là 𝑝(𝑥) = 1200 −10𝑥 (sản phẩm). Biết chi phí sản xuất mỗi sản 
+phẩm là 40 nghìn đồng. Doanh nghiệp cần định giá bán 𝑥 là bao nhiêu để đạt lợi nhuận lớn nhất? (đơn 
+vị: nghìn đồng).
+Đáp số:
+80
+Lời giải.
+💡 Phương pháp giải
+• Hàm Lợi nhuận = (Giá bán − Chi phí) × Số lượng.
+• Khảo sát sự biến thiên của hàm số Lợi nhuận.
+Doanh thu trên mỗi sản phẩm sau khi trừ chi phí (lợi nhuận cốt lõi): 𝑥−40.
+Tổng lợi nhuận mỗi tháng: 𝐿(𝑥) = (𝑥−40) · (1200 −10𝑥) = −10𝑥2 + 1600𝑥−48000.
+Trang 33
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+Điều kiện để còn bán được hàng là 1200 −10𝑥> 0 ⇔0 < 𝑥< 120. Đạo hàm:
+𝐿′(𝑥) = −20𝑥+ 1600.
+Cho 𝐿′(𝑥) = 0 ⇔𝑥= 80.
+Bảng biến thiên của 𝐿(𝑥) trên (0; 120) là:
+𝑥
+𝐿′
+𝐿
+0
+80
+120
++
+0
+−
+−48000
+16000
+0
+Vậy giá bán cần thiết để tối ưu hóa lợi nhuận là 80 nghìn đồng.
+◆BÀI TẬP TỔNG HỢP
+TN · DS · TLN
+A. TRẮC NGHIỆM — Chọn một đáp án đúng
+Câu 1. Một mảnh vườn hình chữ nhật sát một bức tường thẳng. Người ta có 80 m hàng rào để rào 
+ba cạnh còn lại. Hỏi chiều rộng vuông góc với tường phải bằng bao nhiêu để diện tích mảnh vườn 
+lớn nhất?
+A.
+10 m
+B.
+20 m
+C.
+30 m
+D.
+40 m
+Lời giải.
+💡 Phương pháp giải
+• Gọi chiều rộng vuông góc với tường là 𝑥.
+• Dùng điều kiện tổng chiều dài hàng rào để biểu diễn chiều dài theo 𝑥.
+• Khảo sát hàm diện tích bằng đạo hàm và BBT.
+Gọi 𝑥 (m) là chiều rộng vuông góc với tường. Khi đó chiều dài còn lại là 80 −2𝑥 (m), với điều 
+kiện 0 < 𝑥< 40.
+Diện tích mảnh vườn là:
+𝑆(𝑥) = 𝑥(80 −2𝑥) = 80𝑥−2𝑥2.
+Trang 34
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+Đạo hàm:
+𝑆′(𝑥) = 80 −4𝑥.
+Cho 𝑆′(𝑥) = 0 ⇔𝑥= 20.
+Bảng biến thiên của 𝑆(𝑥) trên (0; 40) là:
+𝑥
+𝑆′
+𝑆
+0
+20
+40
++
+0
+−
+0
+800
+0
+Từ bảng biến thiên, diện tích lớn nhất khi 𝑥= 20 m.
+Câu 2. Từ một tấm bìa hình chữ nhật kích thước 16 cm và 10 cm, người ta cắt ở bốn góc bốn hình 
+vuông cạnh 𝑥 cm rồi gấp thành một hộp không nắp. Giá trị của 𝑥 để thể tích hộp lớn nhất là
+A.
+1 cm
+B.
+2 cm
+C.
+3 cm
+D.
+4 cm
+Lời giải.
+💡 Phương pháp giải
+• Xác định thể tích hộp theo biến 𝑥.
+• Tính đạo hàm và tìm điểm tới hạn phù hợp điều kiện hình học.
+• Kết luận bằng BBT.
+Điều kiện: 0 < 𝑥< 5. Sau khi cắt và gấp lên, hộp có chiều cao 𝑥, đáy là hình chữ nhật kích thước 
+16 −2𝑥 và 10 −2𝑥.
+Thể tích hộp là:
+𝑉(𝑥) = 𝑥(16 −2𝑥)(10 −2𝑥).
+Tính đạo hàm:
+𝑉′(𝑥) = 12𝑥2 −104𝑥+ 160 = 4(3𝑥2 −26𝑥+ 40) = 4(𝑥−2)(3𝑥−20).
+Trong khoảng (0; 5) chỉ có nghiệm 𝑥= 2.
+Bảng biến thiên của 𝑉(𝑥) trên (0; 5) là:
+Trang 35
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+𝑥
+𝑉′
+𝑉
+0
+2
+5
++
+0
+−
+0
+144
+0
+Vậy thể tích lớn nhất khi 𝑥= 2 cm.
+Câu 3. Cho parabol (𝑃) : 𝑦= 9 −𝑥2. Một hình chữ nhật nội tiếp trong hình phẳng giới hạn bởi (𝑃) 
+và trục hoành, có đáy nằm trên trục hoành. Diện tích lớn nhất của hình chữ nhật bằng
+A.
+9
+B.
+6
+√
+3
+C.
+12
+√
+3
+D.
+18
+Lời giải.
+💡 Phương pháp giải
+• Gọi nửa chiều rộng hình chữ nhật là 𝑥.
+• Biểu diễn chiều cao theo phương trình parabol.
+• Khảo sát hàm diện tích bằng đạo hàm và BBT.
+Gọi hai đỉnh đáy là (−𝑥; 0) và (𝑥; 0) với 0 < 𝑥< 3. Khi đó chiều cao hình chữ nhật là 9 −𝑥2.
+Diện tích hình chữ nhật là:
+𝑆(𝑥) = 2𝑥(9 −𝑥2) = 18𝑥−2𝑥3.
+Đạo hàm:
+𝑆′(𝑥) = 18 −6𝑥2.
+Cho 𝑆′(𝑥) = 0 ⇔𝑥=
+√
+3.
+Bảng biến thiên của 𝑆(𝑥) trên (0; 3) là:
+𝑥
+𝑆′
+𝑆
+0
+√
+3
+3
++
+0
+−
+0
+12
+√
+3
+0
+Từ bảng biến thiên, diện tích lớn nhất là 12
+√
+3.
+Trang 36
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+B. ĐÚNG – S A I — Xét tính đúng/sai của mỗi phát biểu
+Câu 1. Một tấm poster hình chữ nhật có diện tích phần in chữ bằng 384 cm². Lề trái và lề phải đều 
+rộng 2 cm, lề trên và lề dưới đều rộng 3 cm.
+Phát biểu
+Đ
+S
+a) Nếu gọi chiều rộng phần in chữ là 𝑥 thì diện tích toàn bộ tấm poster là 𝑆(𝑥) =
+6𝑥+ 1536
+𝑥
++ 408.
+✓
+b) Phương trình 𝑆′(𝑥) = 0 có nghiệm dương duy nhất là 𝑥= 16.
+✓
+c) Kích thước tối ưu của cả tấm poster là 20 cm và 30 cm.
+✓
+d) Diện tích nhỏ nhất của cả tấm poster là 576 cm².
+✓
+Lời giải.
+💡 Phương pháp giải
+• Biểu diễn diện tích toàn phần theo một biến 𝑥.
+• Tính đạo hàm để tìm điểm tối ưu.
+• Dùng BBT để kiểm tra GTNN và đối chiếu từng phát biểu.
+Đặt chiều rộng, chiều cao phần in chữ lần lượt là 𝑥, 𝑦 thì 𝑥· 𝑦= 384 ⇔𝑦= 384
+𝑥.
+Kích thước poster là 𝑥+ 4 và 𝑦+ 6, do đó:
+𝑆(𝑥) = (𝑥+ 4)(𝑦+ 6) = (𝑥+ 4)(384
+𝑥+ 6)
+= 6𝑥+ 1536
+𝑥
++ 408.
+Vì vậy phát biểu 1 là Đúng.
+Đạo hàm:
+𝑆′(𝑥) = 6 −1536
+𝑥2 .
+Cho 𝑆′(𝑥) = 0 ⇔𝑥2 = 256 ⇔𝑥= 16. Do đó phát biểu 2 là Đúng.
+Bảng biến thiên của 𝑆(𝑥) trên (0; +∞) là:
+Trang 37
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+𝑥
+𝑆′
+𝑆
+0
+16
++∞
+−
+0
++
++∞
+600
++∞
+Từ bảng biến thiên, diện tích nhỏ nhất là 600 cm². Khi đó 𝑦= 384
+16 = 24, nên kích thước tối ưu 
+là 20 cm và 30 cm. Vì vậy phát biểu 3 Đúng và phát biểu 4 Sai.
+Câu 2. Một sợi dây dài 10 m được cắt thành hai đoạn. Đoạn thứ nhất uốn thành hình vuông, đoạn thứ 
+hai uốn thành hình tròn. Gọi 𝑥 (m) là độ dài đoạn dùng uốn hình vuông.
+Phát biểu
+Đ
+S
+a) Tổng diện tích hai hình là 𝑆(𝑥) = 𝑥2
+16 + (10 −𝑥)2
+4𝜋
+ với 0 < 𝑥< 10.
+✓
+b) Phương trình 𝑆′(𝑥) = 0 có nghiệm 𝑥=
+40
+𝜋+ 4.
+✓
+c) Giá trị 𝑥=
+40
+𝜋+ 4 làm tổng diện tích lớn nhất.
+✓
+d) Nếu dùng toàn bộ sợi dây để uốn thành hình tròn thì diện tích nhận được lớn 
+hơn khi dùng toàn bộ sợi dây để uốn thành hình vuông.
+✓
+Lời giải.
+💡 Phương pháp giải
+• Thiết lập công thức diện tích của hình vuông và hình tròn theo 𝑥.
+• Xét đạo hàm của tổng diện tích.
+• Dựa vào BBT để xác định bản chất cực trị và kiểm tra các phát biểu.
+Hình vuông có cạnh 𝑥
+4 nên diện tích là 𝑥2
+16. Hình tròn có chu vi 10 −𝑥 nên diện tích là (10 −𝑥)2
+4𝜋
+. 
+Vì vậy phát biểu 1 là Đúng.
+Đạo hàm:
+𝑆′(𝑥) = 𝑥
+8 −10 −𝑥
+2𝜋
+.
+Cho 𝑆′(𝑥) = 0 ⇔𝜋𝑥= 4(10 −𝑥) ⇔𝑥=
+40
+𝜋+ 4. Vậy phát biểu 2 là Đúng.
+Trang 38
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+Bảng biến thiên của 𝑆(𝑥) trên (0; 10) là:
+𝑥
+𝑆′
+𝑆
+0
+40
+𝜋+ 4
+10
+−
+0
++
+25
+𝜋
+25
+𝜋+ 4
+25
+4
+Từ bảng biến thiên, 𝑥=
+40
+𝜋+ 4 cho tổng diện tích nhỏ nhất, nên phát biểu 3 là Sai. Ngoài ra:
+𝑆(0) = 25
+𝜋> 25
+4 = 𝑆(10).
+Do đó phát biểu 4 là Đúng.
+C. TỰ LUẬN NGẮN — Ghi đáp số vào ô trống
+Câu 1. Từ tấm bìa hình vuông cạnh 24 cm, người ta cắt ở bốn góc bốn hình vuông cạnh 𝑥 cm rồi gấp 
+thành hộp không nắp. Thể tích lớn nhất của hộp bằng bao nhiêu cm³?
+Đáp số:
+1024
+Lời giải.
+💡 Phương pháp giải
+• Lập hàm thể tích theo biến 𝑥.
+• Tìm nghiệm của phương trình đạo hàm bằng 0.
+• Dùng BBT để suy ra GTLN.
+Điều kiện: 0 < 𝑥< 12. Khi đó hộp có chiều cao 𝑥 và đáy là hình vuông cạnh 24 −2𝑥.
+Thể tích hộp là:
+𝑉(𝑥) = 𝑥(24 −2𝑥)2.
+Đạo hàm:
+𝑉′(𝑥) = (24 −2𝑥)(24 −6𝑥).
+Cho 𝑉′(𝑥) = 0 ⇔[𝑥= 12  (loại)
+𝑥= 4  (nhận).
+Trang 39
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+Bảng biến thiên của 𝑉(𝑥) trên (0; 12) là:
+𝑥
+𝑉′
+𝑉
+0
+4
+12
++
+0
+−
+0
+1024
+0
+Vậy thể tích lớn nhất là 1024 cm³.
+Câu 2. Một tấm poster hình chữ nhật có diện tích phần in chữ bằng 288 cm². Lề trái và lề phải đều 
+rộng 1 cm, lề trên và lề dưới đều rộng 2 cm. Hỏi diện tích nhỏ nhất của cả tấm poster là bao nhiêu cm²?
+Đáp số:
+392
+Lời giải.
+💡 Phương pháp giải
+• Đặt chiều rộng phần in chữ là 𝑥 và rút 𝑦 theo 𝑥.
+• Lập hàm diện tích toàn tấm poster.
+• Dùng đạo hàm và BBT để tìm GTNN.
+Gọi kích thước phần in chữ là 𝑥, 𝑦 (cm). Khi đó 𝑥· 𝑦= 288 ⇔𝑦= 288
+𝑥, với 𝑥> 0.
+Kích thước toàn tấm poster là 𝑥+ 2 và 𝑦+ 4, nên:
+𝑆(𝑥) = (𝑥+ 2)(𝑦+ 4) = (𝑥+ 2)(288
+𝑥+ 4)
+= 4𝑥+ 576
+𝑥+ 296.
+Đạo hàm:
+𝑆′(𝑥) = 4 −576
+𝑥2 .
+Cho 𝑆′(𝑥) = 0 ⇔𝑥2 = 144 ⇔𝑥= 12.
+Bảng biến thiên của 𝑆(𝑥) trên (0; +∞) là:
+Trang 40
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+𝑥
+𝑆′
+𝑆
+0
+12
++∞
+−
+0
++
++∞
+392
++∞
+Vậy diện tích nhỏ nhất của cả tấm poster là 392 cm².
+Câu 3. Một mảnh đất hình chữ nhật sát bờ sông, không cần rào cạnh sát sông. Người ta có 120 m hàng 
+rào để rào ba cạnh còn lại. Diện tích lớn nhất của mảnh đất là bao nhiêu m²?
+Đáp số:
+1800
+Lời giải.
+💡 Phương pháp giải
+• Gọi chiều rộng vuông góc với sông là 𝑥.
+• Lập hàm diện tích theo một biến.
+• Khảo sát bằng đạo hàm và BBT để lấy GTLN.
+Gọi 𝑥 (m) là chiều rộng vuông góc với bờ sông. Khi đó chiều dài là 120 −2𝑥 (m), với 0 < 𝑥< 60.
+Diện tích mảnh đất là:
+𝑆(𝑥) = 𝑥(120 −2𝑥) = 120𝑥−2𝑥2.
+Đạo hàm:
+𝑆′(𝑥) = 120 −4𝑥.
+Cho 𝑆′(𝑥) = 0 ⇔𝑥= 30.
+Bảng biến thiên của 𝑆(𝑥) trên (0; 60) là:
+𝑥
+𝑆′
+𝑆
+0
+30
+60
++
+0
+−
+0
+1800
+0
+Trang 41
+ỨNG DỤNG THỰC TẾ CỦA ĐẠO HÀM
+GV Nguyễn Văn Sang
+Vậy diện tích lớn nhất của mảnh đất là 1800 m².
+Trang 42

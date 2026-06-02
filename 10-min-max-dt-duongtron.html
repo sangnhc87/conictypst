@@ -1,0 +1,1627 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khoảng Cách Min/Max — Đường Tròn & Đường Thẳng Trong Không Gian</title>
+    <script>
+        MathJax = {
+            tex: { inlineMath: [['$', '$']], displayMath: [['$$', '$$']], packages: { '[+]': ['ams'] } },
+            options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea'] }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" defer></script>
+    <style>
+        :root {
+            --navy: #1A5276;
+            --crimson: #900C3F;
+            --teal: #0E6655;
+            --orange: #E67E22;
+            --green: #1E8449;
+            --red: #922B21;
+            --blue: #1565C0;
+            --violet: #6A1B9A;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f4f8fb;
+            color: #1a1a2e;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        /* ── HEADER ── */
+        .hero {
+            background: linear-gradient(135deg, #0a2240 0%, #1A5276 50%, #900C3F 100%);
+            color: white;
+            padding: 2.5rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 1.8rem;
+            font-weight: 900;
+            margin-bottom: .4rem;
+        }
+
+        .hero .sub {
+            color: #AED6F1;
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1rem;
+        }
+
+        .hero .tags {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: .8rem;
+        }
+
+        .hero .tag {
+            background: rgba(255, 255, 255, .15);
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: .8rem;
+            color: #D6EAF8;
+            border: 1px solid rgba(255, 255, 255, .25);
+        }
+
+        /* ── TABS ── */
+        .tab-bar {
+            background: white;
+            display: flex;
+            overflow-x: auto;
+            border-bottom: 2px solid #AED6F1;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .1);
+        }
+
+        .tab-btn {
+            padding: .7rem 1.2rem;
+            font-size: .9rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            background: none;
+            color: #666;
+            white-space: nowrap;
+            transition: all .2s;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+        }
+
+        .tab-btn.active {
+            color: var(--navy);
+            border-bottom-color: var(--navy);
+            background: #EBF5FB;
+        }
+
+        .tab-btn:hover {
+            color: var(--navy);
+            background: #EBF5FB;
+        }
+
+        /* ── MAIN ── */
+        .main {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 2rem 1.2rem;
+        }
+
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        /* ── BOXES ── */
+        .box {
+            border-radius: 8px;
+            padding: 1.1rem 1.4rem;
+            margin: .9rem 0;
+        }
+
+        .box-navy {
+            background: #EBF5FB;
+            border-left: 4px solid var(--navy);
+        }
+
+        .box-crimson {
+            background: #FADBD8;
+            border-left: 4px solid var(--crimson);
+        }
+
+        .box-teal {
+            background: #E8F8F5;
+            border-left: 4px solid var(--teal);
+        }
+
+        .box-orange {
+            background: #FEF9E7;
+            border-left: 4px solid var(--orange);
+        }
+
+        .box-green {
+            background: #EAFAF1;
+            border-left: 4px solid var(--green);
+        }
+
+        .box-red {
+            background: #FDEDEC;
+            border-left: 4px solid var(--red);
+        }
+
+        .box-title {
+            font-weight: 700;
+            font-size: .95rem;
+            margin-bottom: .5rem;
+        }
+
+        /* ── HEADINGS ── */
+        .sec-h1 {
+            background: linear-gradient(135deg, #1A5276, #154360);
+            color: white;
+            padding: .8rem 1.2rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 1.8rem 0 1rem;
+        }
+
+        .sec-h2 {
+            color: var(--crimson);
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin: 1.3rem 0 .6rem;
+            padding-left: .8rem;
+            border-left: 4px solid var(--crimson);
+        }
+
+        .sec-h3 {
+            color: var(--navy);
+            font-size: .98rem;
+            font-weight: 700;
+            margin: 1rem 0 .4rem;
+        }
+
+        /* ── CASE CARDS ── */
+        .case-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .case-card {
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #ddd;
+        }
+
+        .case-header {
+            padding: .7rem 1.1rem;
+            font-weight: 700;
+            font-size: .95rem;
+        }
+
+        .case-body {
+            padding: .9rem 1.1rem;
+        }
+
+        .case-A .case-header {
+            background: #1A5276;
+            color: white;
+        }
+
+        .case-B .case-header {
+            background: #1E8449;
+            color: white;
+        }
+
+        .case-C .case-header {
+            background: #E67E22;
+            color: white;
+        }
+
+        .case-D .case-header {
+            background: #900C3F;
+            color: white;
+        }
+
+        /* ── FORMULA ── */
+        .formula {
+            background: #EBF5FB;
+            border: 1px solid #AED6F1;
+            border-radius: 8px;
+            padding: .9rem;
+            text-align: center;
+            font-size: 1rem;
+            margin: .7rem 0;
+        }
+
+        .formula-crimson {
+            background: #FADBD8;
+            border-color: #F1948A;
+        }
+
+        .formula-green {
+            background: #EAFAF1;
+            border-color: #82E0AA;
+        }
+
+        /* ── PROBLEM ── */
+        .problem-card {
+            border: 1px solid #AED6F1;
+            border-radius: 10px;
+            margin: 1.1rem 0;
+            overflow: hidden;
+        }
+
+        .problem-header {
+            background: linear-gradient(135deg, var(--navy), #154360);
+            color: white;
+            padding: .8rem 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .problem-header h3 {
+            font-size: .93rem;
+            font-weight: 700;
+        }
+
+        .problem-body {
+            padding: 1rem 1.2rem;
+        }
+
+        .problem-text {
+            background: #f8fbff;
+            border: 1px solid #D6EAF8;
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: .8rem;
+            line-height: 1.8;
+        }
+
+        .sol-toggle {
+            background: var(--navy);
+            color: white;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: .85rem;
+            font-weight: 600;
+            margin-bottom: .5rem;
+        }
+
+        .sol-toggle:hover {
+            background: #154360;
+        }
+
+        .sol-body {
+            display: none;
+            border-top: 2px solid #AED6F1;
+            padding-top: .8rem;
+            margin-top: .8rem;
+        }
+
+        .ans-box {
+            background: #EAFAF1;
+            border-left: 4px solid var(--green);
+            padding: .8rem 1.1rem;
+            border-radius: 0 6px 6px 0;
+            margin-top: .8rem;
+            font-weight: 600;
+            color: var(--green);
+        }
+
+        /* ── SUMMARY TABLE ── */
+        .sum-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: .87rem;
+            margin: 1rem 0;
+        }
+
+        .sum-table th {
+            padding: 8px 10px;
+            border: 1px solid #aaa;
+            text-align: left;
+        }
+
+        .sum-table td {
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            vertical-align: top;
+        }
+
+        .sum-table .th-row th {
+            background: var(--navy);
+            color: white;
+        }
+
+        .sum-table tr:nth-child(even) td {
+            background: #f0f6fb;
+        }
+
+        /* ── CANVAS ── */
+        canvas {
+            display: block;
+            background: #fafafa;
+            border: 1px solid #D6EAF8;
+            border-radius: 8px;
+        }
+
+        /* ── DIAGRAM WRAPPER ── */
+        .diagram-wrap {
+            margin: 1rem 0;
+            text-align: center;
+        }
+
+        .diagram-wrap figcaption {
+            font-size: .82rem;
+            color: #666;
+            margin-top: .3rem;
+            font-style: italic;
+        }
+
+        /* ── QUIZ ── */
+        .quiz-q {
+            background: white;
+            border: 1px solid #AED6F1;
+            border-radius: 8px;
+            padding: 1rem 1.3rem;
+            margin: 1rem 0;
+        }
+
+        .quiz-q .q-text {
+            font-weight: 600;
+            margin-bottom: .7rem;
+        }
+
+        .quiz-opts label {
+            display: block;
+            padding: 5px 10px;
+            margin: 3px 0;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .quiz-opts label:hover {
+            background: #EBF5FB;
+        }
+
+        .quiz-opts input {
+            margin-right: 8px;
+        }
+
+        .quiz-opts label.correct {
+            background: #EAFAF1;
+            color: var(--green);
+            font-weight: 600;
+        }
+
+        .quiz-opts label.wrong {
+            background: #FDEDEC;
+            color: var(--red);
+        }
+
+        .check-btn {
+            background: var(--navy);
+            color: white;
+            border: none;
+            padding: 6px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: .85rem;
+            font-weight: 600;
+            margin-top: .5rem;
+        }
+
+        .quiz-result {
+            margin-top: .5rem;
+            font-weight: 700;
+            font-size: .9rem;
+        }
+
+        .result-ok {
+            color: var(--green);
+        }
+
+        .result-no {
+            color: var(--red);
+        }
+
+        /* ── STEPS ── */
+        .steps {
+            list-style: none;
+            counter-reset: step;
+            padding-left: .5rem;
+        }
+
+        .steps li {
+            counter-increment: step;
+            padding: .5rem 0 .5rem 2.5rem;
+            position: relative;
+            border-left: 2px solid #AED6F1;
+            margin-left: 1rem;
+        }
+
+        .steps li::before {
+            content: counter(step);
+            position: absolute;
+            left: -14px;
+            top: 6px;
+            width: 26px;
+            height: 26px;
+            background: var(--navy);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .78rem;
+            font-weight: 700;
+        }
+
+        .steps li:last-child {
+            border-left-color: transparent;
+        }
+
+        /* ── BADGE ── */
+        .badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: .78rem;
+            font-weight: 700;
+            margin-left: 6px;
+        }
+
+        .badge-A {
+            background: #EBF5FB;
+            color: var(--navy);
+        }
+
+        .badge-B {
+            background: #EAFAF1;
+            color: var(--green);
+        }
+
+        .badge-C {
+            background: #FEF9E7;
+            color: var(--orange);
+        }
+
+        .badge-D {
+            background: #FADBD8;
+            color: var(--crimson);
+        }
+
+        @media (max-width: 640px) {
+            .case-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <div class="hero">
+        <h1>📐 Khoảng Cách Min/Max — Đường Tròn & Đường Thẳng Trong Không Gian</h1>
+        <p class="sub">Phân loại đầy đủ 4 trường hợp hình học — Từ cơ bản đến nâng cao · Hình minh hoạ 3D</p>
+        <div class="tags">
+            <span class="tag">🅰️ TH A: d ⊂ (α)</span>
+            <span class="tag">🅱️ TH B: d ∥ (α)</span>
+            <span class="tag">🅲 TH C: d cắt xiên</span>
+            <span class="tag">🅳 TH D: d ⊥ (α)</span>
+        </div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tab-bar">
+        <button class="tab-btn active" onclick="switchTab('theory')">📋 Lý Thuyết & Phân Loại</button>
+        <button class="tab-btn" onclick="switchTab('caseA')">🅰️ TH A — d ⊂ (α)</button>
+        <button class="tab-btn" onclick="switchTab('caseB')">🅱️ TH B — d ∥ (α)</button>
+        <button class="tab-btn" onclick="switchTab('caseCD')">🅲🅳 TH C & D</button>
+        <button class="tab-btn" onclick="switchTab('advanced')">⭐ Nâng Cao</button>
+        <button class="tab-btn" onclick="switchTab('quiz')">🎯 Quiz</button>
+    </div>
+
+    <!-- ========== TAB THEORY ========== -->
+    <div id="tab-theory" class="tab-panel active">
+        <div class="main">
+
+            <div class="sec-h1">📋 Bài Toán Tổng Quát & Phân Loại 4 Trường Hợp</div>
+
+            <div class="box box-navy">
+                <div class="box-title" style="color:var(--navy)">🎯 Bài toán tổng quát</div>
+                <p>Cho <b>đường tròn $(C)$</b> tâm $H$, bán kính $r$ nằm trong mặt phẳng $(\alpha)$, và <b>đường thẳng
+                        $d$</b>.</p>
+                <p>Điểm $M \in (C)$, $N \in d$. Tìm $\min MN$ và $\max MN$.</p>
+                <p style="margin-top:.5rem; font-style:italic; color:#555">Chìa khoá: xác định <b>vị trí tương đối</b>
+                    của $d$ và $(\alpha)$ trước, rồi chọn công thức phù hợp.</p>
+            </div>
+
+            <div class="case-grid" style="margin-top:1.2rem">
+                <!-- TH A -->
+                <div class="case-card case-A">
+                    <div class="case-header">🅰️ TH A — $d \subset (\alpha)$</div>
+                    <div class="case-body">
+                        <p>Bài toán trở về <b>hình phẳng 2D</b> trong $(\alpha)$.</p>
+                        <ul style="padding-left:1.3rem; margin-top:.5rem; font-size:.9rem; line-height:1.8">
+                            <li>$d(H,d) < r$: $d$ cắt $(C)$ → $\min=0$</li>
+                            <li>$d(H,d) = r$: $d$ tiếp xúc $(C)$ → $\min = 0$</li>
+                            <li>$d(H,d) > r$: $d$ ngoài $(C)$ → $\min = d(H,d) - r$</li>
+                            <li>Mọi TH: $\max = d(H,d) + r$</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- TH B -->
+                <div class="case-card case-B">
+                    <div class="case-header">🅱️ TH B — $d \parallel (\alpha)$</div>
+                    <div class="case-body">
+                        <p>Gọi $d'$ = hình chiếu của $d$ xuống $(\alpha)$, $h = d(d, \alpha)$.</p>
+                        <div style="font-size:.88rem; margin-top:.5rem; line-height:2">
+                            <p>$p = d(H, d')$: khoảng cách tâm đến hình chiếu</p>
+                            <p>$p \geq r$: $\quad\min = \sqrt{h^2 + (p-r)^2}$</p>
+                            <p>$p < r$: $\quad\min=h$</p>
+                                    <p>$\max = \sqrt{h^2 + (p+r)^2}$ (mọi TH)</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- TH C -->
+                <div class="case-card case-C">
+                    <div class="case-header">🅲 TH C — $d$ cắt $(\alpha)$ xiên</div>
+                    <div class="case-body">
+                        <p>Tìm $P = d \cap (\alpha)$, tham số hóa và giải tối ưu.</p>
+                        <ul style="padding-left:1.3rem; margin-top:.5rem; font-size:.9rem; line-height:1.8">
+                            <li>$P \in (C)$: $\min = 0$</li>
+                            <li>$P$ trong $(C)$: cần tính toán tham số</li>
+                            <li>$P$ ngoài $(C)$: xét hướng $\vec{u}$ chiếu lên $(\alpha)$</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- TH D -->
+                <div class="case-card case-D">
+                    <div class="case-header">🅳 TH D — $d \perp (\alpha)$</div>
+                    <div class="case-body">
+                        <p>Giao điểm $P = d \cap (\alpha)$. Bài toán phẳng: $\min MP$.</p>
+                        <ul style="padding-left:1.3rem; margin-top:.5rem; font-size:.9rem; line-height:1.8">
+                            <li>$d(H,P) \geq r$: $\min = d(H,P) - r$</li>
+                            <li>$d(H,P) < r$: $\min=0$</li>
+                            <li>$d$ qua tâm $H$: $\min MN = r$ (mọi $N$)</li>
+                            <li>$\max MN$ không tồn tại (hữu hạn)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUMMARY TABLE -->
+            <div class="sec-h1" style="margin-top:2rem">📊 Bảng Công Thức Tổng Kết</div>
+
+            <div style="overflow-x:auto">
+                <table class="sum-table">
+                    <thead class="th-row">
+                        <tr>
+                            <th>Trường hợp</th>
+                            <th>Điều kiện</th>
+                            <th>$\min MN$</th>
+                            <th>$\max MN$</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>A — $d \subset (\alpha)$</b></td>
+                            <td>$d(H,d) \geq r$</td>
+                            <td>$d(H,d) - r$</td>
+                            <td>$d(H,d) + r$</td>
+                        </tr>
+                        <tr>
+                            <td><b>A — $d \subset (\alpha)$</b></td>
+                            <td>$d(H,d) < r$</td>
+                            <td>$0$</td>
+                            <td>$d(H,d) + r$</td>
+                        </tr>
+                        <tr>
+                            <td><b>B — $d \parallel (\alpha)$</b></td>
+                            <td>$p = d(H,d') \geq r$</td>
+                            <td>$\sqrt{h^2 + (p-r)^2}$</td>
+                            <td>$\sqrt{h^2 + (p+r)^2}$</td>
+                        </tr>
+                        <tr>
+                            <td><b>B — $d \parallel (\alpha)$</b></td>
+                            <td>$p < r$</td>
+                            <td>$h$</td>
+                            <td>$\sqrt{h^2 + (p+r)^2}$</td>
+                        </tr>
+                        <tr>
+                            <td><b>D — $d \perp (\alpha)$, qua $P$</b></td>
+                            <td>$d(H,P) \geq r$</td>
+                            <td>$d(H,P) - r$</td>
+                            <td>không có</td>
+                        </tr>
+                        <tr>
+                            <td><b>D — $d \perp (\alpha)$, qua $P$</b></td>
+                            <td>$d(H,P) < r$</td>
+                            <td>$0$</td>
+                            <td>không có</td>
+                        </tr>
+                        <tr>
+                            <td><b>C — $d$ cắt xiên</b></td>
+                            <td>tổng quát</td>
+                            <td colspan="2">Tham số hóa: đặt $M = (\cos\theta,\sin\theta)$, $N=N(t)$ rồi tối ưu</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="box box-orange" style="margin-top:1rem">
+                <div class="box-title" style="color:var(--orange)">💡 Quy trình giải tổng quát (5 bước)</div>
+                <ol class="steps">
+                    <li>Xác định vị trí tương đối của $d$ và $(\alpha)$: song song, cắt, hay vuông góc?</li>
+                    <li>Tìm tâm $H$ của đường tròn $(C)$ trên $(\alpha)$ và bán kính $r$</li>
+                    <li>Nếu $d \parallel (\alpha)$: tính $h$, chiếu $d'$, tính $p = d(H,d')$, so sánh với $r$</li>
+                    <li>Nếu $d$ cắt $(\alpha)$: tìm $P = d \cap (\alpha)$, xét $P$ trong/trên/ngoài $(C)$</li>
+                    <li>Áp công thức từ bảng tổng kết</li>
+                </ol>
+            </div>
+
+            <!-- INTERACTIVE CANVAS: 3D Overview -->
+            <div class="sec-h1" style="margin-top:2rem">🖼️ Minh Hoạ Tổng Quan — 4 Vị Trí Đường Thẳng</div>
+            <div class="diagram-wrap">
+                <canvas id="overview-canvas" width="880" height="320" style="max-width:100%"></canvas>
+                <figcaption>4 trường hợp vị trí của đường thẳng $d$ so với mặt phẳng $(\alpha)$ chứa đường tròn $(C)$
+                </figcaption>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ========== TAB CASE A ========== -->
+    <div id="tab-caseA" class="tab-panel">
+        <div class="main">
+
+            <div class="sec-h1">🅰️ Trường Hợp A — Đường Thẳng Nằm Trong Mặt Phẳng Chứa Đường Tròn</div>
+
+            <div class="box box-navy">
+                <div class="box-title" style="color:var(--navy)">🔑 Công thức chính (bài toán 2D)</div>
+                <div class="formula">Đặt $p = d(H, d)$.&emsp;$\min MN = \max(0,\; p-r)$&emsp;·&emsp;$\max MN = p + r$
+                </div>
+            </div>
+
+            <!-- Diagram A -->
+            <div class="diagram-wrap">
+                <canvas id="caseA-canvas" width="560" height="220" style="max-width:100%"></canvas>
+                <figcaption>TH A: $d$ nằm trong $(\alpha)$ — điểm $M^*$ nằm trên tia $Hd$, $N^*$ là hình chiếu của $H$
+                    lên $d$</figcaption>
+            </div>
+
+            <!-- Bài A1 -->
+            <div class="problem-card">
+                <div class="problem-header">
+                    <h3>Bài A1 <span class="badge badge-A">d ngoài (C)</span></h3>
+                    <span style="opacity:.85; font-size:.85rem">min MN = p − r</span>
+                </div>
+                <div class="problem-body">
+                    <div class="problem-text">Trong không gian $Oxyz$, đường tròn $(C)$ là giao của mặt cầu
+                        $x^2+y^2+z^2=9$ và mặt phẳng $z=0$. Đường thẳng $d: \begin{cases}x=5\\z=0\end{cases}$. Tìm $\min
+                        MN$ với $M\in(C)$, $N\in d$.</div>
+                    <button class="sol-toggle" onclick="toggleSol(this)">▶ Hiện lời giải</button>
+                    <div class="sol-body">
+                        <div class="box box-navy">
+                            <ol class="steps">
+                                <li>$(C)$: tâm $H(0;0;0)$, bán kính $r=3$, trong $z=0$</li>
+                                <li>$d: x=5, z=0$ nằm trong $(\alpha): z=0$ → TH A</li>
+                                <li>$p = d(H,d) = |0-5| = 5 > r = 3$ → $d$ nằm ngoài $(C)$</li>
+                                <li>Điểm tối ưu: $M^*(3;0;0)$ và $N^*(5;0;0)$</li>
+                            </ol>
+                        </div>
+                        <div class="ans-box">$\min MN = p - r = 5 - 3 = \mathbf{2}$</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bài A2 -->
+            <div class="problem-card">
+                <div class="problem-header">
+                    <h3>Bài A2 <span class="badge badge-A">d cắt (C)</span></h3>
+                    <span style="opacity:.85; font-size:.85rem">min MN = 0</span>
+                </div>
+                <div class="problem-body">
+                    <div class="problem-text">Đường tròn $(C)$: giao của $x^2+y^2+z^2=16$ và $z=0$. Đường thẳng $d:
+                        \begin{cases}x+y=3\\z=0\end{cases}$. Tìm $\min MN$.</div>
+                    <button class="sol-toggle" onclick="toggleSol(this)">▶ Hiện lời giải</button>
+                    <div class="sol-body">
+                        <div class="box box-navy">
+                            <ol class="steps">
+                                <li>$(C)$: tâm $H(0;0;0)$, $r=4$</li>
+                                <li>$p = d(H, d) = \dfrac{|0+0-3|}{\sqrt{2}} = \dfrac{3\sqrt{2}}{2} \approx 2.12$</li>
+                                <li>$p \approx 2.12 < r=4$ → $d$ <b>cắt</b> $(C)$, tồn tại điểm $M \equiv N$ trên $(C)$
+                                </li>
+                            </ol>
+                        </div>
+                        <div class="ans-box">$\min MN = 0$ (điểm $M \in (C)$ nằm trên $d$)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bài A3 -->
+            <div class="problem-card">
+                <div class="problem-header">
+                    <h3>Bài A3 <span class="badge badge-A">Tìm max MN</span></h3>
+                    <span style="opacity:.85; font-size:.85rem">max MN = p + r</span>
+                </div>
+                <div class="problem-body">
+                    <div class="problem-text">Đường tròn $(C)$: giao của $x^2+y^2+z^2=25$ và $z=0$. Đường thẳng $d:
+                        \begin{cases}3x+4y=60\\z=0\end{cases}$. Tìm $\max MN$.</div>
+                    <button class="sol-toggle" onclick="toggleSol(this)">▶ Hiện lời giải</button>
+                    <div class="sol-body">
+                        <div class="box box-navy">
+                            <ol class="steps">
+                                <li>$p = d(H, d) = \dfrac{|0+0-60|}{\sqrt{9+16}} = \dfrac{60}{5} = 12$</li>
+                                <li>Điểm $M^*$ xa nhất so với $d$: nằm ở phía đối diện $H$ so với $d$</li>
+                                <li>$\max MN = p + r = 12 + 5 = 17$</li>
+                            </ol>
+                        </div>
+                        <div class="ans-box">$\max MN = p + r = 12 + 5 = \mathbf{17}$</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ========== TAB CASE B ========== -->
+    <div id="tab-caseB" class="tab-panel">
+        <div class="main">
+
+            <div class="sec-h1">🅱️ Trường Hợp B — Đường Thẳng Song Song Mặt Phẳng Chứa Đường Tròn</div>
+
+            <div class="box box-green">
+                <div class="box-title" style="color:var(--green)">🔑 Công thức chính</div>
+                <p>Gọi $d'$ = hình chiếu của $d$ xuống $(\alpha)$, &nbsp;$h = d(d,\alpha)$, &nbsp;$p = d(H, d')$.</p>
+                <div class="formula formula-green">
+                    Nếu $p \geq r$: &nbsp;$\min = \sqrt{h^2 + (p-r)^2}$, &nbsp;$\max = \sqrt{h^2 + (p+r)^2}$<br>
+                    Nếu $p < r$: &nbsp;$\min=h$, &nbsp;$\max=\sqrt{h^2 + (p+r)^2}$ </div>
+                </div>
+
+                <!-- Diagram B1: p >= r -->
+                <div class="diagram-wrap">
+                    <canvas id="caseB1-canvas" width="560" height="260" style="max-width:100%"></canvas>
+                    <figcaption>TH B với $p > r$: hình chiếu $d'$ ngoài $(C)$ — min MN là cạnh huyền của tam giác vuông
+                        $(h, p-r)$</figcaption>
+                </div>
+
+                <!-- Bài B1 -->
+                <div class="problem-card">
+                    <div class="problem-header">
+                        <h3>Bài B1 <span class="badge badge-B">$p > r$, hình chiếu ngoài (C)</span></h3>
+                    </div>
+                    <div class="problem-body">
+                        <div class="problem-text">Đường tròn $(C)$: giao của $x^2+y^2+z^2=25$ và $z=0$. Đường thẳng $d:
+                            \begin{cases}x=8\\z=4\end{cases}$ (tham số $y$). Tìm $\min MN$.</div>
+                        <button class="sol-toggle" onclick="toggleSol(this)">▶ Hiện lời giải</button>
+                        <div class="sol-body">
+                            <div class="box box-green">
+                                <ol class="steps">
+                                    <li>$d$ qua $A(8;0;4)$, hướng $\vec{u}=(0;1;0)$. Vì $z=4\neq0$ và
+                                        $\vec{u}\perp\vec{k}$ → $d\parallel(\alpha)$</li>
+                                    <li>$h = 4$ (độ cao $z=4$)</li>
+                                    <li>Hình chiếu $d'$: $\begin{cases}x=8\\z=0\end{cases}$ → $p = d(H, d') = 8$</li>
+                                    <li>$p = 8 > r = 5$: hình chiếu ngoài $(C)$, khoảng cách min từ $(C)$ đến $d'$ là
+                                        $p-r=3$</li>
+                                    <li>$\min MN = \sqrt{h^2 + (p-r)^2} = \sqrt{16+9} = \sqrt{25} = 5$</li>
+                                </ol>
+                            </div>
+                            <div class="ans-box">$\min MN = \sqrt{4^2 + 3^2} = \mathbf{5}$</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Diagram B2: p < r -->
+                <div class="diagram-wrap">
+                    <canvas id="caseB2-canvas" width="560" height="260" style="max-width:100%"></canvas>
+                    <figcaption>TH B với $p < r$: hình chiếu $d'$ cắt $(C)$ — min MN chính là chiều cao $h$ (thẳng
+                            đứng)</figcaption>
+                </div>
+
+                <!-- Bài B2 -->
+                <div class="problem-card">
+                    <div class="problem-header">
+                        <h3>Bài B2 <span class="badge badge-B">$p < r$, hình chiếu cắt (C)</span>
+                        </h3>
+                    </div>
+                    <div class="problem-body">
+                        <div class="problem-text">Đường tròn $(C)$: giao của $x^2+y^2+z^2=25$ và $z=0$. Đường thẳng $d:
+                            \begin{cases}x=3\\z=3\end{cases}$. Tìm $\min MN$.</div>
+                        <button class="sol-toggle" onclick="toggleSol(this)">▶ Hiện lời giải</button>
+                        <div class="sol-body">
+                            <div class="box box-green">
+                                <ol class="steps">
+                                    <li>$d \parallel (\alpha)$, &nbsp;$h = 3$</li>
+                                    <li>Hình chiếu $d'$: $x=3, z=0$ &nbsp;→ $p = 3$</li>
+                                    <li>$p = 3 < r=5$: $d'$ <b>cắt</b> $(C)$, tồn tại $M^*\in(C)$ có hình chiếu trên
+                                            $d'$</li>
+                                    <li>Khi đó $M^*N^* \perp (\alpha)$, độ dài đúng bằng $h$</li>
+                                    <li>$M^* = (3; \pm4; 0)$, $N^* = (3; \pm4; 3)$, &nbsp;$M^*N^* = 3$</li>
+                                </ol>
+                            </div>
+                            <div class="ans-box">$\min MN = h = \mathbf{3}$</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bài B3: max -->
+                <div class="problem-card">
+                    <div class="problem-header">
+                        <h3>Bài B3 <span class="badge badge-B">Tìm max MN</span></h3>
+                    </div>
+                    <div class="problem-body">
+                        <div class="problem-text">Với bài B1 (cùng đường tròn và đường thẳng $d$: $x=8, z=4$). Tìm $\max
+                            MN$.</div>
+                        <button class="sol-toggle" onclick="toggleSol(this)">▶ Hiện lời giải</button>
+                        <div class="sol-body">
+                            <div class="box box-green">
+                                <p>$h=4$, $p=8$, $r=5$. Điểm $M^*$ xa nhất ở phía đối diện $d'$ so với $H$:</p>
+                                <div class="formula">$\max MN = \sqrt{h^2 + (p+r)^2} = \sqrt{4^2 + 13^2} = \sqrt{16+169}
+                                    = \sqrt{185}$</div>
+                            </div>
+                            <div class="ans-box">$\max MN = \sqrt{185} \approx \mathbf{13.6}$</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ========== TAB CASE C & D ========== -->
+        <div id="tab-caseCD" class="tab-panel">
+            <div class="main">
+
+                <div class="sec-h1">🅲 Trường Hợp C — Đường Thẳng Cắt Mặt Phẳng (Không Vuông Góc)</div>
+
+                <div class="box box-orange">
+                    <div class="box-title" style="color:var(--orange)">🔑 Tư duy giải</div>
+                    <ol class="steps">
+                        <li>Tìm $P = d \cap (\alpha)$. Xét $P$ nằm trong, trên hay ngoài $(C)$</li>
+                        <li>Nếu $P \in (C)$: $\min MN = 0$</li>
+                        <li>Nếu $P$ nằm ngoài $(C)$: tham số hóa $M(\theta)$ và $N(t)$, tối ưu</li>
+                        <li>Kiểm tra: khi hướng chiếu $\vec{u}|_{(\alpha)} \perp \vec{HP}$, điểm tối ưu $N^* = P$</li>
+                    </ol>
+                </div>
+
+                <!-- Diagram C1 -->
+                <div class="diagram-wrap">
+                    <canvas id="caseC-canvas" width="560" height="260" style="max-width:100%"></canvas>
+                    <figcaption>TH C: $d$ cắt $(\alpha)$ tại $P$ — điểm $M^*$ nằm trên $(C)$ gần $P$ nhất theo hướng
+                        $\overrightarrow{HP}$</figcaption>
+                </div>
+
+                <!-- Bài C1 -->
+                <div class="problem-card">
+                    <div class="problem-header">
+                        <h3>Bài C1 <span class="badge badge-C">d cắt xiên, P ngoài (C)</span></h3>
+                    </div>
+                    <div class="problem-body">
+                        <div class="problem-text">Đường tròn $(C)$: giao của $x^2+y^2+z^2=9$ và $z=0$. Đường thẳng $d:
+                            \begin{cases}x=7\\z=t, y=t\end{cases}$. Tìm $\min MN$.</div>
+                        <button class="sol-toggle" onclick="toggleSol(this)">▶ Hiện lời giải</button>
+                        <div class="sol-body">
+                            <div class="box box-orange">
+                                <ol class="steps">
+                                    <li>$d$ qua $Q(7;0;0)$, hướng $\vec{u}=(0;1;1)$. Khi $z=0 \Rightarrow t=0
+                                        \Rightarrow P(7;0;0)$</li>
+                                    <li>$d(H,P) = 7 > r = 3$ → $P$ ngoài $(C)$</li>
+                                    <li>$M = (3\cos\theta; 3\sin\theta; 0)$, $N = (7;t;t)$. Tối ưu theo $t$: $t^* =
+                                        \frac{3\sin\theta}{2}$</li>
+                                    <li>Hàm $f(\cos\theta) = \frac{9u^2}{2} - 42u + \frac{107}{2}$ đơn điệu giảm, đạt
+                                        min tại $u=1$</li>
+                                    <li>$\min f = f(1) = (7-3)^2 + 0 = 16$ → $\min MN = 4$</li>
+                                </ol>
+                                <div class="box box-navy" style="margin-top:.5rem; font-size:.88rem">
+                                    <p><b>Kiểm tra:</b> $M^* = (3;0;0)$, $t^*=0$, $N^* = P = (7;0;0)$, $M^*N^* = 4 =
+                                        d(H,P) - r$ ✓</p>
+                                    <p><b>Nhận xét:</b> $\vec{u}|_{(\alpha)} = (0;1;0) \perp \vec{HP} = (7;0;0)$ nên
+                                        $N^* = P$ và bài quy về TH A.</p>
+                                </div>
+                            </div>
+                            <div class="ans-box">$\min MN = d(H,P) - r = 7 - 3 = \mathbf{4}$</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sec-h1" style="margin-top:2rem">🅳 Trường Hợp D — Đường Thẳng Vuông Góc Mặt Phẳng</div>
+
+                <div class="box box-crimson">
+                    <div class="box-title" style="color:var(--crimson)">🔑 Công thức</div>
+                    <p>$d \perp (\alpha)$, giao điểm $P = d \cap (\alpha)$. Tối ưu theo $t$ luôn cho $N^* = P$:</p>
+                    <div class="formula formula-crimson">
+                        $p = d(H, P)$. &emsp; Nếu $p \geq r$: $\min = p - r$. &emsp; Nếu $p < r$: $\min=0$. </div>
+                            <p style="margin-top:.5rem; font-size:.88rem">⚠️ Không có $\max MN$ hữu hạn (vì $N$ có thể
+                                chạy ra vô cùng trên $d$).</p>
+                    </div>
+
+                    <!-- Bài D1 -->
+                    <div class="problem-card">
+                        <div class="problem-header">
+                            <h3>Bài D1 <span class="badge badge-D">Trục qua tâm</span></h3>
+                        </div>
+                        <div class="problem-body">
+                            <div class="problem-text">Đường tròn $(C)$: giao của $x^2+y^2+z^2=25$ và $z=0$. Trục $d:
+                                \begin{cases}x=0\\y=0\end{cases}$ (trục $Oz$). Tìm $\min MN$.</div>
+                            <button class="sol-toggle" onclick="toggleSol(this)">▶ Hiện lời giải</button>
+                            <div class="sol-body">
+                                <div class="box box-crimson">
+                                    <p>$P = (0;0;0) = H$. $d(H,P) = 0 < r=5$... nhưng đây là trường hợp đặc biệt: trục
+                                            qua tâm.</p>
+                                            <p>$M = (5\cos\theta; 5\sin\theta; 0)$, $N=(0;0;t)$.</p>
+                                            <p>$MN^2 = 25 + t^2 \geq 25$ → min khi $t=0$, $N=H$, $MN = r = 5$.</p>
+                                            <p style="font-size:.88rem; color:#555; margin-top:.4rem">Mọi điểm $M\in(C)$
+                                                đều cách $d$ đúng $r$.</p>
+                                </div>
+                                <div class="ans-box">$\min MN = r = \mathbf{5}$</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bài D2 -->
+                    <div class="problem-card">
+                        <div class="problem-header">
+                            <h3>Bài D2 <span class="badge badge-D">Trục không qua tâm</span></h3>
+                        </div>
+                        <div class="problem-body">
+                            <div class="problem-text">Đường tròn $(C)$: giao của $(x-1)^2+y^2+z^2=16$ và $z=0$. Đường
+                                thẳng $d: \begin{cases}x=6\\y=0\end{cases}$. Tìm $\min MN$.</div>
+                            <button class="sol-toggle" onclick="toggleSol(this)">▶ Hiện lời giải</button>
+                            <div class="sol-body">
+                                <div class="box box-crimson">
+                                    <ol class="steps">
+                                        <li>$(C)$: tâm $H(1;0;0)$, $r=4$ trong $z=0$</li>
+                                        <li>$d \perp (\alpha)$, giao điểm $P(6;0;0)$. Tối ưu theo $t$ → $N^* = P$</li>
+                                        <li>Bài quy về 2D: $\min MP = d(P, (C)) = d(P,H) - r = |6-1| - 4 = 5-4 = 1$</li>
+                                    </ol>
+                                </div>
+                                <div class="ans-box">$\min MN = d(H,P) - r = 5 - 4 = \mathbf{1}$</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ========== TAB ADVANCED ========== -->
+            <div id="tab-advanced" class="tab-panel">
+                <div class="main">
+
+                    <div class="sec-h1">⭐ Bài Tập Nâng Cao & Tổng Hợp</div>
+
+                    <!-- E1 -->
+                    <div class="problem-card">
+                        <div class="problem-header">
+                            <h3>Bài E1 <span class="badge badge-B">TH B — $d'$ qua tâm</span></h3>
+                        </div>
+                        <div class="problem-body">
+                            <div class="problem-text">Đường tròn $(C)$: giao của $x^2+y^2+z^2=20$ và $z=0$. Đường thẳng
+                                $d: \begin{cases}x=t\\y=t\\z=2\end{cases}$. Tìm $\min MN$.</div>
+                            <button class="sol-toggle" onclick="toggleSol(this)">▶ Hiện lời giải</button>
+                            <div class="sol-body">
+                                <div class="box box-green">
+                                    <ol class="steps">
+                                        <li>$d \parallel (\alpha)$, $h = 2$</li>
+                                        <li>Hình chiếu $d'$: $y=x, z=0$ → đường $y=x$ đi qua $H(0;0;0)$</li>
+                                        <li>$p = d(H, d') = 0 < r=\sqrt{20}$ → $d'$ cắt $(C)$</li>
+                                        <li>Chọn $M^* = (\sqrt{10}; \sqrt{10}; 0) \in (C)$ (có hình chiếu trên $d'$)
+                                        </li>
+                                        <li>$N^* = (\sqrt{10}; \sqrt{10}; 2) \in d$, $M^*N^* = h = 2$</li>
+                                    </ol>
+                                </div>
+                                <div class="ans-box">$\min MN = h = \mathbf{2}$</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- E2 -->
+                    <div class="problem-card">
+                        <div class="problem-header">
+                            <h3>Bài E2 <span class="badge badge-C">TH C — P trên (C)</span></h3>
+                        </div>
+                        <div class="problem-body">
+                            <div class="problem-text">Đường tròn $(C)$: giao của $x^2+y^2+z^2=25$ và $z=0$. Đường thẳng
+                                $d: \begin{cases}x=3+t\\y=4+t\\z=5t\end{cases}$. Tìm $\min MN$.</div>
+                            <button class="sol-toggle" onclick="toggleSol(this)">▶ Hiện lời giải</button>
+                            <div class="sol-body">
+                                <div class="box box-orange">
+                                    <ol class="steps">
+                                        <li>$d$ cắt $(\alpha)$: $z=0 \Rightarrow t=0 \Rightarrow P(3;4;0)$</li>
+                                        <li>Kiểm tra: $d(H,P) = \sqrt{9+16} = 5 = r$ → $P$ nằm <b>trên</b> $(C)$!</li>
+                                        <li>Chọn $M = P$, $N = P$: $MN = 0$</li>
+                                    </ol>
+                                </div>
+                                <div class="ans-box">$\min MN = \mathbf{0}$ &nbsp;(vì $P = d \cap (\alpha)$ nằm trên
+                                    $(C)$)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- E3 -->
+                    <div class="problem-card">
+                        <div class="problem-header">
+                            <h3>Bài E3 <span class="badge badge-C">Tổng hợp: min và max</span></h3>
+                        </div>
+                        <div class="problem-body">
+                            <div class="problem-text">Đường tròn $(C)$: giao của $x^2+y^2+(z-2)^2=9$ và $z=2$. Đường
+                                thẳng $d: \begin{cases}x=0\\y=5+t\\z=2+t\end{cases}$. Tìm $\min MN$ và $\max MN$.</div>
+                            <button class="sol-toggle" onclick="toggleSol(this)">▶ Hiện lời giải</button>
+                            <div class="sol-body">
+                                <div class="box box-orange">
+                                    <ol class="steps">
+                                        <li>$(C)$: tâm $H(0;0;2)$, $r=3$ trong $z=2$</li>
+                                        <li>$d$ cắt $z=2$ khi $t=0$: $P(0;5;2)$. $d(H,P) = 5 > r$</li>
+                                        <li>Tham số hóa: $M=(3\cos\theta; 3\sin\theta; 2)$, $N=(0;5+t;2+t)$</li>
+                                        <li>Tối ưu theo $t$: $t^* = (3\sin\theta - 5)/2$</li>
+                                        <li>$g(s) = \frac{43}{2} - 15s - \frac{9s^2}{2}$ với $s=\sin\theta\in[-1,1]$
+                                        </li>
+                                        <li>$g'(s) = -15-9s < 0$ → đơn điệu giảm → min tại $s=1$: $g(1)=2$; max tại
+                                                $s=-1$: $g(-1)=32$</li>
+                                    </ol>
+                                    <div class="formula">$\min MN = \sqrt{2}$ &nbsp;(tại $M^*=(0;3;2)$, $N^*=(0;4;1)$)
+                                    </div>
+                                    <div class="formula">$\max MN = \sqrt{32} = 4\sqrt{2}$ &nbsp;(tại $M^*=(0;{-3};2)$)
+                                    </div>
+                                </div>
+                                <div class="ans-box">$\min MN = \sqrt{2}$, &nbsp;$\max MN = 4\sqrt{2}$</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- E4 -->
+                    <div class="problem-card">
+                        <div class="problem-header">
+                            <h3>Bài E4 <span class="badge badge-B">Ứng dụng kỹ thuật</span></h3>
+                        </div>
+                        <div class="problem-body">
+                            <div class="problem-text">Vòng đai tròn $(C)$ trong $z=0$, tâm $H(2;1;0)$, bán kính $r=3$.
+                                Dây cáp $d: \begin{cases}x=6+t\\y=1+2t\\z=3\end{cases}$. Tính khoảng cách ngắn nhất từ
+                                điểm trên vòng đai đến dây cáp (làm tròn 2 chữ số thập phân).</div>
+                            <button class="sol-toggle" onclick="toggleSol(this)">▶ Hiện lời giải</button>
+                            <div class="sol-body">
+                                <div class="box box-green">
+                                    <ol class="steps">
+                                        <li>$d \parallel (\alpha)$, $h = 3$, hướng $\vec{u}=(1;2;0)$</li>
+                                        <li>Hình chiếu $d'$: qua $Q_0(6;1;0)$, hướng $(1;2;0)$</li>
+                                        <li>$\overrightarrow{Q_0H} = (-4;0;0)$, &nbsp;$p =
+                                            \dfrac{|(-4;0;0)\times(1;2;0)|}{\sqrt{5}} = \dfrac{8}{\sqrt{5}} \approx
+                                            3.58$</li>
+                                        <li>$p \approx 3.58 > r = 3$: hình chiếu ngoài $(C)$, $p-r \approx 0.578$</li>
+                                        <li>$\min MN = \sqrt{9 + (p-r)^2} \approx \sqrt{9.334} \approx 3.06$</li>
+                                    </ol>
+                                </div>
+                                <div class="ans-box">$\min MN \approx \mathbf{3.06}$ m</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ========== TAB QUIZ ========== -->
+            <div id="tab-quiz" class="tab-panel">
+                <div class="main">
+
+                    <div class="sec-h1">🎯 Quiz Nhanh — Kiểm Tra Phân Loại & Công Thức</div>
+
+                    <div class="quiz-q" id="q1">
+                        <div class="q-text">1. Đường thẳng $d: \begin{cases}x=4, z=3\end{cases}$ so với mặt phẳng
+                            $(\alpha): z=0$ là?</div>
+                        <div class="quiz-opts">
+                            <label><input type="radio" name="q1" value="a"> $d \subset (\alpha)$</label>
+                            <label><input type="radio" name="q1" value="b"> $d \parallel (\alpha)$</label>
+                            <label><input type="radio" name="q1" value="c"> $d$ cắt $(\alpha)$</label>
+                            <label><input type="radio" name="q1" value="d"> $d \perp (\alpha)$</label>
+                        </div>
+                        <button class="check-btn"
+                            onclick="checkQ('q1','b','Đúng! Mọi điểm trên d đều có z=3≠0, nhưng hướng d là (0,1,0) không cắt z=0 → d ∥ (α).','Sai. d có z=3 (hằng số), hướng (0,1,0) song song với (α): z=0 → TH B.')">Kiểm
+                            tra</button>
+                        <div class="quiz-result" id="q1-result"></div>
+                    </div>
+
+                    <div class="quiz-q" id="q2">
+                        <div class="q-text">2. TH B: $h=3$, $p = d(H,d') = 2$, $r=5$. Giá trị $\min MN$ bằng?</div>
+                        <div class="quiz-opts">
+                            <label><input type="radio" name="q2" value="a"> $\sqrt{9 + 9} = 3\sqrt{2}$</label>
+                            <label><input type="radio" name="q2" value="b"> $\sqrt{9 + (2-5)^2} = 3\sqrt{2}$</label>
+                            <label><input type="radio" name="q2" value="c"> $h = 3$</label>
+                            <label><input type="radio" name="q2" value="d"> $\sqrt{h^2 + (p-r)^2} = \sqrt{9+9}$</label>
+                        </div>
+                        <button class="check-btn"
+                            onclick="checkQ('q2','c','Đúng! Vì p=2 < r=5 nên d\' cắt (C), tồn tại M* có hình chiếu trên d\' → min MN = h = 3.','Sai. Vì p=2 < r=5 (hình chiếu cắt (C)), áp dụng công thức: min MN = h = 3, không phải √(h²+(p-r)²).')">Kiểm
+                            tra</button>
+                        <div class="quiz-result" id="q2-result"></div>
+                    </div>
+
+                    <div class="quiz-q" id="q3">
+                        <div class="q-text">3. TH A: đường tròn $(C)$ tâm $H$, bán kính $r=6$. Đường thẳng $d$ trong
+                            $(\alpha)$ với $d(H,d)=4$. Vị trí tương đối của $d$ và $(C)$ là?</div>
+                        <div class="quiz-opts">
+                            <label><input type="radio" name="q3" value="a"> $d$ nằm ngoài $(C)$</label>
+                            <label><input type="radio" name="q3" value="b"> $d$ tiếp xúc $(C)$</label>
+                            <label><input type="radio" name="q3" value="c"> $d$ cắt $(C)$</label>
+                            <label><input type="radio" name="q3" value="d"> $d$ đi qua tâm</label>
+                        </div>
+                        <button class="check-btn"
+                            onclick="checkQ('q3','c','Đúng! d(H,d)=4 < r=6 → đường thẳng d cắt đường tròn → min MN = 0.','Sai. So sánh d(H,d)=4 với r=6: vì 4 < 6 nên d cắt (C).')">Kiểm
+                            tra</button>
+                        <div class="quiz-result" id="q3-result"></div>
+                    </div>
+
+                    <div class="quiz-q" id="q4">
+                        <div class="q-text">4. Đường thẳng $d: \begin{cases}x=0\\y=0\end{cases}$ (trục $Oz$) và đường
+                            tròn $(C)$ tâm $H(0;0;0)$, $r=3$ trong $z=0$. $\max MN$ bằng?</div>
+                        <div class="quiz-opts">
+                            <label><input type="radio" name="q4" value="a"> $3$</label>
+                            <label><input type="radio" name="q4" value="b"> $6$</label>
+                            <label><input type="radio" name="q4" value="c"> $+\infty$</label>
+                            <label><input type="radio" name="q4" value="d"> $0$</label>
+                        </div>
+                        <button class="check-btn"
+                            onclick="checkQ('q4','c','Đúng! TH D: d ⊥ (α), N=(0;0;t) chạy ra vô cực → max MN không tồn tại hữu hạn.','Sai. TH D (d ⊥ α): N=(0;0;t), khi t→∞ thì MN→∞. Max không tồn tại hữu hạn.')">Kiểm
+                            tra</button>
+                        <div class="quiz-result" id="q4-result"></div>
+                    </div>
+
+                    <div class="quiz-q" id="q5">
+                        <div class="q-text">5. TH B: $h=5$, $p=12$, $r=5$. Giá trị $\min MN$ bằng?</div>
+                        <div class="quiz-opts">
+                            <label><input type="radio" name="q5" value="a"> $5$</label>
+                            <label><input type="radio" name="q5" value="b"> $\sqrt{50}$</label>
+                            <label><input type="radio" name="q5" value="c"> $\sqrt{25+49} = \sqrt{74}$</label>
+                            <label><input type="radio" name="q5" value="d"> $\sqrt{h^2+(p-r)^2} = \sqrt{25+49}$</label>
+                        </div>
+                        <button class="check-btn"
+                            onclick="checkQ('q5','d','Đúng! p=12 > r=5 → dùng công thức √(h²+(p-r)²) = √(25+49) = √74.','Sai. p=12 > r=5 nên d\' nằm ngoài (C). Dùng: min MN = √(h²+(p-r)²) = √(5²+7²) = √74.')">Kiểm
+                            tra</button>
+                        <div class="quiz-result" id="q5-result"></div>
+                    </div>
+
+                    <div style="margin-top:1.5rem; text-align:center">
+                        <button onclick="resetQuiz()"
+                            style="background:var(--navy); color:white; border:none; padding:10px 28px; border-radius:25px; font-size:.95rem; font-weight:700; cursor:pointer">🔄
+                            Làm lại Quiz</button>
+                    </div>
+
+                </div>
+            </div>
+
+            <script>
+                // ── Tab switching ──
+                function switchTab(id) {
+                    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    document.getElementById('tab-' + id).classList.add('active');
+                    event.target.classList.add('active');
+                    if (window.MathJax) MathJax.typesetPromise();
+                    setTimeout(drawAllCanvases, 200);
+                }
+
+                function toggleSol(btn) {
+                    const body = btn.nextElementSibling;
+                    const show = body.style.display !== 'block';
+                    body.style.display = show ? 'block' : 'none';
+                    btn.textContent = show ? '▼ Ẩn lời giải' : '▶ Hiện lời giải';
+                    if (show && window.MathJax) MathJax.typesetPromise([body]);
+                }
+
+                function checkQ(qid, correct, okMsg, failMsg) {
+                    const sel = document.querySelector(`input[name="${qid}"]:checked`);
+                    const res = document.getElementById(qid + '-result');
+                    if (!sel) { res.textContent = 'Hãy chọn một đáp án!'; return; }
+                    document.querySelectorAll(`#${qid} label`).forEach(l => l.classList.remove('correct', 'wrong'));
+                    if (sel.value === correct) {
+                        sel.parentElement.classList.add('correct');
+                        res.innerHTML = '✅ ' + okMsg; res.className = 'quiz-result result-ok';
+                    } else {
+                        sel.parentElement.classList.add('wrong');
+                        document.querySelectorAll(`#${qid} label`).forEach(l => { if (l.querySelector('input').value === correct) l.classList.add('correct'); });
+                        res.innerHTML = '❌ ' + failMsg; res.className = 'quiz-result result-no';
+                    }
+                }
+
+                function resetQuiz() {
+                    ['q1', 'q2', 'q3', 'q4', 'q5'].forEach(q => {
+                        document.querySelectorAll(`input[name="${q}"]`).forEach(i => i.checked = false);
+                        document.querySelectorAll(`#${q} label`).forEach(l => l.classList.remove('correct', 'wrong'));
+                        const r = document.getElementById(q + '-result'); r.textContent = ''; r.className = 'quiz-result';
+                    });
+                }
+
+                // ── Drawing helpers ──
+                function drawPlane(ctx, x, y, w, h, color) {
+                    ctx.fillStyle = color || 'rgba(173,216,230,0.18)';
+                    ctx.strokeStyle = 'rgba(100,150,200,0.4)';
+                    ctx.lineWidth = 0.7;
+                    ctx.beginPath(); ctx.rect(x, y, w, h); ctx.fill(); ctx.stroke();
+                }
+
+                function drawCircle2D(ctx, cx, cy, r, color) {
+                    ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2);
+                    ctx.strokeStyle = color || '#1565C0'; ctx.lineWidth = 2; ctx.stroke();
+                }
+
+                function dot(ctx, x, y, label, color, anchor) {
+                    ctx.beginPath(); ctx.arc(x, y, 3.5, 0, Math.PI * 2);
+                    ctx.fillStyle = color || '#000'; ctx.fill();
+                    ctx.font = '12px Arial'; ctx.fillStyle = color || '#333';
+                    const a = anchor || 'ne';
+                    const ox = a.includes('w') ? -16 : (a.includes('e') ? 6 : -6);
+                    const oy = a.includes('n') ? -6 : (a.includes('s') ? 16 : 5);
+                    ctx.fillText(label, x + ox, y + oy);
+                }
+
+                function label(ctx, x, y, text, color, size) {
+                    ctx.font = (size || '12') + 'px Arial'; ctx.fillStyle = color || '#333';
+                    ctx.textAlign = 'center'; ctx.fillText(text, x, y); ctx.textAlign = 'left';
+                }
+
+                // ── OVERVIEW CANVAS: 4 cases ──
+                function drawOverview() {
+                    const c = document.getElementById('overview-canvas'); if (!c) return;
+                    const ctx = c.getContext('2d'); const W = c.width, H = c.height;
+                    ctx.clearRect(0, 0, W, H);
+                    const caseW = W / 4;
+                    const cases = [
+                        { title: 'TH A: d ⊂ (α)', color: '#1A5276' },
+                        { title: 'TH B: d ∥ (α)', color: '#1E8449' },
+                        { title: 'TH C: d cắt xiên', color: '#E67E22' },
+                        { title: 'TH D: d ⊥ (α)', color: '#900C3F' }
+                    ];
+                    cases.forEach((cas, i) => {
+                        const ox = i * caseW;
+                        // Background
+                        ctx.fillStyle = i % 2 === 0 ? '#f8faff' : '#f8fff8';
+                        ctx.fillRect(ox, 0, caseW, H);
+                        ctx.strokeStyle = '#ddd'; ctx.lineWidth = 1;
+                        ctx.strokeRect(ox, 0, caseW, H);
+                        // Title
+                        ctx.fillStyle = cas.color; ctx.font = 'bold 12px Arial'; ctx.textAlign = 'center';
+                        ctx.fillText(cas.title, ox + caseW / 2, 20);
+                        const cx = ox + caseW / 2, cy = H / 2 + 10, pr = 55;
+                        // Plane
+                        ctx.fillStyle = 'rgba(200,220,255,0.25)';
+                        ctx.fillRect(ox + 8, cy - 30, caseW - 16, 60);
+                        ctx.strokeStyle = '#aac'; ctx.lineWidth = 0.7;
+                        ctx.strokeRect(ox + 8, cy - 30, caseW - 16, 60);
+                        ctx.font = '10px Arial'; ctx.fillStyle = '#999'; ctx.textAlign = 'left';
+                        ctx.fillText('(α)', ox + 12, cy - 18);
+                        // Circle
+                        ctx.beginPath(); ctx.arc(cx, cy, pr, 0, Math.PI * 2);
+                        ctx.strokeStyle = '#1565C0'; ctx.lineWidth = 1.8; ctx.stroke();
+                        // Center H
+                        ctx.beginPath(); ctx.arc(cx, cy, 2.5, 0, Math.PI * 2);
+                        ctx.fillStyle = '#333'; ctx.fill();
+                        ctx.font = '10px Arial'; ctx.fillStyle = '#333'; ctx.textAlign = 'center';
+                        ctx.fillText('H', cx, cy - 7);
+
+                        if (i === 0) { // TH A: d in plane
+                            ctx.beginPath(); ctx.moveTo(ox + 10, cy + 25); ctx.lineTo(ox + caseW - 10, cy + 25);
+                            ctx.strokeStyle = '#C62828'; ctx.lineWidth = 2; ctx.stroke();
+                            ctx.fillStyle = '#C62828'; ctx.fillText('d (ngoài C)', cx, cy + 38);
+                            // M* and N*
+                            dot(ctx, cx + pr, cy, 'M*', '#1565C0', 'ne');
+                            dot(ctx, cx + pr + (cx + caseW - 10 - cx - pr) * 0.5, cy + 25, 'N*', '#C62828', 'ne');
+                            // Line
+                            ctx.beginPath(); ctx.moveTo(cx + pr, cy); ctx.lineTo(cx + pr + (cx + caseW - 10 - cx - pr) * 0.5, cy + 25);
+                            ctx.strokeStyle = '#2E7D32'; ctx.lineWidth = 1.5; ctx.setLineDash([4, 3]); ctx.stroke(); ctx.setLineDash([]);
+                        } else if (i === 1) { // TH B: d || plane
+                            ctx.beginPath(); ctx.moveTo(ox + 10, cy - 55); ctx.lineTo(ox + caseW - 10, cy - 55);
+                            ctx.strokeStyle = '#1E8449'; ctx.lineWidth = 2; ctx.stroke();
+                            ctx.fillStyle = '#1E8449'; ctx.fillText('d (trên cao)', cx, cy - 62);
+                            // d' projection
+                            ctx.beginPath(); ctx.moveTo(ox + 10, cy + 28); ctx.lineTo(ox + caseW - 10, cy + 28);
+                            ctx.strokeStyle = '#aaa'; ctx.lineWidth = 1; ctx.setLineDash([3, 3]); ctx.stroke(); ctx.setLineDash([]);
+                            ctx.fillStyle = '#666'; ctx.fillText("d'", ox + caseW - 16, cy + 25);
+                            // h arrow
+                            ctx.beginPath(); ctx.moveTo(cx + 65, cy - 55); ctx.lineTo(cx + 65, cy + 28);
+                            ctx.strokeStyle = '#666'; ctx.lineWidth = 1; ctx.stroke();
+                            ctx.fillStyle = '#666'; ctx.fillText('h', cx + 70, cy - 10);
+                        } else if (i === 2) { // TH C: slanted
+                            // d from top-right to bottom-left crossing plane
+                            ctx.beginPath(); ctx.moveTo(ox + caseW - 15, cy - 65); ctx.lineTo(ox + 25, cy + 50);
+                            ctx.strokeStyle = '#E67E22'; ctx.lineWidth = 2; ctx.stroke();
+                            ctx.fillStyle = '#E67E22'; ctx.fillText('d (cắt xiên)', cx, cy - 72);
+                            // P = intersection
+                            const px = ox + caseW * 0.6, py = cy + 20;
+                            dot(ctx, px, py, 'P', '#E67E22', 'ne');
+                        } else { // TH D: perpendicular
+                            ctx.beginPath(); ctx.moveTo(cx, cy - 80); ctx.lineTo(cx, cy + 65);
+                            ctx.strokeStyle = '#900C3F'; ctx.lineWidth = 2; ctx.stroke();
+                            ctx.fillStyle = '#900C3F'; ctx.fillText('d (⊥ (α))', cx, cy - 85);
+                            dot(ctx, cx, cy, 'P=H', '#900C3F', 'e');
+                        }
+                    });
+                }
+
+                // ── CASE A diagram ──
+                function drawCaseA() {
+                    const c = document.getElementById('caseA-canvas'); if (!c) return;
+                    const ctx = c.getContext('2d'); const W = c.width, H = c.height;
+                    ctx.clearRect(0, 0, W, H);
+                    const cx = 200, cy = 120, r = 70;
+
+                    // Plane (whole canvas area)
+                    ctx.fillStyle = 'rgba(173,216,230,0.15)';
+                    ctx.fillRect(0, 0, W, H);
+                    ctx.font = '12px Arial'; ctx.fillStyle = '#999'; ctx.textAlign = 'left';
+                    ctx.fillText('(α): z=0', 8, 18);
+
+                    // Circle
+                    drawCircle2D(ctx, cx, cy, r, '#1565C0');
+                    ctx.font = 'bold 12px Arial'; ctx.fillStyle = '#1565C0'; ctx.textAlign = 'center';
+                    ctx.fillText('(C)', cx - r * 0.7, cy - r * 0.7);
+
+                    // Center H
+                    dot(ctx, cx, cy, 'H', '#333', 'ne');
+                    ctx.setLineDash([4, 3]);
+                    ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + r, cy);
+                    ctx.strokeStyle = '#1565C0'; ctx.lineWidth = 1.2; ctx.stroke();
+                    ctx.setLineDash([]);
+                    ctx.font = '11px Arial'; ctx.fillStyle = '#1565C0'; ctx.textAlign = 'center';
+                    ctx.fillText('r', cx + r / 2, cy - 5);
+
+                    // d (outside circle, x=5 style)
+                    const dx = cx + r + 70; // x=H+r+gap
+                    ctx.beginPath(); ctx.moveTo(dx, 20); ctx.lineTo(dx, H - 20);
+                    ctx.strokeStyle = '#C62828'; ctx.lineWidth = 2; ctx.stroke();
+                    ctx.font = 'bold 13px Arial'; ctx.fillStyle = '#C62828'; ctx.textAlign = 'center';
+                    ctx.fillText('d', dx, 14);
+
+                    // M* = nearest point on circle
+                    dot(ctx, cx + r, cy, 'M*', '#1565C0', 'se');
+                    // N* = foot on d
+                    dot(ctx, dx, cy, 'N*', '#C62828', 'ne');
+                    // MN segment
+                    ctx.beginPath(); ctx.moveTo(cx + r, cy); ctx.lineTo(dx, cy);
+                    ctx.strokeStyle = '#2E7D32'; ctx.lineWidth = 2.5; ctx.stroke();
+                    ctx.font = 'bold 12px Arial'; ctx.fillStyle = '#2E7D32'; ctx.textAlign = 'center';
+                    ctx.fillText('min MN = p−r', (cx + r + dx) / 2, cy - 10);
+
+                    // p arrow
+                    ctx.beginPath(); ctx.moveTo(cx, cy + 30); ctx.lineTo(dx, cy + 30);
+                    ctx.strokeStyle = '#888'; ctx.lineWidth = 1; ctx.stroke();
+                    ctx.fillStyle = '#666'; ctx.font = '11px Arial'; ctx.textAlign = 'center';
+                    ctx.fillText('p = d(H,d)', (cx + dx) / 2, cy + 45);
+
+                    // Case p<r: second circle with d cutting
+                    const cx2 = 420, cy2 = 120, r2 = 80;
+                    drawCircle2D(ctx, cx2, cy2, r2, '#1565C0');
+                    dot(ctx, cx2, cy2, 'H', '#333', 'ne');
+                    // d cutting through circle
+                    const dx2 = cx2 + 30;
+                    ctx.beginPath(); ctx.moveTo(dx2, 20); ctx.lineTo(dx2, H - 20);
+                    ctx.strokeStyle = '#C62828'; ctx.lineWidth = 2; ctx.stroke();
+                    ctx.font = 'bold 13px Arial'; ctx.fillStyle = '#C62828'; ctx.textAlign = 'center';
+                    ctx.fillText('d', dx2, 14);
+                    ctx.font = '11px Arial'; ctx.fillStyle = '#888'; ctx.textAlign = 'center';
+                    ctx.fillText('d(H,d) < r', cx2, H - 8);
+                    ctx.font = 'bold 12px Arial'; ctx.fillStyle = '#2E7D32';
+                    ctx.fillText('min MN = 0', cx2, cy2 + r2 + 18);
+                }
+
+                // ── CASE B1 diagram ──
+                function drawCaseB1() {
+                    const c = document.getElementById('caseB1-canvas'); if (!c) return;
+                    const ctx = c.getContext('2d'); const W = c.width, H = c.height;
+                    ctx.clearRect(0, 0, W, H);
+                    const cx = 160, cyPlane = 180, r = 65, h = 80;
+
+                    // Plane
+                    ctx.fillStyle = 'rgba(173,216,230,0.18)';
+                    ctx.fillRect(10, cyPlane - 25, W - 20, 50);
+                    ctx.strokeStyle = '#aac'; ctx.lineWidth = .7; ctx.strokeRect(10, cyPlane - 25, W - 20, 50);
+                    ctx.font = '11px Arial'; ctx.fillStyle = '#999'; ctx.textAlign = 'left'; ctx.fillText('(α)', 14, cyPlane - 12);
+
+                    // Circle C in plane
+                    ctx.save(); ctx.scale(1, 0.35);
+                    ctx.beginPath(); ctx.arc(cx, cyPlane / 0.35, r, 0, Math.PI * 2);
+                    ctx.restore();
+                    ctx.beginPath(); ctx.ellipse(cx, cyPlane, r, r * 0.35, 0, 0, Math.PI * 2);
+                    ctx.strokeStyle = '#1565C0'; ctx.lineWidth = 2; ctx.stroke();
+                    ctx.font = 'bold 12px Arial'; ctx.fillStyle = '#1565C0'; ctx.textAlign = 'center';
+                    ctx.fillText('(C)', cx - r * 0.7, cyPlane - 15);
+
+                    // d' projection in plane
+                    const dx2 = cx + r + 50;
+                    ctx.beginPath(); ctx.moveTo(dx2, cyPlane - 23); ctx.lineTo(dx2, cyPlane + 23);
+                    ctx.strokeStyle = '#888'; ctx.lineWidth = 1.5; ctx.setLineDash([4, 3]); ctx.stroke(); ctx.setLineDash([]);
+                    ctx.font = '11px Arial'; ctx.fillStyle = '#888'; ctx.textAlign = 'center'; ctx.fillText("d'", dx2, cyPlane - 28);
+
+                    // d above
+                    const cyD = cyPlane - h;
+                    ctx.beginPath(); ctx.moveTo(dx2 - 1, cyD - 30); ctx.lineTo(dx2 - 1, cyD + 30);
+                    ctx.strokeStyle = '#1E8449'; ctx.lineWidth = 2; ctx.stroke();
+                    ctx.font = 'bold 12px Arial'; ctx.fillStyle = '#1E8449'; ctx.textAlign = 'center';
+                    ctx.fillText('d', dx2, cyD - 35);
+
+                    // h arrow
+                    ctx.beginPath(); ctx.moveTo(dx2 + 20, cyD); ctx.lineTo(dx2 + 20, cyPlane);
+                    ctx.strokeStyle = '#666'; ctx.lineWidth = 1.2; ctx.stroke();
+                    ctx.fillStyle = '#666'; ctx.font = 'bold 12px Arial'; ctx.textAlign = 'left'; ctx.fillText('h', dx2 + 23, (cyD + cyPlane) / 2);
+
+                    // H center
+                    dot(ctx, cx, cyPlane, 'H', '#333', 'ne');
+
+                    // M* on circle (closest to d')
+                    const mx = cx + r;
+                    dot(ctx, mx, cyPlane, 'M*', '#1565C0', 'se');
+
+                    // H' foot
+                    dot(ctx, dx2, cyPlane, "H'", '#888', 'se');
+
+                    // N* on d
+                    dot(ctx, dx2 - 1, cyD, 'N*', '#1E8449', 'ne');
+
+                    // p-r segment in plane
+                    ctx.beginPath(); ctx.moveTo(mx, cyPlane + 35); ctx.lineTo(dx2, cyPlane + 35);
+                    ctx.strokeStyle = '#E67E22'; ctx.lineWidth = 1.5; ctx.stroke();
+                    ctx.fillStyle = '#E67E22'; ctx.font = '11px Arial'; ctx.textAlign = 'center';
+                    ctx.fillText('p−r', (mx + dx2) / 2, cyPlane + 48);
+
+                    // MN diagonal
+                    ctx.beginPath(); ctx.moveTo(mx, cyPlane); ctx.lineTo(dx2 - 1, cyD);
+                    ctx.strokeStyle = '#C62828'; ctx.lineWidth = 2; ctx.setLineDash([5, 3]); ctx.stroke(); ctx.setLineDash([]);
+                    ctx.fillStyle = '#C62828'; ctx.font = 'bold 11px Arial'; ctx.textAlign = 'center';
+                    ctx.fillText('min MN', (mx + dx2) / 2 - 25, (cyPlane + cyD) / 2 - 5);
+
+                    // Formula
+                    ctx.font = '12px Arial'; ctx.fillStyle = '#333'; ctx.textAlign = 'center';
+                    ctx.fillText('min MN = √(h² + (p−r)²)', W / 2, H - 8);
+                }
+
+                // ── CASE B2 diagram ──
+                function drawCaseB2() {
+                    const c = document.getElementById('caseB2-canvas'); if (!c) return;
+                    const ctx = c.getContext('2d'); const W = c.width, H = c.height;
+                    ctx.clearRect(0, 0, W, H);
+                    const cx = 200, cyPlane = 185, r = 70, h = 85;
+
+                    // Plane
+                    ctx.fillStyle = 'rgba(173,216,230,0.18)';
+                    ctx.fillRect(10, cyPlane - 25, W - 20, 50);
+                    ctx.strokeStyle = '#aac'; ctx.lineWidth = .7; ctx.strokeRect(10, cyPlane - 25, W - 20, 50);
+                    ctx.font = '11px Arial'; ctx.fillStyle = '#999'; ctx.textAlign = 'left'; ctx.fillText('(α)', 14, cyPlane - 12);
+
+                    // Circle C
+                    ctx.beginPath(); ctx.ellipse(cx, cyPlane, r, r * 0.32, 0, 0, Math.PI * 2);
+                    ctx.strokeStyle = '#1565C0'; ctx.lineWidth = 2; ctx.stroke();
+
+                    // d' CUTS circle (x=3 inside r=5 equivalent: in diagram, d' passes through circle)
+                    const dx2 = cx + 20; // d' is inside circle
+                    ctx.beginPath(); ctx.moveTo(dx2, cyPlane - 23); ctx.lineTo(dx2, cyPlane + 23);
+                    ctx.strokeStyle = '#888'; ctx.lineWidth = 1.5; ctx.setLineDash([4, 3]); ctx.stroke(); ctx.setLineDash([]);
+                    ctx.font = '11px Arial'; ctx.fillStyle = '#888'; ctx.textAlign = 'center'; ctx.fillText("d' (cắt C)", dx2, cyPlane + 30);
+
+                    // d above
+                    const cyD = cyPlane - h;
+                    ctx.beginPath(); ctx.moveTo(dx2, cyD - 30); ctx.lineTo(dx2, cyD + 30);
+                    ctx.strokeStyle = '#1E8449'; ctx.lineWidth = 2; ctx.stroke();
+                    ctx.font = 'bold 12px Arial'; ctx.fillStyle = '#1E8449'; ctx.textAlign = 'center';
+                    ctx.fillText('d', dx2, cyD - 35);
+
+                    // H center
+                    dot(ctx, cx, cyPlane, 'H', '#333', 'nw');
+
+                    // p annotation
+                    ctx.beginPath(); ctx.moveTo(cx, cyPlane + 40); ctx.lineTo(dx2, cyPlane + 40);
+                    ctx.strokeStyle = '#E67E22'; ctx.lineWidth = 1.2; ctx.stroke();
+                    ctx.fillStyle = '#E67E22'; ctx.font = '11px Arial'; ctx.textAlign = 'center';
+                    ctx.fillText('p < r', (cx + dx2) / 2, cyPlane + 53);
+
+                    // M* on circle at x=dx2 (above H)
+                    const myC = cyPlane - 5;
+                    dot(ctx, dx2, myC, 'M*', '#1565C0', 'ne');
+
+                    // N* on d
+                    dot(ctx, dx2, cyD, 'N*', '#1E8449', 'ne');
+
+                    // MN = h (vertical)
+                    ctx.beginPath(); ctx.moveTo(dx2 + 15, myC); ctx.lineTo(dx2 + 15, cyD);
+                    ctx.strokeStyle = '#C62828'; ctx.lineWidth = 2.5; ctx.stroke();
+                    ctx.fillStyle = '#C62828'; ctx.font = 'bold 12px Arial'; ctx.textAlign = 'left';
+                    ctx.fillText('min MN = h', dx2 + 18, (myC + cyD) / 2);
+
+                    // h label
+                    ctx.font = 'bold 11px Arial'; ctx.fillStyle = '#666'; ctx.textAlign = 'right';
+                    ctx.fillText('h', dx2 - 4, (cyPlane + cyD) / 2);
+
+                    // formula
+                    ctx.font = '12px Arial'; ctx.fillStyle = '#333'; ctx.textAlign = 'center';
+                    ctx.fillText('min MN = h (vì p < r)', W / 2, H - 8);
+                }
+
+                // ── CASE C diagram ──
+                function drawCaseC() {
+                    const c = document.getElementById('caseC-canvas'); if (!c) return;
+                    const ctx = c.getContext('2d'); const W = c.width, H = c.height;
+                    ctx.clearRect(0, 0, W, H);
+                    const cx = 180, cy = 180, r = 75;
+
+                    // Plane
+                    ctx.fillStyle = 'rgba(173,216,230,0.18)';
+                    ctx.fillRect(10, cy - 25, W - 20, 50);
+                    ctx.strokeStyle = '#aac'; ctx.lineWidth = .7; ctx.strokeRect(10, cy - 25, W - 20, 50);
+                    ctx.font = '11px Arial'; ctx.fillStyle = '#999'; ctx.textAlign = 'left'; ctx.fillText('(α)', 14, cy - 12);
+
+                    // Circle
+                    ctx.beginPath(); ctx.ellipse(cx, cy, r, r * 0.32, 0, 0, Math.PI * 2);
+                    ctx.strokeStyle = '#1565C0'; ctx.lineWidth = 2; ctx.stroke();
+                    ctx.font = 'bold 12px Arial'; ctx.fillStyle = '#1565C0'; ctx.textAlign = 'center';
+                    ctx.fillText('(C)', cx - r * 0.8, cy - 18);
+
+                    // H
+                    dot(ctx, cx, cy, 'H', '#333', 'ne');
+
+                    // P on plane (outside circle)
+                    const px = cx + r + 60;
+                    dot(ctx, px, cy + 5, 'P', '#E67E22', 'ne');
+                    ctx.font = '10px Arial'; ctx.fillStyle = '#666'; ctx.textAlign = 'center';
+                    ctx.fillText('d ∩ (α)', px, cy + 22);
+
+                    // d going upward from P
+                    ctx.beginPath(); ctx.moveTo(px, cy + 80); ctx.lineTo(px - 30, cy - 100);
+                    ctx.strokeStyle = '#E67E22'; ctx.lineWidth = 2; ctx.stroke();
+                    ctx.font = 'bold 12px Arial'; ctx.fillStyle = '#E67E22'; ctx.textAlign = 'center';
+                    ctx.fillText('d', px - 32, cy - 105);
+
+                    // M* = closest point on circle to P direction
+                    const mx = cx + r;
+                    dot(ctx, mx, cy, 'M*', '#1565C0', 'se');
+
+                    // HM direction
+                    ctx.setLineDash([4, 3]);
+                    ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(px, cy + 5);
+                    ctx.strokeStyle = '#888'; ctx.lineWidth = 1; ctx.stroke(); ctx.setLineDash([]);
+
+                    // M*P segment
+                    ctx.beginPath(); ctx.moveTo(mx, cy); ctx.lineTo(px, cy + 5);
+                    ctx.strokeStyle = '#2E7D32'; ctx.lineWidth = 2; ctx.stroke();
+                    ctx.font = 'bold 11px Arial'; ctx.fillStyle = '#2E7D32'; ctx.textAlign = 'center';
+                    ctx.fillText('min MN', (mx + px) / 2, cy - 10);
+
+                    ctx.font = '12px Arial'; ctx.fillStyle = '#333'; ctx.textAlign = 'center';
+                    ctx.fillText('Khi u|α ⊥ HP: min MN = d(H,P) − r', W / 2, H - 8);
+                }
+
+                function drawAllCanvases() {
+                    drawOverview();
+                    drawCaseA();
+                    drawCaseB1();
+                    drawCaseB2();
+                    drawCaseC();
+                }
+
+                window.addEventListener('load', () => {
+                    drawAllCanvases();
+                    if (window.MathJax) MathJax.typesetPromise();
+                });
+            </script>
+</body>
+
+</html>

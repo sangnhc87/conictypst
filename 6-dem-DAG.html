@@ -1,0 +1,1983 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chuyên đề Hệ Truy Hồi & Đếm Đường Đi DAG</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700&family=Merriweather:wght@700;900&display=swap"
+        rel="stylesheet">
+
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']],
+                processEscapes: true
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+    <style>
+        :root {
+            --bg: #f5efe3;
+            --paper: #fffdf8;
+            --ink: #20313f;
+            --muted: #5e6d79;
+            --line: #d8cbb2;
+            --teal: #0f766e;
+            --teal-soft: #dff5ef;
+            --red: #c2410c;
+            --red-soft: #fff0e5;
+            --blue: #1d4ed8;
+            --blue-soft: #e8f0ff;
+            --gold: #8a5a00;
+            --gold-soft: #fff5d8;
+            --purple: #7e22ce;
+            --purple-soft: #f3e8ff;
+            --shadow: 0 18px 40px rgba(53, 42, 24, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Be Vietnam Pro', sans-serif;
+            line-height: 1.72;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at top right, rgba(15, 118, 110, 0.11), transparent 28%),
+                radial-gradient(circle at 10% 25%, rgba(29, 78, 216, 0.08), transparent 20%),
+                linear-gradient(180deg, #fbf7ee 0%, #f5efe3 55%, #efe6d6 100%);
+        }
+
+        /* Navigation */
+        .nav-container {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(32, 49, 63, 0.08);
+            box-shadow: 0 4px 12px rgba(32, 49, 63, 0.05);
+        }
+
+        .nav-inner {
+            width: min(1120px, calc(100% - 32px));
+            margin: 0 auto;
+            padding: 12px 0;
+        }
+
+        .nav-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--teal);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .nav-links a {
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: rgba(15, 118, 110, 0.08);
+            color: var(--teal);
+            text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            background: var(--teal);
+            color: white;
+        }
+
+        .page {
+            width: min(1120px, calc(100% - 32px));
+            margin: 24px auto 48px;
+        }
+
+        .hero {
+            padding: 30px;
+            border: 1px solid rgba(32, 49, 63, 0.08);
+            border-radius: 28px;
+            background:
+                linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(255, 249, 236, 0.92)),
+                var(--paper);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: auto -60px -80px auto;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(15, 118, 110, 0.16), transparent 70%);
+            pointer-events: none;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: rgba(15, 118, 110, 0.1);
+            color: var(--teal);
+            font-size: 0.93rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        h1,
+        h2,
+        h3 {
+            margin: 0;
+        }
+
+        h1 {
+            margin-top: 18px;
+            font-family: 'Merriweather', serif;
+            font-size: clamp(2rem, 3vw, 3.3rem);
+            line-height: 1.18;
+        }
+
+        .hero p {
+            max-width: 900px;
+            color: var(--muted);
+            font-size: 1.04rem;
+        }
+
+        .roadmap {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+            margin-top: 24px;
+        }
+
+        .roadmap-card {
+            padding: 16px 18px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.76);
+            border: 1px solid rgba(32, 49, 63, 0.08);
+        }
+
+        .roadmap-card strong {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--ink);
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr);
+            gap: 22px;
+            margin-top: 22px;
+        }
+
+        section {
+            padding: 28px;
+            border-radius: 26px;
+            background: rgba(255, 253, 248, 0.95);
+            border: 1px solid rgba(32, 49, 63, 0.08);
+            box-shadow: var(--shadow);
+            scroll-margin-top: 100px;
+        }
+
+        section h2 {
+            font-size: 1.5rem;
+            line-height: 1.35;
+            margin-bottom: 16px;
+            padding-left: 14px;
+            border-left: 6px solid var(--red);
+        }
+
+        section h2::before {
+            content: "§";
+            margin-right: 8px;
+            color: var(--red);
+            font-weight: 700;
+        }
+
+        section h3 {
+            margin-top: 22px;
+            margin-bottom: 10px;
+            color: var(--teal);
+            font-size: 1.15rem;
+        }
+
+        p,
+        li {
+            color: var(--ink);
+        }
+
+        .lede {
+            font-size: 1.05rem;
+            color: var(--muted);
+            margin-top: 0;
+        }
+
+        /* Simplified box system - only 3 types */
+        .concept-box {
+            border-radius: 20px;
+            padding: 18px 20px;
+            margin: 18px 0;
+            background: linear-gradient(180deg, rgba(223, 245, 239, 0.9), rgba(255, 255, 255, 0.95));
+            border-left: 6px solid var(--teal);
+        }
+
+        .concept-box strong:first-child {
+            display: block;
+            color: var(--teal);
+            margin-bottom: 8px;
+        }
+
+        .example-box {
+            border-radius: 20px;
+            padding: 18px 20px;
+            margin: 18px 0;
+            background: linear-gradient(180deg, rgba(232, 240, 255, 0.7), rgba(255, 255, 255, 0.92));
+            border: 1px solid rgba(29, 78, 216, 0.15);
+        }
+
+        .example-box strong:first-child {
+            display: block;
+            color: var(--blue);
+            margin-bottom: 8px;
+        }
+
+        .warning-box {
+            border-radius: 20px;
+            padding: 18px 20px;
+            margin: 18px 0;
+            background: linear-gradient(180deg, rgba(255, 245, 216, 0.9), rgba(255, 255, 255, 0.94));
+            border-left: 6px solid var(--gold);
+        }
+
+        .warning-box strong:first-child {
+            display: block;
+            color: var(--gold);
+            margin-bottom: 8px;
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+            margin: 18px 0;
+        }
+
+        .pill-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 16px 0 0;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: rgba(32, 49, 63, 0.06);
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .formula-strip {
+            margin: 18px 0;
+            padding: 16px 18px;
+            border-radius: 18px;
+            background: #fff;
+            border: 1px dashed rgba(32, 49, 63, 0.16);
+            overflow-x: auto;
+        }
+
+        svg {
+            display: block;
+            width: min(100%, 640px);
+            height: auto;
+            margin: 20px auto;
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 18px;
+            border: 1px solid rgba(32, 49, 63, 0.08);
+            box-shadow: 0 12px 28px rgba(32, 49, 63, 0.08);
+            padding: 18px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            overflow: hidden;
+            border-radius: 18px;
+            background: #fff;
+            box-shadow: 0 10px 24px rgba(32, 49, 63, 0.08);
+        }
+
+        th,
+        td {
+            border: 1px solid rgba(216, 203, 178, 0.7);
+            padding: 12px;
+            text-align: center;
+            vertical-align: top;
+        }
+
+        th {
+            background: linear-gradient(135deg, #1954b3, #0f766e);
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: rgba(245, 239, 227, 0.45);
+        }
+
+        .text-red {
+            color: var(--red);
+            font-weight: 700;
+        }
+
+        .text-blue {
+            color: var(--blue);
+            font-weight: 700;
+        }
+
+        .text-teal {
+            color: var(--teal);
+            font-weight: 700;
+        }
+
+        .text-purple {
+            color: var(--purple);
+            font-weight: 700;
+        }
+
+        .checklist {
+            padding-left: 18px;
+            margin: 0;
+        }
+
+        .checklist li {
+            margin: 8px 0;
+        }
+
+        details.exercise {
+            margin-top: 12px;
+            border-radius: 18px;
+            border: 1px solid rgba(32, 49, 63, 0.1);
+            background: rgba(255, 255, 255, 0.94);
+            overflow: hidden;
+        }
+
+        details.exercise summary {
+            cursor: pointer;
+            list-style: none;
+            padding: 16px 18px;
+            font-weight: 700;
+            background: linear-gradient(180deg, rgba(223, 245, 239, 0.72), rgba(255, 255, 255, 0.92));
+        }
+
+        details.exercise summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .exercise-body {
+            padding: 0 18px 18px;
+        }
+
+        .exercise-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        .tag {
+            display: inline-block;
+            margin: 8px 10px 8px 0;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: rgba(29, 78, 216, 0.08);
+            color: var(--blue);
+            font-size: 0.88rem;
+            font-weight: 700;
+        }
+
+        .closing {
+            background: linear-gradient(135deg, rgba(15, 118, 110, 0.12), rgba(29, 78, 216, 0.08));
+        }
+
+        .model-showcase {
+            margin: 24px 0;
+            padding: 22px;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.88);
+            border: 1px solid rgba(32, 49, 63, 0.08);
+        }
+
+        .model-showcase h4 {
+            margin: 0 0 14px;
+            color: var(--teal);
+            font-size: 1.12rem;
+        }
+
+        @media (max-width: 860px) {
+            .page {
+                width: min(100% - 20px, 1120px);
+            }
+
+            .hero,
+            section {
+                padding: 22px 18px;
+                border-radius: 22px;
+            }
+
+            .roadmap,
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                gap: 6px;
+            }
+
+            .nav-links a {
+                font-size: 0.82rem;
+                padding: 5px 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="nav-container">
+        <div class="nav-inner">
+            <div class="nav-title">Chuyên đề Hệ Truy Hồi & DAG</div>
+            <div class="nav-links">
+                <a href="#intro">§1 Bài toán gốc</a>
+                <a href="#ic">§2 Điều kiện đầu</a>
+                <a href="#recurrence">§3 Lập hệ truy hồi</a>
+                <a href="#formula">§4 Công thức tổng quát</a>
+                <a href="#paradigm">§5 Hệ + điều kiện đầu</a>
+                <a href="#multivar">§6 Hệ đa biến</a>
+                <a href="#strategy">§7 Chiến lược 4 bước</a>
+                <a href="#exercises">§8 Sáu nhóm bài</a>
+                <a href="#errors">§9 Lỗi thường gặp</a>
+                <a href="#closing">§10 Kết luận</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="page">
+        <header class="hero">
+            <div class="eyebrow">Chuyên đề sâu để dạy học sinh</div>
+            <h1>Từ một bài lưới hai tầng đến cả chuyên đề đếm đường đi trên DAG bằng hệ truy hồi và điều kiện đầu</h1>
+            <p>
+                Mục tiêu của trang này không còn là chỉ giải ra một đáp số. Ta biến bài gốc thành một chuyên đề hoàn
+                chỉnh: biết cách chọn trạng thái,
+                viết hệ truy hồi, đọc điều kiện đầu, suy ra công thức tổng quát, hiểu hệ đa biến, và sau cùng mở ra
+                nhiều nhóm bài luyện để dùng trực tiếp khi dạy.
+            </p>
+            <div class="roadmap">
+                <div class="roadmap-card">
+                    <strong>Trục 1: Bài gốc & điều kiện đầu</strong>
+                    Dẫn học sinh từ hình vẽ sang hai dãy số $b_k, t_k$. Chỉ ra rằng hệ truy hồi chưa đủ, phải có dữ liệu
+                    ban đầu mới ra nghiệm duy nhất.
+                </div>
+                <div class="roadmap-card">
+                    <strong>Trục 2: Công thức tổng quát</strong>
+                    Từ $4$ cột sang $n$ cột, từ bài riêng sang công thức đóng. Học cách đọc quy luật từ bảng giá trị.
+                </div>
+                <div class="roadmap-card">
+                    <strong>Trục 3: Hệ đa biến & mô hình đẹp</strong>
+                    Từ 2 biến sang 3 biến, 4 biến. Hệ phụ thuộc kiểu Fibonacci, lưới kim cương, hệ có chu kỳ. Mỗi mô
+                    hình có hình minh họa rõ ràng, chuẩn sư phạm.
+                </div>
+                <div class="roadmap-card">
+                    <strong>Trục 4: Nhóm bài chuyên sâu</strong>
+                    Thay điều kiện đầu, thay hệ số, thêm tầng, làm bài nghịch đảo, và mở ra DAG tổng quát. Sáu nhóm bài
+                    thực chiến.
+                </div>
+            </div>
+        </header>
+
+        <div class="layout">
+            <section id="intro">
+                <h2>1. Bài toán mở đầu và cách nhìn đúng</h2>
+                <p class="lede">
+                    Trên sơ đồ, một đường đi từ $A$ đến $B$ được gọi là hợp lệ nếu mỗi bước chỉ đi theo hướng của các
+                    mũi tên.
+                    Mấu chốt không phải là đếm mò từng đường, mà là hỏi: mỗi điểm nhận bao nhiêu luồng đi vào?
+                </p>
+
+                <svg width="600" height="180" viewBox="-20 -20 440 140">
+                    <defs>
+                        <marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3"
+                            orient="auto-start-reverse">
+                            <path d="M 0 0 L 6 3 L 0 6 z" fill="#20313f" />
+                        </marker>
+                    </defs>
+
+                    <line x1="0" y1="100" x2="95" y2="100" stroke="#20313f" stroke-width="2" marker-end="url(#arrow)" />
+                    <line x1="100" y1="100" x2="195" y2="100" stroke="#20313f" stroke-width="2"
+                        marker-end="url(#arrow)" />
+                    <line x1="200" y1="100" x2="295" y2="100" stroke="#20313f" stroke-width="2"
+                        marker-end="url(#arrow)" />
+                    <line x1="300" y1="100" x2="395" y2="100" stroke="#20313f" stroke-width="2"
+                        marker-end="url(#arrow)" />
+
+                    <line x1="0" y1="0" x2="95" y2="0" stroke="#20313f" stroke-width="2" marker-end="url(#arrow)" />
+                    <line x1="100" y1="0" x2="195" y2="0" stroke="#20313f" stroke-width="2" marker-end="url(#arrow)" />
+                    <line x1="200" y1="0" x2="295" y2="0" stroke="#20313f" stroke-width="2" marker-end="url(#arrow)" />
+                    <line x1="300" y1="0" x2="395" y2="0" stroke="#20313f" stroke-width="2" marker-end="url(#arrow)" />
+
+                    <line x1="0" y1="100" x2="0" y2="5" stroke="#20313f" stroke-width="2" marker-end="url(#arrow)" />
+                    <line x1="100" y1="100" x2="100" y2="5" stroke="#20313f" stroke-width="2"
+                        marker-end="url(#arrow)" />
+                    <line x1="200" y1="100" x2="200" y2="5" stroke="#20313f" stroke-width="2"
+                        marker-end="url(#arrow)" />
+                    <line x1="300" y1="100" x2="300" y2="5" stroke="#20313f" stroke-width="2"
+                        marker-end="url(#arrow)" />
+                    <line x1="400" y1="100" x2="400" y2="5" stroke="#20313f" stroke-width="2"
+                        marker-end="url(#arrow)" />
+
+                    <line x1="0" y1="100" x2="95" y2="5" stroke="#20313f" stroke-width="2" marker-end="url(#arrow)" />
+                    <line x1="100" y1="100" x2="195" y2="5" stroke="#20313f" stroke-width="2"
+                        marker-end="url(#arrow)" />
+                    <line x1="200" y1="100" x2="295" y2="5" stroke="#20313f" stroke-width="2"
+                        marker-end="url(#arrow)" />
+                    <line x1="300" y1="100" x2="395" y2="5" stroke="#20313f" stroke-width="2"
+                        marker-end="url(#arrow)" />
+
+                    <circle cx="0" cy="100" r="4" fill="white" stroke="#20313f" />
+                    <circle cx="400" cy="0" r="4" fill="white" stroke="#20313f" />
+
+                    <text x="-15" y="115" font-weight="bold" font-size="16">A</text>
+                    <text x="415" y="-10" font-weight="bold" font-size="16">B</text>
+                </svg>
+
+                <div class="concept-box">
+                    <strong>Thông điệp đầu bài:</strong>
+                    Học sinh thường rối vì nhìn cả hình một lúc. Ta nên dạy theo tư duy "chia trạng thái": mỗi cột chỉ
+                    có hai điểm đáng theo dõi,
+                    một điểm dưới và một điểm trên. Khi đó bài toán hình học trở thành bài toán dãy số.
+                </div>
+
+                <div class="pill-row">
+                    <span class="pill">Trạng thái dưới: $b_k$</span>
+                    <span class="pill">Trạng thái trên: $t_k$</span>
+                    <span class="pill">Cột nguồn: $k-1$</span>
+                    <span class="pill">Cột đích: $k$</span>
+                </div>
+            </section>
+            <section id="ic">
+                <h2>2. Tách trạng thái và đọc điều kiện đầu</h2>
+                <p class="lede">
+                    Ta đánh số cột từ $0$ đến $n$. Tại cột $k$, ký hiệu số cách đi đến điểm dưới là <span
+                        class="text-red">$b_k$</span>, số cách đi đến điểm trên là <span class="text-blue">$t_k$</span>.
+                </p>
+
+                <div class="warning-box">
+                    <strong>Điều kiện đầu là chỗ học sinh hay bỏ quên nhất.</strong><br>
+                    Tại $A$, ta đang đứng sẵn ở vạch xuất phát nên $b_0 = 1$. Đỉnh ngay phía trên $A$ có đúng một mũi
+                    tên đi lên từ $A$, nên $t_0 = 1$.
+                    Nếu chỉ viết hệ truy hồi mà không ghi $(b_0, t_0)$, ta chưa xác định được dãy cụ thể nào cả.
+                </div>
+
+                <div class="two-col">
+                    <div class="example-box">
+                        <strong>Điều kiện đầu của bài gốc</strong>
+                        <div class="formula-strip">$$b_0 = 1, \qquad t_0 = 1$$</div>
+                        Đây là "hạt giống" khởi tạo toàn bộ quá trình đếm.
+                    </div>
+                    <div class="example-box">
+                        <strong>Bài học phương pháp</strong>
+                        Hệ truy hồi trả lời câu hỏi "đi từ cột trước sang cột sau ra sao", còn điều kiện đầu trả lời câu
+                        hỏi "bắt đầu ở đâu, bắt đầu với bao nhiêu cách".
+                    </div>
+                </div>
+            </section>
+
+            <section id="recurrence">
+                <h2>3. Lập hệ truy hồi từ các mũi tên</h2>
+                <p class="lede">
+                    Đây là bước cốt lõi. Mỗi đỉnh nhận số cách bằng tổng số cách từ tất cả các đỉnh có mũi tên đi vào
+                    nó. Đây chính là nguyên lý đếm đường đi trên DAG.
+                </p>
+
+                <h3>3.1. Tầng dưới</h3>
+                <svg width="400" height="150" viewBox="-50 -20 300 150">
+                    <defs>
+                        <marker id="arrow-red" markerWidth="6" markerHeight="6" refX="5" refY="3"
+                            orient="auto-start-reverse">
+                            <path d="M 0 0 L 6 3 L 0 6 z" fill="#c2410c" />
+                        </marker>
+                    </defs>
+                    <rect x="-30" y="-10" width="60" height="130" fill="#f2eee5" rx="10" />
+                    <rect x="170" y="-10" width="60" height="130" fill="#fff4df" rx="10" />
+                    <text x="0" y="140" text-anchor="middle" font-size="14">Cot k-1</text>
+                    <text x="200" y="140" text-anchor="middle" font-size="14">Cot k</text>
+
+                    <line x1="15" y1="0" x2="185" y2="0" stroke="#ccc" stroke-width="2" />
+                    <line x1="0" y1="15" x2="200" y2="85" stroke="#ccc" stroke-width="2" />
+                    <line x1="200" y1="85" x2="200" y2="15" stroke="#ccc" stroke-width="2" />
+
+                    <line x1="15" y1="100" x2="180" y2="100" stroke="#c2410c" stroke-width="4"
+                        marker-end="url(#arrow-red)" />
+
+                    <circle cx="0" cy="100" r="15" fill="#fff" stroke="#999" stroke-width="2" />
+                    <text x="0" y="100" text-anchor="middle" dominant-baseline="central">b(k-1)</text>
+
+                    <circle cx="0" cy="0" r="15" fill="#fff" stroke="#999" stroke-width="2" />
+                    <text x="0" y="0" text-anchor="middle" dominant-baseline="central">t(k-1)</text>
+
+                    <circle cx="200" cy="100" r="18" fill="#ffefe7" stroke="#c2410c" stroke-width="3" />
+                    <text x="200" y="100" text-anchor="middle" dominant-baseline="central"
+                        font-weight="bold">b(k)</text>
+
+                    <circle cx="200" cy="0" r="15" fill="#fff" stroke="#999" stroke-width="2" />
+                    <text x="200" y="0" text-anchor="middle" dominant-baseline="central">t(k)</text>
+                </svg>
+
+                <div class="example-box">
+                    <strong>Quy tắc đọc từ hình vẽ</strong>
+                    Điểm dưới $b_k$ chỉ nhận duy nhất một mũi tên ngang từ $b_{k-1}$, nên:
+                    <div class="formula-strip">$$b_k = b_{k-1}$$</div>
+                </div>
+
+                <h3>3.2. Tầng trên</h3>
+                <svg width="400" height="150" viewBox="-50 -20 300 150">
+                    <defs>
+                        <marker id="arrow-blue" markerWidth="6" markerHeight="6" refX="5" refY="3"
+                            orient="auto-start-reverse">
+                            <path d="M 0 0 L 6 3 L 0 6 z" fill="#1d4ed8" />
+                        </marker>
+                    </defs>
+                    <rect x="-30" y="-10" width="60" height="130" fill="#f2eee5" rx="10" />
+                    <rect x="170" y="-10" width="60" height="130" fill="#fff4df" rx="10" />
+
+                    <line x1="15" y1="100" x2="185" y2="100" stroke="#ccc" stroke-width="2" />
+
+                    <line x1="15" y1="0" x2="180" y2="0" stroke="#1d4ed8" stroke-width="3"
+                        marker-end="url(#arrow-blue)" />
+                    <line x1="12" y1="92" x2="186" y2="8" stroke="#1d4ed8" stroke-width="3"
+                        marker-end="url(#arrow-blue)" />
+                    <line x1="200" y1="85" x2="200" y2="20" stroke="#1d4ed8" stroke-width="3"
+                        marker-end="url(#arrow-blue)" />
+
+                    <circle cx="0" cy="100" r="15" fill="#fff" stroke="#999" stroke-width="2" />
+                    <text x="0" y="100" text-anchor="middle" dominant-baseline="central">b(k-1)</text>
+
+                    <circle cx="0" cy="0" r="15" fill="#fff" stroke="#999" stroke-width="2" />
+                    <text x="0" y="0" text-anchor="middle" dominant-baseline="central">t(k-1)</text>
+
+                    <circle cx="200" cy="100" r="15" fill="#fff" stroke="#999" stroke-width="2" />
+                    <text x="200" y="100" text-anchor="middle" dominant-baseline="central">b(k)</text>
+
+                    <circle cx="200" cy="0" r="18" fill="#edf4ff" stroke="#1d4ed8" stroke-width="3" />
+                    <text x="200" y="0" text-anchor="middle" dominant-baseline="central" font-weight="bold">t(k)</text>
+                </svg>
+
+                <div class="example-box">
+                    <strong>Quy tắc cộng luồng</strong>
+                    Điểm trên $t_k$ nhận ba luồng: từ $t_{k-1}$ đi ngang sang, từ $b_{k-1}$ đi chéo lên, và từ $b_k$ đi
+                    thẳng lên. Vì vậy:
+                    <div class="formula-strip">$$t_k = t_{k-1} + b_{k-1} + b_k$$</div>
+                </div>
+
+                <div class="two-col">
+                    <div class="example-box">
+                        <strong>Hệ truy hồi gốc</strong>
+                        <div class="formula-strip">$$\begin{cases}
+                            b_k = b_{k-1}, \\
+                            t_k = t_{k-1} + b_{k-1} + b_k
+                            \end{cases}$$</div>
+                    </div>
+                    <div class="example-box">
+                        <strong>Thu gọn ngay</strong>
+                        Từ $b_k = b_{k-1}$ suy ra $b_k = 1$ với mọi $k$. Do đó:
+                        <div class="formula-strip">$$t_k = t_{k-1} + 2$$</div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="formula">
+                <h2>4. Từ bảng thực thi đến công thức tổng quát</h2>
+                <p class="lede">
+                    Bảng giá trị là nhịp đầu tiên để học sinh nhìn ra quy luật. Sau đó phải nâng lên công thức tổng quát
+                    để bài trở nên thật sự mạnh.
+                </p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cột $k$</th>
+                            <th>Tầng dưới $b_k$</th>
+                            <th>Tầng trên $t_k$</th>
+                            <th>Nhận xét</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>0</strong></td>
+                            <td><span class="text-red">$1$</span></td>
+                            <td><span class="text-blue">$1$</span></td>
+                            <td>Điều kiện đầu</td>
+                        </tr>
+                        <tr>
+                            <td><strong>1</strong></td>
+                            <td>$1$</td>
+                            <td>$1 + 1 + 1 = 3$</td>
+                            <td>Tăng thêm $2$</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2</strong></td>
+                            <td>$1$</td>
+                            <td>$3 + 1 + 1 = 5$</td>
+                            <td>Tăng thêm $2$</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3</strong></td>
+                            <td>$1$</td>
+                            <td>$5 + 1 + 1 = 7$</td>
+                            <td>Tăng thêm $2$</td>
+                        </tr>
+                        <tr>
+                            <td><strong>4</strong></td>
+                            <td>$1$</td>
+                            <td>$7 + 1 + 1 = 9$</td>
+                            <td>Đích $B$</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="two-col">
+                    <div class="example-box">
+                        <strong>Công thức đóng của bài gốc</strong>
+                        <div class="formula-strip">$$b_k = 1, \qquad t_k = 2k + 1$$</div>
+                        Với $4$ cột, số đường đi là $t_4 = 9$.
+                    </div>
+                    <div class="example-box">
+                        <strong>Nếu lưới có $n$ cột</strong>
+                        <div class="formula-strip">$$\#(A \to B) = t_n = 2n + 1$$</div>
+                        Bài $100$ cột cho ngay đáp số $201$, không cần vẽ hay lập bảng dài.
+                    </div>
+                </div>
+
+                <div class="two-col">
+                    <div class="concept-box">
+                        <strong>Cách chứng minh 1: từ cấp số cộng</strong>
+                        Vì $t_k = t_{k-1} + 2$ và $t_0 = 1$, nên dãy $t_k$ là cấp số cộng có công sai $2$.
+                    </div>
+                    <div class="concept-box">
+                        <strong>Cách chứng minh 2: quy nạp</strong>
+                        Giả sử $t_k = 2k + 1$. Khi đó $t_{k+1} = t_k + 2 = 2k + 3 = 2(k+1) + 1$.
+                    </div>
+                </div>
+            </section>
+
+            <section id="paradigm">
+                <h2>5. Tại sao phải nhấn mạnh "hệ + điều kiện đầu"</h2>
+                <p class="lede">
+                    Đây là phần làm chủ đề sâu lên. Học sinh cần hiểu rằng hệ truy hồi chỉ mô tả cơ chế chuyển động;
+                    nghiệm cụ thể còn phụ thuộc dữ liệu ban đầu.
+                </p>
+
+                <div class="two-col">
+                    <div class="example-box">
+                        <strong>Giữ nguyên hệ, đổi điều kiện đầu</strong>
+                        <div class="formula-strip">$$b_0 = \alpha, \qquad t_0 = \beta$$</div>
+                        Khi đó:
+                        <div class="formula-strip">$$b_k = \alpha, \qquad t_k = \beta + 2k\alpha$$</div>
+                    </div>
+                    <div class="example-box">
+                        <strong>Bài học then chốt</strong>
+                        Cùng một hệ truy hồi có thể sinh ra vô số dãy khác nhau. Nghiệm duy nhất chỉ xuất hiện khi đã
+                        gắn điều kiện đầu.
+                    </div>
+                </div>
+
+                <div class="concept-box">
+                    <strong>Câu nói nên chốt với học sinh:</strong>
+                    "Hệ truy hồi là bộ máy. Điều kiện đầu là nút khởi động. Thiếu một trong hai, máy chưa cho ra đáp số
+                    hoàn chỉnh."
+                </div>
+
+                <div class="two-col">
+                    <div class="example-box">
+                        <strong>Ví dụ 1</strong>
+                        Nếu $b_0 = 2, t_0 = 3$ thì $b_k = 2$, $t_k = 3 + 4k$.
+                    </div>
+                    <div class="example-box">
+                        <strong>Ví dụ 2</strong>
+                        Nếu biết $t_5 = 27$ và $t_0 = 7$ thì từ $27 = 7 + 10\alpha$ suy ra $\alpha = 2$.
+                    </div>
+                </div>
+            </section>
+            <section id="multivar">
+                <h2>6. Mười Mô Hình Hệ Truy Hồi Đa Dạng — Dự Đoán Đề Thi</h2>
+                <p class="lede">
+                    Phần này không dùng ma trận hay thuật toán trừu tượng. Thay vào đó, ta học qua <strong>mười mô hình
+                        cụ thể</strong>, mỗi mô hình có <strong>đồ thị đẹp sư phạm</strong>, hệ truy hồi rõ ràng, và
+                    <strong>ứng dụng dự đoán đề thi</strong>. Học sinh chỉ cần viết hệ rồi truy hồi tuần tự — không cần
+                    rút gọn công thức.
+                </p>
+
+                <div class="concept-box">
+                    <strong>Tại sao phải học hệ đa biến?</strong>
+                    Bài gốc ta chỉ có 2 biến $b_k, t_k$. Nhưng nhiều bài thực tế cần 3, 4, hoặc nhiều biến hơn. Mỗi biến
+                    là một "trạng thái" riêng biệt, và hệ truy hồi mô tả cách các trạng thái ảnh hưởng lẫn nhau. Học
+                    sinh cần thấy nhiều mô hình khác nhau để không bị bó hẹp trong một khuôn mẫu.
+                </div>
+
+                <div class="model-showcase">
+                    <h4>Mô hình 1: Hệ Fibonacci-Style — Phụ Thuộc Tuyến Tính Hai Biến</h4>
+
+                    <svg width="500" height="140" viewBox="-20 -10 360 120">
+                        <defs>
+                            <marker id="arrow-fib" markerWidth="6" markerHeight="6" refX="5" refY="3"
+                                orient="auto-start-reverse">
+                                <path d="M 0 0 L 6 3 L 0 6 z" fill="#0f766e" />
+                            </marker>
+                        </defs>
+
+                        <!-- State k-1 -->
+                        <rect x="-10" y="10" width="80" height="90" fill="#f0fdf4" stroke="#0f766e" stroke-width="1"
+                            rx="8" />
+                        <text x="30" y="30" text-anchor="middle" font-size="12" fill="#0f766e" font-weight="bold">Bước
+                            k-1</text>
+
+                        <circle cx="30" cy="55" r="18" fill="#fff" stroke="#0f766e" stroke-width="2" />
+                        <text x="30" y="58" text-anchor="middle" dominant-baseline="central" font-size="13"
+                            font-weight="bold">a(k-1)</text>
+
+                        <circle cx="30" cy="95" r="18" fill="#fff" stroke="#0f766e" stroke-width="2" />
+                        <text x="30" y="98" text-anchor="middle" dominant-baseline="central" font-size="13"
+                            font-weight="bold">b(k-1)</text>
+
+                        <!-- State k -->
+                        <rect x="230" y="10" width="80" height="90" fill="#fff7ed" stroke="#c2410c" stroke-width="1"
+                            rx="8" />
+                        <text x="270" y="30" text-anchor="middle" font-size="12" fill="#c2410c" font-weight="bold">Bước
+                            k</text>
+
+                        <circle cx="270" cy="55" r="20" fill="#ffefe7" stroke="#c2410c" stroke-width="3" />
+                        <text x="270" y="58" text-anchor="middle" dominant-baseline="central" font-size="13"
+                            font-weight="bold">a(k)</text>
+
+                        <circle cx="270" cy="95" r="20" fill="#ffefe7" stroke="#c2410c" stroke-width="3" />
+                        <text x="270" y="98" text-anchor="middle" dominant-baseline="central" font-size="13"
+                            font-weight="bold">b(k)</text>
+
+                        <!-- Arrows -->
+                        <path d="M 50 55 L 245 55" stroke="#1d4ed8" stroke-width="2.5" marker-end="url(#arrow-fib)"
+                            fill="none" />
+                        <path d="M 48 93 L 245 57" stroke="#7e22ce" stroke-width="2.5" marker-end="url(#arrow-fib)"
+                            fill="none" />
+                        <path d="M 50 95 L 245 95" stroke="#15803d" stroke-width="2.5" marker-end="url(#arrow-fib)"
+                            fill="none" />
+
+                        <!-- Labels -->
+                        <text x="150" y="48" text-anchor="middle" font-size="11" fill="#1d4ed8">a → a</text>
+                        <text x="150" y="68" text-anchor="middle" font-size="11" fill="#7e22ce">b → a</text>
+                        <text x="150" y="88" text-anchor="middle" font-size="11" fill="#15803d">b → b</text>
+                    </svg>
+
+                    <div class="two-col">
+                        <div class="example-box">
+                            <strong>Hệ truy hồi</strong>
+                            <div class="formula-strip">$$\begin{cases}
+                                a_k = a_{k-1} + b_{k-1} \\
+                                b_k = b_{k-1}
+                                \end{cases}$$</div>
+                            Biến $a_k$ nhận từ cả $a_{k-1}$ và $b_{k-1}$. Biến $b_k$ giữ nguyên.
+                        </div>
+                        <div class="example-box">
+                            <strong>Điều kiện đầu</strong>
+                            Cho $a_0 = 1, b_0 = 1$.
+                            <div class="formula-strip">Dùng hệ trên để tính $a_1, b_1, a_2, b_2, \ldots$ tuần tự.</div>
+                            Học sinh tự truy hồi đến $k$ mong muốn.
+                        </div>
+                    </div>
+
+                    <div class="concept-box">
+                        <strong>Nhận xét sư phạm:</strong>
+                        Đây là mô hình Fibonacci-style đơn giản nhất. Học sinh thấy rõ: $a_k$ phụ thuộc vào cả hai biến
+                        trước đó, còn $b_k$ độc lập. Dạy mô hình này trước khi dạy Fibonacci thực sự ($F_n = F_{n-1} +
+                        F_{n-2}$) giúp học sinh làm quen với khái niệm "phụ thuộc tuyến tính".
+                    </div>
+                </div>
+
+                <div class="model-showcase">
+                    <h4>Mô hình 2: Lưới 3 Tầng — Hệ 3 Biến</h4>
+
+                    <svg width="520" height="220" viewBox="-20 -10 380 180">
+                        <defs>
+                            <marker id="arrow-3layer" markerWidth="6" markerHeight="6" refX="5" refY="3"
+                                orient="auto-start-reverse">
+                                <path d="M 0 0 L 6 3 L 0 6 z" fill="#334155" />
+                            </marker>
+                        </defs>
+
+                        <!-- Column k-1 -->
+                        <circle cx="60" cy="30" r="16" fill="#fff" stroke="#1d4ed8" stroke-width="2" />
+                        <text x="60" y="33" text-anchor="middle" dominant-baseline="central"
+                            font-size="11">t(k-1)</text>
+
+                        <circle cx="60" cy="90" r="16" fill="#fff" stroke="#0f766e" stroke-width="2" />
+                        <text x="60" y="93" text-anchor="middle" dominant-baseline="central"
+                            font-size="11">m(k-1)</text>
+
+                        <circle cx="60" cy="150" r="16" fill="#fff" stroke="#c2410c" stroke-width="2" />
+                        <text x="60" y="153" text-anchor="middle" dominant-baseline="central"
+                            font-size="11">b(k-1)</text>
+
+                        <!-- Column k -->
+                        <circle cx="280" cy="30" r="18" fill="#eff6ff" stroke="#1d4ed8" stroke-width="3" />
+                        <text x="280" y="33" text-anchor="middle" dominant-baseline="central" font-size="11"
+                            font-weight="bold">t(k)</text>
+
+                        <circle cx="280" cy="90" r="18" fill="#f0fdf4" stroke="#0f766e" stroke-width="3" />
+                        <text x="280" y="93" text-anchor="middle" dominant-baseline="central" font-size="11"
+                            font-weight="bold">m(k)</text>
+
+                        <circle cx="280" cy="150" r="18" fill="#fff7ed" stroke="#c2410c" stroke-width="3" />
+                        <text x="280" y="153" text-anchor="middle" dominant-baseline="central" font-size="11"
+                            font-weight="bold">b(k)</text>
+
+                        <!-- Horizontal arrows -->
+                        <path d="M 77 30 L 260 30" stroke="#334155" stroke-width="2" marker-end="url(#arrow-3layer)" />
+                        <path d="M 77 90 L 260 90" stroke="#334155" stroke-width="2" marker-end="url(#arrow-3layer)" />
+                        <path d="M 77 150 L 260 150" stroke="#334155" stroke-width="2"
+                            marker-end="url(#arrow-3layer)" />
+
+                        <!-- Vertical & diagonal arrows at column k -->
+                        <path d="M 280 140 L 280 100" stroke="#334155" stroke-width="2"
+                            marker-end="url(#arrow-3layer)" />
+                        <path d="M 280 80 L 280 42" stroke="#334155" stroke-width="2" marker-end="url(#arrow-3layer)" />
+
+                        <!-- Diagonal from b(k-1) to m(k) -->
+                        <path d="M 75 145 L 265 95" stroke="#334155" stroke-width="2" marker-end="url(#arrow-3layer)" />
+
+                        <!-- Diagonal from m(k-1) to t(k) -->
+                        <path d="M 75 85 L 265 35" stroke="#334155" stroke-width="2" marker-end="url(#arrow-3layer)" />
+
+                        <!-- Labels -->
+                        <text x="10" y="33" font-size="11" fill="#1d4ed8" font-weight="bold">Tầng trên</text>
+                        <text x="10" y="93" font-size="11" fill="#0f766e" font-weight="bold">Tầng giữa</text>
+                        <text x="10" y="153" font-size="11" fill="#c2410c" font-weight="bold">Tầng dưới</text>
+                    </svg>
+
+                    <div class="two-col">
+                        <div class="example-box">
+                            <strong>Hệ truy hồi 3 biến</strong>
+                            <div class="formula-strip">$$\begin{cases}
+                                b_k = b_{k-1} \\
+                                m_k = m_{k-1} + b_{k-1} + b_k \\
+                                t_k = t_{k-1} + m_{k-1} + m_k
+                                \end{cases}$$</div>
+                        </div>
+                        <div class="example-box">
+                            <strong>Điều kiện đầu</strong>
+                            Cho $b_0 = 1, m_0 = 1, t_0 = 1$.
+                            <div class="formula-strip">Áp dụng hệ để tính lần lượt $(b_1, m_1, t_1)$, rồi $(b_2, m_2,
+                                t_2)$, $\ldots$</div>
+                            Học sinh tự truy hồi từng bước.
+                        </div>
+                    </div>
+
+                    <div class="concept-box">
+                        <strong>Nhận xét sư phạm:</strong>
+                        Lưới 3 tầng là mở rộng tự nhiên từ 2 tầng. Tầng giữa ($m_k$) vừa nhận luồng từ dưới lên, vừa
+                        truyền luồng lên trên. Học sinh thấy rõ: số biến tăng nhưng nguyên lý "cộng luồng đi vào" vẫn
+                        giữ nguyên. Dạy mô hình này trước khi nhảy sang lưới $n$ tầng.
+                    </div>
+                </div>
+
+                <div class="model-showcase">
+                    <h4>Mô hình 3: Lưới Kim Cương — Hệ 4 Biến Đối Xứng</h4>
+
+                    <svg width="500" height="240" viewBox="-10 -10 360 200">
+                        <defs>
+                            <marker id="arrow-diamond" markerWidth="6" markerHeight="6" refX="5" refY="3"
+                                orient="auto-start-reverse">
+                                <path d="M 0 0 L 6 3 L 0 6 z" fill="#7e22ce" />
+                            </marker>
+                        </defs>
+
+                        <!-- Left (k-1) -->
+                        <circle cx="40" cy="90" r="16" fill="#fff" stroke="#0f766e" stroke-width="2" />
+                        <text x="40" y="93" text-anchor="middle" dominant-baseline="central"
+                            font-size="11">L(k-1)</text>
+
+                        <!-- Right (k) -->
+                        <circle cx="300" cy="90" r="18" fill="#faf5ff" stroke="#7e22ce" stroke-width="3" />
+                        <text x="300" y="93" text-anchor="middle" dominant-baseline="central" font-size="11"
+                            font-weight="bold">R(k)</text>
+
+                        <!-- Top (k) -->
+                        <circle cx="170" cy="20" r="18" fill="#faf5ff" stroke="#7e22ce" stroke-width="3" />
+                        <text x="170" y="23" text-anchor="middle" dominant-baseline="central" font-size="11"
+                            font-weight="bold">T(k)</text>
+
+                        <!-- Bottom (k) -->
+                        <circle cx="170" cy="160" r="18" fill="#faf5ff" stroke="#7e22ce" stroke-width="3" />
+                        <text x="170" y="163" text-anchor="middle" dominant-baseline="central" font-size="11"
+                            font-weight="bold">B(k)</text>
+
+                        <!-- Center (k) -->
+                        <circle cx="170" cy="90" r="18" fill="#faf5ff" stroke="#7e22ce" stroke-width="3" />
+                        <text x="170" y="93" text-anchor="middle" dominant-baseline="central" font-size="11"
+                            font-weight="bold">C(k)</text>
+
+                        <!-- Arrows -->
+                        <path d="M 57 90 L 150 90" stroke="#7e22ce" stroke-width="2" marker-end="url(#arrow-diamond)" />
+                        <path d="M 56 84 L 154 30" stroke="#7e22ce" stroke-width="2" marker-end="url(#arrow-diamond)" />
+                        <path d="M 56 96 L 154 150" stroke="#7e22ce" stroke-width="2"
+                            marker-end="url(#arrow-diamond)" />
+
+                        <path d="M 170 38 L 170 72" stroke="#7e22ce" stroke-width="2"
+                            marker-end="url(#arrow-diamond)" />
+                        <path d="M 170 108 L 170 142" stroke="#7e22ce" stroke-width="2"
+                            marker-end="url(#arrow-diamond)" />
+                        <path d="M 187 90 L 280 90" stroke="#7e22ce" stroke-width="2"
+                            marker-end="url(#arrow-diamond)" />
+
+                        <rect x="10" y="70" width="70" height="40" fill="none" stroke="#0f766e" stroke-width="1"
+                            stroke-dasharray="3,3" rx="6" />
+                        <text x="45" y="125" text-anchor="middle" font-size="10" fill="#0f766e">Bước k-1</text>
+
+                        <rect x="120" y="0" width="190" height="180" fill="none" stroke="#7e22ce" stroke-width="1"
+                            stroke-dasharray="3,3" rx="6" />
+                        <text x="215" y="10" text-anchor="middle" font-size="10" fill="#7e22ce">Bước k (4 biến)</text>
+                    </svg>
+
+                    <div class="two-col">
+                        <div class="example-box">
+                            <strong>Hệ truy hồi kim cương</strong>
+                            <div class="formula-strip">$$\begin{cases}
+                                C_k = L_{k-1} \\
+                                T_k = L_{k-1} \\
+                                B_k = L_{k-1} \\
+                                R_k = C_k + T_k + B_k
+                                \end{cases}$$</div>
+                            Từ $L$ lan ra 3 hướng, rồi hội tụ ở $R$.
+                        </div>
+                        <div class="example-box">
+                            <strong>Điều kiện đầu</strong>
+                            Điều kiện đầu: $L_0 = 1$.
+                            <div class="formula-strip">Tính tuần tự: $C_1, T_1, B_1$ từ $L_0$, rồi $R_1$, rồi tiếp $L_1
+                                = R_1$.</div>
+                            Học sinh tự truy hồi theo hệ.
+                        </div>
+                    </div>
+
+                    <div class="concept-box">
+                        <strong>Nhận xét sư phạm:</strong>
+                        Lưới kim cương là mô hình đối xứng đẹp. Ở mỗi bước $k$, có 4 biến: trung tâm, trên, dưới, phải.
+                        Học sinh thấy rõ cấu trúc "phân nhánh rồi hội tụ". Đây là hình ảnh tốt để dạy về đồ thị phân
+                        tầng (layered graph) trong competitive programming.
+                    </div>
+                </div>
+
+                <div class="model-showcase">
+                    <h4>Mô hình 4: Hệ Có Chu Kỳ — Phụ Thuộc Lệch 2 Bước</h4>
+
+                    <svg width="540" height="140" viewBox="-10 -10 400 120">
+                        <defs>
+                            <marker id="arrow-cycle" markerWidth="6" markerHeight="6" refX="5" refY="3"
+                                orient="auto-start-reverse">
+                                <path d="M 0 0 L 6 3 L 0 6 z" fill="#c2410c" />
+                            </marker>
+                        </defs>
+
+                        <!-- k-2 -->
+                        <rect x="0" y="10" width="70" height="80" fill="#f9fafb" stroke="#94a3b8" stroke-width="1"
+                            rx="6" />
+                        <text x="35" y="25" text-anchor="middle" font-size="10" fill="#64748b">Bước k-2</text>
+                        <circle cx="35" cy="60" r="14" fill="#fff" stroke="#94a3b8" stroke-width="2" />
+                        <text x="35" y="63" text-anchor="middle" dominant-baseline="central"
+                            font-size="11">x(k-2)</text>
+
+                        <!-- k-1 -->
+                        <rect x="120" y="10" width="70" height="80" fill="#fef3c7" stroke="#f59e0b" stroke-width="1"
+                            rx="6" />
+                        <text x="155" y="25" text-anchor="middle" font-size="10" fill="#d97706">Bước k-1</text>
+                        <circle cx="155" cy="60" r="14" fill="#fff" stroke="#f59e0b" stroke-width="2" />
+                        <text x="155" y="63" text-anchor="middle" dominant-baseline="central"
+                            font-size="11">x(k-1)</text>
+
+                        <!-- k -->
+                        <rect x="240" y="10" width="70" height="80" fill="#ffece5" stroke="#c2410c" stroke-width="2"
+                            rx="6" />
+                        <text x="275" y="25" text-anchor="middle" font-size="10" fill="#c2410c" font-weight="bold">Bước
+                            k</text>
+                        <circle cx="275" cy="60" r="16" fill="#ffefe7" stroke="#c2410c" stroke-width="3" />
+                        <text x="275" y="63" text-anchor="middle" dominant-baseline="central" font-size="11"
+                            font-weight="bold">x(k)</text>
+
+                        <!-- Arrows -->
+                        <path d="M 50 60 L 135 60" stroke="#c2410c" stroke-width="2" marker-end="url(#arrow-cycle)" />
+                        <path d="M 170 60 L 220 60" stroke="#ccc" stroke-width="1.5" stroke-dasharray="3,3" />
+
+                        <path d="M 55 50 Q 155 20, 255 50" stroke="#c2410c" stroke-width="2.5"
+                            marker-end="url(#arrow-cycle)" fill="none" />
+
+                        <text x="155" y="10" text-anchor="middle" font-size="11" fill="#c2410c" font-weight="bold">Nhảy
+                            2 bước</text>
+                    </svg>
+
+                    <div class="two-col">
+                        <div class="example-box">
+                            <strong>Hệ truy hồi lệch bậc</strong>
+                            <div class="formula-strip">$$x_k = x_{k-1} + 2x_{k-2}$$</div>
+                            Khác với Fibonacci ($F_n = F_{n-1} + F_{n-2}$), ở đây hệ số $2$ tạo tăng trưởng nhanh hơn.
+                        </div>
+                        <div class="example-box">
+                            <strong>Điều kiện đầu</strong>
+                            Cho $x_0 = 1, x_1 = 1$.
+                            <div class="formula-strip">Tính $x_2 = x_1 + 2x_0$, rồi $x_3 = x_2 + 2x_1$, $\ldots$</div>
+                            Học sinh tự truy hồi tuần tự.
+                        </div>
+                    </div>
+
+                    <div class="concept-box">
+                        <strong>Nhận xét sư phạm:</strong>
+                        Đây là hệ truy hồi tuyến tính cấp 2 (linear recurrence of order 2). Học sinh cần 2 giá trị đầu
+                        ($x_0, x_1$) để khởi động. Khác bài lưới (phụ thuộc nhiều biến ở cùng bước $k$), ở đây ta phụ
+                        thuộc cùng biến $x$ nhưng ở các bước khác nhau. Dạy mô hình này để mở rộng tư duy: "phụ thuộc
+                        không chỉ là giữa các biến, còn có thể là giữa các thời điểm".
+                    </div>
+                </div>
+
+                <div class="model-showcase">
+                    <h4>Mô hình 5: DAG Tổng Quát — Nguyên Lý "Mỗi Đỉnh = Tổng Đỉnh Đi Vào"</h4>
+
+                    <svg width="520" height="200" viewBox="-10 -10 380 160">
+                        <defs>
+                            <marker id="arrow-dag" markerWidth="6" markerHeight="6" refX="5" refY="3"
+                                orient="auto-start-reverse">
+                                <path d="M 0 0 L 6 3 L 0 6 z" fill="#1d4ed8" />
+                            </marker>
+                        </defs>
+
+                        <!-- Nodes -->
+                        <circle cx="30" cy="70" r="18" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2" />
+                        <text x="30" y="73" text-anchor="middle" dominant-baseline="central" font-weight="bold">S</text>
+                        <text x="30" y="98" text-anchor="middle" font-size="10" fill="#1d4ed8">f=1</text>
+
+                        <circle cx="130" cy="30" r="16" fill="#fff" stroke="#64748b" stroke-width="2" />
+                        <text x="130" y="33" text-anchor="middle" dominant-baseline="central">A</text>
+                        <text x="130" y="52" text-anchor="middle" font-size="10" fill="#64748b">f=1</text>
+
+                        <circle cx="130" cy="110" r="16" fill="#fff" stroke="#64748b" stroke-width="2" />
+                        <text x="130" y="113" text-anchor="middle" dominant-baseline="central">B</text>
+                        <text x="130" y="132" text-anchor="middle" font-size="10" fill="#64748b">f=1</text>
+
+                        <circle cx="240" cy="50" r="16" fill="#fff" stroke="#64748b" stroke-width="2" />
+                        <text x="240" y="53" text-anchor="middle" dominant-baseline="central">C</text>
+                        <text x="240" y="72" text-anchor="middle" font-size="10" fill="#64748b">f=2</text>
+
+                        <circle cx="240" cy="110" r="16" fill="#fff" stroke="#64748b" stroke-width="2" />
+                        <text x="240" y="113" text-anchor="middle" dominant-baseline="central">D</text>
+                        <text x="240" y="132" text-anchor="middle" font-size="10" fill="#64748b">f=1</text>
+
+                        <circle cx="330" cy="70" r="18" fill="#dcfce7" stroke="#15803d" stroke-width="2" />
+                        <text x="330" y="73" text-anchor="middle" dominant-baseline="central"
+                            font-weight="bold">T</text>
+                        <text x="330" y="98" text-anchor="middle" font-size="10" fill="#15803d">f=3</text>
+
+                        <!-- Edges -->
+                        <path d="M 48 65 L 112 35" stroke="#1d4ed8" stroke-width="2" marker-end="url(#arrow-dag)" />
+                        <path d="M 48 75 L 112 105" stroke="#1d4ed8" stroke-width="2" marker-end="url(#arrow-dag)" />
+
+                        <path d="M 146 32 L 222 48" stroke="#1d4ed8" stroke-width="2" marker-end="url(#arrow-dag)" />
+                        <path d="M 146 108 L 222 112" stroke="#1d4ed8" stroke-width="2" marker-end="url(#arrow-dag)" />
+                        <path d="M 144 42 L 222 98" stroke="#1d4ed8" stroke-width="2" marker-end="url(#arrow-dag)" />
+
+                        <path d="M 256 54 L 312 68" stroke="#1d4ed8" stroke-width="2" marker-end="url(#arrow-dag)" />
+                        <path d="M 256 106 L 312 76" stroke="#1d4ed8" stroke-width="2" marker-end="url(#arrow-dag)" />
+                    </svg>
+
+                    <div class="two-col">
+                        <div class="example-box">
+                            <strong>Nguyên lý DAG tổng quát</strong>
+                            Nếu $f(v)$ là số đường từ nguồn $S$ đến đỉnh $v$, thì:
+                            <div class="formula-strip">$$f(v) = \sum_{u \to v} f(u)$$</div>
+                            "Số ở mỗi đỉnh = tổng số ở các đỉnh trỏ vào nó."
+                        </div>
+                        <div class="example-box">
+                            <strong>Tính toán tuần tự</strong>
+                            Bắt đầu $f(S) = 1$:
+                            <div class="formula-strip">$$f(A)=1, f(B)=1, f(C)=f(A)+f(B)=2, f(D)=f(B)=1$$</div>
+                            <div class="formula-strip">$$f(T)=f(C)+f(D)=3$$</div>
+                        </div>
+                    </div>
+
+                    <div class="concept-box">
+                        <strong>Nhận xét sư phạm:</strong>
+                        Đây là mô hình tổng quát nhất. Mọi bài lưới, kim cương, Fibonacci đều là trường hợp đặc biệt của
+                        DAG. Học sinh cần hiểu: miễn sao không có chu trình, ta luôn có thể sắp đỉnh theo thứ tự topo và
+                        áp dụng nguyên lý "cộng luồng". Dạy mô hình này cuối cùng để học sinh thấy được "big picture".
+                    </div>
+                </div>
+
+                <div class="model-showcase">
+                    <h4>Mô hình 6: Cây Nhị Phân — Đường Đi Từ Gốc Đến Lá</h4>
+
+                    <svg width="520" height="240" viewBox="-10 -10 360 200">
+                        <defs>
+                            <marker id="arrow-tree" markerWidth="6" markerHeight="6" refX="5" refY="3"
+                                orient="auto-start-reverse">
+                                <path d="M 0 0 L 6 3 L 0 6 z" fill="#0f766e" />
+                            </marker>
+                        </defs>
+
+                        <!-- Level 0 -->
+                        <circle cx="170" cy="20" r="18" fill="#dff5ef" stroke="#0f766e" stroke-width="3" />
+                        <text x="170" y="23" text-anchor="middle" dominant-baseline="central"
+                            font-weight="bold">R</text>
+                        <text x="170" y="45" text-anchor="middle" font-size="10" fill="#0f766e">f(R)=1</text>
+
+                        <!-- Level 1 -->
+                        <circle cx="100" cy="80" r="16" fill="#fff" stroke="#64748b" stroke-width="2" />
+                        <text x="100" y="83" text-anchor="middle" dominant-baseline="central">A</text>
+                        <text x="100" y="102" text-anchor="middle" font-size="10" fill="#64748b">f=1</text>
+
+                        <circle cx="240" cy="80" r="16" fill="#fff" stroke="#64748b" stroke-width="2" />
+                        <text x="240" y="83" text-anchor="middle" dominant-baseline="central">B</text>
+                        <text x="240" y="102" text-anchor="middle" font-size="10" fill="#64748b">f=1</text>
+
+                        <!-- Level 2 -->
+                        <circle cx="50" cy="140" r="16" fill="#fff" stroke="#64748b" stroke-width="2" />
+                        <text x="50" y="143" text-anchor="middle" dominant-baseline="central">C</text>
+                        <text x="50" y="162" text-anchor="middle" font-size="10" fill="#64748b">f=1</text>
+
+                        <circle cx="130" cy="140" r="16" fill="#fff" stroke="#64748b" stroke-width="2" />
+                        <text x="130" y="143" text-anchor="middle" dominant-baseline="central">D</text>
+                        <text x="130" y="162" text-anchor="middle" font-size="10" fill="#64748b">f=1</text>
+
+                        <circle cx="210" cy="140" r="16" fill="#fff" stroke="#64748b" stroke-width="2" />
+                        <text x="210" y="143" text-anchor="middle" dominant-baseline="central">E</text>
+                        <text x="210" y="162" text-anchor="middle" font-size="10" fill="#64748b">f=1</text>
+
+                        <circle cx="290" cy="140" r="16" fill="#fff" stroke="#64748b" stroke-width="2" />
+                        <text x="290" y="143" text-anchor="middle" dominant-baseline="central">F</text>
+                        <text x="290" y="162" text-anchor="middle" font-size="10" fill="#64748b">f=1</text>
+
+                        <!-- Edges -->
+                        <path d="M 158 32 L 110 68" stroke="#0f766e" stroke-width="2" marker-end="url(#arrow-tree)" />
+                        <text x="120" y="45" font-size="10" fill="#0f766e">trái</text>
+
+                        <path d="M 182 32 L 230 68" stroke="#0f766e" stroke-width="2" marker-end="url(#arrow-tree)" />
+                        <text x="220" y="45" font-size="10" fill="#0f766e">phải</text>
+
+                        <path d="M 90 92 L 60 128" stroke="#0f766e" stroke-width="2" marker-end="url(#arrow-tree)" />
+                        <path d="M 110 92 L 120 128" stroke="#0f766e" stroke-width="2" marker-end="url(#arrow-tree)" />
+                        <path d="M 230 92 L 220 128" stroke="#0f766e" stroke-width="2" marker-end="url(#arrow-tree)" />
+                        <path d="M 250 92 L 280 128" stroke="#0f766e" stroke-width="2" marker-end="url(#arrow-tree)" />
+                    </svg>
+
+                    <div class="two-col">
+                        <div class="example-box">
+                            <strong>Hệ truy hồi cây nhị phân</strong>
+                            Mỗi nút có 2 con (trái, phải):
+                            <div class="formula-strip">$$f(\text{con trái}) = f(\text{cha}), \quad f(\text{con phải}) =
+                                f(\text{cha})$$</div>
+                            Tổng quát: $f(v) = f(\text{parent}(v))$ nếu cây hoàn chỉnh.
+                        </div>
+                        <div class="example-box">
+                            <strong>Điều kiện đầu</strong>
+                            $f(R) = 1$ (gốc).
+                            <div class="formula-strip">Mỗi tầng nhân đôi số đường. Tầng $h$ có $2^h$ nút, mỗi nút 1
+                                đường.</div>
+                            Học sinh tự tính từng tầng.
+                        </div>
+                    </div>
+
+                    <div class="concept-box">
+                        <strong>Ứng dụng đề thi:</strong>
+                        Dạng "chọn trái/phải ở mỗi bước" rất hay xuất hiện: mã nhị phân, quyết định Yes/No liên tiếp,
+                        phân loại đối tượng. Học sinh cần nhận ra cấu trúc cây để không bị lạc vào đếm tổ hợp phức tạp.
+                    </div>
+                </div>
+
+                <div class="model-showcase">
+                    <h4>Mô hình 7: Lưới Có Chướng Ngại — Một Số Ô Cấm</h4>
+
+                    <svg width="520" height="200" viewBox="-10 -10 340 160">
+                        <defs>
+                            <marker id="arrow-obstacle" markerWidth="6" markerHeight="6" refX="5" refY="3"
+                                orient="auto-start-reverse">
+                                <path d="M 0 0 L 6 3 L 0 6 z" fill="#1d4ed8" />
+                            </marker>
+                        </defs>
+
+                        <!-- Grid 4x3 -->
+                        <!-- Row 0 -->
+                        <circle cx="40" cy="30" r="15" fill="#dff5ef" stroke="#0f766e" stroke-width="3" />
+                        <text x="40" y="33" text-anchor="middle" dominant-baseline="central" font-weight="bold">S</text>
+
+                        <circle cx="120" cy="30" r="15" fill="#fff" stroke="#64748b" stroke-width="2" />
+                        <text x="120" y="33" text-anchor="middle" dominant-baseline="central">(0,1)</text>
+
+                        <circle cx="200" cy="30" r="15" fill="#fff" stroke="#64748b" stroke-width="2" />
+                        <text x="200" y="33" text-anchor="middle" dominant-baseline="central">(0,2)</text>
+
+                        <circle cx="280" cy="30" r="15" fill="#fff" stroke="#64748b" stroke-width="2" />
+                        <text x="280" y="33" text-anchor="middle" dominant-baseline="central">(0,3)</text>
+
+                        <!-- Row 1 -->
+                        <circle cx="40" cy="90" r="15" fill="#fff" stroke="#64748b" stroke-width="2" />
+                        <text x="40" y="93" text-anchor="middle" dominant-baseline="central">(1,0)</text>
+
+                        <!-- Obstacle -->
+                        <rect x="105" y="75" width="30" height="30" fill="#fee" stroke="#dc2626" stroke-width="3"
+                            rx="4" />
+                        <text x="120" y="93" text-anchor="middle" dominant-baseline="central" font-size="18"
+                            fill="#dc2626">✕</text>
+
+                        <circle cx="200" cy="90" r="15" fill="#fff" stroke="#64748b" stroke-width="2" />
+                        <text x="200" y="93" text-anchor="middle" dominant-baseline="central">(1,2)</text>
+
+                        <circle cx="280" cy="90" r="15" fill="#fff" stroke="#64748b" stroke-width="2" />
+                        <text x="280" y="93" text-anchor="middle" dominant-baseline="central">(1,3)</text>
+
+                        <!-- Row 2 -->
+                        <circle cx="40" cy="150" r="15" fill="#fff" stroke="#64748b" stroke-width="2" />
+                        <text x="40" y="153" text-anchor="middle" dominant-baseline="central">(2,0)</text>
+
+                        <circle cx="120" cy="150" r="15" fill="#fff" stroke="#64748b" stroke-width="2" />
+                        <text x="120" y="153" text-anchor="middle" dominant-baseline="central">(2,1)</text>
+
+                        <circle cx="200" cy="150" r="15" fill="#fff" stroke="#64748b" stroke-width="2" />
+                        <text x="200" y="153" text-anchor="middle" dominant-baseline="central">(2,2)</text>
+
+                        <circle cx="280" cy="150" r="15" fill="#dcfce7" stroke="#15803d" stroke-width="3" />
+                        <text x="280" y="153" text-anchor="middle" dominant-baseline="central"
+                            font-weight="bold">T</text>
+
+                        <!-- Valid paths (avoiding obstacle) -->
+                        <path d="M 55 30 L 103 30" stroke="#1d4ed8" stroke-width="1.5"
+                            marker-end="url(#arrow-obstacle)" />
+                        <path d="M 135 30 L 183 30" stroke="#1d4ed8" stroke-width="1.5"
+                            marker-end="url(#arrow-obstacle)" />
+                        <path d="M 215 30 L 263 30" stroke="#1d4ed8" stroke-width="1.5"
+                            marker-end="url(#arrow-obstacle)" />
+
+                        <path d="M 40 45 L 40 73" stroke="#1d4ed8" stroke-width="1.5"
+                            marker-end="url(#arrow-obstacle)" />
+                        <path d="M 200 45 L 200 73" stroke="#1d4ed8" stroke-width="1.5"
+                            marker-end="url(#arrow-obstacle)" />
+                        <path d="M 280 45 L 280 73" stroke="#1d4ed8" stroke-width="1.5"
+                            marker-end="url(#arrow-obstacle)" />
+
+                        <path d="M 40 105 L 40 133" stroke="#1d4ed8" stroke-width="1.5"
+                            marker-end="url(#arrow-obstacle)" />
+                        <path d="M 55 90 L 103 150" stroke="#1d4ed8" stroke-width="1.5"
+                            marker-end="url(#arrow-obstacle)" stroke-dasharray="2,2" />
+                        <path d="M 200 105 L 200 133" stroke="#1d4ed8" stroke-width="1.5"
+                            marker-end="url(#arrow-obstacle)" />
+                        <path d="M 215 90 L 183 150" stroke="#1d4ed8" stroke-width="1.5"
+                            marker-end="url(#arrow-obstacle)" />
+                        <path d="M 280 105 L 280 133" stroke="#1d4ed8" stroke-width="1.5"
+                            marker-end="url(#arrow-obstacle)" />
+                    </svg>
+
+                    <div class="two-col">
+                        <div class="example-box">
+                            <strong>Hệ truy hồi lưới có chướng ngại</strong>
+                            <div class="formula-strip">$$f(i,j) = \begin{cases}
+                                0 & \text{nếu $(i,j)$ là ô cấm} \\
+                                f(i-1,j) + f(i,j-1) & \text{ngược lại}
+                                \end{cases}$$</div>
+                            Quy tắc: ô cấm có $f=0$, không truyền đường đi.
+                        </div>
+                        <div class="example-box">
+                            <strong>Điều kiện đầu</strong>
+                            $f(0,0) = 1$ (xuất phát $S$).
+                            <div class="formula-strip">Tính từng hàng, từng cột. Gặp ô cấm thì gán $f=0$.</div>
+                            Học sinh điền bảng theo hàng ngang.
+                        </div>
+                    </div>
+
+                    <div class="concept-box">
+                        <strong>Ứng dụng đề thi:</strong>
+                        Lưới có ràng buộc (ô không đi được, điểm phải tránh) là dạng rất phổ biến trong đề thi THPT và
+                        Olympic. Học sinh cần thành thạo: vẽ lưới, đánh dấu chướng ngại, rồi tính truy hồi tránh những ô
+                        đó.
+                    </div>
+                </div>
+
+                <div class="model-showcase">
+                    <h4>Mô hình 8: Phân Nhánh 3 Hướng — Tam Phân Tại Mỗi Bước</h4>
+
+                    <svg width="520" height="220" viewBox="-10 -10 380 180">
+                        <defs>
+                            <marker id="arrow-ternary" markerWidth="6" markerHeight="6" refX="5" refY="3"
+                                orient="auto-start-reverse">
+                                <path d="M 0 0 L 6 3 L 0 6 z" fill="#7e22ce" />
+                            </marker>
+                        </defs>
+
+                        <!-- Stage 0 -->
+                        <circle cx="60" cy="85" r="18" fill="#f3e8ff" stroke="#7e22ce" stroke-width="3" />
+                        <text x="60" y="88" text-anchor="middle" dominant-baseline="central" font-weight="bold">S</text>
+                        <text x="60" y="110" text-anchor="middle" font-size="10" fill="#7e22ce">f=1</text>
+
+                        <!-- Stage 1 -->
+                        <circle cx="180" cy="30" r="16" fill="#fff" stroke="#64748b" stroke-width="2" />
+                        <text x="180" y="33" text-anchor="middle" dominant-baseline="central">A</text>
+                        <text x="180" y="52" text-anchor="middle" font-size="10" fill="#64748b">f=1</text>
+
+                        <circle cx="180" cy="85" r="16" fill="#fff" stroke="#64748b" stroke-width="2" />
+                        <text x="180" y="88" text-anchor="middle" dominant-baseline="central">B</text>
+                        <text x="180" y="107" text-anchor="middle" font-size="10" fill="#64748b">f=1</text>
+
+                        <circle cx="180" cy="140" r="16" fill="#fff" stroke="#64748b" stroke-width="2" />
+                        <text x="180" y="143" text-anchor="middle" dominant-baseline="central">C</text>
+                        <text x="180" y="162" text-anchor="middle" font-size="10" fill="#64748b">f=1</text>
+
+                        <!-- Stage 2 -->
+                        <circle cx="300" cy="30" r="16" fill="#fff" stroke="#64748b" stroke-width="2" />
+                        <text x="300" y="33" text-anchor="middle" dominant-baseline="central">X</text>
+                        <text x="300" y="52" text-anchor="middle" font-size="10" fill="#64748b">f=3</text>
+
+                        <circle cx="300" cy="85" r="16" fill="#fff" stroke="#64748b" stroke-width="2" />
+                        <text x="300" y="88" text-anchor="middle" dominant-baseline="central">Y</text>
+                        <text x="300" y="107" text-anchor="middle" font-size="10" fill="#64748b">f=3</text>
+
+                        <circle cx="300" cy="140" r="16" fill="#fff" stroke="#64748b" stroke-width="2" />
+                        <text x="300" y="143" text-anchor="middle" dominant-baseline="central">Z</text>
+                        <text x="300" y="162" text-anchor="middle" font-size="10" fill="#64748b">f=3</text>
+
+                        <!-- Edges from S -->
+                        <path d="M 74 75 L 162 38" stroke="#7e22ce" stroke-width="2" marker-end="url(#arrow-ternary)" />
+                        <path d="M 78 85 L 162 85" stroke="#7e22ce" stroke-width="2" marker-end="url(#arrow-ternary)" />
+                        <path d="M 74 95 L 162 132" stroke="#7e22ce" stroke-width="2"
+                            marker-end="url(#arrow-ternary)" />
+
+                        <!-- Edges from A,B,C to X,Y,Z -->
+                        <path d="M 196 30 L 282 30" stroke="#7e22ce" stroke-width="1.5"
+                            marker-end="url(#arrow-ternary)" />
+                        <path d="M 192 42 L 288 73" stroke="#7e22ce" stroke-width="1.5" marker-end="url(#arrow-ternary)"
+                            opacity="0.4" />
+                        <path d="M 192 48 L 288 128" stroke="#7e22ce" stroke-width="1.5"
+                            marker-end="url(#arrow-ternary)" opacity="0.4" />
+
+                        <path d="M 196 85 L 282 85" stroke="#7e22ce" stroke-width="1.5"
+                            marker-end="url(#arrow-ternary)" />
+                        <path d="M 192 75 L 288 42" stroke="#7e22ce" stroke-width="1.5" marker-end="url(#arrow-ternary)"
+                            opacity="0.4" />
+                        <path d="M 192 97 L 288 128" stroke="#7e22ce" stroke-width="1.5"
+                            marker-end="url(#arrow-ternary)" opacity="0.4" />
+
+                        <path d="M 196 140 L 282 140" stroke="#7e22ce" stroke-width="1.5"
+                            marker-end="url(#arrow-ternary)" />
+                        <path d="M 192 128 L 288 42" stroke="#7e22ce" stroke-width="1.5"
+                            marker-end="url(#arrow-ternary)" opacity="0.4" />
+                        <path d="M 192 132 L 288 97" stroke="#7e22ce" stroke-width="1.5"
+                            marker-end="url(#arrow-ternary)" opacity="0.4" />
+                    </svg>
+
+                    <div class="two-col">
+                        <div class="example-box">
+                            <strong>Hệ truy hồi phân nhánh 3</strong>
+                            Từ mỗi trạng thái $s_k$ có 3 lựa chọn:
+                            <div class="formula-strip">$$f_k^{(i)} = f_{k-1}^{(1)} + f_{k-1}^{(2)} + f_{k-1}^{(3)}$$
+                            </div>
+                            với $i \in \{1,2,3\}$.
+                        </div>
+                        <div class="example-box">
+                            <strong>Điều kiện đầu</strong>
+                            $f_0 = 1$ (một xuất phát).
+                            <div class="formula-strip">Bước 1: mỗi nhánh có 1 đường. Bước 2: mỗi nhánh có $3$ đường (từ
+                                3 nguồn trước).</div>
+                            Học sinh tính tích lũy qua các bước.
+                        </div>
+                    </div>
+
+                    <div class="concept-box">
+                        <strong>Ứng dụng đề thi:</strong>
+                        Phân nhánh nhiều hướng (3, 4, hay $k$ hướng) xuất hiện trong bài: chọn màu, chọn vị trí, chọn
+                        hành động. Công thức tổng quát: $3^n$ cách nếu độc lập, nhưng nếu có ràng buộc thì cần truy hồi
+                        từng bước.
+                    </div>
+                </div>
+
+                <div class="model-showcase">
+                    <h4>Mô hình 9: Chọn Nhóm Liên Tiếp — Tổ Hợp Có Điều Kiện Kế Tiếp</h4>
+
+                    <svg width="520" height="200" viewBox="-10 -10 360 160">
+                        <defs>
+                            <marker id="arrow-combo" markerWidth="6" markerHeight="6" refX="5" refY="3"
+                                orient="auto-start-reverse">
+                                <path d="M 0 0 L 6 3 L 0 6 z" fill="#c2410c" />
+                            </marker>
+                        </defs>
+
+                        <!-- Stage boxes -->
+                        <rect x="10" y="10" width="80" height="130" fill="#fff7ed" stroke="#c2410c" stroke-width="2"
+                            rx="6" />
+                        <text x="50" y="30" text-anchor="middle" font-weight="bold" fill="#c2410c">Bước 1</text>
+                        <text x="50" y="50" text-anchor="middle" font-size="11">Chọn k₁ từ n₁</text>
+                        <circle cx="50" cy="80" r="16" fill="#fff" stroke="#64748b" stroke-width="2" />
+                        <text x="50" y="83" text-anchor="middle" dominant-baseline="central">s₁</text>
+                        <text x="50" y="105" text-anchor="middle" font-size="10" fill="#64748b">C(n₁,k₁)</text>
+
+                        <rect x="130" y="10" width="80" height="130" fill="#fff7ed" stroke="#c2410c" stroke-width="2"
+                            rx="6" />
+                        <text x="170" y="30" text-anchor="middle" font-weight="bold" fill="#c2410c">Bước 2</text>
+                        <text x="170" y="50" text-anchor="middle" font-size="11">Chọn k₂ từ n₂</text>
+                        <circle cx="170" cy="80" r="16" fill="#fff" stroke="#64748b" stroke-width="2" />
+                        <text x="170" y="83" text-anchor="middle" dominant-baseline="central">s₂</text>
+                        <text x="170" y="105" text-anchor="middle" font-size="10" fill="#64748b">phụ thuộc s₁</text>
+
+                        <rect x="250" y="10" width="80" height="130" fill="#dcfce7" stroke="#15803d" stroke-width="2"
+                            rx="6" />
+                        <text x="290" y="30" text-anchor="middle" font-weight="bold" fill="#15803d">Bước n</text>
+                        <text x="290" y="50" text-anchor="middle" font-size="11">Tổng hợp</text>
+                        <circle cx="290" cy="80" r="16" fill="#fff" stroke="#64748b" stroke-width="2" />
+                        <text x="290" y="83" text-anchor="middle" dominant-baseline="central">sₙ</text>
+                        <text x="290" y="105" text-anchor="middle" font-size="10" fill="#64748b">Tích lũy</text>
+
+                        <!-- Arrows -->
+                        <path d="M 92 80 L 146 80" stroke="#c2410c" stroke-width="2.5" marker-end="url(#arrow-combo)" />
+                        <path d="M 212 80 L 232 80" stroke="#c2410c" stroke-width="2.5"
+                            marker-end="url(#arrow-combo)" />
+                        <text x="230" y="75" text-anchor="middle" font-size="11" fill="#c2410c">...</text>
+                    </svg>
+
+                    <div class="two-col">
+                        <div class="example-box">
+                            <strong>Hệ truy hồi chọn liên tiếp</strong>
+                            <div class="formula-strip">$$f_k = \sum_{\text{trạng thái }j \text{ hợp lệ}} f_{k-1}(j)
+                                \cdot C(n_k, m_k)$$</div>
+                            Số cách ở bước $k$ phụ thuộc kết quả bước $k-1$.
+                        </div>
+                        <div class="example-box">
+                            <strong>Điều kiện đầu</strong>
+                            $f_1 = C(n_1, k_1)$ (chọn tự do ở bước 1).
+                            <div class="formula-strip">Các bước sau: nhân thêm $C(n_i, k_i)$ nếu độc lập, hoặc cộng nếu
+                                phân nhánh.</div>
+                            Học sinh lập bảng từng bước.
+                        </div>
+                    </div>
+
+                    <div class="concept-box">
+                        <strong>Ứng dụng đề thi:</strong>
+                        Chọn nhóm học sinh từng lớp, phân công công việc từng giai đoạn, xếp đội hình theo vòng. Đây là
+                        dạng kết hợp tổ hợp và truy hồi, hay xuất hiện ở đề chuyên và đề Olympic.
+                    </div>
+                </div>
+
+                <div class="model-showcase">
+                    <h4>Mô hình 10: Tháp Xếp Tầng — Mỗi Tầng Nhỏ Hơn Tầng Dưới</h4>
+
+                    <svg width="520" height="220" viewBox="-10 -10 340 180">
+                        <defs>
+                            <marker id="arrow-tower" markerWidth="6" markerHeight="6" refX="5" refY="3"
+                                orient="auto-start-reverse">
+                                <path d="M 0 0 L 6 3 L 0 6 z" fill="#8a5a00" />
+                            </marker>
+                        </defs>
+
+                        <!-- Tower visualization -->
+                        <!-- Level 0 (base, widest) -->
+                        <rect x="80" y="130" width="160" height="20" fill="#fef3c7" stroke="#8a5a00" stroke-width="2"
+                            rx="3" />
+                        <text x="160" y="143" text-anchor="middle" dominant-baseline="central" font-size="11">Tầng 0
+                            (rộng n)</text>
+
+                        <!-- Level 1 -->
+                        <rect x="100" y="100" width="120" height="20" fill="#fde68a" stroke="#8a5a00" stroke-width="2"
+                            rx="3" />
+                        <text x="160" y="113" text-anchor="middle" dominant-baseline="central" font-size="11">Tầng 1
+                            (rộng ≤n)</text>
+
+                        <!-- Level 2 -->
+                        <rect x="120" y="70" width="80" height="20" fill="#fcd34d" stroke="#8a5a00" stroke-width="2"
+                            rx="3" />
+                        <text x="160" y="83" text-anchor="middle" dominant-baseline="central" font-size="11">Tầng
+                            2</text>
+
+                        <!-- Level 3 (top) -->
+                        <rect x="140" y="40" width="40" height="20" fill="#fbbf24" stroke="#8a5a00" stroke-width="3"
+                            rx="3" />
+                        <text x="160" y="53" text-anchor="middle" dominant-baseline="central" font-size="11"
+                            font-weight="bold">Đỉnh</text>
+
+                        <!-- Arrows showing dependency -->
+                        <path d="M 160 127 L 160 122" stroke="#8a5a00" stroke-width="2"
+                            marker-end="url(#arrow-tower)" />
+                        <path d="M 160 97 L 160 92" stroke="#8a5a00" stroke-width="2" marker-end="url(#arrow-tower)" />
+                        <path d="M 160 67 L 160 62" stroke="#8a5a00" stroke-width="2" marker-end="url(#arrow-tower)" />
+
+                        <!-- State diagram on right -->
+                        <circle cx="280" cy="50" r="16" fill="#fff" stroke="#64748b" stroke-width="2" />
+                        <text x="280" y="53" text-anchor="middle" dominant-baseline="central"
+                            font-size="10">f(h,w)</text>
+
+                        <text x="280" y="80" text-anchor="middle" font-size="10" fill="#64748b">h: chiều cao</text>
+                        <text x="280" y="95" text-anchor="middle" font-size="10" fill="#64748b">w: độ rộng</text>
+                    </svg>
+
+                    <div class="two-col">
+                        <div class="example-box">
+                            <strong>Hệ truy hồi xếp tháp</strong>
+                            <div class="formula-strip">$$f(h, w) = \sum_{w'=1}^{w-1} f(h-1, w')$$</div>
+                            Tầng $h$ rộng $w$ được xây từ các tháp cao $h-1$ có đáy $w' < w$. </div>
+                                <div class="example-box">
+                                    <strong>Điều kiện đầu</strong>
+                                    $f(0, w) = 1$ (tầng đất có 1 cách).
+                                    <div class="formula-strip">Tính từ tầng 1 lên: mỗi chiều cao, tính cho mọi độ rộng.
+                                    </div>
+                                    Học sinh lập bảng 2 chiều $(h, w)$.
+                                </div>
+                        </div>
+
+                        <div class="concept-box">
+                            <strong>Ứng dụng đề thi:</strong>
+                            Xếp khối, xếp số giảm dần, phân hoạch số với điều kiện thứ tự. Dạng này kết hợp truy hồi 2
+                            chiều (chiều cao + kích thước) và thường xuất hiện ở đề chuyên Toán hoặc Tin học.
+                        </div>
+                    </div>
+
+                    <div class="warning-box">
+                        <strong>Lời khuyên cho giáo viên:</strong>
+                        Đừng bắt đầu tiết học bằng ma trận hay thuật toán topo-sort. Hãy cho học sinh làm quen với 2-3
+                        mô hình cụ thể trước (lưới 2 tầng, 3 tầng, kim cương). Khi học sinh đã thành thạo vẽ hình, viết
+                        hệ, và tính bảng, lúc đó mới nói: "Những gì các em vừa làm chính là đếm đường đi trên DAG". Thứ
+                        tự "cụ thể → trừu tượng" giúp học sinh không bị choáng ngợp.
+                    </div>
+            </section>
+
+            <section id="strategy">
+                <h2>7. Phiếu chiến lược 4 bước để nhận dạng bài</h2>
+
+                <div class="two-col">
+                    <div class="concept-box">
+                        <strong>Bước 1: Chọn trạng thái</strong>
+                        Đừng đếm cả hình. Chỉ giữ các điểm "đại diện" theo cột hoặc theo lớp.
+                    </div>
+                    <div class="concept-box">
+                        <strong>Bước 2: Đọc mũi tên đi vào</strong>
+                        Mỗi đỉnh nhận số cách bằng tổng từ tất cả nguồn đi vào nó.
+                    </div>
+                    <div class="concept-box">
+                        <strong>Bước 3: Ghi rõ điều kiện đầu</strong>
+                        Ai là nguồn? Có bao nhiêu cách xuất phát? Đó là chốt khóa của nghiệm.
+                    </div>
+                    <div class="concept-box">
+                        <strong>Bước 4: Nâng từ bảng lên công thức</strong>
+                        Bài tốt không dừng ở vài giá trị đầu, mà phải đi tới công thức tổng quát hoặc quy luật tăng
+                        trưởng.
+                    </div>
+                </div>
+            </section>
+
+            <section id="exercises">
+                <h2>8. Sáu nhóm bài để biến bài gốc thành cả một chủ đề</h2>
+                <p class="lede">
+                    Phần này được viết theo hướng dùng được ngay trong giờ dạy. Mỗi nhóm bám một ý tưởng rõ ràng, có bài
+                    mở đầu dễ vào, rồi nâng dần độ sâu.
+                </p>
+
+                <h3>Nhóm 1. Cố định hệ, thay số cột</h3>
+                <div class="concept-box">
+                    <strong>Ý tưởng chốt:</strong> khi hệ đã rút về $t_k = t_{k-1} + 2$, mọi bài chỉ còn là cấp số cộng.
+                </div>
+
+                <details class="exercise" open>
+                    <summary>Bài 1.1. Lưới có $10$ cột. Hỏi số đường đi từ $A$ đến đỉnh trên cùng ở cột cuối.</summary>
+                    <div class="exercise-body">
+                        <span class="tag">Lý thuyết đi kèm: công thức đóng</span>
+                        <p>Ta dùng ngay $t_n = 2n + 1$. Với $n = 10$:</p>
+                        <div class="formula-strip">$$t_{10} = 2 \cdot 10 + 1 = 21$$</div>
+                    </div>
+                </details>
+
+                <details class="exercise">
+                    <summary>Bài 1.2. Lưới có $50$ cột. Không lập bảng, hãy tính nhanh số đường đi.</summary>
+                    <div class="exercise-body">
+                        <p>Vẫn dùng công thức tổng quát:</p>
+                        <div class="formula-strip">$$t_{50} = 2 \cdot 50 + 1 = 101$$</div>
+                        <p>Bài này giúp học sinh hiểu giá trị của việc đi từ truy hồi sang công thức.</p>
+                    </div>
+                </details>
+
+                <details class="exercise">
+                    <summary>Bài 1.3. Nếu số đường đi bằng $41$, lưới có bao nhiêu cột?</summary>
+                    <div class="exercise-body">
+                        <p>Giải phương trình $2n + 1 = 41$, suy ra:</p>
+                        <div class="formula-strip">$$n = 20$$</div>
+                        <p>Đây là dạng bài nghịch rất hợp để kiểm tra xem học sinh đã thực sự hiểu công thức hay chỉ
+                            thuộc đáp số.</p>
+                    </div>
+                </details>
+
+                <h3>Nhóm 2. Giữ nguyên hệ, thay điều kiện đầu</h3>
+                <div class="concept-box">
+                    <strong>Ý tưởng chốt:</strong> hệ giống nhau chưa chắc đáp số giống nhau. Khác dữ kiện đầu là khác
+                    toàn bộ dãy.
+                </div>
+
+                <details class="exercise" open>
+                    <summary>Bài 2.1. Cho $b_0 = 2$, $t_0 = 3$. Tính $t_8$.</summary>
+                    <div class="exercise-body">
+                        <p>Với hệ gốc, ta có $b_k = 2$ và:</p>
+                        <div class="formula-strip">$$t_k = 3 + 2k \cdot 2 = 3 + 4k$$</div>
+                        <p>Thế $k = 8$:</p>
+                        <div class="formula-strip">$$t_8 = 3 + 32 = 35$$</div>
+                    </div>
+                </details>
+
+                <details class="exercise">
+                    <summary>Bài 2.2. Cho $b_0 = 3$, $t_0 = 2$. Tính $t_6$.</summary>
+                    <div class="exercise-body">
+                        <p>Ta có $b_k = 3$ với mọi $k$, nên:</p>
+                        <div class="formula-strip">$$t_k = 2 + 2k \cdot 3 = 2 + 6k$$</div>
+                        <div class="formula-strip">$$t_6 = 2 + 36 = 38$$</div>
+                    </div>
+                </details>
+
+                <details class="exercise">
+                    <summary>Bài 2.3. Biết $t_0 = 3$, $t_7 = 31$. Hãy tìm $b_0$.</summary>
+                    <div class="exercise-body">
+                        <p>Dùng công thức $t_k = t_0 + 2k b_0$:</p>
+                        <div class="formula-strip">$$31 = 3 + 14b_0 \Rightarrow b_0 = 2$$</div>
+                        <p>Dạng này rất tốt để nhấn mạnh vai trò của điều kiện đầu.</p>
+                    </div>
+                </details>
+
+                <h3>Nhóm 3. Đổi cấu trúc mũi tên, đổi luôn hệ số</h3>
+                <div class="concept-box">
+                    <strong>Ý tưởng chốt:</strong> thay một mũi tên là thay hệ truy hồi. Từ đây học sinh bắt đầu thấy
+                    "đếm đường đi" thực chất là "đọc cấu trúc để sinh ra hệ".
+                </div>
+
+                <details class="exercise" open>
+                    <summary>Bài 3.1. Giả sử từ $b_{k-1}$ lên $t_k$ có hai đường chéo khác nhau. Các mũi tên khác giữ
+                        nguyên. Tính số đường đi tới đỉnh trên ở cột $12$.</summary>
+                    <div class="exercise-body">
+                        <p>Khi đó:</p>
+                        <div class="formula-strip">$$b_k = b_{k-1}, \qquad t_k = t_{k-1} + 2b_{k-1} + b_k$$</div>
+                        <p>Với bài gốc $b_0 = t_0 = 1$, suy ra $b_k = 1$ và:</p>
+                        <div class="formula-strip">$$t_k = t_{k-1} + 3$$</div>
+                        <div class="formula-strip">$$t_{12} = 1 + 12 \cdot 3 = 37$$</div>
+                    </div>
+                </details>
+
+                <details class="exercise">
+                    <summary>Bài 3.2. Bỏ mũi tên thẳng đứng từ $b_k$ lên $t_k$, chỉ giữ mũi tên ngang trên và mũi tên
+                        chéo. Tính số đường đi tới đỉnh trên ở cột $7$.</summary>
+                    <div class="exercise-body">
+                        <p>Lúc này:</p>
+                        <div class="formula-strip">$$b_k = b_{k-1}, \qquad t_k = t_{k-1} + b_{k-1}$$</div>
+                        <p>Với $b_0 = t_0 = 1$, ta được $b_k = 1$ và $t_k = t_{k-1} + 1$, nên:</p>
+                        <div class="formula-strip">$$t_k = k + 1, \qquad t_7 = 8$$</div>
+                    </div>
+                </details>
+
+                <details class="exercise">
+                    <summary>Bài 3.3. Tầng dưới có hai mũi tên ngang song song, còn tầng trên giữ như bài gốc. Tìm công
+                        thức $t_k$.</summary>
+                    <div class="exercise-body">
+                        <p>Hai mũi tên ngang song song ở tầng dưới nghĩa là:</p>
+                        <div class="formula-strip">$$b_k = 2b_{k-1}$$</div>
+                        <p>Vẫn có một đường chéo và một đường thẳng đứng lên trên, nên:</p>
+                        <div class="formula-strip">$$t_k = t_{k-1} + b_{k-1} + b_k$$</div>
+                        <p>Với $b_0 = t_0 = 1$, ta có $b_k = 2^k$ và:</p>
+                        <div class="formula-strip">$$t_k = t_{k-1} + 3 \cdot 2^{k-1}$$</div>
+                        <p>Cộng dồn từ $0$ đến $k$:</p>
+                        <div class="formula-strip">$$t_k = 1 + 3(2^k - 1) = 3 \cdot 2^k - 2$$</div>
+                    </div>
+                </details>
+
+                <h3>Nhóm 4. Bài toán nghịch đảo từ đáp số quay về hệ số</h3>
+                <div class="concept-box">
+                    <strong>Ý tưởng chốt:</strong> nhóm này rèn tư duy đọc cấu trúc ngược. Học sinh không chỉ tính, mà
+                    còn suy ra tham số ẩn từ dữ kiện ở cuối bài.
+                </div>
+
+                <details class="exercise" open>
+                    <summary>Bài 4.1. Trong bài gốc, nếu số đường đi tới đỉnh trên ở cột cuối là $57$, lưới có bao nhiêu
+                        cột?</summary>
+                    <div class="exercise-body">
+                        <p>Ta dùng $t_n = 2n + 1$:</p>
+                        <div class="formula-strip">$$2n + 1 = 57 \Rightarrow n = 28$$</div>
+                    </div>
+                </details>
+
+                <details class="exercise">
+                    <summary>Bài 4.2. Giữ hệ gốc. Biết $t_0 = 5$ và $t_9 = 41$. Hãy tìm $b_0$.</summary>
+                    <div class="exercise-body">
+                        <p>Từ công thức tổng quát:</p>
+                        <div class="formula-strip">$$41 = 5 + 18b_0 \Rightarrow b_0 = 2$$</div>
+                    </div>
+                </details>
+
+                <details class="exercise">
+                    <summary>Bài 4.3. Giữ hệ gốc. Biết $t_3 = 19$ và $t_5 = 27$. Tìm $b_0, t_0$.</summary>
+                    <div class="exercise-body">
+                        <p>Ta có hệ:</p>
+                        <div class="formula-strip">$$\begin{cases}
+                            t_0 + 6b_0 = 19 \\
+                            t_0 + 10b_0 = 27
+                            \end{cases}$$</div>
+                        <p>Lấy phương trình sau trừ phương trình trước:</p>
+                        <div class="formula-strip">$$4b_0 = 8 \Rightarrow b_0 = 2$$</div>
+                        <p>Thế lại:</p>
+                        <div class="formula-strip">$$t_0 = 19 - 12 = 7$$</div>
+                    </div>
+                </details>
+
+                <h3>Nhóm 5. Nâng từ 2 tầng lên 3 tầng</h3>
+                <div class="concept-box">
+                    <strong>Ý tưởng chốt:</strong> khi thêm tầng, cấp của bài toán tăng lên. Dãy tuyến tính có thể
+                    chuyển thành dãy bậc hai. Đây là bước rất đẹp để bồi dưỡng học sinh giỏi.
+                </div>
+
+                <details class="exercise" open>
+                    <summary>Bài 5.1. Xét ba dãy $a_k, b_k, c_k$ thỏa $a_k = a_{k-1}$, $b_k = b_{k-1} + a_k$, $c_k =
+                        c_{k-1} + b_k$, với $a_0 = b_0 = c_0 = 1$. Tính $c_8$.</summary>
+                    <div class="exercise-body">
+                        <p>Ta có $a_k = 1$ với mọi $k$. Do đó:</p>
+                        <div class="formula-strip">$$b_k = b_{k-1} + 1, \quad b_0 = 1 \Rightarrow b_k = k + 1$$</div>
+                        <p>Tiếp theo:</p>
+                        <div class="formula-strip">$$c_k = c_{k-1} + (k + 1), \quad c_0 = 1$$</div>
+                        <p>Suy ra:</p>
+                        <div class="formula-strip">$$c_k = \frac{(k+1)(k+2)}{2}$$</div>
+                        <div class="formula-strip">$$c_8 = \frac{9 \cdot 10}{2} = 45$$</div>
+                    </div>
+                </details>
+
+                <details class="exercise">
+                    <summary>Bài 5.2. Trong mô hình trên, nếu $c_n = 66$ thì tìm $n$.</summary>
+                    <div class="exercise-body">
+                        <p>Giải:</p>
+                        <div class="formula-strip">$$\frac{(n+1)(n+2)}{2} = 66$$</div>
+                        <div class="formula-strip">$$ (n+1)(n+2) = 132 = 11 \cdot 12 $$</div>
+                        <p>Vậy:</p>
+                        <div class="formula-strip">$$n = 10$$</div>
+                    </div>
+                </details>
+
+                <details class="exercise">
+                    <summary>Bài 5.3. Vẫn mô hình ba tầng nhưng $a_0 = 2$, $b_0 = 1$, $c_0 = 1$. Hãy tìm công thức
+                        $c_k$.</summary>
+                    <div class="exercise-body">
+                        <p>Ta có $a_k = 2$ và:</p>
+                        <div class="formula-strip">$$b_k = b_{k-1} + 2, \quad b_0 = 1 \Rightarrow b_k = 2k + 1$$</div>
+                        <p>Do đó:</p>
+                        <div class="formula-strip">$$c_k = c_{k-1} + (2k + 1), \quad c_0 = 1$$</div>
+                        <p>Tổng các số lẻ đầu tiên cho ta:</p>
+                        <div class="formula-strip">$$c_k = (k + 1)^2$$</div>
+                    </div>
+                </details>
+
+                <h3>Nhóm 6. Từ lưới đều sang DAG bất kỳ</h3>
+                <div class="concept-box">
+                    <strong>Ý tưởng chốt:</strong> bài gốc chỉ là một DAG rất đều. Khi học sinh nắm nguyên lý "mỗi đỉnh
+                    bằng tổng các đỉnh đi vào", ta có thể đếm trên bất kỳ DAG nào có thứ tự topo rõ ràng.
+                </div>
+
+                <details class="exercise" open>
+                    <summary>Bài 6.1. Xét DAG có các cung: $S \to U$, $S \to V$, $U \to W$, $V \to W$, $U \to T$, $W \to
+                        T$. Tính số đường đi từ $S$ đến $T$.</summary>
+                    <div class="exercise-body">
+                        <p>Gán $f(S) = 1$. Khi đó:</p>
+                        <div class="formula-strip">$$f(U) = 1, \quad f(V) = 1, \quad f(W) = f(U) + f(V) = 2$$</div>
+                        <p>Đỉnh $T$ nhận từ $U$ và $W$:</p>
+                        <div class="formula-strip">$$f(T) = f(U) + f(W) = 1 + 2 = 3$$</div>
+                    </div>
+                </details>
+
+                <details class="exercise">
+                    <summary>Bài 6.2. Xét DAG có các cung: $S \to A$, $S \to B$, $A \to C$, $B \to C$, $A \to D$, $C \to
+                        D$, $C \to T$, $D \to T$. Tính số đường đi từ $S$ đến $T$.</summary>
+                    <div class="exercise-body">
+                        <p>Ta có:</p>
+                        <div class="formula-strip">$$f(A)=1, \quad f(B)=1, \quad f(C)=2, \quad f(D)=f(A)+f(C)=3$$</div>
+                        <p>Do đó:</p>
+                        <div class="formula-strip">$$f(T)=f(C)+f(D)=2+3=5$$</div>
+                    </div>
+                </details>
+
+                <details class="exercise">
+                    <summary>Bài 6.3. Giữ DAG của bài 6.2 nhưng thay cung $C \to T$ bằng hai cung song song từ $C$ tới
+                        $T$. Tính lại số đường đi từ $S$ đến $T$.</summary>
+                    <div class="exercise-body">
+                        <p>Vẫn có $f(C)=2$, $f(D)=3$. Nhưng từ $C$ tới $T$ nay có hai cung khác nhau nên đóng góp là
+                            $2f(C)$:</p>
+                        <div class="formula-strip">$$f(T)=2f(C)+f(D)=2 \cdot 2 + 3 = 7$$</div>
+                        <p>Đây là ví dụ đẹp để dạy khái niệm "đa cung" hay "trọng số đếm".</p>
+                    </div>
+                </details>
+            </section>
+
+            <section id="errors">
+                <h2>9. Lỗi học sinh thường mắc và cách chữa ngay trên lớp</h2>
+                <div class="two-col">
+                    <div class="warning-box">
+                        <strong>Lỗi 1: Đếm trực tiếp từng đường</strong>
+                        Cách chữa: ép học sinh ghi số tại từng đỉnh, không cho liệt kê thủ công sau khi số cột lớn hơn
+                        $4$.
+                    </div>
+                    <div class="warning-box">
+                        <strong>Lỗi 2: Viết hệ mà quên điều kiện đầu</strong>
+                        Cách chữa: luôn hỏi lại "bài này xuất phát ở đâu, có bao nhiêu cách đứng sẵn ở điểm đầu?".
+                    </div>
+                    <div class="warning-box">
+                        <strong>Lỗi 3: Nhìn nhầm mũi tên đi vào thành mũi tên đi ra</strong>
+                        Cách chữa: tô màu riêng các cung đi vào đỉnh đang xét, chỉ cộng các nguồn thật sự đi tới đỉnh
+                        ấy.
+                    </div>
+                    <div class="warning-box">
+                        <strong>Lỗi 4: Dừng ở bảng số, không nâng lên công thức</strong>
+                        Cách chữa: sau khi có $1,3,5,7,9$, bắt buộc học sinh nói thành lời "mỗi bước tăng 2".
+                    </div>
+                </div>
+            </section>
+
+            <section id="closing" class="closing">
+                <h2>10. Kết luận chuyên đề</h2>
+                <p>
+                    Từ một hình lưới nhỏ, ta có thể dạy được cả một chủ đề lớn: chọn trạng thái, dựng hệ truy hồi, đọc
+                    điều kiện đầu,
+                    chuyển sang công thức tổng quát, hiểu họ hệ đa biến, rồi mở tiếp sang DAG tổng quát. Đây là một mẫu
+                    chuyên đề rất mạnh vì vừa gần gũi học sinh phổ thông,
+                    vừa đủ sâu để bồi dưỡng tư duy cấu trúc.
+                </p>
+                <div class="warning-box">
+                    <strong>Ba câu chốt nên để học sinh nhớ sau buổi học:</strong>
+                    <ol class="checklist">
+                        <li>Mỗi đỉnh trên DAG nhận số cách bằng tổng các đỉnh đi vào nó.</li>
+                        <li>Hệ truy hồi mô tả quy luật chuyển động, điều kiện đầu mới khóa nghiệm cụ thể.</li>
+                        <li>Bài đếm đường đi tốt không dừng ở một hình, mà phải nhìn ra cả họ bài phía sau nó.</li>
+                    </ol>
+                </div>
+            </section>
+        </div>
+    </main>
+</body>
+
+</html>

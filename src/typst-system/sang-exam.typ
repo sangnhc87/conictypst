@@ -1021,7 +1021,7 @@
   #v(0.4em)
   #text(style: "italic", size: 11pt)[
     Thí sinh không được sử dụng tài liệu. \
-    Cán bộ coi thi không giải thích gì thêm.
+    Giám thị không giải thích gì thêm.
   ]
   #v(1.5em)
 ]

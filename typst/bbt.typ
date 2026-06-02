@@ -79,12 +79,16 @@
     content((w1 / 2, -h1 - h2 / 2), der)
     content((w1 / 2, -h1 - h2 - h3 / 2), func)
 
-    let render-sign(s) = {
-      if s == "-" { $-$ } else if s == "+" { $+$ } else if s == "0" { $0$ } else if s == "||" { none } else { s }
-    }
-    // Nhận cả string "+" lẫn math content $+$
     let sign-of(s) = {
-      if s == "+" or s == $+$ { "+" } else if s == "-" or s == $-$ { "-" } else if s == "||" { "||" } else { "0" }
+      let r = repr(s)
+      if s == "+" or s == $+$ or r.contains("+") { "+" }
+      else if s == "-" or s == $-$ or r.contains("−") or r.contains("-") { "-" }
+      else if s == "||" or r.contains("||") or r.contains("‖") or r.contains("parallel") { "||" }
+      else { "0" }
+    }
+    let render-sign(s) = {
+      let sig = sign-of(s)
+      if sig == "-" { $-$ } else if sig == "+" { $+$ } else if sig == "0" { $0$ } else if sig == "||" { none } else { s }
     }
 
     for i in range(n) {
@@ -97,9 +101,10 @@
     for i in range(n) {
       if i > 0 and i < n - 1 {
         let sign-idx = 2 * i - 1
-        if d-signs.at(sign-idx) == "||" {
+        if sign-of(d-signs.at(sign-idx)) == "||" {
           let px = x-pos.at(i)
-          if type(v-vals.at(i)) == array {
+          let is-double = type(v-vals.at(i)) == array or v-vals.at(i) == "||" or v-vals.at(i) == none or (type(v-vals.at(i)) == content and (repr(v-vals.at(i)).contains("|") or repr(v-vals.at(i)).contains("||")))
+          if is-double {
             line((px - 0.05, -h1), (px - 0.05, -th), stroke: 0.8pt)
             line((px + 0.05, -h1), (px + 0.05, -th), stroke: 0.8pt)
           } else {
@@ -268,8 +273,16 @@
       content((px, -h1 / 2), x-vals.at(i))
     }
 
+    let sign-of(s) = {
+      let r = repr(s)
+      if s == "+" or s == $+$ or r.contains("+") { "+" }
+      else if s == "-" or s == $-$ or r.contains("−") or r.contains("-") { "-" }
+      else if s == "||" or r.contains("||") or r.contains("‖") or r.contains("parallel") { "||" }
+      else { "0" }
+    }
     let render-sign(s) = {
-      if s == "-" { $-$ } else if s == "+" { $+$ } else if s == "0" { $0$ } else if s == "||" { none } else { s }
+      let sig = sign-of(s)
+      if sig == "-" { $-$ } else if sig == "+" { $+$ } else if sig == "0" { $0$ } else if sig == "||" { none } else { s }
     }
 
     for r in range(nrows) {
@@ -280,7 +293,7 @@
       for i in range(n) {
         if i > 0 and i < n - 1 {
           let sign-idx = 2 * i - 1
-          if row-signs.len() > sign-idx and row-signs.at(sign-idx) == "||" {
+          if row-signs.len() > sign-idx and sign-of(row-signs.at(sign-idx)) == "||" {
             let px = x-pos.at(i)
             line((px - 0.05, y-top-row), (px - 0.05, y-bot-row), stroke: 0.8pt)
             line((px + 0.05, y-top-row), (px + 0.05, y-bot-row), stroke: 0.8pt)
@@ -304,6 +317,7 @@
   x-vals: (),
   d-signs: (),
   v-vals: (),
+  ranks: none,
   w1: 1.5,
   w2: 10, // Nới rộng thêm để chứa nhiều mốc x
   h1: 0.8,
@@ -327,12 +341,16 @@
     content((w1 / 2, -h1 - h2 / 2), der)
     content((w1 / 2, -h1 - h2 - h3 / 2), func)
 
-    let render-sign(s) = {
-      if s == "-" { $-$ } else if s == "+" { $+$ } else if s == "0" { $0$ } else if s == "||" { none } else { s }
-    }
-    // Nhận cả string "+" lẫn math content $+$
     let sign-of(s) = {
-      if s == "+" or s == $+$ { "+" } else if s == "-" or s == $-$ { "-" } else if s == "||" { "||" } else { "0" }
+      let r = repr(s)
+      if s == "+" or s == $+$ or r.contains("+") { "+" }
+      else if s == "-" or s == $-$ or r.contains("−") or r.contains("-") { "-" }
+      else if s == "||" or r.contains("||") or r.contains("‖") or r.contains("parallel") { "||" }
+      else { "0" }
+    }
+    let render-sign(s) = {
+      let sig = sign-of(s)
+      if sig == "-" { $-$ } else if sig == "+" { $+$ } else if sig == "0" { $0$ } else if sig == "||" { none } else { s }
     }
 
     let x-pos = ()
@@ -348,9 +366,10 @@
     for i in range(n) {
       if i > 0 and i < n - 1 {
         let sign-idx = 2 * i - 1
-        if d-signs.at(sign-idx) == "||" {
+        if sign-of(d-signs.at(sign-idx)) == "||" {
           let px = x-pos.at(i)
-          if type(v-vals.at(i)) == array {
+          let is-double = type(v-vals.at(i)) == array or v-vals.at(i) == "||" or v-vals.at(i) == none or (type(v-vals.at(i)) == content and (repr(v-vals.at(i)).contains("|") or repr(v-vals.at(i)).contains("||")))
+          if is-double {
             line((px - 0.05, -h1), (px - 0.05, -th), stroke: 0.8pt)
             line((px + 0.05, -h1), (px + 0.05, -th), stroke: 0.8pt)
           } else {
@@ -367,22 +386,27 @@
     }
 
     // Hàng 3: rank → map-y
-    let ranks = ()
-    let cur = 0
-    ranks.push((cur,))
-    for i in range(n - 1) {
-      let sign = sign-of(d-signs.at(2 * i))
-      if sign == "+" { cur += 1 } else if sign == "-" { cur -= 1 }
-      let next_idx = 2 * i + 1
-      if next_idx < d-signs.len() and sign-of(d-signs.at(next_idx)) == "||" {
-        let val = v-vals.at(i + 1)
-        if type(val) == array {
-          let ns = if next_idx + 1 < d-signs.len() { sign-of(d-signs.at(next_idx + 1)) } else { "+" }
-          let lr = cur
-          cur = if ns == "-" { lr + 2 } else { lr - 2 }
-          ranks.push((lr, cur))
-        } else { ranks.push((cur,)) }
-      } else { ranks.push((cur,)) }
+    let ranks = if ranks != none {
+      ranks.map(r => if type(r) == array { r } else { (r,) })
+    } else {
+      let computed = ()
+      let cur = 0
+      computed.push((cur,))
+      for i in range(n - 1) {
+        let sign = sign-of(d-signs.at(2 * i))
+        if sign == "+" { cur += 1 } else if sign == "-" { cur -= 1 }
+        let next_idx = 2 * i + 1
+        if next_idx < d-signs.len() and sign-of(d-signs.at(next_idx)) == "||" {
+          let val = v-vals.at(i + 1)
+          if type(val) == array {
+            let ns = if next_idx + 1 < d-signs.len() { sign-of(d-signs.at(next_idx + 1)) } else { "+" }
+            let lr = cur
+            cur = if ns == "-" { lr + 2 } else { lr - 2 }
+            computed.push((lr, cur))
+          } else { computed.push((cur,)) }
+        } else { computed.push((cur,)) }
+      }
+      computed
     }
     let flat-r = ()
     for r in ranks { for v in r { flat-r.push(v) } }

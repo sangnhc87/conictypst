@@ -1,0 +1,9 @@
+#let rad = 90 * 0.0174532925
+#let c1 = calc.cos(rad)
+#let s1 = calc.sin(rad)
+#let c2 = calc.cos(90deg)
+#let s2 = calc.sin(90deg)
+c1 = #c1 \
+s1 = #s1 \
+c2 = #c2 \
+s2 = #s2 \

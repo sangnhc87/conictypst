@@ -490,7 +490,7 @@
     
     // Góc 30 độ (với mặt phẳng ngang)
     line(i, (3, iy), stroke: (dash: "dashed", paint: gray))
-    arc(i, start: 0deg, stop: 30deg, radius: 2)
+    arc((ix + 2, iy), start: 0deg, stop: 30deg, radius: 2)
     content((1.8, iy + 0.4), $30^degree$)
     
     // Điểm đối xứng B'
@@ -732,7 +732,7 @@
     
     // Góc 30 độ
     line(i, (3.5, iy), stroke: (dash: "dashed", paint: gray))
-    arc(i, start: 0deg, stop: 30deg, radius: 2.5)
+    arc((ix + 2.5, iy), start: 0deg, stop: 30deg, radius: 2.5)
     content((2.5, iy + 0.5), $30^degree$)
     
     // Điểm đối xứng B'

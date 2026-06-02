@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chuyên Đề: Tăng Giảm Cấp Số Nhân</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$']] } };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { background-color: #fdf4ff; font-family: 'Segoe UI', sans-serif; }
+        .card { background: white; border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); padding: 2rem; margin-bottom: 2rem;}
+    </style>
+</head>
+<body class="p-4 md:p-8 text-gray-800 min-h-screen">
+    <div class="max-w-4xl mx-auto">
+        
+        <div class="bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-2xl p-8 mb-8 text-center shadow-lg transform transition hover:scale-[1.01]">
+            <h1 class="text-3xl font-extrabold mb-2">💘 Chuyện Tình Yêu & Sự Lừa Dối Của Phần Trăm</h1>
+            <p class="text-pink-100">Bí mật sau những pha tăng giảm "kép" tạo thành Cấp Số Nhân</p>
+        </div>
+
+        <div class="card border-t-8 border-pink-500">
+            <h2 class="text-2xl font-bold mb-4 text-pink-700">1. Cú Lừa Kinh Điển (Bài Toán "Ngây Thơ")</h2>
+            
+            <p class="mb-4">Bạn vừa lấy được điểm 10 toán. Mẹ thưởng cho bạn. Mẹ bảo: <br>
+            "Hôm nay lương bổng kinh tế khó khăn, tiền túi mẹ GIẢM ĐI 20%. NHƯNG vì con học giỏi, trong số tiền còn lại, mẹ TĂNG THÊM khoản dự Phòng Lên 25% cho con. Con thấy mẹ hào phóng chưa?".</p>
+            
+            <div class="bg-gray-100 p-4 rounded mb-4">
+                <p class="font-bold text-red-600">Con vội nhẩm trong đầu: $-20\% + 25\% = +5\%$ (Ố ồ! Mình lời 5%).</p>
+            </div>
+            
+            <p class="text-lg font-bold">Thực tế phũ phàng:</p>
+            <ul class="list-disc pl-5 mb-4 space-y-2">
+                <li>Giả sử quỹ ban đầu là 100k.</li>
+                <li>Qũy Giảm 20% $\Rightarrow$ Mẹ lột đi 20k. Quỹ chỉ còn 80k.</li>
+                <li>Bây giờ lấy 80k đó TĂNG 25%. $80 \times 25\% = 20k$ sinh sôi nảy nở.</li>
+                <li>Tổng kết: Lấy 80k gốc + 20k đẻ thêm = <b>Tròn trĩnh 100k</b>.</li>
+            </ul>
+            <p class="bg-pink-100 font-bold p-3 rounded text-pink-900 border-l-4 border-pink-500">
+                HUỀ VỐN! Bạn chẳng lời được đồng nào! $ (-20\%) $ đứng cạnh $ (+25\%) $ lại bằng KHÔNG (0%). 
+                Không được tin vào việc cộng trừ phần trăm theo phản xạ!
+            </p>
+        </div>
+
+        <div class="card border-t-8 border-purple-500">
+            <h2 class="text-2xl font-bold mb-4 text-purple-700">2. Phương Pháp "Công Bội" Sinh Tồn</h2>
+            <p class="mb-4">Khi đại lượng chạy qua liên tiếp 2 đợt nhồi nhét, ta PHẢI dùng phép NHÂN (hệ số), thay vì Lũy Kế phép cộng.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-center">
+                <div class="border p-4 rounded-lg">
+                    <p class="text-sm text-gray-500 uppercase">Hệ Số Giảm 20%</p>
+                    <p class="text-xl font-bold text-red-600">$(100\% - 20\%) = 0.8$</p>
+                </div>
+                <div class="border p-4 rounded-lg">
+                    <p class="text-sm text-gray-500 uppercase">Hệ Số Tăng 25%</p>
+                    <p class="text-xl font-bold text-green-600">$(100\% + 25\%) = 1.25$</p>
+                </div>
+            </div>
+            
+            <div class="mt-4 bg-purple-50 p-4 rounded text-center shadow-inner">
+                <p class="text-gray-600">Sức sát thương tổng hợp qua $1$ chu kỳ:</p>
+                <p class="text-2xl font-black text-purple-800">$q = 0.8 \times 1.25 = 1.0$ (Tức là 100% nguyên si)</p>
+            </div>
+        </div>
+
+        <div class="card border-t-8 border-indigo-500">
+            <h2 class="text-2xl font-bold mb-4 text-indigo-700">3. Áp Dụng: Chuyện Nam & Thư 💔</h2>
+            
+            <div class="mb-4 text-gray-800 leading-relaxed italic border-l-4 p-4 bg-indigo-50 border-indigo-400">
+                Lúc mới chia tay, Nam dành 100 điểm tình cảm cho Thư. Mỗi ngày trôi qua quên đi 30%. Nhưng vì xạo sự vẫn tò mò soi Story fb Thư vào cuối ngày, tình cảm lại bị "thổi lên" 12% dựa trên số điểm ít ỏi còn lại. Dưới 10 điểm thì dứt tình. Chừng nào thoát ải?
+            </div>
+            
+            <p class="font-bold mb-2">Bước 1: Quy luật rụng rớt qua 1 ngày đêm (1 chu kỳ)</p>
+            <p class="mb-2">Hệ số tàn lụi: $q = (1 - 0.30) \times (1 + 0.12) = 0.7 \times 1.12 = 0.784$</p>
+            <p class="mb-4">Mỗi ngày tình cảm bị co rút còn đúng $78.4\%$ so với hôm qua.</p>
+            
+            <p class="font-bold mb-2">Bước 2: Sử dụng vũ khí Cấp Số Nhân</p>
+            <p class="mb-2">Sau $n$ ngày, điểm tình cảm còn lại: $u_n = 100 \times (0.784)^n$</p>
+            <p class="mb-4">Bắt buộc Tịt Mù $(< 10)$: $100 \times (0.784)^n < 10 \Rightarrow (0.784)^n < 0.1$.</p>
+            
+            <p class="font-bold text-red-600">⚠️ Bẫy Logarit: Cẩn Thận "Quay Xe"</p>
+            <div class="bg-gray-100 p-4 rounded-lg font-mono text-sm mb-4">
+                Khi cơ số q = 0.784 (Nhỏ hơn 1), hành động bớt hàm Logarit MANG TÍNH LẬT ÚP sự việc. Dấu phải quay ngược lại!<br><br>
+                n > log_{0.784}(0.1) 
+            </div>
+            
+            <p>Bấm máy tính ra $n > 9.47$. Vì chọn ngày nguyên dương tròn trịa, n = 10.</p>
+            <p class="mt-4 font-bold text-center text-xl text-indigo-800">Đúng 10 ngày sau, Nam sẽ bắt đầu cuộc đời mới! 🎉</p>
+        </div>
+
+    </div>
+</body>
+</html>

@@ -1,12 +1,20 @@
 import React, { useState, useRef } from 'react'
 
 export default function ExtractImages() {
+  const isDesktopRuntime = typeof window !== 'undefined' && Boolean(window.desktopApi?.exportTypstDocxBundle)
   const [isDragging, setIsDragging] = useState(false)
   const [isProcessing, setIsProcessing] = useState(false)
   const [message, setMessage] = useState('')
   const [error, setError] = useState(false)
   const [exportFormat, setExportFormat] = useState('docx')
   const fileInputRef = useRef(null)
+
+  // Exam metadata fields
+  const [examTitle, setExamTitle] = useState('ĐỀ THI THỬ THPT QUỐC GIA')
+  const [schoolName, setSchoolName] = useState('')
+  const [examCode, setExamCode] = useState('101')
+  const [examSubject, setExamSubject] = useState('TOÁN')
+  const [addFooter, setAddFooter] = useState(true)
 
   const handleDragOver = (e) => {
     e.preventDefault()
@@ -49,13 +57,42 @@ export default function ExtractImages() {
 
       const text = await file.text()
 
+      if (isDesktopRuntime && exportFormat === 'docx') {
+        const result = await window.desktopApi.exportTypstDocxBundle({
+          content: text,
+          sourceName: file.name,
+          examTitle,
+          schoolName,
+          examCode,
+          examSubject,
+          addFooter,
+        })
+
+        if (result?.cancelled) {
+          setMessage('Đã hủy lưu file DOCX.')
+          setError(false)
+          return
+        }
+
+        setMessage(`Thành công! Đã lưu gói DOCX tại: ${result.filePath}`)
+        setError(false)
+        return
+      }
+
       const endpoint = exportFormat === 'docx' ? '/api/export-docx' : '/api/export-figs'
       const response = await fetch(endpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ content: text })
+        body: JSON.stringify({
+          content: text,
+          examTitle,
+          schoolName,
+          examCode,
+          examSubject,
+          addFooter
+        })
       })
 
       if (!response.ok) {
@@ -105,8 +142,10 @@ export default function ExtractImages() {
       <div className="paper-panel" style={{ gridColumn: '1 / -1', maxWidth: '800px', margin: '0 auto', width: '100%' }}>
         <h2 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: 'var(--ink)' }}>Xuất DOCX / Ảnh Từ File .typ</h2>
         <p style={{ marginBottom: '1rem', color: 'var(--slate)' }}>
-          Kéo thả file <code>.typ</code> của bạn vào ô bên dưới. Hệ thống sẽ tự động trích xuất các khối 
-          <code>#cetz.canvas(...)</code> và <code>#bbt(...)</code> thành ảnh PNG.
+          Kéo thả file <code>.typ</code> của bạn vào ô bên dưới.
+          {isDesktopRuntime
+            ? ' Bản desktop xử lý hoàn toàn local và lưu gói DOCX trực tiếp trên máy.'
+            : ' Hệ thống sẽ tự động trích xuất các khối #cetz.canvas(...) và #bbt(...) thành ảnh PNG.'}
         </p>
 
         <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem', justifyContent: 'center' }}>
@@ -120,17 +159,49 @@ export default function ExtractImages() {
             />
             <span>Xuất toàn bộ đề sang Word (.zip chứa 3 bản: Đề, Lời Giải, Đáp Án)</span>
           </label>
-          <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
-            <input 
-              type="radio" 
-              name="format" 
-              value="zip" 
-              checked={exportFormat === 'zip'} 
-              onChange={() => setExportFormat('zip')} 
-            />
-            <span>Chỉ xuất Hình Vẽ (.zip)</span>
-          </label>
+          {!isDesktopRuntime && (
+            <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+              <input 
+                type="radio" 
+                name="format" 
+                value="zip" 
+                checked={exportFormat === 'zip'} 
+                onChange={() => setExportFormat('zip')} 
+              />
+              <span>Chỉ xuất Hình Vẽ (.zip)</span>
+            </label>
+          )}
         </div>
+
+        {exportFormat === 'docx' && (
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem', marginBottom: '1.5rem', padding: '1rem', background: 'var(--bg-wash)', borderRadius: '6px', border: '1px solid var(--slate-light)' }}>
+            <label style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+              <span style={{ fontSize: '0.85rem', color: 'var(--slate)' }}>Tiêu đề đề thi:</span>
+              <input type="text" value={examTitle} onChange={e => setExamTitle(e.target.value)}
+                style={{ padding: '0.4rem 0.6rem', border: '1px solid var(--slate-light)', borderRadius: '4px', fontSize: '0.9rem' }} />
+            </label>
+            <label style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+              <span style={{ fontSize: '0.85rem', color: 'var(--slate)' }}>Trường / Đơn vị:</span>
+              <input type="text" value={schoolName} onChange={e => setSchoolName(e.target.value)}
+                placeholder="(bỏ trống nếu không cần)"
+                style={{ padding: '0.4rem 0.6rem', border: '1px solid var(--slate-light)', borderRadius: '4px', fontSize: '0.9rem' }} />
+            </label>
+            <label style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+              <span style={{ fontSize: '0.85rem', color: 'var(--slate)' }}>Môn học:</span>
+              <input type="text" value={examSubject} onChange={e => setExamSubject(e.target.value)}
+                style={{ padding: '0.4rem 0.6rem', border: '1px solid var(--slate-light)', borderRadius: '4px', fontSize: '0.9rem' }} />
+            </label>
+            <label style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+              <span style={{ fontSize: '0.85rem', color: 'var(--slate)' }}>Mã đề:</span>
+              <input type="text" value={examCode} onChange={e => setExamCode(e.target.value)}
+                style={{ padding: '0.4rem 0.6rem', border: '1px solid var(--slate-light)', borderRadius: '4px', fontSize: '0.9rem' }} />
+            </label>
+            <label style={{ gridColumn: '1 / -1', display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+              <input type="checkbox" checked={addFooter} onChange={e => setAddFooter(e.target.checked)} />
+              <span style={{ fontSize: '0.9rem' }}>Thêm footer "Trang X/Y — Mã đề: NNN" vào mỗi trang</span>
+            </label>
+          </div>
+        )}
 
         <div
           style={{

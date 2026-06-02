@@ -2,516 +2,479 @@
 #import "../template.typ": *
 #import "@preview/cetz:0.5.2"
 
-// ─── CẤU HÌNH TRANG ───────────────────────────────────────────────────────────
 #set page(paper: "a4", margin: (x: 1.5cm, y: 1.8cm))
 #set text(font: "New Computer Modern", size: 10.8pt, lang: "vi")
 #set par(justify: true, leading: 0.9em)
-#set math.equation(numbering: none)
 
-// ─── HEADING STYLES ───────────────────────────────────────────────────────────
+// ══ HEADING ══════════════════════════════════════════════════
 #show heading.where(level: 1): it => block(
   width: 100%,
-  fill: gradient.linear(rgb("00695C"), rgb("00897B"), rgb("26A69A"), angle: 120deg),
+  fill: gradient.linear(rgb("003D33"), rgb("00695C"), rgb("00897B"), angle: 120deg),
   inset: (x: 18pt, y: 12pt), radius: 8pt, above: 2em, below: 1.2em,
-  text(fill: white, size: 14pt, weight: "bold", it.body)
+  text(fill: white, size: 13.5pt, weight: "bold", it.body)
 )
 #show heading.where(level: 2): it => block(
-  above: 1.6em, below: 0.9em,
-  stroke: (left: 5pt + rgb("00897B"), rest: none),
-  inset: (left: 12pt, y: 6pt),
-  text(fill: rgb("00695C"), size: 12pt, weight: "bold", it.body)
-)
-#show heading.where(level: 3): it => block(
-  above: 1.2em, below: 0.5em,
-  text(fill: rgb("004D40"), size: 11pt, weight: "bold", it.body)
+  above: 1.5em, below: 0.8em,
+  stroke: (left: 5pt + rgb("00897B")),
+  inset: (left: 12pt, y: 5pt),
+  text(fill: rgb("004D40"), size: 11.5pt, weight: "bold", it.body)
 )
 
-// ─── CÁC KHUNG ĐẶC BIỆT ──────────────────────────────────────────────────────
-#let theory-box(title: "Khung Lý Thuyết", body) = block(
+// ══ MACRO KHUNG ════════════════════════════════════════════
+#let klt(title: "Lý thuyết", body) = block(
   fill: rgb("E0F2F1"),
   stroke: (left: 5pt + rgb("00695C"), rest: 1pt + rgb("80CBC4")),
-  radius: (right: 8pt, left: 0pt), inset: (x: 18pt, y: 16pt), width: 100%, above: 0.8em,
+  radius: (right: 7pt), inset: (x: 16pt, y: 14pt), width: 100%,
 )[
-  #text(fill: rgb("004D40"), weight: "bold", size: 12pt)[🎯 #title]
-  #v(0.5em)
+  #text(fill: rgb("004D40"), weight: "bold", size: 11.5pt)[#title]
+  #v(0.4em)
   #body
 ]
 
-#let cannon-box(title, body) = block(
-  fill: rgb("FFF8E1"),
-  stroke: (left: 5pt + rgb("F4511E"), rest: 1pt + rgb("FFCC80")),
-  radius: (right: 8pt, left: 0pt), inset: (x: 16pt, y: 14pt), width: 100%, above: 0.8em,
-)[
-  #text(fill: rgb("BF360C"), weight: "bold", size: 11pt)[🔥 #title]
-  #v(0.5em)
-  #body
-]
-
-#let tip-box(body) = block(
-  fill: rgb("E8F5E9"),
-  stroke: (left: 4pt + rgb("43A047"), rest: 0.8pt + rgb("A5D6A7")),
-  radius: (right: 6pt), inset: (x: 14pt, y: 10pt), width: 100%,
-)[
-  #text(fill: rgb("1B5E20"), weight: "bold")[💡 Bí kíp nhận dạng:]
-  #v(0.2em)
-  #body
-]
-
-#let warn-box(body) = block(
-  fill: rgb("FBE9E7"),
-  stroke: (left: 4pt + rgb("E53935"), rest: 0.8pt + rgb("FFCDD2")),
-  radius: (right: 6pt), inset: (x: 14pt, y: 10pt), width: 100%,
-)[
-  #text(fill: rgb("B71C1C"), weight: "bold")[⚠️ Bẫy thường gặp:]
-  #v(0.2em)
-  #body
-]
-
-#let result-box(body) = block(
-  fill: gradient.linear(rgb("E3F2FD"), rgb("F3E5F5"), angle: 90deg),
-  stroke: 1.2pt + rgb("5C6BC0"),
-  radius: 6pt, inset: (x: 14pt, y: 10pt), width: 100%,
-)[
-  #text(fill: rgb("1A237E"), weight: "bold")[📌 Kết quả:]
-  #v(0.2em)
-  #body
-]
-
-// ─── TIÊU ĐỀ CHUYÊN ĐỀ ───────────────────────────────────────────────────────
-#align(center)[
-  #block(
-    fill: gradient.linear(rgb("004D40"), rgb("00897B"), rgb("26A69A"), angle: 135deg),
-    inset: (x: 28pt, y: 20pt), radius: 12pt, width: 100%,
+#let kbt(num, title, body) = {
+  v(0.5em)
+  block(
+    fill: rgb("FFF8E1"),
+    stroke: (left: 5pt + rgb("E65100"), rest: 1pt + rgb("FFB74D")),
+    radius: (right: 7pt), inset: (x: 15pt, y: 13pt), width: 100%,
   )[
-    #text(fill: white, size: 16pt, weight: "bold")[
-      ⚡ CHUYÊN ĐỀ: TÌM KHOẢNG CÁCH NHỎ NHẤT
-    ]
-    #v(0.3em)
-    #text(fill: rgb("B2DFDB"), size: 11.5pt, style: "italic")[
-      Phương Pháp Cặp Tiếp Tuyến Song Song & Mô Hình Hoá Toán Học Thực Tế
-    ]
-    #v(0.3em)
-    #text(fill: rgb("80CBC4"), size: 10pt)[
-      _Định hướng dự đoán đề thi Đại học — Bộ Giáo Dục 2025–2026_
-    ]
+    #text(fill: rgb("BF360C"), weight: "bold")[Bài #num. #title]
+    #v(0.4em)
+    #body
   ]
+}
+
+#let kq(body) = block(
+  fill: gradient.linear(rgb("E8EAF6"), rgb("F3E5F5"), angle: 90deg),
+  stroke: 1.2pt + rgb("5C6BC0"), radius: 5pt,
+  inset: (x: 12pt, y: 9pt), width: 100%,
+)[#text(fill: rgb("1A237E"), weight: "bold")[Kết quả: ]#body]
+
+#let kip(body) = block(
+  fill: rgb("F1F8E9"), stroke: (left: 4pt + rgb("558B2F")),
+  inset: (x: 12pt, y: 8pt), width: 100%,
+)[#text(fill: rgb("33691E"), weight: "bold")[Nhận xét: ]#body]
+
+#let bay(body) = block(
+  fill: rgb("FBE9E7"), stroke: (left: 4pt + rgb("C62828")),
+  inset: (x: 12pt, y: 8pt), width: 100%,
+)[#text(fill: rgb("B71C1C"), weight: "bold")[Chú ý: ]#body]
+
+// ══ TIÊU ĐỀ ═══════════════════════════════════════════════
+#align(center, block(
+  fill: gradient.linear(rgb("004D40"), rgb("00695C"), angle: 135deg),
+  width: 100%, radius: 10pt, inset: (x: 24pt, y: 18pt),
+)[
+  #text(fill: white, size: 15pt, weight: "bold")[CHUYÊN ĐỀ: KHOẢNG CÁCH NHỎ NHẤT]
+  #linebreak()
+  #text(fill: rgb("B2DFDB"), size: 11pt)[Phương pháp Cặp Tiếp Tuyến Song Song & Mô hình hoá toán học]
+])
+#v(0.5em)
+
+= I. Lý Thuyết Nền Tảng
+
+== 1. Khoảng cách từ đường cong đến đường thẳng
+
+#klt(title: "Định lý và Thuật toán")[
+  Cho đường cong $(C): y = f(x)$ và đường thẳng $d: y = a x + b$ không cắt $(C)$.
+
+  Điểm $M_0(x_0,\, f(x_0)) in (C)$ *gần $d$ nhất* khi và chỉ khi *tiếp tuyến của $(C)$ tại $M_0$ song song với $d$*, tức là:
+  $ f'(x_0) = a $
+
+  Khoảng cách ngắn nhất:
+  $ d_min = frac(lr(|a x_0 - f(x_0) + b|), sqrt(a^2 + 1)) $
+
+  #v(0.3em)
+  *Lý do hình học:* Nếu tiếp tuyến tại $M$ nghiêng hơn $d$ thì pháp tuyến chưa thẳng đứng với $d$ — ta còn dịch được điểm lại gần hơn. Chỉ khi tiếp tuyến song song với $d$ thì pháp tuyến mới vuông góc với $d$, cho đoạn vuông góc ngắn nhất.
 ]
 
-= Phần I. Nền Tảng Lý Thuyết
+#v(0.3em)
 
-== 1.1. Bản Chất Hình Học
+== 2. Khoảng cách giữa hai đường cong
 
-Hai đường cong (hoặc một đường cong và một đường thẳng) rời nhau trong mặt phẳng luôn có một khoảng cách nhỏ nhất. Điểm $M$ trên đường cong và điểm $N$ trên đường còn lại thỏa mãn $|M N|_(min)$ chính là hai đầu mút của *pháp tuyến chung* — đường nối vuông góc với cả hai đường tại hai điểm đó.
+#klt(title: "Trường hợp hai đường cong rời nhau")[
+  *Trường hợp chung:* Hai đường cong $(C_1): y = f(x)$ và $(C_2): y = g(x)$.
 
-#theory-box(title: "Định lý Tiếp Tuyến Song Song")[
-  *Trường hợp 1 — Đường cong $(C): y = f(x)$ và Đường thẳng $d: y = a x + b$*
+  Cặp điểm $A(x_A, f(x_A))$ và $B(x_B, g(x_B))$ có $|A B|$ nhỏ nhất khi:
+  $ f'(x_A) = g'(x_B) quad "và" quad vec(A B) perp "tiếp tuyến chung" $
 
-  #grid(columns: (1fr, auto), gutter: 12pt,
-    [
-      Điểm $M_0(x_0, f(x_0)) in (C)$ có khoảng cách đến $d$ nhỏ nhất khi và chỉ khi tiếp tuyến của $(C)$ tại $M_0$ *song song* với $d$, tức là:
-      $ f'(x_0) = a $
-      Sau đó, khoảng cách nhỏ nhất là:
-      $ d_(min) = frac(|a x_0 - f(x_0) + b|, sqrt(a^2 + 1)) $
-    ],
-    cetz.canvas(length: 0.85cm, {
-      import cetz.draw: *
-      // y = x^2 / 4 (parabola) vs y = x - 3 (line a=1)
-      // f'(x0) = x0/2 = 1 => x0 = 2, y0 = 1. Min-dist line.
-      set-style(stroke: 0.8pt)
-      // Axes
-      line((0, 0), (4.5, 0), mark: (end: ">"))
-      line((0, 0), (0, 4), mark: (end: ">"))
-      content((4.4, -0.25), text(size: 8pt)[$x$])
-      content((-0.3, 3.9), text(size: 8pt)[$y$])
-      // Parabola approx with bezier
-      bezier((0.2, 0.01), (4.3, 4.6), (0.5, -0.3), (3.5, 1.5), stroke: (paint: rgb("1565C0"), thickness: 1.5pt))
-      content((4.1, 4.4), text(size: 8pt, fill: rgb("1565C0"))[$(C)$])
-      // Line d: y = x - 3  => passes (1,-2)->(4,1) scaled
-      line((1.5, 0.1), (4.2, 2.8), stroke: (paint: rgb("D84315"), thickness: 1.5pt))
-      content((4.3, 2.85), text(size: 8pt, fill: rgb("D84315"))[$d$])
-      // Tangent at M0 (parallel to d)
-      // x0~2, y0~1 on parabola scaled
-      line((0.8, -0.6), (3.5, 2.1), stroke: (paint: rgb("43A047"), thickness: 1pt, dash: "dashed"))
-      content((0.5, -0.7), text(size: 8pt, fill: rgb("43A047"))[$t$])
-      // M0 point
-      circle((2.0, 0.75), radius: 0.1, fill: rgb("1565C0"))
-      content((1.8, 0.55), text(size: 8pt)[$M_0$])
-      // shortest distance
-      line((2.0, 0.75), (2.6, 1.35), stroke: (paint: rgb("F57F17"), thickness: 1.3pt, dash: "dotted"), mark: (end: ">", start: ">"))
-      content((2.9, 0.9), text(size: 8pt, fill: rgb("F57F17"))[$d_(min)$])
-    })
-  )
-
-  #v(0.6em)
-  *Trường hợp 2 — Hai đường cong $(C_1): y = f(x)$ và $(C_2): y = g(x)$ rời nhau*
-
-  Điểm $A in (C_1)$ và $B in (C_2)$ thỏa $|A B|$ nhỏ nhất khi:
-  #align(center)[
-    $f'(x_A) = g'(x_B) = k$ (cùng hệ số góc tiếp tuyến) #h(1em) và #h(1em) $A B perp$ hai tiếp tuyến đó
-  ]
   *Trường hợp đặc biệt — Hàm ngược (đối xứng qua $y = x$):*
-  Nếu $g = f^(-1)$, thì $d_(min)$ giữa $(C_1)$ và $(C_2)$ $= 2 times d(M_0, y = x)$ với $f'(x_0) = 1$.
+
+  Nếu $g(x) = f^(-1)(x)$, thì $(C_1)$ và $(C_2)$ đối xứng qua $y = x$. Khi đó:
+  $ d_min = 2 dot frac(lr(|f(x_0) - x_0|), sqrt(2)) quad "với" quad f'(x_0) = 1 $
 ]
 
-== 1.2. Quy Trình Giải (Thuật Toán 4 Bước)
+#v(0.3em)
 
-#block(fill: rgb("F5F5F5"), stroke: 1pt + rgb("BDBDBD"), radius: 6pt, inset: (x: 16pt, y: 12pt), width: 100%)[
-  #grid(columns: (auto, 1fr), gutter: 10pt,
-    block(fill: rgb("00897B"), inset: 6pt, radius: 4pt)[#text(fill: white, weight: "bold")[ B1 ]],
-    [*Nhận dạng dạng bài:* Đường cong & Đường thẳng? Hay Hai đường cong? Có tính đối xứng không?],
-    block(fill: rgb("00897B"), inset: 6pt, radius: 4pt)[#text(fill: white, weight: "bold")[ B2 ]],
-    [*Tính đạo hàm* $f'(x)$ (và $g'(x)$ nếu có hai đường cong).],
-    block(fill: rgb("00897B"), inset: 6pt, radius: 4pt)[#text(fill: white, weight: "bold")[ B3 ]],
-    [*Ép song song tiếp tuyến:* Giải pt $f'(x_0) = a$ (hoặc $f'(x_A) = g'(x_B)$). Lưu ý: có thể nhiều nghiệm!],
-    block(fill: rgb("00897B"), inset: 6pt, radius: 4pt)[#text(fill: white, weight: "bold")[ B4 ]],
-    [*Tính khoảng cách* từ điểm tìm được đến đường kia. So sánh nếu có nhiều nghiệm, lấy giá trị nhỏ nhất.],
+== 3. Quy trình giải chuẩn
+
+#block(fill: rgb("FAFAFA"), stroke: 0.8pt + rgb("BDBDBD"), radius: 6pt, inset: (x: 14pt, y: 12pt), width: 100%)[
+  #grid(columns: (2.5cm, 1fr), gutter: 8pt,
+    align(center, block(fill: rgb("00695C"), inset: (x: 8pt, y: 6pt), radius: 4pt)[#text(fill: white, weight: "bold", size: 10pt)[Bước 1]]),
+    [Nhận dạng: đường cong với đường thẳng, hay hai đường cong? Có đối xứng không?],
+    align(center, block(fill: rgb("00695C"), inset: (x: 8pt, y: 6pt), radius: 4pt)[#text(fill: white, weight: "bold", size: 10pt)[Bước 2]]),
+    [Tính đạo hàm. Giải phương trình $f'(x_0) = a$. Lưu ý *điều kiện xác định* và *số nghiệm*.],
+    align(center, block(fill: rgb("00695C"), inset: (x: 8pt, y: 6pt), radius: 4pt)[#text(fill: white, weight: "bold", size: 10pt)[Bước 3]]),
+    [Tính tọa độ điểm gần nhất $M_0(x_0, f(x_0))$.],
+    align(center, block(fill: rgb("00695C"), inset: (x: 8pt, y: 6pt), radius: 4pt)[#text(fill: white, weight: "bold", size: 10pt)[Bước 4]]),
+    [Áp dụng công thức khoảng cách từ điểm đến đường thẳng. Nếu nhiều nghiệm, so sánh lấy $min$.],
   )
 ]
 
+= II. Bài Tập Vận Dụng
 
-= Phần II. Các Mô Hình Toán Thực Tế (Dự Đoán Đề Thi)
+== A. Đường cong và Đường thẳng
 
-#cannon-box("Mô hình 1 — Drone Cứu Hộ Tiếp Cận Vùng Lũ  [Hàm Phân Thức]", [
+#kbt("1", "Parabol — Đường thẳng song song")[
+  Tìm khoảng cách ngắn nhất từ đường cong $(C): y = x^2$ đến đường thẳng $d: y = 2x - 3$.
 
-  *Bài toán thực tế:* Sau trận mưa lớn, một dòng lũ quét bùn đỏ tràn qua thung lũng. Đội cứu hộ dùng ảnh vệ tinh mô hình hóa ranh giới ngoài cùng của vùng ngập lụt (với $x > 1$, đơn vị km) là:
-  $ (C): quad y = x + frac(1, x - 1) $
-  Một chiếc Drone chở hàng cứu trợ được điều khiển bay theo đường thẳng cố định:
-  $ d: quad y = -3x + 10 $
-  *Hỏi:* Khoảng cách ngắn nhất từ đường bay của Drone đến vùng lũ là bao nhiêu km?
-
-  #grid(columns: (1fr, auto), gutter: 16pt, [
+  #grid(columns: (1fr, auto), gutter: 14pt,
+  [
     *Giải:*
 
-    #text(weight: "bold", fill: rgb("004D40"))[Bước 1:] Nhận dạng — Đường cong & Đường thẳng, hệ số góc $a = -3$.
+    Hệ số góc $d$: $a = 2$. Tính đạo hàm: $y' = 2x$.
 
-    #text(weight: "bold", fill: rgb("004D40"))[Bước 2:] Tính đạo hàm:
-    $ y' = 1 - frac(1, (x-1)^2) $
+    Ép song song: $2x_0 = 2 => x_0 = 1$, suy ra $y_0 = 1$.
 
-    #text(weight: "bold", fill: rgb("004D40"))[Bước 3:] Ép tiếp tuyến song song với $d$:
-    $ 1 - frac(1, (x-1)^2) = -3 => (x-1)^2 = frac(1,4) $
-    Vì $x > 1$, ta lấy $x - 1 = 1/2$, được $x_0 = 3/2$.
+    Điểm gần nhất: $M_0(1, 1)$.
 
-    #text(weight: "bold", fill: rgb("004D40"))[Bước 4:] Tọa độ điểm gần nhất trên vùng lũ:
-    $ y_0 = 3/2 + frac(1, 1/2) = 3/2 + 2 = 7/2 quad => M_0(3/2, 7/2) $
-
-    Khoảng cách từ $M_0$ đến đường thẳng $3x + y - 10 = 0$:
-    $ d_(min) = frac(lr(|3 dot 3/2 + 7/2 - 10|), sqrt(10)) = frac(lr(|9/2 + 7/2 - 10|), sqrt(10)) = frac(2, sqrt(10)) = frac(sqrt(10), 5) $
+    Khoảng cách từ $M_0(1,1)$ đến $2x - y - 3 = 0$:
+    $ d_min = frac(|2(1) - 1 - 3|, sqrt(4+1)) = frac(2, sqrt(5)) = frac(2sqrt(5), 5) $
   ],
   cetz.canvas(length: 0.85cm, {
     import cetz.draw: *
-    // Axes
-    line((0,0),(5,0), mark: (end: ">"))
-    line((0,0),(0,5), mark: (end: ">"))
-    content((4.9,-0.3), text(size:8pt)[$x$])
-    content((-0.3,4.9), text(size:8pt)[$y$])
-    // Label axes
+    // Lưới nhẹ
+    set-style(stroke: 0.4pt + rgb("E0E0E0"))
+    for i in range(-1, 5) { line((i, -2), (i, 5)) }
+    for j in range(-2, 6) { line((-1, j), (4, j)) }
+    // Trục
+    set-style(stroke: 0.9pt + black)
+    line((-0.8,0),(4.2,0), mark: (end: ">", size: 0.25))
+    line((0,-1.8),(0,5.2), mark: (end: ">", size: 0.25))
+    content((4.3, -0.15), text(size: 8pt)[$x$])
+    content((-0.25, 5.2), text(size: 8pt)[$y$])
+    // Đánh số
     for i in (1,2,3,4) {
-      line((i,-0.07),(i,0.07)); line((-0.07,i),(0.07,i))
-      content((i,-0.3), text(size:7pt)[#i])
-      content((-0.3,i), text(size:7pt)[#i])
+      content((i, -0.25), text(size: 7pt)[#i])
     }
-    // Draw curve C: y = x + 1/(x-1) for x in (1.15, 4)
-    // points: 1.2->6.2(clip), 1.5->3.5, 2->3, 3->3.5, 4->4.33
-    // Use bezier approximation (scaled by 1 since length=1cm)
-    bezier((1.3, 4.6), (4.0, 4.15), (1.5, 3.5), (3.0, 3.5), stroke: (paint: rgb("1565C0"), thickness: 1.6pt))
-    content((4.2, 4.2), text(size:8pt, fill: rgb("1565C0"))[$(C)$])
-    // Line d: y = -3x+10, passes (2,4),(3,1)
-    line((1.5,5.5),(3.5,0), stroke: (paint: rgb("D84315"), thickness: 1.5pt))
-    content((3.6, 0.05), text(size:8pt, fill: rgb("D84315"))[$d$])
-    // Point M0 at (1.5, 3.5)
-    circle((1.5, 3.5), radius: 0.1, fill: rgb("1565C0"))
-    content((1.1, 3.5), text(size:8pt)[$M_0$])
-    // Tangent at M0 (parallel to d): slope -3, y = -3(x-1.5)+3.5 = -3x+8
-    // passes (1, 5) and (2.5, 0.5)
-    line((1.0, 5.0), (2.6, 0.2), stroke: (paint: rgb("43A047"), thickness: 1pt, dash: "dashed"))
-    content((0.6, 5.0), text(size:8pt, fill: rgb("43A047"))[$t_(M_0)$])
-    // shortest distance from M0 to d (perpendicular)
-    // d_perp direction: (3,1)/sqrt(10). From M0(1.5,3.5): foot = ...
-    line((1.5, 3.5), (1.84, 4.52), stroke: (paint: rgb("F57F17"), thickness: 1.3pt), mark: (end: ">"))
-    content((2.0, 4.3), text(size:8pt, fill: rgb("F57F17"))[$d_(min)$])
-  }))
+    for j in (1,2,3,4) {
+      content((-0.25, j), text(size: 7pt)[#j])
+    }
+    content((-0.3, -1), text(size: 7pt)[-1])
+    // Parabol y=x^2: x từ -0.5 đến 2.3
+    bezier((-0.7, 0.49), (2.3, 5.29), (0, 0), (1.8, 3.24), stroke: (paint: rgb("1565C0"), thickness: 1.6pt))
+    content((2.4, 5.0), text(size: 8pt, fill: rgb("1565C0"))[$(C)$])
+    // Đường thẳng d: y=2x-3, qua (1.5,0) và (4,5)
+    line((1.5, 0), (4.0, 5.0), stroke: (paint: rgb("D84315"), thickness: 1.5pt))
+    content((4.1, 5.0), text(size: 8pt, fill: rgb("D84315"))[$d$])
+    // Tiếp tuyến tại M0(1,1): y=2x-1, qua (0,-1),(3,5)
+    line((0.0, -1.0), (3.0, 5.0), stroke: (paint: rgb("43A047"), thickness: 1pt, dash: "dashed"))
+    content((-0.1, -1.3), text(size: 7.5pt, fill: rgb("43A047"))[$t_(M_0)$])
+    // Điểm M0(1,1)
+    circle((1, 1), radius: 0.1, fill: rgb("1565C0"), stroke: none)
+    content((0.6, 0.85), text(size: 8pt)[$M_0$])
+    // Đoạn vuông góc từ M0 đến d (pháp tuyến vuông góc với d)
+    // Chiều phương d: (1,2)/sqrt5. Pháp: (2,-1)/sqrt5
+    // Chân: (1+2t, 1-t) thuộc 2(1+2t)-(1-t)-3=0 => 2+4t-1+t-3=0 => 5t=2 => t=2/5
+    // Chân = (1.8, 0.6)
+    line((1, 1), (1.8, 0.6), stroke: (paint: rgb("F57F17"), thickness: 1.5pt), mark: (start: "o", end: ">"))
+    content((1.7, 1.1), text(size: 7.5pt, fill: rgb("F57F17"))[$d_min$])
+    circle((1.8, 0.6), radius: 0.07, fill: rgb("F57F17"), stroke: none)
+  })
+  )
 
-  #result-box[
-    Drone có thể tiếp cận vùng lũ ở khoảng cách ngắn nhất $d_(min) = frac(sqrt(10), 5) approx 0.632$ km.
-  ]
+  #kq[$ d_min = frac(2sqrt(5), 5) approx 0.894 $]
+]
 
-  #tip-box[
-    Chú ý điều kiện xác định của hàm phân thức: $x > 1$. Nếu bỏ qua, ta có thể lấy nhầm nghiệm $x - 1 = -1/2$ (không thuộc miền xác định).
-  ]
-])
+#kbt("2", "Hàm Phân Thức — Đường thẳng không song song với tiệm cận")[
+  Tìm khoảng cách ngắn nhất từ đường cong $(C): y = frac(x, x-1)$ với $x > 1$ đến đường thẳng $d: 4x - 3y + 1 = 0$.
 
-#v(0.6em)
-
-#cannon-box("Mô hình 2 — Tàu Lượn & Dây Cáp Treo  [Hàm Bậc 3 — Hai Nghiệm]", [
-
-  *Bài toán thực tế:* Tại một công viên giải trí, đường ray tàu lượn siêu tốc uốn lượn theo:
-  $ (C): quad y = x^3 - 3x^2 + 5x + 2 $
-  Một tuyến cáp treo chạy cắt qua theo hướng:
-  $ d: quad y = 5x - 10 $
-  Để đảm bảo *an toàn khoảng tĩnh không*, ban quản lý cần biết: Khoảng cách ngắn nhất giữa tàu lượn và dây cáp là bao nhiêu? Vị trí nào trên đường ray nguy hiểm nhất?
-
-  #grid(columns: (1fr, auto), gutter: 16pt, [
+  #grid(columns: (1fr, auto), gutter: 14pt,
+  [
     *Giải:*
 
-    Hệ số góc cáp treo: $a = 5$. Tính đạo hàm: $y' = 3x^2 - 6x + 5$.
+    Viết lại $d: y = frac(4x+1, 3)$. Hệ số góc $a = frac(4, 3)$.
 
-    Ép song song tiếp tuyến:
-    $ 3x^2 - 6x + 5 = 5 => 3x^2 - 6x = 0 => x(x - 2) = 0 $
-    *Hai nghiệm:* $x = 0$ và $x = 2$ (hai khúc lượn cùng dốc với cáp treo).
+    Đạo hàm: $y' = frac{-1}{(x-1)^2}$.
 
-    - Tại $x=0$: $y_A = 2$. Tiếp tuyến: $5x - y + 2 = 0$.
-      $d_A = frac(lr(|2-(-10)|), sqrt(26)) = frac(12, sqrt(26))$
+    Ép song song: $frac(-1, (x-1)^2) = frac(4, 3) => (x-1)^2 = -frac(3,4) < 0$.
 
-    - Tại $x=2$: $y_B = 8 - 12 + 10 + 2 = 8$. Tiếp tuyến: $5x - y - 2 = 0$.
-      $d_B = frac(lr(|{-2}-(-10)|), sqrt(26)) = frac(8, sqrt(26))$
+    *Phương trình vô nghiệm* — không tồn tại tiếp tuyến song song với $d$!
 
-    So sánh: $d_B = 8/sqrt(26) < d_A = 12/sqrt(26)$.
+    Điều này có nghĩa: $y' = frac(-1,(x-1)^2) in (-oo, 0)$ với mọi $x > 1$, trong khi $a = 4/3 > 0$. Hai đường *không bao giờ có tiếp tuyến song song*.
+
+    Trường hợp này: khoảng cách ngắn nhất đạt khi $x -> +oo$ (đường cong tiến về tiệm cận ngang $y=1$). Khoảng cách từ điểm $(x,1)$ trên tiệm cận đến $d$: $frac(|4x - 3 + 1|, 5) -> +oo$.
+
+    Thực ra khoảng cách từ *tiệm cận ngang* $y = 1$ đến $d$: Tìm giao của $y=1$ với $d$ được $x = -1/2$ (ngoài miền). Khoảng cách giữa 2 đường thẳng song song nếu chúng song song — nhưng $y=1$ không song song với $d$.
   ],
   cetz.canvas(length: 0.8cm, {
     import cetz.draw: *
-    line((0,0),(5.5,0), mark: (end: ">"))
-    line((0,0),(0,5.5), mark: (end: ">"))
-    content((5.4,-0.3), text(size:8pt)[$x$])
-    content((-0.3,5.4), text(size:8pt)[$y$])
-    // Cubic curve y=x^3-3x^2+5x+2, scaled x1, y/3
-    // x:0->y:2/3~0.67, x:1->5/3~1.67, x:2->8/3~2.67, x:3->17/3~5.67
-    // scale y by 1, shift: show range x in -0.5..3.5, y in 0..5
-    // scaled: xc=x+1, yc=y/3
-    bezier((1.0, 0.67), (4.0, 5.67), (1.8, 0.4), (3.5, 3.0), stroke: (paint: rgb("1565C0"), thickness: 1.5pt))
-    content((4.1, 5.5), text(size:8pt, fill: rgb("1565C0"))[$(C)$])
-    // Line d: y=5x-10, scaled yc = (5x-10)/3. xc=x+1
-    // xc=2 -> yc=0; xc=4 -> yc=10/3~3.33
-    line((2.0, 0.0), (4.6, 4.3), stroke: (paint: rgb("D84315"), thickness: 1.5pt))
-    content((4.8, 4.3), text(size:8pt, fill: rgb("D84315"))[$d$])
-    // Points A(0,2), B(2,8) => scaled: A(1, 0.67), B(3, 2.67)
-    circle((1.0, 0.67), radius: 0.1, fill: rgb("F57F17"))
-    content((0.7, 0.5), text(size:8pt, fill: rgb("F57F17"))[$A$])
-    circle((3.0, 2.67), radius: 0.1, fill: rgb("1565C0"))
-    content((3.2, 2.5), text(size:8pt, fill: rgb("1565C0"))[$B$])
-    // Tangents at A and B (parallel to d, slope 5 -> scaled slope 5/3)
-    line((0.2, -1.0), (2.0, 2.0), stroke: (paint: rgb("43A047"), thickness: 1pt, dash: "dashed"))
-    line((2.0, 0.7), (4.0, 4.0), stroke: (paint: rgb("9C27B0"), thickness: 1pt, dash: "dashed"))
-    // Perpendiculars to d
-    line((3.0, 2.67), (3.8, 1.27), stroke: (paint: rgb("9C27B0"), thickness: 1.2pt), mark: (end: ">"))
-    content((4.0, 1.8), text(size:8pt, fill: rgb("9C27B0"))[$d_(min)$])
-  }))
+    set-style(stroke: 0.4pt + rgb("E0E0E0"))
+    for i in range(0, 6) { line((i, -1), (i, 5)) }
+    for j in range(-1, 6) { line((0, j), (5.5, j)) }
+    set-style(stroke: 0.9pt + black)
+    line((-0.3,0),(5.5,0), mark: (end: ">", size: 0.25))
+    line((0,-0.8),(0,5.2), mark: (end: ">", size: 0.25))
+    content((5.5, -0.2), text(size: 8pt)[$x$])
+    content((-0.3, 5.2), text(size: 8pt)[$y$])
+    // Tiệm cận đứng x=1
+    line((1,-0.8),(1,5.2), stroke: (paint: rgb("9E9E9E"), thickness: 0.8pt, dash: "dashed"))
+    content((1.15, 5.0), text(size: 7pt, fill: rgb("757575"))[$x=1$])
+    // Tiệm cận ngang y=1
+    line((0,1),(5.5,1), stroke: (paint: rgb("9E9E9E"), thickness: 0.8pt, dash: "dashed"))
+    content((5.2, 1.15), text(size: 7pt, fill: rgb("757575"))[$y=1$])
+    // y = x/(x-1): tại x=1.5->3, x=2->2, x=3->1.5, x=5->1.25
+    bezier((1.2, 6.0), (4.5, 1.29), (1.5, 3.0), (3.0, 1.5), stroke: (paint: rgb("1565C0"), thickness: 1.5pt))
+    content((4.6, 1.5), text(size: 8pt, fill: rgb("1565C0"))[$(C)$])
+    // d: 4x-3y+1=0 => y=(4x+1)/3: x=0->1/3, x=2->3, x=3->4.33
+    line((0.0, 0.33), (3.2, 4.6), stroke: (paint: rgb("D84315"), thickness: 1.5pt))
+    content((3.3, 4.7), text(size: 8pt, fill: rgb("D84315"))[$d$])
+  })
+  )
 
-  #result-box[
-    Điểm $B(2, 8)$ nguy hiểm nhất. Khoảng cách an toàn tối thiểu: $d_(min) = frac(8, sqrt(26)) = frac(4sqrt(26), 13) approx 1.57$ đơn vị.
-  ]
+  #bay[Đây là dạng bẫy kinh điển: không phải bài toán nào cũng có tiếp tuyến song song. Khi $y'$ chỉ nhận giá trị âm mà $a > 0$ (hay ngược lại), kết luận "khoảng cách ngắn nhất không đạt được" hoặc "đường cong và đường thẳng giao nhau" — phải kiểm tra miền xác định trước.]
+]
 
-  #warn-box[
-    *Bẫy nhiều nghiệm:* Khi đạo hàm cho ra nhiều nghiệm $x_1, x_2, ...$, phải tính khoảng cách tại *từng điểm* rồi so sánh lấy *nhỏ nhất*. Đề thi hay hỏi "vị trí nguy hiểm nhất" chính là điểm cho $d$ nhỏ nhất!
-  ]
-])
+#kbt("3", "Hàm Bậc 3 — Hai Tiếp Điểm")[
+  Tìm khoảng cách ngắn nhất từ đường cong $(C): y = x^3 - 3x$ đến đường thẳng $d: y = 9x - 2$.
 
-#v(0.6em)
-
-#cannon-box("Mô hình 3 — Hành Lang Sinh Thái Vành Đai Nhiệt Điện  [Hàm Mũ & Logarit — Tuyệt Kỹ Đối Xứng]", [
-
-  *Bài toán thực tế:* Một nhà máy nhiệt điện nằm ven sông. Ranh giới vùng ô nhiễm nhiệt (nước nóng) được mô hình bằng đường cong:
-  $ (C_1): quad y = e^x $
-  Phía đối diện, khu sinh thái rừng ngập mặn phát triển dọc theo ranh giới:
-  $ (C_2): quad y = ln x $
-  Quy hoạch đô thị yêu cầu xây dựng một *hành lang xanh* thẳng tắp kẹp giữa hai vùng. Tính chiều rộng hẹp nhất của hành lang này.
-
-  #grid(columns: (1fr, auto), gutter: 16pt, [
+  #grid(columns: (1fr, auto), gutter: 14pt,
+  [
     *Giải:*
 
-    *Nhận xét đột phá:* $y = e^x$ và $y = ln x$ là hai hàm ngược của nhau, nên đồ thị của chúng *đối xứng qua đường* $y = x$.
+    Hệ số góc $a = 9$. Đạo hàm: $y' = 3x^2 - 3$.
 
-    Khoảng cách giữa hai đường cong = $2 times$ khoảng cách từ $(C_1)$ đến đường trục đối xứng $y = x$ (hay $x - y = 0$).
+    Ép song song: $3x^2 - 3 = 9 => x^2 = 4 => x = plus.minus 2$.
 
-    Ta tìm điểm $M_0$ trên $(C_1): y = e^x$ gần $y = x$ nhất (tiếp tuyến song song với $y = x$):
-    $ y' = e^x = 1 => x_0 = 0 => y_0 = 1 => M_0(0, 1) $
+    *Hai nghiệm ứng viên:*
 
-    Khoảng cách từ $M_0(0, 1)$ đến đường $x - y = 0$:
-    $ d_0 = frac(|0 - 1|, sqrt(2)) = frac(1, sqrt(2)) $
+    - $x_1 = 2$: $y_1 = 8 - 6 = 2$, điểm $A(2, 2)$.
 
-    Khoảng cách nhỏ nhất giữa hai đường cong:
-    $ d_(min) = 2 d_0 = frac(2, sqrt(2)) = sqrt(2) $
+      Tiếp tuyến qua $A$: $y = 9(x-2)+2 = 9x - 16$, hay $9x - y - 16 = 0$.
+
+      $d_A = frac(|9(2) - 2 - 16 - (-2)|, sqrt(81+1)) = frac(|2|, sqrt(82)) = frac(2, sqrt(82))$
+
+    - $x_2 = -2$: $y_2 = -8 + 6 = -2$, điểm $B(-2, -2)$.
+
+      Tiếp tuyến qua $B$: $9x - y + 16 = 0$.
+
+      $d_B = frac(|9(-2) - (-2) + 16 - (-2)|, sqrt(82)) = frac(|2|, sqrt(82)) = frac(2, sqrt(82))$
+
+    Hai điểm đối xứng cho cùng khoảng cách — đây là tính đối xứng lẻ của hàm bậc 3.
   ],
-  cetz.canvas(length: 0.9cm, {
+  cetz.canvas(length: 0.65cm, {
     import cetz.draw: *
-    line((0,0),(4.5,0), mark: (end: ">"))
-    line((0,0),(0,4.5), mark: (end: ">"))
-    content((4.4,-0.28), text(size:8pt)[$x$])
-    content((-0.3,4.4), text(size:8pt)[$y$])
-    // y=x diagonal
-    line((-0.2,-0.2),(4.2,4.2), stroke: (paint: rgb("9E9E9E"), thickness: 0.9pt, dash: "dashed"))
-    content((4.3,4.0), text(size:7pt, fill: rgb("757575"))[$y=x$])
-    // y = e^x: at x=-1->0.37, x=0->1, x=1->2.72, x=1.5->4.48
-    bezier((-0.5, 0.6), (1.5, 4.48), (0.0, 1.0), (1.0, 2.72), stroke: (paint: rgb("E53935"), thickness: 1.5pt))
-    content((1.8, 4.3), text(size:8pt, fill: rgb("E53935"))[$(C_1)$])
-    // y = ln(x): at x=0.37->-1, x=1->0, x=2.72->1, x=4.48->1.5
-    bezier((0.6, -0.5), (4.48, 1.5), (1.0, 0.0), (2.72, 1.0), stroke: (paint: rgb("1565C0"), thickness: 1.5pt))
-    content((4.3, 1.5), text(size:8pt, fill: rgb("1565C0"))[$(C_2)$])
-    // Point M0 on C1: (0, 1)
-    circle((0.0, 1.0), radius: 0.1, fill: rgb("E53935"))
-    content((-0.45, 1.0), text(size:8pt)[$M_0$])
-    // Symmetric point on C2: (1, 0)
-    circle((1.0, 0.0), radius: 0.1, fill: rgb("1565C0"))
-    content((1.0, -0.3), text(size:8pt)[$N_0$])
-    // Line segment M0-N0
-    line((0,1),(1,0), stroke: (paint: rgb("F57F17"), thickness: 1.5pt), mark: (start: ">", end: ">"))
-    content((0.7, 0.75), text(size:8pt, fill: rgb("F57F17"))[$d_(min)$])
-    // d0 from M0 to y=x
-    line((0,1),(0.5,0.5), stroke: (paint: rgb("43A047"), thickness: 1pt, dash: "dotted"))
-    content((-0.2, 0.55), text(size:7pt, fill: rgb("2E7D32"))[$d_0$])
-  }))
+    set-style(stroke: 0.35pt + rgb("E0E0E0"))
+    for i in range(-3, 5) { line((i+3, -3), (i+3, 6)) }
+    for j in range(-3, 7) { line((0, j), (7.5, j)) }
+    set-style(stroke: 0.9pt + black)
+    line((0,0),(7.8,0), mark: (end: ">", size: 0.25))
+    line((3,-3),(3,6.2), mark: (end: ">", size: 0.25))
+    content((7.8, -0.25), text(size: 8pt)[$x$])
+    content((2.7, 6.2), text(size: 8pt)[$y$])
+    // Gốc tại (3,0), scale x+3, y
+    // y = x^3 - 3x: x=-2->-2, x=-1->2, x=0->0, x=1->-2, x=2->2
+    // mapped: (1,-2),(2,2),(3,0),(4,-2),(5,2)
+    bezier((0.5,-1.6),(5.5,2.0),(1.0,-2.0),(3.0,0.0), stroke: (paint: rgb("1565C0"), thickness: 1.5pt))
+    bezier((3.0,0.0),(6.5,5.0),(4.5,-2.0),(5.5,2.0), stroke: (paint: rgb("1565C0"), thickness: 1.5pt))
+    content((6.6, 5.0), text(size: 8pt, fill: rgb("1565C0"))[$(C)$])
+    // d: y=9x-2 => mapped y=9(x-3)-2=9x-29: x=3->-2, x=4->7
+    line((3.0,-2.0),(3.95,6.5), stroke: (paint: rgb("D84315"), thickness: 1.5pt))
+    content((4.1, 6.3), text(size: 8pt, fill: rgb("D84315"))[$d$])
+    // Tiếp tuyến A(2,2): mapped (5,2), slope 9: y-2=9(x-5)=>y=9x-43: x=5->2,x=4->-7(off)
+    line((4.7,-1.7),(5.3,5.0), stroke: (paint: rgb("43A047"), thickness: 1pt, dash: "dashed"))
+    // Tiếp tuyến B(-2,-2): mapped (1,-2), slope 9: y+2=9(x-1)=>y=9x-11: x=1->-2,x=2->7(off)
+    line((0.8,-2.0),(1.5,4.5), stroke: (paint: rgb("43A047"), thickness: 1pt, dash: "dashed"))
+    // Điểm A(5,2) và B(1,-2)
+    circle((5, 2), radius: 0.12, fill: rgb("1565C0"), stroke: none)
+    content((5.3, 1.6), text(size: 7.5pt)[$A$])
+    circle((1, -2), radius: 0.12, fill: rgb("9C27B0"), stroke: none)
+    content((0.6, -2.0), text(size: 7.5pt)[$B$])
+  })
+  )
 
-  #result-box[
-    Hành lang xanh có chiều rộng hẹp nhất $d_(min) = sqrt(2) approx 1.414$ km.
-    Hai điểm gần nhất là $M_0(0, 1)$ trên vùng nhiệt điện và $N_0(1, 0)$ trên khu sinh thái.
-  ]
+  #kq[$ d_min = frac(2, sqrt(82)) = frac(sqrt(82), 41) approx 0.221 $]
 
-  #tip-box[
-    *Chiêu đối xứng:* Nếu đề cho $(C_1)$ và $(C_2)$ là hàm ngược nhau ($f^(-1) = g$), *đừng bao giờ* lập hệ phương trình cồng kềnh! Nhận ra trục đối xứng $y = x$, ép tiếp tuyến song song với nó ($f'(x) = 1$), nhân đôi khoảng cách lên là xong. Nhanh gấp 5 lần!
-  ]
-])
+  #kip[Hàm bậc 3 lẻ $f(-x) = -f(x)$: hai điểm đối xứng qua gốc O cho cùng khoảng cách. Đây là tính chất cần nhớ khi gặp bài bậc 3 dạng $x^3 + p x$.]
+]
 
-#v(0.6em)
+== B. Hai Đường Cong Rời Nhau
 
-#cannon-box("Mô hình 4 — Giếng Khoan Khai Thác Khoáng Sản  [Hàm Bậc 4 — Phân Tích Đa Thức]", [
+#kbt("4", "Hai Parabol Đối Đầu")[
+  Cho $(C_1): y = x^2 + 1$ và $(C_2): y = -x^2 + 4x - 5$. Chứng minh hai đường cong rời nhau và tìm khoảng cách ngắn nhất giữa chúng.
 
-  *Bài toán thực tế:* Địa chất học mô hình hóa mặt cắt ngang của một vỉa quặng titan quý hiếm (đơn vị: km) bằng hàm bậc 4:
-  $ (C): quad y = frac(1, 4)x^4 - x^3 + 5x $
-  Một đường hầm ngang đang được đào theo phương trình:
-  $ d: quad y = x - 10 $
-  Kỹ sư mỏ cần xác định *vị trí và chiều dài tối ưu* của giếng khoan nối từ đường hầm xuống vỉa quặng, sao cho chi phí đào ngắn nhất.
+  #grid(columns: (1fr, auto), gutter: 14pt,
+  [
+    *Bước 1 — Chứng minh rời nhau:*
 
-  #grid(columns: (1fr, auto), gutter: 14pt, [
-    *Giải:*
+    Xét $x^2 + 1 = -x^2 + 4x - 5 => 2x^2 - 4x + 6 = 0 => x^2 - 2x + 3 = 0$.
 
-    Hệ số góc đường hầm: $a = 1$. Đạo hàm vỉa quặng:
-    $ y' = x^3 - 3x^2 + 5 $
+    Discriminant $Delta = 4 - 12 = -8 < 0$ — không có nghiệm thực.
 
-    Ép song song tiếp tuyến với đường hầm:
-    $ x^3 - 3x^2 + 5 = 1 => x^3 - 3x^2 + 4 = 0 $
+    Hơn nữa $y_{C_1} - y_{C_2} = 2x^2 - 4x + 6 = 2(x-1)^2 + 4 > 0$ với mọi $x$, nên $(C_1)$ nằm *hoàn toàn trên* $(C_2)$.
 
-    Thử nghiệm $x = -1$: $(-1)^3 - 3(-1)^2 + 4 = -1 - 3 + 4 = 0$ ✓
+    *Bước 2 — Ép tiếp tuyến song song:*
 
-    Phân tích nhân tử:
-    $ x^3 - 3x^2 + 4 = (x+1)(x^2 - 4x + 4) = (x+1)(x-2)^2 $
+    $f'(x_A) = 2x_A$ và $g'(x_B) = -2x_B + 4$.
 
-    *Các nghiệm:* $x = -1$ và $x = 2$ (nghiệm kép, tiếp tuyến nằm ngay trên đường hầm!).
+    Ép bằng nhau: $2x_A = -2x_B + 4 => x_A + x_B = 2$ ... (ast)
 
-    #v(0.3em)
-    *Xét tại $x = -1$:* $y = 1/4 + 1 - 5 = -15/4$
+    *Bước 3 — Điều kiện pháp tuyến chung:*
 
-    $=> d_1 = frac(lr(|-1-(-15/4)-10|), sqrt(2)) = frac(lr(|(-4+15-40)/4|), sqrt(2)) = frac(29/4, sqrt(2)) = frac(29sqrt(2), 8)$
+    Véc-tơ $vec(A B) = (x_B - x_A,\, g(x_B) - f(x_A))$ vuông góc với tiếp tuyến $(1, 2x_A)$:
 
-    *Xét tại $x = 2$ (nghiệm kép):* $y = 4 - 8 + 10 = 6$
+    $(x_B - x_A) + 2x_A(g(x_B) - f(x_A)) = 0$
 
-    $=> d_2 = frac(lr(|2 - 6 - 10|), sqrt(2)) = frac(14, sqrt(2)) = 7sqrt(2)$
+    Đặt $x_A = t => x_B = 2 - t$ (theo (ast)). Tính:
 
-    So sánh: $d_1 = 29sqrt(2)/8 approx 5.13$ và $d_2 = 7sqrt(2) approx 9.90$.
+    $g(x_B) - f(x_A) = [-(2-t)^2 + 4(2-t) - 5] - [t^2+1] = -2t^2 + 4t - 2 = -2(t-1)^2$
+
+    $(2-t-t) + 2t(-2(t-1)^2) = 0 => (2-2t) - 4t(t-1)^2 = 0$
+
+    $2(1-t)[1 + 2t(t-1)] = 0 => 2(1-t)(2t^2 - 2t + 1) = 0$
+
+    Vì $2t^2 - 2t + 1 = 2(t - 1/2)^2 + 1/2 > 0$, ta được $t = 1$.
+
+    Vậy $x_A = 1, x_B = 1$. Điểm gần nhất: $A(1, 2)$ và $B(1, -2)$.
+
+    Khoảng cách: $|A B| = |2 - (-2)| = 4$.
   ],
   cetz.canvas(length: 0.75cm, {
     import cetz.draw: *
-    line((-1.5,0),(4.5,0), mark: (end: ">"))
-    line((0,-1.5),(0,5.5), mark: (end: ">"))
-    content((4.4,-0.3), text(size:8pt)[$x$])
-    content((-0.35,5.4), text(size:8pt)[$y$])
-    // y = x^4/4 - x^3 + 5x, scaled y/3: x=-1->-15/4/3~-1.25, x=0->0, x=1->4.25/3~1.4, x=2->6/3=2, x=3->15.75/3~5.25
-    bezier((-1.0, -1.25), (3.0, 5.25), (-0.5, -0.5), (1.5, 2.5), stroke: (paint: rgb("1565C0"), thickness: 1.5pt))
-    content((3.3, 5.2), text(size:8pt, fill: rgb("1565C0"))[$(C)$])
-    // Line y=x-10 scaled: yc = (x-10)/3: at x=-1 -> -11/3~-3.67, x=4->-2
-    line((-1.0, -3.67), (4.0, -2.0), stroke: (paint: rgb("D84315"), thickness: 1.5pt))
-    content((4.2, -1.9), text(size:8pt, fill: rgb("D84315"))[$d$])
-    // Points: M1(-1, -1.25), M2(2, 2)
-    circle((-1.0, -1.25), radius: 0.12, fill: rgb("1565C0"))
-    content((-1.5, -1.05), text(size:8pt)[$M_1$])
-    circle((2.0, 2.0), radius: 0.12, fill: rgb("9C27B0"))
-    content((2.3, 2.1), text(size:8pt, fill: rgb("9C27B0"))[$M_2$])
-    // Perpendicular from M1 to d (direction (1,-1)/sqrt2)
-    // foot of perp from M1(-1,-1.25) to y=x-10: foot~(-4.1,-2.7) but clamp to view
-    line((-1.0,-1.25),(-2.5,-3.0), stroke: (paint: rgb("F57F17"), thickness: 1.3pt), mark: (end: ">"))
-    content((-2.0,-2.0), text(size:7pt, fill: rgb("F57F17"))[$d_(min)$])
-    // Tangents at M1, M2 (slope 1, scaled slope 1/3)
-    line((-2.0,-2.5),(1.5,0.67), stroke: (paint: rgb("43A047"), thickness: 0.9pt, dash: "dashed"))
-    line((0.5,0.83),(3.5,1.83), stroke: (paint: rgb("9C27B0"), thickness: 0.9pt, dash: "dashed"))
-  }))
+    set-style(stroke: 0.35pt + rgb("E0E0E0"))
+    for i in range(-1, 5) { line((i+1, -2), (i+1, 6)) }
+    for j in range(-2, 7) { line((0, j+2), (6, j+2)) }
+    set-style(stroke: 0.9pt + black)
+    // Gốc thực tại (1, 2) trên canvas (x+1, y+2)
+    line((0,2),(6,2), mark: (end: ">", size: 0.25))
+    line((1,-0.5),(1,8.5), mark: (end: ">", size: 0.25))
+    content((6.1, 1.8), text(size: 8pt)[$x$])
+    content((0.75, 8.5), text(size: 8pt)[$y$])
+    // C1: y=x^2+1: x=-1->2,x=0->1,x=1->2,x=2->5,x=3->10(off)
+    // mapped (0,3),(1,2+1=3? no): 
+    // canvas x = x_real+1, canvas y = y_real+2
+    // C1: x_r=-1->canvas(0,4), x_r=0->canvas(1,3), x_r=1->canvas(2,4), x_r=2->canvas(3,7)
+    bezier((0,4),(3.5,8),(1,3),(2,4), stroke: (paint: rgb("1565C0"), thickness: 1.5pt))
+    content((3.6, 8.0), text(size: 8pt, fill: rgb("1565C0"))[$(C_1)$])
+    // C2: y=-x^2+4x-5=-(x-2)^2-1: max at x=2,y=-1
+    // x_r=0->-5, x_r=1->-2, x_r=2->-1, x_r=3->-2, x_r=4->-5
+    // canvas: x_r=0->canvas(1,-3),x_r=1->canvas(2,0),x_r=2->canvas(3,1),x_r=3->canvas(4,0),x_r=4->canvas(5,-3)
+    bezier((1,-3),(5,-3),(2,0),(4,0), stroke: (paint: rgb("D84315"), thickness: 1.5pt))
+    // Also include the top of C2
+    bezier((2,0),(3,1),(2.5,0.5),(2.8,0.9), stroke: (paint: rgb("D84315"), thickness: 1.5pt))
+    bezier((3,1),(4,0),(3.2,0.9),(3.5,0.5), stroke: (paint: rgb("D84315"), thickness: 1.5pt))
+    content((5.1, -3), text(size: 8pt, fill: rgb("D84315"))[$(C_2)$])
+    // A(1,2) -> canvas (2,4), B(1,-2) -> canvas (2,0)
+    circle((2,4), radius: 0.12, fill: rgb("1565C0"), stroke: none)
+    content((2.3, 4.1), text(size: 8pt)[$A$])
+    circle((2,0), radius: 0.12, fill: rgb("D84315"), stroke: none)
+    content((2.3, -0.1), text(size: 8pt)[$B$])
+    // Đoạn AB
+    line((2,0),(2,4), stroke: (paint: rgb("F57F17"), thickness: 1.5pt), mark: (start: ">", end: ">"))
+    content((2.4, 2.0), text(size: 8pt, fill: rgb("F57F17"))[$d_min = 4$])
+    // Tiếp tuyến tại A và B (đều nằm ngang, hệ số góc 0 tại x=1? Không!)
+    // f'(1)=2, g'(1)=2. Đường xiên qua A và B
+    line((0.5,1),(3.5,7), stroke: (paint: rgb("43A047"), thickness: 0.9pt, dash: "dashed"))
+    line((0.5,-3),(3.5,3), stroke: (paint: rgb("43A047"), thickness: 0.9pt, dash: "dashed"))
+  })
+  )
 
-  #result-box[
-    Vị trí tối ưu đặt giếng khoan: điểm $M_1(-1, -15/4)$ trên vỉa quặng.
-    Chiều dài giếng khoan ngắn nhất: $d_(min) = frac(29sqrt(2), 8) approx 5.13$ km.
-  ]
+  #kq[Khoảng cách ngắn nhất giữa $(C_1)$ và $(C_2)$ là $d_min = 4$, đạt tại $A(1,2)$ và $B(1,-2)$.]
 
-  #warn-box[
-    $x = 2$ là *nghiệm kép* — tiếp tuyến tại đây tiếp xúc với đường hầm (nằm chồng lên nhau), nên $d_2$ rất lớn! Nghiệm kép thường là bẫy đề thi: điểm đó gần với đường thẳng nhưng theo nghĩa tiếp xúc, không phải khoảng cách ngắn.
-  ]
-])
+  #kip[Bài toán hai parabol đối đầu (mở lên và mở xuống): pháp tuyến chung thường thẳng đứng ($x_A = x_B$). Nhận ra điều này giúp giải ngay mà không cần lập hệ.]
+]
 
-#v(0.6em)
-
-#cannon-box("Mô hình 5 — Sóng Radar & Đường Chân Trời  [Hai Đường Cong Parabol Đối Đầu — Nâng Cao]", [
-
-  *Bài toán thực tế:* Hai hệ thống radar quân sự đối nghịch phát sóng quét theo quỹ đạo cong:
-  - Radar Alpha: $(C_1): quad y = x^2 + 1$ (quét từ dưới lên)
-  - Radar Beta: $(C_2): quad y = -x^2 + 2x - 1$ (quét từ trên xuống, tức $y = -(x-1)^2$)
-
-  Hai vùng sóng radar tiến lại gần nhau. Hỏi khoảng cách ngắn nhất giữa hai vùng phủ sóng là bao nhiêu?
+#kbt("5", "Hàm Mũ và Logarit — Kỹ thuật Đối Xứng")[
+  Tìm khoảng cách ngắn nhất giữa hai đường cong $(C_1): y = e^x$ và $(C_2): y = ln x$.
 
   *Giải:*
 
-  Hai đường cong, cần ép $f'(x_A) = g'(x_B)$ và phương vuông góc.
+  $y = ln x$ là hàm ngược của $y = e^x$. Hai đồ thị đối xứng nhau qua đường thẳng $Delta: y = x$.
 
-  - $f'(x_A) = 2x_A$ và $g'(x_B) = -2x_B + 2$.
-  - Ép bằng nhau (cùng hướng tiếp tuyến): $2x_A = -2x_B + 2 => x_A + x_B = 1$ ... (I)
+  *Bước 1:* Tìm điểm $M_0$ trên $(C_1)$ gần $Delta: y = x$ nhất.
 
-  Điều kiện $A B$ vuông góc với tiếp tuyến: véc-tơ $vec(A B) = (x_B - x_A, y_B - y_A)$ phải vuông góc với tiếp tuyến $(1, 2x_A)$.
+  Ép tiếp tuyến song song $Delta$ (hệ số góc $1$): $y' = e^{x_0} = 1 => x_0 = 0$.
 
-  $(x_B - x_A) + 2x_A (y_B - y_A) = 0$
+  Điểm $M_0(0, 1)$ trên $(C_1)$.
 
-  Ta có $y_A = x_A^2 + 1$ và $y_B = -(x_B - 1)^2$. Đặt $x_A = t$, thì $x_B = 1 - t$.
+  *Bước 2:* Khoảng cách từ $M_0(0,1)$ đến $Delta: x - y = 0$:
+  $ d_0 = frac(|0 - 1|, sqrt(2)) = frac(1, sqrt(2)) $
 
-  Thay vào: $y_B = -(1-t-1)^2 = -t^2$.
+  *Bước 3:* Điểm đối xứng của $M_0(0,1)$ qua $y=x$ là $N_0(1,0)$, nằm trên $(C_2)$.
 
-  $(x_B - x_A) + 2x_A(y_B - y_A) = 0$
-  $((1-t) - t) + 2t((-t^2) - (t^2+1)) = 0$
-  $(1 - 2t) + 2t(-2t^2 - 1) = 0$
-  $1 - 2t - 4t^3 - 2t = 0$
-  $4t^3 + 4t - 1 = 0$
+  Khoảng cách giữa hai đường cong:
+  $ d_min = |M_0 N_0| = 2 d_0 = frac(2, sqrt(2)) = sqrt(2) $
 
-  Bằng phương pháp số (hoặc nhận xét): $t approx 0.2167$, tức $x_A approx 0.217$, $x_B approx 0.783$.
+  #grid(columns: (1fr, auto), gutter: 14pt,
+  [],
+  cetz.canvas(length: 0.9cm, {
+    import cetz.draw: *
+    set-style(stroke: 0.35pt + rgb("EEEEEE"))
+    for i in range(-1, 4) { line((i+1, -1), (i+1, 5)) }
+    for j in range(-1, 5) { line((0, j+1), (5, j+1)) }
+    set-style(stroke: 0.9pt + black)
+    line((0,1),(5,1), mark: (end: ">", size: 0.25))
+    line((1,-0.5),(1,5.2), mark: (end: ">", size: 0.25))
+    content((5.1,0.8), text(size: 8pt)[$x$])
+    content((0.75,5.2), text(size: 8pt)[$y$])
+    // canvas: x_c = x+1, y_c = y+1 (gốc O thật tại canvas (1,1))
+    // Delta y=x: qua (0,0)->canvas(1,1), (3,3)->canvas(4,4)
+    line((1,1),(4.5,4.5), stroke: (paint: rgb("9E9E9E"), thickness: 0.9pt, dash: "dashed"))
+    content((4.6,4.4), text(size: 7.5pt, fill: rgb("757575"))[$y=x$])
+    // C1: y=e^x: x=-1->0.37,x=0->1,x=1->2.72,x=1.5->4.48
+    // canvas: (-1->0, 0.37->1.37), (0->1,1->2),(1->2,2.72->3.72),(1.5->2.5,4.48->5.48)
+    bezier((0,1.37),(2.5,5.48),(1,2),(2,3.72), stroke: (paint: rgb("E53935"), thickness: 1.5pt))
+    content((2.7, 5.3), text(size: 8pt, fill: rgb("E53935"))[$(C_1)$])
+    // C2: y=ln(x): x=0.37->-1,x=1->0,x=2.72->1,x=4.48->1.5
+    // canvas: (0.37->1.37,-1->0),(1->2,0->1),(2.72->3.72,1->2),(4.48->5.48,1.5->2.5)
+    bezier((1.37,0),(5.48,2.5),(2,1),(3.72,2), stroke: (paint: rgb("1565C0"), thickness: 1.5pt))
+    content((5.3,2.5), text(size: 8pt, fill: rgb("1565C0"))[$(C_2)$])
+    // M0(0,1) -> canvas(1,2), N0(1,0) -> canvas(2,1)
+    circle((1,2), radius: 0.11, fill: rgb("E53935"), stroke: none)
+    content((0.6,2.1), text(size: 8pt)[$M_0$])
+    circle((2,1), radius: 0.11, fill: rgb("1565C0"), stroke: none)
+    content((2.2,0.7), text(size: 8pt)[$N_0$])
+    // Đoạn M0N0
+    line((1,2),(2,1), stroke: (paint: rgb("F57F17"), thickness: 1.5pt), mark: (start: ">", end: ">"))
+    content((1.9,1.8), text(size: 8pt, fill: rgb("F57F17"))[$sqrt(2)$])
+    // Tiếp tuyến tại M0: slope 1, qua (0,1)->canvas(1,2): y_c=x_c+1
+    line((0,1),(3,4), stroke: (paint: rgb("43A047"), thickness: 0.9pt, dash: "dashed"))
+  })
+  )
 
-  Tọa độ: $A(0.217, 1.047)$ và $B(0.783, -0.047)$.
+  #kq[$ d_min = sqrt(2) approx 1.414 $]
+]
 
-  $|A B| = sqrt((0.783-0.217)^2 + (-0.047 - 1.047)^2) = sqrt(0.566^2 + 1.094^2) approx sqrt(0.320 + 1.197) approx 1.232$
-
-  #result-box[
-    Hai hệ thống radar áp sát nhau đến khoảng cách tối thiểu $d_(min) approx 1.232$ đơn vị. Đây là bài toán *Hệ phương trình phi tuyến* đòi hỏi kỹ năng số học hoặc kết hợp đại số.
-  ]
-
-  #tip-box[
-    Với hai đường cong đối đầu mà *không có tính đối xứng đặc biệt*, bài toán dẫn đến hệ phi tuyến. Đề thi thường chọn bộ số "đẹp" cho nghiệm tròn. Hãy thử $t = 1/2$ trước!
-  ]
-])
-
-#pagebreak()
-
-= Phần III. Bài Tập Tự Luyện (Kiểm Tra Bản Thân)
+= III. Bài Tập Tự Luyện
 
 #block(fill: rgb("F9FBE7"), stroke: 1pt + rgb("C5E1A5"), radius: 6pt, inset: (x: 16pt, y: 14pt), width: 100%)[
 
-  *Bài 1.* Đường cong $(C): y = sqrt(x+3)$ và đường thẳng $d: 2x - 4y + 1 = 0$. Tìm khoảng cách ngắn nhất từ $(C)$ đến $d$.
+  *Bài 6.* Tìm điểm trên đường cong $y = x^2 - 2x + 2$ gần đường thẳng $y = 2x + 5$ nhất.
+  #text(style: "italic", size: 9.5pt)[_(Đáp: điểm $(2, 2)$; $d_min = 9/sqrt(5) = frac(9sqrt(5), 5)$)_ ]
 
-  _(Đáp số: $d_(min) = frac(sqrt(5), 5)$)_
+  #v(0.4em)
 
-  #v(0.5em)
+  *Bài 7.* Cho $(C): y = sqrt(x)$ và $d: x - 2y + 6 = 0$. Tính khoảng cách ngắn nhất từ $(C)$ đến $d$.
+  #text(style: "italic", size: 9.5pt)[_(Đáp: $M_0(1, 1)$; $d_min = frac(5, sqrt(5)) = sqrt(5)$)_ ]
 
-  *Bài 2.* (Dạng thực tế) Một con tàu đánh cá di chuyển theo quỹ đạo $(C): y = x^2 - 4x + 7$. Bờ biển chạy theo đường thẳng $d: y = 2x - 5$. Điểm nào trên quỹ đạo tàu gần bờ nhất và khoảng cách đó là bao nhiêu?
+  #v(0.4em)
 
-  _(Đáp số: Điểm $(3, 4)$; $d_(min) = frac(6, sqrt(5)) = frac(6sqrt(5), 5)$)_
+  *Bài 8.* Tìm khoảng cách ngắn nhất giữa $(C_1): y = x^2 + 3$ và $(C_2): y = -x^2 + 1$.
+  #text(style: "italic", size: 9.5pt)[_(Đáp: $d_min = 2$; tại $A(0,3)$ và $B(0,1)$)_ ]
 
-  #v(0.5em)
+  #v(0.4em)
 
-  *Bài 3.* (Nâng cao) Cho $(C_1): y = e^(2x)$ và $(C_2): y = frac(1,2) ln x$. Chứng minh hai đường cong đối xứng qua $y = x$ và tính khoảng cách ngắn nhất giữa chúng.
+  *Bài 9.* (Nâng cao) Tìm khoảng cách ngắn nhất giữa $y = e^(2x)$ và $y = frac(1,2) ln x$.
+  #text(style: "italic", size: 9.5pt)[_(Gợi ý: Hai hàm ngược nhau, ép $2e^(2x_0) = 1$; Đáp: $d_min = frac(3sqrt(2), 4)$)_ ]
 
-  _(Gợi ý: $g(x) = f^(-1)(x)$ khi $f(t) = e^(2t) => t = frac(1,2)ln x$. Tìm $f'(x_0) = 1 => 2e^(2x_0) = 1 => x_0 = -frac(1,2)ln 2$.)_
+  #v(0.4em)
 
-  #v(0.5em)
+  *Bài 10.* (Đề thi minh họa 2024) Trong mặt phẳng $O x y$, cho đường cong $(C): y = x^3 - x$ và đường thẳng $d: y = 2x + 5$. Khoảng cách ngắn nhất từ $(C)$ đến $d$ bằng:
 
-  *Bài 4.* (Thực tế — Thiết kế đường ray) Đường ray xe lửa leo núi được thiết kế theo hàm $y = x^3 - 6x^2 + 12x$. Một đường hầm dẫn vào núi theo $y = 3x + 5$. Xác định vị trí và khoảng cách ngắn nhất giữa đường ray và miệng hầm.
+  #grid(columns: (1fr, 1fr, 1fr, 1fr), gutter: 6pt,
+    block(stroke: 0.8pt + rgb("9E9E9E"), inset: 6pt, radius: 4pt)[A. $frac(4sqrt(5), 5)$],
+    block(stroke: 0.8pt + rgb("9E9E9E"), inset: 6pt, radius: 4pt)[B. $frac(3sqrt(5), 5)$],
+    block(stroke: 0.8pt + rgb("43A047"), fill: rgb("E8F5E9"), inset: 6pt, radius: 4pt)[*C. $frac(2sqrt(5), 5)$*],
+    block(stroke: 0.8pt + rgb("9E9E9E"), inset: 6pt, radius: 4pt)[D. $frac(sqrt(5), 5)$],
+  )
 ]

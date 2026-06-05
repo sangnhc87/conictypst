@@ -3,3 +3,14 @@ dist
 .DS_Store
 *.local
 .aider*
+
+# Build artifacts - không cần đưa lên Git
+*.pdf
+scratch/
+brain/
+exported_figs/
+
+# Root-level PDFs
+/*.pdf
+temp_render/
+typst/exams/scratch/

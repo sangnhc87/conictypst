@@ -1,9 +1,0 @@
-{
-  "line_num": 75,
-  "tool": "replace_file_content",
-  "StartLine": null,
-  "EndLine": "1238",
-  "TargetContent": null,
-  "ReplacementContent": "\"= Chương 3 — Vòng Tròn: Sức Mạnh Của Việc Chốt Một Người\\n\\nBài toán xếp ghế vòng tròn (quanh bàn tròn, vòng xe lửa, ...) luôn là dạng khiến học sinh bối rối nhất vì tính chất **đối xứng quay** (khi xoay tất cả mọi người cùng một góc, trật tự ngồi tương đối không thay đổi và ta coi đó là một cách xếp duy nhất).\\n\\nBí quyết để giải quyết triệt để mọi bài toán vòng tròn là **Chốt (cố định) 1 người**. \\n\\nKhi ta cố định 1 người bất kỳ tại một ghế, ta đã phá vỡ hoàn toàn tính đối xứng xoay của vòng tròn. Kể từ giây phút đó, vòng tròn biến thành một **hàng thẳng đặc biệt** có điểm neo bắt đầu và kết thúc, giúp ta áp dụng được tất cả các phương pháp đã học ở Chương 1 và Chương 2.\\n\\n== 3.1 — Cơ Sở: Số Cách Xếp Vòng Tròn Không Ràng Buộc\\n\\n#rev-box(title: \\\"📖 Nguyên Lý Cố Định Triệt Tiêu Đối Xứng Quay\\\")[\\n  Khi xếp $n$ người phân biệt quanh một bàn tròn đồng nhất (chỉ tính thứ tự tương đối):\\n  - Tổng số cách xếp là: $ (n-1)! $\\n  - *Tại sao?* Ta cố định 1 người bất kỳ ngồi vào 1 vị trí để làm mốc. $n-1$ người còn lại sẽ xếp vào $n-1$ ghế còn lại theo thứ tự tuyến tính (hàng thẳng), tạo ra $(n-1)!$ cách.\\n  \\n  *Lưu ý phân biệt:*\\n  - Nếu ghế **có đánh số** (hoặc bàn tròn có điểm chuẩn như quay mặt ra cửa): tổng cách là $n!$ (giống hàng thẳng).\\n  - Nếu ghế **không đánh số** (chỉ tính thứ tự tương đối): tổng cách là $(n-1)!$.\\n  (Đề thi Việt Nam nếu nói \\\"ngồi quanh bàn tròn\\\" thì mặc định là thứ tự tương đối).\\n]\\n\\n== 3.2 — Khe Hở Trong Vòng Tròn: Điểm Khác Biệt Quyết Định\\n\\nĐây là điểm khác biệt cốt lõi giữa hàng thẳng và vòng tròn, và là n\n<truncated 14318 bytes>",
-  "ReplacementChunks": null
-}

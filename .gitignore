@@ -14,3 +14,4 @@ exported_figs/
 /*.pdf
 temp_render/
 typst/exams/scratch/
+dist-mixer/

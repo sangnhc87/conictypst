@@ -25,7 +25,8 @@
     "watch:exam": "sh -c 'exam=${npm_config_de:-$1}; typst watch --font-path src/assets/fonts --font-path fonts \"typst/exams/$exam.typ\" --root .' --",
     "export:figs": "node scripts/export-figs.js",
     "desktop:dev": "concurrently -k \"vite --host 127.0.0.1 --port 4173\" \"wait-on tcp:127.0.0.1:4173 && VITE_DEV_SERVER_URL=http://127.0.0.1:4173 electron .\"",
-    "desktop:start": "npm run build && electron ."
+    "desktop:start": "npm run build && electron .",
+    "mix:exam": "node scripts/mix-exam.js"
   },
   "keywords": [],
   "author": "",

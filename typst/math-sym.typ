@@ -141,7 +141,7 @@
 // LaTeX: \dfrac      → sang-exam: $tfrac()$ hoặc tự sang-setup
 // LaTeX: \sqrt[n]{x} → Typst: $root(n, x)$
 // Alias:
-#let dfrac(a, b) = math.frac(a, b)      // \dfrac{a}{b} → dfrac(a, b)
+#let dfrac(a, b) = math.display(math.frac(a, b))      // \dfrac{a}{b} → dfrac(a, b)
 #let tfrac-tex(a, b) = math.frac(a, b)  // \tfrac{a}{b} — dùng tfrac() từ sang-exam
 
 // ─── Tổng kết ký hiệu thường nhầm ───────────────────────────

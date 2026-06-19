@@ -6,6 +6,20 @@
 #let _beamer-mode = state("_beamer-mode", false)
 #let set-beamer-mode() = { _beamer-mode.update(true) }
 
+// ── Font viết tay toàn cục ────────────────────────────────
+// Được set bởi thpt-school-exam(handwriting-font: ...)
+// Dùng #hw[text] ở bất kỳ đâu trong file .typ
+#let _hw-font = state("_hw-font", none)
+#let _hw-size = state("_hw-size", 1em)
+#let hw(it) = context {
+  let f = _hw-font.get()
+  if f != none {
+    text(font: f, size: _hw-size.get())[#it]
+  } else {
+    text(style: "italic")[#it]
+  }
+}
+
 // ── Màu ──────────────────────────────────────────────────
 #let palette = (
   ink: black,
@@ -378,6 +392,52 @@
   align(center, grid-content)
 }
 
+// ─────────────────────────────────────────────────────────
+// CÁC BƯỚC GIẢI CHI TIẾT (có tự động đổi màu)
+// ─────────────────────────────────────────────────────────
+#let _step-colors = (
+  rgb("#1565c0"),
+  rgb("#e65100"),
+  rgb("#2e7d32"),
+  rgb("#6a1b9a"),
+  rgb("#00838f"),
+  rgb("#c62828"),
+)
+#let _step-cnt = counter("se-step")
+#let _step-reveal-config = state("se-step-reveal-config", (before_nonfirst: none))
+#let configure-step-reveal(before_nonfirst: none) = [
+  #_step-reveal-config.update((before_nonfirst: before_nonfirst))
+]
+#let step(body, color: auto, before_nonfirst: auto) = {
+  _step-cnt.step()
+  context {
+    let n = _step-cnt.get().first()
+    let c = if color != auto { color } else { _step-colors.at(calc.rem(n - 1, _step-colors.len())) }
+    let reveal = if before_nonfirst != auto {
+      before_nonfirst
+    } else if n > 1 {
+      _step-reveal-config.get().at("before_nonfirst", default: none)
+    } else {
+      none
+    }
+    let step-block = block(
+      width: 100%,
+      stroke: (left: 3pt + c),
+      inset: (left: 10pt, right: 4pt, top: 4pt, bottom: 4pt),
+      below: 0.6em,
+      above: 0.6em,
+    )[
+      #text(fill: c, weight: "bold")[Bước #n.] #h(0.3em) #body
+    ]
+    if reveal == none {
+      step-block
+    } else {
+      [#reveal #step-block]
+    }
+  }
+}
+#let reset-step() = [#_step-cnt.update(0)]
+
 // ── Lời giải block ────────────────────────────────────────
 #let _sol(s, a) = block(
   width: 100%,
@@ -385,7 +445,7 @@
   stroke: (left: 3pt + a),
   inset: (left: 10pt, right: 8pt, top: 6pt, bottom: 6pt),
   radius: (right: 4pt),
-)[#text(weight: "bold", fill: a)[Lời giải.] #s]
+)[#reset-step()#text(weight: "bold", fill: a)[Lời giải.] #s]
 
 // ─────────────────────────────────────────────────────────
 // MCQ
@@ -405,6 +465,7 @@
   fig-pos: "right",
   fig-width: 35%,
   cols: 0,
+  row-gutter: auto,
   opt-fig: false,
   opt-fig-cols: 2,
   lines: 0,
@@ -479,9 +540,11 @@
   // ── Render options ──────────────────────────────────────
   let opts-r = if _is-fig {
     // Chế độ hình: thẻ card 2×2, label ở góc trên-trái, hình căn giữa
-    let nc = if cols != 0 { cols } else { opt-fig-cols }
+    let is_arr = type(cols) == array
+    let nc = if is_arr { cols.len() } else if cols != 0 { cols } else { opt-fig-cols }
+    let grid-cols = if is_arr { cols } else { nc }
     grid(
-      columns: nc,
+      columns: grid-cols,
       row-gutter: 8pt,
       column-gutter: 8pt,
       align: left + top,
@@ -529,14 +592,12 @@
         chosen
       }
       let column-gutter = if nc == 1 { 0pt } else if nc == 4 { 11pt } else { 13pt }
-      let row-gutter = if nc == 4 { 0.45em } else if nc == 2 {
-        if has-tall-math { 1.5em } else { 0.65em }
-      } else {
-        if has-tall-math { 0.9em } else { 0.3em }
+      let calc-row-gutter = if row-gutter != auto { row-gutter } else if nc == 4 { 0.45em } else {
+        option-leading
       }
       grid(
-        columns: nc,
-        row-gutter: row-gutter,
+        columns: if type(cols) == array { cols } else { nc },
+        row-gutter: calc-row-gutter,
         column-gutter: column-gutter,
         align: left + top,
         ..opt-texts
@@ -1090,9 +1151,15 @@
   // ── Tuỳ chọn nâng cao ──
   show-topbar: false, // thanh màu accent trên đỉnh trang
   header-border: true, // đường kẻ dưới tiêu đề
-  header-font: "Libertinus Serif",
-  body-font: "Libertinus Serif",
+  header-font: "Times New Roman",
+  body-font: "Times New Roman",
   body-size: 12pt,
+  // ── Font viết tay (tuỳ chọn) ──
+  // Truyền tên font để dùng #hw[...] trong nội dung
+  // Ví dụ: handwriting-font: "HP001 4 hàng"
+  //         handwriting-font: "Bradley Hand"
+  handwriting-font: none,
+  handwriting-size: 1em, // cỡ chữ tương đối so với body-size
   q-style: "bold", // "bold" | "boxed" | "pill"
   q-color: auto, // auto = accent
   watermark: none, // Chữ in chìm phía sau bộ đề
@@ -1132,6 +1199,12 @@
   set text(font: body-font, size: body-size, lang: "vi")
   set par(justify: true, leading: 0.75em)
   show math.equation.where(block: false): math.display
+
+  // ── Kích hoạt font viết tay toàn cục ─────────────────────
+  // Hàm #hw[...] đã được export ở đầu sang-exam.typ
+  // Chỉ cần update state để hw() đọc đúng font
+  _hw-font.update(handwriting-font)
+  _hw-size.update(handwriting-size)
 
   // Thanh màu accent trên đỉnh (tuỳ chọn)
   if show-topbar {

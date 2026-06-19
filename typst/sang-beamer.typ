@@ -8,7 +8,7 @@
 #import themes.metropolis: *
 
 #import "sang-exam.typ": (
-  True, bode, classic, configure-step-reveal, dl, dn, draw-lines, luuy, lythuyet, meo, note, palette, ppgiai, tc, vect,
+  True, bode, classic, configure-step-reveal, dl, dn, draw-lines, luuy, lythuyet, meo, note, palette, ppgiai, reset-step, tc, vect,
 )
 // ── Answer registry cho beamer ─────────────────────────────
 // Lưu integer thực (không dùng lazy context) tránh bug "tất cả câu 22"
@@ -225,7 +225,10 @@
         #align(center)[
           #text(size: 11pt, fill: accent, weight: "bold", tracking: 2pt)[#upper("Chương trình")]
           #v(0.5em)
-          #text(size: 22pt, weight: "bold", fill: white)[#title]
+          #context {
+            let fg = _bm-style.get().at("text_fill", default: white)
+            text(size: 22pt, weight: "bold", fill: fg)[#title]
+          }
         ]
       ]
     ]
@@ -424,6 +427,7 @@
               "solution_text_fill",
               default: rgb("#cbd5e1"),
             ))
+            #reset-step()
             #loigiai
           ]
         }
@@ -653,6 +657,7 @@
               "solution_text_fill",
               default: rgb("#cbd5e1"),
             ))
+            #reset-step()
             #loigiai
           ]
         }
@@ -795,6 +800,7 @@
               "solution_text_fill",
               default: rgb("#cbd5e1"),
             ))
+            #reset-step()
             #loigiai
           ]
         }

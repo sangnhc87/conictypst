@@ -1,21 +1,25 @@
 // Cấu hình chung cho sách Hàm số — Chương 1
 
+// ─── Cấu hình dùng chung (tfrac, doc-setup, hoac) ──────────────
+#import "../../modules/_shared-config.typ": *
+
 #import "../../modules/book.typ": bt as _bt-orig, section as _section-orig, vd as _vd-orig
 #import "../../modules/book.typ": *
 #import "../../modules/exam.typ": True, exam-mode, ppgiai, resetcau, resetexamstate, exam-part
 #import "../../bbt.typ": bbbt, bbt-opt, bbtv2, canvas, draw, bxd
-
-#let EXAM_MODE = "dethi"
+ 
+#let EXAM_MODE = "dethi"//loigiai hoặc dethi 
 #let EXAM_SOL_COLOR = rgb("#0f4c81")
+#let IS_BOXED = true // Bật/tắt đóng khung cho Ví dụ, Bài tập (Siêu Main config)
 
 #let _exam_fns = exam-mode(mode: EXAM_MODE, accent: EXAM_SOL_COLOR)
-#let tn = _exam_fns.tn
-#let ds = _exam_fns.ds
-#let tln = _exam_fns.tln
-#let tl = _exam_fns.tl
-#let mcq = _exam_fns.mcq
-#let tf = _exam_fns.tf
-#let short = _exam_fns.short
+#let tn(boxed: IS_BOXED, ..args) = (_exam_fns.tn)(..args, boxed: boxed)
+#let ds(boxed: IS_BOXED, ..args) = (_exam_fns.ds)(..args, boxed: boxed)
+#let tln(boxed: IS_BOXED, ..args) = (_exam_fns.tln)(..args, boxed: boxed)
+#let tl(boxed: IS_BOXED, ..args) = (_exam_fns.tl)(..args, boxed: boxed)
+#let mcq(boxed: IS_BOXED, ..args) = (_exam_fns.mcq)(..args, boxed: boxed)
+#let tf(boxed: IS_BOXED, ..args) = (_exam_fns.tf)(..args, boxed: boxed)
+#let short(boxed: IS_BOXED, ..args) = (_exam_fns.short)(..args, boxed: boxed)
 
 #let hoac(..args) = math.cases(delim: "[", ..args.named(), ..args.pos().map(math.display))
 
@@ -80,16 +84,16 @@
   }
 }
 
-#let vd(stem, theme-color: c-p1, header-fill: auto, title-fill: auto, ..args) = {
+#let vd(stem, theme-color: c-p1, header-fill: auto, title-fill: auto, boxed: IS_BOXED, ..args) = {
   let hf = if header-fill == auto { theme-color } else { header-fill }
   let tf = if title-fill == auto { white } else { title-fill }
-  _vd-orig(stem, theme-color: theme-color, header-fill: hf, title-fill: tf, ..args)
+  _vd-orig(stem, theme-color: theme-color, header-fill: hf, title-fill: tf, boxed: boxed, ..args)
 }
 
-#let bt(stem, theme-color: c-p1, header-fill: auto, title-fill: auto, ..args) = {
+#let bt(stem, theme-color: c-p1, header-fill: auto, title-fill: auto, boxed: IS_BOXED, ..args) = {
   let hf = if header-fill == auto { theme-color } else { header-fill }
   let tf = if title-fill == auto { white } else { title-fill }
-  _bt-orig(stem, theme-color: theme-color, header-fill: hf, title-fill: tf, ..args)
+  _bt-orig(stem, theme-color: theme-color, header-fill: hf, title-fill: tf, boxed: boxed, ..args)
 }
 
 #let bt-header(color) = {
@@ -199,3 +203,11 @@
   let w2 = args.named().at("w2", default: if two-column-mode { 4.8 } else { 7.2 })
   bbbt(..args.named(), w1: w1, w2: w2, ..args.pos())
 }
+
+// tfrac, doc-setup, hoac đã được import từ _shared-config.typ
+// Không cần định nghĩa lại ở đây
+
+
+
+
+

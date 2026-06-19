@@ -1679,7 +1679,7 @@ Mọi cấu trúc đồ thị thực chất đều là một tập hợp các n�
   *Quy tắc 3: Quy tắc phá vòng khép kín (Co - Xóa cạnh)*
   - Khi gặp vòng khép kín (khiến nút cuối cùng kề ngược lại nút đầu tiên), ta chọn một cạnh liên kết $e = (u,v)$ của vòng để "phá" theo công thức:
     $ P(G, k) = P(G backslash e, k) - P(G \/ e, k) $
-    - *Xóa cạnh ($G backslash e$):* Cắt đứt liên kết $e$ $\to$ biến vòng khép kín thành đường thẳng (dễ dàng áp dụng Quy tắc 2).
+    - *Xóa cạnh ($G backslash e$):* Cắt đứt liên kết $e$ $->$ biến vòng khép kín thành đường thẳng (dễ dàng áp dụng Quy tắc 2).
     - *Co cạnh ($G \/ e$):* Chập hai đỉnh $u$ và $v$ thành một đỉnh duy nhất (rút gọn số đỉnh để tiếp tục áp dụng Quy tắc 2).
 ]
 
@@ -2020,26 +2020,12 @@ Khi bài toán cho hình vẽ vùng (bản đồ, các miếng ghép), *không c
 #cannon-box("Ví dụ 24 — Chuỗi 6 hạt ngọc xếp hàng thẳng (k=4 màu)", [
   *Đề bài:* Có 6 hạt ngọc được xếp thành một hàng thẳng. Người ta muốn tô màu các hạt ngọc bằng 4 màu sao cho hai hạt cạnh nhau luôn khác màu nhau. Tính số cách tô màu.
 
-  #align(center)[
-    #cetz.canvas(length: 1cm, {
-      import cetz.draw: *
-      for i in range(5) {
-        line((i,0), (i+1,0), stroke: 1.3pt + rgb("4A148C"))
-      }
-      for i in range(6) {
-        circle((i,0), radius: 0.22, fill: white, stroke: 1.3pt + rgb("4A148C"))
-        content((i,0), text(size: 8pt, weight: "bold")[#str(i+1)])
-      }
-    })
-  ]
-  #v(0.3em)
-
   *Giải:*
   Đây là đồ thị đường thẳng $P_6$ gồm 6 đỉnh. Áp dụng công thức đường thẳng với $n=6, k=4$:
   1. Hạt thứ nhất: Có $k = 4$ cách chọn màu.
   2. Mỗi hạt trong 5 hạt tiếp theo chỉ kề với đúng 1 hạt đã tô màu ở trước nó, nên luôn có $k-1 = 3$ cách chọn màu.
   
-  $ N = k(k-1)^(n-1) = 4 times 3^5 = 4 times 243 = bold(972) " cách." $
+  $$N = k(k-1)^(n-1) = 4 times 3^5 = 4 times 243 = bold{972} \text{ cách.}$$
 ])
 
 #v(0.5em)
@@ -2047,36 +2033,12 @@ Khi bài toán cho hình vẽ vùng (bản đồ, các miếng ghép), *không c
 #cannon-box("Ví dụ 25 — Đồ thị cây gia phả phân nhánh 7 nút (k=5 màu)", [
   *Đề bài:* Cho một sơ đồ cây gồm 7 nút (1 nút gốc chia làm 2 nhánh, mỗi nhánh lại chia tiếp làm các nút con). Có 5 màu để tô các nút này sao cho hai nút nối với nhau luôn khác màu nhau. Tính số cách tô.
 
-  #align(center)[
-    #cetz.canvas(length: 0.8cm, {
-      import cetz.draw: *
-      let p0 = (0, 0)
-      let p1 = (-1.5, -1); let p2 = (1.5, -1)
-      let p3 = (-2.2, -2); let p4 = (-0.8, -2)
-      let p5 = (0.8, -2); let p6 = (2.2, -2)
-      
-      line(p0, p1, stroke: 1.3pt + rgb("E65100"))
-      line(p0, p2, stroke: 1.3pt + rgb("E65100"))
-      line(p1, p3, stroke: 1.3pt + rgb("E65100"))
-      line(p1, p4, stroke: 1.3pt + rgb("E65100"))
-      line(p2, p5, stroke: 1.3pt + rgb("E65100"))
-      line(p2, p6, stroke: 1.3pt + rgb("E65100"))
-      
-      let pts = (p0, p1, p2, p3, p4, p5, p6)
-      for (i, p) in pts.enumerate() {
-        circle(p, radius: 0.25, fill: white, stroke: 1.3pt + rgb("E65100"))
-        content(p, text(size: 8pt, weight: "bold")[#str(i+1)])
-      }
-    })
-  ]
-  #v(0.3em)
-
   *Giải:*
   Vì sơ đồ là đồ thị cây không chứa chu trình ($T_7$), ta áp dụng công thức cho cây với $n=7, k=5$:
   1. Nút gốc: Có $5$ cách chọn màu.
   2. Mỗi nút con trong 6 nút tiếp theo luôn chỉ liên kết trực tiếp với đúng 1 nút cha ở phía trên nó, do đó luôn có $k-1 = 4$ cách chọn màu cho mỗi nút con.
   
-  $ N = k(k-1)^(n-1) = 5 times 4^6 = 5 times 4096 = bold(20.480) " cách." $
+  $$N = k(k-1)^(n-1) = 5 times 4^6 = 5 times 4096 = bold{20.480} \text{ cách.}$$
 ])
 
 #v(0.8em)
@@ -2089,26 +2051,10 @@ Khi bài toán cho hình vẽ vùng (bản đồ, các miếng ghép), *không c
 #cannon-box("Ví dụ 26 — Tô màu ngũ giác đều 5 đỉnh (k=3 màu)", [
   *Đề bài:* Người ta muốn tô màu 5 đỉnh của một ngũ giác đều bằng 3 màu sao cho hai đỉnh kề nhau luôn khác màu nhau. Tính số cách tô.
 
-  #align(center)[
-    #cetz.canvas(length: 1cm, {
-      import cetz.draw: *
-      for i in range(5) {
-        let a = i * 72deg + 90deg
-        let an = (i + 1) * 72deg + 90deg
-        let p = (calc.cos(a)*1.1, calc.sin(a)*1.1)
-        let pn = (calc.cos(an)*1.1, calc.sin(an)*1.1)
-        line(p, pn, stroke: 1.3pt + rgb("00695C"))
-        circle(p, radius: 0.22, fill: white, stroke: 1.3pt + rgb("00695C"))
-        content(p, text(size: 8pt, weight: "bold")[#str(i+1)])
-      }
-    })
-  ]
-  #v(0.3em)
-
   *Giải:*
   Đây là đồ thị vòng tròn $C_5$ gồm 5 đỉnh. Áp dụng công thức vòng tròn với $n=5, k=3$:
-  $ P(C_5, 3) = (3-1)^5 + (-1)^5 times (3-1) $
-  $ P(C_5, 3) = 2^5 - 2 = 32 - 2 = bold(30) " cách." $
+  $$P(C_5, 3) = (3-1)^5 + (-1)^5 times (3-1)$$
+  $$P(C_5, 3) = 2^5 - 2 = 32 - 2 = bold{30} \text{ cách.}$$
 ])
 
 #v(0.5em)
@@ -2116,26 +2062,10 @@ Khi bài toán cho hình vẽ vùng (bản đồ, các miếng ghép), *không c
 #cannon-box("Ví dụ 27 — Tô màu lục giác đều 6 đỉnh (k=4 màu)", [
   *Đề bài:* Có bao nhiêu cách tô màu các đỉnh của một lục giác đều bằng 4 màu sao cho hai đỉnh chung cạnh luôn khác màu nhau?
 
-  #align(center)[
-    #cetz.canvas(length: 1cm, {
-      import cetz.draw: *
-      for i in range(6) {
-        let a = i * 60deg + 90deg
-        let an = (i + 1) * 60deg + 90deg
-        let p = (calc.cos(a)*1.1, calc.sin(a)*1.1)
-        let pn = (calc.cos(an)*1.1, calc.sin(an)*1.1)
-        line(p, pn, stroke: 1.3pt + rgb("00695C"))
-        circle(p, radius: 0.22, fill: white, stroke: 1.3pt + rgb("00695C"))
-        content(p, text(size: 8pt, weight: "bold")[#str(i+1)])
-      }
-    })
-  ]
-  #v(0.3em)
-
   *Giải:*
   Đây là đồ thị vòng tròn $C_6$ gồm 6 đỉnh. Áp dụng công thức vòng tròn với $n=6, k=4$:
-  $ P(C_6, 4) = (4-1)^6 + (-1)^6 times (4-1) $
-  $ P(C_6, 4) = 3^6 + 3 = 729 + 3 = bold(732) " cách." $
+  $$P(C_6, 4) = (4-1)^6 + (-1)^6 times (4-1)$$
+  $$P(C_6, 4) = 3^6 + 3 = 729 + 3 = bold{732} \text{ cách.}$$
 ])
 
 #v(0.8em)
@@ -2148,471 +2078,350 @@ Khi bài toán cho hình vẽ vùng (bản đồ, các miếng ghép), *không c
 #cannon-box("Ví dụ 28 — Bông hoa 5 cánh chạm nhị ở tâm (k=4 màu)", [
   *Đề bài:* Một bông hoa đồ họa gồm 1 nhị ở tâm và 5 cánh hoa xung quanh. Biết rằng các cánh hoa không chạm nhau mà chỉ chạm nhị ở tâm. Có 4 màu để tô các phần sao cho hai phần chạm nhau phải khác màu nhau. Tính số cách tô.
 
-  #align(center)[
-    #cetz.canvas(length: 1cm, {
-      import cetz.draw: *
-      for i in range(5) {
-        let a = i * 72deg + 90deg
-        let p = (calc.cos(a)*1.2, calc.sin(a)*1.2)
-        line((0,0), p, stroke: 1.3pt + rgb("C2185B"))
-        circle(p, radius: 0.22, fill: white, stroke: 1.3pt + rgb("C2185B"))
-        content(p, text(size: 8pt, weight: "bold")[#str(i+1)])
-      }
-      circle((0,0), radius: 0.28, fill: rgb("F8BBD0"), stroke: 1.5pt + rgb("C2185B"))
-      content((0,0), text(size: 8pt, weight: "bold")[T])
-    })
-  ]
-  #v(0.3em)
-
   *Giải:*
   Đây là đồ thị hình sao gồm 1 tâm và 5 cánh ($K_{1,5}$). Áp dụng công thức hình sao với $n=5, k=4$:
   1. Tô nhị hoa ở tâm: Có $k = 4$ cách chọn màu.
   2. Mỗi cánh hoa trong 5 cánh hoa xung quanh chỉ kề với duy nhất nhị hoa, nên luôn có $k-1 = 3$ cách chọn màu độc lập.
   
-  $ N = k(k-1)^n = 4 times 3^5 = 4 times 243 = bold(972) " cách." $
+  $$N = k(k-1)^n = 4 times 3^5 = 4 times 243 = bold{972} \text{ cách.}$$
 ])
 
 #v(0.5em)
 
 #cannon-box("Ví dụ 29 — Hệ thống mạng sao 1 trạm chủ và 8 máy vệ tinh (k=5 màu)", [
-  *Đề bài:* Một mạng máy tính gồm 1 máy chủ kết nối trực tiếp đến 8 máy vệ tinh xung quanh (các máy vệ tinh không kết nối với nhau). Người ta muốn phân bổ 5 kênh tần số cho các máy sao cho hai máy kết nối trực tiếp thì khác tần số. Tính số cách phân bổ.
+  *Đề bài:* Một mạng máy tính gồm 1 máy chủ kết nối trực tiếp đến 8 máy vệ tinh xung quanh (các máy vệ tinh không kết nối với nhau). Người ta muốn phân bổ 5 kênh tần số cho các máy sao cho hai máy kết nối trực tiếp phải khác tần số. Tính số cách phân bổ.
 
+  *Giải:*
+  Đây là đồ thị hình sao $K_{1,8}$ với $k=5$.
+  - Trạm chủ (tâm): Có 5 cách chọn tần số.
+  - Mỗi trạm vệ tinh (cánh): Có $5-1=4$ cách chọn tần số (chỉ cần khác trạm chủ).
+  Tổng số cách: $5 times 4^8 = 327.680$ cách.
+])
+
+#v(0.8em)
+#pagebreak()
+
+== 12. Bí Quyết Giải Gọn Lưới Cao Tầng ($3 times N$, $4 times N$) — Sơ Đồ Trạng Thái
+
+Khi chiều cao cột $h >= 3$, bài toán đếm số cách tô màu bỗng trở nên phức tạp hơn rất nhiều. Các em không thể lấy số lượng cột đầu nhân liên tiếp với một "hệ số không đổi" như ở lưới 2 hàng nữa. Tại sao vậy? Hãy cùng xem "Bẫy Tư Duy" dưới đây!
+
+=== 12.1. "Bẫy Tư Duy": Tại sao lưới cao lại nguy hiểm?
+
+Tưởng tượng cột trước có 3 ô (Trên, Giữa, Dưới). Ô Trên và ô Dưới không hề chạm nhau, vì vậy chúng có thể vô tình *CÙNG MÀU*, hoặc *KHÁC MÀU*.
+Điều này ảnh hưởng trực tiếp đến Cột tiếp theo:
+
+#align(center)[
+  #cetz.canvas(length: 1cm, {
+    import cetz.draw: *
+    
+    // Trường hợp Dễ Thở
+    rect((0, 2), (1, 3), fill: rgb("FFCDD2"), stroke: 1pt)
+    rect((0, 1), (1, 2), fill: rgb("E3F2FD"), stroke: 1pt)
+    rect((0, 0), (1, 1), fill: rgb("FFCDD2"), stroke: 1pt)
+    content((0.5, 2.5), text(size: 8pt)[Đỏ])
+    content((0.5, 1.5), text(size: 8pt)[Xanh])
+    content((0.5, 0.5), text(size: 8pt)[Đỏ])
+    
+    rect((1.2, 0), (2.2, 3), fill: white, stroke: (dash: "dashed"))
+    content((1.7, 1.5), text(size: 8pt)[?])
+    
+    content((1.1, -0.6), text(size: 9pt, weight: "bold", fill: rgb("1B5E20"))[Trường hợp "Dễ Thở"])
+    content((1.1, -1.2), text(size: 8pt)[Ô trên và dưới cùng là Đỏ.])
+    content((1.1, -1.7), text(size: 8pt)[$=>$ Cột sau chỉ phải né 1 "kẻ thù" Đỏ.])
+    
+    // Trường hợp Khó Thở
+    rect((5, 2), (6, 3), fill: rgb("FFCDD2"), stroke: 1pt)
+    rect((5, 1), (6, 2), fill: rgb("E3F2FD"), stroke: 1pt)
+    rect((5, 0), (6, 1), fill: rgb("FFF9C4"), stroke: 1pt)
+    content((5.5, 2.5), text(size: 8pt)[Đỏ])
+    content((5.5, 1.5), text(size: 8pt)[Xanh])
+    content((5.5, 0.5), text(size: 8pt)[Vàng])
+    
+    rect((6.2, 0), (7.2, 3), fill: white, stroke: (dash: "dashed"))
+    content((6.7, 1.5), text(size: 8pt)[?])
+    
+    content((6.1, -0.6), text(size: 9pt, weight: "bold", fill: rgb("B71C1C"))[Trường hợp "Khó Thở"])
+    content((6.1, -1.2), text(size: 8pt)[Ô trên và dưới khác màu (Đỏ và Vàng).])
+    content((6.1, -1.7), text(size: 8pt)[$=>$ Cột sau phải né tới 2 "kẻ thù" (vừa Đỏ vừa Vàng).])
+  })
+]
+
+Chính vì Cột sau lúc thì "Dễ Thở", lúc thì "Khó Thở" nên nó sẽ sinh ra số cách chọn màu khác nhau! Ta bắt buộc phải *chẻ đôi* bài toán thành 2 trạng thái.
+
+=== 12.2. Tuyệt Chiêu "Chẻ Đôi Trạng Thái" (Cho lưới $3 times N$)
+
+Thay vì đếm chung chung, ta sẽ chia mọi cột 3 ô thành 2 nhóm:
+- *Nhóm A (Dễ Thở):* 2 ô ngoài cùng *GIỐNG NHAU*. 
+- *Nhóm B (Khó Thở):* 2 ô ngoài cùng *KHÁC NHAU*.
+
+*Số cách khởi tạo ở cột đầu tiên (Cột 1):*
+- Để tạo ra một cột Dễ Thở (A), ta chọn ô Trên ($k$ cách), ô Giữa ($k-1$ cách), và ô Dưới bắt buộc phải giống ô Trên ($1$ cách). Vậy số lượng Cột 1 nhóm A là: $A_1 = k(k-1)$.
+- Để tạo ra một cột Khó Thở (B), ta chọn ô Trên ($k$ cách), ô Giữa ($k-1$ cách), và ô Dưới phải khác cả ô Trên và ô Giữa ($k-2$ cách). Vậy số lượng Cột 1 nhóm B là: $B_1 = k(k-1)(k-2)$.
+
+=== 12.3. Sơ Đồ Đẻ Nhánh (Hệ Số Chuyển Tiếp)
+
+Khi xây sang Cột 2, mỗi cột nhóm A của Cột 1 sẽ "đẻ" ra một số lượng cột nhóm A và B mới. Mỗi cột nhóm B cũ cũng vậy. Ta gọi đây là *Sơ Đồ Đẻ Nhánh*:
+
+#align(center)[
+  #cetz.canvas(length: 1cm, {
+    import cetz.draw: *
+    circle((-2, 1), radius: 0.5, fill: rgb("C8E6C9"), stroke: 1.5pt + rgb("2E7D32"))
+    content((-2, 1), text(weight: "bold")[A cũ])
+    
+    circle((-2, -1), radius: 0.5, fill: rgb("FFCDD2"), stroke: 1.5pt + rgb("C62828"))
+    content((-2, -1), text(weight: "bold")[B cũ])
+    
+    circle((2, 1), radius: 0.5, fill: rgb("C8E6C9"), stroke: 1.5pt + rgb("2E7D32"))
+    content((2, 1), text(weight: "bold")[A mới])
+    
+    circle((2, -1), radius: 0.5, fill: rgb("FFCDD2"), stroke: 1.5pt + rgb("C62828"))
+    content((2, -1), text(weight: "bold")[B mới])
+    
+    // Mũi tên từ A cũ
+    line((-1.5, 1), (1.5, 1), mark: (end: ">"), stroke: 1.2pt)
+    content((0, 1.3), text(size: 9pt)[$M_("AA")$])
+    
+    line((-1.6, 0.7), (1.6, -0.7), mark: (end: ">"), stroke: 1.2pt)
+    content((-0.8, -0.2), text(size: 9pt)[$M_("AB")$])
+    
+    // Mũi tên từ B cũ
+    line((-1.6, -0.7), (1.6, 0.7), mark: (end: ">"), stroke: 1.2pt)
+    content((0.8, -0.2), text(size: 9pt)[$M_("BA")$])
+    
+    line((-1.5, -1), (1.5, -1), mark: (end: ">"), stroke: 1.2pt)
+    content((0, -1.3), text(size: 9pt)[$M_("BB")$])
+  })
+]
+
+*Phương trình tính số lượng cột mới:*
+$ A_("mới") = M_("AA") times A_("cũ") + M_("BA") times B_("cũ") $
+$ B_("mới") = M_("AB") times A_("cũ") + M_("BB") times B_("cũ") $
+
+*Bảng Tra Cứu Thần Chú (Cho phòng thi THPT QG)*
+Đề thi thường chỉ ra $k=3, 4$ hoặc $k=5$ màu. Các em chỉ cần thuộc (hoặc ghi ra nháp) bảng hệ số đẻ nhánh sau đây (được nội suy tự động từ công thức) để lắp vào bấm máy tính, KHÔNG CẦN phải chứng minh lại công thức cực nhọc:
+
+#align(center)[
+#table(
+  columns: (1.5fr, 1.2fr, 1.2fr, 1.2fr, 1.2fr),
+  inset: 7pt,
+  align: (center + horizon),
+  [*Số Màu*], [*Từ $A_("cũ")$ đến A*], [*Từ $B_("cũ")$ đến A*], [*Từ $A_("cũ")$ đến B*], [*Từ $B_("cũ")$ đến B*],
+  ..for k in (2,3, 4, 5) {
+    let M_AA = calc.pow(k, 2) - 3*k + 3
+    let M_BA = calc.pow(k, 2) - 4*k + 5
+    let M_AB = (k - 2) * (calc.pow(k, 2) - 4*k + 5)
+    let M_BB = calc.pow(k, 3) - 6*calc.pow(k, 2) + 14*k - 13
+    (
+      [*$k = #k$ màu*],
+      [$M_("AA") = #M_AA$],
+      [$M_("BA") = #M_BA$],
+      [$M_("AB") = #M_AB$],
+      [$M_("BB") = #M_BB$],
+    )
+  }
+)
+]
+
+#note-box(title: "📖 Dành Cho Học Sinh Lấy Điểm 10 (Nguồn gốc công thức)", [
+  Nếu đề thi cho $k=6$ hoặc bắt chứng minh tổng quát bằng chữ, các em hãy dùng 4 công thức đa thức sau để tự bấm ra hệ số:
+  - $M_("AA") = k^2 - 3k + 3$
+  - $M_("BA") = k^2 - 4k + 5$
+  - $M_("AB") = (k-2)(k^2 - 4k + 5)$
+  - $M_("BB") = k^3 - 6k^2 + 14k - 13$
+])
+
+=== 12.4. Kỹ Thuật Lập Bảng Trạng Thái (Tính Toán Cột Liên Tiếp)
+
+Để giải quyết bài toán đếm số cách tô màu trên lưới một cách có hệ thống và tránh nhầm lẫn, phương pháp hiệu quả nhất là *Lập Bảng Chuyển Trạng Thái*.
+Ta xét 2 trạng thái phân loại của một cột (giả sử chiều cao $h=3$):
+- *Trạng thái A (Đồng màu):* Ô trên cùng và ô dưới cùng cùng màu.
+- *Trạng thái B (Khác màu):* Ô trên cùng và ô dưới cùng khác màu.
+
+Quy trình tính toán gồm việc đếm số cách khởi tạo ở Cột 1, sau đó sử dụng ma trận hệ số để tịnh tiến dần sang các cột tiếp theo.
+
+#note-box(title: "🚨 BẪY TƯ DUY: Tại sao không thể nhân phẳng $36 times X times Y times Z$?", [
+  Rất nhiều học sinh thắc mắc: *"Cột 1 có 36 cách tô. Vậy Cột 2 có $X$ cách, Cột 3 có $Y$ cách. Đáp số cứ lấy $36 times X times Y times Z$ là xong, vẽ bảng A/B làm gì cho mệt?"*
+  
+  Sự thật phũ phàng của lưới 2D là: *Số cách tô Cột 2 không hề cố định, nó biến thiên tùy thuộc vào việc bạn vừa tô Cột 1 như thế nào!*
+  - Nếu Cột 1 của bạn thuộc *Trạng thái A (Đồng màu)*, Cột 2 sẽ có $7+10 = 17$ cách tô.
+  - Nếu Cột 1 của bạn thuộc *Trạng thái B (Khác màu)*, Cột 2 chỉ có $5+11 = 16$ cách tô!
+  
+  Vì $17 != 16$, không tồn tại một con số $X$ đại diện chung nào cả! Đó là lý do toán học ép buộc ta phải chia 36 cách của Cột 1 thành hai "phe": 12 cách loại A (để nhân với nhóm hệ số 17) và 24 cách loại B (để nhân với nhóm hệ số 16). Việc kẻ bảng Trạng thái A/B chính là chìa khóa duy nhất để quản lý sự "không đồng đều" này!
+])
+
+#v(0.5em)
+#cannon-box("Ví dụ 30 — Lưới Nguyên Vẹn", [
+  *Đề bài:* Cho lưới $3 times 4$, dùng 4 màu ($k=4$). Các ô chung cạnh khác màu. Tính tổng số cách tô.
+  
   #align(center)[
     #cetz.canvas(length: 1cm, {
       import cetz.draw: *
-      for i in range(8) {
-        let a = i * 45deg + 90deg
-        let p = (calc.cos(a)*1.4, calc.sin(a)*1.4)
-        line((0,0), p, stroke: 1.3pt + rgb("00796B"))
-        circle(p, radius: 0.18, fill: white, stroke: 1.3pt + rgb("00796B"))
-      }
-      circle((0,0), radius: 0.35, fill: rgb("B2DFDB"), stroke: 1.5pt + rgb("00796B"))
-      content((0,0), text(size: 7.5pt, weight: "bold")[Chủ])
-    })
-  ]
-  #v(0.3em)
-
-  *Giải:*
-  Đây là mô hình đồ thị sao $K_{1,8}$ gồm 1 tâm và 8 cánh với $k=5$ màu:
-  1. Máy chủ ở tâm: Có $5$ cách phân tần số.
-  2. Mỗi máy vệ tinh chỉ cần khác tần số của máy chủ: Có $k-1 = 4$ cách chọn cho mỗi máy vệ tinh.
-  
-  $ N = k(k-1)^n = 5 times 4^8 = 5 times 65.536 = bold(327.680) " cách." $
-])
-
-#v(0.8em)
-#pagebreak()
-
-=== 11.4 — Nhóm 4: Đồ Thị Bánh Xe ($W_n$)
-
-*Đặc trưng:* Có 1 nút tâm nối với vòng tròn gồm $n$ nút bên ngoài. Công thức: $P(W_n, k) = k times P(C_n, k-1) = k times [(k-2)^n + (-1)^n(k-2)]$.
-
-#cannon-box("Ví dụ 30 — Đồ thị bánh xe W₄ gồm 1 tâm và vòng 4 nút vành (k=4 màu)", [
-  *Đề bài:* Cho bánh xe gồm 1 đỉnh tâm C nối với 4 đỉnh vành $v_1, v_2, v_3, v_4$ tạo thành một vòng tròn. Có 4 màu. Tính số cách tô.
-
-  #align(center)[
-    #cetz.canvas(length: 0.9cm, {
-      import cetz.draw: *
       for i in range(4) {
-        let a = i * 90deg + 45deg
-        let an = (i+1) * 90deg + 45deg
-        let p = (calc.cos(a)*1.2, calc.sin(a)*1.2)
-        let pn = (calc.cos(an)*1.2, calc.sin(an)*1.2)
-        line(p, pn, stroke: 1.3pt + rgb("0D47A1"))
-        line((0,0), p, stroke: (dash: "dashed", paint: rgb("1B5E20"), thickness: 1.1pt))
-        circle(p, radius: 0.25, fill: white, stroke: 1.3pt + rgb("0D47A1"))
-        content(p, text(size: 7.5pt, weight: "bold")[v#str(i+1)])
+        rect((i*1.5, 0), (i*1.5 + 1, 3), stroke: 1.5pt, fill: rgb("E3F2FD"))
+        line((i*1.5, 1), (i*1.5 + 1, 1), stroke: 1pt)
+        line((i*1.5, 2), (i*1.5 + 1, 2), stroke: 1pt)
+        content((i*1.5 + 0.5, -0.5), [Cột #(i+1)])
       }
-      circle((0,0), radius: 0.28, fill: rgb("FFF9C4"), stroke: 1.5pt + rgb("1B5E20"))
-      content((0,0), text(size: 8pt, weight: "bold")[C])
+      for i in range(3) {
+        line((i*1.5 + 1, 1.5), (i*1.5 + 1.5, 1.5), mark: (end: ">"))
+      }
     })
   ]
-  #v(0.3em)
-
-  *Giải:*
-  Áp dụng công thức bánh xe $W_4$ với $n=4, k=4$:
-  1. Chọn màu cho đỉnh tâm C: Có $k = 4$ cách.
-  2. Tô 4 đỉnh vành bằng $k-1 = 3$ màu còn lại (vòng tròn $C_4$):
-     $ P(C_4, 3) = (3-1)^4 + (-1)^4 times (3-1) = 2^4 + 2 = 16 + 2 = 18 " cách." $
   
-  $ N = k times P(C_4, k-1) = 4 times 18 = bold(72) " cách." $
+  *Giải:* 
+  - *Bước 1: Khởi tạo Cột 1.* Tổng cộng có $4 times 3 times 3 = 36$ cách tô. Phân loại cấu hình:
+    - Trạng thái A: Chọn ô Trên (4 cách), ô Dưới cùng màu (1 cách), ô Giữa né màu đó (3 cách) $=> A_1 = 4 times 1 times 3 = 12$ cách.
+    - Trạng thái B: Chọn ô Trên (4 cách), ô Dưới khác màu (3 cách), ô Giữa né 2 màu (2 cách) $=> B_1 = 4 times 3 times 2 = 24$ cách.
+  
+  - *Bước 2: Lập bảng tịnh tiến trạng thái.* 
+    Ma trận hệ số cho lưới nguyên vẹn là: $M_("AA")=7, M_("BA")=5, M_("AB")=10, M_("BB")=11$.
+    Công thức truy hồi: $A_n = 7 A_{n-1} + 5 B_{n-1}$ và $B_n = 10 A_{n-1} + 11 B_{n-1}$.
+  
+  #align(center)[
+  #table(
+    columns: (1.5fr, 1fr, 1fr, 1fr, 1fr),
+    inset: 8pt,
+    align: (center + horizon),
+    [*Trạng Thái*], [*Cột 1*], [*Cột 2*], [*Cột 3*], [*Cột 4*],
+    [*Trạng thái A (Đồng màu)*], [*12*], [204], [3.348], [29.916],
+    [*Trạng thái B (Khác màu)*], [*24*], [384], [6.264], [56.160],
+  )
+  ]
+  _Giải thích ví dụ: $A_2 = 7(12) + 5(24) = 204$._
+  
+  *Kết quả:* Tổng số cách tô toàn lưới = $A_4 + B_4 = 29.916 + 56.160 = bold{86.076}$ cách.
 ])
 
 #v(0.5em)
+=== 12.5. Phân Tích Lưới Bất Quy Tắc
 
-#cannon-box("Ví dụ 31 — Đồ thị bánh xe W₅ gồm 1 tâm và vòng 5 nút vành (k=5 màu)", [
-  *Đề bài:* Có bao nhiêu cách tô màu các đỉnh của đồ thị bánh xe $W_5$ (gồm 1 tâm và 5 vành) bằng 5 màu sao cho các đỉnh kề nhau khác màu?
+Đối với các lưới bị khuyết ô, ma trận hệ số tịnh tiến sẽ thay đổi tại chính cột bị khuyết.
 
-  #align(center)[
-    #cetz.canvas(length: 0.9cm, {
-      import cetz.draw: *
-      for i in range(5) {
-        let a = i * 72deg + 90deg
-        let an = (i+1) * 72deg + 90deg
-        let p = (calc.cos(a)*1.2, calc.sin(a)*1.2)
-        let pn = (calc.cos(an)*1.2, calc.sin(an)*1.2)
-        line(p, pn, stroke: 1.3pt + rgb("0D47A1"))
-        line((0,0), p, stroke: (dash: "dashed", paint: rgb("1B5E20"), thickness: 1.1pt))
-        circle(p, radius: 0.25, fill: white, stroke: 1.3pt + rgb("0D47A1"))
-        content(p, text(size: 7.5pt, weight: "bold")[v#str(i+1)])
-      }
-      circle((0,0), radius: 0.28, fill: rgb("FFF9C4"), stroke: 1.5pt + rgb("1B5E20"))
-      content((0,0), text(size: 8pt, weight: "bold")[C])
-    })
-  ]
-  #v(0.3em)
-
-  *Giải:*
-  Áp dụng công thức bánh xe $W_5$ với $n=5, k=5$:
-  1. Chọn màu cho đỉnh tâm: Có $k = 5$ cách.
-  2. Tô 5 đỉnh vành bằng $k-1 = 4$ màu còn lại (vòng tròn $C_5$):
-     $ P(C_5, 4) = (4-1)^5 + (-1)^5 times (4-1) = 3^5 - 3 = 243 - 3 = 240 " cách." $
+#cannon-box("Ví dụ 31 — Lưới Khuyết Lỗ Giữa", [
+  *Đề bài:* Lưới $3 times 4$, dùng 4 màu. Ô trung tâm ở Cột 2 bị khoét.
   
-  $ N = k times P(C_5, k-1) = 5 times 240 = bold(1200) " cách." $
-])
-
-#v(0.8em)
-#pagebreak()
-
-=== 11.5 — Nhóm 5: Đồ Thị Đầy Đủ ($K_n$)
-
-*Đặc trưng:* Tất cả các cặp đỉnh đều nối cạnh với nhau. Công thức: $P(K_n, k) = k(k-1)(k-2)dots(k-n+1)$.
-
-#cannon-box("Ví dụ 32 — Nhóm 4 kỳ thủ đấu cờ chéo và chọn mũ (k=5 màu)", [
-  *Đề bài:* Có 4 kỳ thủ tham gia thi đấu cờ. Mỗi người đều phải đấu với tất cả những người còn lại. Ban tổ chức chuẩn bị sẵn các mũ thuộc 5 màu khác nhau để phát cho họ. Tính số cách phát mũ sao cho không có hai kỳ thủ nào đấu với nhau đội mũ trùng màu.
-
   #align(center)[
-    #cetz.canvas(length: 1.1cm, {
+    #cetz.canvas(length: 1cm, {
       import cetz.draw: *
-      let p1 = (-0.8, 0.8); let p2 = (0.8, 0.8)
-      let p3 = (-0.8, -0.8); let p4 = (0.8, -0.8)
-      let pts = (p1, p2, p3, p4)
-      for i in range(4) {
-        for j in range(i+1, 4) {
-          line(pts.at(i), pts.at(j), stroke: 1.3pt + rgb("4A148C"))
-        }
-      }
-      for (i, p) in pts.enumerate() {
-        circle(p, radius: 0.25, fill: white, stroke: 1.3pt + rgb("4A148C"))
-        content(p, text(size: 8pt, weight: "bold")[#str(i+1)])
-      }
-    })
-  ]
-  #v(0.3em)
-
-  *Giải:*
-  Vì mọi cặp kỳ thủ đều đấu với nhau, mô hình liên kết này tạo thành đồ thị đầy đủ $K_4$ gồm 4 đỉnh. Có $k=5$ màu:
-  1. Người thứ 1: Có 5 cách chọn màu mũ.
-  2. Người thứ 2: Phải khác màu người 1 $->$ 4 cách.
-  3. Người thứ 3: Phải khác màu người 1 và người 2 $->$ 3 cách.
-  4. Người thứ 4: Phải khác màu cả 3 người trước $->$ 2 cách.
-  
-  $ N = 5 times 4 times 3 times 2 = bold(120) " cách." $
-])
-
-#v(0.5em)
-
-#cannon-box("Ví dụ 33 — Khung chóp tam giác đều tứ diện (k=4 màu)", [
-  *Đề bài:* Cho một hình chóp tam giác đều S.ABC. Người ta muốn tô màu 4 đỉnh của hình chóp bằng 4 màu sao cho hai đỉnh thuộc cùng một cạnh luôn khác màu nhau. Tính số cách tô.
-
-  #align(center)[
-    #cetz.canvas(length: 1.2cm, {
-      import cetz.draw: *
-      let pS = (0, 1)
-      let pA = (-0.9, -0.4); let pB = (0.9, -0.4)
-      let pC = (0, -0.9)
-      
-      line(pS, pA, stroke: 1.3pt + rgb("4A148C"))
-      line(pS, pB, stroke: 1.3pt + rgb("4A148C"))
-      line(pS, pC, stroke: 1.3pt + rgb("4A148C"))
-      line(pA, pC, stroke: 1.3pt + rgb("4A148C"))
-      line(pB, pC, stroke: 1.3pt + rgb("4A148C"))
-      line(pA, pB, stroke: (dash: "dashed", paint: rgb("4A148C"), thickness: 1.3pt))
-      
-      let lbls = ("S", "A", "B", "C")
-      let pts = (pS, pA, pB, pC)
-      for (i, p) in pts.enumerate() {
-        circle(p, radius: 0.22, fill: white, stroke: 1.3pt + rgb("4A148C"))
-        content(p, text(size: 8pt, weight: "bold")[#lbls.at(i)])
-      }
-    })
-  ]
-  #v(0.3em)
-
-  *Giải:*
-  Hình chóp tam giác đều có 4 đỉnh và 6 cạnh nối tất cả các cặp đỉnh với nhau, tạo thành đồ thị đầy đủ $K_4$ với $k=4$ màu:
-  $ N = P(K_4, 4) = 4 times 3 times 2 times 1 = bold(24) " cách." $
-])
-
-#v(0.8em)
-#pagebreak()
-
-=== 11.6 — Nhóm 6: Đồ Thị Bất Kỳ Dùng Thuật Toán Co - Xóa
-
-*Đặc trưng:* Sử dụng công thức đệ quy $P(G, k) = P(G backslash e, k) - P(G \/ e, k)$ bằng cách xóa-chập một cạnh bất kỳ.
-
-#cannon-box("Ví dụ 34 — Đồ thị hình thoi thêm đường chéo (k=4 màu)", [
-  *Đề bài:* Đồ thị $G$ gồm 4 đỉnh $A, B, C, D$ tạo thành hình thoi kèm đường chéo $A-C$ (tổng cộng 5 cạnh). Có 4 màu để tô các đỉnh sao cho các đỉnh kề nhau khác màu. Tính số cách tô.
-
-  #align(center)[
-    #cetz.canvas(length: 1.1cm, {
-      import cetz.draw: *
-      let pA = (-0.9, 0.0); let pB = (0.0, 0.9)
-      let pC = (0.9, 0.0); let pD = (0.0, -0.9)
-      for (p, q) in ((pA, pB), (pB, pC), (pC, pD), (pD, pA)) {
-        line(p, q, stroke: 1.3pt + rgb("0D47A1"))
-      }
-      line(pA, pC, stroke: (dash: "dashed", paint: rgb("BF360C"), thickness: 1.3pt))
-      
-      for (p, l) in ((pA,"A"),(pB,"B"),(pC,"C"),(pD,"D")) {
-        circle(p, radius: 0.22, fill: white, stroke: 1.3pt + rgb("0D47A1"))
-        content(p, text(size: 8pt, weight: "bold")[#l])
-      }
-    })
-  ]
-  #v(0.3em)
-
-  *Giải:*
-  Ta chọn cạnh đường chéo $e = A-C$ để thực hiện phép co-xóa:
-  1. *Xóa cạnh $e$ ($G backslash e$):* Đồ thị trở thành vòng tròn 4 đỉnh $C_4$. Số cách tô bằng 4 màu là:
-     $ P(C_4, 4) = (4-1)^4 + (-1)^4 times (4-1) = 3^4 + 3 = 81 + 3 = 84 " cách." $
-  2. *Co cạnh $e$ ($G / e$):* Chập hai đỉnh $A$ và $C$ thành một đỉnh duy nhất. Đồ thị còn lại 3 đỉnh tạo thành đường thẳng $P_3$. Số cách tô bằng 4 màu là:
-     $ P(P_3, 4) = 4 times 3^2 = 36 " cách." $
-  
-  $ N = P(G backslash e, 4) - P(G / e, 4) = 84 - 36 = bold(48) " cách." $
-])
-
-#v(0.5em)
-
-#cannon-box("Ví dụ 35 — Hai tam giác ghép chung nhau 1 cạnh (k=3 màu)", [
-  *Đề bài:* Một đồ thị gồm 4 đỉnh tạo thành hai tam giác ghép chung cạnh đáy BC. Có 3 màu để tô các đỉnh sao cho các đỉnh chung cạnh khác màu. Tính số cách tô.
-
-  #align(center)[
-    #cetz.canvas(length: 1.1cm, {
-      import cetz.draw: *
-      let pA = (-0.9, 0.5); let pB = (0.0, -0.4)
-      let pC = (0.0, 0.8); let pD = (0.9, 0.5)
-      
-      for (p, q) in ((pA, pB), (pA, pC), (pD, pB), (pD, pC)) {
-        line(p, q, stroke: 1.3pt + rgb("0D47A1"))
-      }
-      line(pB, pC, stroke: (dash: "dashed", paint: rgb("BF360C"), thickness: 1.3pt))
-      
-      for (p, l) in ((pA,"A"),(pB,"B"),(pC,"C"),(pD,"D")) {
-        circle(p, radius: 0.22, fill: white, stroke: 1.3pt + rgb("0D47A1"))
-        content(p, text(size: 8pt, weight: "bold")[#l])
-      }
-    })
-  ]
-  #v(0.3em)
-
-  *Giải:*
-  Gọi cạnh chung là $e = B C$. Ta chọn cạnh này để thực hiện phép co-xóa:
-  1. *Xóa cạnh $e$ ($G backslash e$):* Bỏ cạnh BC, đồ thị trở thành một vòng tròn 4 đỉnh $C_4$ ($A-B-D-C-A$). Số cách tô bằng 3 màu là:
-     $ P(C_4, 3) = (3-1)^4 + (-1)^4 times (3-1) = 2^4 + 2 = 16 + 2 = 18 " cách." $
-  2. *Co cạnh $e$ ($G / e$):* Chập hai đỉnh $B$ và $C$ thành một đỉnh chung BC. Đồ thị còn lại 3 đỉnh tạo thành đường thẳng A-BC-D ($P_3$). Số cách tô bằng 3 màu là:
-     $ P(P_3, 3) = 3 times 2^2 = 12 " cách." $
-  
-  $ N = P(G backslash e, 3) - P(G / e, 3) = 18 - 12 = bold(6) " cách." $
-])
-
-
-// ─────────────────────────────────────
-=== 10.6 — Bản Đồ Và Đồ Thị Đối Ngẫu (Planar Map → Dual Graph)
-
-Khi bài toán cho hình vẽ vùng (bản đồ, các miếng ghép), *không cần ép về lưới*. Thay vào đó, dùng *đồ thị đối ngẫu*:
-
-#grid(columns: (1.2fr, 1fr), gutter: 0.8cm, [
-  #align(center)[
-    #cetz.canvas(length: 1.1cm, {
-      import cetz.draw: *
-      // Hình chữ nhật chia 4 vùng
-      rect((-1.8,-1.2),(1.8,1.2), stroke: 1.3pt + rgb("37474F"))
-      line((0,-1.2),(0,1.2), stroke: 1.3pt + rgb("37474F"))
-      line((-1.8,0),(1.8,0), stroke: 1.3pt + rgb("37474F"))
-      // Nhãn vùng
-      content((-0.9,0.6), text(size: 9pt, weight:"bold")[A])
-      content((0.9,0.6), text(size: 9pt, weight:"bold")[B])
-      content((-0.9,-0.6), text(size: 9pt, weight:"bold")[C])
-      content((0.9,-0.6), text(size: 9pt, weight:"bold")[D])
-      // Đồ thị đối ngẫu
-      let dA = (-0.9,0.6); let dB = (0.9,0.6)
-      let dC = (-0.9,-0.6); let dD = (0.9,-0.6)
-      for (p,q) in ((dA,dB),(dB,dD),(dD,dC),(dC,dA),(dA,dD),(dB,dC)) {
-        line(p, q, stroke: (dash: "dashed", paint: rgb("BF360C"), thickness: 1.1pt))
-      }
-      for (p, l) in ((dA,"A"),(dB,"B"),(dC,"C"),(dD,"D")) {
-        circle(p, radius: 0.2, fill: rgb("FFF9C4"), stroke: 1.2pt + rgb("BF360C"))
-      }
-      content((0,-1.8), text(size: 8pt, fill: rgb("BF360C"), weight: "bold")[Đối ngẫu (nét đứt)])
-    })
-  ]
-], [
-  *Quy trình:*
-  1. Mỗi *vùng* → 1 đỉnh đồ thị đối ngẫu.
-  2. Hai vùng có *chung biên* → nối cạnh.
-  3. Tính $P(G_"dual", k)$ bằng công thức phù hợp.
-
-  *Ví dụ:* Hình chữ nhật chia 4 ô (2×2) — đồ thị đối ngẫu là $K_4$ (4 đỉnh, mọi cặp nối).
-
-  $P(K_4, 4) = 4 times 3 times 2 times 1 = 24$
-
-  *Điều này giải thích:* Bảng 2×2 có 84 cách tô (bằng Bộ QT Lưới), nhưng nếu xét "4 góc đều khác nhau" thì chỉ còn 24!
-])
-
-#v(0.5em)
-
-// ─────────────────────────────────────
-*Bảng tóm tắt — Chọn vũ khí nào cho hình dạng nào:*
-
-#table(
-  columns: (1.6fr, 1fr, 1.5fr, 1.5fr),
-  inset: 7pt,
-  align: (left, center, left, left),
-  table.header([*Nhận dạng đồ thị*], [*Loại*], [*Vũ khí dùng*], [*Ghi chú*]),
-  [Hàng thẳng, nhánh cây, không vòng], [$P_n$/$T_n$], [Súng Lục: $k(k-1)^{n-1}$], [Mọi cây đều dùng được],
-  [Khép kín thành vòng], [$C_n$], [Vòng: $(k-1)^n + (-1)^n(k-1)$], [Đại Bác 3],
-  [1 tâm + $n$ cánh tự do], [$K_{1,n}$], [Sao: $k(k-1)^n$], [Cánh không nối nhau],
-  [1 tâm + vòng $n$ đỉnh], [$W_n$], [Bánh xe: $k dot P(C_n, k-1)$], [2 bước: tâm + vành],
-  [Mọi cặp đỉnh đều nối], [$K_n$], [Đầy đủ: $k(k-1) dots.c (k-n+1)$], [Cần $k >= n$ màu],
-  [Lưới ô vuông khuyết], [Grid], [Đại Bác Vạn Năng (Quét Cột)], [Chương 1–9 của tài liệu này],
-  [Hình vẽ vùng/bản đồ], [Planar], [Đồ thị đối ngẫu → áp công thức], [Vùng = đỉnh],
-  [Đồ thị tuỳ ý bất kỳ], [$G$], [Xoá-Chập: $P(G \\ e) - P(G/e)$], [Vạn năng, đệ quy],
-)
-
-
-
-
-#pagebreak()
-
-
-#pagebreak()
-
-== 12. Bí Ẩn Của Lưới Cao Tầng (3xN, 4xN) — Khái Niệm Phân Tách Trạng Thái
-
-Khi chiều cao cột $h \ge 3$, chúng ta *không thể* tiếp tục nhân với một hệ số $H$ đơn giản như lưới 2 hàng. Tại sao vậy? 
-
-Hãy xét một cột 3 ô ($h=3$). Ô đỉnh và ô đáy của nó tuy không kề nhau, nhưng màu của chúng lại ảnh hưởng sâu sắc đến cột tiếp theo. 
-- Nếu Ô đỉnh và Ô đáy *trùng màu*, cột tiếp theo sẽ "dễ thở" hơn (ít bị cấm màu hơn).
-- Nếu Ô đỉnh và Ô đáy *khác màu*, cột tiếp theo sẽ bị cấm nhiều màu hơn.
-
-Do tính đối xứng bị phá vỡ, ta bắt buộc phải chia cột thành các *Trạng Thái (States)* khác nhau và lập *Ma trận chuyển trạng thái (Transfer Matrix)*.
-
-#theory-box[
-  *Bí kíp: Ma trận chuyển trạng thái tổng quát cho cột 3 hàng ($h=3$) với $k$ màu*
-  
-  *1. Số cách chọn cho Cột Đầu Tiên:*
-  Cột đầu tiên có tổng cộng $k(k-1)^2$ cách tô, phân thành 2 trạng thái:
-  - *Trạng thái A (Ô đỉnh và đáy Trùng Màu):* $A_1 = k(k-1)$
-  - *Trạng thái B (Ô đỉnh và đáy Khác Màu):* $B_1 = k(k-1)(k-2)$
-
-  *2. Hệ số Ma trận chuyển từ Cột sang Cột:*
-  Hệ phương trình trạng thái chuyển sang cột kế tiếp:
-  $ A_("mới") = M_(A A) times A_("cũ") + M_(B A) times B_("cũ") $
-  $ B_("mới") = M_(A B) times A_("cũ") + M_(B B) times B_("cũ") $
-  
-  Trong đó 4 hằng số chuyển tiếp là:
-  - $M_(A A) = k^2 - 3k + 3$
-  - $M_(B A) = k^2 - 4k + 5$
-  - $M_(A B) = (k-2)(k^2 - 4k + 5)$
-  - $M_(B B) = k^3 - 6k^2 + 14k - 13$
-]
-
-#v(0.5em)
-
-#cannon-box("Ví dụ 36 — Lưới 3x4 trọn vẹn với k=5 màu", [
-  *Đề bài:* Cho lưới $3 times 4$. Có 5 màu để tô sao cho các ô chung cạnh khác màu. Tính tổng số cách tô.
-
-  *Giải:*
-  Thay $k=5$ vào bộ công thức tổng quát trong khung lý thuyết:
-  - $M_(A A) = 5^2 - 3(5) + 3 = 13$
-  - $M_(B A) = 5^2 - 4(5) + 5 = 10$
-  - $M_(A B) = (5-2) times 10 = 30$
-  - $M_(B B) = 5^3 - 6(5^2) + 14(5) - 13 = 125 - 150 + 70 - 13 = 32$
-
-  *Bước 1: Cột 1*
-  - $A_1 = 5 times 4 = 20$
-  - $B_1 = 5 times 4 times 3 = 60$
-  *(Tổng Cột 1: $80$ cách)*
-
-  *Bước 2: Cột 2*
-  - $A_2 = 13 times 20 + 10 times 60 = 860$
-  - $B_2 = 30 times 20 + 32 times 60 = 2520$
-  *(Tổng Cột 2: $3.380$ cách)*
-
-  *Bước 3: Cột 3*
-  - $A_3 = 13 times 860 + 10 times 2520 = 36.380$
-  - $B_3 = 30 times 860 + 32 times 2520 = 106.440$
-  *(Tổng Cột 3: $142.820$ cách)*
-
-  *Bước 4: Cột 4*
-  - $A_4 = 13 times 36380 + 10 times 106440 = 1.537.340$
-  - $B_4 = 30 times 36380 + 32 times 106440 = 4.497.480$
-  *(Tổng Cột 4: $6.034.820$ cách)*
-
-  *Kết quả:* Tổng số cách tô lưới $3 times 4$ bằng 5 màu là $bold(6.034.820)$ cách.
-])
-
-#v(0.5em)
-
-#cannon-box("Ví dụ 37 — Lưới 3x4 khuyết ô giữa ở cột cuối (k=4)", [
-  *Đề bài:* Lưới 3 hàng 4 cột, nhưng Cột số 4 bị rỗng ở ô chính giữa. Có 4 màu, tính số cách tô.
-
-  #align(center)[
-    #cetz.canvas(length: 0.85cm, {
-      import cetz.draw: *
-      let X = rgb("F5F5F5")
-      let xs = 0.5pt + rgb("BBBBBB")
-      // Col 1, 2, 3
-      for c in range(3) {
-        for r in range(3) {
-          rect((c, r), (c+1, r+1), fill: rgb("E3F2FD"), stroke: 1.1pt+black)
-        }
-        content((c+0.5, -0.4), text(size: 8pt, weight: "bold")["C." + str(c+1)])
-      }
+      // Col 1
+      rect((0, 0), (1, 3), stroke: 1.5pt, fill: rgb("E3F2FD"))
+      line((0, 1), (1, 1), stroke: 1pt); line((0, 2), (1, 2), stroke: 1pt)
+      // Col 2
+      rect((1.5, 2), (2.5, 3), stroke: 1.5pt, fill: rgb("FFEBEE"))
+      rect((1.5, 0), (2.5, 1), stroke: 1.5pt, fill: rgb("FFEBEE"))
+      content((2, 1.5), text(fill: red, weight: "bold", size: 1.5em)[$times$])
+      // Col 3
+      rect((3, 0), (4, 3), stroke: 1.5pt, fill: rgb("E8F5E9"))
+      line((3, 1), (4, 1), stroke: 1pt); line((3, 2), (4, 2), stroke: 1pt)
       // Col 4
-      rect((3, 0), (4, 1), fill: rgb("FFE0B2"), stroke: 1.1pt+black)
-      rect((3, 2), (4, 3), fill: rgb("FFE0B2"), stroke: 1.1pt+black)
-      rect((3, 1), (4, 2), stroke: (dash: "dashed", paint: rgb("CCCCCC"), thickness: 1pt))
-      content((3.5, 1.5), text(size: 8pt, fill: rgb("999999"))["x"])
-      content((3.5, -0.4), text(size: 8pt, weight: "bold", fill: rgb("BF360C"))["C.4"])
+      rect((4.5, 0), (5.5, 3), stroke: 1.5pt, fill: rgb("FFF8E1"))
+      line((4.5, 1), (5.5, 1), stroke: 1pt); line((4.5, 2), (5.5, 2), stroke: 1pt)
+      
+      content((0.5, -0.5), [Cột 1]); content((2, -0.5), [Cột 2])
+      content((3.5, -0.5), [Cột 3]); content((5.5, -0.5), [Cột 4])
+      line((1, 1.5), (1.5, 1.5), mark: (end: ">"))
+      line((2.5, 1.5), (3, 1.5), mark: (end: ">"))
+      line((4, 1.5), (4.5, 1.5), mark: (end: ">"))
     })
   ]
-  #v(0.3em)
-
-  *Giải:*
-
-  Với $k=4$, các hệ số chuyển là $M_(A A)=7, M_(B A)=5, M_(A B)=10, M_(B B)=11$.
-  - Tính trạng thái Cột 3 bằng ma trận: $A_3 = 3348$ và $B_3 = 6264$. Tổng Cột 3 là $9612$ cách.
   
-  Cột 4 bị khuyết ô giữa, hai ô đầu và cuối trở thành 2 "nhánh cây" hoàn toàn độc lập bám vào Cột 3.
-  - Ô trên cùng Cột 4 chỉ chạm vào ô trên cùng Cột 3 $arrow$ Có $k-1 = 3$ cách chọn.
-  - Ô dưới cùng Cột 4 chỉ chạm vào ô dưới cùng Cột 3 $arrow$ Có $k-1 = 3$ cách chọn.
+  *Giải:* 
+  Tại cột 2, do mất đi ô giữa, ô Trên và Dưới không còn ràng buộc nội bộ. Số cách chọn cho ô Trên và Dưới (đều phải né Cột 1) là $3 times 3 = 9$ cách.
+  Ma trận hệ số chuyển từ Cột 1 sang Cột 2 thay đổi thành: $M_("AA")=3, M_("BA")=2, M_("AB")=6, M_("BB")=7$.
+  Từ Cột 2 sang Cột 3, lưới trở lại nguyên vẹn nên dùng hệ số chuẩn.
   
-  *Kết quả:* Tổng $= ("Tổng C.3") times (3 times 3) = 9612 times 9 = bold(86.508) " cách."$
+  #align(center)[
+  #table(
+    columns: (1.5fr, 1fr, 1.2fr, 1.2fr, 1.2fr),
+    inset: 8pt,
+    align: (center + horizon),
+    [*Trạng Thái*], [*Cột 1*], [*Cột 2 (Khuyết)*], [*Cột 3 (Chuẩn)*], [*Cột 4 (Chuẩn)*],
+    [*Trạng thái A (Đồng màu)*], [*12*], [84], [1.788], [29.916],
+    [*Trạng thái B (Khác màu)*], [*24*], [240], [3.480], [56.160],
+  )
+  ]
+  _Giải thích Cột 2: $A_2 = 3(12) + 2(24) = 84$. $B_2 = 6(12) + 7(24) = 240$._
+  
+  *Kết quả:* Tổng số cách = $29.916 + 56.160 = bold{86.076}$ cách.
 ])
 
 #v(0.5em)
-
-#cannon-box("Ví dụ 38 — Lưới chuyển tiếp tụt độ cao (Từ 3 ô xuống 2 ô)", [
-  *Đề bài:* Cho một lưới gồm Cột 1 và Cột 2 cao 3 ô. Riêng Cột số 3 bị khuyết 1 ô dưới cùng (tức là chỉ cao 2 ô). Có 4 màu, tính tổng số cách tô.
-
-  *Giải:*
-  Đây là ví dụ siêu việt để minh chứng nguyên lý: *"Cột sau cao bao nhiêu thì chỉ lấy bấy nhiêu ô tương ứng của cột trước để xét"*.
+#cannon-box("Ví dụ 32 — Lưới Khuyết Ở Cột Cuối", [
+  *Đề bài:* Lưới $3 times 4$, dùng 4 màu. Ô trung tâm ở Cột 4 bị khoét.
   
-  *Bước 1: Tính Cột 2 (cao 3 ô)*
-  Dùng ma trận như Ví dụ 37, ta có $A_2 = 204$ và $B_2 = 384$. Tổng Cột 2 là $588$ cách.
-
-  *Bước 2: Chuyển sang Cột 3 (chỉ cao 2 ô)*
-  Cột 3 chỉ gồm ô Đỉnh và ô Giữa. Nó CHỈ TIẾP XÚC với ô Đỉnh và ô Giữa của Cột 2. Nó hoàn toàn phớt lờ ô Đáy của Cột 2!
-  Vì Cột 3 chỉ cao 2 ô, cấu trúc tiếp xúc của nó trở về chính xác như một lưới $2 times N$. Hệ số chuyển lúc này bị giáng cấp thẳng xuống thành hệ số $H$ của 2 hàng: 
-  $ H = k^2 - 3k + 3 $
-  Với $k=4$, $H = 4^2 - 12 + 3 = 7$.
-
-  Sự kỳ diệu ở đây là: Dù Cột 2 đang ở trạng thái A hay B, Cột 3 luôn có đúng $7$ cách chọn (vì nó không quan tâm đến ô Đáy - nơi sinh ra sự khác biệt A/B).
-
-  *Kết quả:* Tổng $= ("Tổng C.2") times H = 588 times 7 = bold(4.116) " cách."$
+  #align(center)[
+    #cetz.canvas(length: 1cm, {
+      import cetz.draw: *
+      for i in range(3) {
+        rect((i*1.5, 0), (i*1.5 + 1, 3), stroke: 1.5pt, fill: rgb("E3F2FD"))
+        line((i*1.5, 1), (i*1.5 + 1, 1), stroke: 1pt)
+        line((i*1.5, 2), (i*1.5 + 1, 2), stroke: 1pt)
+        content((i*1.5 + 0.5, -0.5), [Cột #(i+1)])
+        line((i*1.5 + 1, 1.5), (i*1.5 + 1.5, 1.5), mark: (end: ">"))
+      }
+      // Col 4 (khuyết giữa)
+      rect((4.5, 2), (5.5, 3), stroke: 1.5pt, fill: rgb("FFEBEE"))
+      rect((4.5, 0), (5.5, 1), stroke: 1.5pt, fill: rgb("FFEBEE"))
+      content((5, 1.5), text(fill: red, weight: "bold", size: 1.5em)[$times$])
+      content((5, -0.5), [Cột 4])
+    })
+  ]
+  
+  *Giải:* 
+  Vì sự khuyết thiếu xảy ra ở cột tận cùng, ta không cần phân tách trạng thái phân nhánh cho các cột sau. Bảng tính toán được thực hiện như lưới nguyên vẹn đến hết Cột 3.
+  
+  #align(center)[
+  #table(
+    columns: (1.5fr, 1fr, 1fr, 1fr),
+    inset: 8pt,
+    align: (center + horizon),
+    [*Trạng Thái*], [*Cột 1*], [*Cột 2*], [*Cột 3*],
+    [*Trạng thái A (Đồng màu)*], [*12*], [204], [*3.348*],
+    [*Trạng thái B (Khác màu)*], [*24*], [384], [*6.264*],
+  )
+  ]
+  Tổng số cách tô từ Cột 1 đến Cột 3 là: $3.348 + 6.264 = 9.612$ cách.
+  Tại Cột 4, hai ô Trên và Dưới độc lập, mỗi ô có 3 cách chọn (né Cột 3). Số cách tô riêng Cột 4 là $3 times 3 = 9$.
+  
+  *Kết quả:* Tổng số cách toàn lưới = $9.612 times 9 = bold{86.508}$ cách.
 ])
 
 #v(0.5em)
-_Lưu ý:_ Kỹ năng đọc mô hình chạm biên là chìa khóa tối thượng. Cột tiếp theo hình dáng thế nào, ta dùng hệ số chuyển của hình dáng đó, bất chấp quá khứ phức tạp ra sao!
+#cannon-box("Ví dụ 33 — Lưới Hình Chữ U", [
+  *Đề bài:* Lưới $3 times 3$, dùng 4 màu. Hai ô ở vị trí Trên và Giữa của Cột 2 bị khoét thủng.
+  
+  #align(center)[
+    #cetz.canvas(length: 1cm, {
+      import cetz.draw: *
+      // Col 1
+      rect((0, 0), (1, 3), stroke: 1.5pt, fill: rgb("E3F2FD"))
+      line((0, 1), (1, 1), stroke: 1pt); line((0, 2), (1, 2), stroke: 1pt)
+      // Col 2 (only bottom)
+      rect((1.5, 0), (2.5, 1), stroke: 1.5pt, fill: rgb("FFEBEE"))
+      content((2, 1.5), text(fill: red, weight: "bold", size: 1.5em)[$times$])
+      content((2, 2.5), text(fill: red, weight: "bold", size: 1.5em)[$times$])
+      // Col 3
+      rect((3, 0), (4, 3), stroke: 1.5pt, fill: rgb("E8F5E9"))
+      line((3, 1), (4, 1), stroke: 1pt); line((3, 2), (4, 2), stroke: 1pt)
+      
+      content((0.5, -0.5), [Cột 1]); content((2, -0.5), [Cột 2]); content((3.5, -0.5), [Cột 3])
+      line((1, 0.5), (1.5, 0.5), mark: (end: ">"))
+      line((2.5, 0.5), (3, 0.5), mark: (end: ">"))
+      
+      // Khung đứt nét chỉ sự độc lập
+      line((2.5, 1.5), (3, 1.5), stroke: (dash: "dashed", paint: gray), mark: (end: ">", paint: gray))
+      line((2.5, 2.5), (3, 2.5), stroke: (dash: "dashed", paint: gray), mark: (end: ">", paint: gray))
+      content((1.2, 3.5), text(fill: gray, size: 0.9em)[Tự do (Không có ràng buộc ngang)])
+      bezier((2.8, 3.5), (2.8, 2.5), (2, 3.5), mark: (end: ">", paint: gray), stroke: gray)
+    })
+  ]
+  
+  *Giải:* 
+  Lưới hình chữ U minh hoạ sự thoái hóa của ma trận trạng thái:
+  - Cột 1 nguyên vẹn: Có $4 times 3 times 3 = 36$ cách tô.
+  - Cột 2 chỉ còn ô Dưới: Ràng buộc duy nhất là né ô Dưới của Cột 1 $=>$ Cột 2 có 3 cách tô độc lập. Vì không có ô Trên, khái niệm "Trạng thái A/B" bị triệt tiêu hoàn toàn.
+  - Cột 3 nguyên vẹn: Do Cột 2 khuyết hai ô trên, Cột 3 chỉ bị ràng buộc ở vị trí ô Dưới. Số cách tô ô Dưới là 3. Các ô Giữa và Trên của Cột 3 chỉ phải thoả mãn nội bộ (mỗi ô 3 cách). Tổng số cách của Cột 3 là $3 times 3 times 3 = 27$ cách.
+  
+  *Kết luận:* Tính độc lập giữa các khối được thiết lập. Số cách tô được tính bằng tích đơn giản:
+  Tổng số cách = Cột 1 $times$ Cột 2 $times$ Cột 3 = $36 times 3 times 27 = bold{2.916}$ cách.
+])

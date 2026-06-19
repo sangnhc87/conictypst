@@ -157,26 +157,25 @@
 #q-label([B. ĐỀ LUYỆN TẬP], c-book)
 
 #block(breakable: false)[
-  #phuongphap(title: [Chuyên đề 7: Bài toán Khai thác Bền vững Tài nguyên Tái tạo (Maximum Sustainable Yield)])[
-    Quần thể cá (hoặc rừng, năng lượng gió...) tăng trưởng theo *mô hình logistic*:
+  #phuongphap(title: [Chuyên đề 7: Bài toán Khai thác Bền vững Tài nguyên Tái tạo (Sản lượng bền vững tối đa)])[
+    Quần thể cá (hoặc rừng, năng lượng tự nhiên...) tăng trưởng theo *mô hình logistic*:
     $
-      frac(d N, d t) = r N (1 - N/K)
+      N'(t) = r N(t) (1 - frac(N(t), K))
     $
-    trong đó $N$ là quy mô quần thể, $r > 0$ là tốc độ tăng trưởng tự nhiên, $K$ là *sức chứa tối đa* của môi trường.
+    trong đó $N(t)$ là quy mô (sinh khối) của quần thể tại thời điểm $t$, $N'(t)$ là tốc độ tăng trưởng tự nhiên, $r > 0$ là hệ số tăng trưởng tự nhiên và $K$ là *sức chứa tối đa* của môi trường.
 
-    Nếu khai thác với mức cố định $H$ (tấn/năm), phương trình cân bằng trở thành:
+    Nếu khai thác với sản lượng cố định là $H$ (tấn/năm), tốc độ thay đổi sinh khối của quần thể trở thành:
     $
-      r N (1 - N/K) = H quad arrow.l.r.double quad r N - frac(r N^2, K) = H
+      N'(t) = r N(t) (1 - frac(N(t), K)) - H
     $
 
-    *Mức khai thác bền vững tối đa (Maximum Sustainable Yield — MSY):*
-    - Để tồn tại điểm cân bằng ổn định, phương trình trên phải có nghiệm thực dương, tức là biệt thức $Delta >= 0$.
-    - Tốc độ tăng trưởng tự nhiên $f(N) = r N(1-N/K)$ đạt cực đại khi $f'(N) = r(1 - 2N/K) = 0 <=> N^* = K/2$.
-    - Mức khai thác bền vững tối đa: $H^* = f(K/2) = r dot K/2 dot (1 - 1/2) = frac(r K, 4)$.
-    - *Quy tắc vàng:* Để đạt MSY, duy trì quần thể ở *nửa sức chứa*: $N^* = K/2$.
-    - *Cảnh báo:* Nếu $H > H^* = r K/4$, phương trình cân bằng vô nghiệm — quần thể sẽ sụp đổ theo thời gian.
+    *Mức khai thác bền vững tối đa (Sản lượng bền vững tối đa):*
+    - Khi quần thể ở trạng thái cân bằng và phát triển ổn định ($N'(t) = 0$), ta có phương trình: $r N (1 - N/K) = H <=> r N - frac(r N^2, K) = H$.
+    - Tốc độ tăng trưởng tự nhiên $g(N) = r N(1-N/K)$ đạt giá trị lớn nhất khi $g'(N) = r(1 - frac(2N, K)) = 0 <=> N = K/2$ (tức là duy trì quần thể ở mức một nửa sức chứa tối đa của môi trường).
+    - Sản lượng khai thác bền vững tối đa mỗi năm tương ứng là: $H_"max" = g(K/2) = r dot.c frac(K, 2) dot.c (1 - 1/2) = frac(r K, 4)$.
+    - *Cảnh báo:* Nếu lượng khai thác hằng năm vượt quá mức tối đa ($H > H_"max" = frac(r K, 4)$), tốc độ thay đổi sinh khối luôn âm ($N'(t) < 0$), quần thể sẽ liên tục suy giảm về $0$ và sụp đổ hoàn toàn.
 
-    *Ví dụ:* Đàn cá với $r = 0.4$, $K = 2000$ tấn. MSY $= 0.4 times 2000/4 = 200$ tấn/năm. Khai thác trên 200 tấn → nguy cơ tuyệt chủng.
+    *Ví dụ:* Đàn cá với $r = 0,4$ và $K = 2.000$ tấn. Sản lượng khai thác bền vững tối đa hằng năm là $H_"max" = frac(0.4 times 2000, 4) = 200$ tấn/năm. Nếu khai thác trên $200$ tấn/năm, đàn cá sẽ bị tuyệt chủng.
   ]
 ]
 

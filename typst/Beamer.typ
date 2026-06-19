@@ -20,10 +20,10 @@
 
 // ── Thông tin bài giảng ───────────────────────────────────
 #let bm-title = "CHỮA ĐỀ THI THỬ THPT QG 2026"
-#let bm-subtitle = "TOÁN - LỚP 12C9"
+#let bm-subtitle = "TOÁN - LỚP 12"
 #let bm-author = "GV Nguyễn Văn Sang"
-#let bm-institution = "ĐỀ THI THỬ"
-#let bm-code = "101"
+#let bm-institution = "ĐỀ THI THỬ CUỐI CÙNG"
+#let bm-code = "9999"
 
 // ── Màu nền slide ────────────────────────────────────────
 // Chữ, card, lời giải sẽ tự động thích nghi (tối/sáng)
@@ -38,11 +38,13 @@
 //   Trắng: rgb("#ffffff")  |  Đen:     rgb("#000000")
 #let bm-math-color = rgb("#f108ca")
 
-// ── Cỡ chữ ───────────────────────────────────────────────
-#let bm-text-size = 28pt
-#let bm-q-size = 24pt
-#let bm-opt-size = 20pt
-#let bm-sol-size = 18pt
+// ── Cỡ chữ (Hệ thống tự co giãn theo Base Size) ────────────
+#let bm-base-size = 24pt // Chỉ cần chỉnh biến này để phóng to/thu nhỏ toàn bộ
+#let bm-text-size = bm-base-size * 1.15  // Text chung
+#let bm-q-size = bm-base-size            // Câu hỏi
+#let bm-opt-size = bm-base-size * 0.85   // Phương án A, B, C, D
+#let bm-sol-size = bm-base-size * 0.75   // Lời giải
+#let bm-table-size = bm-base-size * 0.75 // Bảng Đ/S
 
 // ── Số câu (navigation dots ở footer) ────────────────────
 #let bm-total-q = 22
@@ -66,6 +68,7 @@
   question_size: bm-q-size,
   option_size: bm-opt-size,
   solution_size: bm-sol-size,
+  table_size: bm-table-size,
   auto_step_pause: bm-auto-step,
 )
 
@@ -74,7 +77,7 @@
 #let (mcq, tf, short) = (_m.mcq, _m.tf, _m.short)
 
 // Import make-questions từ file đề — không cần --input beamer=1
-#import "De-Cac-So/2026-Tự-Chế-Lần-2.typ": make-questions as _de
+#import "dethi/de-30.typ": make-questions as _de
 #_de(tn: _m.tn, ds: _m.ds, tln: _m.tln, tl: _m.tl, exam-part: exam-part)
 #pagebreak()
 #print-answer-key()

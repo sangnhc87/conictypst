@@ -1,5 +1,8 @@
 // Cấu hình chung cho Thống kê Ghép nhóm — Chương 3
 
+// ─── Cấu hình dùng chung (tfrac, doc-setup, hoac) ─────────────
+#import "../../modules/_shared-config.typ": *
+
 #import "../../modules/book.typ": bt as _bt-orig, section as _section-orig, vd as _vd-orig
 #import "../../modules/book.typ": *
 #import "../../modules/exam.typ": True, exam-mode, ppgiai, resetcau, resetexamstate, exam-part, print-answer-key
@@ -17,7 +20,7 @@
 #let tf = _exam_fns.tf
 #let short = _exam_fns.short
 
-#let hoac(..args) = math.cases(delim: "[", ..args.named(), ..args.pos().map(math.display))
+// hoac() đã có trong _shared-config.typ
 
 #let c-book = rgb("#5b21b6")
 #let c-p1 = rgb("#5b21b6")

@@ -1,5 +1,5 @@
 #import "_config.typ": *
-
+#show: doc-setup
 #resetexamstate()
 #resetcau()
 
@@ -7,7 +7,7 @@
   #text(size: 14pt, weight: "bold", fill: c-book)[ĐỀ LUYỆN TẬP SỐ 04 - ĐƠN ĐIỆU TRONG BỐI CẢNH THỰC TẾ]
 ]
 
-#exam-part([PHẦN I. Câu hỏi trắc nghiệm nhiều phương án lựa chọn (6 câu)], count: 6)
+#exam-part([PHẦN I. Câu hỏi trắc nghiệm nhiều phương án lựa chọn (8 câu)], count: 8)
 
 #q-wrap(dir: "doc", tn(
   [Lượng người dùng của một ứng dụng sau $t$ tháng được mô hình bởi
@@ -123,9 +123,33 @@
   ],
 ))
 
-#exam-part([PHẦN II. Câu hỏi trắc nghiệm Đúng/Sai (2 câu)], count: 2)
+#q-wrap(dir: "doc", tn(
+  [Sự lây lan của một loại virus trong một cộng đồng sau $t$ ngày được ước tính theo công thức $N(t) = (1000t)/(t^2 + 100)$ với $t >= 0$, trong đó $N(t)$ là số người bị nhiễm. Hỏi sau bao nhiêu ngày thì số người bị nhiễm bắt đầu giảm?],
+  ([$5$ ngày], True([$10$ ngày]), [$15$ ngày], [$20$ ngày]),
+  accent: c-book,
+  loigiai: [
+    #step[Tính đạo hàm: $N'(t) = (1000(t^2 + 100) - 1000t(2t))/(t^2 + 100)^2 = (100000 - 1000t^2)/(t^2 + 100)^2$.]
+    #step[Giải $N'(t) = 0 <=> 100000 - 1000t^2 = 0 <=> t^2 = 100$. Vì $t >= 0$ nên $t = 10$.]
+    #step[Lập bảng biến thiên, ta thấy $N'(t) > 0$ trên $(0; 10)$ và $N'(t) < 0$ trên $(10; +oo)$.]
+    #step[Vậy sau $10$ ngày thì số người bị nhiễm bắt đầu giảm.]
+  ],
+))
 
-#q-wrap(dir: "ngang", ds(
+#q-wrap(dir: "doc", tn(
+  [Lợi nhuận (đơn vị: triệu đồng) thu được từ việc bán $x$ sản phẩm được cho bởi hàm số $P(x) = -1/3 x^3 + 60x^2 - 1100x - 2000$. Hỏi lợi nhuận sẽ tăng khi số lượng sản phẩm $x$ nằm trong khoảng nào?],
+  ([$(0; 10)$], [$(110; +oo)$], True([$(10; 110)$]), [$(0; 110)$]),
+  accent: c-book,
+  loigiai: [
+    #step[Đạo hàm của hàm lợi nhuận: $P'(x) = -x^2 + 120x - 1100$.]
+    #step[Để lợi nhuận tăng, ta cần $P'(x) > 0 <=> -x^2 + 120x - 1100 > 0$.]
+    #step[Nghiệm của tam thức là $x = 10$ và $x = 110$. Do đó $10 < x < 110$.]
+    #step[Vậy lợi nhuận tăng khi số sản phẩm $x$ thuộc khoảng $(10; 110)$.]
+  ],
+))
+
+#exam-part([PHẦN II. Câu hỏi trắc nghiệm Đúng/Sai (3 câu)], count: 3)
+
+#q-wrap(dir: "doc", ds(
   [Cho nồng độ thuốc trong máu được mô hình bởi
     $C(t) = 5 t e^(-t)$ với $t >= 0$.
     Xét các phát biểu sau:],
@@ -144,7 +168,7 @@
   ],
 ))
 
-#q-wrap(dir: "ngang", ds(
+#q-wrap(dir: "doc", ds(
   [Cho chi phí trung bình của một xưởng sản xuất là
     $A(x) = 45 + 900/x$ với $x > 0$.
     Xét các phát biểu sau:],
@@ -163,7 +187,24 @@
   ],
 ))
 
-#exam-part([PHẦN III. Câu trắc nghiệm trả lời ngắn (4 câu)], count: 4)
+#q-wrap(dir: "doc", ds(
+  [Một công ty sản xuất một loại sản phẩm với chi phí $C(x) = 50x + 10000$ (đô la) và doanh thu từ việc bán $x$ sản phẩm là $R(x) = 250x - 0.5x^2$ (đô la), với $x > 0$. Gọi $P(x)$ là hàm lợi nhuận thu được. Xét các phát biểu sau:],
+  (
+    True([Hàm lợi nhuận là $P(x) = -0.5x^2 + 200x - 10000$.]),
+    [Đạo hàm của hàm doanh thu luôn dương với mọi $x > 0$.],
+    True([Lợi nhuận của công ty tăng khi số lượng sản phẩm $x$ thuộc khoảng $(0; 200)$.]),
+    True([Nếu công ty sản xuất trên $200$ sản phẩm thì lợi nhuận bắt đầu giảm.]),
+  ),
+  accent: c-book,
+  loigiai: [
+    - a) Lợi nhuận $P(x) = R(x) - C(x) = 250x - 0.5x^2 - (50x + 10000) = -0.5x^2 + 200x - 10000$. Phát biểu a) Đúng.
+    - b) Đạo hàm $R'(x) = 250 - x$. Với $x > 250$ thì $R'(x) < 0$. Phát biểu b) Sai.
+    - c) Đạo hàm hàm lợi nhuận $P'(x) = -x + 200$. Xét $P'(x) > 0 <=> -x + 200 > 0 <=> x < 200$. Vậy lợi nhuận tăng trên $(0; 200)$. Phát biểu c) Đúng.
+    - d) Khi $x > 200$ thì $P'(x) < 0$, lợi nhuận giảm dần. Phát biểu d) Đúng.
+  ],
+))
+
+#exam-part([PHẦN III. Câu trắc nghiệm trả lời ngắn (6 câu)], count: 6)
 
 #q-wrap(dir: "ngang", tln(
   [Lượng chất ô nhiễm còn lại trong một bể xử lí sau $t$ giờ được mô hình bởi
@@ -220,5 +261,29 @@
   loigiai: [
     #step[Từ bảng xét dấu, ta thấy $R'(x) < 0$ trên khoảng $(2; 5)$.]
     #step[Vì vậy doanh thu giảm trên khoảng $(2; 5)$.]
+  ],
+))
+
+#q-wrap(dir: "doc", tln(
+  [Nhiệt độ của một vật thể sau $t$ phút kể từ lúc bắt đầu làm mát được cho bởi công thức $T(t) = 20 + 80 e^(-0.1t)$ (độ C). Hỏi nhiệt độ của vật thể có tăng hay giảm trong khoảng $(0; +oo)$? (Nhập 1 nếu tăng, -1 nếu giảm).],
+  [$-1$],
+  accent: c-book,
+  loigiai: [
+    #step[Tính đạo hàm: $T'(t) = 80 dot.c (-0.1) e^(-0.1t) = -8 e^(-0.1t)$.]
+    #step[Vì $e^(-0.1t) > 0, forall t > 0$ nên $T'(t) < 0, forall t > 0$.]
+    #step[Do đạo hàm âm, nhiệt độ của vật thể luôn giảm trong khoảng thời gian quan sát. Vậy nhập $-1$.]
+  ],
+))
+
+#q-wrap(dir: "doc", tln(
+  [Số lượng vi khuẩn trong một mẫu cấy sau $t$ giờ được ước tính bởi $P(t) = 5000 + 1000t^2 e^(-t/3)$. Hỏi sau bao nhiêu giờ thì số lượng vi khuẩn bắt đầu giảm?],
+  [$6$],
+  accent: c-book,
+  loigiai: [
+    #step[Số lượng vi khuẩn bắt đầu giảm khi đạo hàm chuyển từ dương sang âm.]
+    #step[Tính đạo hàm: $P'(t) = 1000(2t dot.c e^(-t/3) + t^2 dot.c (-1/3) e^(-t/3)) = 1000 t (2 - t/3) e^(-t/3)$.]
+    #step[Xét $P'(t) = 0 <=> t = 0$ hoặc $2 - t/3 = 0 <=> t = 6$.]
+    #step[Trên $(0; 6)$, $P'(t) > 0$ (số lượng vi khuẩn tăng). Trên $(6; +oo)$, $P'(t) < 0$ (số lượng vi khuẩn giảm).]
+    #step[Vậy sau $6$ giờ thì số lượng vi khuẩn bắt đầu giảm.]
   ],
 ))

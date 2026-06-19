@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mô Phỏng Động: Khoan Lỗ Hạt Cườm Elipsoid</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- MathJax -->
+    <script>
+        MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- Three.js and OrbitControls -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Roboto+Mono&display=swap');
+        
+        body { 
+            font-family: 'Outfit', sans-serif; 
+            background-color: #080c14; 
+            color: #f1f5f9; 
+            line-height: 1.6; 
+        }
+        .mono {
+            font-family: 'Roboto Mono', monospace;
+        }
+        .math-display { overflow-x: auto; padding: 5px 0; }
+        
+        /* Glassmorphism containers */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        /* Callout boxes */
+        .theory-box {
+            background-color: rgba(37, 99, 235, 0.12);
+            border-left: 4px solid #3b82f6;
+            border-radius: 0 8px 8px 0;
+            padding: 12px 16px;
+            margin-bottom: 1rem;
+            border-top: 1px solid rgba(59, 130, 246, 0.1);
+            border-right: 1px solid rgba(59, 130, 246, 0.1);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+        }
+        .formula-box {
+            background-color: rgba(245, 158, 11, 0.08);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 1rem;
+        }
+        .step-box {
+            background-color: rgba(16, 185, 129, 0.08);
+            border-left: 4px solid #10b981;
+            border-radius: 0 8px 8px 0;
+            padding: 12px 16px;
+            margin-bottom: 1rem;
+            border-top: 1px solid rgba(16, 185, 129, 0.1);
+            border-right: 1px solid rgba(16, 185, 129, 0.1);
+            border-bottom: 1px solid rgba(16, 185, 129, 0.1);
+        }
+        .ans-box {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(4, 120, 87, 0.25));
+            border-left: 4px solid #10b981;
+            border-radius: 0 12px 12px 0;
+            padding: 16px;
+            margin-top: 1.2rem;
+            border-top: 1px solid rgba(16, 185, 129, 0.2);
+            border-right: 1px solid rgba(16, 185, 129, 0.2);
+            border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        /* Modern styled range inputs */
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 6px;
+            background: #1e293b;
+            border-radius: 3px;
+            outline: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #3b82f6;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+            transition: transform 0.1s ease, background-color 0.1s;
+        }
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.25);
+            background: #60a5fa;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-6 max-w-7xl mx-auto">
+
+    <!-- Header -->
+    <div class="glass-panel rounded-2xl p-6 mb-6 text-center">
+        <div class="text-xs md:text-sm tracking-widest uppercase mb-2 text-blue-400 font-semibold">Hình Học Trực Quan & Tích Phân 3D</div>
+        <h1 class="text-3xl md:text-5xl font-extrabold mb-2 text-white tracking-tight">KHOAN LỖ KHỐI TRÒN XOAY (HẠT CƯỜM)</h1>
+        <p class="text-sm md:text-base text-slate-400 max-w-2xl mx-auto">Mô phỏng 3D WebGL thực tế quá trình khoan một lỗ hình trụ xuyên dọc qua tâm khối Ellipsoid.</p>
+    </div>
+
+    <!-- Main Workspace -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- Left Column: Controls and Visualizers -->
+        <div class="lg:col-span-7 flex flex-col gap-6">
+            
+            <!-- Visualizers Container -->
+            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 md:p-6 shadow-xl">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
+                    <!-- 2D View -->
+                    <div class="flex flex-col">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-semibold px-2.5 py-1 rounded bg-slate-800 text-slate-300">MẶT CẮT 2D</span>
+                            <span class="text-xs text-slate-500 font-medium">Trục đối xứng Ox</span>
+                        </div>
+                        <div class="bg-slate-950 rounded-xl overflow-hidden flex items-center justify-center p-2 border border-slate-850 h-[300px] relative">
+                            <canvas id="canvas2D" width="350" height="350" class="w-full h-full max-w-[280px] max-h-[280px]"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- 3D View (Three.js WebGL) -->
+                    <div class="flex flex-col">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-semibold px-2.5 py-1 rounded bg-blue-950 text-blue-300">MÔ PHỎNG 3D</span>
+                            <div class="flex gap-2">
+                                <button id="btnPlay" class="text-[10px] bg-blue-600 hover:bg-blue-500 text-white font-bold py-0.5 px-2 rounded transition-colors">
+                                    Dừng xoay
+                                </button>
+                                <button id="btnDrill" class="text-[10px] bg-red-600 hover:bg-red-500 text-white font-bold py-0.5 px-2 rounded transition-colors">
+                                    Ẩn mũi khoan
+                                </button>
+                            </div>
+                        </div>
+                        <div id="container3D" class="bg-slate-950 rounded-xl overflow-hidden border border-slate-850 h-[300px] relative cursor-grab active:cursor-grabbing shadow-inner">
+                            <!-- Three.js canvas will be injected here -->
+                            <div class="absolute bottom-2 left-2 text-[10px] text-slate-500 bg-slate-900/80 px-2 py-0.5 rounded pointer-events-none">
+                                Kéo chuột để xoay 3D · Cuộn để phóng to
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Parameters Sliders -->
+            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-xl">
+                <h3 class="font-bold text-blue-400 text-sm tracking-wider uppercase mb-4 flex items-center gap-2">
+                    <span class="text-base">⚙️</span> Tham số hình học hệ thống
+                </h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-805">
+                        <div class="flex justify-between font-bold text-xs uppercase mb-2 text-slate-400">
+                            <span>Bán kính lỗ khoan $r$:</span>
+                            <span class="text-blue-400 mono text-sm" id="val_r">0.10</span>
+                        </div>
+                        <input type="range" id="slide_r" min="0" max="0.95" step="0.01" value="0.10">
+                        <span class="text-[10px] text-slate-500 block mt-1">Khoan rỗng lõi của hạt cườm</span>
+                    </div>
+
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-805">
+                        <div class="flex justify-between font-bold text-xs uppercase mb-2 text-slate-400">
+                            <span>Bán trục lớn $a$:</span>
+                            <span class="text-emerald-400 mono text-sm" id="val_a">1.50</span>
+                        </div>
+                        <input type="range" id="slide_a" min="0.5" max="2.5" step="0.05" value="1.50">
+                        <span class="text-[10px] text-slate-500 block mt-1">Bán kính dài (nửa chiều dài Ox)</span>
+                    </div>
+
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-805">
+                        <div class="flex justify-between font-bold text-xs uppercase mb-2 text-slate-400">
+                            <span>Bán trục nhỏ $b$:</span>
+                            <span class="text-emerald-400 mono text-sm" id="val_b">1.00</span>
+                        </div>
+                        <input type="range" id="slide_b" min="0.3" max="2.0" step="0.05" value="1.00">
+                        <span class="text-[10px] text-slate-500 block mt-1">Bán kính đứng (nửa chiều rộng Oy)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Step-by-step Math Explanation -->
+        <div class="lg:col-span-5 flex flex-col gap-6">
+            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl flex-1 flex flex-col">
+                <h3 class="font-bold text-emerald-400 text-sm tracking-wider uppercase mb-4 flex items-center gap-2">
+                    <span class="text-base">🧮</span> Giải pháp toán học & Tích phân
+                </h3>
+                
+                <div id="mathSolution" class="flex-1 overflow-y-auto pr-1">
+                    <!-- Rendered dynamically -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Core Simulation Engine -->
+    <script>
+        // DOM Elements
+        const slideR = document.getElementById('slide_r');
+        const slideA = document.getElementById('slide_a');
+        const slideB = document.getElementById('slide_b');
+        
+        const valR = document.getElementById('val_r');
+        const valA = document.getElementById('val_a');
+        const valB = document.getElementById('val_b');
+        
+        const canvas2D = document.getElementById('canvas2D');
+        const container3D = document.getElementById('container3D');
+        const btnPlay = document.getElementById('btnPlay');
+        const btnDrill = document.getElementById('btnDrill');
+        const mathSolution = document.getElementById('mathSolution');
+
+        const ctx2D = canvas2D.getContext('2d');
+
+        // State variables
+        let r = 0.1;
+        let a = 1.5;
+        let b = 1.0;
+        let isRotating = true;
+        let showDrill = true;
+
+        // Visual styles for 2D
+        const COLOR_ELLIPSE = '#10b981'; // Emerald
+        const COLOR_DRILL = '#f43f5e'; // Rose red
+        const COLOR_GRID = '#1e293b';
+        const COLOR_TEXT = '#64748b';
+
+        // 3D Scene Variables
+        let scene, camera, renderer, controls;
+        let beadGroup;
+        let materialBead, materialWire, materialDrill, materialDrillWire;
+
+        // Init Three.js
+        function init3D() {
+            const width = container3D.clientWidth;
+            const height = container3D.clientHeight;
+
+            // Scene & Camera
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x05070f);
+
+            camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
+            camera.position.set(3.8, 2.2, 3.8);
+
+            // Renderer with shadows
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(width, height);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            container3D.appendChild(renderer.domElement);
+
+            // Controls
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            controls.minDistance = 2;
+            controls.maxDistance = 10;
+
+            // Lights: Standard 3-point light setup for glassy specular reflection
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+            scene.add(ambientLight);
+
+            // High-power key light from front right
+            const keyLight = new THREE.DirectionalLight(0xffffff, 1.2);
+            keyLight.position.set(5, 8, 4);
+            scene.add(keyLight);
+
+            // Fill light from left
+            const fillLight = new THREE.DirectionalLight(0x3b82f6, 0.6);
+            fillLight.position.set(-5, 2, -3);
+            scene.add(fillLight);
+
+            // Red inner PointLight directly inside the hollow tunnel for an inner glow
+            const pointLight = new THREE.PointLight(0xf43f5e, 1.8, 5);
+            pointLight.position.set(0, 0, 0);
+            scene.add(pointLight);
+
+            // Grid Platform under the object for perspective
+            const gridHelper = new THREE.GridHelper(10, 20, 0x1e293b, 0x0f172a);
+            gridHelper.position.y = -1.5;
+            scene.add(gridHelper);
+
+            // Materials
+            // Glass-like glossy emerald material using Phong model
+            materialBead = new THREE.MeshPhongMaterial({
+                color: 0x10b981,
+                emissive: 0x064e3b, // subtle deep glow
+                specular: 0xffffff, // high shiny highlight
+                shininess: 120,
+                transparent: true,
+                opacity: 0.55,
+                depthWrite: false,
+                side: THREE.DoubleSide
+            });
+
+            // Delicate outer wireframe
+            materialWire = new THREE.MeshBasicMaterial({
+                color: 0xa7f3d0,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.08,
+                depthWrite: false
+            });
+
+            // Glow solid drill cylinder
+            materialDrill = new THREE.MeshStandardMaterial({
+                color: 0xf43f5e,
+                roughness: 0.2,
+                metalness: 0.3,
+                transparent: true,
+                opacity: 0.3,
+                side: THREE.DoubleSide
+            });
+
+            // Holographic laser line for drill
+            materialDrillWire = new THREE.MeshBasicMaterial({
+                color: 0xf43f5e,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.15,
+                depthWrite: false
+            });
+
+            // Create group
+            beadGroup = new THREE.Group();
+            scene.add(beadGroup);
+
+            updateGeometries();
+            animate();
+        }
+
+        // Generate geometries analytically
+        function updateGeometries() {
+            // Remove previous objects
+            while(beadGroup.children.length > 0){ 
+                beadGroup.remove(beadGroup.children[0]); 
+            }
+
+            const x0 = a * Math.sqrt(1 - (r*r)/(b*b));
+
+            // Create Bead (Ellipsoid with a cylindrical hole)
+            const beadPoints = [];
+            const segments = 80;
+
+            // 1. Outer curved surface (ellipse profile) from left to right (-x0 to x0)
+            for (let i = 0; i <= segments; i++) {
+                const yVal = -x0 + (2 * x0 * i) / segments; // Y axis in Three.js lathe
+                const xVal = b * Math.sqrt(1 - (yVal*yVal)/(a*a)); // X distance from axis
+                beadPoints.push(new THREE.Vector2(xVal, yVal));
+            }
+
+            // 2. Inner cylindrical wall going from right back to left (x0 to -x0)
+            for (let i = 0; i <= segments; i++) {
+                const yVal = x0 - (2 * x0 * i) / segments;
+                const xVal = r; // Constant radius
+                beadPoints.push(new THREE.Vector2(xVal, yVal));
+            }
+
+            // Revolve points around Y-axis to form a 3D lathe mesh
+            const beadGeom = new THREE.LatheGeometry(beadPoints, 64);
+            
+            // Solid Glass Mesh
+            const beadMesh = new THREE.Mesh(beadGeom, materialBead);
+            beadMesh.rotation.z = Math.PI / 2; // Align with Ox
+            beadGroup.add(beadMesh);
+
+            // Wireframe mesh
+            const wireMesh = new THREE.Mesh(beadGeom, materialWire);
+            wireMesh.rotation.z = Math.PI / 2;
+            beadGroup.add(wireMesh);
+
+            // Create Drill (cylinder passing through)
+            const drillGeom = new THREE.CylinderGeometry(r, r, a * 2.3, 32);
+            
+            // Solid translucent red
+            const drillMesh = new THREE.Mesh(drillGeom, materialDrill);
+            drillMesh.rotation.z = Math.PI / 2;
+            drillMesh.visible = showDrill;
+            beadGroup.add(drillMesh);
+
+            // Tech laser wireframe
+            const drillWireMesh = new THREE.Mesh(drillGeom, materialDrillWire);
+            drillWireMesh.rotation.z = Math.PI / 2;
+            drillWireMesh.visible = showDrill;
+            beadGroup.add(drillWireMesh);
+        }
+
+        // Animation Loop
+        function animate() {
+            requestAnimationFrame(animate);
+
+            if (isRotating && beadGroup) {
+                // Smoothly rotates around both X and Y axis in sync
+                beadGroup.rotation.y += 0.007;
+                beadGroup.rotation.x += 0.003;
+            }
+
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        // Handle window resizing
+        window.addEventListener('resize', () => {
+            const width = container3D.clientWidth;
+            const height = container3D.clientHeight;
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+            renderer.setSize(width, height);
+        });
+
+        // Toggle Buttons
+        btnPlay.addEventListener('click', () => {
+            isRotating = !isRotating;
+            btnPlay.textContent = isRotating ? "Dừng xoay" : "Xoay tự động";
+            btnPlay.classList.toggle('bg-blue-600');
+            btnPlay.classList.toggle('bg-amber-600');
+        });
+
+        btnDrill.addEventListener('click', () => {
+            showDrill = !showDrill;
+            btnDrill.textContent = showDrill ? "Ẩn mũi khoan" : "Hiện mũi khoan";
+            btnDrill.classList.toggle('bg-red-600');
+            btnDrill.classList.toggle('bg-emerald-600');
+            updateGeometries();
+        });
+
+        // Event Listeners for sliders
+        [slideR, slideA, slideB].forEach(slide => {
+            slide.addEventListener('input', () => {
+                r = parseFloat(slideR.value);
+                a = parseFloat(slideA.value);
+                b = parseFloat(slideB.value);
+                
+                // Keep r smaller than b
+                if (r >= b - 0.05) {
+                    r = b - 0.05;
+                    slideR.value = r.toFixed(2);
+                }
+
+                valR.textContent = r.toFixed(2);
+                valA.textContent = a.toFixed(2);
+                valB.textContent = b.toFixed(2);
+                
+                updateMath();
+                updateGeometries();
+                draw2D();
+            });
+        });
+
+        // Math Calculations and Text Render
+        function updateMath() {
+            const x0 = a * Math.sqrt(1 - (r*r)/(b*b));
+            const V = (4/3) * Math.PI * x0 * (b*b - r*r);
+            const V_full = (4/3) * Math.PI * a * (b*b);
+            const lossPercent = ((V_full - V) / V_full * 100).toFixed(1);
+
+            const mathHTML = `
+                <div class="text-xs mb-3 border-l-4 border-blue-500 pl-3 py-0.5 text-slate-400">
+                    Mặt cắt elip: $\\frac{x^2}{a^2} + \\frac{y^2}{b^2} = 1$ với 
+                    $a = ${a.toFixed(2)}$, $b = ${b.toFixed(2)}$. 
+                    Bán kính khoan $r = ${r.toFixed(2)}$.
+                </div>
+
+                <div class="theory-box text-xs">
+                    <div class="text-blue-400 font-bold mb-1">💡 Giới hạn giao điểm</div>
+                    Đường khoan $y = r$ cắt elip tại hai biên đối xứng $x = \\pm x_0$:
+                    \\[ x_0 = a \\sqrt{1 - \\frac{r^2}{b^2}} = ${a.toFixed(2)} \\sqrt{1 - \\frac{${(r*r).toFixed(4)}}{${(b*b).toFixed(2)}}} \\approx ${x0.toFixed(4)} \\]
+                    Hạt cườm có độ dài thực tế là $2x_0 \\approx ${(2*x0).toFixed(2)}$ cm.
+                </div>
+
+                <div class="step-box text-xs">
+                    <div class="text-emerald-400 font-bold mb-1">📐 Thiết lập Tích phân Thể tích</div>
+                    Theo định lý tích phân khối tròn xoay, phần thể tích còn lại được mô tả bởi công thức:
+                    \\[ V = \\pi \\int_{-x_0}^{x_0} (y_{\\text{ellipse}}^2 - r^2) \\, dx \\]
+                    \\[ V = 2\\pi \\int_{0}^{${x0.toFixed(4)}} \\left[ ${b.toFixed(2)}^2 \\left(1 - \\frac{x^2}{${(a*a).toFixed(2)}}\\right) - ${r.toFixed(2)}^2 \\right] \\, dx \\]
+                </div>
+
+                <div class="formula-box text-xs">
+                    <div class="text-amber-400 font-bold mb-1">⚡ Hệ quả Đại số rút gọn</div>
+                    Tích phân trên cho ra một công thức cực kỳ tối giản:
+                    \\[ V = \\frac{4}{3} \\pi x_0 (b^2 - r^2) \\]
+                </div>
+
+                <div class="ans-box text-xs">
+                    <div class="text-emerald-400 font-bold text-sm mb-1">✅ Kết quả tức thời</div>
+                    \\[ V = \\frac{4}{3} \\pi \\cdot ${x0.toFixed(4)} \\cdot (${(b*b).toFixed(4)} - ${(r*r).toFixed(4)}) \\approx ${V.toFixed(2)} \\text{ cm}^3 \\]
+                    <div class="text-[11px] text-slate-400 mt-2 border-t border-emerald-800/40 pt-2">
+                        Thể tích khối cầu/elipsoid đặc: <b class="text-slate-300">${V_full.toFixed(2)} cm³</b>.<br>
+                        Tỉ lệ thể tích bị khoan bỏ: <b class="text-rose-400">${lossPercent}%</b>.
+                    </div>
+                </div>
+            `;
+            
+            mathSolution.innerHTML = mathHTML;
+            if (window.MathJax) {
+                MathJax.typesetPromise([mathSolution]);
+            }
+        }
+
+        // Draw 2D Canvas Diagram
+        function draw2D() {
+            ctx2D.clearRect(0, 0, canvas2D.width, canvas2D.height);
+            
+            const w = canvas2D.width;
+            const h = canvas2D.height;
+            const centerX = w / 2;
+            const centerY = h / 2;
+            
+            // Adjust scale factor based on larger axis to keep drawing in viewport
+            const scale = Math.min(110 / Math.max(a, b), 100);
+
+            // Draw grid
+            ctx2D.strokeStyle = COLOR_GRID;
+            ctx2D.lineWidth = 0.5;
+            for (let i = -2.5; i <= 2.5; i += 0.5) {
+                // Vertical grid lines
+                ctx2D.beginPath();
+                ctx2D.moveTo(centerX + i * scale, 0);
+                ctx2D.lineTo(centerX + i * scale, h);
+                ctx2D.stroke();
+                
+                // Horizontal grid lines
+                ctx2D.beginPath();
+                ctx2D.moveTo(0, centerY + i * scale);
+                ctx2D.lineTo(w, centerY + i * scale);
+                ctx2D.stroke();
+            }
+
+            // Draw Ox and Oy axis
+            ctx2D.strokeStyle = '#334155';
+            ctx2D.lineWidth = 1.5;
+            ctx2D.beginPath();
+            ctx2D.moveTo(10, centerY); ctx2D.lineTo(w - 10, centerY);
+            ctx2D.moveTo(centerX, 10); ctx2D.lineTo(centerX, h - 10);
+            ctx2D.stroke();
+
+            ctx2D.fillStyle = COLOR_TEXT;
+            ctx2D.font = '10px monospace';
+            ctx2D.fillText('x', w - 18, centerY - 6);
+            ctx2D.fillText('y', centerX + 8, 18);
+            ctx2D.fillText('O', centerX - 12, centerY + 12);
+
+            // Draw Ellipse
+            ctx2D.strokeStyle = COLOR_ELLIPSE;
+            ctx2D.lineWidth = 2;
+            ctx2D.beginPath();
+            ctx2D.ellipse(centerX, centerY, a * scale, b * scale, 0, 0, 2 * Math.PI);
+            ctx2D.stroke();
+
+            // Drill boundaries (horizontal lines at y = r and y = -r)
+            ctx2D.strokeStyle = COLOR_DRILL;
+            ctx2D.lineWidth = 1;
+            ctx2D.setLineDash([4, 4]);
+            
+            ctx2D.beginPath();
+            ctx2D.moveTo(0, centerY - r * scale); ctx2D.lineTo(w, centerY - r * scale);
+            ctx2D.moveTo(0, centerY + r * scale); ctx2D.lineTo(w, centerY + r * scale);
+            ctx2D.stroke();
+            ctx2D.setLineDash([]);
+
+            // Draw remaining solid fill and drill block out
+            const x0 = a * Math.sqrt(1 - (r*r)/(b*b));
+
+            // Shading of ellipse area
+            ctx2D.fillStyle = 'rgba(16, 185, 129, 0.12)';
+            ctx2D.beginPath();
+            ctx2D.ellipse(centerX, centerY, a * scale, b * scale, 0, 0, 2 * Math.PI);
+            ctx2D.fill();
+
+            // Cut out the drill cylinder area (represented in dark color of canvas background)
+            ctx2D.fillStyle = '#05070f';
+            ctx2D.fillRect(centerX - x0 * scale, centerY - r * scale, 2 * x0 * scale, 2 * r * scale);
+
+            // Shading of drilled core area
+            ctx2D.fillStyle = 'rgba(244, 63, 94, 0.1)';
+            ctx2D.fillRect(centerX - x0 * scale, centerY - r * scale, 2 * x0 * scale, 2 * r * scale);
+
+            // Draw borders of remaining solid parts
+            ctx2D.strokeStyle = '#ffffff';
+            ctx2D.lineWidth = 1;
+            ctx2D.beginPath();
+            ctx2D.moveTo(centerX - x0 * scale, centerY - r * scale);
+            ctx2D.lineTo(centerX + x0 * scale, centerY - r * scale);
+            ctx2D.moveTo(centerX - x0 * scale, centerY + r * scale);
+            ctx2D.lineTo(centerX + x0 * scale, centerY + r * scale);
+            ctx2D.stroke();
+
+            // Draw intersection points
+            ctx2D.fillStyle = '#f43f5e';
+            ctx2D.beginPath();
+            ctx2D.arc(centerX - x0 * scale, centerY - r * scale, 3, 0, 2 * Math.PI);
+            ctx2D.arc(centerX + x0 * scale, centerY - r * scale, 3, 0, 2 * Math.PI);
+            ctx2D.arc(centerX - x0 * scale, centerY + r * scale, 3, 0, 2 * Math.PI);
+            ctx2D.arc(centerX + x0 * scale, centerY + r * scale, 3, 0, 2 * Math.PI);
+            ctx2D.fill();
+
+            // Labels of values on Canvas
+            ctx2D.fillStyle = '#94a3b8';
+            ctx2D.font = '9px monospace';
+            ctx2D.fillText(`a=${a.toFixed(1)}`, centerX + a * scale - 30, centerY + 12);
+            ctx2D.fillText(`b=${b.toFixed(1)}`, centerX + 5, centerY - b * scale + 12);
+            ctx2D.fillText(`r=${r.toFixed(2)}`, centerX - x0 * scale + 5, centerY - r * scale - 5);
+            ctx2D.fillText(`-x0`, centerX - x0 * scale - 8, centerY + 12);
+            ctx2D.fillText(`x0`, centerX + x0 * scale - 5, centerY + 12);
+        }
+
+        // Initialization
+        window.onload = () => {
+            init3D();
+            updateMath();
+            draw2D();
+        };
+    </script>
+</body>
+</html>

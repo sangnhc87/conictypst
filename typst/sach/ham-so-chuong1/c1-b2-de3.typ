@@ -1,5 +1,5 @@
 #import "_config.typ": *
-
+#show: doc-setup
 #resetexamstate()
 #resetcau()
 
@@ -164,7 +164,7 @@
 #resetcau()
 #exam-part([PHẦN II. Câu hỏi trắc nghiệm đúng sai (4 câu)], count: 4)
 
-#q-wrap(dir: "doc", ds(
+#q-wrap(dir: "doc",lines: 2, ds(
   [Cho hàm số $y = -x^3 + 3x^2 - 4$. Xét tính đúng sai của các mệnh đề sau:],
   (
     True([Hàm số đạt cực tiểu tại điểm $x = 0$.]),
@@ -181,7 +181,7 @@
   ],
 ))
 
-#q-wrap(dir: "doc", ds(
+#q-wrap(dir: "doc",lines: 2, ds(
   [Cho hàm số $y = x^4 - 4x^2 + 3$. Xét tính đúng sai của các mệnh đề sau:],
   (
     True([Hàm số có đúng $3$ điểm cực trị.]),
@@ -199,7 +199,7 @@
   ],
 ))
 
-#q-wrap(dir: "doc", ds(
+#q-wrap(dir: "doc",lines: 2, ds(
   [Cho hàm số $f(x) = (x^2 - m x + 1)/(x - m)$ với $m$ là tham số thực. Xét tính đúng sai của các mệnh đề sau:],
   (
     True([Khi $m = 2$, hàm số đạt cực đại tại $x = 1$ và đạt cực tiểu tại $x = 3$.]),
@@ -218,7 +218,7 @@
   ],
 ))
 
-#q-wrap(dir: "doc", ds(
+#q-wrap(dir: "doc",lines: 2, ds(
   [Cho hàm số $y = sqrt(4x - x^2)$. Xét tính đúng sai của các mệnh đề sau:],
   (
     True([Tập xác định của hàm số là $D = [0; 4]$.]),

@@ -1,6 +1,6 @@
 #import "_config.typ": *
 #import "@preview/cetz:0.5.2"
-
+#show: doc-setup
 #let sample(f, a, b, n: 60) = {
   let step = (b - a) / n
   range(n + 1).map(i => {
@@ -189,7 +189,7 @@
 #resetcau()
 #exam-part([PHẦN II. Câu hỏi trắc nghiệm đúng sai (4 câu)], count: 4)
 
-#q-wrap(dir: "doc", ds(
+#q-wrap(dir: "doc",lines: 2, ds(
   [Cho hàm số $y = x^3 - 3x + 1$. Xét tính đúng sai của các mệnh đề sau:],
   (
     True([Hàm số đạt cực đại tại điểm $x = -1$.]),
@@ -206,7 +206,7 @@
   ],
 ))
 
-#q-wrap(dir: "doc", ds(
+#q-wrap(dir: "doc",lines: 2, ds(
   [Cho hàm số $y = x^4 - 2x^2 - 3$. Xét tính đúng sai của các mệnh đề sau:],
   (
     True([Hàm số có đúng $3$ điểm cực trị.]),
@@ -224,7 +224,7 @@
   ],
 ))
 
-#q-wrap(dir: "doc", ds(
+#q-wrap(dir: "doc",lines: 2, ds(
   [Cho hàm số $f(x) = x^3 - 3x + 1$ và hàm số $g(x) = |f(x)|$. Xét tính đúng sai của các mệnh đề sau:],
   (
     True([Hàm số $g(x)$ nghịch biến trên khoảng $(-oo; -2)$.]),
@@ -243,7 +243,7 @@
   ],
 ))
 
-#q-wrap(dir: "doc", ds(
+#q-wrap(dir: "doc",lines: 2, ds(
   [Cho hàm số $y = sqrt(2x - x^2)$. Xét tính đúng sai của các mệnh đề sau:],
   (
     True([Tập xác định của hàm số là $D = [0; 2]$.]),

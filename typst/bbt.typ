@@ -310,7 +310,7 @@
   })
 }
 
-#let bbbt(
+#let bbbt( 
   var: $x$,
   der: $y'$,
   func: $y$,
@@ -319,11 +319,33 @@
   v-vals: (),
   ranks: none,
   w1: 1.5,
-  w2: 10, // Nới rộng thêm để chứa nhiều mốc x
-  h1: 0.8,
-  h2: 0.8,
-  h3: 2.2,
+  w2: 11.5,
+  h1: auto,
+  h2: 0.98, 
+  h3: auto,
 ) = {
+  // Tự động phân tích AST để điều chỉnh chiều cao nếu h1, h3 là auto
+  let h1 = if h1 == auto {
+    let has-tall = x-vals.any(x => {
+      let r = repr(x)
+      r.contains("frac(") or r.contains("integral(") or r.contains("lim(") or r.contains("cases(")
+    })
+    if has-tall { 1.2 } else { 0.98 }
+  } else { h1 }
+
+  let h3 = if h3 == auto {
+    let has-tall = v-vals.any(v => {
+      if type(v) == array {
+        let r = repr(v.at(0)) + repr(v.at(1))
+        r.contains("frac(") or r.contains("integral(") or r.contains("lim(") or r.contains("cases(")
+      } else {
+        let r = repr(v)
+        r.contains("frac(") or r.contains("integral(") or r.contains("lim(") or r.contains("cases(")
+      }
+    })
+    if has-tall { 3.2 } else { 2.8 }
+  } else { h3 }
+
   canvas(length: 1cm, {
     import draw: *
 

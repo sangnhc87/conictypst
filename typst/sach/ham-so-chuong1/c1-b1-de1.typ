@@ -1,9 +1,9 @@
 #import "_config.typ": *
-
+#show: doc-setup
 #muc([Đề Luyện Tập Số 01])
 
 #resetexamstate()
-#exam-part([PHẦN I. Câu trắc nghiệm nhiều phương án lựa chọn (12 câu)], count: 12)
+#exam-part([PHẦN I. Câu trắc nghiệm nhiều phương án lựa chọn (15 câu)], count: 15)
 
 #q-wrap(dir: "ngang", tn(
   [Hàm số $y = -x^3 + 3x^2 - 1$ đồng biến trên khoảng nào?],
@@ -16,14 +16,16 @@
   ],
 ))
 
-#q-wrap(dir: "doc", tn(
+#q-wrap(dir: "doc",  lines: 2,  tn(
   [Cho hàm số $y = f(x)$ có bảng xét dấu đạo hàm $f'(x)$ như sau:
     #align(center)[
       #my-bxd(
-        var: $x$,
+        var: $x$, 
         func: $f'(x)$,
         x-vals: ($-oo$, $-1$, $1$, $3$, $+oo$),
         f-signs: ($+$, $0$, $-$, $0$, $+$, $0$, $-$),
+        w2: 10,
+        w1:1.5
       )
     ]
     Hàm số đã cho nghịch biến trên khoảng nào dưới đây?],
@@ -96,7 +98,7 @@
   ],
 ))
 
-#q-wrap(dir: "doc", tn(
+#q-wrap(dir: "doc",  lines: 1,  tn(
   [Cho hàm số bậc ba $y = f(x)$ có đồ thị là đường cong trong hình bên dưới. Hàm số đã cho đồng biến trên khoảng nào dưới đây?
     #align(center)[
       #canvas(length: 1cm, {
@@ -188,10 +190,45 @@
   ],
 ))
 
-#resetcau()
-#exam-part([PHẦN II. Câu hỏi trắc nghiệm đúng sai (4 câu)], count: 4)
+#q-wrap(dir: "ngang", tn(
+  [Cho hàm số $y = (x^2 - x + 4)/(x - 1)$. Mệnh đề nào dưới đây đúng?],
+  ([Hàm số đồng biến trên $RR backslash {1}$], True([Hàm số nghịch biến trên khoảng $(-1; 1)$]), [Hàm số đồng biến trên khoảng $(-1; 3)$], [Hàm số nghịch biến trên khoảng $(1; +oo)$]),
+  accent: c-book,
+  loigiai: [
+    #step[Tập xác định: $D = RR backslash {1}$.]
+    #step[Đạo hàm $y' = ((2x - 1)(x - 1) - (x^2 - x + 4) dot.c 1)/(x - 1)^2 = (x^2 - 2x - 3)/(x - 1)^2$.]
+    #step[Xét $y' = 0 <=> x^2 - 2x - 3 = 0 <=> x = -1$ hoặc $x = 3$.]
+    #step[Bảng xét dấu $y'$: $y' < 0$ trên các khoảng $(-1; 1)$ và $(1; 3)$; $y' > 0$ trên $(-oo; -1)$ và $(3; +oo)$.]
+    #step[Do đó hàm số nghịch biến trên khoảng $(-1; 1)$ và khoảng $(1; 3)$.]
+  ],
+))
 
-#q-wrap(dir: "doc", ds(
+#q-wrap(dir: "doc", tn(
+  [Thể tích của một khối cầu đang phồng lên sau $t$ giây kể từ lúc bắt đầu được cho bởi công thức $V(t) = 4/3 pi (t + 1)^3$ ($"cm"^3$). Hãy cho biết thể tích của khối cầu đồng biến hay nghịch biến theo thời gian $t$ ($t >= 0$)?],
+  ([Nghịch biến trên khoảng $(0; +oo)$], True([Đồng biến trên khoảng $(0; +oo)$]), [Đồng biến trên khoảng $(0; 1)$], [Nghịch biến trên khoảng $(1; +oo)$]),
+  accent: c-book,
+  loigiai: [
+    #step[Đạo hàm $V'(t) = 4/3 pi dot.c 3(t + 1)^2 = 4 pi (t + 1)^2$.]
+    #step[Vì $t >= 0$ nên $(t + 1)^2 > 0 <=> V'(t) > 0, forall t >= 0$.]
+    #step[Do đạo hàm luôn dương, thể tích khối cầu luôn tăng (đồng biến) theo thời gian.]
+  ],
+))
+
+#q-wrap(dir: "ngang", tn(
+  [Cho hàm số $y = (2x - 1)/(x + 1)$. Khẳng định nào sau đây là sai?],
+  ([Tập xác định của hàm số là $RR backslash {-1}$], [Hàm số không có cực trị], True([Hàm số đồng biến trên $RR backslash {-1}$]), [Hàm số đồng biến trên các khoảng $(-oo; -1)$ và $(-1; +oo)$]),
+  accent: c-book,
+  loigiai: [
+    #step[Tập xác định: $D = RR backslash {-1}$. Đạo hàm $y' = (2 dot.c 1 - (-1) dot.c 1)/(x + 1)^2 = 3/(x + 1)^2 > 0, forall x != -1$.]
+    #step[Hàm số đồng biến trên từng khoảng xác định là $(-oo; -1)$ và $(-1; +oo)$.]
+    #step[Khẳng định sai là "Hàm số đồng biến trên $RR backslash {-1}$" (vi phạm quy tắc ghi khoảng đồng biến).]
+  ],
+))
+
+#resetcau()
+#exam-part([PHẦN II. Câu hỏi trắc nghiệm đúng sai (5 câu)], count: 5)
+
+#q-wrap(dir: "doc",   lines: 2, ds(
   [Cho hàm số $y = x^3 - 3x + 2$. Xét tính đúng sai của các mệnh đề sau:],
   (
     True([Hàm số đồng biến trên khoảng $(1; +oo)$.]),
@@ -208,7 +245,7 @@
   ],
 ))
 
-#q-wrap(dir: "doc", ds(
+#q-wrap(dir: "doc",lines: 2, ds(
   [Cho hàm số $y = (x - 1)/(x + 1)$. Xét tính đúng sai của các mệnh đề sau:],
   (
     True([Tập xác định của hàm số là $D = RR backslash {-1}$.]),
@@ -225,7 +262,7 @@
   ],
 ))
 
-#q-wrap(dir: "doc", ds(
+#q-wrap(dir: "doc",lines:2, ds(
   [Cho hàm số $y = x^4 - 2x^2 + 3$. Xét tính đúng sai của các mệnh đề sau:],
   (
     True([Hàm số đồng biến trên $(-1; 0)$ và $(1; +oo)$.]),
@@ -241,7 +278,7 @@
   ],
 ))
 
-#q-wrap(dir: "doc", ds(
+#q-wrap(dir: "doc",lines:2, ds(
   [Cho hàm số $y = f(x)$ có đạo hàm $f'(x) = x(x - 2)^2$. Xét tính đúng sai của các mệnh đề sau:],
   (
     True([Hàm số đồng biến trên khoảng $(0; +oo)$.]),
@@ -259,8 +296,25 @@
   ],
 ))
 
+#q-wrap(dir: "doc",lines:4, ds(
+  [Cho hàm số $y = (x^2 + x - 2)/(x - 2)$. Xét tính đúng sai của các mệnh đề sau:],
+  (
+    True([Tập xác định của hàm số là $D = RR backslash {2}$.]),
+    [Đạo hàm của hàm số là $y' = (x^2 - 4x + 4)/(x - 2)^2$.],
+    True([Hàm số đồng biến trên các khoảng $(-oo; 0)$ và $(4; +oo)$.]),
+    [Hàm số đồng biến trên $RR backslash {2}$.],
+  ),
+  accent: c-book,
+  loigiai: [
+    - Tập xác định là $D = RR backslash {2}$. Phát biểu a) Đúng.
+    - Đạo hàm $y' = ((2x + 1)(x - 2) - (x^2 + x - 2) dot.c 1)/(x - 2)^2 = (2x^2 - 3x - 2 - x^2 - x + 2)/(x - 2)^2 = (x^2 - 4x)/(x - 2)^2$. Phát biểu b) Sai.
+    - Xét $y' = 0 <=> x^2 - 4x = 0 <=> x = 0$ hoặc $x = 4$. $y' > 0$ khi $x < 0$ hoặc $x > 4$. Hàm số đồng biến trên $(-oo; 0)$ và $(4; +oo)$. Phát biểu c) Đúng.
+    - Hàm số nghịch biến trên $(0; 2)$ và $(2; 4)$ nên không thể đồng biến trên $RR backslash {2}$. Phát biểu d) Sai.
+  ],
+))
+
 #resetcau()
-#exam-part([PHẦN III. Câu trắc nghiệm trả lời ngắn (6 câu)], count: 6)
+#exam-part([PHẦN III. Câu trắc nghiệm trả lời ngắn (8 câu)], count: 8)
 
 #q-wrap(dir: "ngang", tln(
   [Cho hàm số $y = x^3 - 3x^2 - 9x + 5$. Số nguyên dương nhỏ nhất thuộc khoảng nghịch biến của hàm số là bao nhiêu?],
@@ -331,5 +385,30 @@
     #step[Xét bất phương trình $f'(x) <= 0 <=> (x - 3)/sqrt(x^2 - 6x + 10) <= 0 <=> x - 3 <= 0 <=> x <= 3$.]
     #step[Trên đoạn $[-5; 5]$, các giá trị nguyên thỏa mãn là $x in {-5, -4, -3, -2, -1, 0, 1, 2, 3}$.]
     #step[Số lượng nghiệm nguyên thỏa mãn là: $3 - (-5) + 1 = 9$ nghiệm.]
+  ],
+))
+
+#q-wrap(dir: "ngang", tln(
+  [Cho hàm số $y = f(x)$ có đạo hàm $f'(x) = x(x+1)^2(x-2)$. Hàm số có bao nhiêu khoảng đồng biến?],
+  [$2$],
+  accent: c-book,
+  loigiai: [
+    #step[Xét phương trình $f'(x) = 0 <=> x = 0$, $x = -1$ (nghiệm kép), $x = 2$.]
+    #step[Lập bảng xét dấu của $f'(x)$, ta thấy $f'(x) > 0$ khi $x in (-oo; 0) backslash {-1}$ và $x in (2; +oo)$.]
+    #step[Tuy nhiên, do $f'(x) = 0$ tại $x = -1$ là điểm đơn lẻ, hàm số đồng biến trên toàn khoảng $(-oo; 0)$.]
+    #step[Vậy hàm số đồng biến trên $2$ khoảng là $(-oo; 0)$ và $(2; +oo)$. Số khoảng là $2$.]
+  ],
+))
+
+#q-wrap(dir: "doc", tln(
+  [Chi phí trung bình (đơn vị: nghìn đồng) để sản xuất $x$ sản phẩm được cho bởi hàm số $C(x) = (x^2 + 50x + 1000)/x$ với $x > 0$. Hãy cho biết khi số lượng sản phẩm $x$ nằm trong khoảng $(10; 20)$ thì chi phí trung bình đang tăng hay giảm? (Nhập 1 nếu tăng, -1 nếu giảm).],
+  [$-1$],
+  accent: c-book,
+  loigiai: [
+    #step[Ta có $C(x) = x + 50 + 1000/x$.]
+    #step[Đạo hàm $C'(x) = 1 - 1000/x^2 = (x^2 - 1000)/x^2$.]
+    #step[Xét $C'(x) = 0 <=> x^2 = 1000 <=> x = 10 sqrt(10) approx 31.6$ (vì $x > 0$).]
+    #step[Khi $x in (10; 20)$, ta thấy $x < 10 sqrt(10)$ nên $C'(x) < 0$.]
+    #step[Vì đạo hàm âm, hàm số nghịch biến, tức là chi phí trung bình đang giảm. Nhập $-1$.]
   ],
 ))

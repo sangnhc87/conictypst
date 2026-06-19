@@ -615,6 +615,8 @@
   Một người học trưởng thành cần cả hai con mắt ấy. Một mắt nhìn thế giới đang chảy. Một mắt nhìn thế giới có thể xảy ra theo những cách nào.
 ]
 
+#include "c6-flowchart.typ"
+
 #include "parts/02-khai-mo-sau.typ"
 
 #include "parts/03-bao-ham-loai-tru.typ"

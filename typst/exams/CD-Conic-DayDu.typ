@@ -1022,9 +1022,6 @@
     [Mực nước bể elip bán trục $a$ (ngang), $b$ (cao)],
     [$V(h) = 2a L integral_0^h sqrt(1 - frac((z-b)^2, b^2)) dif z$],
     [dùng máy tính],
-  )
-]
-
 #v(0.5em)
 #theory-box(title: [💡 Chiến thuật giải nhanh trong phòng thi], color: col-green, bg: col-bg-grn)[
   + *Nhận diện Conic ẩn:* Tìm tiêu điểm $F$ và đường chuẩn $Delta$ ẩn trong đề bài. Tính tâm sai $e$ để xác định loại Conic.

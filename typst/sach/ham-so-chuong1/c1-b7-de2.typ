@@ -141,7 +141,7 @@
 #exam-part([PHẦN I. Câu hỏi trắc nghiệm nhiều phương án lựa chọn (12 câu)], count: 12)
 
 #q-wrap(dir: "doc", tn(
-  [Tổng chi phí sản xuất $x$ sản phẩm của một công ty trong một ngày được cho bởi hàm số $C(x) = 0.05x^2 + 20x + 500$ (nghìn đồng). Để chi phí trung bình $overline{C}(x) = C(x)/x$ là thấp nhất, công ty cần sản xuất bao nhiêu sản phẩm mỗi ngày?],
+  [Tổng chi phí sản xuất $x$ sản phẩm của một công ty trong một ngày được cho bởi hàm số $C(x) = 0.05x^2 + 20x + 500$ (nghìn đồng). Để chi phí trung bình $overline(C)(x) = C(x)/x$ là thấp nhất, công ty cần sản xuất bao nhiêu sản phẩm mỗi ngày?],
   (
     [$50$ sản phẩm],
     True([$100$ sản phẩm]),
@@ -150,10 +150,10 @@
   ),
 
   loigiai: [
-    #step[Chi phí trung bình trên mỗi sản phẩm: $overline{C}(x) = frac(C(x), x) = 0.05x + 20 + frac(500, x)$ (với $x > 0$).]
-    #step[Tính đạo hàm: $overline{C}'(x) = 0.05 - frac(500, x^2)$.]
-    #step[Cho $overline{C}'(x) = 0 <=> frac(500, x^2) = 0.05 <=> x^2 = frac(500, 0.05) = 10000 <=> x = 100$ (sản phẩm).]
-    #step[Bảng biến thiên chỉ ra rằng $overline{C}(x)$ đạt giá trị nhỏ nhất tại $x = 100$.]
+    #step[Chi phí trung bình trên mỗi sản phẩm: $overline(C)(x) = frac(C(x), x) = 0.05x + 20 + frac(500, x)$ (với $x > 0$).]
+    #step[Tính đạo hàm: $overline(C)'(x) = 0.05 - frac(500, x^2)$.]
+    #step[Cho $overline(C)'(x) = 0 <=> frac(500, x^2) = 0.05 <=> x^2 = frac(500, 0.05) = 10000 <=> x = 100$ (sản phẩm).]
+    #step[Bảng biến thiên chỉ ra rằng $overline(C)(x)$ đạt giá trị nhỏ nhất tại $x = 100$.]
   ],
 ))
 
@@ -182,7 +182,7 @@
     #align(center)[#fig-chi-phi-tb]],
   (
     [$50$],
-    True([$70.7$ (khoảng 71)]),
+    True([$70.7$]),
     [$100$],
     [$141$],
   ),
@@ -194,42 +194,42 @@
 ))
 
 #q-wrap(dir: "doc", tn(
-  [Một loại vi khuẩn được nuôi cấy trong điều kiện lý tưởng với số lượng ban đầu là 100. Sau thời gian $t$ giờ, số lượng vi khuẩn là $N(t) = 100 e^{0.5t}$. Hỏi sau bao lâu thì tốc độ sinh trưởng của vi khuẩn đạt 200 con/giờ?],
+  [Một loại vi khuẩn được nuôi cấy trong điều kiện thí nghiệm có số lượng ban đầu là $100$ con. Sau thời gian $t$ giờ kể từ lúc bắt đầu nuôi cấy, số lượng vi khuẩn được xác định bởi công thức $N(t) = 100 e^(0,5 t)$. Hỏi sau bao lâu thì tốc độ sinh trưởng (đạo hàm của hàm số biểu diễn số lượng vi khuẩn) đạt $200$ con/giờ?],
   (
-    [$approx 1.39$ giờ],
-    True([$approx 2.77$ giờ]),
-    [$approx 4.16$ giờ],
-    [$approx 5.55$ giờ],
+    [$approx 1,39$ giờ],
+    True([$approx 2,77$ giờ]),
+    [$approx 4,16$ giờ],
+    [$approx 5,55$ giờ],
   ),
 
   loigiai: [
-    #step[Tốc độ sinh trưởng là đạo hàm của hàm số lượng: $N'(t) = 100 * 0.5 e^{0.5t} = 50 e^{0.5t}$.]
-    #step[Yêu cầu $N'(t) = 200 <=> 50 e^{0.5t} = 200 <=> e^{0.5t} = 4$.]
-    #step[Giải ra: $0.5t = ln 4 = 2ln 2 => t = 4ln 2 approx 4 times 0.693 = 2.772$.]
-    #step[Vậy sau khoảng 2.77 giờ thì tốc độ sinh trưởng đạt 200 con/giờ.]
+    #step[Tốc độ sinh trưởng là đạo hàm của hàm số lượng vi khuẩn: $N'(t) = 100 * 0,5 e^(0,5 t) = 50 e^(0,5 t)$.]
+    #step[Yêu cầu $N'(t) = 200 <=> 50 e^(0,5 t) = 200 <=> e^(0,5 t) = 4$.]
+    #step[Giải ra: $0,5 t = ln 4 = 2 ln 2 => t = 4 ln 2 approx 2,77$ (giờ).]
+    #step[Vậy sau khoảng $2,77$ giờ thì tốc độ sinh trưởng của vi khuẩn đạt $200$ con/giờ.]
   ],
 ))
 
 #q-wrap(dir: "doc", tn(
-  [Số lượng khách hàng $N$ của một công ty khởi nghiệp tuân theo mô hình $N(t) = frac(10000, 1 + 19e^{-0.5t})$, với $t$ (tháng) là thời gian kể từ lúc bắt đầu hoạt động. Sau một thời gian rất dài, số lượng khách hàng của công ty sẽ ổn định ở mức bao nhiêu?
+  [Số lượng khách hàng $N(t)$ của một doanh nghiệp mới thành lập thay đổi theo thời gian $t$ (tháng) kể từ khi bắt đầu hoạt động tuân theo công thức $N(t) = frac(10000, 1 + 19 e^(-0,5 t))$ (như hình vẽ minh họa). Sau một thời gian hoạt động rất dài, số lượng khách hàng của doanh nghiệp đó sẽ ổn định ở mức nào dưới đây?
     #align(center)[#fig-logistic-de2]],
   (
     [$100$],
-    [$1000$],
-    True([$10000$]),
+    [$1.000$],
+    True([$10.000$]),
     [$500$],
   ),
 
   loigiai: [
-    #step[Quá trình "sau một thời gian rất dài" tương đương với việc lấy giới hạn khi $t -> +oo$.]
-    #step[Ta có: $lim_(t -> +oo) e^{-0.5t} = 0$.]
+    #step[Quá trình "sau một thời gian hoạt động rất dài" tương đương với việc lấy giới hạn khi $t -> +oo$.]
+    #step[Ta có: $lim_(t -> +oo) e^(-0,5 t) = 0$.]
     #step[Do đó: $lim_(t -> +oo) N(t) = frac(10000, 1 + 19 * 0) = 10000$.]
-    #step[Mức 10000 còn được gọi là giới hạn sức chứa (carrying capacity) của mô hình hàm logistic.]
+    #step[Mức $10.000$ còn được gọi là giới hạn sức chứa của mô hình hàm logistic.]
   ],
 ))
 
 #q-wrap(dir: "doc", tn(
-  [Nồng độ một loại thuốc trong máu của bệnh nhân sau khi tiêm $t$ giờ được xác định bởi hàm số $C(t) = frac(5t, t^2 + 4)$ (mg/L). Nồng độ thuốc đạt đỉnh cao nhất vào giờ thứ mấy sau khi tiêm?
+  [Nồng độ của một loại thuốc trong máu của bệnh nhân sau khi tiêm $t$ giờ được xác định bởi hàm số $C(t) = frac(5t, t^2 + 4)$ (mg/L) (như hình vẽ minh họa). Hỏi nồng độ thuốc đạt giá trị lớn nhất vào thời điểm nào dưới đây sau khi tiêm?
     #align(center)[#fig-thuoc-de2]],
   (
     [$1$ giờ],
@@ -241,44 +241,44 @@
   loigiai: [
     #step[Đạo hàm: $C'(t) = frac(5(t^2 + 4) - 5t(2t), (t^2 + 4)^2) = frac(20 - 5t^2, (t^2 + 4)^2)$.]
     #step[Cho $C'(t) = 0 <=> 20 - 5t^2 = 0 <=> t^2 = 4 => t = 2$ (vì $t > 0$).]
-    #step[Bảng biến thiên cho thấy $C(t)$ đạt cực đại tại $t = 2$. Vậy nồng độ đạt đỉnh sau 2 giờ.]
+    #step[Bảng biến thiên cho thấy $C(t)$ đạt cực đại tại $t = 2$. Vậy nồng độ đạt đỉnh sau $2$ giờ.]
   ],
 ))
 
 #q-wrap(dir: "doc", tn(
-  [Chi phí trung bình $A(x) = frac(50000 + 200x, x)$ (VNĐ) khi sản xuất $x$ cái áo. Mệnh đề nào sau đây diễn tả đúng ý nghĩa của giới hạn $lim_(x -> +oo) A(x) = 200$?],
+  [Một xí nghiệp may mặc có chi phí trung bình (đơn vị: đồng) khi sản xuất $x$ chiếc áo được tính bởi công thức $A(x) = frac(50000 + 200x, x)$ (với $x >= 1$). Phát biểu nào dưới đây mô tả chính xác ý nghĩa của giới hạn $lim_(x -> +oo) A(x) = 200$?],
   (
-    [Sản xuất càng nhiều, chi phí mỗi áo tăng vô hạn.],
-    [Công ty không thể sản xuất quá 200 cái áo.],
-    True([Nếu sản xuất lượng áo rất lớn, chi phí trung bình trên mỗi áo sẽ xấp xỉ $200$ VNĐ.]),
-    [Tổng chi phí sản xuất luôn bằng $200$ VNĐ.],
+    [Sản xuất càng nhiều áo thì chi phí sản xuất mỗi chiếc áo càng tăng.],
+    [Xí nghiệp không thể sản xuất vượt quá $200$ chiếc áo.],
+    True([Nếu số lượng áo sản xuất ra rất lớn thì chi phí trung bình trên mỗi chiếc áo sẽ xấp xỉ $200$ đồng.]),
+    [Tổng chi phí sản xuất áo của xí nghiệp luôn bằng $200$ đồng.],
   ),
 
   loigiai: [
-    #step[Ta có $A(x) = frac(50000, x) + 200$. Khi $x -> +oo$, phần chi phí cố định chia đều $50000/x -> 0$.]
-    #step[Chi phí trung bình trên một đơn vị sản phẩm sẽ tiến dần tới tiệm cận ngang $y = 200$. Tức là khi sản xuất quy mô rất lớn, mỗi chiếc áo tốn xấp xỉ mức chi phí biến đổi là $200$ VNĐ.]
+    #step[Ta có $A(x) = frac(50000, x) + 200$. Khi $x -> +oo$, phần chi phí cố định $50000/x -> 0$.]
+    #step[Chi phí trung bình trên một đơn vị sản phẩm sẽ tiến dần tới tiệm cận ngang $y = 200$. Tức là khi sản xuất với số lượng rất lớn, chi phí trung bình để sản xuất mỗi chiếc áo xấp xỉ $200$ đồng.]
   ],
 ))
 
 #q-wrap(dir: "doc", tn(
-  [Giá trị của một máy móc sau $t$ năm sử dụng được cho bởi hàm số $V(t) = 150 * e^{-0.1t}$ (triệu đồng). Tốc độ khấu hao (tốc độ giảm giá trị) của máy vào năm thứ 5 là bao nhiêu?
+  [Giá trị của một chiếc máy phát điện sau $t$ năm sử dụng được ước tính bởi hàm số $V(t) = 150 e^(-0,1 t)$ (đơn vị: triệu đồng). Tốc độ giảm giá trị (khấu hao) của máy phát điện tại thời điểm năm thứ $5$ là bao nhiêu?
     #align(center)[#fig-khau-hao]],
   (
-    [$approx 15.0$ triệu/năm],
-    True([$approx 9.1$ triệu/năm]),
+    [$approx 15,0$ triệu/năm],
+    True([$approx 9,1$ triệu/năm]),
     [$approx 91$ triệu/năm],
-    [$approx 1.5$ triệu/năm],
+    [$approx 1,5$ triệu/năm],
   ),
 
   loigiai: [
-    #step[Tốc độ thay đổi giá trị là $V'(t) = 150 * (-0.1) * e^{-0.1t} = -15 e^{-0.1t}$.]
-    #step[Tốc độ khấu hao chính là độ lớn của tốc độ thay đổi: $|V'(t)| = 15 e^{-0.1t}$.]
-    #step[Tại $t = 5$: $|V'(5)| = 15 e^{-0.5} approx 15 times 0.6065 = 9.0975 approx 9.1$ (triệu/năm).]
+    #step[Tốc độ thay đổi giá trị là $V'(t) = 150 * (-0,1) * e^(-0,1 t) = -15 e^(-0,1 t)$.]
+    #step[Tốc độ khấu hao chính là độ lớn của tốc độ thay đổi giá trị: $|V'(t)| = 15 e^(-0,1 t)$.]
+    #step[Tại $t = 5$: $|V'(5)| = 15 e^(-0,5) approx 9,1$ (triệu đồng/năm).]
   ],
 ))
 
 #q-wrap(dir: "doc", tn(
-  [Lượng khí thải CO2 của một thành phố ước tính theo thời gian được mô hình hóa bởi $E(t) = t^3 - 12t^2 + 45t + 100$ (đơn vị), $t$ (năm) tính từ 2020. Tốc độ tăng lượng khí thải bắt đầu chậm lại (điểm uốn) vào năm nào?],
+  [Lượng khí thải khí nhà kính $E(t)$ của một thành phố công nghiệp được dự báo theo thời gian $t$ (năm) tính từ năm $2020$ tuân theo công thức $E(t) = t^3 - 12 t^2 + 45 t + 100$ (đơn vị: triệu tấn). Hỏi tốc độ tăng lượng khí thải bắt đầu giảm (tương ứng với điểm uốn của đồ thị hàm số) xảy ra vào năm nào dưới đây?],
   (
     [$2022$],
     [$2023$],
@@ -287,31 +287,29 @@
   ),
 
   loigiai: [
-    #step[Tốc độ tăng là đạo hàm bậc nhất: $E'(t) = 3t^2 - 24t + 45$.]
-    #step[Để biết khi nào tốc độ tăng đạt cực trị (chậm lại hay nhanh lên), ta xét điểm uốn (đạo hàm bậc hai bằng 0): $E''(t) = 6t - 24 = 0 <=> t = 4$.]
-    #step[$t = 4$ tương ứng với $4$ năm sau 2020, tức là năm $2024$.]
+    #step[Tốc độ thay đổi lượng khí thải là: $E'(t) = 3t^2 - 24t + 45$.]
+    #step[Gia tốc thay đổi (đạo hàm bậc hai): $E''(t) = 6t - 24$. Xét $E''(t) = 0 <=> t = 4$.]
+    #step[Với $t = 4$ tương ứng với $4$ năm sau $2020$, tức là năm $2024$.]
   ],
 ))
 
 #q-wrap(dir: "doc", tn(
-  [Dân số của một hòn đảo (đơn vị nghìn người) biến động theo mô hình $P(t) = frac(10t + 50, t + 2)$ ($t >= 0$ tính bằng năm). Phát biểu nào sau đây đúng?],
+  [Dân số (đơn vị: nghìn người) của một hòn đảo sau $t$ năm định cư được ước tính theo công thức $P(t) = frac(10t + 50, t + 2)$ (với $t >= 0$). Phát biểu nào dưới đây là đúng?],
   (
-    [Dân số đảo tăng liên tục nhưng không bao giờ vượt quá $10$ nghìn người.],
-    True([Dân số đảo sẽ giảm dần theo thời gian.]),
-    [Sau $3$ năm dân số là $20$ nghìn người.],
-    [Dân số ban đầu là $10$ nghìn người.],
+    [Dân số hòn đảo tăng liên tục nhưng không vượt quá $10$ nghìn người.],
+    True([Dân số hòn đảo giảm liên tục theo thời gian.]),
+    [Sau $3$ năm định cư, dân số của hòn đảo là $20$ nghìn người.],
+    [Quy mô dân số ban đầu của hòn đảo là $10$ nghìn người.],
   ),
 
   loigiai: [
-    #step[Tính đạo hàm: $P'(t) = frac(10(t+2) - (10t+50) dot 1, (t+2)^2) = frac(-30, (t+2)^2) < 0$ với mọi $t >= 0$.]
-    #step[Vì $P'(t) < 0$ nên dân số *giảm liên tục* từ $P(0) = 25$ (nghìn người) xuống theo thời gian. Đáp án B đúng.]
-    #step[Khi $t -> +oo$: $lim_(t -> +oo) frac(10t+50, t+2) = 10$ — dân số tiệm cận về mức $10$ nghìn người, xác nhận câu hỏi tiếp theo.]
-    #step[Kiểm tra các đáp án sai: A sai (dân số giảm, không tăng); C sai ($P(3)=frac(80, 5)=16$ nghìn, không phải 20); D sai ($P(0)=25$ nghìn, không phải 10).]
+    #step[Tính đạo hàm: $P'(t) = frac(10(t+2) - (10t+50) dot.c 1, (t+2)^2) = frac(-30, (t+2)^2) < 0$ với mọi $t >= 0$.]
+    #step[Vì $P'(t) < 0$ nên dân số hòn đảo giảm liên tục theo thời gian kể từ thời điểm ban đầu ($P(0) = 25$ nghìn người).]
   ],
 ))
 
 #q-wrap(dir: "doc", tn(
-  [Tiếp tục bài trên: Dân số của hòn đảo có giới hạn tiệm cận là bao nhiêu khi thời gian rất lớn?],
+  [Theo mô hình dân số ở câu trên, dân số của hòn đảo sẽ dần ổn định và tiệm cận về mức nào dưới đây khi thời gian định cư trôi đi rất lâu?],
   (
     [$0$],
     [$5$ nghìn người],
@@ -320,36 +318,36 @@
   ),
 
   loigiai: [
-    #step[Ta tính giới hạn khi $t -> +oo$: $lim_(t -> +oo) frac(10t + 50, t + 2) = 10$.]
-    #step[Đồ thị có tiệm cận ngang $y = 10$. Do đó dân số dần ổn định ở mức $10$ nghìn người.]
+    #step[Tính giới hạn khi $t -> +oo$: $lim_(t -> +oo) frac(10t + 50, t + 2) = 10$.]
+    #step[Đồ thị có tiệm cận ngang là đường thẳng $y = 10$. Do đó dân số ổn định tiệm cận về mức $10$ nghìn người.]
   ],
 ))
 
 #q-wrap(dir: "doc", tn(
-  [Khối lượng mỡ cơ thể giảm đi của một người áp dụng chế độ ăn kiêng được ước tính bởi $L(t) = frac(8t, t + 4)$ (kg), $t$ (tuần). Hỏi tốc độ giảm mỡ ở tuần thứ 4 là bao nhiêu kg/tuần?],
+  [Khối lượng mỡ giảm được của một người sau $t$ tuần thực hiện chế độ tập luyện được xác định bởi công thức $L(t) = frac(8t, t + 4)$ (kg). Hỏi tốc độ giảm mỡ của người đó ở tuần thứ $4$ là bao nhiêu kg/tuần?],
   (
-    [$0.25$],
-    True([$0.5$]),
-    [$1.0$],
-    [$2.0$],
+    [$0,25$],
+    True([$0,5$]),
+    [$1,0$],
+    [$2,0$],
   ),
 
   loigiai: [
-    #step[Tốc độ giảm mỡ chính là đạo hàm của hàm $L(t)$.]
-    #step[$L'(t) = frac(8(t + 4) - 8t(1), (t + 4)^2) = frac(32, (t + 4)^2)$.]
-    #step[Tại $t = 4$: $L'(4) = frac(32, (4 + 4)^2) = frac(32, 64) = 0.5$ (kg/tuần).]
+    #step[Tốc độ giảm mỡ chính là đạo hàm của hàm số $L(t)$ theo thời gian $t$.]
+    #step[$L'(t) = frac(8(t + 4) - 8t dot.c 1, (t + 4)^2) = frac(32, (t + 4)^2)$.]
+    #step[Tại $t = 4$ tuần: $L'(4) = frac(32, (4 + 4)^2) = 0,5$ (kg/tuần).]
   ],
 ))
 
 #exam-part([PHẦN II. Câu hỏi trắc nghiệm Đúng - Sai (4 câu)], count: 4)
 
 #q-wrap(dir: "ngang", ds(
-  [Cho hàm số mô tả nồng độ một loại hóa chất trong hồ sau khi bị ô nhiễm: $C(t) = frac(5t, t^2 + 9)$ (đơn vị: mg/L), với $t$ (ngày) là thời gian từ lúc tràn hóa chất ($t >= 0$).],
+  [Nồng độ của một chất hóa học trong hồ nước sau khi xảy ra sự cố tràn hóa chất được xác định bởi công thức $C(t) = frac(5t, t^2 + 9)$ (đơn vị: mg/L), với $t >= 0$ là số ngày tính từ thời điểm xảy ra sự cố. Xét tính đúng hoặc sai của các phát biểu sau:],
   (
-    [Nồng độ hóa chất đạt đỉnh vào ngày thứ $5$.],
-    True([Nồng độ cao nhất của hóa chất trong hồ là $5/6$ mg/L.]),
-    True([Sau khi đạt đỉnh, nồng độ hóa chất giảm dần và tiến về $0$.]),
-    [Tốc độ thay đổi nồng độ tại $t = 0$ là âm.],
+    [Nồng độ hóa chất trong hồ đạt giá trị lớn nhất vào ngày thứ $5$.],
+    True([Nồng độ cao nhất của hóa chất trong hồ đo được là $5/6$ mg/L.]),
+    True([Sau khi đạt giá trị lớn nhất, nồng độ hóa chất trong hồ giảm dần tiệm cận về $0$.]),
+    [Tốc độ thay đổi nồng độ hóa chất tại thời điểm bắt đầu xảy ra sự cố ($t = 0$) mang giá trị âm.],
   ),
 
   loigiai: [
@@ -361,12 +359,12 @@
 ))
 
 #q-wrap(dir: "ngang", ds(
-  [Một công ty công nghệ phát triển ứng dụng di động. Lợi nhuận $P(x)$ (triệu đồng) phụ thuộc vào số lượng người dùng $x$ (nghìn người) theo hàm: $P(x) = -x^3 + 12x^2 + 27x - 10$ ($x >= 0$). Xét tính Đúng/Sai của các phát biểu sau:],
+  [Một công ty công nghệ nhận thấy lợi nhuận $P(x)$ (đơn vị: triệu đồng) thu được từ ứng dụng di động phụ thuộc vào lượng người dùng hoạt động $x$ (đơn vị: nghìn người) theo công thức $P(x) = -x^3 + 12 x^2 + 27 x - 10$ (với $x >= 0$). Xét tính đúng hoặc sai của các phát biểu sau:],
   (
-    True([Lợi nhuận đạt cực đại khi ứng dụng có $9$ nghìn người dùng.]),
-    [Lợi nhuận tối đa mà công ty đạt được là $400$ triệu đồng.],
-    True([Tốc độ tăng trưởng lợi nhuận đạt lớn nhất khi lượng người dùng là $4$ nghìn người.]),
-    [Công ty luôn chịu lỗ nếu số người dùng vượt quá $12$ nghìn người.],
+    True([Lợi nhuận của công ty đạt giá trị lớn nhất khi ứng dụng có $9$ nghìn người dùng hoạt động.]),
+    [Lợi nhuận lớn nhất mà công ty đạt được từ ứng dụng là $400$ triệu đồng.],
+    True([Tốc độ tăng trưởng lợi nhuận (đạo hàm của lợi nhuận) đạt giá trị lớn nhất khi lượng người dùng là $4$ nghìn người.]),
+    [Công ty luôn bị lỗ vốn nếu lượng người dùng vượt quá $12$ nghìn người.],
   ),
 
   loigiai: [
@@ -380,35 +378,34 @@
 ))
 
 #q-wrap(dir: "ngang", ds(
-  [Phương trình sinh trưởng của một loài cá trong hồ được ước tính là $N(t) = frac(400, 1 + 3e^{-0.2t})$ (con), $t$ tính bằng tháng.],
+  [Số lượng cá của một loài trong hồ tự nhiên sau $t$ tháng kể từ khi thả giống được ước tính bởi công thức $N(t) = frac(400, 1 + 3 e^(-0,2 t))$ (đơn vị: con). Xét tính đúng hoặc sai của các phát biểu sau:],
   (
-    True([Số lượng cá ban đầu khi thả vào hồ là $100$ con.]),
-    [Sức chứa tối đa của hồ là $1200$ con cá.],
-    True([Dân số cá luôn tăng theo thời gian.]),
-    True([Khi dân số đạt $200$ con, tốc độ tăng trưởng là mạnh nhất.]),
+    True([Số lượng cá ban đầu khi bắt đầu thả giống vào hồ là $100$ con.]),
+    [Sức chứa tối đa của loài cá này trong hồ là $1.200$ con.],
+    True([Số lượng cá trong hồ luôn tăng theo thời gian.]),
+    True([Khi số lượng cá trong hồ đạt $200$ con thì tốc độ tăng trưởng của quần thể cá là lớn nhất.]),
   ),
 
   loigiai: [
     - a) Đúng. Thay $t=0$, ta có $N(0) = frac(400, 1 + 3e^0) = frac(400, 4) = 100$.
     - b) Sai. Khi $t -> +oo$, $e^{-0.2t} -> 0$, $N(t) -> frac(400, 1) = 400$. Giới hạn sức chứa (tiệm cận ngang) là 400.
     - c) Đúng. Hàm phân thức có mẫu $1 + 3e^{-0.2t}$ giảm ngặt nên phân thức tăng ngặt, đạo hàm luôn dương.
-    - d) Đúng. Đối với mô hình hàm logistic $N = frac(K, 1+C e^(--r t))$, tốc độ sinh trưởng $N'(t)$ đạt lớn nhất (điểm uốn) khi $N = K/2$. Ở đây $K=400$, nên tốc độ lớn nhất khi $N=200$.
+    - d) Đúng. Đối với mô hình hàm logistic $N = frac(K, 1+C e^(-r t))$, tốc độ sinh trưởng đạt lớn nhất (điểm uốn) khi $N = K/2$. Ở đây $K=400$, nên tốc độ lớn nhất khi $N=200$.
   ],
 ))
 
 #q-wrap(dir: "ngang", ds(
-  [Chi phí nhiên liệu (ngàn đồng/giờ) của một tàu thủy khi chạy với vận tốc $v$ (km/h) là $C_1(v) = 50 + 0.5v^3$. Các chi phí khác (bảo dưỡng, lương thuyền viên...) cố định là $400$ ngàn đồng/giờ. Tàu dự định thực hiện chuyến đi dài $1000" km"$.],
+  [Chi phí nhiên liệu (đơn vị: nghìn đồng/giờ) của một tàu thủy khi di chuyển với vận tốc $v$ (km/h) là $C_1(v) = 50 + 0,5 v^3$ ($v > 0$). Ngoài ra, các chi phí cố định khác (nhân sự, bảo trì...) của tàu là $400$ nghìn đồng cho mỗi giờ chạy. Tàu thực hiện một chuyến hành trình dài $1000$ km. Xét tính đúng hoặc sai của các phát biểu sau:],
   (
-    True([Tổng chi phí của chuyến đi là hàm số $T(v) = frac(1000, v)(450 + 0.5v^3)$.]),
-    True([Thời gian của chuyến đi là $t = 1000/v$.]),
-    [Để tổng chi phí nhỏ nhất, tàu cần chạy với vận tốc xấp xỉ $11.4$ km/h.], // SAI: ∛450 ≈ 7.66
-    [Tàu chạy càng chậm thì tổng chi phí càng thấp do tiết kiệm nhiên liệu.],
+    True([Tổng chi phí của chuyến đi (đơn vị: nghìn đồng) được biểu diễn theo vận tốc $v$ là $T(v) = frac(1000, v)(450 + 0,5 v^3)$ (với $v > 0$).]),
+    True([Thời gian để tàu hoàn thành chuyến hành trình là $1000/v$ (giờ).]),
+    [Để tổng chi phí của chuyến hành trình là nhỏ nhất, tàu cần di chuyển với vận tốc xấp xỉ $11,4$ km/h.],
+    [Tàu di chuyển càng chậm thì tổng chi phí chuyến đi càng thấp do lượng nhiên liệu tiêu hao giảm.],
   ),
 
   loigiai: [
     - a) Đúng. Tổng chi phí mỗi giờ là $C(v) = 50 + 0.5v^3 + 400 = 450 + 0.5v^3$. Tổng chi phí chuyến đi = (Chi phí 1 giờ) $times$ (Thời gian đi) = $(450 + 0.5v^3) times frac(1000, v)$.
     - b) Đúng. Công thức thời gian $t = S/v$.
-
     - c) Sai. $T(v) = 1000 (frac(450, v) + 0.5v^2)$. $T'(v) = 1000 (-frac(450, v^2) + v) = 0 <=> v^3 = 450 => v = root(3, 450) approx 7.66$ km/h. (Chứ không phải 11.4).
     - d) Sai. Nếu chạy quá chậm, nhiên liệu ít nhưng chi phí cố định (lương, bảo dưỡng) nhân với thời gian rất dài sẽ làm tổng chi phí khổng lồ.
   ],
@@ -441,12 +438,12 @@
 ))
 
 #q-wrap(dir: "doc", tln(
-  [Trọng lượng $W(t)$ (kg) của một con bê từ lúc sinh ra ($t=0$) đến trưởng thành được ước tính bằng mô hình logistic $W(t) = frac(400, 1 + 9e^{-0.3t})$. Khi trưởng thành (sau nhiều năm), con bê này sẽ nặng xấp xỉ bao nhiêu kg?],
+  [Trọng lượng $W(t)$ (kg) của một con bê từ lúc sinh ra ($t=0$) đến trưởng thành được ước tính bằng mô hình logistic $W(t) = frac(400, 1 + 9"e"^(-0.3t))$. Khi trưởng thành (sau nhiều năm), con bê này sẽ nặng xấp xỉ bao nhiêu kg?],
   [$400$],
 
   loigiai: [
-    #step[Giới hạn bão hòa (trưởng thành): $lim_(t -> +oo) frac(400, 1 + 9e^{-0.3t})$.]
-    #step[Vì $lim_(t -> +oo) e^{-0.3t} = 0$ nên $W_"max" = frac(400, 1 + 0) = 400$ (kg).]
+    #step[Giới hạn bão hòa (trưởng thành): $lim_(t -> +oo) frac(400, 1 + 9e^(-0.3t))$.]
+    #step[Vì $lim_(t -> +oo) e^(-0.3t) = 0$ nên $W_"max" = frac(400, 1 + 0) = 400$ (kg).]
   ],
 ))
 
@@ -462,15 +459,27 @@
 ))
 
 #q-wrap(dir: "doc", tln(
-  [Một khối tuyết hình cầu đang tan chảy. Tốc độ tan chảy (giảm thể tích) tỉ lệ thuận với diện tích bề mặt của nó. Biết rằng sau $2$ giờ thì bán kính giảm đi một nửa. Hỏi sau tổng cộng bao lâu (từ ban đầu) khối tuyết tan hết hoàn toàn?],
+  [Một khối tuyết hình cầu đang tan chảy dưới ánh nắng mặt trời. Tốc độ giảm thể tích của khối tuyết tại mỗi thời điểm tỉ lệ thuận với diện tích bề mặt của nó tại thời điểm đó. Biết rằng sau $2$ giờ thì bán kính của khối tuyết giảm đi một nửa. Hỏi sau tổng cộng bao nhiêu giờ kể từ lúc bắt đầu tan chảy thì khối tuyết sẽ tan hết hoàn toàn?],
   [$4$],
 
   loigiai: [
-    #step[Gọi $V$ là thể tích, $S$ là diện tích mặt ngoài, $R$ là bán kính. Ta có $V = frac(4, 3)\pi R^3$, $S = 4\pi R^2$.]
-    #step[Tốc độ giảm thể tích $frac(d V, d t) = -k * S <=> frac(d, d t)(frac(4, 3)\pi R^3) = -k(4\pi R^2)$.]
-    #step[Đạo hàm 2 vế theo $t$: $4\pi R^2 frac(d R, d t) = -k * 4\pi R^2 => frac(d R, d t) = -k$.]
-    #step[Vận tốc giảm bán kính là một hằng số. Vậy $R(t)$ là hàm bậc nhất theo thời gian $R(t) = R_0 - k t$.]
-    #step[Sau 2 giờ, bán kính giảm một nửa: $R(2) = R_0 - 2k = frac(R_0, 2) => 2k = frac(R_0, 2) => k = frac(R_0, 4)$.]
-    #step[Tan hết khi $R(t) = 0 => R_0 - frac(R_0, 4) t = 0 => t = 4$ (giờ).]
+    #step[Gọi $V(t)$ là thể tích, $S(t)$ là diện tích bề mặt và $R(t)$ là bán kính của khối tuyết tại thời điểm $t$ (giờ). Ta có $V(t) = frac(4, 3) pi R(t)^3$, $S(t) = 4 pi R(t)^2$.]
+    #step[Tốc độ giảm thể tích theo thời gian là $-V'(t) = k S(t)$ (với $k > 0$ là hằng số).]
+    #step[Đạo hàm hai vế của công thức thể tích theo $t$: $V'(t) = 4 pi R(t)^2 R'(t) = S(t) R'(t)$..]
+    #step[Do đó: $-S(t) R'(t) = k S(t) <=> R'(t) = -k$. Bán kính giảm đều theo thời gian: $R(t) = R_0 - k t$.]
+    #step[Sau $2$ giờ bán kính giảm một nửa: $R(2) = R_0 - 2k = frac(R_0, 2) => k = frac(R_0, 4)$.]
+    #step[Tan hết hoàn toàn khi $R(t) = 0 <=> R_0 - frac(R_0, 4) t = 0 <=> t = 4$ (giờ).]
+  ],
+))
+
+#q-wrap(dir: "doc", tln(
+  [Một công ty du lịch vận hành một tuyến xe buýt. Nếu giá vé là $120$ nghìn đồng thì trung bình mỗi chuyến xe có $30$ hành khách. Nếu công ty tiến hành giảm giá vé thì cứ mỗi lần giảm giá vé thêm $10$ nghìn đồng, số lượng hành khách trung bình trên mỗi chuyến xe sẽ tăng thêm $5$ người. Hỏi công ty nên giảm giá vé bao nhiêu nghìn đồng để doanh thu trên mỗi chuyến xe đạt giá trị lớn nhất?],
+  [$30$],
+  loigiai: [
+    #step[Gọi $x$ (nghìn đồng) là số tiền giảm giá vé ($0 < x < 120$).]
+    #step[Giá vé mới là $120 - x$ (nghìn đồng).]
+    #step[Số lượng khách trung bình mới là: $30 + 5 dot.c frac(x, 10) = 30 + 0,5 x$ (người).]
+    #step[Doanh thu đạt được là: $R(x) = (120 - x)(30 + 0,5 x) = -0,5 x^2 + 30 x + 3600$.]
+    #step[Đạo hàm: $R'(x) = -x + 30 = 0 <=> x = 30$ (nghìn đồng).]
   ],
 ))

@@ -1,9 +1,10 @@
 #import "_config.typ": *
+#show: doc-setup
 
 #muc([Đề Luyện Tập Số 02])
 
 #resetexamstate()
-#exam-part([PHẦN I. Câu trắc nghiệm nhiều phương án lựa chọn (12 câu)], count: 12)
+#exam-part([PHẦN I. Câu trắc nghiệm nhiều phương án lựa chọn (14 câu)], count: 14)
 
 #q-wrap(dir: "ngang", tn(
   [Hàm số $y = x^3 - 3x$ nghịch biến trên khoảng nào?],
@@ -12,16 +13,34 @@
   loigiai: [
     #step[Ta có đạo hàm $y' = 3x^2 - 3$.]
     #step[Xét $y' < 0 <=> 3x^2 - 3 < 0 <=> -1 < x < 1$.]
-    #step[Do đó, hàm số nghịch biến trên khoảng $(-1; 1)$.]
+    - Do đó b), c) Đúng, d) Sai (nghịch biến trên $(-2; -1)$ chứ không phải $(-oo; -1)$).
   ],
 ))
 
-#q-wrap(dir: "ngang", tn(
+#q-wrap(dir: "doc",lines: 2,  ds(
+  [Cho hàm số $y = x^3 - 3x^2 + 2$. Xét tính đúng sai của các mệnh đề sau:],
+  (
+    True([Hàm số đồng biến trên khoảng $(-oo; 0)$ và $(2; +oo)$.]),
+    True([Hàm số nghịch biến trên khoảng $(0; 2)$.]),
+    [Hàm số đồng biến trên $RR$.],
+    True([Đạo hàm của hàm số triệt tiêu tại hai điểm phân biệt.]),
+  ),
+  accent: c-book,
+  loigiai: [
+    - Đạo hàm $y' = 3x^2 - 6x = 0 <=> x = 0$ hoặc $x = 2$. Do đó d) Đúng.
+    - Lập bảng xét dấu: $y' > 0$ trên $(-oo; 0)$ và $(2; +oo)$, nên a) Đúng.
+    - $y' < 0$ trên $(0; 2)$, nên b) Đúng.
+    - Hàm số có khoảng nghịch biến nên không đồng biến trên $RR$, c) Sai.
+  ],
+))
+
+#resetcau()
+#q-wrap(dir: "doc",lines: 2,  tn(
   [Cho hàm số $y = f(x)$ có bảng biến thiên như sau:
     #align(center)[
       #my-bbbt(
         var: $x$,
-        der: $f'$,
+        der: $f$,
         func: $f$,
         x-vals: ($-oo$, $0$, $2$, $+oo$),
         d-signs: ($+$, $0$, $-$, $0$, $+$),
@@ -73,7 +92,7 @@
   ],
 ))
 
-#q-wrap(dir: "ngang", tn(
+#q-wrap(dir: "doc",lines: 2, tn(
   [Cho hàm số $y = f(x)$ có đạo hàm $f'(x) = x^2 (x + 1)$. Mệnh đề nào sau đây đúng?],
   (
     [Hàm số nghịch biến trên khoảng $(-oo; -1)$.],
@@ -127,7 +146,7 @@
   ],
 ))
 
-#q-wrap(dir: "ngang", tn(
+#q-wrap(dir: "doc", lines: 1, tn(
   [Cho hàm số bậc bốn $y = f(x)$ có đồ thị là đường cong như hình vẽ. Hàm số đồng biến trên khoảng nào?
     #align(center)[
       #canvas(length: 1.5cm, {
@@ -195,10 +214,36 @@
   ],
 ))
 
-#resetcau()
-#exam-part([PHẦN II. Câu hỏi trắc nghiệm đúng sai (4 câu)], count: 4)
+#q-wrap(dir: "doc", tn(
+  [Một công ty sản xuất máy tính dự tính chi phí sản xuất $x$ chiếc máy tính mỗi ngày là $C(x) = 2000 + 10x - 0.1x^2$ (USD), với $0 < x < 100$. Khẳng định nào sau đây là đúng về chi phí sản xuất?],
+  ([Chi phí sản xuất luôn tăng khi $x in (0; 100)$], [Chi phí sản xuất luôn giảm khi $x in (0; 100)$], True([Chi phí sản xuất tăng khi $x in (0; 50)$ và giảm khi $x in (50; 100)$]), [Chi phí sản xuất giảm khi $x in (0; 50)$ và tăng khi $x in (50; 100)$]),
+  accent: c-book,
+  loigiai: [
+    #step[Đạo hàm của hàm chi phí là $C'(x) = 10 - 0.2x$.]
+    #step[Xét $C'(x) = 0 <=> 10 - 0.2x = 0 <=> x = 50$.]
+    #step[Khi $x in (0; 50)$, $C'(x) > 0$ nên chi phí tăng.]
+    #step[Khi $x in (50; 100)$, $C'(x) < 0$ nên chi phí giảm.]
+    #step[Vậy chi phí tăng khi $x in (0; 50)$ và giảm khi $x in (50; 100)$.]
+  ],
+))
 
-#q-wrap(dir: "ngang", ds(
+#q-wrap(dir: "ngang", tn(
+  [Hàm số $y = (x^2 - 2x + 2)/(x - 1)$ đồng biến trên các khoảng nào dưới đây?],
+  ([$(-oo; 1)$ và $(1; +oo)$], [$(0; 2)$], True([$(-oo; 0)$ và $(2; +oo)$]), [$(0; 1)$ và $(1; 2)$]),
+  accent: c-book,
+  loigiai: [
+    #step[Tập xác định: $D = RR backslash {1}$.]
+    #step[Đạo hàm $y' = ((2x - 2)(x - 1) - (x^2 - 2x + 2) dot.c 1)/(x - 1)^2 = (x^2 - 2x)/(x - 1)^2$.]
+    #step[Xét $y' = 0 <=> x^2 - 2x = 0 <=> x = 0$ hoặc $x = 2$.]
+    #step[Bảng xét dấu $y'$: $y' > 0$ trên $(-oo; 0)$ và $(2; +oo)$.]
+    #step[Vậy hàm số đồng biến trên các khoảng $(-oo; 0)$ và $(2; +oo)$.]
+  ],
+))
+
+#resetcau()
+#exam-part([PHẦN II. Câu hỏi trắc nghiệm đúng sai (5 câu)], count: 5)
+
+#q-wrap(dir: "doc",lines:2, ds(
   [Cho hàm số $y = -x^3 + 3x^2 - 4$. Xét tính đúng sai của các mệnh đề sau:],
   (
     True([Hàm số đồng biến trên khoảng $(0; 2)$.]),
@@ -215,7 +260,7 @@
   ],
 ))
 
-#q-wrap(dir: "ngang", ds(
+#q-wrap(dir: "doc",lines: 2, ds(
   [Cho hàm số $y = (2x - 1)/(x + 1)$. Xét tính đúng sai của các mệnh đề sau:],
   (
     True([Đạo hàm $y' = 3/(x + 1)^2$.]),
@@ -231,7 +276,7 @@
   ],
 ))
 
-#q-wrap(dir: "doc", ds(
+#q-wrap(dir: "doc",lines: 2, ds(
   [Cho hàm số $y = -x^4 + 2x^2 + 1$. Xét tính đúng sai của các mệnh đề sau:],
   (
     [Hàm số nghịch biến trên khoảng $(-1; 0)$.],
@@ -247,7 +292,7 @@
   ],
 ))
 
-#q-wrap(dir: "doc", ds(
+#q-wrap(dir: "doc",lines: 2, ds(
   [Cho hàm số $y = (x^2 - 3x + 3)/(x - 2)$. Xét tính đúng sai của các mệnh đề sau:],
   (
     True([Tập xác định $D = RR backslash {2}$.]),
@@ -265,7 +310,7 @@
 ))
 
 #resetcau()
-#exam-part([PHẦN III. Câu trắc nghiệm trả lời ngắn (6 câu)], count: 6)
+#exam-part([PHẦN III. Câu trắc nghiệm trả lời ngắn (8 câu)], count: 8)
 
 #q-wrap(dir: "ngang", tln(
   [Cho hàm số $y = -x^3 + 3x^2 + 9x - 1$. Độ dài khoảng đồng biến của hàm số là bao nhiêu?],
@@ -327,27 +372,41 @@
   ],
 ))
 
-#q-wrap(dir: "ngang", tln(
-  [Cho hàm số $y = f(x)$ có bảng biến thiên như sau:
-    #align(center)[
-      #my-bbbt(
-        var: $x$,
-        der: $f'$,
-        func: $f$,
-        x-vals: ($-oo$, $-1$, $3$, $+oo$),
-        d-signs: ($+$, $0$, $-$, $0$, $+$),
-        v-vals: ($-oo$, $4$, $-2$, $+oo$),
-      )
-    ]
-    Tìm số nghiệm nguyên của bất phương trình $g'(x) < 0$ với $g(x) = f(x^2)$ trên đoạn $[-5; 5]$.],
-  [$5$],
+#q-wrap(dir: "doc", tln(
+  [Một vật chuyển động theo quy luật $s(t) = -t^3 + 9t^2$ với $t$ (giây) là khoảng thời gian tính từ lúc vật bắt đầu chuyển động và $s$ (mét) là quãng đường vật đi được trong khoảng thời gian đó. Hỏi trong khoảng thời gian nào (tính bằng giây) thì vận tốc của vật tăng? (Nhập giá trị độ dài của khoảng thời gian đó).],
+  [$3$],
   accent: c-book,
   loigiai: [
-    #step[Ta có đạo hàm của hàm hợp: $g'(x) = 2x f'(x^2)$.]
-    #step[Bất phương trình $g'(x) < 0 <=> x f'(x^2) < 0$.]
-    #step[Trường hợp 1: $x > 0$. Ta cần $f'(x^2) < 0 <=> -1 < x^2 < 3 <=> 0 <= x^2 < 3 <=> 0 < x < sqrt(3)$.]
-    #step[Trường hợp 2: $x < 0$. Ta cần $f'(x^2) > 0 <=> x^2 < -1$ (vô lý) hoặc $x^2 > 3 <=> x < -sqrt(3)$.]
-    #step[Do đó, $g'(x) < 0 <=> x in (-oo; -sqrt(3)) union (0; sqrt(3))$.]
-    #step[Trên đoạn $[-5; 5]$, các giá trị nguyên thỏa mãn là $x in {-5, -4, -3, -2, 1}$. Số nghiệm nguyên là $5$.]
+    #step[Vận tốc của vật là đạo hàm của quãng đường: $v(t) = s'(t) = -3t^2 + 18t$.]
+    #step[Để tìm khoảng thời gian vận tốc tăng, ta xét đạo hàm của vận tốc (gia tốc): $a(t) = v'(t) = -6t + 18$.]
+    #step[Vận tốc tăng khi $a(t) > 0 <=> -6t + 18 > 0 <=> t < 3$.]
+    #step[Vì $t >= 0$ nên vận tốc tăng trong khoảng $(0; 3)$.]
+    #step[Độ dài khoảng thời gian này là $3 - 0 = 3$ giây.]
+  ],
+))
+
+#q-wrap(dir: "ngang", tln(
+  [Cho hàm số $y = f(x)$ có đạo hàm $f'(x) = (x - 1)(x + 2)^2 (x - 3)$. Số khoảng nghịch biến của hàm số là bao nhiêu?],
+  [$1$],
+  accent: c-book,
+  loigiai: [
+    #step[Xét $f'(x) = 0 <=> x = 1$, $x = -2$ (nghiệm kép), hoặc $x = 3$.]
+    #step[Lập bảng xét dấu của $f'(x)$, ta chú ý đạo hàm không đổi dấu khi qua nghiệm kép $x = -2$.]
+    #step[Ta có $f'(x) < 0 <=> 1 < x < 3$.]
+    #step[Do đó, hàm số chỉ có $1$ khoảng nghịch biến là $(1; 3)$.]
+  ],
+))
+
+#q-wrap(dir: "doc", tln(
+  [Một loại thuốc được tiêm vào mạch máu của bệnh nhân. Nồng độ của thuốc trong máu sau $t$ giờ tiêm được cho bởi công thức $C(t) = (2t)/(t^2 + 1)$ (mg/L). Nồng độ thuốc sẽ bắt đầu giảm sau bao nhiêu giờ kể từ lúc tiêm?],
+  [$1$],
+  accent: c-book,
+  loigiai: [
+    #step[Tốc độ thay đổi nồng độ thuốc là đạo hàm $C'(t)$.]
+    #step[Ta có $C'(t) = (2(t^2 + 1) - 2t(2t))/(t^2 + 1)^2 = (2 - 2t^2)/(t^2 + 1)^2$.]
+    #step[Xét $C'(t) = 0 <=> 2 - 2t^2 = 0 <=> t^2 = 1 <=> t = 1$ (vì $t >= 0$).]
+    #step[Khi $0 <= t < 1$, $C'(t) > 0$ nên nồng độ thuốc tăng.]
+    #step[Khi $t > 1$, $C'(t) < 0$ nên nồng độ thuốc giảm.]
+    #step[Vậy nồng độ thuốc bắt đầu giảm sau $1$ giờ kể từ lúc tiêm.]
   ],
 ))

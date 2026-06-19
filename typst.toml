@@ -1,0 +1,4 @@
+[project]
+name = "conictypst"
+version = "0.1.0"
+entrypoint = "typst/sach/luong-giac-chuong1/main.typ"

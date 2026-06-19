@@ -6,7 +6,7 @@
 // 2. Tự động ngắt mũi tên đi qua vùng không xác định
 // 3. Tích hợp thêm macro bxd (Bảng xét dấu) siêu gọn nhẹ
 // ==========================================
-
+ 
 #let bbtv2(
   var: $x$,
   der: $y'$,

@@ -816,24 +816,24 @@ Khi `sang-setup` được kích hoạt:
 #caution[Đặt `#show: sang-setup` sau `#let (tn, ds, tln, tl) = exam-mode(...)` và sau các `#set page`, `#set text`. Không đặt trước các lệnh `#set`.]
 
 // ══════════════════════════════════════════════════════════════════
-= `#tfrac` — Phân số cỡ nhỏ
-// ══════════════════════════════════════════════════════════════════
+Khi cấu hình hiển thị phân số display đang bật, mọi biểu thức phân số thông thường `$a/b$` đều được hiển thị cỡ lớn (display style). Để giữ phân số cỡ nhỏ (inline/script style) dùng trong các số mũ, cận tích phân hoặc khi viết công thức inline, ta sử dụng hàm `tfrac` (đã được tích hợp sẵn thông qua biến trạng thái `in-tfrac` toàn cục).
 
-Khi `sang-setup` đang bật, mọi `$a/b$` đều to như dfrac. Dùng `tfrac` khi muốn giữ cỡ nhỏ inline:
-
+Cú pháp sử dụng:
 ```typst
-// Phân số bình thường (nhỏ, inline)
-$x = tfrac(1, 2) y + z$
+// Phân số cỡ nhỏ trong số mũ (không bị vỡ dòng)
+$3^(tfrac(5,3))$
+
+// Phân số cỡ nhỏ trong cận tích phân
+$integral_(tfrac(1,2))^(tfrac(3,2)) f(x) dif x$
 
 // Phân số trong câu văn
-Xác suất là $tfrac(3, 5)$.
-
-// Công thức có cả hai loại
-$ integral_0^1 tfrac(1, sqrt(x)) dif x = 2 $
+Xác suất để rút được thẻ đỏ là $tfrac(3, 5)$.
 ```
 
 #demo-out[
-  Phân số display: $a/b + c/d$ #h(2em) Phân số inline: $tfrac(1, 2) + tfrac(3, 4)$
+  Phân số display mặc định: $a/b + c/d$ \
+  Phân số nhỏ với tfrac: $tfrac(1, 2) + tfrac(3, 4)$ \
+  Phân số nhỏ ở số mũ: $3^(tfrac(5, 3))$
 ]
 
 // ══════════════════════════════════════════════════════════════════

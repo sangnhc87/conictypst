@@ -191,7 +191,7 @@
 #exam-part([PHẦN I. Câu hỏi trắc nghiệm nhiều phương án lựa chọn (12 câu)], count: 12)
 
 #q-wrap(dir: "doc", tn(
-  [*[Drone — Tối ưu năng lượng bay]* Một drone thực hiện chuyến bay dài $100$ km. Tại vận tốc $v$ m/s, năng lượng tiêu hao mỗi km gồm hai phần: lực cản không khí tốn $v^2$ J/km và điện tử cố định tốn $128/v$ J/km. Tổng năng lượng: $E(v) = 100(v^2 + 128/v)$ J. Vận tốc nào giúp drone tiết kiệm năng lượng nhất?
+  [Một thiết bị bay không người lái (drone) thực hiện một hành trình dài $100$ km. Khi drone di chuyển với vận tốc không đổi $v$ (m/s) thì năng lượng tiêu hao trên mỗi ki-lô-mét đường đi gồm hai phần: năng lượng thắng lực cản không khí là $v^2$ (J/km) và năng lượng duy trì các thiết bị điện tử là $128/v$ (J/km). Tổng năng lượng tiêu hao trong cả hành trình được tính theo công thức $E(v) = 100(v^2 + 128/v)$ (J). Vận tốc bay nào dưới đây giúp drone tiết kiệm năng lượng nhất?
     #align(center)[#fig-uav]],
   (
     [$2$ m/s],
@@ -206,7 +206,7 @@
 ))
 
 #q-wrap(dir: "doc", tn(
-  [*[Góc nhìn tranh — Tối ưu vị trí quan sát]* Bức tranh treo thẳng đứng, cạnh dưới cao $1$m, cạnh trên cao $9$m so với tầm mắt. Người đứng cách tường $x$ mét; góc nhìn $alpha = arctan(9/x) - arctan(1/x)$. Giá trị $x$ để $alpha$ lớn nhất là:
+  [Một bức tranh được treo thẳng đứng trên một bức tường phẳng. Cạnh dưới và cạnh trên của bức tranh lần lượt cao hơn tầm mắt của một người quan sát là $1$ m và $9$ m. Người quan sát đứng cách bức tường một khoảng $x$ (mét) thì góc nhìn $alpha$ của người đó đối với bức tranh được xác định bởi công thức $alpha = arctan(9/x) - arctan(1/x)$ (với $x > 0$). Khoảng cách $x$ bằng bao nhiêu để người đó có góc nhìn $alpha$ lớn nhất?
     #align(center)[#fig-viewing]],
   (
     [$1$ m],
@@ -221,7 +221,7 @@
 ))
 
 #q-wrap(dir: "doc", tn(
-  [*[Làm lạnh Newton — Bán chu kỳ]* Vật nóng $100 degree$C đặt trong phòng $0 degree$C. Nhiệt độ: $T(t) = 100 dot.c (1/2)^(t/20)$ với $t$ (phút). Sau bao lâu nhiệt độ còn $1/16$ ban đầu?],
+  [Theo định luật làm nguội của Newton, một vật ở nhiệt độ $100 degree$C được đặt vào một phòng có nhiệt độ không đổi là $0 degree$C. Nhiệt độ $T(t)$ của vật sau $t$ phút kể từ lúc đặt vào phòng được xác định bởi công thức $T(t) = 100 dot.c (1/2)^(t/20)$ (đơn vị: $degree$C). Hỏi sau bao lâu kể từ lúc bắt đầu làm nguội thì nhiệt độ của vật giảm còn bằng $1/16$ so với nhiệt độ ban đầu?],
   (
     [$40$ phút],
     [$60$ phút],
@@ -234,7 +234,7 @@
 ))
 
 #q-wrap(dir: "doc", tn(
-  [*[Định lý truyền công suất cực đại]* Nguồn điện $epsilon = 24$ V, điện trở trong $r = 2 space Omega$. Công suất tiêu thụ trên điện trở ngoài $R$: $P(R) = frac(576 R, (R + 2)^2)$. Giá trị $R$ và $P_"max"$:],
+  [Một nguồn điện có suất điện động $epsilon = 24$ V và điện trở trong $r = 2 space Omega$. Công suất tiêu thụ $P$ (đơn vị: W) trên điện trở ngoài $R$ (đơn vị: $Omega$) của mạch điện được xác định bởi công thức $P(R) = frac(576 R, (R + 2)^2)$. Tìm điện trở ngoài $R$ để công suất tiêu thụ trên mạch ngoài đạt giá trị lớn nhất và tính giá trị công suất lớn nhất tương ứng đó.],
   (
     [$R = 1 space Omega$, $P = 64$ W],
     True([$R = 2 space Omega$, $P = 72$ W]),
@@ -248,7 +248,7 @@
 ))
 
 #q-wrap(dir: "doc", tn(
-  [*[Tối ưu giá phòng khách sạn]* Khách sạn $100$ phòng, giá $1000$k/đêm, tất cả kín. Mỗi tăng thêm $100$k thì $5$ phòng trống. Giá bán tối ưu để doanh thu cực đại:],
+  [Một khách sạn có $100$ phòng. Người quản lý thấy rằng nếu giá thuê mỗi phòng là $1.000$ nghìn đồng một đêm thì tất cả các phòng đều được thuê hết. Tuy nhiên, cứ mỗi lần tăng giá thuê thêm $100$ nghìn đồng một đêm thì sẽ có thêm $5$ phòng bị bỏ trống. Hỏi người quản lý nên đặt giá thuê phòng là bao nhiêu để doanh thu của khách sạn trong một đêm đạt giá trị lớn nhất?],
   (
     [$1200$k],
     [$1300$k],
@@ -262,7 +262,7 @@
 ))
 
 #q-wrap(dir: "doc", tn(
-  [*[Cycloid — Tốc độ cực đại của hạt]* Hạt chuyển động theo cycloid: $x = t - sin t$, $y = 1 - cos t$. Tốc độ $v(t) = sqrt((1-cos t)^2 + sin^2 t)$. Tốc độ cực đại là bao nhiêu?],
+  [Một chất điểm chuyển động trong mặt phẳng tọa độ $O x y$ với phương trình quỹ đạo xác định bởi $x = t - sin t$ và $y = 1 - cos t$ (với $t$ là thời gian). Tốc độ $v(t)$ của chất điểm tại thời điểm $t$ được xác định bởi công thức $v(t) = sqrt((1 - cos t)^2 + sin^2 t)$. Tốc độ chuyển động lớn nhất của chất điểm bằng bao nhiêu?],
   (
     [$1$],
     [$sqrt(2)$],
@@ -275,7 +275,7 @@
 ))
 
 #q-wrap(dir: "doc", tn(
-  [*[Đường cong Laffer — Thuế suất tối ưu]* Nguồn thu thuế $T(r) = 81 r (1-r)^2$ (tỉ đồng), $r in [0,1]$. Mức thuế tối ưu $r^*$ và nguồn thu $T^*$:
+  [Giả sử nguồn thu từ thuế $T$ (đơn vị: tỷ đồng) của một quốc gia được mô tả bởi đường cong Laffer thông qua công thức $T(r) = 81 r (1-r)^2$, trong đó $r in [0,1]$ là thuế suất (như hình vẽ minh họa). Hỏi thuế suất $r^*$ bằng bao nhiêu để nguồn thu từ thuế của quốc gia đạt giá trị lớn nhất và tính nguồn thu lớn nhất $T^*$ đó?
     #align(center)[#fig-laffer]],
   (
     [$r^* = 1/4$, $T^* = 9$ tỉ],
@@ -290,7 +290,7 @@
 ))
 
 #q-wrap(dir: "doc", tn(
-  [*[Khai thác bền vững tối đa (MSY)]* Đàn cá: $r = 0.4$, $K = 1000$ tấn. Mức khai thác bền vững tối đa hằng năm là:],
+  [Để khai thác một quần thể cá một cách bền vững, tốc độ tăng trưởng của sinh khối đàn cá được mô hình hóa theo hàm số $f(N) = 0,4 N (1 - frac(N, 1000))$ (tấn/năm), trong đó $N$ là sinh khối của đàn cá (tấn). Sản lượng khai thác bền vững tối đa hằng năm đạt được tại giá trị lớn nhất của hàm số $f(N)$. Sản lượng khai thác tối đa hằng năm đó bằng bao nhiêu?],
   (
     [$50$ tấn/năm],
     True([$100$ tấn/năm]),
@@ -304,7 +304,7 @@
 ))
 
 #q-wrap(dir: "doc", tn(
-  [*[Nồng độ cồn — Pháp y]* $"BAC"(t) = 2.4 dot.c (1/2)^(t/3)$ (phần ngàn), ngưỡng lái xe hợp lệ $0.3‰$. Sau bao lâu đủ điều kiện lái xe?],
+  [Nồng độ cồn trong máu (BAC) của một tài xế sau khi uống rượu bia được xác định bởi công thức $"BAC"(t) = 2,4 dot.c (1/2)^(t/3)$ (đơn vị: phần ngàn - $‰$), trong đó $t$ là số giờ kể từ thời điểm đo đầu tiên. Một người đủ điều kiện lái xe an toàn khi nồng độ cồn trong máu không vượt quá $0,3 ‰$. Hỏi sau ít nhất bao nhiêu giờ kể từ thời điểm đo đầu tiên thì tài xế đó đủ điều kiện lái xe?],
   (
     [$6$ giờ],
     [$7$ giờ],
@@ -317,7 +317,7 @@
 ))
 
 #q-wrap(dir: "doc", tn(
-  [*[Đỉnh dịch bệnh]* Số ca mới hằng ngày: $I(t) = 500 t e^(-0.1 t)$ (ca/ngày). Đỉnh dịch đạt vào ngày:
+  [Trong một đợt bùng phát dịch bệnh, số ca mắc mới mỗi ngày được mô hình hóa bởi hàm số $I(t) = 500 t e^(-0.1 t)$ (ca/ngày), với $t >= 0$ là số ngày tính từ khi dịch bắt đầu xuất hiện (như hình vẽ minh họa). Hỏi sau bao nhiêu ngày kể từ khi bùng phát thì số ca mắc mới mỗi ngày đạt giá trị lớn nhất?
     #align(center)[#fig-epidemic]],
   (
     [Ngày $5$],
@@ -331,7 +331,7 @@
 ))
 
 #q-wrap(dir: "doc", tn(
-  [*[Lon trụ tối ưu — Tỉ lệ thiết kế]* Lon hình trụ kín, thể tích $V$ cho trước. Để diện tích bề mặt nhỏ nhất, tỉ số $h/r$ (chiều cao / bán kính) bằng:],
+  [Một công ty sữa cần thiết kế một chiếc lon hình trụ kín có thể tích $V$ cho trước. Để tiết kiệm vật liệu làm vỏ lon, người ta cần thiết kế sao cho diện tích toàn phần của hình trụ đạt giá trị nhỏ nhất. Khi đó, tỉ số giữa chiều cao $h$ và bán kính đáy $r$ của chiếc lon bằng:],
   (
     [$h/r = 1/2$],
     [$h/r = 1$],
@@ -344,7 +344,7 @@
 ))
 
 #q-wrap(dir: "doc", tn(
-  [*[Hình chữ nhật lớn nhất nội tiếp tam giác vuông]* Tam giác vuông $O A B$: $O A = 6$ cm, $O B = 8$ cm. Hình chữ nhật có một đỉnh tại $O$, hai cạnh trên $O A$ và $O B$, đỉnh đối diện trên cạnh huyền. Diện tích cực đại:
+  [Cho tam giác $O A B$ vuông tại $O$ với $O A = 6$ cm và $O B = 8$ cm. Một hình chữ nhật được dựng nội tiếp tam giác $O A B$ sao cho một đỉnh của hình chữ nhật trùng với $O$, hai cạnh nằm trên hai cạnh góc vuông $O A$, $O B$ và đỉnh đối diện nằm trên cạnh huyền $A B$ (như hình vẽ minh họa). Diện tích lớn nhất của hình chữ nhật đó bằng:
     #align(center)[#fig-rect-tri]],
   (
     [$8$ cm²],
@@ -365,7 +365,7 @@
 #exam-part([PHẦN II. Câu hỏi trắc nghiệm Đúng – Sai (4 câu)], count: 4)
 
 #q-wrap(dir: "ngang", ds(
-  [*[Mô hình dịch bệnh]* Số ca nhiễm mới hằng ngày trong một đợt dịch: $I(t) = 500 t e^(-0.1 t)$ (ca/ngày), $t >= 0$ (ngày).],
+  [Trong một đợt bùng phát dịch bệnh, số ca nhiễm mới hằng ngày được mô hình hóa bởi hàm số $I(t) = 500 t e^(-0.1 t)$ (ca/ngày), với $t >= 0$ là số ngày tính từ khi bắt đầu dịch. Xét tính đúng hoặc sai của các khẳng định sau:],
   (
     True([Đỉnh dịch đạt vào ngày thứ $10$.]),
     True([Tổng số ca toàn đợt là $50000$ ca.]),
@@ -381,24 +381,23 @@
 ))
 
 #q-wrap(dir: "ngang", ds(
-  [*[Đường cong Laffer]* Nguồn thu thuế theo thuế suất $r in [0,1]$: $T(r) = 81 r (1-r)^2$ (tỉ đồng).],
+  [Giả sử nguồn thu từ thuế của một quốc gia theo thuế suất $r$ ($r in [0,1]$) được mô tả bởi hàm số $T(r) = 81 r (1-r)^2$ (đơn vị: tỷ đồng). Xét tính đúng hoặc sai của các khẳng định sau:],
   (
-    True([Mức thuế tối ưu là $r^* = 1/3$ (khoảng $33.3\%$).]),
-    True([Nguồn thu cực đại là $T^* = 12$ tỉ đồng.]),
-    [Tại mức thuế $r = 1/2$, tăng thuế sẽ làm tăng thêm nguồn thu.],
-    True([Cả $r=0\%$ và $r=100\%$ đều cho nguồn thu bằng $0$.]),
+    True([Thuế suất để quốc gia đạt nguồn thu từ thuế lớn nhất là $r = 1/3$ (khoảng $33,3\%$).]),
+    True([Nguồn thu từ thuế lớn nhất của quốc gia đạt được là $12$ tỷ đồng.]),
+    [Tại mức thuế suất $r = 1/2$, nếu tăng thuế suất thì nguồn thu từ thuế của quốc gia cũng tăng.],
+    True([Tại các mức thuế suất $r = 0\%$ và $r = 100\%$, nguồn thu từ thuế của quốc gia đều bằng $0$.]),
   ),
   loigiai: [
     - *a) Đúng.* $T'(r)=81(1-r)(1-3r)=0 => r=1/3$.
-    - *b) Đúng.* $T(1/3)=81 dot.c frac(1, 3) dot.c frac(4, 9)=12$ tỉ.
+    - *b) Đúng.* $T(1/3)=81 dot.c frac(1, 3) dot.c frac(4, 9)=12$ tỷ.
     - *c) Sai.* $T'(1/2)=81 dot.c frac(1, 2) dot.c (-frac(1, 2)) = -frac(81, 4) < 0$ — tăng thuế làm *giảm* nguồn thu.
     - *d) Đúng.* $T(0)=0$; $T(1)=81 dot.c 1 dot.c 0=0$.
   ],
 ))
 
-#q-wrap(dir: "ngang", ds(
-  [*[Dược học — Nồng độ thuốc]* Nồng độ hoạt chất trong máu: $C(t) = 2t e^(-0.5t)$ (mg/L), $t$ (giờ).
-    #align(center)[#fig-pharma]],
+#q-wrap(dir: "doc", ds(
+  [Sau khi một bệnh nhân được tiêm một liều thuốc, nồng độ của hoạt chất trong máu sau $t$ giờ kể từ thời điểm tiêm được xác định bởi công thức $C(t) = 2t e^(-0.5t)$ (mg/L) (như hình vẽ minh họa). Xét tính đúng hoặc sai của các khẳng định sau:], 
   (
     True([Nồng độ đỉnh đạt khoảng $1.47$ mg/L vào giờ thứ $2$.]),
     [Diện tích dưới đường cong AUC (tổng phơi nhiễm) bằng $4$ mg$dot.c$giờ/L.],
@@ -413,19 +412,19 @@
   ],
 ))
 
-#q-wrap(dir: "ngang", ds(
-  [*[Sinh thái — Khai thác bền vững]* Quần thể cá: $frac(d N, d t) = 0.4 N(1 - N/2000)$ ($N$: tấn, $t$: năm). Khai thác cố định $H$ tấn/năm.],
+#q-wrap(dir: "doc", ds(
+  [Một quần thể cá nuôi trong hồ có sinh khối $N(t)$ (tính bằng tấn) thay đổi theo thời gian $t$ (năm). Khi đánh bắt với sản lượng khai thác cố định là $H$ (tấn/năm), tốc độ thay đổi sinh khối của quần thể cá tuân theo công thức $N'(t) = 0,4 N(t) (1 - frac(N(t), 2000)) - H$. Xét tính đúng hoặc sai của các phát biểu sau:],
   (
-    True([Mức khai thác bền vững tối đa là $H^* = 200$ tấn/năm.]),
-    [Để đạt MSY, cần duy trì quần thể ở mức $N = K = 2000$ tấn.],
-    True([Nếu khai thác $H = 250 > H^*$, phương trình cân bằng vô nghiệm và quần thể sẽ sụp đổ.]),
-    [Tốc độ tăng trưởng tự nhiên đạt cực đại khi $N = K/4 = 500$ tấn.],
+    True([Mức khai thác mỗi năm lớn nhất để quần thể cá phát triển ổn định bền vững là $200$ tấn.]),
+    [Để thu được sản lượng khai thác bền vững lớn nhất, cần duy trì sinh khối quần thể cá ở mức $2000$ tấn.],
+    True([Nếu sản lượng khai thác mỗi năm là $H = 250$ tấn thì sinh khối quần thể cá sẽ liên tục giảm về $0$ và bị sụp đổ.]),
+    [Khi không đánh bắt ($H = 0$), tốc độ tăng trưởng sinh khối tự nhiên của quần thể cá đạt cực đại tại quy mô sinh khối $500$ tấn.],
   ),
   loigiai: [
-    - *a) Đúng.* $H^* = frac(r K, 4) = frac(0.4 times 2000, 4) = 200$ tấn/năm.
-    - *b) Sai.* Cần $N^* = K/2 = 1000$ tấn (nửa sức chứa), không phải $K$.
-    - *c) Đúng.* Tại $H=250$: $Delta = r^2 K^2 - 4 r K H = 640000 - 800000 < 0$ — vô nghiệm thực.
-    - *d) Sai.* $f'(N)=r(1-2N/K)=0 => N=K/2=1000$, không phải $K/4=500$.
+    - *a) Đúng.* Tốc độ tăng trưởng tự nhiên là $g(N) = 0,4 N (1 - frac(N, 2000)) = 0,4 N - 0,0002 N^2$. Cực đại của $g(N)$ đạt được khi $g'(N) = 0,4 - 0,0004 N = 0 <=> N = 1000$ tấn. Khi đó, sản lượng khai thác cực đại tương ứng là $H = g(1000) = 200$ tấn/năm.
+    - *b) Sai.* Cần duy trì sinh khối ở mức $N = 1000$ tấn (nửa sức chứa tối đa), không phải $2000$ tấn.
+    - *c) Đúng.* Khi $H = 250 > 200$, tốc độ thay đổi sinh khối $N'(t) < 0$ với mọi $N$, do đó sinh khối cá luôn giảm về $0$.
+    - *d) Sai.* Tốc độ tăng trưởng tự nhiên đạt cực đại tại $N = 1000$ tấn, không phải $500$ tấn.
   ],
 ))
 
@@ -436,7 +435,7 @@
 #exam-part([PHẦN III. Câu hỏi trắc nghiệm trả lời ngắn (6 câu)], count: 6)
 
 #q-wrap(dir: "doc", tln(
-  [*[Tối ưu vị trí quan sát pa-nô]* Một tấm pa-nô treo thẳng đứng: cạnh dưới cao $a = 4$ m, cạnh trên cao $b = 16$ m so với tầm mắt. Tìm khoảng cách $x$ (mét) để góc nhìn $alpha = arctan(16/x) - arctan(4/x)$ đạt lớn nhất. (Ghi kết quả dạng số nguyên.)],
+  [Một tấm pa-nô quảng cáo được treo thẳng đứng trên một bức tường phẳng. Cạnh dưới của pa-nô cao hơn tầm mắt của một người quan sát là $4$ m, cạnh trên của pa-nô cao hơn tầm mắt của người đó là $16$ m. Hỏi người quan sát phải đứng cách bức tường bao nhiêu mét để góc nhìn $alpha$ của người đó đối với pa-nô đạt giá trị lớn nhất? (Ghi kết quả dưới dạng số nguyên).],
   [$8$],
   loigiai: [
     #step[$tan alpha = frac(12x, x^2 + 64)$. Tối ưu $f(x)=frac(12x, x^2+64)$.]
@@ -446,55 +445,56 @@
 ))
 
 #q-wrap(dir: "doc", tln(
-  [*[Năng lượng tối thiểu drone]* Drone có hàm năng lượng mỗi km: $e(v) = k v^2 + P_0/v$ J/km. Chứng minh vận tốc tối ưu là $v^* = root(3, P_0/(2k))$. Với $k = 1$, $P_0 = 128$: tính $v^*$ (m/s) và $e_"min"$ (J/km).],
-  [$v^* = 4$ m/s, $e_"min" = 48$ J/km],
+  [Một thiết bị bay không người lái (drone) có lượng năng lượng tiêu thụ trên mỗi ki-lô-mét khi bay với vận tốc không đổi $v$ (m/s) được xác định bởi công thức $e(v) = v^2 + 128/v$ (đơn vị: J/km), với $v > 0$. Vận tốc bay bằng bao nhiêu m/s để năng lượng tiêu hao trên mỗi ki-lô-mét của drone là nhỏ nhất?],
+  [$4$],
   loigiai: [
-    #step[$e'(v) = 2 k v - P_0/v^2 = 0 <=> v^3 = frac(P_0, 2k) <=> v^* = root(3, frac(P_0, 2k))$. $e'' > 0$ xác nhận cực tiểu.]
-    #step[Với $k=1$, $P_0=128$: $v^* = root(3, 64) = 4$ m/s.]
-    #step[$e(4) = 16 + 128/4 = 16 + 32 = 48$ J/km. *Nhận xét:* $e_"cản" = 16 = frac(1, 2) dot.c 32 = frac(1, 2) e_"điện tử"$.]
+    #step[$e'(v) = 2v - 128/v^2 = 0 <=> v^3 = 64 <=> v = 4$ m/s.]
+    #step[$e(4) = 16 + 128/4 = 48$ J/km.]
   ],
 ))
 
 #q-wrap(dir: "doc", tln(
-  [*[Dịch tễ — Gánh nặng bệnh 30 ngày]* Số ca mới: $I(t) = 1000 t e^(-t/15)$ (ca/ngày). Tính tổng số ca trong $30$ ngày đầu: $G = integral_0^(30) I(t) dif t$. Biểu diễn kết quả theo $e^(-2)$ và ước lượng số.],
-  [$G = 1000(225 - 675 e^(-2)) approx 133900$ ca],
+  [Trong một đợt dịch bệnh, số ca mắc mới mỗi ngày được mô hình hóa bởi hàm số $I(t) = 1000 t e^(-t/15)$ (ca/ngày), với $t >= 0$ là số ngày tính từ khi bùng phát dịch. Tổng số ca mắc trong $30$ ngày đầu tiên là $G = integral_0^(30) I(t) dif t$ (ca). Tính giá trị của $G$ làm tròn đến hàng trăm.],
+  [$133900$],
   loigiai: [
     #step[Tích phân từng phần: $integral t e^(-t/15) dif t = -(15t+225)e^(-t/15) + C$.]
     #step[$G = 1000 [-(15t+225)e^(-t/15)]_0^(30) = 1000[-(675)e^(-2) + 225] = 1000(225 - 675e^(-2))$.]
-    #step[$G approx 1000(225 - 675 times 0.135) approx 1000 times 133.9 approx 133900$ ca.]
-    #step[Tổng toàn đợt: $1000 times 15^2 = 225000$ ca. Vậy $59\%$ ca bệnh xảy ra trong 30 ngày đầu.]
+    #step[$G approx 1000(225 - 675 times 0.135) approx 133900$ ca.]
   ],
 ))
 
-#q-wrap(dir: "doc", tln(
-  [*[Công suất cực đại trong mạch điện]* Nguồn điện $epsilon = 24$ V, điện trở trong $r = 2 space Omega$. Công suất trên điện trở ngoài $R$: $P(R) = frac(epsilon^2 R, (R+r)^2)$. Tìm $R$ để $P$ cực đại. Tính $P_"max"$ (W). Nhận xét gì về hiệu suất $eta = P_"max" / P_"cực đại lý thuyết"$?],
-  [$R = 2 space Omega$, $P_"max" = 72$ W, $eta = 50\%$],
-  loigiai: [
-    #step[$P'(R) = epsilon^2 frac((R+r)^2 - 2R(R+r), (R+r)^4) = epsilon^2 frac(r-R, (R+r)^3) = 0 <=> R = r = 2 space Omega$.]
-    #step[$P_"max" = frac(576 times 2, 16) = 72$ W.]
-    #step[*Định lý truyền công suất cực đại:* $P$ cực đại khi $R = r$ — điện trở ngoài bằng điện trở trong.]
-    #step[Tại $R = r$: dòng điện $I = epsilon/(2r)$, điện áp nguồn chia đôi cho $r$ và $R$. Công suất nguồn $= epsilon^2/(2r) times epsilon/(2r)...$ Hiệu suất $= P/(P_"tổng") = frac(I^2 R, I^2 (R+r)) = frac(R, R+r) = frac(r, 2r) = 50\%$. Luôn đúng $50\%$ tại điểm cực đại.]
-  ],
-))
+
+
 
 #q-wrap(dir: "doc", tln(
-  [*[Chứng minh MSY]* Quần thể tôm hùm: $frac(d N, d t) = r N(1 - N/K)$ với $r = 0.5$, $K = 4000$ tấn. Tìm mức khai thác bền vững tối đa $H^*$ và chứng minh công thức $H^* = frac(r K, 4)$.],
-  [$H^* = 500$ tấn/năm],
-  loigiai: [
-    #step[Tốc độ tăng trưởng tự nhiên $f(N) = r N(1-N/K)$ là parabol lõm. Cực đại tại $f'(N)=r(1-2N/K)=0 <=> N^*=K/2$.]
-    #step[$H^* = f(K/2) = r dot.c frac(K, 2) dot.c (1 - frac(K/2, K)) = r dot.c frac(K, 2) dot.c frac(1, 2) = frac(r K, 4)$. (Q.E.D.)]
-    #step[Với $r=0.5$, $K=4000$: $H^* = frac(0.5 times 4000, 4) = 500$ tấn/năm. Quy mô tối ưu $N^* = 2000$ tấn.]
-  ],
-))
-
-#q-wrap(dir: "doc", tln(
-  [*[Tuyến cáp quang tối ưu]* Đảo $B$ cách bờ $5$ km. Điểm $A$ trên bờ cách điểm $H$ (hình chiếu của $B$) là $12$ km. Chi phí cáp: $3000$ triệu/km dưới biển, $1500$ triệu/km trên bờ. Gọi $x$ (km) là khoảng cách từ $H$ đến điểm $M$ (cáp lên bờ). Tìm $x$ để chi phí nhỏ nhất.
+  [Một trạm viễn thông trên đảo $B$ cách bờ biển một khoảng $B H = 5$ km. Trạm này cần kết nối cáp quang đến điểm $A$ trên bờ biển, biết khoảng cách từ $A$ đến hình chiếu $H$ của đảo trên bờ biển là $A H = 12$ km. Chi phí lắp đặt mỗi ki-lô-mét cáp dưới biển là $3.000$ triệu đồng, còn chi phí lắp đặt mỗi ki-lô-mét cáp trên bờ là $1.500$ triệu đồng. Người ta chọn một vị trí $M$ trên bờ biển nằm giữa $A$ và $H$ làm điểm kết nối cáp từ biển lên bờ, với $H M = x$ (km) như hình vẽ. Xác định giá trị của $x$ (km) để tổng chi phí lắp đặt tuyến cáp là nhỏ nhất (làm tròn kết quả đến hai chữ số thập phân).
     #align(center)[#fig-cable]],
-  [$x = frac(5 sqrt(3), 3) approx 2.89$ km],
+  [$2.89$],
   loigiai: [
     #step[$C(x) = 3000 sqrt(x^2+25) + 1500(12-x)$.]
     #step[$C'(x) = frac(3000 x, sqrt(x^2+25)) - 1500 = 0 <=> frac(x, sqrt(x^2+25)) = frac(1, 2)$.]
     #step[$4x^2 = x^2 + 25 <=> 3x^2 = 25 <=> x = frac(5, sqrt(3)) = frac(5 sqrt(3), 3) approx 2.89$ km.]
-    #step[*Ý nghĩa hình học:* $sin theta = 1/2 => theta = 30 degree$ — *Nguyên lý Snell* cho bài toán kinh tế! Tỉ số chi phí $frac(1500, 3000) = frac(1, 2)$ quyết định góc cáp vào bờ.]
+  ],
+))
+
+#q-wrap(dir: "doc", tln(
+  [Một tàu chở hàng đi từ cảng A đến cảng B với vận tốc không đổi là $v$ (km/h) ($v > 0$). Chi phí nhiên liệu của tàu cho mỗi giờ chạy được tính bởi công thức $C(v) = 4 v^2 + 1600$ (nghìn đồng/giờ). Biết khoảng cách giữa hai cảng là $100$ km. Hãy tìm vận tốc $v$ (km/h) của tàu để tổng chi phí nhiên liệu cho cả chuyến đi là nhỏ nhất.],
+  [$20$],
+  loigiai: [
+    #step[Thời gian đi hết chuyến đi là $t = frac(100, v)$ (giờ).]
+    #step[Tổng chi phí nhiên liệu cho cả hành trình là: $T(v) = t dot.c C(v) = frac(100, v) (4v^2 + 1600) = 400v + frac(160000, v)$ (nghìn đồng).]
+    #step[Áp dụng bất đẳng thức AM-GM: $T(v) = 400v + frac(160000, v) >= 2 sqrt(400v dot.c frac(160000, v)) = 16000$ nghìn đồng.]
+    #step[Dấu "=" xảy ra khi $400v = frac(160000, v) <=> v^2 = 400 <=> v = 20$ (km/h).]
+  ],
+))
+
+#q-wrap(dir: "doc", tln(
+  [Một người nông dân muốn rào xung quanh một khu đất hình chữ nhật nằm sát bên bờ một con sông thẳng để trồng rau. Bờ sông đóng vai trò là một cạnh của khu đất nên không cần rào lưới. Người nông dân sử dụng $120$ mét lưới thép gai để rào ba cạnh còn lại của khu đất. Diện tích lớn nhất của khu đất rào được bằng bao nhiêu mét vuông?],
+  [$1800$],
+  loigiai: [
+    #step[Gọi chiều rộng của khu đất vuông góc với bờ sông là $x$ (mét) ($0 < x < 60$).]
+    #step[Chiều dài của khu đất song song với bờ sông là $120 - 2x$ (mét).]
+    #step[Diện tích của khu đất là $S(x) = x(120 - 2x) = 120x - 2x^2$ (m²).]
+    #step[$S'(x) = 120 - 4x = 0 <=> x = 30$ (mét). Diện tích lớn nhất là $S(30) = 1800$ m².]
   ],
 ))

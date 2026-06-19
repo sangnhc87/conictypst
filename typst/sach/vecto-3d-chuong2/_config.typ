@@ -1,5 +1,8 @@
 // Cấu hình chung cho Hình học Vectơ 3D — Chương 2
 
+// ─── Cấu hình dùng chung (tfrac, doc-setup, hoac) ─────────────
+#import "../../modules/_shared-config.typ": *
+
 #import "../../modules/book.typ": bt as _bt-orig, section as _section-orig, vd as _vd-orig
 #import "../../modules/book.typ": *
 #import "../../modules/exam.typ": True, exam-mode, ppgiai, resetcau, resetexamstate, exam-part, vect, print-answer-key
@@ -18,7 +21,7 @@
 #let tf = _exam_fns.tf
 #let short = _exam_fns.short
 
-#let hoac(..args) = math.cases(delim: "[", ..args.named(), ..args.pos().map(math.display))
+// hoac() đã có trong _shared-config.typ
 
 #let c-book = rgb("#065f46")
 #let c-p1 = rgb("#065f46")

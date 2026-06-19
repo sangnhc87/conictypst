@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cẩm Nang Toàn Tập Hệ Thống Typst - GV Nguyễn Văn Sang</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+    
+    :root {
+      --primary: #0f4c81;
+      --primary-light: #e8f0fc;
+      --secondary: #0ea5e9;
+      --accent: #f59e0b;
+      --success: #10b981;
+      --danger: #ef4444;
+      --purple: #8b5cf6;
+      --pink: #ec4899;
+      --bg-color: #f8fafc;
+      --surface: #ffffff;
+      --text: #334155;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+    }
+
+    * { box-sizing: border-box; }
+    
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text);
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 320px;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.03);
+      z-index: 10;
+    }
+
+    .sidebar-header {
+      padding: 24px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+    }
+
+    .sidebar-header h1 {
+      margin: 0;
+      font-size: 1.3rem;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 0;
+    }
+
+    .nav-item {
+      padding: 10px 24px;
+      color: var(--text-muted);
+      text-decoration: none;
+      display: block;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+      border-left: 3px solid transparent;
+    }
+
+    .nav-item:hover {
+      background: var(--bg-color);
+      color: var(--primary);
+    }
+
+    .nav-item.active {
+      color: var(--primary);
+      background: var(--primary-light);
+      border-left-color: var(--primary);
+      font-weight: 600;
+    }
+
+    .nav-group {
+      padding: 12px 24px 4px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 40px;
+      scroll-behavior: smooth;
+    }
+
+    .container {
+      max-width: 1050px;
+      margin: 0 auto;
+    }
+
+    section {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 32px;
+      margin-bottom: 32px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+      border: 1px solid var(--border);
+    }
+
+    h2 {
+      color: var(--primary);
+      margin-top: 0;
+      font-size: 1.75rem;
+      border-bottom: 2px solid var(--primary-light);
+      padding-bottom: 12px;
+      margin-bottom: 24px;
+    }
+
+    h3 {
+      color: var(--text);
+      font-size: 1.25rem;
+      margin-top: 32px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    p { line-height: 1.7; margin-bottom: 16px; }
+
+    /* Code Blocks */
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--primary-light);
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-size: 0.9em;
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    pre {
+      background: #1e293b;
+      color: #f8fafc;
+      padding: 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+      font-weight: 400;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    th, td {
+      padding: 14px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--bg-color);
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    tr:last-child td { border-bottom: none; }
+    
+    td code {
+      color: var(--danger);
+      background: #fef2f2;
+    }
+
+    /* Search */
+    .search-box {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .search-box input {
+      width: 100%;
+      padding: 10px 16px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .search-box input:focus { border-color: var(--primary); }
+
+    /* Callouts */
+    .callout {
+      border-left: 4px solid var(--primary);
+      background: var(--primary-light);
+      padding: 16px 20px;
+      border-radius: 0 8px 8px 0;
+      margin: 20px 0;
+      color: var(--text);
+    }
+    .callout.warning {
+      border-color: var(--accent);
+      background: #fffbeb;
+    }
+    .callout.success {
+      border-color: var(--success);
+      background: #f0fdf4;
+    }
+    
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-left: 6px;
+    }
+    .badge.sys { background: #dcfce7; color: var(--success); }
+    .badge.slide { background: #fae8ff; color: var(--purple); }
+    .badge.book { background: #e0f2fe; color: var(--primary); }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h1>Từ Điển Typst Hệ Thống<br><small style="font-weight:400; opacity:0.8; font-size: 0.9rem;">Tài liệu toàn tập cho GV Nguyễn Văn Sang</small></h1>
+    </div>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Tìm kiếm từ khóa..." onkeyup="searchDocs()">
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-group">Khởi động</div>
+      <a href="#tongquan" class="nav-item active">1. Chọn Mẫu & File Bắt Đầu</a>
+      <a href="#cauhinh" class="nav-item">2. Cấu hình Chung (`_config.typ`)</a>
+      
+      <div class="nav-group">Tài liệu Sách & SGK</div>
+      <a href="#cautrucsach" class="nav-item">3. Phân Cấp & Bộ Đếm Sách</a>
+      <a href="#tientrinhsgk" class="nav-item">4. Tiến Trình Sách Giáo Khoa</a>
+      <a href="#hopsupham" class="nav-item">5. Hộp Sư Phạm & Nhấn Mạnh</a>
+      
+      <div class="nav-group">Khảo thí & Đề thi</div>
+      <a href="#dethi" class="nav-item">6. Câu Hỏi Đề Thi (TN / DS / TLN)</a>
+      <a href="#bode" class="nav-item">7. Soạn Tuyển Tập Bộ Đề Thi</a>
+      
+      <div class="nav-group">Bảng & Trình chiếu</div>
+      <a href="#bangbienthien" class="nav-item">8. Bảng Biến Thiên & Xét Dấu</a>
+      <a href="#beamer" class="nav-item">9. Trình chiếu Slides (Beamer)</a>
+      <a href="#tienich" class="nav-item">10. Tiện ích Toán học & Mẹo</a>
+      <a href="#hinhve" class="nav-item">11. Chèn Hình Vẽ & Đồ Thị</a>
+      <div class="nav-group">Cài đặt Chuyên Sâu</div>
+      <a href="#cauhinhsau" class="nav-item">12. Tham Số Template Toàn Hệ</a>
+      <a href="#thamsotn" class="nav-item">13. Tất Cả Tham Số #tn / #ds</a>
+      <a href="#fontchu" class="nav-item">14. Font Chữ & Chữ Viết Tay</a>
+    </nav>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="container">
+      
+      <!-- PHẦN 1: TỔNG QUAN -->
+      <section id="tongquan">
+        <h2>1. Chọn Mẫu & File Bắt Đầu</h2>
+        <p>Hệ thống có sẵn các mẫu chuẩn được tối ưu hóa cho từng thể loại tài liệu trong thư mục <code>typst/</code>. Bạn nên chọn file phù hợp nhất để copy và đổi tên bắt đầu soạn thảo:</p>
+        
+        <table>
+          <tr>
+            <th width="30%">Đường dẫn file mẫu</th>
+            <th>Loại tài liệu phù hợp</th>
+            <th>Đặc điểm nổi bật</th>
+          </tr>
+          <tr>
+            <td><code>typst/book.typ</code></td>
+            <td>Sách/Tài liệu ngắn</td>
+            <td>Gọn nhẹ, bố cục chuẩn, không rườm rà.</td>
+          </tr>
+          <tr>
+            <td><code>typst/sgk.typ</code></td>
+            <td>Sách Giáo Khoa (SGK)</td>
+            <td>Có đủ chu trình sư phạm: Khởi động, Khám phá, Luyện tập, Vận dụng...</td>
+          </tr>
+          <tr>
+            <td><code>typst/chuyende.typ</code></td>
+            <td>Chuyên đề dài</td>
+            <td>Chia theo: Phần -> Chương -> Dạng toán -> Phương pháp giải -> Ví dụ.</td>
+          </tr>
+          <tr>
+            <td><code>typst/bo-de.typ</code></td>
+            <td>Tuyển tập bộ đề thi</td>
+            <td>Nhiều đề song song, tự động gom đáp án và in bảng đáp án cuối mỗi đề.</td>
+          </tr>
+          <tr>
+            <td><code>typst/Beamer.typ</code></td>
+            <td>Slides trình chiếu bài giảng</td>
+            <td>Tích hợp Touying, hiệu ứng hiện dòng <code>pause</code>, bảng đáp án tự động.</td>
+          </tr>
+        </table>
+      </section>
+
+      <!-- PHẦN 2: CẤU HÌNH CHUNG -->
+      <section id="cauhinh">
+        <h2>2. Cấu hình Chung (`_config.typ` & Router)</h2>
+        <p>Cấu hình tổng quản điều hành diện mạo và các chế độ ẩn hiện lời giải.</p>
+        
+        <h3>2.1. File <code>_config.typ</code></h3>
+        <p>Thường đặt ở thư mục chương (ví dụ <code>sach/ham-so-chuong1/_config.typ</code>) để ghi đè các cấu hình toàn cục:</p>
+        <pre><code>#let EXAM_MODE = "dethi" // "dethi" (Ẩn lời giải) hoặc "loigiai" (Hiện lời giải)
+#let IS_BOXED = true    // Bật/tắt tự động đóng khung cho tất cả vd, bt, tn, ds...
+#let EXAM_SOL_COLOR = rgb("#0f4c81") // Màu sắc điểm nhấn lời giải</code></pre>
+
+        <h3>2.2. Router Tổng <code>stexgv-doc</code></h3>
+        <p>Sử dụng ở đầu file biên soạn để khai báo siêu dữ liệu của tài liệu:</p>
+        <pre><code>#show: stexgv-doc.with(
+  doc-type: "chuyende",        // "book" | "sgk" | "chuyende" | "bo-de" | "exam" | "research"
+  title: "TÊN TÀI LIỆU",
+  subtitle: "Mô tả ngắn phụ đề",
+  author: "GV Nguyễn Văn Sang",
+  theme-color: rgb("#0f4c81"),  // Màu nhấn chủ đạo
+  margin: (x: 1.5cm, y: 1.5cm), // Tối ưu lề siêu tiết kiệm giấy
+  show-cover: false,            // Hiện/ẩn trang bìa tự động
+  show-outline: false,          // Hiện/ẩn mục lục tự động
+)</code></pre>
+      </section>
+
+      <!-- PHẦN 3: PHÂN CẤP SÁCH -->
+      <section id="cautrucsach">
+        <h2>3. Phân Cấp & Bộ Đếm Sách</h2>
+        <p>Hệ thống hỗ trợ cấu trúc tiêu đề chặt chẽ tự động đếm số thứ tự.</p>
+        
+        <table>
+          <tr>
+            <th width="30%">Cú pháp lệnh</th>
+            <th>Loại tiêu đề</th>
+            <th>Hệ thống đếm</th>
+          </tr>
+          <tr>
+            <td><code>#part[Tiêu đề]</code></td>
+            <td>Phần lớn</td>
+            <td>PHẦN I, PHẦN II (Roman)</td>
+          </tr>
+          <tr>
+            <td><code>#chapter[...]</code></td>
+            <td>Chương</td>
+            <td>CHƯƠNG 1, CHƯƠNG 2</td>
+          </tr>
+          <tr>
+            <td><code>#lesson[...]</code> / <code>#bai</code></td>
+            <td>Bài học</td>
+            <td>BÀI 1, BÀI 2 (Kèm dải màu dài)</td>
+          </tr>
+          <tr>
+            <td><code>#topic[...]</code> / <code>#dang</code></td>
+            <td>Dạng toán</td>
+            <td>Dạng 1, Dạng 2 (Đánh số)</td>
+          </tr>
+          <tr>
+            <td><code>#section[...]</code> / <code>#muc</code></td>
+            <td>Mục lý thuyết</td>
+            <td>1. Tiêu đề mục (Kèm viền chân)</td>
+          </tr>
+          <tr>
+            <td><code>#subsection[...]</code> / <code>#tieumuc</code></td>
+            <td>Tiểu mục nhỏ</td>
+            <td>1.1. Tiêu đề (Kèm pill tròn nền nhạt)</td>
+          </tr>
+          <tr>
+            <td><code>#y[Tiêu đề]</code></td>
+            <td>Ý nhỏ</td>
+            <td>a) Tiêu đề</td>
+          </tr>
+        </table>
+
+        <h3>3.1. Các trang đặc biệt không đánh số</h3>
+        <p>Sử dụng ở đầu hoặc cuối sách:</p>
+        <pre><code>#loinoidau[ ... ]      // Lời nói đầu
+#gioithieu[ ... ]      // Giới thiệu
+#huongdansudung[ ... ]  // Hướng dẫn sử dụng
+#muctieuchung[ ... ]    // Mục tiêu chung của giáo trình
+#bangthuatngu[ ... ]    // Bảng thuật ngữ cuối sách
+#tailieuthamkhao[ ... ] // Tài liệu tham khảo</code></pre>
+
+        <h3>3.2. Ép hoặc Reset Bộ đếm</h3>
+        <p>Dùng khi muốn sang chương mới hoặc sang tệp tin mới không bị đếm chồng:</p>
+        <pre><code>#resetchuong() // Đặt lại số chương = 1
+#resetbai()    // Đặt lại số bài = 1
+#resetvd()     // Đặt lại số Ví dụ = 1
+#resetbt()     // Đặt lại số Bài tập = 1
+#setbai(5)     // Ép bài tiếp theo là Bài 5</code></pre>
+      </section>
+
+      <!-- PHẦN 4: TIẾN TRÌNH SGK -->
+      <section id="tientrinhsgk">
+        <h2>4. Tiến Trình Sách Giáo Khoa (SGK)</h2>
+        <p>Các khối bài học phục vụ xây dựng nội dung theo chu trình hoạt động của SGK mới.</p>
+        
+        <table>
+          <tr>
+            <th width="30%">Cú pháp lệnh</th>
+            <th>Loại hoạt động SGK</th>
+          </tr>
+          <tr>
+            <td><code>#muctieu[ ... ]</code></td>
+            <td>Mục tiêu bài học (Khung chấm tròn)</td>
+          </tr>
+          <tr>
+            <td><code>#chuanbi[ ... ]</code></td>
+            <td>Chuẩn bị của giáo viên & học sinh</td>
+          </tr>
+          <tr>
+            <td><code>#khoidong[ ... ]</code></td>
+            <td>Khởi động / Mở bài đặt tình huống</td>
+          </tr>
+          <tr>
+            <td><code>#khampha[ ... ]</code></td>
+            <td>Khám phá kiến thức mới</td>
+          </tr>
+          <tr>
+            <td><code>#hoatdong[ ... ]</code></td>
+            <td>Hoạt động học sinh (chạy chung)</td>
+          </tr>
+          <tr>
+            <td><code>#hoatdongn([Đề])[LG]</code></td>
+            <td>Hoạt động có đánh số thứ tự (HĐ 1, HĐ 2...)</td>
+          </tr>
+          <tr>
+            <td><code>#luyentap[ ... ]</code></td>
+            <td>Bài tập luyện tập nhanh</td>
+          </tr>
+          <tr>
+            <td><code>#vandung[ ... ]</code></td>
+            <td>Ứng dụng thực tế bài học</td>
+          </tr>
+          <tr>
+            <td><code>#morang[ ... ]</code></td>
+            <td>Kiến thức mở rộng / đọc thêm</td>
+          </tr>
+          <tr>
+            <td><code>#tomtat[ ... ]</code></td>
+            <td>Tóm tắt kiến thức bài học</td>
+          </tr>
+        </table>
+      </section>
+
+      <!-- PHẦN 5: HỘP SƯ PHẠM NHẤN MẠNH -->
+      <section id="hopsupham">
+        <h2>5. Hộp Sư Phạm & Nhấn Mạnh</h2>
+        <p>Hệ thống hộp có viền và background màu được thiết kế sẵn để làm nổi bật lý thuyết và lưu ý.</p>
+        
+        <div class="callout success">
+          <strong>Mẹo tùy biến tiêu đề:</strong> Mọi hộp dưới đây đều có thể ghi đè tiêu đề bằng tham số <code>title</code>. Ví dụ: <br>
+          <code>#lythuyet(title: [Lý thuyết mở rộng])[Nội dung...]</code>
+        </div>
+
+        <table>
+          <tr>
+            <th width="30%">Phong cách hộp</th>
+            <th>Lệnh & Cách hoạt động</th>
+            <th>Mục đích sử dụng</th>
+          </tr>
+          <tr>
+            <td><strong>Banner Xanh Dương</strong></td>
+            <td><code>#lythuyet[ ... ]</code></td>
+            <td>Lý thuyết trọng tâm cần nhớ.</td>
+          </tr>
+          <tr>
+            <td><strong>Banner Xanh Lá</strong></td>
+            <td><code>#ppgiai[ ... ]</code></td>
+            <td>Phương pháp giải toán mẫu.</td>
+          </tr>
+          <tr>
+            <td><strong>Alert Cam</strong></td>
+            <td><code>#luuy[ ... ]</code></td>
+            <td>Cảnh báo lỗi sai học sinh hay mắc.</td>
+          </tr>
+          <tr>
+            <td><strong>Pill Hồng</strong></td>
+            <td><code>#meo[ ... ]</code> hoặc <code>#giainhanh[ ... ]</code></td>
+            <td>Mẹo làm bài trắc nghiệm, thủ thuật Casio.</td>
+          </tr>
+          <tr>
+            <td><strong>Dashed Tím</strong></td>
+            <td><code>#nhanxet[ ... ]</code> hoặc <code>#note[ ... ]</code></td>
+            <td>Nhận xét giáo viên, lưu ý nhỏ thêm.</td>
+          </tr>
+          <tr>
+            <td><strong>Học thuật (Kẻ ngang)</strong></td>
+            <td>
+              <code>#dn[ ... ]</code> (Định nghĩa)<br>
+              <code>#dl[ ... ]</code> (Định lý)<br>
+              <code>#tc[ ... ]</code> (Tính chất)<br>
+              <code>#bode[ ... ]</code> (Bổ đề)
+            </td>
+            <td>Định lý toán học chính thống có hai đường kẻ trên/dưới.</td>
+          </tr>
+        </table>
+      </section>
+
+      <!-- PHẦN 6: CÂU HỎI ĐỀ THI -->
+      <section id="dethi">
+        <h2>6. Câu Hỏi Đề Thi (TN / DS / TLN)</h2>
+        <p>Tương thích 100% với cấu trúc đề thi trắc nghiệm khách quan mới THPT. Để sử dụng, ở đầu file hãy khai báo: <code>#let (tn, ds, tln, tl) = exam-mode()</code></p>
+        
+        <h3>6.1. Trắc nghiệm 4 đáp án (MCQ)</h3>
+        <p>Dùng <code>#mcq</code> hoặc <code>#tn</code>. Đáp án đúng được bọc bằng hàm <code>True()</code>.</p>
+        <pre><code>#tn(
+  [Cho hàm số $y = f(x)$ có bảng biến thiên... Khẳng định nào đúng?],
+  ([Cực đại bằng $2$], [Cực tiểu bằng $1$], True([Đồng biến trên $(0; 2)$]), [Nghịch biến]),
+  loigiai: [Ta thấy trên khoảng $(0; 2)$ đạo hàm $y' > 0$ nên đồng biến.],
+  cols: 2 // Ép chia thành 2 cột đáp án
+)</code></pre>
+
+        <h3>6.2. Trắc nghiệm Đúng/Sai (TF)</h3>
+        <p>Dùng <code>#tf</code> hoặc <code>#ds</code>. Nhập một mảng các phát biểu đúng/sai:</p>
+        <pre><code>#ds(
+  [Xét hàm số bậc ba $y = f(x)$. Đánh giá các mệnh đề sau.],
+  (
+    True([Hàm số có hai điểm cực trị.]),
+    False([Đồ thị hàm số không có tâm đối xứng.]),
+    True([Đạo hàm có hai nghiệm phân biệt.])
+  ),
+  use-table: false, // In dạng list a) b) c) thay vì kẻ bảng
+  loigiai: [Mệnh đề a và c đúng. Mệnh đề b sai vì đồ thị bậc ba luôn đối xứng qua điểm uốn.]
+)</code></pre>
+
+        <h3>6.3. Trả lời ngắn / Điền số (Short)</h3>
+        <p>Dùng <code>#tln</code> hoặc <code>#short</code>. Cho phép in ra các ô vuông điền số.</p>
+        <pre><code>#tln(
+  [Tìm giá trị lớn nhất của hàm số trên đoạn $[-1; 2]$.],
+  [$5$], // Đáp số đúng
+  loigiai: [Tính đạo hàm, so sánh các đầu mút ta được giá trị lớn nhất là 5.]
+)</code></pre>
+
+        <h3>6.4. Các tham số bổ trợ nâng cao cho câu hỏi</h3>
+        <ul>
+          <li><code>boxed: true | false</code>: Ghi đè cấu hình toàn cục đóng khung riêng cho câu hỏi này.</li>
+          <li><code>lines: 5</code>: Tạo 5 đường dòng kẻ chấm cho học sinh viết trực tiếp.</li>
+          <li><code>fig: [Hình vẽ]</code>: Chèn ảnh minh hoạ / đồ thị Cetz.</li>
+          <li><code>fig-pos: "right" | "left" | "center"</code>: Vị trí đặt hình vẽ.</li>
+          <li><code>fig-width: 35%</code>: Chiếm tỉ lệ bề ngang của câu hỏi.</li>
+        </ul>
+      </section>
+
+      <!-- PHẦN 7: TUYỂN TẬP BỘ ĐỀ -->
+      <section id="bode">
+        <h2>7. Soạn Tuyển Tập Bộ Đề Thi</h2>
+        <p>Ghép nhiều đề thi vào một tài liệu duy nhất (như chuyên đề luyện đề). Từng đề sẽ tự động tách số câu độc lập và gom đáp án.</p>
+        
+        <h3>7.1. Cấu trúc một đề độc lập <code>#de(...)</code></h3>
+        <pre><code>#de(
+  title: [Đề ôn tập số 01],
+  department: "SỞ GD&ĐT HÀ NỘI",
+  school: "TRƯỜNG THPT CHUYÊN",
+  subject: "TOÁN - KHỐI 12",
+  duration: "90 phút",
+  code: "101",                  // Mã đề
+  show-answer-key: true,        // Tự động in bảng đáp án cuối đề thi này
+  reset-state: true,            // Tự động đặt lại câu hỏi về Câu 1
+)[
+  #exam-part([PHẦN I. Trắc nghiệm nhiều lựa chọn])
+  #tn(...)
+  #tn(...)
+  
+  #exam-part([PHẦN II. Trắc nghiệm Đúng/Sai])
+  #ds(...)
+]</code></pre>
+
+        <h3>7.2. Các khối phân tích đề thi</h3>
+        <p>Hỗ trợ giáo viên lập cấu trúc ma trận trước hoặc sau khi thi:</p>
+        <ul>
+          <li><code>#matran[...]</code>: Khối biểu đồ ma trận phân bổ mức độ nhận thức của đề.</li>
+          <li><code>#dacta[...]</code>: Bảng đặc tả chi tiết kiến thức từng câu hỏi.</li>
+          <li><code>#huongdancham[...]</code>: Hướng dẫn phân bổ điểm cho câu tự luận.</li>
+          <li><code>#luuybode[...]</code>: Lưu ý quy chế phòng thi hoặc cách làm bài.</li>
+        </ul>
+      </section>
+
+      <!-- PHẦN 8: BẢNG BIẾN THIÊN -->
+      <section id="bangbienthien">
+        <h2>8. Bảng Biến Thiên & Bảng Xét Dấu</h2>
+        <p>Vẽ bảng biến thiên tự động bằng Cetz cực nhanh và mượt mà. Đảm bảo import thư viện trước khi dùng: <code>#import "bbt.typ": *</code></p>
+        
+        <h3>8.1. Bảng Biến Thiên Cực Trị (`bbbt`)</h3>
+        <pre><code>#bbbt(
+  var: $x$,            // Nhãn hàng 1
+  der: $y'$,           // Nhãn hàng 2
+  func: $y$,           // Nhãn hàng 3
+  x-vals: ($-oo$, $-1$, $1$, $+oo$),
+  d-signs: ( $+$, $0$, $-$, $0$, $+$ ),
+  v-vals: ($-oo$, $3$, $-1$, $+oo$)
+)</code></pre>
+        <ul>
+          <li><strong>Vùng không xác định:</strong> Sử dụng <code>shade: ((1, 2),)</code> để gạch chéo vùng từ mốc x thứ nhất sang mốc x thứ hai.</li>
+          <li><strong>Tiệm cận đứng (||):</strong> Nhập <code>"||"</code> vào mảng dấu <code>d-signs</code> và <code>v-vals</code> để tạo đường sọc không xác định kéo dài xuyên suốt.</li>
+        </ul>
+
+        <h3>8.2. Bảng Xét Dấu (`bxd`)</h3>
+        <p>Vẽ bảng xét dấu nhanh cho đạo hàm hoặc nhị thức:</p>
+        <pre><code>#bxd(
+  var: $x$,
+  func: $y'$,
+  x-vals: ($-oo$, $-2$, $1$, $+oo$),
+  f-signs: ($-$, $0$, $+$, $||$, $-$)
+)</code></pre>
+
+        <h3>8.3. Bảng Tối Ưu (`bbt-opt`)</h3>
+        <p>Chuyên dùng cho bài toán tối ưu hoá thực tế, chỉ xét trên một đoạn nhất định:</p>
+        <pre><code>#bbt-opt(
+  x-vals: ($0$, $x_0$, $oo$),
+  d-signs: ($-$, $0$, $+$),
+  v-vals: ($oo$, $0$, $oo$),
+  is-min: true // true: dạng cực tiểu (\/), false: dạng cực đại (/\)
+)</code></pre>
+      </section>
+
+      <!-- PHẦN 9: TRÌNH CHIẾU BEAMER -->
+      <section id="beamer">
+        <h2>9. Trình Chiếu Slides (Beamer) <span class="badge slide">Beamer Exclusive</span></h2>
+        <p>Hệ thống tự động chuyển đổi đề thi thành slide trình chiếu chữa đề cao cấp bằng thư viện Touying. Toàn bộ cấu hình mẫu đặt ở file <code>typst/Beamer.typ</code>.</p>
+        
+        <div class="note">
+          <strong>Cách trình chiếu một đề thi (Ví dụ: de-30.typ):</strong><br>
+          <b>Bước 1:</b> Mở file <code>typst/Beamer.typ</code>, cuộn xuống gần cuối và đổi lệnh import trỏ đến đề của bạn:<br>
+          <code>#import "dethi/de-30.typ": make-questions as _de</code><br>
+          <b>Bước 2:</b> Chạy lệnh trong Terminal: <code>npm run watch:Beamer</code> (Hoặc <code>npm run compile:Beamer</code>).<br>
+          File trình chiếu sẽ được sinh ra tại <code>typst/Beamer.pdf</code>.
+        </div>
+
+        <h3>9.1. Thiết lập màu sắc và cỡ chữ slide</h3>
+        <p>Bạn chỉ cần mở file <code>typst/Beamer.typ</code> và chỉnh sửa trực tiếp các biến sau:</p>
+        <pre><code>// ── Màu nền slide ────────────────────────────────────────
+#let bm-bg-color = rgb("#f1f5f9")  // Sáng: #f1f5f9 | Tối: #0f172a
+#let bm-math-color = rgb("#f108ca") // Màu phương trình toán học
+
+// ── Cỡ chữ (Hệ thống tự co giãn theo Base Size) ────────────
+#let bm-base-size = 24pt // CHỈ CẦN CHỈNH BIẾN NÀY ĐỂ PHÓNG TO/THU NHỎ TOÀN BỘ SLIDE
+#let bm-text-size = bm-base-size * 1.15  // Text chung
+#let bm-q-size = bm-base-size            // Câu hỏi
+#let bm-opt-size = bm-base-size * 0.85   // Phương án A, B, C, D
+#let bm-sol-size = bm-base-size * 0.75   // Lời giải
+#let bm-table-size = bm-base-size * 0.75 // Bảng Đ/S</code></pre>
+
+        <h3>9.2. Hiệu ứng hiện từng dòng <code>bm-lines</code></h3>
+        <p>Dùng để trình chiếu giải thích bài, nhấp chuột đến đâu hiện dòng chữ giải thích đến đó:</p>
+        <pre><code>#bm-lines(
+  [Bước 1: Ta đặt ẩn phụ $t = 2^x$.],
+  [Bước 2: Phương trình trở thành $t^2 - 3t + 2 = 0$.],
+  [Bước 3: Suy ra $t = 1$ hoặc $t = 2$.]
+)</code></pre>
+
+        <h3>9.3. In Bảng Đáp Án Slide và Kết Thúc</h3>
+        <ul>
+          <li><code>#print-answer-key()</code>: Slide tự động lập bảng gom các đáp án đã khai báo trong đề.</li>
+          <li><code>#het</code>: Slide kết thúc cảm ơn học sinh chuyên nghiệp.</li>
+        </ul>
+      </section>
+
+      <!-- PHẦN 10: TIỆN ÍCH -->
+      <section id="tienich">
+        <h2>10. Tiện Ích Toán Học & Mẹo Soạn Thảo</h2>
+        <p>Các hàm bổ trợ tăng tốc gõ công thức toán học cực nhanh.</p>
+        
+        <h3>10.1. Tách các bước lời giải bằng <code>#step</code></h3>
+        <p>Đặt trong <code>loigiai</code> của ví dụ hoặc câu hỏi. Lệnh tự động vẽ dải phân bước bên trái đẹp mắt:</p>
+        <pre><code>#vd([Giải bài toán...])[
+  #step[Lập điều kiện xác định cho ẩn...]
+  #step[Biến đổi đưa về cùng cơ số...]
+]</code></pre>
+
+        <h3>10.2. Phóng to / Thu nhỏ phân số (dfrac & tfrac)</h3>
+        <p>Mặc định khi bạn gõ <code>$1/40$</code> trong ma trận hoặc hệ phương trình (<code>cases</code>), phân số sẽ tự động thu nhỏ lại cho vừa dòng (inline). Để điều khiển kích cỡ phân số, bạn có 3 cách:</p>
+        <ul>
+          <li><strong>Ép phân số to ra (giống <code>\dfrac</code>):</strong> Dùng hàm <code>display(1/40)</code> hoặc <code>dfrac(1, 40)</code>.</li>
+          <li><strong>Ép tất cả phân số trong file tự động to bự:</strong> Thêm dòng này vào đầu file đề thi của bạn: <br><code>#show math.frac: math.display</code></li>
+          <li><strong>Ép phân số nhỏ lại (giống <code>\tfrac</code>):</strong> Dùng <code>tfrac(a, b)</code> để có phân số nhỏ xíu lồng vào lũy thừa hoặc chỉ số, ví dụ: <code>$y = x^tfrac(3, 4)$</code>.</li>
+        </ul>
+        <div class="warning">
+          <strong>Lưu ý cực kỳ quan trọng về các lệnh Toán:</strong><br>
+          Để dùng được <code>dfrac</code>, <code>cup</code>, <code>cap</code> và các lệnh tắt mang phong cách LaTeX, ở ĐẦU file đề thi của bạn <strong>BẮT BUỘC</strong> phải có dòng:<br>
+          <code>#import "../math-sym.typ": *</code><br>
+          <em>(Tuyệt đối không được quên dấu <code>: *</code> ở cuối, nếu không hệ thống sẽ báo lỗi "unknown variable").</em>
+        </div>
+        <h3>10.3. Hệ Phương Trình / Hoặc nhanh</h3>
+        <p>Viết nhanh hệ ngoặc vuông hoặc ngoặc nhọn:</p>
+        <ul>
+          <li>Dấu hệ và <code>{</code>: <code>$heva(a, b)$</code></li>
+          <li>Dấu hệ hoặc <code>[</code>: <code>$hoac(a, b)$</code></li>
+        </ul>
+      </section>
+
+      </section>
+
+      <!-- PHẦN 11: HÌNH VẼ -->
+      <section id="hinhve">
+        <h2>11. Chèn Hình Vẽ & Đồ Thị (Toàn Tập)</h2>
+        <p>Hệ thống hỗ trợ 2 loại hình ảnh phổ biến nhất: <strong>Ảnh chèn từ file có sẵn</strong> (PNG, JPG, SVG) và <strong>Hình vẽ trực tiếp bằng lệnh</strong> (dùng thư viện Cetz). Dưới đây là mọi tình huống bạn có thể gặp phải.</p>
+        
+        <h3>11.1. Cấu trúc lệnh tạo hình ảnh cơ bản</h3>
+        
+        <p><strong>Loại 1: Chèn từ file ảnh (Dùng hàm <code>image</code>)</strong></p>
+        <p>Bạn chỉ cần tải file ảnh vào cùng thư mục hoặc tạo thư mục <code>images/</code> và gọi hàm <code>image</code>. Tham số <code>width</code> giúp bạn chỉnh to nhỏ tuỳ ý:</p>
+        <pre><code>#image("hinh-chop.png", width: 5cm)  // Chỉnh rộng 5cm
+#image("images/do-thi.jpg", width: 40%) // Chỉnh rộng bằng 40% bề ngang trang</code></pre>
+
+        <p><strong>Loại 2: Vẽ trực tiếp bằng code Cetz (Dùng <code>#cetz.canvas</code>)</strong></p>
+        <p>Tham số cốt lõi để phóng to/thu nhỏ toàn bộ nét vẽ và toạ độ là <code>length</code>:</p>
+        <pre><code>#cetz.canvas(length: 1.5cm, { // Đổi 1.5cm thành 2cm hình sẽ to ra
+  import cetz.draw: *
+  line((0,0), (2,2)) // Vẽ đường thẳng
+})</code></pre>
+
+        <hr style="margin: 30px 0; border-top: 1px dashed var(--border);">
+
+        <h3>11.2. TÌNH HUỐNG 1: Chèn hình đứng độc lập giữa văn bản</h3>
+        <p>Khi bạn gõ lý thuyết hoặc đang viết phần <code>loigiai: [...]</code>, bạn muốn hình vẽ nằm ngay ngắn ở giữa trang sách. Khối <code>#align(center)[...]</code> sẽ là công cụ bọc bên ngoài tốt nhất.</p>
+        <pre><code>Theo giả thiết, ta có hình minh họa sau:
+#align(center)[
+  // Bỏ hàm ảnh hoặc code cetz vào đây
+  #image("hinh-minh-hoa.png", width: 60%)
+]
+Dựa vào hình trên, ta suy ra...</code></pre>
+
+        <h3>11.3. TÌNH HUỐNG 2: Chèn hình đính kèm câu hỏi trắc nghiệm (#tn, #ds)</h3>
+        <p>Trong một bài thi, câu hỏi thường có cấu trúc: [Nội dung chữ] + [Hình vẽ bên phải] + [Các phương án A B C D bên dưới]. Để làm được điều này mà không phá vỡ bố cục tự động, bạn <strong>TUYỆT ĐỐI KHÔNG dùng `#align`</strong>. Hãy truyền hình vào tham số <code>fig:</code>.</p>
+        
+        <p><strong>Ví dụ dùng file ảnh:</strong></p>
+        <pre><code>#tn(
+  [Cho hình chóp $S.ABC$ có đáy như hình bên. Tính thể tích:],
+  ([$V=1$], [$V=2$], [$V=3$], [$V=4$]),
+  fig: image("hinh-chop.png", width: 4cm), // Truyền thẳng hàm image vào đây
+  fig-pos: "right", // Hình nằm bên phải câu hỏi chữ
+  fig-width: 30%,   // Cột chứa hình chiếm 30% bề ngang trang
+)</code></pre>
+
+        <p><strong>Ví dụ dùng code vẽ Cetz:</strong></p>
+        <pre><code>#tn(
+  [Cho đồ thị hàm số như hình dưới. Tọa độ cực đại là:],
+  ([$(0;2)$], [$(2;0)$], [$(1;1)$], [$(3;3)$]),
+  fig: cetz.canvas(length: 0.8cm, {
+    import cetz.draw: *
+    // code vẽ đồ thị...
+  }),
+  fig-pos: "center", // Hình nằm chính giữa, BÊN DƯỚI nội dung câu hỏi
+  fig-width: 100%,   // Cột chứa hình chiếm 100% bề ngang
+)</code></pre>
+        
+        <div class="callout success">
+          <strong>Bảng giá trị của <code>fig-pos</code>:</strong>
+          <ul>
+            <li><code>"right"</code>: Hình nằm bên phải phần câu dẫn. Rất gọn gàng cho hình nhỏ.</li>
+            <li><code>"left"</code>: Hình nằm bên trái phần câu dẫn.</li>
+            <li><code>"center"</code>: Hình nằm chính giữa trang, phía trên 4 phương án A, B, C, D. Phù hợp cho đồ thị to ngang.</li>
+          </ul>
+        </div>
+
+        <h3>11.4. TÌNH HUỐNG 3: Các phương án A, B, C, D đều là hình vẽ (Code Cetz)</h3>
+        <p>Nếu bạn muốn gõ code <code>cetz</code> để vẽ 4 đồ thị trực tiếp cho 4 phương án A, B, C, D, bạn chỉ việc đặt 4 khối <code>cetz.canvas(...)</code> vào đúng vị trí của 4 đáp án. Hệ thống sẽ tự động phát hiện mã lệnh vẽ và chuyển thành giao diện khung ảnh (Card layout) rất đẹp mắt.</p>
+        
+        <pre><code>#tn(
+  [Đường cong nào dưới đây là đồ thị của hàm số $y = x^3 - 3x$?],
+  (
+    // Phương án A
+    [#cetz.canvas(length: 0.5cm, {
+      import cetz.draw: *
+      line((-2,0), (2,0), mark: (end: ">")) // Trục hoành
+      bezier((-1,-1), (1,1), (-0.5,1), (0.5,-1)) // Đường cong A
+    })],
+    
+    // Phương án B
+    [#cetz.canvas(length: 0.5cm, {
+      import cetz.draw: *
+      line((-2,0), (2,0), mark: (end: ">"))
+      bezier((-1,1), (1,-1), (-0.5,-1), (0.5,1)) // Đường cong B
+    })],
+    
+    // Phương án C (Đáp án đúng)
+    True([#cetz.canvas(length: 0.5cm, {
+      import cetz.draw: *
+      line((-2,0), (2,0), mark: (end: ">"))
+      circle((0,0), radius: 1)
+    })]),
+    
+    // Phương án D
+    [#cetz.canvas(length: 0.5cm, {
+      import cetz.draw: *
+      line((-2,0), (2,0), mark: (end: ">"))
+      line((-1,-1), (1,1))
+    })]
+  ),
+  opt-fig: true,       // Khuyên dùng: Ép hệ thống chuyển sang chế độ hình vẽ
+  opt-fig-cols: 4,     // Chia thành 4 cột ngang nhau
+)</code></pre>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- PHẦN 12-14: CÀI ĐẶT SÂU TEMPLATE -->
+  <div class="main-content" style="flex:1; overflow-y:auto; padding:40px; scroll-behavior:smooth">
+    <div class="container" style="max-width:1050px; margin:0 auto">
+
+      <section id="cauhinhsau">
+        <h2>12. Tham Số Toàn Hệ <code>thpt-school-exam</code></h2>
+        <p>Tất cả các tham số có thể truyền vào <code>#show: thpt-school-exam.with(...)</code>. Giá trị in đậm là giá trị mặc định của hệ thống.</p>
+
+        <h3>12.1. Thông tin đề thi</h3>
+        <table>
+          <tr><th width="32%">Tham số</th><th>Mặc định</th><th>Mô tả</th></tr>
+          <tr><td><code>department</code></td><td><code>"Bộ GD&ĐT"</code></td><td>Dòng tiêu đề trên cùng (Bộ/Sở/Trường)</td></tr>
+          <tr><td><code>school</code></td><td><code>""</code></td><td>Tên trường hoặc giáo viên ra đề</td></tr>
+          <tr><td><code>exam-title</code></td><td><code>"KIỂM TRA"</code></td><td>Tiêu đề chính của đề (in hoa to)</td></tr>
+          <tr><td><code>subject</code></td><td><code>"TOÁN - LỦP 12"</code></td><td>Môn học và khối lớp</td></tr>
+          <tr><td><code>duration</code></td><td><code>"90 phút"</code></td><td>Thời gian làm bài</td></tr>
+          <tr><td><code>code</code></td><td><code>"101"</code></td><td>Mã đề (hiển thị ở footer và góc phải header)</td></tr>
+          <tr><td><code>footer-left</code></td><td><code>none</code></td><td>Chữ ở góc trái footer. Nếu <code>none</code> thì tự điền tên đề</td></tr>
+          <tr><td><code>structure</code></td><td><code>auto</code></td><td>Dòng cấu trúc đề. <code>auto</code> = tự đếm số câu từng phần</td></tr>
+        </table>
+
+        <h3>12.2. Diện mạo & màu sắc</h3>
+        <table>
+          <tr><th width="32%">Tham số</th><th>Mặc định</th><th>Mô tả</th></tr>
+          <tr><td><code>accent</code></td><td><code>palette.accent</code></td><td>Màu nhấn chủ đạo: tiêu đề số câu, đường kẻ, đồng hồ...</td></tr>
+          <tr><td><code>show-topbar</code></td><td><code>false</code></td><td>Hiện thanh màu mỏật trang ở đỉnh trang</td></tr>
+          <tr><td><code>header-border</code></td><td><code>true</code></td><td>Đường kẻ dưới phần tiêu đề</td></tr>
+          <tr><td><code>q-style</code></td><td><code>"bold"</code></td><td>Kiểu số câu: <code>"bold"</code> (in đậm), <code>"boxed"</code> (khung vuông), <code>"pill"</code> (viên thuốc)</td></tr>
+          <tr><td><code>q-color</code></td><td><code>auto</code></td><td>Màu số câu. <code>auto</code> = dùng <code>accent</code></td></tr>
+          <tr><td><code>watermark</code></td><td><code>none</code></td><td>Chữ in chìm mờ phía sau đề. Ví dụ: <code>watermark: "NHÁP"</code></td></tr>
+          <tr><td><code>watermark-opacity</code></td><td><code>0.1</code></td><td>Độ trong suốt watermark (0.0 – 1.0)</td></tr>
+          <tr><td><code>watermark-angle</code></td><td><code>-30deg</code></td><td>Góc xoay của watermark</td></tr>
+        </table>
+
+        <h3>12.3. Font chữ</h3>
+        <table>
+          <tr><th width="32%">Tham số</th><th>Mặc định</th><th>Mô tả</th></tr>
+          <tr><td><code>body-font</code></td><td><code>"Times New Roman"</code></td><td>Font chính toàn bộ tài liệu (chuẩn LaTeX VN)</td></tr>
+          <tr><td><code>header-font</code></td><td><code>"Times New Roman"</code></td><td>Font riêng cho khu vực tiêu đề (department, school, exam-title)</td></tr>
+          <tr><td><code>body-size</code></td><td><code>12pt</code></td><td>Cỡ chữ cơ sở. Các thành phần khác dùng <code>em</code> nên tự căn chỉnh theo</td></tr>
+          <tr><td><code>handwriting-font</code></td><td><code>none</code></td><td>Font viết tay. Khi có giá trị, dùng lệnh <code>#hw[...]</code> bất kỳ đâu</td></tr>
+          <tr><td><code>handwriting-size</code></td><td><code>1em</code></td><td>Cỡ font viết tay tương đối so với body-size</td></tr>
+        </table>
+
+        <div class="callout success">
+          <strong>Các font viết tay có sẵn trong project:</strong><br>
+          <code>HP001 4 hàng</code> — Chữ viết học sinh Việt Nam 4 đường kẻ<br>
+          <code>HP001 5 hàng</code> — Chữ viết học sinh 5 hàng<br>
+          <code>HP001 TD 4H</code> — Biến thể tiểu học 4 hàng<br>
+          <code>Bradley Hand</code> — Viết tay tự nhiên (Mac built-in)<br>
+          <code>Brush Script MT</code> — Thư pháp chảy (Mac built-in)
+        </div>
+
+        <h3>12.4. Chế độ đặc biệt</h3>
+        <table>
+          <tr><th width="32%">Tham số</th><th>Mặc định</th><th>Mô tả</th></tr>
+          <tr><td><code>beamer</code></td><td><code>false</code></td><td>Tự động bật khi compile với <code>--input beamer=1</code>. Bỏ qua toàn bộ phần layout in ấn</td></tr>
+        </table>
+      </section>
+
+      <!-- PHẦN 13: TẤT CẢ THAM SỐ #tn / #ds -->
+      <section id="thamsotn">
+        <h2>13. Tất Cả Tham Số <code>#tn</code> / <code>#ds</code></h2>
+
+        <h3>13.1. Tham số <code>#tn</code> (MCQ — 4 đáp án)</h3>
+        <table>
+          <tr><th width="32%">Tham số</th><th>Mặc định</th><th>Mô tả</th></tr>
+          <tr><td><code>cols</code></td><td><code>0</code></td><td>Số cột đáp án. <code>0</code> = tự động (1, 2 hoặc 4 cột tuỳ độ dài phương án)</td></tr>
+          <tr><td><code>row-gutter</code></td><td><code>auto</code></td><td>Khoảng cách dọc giữa các dòng đáp án. <code>auto</code> = tự động theo chiều cao công thức. Truyền <code>2em</code> nếu dòng bị đè nhau thủ công</td></tr>
+          <tr><td><code>loigiai</code></td><td><code>none</code></td><td>Nội dung lời giải (chỉ hiển thị ở chế độ <code>loigiai</code>)</td></tr>
+          <tr><td><code>fig</code></td><td><code>none</code></td><td>Hình vẽ đính kèm câu hỏi. Truyền <code>image(...)</code> hoặc <code>cetz.canvas(...)</code></td></tr>
+          <tr><td><code>fig-pos</code></td><td><code>"right"</code></td><td>Vị trí hình: <code>"right"</code>, <code>"left"</code>, <code>"center"</code></td></tr>
+          <tr><td><code>fig-width</code></td><td><code>35%</code></td><td>Bề ngang cột chứa hình</td></tr>
+          <tr><td><code>opt-fig</code></td><td><code>false</code></td><td><code>true</code>: 4 đáp án đều là hình → hiển thị dạng Card thẻ</td></tr>
+          <tr><td><code>opt-fig-cols</code></td><td><code>2</code></td><td>Số cột khi dùng chế độ <code>opt-fig</code></td></tr>
+          <tr><td><code>boxed</code></td><td><em>global</em></td><td>Ghi đè cài đặt đóng khung toàn cục cho câu này</td></tr>
+          <tr><td><code>lines</code></td><td><code>0</code></td><td>Số đường kẻ chấm cho học sinh viết tay bên dưới</td></tr>
+          <tr><td><code>tags</code></td><td><code>()</code></td><td>Danh sách nhãn (tag) gắn vào câu hỏi: <code>tags: ("GH", "L12")</code></td></tr>
+        </table>
+
+        <div class="callout">
+          <strong>Thuật toán tự động chọn cột <code>cols: 0</code>:</strong> Hệ thống đo chiều rộng màn hình thực tế, thử xếp 4 cột trước, nếu không vừa thì thử 2 cột, không vừa thì xuống 1 cột. Ngưỡng chấp nhận: 4 cột ≤ 106% ô, 2 cột ≤ 118% ô. Khoảng cách dọc giữa đáp án tự điều chỉnh theo chiều cao công thức (<code>has-tall-math</code>).
+        </div>
+
+        <h3>13.2. Tham số <code>#ds</code> (True/False)</h3>
+        <table>
+          <tr><th width="32%">Tham số</th><th>Mặc định</th><th>Mô tả</th></tr>
+          <tr><td><code>use-table</code></td><td><code>true</code></td><td><code>true</code> = kẻ bảng đúng/sai chuẩn THPT, <code>false</code> = in dạng list a) b) c)</td></tr>
+          <tr><td><code>loigiai</code></td><td><code>none</code></td><td>Lời giải điều kiện hiển thị như <code>#tn</code></td></tr>
+          <tr><td><code>fig</code>, <code>fig-pos</code>, <code>fig-width</code></td><td>—</td><td>Hoạt động giống <code>#tn</code></td></tr>
+          <tr><td><code>lines</code>, <code>tags</code>, <code>boxed</code></td><td>—</td><td>Hoạt động giống <code>#tn</code></td></tr>
+        </table>
+
+        <h3>13.3. Các chế độ hiển thị (mode)</h3>
+        <pre><code>// Khai báo ở đầu file
+#let mode = "dethi"    // Ẩn lời giải, ẩn đáp án đúng
+#let mode = "loigiai"  // Hiện lời giải, tô đỏ đáp án đúng
+#let mode = "solcolor" // Không hiện lời giải, chỉ tô đỏ đáp án đúng
+
+// Gán vào exam-mode để lấy các hàm phụ thuộc chế độ:
+#let (tn, ds, tln, tl) = exam-mode(mode: mode, accent: accent)</code></pre>
+      </section>
+
+      <!-- PHẦN 14: FONT CHỮ & CHỮ VIẾT TAY -->
+      <section id="fontchu">
+        <h2>14. Font Chữ & Chữ Viết Tay <code>#hw[...]</code></h2>
+
+        <h3>14.1. Cài font cho toàn bộ tài liệu</h3>
+        <pre><code>#show: thpt-school-exam.with(
+  body-font: "Times New Roman",  // Mặc định — chuẩn LaTeX VN
+  // body-font: "Libertinus Serif",  // Font giả trước đây
+  body-size: 12pt,               // Cỡ chữ (mặc định 12pt)
+)</code></pre>
+
+        <h3>14.2. Bật font viết tay</h3>
+        <pre><code>#show: thpt-school-exam.with(
+  handwriting-font: "HP001 4 hàng",  // Font viết tay học sinh Việt Nam
+  handwriting-size: 1.1em,            // Tăng nhẹ cỡ chữ viết tay
+)</code></pre>
+
+        <h3>14.3. Sử dụng <code>#hw[...]</code> trong nội dung</h3>
+        <p>Sau khi khai báo <code>handwriting-font</code>, hàm <code>#hw[...]</code> tự động có sẵn khắp nơi trong file:</p>
+        <pre><code>// Trong lời giải:
+#meo[#hw[Nhớ công thức này! Đọc lại nhiều lần!]]
+
+// Trong nội dung thường:
+#hw[Học sinh làm bài vào đây]
+
+// Trong câu hỏi:
+#tn(
+  [Tính giá trị biểu thức... #hw[(Gợi ý: nhớ công thức!)]], 
+  ...
+)</code></pre>
+
+        <div class="callout warning">
+          <strong>Lưu ý khi dùng font HP001 trong VSCode:</strong> Cần có <code>typst.fontPaths: ["fonts"]</code> trong file <code>.vscode/settings.json</code> (file này đã được cài sẵn). Khi compile từ terminal cần thêm <code>--font-path fonts/</code> vào lệnh.
+        </div>
+
+        <h3>14.4. Khi không có <code>handwriting-font</code></h3>
+        <p>Nếu không khai báo <code>handwriting-font</code> (mặc định <code>none</code>), lệnh <code>#hw[...]</code> tự động chuyển sang <em>in nghiêng</em> thay thế — không gây lỗi.</p>
+
+        <h3>14.5. So sánh font với chuẩn LaTeX</h3>
+        <table>
+          <tr><th>Thuộc tính</th><th>Hệ thống hiện tại</th><th>LaTeX chuẩn VN</th></tr>
+          <tr><td>Font chính</td><td>Times New Roman</td><td>Times New Roman / TeX Gyre Termes</td></tr>
+          <tr><td>Cỡ chữ</td><td>12pt</td><td>12pt</td></tr>
+          <tr><td>Leading (dòng)</td><td>0.75em</td><td>~0.65em (\baselineskip 1.2×)</td></tr>
+          <tr><td>Nhãn đáp án</td><td><strong>A.</strong> B. C. D. (bold)</td><td>\textbf{A.} B. C. D.</td></tr>
+          <tr><td>4 cột MCQ</td><td>Tự động (căn chỉnh thông minh)</td><td>tabular mà tay cố định</td></tr>
+          <tr><td>Khoảng cách dòng đáp án</td><td>Tự điều chỉnh theo chiều cao công thức</td><td>\itemsep cố định</td></tr>
+        </table>
+      </section>
+
+    </div>
+  </div>
+
+  <script>
+    // Smooth scrolling & active nav updating
+    document.querySelectorAll('.nav-item').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelectorAll('.nav-item').forEach(a => a.classList.remove('active'));
+        this.classList.add('active');
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    // Simple search
+    function searchDocs() {
+      let input = document.getElementById('searchInput').value.toLowerCase();
+      let sections = document.querySelectorAll('section');
+      
+      sections.forEach(sec => {
+        let text = sec.innerText.toLowerCase();
+        if(text.includes(input)) {
+          sec.style.display = "block";
+        } else {
+          sec.style.display = "none";
+        }
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-import { getTypstCompiler } from './typstCompilerSingleton';
+import { getTypstCompiler, getTypstRenderer } from './typstCompilerSingleton';
 
 // Import raw content of system files so WASM can use them
 import mathSymSource from './typst-system/math-sym.typ?raw';
@@ -108,8 +108,17 @@ ${code}`;
 
     compiler.addSource('/tmp_fig.typ', wrapper);
 
-    // Compile to SVG
-    const svgString = await compiler.svg({ mainFilePath: '/tmp_fig.typ' });
+    // Compile to vector artifact, then render to SVG
+    const compileResult = await compiler.compile({ 
+        mainFilePath: '/tmp_fig.typ',
+        format: 0 
+    });
+    if (!compileResult || !compileResult.result) {
+        throw new Error('Typst compile failed for figure');
+    }
+    const renderer = await getTypstRenderer();
+    const session = await renderer.createModule(compileResult.result);
+    const svgString = await renderer.renderSvg({ renderSession: session });
 
     // Render SVG to PNG ArrayBuffer
     return new Promise((resolve, reject) => {

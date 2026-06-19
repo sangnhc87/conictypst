@@ -36,7 +36,13 @@
 #set enum(indent: 1.2em, body-indent: 0.6em)
 #show math.equation: set text(fill: rgb("#000000"))
 #show math.equation.where(block: false): math.display
-#show math.frac: math.display
+#show math.frac: it => context {
+  if in-tfrac.get() {
+    math.inline(it)
+  } else {
+    math.display(it)
+  }
+}
 
 // ─── Bảng màu chủ đạo của bộ sách ──────────────────────────────
 #let c-dark-blue = rgb("#0D1B2A")

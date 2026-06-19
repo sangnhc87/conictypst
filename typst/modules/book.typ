@@ -373,12 +373,13 @@
   show-cover: true,
   show-outline: true,
   outline-depth: 4,
+  margin: auto,
   body,
 ) = {
   set document(title: title, author: author)
   set page(
     paper: "a4",
-    margin: (top: 2.5cm, bottom: 2.5cm, inside: 2.5cm, outside: 2cm),
+    margin: if margin == auto { (top: 2.5cm, bottom: 2.5cm, inside: 2.5cm, outside: 2cm) } else { margin },
     header: context {
       let page-num = counter(page).get().first()
       if show-cover and page-num == 1 { return none }

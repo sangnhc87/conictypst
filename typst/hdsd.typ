@@ -396,6 +396,42 @@ Có thể đặt nhiều `#grid(...)` ở nhiều vị trí khác nhau trong cù
 )
 ```
 
+#chapter([Cấu hình hiển thị phân số thông minh và tfrac])
+
+#section([Vì sao cần tfrac?])
+
+Khi bạn thiết lập luật hiển thị toàn cục để các phân số luôn hiển thị cỡ lớn (display style) cho đẹp mắt, Typst sẽ phóng to *tất cả* các phân số. Điều này vô tình làm cho các phân số nằm ở *số mũ* hoặc *cận tích phân* cũng bị phóng to quá cỡ, dẫn đến bố cục hiển thị bị vỡ và mất cân đối.
+
+Lệnh `#let tfrac(num, den)` giúp giải quyết triệt để vấn đề này bằng cách thu nhỏ phân số về đúng kích cỡ inline/script style khi cần thiết (sử dụng biến trạng thái `in-tfrac` đồng bộ toàn hệ thống).
+
+#section([Cú pháp sử dụng tfrac])
+
+```typst
+// Phân số bình thường hiển thị lớn:
+$frac(2,3)$
+
+// Phân số mũ thu nhỏ (dùng tfrac):
+$frac(2+y, 3^(tfrac(5,3)))$
+
+// Cận tích phân dùng tfrac:
+$integral_(tfrac(1,2))^(tfrac(3,2)) f(x) dif x$
+```
+
+#section([Tự động hóa show rules với doc-setup])
+
+Để tránh việc phải khai báo lặp đi lặp lại các show rules về màu toán học và kích thước phân số ở đầu mỗi tệp, bạn có thể sử dụng hàm mẫu `#let doc-setup(body)` được tích hợp sẵn trong `_config.typ`.
+
+Tại đầu mỗi tệp bài tập hoặc đề thi, bạn chỉ cần gọi duy nhất:
+```typst
+#import "_config.typ": *
+#show: doc-setup
+```
+
+Nếu muốn đổi màu toán học cho riêng tệp đó, bạn truyền tham số `math-color`:
+```typst
+#show: doc-setup.with(math-color: rgb("#0057b8"))
+```
+
 #chapter([Quy trình vận hành khuyến nghị])
 
 #section([Khi viết sách hoặc chuyên đề])

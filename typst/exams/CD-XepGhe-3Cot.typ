@@ -1080,3 +1080,109 @@ Sau đó, với mỗi bộ $(x, z, t)$ cố định, ta tìm biến $y$ bằng t
 #ans-box[
   Giá trị của $10000p$ làm tròn đến hàng đơn vị là *672*.
 ]
+
+#pagebreak()
+= Chương 3 — Phát triển và Mở rộng lên Lưới 4 cột (Cấu hình 4 cột)
+
+== 1. Sự tương đồng và khác biệt về mặt Toán học
+Khi không gian phòng được mở rộng lên cấu hình 4 cột (mỗi hàng có đúng 4 ghế), các tính chất đếm cấu trúc thay đổi như thế nào?
+
+- *Ràng buộc trạng thái hàng:* Đề bài yêu cầu mỗi hàng không chứa quá 1 đối tượng thuộc mỗi nhóm đặc biệt $E, G, F$ (Lý, Hoá, Sử). Vì số lượng ghế trong một hàng tăng lên 4, điều kiện này vẫn hoàn toàn tương thích và không bị phá vỡ.
+- *Hệ phương trình trạng thái:* Vì các nhóm đối tượng đặc biệt vẫn chỉ xuất hiện tối đa 1 người trên mỗi hàng, số lượng các loại hàng bằng các ẩn số $x, y, z, t, u, v, w, o$ và hệ phương trình gốc vẫn giữ nguyên dạng:
+  $
+  cases(
+    x + y + z + u = E quad &(1) " (Tổng số chỗ E)",
+    x + y + t + v = G quad &(2) " (Tổng số chỗ G)",
+    x + z + t + w = F quad &(3) " (Tổng số chỗ F)",
+    x + y + z + t + u + v + w + o = R quad &(4) " (Tổng số hàng)"
+  )
+  $
+  Rút các biến lẻ $u, v, w, o$ theo $x, y, z, t$ tương tự:
+  $
+  u = E - x - y - z ; quad v = G - x - y - t ; quad w = F - x - z - t ; quad o = R - E - G - F + 2x + y + z + t
+  $
+
+- *Sự thay đổi về số cách xếp ghế nội bộ trong từng hàng:*
+  Do số ghế mỗi hàng tăng lên thành 4, số cách chọn và sắp xếp các đối tượng đặc biệt vào ghế trong từng loại hàng sẽ thay đổi:
+  - *Hàng chứa cả 3 đối tượng đặc biệt ($x$):* Chọn 3 ghế từ 4 ghế và sắp xếp thứ tự cho $E, G, F$:
+    $ A_4^3 = 4 times 3 times 2 = 24 " cách" $
+  - *Hàng chứa đúng 2 đối tượng đặc biệt ($y, z, t$):* Chọn 2 ghế từ 4 ghế và sắp xếp thứ tự cho 2 đối tượng:
+    $ A_4^2 = 4 times 3 = 12 " cách" $
+  - *Hàng chứa đúng 1 đối tượng đặc biệt ($u, v, w$):* Chọn 1 ghế từ 4 ghế để xếp đối tượng:
+    $ C_4^1 = 4 " cách" $
+  - *Hàng trống ($o$):* Có đúng $1$ cách để trống.
+
+- *Công thức số lượng cấu trúc lưới:*
+  Với mỗi bộ nghiệm nguyên không âm $(x, y, z, t, u, v, w, o)$ thỏa mãn hệ, số lượng cấu trúc phân bổ ghế là:
+  $ C = frac(R!, x! y! z! t! u! v! w! o!) times 24^x times 12^(y+z+t) times 4^(u+v+w) $
+
+== 2. Bài tập Thực chiến Lưới 4 cột
+
+=== Bài toán 13 (Phòng thi chia 4 cột: Lưới 4 cột 6 hàng)
+*Đề bài:* Cho một phòng gồm có 24 bàn được chia thành 4 cột và 6 hàng như hình vẽ. Đang có 24 em học sinh, trong đó có 5 em thi môn Lý (cấp E), 3 em thi môn Hoá (cấp G), 2 em thi môn Sử (cấp F), còn lại là thi môn Toán. Gọi $T$ là số cách xếp 24 em học sinh này vào 24 bàn sao cho mỗi hàng có không quá một em học sinh cùng thi Lý hoặc cùng thi Hoá hoặc cùng thi Sử. Hãy tính $10^(-8) T$ (không làm tròn ở các phép tính trung gian và làm tròn kết quả cuối cùng đến hàng đơn vị)?
+
+#cach1-box[
+  - *Bước 1: Thiết lập Hệ phương trình đếm cấu trúc*
+    Số hàng $R=6$. Đối tượng đặc biệt: $E=5, G=3, F=2$. Còn lại: $14$ (học sinh thi Toán).
+    Từ số lượng chỗ ngồi, ta có hệ phương trình:
+    $
+    cases(
+      x + y + z + u = 5 quad &(E),
+      x + y + t + v = 3 quad &(G),
+      x + z + t + w = 2 quad &(F),
+      x + y + z + t + u + v + w + o = 6 quad &("Hàng")
+    )
+    $
+    Rút gọn các biến phụ thuộc:
+    $
+    cases(
+      u = 5 - x - y - z,
+      v = 3 - x - y - t,
+      w = 2 - x - z - t,
+      o = -4 + 2x + y + z + t
+    )
+    $
+    Điều kiện biện luận:
+    - Duyệt $x + z + t <= F = 2$.
+    - Điều kiện $o >= 0 arrow.r y >= 4 - 2x - z - t$.
+    - Giới hạn trên của $y$: $y <= 5 - x - z$ và $y <= 3 - x - t$.
+
+  - *Bước 2: Lập bảng biện luận các nghiệm (Cases)*
+    #align(center)[
+      #table(
+        columns: (0.8fr, 0.8fr, 0.8fr, 0.8fr, 0.8fr, 0.8fr, 0.8fr, 0.8fr, 4fr, 2.6fr, 2.5fr),
+        inset: 9pt,
+        align: center + horizon,
+        fill: (col, row) => if row == 0 { rgb("EDE7F6") } else { none },
+        [*$x$*], [*$y$*], [*$z$*], [*$t$*], [*$u$*], [*$v$*], [*$w$*], [*$o$*], [*Phân bổ hàng*], [*Phân bổ ghế*], [*Số cách cấu trúc*],
+        [0], [2], [1], [1], [2], [0], [0], [0], [$frac(6!, 2! dot 1! dot 1! dot 2!) = 180$], [$12^4 dot 4^2 = 331,776$], [*59,719,680*],
+        [0], [2], [2], [0], [1], [1], [0], [0], [$frac(6!, 2! dot 2! dot 1! dot 1!) = 180$], [$12^4 dot 4^2 = 331,776$], [*59,719,680*],
+        [0], [3], [1], [0], [1], [0], [1], [0], [$frac(6!, 3! dot 1! dot 1! dot 1!) = 120$], [$12^4 dot 4^2 = 331,776$], [*39,813,120*],
+        [0], [3], [2], [0], [0], [0], [0], [1], [$frac(6!, 3! dot 2! dot 1!) = 60$], [$12^5 = 248,832$], [*14,929,920*],
+        [1], [1], [0], [1], [3], [0], [0], [0], [$frac(6!, 1! dot 1! dot 1! dot 3!) = 120$], [$24^1 dot 12^2 dot 4^3 = 221,184$], [*26,542,080*],
+        [1], [1], [1], [0], [2], [1], [0], [0], [$frac(6!, 1! dot 1! dot 1! dot 2! dot 1!) = 360$], [$24^1 dot 12^2 dot 4^3 = 221,184$], [*79,626,240*],
+        [1], [2], [0], [0], [2], [0], [1], [0], [$frac(6!, 1! dot 2! dot 2! dot 1!) = 180$], [$24^1 dot 12^2 dot 4^3 = 221,184$], [*39,813,120*],
+        [1], [2], [1], [0], [1], [0], [0], [1], [$frac(6!, 1! dot 2! dot 1! dot 1! dot 1!) = 360$], [$24^1 dot 12^3 dot 4^1 = 165,888$], [*59,719,680*],
+        [2], [0], [0], [0], [3], [1], [0], [0], [$frac(6!, 2! dot 3! dot 1!) = 60$], [$24^2 dot 4^4 = 147,456$], [*8,847,360*],
+        [2], [1], [0], [0], [2], [0], [0], [1], [$frac(6!, 2! dot 1! dot 2! dot 1!) = 180$], [$24^2 dot 12^1 dot 4^2 = 110,592$], [*19,906,560*],
+      )
+    ]
+
+  - *Bước 3: Nhân hoán vị*
+    - Tổng số cấu trúc phân bổ ghế hợp lệ (chưa xếp người cụ thể):
+      $ N_("cấu trúc") = 408,637,440 $
+    - Xếp cụ thể từng học sinh vào các vị trí ghế tương ứng:
+      $ T = N_("cấu trúc") dot E! dot G! dot F! dot (24 - E - G - F)! $
+      $ T = 408,637,440 dot 5! dot 3! dot 2! dot 14! $
+      $ T = 408,637,440 dot 120 dot 6 dot 2 dot 87,178,291,200 $
+      $ T = 51,299,011,784,941,240,320,000 $
+
+  - *Bước 4: Tính kết quả yêu cầu*
+    - Ta có: $10^(-8) T = 512,990,117,849,412.4$
+    - Làm tròn kết quả cuối cùng đến hàng đơn vị: *512,990,117,849,412*.
+]
+
+#ans-box[
+  Giá trị của $10^(-8) T$ làm tròn đến hàng đơn vị là *512,990,117,849,412*.
+]
+

@@ -43,7 +43,13 @@
 #set enum(indent: 1.2em, body-indent: 0.6em)
 #show math.equation: set text(fill: rgb("#0A0A0A"))
 #show math.equation.where(block: false): math.display
-#show math.frac: math.display
+#show math.frac: it => context {
+  if in-tfrac.get() {
+    math.inline(it)
+  } else {
+    math.display(it)
+  }
+}
 #show heading: it => {
   set par(first-line-indent: 0em)
   it

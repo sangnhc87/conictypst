@@ -30,11 +30,109 @@ const MATH_FNS = [
     'Pr',
 ];
 
+// ─── Utility: read balanced brackets ─────────────────────────────────────────
+
+/**
+ * Find the matching close bracket for the opening bracket at src[start].
+ * Returns the index AFTER the close bracket, or -1 on failure.
+ */
+function findClose(src, start) {
+    const CLOSE = { '(': ')', '[': ']', '{': '}' };
+    const open  = src[start];
+    const close = CLOSE[open];
+    if (!close) return start + 1;
+
+    let depth = 1;
+    let i = start + 1;
+    while (i < src.length && depth > 0) {
+        if      (src[i] === open)  { depth++; i++; }
+        else if (src[i] === close) { depth--; i++; }
+        else                       { i++; }
+    }
+    return depth === 0 ? i : -1;
+}
+
+/**
+ * Apply a one-argument Typst function like  sqrt(...)  to LaTeX.
+ * Handles nested parens properly.
+ */
+function replaceOneArgFn(s, typstName, latexCmd) {
+    const prefix = typstName + '(';
+    let result = '';
+    let i = 0;
+    while (i < s.length) {
+        const idx = s.indexOf(prefix, i);
+        if (idx === -1) { result += s.slice(i); break; }
+        // Make sure it's a word boundary (not e.g. "arcsin" matching "sin")
+        if (idx > 0 && /\w/.test(s[idx - 1])) { result += s.slice(i, idx + 1); i = idx + 1; continue; }
+        result += s.slice(i, idx);
+        const parenStart = idx + typstName.length;
+        const parenEnd   = findClose(s, parenStart);
+        if (parenEnd === -1) { result += s.slice(idx); i = s.length; break; }
+        const inner = s.slice(parenStart + 1, parenEnd - 1);
+        result += `${latexCmd}{${inner}}`;
+        i = parenEnd;
+    }
+    return result;
+}
+
+/**
+ * Convert Typst frac(num, denom)  →  \dfrac{num}{denom}
+ * Also handles display-math  frac  without parens used as infix: a/b handled separately.
+ */
+function replaceFrac(s) {
+    let result = '';
+    let i = 0;
+    const prefix = 'frac(';
+    while (i < s.length) {
+        const idx = s.indexOf(prefix, i);
+        if (idx === -1) { result += s.slice(i); break; }
+        // Word boundary check
+        if (idx > 0 && /\w/.test(s[idx - 1])) { result += s.slice(i, idx + 1); i = idx + 1; continue; }
+        result += s.slice(i, idx);
+        const parenStart = idx + 4; // index of '('
+        const parenEnd   = findClose(s, parenStart);
+        if (parenEnd === -1) { result += s.slice(idx); i = s.length; break; }
+        // Inner: split by top-level comma
+        const inner = s.slice(parenStart + 1, parenEnd - 1);
+        const parts = splitTopLevel(inner, ',');
+        if (parts.length >= 2) {
+            result += `\\dfrac{${parts[0].trim()}}{${parts[1].trim()}}`;
+        } else {
+            result += `\\dfrac{${inner}}{}`;
+        }
+        i = parenEnd;
+    }
+    return result;
+}
+
+/**
+ * Split string by `sep` at depth 0 (ignoring brackets).
+ */
+function splitTopLevel(s, sep) {
+    const parts = [];
+    let depth = 0, start = 0;
+    for (let i = 0; i < s.length; i++) {
+        const ch = s[i];
+        if ('([{'.includes(ch)) depth++;
+        else if (')]}'.includes(ch)) depth--;
+        else if (ch === sep && depth === 0) {
+            parts.push(s.slice(start, i));
+            start = i + 1;
+        }
+    }
+    parts.push(s.slice(start));
+    return parts;
+}
+
 /**
  * Convert Typst math source to LaTeX that KaTeX can render.
  */
 export function typstMathToLatex(s) {
-    // 1. Number sets
+    // ── 0. Strip outer Typst display block markers (leading/trailing newline) ──
+    s = s.trim();
+
+    // ── 1. Number sets ────────────────────────────────────────────────────────
     s = s.replace(/\bRR\b/g, '\\mathbb{R}');
     s = s.replace(/\bNN\b/g, '\\mathbb{N}');
     s = s.replace(/\bZZ\b/g, '\\mathbb{Z}');
@@ -42,7 +140,7 @@ export function typstMathToLatex(s) {
     s = s.replace(/\bCC\b/g, '\\mathbb{C}');
     s = s.replace(/\bHH\b/g, '\\mathbb{H}');
 
-    // 2. Arrow sequences (longest first)
+    // ── 2. Arrow sequences (longest first) ───────────────────────────────────
     s = s.replace(/arrow\.l\.r\.l\b/g,  '\\leftrightarrow');
     s = s.replace(/arrow\.r\.l\.r\b/g,  '\\leftrightarrow');
     s = s.replace(/arrow\.l\.r\b/g,     '\\leftrightarrow');
@@ -54,31 +152,31 @@ export function typstMathToLatex(s) {
     s = s.replace(/arrow\.t\b/g,        '\\uparrow');
     s = s.replace(/arrow\.b\b/g,        '\\downarrow');
     s = s.replace(/<->/g,               '\\leftrightarrow');
-    s = s.replace(/(?<![<-])->/g,       '\\to');
+    s = s.replace(/(?<!<|=)->/g,        '\\to');
     s = s.replace(/<-(?!>)/g,           '\\leftarrow');
+    s = s.replace(/<=>/g,               '\\Leftrightarrow');
+    s = s.replace(/==>/g,               '\\Rightarrow');
+    s = s.replace(/(?<!<)=>/g,          '\\Rightarrow');
 
-    // 3. Relation operators
+    // ── 3. Relation operators ─────────────────────────────────────────────────
     s = s.replace(/!=/g,    '\\neq');
     s = s.replace(/~=/g,    '\\approx');
     s = s.replace(/<=/g,    '\\leq');
     s = s.replace(/>=/g,    '\\geq');
 
-    // 4. Named calculus / logic operators
-    // integral/sum/product/lim can be followed by _ or ^ (not a plain word char end)
+    // ── 4. Named calculus / logic operators ───────────────────────────────────
     s = s.replace(/\bintegral(?![a-zA-Z])/g,  '\\int');
     s = s.replace(/\bsum(?![a-zA-Z])/g,        '\\sum');
     s = s.replace(/\bproduct(?![a-zA-Z])/g,    '\\prod');
     s = s.replace(/\blim(?![a-zA-Z])/g,        '\\lim');
     s = s.replace(/\bdif\b/g,                  '\\,\\mathrm{d}');
-    s = s.replace(/\binfinity\b/g,             '\\infty');   // Typst keyword
+    s = s.replace(/\binfinity\b/g,             '\\infty');
     s = s.replace(/(?<!\\)\binfty\b/g,         '\\infty');
-    s = s.replace(/(?<!\\)\binf(?![a-zA-Z])/g,  '\\infty');
+    s = s.replace(/(?<!\\)\binf(?![a-zA-Z])/g, '\\infty');
     s = s.replace(/\bapprox\b/g,              '\\approx');
     s = s.replace(/\bsim\b/g,                 '\\sim');
-    // plus.minus / minus.plus must come BEFORE \bpm\b to avoid double-conversion
     s = s.replace(/\bplus\.minus\b/g,         '\\pm');
     s = s.replace(/\bminus\.plus\b/g,         '\\mp');
-    // (?<!\\) prevents re-converting already-converted \pm / \mp
     s = s.replace(/(?<!\\)\bpm\b/g,           '\\pm');
     s = s.replace(/(?<!\\)\bmp\b/g,           '\\mp');
     s = s.replace(/(?<!\\)\bdot\b/g,          '\\cdot');
@@ -88,16 +186,18 @@ export function typstMathToLatex(s) {
     s = s.replace(/(?<!\\)\bperp\b/g,         '\\perp');
     s = s.replace(/(?<!\\)\bparallel\b/g,     '\\parallel');
     s = s.replace(/(?<!\\)\bangle\b/g,        '\\angle');
-    s = s.replace(/(?<!\\)\bdegree\b/g,       '^\\circ');
+    // degree: handle both standalone and after ^ — must do BEFORE superscript group conversion
+    s = s.replace(/\^degree\b/g,  '^{\\circ}');
+    s = s.replace(/(?<![\^{\\])\bdegree\b/g, '^{\\circ}');
 
-    // 5. Dots / ellipsis
+    // ── 5. Dots / ellipsis ────────────────────────────────────────────────────
     s = s.replace(/\bdots\.h\b/g,    '\\ldots');
     s = s.replace(/\bdots\.v\b/g,    '\\vdots');
     s = s.replace(/\bdots\.c\b/g,    '\\cdots');
     s = s.replace(/\bdots\b/g,       '\\ldots');
     s = s.replace(/\.\.\./g,         '\\ldots');
 
-    // 6. Set operators
+    // ── 6. Set operators ──────────────────────────────────────────────────────
     s = s.replace(/\bunion\b/g,      '\\cup');
     s = s.replace(/\bintersect\b/g,  '\\cap');
     s = s.replace(/\bsect\b/g,       '\\cap');
@@ -107,9 +207,8 @@ export function typstMathToLatex(s) {
     s = s.replace(/\bsubset\b/g,     '\\subset');
     s = s.replace(/\bsupset\b/g,     '\\supset');
     s = s.replace(/\bnin\b/g,        '\\notin');
-    // \bin must come after \lnot / \land etc.
 
-    // 7. Logic
+    // ── 7. Logic ──────────────────────────────────────────────────────────────
     s = s.replace(/\bnot\b/g,        '\\lnot');
     s = s.replace(/\band\b/g,        '\\land');
     s = s.replace(/\bor\b/g,         '\\lor');
@@ -117,26 +216,30 @@ export function typstMathToLatex(s) {
     s = s.replace(/\bexists\b/g,     '\\exists');
     s = s.replace(/\bin\b/g,         '\\in');
 
-    // 8. Math functions (before greek to avoid partial collision)
+    // ── 8. Math functions ─────────────────────────────────────────────────────
     for (const fn of MATH_FNS) {
         s = s.replace(new RegExp(`(?<!\\\\)\\b${fn}\\b`, 'g'), `\\${fn}`);
     }
 
-    // 9. Greek letters
+    // ── 9. Greek letters ──────────────────────────────────────────────────────
     for (const g of GREEK) {
         s = s.replace(new RegExp(`(?<!\\\\)\\b${g}\\b`, 'g'), `\\${g}`);
     }
 
-    // 10. Typst math functions → LaTeX commands
+    // ── 10. Typst math functions → LaTeX commands ─────────────────────────────
+    // frac(num, denom) — handle BEFORE other one-arg fns
+    s = replaceFrac(s);
+
+    // One-argument functions with balanced-parens support
     const oneArgFns = [
         ['overline',  '\\overline'],
-        ['bar',       '\\bar'],
         ['underline', '\\underline'],
+        ['widehat',   '\\widehat'],
+        ['widetilde', '\\widetilde'],
         ['vec',       '\\vec'],
         ['hat',       '\\hat'],
         ['tilde',     '\\tilde'],
-        ['widehat',   '\\widehat'],
-        ['widetilde', '\\widetilde'],
+        ['bar',       '\\bar'],
         ['bold',      '\\mathbf'],
         ['upright',   '\\mathrm'],
         ['italic',    '\\mathit'],
@@ -145,18 +248,26 @@ export function typstMathToLatex(s) {
         ['sans',      '\\mathsf'],
         ['mono',      '\\mathtt'],
         ['sqrt',      '\\sqrt'],
+        ['floor',     '\\lfloor \\rfloor'],  // handled separately below
+        ['ceil',      '\\lceil \\rceil'],
     ];
     for (const [typst, latex] of oneArgFns) {
-        s = s.replace(new RegExp(`\\b${typst}\\(([^()]*)\\)`, 'g'), `${latex}{$1}`);
+        if (typst === 'floor' || typst === 'ceil') continue; // special below
+        s = replaceOneArgFn(s, typst, latex);
     }
-    s = s.replace(/\babs\(([^()]*)\)/g,    '\\left|$1\\right|');
-    s = s.replace(/\bnorm\(([^()]*)\)/g,   '\\left\\|$1\\right\\|');
-    s = s.replace(/\bfloor\(([^()]*)\)/g,  '\\lfloor $1 \\rfloor');
-    s = s.replace(/\bceil\(([^()]*)\)/g,   '\\lceil $1 \\rceil');
-    s = s.replace(/\blimits\(([^()]*)\)/g, '$1\\limits');
+
+    // abs / norm / floor / ceil with proper delimiters
+    s = replaceOneArgFn(s, 'abs',   '\\left|');  // hack: handled inline
+    // Undo the hack and do it properly:
+    s = s.replace(/\\left\|\{([^{}]*)\}/g, '\\left|$1\\right|');
+
+    s = s.replace(/\bfloor\(([^()]*(?:\([^()]*\)[^()]*)*)\)/g, '\\lfloor $1 \\rfloor');
+    s = s.replace(/\bceil\(([^()]*(?:\([^()]*\)[^()]*)*)\)/g,  '\\lceil $1 \\rceil');
+    s = s.replace(/\bnorm\(([^()]*(?:\([^()]*\)[^()]*)*)\)/g,  '\\left\\|$1\\right\\|');
+    s = s.replace(/\blimits\(([^()]*(?:\([^()]*\)[^()]*)*)\)/g, '$1\\limits');
     s = s.replace(/\bop\("([^"]+)"\)/g,    '\\operatorname{$1}');
 
-    // text(...)["content"] or text("raw")
+    // text(...)[content] or text("raw")
     s = s.replace(/\btext\s*\([^)]*\)\s*\[([^\]]*)\]/g, '\\text{$1}');
     s = s.replace(/\btext\s*\(\s*"([^"]*)"\s*\)/g,       '\\text{$1}');
     s = s.replace(/\btext\s*\(([^)]*)\)/g,                '\\text{$1}');
@@ -176,19 +287,21 @@ export function typstMathToLatex(s) {
         return `\\begin{cases} ${lines} \\end{cases}`;
     });
 
-    // 11. Convert Typst subscript/superscript groups _(expr) → _{expr}  (parens → braces)
+    // ── 11. Typst decimal comma: 8","1 → 8{,}1 (Vietnamese notation) ─────────
+    // Must do BEFORE subscript/superscript group conversion
+    s = s.replace(/"(,)"/g, '{,}');           // explicit Typst comma  ","  in math
+    s = s.replace(/(\d),(?=\d)/g, '$1{,}');   // bare 8,1 style
+
+    // ── 12. Convert Typst subscript/superscript groups _(expr) → _{expr} ─────
     s = s.replace(/([_^])\(([^()]*(?:\([^()]*\)[^()]*)*)\)/g, (_, op, inner) => `${op}{${inner}}`);
 
-    // 12. Fractions a/b → \frac{a}{b}  (last, after other substitutions)
+    // ── 13. Fractions a/b → \frac{a}{b} ─────────────────────────────────────
     s = convertFractions(s);
 
-    // 12. Normalise multi-line display math into single expression
+    // ── 14. Normalise multi-line display math into single line ─────────────────
     s = s.replace(/\n+\s*/g, ' ');
 
-    // 13. Decimal comma in numbers: 8,48 -> 8{,}48 (Vietnamese decimal notation)
-    s = s.replace(/(\d),(?=\d)/g, '$1{,}');
-
-    // 14. Wrap everything in \displaystyle for exam-quality rendering
+    // ── 15. Wrap in \displaystyle ─────────────────────────────────────────────
     return `{\\displaystyle ${s}}`;
 }
 
@@ -198,8 +311,8 @@ export function typstMathToLatex(s) {
  * Multi-pass so nested fractions resolve correctly.
  */
 function convertFractions(s) {
-    // atom = backslash command or word chars, optionally followed by ^/_ group
-    const atomPat = '(?:\\\\[a-zA-Z]+|[\\w.]+)(?:[_^](?:\\{[^{}]*\\}|[\\w\\\\]+))*';
+    // atom = backslash command or word chars with possible sub/sup, optionally wrapped in { }
+    const atomPat = '(?:\\\\[a-zA-Z]+(?:\\{[^{}]*\\})?|\\{[^{}]*\\}|[\\w.]+)(?:[_^](?:\\{[^{}]*\\}|[\\w\\\\]+))*';
 
     for (let pass = 0; pass < 6; pass++) {
         const before = s;
@@ -308,7 +421,12 @@ export function tokenizeContent(content) {
             const isDisplay = /^[\s\n]/.test(raw) || /[\s\n]$/.test(raw);
             const trimmed = raw.trim();
             if (!trimmed) continue;
-            const latex = typstMathToLatex(trimmed);
+            let latex;
+            try {
+                latex = typstMathToLatex(trimmed);
+            } catch (e) {
+                latex = trimmed;
+            }
             tokens.push({ type: isDisplay ? 'displayMath' : 'inlineMath', latex, raw: trimmed });
         }
     }

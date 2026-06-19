@@ -1,5 +1,8 @@
 // Cấu hình chung — màu sắc và import cho toàn bộ cuốn OXYZ Chiến thuật
 
+// ─── Cấu hình dùng chung (tfrac, doc-setup) ────────────────────
+#import "../../modules/_shared-config.typ": *
+
 // ─── Alias trước khi import * để giữ tham chiếu gốc ────────────
 #import "../../modules/book.typ": bt as _bt-orig, section as _section-orig, vd as _vd-orig
 

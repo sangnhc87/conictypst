@@ -109,6 +109,9 @@
   pagebreak()
 }
 
+#include "c2-flowchart.typ"
+#pagebreak()
+
 #include "c2-b1.typ"
 #include "c2-b2.typ"
 #include "c2-b3.typ" 

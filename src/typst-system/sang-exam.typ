@@ -5,6 +5,7 @@
 // ── Beamer-mode flag (set by sang-beamer.typ to suppress print-only elements) ──
 #let _beamer-mode = state("_beamer-mode", false)
 #let set-beamer-mode() = { _beamer-mode.update(true) }
+#let in-tfrac = state("in-tfrac", false)
 
 // ── Màu ──────────────────────────────────────────────────
 #let palette = (
@@ -28,7 +29,13 @@
 //       #show: sang-setup.with(math-color: accent)
 #let sang-setup(body, math-color: black) = {
   show math.equation.where(block: false): math.display
-  show math.frac: math.display
+  show math.frac: it => context {
+    if in-tfrac.get() {
+      math.inline(it)
+    } else {
+      math.display(it)
+    }
+  }
   show math.equation: set text(fill: math-color)
 
   // Tự động chuyển C, A, P (những chữ số gán sub/sup) thành chữ đứng để in đúng C_n^k
@@ -775,8 +782,7 @@
 #let heva(..args) = math.cases(delim: "{", ..args.named(), ..args.pos().map(math.display))
 // tfrac: phân số cỡ inline — dùng trong math mode: $tfrac(1, 2)$
 #let tfrac(a, b) = {
-  show math.frac: f => f
-  math.frac(a, b)
+  in-tfrac.update(true) + math.frac(a, b) + in-tfrac.update(false)
 }
 // ── Hệ thống STEP — tô màu từng bước lời giải ─────────────────
 // Dùng: #step[Bước...] #step[Bước...] #reset-step()

@@ -1,5 +1,8 @@
 // Cấu hình chung — màu sắc và import cho toàn bộ chương
 
+// ─── Cấu hình dùng chung (tfrac, doc-setup, hoac) ─────────────
+#import "../../modules/_shared-config.typ": *
+
 // ─── Alias trước khi import * để giữ tham chiếu gốc ────────────
 #import "../../modules/book.typ": bt as _bt-orig, section as _section-orig, vd as _vd-orig
 
@@ -24,8 +27,7 @@
 
 // BBT + vẽ hình CeTZ — re-export để chapter chỉ cần 1 dòng import
 #import "../../bbt.typ": bbt-opt, canvas, draw
-// Hệ phương trình ngoặc vuông (dùng trong lời giải)
-#let hoac(..args) = math.cases(delim: "[", ..args.named(), ..args.pos().map(math.display))
+// hoac() đã có trong _shared-config.typ, không cần định nghĩa lại
 
 // ─── Màu chủ đề ─────────────────────────────────────────────────
 #let c-book = rgb("#0c4a6e")   // màu chủ đạo toàn quyển

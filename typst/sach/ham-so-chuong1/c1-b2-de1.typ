@@ -1,5 +1,5 @@
 #import "_config.typ": *
-
+#show: doc-setup
 #resetexamstate()
 #resetcau()
 
@@ -115,6 +115,7 @@
         x-vals: ($-oo$, $-1$, $0$, $1$, $+oo$),
         d-signs: ($+$, $0$, $-$, "||", $-$, $0$, $+$),
         v-vals: ($-oo$, $3$, ($-1$, $+oo$), $2$, $+oo$),
+        w2: 9.5,
       )
     ]
     Xét các mệnh đề sau:
@@ -178,7 +179,7 @@
 #resetcau()
 #exam-part([PHẦN II. Câu hỏi trắc nghiệm đúng sai (4 câu)], count: 4)
 
-#q-wrap(dir: "doc", ds(
+#q-wrap(dir: "doc",lines: 2, ds(
   [Cho hàm số $y = x^3 - 3x^2 - 9x + 2$. Xét tính đúng sai của các mệnh đề sau:],
   (
     True([Tập xác định của hàm số là $D = RR$.]),
@@ -195,7 +196,7 @@
   ],
 ))
 
-#q-wrap(dir: "doc", ds(
+#q-wrap(dir: "doc",lines: 2, ds(
   [Cho hàm số $f(x) = (x^2 - x + 1)/(x - 1)$. Xét tính đúng sai của các mệnh đề sau:],
   (
     True([Hàm số đạt cực đại tại $x = 0$ và đạt cực tiểu tại $x = 2$.]),
@@ -212,7 +213,7 @@
   ],
 ))
 
-#q-wrap(dir: "doc", ds(
+#q-wrap(dir: "doc",lines: 2, ds(
   [Cho hàm số $y = sqrt(x^2 - 4x + 3)$. Xét tính đúng sai của các mệnh đề sau:],
   (
     True([Tập xác định của hàm số là $D = (-oo; 1] union [3; +oo)$.]),
@@ -229,7 +230,7 @@
   ],
 ))
 
-#q-wrap(dir: "doc", ds(
+#q-wrap(dir: "doc",lines: 2, ds(
   [Cho hàm số $y = x - 2 ln x$. Xét tính đúng sai của các mệnh đề sau:],
   (
     True([Tập xác định của hàm số là $D = (0; +oo)$.]),

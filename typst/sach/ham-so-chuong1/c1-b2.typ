@@ -94,7 +94,7 @@
 
 #q-label([B. ĐỀ LUYỆN TẬP], c-book)
 
-#include "c1-b2-de1.typ"
-#include "c1-b2-de2.typ"
-#include "c1-b2-de3.typ"
+// #include "c1-b2-de1.typ"
+// #include "c1-b2-de2.typ"
+// #include "c1-b2-de3.typ"
 #include "c1-b2-de4.typ"

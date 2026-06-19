@@ -13,10 +13,10 @@
   academic-year: "2025 – 2026",
   outline-depth: 4,
   show-cover: false,
-  show-outline: false,
+  show-outline: false, 
 )
  
-#set page(margin: (top: 1.8cm, bottom: 1.8cm, inside: 2cm, outside: 1.5cm))
+#set page(margin: (top: 1.8cm, bottom: 1.8cm, inside: 1.75cm, outside: 1.75cm))
 #set text(size: 12pt)
 #set par(leading: 0.72em, spacing: 1.25em)
 
@@ -30,11 +30,12 @@
   pagebreak()
 }
 
-#include "c1-b1.typ"
-#include "c1-b2.typ"
-#include "c1-b3.typ"
-#include "c1-b4.typ"
-#include "c1-b5.typ"
-#include "c1-b6.typ"
+// #include "c1-b1.typ"
+#include "c1-flowchart.typ"
+// #include "c1-b2.typ"
+// #include "c1-b3.typ"
+// #include "c1-b4.typ"
+// #include "c1-b5.typ"
+// #include "c1-b6.typ" 
 #include "c1-b7.typ"
 

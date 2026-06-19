@@ -8,6 +8,7 @@ import ExtractImages from './ExtractImages.jsx'
 import Pdv3StudioPage from './Pdv3StudioPage.jsx'
 import ExamApp from './exam/ExamApp.jsx'
 import GiaiToanApp from './giaitoan/GiaiToanApp.jsx'
+import FileBrowser from './FileBrowser.jsx'
 import {
   DIFFICULTY_BY_CODE,
   DIFFICULTY_OPTIONS,
@@ -414,7 +415,9 @@ function App() {
                 ? 'ConicTypst - Giải Toán'
                 : activeView === 'extract'
                   ? 'ConicTypst - Typ to DOCX'
-                  : 'ConicTypst - Quản lý ngân hàng câu hỏi'
+                  : activeView === 'filebrowser'
+                    ? 'ConicTypst - Thư viện Typst'
+                    : 'ConicTypst - Quản lý ngân hàng câu hỏi'
   }, [activeView])
 
   const navTabs = isDesktopRuntime
@@ -424,12 +427,13 @@ function App() {
     ]
     : [
       { id: 'bank', label: 'Ngân hàng' },
+      { id: 'filebrowser', label: '📁 Thư viện' },
       { id: 'gen', label: 'Tạo khung' },
       { id: 'editor', label: 'Editor' },
       { id: 'cetz', label: 'CeTZ Gallery' },
       { id: 'shuffle', label: 'Trộn đề' },
       { id: 'exam', label: '🎓 Thi Online' },
-      { id: 'giaitoan', label: '🧮 Giải Toán' },
+      { id: 'giaitoan', label: '🧭 Giải Toán' },
       { id: 'extract', label: 'Typ -> DOCX' },
       { id: 'texdocx', label: 'TeX -> DOCX' },
     ]
@@ -748,6 +752,16 @@ function App() {
       {activeView === 'extract' && <ExtractImages />}
 
       {activeView === 'texdocx' && <Pdv3StudioPage />}
+
+      {activeView === 'filebrowser' && (
+        <FileBrowser
+          onOpenInEditor={(filePath, content) => {
+            // Store the file to open, then switch to editor tab
+            window.__filebrowser_open = { filePath, content }
+            setActiveView('editor')
+          }}
+        />
+      )}
 
       {activeView === 'bank' && (
         <>

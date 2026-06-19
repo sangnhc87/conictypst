@@ -1,5 +1,6 @@
 {
     "cSpell.enabled": false,
+    "typst.fontPaths": ["/Users/admin/conictypst/fonts"],
     "python-envs.defaultEnvManager": "ms-python.python:system",
     "aider.providers": {
         "deepseek": {

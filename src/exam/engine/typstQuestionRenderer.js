@@ -17,7 +17,7 @@
  * is compiled at most twice per session.
  */
 
-import { getTypstCompiler } from '../../typstCompilerSingleton';
+import { getTypstCompiler, getTypstRenderer } from '../../typstCompilerSingleton';
 import sangExamSource from '../../typst-system/sang-exam.typ?raw';
 import mathSymSource from '../../typst-system/math-sym.typ?raw';
 import bbtSource from '../../typst-system/bbt.typ?raw';
@@ -156,11 +156,31 @@ export async function renderQuestion(question, mode = 'dethi') {
     const src = buildSource(question, mode);
 
     const svg = await enqueueCompile(async () => {
-        const compiler = await getTypstCompiler();
+        const [compiler, renderer] = await Promise.all([
+            getTypstCompiler(),
+            getTypstRenderer(),
+        ]);
         injectSystemFiles(compiler);
         compiler.addSource('/q_render.typ', src);
-        const result = await compiler.svg({ mainFilePath: '/q_render.typ' });
-        return result;
+
+        // Compile to vector artifact
+        const compileResult = await compiler.compile({
+            mainFilePath: '/q_render.typ',
+            format: 0, // CompileFormatEnum.vector
+        });
+
+        if (!compileResult || !compileResult.result) {
+            const diags = compileResult?.diagnostics;
+            const msg = diags?.length
+                ? diags.map(d => d.message || JSON.stringify(d)).join('\n')
+                : 'Compile returned no result';
+            throw new Error('Typst compile failed: ' + msg);
+        }
+
+        // Render vector → SVG string
+        const session = await renderer.createModule(compileResult.result);
+        const svgString = await renderer.renderSvg({ renderSession: session });
+        return svgString;
     });
 
     _svgCache.set(key, svg);

@@ -172,7 +172,33 @@ Trong chuyên đề này, biến thời gian $t$ chạy *liên tục*: phút, gi
     [$T'(t) = -k (T(t) - T_"mt")$],
     [$T(t) = T_"mt" + (T_0 - T_"mt") e^(-k t)$],
   )
+  )
 ]
+
+#v(0.5em)
+#intro-box(title: [Góc hiểu bản chất: Nguồn gốc của nghiệm tổng quát cho từng mô hình])[
+  Thay vì học thuộc vẹt công thức, ta có thể dễ dàng tìm ra hàm số bằng công cụ *Nguyên hàm* (giải phương trình vi phân tách biến).
+  
+  *1. Mô hình tăng/giảm thuần:* $y'(t) = k y(t)$
+  $ frac(d y, d t) = k y => frac(d y, y) = k d t $
+  Lấy nguyên hàm hai vế:
+  $ integral frac(1, y) d y = integral k d t => ln|y| = k t + C_1 => |y| = e^(k t + C_1) = e^(C_1) dot e^(k t) $
+  Bỏ dấu giá trị tuyệt đối, đặt $C = plus.minus e^(C_1)$, ta được: $y(t) = C e^(k t)$. Vì tại $t=0$, $y(0) = C$, ta hay viết *$y(t) = y_0 e^(k t)$*.
+  
+  *2. Mô hình vừa hao hụt vừa bổ sung:* $y'(t) = a y(t) + b$
+  $ frac(d y, d t) = a y + b => frac(d y, a y + b) = d t $
+  Lấy nguyên hàm hai vế:
+  $ integral frac(1, a y + b) d y = integral 1 d t => frac(1, a) ln|a y + b| = t + C_1 => ln|a y + b| = a t + a C_1 $
+  Chuyển về dạng mũ và đặt $C_2 = plus.minus e^(a C_1)$:
+  $ a y + b = C_2 e^(a t) => a y = -b + C_2 e^(a t) => y(t) = -frac(b, a) + C e^(a t) quad ("với" C = C_2 / a) $
+  
+  *3. Mô hình định luật làm nguội Newton:* $T'(t) = -k(T(t) - T_"mt")$
+  $ frac(d T, d t) = -k(T - T_"mt") => frac(d T, T - T_"mt") = -k d t $
+  Lấy nguyên hàm hai vế:
+  $ integral frac(1, T - T_"mt") d T = integral -k d t => ln|T - T_"mt"| = -k t + C_1 $
+  Chuyển về dạng mũ: $T - T_"mt" = C e^(-k t) => T(t) = T_"mt" + C e^(-k t)$.
+]
+#v(0.5em)
 
 == 1.3 — Quy Trình 5 Bước Làm Đề Không Bị Rối
 
@@ -246,11 +272,15 @@ Trong chuyên đề này, biến thời gian $t$ chạy *liên tục*: phút, gi
   [$14","1$],
   loigiai: [
     #ppgiai[
-      - “Tốc độ tăng tỉ lệ với lượng đang có” là dấu hiệu của mô hình tăng trưởng liên tục.
-      - Vì thế ta dùng dạng $N(t) = N_0 e^(k t)$ với $k > 0$.
+    - Tốc độ tăng tỉ lệ với lượng đang có là mô hình tăng trưởng liên tục.
+      - Thay vì ốp công thức, ta lập phương trình vi phân và giải bằng tích phân.
     ]
 
-    Từ $N(0) = 12000$, suy ra
+    Tốc độ tăng tỉ lệ với số tài khoản $N(t)$ (hệ số $k > 0$):
+    $ N'(t) = k N(t) <=> frac(d N, d t) = k N <=> frac(d N, N) = k d t $
+    Lấy nguyên hàm hai vế:
+    $ integral frac(1, N) d N = integral k d t => ln N = k t + C_1 => N(t) = e^(k t + C_1) = C e^(k t) $
+    Từ $N(0) = 12000$, suy ra $C = 12000$, nên:
     $
       N(t) = 12000 e^(k t).
     $
@@ -285,11 +315,15 @@ Trong chuyên đề này, biến thời gian $t$ chạy *liên tục*: phút, gi
   [$22","1$],
   loigiai: [
     #ppgiai[
-      - Vì tốc độ giảm tỉ lệ với lượng đang có nên đây là mô hình giảm liên tục thuần.
-      - Ta dùng dạng $C(t) = C_0 e^(-k t)$ với $k > 0$.
+    - Tốc độ giảm tỉ lệ với lượng đang có là mô hình giảm liên tục thuần.
+      - Lập phương trình vi phân và lấy nguyên hàm để giải.
     ]
 
-    Từ $C(0) = 80$, suy ra
+    Tốc độ giảm tỉ lệ với nồng độ hiện tại (hệ số $k > 0$):
+    $ C'(t) = -k C(t) <=> frac(d C, C) = -k d t $
+    Lấy nguyên hàm hai vế:
+    $ integral frac(1, C) d C = integral -k d t => ln C = -k t + C_1 => C(t) = C_2 e^(-k t) $
+    Từ $C(0) = 80$, suy ra $C_2 = 80$, nên:
     $
       C(t) = 80 e^(-k t).
     $
@@ -332,19 +366,26 @@ Trong chuyên đề này, biến thời gian $t$ chạy *liên tục*: phút, gi
       - Phần sạc đều cho ta một hạng tử dương không đổi.
     ]
 
-    Vì thế mô hình là
+    Mô hình bài toán được mô tả bằng phương trình vi phân:
     $
-      Q'(t) = -0","25 Q(t) + 20.
-    $
-
-    Mức cân bằng của hệ là
-    $
-      Q_* = -frac(20, -0","25) = 80.
+      Q'(t) = -0","25 Q(t) + 20
+      <=> frac(d Q, d t) = -0","25 Q + 20
+      <=> frac(d Q, -0","25 Q + 20) = d t
     $
 
-    Do đó nghiệm có dạng
+    Lấy nguyên hàm hai vế:
     $
-      Q(t) = 80 + C e^(-0","25 t).
+      integral frac(1, -0","25 Q + 20) d Q = integral 1 d t
+      => frac(1, -0","25) ln|-0","25 Q + 20| = t + C_1
+    $
+    $
+      => ln|-0","25 Q + 20| = -0","25 t - 0","25 C_1
+    $
+
+    Chuyển về dạng mũ và gộp hằng số, ta được:
+    $
+      -0","25 Q + 20 = C_2 e^(-0","25 t)
+      => Q(t) = 80 + C e^(-0","25 t)
     $
 
     Dùng điều kiện đầu $Q(0) = 15$:
@@ -387,20 +428,20 @@ Trong chuyên đề này, biến thời gian $t$ chạy *liên tục*: phút, gi
       - Mức cân bằng là giá trị lâu dài khi phần mũ triệt tiêu dần.
     ]
 
-    Ta có mô hình
+    Ta lập phương trình vi phân:
+    $ D'(t) = -0","3 D(t) + 9 <=> frac(d D, -0","3 D + 9) = d t $
+    
+    Lấy nguyên hàm hai vế:
     $
-      D'(t) = -0","3 D(t) + 9.
+      integral frac(1, -0","3 D + 9) d D = integral 1 d t
+      => frac(1, -0","3) ln|-0","3 D + 9| = t + C_1
     $
-
-    Mức cân bằng là
     $
-      D_* = -frac(9, -0","3) = 30.
+      => ln|-0","3 D + 9| = -0","3 t - 0","3 C_1
     $
-
-    Do đó
-    $
-      D(t) = 30 + C e^(-0","3 t).
-    $
+    
+    Chuyển qua dạng mũ, ta rút ra được:
+    $ -0","3 D + 9 = C_2 e^(-0","3 t) => D(t) = 30 + C e^(-0","3 t). $
 
     Từ $D(0) = 45$, suy ra $C = 15$, nên
     $
@@ -438,9 +479,18 @@ Trong chuyên đề này, biến thời gian $t$ chạy *liên tục*: phút, gi
       - Ở đây nhiệt độ môi trường là $30$°C.
     ]
 
-    Gọi $T(t)$ là nhiệt độ của thanh sau $t$ phút. Khi đó
+    Gọi $T(t)$ là nhiệt độ của thanh sau $t$ phút ($T > 30$). Tốc độ nguội tỉ lệ với độ chênh lệch nhiệt độ (hệ số $k > 0$):
+    $ T'(t) = -k(T(t) - 30) <=> frac(d T, d t) = -k(T - 30) <=> frac(d T, T - 30) = -k d t $
+    
+    Lấy nguyên hàm hai vế:
     $
-      T(t) = 30 + (150 - 30) e^(-k t) = 30 + 120 e^(-k t).
+      integral frac(1, T - 30) d T = integral -k d t
+      => ln(T - 30) = -k t + C_1
+    $
+    Chuyển qua dạng mũ: $T(t) - 30 = C e^(-k t) => T(t) = 30 + C e^(-k t)$.
+    Ban đầu $T(0) = 150 => 150 = 30 + C => C = 120$. Do đó:
+    $
+      T(t) = 30 + 120 e^(-k t).
     $
 
     Dùng dữ kiện $T(10) = 90$:
@@ -512,11 +562,14 @@ Trong chuyên đề này, biến thời gian $t$ chạy *liên tục*: phút, gi
   [$17","8$],
   loigiai: [
     #ppgiai[
-      - Đây là mô hình tăng trưởng liên tục theo lượng đang có.
-      - Ta dùng công thức $A(t) = A_0 e^(k t)$.
+      - Tốc độ tăng tỉ lệ với lượng đang có, nên ta sẽ lập phương trình vi phân và giải.
     ]
 
-    Từ $A(0) = 300$, suy ra
+    Ta có phương trình vi phân:
+    $ A'(t) = k A(t) <=> frac(d A, A) = k d t $
+    Lấy nguyên hàm hai vế:
+    $ integral frac(1, A) d A = integral k d t => ln A = k t + C_1 => A(t) = C_2 e^(k t) $
+    Ban đầu $A(0) = 300 => C_2 = 300$, nên:
     $
       A(t) = 300 e^(k t).
     $
@@ -549,11 +602,14 @@ Trong chuyên đề này, biến thời gian $t$ chạy *liên tục*: phút, gi
   [$9","6$],
   loigiai: [
     #ppgiai[
-      - Đây là mô hình giảm mũ theo lượng đang có.
-      - Ta dùng công thức $C(t) = C_0 e^(-k t)$.
+      - Tốc độ giảm tỉ lệ với lượng đang có, ta lập phương trình vi phân và giải bằng tích phân.
     ]
 
-    Từ $C(0) = 120$, suy ra
+    Phương trình vi phân (với $k > 0$):
+    $ C'(t) = -k C(t) <=> frac(d C, C) = -k d t $
+    Lấy nguyên hàm hai vế:
+    $ integral frac(1, C) d C = integral -k d t => ln C = -k t + C_1 => C(t) = C_2 e^(-k t) $
+    Từ $C(0) = 120$, suy ra $C_2 = 120$, nên:
     $
       C(t) = 120 e^(-k t).
     $
@@ -587,24 +643,22 @@ Trong chuyên đề này, biến thời gian $t$ chạy *liên tục*: phút, gi
   [$3","0$],
   loigiai: [
     #ppgiai[
-      - Đây là mô hình vừa hao hụt vừa được bổ sung đều.
-      - Ta tìm mức cân bằng trước rồi ghép với phần mũ.
+      - Đây là mô hình vừa hao hụt vừa bổ sung đều.
+      - Lập phương trình vi phân, dùng nguyên hàm để tìm hàm $S(t)$.
     ]
 
-    Mô hình là
+    Phương trình vi phân của bài toán là:
+    $ S'(t) = -0","5 S(t) + 15 <=> frac(d S, -0","5 S + 15) = d t $
+    Lấy nguyên hàm hai vế:
     $
-      S'(t) = -0","5 S(t) + 15.
+      integral frac(1, -0","5 S + 15) d S = integral 1 d t
+      => frac(1, -0","5) ln|-0","5 S + 15| = t + C_1
     $
-
-    Mức cân bằng là
     $
-      S_* = -frac(15, -0","5) = 30.
+      => ln|-0","5 S + 15| = -0","5 t - 0","5 C_1
     $
-
-    Do đó
-    $
-      S(t) = 30 + C e^(-0","5 t).
-    $
+    Chuyển qua dạng mũ ta có:
+    $ -0","5 S + 15 = C_2 e^(-0","5 t) => S(t) = 30 + C e^(-0","5 t) $
 
     Từ $S(0) = 8$, suy ra
     $
@@ -629,6 +683,100 @@ Trong chuyên đề này, biến thời gian $t$ chạy *liên tục*: phút, gi
     $
 
     #ans-box[Sau khoảng *$3","0$ giờ* thì lượng muối đạt $25$ kg.]
+  ],
+)
+
+#tln(
+  id: "TG-LT-08",
+  [Nồng độ của một loại thuốc trong máu bệnh nhân, ký hiệu là $C(t)$ (mg/L) sau $t$ giờ kể từ khi tiêm tĩnh mạch. Tốc độ đào thải thuốc khỏi cơ thể luôn tỉ lệ với nồng độ thuốc hiện tại trong máu. Biết rằng ngay sau khi tiêm ($t=0$), nồng độ thuốc là $20$ mg/L, và sau $3$ giờ nồng độ giảm xuống còn $12$ mg/L. Hỏi sau khoảng bao nhiêu giờ kể từ lúc tiêm thì nồng độ thuốc trong máu giảm xuống mức $3$ mg/L? (_làm tròn đến hàng phần mười_).],
+  [$11","1$],
+  loigiai: [
+    #ppgiai[
+      - Bối cảnh Y sinh (dược động học). Tốc độ giảm tỉ lệ với lượng đang có là mô hình giảm liên tục.
+      - Lập phương trình vi phân và giải bằng tích phân.
+    ]
+
+    Phương trình vi phân (với $k > 0$):
+    $ C'(t) = -k C(t) <=> frac(d C, C) = -k d t $
+    Lấy nguyên hàm hai vế:
+    $ integral frac(1, C) d C = integral -k d t => ln C = -k t + C_1 => C(t) = C_2 e^(-k t) $
+    Tại $t=0$, $C(0) = 20 => C_2 = 20$, nên:
+    $ C(t) = 20 e^(-k t). $
+
+    Dùng dữ kiện $C(3) = 12$:
+    $ 20 e^(-3 k) = 12 <=> e^(-3 k) = 0","6. $
+
+    Cần tìm $t$ khi $C(t) = 3$:
+    $ 20 e^(-k t) = 3 <=> e^(-k t) = 0","15 <=> t = frac(3 ln 0","15, ln 0","6). $
+
+    Bấm máy tính:
+    $ t approx 11","078... $
+
+    #ans-box[Sau khoảng *$11","1$ giờ* thì nồng độ thuốc giảm xuống mức $3$ mg/L.]
+  ],
+)
+
+#tln(
+  id: "TG-LT-09",
+  [Sự phân rã của đồng vị phóng xạ Carbon-14 trong một mẫu vật khảo cổ tuân theo quy luật: tốc độ phân rã luôn tỉ lệ với khối lượng Carbon-14 còn lại trong mẫu vật. Gọi $M(t)$ (gam) là khối lượng Carbon-14 sau $t$ năm. Biết chu kỳ bán rã của Carbon-14 là $5730$ năm (tức là sau $5730$ năm, khối lượng chỉ còn một nửa so với ban đầu). Nếu một mảnh xương cổ được phát hiện chỉ còn chứa $30\%$ lượng Carbon-14 so với lúc sinh vật đó còn sống, hãy ước tính sinh vật đó đã chết cách đây khoảng bao nhiêu năm? (_làm tròn đến hàng đơn vị_).],
+  [$9953$],
+  loigiai: [
+    #ppgiai[
+      - Bối cảnh Khảo cổ / Vật lí hạt nhân. Đây là bài toán phân rã mũ kinh điển.
+      - Thiết lập phương trình vi phân và giải qua nguyên hàm.
+    ]
+
+    Phương trình phân rã (với $k > 0$):
+    $ M'(t) = -k M(t) <=> frac(d M, M) = -k d t $
+    Lấy nguyên hàm hai vế ta được:
+    $ integral frac(1, M) d M = integral -k d t => ln M = -k t + C_1 => M(t) = M_0 e^(-k t) $
+    (với $M_0$ là khối lượng ban đầu lúc sinh vật còn sống).
+
+    Dùng dữ kiện chu kỳ bán rã $t = 5730$:
+    $ M_0 e^(-5730 k) = 0","5 M_0 <=> e^(-5730 k) = 0","5. $
+
+    Mảnh xương hiện tại còn $30\%$, tức là $M(t) = 0","3 M_0$:
+    $ M_0 e^(-k t) = 0","3 M_0 <=> e^(-k t) = 0","3 <=> t = frac(5730 ln 0","3, ln 0","5). $
+
+    Bấm máy tính:
+    $ t approx 9952","55... $
+
+    #ans-box[Sinh vật đó đã chết cách đây khoảng *$9953$ năm*.]
+  ],
+)
+
+#ds(
+  [Xét quá trình nạp điện cho một tụ điện có điện dung $C = 100 mu "F"$ qua một điện trở $R = 10 "k" Omega$ bởi một nguồn điện một chiều có suất điện động không đổi $E = 12"V"$. Điện áp $U(t)$ (Volt) trên tụ điện sau $t$ giây thỏa mãn phương trình vi phân: $U'(t) = 1/(R C) (E - U(t))$. Tại thời điểm ban đầu $t=0$, tụ chưa tích điện ($U(0) = 0$). *(Cho biết $1 mu "F" = 10^(-6) "F"$, $1 "k" Omega = 10^3 Omega$)*.],
+  (
+    True([Hàm số biểu diễn điện áp trên tụ điện theo thời gian là $U(t) = 12 - 12 e^(-t)$.]),
+    True([Tốc độ nạp điện (sự gia tăng điện áp) đạt giá trị lớn nhất ngay tại thời điểm ban đầu $t=0$.]),
+    [Sau một thời gian rất dài ($t -> +oo$), điện áp trên tụ điện tiến dần về $0"V"$.],
+    True([Để điện áp trên tụ đạt $6"V"$ (bằng một nửa nguồn), cần thời gian khoảng $0","69$ giây.]),
+  ),
+  loigiai: [
+    #ppgiai[
+      - Bối cảnh Vật lí / Điện tử (Mạch RC). Đây là mô hình tiệm cận về một mức giới hạn (giống làm nguội Newton).
+      - Chú ý đổi đơn vị: $R = 10^4 Omega$, $C = 10^(-4) "F" => R C = 1$ (giây).
+    ]
+
+    Phương trình vi phân trở thành:
+    $ U'(t) = 12 - U(t) <=> frac(d U, d t) = -(U - 12) <=> frac(d U, U - 12) = -d t $
+    Lấy nguyên hàm hai vế:
+    $ integral frac(1, U - 12) d U = integral -1 d t => ln|U - 12| = -t + C_1 $
+    Chuyển qua dạng mũ: $U - 12 = C_2 e^(-t) => U(t) = 12 + C e^(-t)$.
+    Từ $U(0) = 0 => 0 = 12 + C => C = -12$.
+    Vậy $U(t) = 12 - 12 e^(-t)$.
+
+    - *Ý a) Đúng.* Khớp đúng với công thức ta vừa chứng minh.
+
+    - *Ý b) Đúng.* Tốc độ nạp điện là $U'(t) = 12 e^(-t)$. Hàm số này luôn giảm và lớn nhất khi $t=0$ (lúc đó $U'(0) = 12$ V/s).
+
+    - *Ý c) Sai.* Khi $t -> +oo$, phần mũ $e^(-t) -> 0$, nên $U(t)$ tiến dần đến $12"V"$, tức là bằng điện áp của nguồn, chứ không phải về $0"V"$.
+
+    - *Ý d) Đúng.* Giải phương trình $U(t) = 6$:
+      $ 12 - 12 e^(-t) = 6 <=> e^(-t) = 0","5 <=> t = -ln 0","5 = ln 2 approx 0","693. $
+
+    #ans-box[Các phát biểu đúng là *a, b, d*; phát biểu *c* sai.]
   ],
 )
 
@@ -660,11 +808,13 @@ Trong chuyên đề này, biến thời gian $t$ chạy *liên tục*: phút, gi
     fill: (x, y) => if y == 0 { rgb("E3F2FD") } else if calc.odd(y) { rgb("FAFAFA") } else { white },
     align: center,
     table.header([*Câu*], [*Đáp số nhanh*], [*Câu*], [*Đáp số nhanh*]),
-    [$1$], [a, c, d đúng], [$6$], [$30$],
-    [$2$], [$14","1$], [$7$], [a, b, d đúng],
-    [$3$], [$22","1$], [$8$], [$17","8$],
-    [$4$], [$4","7$], [$9$], [$9","6$],
-    [$5$], [a, b, c đúng], [$10$], [$3","0$],
+    [$1$], [a, c, d đúng], [$8$], [$17","8$],
+    [$2$], [$14","1$], [$9$], [$9","6$],
+    [$3$], [$22","1$], [$10$], [$3","0$],
+    [$4$], [$4","7$], [$11$], [$11","1$],
+    [$5$], [a, b, c đúng], [$12$], [$9953$],
+    [$6$], [$30$], [$13$], [a, b, d đúng],
+    [$7$], [a, b, d đúng], [], [],
   )
 ]
 

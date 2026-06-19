@@ -115,6 +115,10 @@
 
 #pagebreak()
 
+#include "c3-flowchart.typ"
+
+#pagebreak()
+
 #include "parts/01-khai-mo.typ"
 
 #include "parts/02-xuong-chieu-sau.typ"

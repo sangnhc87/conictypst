@@ -2,10 +2,11 @@
  * FigureView.jsx
  *
  * Renders a CeTZ figure (figSrc from question) to SVG via Typst WASM.
+ * Uses compiler → vector artifact → renderer → SVG string pipeline.
  * Lazy — only starts compiling when mounted. Results are cached.
  */
 import React, { useEffect, useState } from 'react';
-import { getTypstCompiler } from '../../typstCompilerSingleton';
+import { getTypstCompiler, getTypstRenderer } from '../../typstCompilerSingleton';
 import sangExamSource   from '../../typst-system/sang-exam.typ?raw';
 import mathSymSource    from '../../typst-system/math-sym.typ?raw';
 import bbtSource        from '../../typst-system/bbt.typ?raw';
@@ -45,13 +46,36 @@ async function compileFigure(figSrc) {
     const cached = _cache.get(figSrc);
     if (cached) return cached;
 
+    // figSrc is e.g. "cetz.canvas(length: 1cm, { ... })"
+    // Wrap in # to call it as a Typst expression in markup mode
     const src = `${PAGE_HEADER}\n#${figSrc}\n`;
 
     const svg = await enqueue(async () => {
-        const compiler = await getTypstCompiler();
+        const [compiler, renderer] = await Promise.all([
+            getTypstCompiler(),
+            getTypstRenderer(),
+        ]);
         injectSys(compiler);
         compiler.addSource('/fig_render.typ', src);
-        return await compiler.svg({ mainFilePath: '/fig_render.typ' });
+
+        // Compile to vector artifact
+        const compileResult = await compiler.compile({
+            mainFilePath: '/fig_render.typ',
+            format: 0, // CompileFormatEnum.vector → result is Uint8Array
+        });
+
+        if (!compileResult || !compileResult.result) {
+            const diags = compileResult?.diagnostics;
+            const msg = diags?.length
+                ? diags.map(d => d.message || JSON.stringify(d)).join('\n')
+                : 'Compile returned no result';
+            throw new Error('Typst compile failed: ' + msg);
+        }
+
+        // Render vector → SVG string
+        const session = await renderer.createModule(compileResult.result);
+        const svgString = await renderer.renderSvg({ renderSession: session });
+        return svgString;
     });
 
     _cache.set(figSrc, svg);
@@ -62,6 +86,7 @@ async function compileFigure(figSrc) {
 export default function FigureView({ src, className = '' }) {
     const [phase, setPhase] = useState('idle');   // idle | loading | done | error
     const [svg,   setSvg]   = useState(null);
+    const [errMsg, setErrMsg] = useState('');
 
     useEffect(() => {
         if (!src) return;
@@ -72,7 +97,7 @@ export default function FigureView({ src, className = '' }) {
         setPhase('loading');
         compileFigure(src)
             .then(s  => { if (alive) { setSvg(s);    setPhase('done');  } })
-            .catch(() => { if (alive) { setPhase('error'); } });
+            .catch(e => { if (alive) { setErrMsg(String(e)); setPhase('error'); } });
         return () => { alive = false; };
     }, [src]);
 
@@ -89,9 +114,15 @@ export default function FigureView({ src, className = '' }) {
 
     if (phase === 'error') {
         return (
-            <div className={`flex items-center justify-center rounded border border-dashed border-amber-300
+            <div className={`flex flex-col items-center justify-center rounded border border-dashed border-amber-300
                 bg-amber-50 px-4 py-3 text-xs text-amber-600 my-3 ${className}`}>
-                ⚠ Không thể tải hình vẽ
+                <span>⚠ Không thể tải hình vẽ</span>
+                {errMsg && (
+                    <details className="mt-1 text-[10px] text-amber-500 max-w-full">
+                        <summary className="cursor-pointer">Chi tiết lỗi</summary>
+                        <pre className="whitespace-pre-wrap break-all mt-1">{errMsg}</pre>
+                    </details>
+                )}
             </div>
         );
     }

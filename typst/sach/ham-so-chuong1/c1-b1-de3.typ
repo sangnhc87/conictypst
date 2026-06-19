@@ -1,13 +1,13 @@
 #import "_config.typ": *
-
+#show: doc-setup
 #muc([Đề Luyện Tập Số 03])
 
 #resetexamstate()
-#exam-part([PHẦN I. Câu trắc nghiệm nhiều phương án lựa chọn (12 câu)], count: 12)
+#exam-part([PHẦN I. Câu trắc nghiệm nhiều phương án lựa chọn (15 câu)], count: 15)
 
-#q-wrap(dir: "ngang", tn(
+#q-wrap(dir: "ngang",lines: 2, tn(
   [Hàm số $y = x^3 - 3x^2$ nghịch biến trên khoảng nào?],
-  ([$( -oo; 0 )$], [$(2; +oo)$], True([$(0; 2)$]), [$(0; +oo)$]),
+  ([$( -oo; 0 )$], [$(2; +oo)$], True([$(0; 2)$]), [$(0; +oo)$]), 
   accent: c-book,
   loigiai: [
     #step[Ta có đạo hàm $y' = 3x^2 - 6x$.]
@@ -16,7 +16,7 @@
   ],
 ))
 
-#q-wrap(dir: "doc", tn(
+#q-wrap(dir: "doc",lines: 2, tn(
   [Cho hàm số $y = f(x)$ có bảng biến thiên như sau:
     #align(center)[
       #my-bbbt(
@@ -74,7 +74,7 @@
   ],
 ))
 
-#q-wrap(dir: "ngang", tn(
+#q-wrap(dir: "ngang",lines: 6, tn(
   [Cho hàm số $y = f(x)$ có đạo hàm $f'(x) = x (x - 1)^2$. Mệnh đề nào sau đây đúng?],
   (
     [Hàm số đồng biến trên khoảng $(-oo; 0)$.],
@@ -199,21 +199,68 @@
   ],
 ))
 
-#q-wrap(dir: "ngang", tn(
+#q-wrap(dir: "doc",lines: 2, tn(
   [Hàm số nào dưới đây nghịch biến trên từng khoảng xác định của nó?],
-  ([$y = -x^3 + 3x$], [$y = -x^4 + 2x^2$], True([$y = (2x - 1)/(x - 1)$]), [$y = (2x + 1)/(x + 1)$]),
+  ([$y = -x^3 + 3x$], 
+  [$y = -x^4 + 2x^2$], 
+  True([$y = (2x - 1)/(x - 1)$]), 
+  [$y = (2x + 1)/(x + 1)$]),
   accent: c-book,
-  cols:1,
+  // cols:1,
   loigiai: [
     #step[Xét hàm số $y = (2x - 1)/(x - 1)$. Đạo hàm $y' = -1/(x - 1)^2 < 0, forall x != 1$.]
     #step[Vì đạo hàm luôn âm trên từng khoảng xác định nên hàm số nghịch biến trên các khoảng $(-oo; 1)$ và $(1; +oo)$.]
   ],
 ))
 
-#resetcau()
-#exam-part([PHẦN II. Câu hỏi trắc nghiệm đúng sai (4 câu)], count: 4)
+#q-wrap(dir: "ngang", tn(
+  [Số dân của một thị trấn sau $t$ năm kể từ năm 2020 được ước tính bởi công thức $N(t) = 15 + (10t)/(t+5)$ (nghìn người). Khẳng định nào sau đây là đúng về sự gia tăng dân số của thị trấn?],
+  ([Dân số của thị trấn giảm dần theo thời gian], True([Dân số của thị trấn luôn tăng theo thời gian]), [Dân số của thị trấn không thay đổi], [Dân số thị trấn tăng trong 5 năm đầu và giảm sau đó]),
+  accent: c-book,
+  loigiai: [
+    #step[Tốc độ gia tăng dân số là đạo hàm $N'(t)$.]
+    #step[Ta có $N'(t) = (10(t+5) - 10t)/(t+5)^2 = 50/(t+5)^2$.]
+    #step[Vì $t >= 0$ nên $(t+5)^2 > 0 => N'(t) > 0, forall t >= 0$.]
+    #step[Đạo hàm luôn dương chứng tỏ dân số luôn tăng theo thời gian.]
+  ],
+))
 
-#q-wrap(dir: "doc", ds(
+#q-wrap(dir: "ngang", tn(
+  [Cho hàm số $y = (2x - 3)/(x + 1)$. Khẳng định nào sau đây là đúng?],
+  ([Hàm số đồng biến trên $RR backslash {-1}$], True([Hàm số đồng biến trên các khoảng $(-oo; -1)$ và $(-1; +oo)$]), [Hàm số nghịch biến trên $RR backslash {-1}$], [Hàm số nghịch biến trên các khoảng $(-oo; -1)$ và $(-1; +oo)$]),
+  accent: c-book,
+  loigiai: [
+    #step[Tập xác định: $D = RR backslash {-1}$.]
+    #step[Đạo hàm $y' = (2 dot.c 1 - (-3) dot.c 1)/(x + 1)^2 = 5/(x + 1)^2 > 0, forall x != -1$.]
+    #step[Vậy hàm số đồng biến trên các khoảng $(-oo; -1)$ và $(-1; +oo)$.]
+  ],
+))
+
+#q-wrap(dir: "ngang", tn(
+  [Cho hàm số $y = f(x)$ có bảng biến thiên như sau:
+    #align(center)[
+      #my-bbbt(
+        var: $x$,
+        der: $f'$,
+        func: $f$,
+        x-vals: ($-oo$, $0$, $3$, $+oo$),
+        d-signs: ($-$, $0$, $+$, $0$, $-$),
+        v-vals: ($+oo$, $-1$, $5$, $-oo$),
+      )
+    ]
+    Hàm số đã cho đồng biến trên khoảng nào dưới đây?],
+  ([$(-oo; 0)$], [$(3; +oo)$], True([$(0; 3)$]), [$(-1; 5)$]),
+  accent: c-book,
+  loigiai: [
+    #step[Dựa vào bảng biến thiên, ta thấy $f'(x) > 0$ trên khoảng $(0; 3)$.]
+    #step[Vậy hàm số đồng biến trên khoảng $(0; 3)$.]
+  ],
+))
+
+#resetcau()
+#exam-part([PHẦN II. Câu hỏi trắc nghiệm đúng sai (5 câu)], count: 5)
+
+#q-wrap(dir: "doc",lines: 2, ds(
   [Cho hàm số $y = 2x^3 - 3x^2$. Xét tính đúng sai của các mệnh đề sau:],
   (
     True([Hàm số đồng biến trên khoảng $(1; +oo)$.]),
@@ -229,7 +276,7 @@
   ],
 ))
 
-#q-wrap(dir: "doc", ds(
+#q-wrap(dir: "doc",lines: 2, ds(
   [Cho hàm số $y = (x - 2)/(x + 2)$. Xét tính đúng sai của các mệnh đề sau:],
   (
     True([Tập xác định $D = RR backslash {-2}$.]),
@@ -245,7 +292,7 @@
   ],
 ))
 
-#q-wrap(dir: "doc", ds(
+#q-wrap(dir: "doc",lines: 2, ds(
   [Cho hàm số $y = -x^4 + 4x^2 - 3$. Xét tính đúng sai của các mệnh đề sau:],
   (
     True([Hàm số đồng biến trên $(-oo; -sqrt(2))$ và $(0; sqrt(2))$.]),
@@ -262,7 +309,7 @@
   ],
 ))
 
-#q-wrap(dir: "doc", ds(
+#q-wrap(dir: "doc",lines: 2,  ds(
   [Cho hàm số $y = (x^2 + x + 1)/(x + 1)$. Xét tính đúng sai của các mệnh đề sau:],
   (
     True([Đạo hàm $y' = (x^2 + 2x)/(x + 1)^2$.]),
@@ -279,8 +326,25 @@
   ],
 ))
 
+#q-wrap(dir: "doc",lines: 2, ds(
+  [Một chất điểm chuyển động có phương trình $s(t) = -t^3 + 6t^2 + 15t$, trong đó $t$ được tính bằng giây ($t >= 0$) và $s$ tính bằng mét. Xét tính đúng sai của các mệnh đề sau:],
+  (
+    [Vận tốc của chất điểm bằng $0$ khi $t = 1$.],
+    True([Trong khoảng thời gian từ $t=0$ đến $t=5$, quãng đường chất điểm đi được luôn tăng.]),
+    True([Gia tốc của chất điểm bằng $0$ khi $t = 2$.]),
+    [Vận tốc của chất điểm luôn tăng trên khoảng $(0; 5)$.],
+  ),
+  accent: c-book,
+  loigiai: [
+    - Vận tốc $v(t) = s'(t) = -3t^2 + 12t + 15$. Tại $t=1$, $v(1) = 24 != 0$. Mệnh đề a) Sai.
+    - $v(t) = 0 <=> t = -1$ (loại) hoặc $t = 5$. Với $0 <= t < 5$, $v(t) > 0$ nên quãng đường đi được $s(t)$ luôn tăng. Mệnh đề b) Đúng.
+    - Gia tốc $a(t) = v'(t) = -6t + 12$. Tại $t=2$, $a(2) = 0$. Mệnh đề c) Đúng.
+    - $a(t) < 0 <=> t > 2$. Do đó vận tốc giảm trên khoảng $(2; 5)$, không phải luôn tăng. Mệnh đề d) Sai.
+  ],
+))
+
 #resetcau()
-#exam-part([PHẦN III. Câu trắc nghiệm trả lời ngắn (6 câu)], count: 6)
+#exam-part([PHẦN III. Câu trắc nghiệm trả lời ngắn (8 câu)], count: 8)
 
 #q-wrap(dir: "ngang", tln(
   [Cho hàm số $y = x^3 - 3x^2$. Số nguyên dương nhỏ nhất thuộc khoảng đồng biến của hàm số là bao nhiêu?],
@@ -351,5 +415,30 @@
     #step[Giải bất phương trình với $x > 0$, ta được: $x >= 1/sqrt(2) approx 0,7$.]
     #step[Trên đoạn $[-5; 5]$, các giá trị nguyên thỏa mãn điều kiện $x >= 1/sqrt(2)$ là $x in {1, 2, 3, 4, 5}$.]
     #step[Số lượng nghiệm nguyên thỏa mãn là $5$ nghiệm.]
+  ],
+))
+
+#q-wrap(dir: "doc", tln(
+  [Một loại nấm được trồng trong môi trường nhân tạo. Số lượng nấm sinh sôi theo quy luật $N(t) = -t^3 + 12t^2 + 60t$ (đơn vị: cá thể), với $t$ (ngày) là khoảng thời gian từ lúc bắt đầu trồng. Hỏi trong khoảng thời gian nào (tính bằng ngày) số lượng nấm tăng? (Nhập giá trị độ dài của khoảng thời gian đó, $t >= 0$).],
+  [$10$],
+  accent: c-book,
+  loigiai: [
+    #step[Tốc độ sinh sôi là đạo hàm: $N'(t) = -3t^2 + 24t + 60$.]
+    #step[Số lượng nấm tăng khi $N'(t) > 0 <=> -3t^2 + 24t + 60 > 0 <=> -2 < t < 10$.]
+    #step[Do $t >= 0$ nên số lượng nấm tăng trong khoảng $(0; 10)$.]
+    #step[Độ dài khoảng thời gian là $10 - 0 = 10$ ngày.]
+  ],
+))
+
+#q-wrap(dir: "doc", tln(
+  [Chi phí trung bình (đơn vị: USD) để sản xuất $x$ chiếc điện thoại được tính bởi công thức $C(x) = (3x^2 + 1200)/x$ với $x > 0$. Khẳng định chi phí trung bình giảm khi $x$ nằm trong khoảng $(0; a)$. Tìm $a$.],
+  [$20$],
+  accent: c-book,
+  loigiai: [
+    #step[Ta có $C(x) = 3x + 1200/x$.]
+    #step[Đạo hàm $C'(x) = 3 - 1200/x^2 = (3x^2 - 1200)/x^2$.]
+    #step[Chi phí trung bình giảm khi $C'(x) < 0 <=> 3x^2 - 1200 < 0 <=> x^2 < 400$.]
+    #step[Vì $x > 0$ nên ta được $0 < x < 20$.]
+    #step[Vậy $a = 20$.]
   ],
 ))

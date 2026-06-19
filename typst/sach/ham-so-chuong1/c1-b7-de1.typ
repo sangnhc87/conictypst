@@ -1522,12 +1522,12 @@
 ))
 
 #q-wrap(dir: "doc", tln(
-  [Khu vực khai thác mỏ có sản lượng được mô tả bởi $S(x) = x e^{-0.1x}$ (tấn), với $x$ là số nhân công ($x > 0$). Cần thuê bao nhiêu nhân công để sản lượng lớn nhất?],
+  [Khu vực khai thác mỏ có sản lượng được mô tả bởi $S(x) = x e^(-0,1 x)$ (tấn), với $x$ là số nhân công ($x > 0$). Cần thuê bao nhiêu nhân công để sản lượng đạt giá trị lớn nhất?],
   [$10$],
   
   loigiai: [
-    #step[Đạo hàm (áp dụng quy tắc tích): $S'(x) = 1 * e^{-0.1x} + x * (-0.1)e^{-0.1x} = e^{-0.1x}(1 - 0.1x)$.]
-    #step[Vì $e^{-0.1x} > 0$ nên $S'(x) = 0 <=> 1 - 0.1x = 0 <=> x = 10$.]
+    #step[Đạo hàm (áp dụng quy tắc đạo hàm của tích): $S'(x) = 1 dot.c e^(-0,1 x) + x dot.c (-0,1) e^(-0,1 x) = e^(-0,1 x)(1 - 0,1 x)$.]
+    #step[Vì $e^(-0,1 x) > 0$ với mọi $x$ nên $S'(x) = 0 <=> 1 - 0,1 x = 0 <=> x = 10$.]
     #step[Vậy cần $10$ nhân công để đạt cực đại.]
   ],
 ))

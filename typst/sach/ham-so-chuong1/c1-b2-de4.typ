@@ -1,5 +1,5 @@
 #import "_config.typ": *
-
+#show: doc-setup
 #resetexamstate()
 #resetcau()
 
@@ -123,7 +123,7 @@
 
 #exam-part([PHẦN II. Câu hỏi trắc nghiệm Đúng/Sai (2 câu)], count: 2)
 
-#q-wrap(dir: "ngang", ds(
+#q-wrap(dir: "doc",lines: 3, ds(
   [Cho hàm số lượng truy cập
     $N(t) = t^3 - 6t^2 + 9t + 120$ trên đoạn $[0; 5]$.
     Xét các phát biểu sau:],
@@ -142,7 +142,7 @@
   ],
 ))
 
-#q-wrap(dir: "ngang", ds(
+#q-wrap(dir: "doc",lines: 3, ds(
   [Cho hàm số mức tiêu hao nhiên liệu
     $F(v) = v + 100/v$ với $v > 0$.
     Xét các phát biểu sau:],
@@ -177,7 +177,7 @@
 ))
 
 #q-wrap(dir: "doc", tln(
-  [Với hàm số tiêu hao nhiên liệu $F(v) = v + 100/v$ ($v > 0$), vận tốc nào cho mức tiêu hao thấp nhất theo nghĩa cực trị?],
+  [Với hàm số tiêu hao nhiên liệu $F(v) = v + 100/v$ ($v > 0$), vận tốc nào cho mức tiêu hao thấp nhất?],
   [$v = 10$],
   accent: c-book,
   loigiai: [
@@ -186,35 +186,4 @@
     #step[Đạo hàm đổi dấu từ âm sang dương khi qua $v = 10$, nên đây là vận tốc cho mức tiêu hao thấp nhất theo nghĩa cực trị.]
   ],
 ))
-
-#q-wrap(dir: "doc", tln(
-  [Nồng độ một chất trong bể phản ứng được mô hình bởi
-    $Q(t) = -t^3 + 6t^2 - 9t + 30$.
-    Hãy nêu thời điểm đạt cực tiểu địa phương và cực đại địa phương.],
-  [Cực tiểu địa phương tại $t = 1$, cực đại địa phương tại $t = 3$],
-  accent: c-book,
-  loigiai: [
-    #step[Tính đạo hàm $Q'(t) = -3(t - 1)(t - 3)$.]
-    #step[Tại $t = 1$, đạo hàm đổi dấu từ âm sang dương nên hàm số đạt cực tiểu địa phương.]
-    #step[Tại $t = 3$, đạo hàm đổi dấu từ dương sang âm nên hàm số đạt cực đại địa phương.]
-  ],
-))
-
-#q-wrap(dir: "doc", tln(
-  [Giả sử sai số của một cảm biến có bảng xét dấu đạo hàm như sau:
-    #align(center)[
-      #my-bxd(
-        var: $t$,
-        func: $E'$,
-        x-vals: ($-oo$, $2$, $5$, $+oo$),
-        f-signs: ($-$, $0$, $+$, $0$, $-$),
-      )
-    ]
-    Hãy cho biết tại $t = 2$ và $t = 5$, sai số đạt loại cực trị nào.],
-  [Cực tiểu tại $t = 2$, cực đại tại $t = 5$],
-  accent: c-book,
-  loigiai: [
-    #step[Tại $t = 2$, đạo hàm đổi dấu từ âm sang dương nên sai số đạt cực tiểu.]
-    #step[Tại $t = 5$, đạo hàm đổi dấu từ dương sang âm nên sai số đạt cực đại.]
-  ],
-))
+  

@@ -53,7 +53,8 @@ TIÊU ĐỀ CHUYÊN ĐỀ VÀ MỤC LỤC
 // ═════════════════════════════════════════════
 
 #ds(
-  [Một công ty sản xuất một loại sản phẩm. Trước khi bán ra thị trường, công ty đã phỏng vấn $200$ khách hàng và thấy có $88$ người trả lời "sẽ mua", $52$ người trả lời "không mua", số còn lại trả lời "sẽ cân nhắc" thêm và hiện tại chưa quyết định sẽ mua hay không mua. Theo thống kê bằng các đợt bán các sản phẩm trước thì trong những khách hàng trả lời sẽ mua thì sẽ có $80%$ là thực sự mua, trong những khách hàng trả lời không mua thì sẽ có $30%$ thực sự mua và có $65%$ tổng số người phỏng vấn là thực sự mua. Chọn ngẫu nhiên một khách hàng trong các khách hàng đã được phỏng vấn.],
+  [Một công ty sản xuất một loại sản phẩm. Trước khi bán ra thị trường, công ty đã phỏng vấn $200$ khách hàng và thấy có $88$ người trả lời "sẽ mua", $52$ người trả lời "không mua", số còn lại trả lời "sẽ cân nhắc" thêm và hiện tại chưa quyết định sẽ mua hay không mua. Theo thống kê bằng các đợt bán các sản phẩm trước thì trong những khách hàng trả lời sẽ mua thì sẽ có $80%$ là thực sự mua, trong những khách hàng trả lời không mua thì sẽ có $30%$ thực sự mua và có $65%$ tổng số người phỏng vấn là thực sự mua. Chọn ngẫu nhiên một khách hàng trong các khách hàng đã được phỏng vấn.
+  ],
   (
     True([Xác suất để chọn được người trả lời "sẽ mua" là $44%$.]),
     [Xác suất để chọn được khách hàng thực sự mua, nếu đã biết khách hàng này đã trả lời "sẽ mua", là $44/125$.],

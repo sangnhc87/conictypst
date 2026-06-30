@@ -26,14 +26,14 @@
   [Chiều cao $h$ (m) của mực nước tại một bến cảng biến thiên theo thời gian $t$ (giờ, $0 <= t < 24$) trong ngày bởi hàm số $h(t) = 3 cos((pi t)/6) + 5$. Một con tàu lớn chỉ có thể cập cảng an toàn khi mực nước cao ít nhất $6.5$ m. Trong khoảng thời gian từ nửa đêm đến trưa ($0 <= t <= 12$), tàu có thể cập cảng an toàn trong khoảng thời gian nào?],
   ([Từ 1 giờ đến 3 giờ], [Từ 2 giờ đến 4 giờ], True([Từ 0 giờ đến 2 giờ]), [Từ 4 giờ đến 6 giờ]),
   loigiai: [
-    #step[**B1: Thiết lập bất phương trình** \
+    #step[*B1: Thiết lập bất phương trình* \
       Để tàu cập cảng an toàn, chiều cao mực nước phải thỏa mãn: \
       $h(t) >= 6.5 <=> 3 cos((pi t)/6) + 5 >= 6.5 <=> 3 cos((pi t)/6) >= 1.5 <=> cos((pi t)/6) >= 0.5$.]
-    #step[**B2: Giải bất phương trình lượng giác** \
+    #step[*B2: Giải bất phương trình lượng giác* \
       Trên đường tròn lượng giác, ta biết $cos X >= 0.5$ khi góc $X$ nằm trong khoảng từ $-pi/3 + k 2pi$ đến $pi/3 + k 2pi$. \
       Áp dụng vào biểu thức của ta: \
       $-pi/3 + k 2pi <= (pi t)/6 <= pi/3 + k 2pi <=> -2 + 12k <= t <= 2 + 12k$.]
-    #step[**B3: Chọn khoảng thời gian thích hợp** \
+    #step[*B3: Chọn khoảng thời gian thích hợp* \
       Đề bài yêu cầu tìm trong khoảng thời gian từ nửa đêm đến trưa, tức là $0 <= t <= 12$. \
       Với $k = 0$, ta có $-2 <= t <= 2$. Giao với điều kiện bài toán, ta được khoảng thời gian: $0 <= t <= 2$. \
       Vậy tàu có thể cập cảng an toàn từ 0 giờ đến 2 giờ sáng.]
@@ -58,16 +58,16 @@
   [Vị trí của một pít-tông trong động cơ ô tô (tính bằng cm so với điểm thấp nhất) được cho bởi hàm số $x(t) = 5 sin(40pi t - pi/2) + 5$, với $t$ là thời gian tính bằng giây. Lần đầu tiên pít-tông đạt độ cao $7.5$ cm kể từ thời điểm khởi động ($t = 0$) là lúc nào?],
   (True([$t = 1/60$ s]), [$t = 1/120$ s], [$t = 1/80$ s], [$t = 1/40$ s]),
   loigiai: [
-    #step[**B1: Xác định vị trí ban đầu** \
+    #step[*B1: Xác định vị trí ban đầu* \
       Tại $t = 0$, $x(0) = 5 sin(-pi/2) + 5 = -5 + 5 = 0$. \
       Pít-tông bắt đầu dao động từ điểm thấp nhất (0 cm), sau đó đi lên.]
-    #step[**B2: Lập phương trình độ cao** \
+    #step[*B2: Lập phương trình độ cao* \
       Pít-tông đạt độ cao $7.5$ cm khi: \
       $x(t) = 7.5 <=> 5 sin(40pi t - pi/2) + 5 = 7.5 <=> 5 sin(40pi t - pi/2) = 2.5 <=> sin(40pi t - pi/2) = 0.5$.]
-    #step[**B3: Giải phương trình lượng giác** \
+    #step[*B3: Giải phương trình lượng giác* \
       Biết rằng $sin(pi/6) = 0.5$, ta có hai họ nghiệm: \
       $hoac(40pi t - pi/2 &= pi/6 + k 2pi <=> 40pi t = (2pi)/3 + k 2pi <=> t = 1/60 + k/20, 40pi t - pi/2 &= (5pi)/6 + k 2pi <=> 40pi t = (4pi)/3 + k 2pi <=> t = 1/30 + k/20)$.]
-    #step[**B4: Tìm thời điểm lần đầu tiên** \
+    #step[*B4: Tìm thời điểm lần đầu tiên* \
       Thời điểm lần đầu tiên ứng với giá trị $t > 0$ nhỏ nhất. \
       Với $k=0$, ta có hai giá trị $t = 1/60$ s và $t = 1/30$ s. Giá trị nhỏ hơn là $t = 1/60$ s. \
       Vậy lần đầu tiên pít-tông đạt độ cao $7.5$ cm là lúc $t = 1/60$ s.]
@@ -93,15 +93,15 @@
   [Độ cao của một người ngồi trên vòng đu quay so với mặt đất được cho bởi $h(t) = 20 - 18 cos((pi t)/5)$, trong đó $t$ tính bằng phút. Người đó sẽ ở độ cao trên 29 mét trong bao nhiêu phút ở mỗi vòng quay?],
   ([$1.5$ phút], [$2.5$ phút], [$3$ phút], True([$10/3$ phút (khoảng 3.33 phút)])),
   loigiai: [
-    #step[**B1: Xác định chu kỳ vòng quay** \
+    #step[*B1: Xác định chu kỳ vòng quay* \
       Chu kỳ quay của vòng đu quay là: $T = (2pi) / omega = (2pi) / (pi/5) = 10$ phút.]
-    #step[**B2: Thiết lập bất phương trình độ cao** \
+    #step[*B2: Thiết lập bất phương trình độ cao* \
       Đề bài yêu cầu tìm khoảng thời gian người đó ở độ cao trên 29 mét: \
       $h(t) > 29 <=> 20 - 18 cos((pi t)/5) > 29 <=> -18 cos((pi t)/5) > 9 <=> cos((pi t)/5) < -0.5$.]
-    #step[**B3: Giải bất phương trình lượng giác** \
+    #step[*B3: Giải bất phương trình lượng giác* \
       Trên đường tròn lượng giác, giá trị cosin nhỏ hơn $-0.5$ khi góc nằm trong khoảng từ $(2pi)/3$ đến $(4pi)/3$ (chỉ xét trong 1 chu kỳ đầu $k=0$): \
       $(2pi)/3 < (pi t)/5 < (4pi)/3 <=> 10/3 < t < 20/3$.]
-    #step[**B4: Tính thời gian** \
+    #step[*B4: Tính thời gian* \
       Thời gian người đó ở độ cao trên 29 mét trong một vòng quay là: \
       $Delta t = 20/3 - 10/3 = 10/3$ phút.]
   ],
@@ -120,16 +120,16 @@
   [Dao động của một con lắc đồng hồ đo góc lệch khỏi phương thẳng đứng $theta(t) = 0.1 sin(pi t)$ (rad). Tìm số lần con lắc đi qua vị trí có góc lệch $0.05$ rad (đang lệch về bên phải) trong 5 giây đầu tiên ($0 < t <= 5$).],
   ([$2$ lần], True([$3$ lần]), [$5$ lần], [$6$ lần]),
   loigiai: [
-    #step[**B1: Lập phương trình li độ góc** \
+    #step[*B1: Lập phương trình li độ góc* \
       Con lắc đi qua vị trí có góc lệch $0.05$ rad khi: \
       $theta(t) = 0.05 <=> 0.1 sin(pi t) = 0.05 <=> sin(pi t) = 0.5$.]
-    #step[**B2: Xử lý điều kiện chiều chuyển động** \
+    #step[*B2: Xử lý điều kiện chiều chuyển động* \
       Đề bài yêu cầu con lắc "đi qua lệch phải và đang tiếp tục lệch phải", tức là góc $theta$ đang tăng (chuyển động theo chiều dương). \
       Vận tốc góc $theta'(t) = 0.1pi cos(pi t)$. Để vật đi theo chiều dương, ta cần $cos(pi t) > 0$. \
       Giải $sin(pi t) = 0.5$ có hai họ nghiệm: $pi t = pi/6 + k 2pi$ (thỏa mãn $cos > 0$) và $pi t = (5pi)/6 + k 2pi$ (loại vì $cos < 0$).]
-    #step[**B3: Tìm thời điểm t** \
+    #step[*B3: Tìm thời điểm t* \
       Ta có: $pi t = pi/6 + k 2pi <=> t = 1/6 + 2k$.]
-    #step[**B4: Đếm số lần trong khoảng thời gian** \
+    #step[*B4: Đếm số lần trong khoảng thời gian* \
       Vì $0 < t <= 5$, ta có: \
       $0 < 1/6 + 2k <= 5 <=> -1/12 < k <= 29/12 approx 2.41$. \
       Vì $k in ZZ$, suy ra $k = 0, 1, 2$. Có đúng 3 giá trị của $k$, tương ứng với 3 lần (tại $t = 1/6, 13/6, 25/6$ giây).]
@@ -156,16 +156,16 @@
   [Số giờ ánh sáng mặt trời ở vĩ độ Bắc vào ngày $t$ (từ 1 đến 365) xấp xỉ bằng phương trình $D(t) = 12.5 + 3.5 sin((2pi)/365 (t - 80))$. Vào mùa đông, có bao nhiêu ngày trong năm số giờ ánh sáng mặt trời trong ngày dưới 10 giờ? (Giả sử 1 năm có 365 ngày).],
   ([Khoảng 50 ngày], [$65$ ngày], True([Khoảng 93 ngày]), [$115$ ngày]),
   loigiai: [
-    #step[**B1: Lập bất phương trình** \
+    #step[*B1: Lập bất phương trình* \
       Số giờ sáng dưới 10 giờ khi: \
       $D(t) < 10 <=> 12.5 + 3.5 sin((2pi)/365 (t - 80)) < 10 <=> 3.5 sin((2pi)/365 (t - 80)) < -2.5 \
       <=> sin((2pi)/365 (t - 80)) < -5/7 approx -0.714$.]
-    #step[**B2: Giải trên đường tròn lượng giác** \
+    #step[*B2: Giải trên đường tròn lượng giác* \
       Gọi $X = (2pi)/365 (t - 80)$. Ta cần $sin X < -0.714$. \
       Ta có góc $alpha = arcsin(-5/7) approx -0.795$ rad. \
       Trên đường tròn lượng giác (trong 1 chu kỳ $2pi$), vùng $sin X < -0.714$ tương ứng với $X$ nằm giữa góc thứ ba và thứ tư: \
       $X in (pi + 0.795, 2pi - 0.795) = (3.93, 5.48)$ rad.]
-    #step[**B3: Quy đổi radian ra số ngày** \
+    #step[*B3: Quy đổi radian ra số ngày* \
       Độ dài của khoảng $X$ này (bằng radian) là: $Delta X = 5.48 - 3.93 = 1.55$ rad. (Chính xác là $pi - 2(0.795) = 1.55$). \
       Toàn bộ chu kỳ $2pi$ rad tương ứng với 365 ngày. \
       Tỉ lệ số ngày thỏa mãn là: $(Delta X) / (2pi) approx 1.55 / 6.283 approx 0.246$. \
@@ -185,10 +185,10 @@
     True([Các thời điểm vật đi qua vị trí cân bằng ($y = 0$) là $t = -1/4 + k$ ($k in ZZ$).]),
   ),
   loigiai: [
-    - **a) Sai:** Phương trình dao động tổng hợp: $y = 3 sin(pi t) + 3 cos(pi t) = 3 sqrt(2) sin(pi t + pi/4)$ (mm). \ Biên độ là $3 sqrt(2) approx 4.24$ mm, không phải $6$ mm.
-    - **b) Đúng:** Thay $t = 0.5$ s vào phương trình tổng hợp (hoặc từng phần): \ $y(0.5) = 3 sin(pi/2) + 3 cos(pi/2) = 3 dot 1 + 3 dot 0 = 3$ mm.
-    - **c) Đúng:** Biên độ tổng hợp như đã tính ở câu a là $A = sqrt(3^2 + 3^2) = 3 sqrt(2)$ mm.
-    - **d) Đúng:** Vật qua VTCB khi $y = 0 <=> 3 sqrt(2) sin(pi t + pi/4) = 0 <=> sin(pi t + pi/4) = 0$. \ Giải phương trình: $pi t + pi/4 = k pi <=> pi t = -pi/4 + k pi <=> t = -1/4 + k$ (với $k in ZZ$).
+    - *a) Sai:* Phương trình dao động tổng hợp: $y = 3 sin(pi t) + 3 cos(pi t) = 3 sqrt(2) sin(pi t + pi/4)$ (mm). \ Biên độ là $3 sqrt(2) approx 4.24$ mm, không phải $6$ mm.
+    - *b) Đúng:* Thay $t = 0.5$ s vào phương trình tổng hợp (hoặc từng phần): \ $y(0.5) = 3 sin(pi/2) + 3 cos(pi/2) = 3 dot 1 + 3 dot 0 = 3$ mm.
+    - *c) Đúng:* Biên độ tổng hợp như đã tính ở câu a là $A = sqrt(3^2 + 3^2) = 3 sqrt(2)$ mm.
+    - *d) Đúng:* Vật qua VTCB khi $y = 0 <=> 3 sqrt(2) sin(pi t + pi/4) = 0 <=> sin(pi t + pi/4) = 0$. \ Giải phương trình: $pi t + pi/4 = k pi <=> pi t = -pi/4 + k pi <=> t = -1/4 + k$ (với $k in ZZ$).
   ],
 ))
 
@@ -201,10 +201,10 @@
     [Trong 1 giây, đèn sáng tổng cộng $0.5$ giây.],
   ),
   loigiai: [
-    - **a) Sai:** Điều kiện sáng là $|u(t)| >= 110 sqrt(2) <=> 220 sqrt(2) |cos(100pi t - pi/3)| >= 110 sqrt(2) <=> |cos(100pi t - pi/3)| >= 1/2$. \ Đáp án a ghi $>= 1$ là sai.
-    - **b) Đúng:** Bất phương trình $|cos X| >= 1/2$ tương đương với hai trường hợp: $cos X >= 1/2$ hoặc $cos X <= -1/2$.
-    - **c) Đúng:** Xét trên một chu kỳ (vòng tròn lượng giác $2pi$), miền $|cos X| >= 1/2$ gồm: \ Khoảng thứ nhất: $-pi/3 <= X <= pi/3$ (độ dài cung $2pi/3$). \ Khoảng thứ hai: $2pi/3 <= X <= 4pi/3$ (độ dài cung $2pi/3$). \ Tổng độ dài góc trong 1 chu kỳ đèn sáng là $4pi/3$. Tỉ lệ thời gian sáng trong 1 chu kỳ là $(4pi/3) / (2pi) = 2/3$.
-    - **d) Sai:** Vì tỉ lệ thời gian đèn sáng trong mỗi chu kỳ là $2/3$, nên trong 1 giây (gồm 50 chu kỳ), tổng thời gian đèn sáng là $1 dot 2/3 = 2/3$ giây $approx 0.67$ s (không phải $0.5$ s).
+    - *a) Sai:* Điều kiện sáng là $|u(t)| >= 110 sqrt(2) <=> 220 sqrt(2) |cos(100pi t - pi/3)| >= 110 sqrt(2) <=> |cos(100pi t - pi/3)| >= 1/2$. \ Đáp án a ghi $>= 1$ là sai.
+    - *b) Đúng:* Bất phương trình $|cos X| >= 1/2$ tương đương với hai trường hợp: $cos X >= 1/2$ hoặc $cos X <= -1/2$.
+    - *c) Đúng:* Xét trên một chu kỳ (vòng tròn lượng giác $2pi$), miền $|cos X| >= 1/2$ gồm: \ Khoảng thứ nhất: $-pi/3 <= X <= pi/3$ (độ dài cung $2pi/3$). \ Khoảng thứ hai: $2pi/3 <= X <= 4pi/3$ (độ dài cung $2pi/3$). \ Tổng độ dài góc trong 1 chu kỳ đèn sáng là $4pi/3$. Tỉ lệ thời gian sáng trong 1 chu kỳ là $(4pi/3) / (2pi) = 2/3$.
+    - *d) Sai:* Vì tỉ lệ thời gian đèn sáng trong mỗi chu kỳ là $2/3$, nên trong 1 giây (gồm 50 chu kỳ), tổng thời gian đèn sáng là $1 dot 2/3 = 2/3$ giây $approx 0.67$ s (không phải $0.5$ s).
   ],
 ))
 
@@ -215,14 +215,14 @@
   [Một chóp của radar quét liên tục vùng trời theo một góc phương vị được cho bởi hàm số $theta(t) = pi/4 sin((pi t)/2)$ (radian), $t$ tính bằng giây. Vận tốc quét của radar bằng đạo hàm của $theta(t)$. Hỏi trong 4 giây đầu tiên, có bao nhiêu thời điểm radar dừng lại đổi chiều (vận tốc quét bằng 0)?],
   [$2$],
   loigiai: [
-    #step[**B1: Xác định điều kiện vận tốc quét bằng 0** \
+    #step[*B1: Xác định điều kiện vận tốc quét bằng 0* \
       Vận tốc quét bằng 0 tức là góc phương vị $theta(t)$ ngừng tăng/giảm và bắt đầu đổi chiều. \
       Điều này xảy ra tại các điểm cực trị (lớn nhất, nhỏ nhất) của hàm $theta(t)$. \
       Ta có $theta(t) = pi/4 sin((pi t)/2)$. Cực trị xảy ra khi $sin((pi t)/2) = 1$ hoặc $sin((pi t)/2) = -1$. \
       Gộp chung: $sin((pi t)/2) = +-1 <=> cos((pi t)/2) = 0$.]
-    #step[**B2: Giải phương trình lượng giác** \
+    #step[*B2: Giải phương trình lượng giác* \
       $cos((pi t)/2) = 0 <=> (pi t)/2 = pi/2 + k pi <=> t = 1 + 2k$ (với $k in ZZ$).]
-    #step[**B3: Tìm số lần trong khoảng thời gian** \
+    #step[*B3: Tìm số lần trong khoảng thời gian* \
       Xét trong khoảng $0 < t < 4$: \
       $0 < 1 + 2k < 4 <=> -1 < 2k < 3 <=> -0.5 < k < 1.5$. \
       Vì $k$ là số nguyên, ta có $k = 0$ và $k = 1$. \
@@ -234,12 +234,12 @@
   [Khoảng cách (tính bằng mét) từ điểm gốc của một con lắc đến tường được xấp xỉ bởi hàm số $d(t) = 1.2 cos((2pi)/3 t) + 2.5$. Lần thứ 5 con lắc cách tường 2.5 m là vào giây thứ bao nhiêu? (Nhập kết quả dưới dạng số thập phân/phân số thu gọn).],
   [$6.75$],
   loigiai: [
-    #step[**B1: Lập phương trình khoảng cách** \
+    #step[*B1: Lập phương trình khoảng cách* \
       Con lắc cách tường 2.5 m khi: \
       $d(t) = 2.5 <=> 1.2 cos((2pi)/3 t) + 2.5 = 2.5 <=> 1.2 cos((2pi)/3 t) = 0 <=> cos((2pi)/3 t) = 0$.]
-    #step[**B2: Giải phương trình tìm t** \
+    #step[*B2: Giải phương trình tìm t* \
       $cos((2pi)/3 t) = 0 <=> (2pi)/3 t = pi/2 + k pi <=> t = 3/4 + 3/2 k$ (với $k >= 0$).]
-    #step[**B3: Xác định lần thứ 5** \
+    #step[*B3: Xác định lần thứ 5* \
       - Lần thứ 1 ứng với $k = 0$ ($t_1 = 3/4$). \
       - Lần thứ 2 ứng với $k = 1$ ($t_2 = 3/4 + 1.5 = 2.25$). \
       - Lần thứ 5 ứng với $k = 4$. \

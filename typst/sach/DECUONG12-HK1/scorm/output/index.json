@@ -1,0 +1,135 @@
+{
+  "generated": "2026-06-29T10:37:34.388702",
+  "packages": [
+    {
+      "title": "Đơn Điệu & Cực Trị — Đề 1",
+      "zip": "scorm-C01-bai01-de1.zip",
+      "questions": 52
+    },
+    {
+      "title": "Đơn Điệu & Cực Trị — Đề 2",
+      "zip": "scorm-C01-bai01-de2.zip",
+      "questions": 22
+    },
+    {
+      "title": "Đơn Điệu & Cực Trị — Đề 3 (Nâng Cao)",
+      "zip": "scorm-C01-bai01-de3.zip",
+      "questions": 22
+    },
+    {
+      "title": "Đơn Điệu & Cực Trị — Đề 4 (Nâng Cao)",
+      "zip": "scorm-C01-bai01-de4.zip",
+      "questions": 22
+    },
+    {
+      "title": "GTLN & GTNN — Đề 1",
+      "zip": "scorm-C01-bai02-de1.zip",
+      "questions": 46
+    },
+    {
+      "title": "GTLN & GTNN — Đề 2",
+      "zip": "scorm-C01-bai02-de2.zip",
+      "questions": 25
+    },
+    {
+      "title": "GTLN & GTNN — Đề 3",
+      "zip": "scorm-C01-bai02-de3.zip",
+      "questions": 22
+    },
+    {
+      "title": "GTLN & GTNN — Đề 4",
+      "zip": "scorm-C01-bai02-de4.zip",
+      "questions": 25
+    },
+    {
+      "title": "GTLN & GTNN — Đề 5",
+      "zip": "scorm-C01-bai02-de5.zip",
+      "questions": 22
+    },
+    {
+      "title": "GTLN & GTNN — Đề 6",
+      "zip": "scorm-C01-bai02-de6.zip",
+      "questions": 22
+    },
+    {
+      "title": "Tiệm Cận — Đề 1",
+      "zip": "scorm-C01-bai03-de1.zip",
+      "questions": 20
+    },
+    {
+      "title": "Tiệm Cận — Đề 2",
+      "zip": "scorm-C01-bai03-de2.zip",
+      "questions": 20
+    },
+    {
+      "title": "Tiệm Cận — Đề 3",
+      "zip": "scorm-C01-bai03-de3.zip",
+      "questions": 20
+    },
+    {
+      "title": "Khảo Sát Hàm Số — Đề 1",
+      "zip": "scorm-C01-bai04-de1.zip",
+      "questions": 20
+    },
+    {
+      "title": "Khảo Sát Hàm Số — Đề 2",
+      "zip": "scorm-C01-bai04-de2.zip",
+      "questions": 20
+    },
+    {
+      "title": "Khảo Sát Hàm Số — Đề 3",
+      "zip": "scorm-C01-bai04-de3.zip",
+      "questions": 20
+    },
+    {
+      "title": "Ứng Dụng Thực Tiễn — Đề 1",
+      "zip": "scorm-C01-bai05-de1.zip",
+      "questions": 40
+    },
+    {
+      "title": "Vectơ Không Gian — Đề 1",
+      "zip": "scorm-C02-bai01-de1.zip",
+      "questions": 45
+    },
+    {
+      "title": "Vectơ Không Gian — Đề 2",
+      "zip": "scorm-C02-bai01-de2.zip",
+      "questions": 34
+    },
+    {
+      "title": "Tọa Độ Vectơ — Đề 1",
+      "zip": "scorm-C02-bai02-de1.zip",
+      "questions": 45
+    },
+    {
+      "title": "Phép Toán Vectơ — Đề 1",
+      "zip": "scorm-C02-bai03-de1.zip",
+      "questions": 44
+    },
+    {
+      "title": "Phép Toán Vectơ — Đề 2",
+      "zip": "scorm-C02-bai03-de2.zip",
+      "questions": 19
+    },
+    {
+      "title": "Thống Kê: Khoảng Biến Thiên — Đề 1",
+      "zip": "scorm-C03-bai01-de1.zip",
+      "questions": 22
+    },
+    {
+      "title": "Thống Kê: Khoảng Biến Thiên — Đề 2",
+      "zip": "scorm-C03-bai01-de2.zip",
+      "questions": 38
+    },
+    {
+      "title": "Thống Kê: Phương Sai & Độ Lệch Chuẩn — Đề 3",
+      "zip": "scorm-C03-bai02-de3.zip",
+      "questions": 22
+    },
+    {
+      "title": "Thống Kê: Tổng Hợp Nâng Cao — Đề 4",
+      "zip": "scorm-C03-bai02-de4-nangcao.zip",
+      "questions": 22
+    }
+  ]
+}

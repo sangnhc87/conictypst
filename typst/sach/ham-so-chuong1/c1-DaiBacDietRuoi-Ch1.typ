@@ -244,9 +244,9 @@
   *2. Trực giác Lockhart: Tại sao đạo hàm diện tích hình tròn lại là chu vi?*
   Hãy áp dụng trực giác tuyến tính hóa này để giải thích một hiện tượng hình học kỳ lạ:
   - Diện tích hình tròn bán kính $r$ là $S = pi r^2$. Đạo hàm của diện tích theo bán kính là:
-    $ frac(d S, d r) = 2 pi r  quad \text{ (chính là Chu vi hình tròn!)} $
+    $ frac(d S, d r) = 2 pi r  quad text( (chính là Chu vi hình tròn!) $
   - Thể tích hình cầu bán kính $r$ là $V = frac(4, 3) pi r^3$. Đạo hàm của thể tích theo bán kính là:
-    $ frac(d V, d r) = 4 pi r^2  quad \text{ (chính là Diện tích bề mặt hình cầu!)} $
+    $ frac(d V, d r) = 4 pi r^2  quad text( (chính là Diện tích bề mặt hình cầu!) $
   
   *Giải nghĩa bằng trực giác hình học:*
   Khi bán kính hình cầu tăng thêm một lượng cực nhỏ $d r$, thể tích hình cầu tăng thêm một lượng $d V$. Phần thể tích tăng thêm này thực chất là một "lớp vỏ cầu mỏng" bọc bên ngoài quả bóng cũ.

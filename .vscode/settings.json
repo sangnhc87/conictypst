@@ -15,5 +15,6 @@
             }
         }
     },
-    "aider.defaultProvider": "deepseek"
+    "aider.defaultProvider": "deepseek",
+    "tinymist.typstSystem.rootPath": "${workspaceFolder}"
 }

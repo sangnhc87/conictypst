@@ -594,14 +594,26 @@ Tiếp xúc không chỉ là bài toán của hình học giải tích phẳng (
   Để mặt dây chuyền không bị gãy khúc, hai đường cong này được ghép nối "trơn mượt" (tức là tiếp xúc với nhau) tại điểm $M(1; 2)$. Khi quay hình phẳng $(H)$ quanh trục $O x$, ta thu được khối pha lê tròn xoay. Biết thể tích của khối pha lê này là $V$. Tính giá trị của $V/pi$ (làm tròn đến hàng phần mười).],
   [$8","1$],
   loigiai: [
-    #step[Trên $[0; 1]$: $y_1 = sqrt(5 - x^2) => y'_1 = (-x)/sqrt(5 - x^2)$. Tại $x = 1: y_1 = 2, y'_1 = -1/2$.]
-    #step[Trên $[1; 3]$: Parabol $y_2 = a x^2 + b x + c => y'_2 = 2a x + b$.]
-    #step[Tiếp xúc trơn tại $M(1; 2)$ và đi qua $(3; 0)$:
-    $ cases(y_2(1) = 2, y'_2(1) = -1/2, y_2(3) = 0) <=> cases(a + b + c = 2, 2a + b = -1/2, 9a + 3b + c = 0) <=> cases(a = -1/4, b = 0, c = 9/4) $]
-    #step[Vậy $(P): y_2 = -1/4 x^2 + 9/4$.]
-    #step[Tính tích phân thể tích:
-    $ V = pi integral_0^1 (5 - x^2) d x + pi integral_1^3 (-1/4 x^2 + 9/4)^2 d x = 14/3 pi + 17/5 pi = 121/15 pi $]
-    #step[Tính xấp xỉ: $V/pi = 121/15 approx 8,067 approx 8,1$.]
+    #step[Trên đoạn $[0; 1]$, đường cong là phần nhánh dương của đường tròn: $y_1 = sqrt(5 - x^2)$.]
+    #step[Tại $x = 1$, ta có $y_1(1) = 2$. Đạo hàm $y'_1 = (-x)/sqrt(5 - x^2) => y'_1(1) = -1/2$.]
+    #step[Trên đoạn $[1; 3]$, đường cong là Parabol $y_2 = a x^2 + b x + c$. Đạo hàm $y'_2 = 2a x + b$.]
+    #step[Sự tiếp xúc "trơn" tại $M(1; 2)$ đòi hỏi hàm số liên tục và có cùng hệ số góc tiếp tuyến (đạo hàm bằng nhau):
+    $ cases(
+      y_2(1) = y_1(1) = 2,
+      y'_2(1) = y'_1(1) = -1/2
+    ) <=> cases(
+      a + b + c = 2 quad (1),
+      2a + b = -1/2 quad (2)
+    ) $]
+    #step[Mặt khác, Parabol đi qua điểm $(3; 0)$ nên: $9a + 3b + c = 0 quad (3)$.]
+    #step[Từ (2) ta có $b = -2a - 1/2$. Thay vào (1) được $c = 2 - a - b = a + 5/2$.
+    Thay $b, c$ vào (3): $9a + 3(-2a - 1/2) + (a + 5/2) = 0 <=> 4a + 1 = 0 <=> a = -1/4$.
+    Suy ra $b = 0$ và $c = 9/4$. Vậy phương trình Parabol là $y_2 = -1/4 x^2 + 9/4$.]
+    #step[Thể tích khối pha lê được tính bằng tổng thể tích 2 phần: $V = V_1 + V_2 = pi integral_0^1 y_1^2 d x + pi integral_1^3 y_2^2 d x$.]
+    #step[$V_1 = pi integral_0^1 (5 - x^2) d x = pi (5x - x^3/3) |_0^1 = 14/3 pi$.]
+    #step[$V_2 = pi integral_1^3 (-1/4 x^2 + 9/4)^2 d x = pi integral_1^3 (1/16 x^4 - 9/8 x^2 + 81/16) d x = pi (x^5/80 - (3x^3)/8 + (81x)/16) |_1^3$.]
+    #step[Thay cận: Tại $x=3$ biểu thức bằng $81/10$. Tại $x=1$ biểu thức bằng $47/10$. $=> V_2 = pi (81/10 - 47/10) = 17/5 pi$.]
+    #step[Tổng thể tích: $V = 14/3 pi + 17/5 pi = 121/15 pi$. Do đó $V/pi = 121/15 approx 8,067 approx 8,1$.]
   ],
   fig-pos: "center",
   fig-width: 45%,
@@ -623,18 +635,13 @@ Tiếp xúc không chỉ là bài toán của hình học giải tích phẳng (
       line(..c_pts_bot, stroke: (paint: blue.lighten(50%), thickness: 1pt))
       line(..p_pts_bot, stroke: (paint: green.lighten(50%), thickness: 1pt))
       
-      // Các vòng elip cắt ngang - Chuẩn nét đứt / nét liền
-      // Tại x = 1 (rx = 0.4, ry = 2)
-      arc((1.4, 0), start: 0deg, stop: 180deg, radius: (0.4, 2), stroke: (paint: gray, thickness: 0.5pt, dash: "dashed"))
-      arc((0.6, 0), start: 180deg, stop: 360deg, radius: (0.4, 2), stroke: (paint: gray, thickness: 0.5pt))
-      
-      // Tại x = 0 (rx = 0.4, ry = 2.236)
-      arc((0.4, 0), start: 0deg, stop: 180deg, radius: (0.4, 2.236), stroke: (paint: gray, thickness: 0.5pt, dash: "dashed"))
-      arc((-0.4, 0), start: 180deg, stop: 360deg, radius: (0.4, 2.236), stroke: (paint: gray, thickness: 0.5pt))
-      
-      // Tại x = 2 (rx = 0.3, ry = 1.25)
-      arc((2.3, 0), start: 0deg, stop: 180deg, radius: (0.3, 1.25), stroke: (paint: gray, thickness: 0.5pt, dash: "dashed"))
-      arc((1.7, 0), start: 180deg, stop: 360deg, radius: (0.3, 1.25), stroke: (paint: gray, thickness: 0.5pt))
+      // Vẽ các vòng elip (mặt cắt 3D)
+      // Tại x = 1 (R = 2)
+      cetz.draw.circle((1, 0), radius: (0.4, 2), stroke: (paint: gray, thickness: 0.5pt))
+      // Tại x = 0 (R = sqrt(5) = 2.236)
+      cetz.draw.circle((0, 0), radius: (0.4, 2.236), stroke: (paint: gray, thickness: 0.5pt))
+      // Tại x = 2 (R = -1/4 * 4 + 9/4 = 5/4 = 1.25)
+      cetz.draw.circle((2, 0), radius: (0.3, 1.25), stroke: (paint: gray, thickness: 0.5pt))
       
       // Điểm nối M(1, 2)
       circle((1, 2), radius: 0.1, fill: black)
@@ -656,10 +663,20 @@ Tiếp xúc không chỉ là bài toán của hình học giải tích phẳng (
   Để chiếc bình có đường cong hoàn mỹ, hai cung này được ghép nối "trơn mượt" (tiếp xúc nhau) tại điểm có hoành độ $x=1$. Biết đáy bình nằm tại $x=3$ là một điểm nhọn (tức là $(P_2)$ đi qua điểm $(3; 0)$). Tính giá trị của biểu thức $S = 4a + 2b - 4c$.],
   [$7$],
   loigiai: [
-    #step[Hàm $(P_1): y_1 = -x^2 + 4x => y'_1 = -2x + 4$. Tại điểm tiếp xúc $x=1$: $y_1(1) = 3, y'_1(1) = 2$.]
-    #step[Hàm $(P_2): y_2 = a x^2 + b x + c => y'_2 = 2a x + b$. Điều kiện ghép trơn tại $x=1$ và đáy $(3; 0)$:
-    $ cases(y_2(1) = 3, y'_2(1) = 2, y_2(3) = 0) <=> cases(a + b + c = 3, 2a + b = 2, 9a + 3b + c = 0) <=> cases(a = -7/4, b = 11/2, c = -3/4) $]
-    #step[Tính giá trị $S = 4(-7/4) + 2(11/2) - 4(-3/4) = -7 + 11 + 3 = 7$.]
+    #step[Tại $x=1$, điểm trên $(P_1)$ là $M(1; 3)$. Đạo hàm $y'_1 = -2x + 4 => y'_1(1) = 2$.]
+    #step[Vì $(P_2)$ nối trơn với $(P_1)$ tại $M(1; 3)$ nên đồ thị $(P_2)$ cũng đi qua $M$ và có hệ số góc tiếp tuyến tại đó bằng 2. Ta có hệ điều kiện:
+    $ cases(
+      y_2(1) = 3,
+      y'_2(1) = 2
+    ) <=> cases(
+      a + b + c = 3 quad (1),
+      2a + b = 2 quad (2)
+    ) $]
+    #step[Ngoài ra $(P_2)$ đi qua $(3; 0)$ nên: $9a + 3b + c = 0 quad (3)$.]
+    #step[Từ (2) $=> b = 2 - 2a$. Thế vào (1): $a + (2 - 2a) + c = 3 => c = a + 1$.]
+    #step[Thế $b, c$ vào (3): $9a + 3(2 - 2a) + (a + 1) = 0 <=> 4a + 7 = 0 <=> a = -7/4$.]
+    #step[Suy ra $b = 2 - 2(-7/4) = 11/2$ và $c = -7/4 + 1 = -3/4$.]
+    #step[Tính biểu thức $S = 4(-7/4) + 2(11/2) - 4(-3/4) = -7 + 11 + 3 = 7$.]
   ],
   fig-pos: "center",
   fig-width: 45%,
@@ -668,22 +685,40 @@ Tiếp xúc không chỉ là bài toán của hình học giải tích phẳng (
       import cetz.draw: *
       
       // Xoay trục đứng cho giống bình gốm thực tế
+      // Tức là x đóng vai trò chiều cao (trục y cũ), y đóng vai trò bán kính (trục x cũ)
+      // Chuyển trục: x_draw = y, y_draw = -x
+      
+      // Trục trung tâm
       line((0, 1), (0, -4), mark: (end: ">"), stroke: (paint: gray, dash: "dashed"))
       
-      // Hàm vẽ 3D các vòng elip chuẩn nét đứt liền
-      let draw_ellipse(y_coord, r, color) = {
-        let ry = 0.3 * r
-        arc((r, -y_coord), start: 0deg, stop: 180deg, radius: (r, ry), stroke: (paint: color, thickness: 0.5pt, dash: "dashed"))
-        arc((-r, -y_coord), start: 180deg, stop: 360deg, radius: (r, ry), stroke: (paint: color, thickness: 0.5pt))
+      // Hàm vẽ 3D các vòng elip
+      let draw_ellipse(y_coord, radius, color) = {
+        cetz.draw.circle((0, -y_coord), radius: (radius, 0.3 * radius), stroke: (paint: color, thickness: 0.5pt))
       }
       
-      // (P1): x từ 0 đến 1
-      let p1_pts = range(0, 11).map(x => { let h = x/10; return (-h*h + 4*h, -h) })
-      let p1_pts_neg = range(0, 11).map(x => { let h = x/10; return (-(-h*h + 4*h), -h) })
+      // (P1): y_r = -x^2 + 4x (x từ 0 đến 1)
+      let p1_pts = range(0, 11).map(x => {
+        let h = x/10
+        let r = -h*h + 4*h
+        return (r, -h)
+      })
+      let p1_pts_neg = range(0, 11).map(x => {
+        let h = x/10
+        let r = -h*h + 4*h
+        return (-r, -h)
+      })
       
-      // (P2): x từ 1 đến 3
-      let p2_pts = range(10, 31).map(x => { let h = x/10; return (-1.75 * h*h + 5.5 * h - 0.75, -h) })
-      let p2_pts_neg = range(10, 31).map(x => { let h = x/10; return (-(-1.75 * h*h + 5.5 * h - 0.75), -h) })
+      // (P2): y_r = -1.75 x^2 + 5.5 x - 0.75 (x từ 1 đến 3)
+      let p2_pts = range(10, 31).map(x => {
+        let h = x/10
+        let r = -1.75 * h*h + 5.5 * h - 0.75
+        return (r, -h)
+      })
+      let p2_pts_neg = range(10, 31).map(x => {
+        let h = x/10
+        let r = -1.75 * h*h + 5.5 * h - 0.75
+        return (-r, -h)
+      })
       
       // Vẽ viền bình gốm
       line(..p1_pts, stroke: (paint: rgb("8D6E63"), thickness: 2pt))
@@ -691,9 +726,13 @@ Tiếp xúc không chỉ là bài toán của hình học giải tích phẳng (
       line(..p2_pts, stroke: (paint: rgb("5D4037"), thickness: 2pt))
       line(..p2_pts_neg, stroke: (paint: rgb("5D4037"), thickness: 2pt))
       
-      // Vẽ các vòng elip
+      // Vẽ các vòng elip tạo hiệu ứng khối
+      // Miệng bình tại x=0, r=0
+      // Vòng tại x=0.5, r = -0.25+2 = 1.75
       draw_ellipse(0.5, 1.75, rgb("D7CCC8"))
+      // Vòng tại tiếp điểm x=1, r=3
       draw_ellipse(1, 3, rgb("8D6E63"))
+      // Vòng tại x=2, r = -1.75*4 + 11 - 0.75 = -7+11-0.75 = 3.25
       draw_ellipse(2, 3.25, rgb("D7CCC8"))
       
       content((3.5, -1), [$M(1; 3)$])
@@ -706,727 +745,44 @@ Tiếp xúc không chỉ là bài toán của hình học giải tích phẳng (
 === Dạng 15: Bể cá cảnh Nón cụt tiếp xúc Cầu (Hình học 3D)
 
 #tln(
-  [Trong một bể cá thủy tinh có dạng khối nón cụt, người ta đặt một quả cầu trang trí sao cho quả cầu vừa khít với bề mặt bể (tiếp xúc với cả mặt đáy lớn, đáy nhỏ và mặt xung quanh của khối nón cụt). Biết bán kính của quả cầu là $R = 2$ (dm), bán kính đáy nhỏ của nón cụt là $r_1 = 1$ (dm). Tính thể tích của bể cá (khối nón cụt) đó (đơn vị $upright("dm")^3$, _làm tròn kết quả đến hàng đơn vị_).],
-  [$88$],
+  [Trong một bể cá thủy tinh có dạng khối nón cụt, người ta đặt một quả cầu trang trí sao cho quả cầu vừa khít với bề mặt bể (tiếp xúc với cả mặt đáy lớn, đáy nhỏ và mặt xung quanh của khối nón cụt). Biết bán kính của quả cầu là $R = 2$ (dm), bán kính đáy nhỏ của nón cụt là $r_1 = 1$ (dm). Tính thể tích của bể cá (khối nón cụt) đó (đơn vị dm$^3$, làm tròn kết quả đến hàng phần mười).],
+  [$88","0$],
   loigiai: [
-    #step[Mặt cắt qua trục là hình thang cân ngoại tiếp đường tròn tâm $O$ bán kính $R = 2$. Đáy nhỏ $2 r_1 = 2$, đáy lớn $2 r_2$, chiều cao $h = 2R = 4$.]
-    #step[Tứ giác ngoại tiếp đường tròn nên tổng 2 cạnh đối bằng nhau: $ 2 l = 2r_1 + 2r_2 => l = r_1 + r_2 $]
-    #step[Áp dụng Pytago cho tam giác vuông hạ từ đáy nhỏ xuống đáy lớn: 
-    $ l^2 = h^2 + (r_2 - r_1)^2 => (r_1 + r_2)^2 = 4^2 + (r_2 - r_1)^2 <=> 4r_1 r_2 = 16 <=> r_1 r_2 = 4 $]
-    #step[Do $r_1 = 1$ nên $r_2 = 4$. Thể tích khối nón cụt:
-    $ V = 1/3 pi h (r_1^2 + r_2^2 + r_1 r_2) = 1/3 pi dot 4 (1 + 16 + 4) = 28 pi approx 87,96. $]
-    #step[Làm tròn đến hàng phần mười ta được $88$.]
+    #step[Cắt dọc bể cá qua trục, ta được thiết diện là một hình thang cân ngoại tiếp một đường tròn tâm $O$, bán kính $R = 2$. Gọi đáy nhỏ là $A B = 2 r_1 = 2$, đáy lớn là $C D = 2 r_2$, chiều cao hình thang chính là đường kính quả cầu: $h = 2R = 4$.]
+    #step[Đường sinh của nón cụt tương ứng với cạnh bên hình thang cân: $l = B C$. Do tứ giác ngoại tiếp đường tròn nên tổng hai cạnh đối bằng nhau:
+    $A B + C D = A D + B C <=> 2r_1 + 2r_2 = 2l => l = r_1 + r_2$.]
+    #step[Hạ đường cao từ $B$ xuống $C D$ tại $H$, xét tam giác vuông $B H C$ có $B H = h = 4$, $H C = r_2 - r_1$. Theo định lý Pytago:
+    $l^2 = B H^2 + H C^2 => (r_1 + r_2)^2 = (2R)^2 + (r_2 - r_1)^2$
+    $<=> r_1^2 + 2r_1 r_2 + r_2^2 = 4R^2 + r_2^2 - 2r_1 r_2 + r_1^2 <=> 4r_1 r_2 = 4R^2 <=> r_1 r_2 = R^2$.]
+    #step[Với $R = 2$ và $r_1 = 1$, ta có $1 * r_2 = 2^2 = 4 => r_2 = 4$ (dm).]
+    #step[Thể tích của khối nón cụt là:
+    $V = 1/3 pi h (r_1^2 + r_2^2 + r_1 r_2) = 1/3 pi * 4 * (1^2 + 4^2 + 1*4) = 4/3 pi (1 + 16 + 4) = 28 pi$.]
+    #step[Tính giá trị xấp xỉ: $V = 28 * 3,14159... approx 87,964$. Làm tròn đến hàng phần mười ta được $88,0$.]
   ],
   fig-pos: "right",
   fig-width: 35%,
   fig: align(center)[
     #cetz.canvas({
       import cetz.draw: *
-      // Quả cầu bên trong
-      cetz.draw.circle((0, 0), radius: 2, stroke: (paint: rgb("FFB300"), thickness: 1.5pt), fill: rgb("FFB300").lighten(80%))
-      // Xích đạo quả cầu
-      arc((2, 0), start: 0deg, stop: 180deg, radius: (2, 0.6), stroke: (paint: rgb("FFB300"), thickness: 1pt, dash: "dashed"))
-      arc((-2, 0), start: 180deg, stop: 360deg, radius: (2, 0.6), stroke: (paint: rgb("FFB300"), thickness: 1pt))
-      // Đáy lớn
-      arc((4, -2), start: 0deg, stop: 180deg, radius: (4, 1.2), stroke: (paint: blue, thickness: 1.5pt, dash: "dashed"))
-      arc((-4, -2), start: 180deg, stop: 360deg, radius: (4, 1.2), stroke: (paint: blue, thickness: 1.5pt))
-      // Đáy nhỏ
-      arc((1, 2), start: 0deg, stop: 180deg, radius: (1, 0.3), stroke: (paint: blue, thickness: 1.5pt))
-      arc((-1, 2), start: 180deg, stop: 360deg, radius: (1, 0.3), stroke: (paint: blue, thickness: 1.5pt))
+      // Hình nón cụt
+      
+      // Đáy lớn (elip)
+      cetz.draw.circle((0, -2), radius: (4, 1.2), stroke: (paint: blue, thickness: 1.5pt))
+      // Đáy nhỏ (elip)
+      cetz.draw.circle((0, 2), radius: (1, 0.3), stroke: (paint: blue, thickness: 1.5pt))
       // Cạnh bên
       line((-1, 2), (-4, -2), stroke: (paint: blue, thickness: 1.5pt))
       line((1, 2), (4, -2), stroke: (paint: blue, thickness: 1.5pt))
       
-      
+      // Quả cầu bên trong (đổ màu 3D)
+      cetz.draw.circle((0, 0), radius: 2, stroke: (paint: rgb("FFB300"), thickness: 1.5pt), fill: rgb("FFB300").lighten(80%))
+      // Vẽ thêm đường xích đạo của cầu để tạo 3D
+      cetz.draw.circle((0, 0), radius: (2, 0.6), stroke: (paint: rgb("FFB300"), thickness: 0.5pt))
       
       // Trục
       line((0, 2.5), (0, -2.5), stroke: (paint: gray, dash: "dashed"))
       circle((0, 0), radius: 0.1, fill: black)
       content((0.4, 0.3), [$O$])
-    })
-  ]
-)
-
-=== Dạng 16: Sự tiếp xúc góc tường của hai Mặt cầu (Hình học Oxyz)
-
-#tln(
-  [Trong một góc căn phòng (tương ứng với gốc tọa độ $O$ và ba bức tường là các mặt phẳng tọa độ $O x y, O y z, O z x$), người ta đặt hai quả bóng hình cầu. Quả bóng nhỏ $(S_1)$ có tâm $I(1; 1; 1)$ và tiếp xúc với cả ba bức tường. Quả bóng lớn $(S_2)$ tâm $J$ cũng tiếp xúc với cả ba bức tường và đồng thời tiếp xúc ngoài với $(S_1)$. Tính bán kính của quả bóng lớn $(S_2)$ (làm tròn kết quả đến 1 chữ số thập phân).],
-  [$3","7$],
-  loigiai: [
-    #step[Mặt cầu $(S_1)$ tâm $I(1; 1; 1)$ tiếp xúc 3 mặt toạ độ nên bán kính $R_1 = 1$.]
-    #step[Mặt cầu $(S_2)$ tâm $J$ tiếp xúc 3 mặt toạ độ tại góc phần tám thứ nhất nên $J(R; R; R)$ với bán kính $R > 1$.]
-    #step[Khoảng cách hai tâm: $I J = sqrt((R-1)^2 + (R-1)^2 + (R-1)^2) = sqrt(3)(R - 1)$.]
-    #step[Hai quả bóng tiếp xúc ngoài: $I J = R_1 + R <=> sqrt(3)(R - 1) = 1 + R <=> R(sqrt(3) - 1) = sqrt(3) + 1$.]
-    #step[Suy ra $R = (sqrt(3) + 1)/(sqrt(3) - 1) = 2 + sqrt(3) approx 3,732$. Làm tròn 1 chữ số thập phân là $3,7$.]
-  ],
-  fig-pos: "right",
-  fig-width: 35%,
-  fig: align(center)[
-    #cetz.canvas({
-      import cetz.draw: *
-      // Trục Oxyz 3D isometric
-      line((0, 0), (-2, -1.5), mark: (end: ">"), stroke: gray, name: "x")
-      line((0, 0), (3, 0), mark: (end: ">"), stroke: gray, name: "y")
-      line((0, 0), (0, 3.5), mark: (end: ">"), stroke: gray, name: "z")
-      content((-2.2, -1.5), [$x$])
-      content((3.2, 0), [$y$])
-      content((0, 3.7), [$z$])
-      content((-0.2, -0.3), [$O$])
-      
-      // Bóng nhỏ
-      cetz.draw.circle((-0.3, 0.4), radius: 0.4, stroke: rgb("2196F3"), fill: rgb("2196F3").lighten(70%))
-      arc((-0.3+0.4, 0.4), start: 0deg, stop: 180deg, radius: (0.4, 0.12), stroke: (paint: rgb("2196F3"), dash: "dashed"))
-      arc((-0.3-0.4, 0.4), start: 180deg, stop: 360deg, radius: (0.4, 0.12), stroke: rgb("2196F3"))
-      circle((-0.3, 0.4), radius: 0.05, fill: black)
-      content((-0.3, 0.7), [$I$])
-      
-      // Bóng lớn
-      cetz.draw.circle((0.7, 1.8), radius: 1.2, stroke: rgb("F44336"), fill: rgb("F44336").lighten(70%))
-      arc((0.7+1.2, 1.8), start: 0deg, stop: 180deg, radius: (1.2, 0.36), stroke: (paint: rgb("F44336"), dash: "dashed"))
-      arc((0.7-1.2, 1.8), start: 180deg, stop: 360deg, radius: (1.2, 0.36), stroke: rgb("F44336"))
-      circle((0.7, 1.8), radius: 0.05, fill: black)
-      content((0.7, 2.1), [$J$])
-      
-      // Đường nối tâm
-      line((-0.3, 0.4), (0.7, 1.8), stroke: (paint: black, dash: "dashed"))
-    })
-  ]
-)
-
-=== Dạng 17: Khối Trụ lọt thỏm trong Khối Nón (Max-Min Thể tích)
-
-#tln(
-  [Một khối nón thủy tinh có bán kính đáy $R=3$, chiều cao $h=4$. Người ta muốn đặt một khối trụ vào bên trong khối nón đó sao cho đáy dưới của khối trụ nằm khít trên mặt đáy của khối nón, và đường tròn viền của mặt đáy trên khối trụ tiếp xúc với mặt xung quanh của khối nón. Tìm thể tích lớn nhất có thể đạt được của khối trụ này (làm tròn kết quả đến 1 chữ số thập phân).],
-  [$16","8$],
-  loigiai: [
-    #step[Gọi $r$ và $x$ lần lượt là bán kính đáy và chiều cao trụ ($0 < r < 3, 0 < x < 4$).]
-    #step[Theo định lý Talet trong tam giác mặt cắt: $x/h = (R - r)/R <=> x/4 = (3 - r)/3 => x = 4/3(3 - r)$.]
-    #step[Thể tích khối trụ: $V(r) = pi r^2 x = 4/3 pi (3r^2 - r^3)$.]
-    #step[Khảo sát hàm $f(r) = 3r^2 - r^3$: $f'(r) = 6r - 3r^2 = 0 => r = 2$.]
-    #step[Thể tích cực đại: $V_max = 4/3 pi (3*4 - 8) = 16/3 pi approx 16,755$. Làm tròn 1 chữ số thập phân là $16,8$.]
-  ],
-  fig-pos: "right",
-  fig-width: 35%,
-  fig: align(center)[
-    #cetz.canvas({
-      import cetz.draw: *
-      // Nón
-      arc((3, -2), start: 0deg, stop: 180deg, radius: (3, 0.8), stroke: (paint: gray, dash: "dashed"))
-      arc((-3, -2), start: 180deg, stop: 360deg, radius: (3, 0.8), stroke: gray)
-      line((-3, -2), (0, 3), stroke: gray)
-      line((3, -2), (0, 3), stroke: gray)
-      
-      // Trụ (r=2, h=4/3) -> tọa độ y từ -2 đến -0.667
-      // Đáy dưới trụ
-      arc((2.125, -2), start: 0deg, stop: 180deg, radius: (2.125, 0.533), stroke: (paint: green, dash: "dashed"))
-      arc((-2.125, -2), start: 180deg, stop: 360deg, radius: (2.125, 0.533), stroke: green)
-      
-      // Đáy trên trụ
-      arc((2.125, -0.667), start: 0deg, stop: 180deg, radius: (2.125, 0.533), stroke: (paint: green, dash: "dashed"))
-      arc((-2.125, -0.667), start: 180deg, stop: 360deg, radius: (2.125, 0.533), stroke: green)
-      
-      // Cạnh bên trụ
-      line((-2.125, -2), (-2.125, -0.667), stroke: green)
-      line((2.125, -2), (2.125, -0.667), stroke: green)
-      
-      // Trục
-      line((0, -2.125), (0, 3.5), stroke: (paint: gray, dash: "dashed"))
-    })
-  ]
-)
-
-=== Dạng 18: Chế tác Mặt dây chuyền "Trái Tim Vàng" (Tích phân & Thực tế)
-
-#tln(
-  [Một thương hiệu trang sức chế tác một mặt dây chuyền vàng khối 18K mang hình dáng một trái tim 3D. Trên mặt phẳng tọa độ, thiết diện cắt ngang của trái tim là một hình phẳng đối xứng qua trục $O y$. Nửa bên phải trục $O y$ (ứng với $x >= 0$) được giới hạn bởi hai đường cong: nửa trên (khi $y >= 0$) là cung của đường Elip $(E): x = 2sqrt(1 - y^2)$; nửa dưới (khi $y < 0$) là cung Parabol $(P): x = a y^2 + b y + c$. 
-  Biết $(P)$ ghép nối trơn mượt với $(E)$ tại điểm $M(2; 0)$ và kết thúc tại điểm "chóp tim" $N(0; -2)$. Khi quay thiết diện này quanh trục $O y$, ta thu được mặt dây chuyền tròn xoay.
-  Quy ước $1$ đơn vị tọa độ ứng với $0,5$ cm. Khối lượng riêng của vàng 18K là $15,6$ g/$upright("cm")^3$. Giá vàng và tiền công chế tác trọn gói là $1,5$ triệu VNĐ/gam. Tính số tiền (triệu VNĐ) để đúc mặt dây chuyền này (làm tròn kết quả đến hàng đơn vị).],
-  [$64$],
-  loigiai: [
-    #step[Tại $y=0$, điểm nối $M(2; 0)$. Hàm số $ (E): x_1(y) = 2sqrt(1 - y^2) => x'_1(y) = (-2y)/sqrt(1-y^2) => x'_1(0) = 0 $]
-    #step[Hàm $(P): x_2(y) = a y^2 + b y + c => x'_2(y) = 2a y + b$. Điều kiện ghép trơn tại $M$ và qua $N(0; -2)$:
-    $ cases(x_2(0) = 2, x'_2(0) = 0, x_2(-2) = 0) <=> cases(c = 2, b = 0, 4a - 2b + c = 0) <=> cases(a = -1/2, b = 0, c = 2) $]
-    #step[Phương trình Parabol là $x_2(y) = 2 - y^2/2$. Thể tích khối tròn xoay (theo đơn vị tọa độ) khi quay quanh $O y$:
-    $ V_0 = pi integral_0^1 x_1^2 d y + pi integral_(-2)^0 x_2^2 d y = pi integral_0^1 4(1 - y^2) d y + pi integral_(-2)^0 (2 - y^2/2)^2 d y $]
-    #step[$ V_0 = 4pi(y - y^3/3) |_0^1 + pi(4y - (2y^3)/3 + y^5/20) |_(-2)^0 = 8/3 pi + pi(0 - (-8 + 16/3 - 32/20)) = 8/3 pi + 64/15 pi = 104/15 pi. $]
-    #step[Với $1$ đv = $0,5$ cm, thể tích thực là $V = V_0 * (0,5)^3 = V_0 / 8 = 13/15 pi$ ($upright("cm")^3$).]
-    #step[Khối lượng mặt dây chuyền: $m = D * V = 15,6 * (13/15 pi) = 13,52 pi$ (gam).]
-    #step[Số tiền cần để đúc là: $T = 13,52 pi * 1,5 = 20,28 pi approx 63,711$ (triệu VNĐ). Làm tròn ta được $64$.]
-  ],
-  fig-pos: "center",
-  fig-width: 45%,
-  fig: align(center)[
-    #cetz.canvas({
-      import cetz.draw: *
-      // Trục toạ độ
-      line((-3.5, 0), (3.5, 0), mark: (end: ">"), stroke: gray, name: "x")
-      line((0, -2.5), (0, 1.5), mark: (end: ">"), stroke: gray, name: "y")
-      content((3.2, 0.3), [$x$])
-      content((0.3, 1.3), [$y$])
-      
-      // Hàm vẽ elip 3D xoay quanh trục Y
-      let draw_ellipse_y(y_coord, r, color) = {
-        let ry = 0.25 * r
-        arc((r, y_coord), start: 0deg, stop: 180deg, radius: (r, ry), stroke: (paint: color, thickness: 0.5pt, dash: "dashed"))
-        arc((-r, y_coord), start: 180deg, stop: 360deg, radius: (r, ry), stroke: (paint: color, thickness: 0.5pt))
-      }
-      
-      // Viền Elip (y > 0)
-      let e_pts_r = range(0, 11).map(y => { let hy = y/10; return (2*calc.sqrt(1 - hy*hy), hy) })
-      let e_pts_l = range(0, 11).map(y => { let hy = y/10; return (-2*calc.sqrt(1 - hy*hy), hy) })
-      line(..e_pts_r, stroke: (paint: rgb("FFC107"), thickness: 2pt))
-      line(..e_pts_l, stroke: (paint: rgb("FFC107"), thickness: 2pt))
-      
-      // Viền Parabol (y < 0)
-      let p_pts_r = range(-20, 1).map(y => { let hy = y/10; return (2 - hy*hy/2, hy) })
-      let p_pts_l = range(-20, 1).map(y => { let hy = y/10; return (-(2 - hy*hy/2), hy) })
-      line(..p_pts_r, stroke: (paint: rgb("FFB300"), thickness: 2pt))
-      line(..p_pts_l, stroke: (paint: rgb("FFB300"), thickness: 2pt))
-      
-      // Các elip cắt ngang tạo hình khối 3D Trái tim vàng
-      draw_ellipse_y(0.5, 2*calc.sqrt(1 - 0.25), rgb("FFECB3")) // y=0.5
-      draw_ellipse_y(0, 2, rgb("FF8F00")) // y=0
-      draw_ellipse_y(-1, 1.5, rgb("FFECB3")) // y=-1
-      
-      content((2.4, 0.3), [$M(2; 0)$])
-      circle((2, 0), radius: 0.08, fill: black)
-      circle((-2, 0), radius: 0.08, fill: black)
-      content((0.4, -2.2), [$N$])
-    })
-  ]
-)
-
-=== Dạng 19: Chế tác Nhẫn cưới "Comfort Fit" (Hình xuyến lủng lỗ)
-
-#tln(
-  [Nhẫn "Comfort Fit" là kiểu nhẫn bo tròn mặt ngoài và làm phẳng mặt trong để khi đeo không bị cấn ngón tay. Mặt cắt ngang của một chiếc nhẫn vàng 24K là hình phẳng giới hạn bởi đường thẳng $y = 9$ (tương ứng với lổ xỏ ngón tay bán kính 9 mm) và một nửa đường tròn có phương trình $y = 9 + sqrt(4 - x^2)$ (với $x in [-2; 2]$). 
-  Khi quay hình phẳng này quanh trục $O x$, ta thu được khối chiếc nhẫn. Đơn vị trên hệ trục tọa độ là milimét (mm). Biết khối lượng riêng của vàng 24K là $19,3$ g/$upright("cm")^3$ và $1$ chỉ vàng tương đương $3,75$ gam. Hỏi chiếc nhẫn này có khối lượng bao nhiêu chỉ vàng? (Làm tròn kết quả đến 1 chữ số thập phân).],
-  [$2","0$],
-  loigiai: [
-    #step[Thể tích của chiếc nhẫn là thể tích khối tròn xoay rỗng, được tính theo công thức:
-    $ V = pi integral_(-2)^2 [ (9 + sqrt(4 - x^2))^2 - 9^2 ] d x = pi integral_(-2)^2 ( 18sqrt(4 - x^2) + 4 - x^2 ) d x $]
-    #step[Tách làm hai phần tích phân: $I_1 = integral_(-2)^2 (4 - x^2) d x$ và $I_2 = integral_(-2)^2 18sqrt(4 - x^2) d x$.]
-    #step[$I_1 = (4x - x^3/3) |_(-2)^2 = (8 - 8/3) - (-8 + 8/3) = 32/3$.]
-    #step[$I_2$ chứa tích phân của nửa đường tròn tâm $O$ bán kính $R=2$, nên diện tích là $1/2 pi(2)^2 = 2pi$. Suy ra $I_2 = 18 * 2pi = 36pi$.]
-    #step[Thể tích nhẫn: $V = pi (32/3 + 36pi) = 32/3 pi + 36pi^2 approx 388,816$ ($upright("mm")^3$).]
-    #step[Đổi sang $upright("cm")^3$: $V approx 0,3888$ $upright("cm")^3$. Khối lượng vàng: $m = D * V = 19,3 * 0,3888 = 7,504$ (gam).]
-    #step[Đổi sang đơn vị chỉ vàng: Số chỉ $= 7,504 / 3,75 approx 2,001$. Làm tròn 1 chữ số thập phân, ta được $2,0$.]
-  ],
-  fig-pos: "center",
-  fig-width: 25%,
-  fig: align(center)[
-    #cetz.canvas({
-      import cetz.draw: *
-      
-      let draw_ellipse_x(x_coord, r, color, dashed_back: true) = {
-        let rx = 0.3 * r
-        if dashed_back {
-          arc((x_coord, r), start: 90deg, stop: 270deg, radius: (rx, r), stroke: (paint: color, thickness: 0.5pt, dash: "dashed"))
-        } else {
-          arc((x_coord, r), start: 90deg, stop: 270deg, radius: (rx, r), stroke: (paint: color, thickness: 0.5pt))
-        }
-        arc((x_coord, -r), start: -90deg, stop: 90deg, radius: (rx, r), stroke: (paint: color, thickness: 1.5pt))
-      }
-      
-      // Trục trung tâm ngón tay
-      line((-5, 0), (5, 0), stroke: (paint: gray, dash: "dashed"), mark: (end: ">"))
-      content((4.8, 0.8), [$x$])
-      
-      // Viền nhẫn ngoài 
-      let out_top = range(-20, 21).map(x => { let h = x/10; return (h, 9 + calc.sqrt(4 - h*h)) })
-      let out_bot = range(-20, 21).map(x => { let h = x/10; return (h, -(9 + calc.sqrt(4 - h*h))) })
-      line(..out_top, stroke: (paint: rgb("FF8F00"), thickness: 2pt))
-      line(..out_bot, stroke: (paint: rgb("FF8F00"), thickness: 2pt))
-      
-      // Lổ nhẫn (cylinder bên trong)
-      line((-2, 9), (2, 9), stroke: (paint: rgb("FBC02D"), thickness: 1.5pt))
-      line((-2, -9), (2, -9), stroke: (paint: rgb("FBC02D"), thickness: 1.5pt, dash: "dashed"))
-      
-      // Các elip 3D
-      // Mặt cắt bên trái (x = -2)
-      draw_ellipse_x(-2, 9, rgb("F57F17"), dashed_back: true)
-      // Khúc phình to nhất (x = 0)
-      draw_ellipse_x(0, 11, rgb("FFE082"), dashed_back: true)
-      // Mặt cắt bên phải (x = 2) - Nét liền toàn bộ để lộ rõ lổ nhẫn
-      draw_ellipse_x(2, 9, rgb("F57F17"), dashed_back: false)
-      
-      content((0, 12.5), [Khối nhẫn Vàng 3D])
-    })
-  ]
-)
-
-=== Dạng 20: Mái vòm nhà kính (Mô hình Paraboloid và Bán cầu)
-
-#tln(
-  [Một công trình nhà kính sinh thái có dạng khối tròn xoay. Phần mái vòm phía trên là một chỏm cầu bán kính $R=5$ m. Phần thân bên dưới là một mặt Paraboloid (tạo bởi Parabol quay quanh trục đối xứng thẳng đứng). Đáy của nhà kính nằm trên mặt đất là một hình tròn bán kính $r=7$ m. Biết phần mái cầu và phần thân Paraboloid được ghép nối "trơn mượt" với nhau (có tiếp tuyến chung) tại các điểm cách trục đối xứng của nhà kính $3$ m. Tính tổng chiều cao của công trình nhà kính này (đơn vị: mét).],
-  [$6$],
-  loigiai: [
-    #step[Chọn hệ trục tọa độ với $O y$ là trục đối xứng, tâm mặt cầu tại $(0; y_c)$. Phương trình nửa đường tròn mái vòm là $(C): y = y_c + sqrt(25 - x^2)$.]
-    #step[Tại điểm ghép $x = 3$, đạo hàm của đường tròn là $y'_C = (-x)/sqrt(25-x^2) = -3/sqrt(25-9) = -3/4$. Tọa độ điểm ghép là $(3; y_c + 4)$.]
-    #step[Thân là Parabol $(P): y = a x^2 + c => y'_P = 2a x$. Điều kiện tiếp xúc trơn tại $x = 3$ là $y'_P (3) = y'_C (3) <=> 6a = -3/4 <=> a = -1/8$.]
-    #step[Hai đồ thị khớp nhau tại $x = 3 => a(3^2) + c = y_c + 4 <=> -9/8 + c = y_c + 4 <=> c - y_c = 41/8$.]
-    #step[Mặt đất có bán kính $x = 7$, tọa độ $y$ tương ứng là $y_"base" = a(7^2) + c = -49/8 + c$. Đỉnh mái vòm tại $x = 0$ có tọa độ $y_"top" = y_c + 5$.]
-    #step[Chiều cao công trình: $H = y_"top" - y_"base" = (y_c + 5) - (-49/8 + c) = 5 + 49/8 - (c - y_c) = 89/8 - 41/8 = 48/8 = 6$ (m).]
-  ],
-  fig-pos: "center",
-  fig-width: 55%,
-  fig: align(center)[
-    #cetz.canvas({
-      import cetz.draw: *
-      
-      // Mặt đất
-      line((-8, -1), (8, -1), stroke: (paint: gray, thickness: 1.5pt))
-      
-      // Paraboloid
-      let p_pts = range(-70, 71).map(x => { let h = x/10; return (h, -0.125 * h * h + 5.125) })
-      line(..p_pts, stroke: (paint: green, thickness: 1.5pt))
-      
-      // Chỏm cầu
-      let c_pts = range(-30, 31).map(x => { let h = x/10; return (h, calc.sqrt(25 - h*h)) })
-      line(..c_pts, stroke: (paint: blue, thickness: 1.5pt))
-      
-      // Các nét đứt hiển thị khối 3D
-      arc((7, -1), start: 0deg, stop: 180deg, radius: (7, 1.5), stroke: (paint: gray, dash: "dashed"))
-      arc((-7, -1), start: 180deg, stop: 360deg, radius: (7, 1.5), stroke: gray)
-      
-      arc((3, 4), start: 0deg, stop: 180deg, radius: (3, 0.6), stroke: (paint: gray, dash: "dashed"))
-      arc((-3, 4), start: 180deg, stop: 360deg, radius: (3, 0.6), stroke: gray)
-      
-      // Điểm ghép
-      circle((3, 4), radius: 0.1, fill: black)
-      circle((-3, 4), radius: 0.1, fill: black)
-      
-      // Trục
-      line((0, -1.5), (0, 6), stroke: (paint: gray, dash: "dashed"))
-    })
-  ]
-)
-
-=== Dạng 21: Con quay đồ chơi bằng gỗ (Tích phân ghép trơn trục Ox)
-
-#tln(
-  [Một con quay đồ chơi bằng gỗ có hình dạng là một khối tròn xoay được tạo thành khi quay mặt cắt dọc của nó quanh trục $O x$. Nửa trên của mặt cắt (phần thân phình to) là hình phẳng giới hạn bởi trục $O x$ và một cung Parabol $(P): y = a x^2 + b x + c$ (từ $x = 0$ đến $x = 2$). Nửa dưới của mặt cắt (phần mũi nhọn) là giới hạn bởi đoạn thẳng $(d): y = 1/2 x + 2$ (từ $x = -4$ đến $x = 0$). 
-  Biết cung Parabol $(P)$ ghép nối "trơn mượt" với đoạn thẳng $(d)$ tại điểm có hoành độ $x = 0$ và cắt trục $O x$ tại $x = 2$. Tính thể tích khối gỗ làm con quay đó (đơn vị: $upright("cm")^3$, làm tròn kết quả đến hàng phần mười).],
-  [$33","3$],
-  loigiai: [
-    #step[Tại điểm ghép $x = 0$: Hàm đoạn thẳng $y_1 = 1/2 x + 2 => y'_1 = 1/2$. Giá trị $y_1(0) = 2, y'_1(0) = 1/2$.]
-    #step[Hàm $(P): y_2 = a x^2 + b x + c => y'_2 = 2a x + b$. Điều kiện ghép trơn tại $x = 0$ và cắt $O x$ tại $x = 2$:
-    $ cases(y_2(0) = 2, y'_2(0) = 1/2, y_2(2) = 0) <=> cases(c = 2, b = 1/2, 4a + 2b + c = 0) <=> cases(a = -3/4, b = 1/2, c = 2) $]
-    #step[Vậy phương trình Parabol là $(P): y_2 = -3/4 x^2 + 1/2 x + 2$. Thể tích con quay gồm 2 phần (khối nón bên trái và khối Paraboloid bên phải):
-    $ V = pi integral_(-4)^0 (1/2 x + 2)^2 d x + pi integral_0^2 (-3/4 x^2 + 1/2 x + 2)^2 d x $]
-    #step[Tích phân 1 (Khối nón): $V_1 = pi integral_(-4)^0 (1/4 x^2 + 2x + 4) d x = pi (x^3/12 + x^2 + 4x) |_(-4)^0 = 16/3 pi$.]
-    #step[Tích phân 2: $V_2 = pi integral_0^2 (9/16 x^4 - 3/4 x^3 - 11/4 x^2 + 2x + 4) d x = pi (9/80 x^5 - 3/16 x^4 - 11/12 x^3 + x^2 + 4x) |_0^2 = 79/15 pi$.]
-    #step[Tổng thể tích: $V = 16/3 pi + 79/15 pi = 159/15 pi = 53/5 pi approx 33,3008$. Làm tròn phần mười ta được $33,3$.]
-  ],
-  fig-pos: "center",
-  fig-width: 55%,
-  fig: align(center)[
-    #cetz.canvas({
-      import cetz.draw: *
-      
-      // Trục toạ độ
-      line((-5, 0), (3, 0), mark: (end: ">"), stroke: gray, name: "x")
-      line((0, -3), (0, 3), mark: (end: ">"), stroke: gray, name: "y")
-      
-      // Đường sinh
-      // Nón trái
-      line((-4, 0), (0, 2), stroke: (paint: rgb("795548"), thickness: 2pt))
-      line((-4, 0), (0, -2), stroke: (paint: rgb("795548"), thickness: 2pt))
-      
-      // Bầu Parabol phải
-      let p_pts_top = range(0, 21).map(x => { let h = x/10; return (h, -0.75*h*h + 0.5*h + 2) })
-      let p_pts_bot = range(0, 21).map(x => { let h = x/10; return (h, -(-0.75*h*h + 0.5*h + 2)) })
-      line(..p_pts_top, stroke: (paint: rgb("5D4037"), thickness: 2pt))
-      line(..p_pts_bot, stroke: (paint: rgb("5D4037"), thickness: 2pt))
-      
-      // Các elip cắt ngang tạo hình khối 3D (xoay quanh trục Ox nên Elip đứng)
-      let draw_ellipse_x(x_coord, r, color) = {
-        let rx = 0.25 * r
-        arc((x_coord, r), start: 90deg, stop: 270deg, radius: (rx, r), stroke: (paint: color, thickness: 0.5pt, dash: "dashed"))
-        arc((x_coord, -r), start: -90deg, stop: 90deg, radius: (rx, r), stroke: (paint: color, thickness: 0.5pt))
-      }
-      
-      draw_ellipse_x(0, 2, rgb("BCAAA4")) // Mép nối lớn nhất
-      draw_ellipse_x(1, 1.75, rgb("BCAAA4")) // Tại x=1, r=1.75
-      draw_ellipse_x(-2, 1, rgb("BCAAA4")) // Tại x=-2, r=1
-      
-      // Điểm mút
-      circle((-4, 0), radius: 0.05, fill: black)
-      circle((2, 0), radius: 0.05, fill: black)
-    })
-  ]
-)
-
-=== Dạng 22: Tượng đài "Giọt nước" Kỷ niệm nạn nhân Covid-19 (Ghép Tròn và Parabol)
-
-#tln(
-  [Tại công viên Lý Thái Tổ (TP.HCM), biểu tượng kỷ niệm đồng bào tử vong do Covid-19 có hình dáng một "Giọt nước" 3D khổng lồ (bề mặt trơn nhẵn). Đặt vào hệ trục tọa độ $O x y$, mặt cắt dọc của tượng là một hình phẳng xoay quanh trục $O y$. Nửa bên phải trục $O y$ (ứng với $x >= 0$) giới hạn bởi 2 đường:
-  - Cung bên dưới là một phần tư đường tròn tâm $I(0; 1)$, bán kính $R=1$ (từ $y=0$ đến $y=1$).
-  - Cung bên trên là một nhánh Parabol $(P): x = a y^2 + b y + c$ (từ $y=1$ đến $y=4$).
-  Biết Parabol tiếp xúc trơn với cung tròn tại điểm có tung độ $y=1$ và thuôn lên tận đỉnh tượng ở tung độ $y=4$. Giả sử tượng đài được đúc đặc bằng Đồng, khối lượng riêng của khối đồng là $8,9$ tấn/$upright("m")^3$ (đơn vị trên hệ trục tọa độ tính bằng mét). Tính tổng khối lượng của bức tượng này (đơn vị: tấn, làm tròn kết quả đến hàng đơn vị).],
-  [$63$],
-  loigiai: [
-    #step[Cung tròn bên dưới có phương trình $x^2 + (y-1)^2 = 1 => x = sqrt(1 - (y-1)^2)$ (do $x >= 0$).]
-    #step[Tại điểm ghép $y=1$: $x(1) = 1$. Đạo hàm $x'(y) = (-(y-1))/sqrt(1 - (y-1)^2) => x'(1) = 0$.]
-    #step[Nhánh Parabol $(P): x = a(y-1)^2 + b(y-1) + c$. Tiếp xúc trơn tại $(1; 1)$ nên $x(1)=1 => c=1$, và $x'(1)=0 => b=0$.]
-    #step[Đỉnh tượng tại $y=4 => x=0 => a(3)^2 + 1 = 0 => a = -1/9$. Suy ra $(P): x = 1 - (y-1)^2/9$.]
-    #step[Thể tích khối giọt nước khi quay quanh $O y$: 
-    $ V = pi integral_0^1 (1 - (y-1)^2) d y + pi integral_1^4 (1 - (y-1)^2/9)^2 d y $]
-    #step[Tích phân thứ nhất (bán cầu dưới) bằng $2/3 pi$. Tích phân thứ hai (đặt $u=y-1$): 
-    $ V_2 = pi integral_0^3 (1 - 2/9 u^2 + 1/81 u^4) d u = pi (u - 2/27 u^3 + 1/405 u^5) |_0^3 = pi(3 - 2 + 0,6) = 1,6 pi = 8/5 pi $]
-    #step[Tổng thể tích $V = 2/3 pi + 8/5 pi = 34/15 pi$ ($upright("m")^3$).]
-    #step[Khối lượng tượng đài $m = D * V = 8,9 * 34/15 pi approx 63,38$ (tấn). Làm tròn ta được $63$.]
-  ],
-  fig-pos: "center",
-  fig-width: 45%,
-  fig: align(center)[
-    #cetz.canvas({
-      import cetz.draw: *
-      
-      // Mặt đất
-      line((-3, 0), (3, 0), stroke: (paint: gray, thickness: 1.5pt))
-      
-      // Hàm vẽ elip 3D xoay quanh trục Y
-      let draw_ellipse_y(y_coord, r, color) = {
-        let ry = 0.2 * r
-        arc((r, y_coord), start: 0deg, stop: 180deg, radius: (r, ry), stroke: (paint: color, thickness: 0.5pt, dash: "dashed"))
-        arc((-r, y_coord), start: 180deg, stop: 360deg, radius: (r, ry), stroke: (paint: color, thickness: 0.5pt))
-      }
-      
-      // Bầu tròn dưới
-      let c_pts_r = range(0, 11).map(y => { let hy = y/10; return (calc.sqrt(1 - (hy - 1)*(hy - 1)), hy) })
-      let c_pts_l = range(0, 11).map(y => { let hy = y/10; return (-calc.sqrt(1 - (hy - 1)*(hy - 1)), hy) })
-      line(..c_pts_r, stroke: (paint: rgb("FF9800"), thickness: 2pt))
-      line(..c_pts_l, stroke: (paint: rgb("FF9800"), thickness: 2pt))
-      
-      // Chóp Parabol trên
-      let p_pts_r = range(10, 41).map(y => { let hy = y/10; return (1 - (hy - 1)*(hy - 1)/9, hy) })
-      let p_pts_l = range(10, 41).map(y => { let hy = y/10; return (-(1 - (hy - 1)*(hy - 1)/9), hy) })
-      line(..p_pts_r, stroke: (paint: rgb("FFC107"), thickness: 2pt))
-      line(..p_pts_l, stroke: (paint: rgb("FFC107"), thickness: 2pt))
-      
-      // Các nét elip 3D
-      draw_ellipse_y(1, 1, rgb("FFE082")) // Điểm phình to nhất
-      draw_ellipse_y(2.5, 1 - 2.25/9, rgb("FFE082")) // Cắt ngang thân
-      
-      circle((0, 4), radius: 0.05, fill: black)
-      circle((0, 1), radius: 0.05, fill: black)
-      
-      // Trục y
-      line((0, 0), (0, 4.5), stroke: (paint: gray, dash: "dashed"))
-    })
-  ]
-)
-
-=== Dạng 23: Điêu khắc Pha lê "Trái Lê" (Sự kỳ diệu của Hàm vô tỉ)
-
-#tln(
-  [Một nghệ nhân điêu khắc một tác phẩm nghệ thuật bằng khối pha lê có hình dáng một "Trái Lê" (Pear) 3D tuyệt đẹp. Trái lê này được tạo thành khi quay một hình phẳng giới hạn bởi đường cong $(C)$ và trục $O y$ quanh chính trục $O y$. 
-  Bằng sự kỳ diệu của Toán học, đường cong $(C)$ này không cần phải ghép nối nhiều đường, mà chỉ tuân theo một hàm vô tỉ duy nhất: $x = (1-y)sqrt(y+2)$ (với điều kiện $y in [-2; 1]$).
-  Biết đơn vị trên hệ trục tọa độ là cm, và khối lượng riêng của pha lê là $3,1$ g/$upright("cm")^3$. Hỏi tác phẩm nghệ thuật Trái Lê này nặng khoảng bao nhiêu gam? (Làm tròn kết quả đến hàng đơn vị).],
-  [$66$],
-  loigiai: [
-    #step[Thể tích khối pha lê khi quay hình phẳng quanh trục $O y$ là:
-    $ V = pi integral_(-2)^1 x^2 d y = pi integral_(-2)^1 (1-y)^2 (y+2) d y $]
-    #step[Sử dụng phương pháp đổi biến số: Đặt $u = y+2 => d u = d y$. Khi đó $y = u - 2 => 1 - y = 3 - u$.]
-    #step[Đổi cận: $y = -2 => u = 0$; $y = 1 => u = 3$. Tích phân trở thành:
-    $ V = pi integral_0^3 (3-u)^2 u d u = pi integral_0^3 (9u - 6u^2 + u^3) d u $]
-    #step[Tính nguyên hàm:
-    $ V = pi (9/2 u^2 - 2u^3 + u^4/4) |_0^3 = pi(81/2 - 54 + 81/4) = pi (162/4 - 216/4 + 81/4) = 27/4 pi " " (upright("cm")^3) $]
-    #step[Khối lượng khối pha lê Trái Lê là: $m = D * V = 3,1 * 27/4 pi = (83,7 pi)/4 approx 65,738$ (gam).]
-    #step[Làm tròn đến hàng đơn vị ta được $66$.]
-  ],
-  fig-pos: "right",
-  fig-width: 35%,
-  fig: align(center)[
-    #cetz.canvas({
-      import cetz.draw: *
-      
-      // Trục y
-      line((0, -2.5), (0, 1.5), stroke: (paint: gray, dash: "dashed"))
-      line((-2.5, 0), (2.5, 0), stroke: (paint: gray, dash: "dashed"))
-      
-      // Hàm vẽ elip 3D xoay quanh trục Y
-      let draw_ellipse_y(y_coord, r, color) = {
-        let ry = 0.2 * r
-        arc((r, y_coord), start: 0deg, stop: 180deg, radius: (r, ry), stroke: (paint: color, thickness: 0.5pt, dash: "dashed"))
-        arc((-r, y_coord), start: 180deg, stop: 360deg, radius: (r, ry), stroke: (paint: color, thickness: 0.5pt))
-      }
-      
-      // Đồ thị hàm số trái lê
-      let pear_pts_r = range(-20, 11).map(y => { let hy = y/10; return ((1 - hy)*calc.sqrt(hy+2), hy) })
-      let pear_pts_l = range(-20, 11).map(y => { let hy = y/10; return (-(1 - hy)*calc.sqrt(hy+2), hy) })
-      
-      line(..pear_pts_r, stroke: (paint: rgb("8BC34A"), thickness: 2pt))
-      line(..pear_pts_l, stroke: (paint: rgb("8BC34A"), thickness: 2pt))
-      
-      // Các vòng Elip 3D căng mọng bề mặt Lê
-      // Tính x tại một vài y đẹp
-      draw_ellipse_y(-1, 2, rgb("AED581")) // Phần hông phình to nhất
-      draw_ellipse_y(0, 1.414, rgb("AED581"))
-      
-      circle((0, 1), radius: 0.05, fill: black) // Cuống lê
-      circle((0, -2), radius: 0.05, fill: black) // Đáy lê
-    })
-  ]
-)
-
-=== Dạng 24: Thiết kế Bình gốm "Hoàng gia" (Sự tiếp xúc của Hàm Mũ và Đa thức)
-
-#tln(
-  [Một xưởng gốm thiết kế chiếc bình hoa có dạng tròn xoay. Đặt vào hệ trục toạ độ $O x y$ (đơn vị dm), mặt cắt dọc (nửa bên trên trục $O x$) của bình gồm hai phần: phần thân bầu là một nhánh Parabol $(P): y = -0,5 x^2 + 2,5$ (với $x in [0; 1]$) và phần cổ thon gọn là một đường cong có dạng hàm số mũ $(E): y = e^(1-x) + 1$ (với $x in [1; 3]$).
-  Biết phần cổ và phần thân tiếp xúc trơn với nhau tại điểm nối $x = 1$. Khi cho toàn bộ hình phẳng giới hạn bởi $(P), (E)$, trục $O x$ và các đường thẳng $x = 0, x = 3$ quay quanh trục $O x$, ta được hình khối không gian của chiếc bình. Tính thể tích rỗng bên trong chiếc bình này (tính bằng lít, làm tròn đến hàng đơn vị).],
-  [$30$],
-  loigiai: [
-    #step[Thử lại điều kiện tiếp xúc tại $x = 1$:
-    $(P): y(1) = 2, y'(1) = -1$; $(E): y(1) = e^0 + 1 = 2, y'(1) = -e^0 = -1$. Hai đường cong ghép trơn hoàn hảo.]
-    #step[Thể tích của bình khi xoay quanh trục $O x$ gồm tổng 2 khối tròn xoay:
-    $ V = pi integral_0^1 (-0,5x^2 + 2,5)^2 d x + pi integral_1^3 (e^(1-x) + 1)^2 d x $]
-    #step[Tích phân phần Parabol: 
-    $ V_1 = pi integral_0^1 (0,25x^4 - 2,5x^2 + 6,25) d x = pi (x^5/20 - 5/6 x^3 + 25/4 x) |_0^1 = 82/15 pi $]
-    #step[Tích phân phần Hàm mũ (đặt $u = 1-x$): 
-    $ V_2 = pi integral_0^(-2) (e^u + 1)^2 (-d u) = pi integral_(-2)^0 (e^(2u) + 2e^u + 1) d u = pi (e^(2u)/2 + 2e^u + u) |_(-2)^0 $]
-    #step[Tính toán $V_2 = pi [ (1/2 + 2 + 0) - (e^(-4)/2 + 2e^(-2) - 2) ] = pi (4,5 - 0,5 e^(-4) - 2e^(-2))$.]
-    #step[Tổng thể tích $V = V_1 + V_2 = pi (82/15 + 4,5 - 0,5 e^(-4) - 2e^(-2)) approx 30,42$ (lít). Làm tròn thành $30$.]
-  ],
-  fig-pos: "right",
-  fig-width: 35%,
-  fig: align(center)[
-    #cetz.canvas({
-      import cetz.draw: *
-      
-      // Trục toạ độ
-      line((-0.5, 0), (4, 0), stroke: (paint: gray, dash: "dashed"), mark: (end: ">"))
-      
-      // Hàm vẽ elip 3D xoay quanh trục X
-      let draw_ellipse_x(x_coord, r, color) = {
-        let rx = 0.2 * r
-        arc((x_coord, r), start: 90deg, stop: 270deg, radius: (rx, r), stroke: (paint: color, thickness: 0.5pt, dash: "dashed"))
-        arc((x_coord, -r), start: -90deg, stop: 90deg, radius: (rx, r), stroke: (paint: color, thickness: 0.5pt))
-      }
-      
-      // Phần thân bầu (Parabol)
-      let p_pts_top = range(0, 11).map(x => { let h = x/10; return (h, -0.5*h*h + 2.5) })
-      let p_pts_bot = range(0, 11).map(x => { let h = x/10; return (h, -(-0.5*h*h + 2.5)) })
-      line(..p_pts_top, stroke: (paint: rgb("00BCD4"), thickness: 2pt))
-      line(..p_pts_bot, stroke: (paint: rgb("00BCD4"), thickness: 2pt))
-      
-      // Phần cổ bình (Hàm mũ)
-      let e_pts_top = range(10, 31).map(x => { let h = x/10; return (h, calc.exp(1-h) + 1) })
-      let e_pts_bot = range(10, 31).map(x => { let h = x/10; return (h, -(calc.exp(1-h) + 1)) })
-      line(..e_pts_top, stroke: (paint: rgb("26C6DA"), thickness: 2pt))
-      line(..e_pts_bot, stroke: (paint: rgb("26C6DA"), thickness: 2pt))
-      
-      // Các elip 3D
-      draw_ellipse_x(0, 2.5, rgb("B2EBF2")) // Đáy
-      draw_ellipse_x(1, 2, rgb("B2EBF2")) // Chỗ nối
-      draw_ellipse_x(3, calc.exp(-2) + 1, rgb("B2EBF2")) // Miệng bình
-    })
-  ]
-)
-
-=== Dạng 25: Loa phát thanh Âm thanh vòm (Sự tiếp xúc thần kỳ của Căn thức và Logarit)
-
-#tln(
-  [Kỹ sư thiết kế phần vỏ kim loại của một chiếc kèn loa phát thanh. Mặt cắt ngang của chiếc loa có dạng khối tròn xoay quanh trục $O x$ (đơn vị: dm).
-  Phần vỏ đặc được giới hạn bởi mặt ngoài sinh bởi nhánh đường cong $(C_1): y = a sqrt(x)$ (với $x in [0; e^2]$) và mặt lõi rỗng bên trong sinh bởi đường logarit $(C_2): y = ln(x)$ (với $x in [1; e^2]$).
-  Để tạo tính khí động học tại miệng loa (hoành độ $x = e^2$), kỹ sư thiết kế sao cho viền cong mặt trong và mặt ngoài tiếp xúc trơn với nhau (có chung tiếp tuyến). Tính thể tích phần vỏ kim loại đặc để đúc chiếc loa này (đơn vị: lít, làm tròn đến một chữ số thập phân).],
-  [$6","3$],
-  loigiai: [
-    #step[Tại miệng loa $x = e^2$, toạ độ điểm ghép là $(e^2; 2)$ vì $y_2(e^2) = ln(e^2) = 2$.
-    Mặt ngoài $(C_1)$ đi qua điểm này nên $a sqrt(e^2) = 2 => a = 2/e$. Vậy $(C_1): y_1 = (2/e) sqrt(x)$.]
-    #step[Thử lại tính tiếp xúc: $y'_1(e^2) = (2/e) * 1/(2sqrt(e^2)) = 1/e^2$ và $y'_2(e^2) = 1/e^2$. Hai đồ thị thực sự có tiếp tuyến chung tại miệng loa!]
-    #step[Thể tích vỏ loa (phần đặc) bằng thể tích tạo bởi mặt ngoài trừ đi thể tích lổ rỗng bên trong:
-    $ V = pi integral_0^(e^2) ((2/e) sqrt(x))^2 d x - pi integral_1^(e^2) (ln(x))^2 d x = V_("ngoài") - V_("trong") $]
-    #step[Tính $V_("ngoài") = pi integral_0^(e^2) 4/e^2 x d x = pi * 4/e^2 * (x^2/2) |_0^(e^2) = 2pi e^2$.]
-    #step[Tính $V_("trong"):$ Đặt $u = ln(x) => d x = e^u d u$. Cận $x=1 => u=0; x=e^2 => u=2$. Tích phân từng phần 2 lần:
-    $ V_("trong") = pi integral_0^2 u^2 e^u d u = pi (e^u(u^2 - 2u + 2)) |_0^2 = pi (e^2(4 - 4 + 2) - e^0(2)) = pi (2e^2 - 2) $]
-    #step[*ĐIỀU KỲ DIỆU*: Tổng thể tích khối loa kim loại đặc là:
-    $ V = V_("ngoài") - V_("trong") = 2pi e^2 - pi (2e^2 - 2) = 2pi " " ("lít") $]
-    #step[Kết quả triệt tiêu hoàn toàn hằng số $e$. Khối lượng thể tích là $2 * 3,14159 approx 6,28$ (lít). Làm tròn được $6,3$.]
-  ],
-  fig-pos: "center",
-  fig-width: 55%,
-  fig: align(center)[
-    #cetz.canvas({
-      import cetz.draw: *
-      
-      // Trục x
-      line((-0.5, 0), (8.5, 0), stroke: (paint: gray, dash: "dashed"), mark: (end: ">"))
-      
-      let draw_ellipse_x(x_coord, r, color, dashed_back: true) = {
-        let rx = 0.2 * r
-        if dashed_back {
-          arc((x_coord, r), start: 90deg, stop: 270deg, radius: (rx, r), stroke: (paint: color, thickness: 0.5pt, dash: "dashed"))
-        } else {
-          arc((x_coord, r), start: 90deg, stop: 270deg, radius: (rx, r), stroke: (paint: color, thickness: 0.5pt))
-        }
-        arc((x_coord, -r), start: -90deg, stop: 90deg, radius: (rx, r), stroke: (paint: color, thickness: 1.5pt))
-      }
-      
-      // Mặt ngoài (Căn thức)
-      let c1_top = range(0, 74).map(x => { let h = x/10; return (h, (2/2.718) * calc.sqrt(h)) })
-      let c1_bot = range(0, 74).map(x => { let h = x/10; return (h, -(2/2.718) * calc.sqrt(h)) })
-      line(..c1_top, stroke: (paint: rgb("F44336"), thickness: 2pt))
-      line(..c1_bot, stroke: (paint: rgb("F44336"), thickness: 2pt))
-      
-      // Mặt trong (Logarit)
-      let c2_top = range(10, 74).map(x => { let h = x/10; return (h, calc.ln(h)) })
-      let c2_bot = range(10, 74).map(x => { let h = x/10; return (h, -calc.ln(h)) })
-      line(..c2_top, stroke: (paint: rgb("EF9A9A"), thickness: 2pt, dash: "dashed"))
-      line(..c2_bot, stroke: (paint: rgb("EF9A9A"), thickness: 2pt, dash: "dashed"))
-      
-      // Miệng loa
-      draw_ellipse_x(7.389, 2, rgb("D32F2F"), dashed_back: false)
-      
-      // Vùng vật liệu bị khoét rỗng
-      draw_ellipse_x(3, calc.ln(3), rgb("EF9A9A"), dashed_back: true)
-      
-      circle((7.389, 2), radius: 0.05, fill: black)
-      circle((7.389, -2), radius: 0.05, fill: black)
-      
-      content((4, 2.5), [Vỏ kèn Căn thức])
-      content((4, 0.5), [Lõi kèn Logarit])
-    })
-  ]
-)
-
-=== Dạng 26: Thiết bị lặn ngầm (Ghép mặt cầu và Hàm số mũ)
-
-#tln(
-  [Một thiết bị lặn không người lái có vỏ ngoài là một khối tròn xoay (quay quanh trục $O x$). Để tối ưu hóa lực cản của nước, thiết bị được tạo hình thành 2 phần:
-  - Phần đầu là chỏm cầu $(C_1)$ (khi cắt ngang là nửa đường tròn $x^2 + y^2 = 25$, lấy $y >= 0$), giới hạn từ hoành độ $x = -5$ đến $x = 4$.
-  - Phần đuôi là khối vuốt thon dài về sau tạo bởi đường cong $(C_2): y = A dot e^(k x)$, giới hạn từ $x = 4$ đến $x = 10$.
-  Biết phần đầu và phần đuôi được ghép nối với nhau "trơn mượt" (có tiếp tuyến chung) tại vị trí $x = 4$. Lấy đơn vị trên hệ trục toạ độ là decimet (dm). Bằng cách thiết lập tích phân, hãy dùng máy tính Casio để tính phần thể tích giới hạn bên trong thiết bị lặn này (đơn vị: lít, làm tròn đến hàng đơn vị).],
-  [$541$],
-  loigiai: [
-    #step[Phần đầu $(C_1): y_1 = sqrt(25-x^2) => y'_1 = (-x)/sqrt(25-x^2)$.\
-    Tại điểm nối $x = 4$: $y_1(4) = 3$ và $y'_1(4) = -4/3$.]
-    #step[Phần đuôi $(C_2): y_2 = A e^(k x) => y'_2 = A k e^(k x)$. Điều kiện tiếp xúc trơn tại $x = 4$:
-    $ cases(A e^(4k) = 3, A k e^(4k) = -4/3) => (A k e^(4k))/(A e^(4k)) = (-4/3)/3 => k = -4/9 $]
-    #step[Thay $k = -4/9$ vào phương trình đầu, ta được $A e^(-16/9) = 3 => A = 3 e^(16/9)$. Vậy phương trình phần đuôi là $(C_2): y_2 = 3 e^((16-4x)/9)$.]
-    #step[Thể tích của thiết bị lặn bằng tổng thể tích của phần đầu và phần đuôi:
-    $ V = pi integral_(-5)^4 (25-x^2) d x + pi integral_4^10 (3 e^((16-4x)/9))^2 d x $]
-    #step[Sử dụng máy tính Casio để bấm trực tiếp tổng của 2 tích phân này:
-    - Tích phân phần đầu: $I_1 = pi integral_(-5)^4 (25-x^2) d x = 162 pi approx 508,938$.
-    - Tích phân phần đuôi: $I_2 = pi integral_4^10 9 e^((32-8x)/9) d x approx 10,076 pi approx 31,655$.]
-    #step[Tổng thể tích $V = I_1 + I_2 approx 540,59$ ($upright("dm")^3$ = lít). Làm tròn đến hàng đơn vị, ta được $541$.]
-  ],
-  fig-pos: "center",
-  fig-width: 55%,
-  fig: align(center)[
-    #cetz.canvas({
-      import cetz.draw: *
-      
-      // Trục toạ độ
-      line((-6, 0), (11, 0), stroke: (paint: gray, dash: "dashed"), mark: (end: ">"))
-      
-      // Hàm vẽ elip 3D xoay quanh trục X
-      let draw_ellipse_x(x_coord, r, color) = {
-        let rx = 0.2 * r
-        arc((x_coord, r), start: 90deg, stop: 270deg, radius: (rx, r), stroke: (paint: color, thickness: 0.5pt, dash: "dashed"))
-        arc((x_coord, -r), start: -90deg, stop: 90deg, radius: (rx, r), stroke: (paint: color, thickness: 0.5pt))
-      }
-      
-      // Phần đầu (nửa đường tròn)
-      let c_pts_top = range(-50, 41).map(x => { let h = x/10; return (h, calc.sqrt(25 - h*h)) })
-      let c_pts_bot = range(-50, 41).map(x => { let h = x/10; return (h, -calc.sqrt(25 - h*h)) })
-      line(..c_pts_top, stroke: (paint: rgb("FF9800"), thickness: 2pt))
-      line(..c_pts_bot, stroke: (paint: rgb("FF9800"), thickness: 2pt))
-      
-      // Phần đuôi (Hàm mũ)
-      let p_pts_top = range(40, 101).map(x => { let h = x/10; return (h, 3 * calc.exp((16 - 4*h)/9)) })
-      let p_pts_bot = range(40, 101).map(x => { let h = x/10; return (h, -3 * calc.exp((16 - 4*h)/9)) })
-      line(..p_pts_top, stroke: (paint: rgb("FFC107"), thickness: 2pt))
-      line(..p_pts_bot, stroke: (paint: rgb("FFC107"), thickness: 2pt))
-      
-      // Các elip 3D
-      draw_ellipse_x(0, 5, rgb("FFE082")) // Bụng phình to nhất
-      draw_ellipse_x(4, 3, rgb("FFE082")) // Chỗ nối
-      draw_ellipse_x(8, 3 * calc.exp((16 - 32)/9), rgb("FFE082")) // Đuôi
-      
-      circle((4, 3), radius: 0.05, fill: black)
-      circle((4, -3), radius: 0.05, fill: black)
-      circle((-5, 0), radius: 0.05, fill: black)
-      
-      content((4, 3.5), [Điểm ghép])
-    })
-  ]
-)
-
-=== Dạng 27: Con lăn Massage rãnh lồi lõm (Siêu phẩm Lượng giác và Parabol)
-
-#tln(
-  [Một xưởng sản xuất thiết bị thể thao đúc một con lăn massage bằng nhựa khối. Con lăn có dạng khối tròn xoay quanh trục $O x$ (chiều dài từ $x = 0$ đến $x = 4$ cm), với cấu trúc rỗng xuyên tâm là một lỗ hình trụ bán kính $r = 1$ cm. Mặt ngoài của con lăn có các rãnh lồi lõm được tạo bởi hai đường cong ghép trơn với nhau:
-  - Khúc lồi (nằm ở hai đầu) là đường lượng giác $(T): y = 4 + cos((pi x)/2)$ (giới hạn từ $x=0$ đến $x=1$ và từ $x=3$ đến $x=4$).
-  - Khúc lõm sâu ở giữa là một đường Parabol $(P): y = a x^2 + b x + c$ (giới hạn từ $x=1$ đến $x=3$).
-  Biết đường Lượng giác và đường Parabol ghép nối hoàn hảo với nhau (tiếp xúc trơn) tại điểm $x=1$ và $x=3$. Tìm hệ số của Parabol, sau đó sử dụng máy tính Casio để tính thể tích phần nhựa (vật liệu đặc) cấu tạo nên con lăn massage này (đơn vị: $upright("cm")^3$, làm tròn đến 1 chữ số thập phân).],
-  [$199","4$],
-  loigiai: [
-    #step[Tại điểm ghép $x = 1$, đường Lượng giác có toạ độ: $y_1(1) = 4 + cos(pi/2) = 4$. Đạo hàm $y'_1 = -pi/2 sin((pi x)/2) => y'_1(1) = -pi/2$.]
-    #step[Parabol $(P): y_2 = a x^2 + b x + c => y'_2 = 2a x + b$. Parabol đối xứng qua $x = 2$ (đáy rãnh lõm) nên $y'_2(2) = 0 => 4a + b = 0$.
-    Mặt khác $(P)$ tiếp xúc trơn với $(T)$ tại $x = 1$ nên $y'_2(1) = -pi/2 => 2a + b = -pi/2$.]
-    #step[Giải hệ hai đạo hàm ta được $2a = pi/2 => a = pi/4$ và $b = -pi$. 
-    Tại $x = 1$, ta có $y_2(1) = 4 => pi/4 - pi + c = 4 => c = 4 + (3pi)/4$.
-    Vậy phương trình rãnh lõm là $(P): y_2 = (pi/4)x^2 - pi x + 4 + (3pi)/4$.]
-    #step[Phần lỗ rỗng xuyên tâm của con lăn là một hình trụ bán kính $r=1$ trải dài từ $x=0$ đến $x=4$.]
-    #step[Thiết lập tích phân tính thể tích vỏ nhựa (Thể tích tổng khối lồi lõm trừ đi lỗ rỗng xuyên tâm):
-    $ V = pi integral_0^1 y_1^2 d x + pi integral_1^3 y_2^2 d x + pi integral_3^4 y_1^2 d x - pi integral_0^4 1^2 d x $]
-    #step[Nhập trực tiếp toàn bộ biểu thức sau vào máy tính Casio (nhớ để chế độ Radian):
-    $ V = pi (2 integral_0^1 (4+cos((pi x)/2))^2 d x + integral_1^3 (pi/4 x^2 - pi x + 4 + (3pi)/4)^2 d x - 4) $]
-    #step[Casio sẽ trả về kết quả cực kỳ chuẩn xác: $V approx 199,385$. Làm tròn một chữ số thập phân ta được $199,4$ ($upright("cm")^3$).]
-  ],
-  fig-pos: "right",
-  fig-width: 35%,
-  fig: align(center)[
-    #cetz.canvas({
-      import cetz.draw: *
-      
-      // Trục x
-      line((-0.5, 0), (4.5, 0), stroke: (paint: gray, dash: "dashed"), mark: (end: ">"))
-      
-      let draw_ellipse_x(x_coord, r, color, dashed_back: true) = {
-        let rx = 0.2 * r
-        if dashed_back {
-          arc((x_coord, r), start: 90deg, stop: 270deg, radius: (rx, r), stroke: (paint: color, thickness: 0.5pt, dash: "dashed"))
-        } else {
-          arc((x_coord, r), start: 90deg, stop: 270deg, radius: (rx, r), stroke: (paint: color, thickness: 0.5pt))
-        }
-        arc((x_coord, -r), start: -90deg, stop: 90deg, radius: (rx, r), stroke: (paint: color, thickness: 1.5pt))
-      }
-      
-      // Lõi rỗng
-      line((0, 1), (4, 1), stroke: (paint: rgb("EEEEEE"), thickness: 2pt))
-      line((0, -1), (4, -1), stroke: (paint: rgb("EEEEEE"), thickness: 2pt, dash: "dashed"))
-      
-      // Khúc 1 & 3: Lượng giác
-      let t1_top = range(0, 11).map(x => { let h = x/10; return (h, 4 + calc.cos(calc.pi * h / 2)) })
-      let t1_bot = range(0, 11).map(x => { let h = x/10; return (h, -(4 + calc.cos(calc.pi * h / 2))) })
-      line(..t1_top, stroke: (paint: rgb("E91E63"), thickness: 2pt))
-      line(..t1_bot, stroke: (paint: rgb("E91E63"), thickness: 2pt))
-      
-      let t2_top = range(30, 41).map(x => { let h = x/10; return (h, 4 + calc.cos(calc.pi * h / 2)) })
-      let t2_bot = range(30, 41).map(x => { let h = x/10; return (h, -(4 + calc.cos(calc.pi * h / 2))) })
-      line(..t2_top, stroke: (paint: rgb("E91E63"), thickness: 2pt))
-      line(..t2_bot, stroke: (paint: rgb("E91E63"), thickness: 2pt))
-      
-      // Khúc 2: Parabol
-      let p_top = range(10, 31).map(x => { let h = x/10; return (h, calc.pi/4*h*h - calc.pi*h + 4 + 0.75*calc.pi) })
-      let p_bot = range(10, 31).map(x => { let h = x/10; return (h, -(calc.pi/4*h*h - calc.pi*h + 4 + 0.75*calc.pi)) })
-      line(..p_top, stroke: (paint: rgb("C2185B"), thickness: 2pt))
-      line(..p_bot, stroke: (paint: rgb("C2185B"), thickness: 2pt))
-      
-      // Viền elip
-      draw_ellipse_x(0, 5, rgb("F48FB1")) // Mặt ngoài đầu 1
-      draw_ellipse_x(0, 1, rgb("BDBDBD")) // Mặt lổ đầu 1
-      
-      draw_ellipse_x(1, 4, rgb("F48FB1")) // Cắt ngang
-      draw_ellipse_x(2, 4 - calc.pi/4, rgb("F48FB1")) // Đáy rãnh
-      draw_ellipse_x(3, 4, rgb("F48FB1")) // Cắt ngang
-      
-      draw_ellipse_x(4, 5, rgb("F48FB1"), dashed_back: false) // Mặt ngoài đầu 2 (nhìn thấy viền lổ trong)
-      draw_ellipse_x(4, 1, rgb("BDBDBD"), dashed_back: false)
-      
     })
   ]
 )

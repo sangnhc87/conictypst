@@ -84,11 +84,12 @@
       if s == "+" or s == $+$ or r.contains("+") { "+" }
       else if s == "-" or s == $-$ or r.contains("−") or r.contains("-") { "-" }
       else if s == "||" or r.contains("||") or r.contains("‖") or r.contains("parallel") { "||" }
+      else if s == "" or s == [] or s == none or r == "\"\"" or r == "[]" or r == "none" or s == " " { "" }
       else { "0" }
     }
     let render-sign(s) = {
       let sig = sign-of(s)
-      if sig == "-" { $-$ } else if sig == "+" { $+$ } else if sig == "0" { $0$ } else if sig == "||" { none } else { s }
+      if sig == "-" { $-$ } else if sig == "+" { $+$ } else if sig == "0" { $0$ } else if sig == "||" { none } else if sig == "" { none } else { s }
     }
 
     for i in range(n) {
@@ -278,11 +279,12 @@
       if s == "+" or s == $+$ or r.contains("+") { "+" }
       else if s == "-" or s == $-$ or r.contains("−") or r.contains("-") { "-" }
       else if s == "||" or r.contains("||") or r.contains("‖") or r.contains("parallel") { "||" }
+      else if s == "" or s == [] or s == none or r == "\"\"" or r == "[]" or r == "none" or s == " " { "" }
       else { "0" }
     }
     let render-sign(s) = {
       let sig = sign-of(s)
-      if sig == "-" { $-$ } else if sig == "+" { $+$ } else if sig == "0" { $0$ } else if sig == "||" { none } else { s }
+      if sig == "-" { $-$ } else if sig == "+" { $+$ } else if sig == "0" { $0$ } else if sig == "||" { none } else if sig == "" { none } else { s }
     }
 
     for r in range(nrows) {
@@ -368,11 +370,12 @@
       if s == "+" or s == $+$ or r.contains("+") { "+" }
       else if s == "-" or s == $-$ or r.contains("−") or r.contains("-") { "-" }
       else if s == "||" or r.contains("||") or r.contains("‖") or r.contains("parallel") { "||" }
+      else if s == "" or s == [] or s == none or r == "\"\"" or r == "[]" or r == "none" or s == " " { "" }
       else { "0" }
     }
     let render-sign(s) = {
       let sig = sign-of(s)
-      if sig == "-" { $-$ } else if sig == "+" { $+$ } else if sig == "0" { $0$ } else if sig == "||" { none } else { s }
+      if sig == "-" { $-$ } else if sig == "+" { $+$ } else if sig == "0" { $0$ } else if sig == "||" { none } else if sig == "" { none } else { s }
     }
 
     let x-pos = ()

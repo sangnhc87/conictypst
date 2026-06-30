@@ -29,7 +29,7 @@ Sức mạnh khủng khiếp đó chính là *Cấp số nhân*.
   ]
 ]
 
-#muc([2. TỔNG CỦA $n$ SỐ HẠNG ĐẦU TIÊN & TỔNG LÙI VÔ HẠN])
+#muc([2. TỔNG CỦA $n$ SỐ HẠNG ĐẦU TIÊN])
 
 #block(breakable: false)[
   #phuongphap(title: [Công thức tính tổng $S_n$])[
@@ -39,12 +39,7 @@ Sức mạnh khủng khiếp đó chính là *Cấp số nhân*.
   ]
 ]
 
-#block(breakable: false)[
-  #phuongphap(title: [Tổng CSN Lùi vô hạn ($|q| < 1$)])[
-    Khi $|q| < 1$, mỗi số hạng tiếp theo càng ngày càng nhỏ dần về $0$. Dù cộng vô hạn lần, tổng vẫn có giới hạn cố định:
-    $ S_oo = u_1 / (1 - q) $
-  ]
-]
+
 
 #muc([3. CHUYÊN ĐỀ: TOÁN THỰC TẾ ĐỈNH CAO])
 
@@ -157,7 +152,7 @@ Sức mạnh khủng khiếp đó chính là *Cấp số nhân*.
   #phuongphap(title: [Mô hình 3: Hình học Fractal - Bông tuyết Koch])[
     Bắt đầu từ 1 tam giác đều cạnh $a$. Ở mỗi bước, chia mỗi cạnh làm 3 đoạn, xây 1 tam giác đều nhỏ lên đoạn giữa.
     - Chu vi bông tuyết tăng theo CSN công bội $q = 4/3 > 1 =>$ Chu vi tiến tới vô cực!
-    - Tuy nhiên, diện tích của bông tuyết lại là tổng của một CSN lùi vô hạn với $q = 4/9 < 1 =>$ Diện tích là một số Hữu hạn!
+    - Tuy nhiên, diện tích của bông tuyết thêm vào ở bước thứ $n$ là một CSN với $q = 4/9 < 1 =>$ Diện tích tổng cộng sẽ tiến dần đến một mức cố định!
     *Nghịch lý: Một hình có chu vi dài vô tận nhưng lại có thể nhét vừa trong một mảnh giấy hữu hạn!*
   ]
 ]
@@ -305,17 +300,17 @@ Sức mạnh khủng khiếp đó chính là *Cấp số nhân*.
   #phuongphap(title: [Mô hình 5: Vật lý - Quả bóng nảy giảm độ cao (Bouncing Ball)])[
     Một quả bóng được thả từ độ cao ban đầu $H$. Mỗi lần chạm đất, nó nảy lên độ cao bằng $q$ lần độ cao trước đó ($0 < q < 1$).
     - Quãng đường di chuyển gồm: rơi lần đầu ($H$), các lần nảy lên và rơi xuống tiếp theo ($2 H q, 2 H q^2, 2 H q^3...$).
-    - Tổng quãng đường di chuyển cho đến khi bóng dừng hẳn là:
-      $ S = H + 2 H q + 2 H q^2 + 2 H q^3 + ... $
-      $ S = H + 2 H q (1 + q + q^2 + ...) $
-    - Do $|q| < 1$, ta áp dụng tổng của Cấp số nhân lùi vô hạn:
-      $ S = H + (2 H q) / (1 - q) = H (1 + q) / (1 - q) $
-    *Ví dụ:* Nếu $H = 10$ m và $q = 3/4$, ta có $S = 10 dot (1 + 3/4) / (1 - 3/4) = 70$ m.
+    - Tổng quãng đường di chuyển sau $n$ lần chạm đất là:
+      $ S_n = H + 2 H q + 2 H q^2 + ... + 2 H q^n $
+      $ S_n = H + 2 H q (1 + q + q^2 + ... + q^(n-1)) $
+    - Áp dụng công thức tổng Cấp số nhân:
+      $ S_n = H + 2 H q (1 - q^n) / (1 - q) $
+    *Ví dụ:* Nếu $H = 10$ m và $q = 3/4$, sau 5 lần chạm đất, tổng quãng đường sẽ là $S_5 = 10 + 2(10)(3/4) (1 - (3/4)^5) / (1 - 3/4) \\approx 55.7$ m.
   ]
 ]
 
 #align(center)[
-  *Quỹ đạo nảy giảm độ cao của quả bóng (Cấp số nhân lùi vô hạn)* \
+  *Quỹ đạo nảy giảm độ cao của quả bóng (Cấp số nhân)* \
   #cetz.canvas(length: 1cm, {
     import cetz.draw: *
     
@@ -341,17 +336,17 @@ Sức mạnh khủng khiếp đó chính là *Cấp số nhân*.
 ]
 
 #block(breakable: false)[
-  #phuongphap(title: [Ví dụ bổ sung: Con lắc đơn dao động tắt dần (Cấp số nhân lùi vô hạn)])[
-    Khi một con lắc đơn dao động, do lực cản của không khí và ma sát ở chốt treo, biên độ dao động (chiều dài quãng đường mỗi lần vung từ biên này sang biên kia) giảm dần theo cấp số nhân lùi vô hạn.
+  #phuongphap(title: [Ví dụ bổ sung: Con lắc đơn dao động tắt dần (Cấp số nhân)])[
+    Khi một con lắc đơn dao động, do lực cản của không khí và ma sát ở chốt treo, biên độ dao động (chiều dài quãng đường mỗi lần vung từ biên này sang biên kia) giảm dần theo cấp số nhân.
     - Lần vung đầu tiên dài $u_1$ cm.
     - Lần vung thứ hai dài $u_2 = u_1 dot q$ cm ($0 < q < 1$).
-    - Tổng quãng đường con lắc di chuyển được cho đến khi dừng hẳn là:
-      $ S = u_1 + u_2 + u_3 + ... = u_1 / (1 - q) $
+    - Tổng quãng đường con lắc di chuyển được sau $n$ lần vung là:
+      $ S_n = u_1 (1 - q^n) / (1 - q) $
   ]
 ]
 
 #align(center)[
-  *Quỹ đạo dao động tắt dần của con lắc đơn (Cấp số nhân lùi vô hạn)* \
+  *Quỹ đạo dao động tắt dần của con lắc đơn (Cấp số nhân)* \
   #cetz.canvas(length: 1cm, {
     import cetz.draw: *
     
@@ -450,14 +445,14 @@ Sức mạnh khủng khiếp đó chính là *Cấp số nhân*.
     Một bệnh nhân uống định kỳ một liều thuốc $D$ mg sau mỗi khoảng thời gian $T$ giờ. Giả sử giữa các lần uống, cơ thể đào thải $p\%$ lượng thuốc đang có (tức là còn lại tỷ lệ $q = 1 - p\%$ với $0 < q < 1$).
     - Lượng thuốc trong cơ thể ngay sau liều thứ $n$ liên tiếp là:
       $ u_n = D + D q + D q^2 + ... + D q^(n-1) = D (1 - q^n) / (1 - q) $
-    - Khi điều trị dài ngày ($n -> oo$), lượng thuốc tích lũy trong cơ thể sẽ tiệm cận đến một giới hạn bão hòa (không tăng vô hạn gây ngộ độc):
-      $ u_oo = D / (1 - q) = D / p\% $
-    *Ví dụ:* Nếu uống $100$ mg mỗi ngày, cơ thể đào thải $40\%$ lượng thuốc ($q = 0.6$), lượng thuốc bão hòa là $100 / (1 - 0.6) = 250$ mg.
+    - Khi điều trị nhiều ngày (ví dụ $n=30$), lượng thuốc trong cơ thể sẽ tiệm cận mức bão hòa (do $q^n approx 0$) và không tăng vô hạn gây ngộ độc:
+      $ u_n approx D / (1 - q) = D / p\% $
+    *Ví dụ:* Nếu uống $100$ mg mỗi ngày, cơ thể đào thải $40\%$ lượng thuốc ($q = 0.6$), tổng lượng thuốc không vượt quá $100 / (1 - 0.6) = 250$ mg dù uống lâu thế nào.
   ]
 ]
 
 #align(center)[
-  *Đồ thị nồng độ thuốc trong cơ thể tiệm cận giới hạn bão hòa (CSN lùi vô hạn)* \
+  *Đồ thị nồng độ thuốc trong cơ thể tiệm cận giới hạn bão hòa (Cấp số nhân)* \
   #cetz.canvas(length: 1cm, {
     import cetz.draw: *
     

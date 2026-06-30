@@ -29,9 +29,9 @@
 #block(breakable: false)[
   #phuongphap(title: [⚙ Quy tắc tính logarit])[
     Với $a > 0, a != 1$ và $b, c > 0$:
-    - **Logarit của một tích:** $log_a (b c) = log_a b + log_a c$
-    - **Logarit của một thương:** $log_a (b/c) = log_a b - log_a c$
-    - **Logarit của một lũy thừa:** $log_a (b^alpha) = alpha log_a b$
+    - *Logarit của một tích:* $log_a (b c) = log_a b + log_a c$
+    - *Logarit của một thương:* $log_a (b/c) = log_a b - log_a c$
+    - *Logarit của một lũy thừa:* $log_a (b^alpha) = alpha log_a b$
     - *Đặc biệt:* $log_a (root(n, b)) = 1/n log_a b$ (với $n in NN^*, n >= 2$)
   ]
 ]
@@ -52,8 +52,8 @@
 
 #block(breakable: false)[
   #phuongphap(title: [⚙ Các logarit đặc biệt])[
-    - **Logarit thập phân:** Là logarit cơ số 10. Ký hiệu là $log x$ hoặc $lg x$ thay cho $log_10 x$.
-    - **Logarit tự nhiên:** Là logarit cơ số $e$ (với $e approx 2.71828...$). Ký hiệu là $ln x$ thay cho $log_e x$.
+    - *Logarit thập phân:* Là logarit cơ số 10. Ký hiệu là $log x$ hoặc $lg x$ thay cho $log_10 x$.
+    - *Logarit tự nhiên:* Là logarit cơ số $e$ (với $e approx 2.71828...$). Ký hiệu là $ln x$ thay cho $log_e x$.
   ]
 ]
 

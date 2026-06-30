@@ -14,9 +14,9 @@
     [$D = [3; +oo)$]
   ),
   loigiai: [
-    #step[**Lý thuyết:** Hàm số logarit $y = log_a X$ xác định khi biểu thức dưới dấu logarit dương ($X > 0$).]
-    #step[**B1: Điều kiện** \ Ở đây ta cần $x - 3 > 0 <=> x > 3$.]
-    #step[**B2: Kết luận** \ Tập xác định là $D = (3; +oo)$.]
+    #step[*Lý thuyết:* Hàm số logarit $y = log_a X$ xác định khi biểu thức dưới dấu logarit dương ($X > 0$).]
+    #step[*B1: Điều kiện* \ Ở đây ta cần $x - 3 > 0 <=> x > 3$.]
+    #step[*B2: Kết luận* \ Tập xác định là $D = (3; +oo)$.]
   ]
 ))
 
@@ -29,7 +29,7 @@
     [$y = (e/3)^x$]
   ),
   loigiai: [
-    #step[**Đánh giá cơ số** \ Hàm số $y = a^x$ hoặc $y = log_a x$ đồng biến khi cơ số $a > 1$ và nghịch biến khi $0 < a < 1$.]
+    #step[*Đánh giá cơ số* \ Hàm số $y = a^x$ hoặc $y = log_a x$ đồng biến khi cơ số $a > 1$ và nghịch biến khi $0 < a < 1$.]
     #step[- A: $a = sqrt(2)/2 approx 0.707 < 1$ (Nghịch biến).]
     #step[- B: $a = 0.5 < 1$ (Nghịch biến).]
     #step[- C: $a = pi approx 3.14 > 1$ (Đồng biến).]
@@ -46,9 +46,9 @@
     [$D = RR$]
   ),
   loigiai: [
-    #step[**Điều kiện xác định** \ Lũy thừa với số mũ nguyên âm ($n = -5$) đòi hỏi cơ số khác 0.]
-    #step[**Giải phương trình** \ $x^2 - 4 != 0 <=> x != 2$ và $x != -2$.]
-    #step[**Kết luận** \ Vậy tập xác định là $D = RR \ {-2; 2}$.]
+    #step[*Điều kiện xác định* \ Lũy thừa với số mũ nguyên âm ($n = -5$) đòi hỏi cơ số khác 0.]
+    #step[*Giải phương trình* \ $x^2 - 4 != 0 <=> x != 2$ và $x != -2$.]
+    #step[*Kết luận* \ Vậy tập xác định là $D = RR \ {-2; 2}$.]
   ]
 ))
 
@@ -61,8 +61,8 @@
     [$0$]
   ),
   loigiai: [
-    #step[**Tính đạo hàm** \ Đạo hàm của hàm số $f(x) = ln x$ là $f'(x) = 1/x$.]
-    #step[**Thay giá trị** \ Tại $x = e$, $f'(e) = 1/e$.]
+    #step[*Tính đạo hàm* \ Đạo hàm của hàm số $f(x) = ln x$ là $f'(x) = 1/x$.]
+    #step[*Thay giá trị* \ Tại $x = e$, $f'(e) = 1/e$.]
   ]
 ))
 
@@ -75,9 +75,9 @@
     [$y = log_(1/3) x$]
   ),
   loigiai: [
-    #step[**Phân tích đồ thị** \ Hàm số có tiệm cận ngang $y = 0$ nên đây là đồ thị hàm số mũ dạng $y = a^x$.]
-    #step[**Sử dụng tọa độ điểm** \ Đồ thị đi qua điểm $(1; 3)$, thay vào ta được $a^1 = 3 <=> a = 3$.]
-    #step[**Kết luận** \ Vậy đây là đồ thị hàm số $y = 3^x$.]
+    #step[*Phân tích đồ thị* \ Hàm số có tiệm cận ngang $y = 0$ nên đây là đồ thị hàm số mũ dạng $y = a^x$.]
+    #step[*Sử dụng tọa độ điểm* \ Đồ thị đi qua điểm $(1; 3)$, thay vào ta được $a^1 = 3 <=> a = 3$.]
+    #step[*Kết luận* \ Vậy đây là đồ thị hàm số $y = 3^x$.]
   ]
 ))
 
@@ -93,10 +93,10 @@
     True([Phương trình $f(x) = g(x)$ vô nghiệm.])
   ),
   loigiai: [
-    - **a) Sai:** Hàm số mũ $f(x) = 2^x$ có tập xác định là $RR$. $(0; +oo)$ là tập giá trị.
-    - **b) Đúng:** Vì $f(x) = 2^x$ và $g(x) = log_2 x$ là hai hàm ngược của nhau nên đồ thị của chúng luôn đối xứng qua đường phân giác $y = x$.
-    - **c) Sai:** Đồ thị hàm logarit $g(x)$ có trục tung ($x=0$) là tiệm cận đứng, không có tiệm cận ngang.
-    - **d) Đúng:** Vì đồ thị của hai hàm số nằm hoàn toàn về hai phía của đường thẳng $y=x$ và không có điểm chung nên phương trình $f(x)=g(x)$ vô nghiệm.
+    - *a) Sai:* Hàm số mũ $f(x) = 2^x$ có tập xác định là $RR$. $(0; +oo)$ là tập giá trị.
+    - *b) Đúng:* Vì $f(x) = 2^x$ và $g(x) = log_2 x$ là hai hàm ngược của nhau nên đồ thị của chúng luôn đối xứng qua đường phân giác $y = x$.
+    - *c) Sai:* Đồ thị hàm logarit $g(x)$ có trục tung ($x=0$) là tiệm cận đứng, không có tiệm cận ngang.
+    - *d) Đúng:* Vì đồ thị của hai hàm số nằm hoàn toàn về hai phía của đường thẳng $y=x$ và không có điểm chung nên phương trình $f(x)=g(x)$ vô nghiệm.
   ]
 ))
 
@@ -109,10 +109,10 @@
     [Nếu $m = 1$, đồ thị hàm số có hai đường tiệm cận đứng.] // If m=1, y = ln(x-1)^2. It has one vertical asymptote x=1. False.
   ),
   loigiai: [
-    - **a) Đúng:** Với $m = 2$, biểu thức trong logarit là $x^2 - 2x + 2 = (x - 1)^2 + 1 > 0$ với mọi $x in RR$. Do đó tập xác định là $RR$.
-    - **b) Sai:** Khi $m = 0$, điều kiện là $x^2 - 2x > 0 <=> x < 0$ hoặc $x > 2$. Tập xác định là $D = (-oo; 0) union (2; +oo)$, không phải đoạn $[0; 2]$.
-    - **c) Đúng:** Yêu cầu bài toán tương đương với $x^2 - 2x + m > 0, quad forall x in (0; 3)$. Cô lập $m$: $m > -x^2 + 2x$. Xét hàm $h(x) = -x^2 + 2x$ trên $(0; 3)$. $h(x)$ đạt đỉnh tại $x = 1$, giá trị lớn nhất là $1$. Do đó ta cần $m > 1$.
-    - **d) Sai:** Khi $m = 1$, $y = ln(x^2 - 2x + 1) = ln(x - 1)^2$. Điều kiện là $x != 1$. Khi $x -> 1$, $y -> -oo$, do đó chỉ có đúng 1 đường tiệm cận đứng là $x = 1$.
+    - *a) Đúng:* Với $m = 2$, biểu thức trong logarit là $x^2 - 2x + 2 = (x - 1)^2 + 1 > 0$ với mọi $x in RR$. Do đó tập xác định là $RR$.
+    - *b) Sai:* Khi $m = 0$, điều kiện là $x^2 - 2x > 0 <=> x < 0$ hoặc $x > 2$. Tập xác định là $D = (-oo; 0) union (2; +oo)$, không phải đoạn $[0; 2]$.
+    - *c) Đúng:* Yêu cầu bài toán tương đương với $x^2 - 2x + m > 0, quad forall x in (0; 3)$. Cô lập $m$: $m > -x^2 + 2x$. Xét hàm $h(x) = -x^2 + 2x$ trên $(0; 3)$. $h(x)$ đạt đỉnh tại $x = 1$, giá trị lớn nhất là $1$. Do đó ta cần $m > 1$.
+    - *d) Sai:* Khi $m = 1$, $y = ln(x^2 - 2x + 1) = ln(x - 1)^2$. Điều kiện là $x != 1$. Khi $x -> 1$, $y -> -oo$, do đó chỉ có đúng 1 đường tiệm cận đứng là $x = 1$.
   ]
 ))
 
@@ -123,9 +123,9 @@
   [Tìm số giá trị nguyên của tham số $m$ thuộc đoạn $[-5; 5]$ để hàm số $y = log_3 (x^2 + 4x + m)$ có tập xác định là $RR$.],
   [$1$], // Wait. x^2+4x+m > 0 for all x. Delta' = 4 - m < 0 => m > 4. In [-5;5], m=5 => 1 value. Correct.
   loigiai: [
-    #step[**B1: Lập điều kiện** \ Hàm số xác định trên $RR$ khi và chỉ khi $x^2 + 4x + m > 0$ với mọi $x in RR$.]
-    #step[**B2: Xét dấu tam thức bậc hai** \ Yêu cầu này tương đương với $Delta' < 0 <=> 2^2 - m < 0 <=> 4 - m < 0 <=> m > 4$.]
-    #step[**B3: Lọc kết quả** \ Do $m$ nguyên và $m in [-5; 5]$ nên $m = 5$. \ Vậy có đúng $1$ giá trị nguyên thỏa mãn.]
+    #step[*B1: Lập điều kiện* \ Hàm số xác định trên $RR$ khi và chỉ khi $x^2 + 4x + m > 0$ với mọi $x in RR$.]
+    #step[*B2: Xét dấu tam thức bậc hai* \ Yêu cầu này tương đương với $Delta' < 0 <=> 2^2 - m < 0 <=> 4 - m < 0 <=> m > 4$.]
+    #step[*B3: Lọc kết quả* \ Do $m$ nguyên và $m in [-5; 5]$ nên $m = 5$. \ Vậy có đúng $1$ giá trị nguyên thỏa mãn.]
   ]
 ))
 
@@ -133,8 +133,8 @@
   [Có bao nhiêu điểm trên đồ thị hàm số $y = e^x$ có tọa độ nguyên?],
   [$1$],
   loigiai: [
-    #step[**B1: Phân tích tọa độ nguyên** \ Gọi điểm thuộc đồ thị là $M(x; y)$. Vì $M$ có tọa độ nguyên nên $x in ZZ$ và $y in ZZ$.]
-    #step[**B2: Đánh giá phương trình** \ Ta có phương trình $y = e^x$. Vì $e$ là số vô tỉ ($e approx 2.718$), $e^x$ chỉ có thể là số nguyên khi số mũ $x = 0$.]
-    #step[**B3: Tìm nghiệm** \ Với $x = 0$, ta có $y = e^0 = 1$. Điểm duy nhất là $(0; 1)$. \ Nếu $x >= 1$ thì $e^x$ là số vô tỉ. Nếu $x <= -1$ thì $0 < e^x < 1$, không thể là số nguyên. \ Vậy có duy nhất $1$ điểm.]
+    #step[*B1: Phân tích tọa độ nguyên* \ Gọi điểm thuộc đồ thị là $M(x; y)$. Vì $M$ có tọa độ nguyên nên $x in ZZ$ và $y in ZZ$.]
+    #step[*B2: Đánh giá phương trình* \ Ta có phương trình $y = e^x$. Vì $e$ là số vô tỉ ($e approx 2.718$), $e^x$ chỉ có thể là số nguyên khi số mũ $x = 0$.]
+    #step[*B3: Tìm nghiệm* \ Với $x = 0$, ta có $y = e^0 = 1$. Điểm duy nhất là $(0; 1)$. \ Nếu $x >= 1$ thì $e^x$ là số vô tỉ. Nếu $x <= -1$ thì $0 < e^x < 1$, không thể là số nguyên. \ Vậy có duy nhất $1$ điểm.]
   ]
 ))

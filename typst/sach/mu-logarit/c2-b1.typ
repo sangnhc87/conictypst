@@ -41,20 +41,20 @@
     - Cho $a > 0$ và số hữu tỉ $r = m/n$ trong đó $m in ZZ, n in NN^*, n >= 2$.
     - Lũy thừa của $a$ với số mũ $r$ được định nghĩa là:
       $ a^(m/n) = root(n, a^m) $
-    - *Lưu ý:* Cơ số $a$ **bắt buộc phải dương** ($a > 0$). Ví dụ: $(-2)^(1/3)$ là không xác định dù $root(3, -2)$ có nghĩa.
+    - *Lưu ý:* Cơ số $a$ *bắt buộc phải dương* ($a > 0$). Ví dụ: $(-2)^(1/3)$ là không xác định dù $root(3, -2)$ có nghĩa.
   ]
 ]
 
 #block(breakable: false)[
   #phuongphap(title: [⚙ Số mũ thực và Tính chất chung])[
     - Lũy thừa với số mũ thực $alpha in RR$ của $a > 0$ là giới hạn của các lũy thừa với số mũ hữu tỉ tiến dần tới $alpha$.
-    - **Các tính chất của lũy thừa (với $a, b > 0; x, y in RR$):**
+    - *Các tính chất của lũy thừa (với $a, b > 0; x, y in RR$):*
       1. $a^x dot a^y = a^(x+y)$
       2. $a^x / a^y = a^(x-y)$
       3. $(a^x)^y = a^(x y)$
       4. $(a b)^x = a^x dot b^x$
       5. $(a/b)^x = a^x / b^x$
-    - **Tính đồng biến, nghịch biến:**
+    - *Tính đồng biến, nghịch biến:*
       - Nếu $a > 1$: $a^x > a^y <=> x > y$ (Cùng chiều).
       - Nếu $0 < a < 1$: $a^x > a^y <=> x < y$ (Ngược chiều).
   ]

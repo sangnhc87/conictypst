@@ -34,7 +34,7 @@
 
 #block(breakable: false)[
   #phuongphap(title: [⚙ Tính đối xứng])[
-    Hàm số $y = a^x$ và hàm số $y = log_a x$ là hai hàm ngược của nhau. Do đó, đồ thị của chúng **đối xứng với nhau qua đường phân giác của góc phần tư thứ nhất** (đường thẳng $y = x$).
+    Hàm số $y = a^x$ và hàm số $y = log_a x$ là hai hàm ngược của nhau. Do đó, đồ thị của chúng *đối xứng với nhau qua đường phân giác của góc phần tư thứ nhất* (đường thẳng $y = x$).
   ]
 ]
 

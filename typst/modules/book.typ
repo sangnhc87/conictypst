@@ -28,7 +28,7 @@
   let resolved = if num == auto { counter.get().first() + 1 } else { num }
   (
     num: resolved,
-    update: counter.update(resolved),
+    update: if num == auto { counter.step() } else { counter.update(num) },
   )
 }
 

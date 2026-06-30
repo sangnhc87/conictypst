@@ -1,0 +1,92 @@
+--- Q1 (TN) ---
+dir: "doc",   fig: canvas(length: 0.8cm, {     import draw: *     line((-3.8, 0), (3.8, 0), mark: (end: ">"), stroke: 0.5pt)     content((3.8, 0), $x$, anchor: "north", padding: 2pt)     line((0, -0.8), (0, 5.2), mark: (end: ">"), stroke: 0.5pt)     content((0, 5.2), $y$, anchor: "west", padding: 2p
+--- Q2 (TN) ---
+dir: "doc",   fig: canvas(length: 0.7cm, {     import draw: *     line((-3.8, 0), (4.5, 0), mark: (end: ">"), stroke: 0.5pt)     content((4.5, 0), $x$, anchor: "north", padding: 2pt)     line((0, -0.8), (0, 4.8), mark: (end: ">"), stroke: 0.5pt)     content((0, 4.8), $y$, anchor: "west", padding: 2p
+--- Q3 (TN) ---
+dir: "doc",   fig: canvas(length: 0.8cm, {     import draw: *     line((-2.8, 0), (2.8, 0), mark: (end: ">"), stroke: 0.5pt)     content((2.8, 0), $x$, anchor: "north", padding: 2pt)     line((0, -1.8), (0, 3.8), mark: (end: ">"), stroke: 0.5pt)     content((0, 3.8), $y$, anchor: "west", padding: 2p
+--- Q4 (TN) ---
+dir: "doc",   fig: canvas(length: 0.8cm, {     import draw: *     line((-1.8, 0), (3.8, 0), mark: (end: ">"), stroke: 0.5pt)     content((3.8, 0), $x$, anchor: "north", padding: 2pt)     line((0, -3.5), (0, 2.5), mark: (end: ">"), stroke: 0.5pt)     content((0, 2.5), $y$, anchor: "west", padding: 2p
+--- Q5 (TN) ---
+dir: "doc",   [Cho hàm số $y = f(x)$ liên tục trên đoạn $[-3;2]$ và có bảng biến thiên như hình vẽ dưới:     #align(center)[       #my-bbbt(         var: $x$,         der: none,         func: $y$,         x-vals: ($-3$, $-1$, $0$, $1$, $2$),         d-signs: ("", "", "", "", "", "", ""),         v-v
+--- Q6 (TN) ---
+dir: "doc",   [Cho hàm số $y = f(x)$ có bảng xét dấu đạo hàm như sau:     #align(center)[       #my-bxd(         var: $x$,         func: $f'(x)$,         x-vals: ($-oo$, $-3$, $-2$, $-1$, $0$, $1$, $+oo$),         f-signs: ("+", "0", "+", "0", "-", "0", "+", "0", "-", "0", "-")       )     ]     Biế
+--- Q7 (TN) ---
+dir: "doc",   [Cho hàm số $y = f(x)$ liên tục trên $[-3;2]$ và có bảng biến thiên như hình vẽ dưới. Gọi $M$, $m$ lần lượt là giá trị lớn nhất và giá trị nhỏ nhất của hàm số $y = f(x)$ trên $[-3;2]$. Tính $M . m$.     #align(center)[       #my-bbbt(         var: $x$,         der: none,         func: 
+--- Q8 (TN) ---
+dir: "doc",   [Cho hàm số $y = f(x)$ có bảng biến thiên sau:     #align(center)[       #my-bbbt(         var: $x$,         der: $f'(x)$,         func: $f(x)$,         x-vals: ($0$, $3$, $8$),         d-signs: ("+", "0", "-"),         v-vals: ($0$, $10$, $0$),         ranks: (0, 2, 0)       )     ]  
+--- Q9 (TN) ---
+[Giá trị nhỏ nhất của hàm số $f(x) = x^3 - 6x$ trên $[-1; 4]$ là],   (     True([$-4sqrt(2)$]),     [$-5$],     [$5$],     [$40$]   ),
+--- Q10 (TN) ---
+[Gọi $M, m$ lần lượt là giá trị lớn nhất, giá trị nhỏ nhất của hàm số $y = 1/3 x^3 - 2x^2 + 3x + 1$ trên đoạn $[0; 4]$. Tính tổng $S = M + m$.],   (     [$7/3$],     [$1$],     True([$10/3$]),     [$4$]   ),
+--- Q11 (TN) ---
+[Giá trị lớn nhất của hàm số $y = x^3 + 3x^2 + 10$ trên đoạn $[-5;-1]$ bằng],   (     [$12$],     [$18$],     [$-40$],     True([$14$])   ),
+--- Q12 (TN) ---
+[Giá trị nhỏ nhất của hàm số $y = x^3 - 3x + 5$ trên đoạn $[2;4]$ là:],   (     [$limits(min)_([2;4]) y = 5$],     [$limits(min)_([2;4]) y = 0$],     [$limits(min)_([2;4]) y = 3$],     True([$limits(min)_([2;4]) y = 7$])   ),
+--- Q13 (TN) ---
+[Giá trị lớn nhất của hàm số $f(x) = (x^2 + 3)/(x - 1)$ trên đoạn $[2; 4]$ là],   (     True([$7$]),     [$8$],     [$19/3$],     [$23/3$]   ),
+--- Q14 (TN) ---
+[Gọi $m, M$ lần lượt là giá trị nhỏ nhất và giá trị lớn nhất của hàm số $f(x) = 1/2 x - sqrt(x + 1)$ trên đoạn $[0; 3]$. Tổng $S = 2M - m$ bằng],   (     True([$S = 0$]),     [$S = -3/2$],     [$S = -2$],     [$S = 4$]   ),
+--- Q15 (TN) ---
+[Giá trị lớn nhất và giá trị nhỏ nhất của hàm số $f(x) = x + cos^2 x$ trên đoạn $[0; pi/4]$ là],   (     [$limits(max)_([0; pi/4]) f(x) = 1/2; limits(min)_([0; pi/4]) f(x) = -1$],     [$limits(max)_([0; pi/4]) f(x) = pi/4; limits(min)_([0; pi/4]) f(x) = pi/6$],     True([$limits(max)_([0; pi/4]) f(x
+--- Q16 (TN) ---
+[Tìm giá trị nhỏ nhất của hàm số $y = (x+2)/x$ trên $[1;2]$],   (     [$limits(min)_([1;2]) y = 3$],     True([$limits(min)_([1;2]) y = 2$]),     [$limits(min)_([1;2]) y = 1/2$],     [$limits(min)_([1;2]) y = 3/2$]   ),
+--- Q17 (TN) ---
+[Giá trị lớn nhất của hàm số $y = sqrt(16-x^2)$ là],   (     [$16$],     True([$4$]),     [$0$],     [$1$]   ),
+--- Q18 (TN) ---
+[Gọi $M, m$ lần lượt là giá trị lớn nhất, giá trị nhỏ nhất của hàm số $y = x sqrt(16-x^2)$. Tính $M + m$],   (     [$8 - sqrt(8)$],     [$sqrt(8)$],     True([$0$]),     [$8$]   ),
+--- Q19 (TN) ---
+[Trên đoạn $[-4;-1]$, hàm số $y = x + 9/(x-1)$ đạt giá trị lớn nhất bằng],   (     True([$-5$]),     [$-29/5$],     [$-11/2$],     [$4$]   ),
+--- Q20 (TN) ---
+[Gọi $M, m$ lần lượt là giá trị lớn nhất và giá trị nhỏ nhất của hàm số $y = 4/x + x + 1$ trên đoạn $[1;3]$. Tính $M - m$.],   (     [$9$],     [$5$],     True([$1$]),     [$4$]   ),
+--- Q21 (TN) ---
+[Trên đoạn $[1/3; 3/2]$, hàm số $y = 2x^2 + 1/(2x)$ đạt giá trị nhỏ nhất tại điểm],   (     True([$x = 1/2$]),     [$x = 3/2$],     [$x = 1/3$],     [$x = 1$]   ),
+--- Q22 (TN) ---
+[Giá trị lớn nhất của hàm số $y = 2cos x - 4/3 cos^3 x$ trên $[0; pi]$.],   (     [$limits(max)_([0; pi]) y = 2/3$],     [$limits(max)_([0; pi]) y = 10/3$],     True([$limits(max)_([0; pi]) y = (2sqrt(2))/3$]),     [$limits(max)_([0; pi]) y = 0$]   ),
+--- Q23 (TN) ---
+[Giá trị lớn nhất của hàm số $y = sqrt(x-3) + sqrt(5-x)$ là],   (     [$sqrt(3)$],     [$sqrt(2)$],     [$1$],     True([$2$])   ),
+--- Q24 (TN) ---
+[Gọi $M, m$ lần lượt là giá trị lớn nhất và giá trị nhỏ nhất của hàm số $y = (x^2+x+3)/(x-2)$ trên $[-2;1]$. Giá trị của $M + m$ bằng],   (     True([$-6$]),     [$-9/4$],     [$-25/4$],     [$-5$]   ),
+--- Q25 (TN) ---
+[Gọi $m, M$ lần lượt là giá trị nhỏ nhất, giá trị lớn nhất của hàm số $f(x) = 4x + sin^2 pi x$ trên đoạn $[-1;2]$. Giá trị của $m + M$ bằng],   (     [$0$],     True([$4$]),     [$-2$],     [$-4$]   ),
+--- Q26 (TN) ---
+[Giá trị lớn nhất của hàm số $y = x + cos^2 x$ trên $[0; pi/2]$ là:],   (     True([$pi/2$]),     [$pi/2 + 1$],     [$1$],     [$pi/4 + 1/2$]   ),
+--- Q27 (TN) ---
+[Giá trị lớn nhất của hàm số $f(x) = (-x^2-4)/x$ trên đoạn $[3/2; 4]$.],   (     True([$-4$]),     [$-25/6$],     [$-5$],     [$-2$]   ),
+--- Q28 (TN) ---
+[Gọi $m, M$ lần lượt là giá trị nhỏ nhất, giá trị lớn nhất của hàm số $f(x) = 2x + cos (pi x)/2$ trên đoạn $[-2;2]$. Giá trị của $m + M$ bằng],   (     [$2$],     True([$-2$]),     [$0$],     [$-4$]   ),
+--- Q29 (TN) ---
+[Cho hàm số $y = sin x cos^2 x/2$. Giá trị lớn nhất của hàm số trên $[0; pi]$ bằng],   (     [$0$],     [$(3sqrt(3))/4$],     [$1/2$],     True([$(3sqrt(3))/8$])   ),
+--- Q30 (TN) ---
+[Gọi $M, m$ thứ tự là giá trị lớn nhất và giá trị nhỏ nhất của hàm số $y = (x^2+3)/(x-1)$ trên đoạn $[-2;0]$. Tính $P = M + m$?],   (     [$P = 1$],     [$P = -3$],     [$P = -13/3$],     True([$P = -5$])   ),
+--- Q31 (TN) ---
+[Giá trị lớn nhất của hàm số $y = sqrt(-x^2+3x+4)$ là bao nhiêu?],   (     True([$5/2$]),     [$2/5$],     [$3/2$],     [$0$]   ),
+--- Q32 (TN) ---
+[Cho hàm số $y = x^3 - 3/2 x^2 + 1$. Gọi $M$ là giá trị lớn nhất của hàm số trên khoảng $(-25; 11/10)$. Tìm giá trị của $M$.],   (     True([$M = 1$]),     [$M = 1/2$],     [$M = 0$],     [$(129)/(250)$]   ),
+--- Q33 (TN) ---
+[Giá trị lớn nhất của hàm số $f(x) = (1+cos 2x)/(2+sin x)$ bằng],   (     [$4sqrt(2) - 4$],     [$1$],     [$0$],     True([$8 - 4sqrt(3)$])   ),
+--- Q34 (DS) ---
+[Cho hàm số $y = f(x)$ xác định và liên tục trên $(-4;4)$ và có bảng biến thiên như sau:     #align(center)[       #my-bbbt(         var: $x$,         der: $f'(x)$,         func: $f(x)$,         x-vals: ($-4$, $-2$, $0$, $4$),         d-signs: ("+", "0", "-", "0", "+"),         v-vals: ($-10$, $0$, 
+--- Q35 (DS) ---
+[Cho hàm số $y = x + 4/x$, $x in (0; +oo)$.],   (     True([Hàm số đạt giá trị nhỏ nhất tại $x = 2$ và không có giá trị lớn nhất trên $(0; +oo)$.]),     [Hàm số có giá trị lớn nhất và giá trị nhỏ nhất trên $(0; +oo)$.],     [Hàm số đạt giá trị lớn nhất tại $x = 1$ và không có giá trị nhỏ nhất trên k
+--- Q36 (DS) ---
+[Cho hàm số $y = f(x)$ liên tục trên $RR$ và có bảng biến thiên trong hình vẽ dưới đây:     #align(center)[       #my-bbbt(         var: $x$,         der: $f'(x)$,         func: $f(x)$,         x-vals: ($-oo$, $-1$, $0$, $1$, $+oo$),         d-signs: ("-", "0", "+", "0", "-", "0", "+"),         v-va
+--- Q37 (DS) ---
+[Cho hàm số $y = f(x)$ liên tục trên $RR$ và có bảng biến thiên trong hình vẽ dưới đây:     #align(center)[       #my-bbbt(         var: $x$,         der: $f'(x)$,         func: $f(x)$,         x-vals: ($-oo$, $-1$, $0$, $1$, $+oo$),         d-signs: ("+", "0", "-", "0", "+", "0", "-"),         v-va
+--- Q38 (DS) ---
+dir: "doc",   fig: canvas(length: 0.55cm, {     import draw: *     // Axes     line((-3, 0), (7, 0), mark: (end: ">"), stroke: 0.5pt)     content((7, 0), $x$, anchor: "north", padding: 2pt)     line((0, -2), (0, 4), mark: (end: ">"), stroke: 0.5pt)     content((0, 4), $y$, anchor: "west", padding: 2
+--- Q39 (DS) ---
+dir: "doc",   fig: canvas(length: 0.55cm, {     import draw: *     // Axes     line((-1.5, 0), (6.5, 0), mark: (end: ">"), stroke: 0.5pt)     content((6.5, 0), $x$, anchor: "north", padding: 2pt)     line((0, -2), (0, 3.5), mark: (end: ">"), stroke: 0.5pt)     content((0, 3.5), $y$, anchor: "west", 
+--- Q40 (DS) ---
+dir: "doc",   fig: canvas(length: 0.55cm, {     import draw: *     // Axes     line((-2.5, 0), (5.5, 0), mark: (end: ">"), stroke: 0.5pt)     content((5.5, 0), $x$, anchor: "north", padding: 2pt)     line((0, -2.5), (0, 3.5), mark: (end: ">"), stroke: 0.5pt)     content((0, 3.5), $y$, anchor: "west"
+--- Q41 (TLN) ---
+[Cho hàm số $f(x) = 4x^3 - 9x^2 - 30x$. Với các số nguyên $a, b$ mà $a < b$ thì giá trị nhỏ nhất của $f(b) - f(a)$ bằng bao nhiêu?],   [$-81$],
+--- Q42 (TLN) ---
+[Gọi giá trị lớn nhất và giá trị nhỏ nhất của hàm số $y = sin^3 x - 2cos^2 x + 3sin x + 6$ trên $[0; pi]$ lần lượt là $M, m$. Tính tổng $M + m$.],   [$14$],
+--- Q43 (TLN) ---
+[Cho hàm số $y = e^x(x^2 - 3)$, gọi $M = a/(e^b) (a in N, b in N)$ là giá trị lớn nhất của hàm số trên đoạn $[-5; -2]$. Tính giá trị của biểu thức $P = a + b$?],   [$9$],
+--- Q44 (TLN) ---
+[Tìm giá trị nhỏ nhất của hàm số $y = x^2 + 16/x$ trên đoạn $[1; 4]$],   [$12$],
+--- Q45 (TLN) ---
+[Cho hàm số $y = x + 1/(x+2)$. Tìm giá trị nhỏ nhất của hàm số trên $[-1; 2]$],   [$0$],
+--- Q46 (TLN) ---
+[Một loại vi khuẩn được tiêm một loại thuốc kích thích sự sinh sản. Sau $t$ phút, số vi khuẩn được xác định theo công thức $N(t) = 1000 + 30t^2 - t^3$ $(0 <= t <= 30)$. Hỏi sau bao nhiêu giây thì số vi khuẩn lớn nhất?],   [$1200$],

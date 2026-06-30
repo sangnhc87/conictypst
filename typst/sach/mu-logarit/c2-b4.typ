@@ -28,8 +28,8 @@
 
 #block(breakable: false)[
   #phuongphap(title: [⚙ Phương pháp đưa về cùng cơ số])[
-    - **Đối với phương trình mũ:** $a^(f(x)) = a^(g(x)) <=> f(x) = g(x)$.
-    - **Đối với phương trình logarit:** $log_a f(x) = log_a g(x) <=> f(x) = g(x) > 0$. \
+    - *Đối với phương trình mũ:* $a^(f(x)) = a^(g(x)) <=> f(x) = g(x)$.
+    - *Đối với phương trình logarit:* $log_a f(x) = log_a g(x) <=> f(x) = g(x) > 0$. \
       *(Lưu ý: Bắt buộc phải có điều kiện $f(x) > 0$ hoặc $g(x) > 0$ trước khi giải).*
   ]
 ]
@@ -52,10 +52,10 @@
 
 #block(breakable: false)[
   #phuongphap(title: [⚙ Dấu của bất phương trình phụ thuộc vào cơ số])[
-    - **Trường hợp cơ số $a > 1$ (giữ nguyên chiều):**
+    - *Trường hợp cơ số $a > 1$ (giữ nguyên chiều):*
       - $a^(f(x)) > a^(g(x)) <=> f(x) > g(x)$
       - $log_a f(x) > log_a g(x) <=> f(x) > g(x) > 0$
-    - **Trường hợp cơ số $0 < a < 1$ (đảo chiều):**
+    - *Trường hợp cơ số $0 < a < 1$ (đảo chiều):*
       - $a^(f(x)) > a^(g(x)) <=> f(x) < g(x)$
       - $log_a f(x) > log_a g(x) <=> 0 < f(x) < g(x)$
   ]

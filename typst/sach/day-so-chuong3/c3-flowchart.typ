@@ -63,8 +63,8 @@
     #ftitle(color: C-CYAN)[TÍNH CHẤT CỦA DÃY SỐ $u_n$]
     #v(6pt)
     #fsub[
-      • *Tăng / Giảm:* Lập hiệu $u_(n+1) - u_n$ hoặc thương $u_(n+1) / u_n$.\
-      • *Bị chặn:* Tồn tại biên $m <= u_n <= M$.\
+      • *Tăng / Giảm:* Lập hiệu $u_(n+1) - u_n$ hoặc thương $u_(n+1) / u_n$. \
+      • *Bị chặn:* Tồn tại biên $m <= u_n <= M$. \
       • *Truy hồi:* Số hạng sau tính dựa vào số hạng trước (Ví dụ: Fibonacci $1, 1, 2, 3, 5, 8...$).
     ]
   ],
@@ -85,10 +85,10 @@
       #ftitle(color: C-PURPLE)[CẤP SỐ CỘNG (CSC)]
       #v(6pt)
       #fsub[
-        • *Định nghĩa:* $u_(n+1) = u_n + d$ (Cộng thêm hằng số $d$).\
-        • *Số hạng tổng quát:* $u_n = u_1 + (n-1)d$.\
-        • *Tính chất:* $u_k = (u_(k-1) + u_(k+1))/2$.\
-        • *Tổng $n$ số hạng:* $S_n = n/2 (u_1 + u_n)$.\
+        • *Định nghĩa:* $u_(n+1) = u_n + d$ (Cộng thêm hằng số $d$). \
+        • *Số hạng tổng quát:* $u_n = u_1 + (n-1)d$. \
+        • *Tính chất:* $u_k = (u_(k-1) + u_(k+1))/2$. \
+        • *Tổng $n$ số hạng:* $S_n = n/2 (u_1 + u_n)$. \
         • *Đặc trưng:* Tăng trưởng ĐỀU (Đường thẳng tuyến tính).
       ]
     ],
@@ -102,10 +102,10 @@
       #ftitle(color: C-EMERALD)[CẤP SỐ NHÂN (CSN)]
       #v(6pt)
       #fsub[
-        • *Định nghĩa:* $u_(n+1) = u_n dot q$ (Nhân thêm hằng số $q$).\
-        • *Số hạng tổng quát:* $u_n = u_1 dot q^(n-1)$.\
-        • *Tính chất:* $u_k^2 = u_(k-1) dot u_(k+1)$.\
-        • *Tổng $n$ số hạng:* $S_n = u_1 (1 - q^n)/(1 - q)$.\
+        • *Định nghĩa:* $u_(n+1) = u_n dot q$ (Nhân thêm hằng số $q$). \
+        • *Số hạng tổng quát:* $u_n = u_1 dot q^(n-1)$. \
+        • *Tính chất:* $u_k^2 = u_(k-1) dot u_(k+1)$. \
+        • *Tổng $n$ số hạng:* $S_n = u_1 (1 - q^n)/(1 - q)$. \
         • *Đặc trưng:* Tăng trưởng BÙNG NỔ (Đường cong mũ).
       ]
     ]
@@ -126,9 +126,9 @@
       #ftitle(color: C-AMBER)[1. ỨNG DỤNG CẤP SỐ CỘNG]
       #v(6pt)
       #fsub[
-        • *Kiến trúc:* Số gạch xây cầu thang, mái ngói.\
-        • *Sự kiện:* Xếp ghế rạp hát, sân vận động.\
-        • *Chuyển động:* Quãng đường rơi tự do (Galileo).\
+        • *Kiến trúc:* Số gạch xây cầu thang, mái ngói. \
+        • *Sự kiện:* Xếp ghế rạp hát, sân vận động. \
+        • *Chuyển động:* Quãng đường rơi tự do (Galileo). \
         • *Kinh tế:* Khấu hao tài sản đường thẳng.
       ]
     ],
@@ -137,10 +137,10 @@
       #ftitle(color: C-AMBER)[2. ỨNG DỤNG CẤP SỐ NHÂN]
       #v(6pt)
       #fsub[
-        • *Cổ tích:* Nghịch lý hạt thóc bàn cờ vua.\
-        • *Tài chính:* Lãi kép, Lạm phát, Amortization.\
-        • *Sinh học:* Phân chia tế bào, Vi khuẩn.\
-        • *Vật lý:* Quả bóng nảy (CSN lùi vô hạn).
+        • *Cổ tích:* Nghịch lý hạt thóc bàn cờ vua. \
+        • *Tài chính:* Lãi kép, Lạm phát, Amortization. \
+        • *Sinh học:* Phân chia tế bào, Vi khuẩn. \
+        • *Vật lý:* Quả bóng nảy (Quãng đường sau $n$ lần nảy).
       ]
     ]
   )

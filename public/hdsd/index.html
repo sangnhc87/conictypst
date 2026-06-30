@@ -1,0 +1,1669 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HDSD Hệ Thống Template Typst — GV Nguyễn Văn Sang</title>
+  <meta name="description" content="Hướng dẫn sử dụng đầy đủ hệ thống soạn thảo Typst: đề thi, sách giáo khoa, chuyên đề, vẽ hình BBT và hình học." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ── TOPBAR ── -->
+<header class="topbar" id="topbar">
+  <div class="topbar-inner">
+    <button class="menu-btn" id="menuBtn" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="logo">
+      <span class="logo-icon">𝒯</span>
+      <div>
+        <div class="logo-title">StexGV Typst</div>
+        <div class="logo-sub">Hướng dẫn sử dụng</div>
+      </div>
+    </div>
+    <div class="topbar-search">
+      <input type="text" id="searchInput" placeholder="🔍  Tìm nhanh lệnh, macro…" autocomplete="off" />
+      <div class="search-results" id="searchResults"></div>
+    </div>
+    <div class="topbar-actions">
+      <a href="downloads/stexgv-template-full.zip" class="btn-download" id="mainDownloadBtn" download>
+        ⬇ Tải gói đầy đủ
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- ── SIDEBAR ── -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-section">
+    <div class="sidebar-label">Bắt đầu</div>
+    <a href="#intro" class="nav-link active" data-section="intro">🏠 Giới thiệu</a>
+    <a href="#install" class="nav-link" data-section="install">⚙️ Cài đặt & Biên dịch</a>
+    <a href="#quickstart" class="nav-link" data-section="quickstart">🚀 Khởi động nhanh</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">Module 1 — Đề thi</div>
+    <a href="#exam-overview" class="nav-link" data-section="exam-overview">📋 Tổng quan đề thi</a>
+    <a href="#tn" class="nav-link" data-section="tn">① #tn — Trắc nghiệm</a>
+    <a href="#ds" class="nav-link" data-section="ds">② #ds — Đúng / Sai</a>
+    <a href="#tln" class="nav-link" data-section="tln">③ #tln — Trả lời ngắn</a>
+    <a href="#tl" class="nav-link" data-section="tl">④ #tl — Tự luận</a>
+    <a href="#exam-header" class="nav-link" data-section="exam-header">🏷️ Tiêu đề đề thi</a>
+    <a href="#exam-mode" class="nav-link" data-section="exam-mode">🔀 Chế độ hiển thị</a>
+    <a href="#pedagogy-boxes" class="nav-link" data-section="pedagogy-boxes">📦 Hộp sư phạm</a>
+    <a href="#exam-boiler" class="nav-link" data-section="exam-boiler">📄 File mẫu đề thi</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">Module 2 — Sách & Chuyên đề</div>
+    <a href="#book-overview" class="nav-link" data-section="book-overview">📚 Tổng quan sách</a>
+    <a href="#book-structure" class="nav-link" data-section="book-structure">🗂️ Cấu trúc phân cấp</a>
+    <a href="#book-boxes" class="nav-link" data-section="book-boxes">📦 Hộp nội dung SGK</a>
+    <a href="#book-counters" class="nav-link" data-section="book-counters">🔢 Bộ đếm</a>
+    <a href="#exam-set" class="nav-link" data-section="exam-set">📰 Bộ đề nhiều đề</a>
+    <a href="#book-boiler" class="nav-link" data-section="book-boiler">📄 File mẫu sách</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">Module 3 — Vẽ hình</div>
+    <a href="#bbt-overview" class="nav-link" data-section="bbt-overview">📈 Bảng biến thiên</a>
+    <a href="#bbtv2" class="nav-link" data-section="bbtv2">#bbtv2 — Tiêu chuẩn</a>
+    <a href="#bbbt" class="nav-link" data-section="bbbt">#bbbt — Đầy đủ</a>
+    <a href="#bxd" class="nav-link" data-section="bxd">#bxd — Xét dấu</a>
+    <a href="#geo-2d" class="nav-link" data-section="geo-2d">📐 Hình phẳng</a>
+    <a href="#geo-3d" class="nav-link" data-section="geo-3d">🗜️ Hình không gian</a>
+    <a href="#graphs" class="nav-link" data-section="graphs">📊 Đồ thị hàm số</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">Tải về</div>
+    <a href="#downloads" class="nav-link" data-section="downloads">⬇️ Gói tải về</a>
+  </div>
+</nav>
+
+<!-- ── OVERLAY ── -->
+<div class="overlay" id="overlay"></div>
+
+<!-- ── MAIN CONTENT ── -->
+<main class="main-content" id="mainContent">
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION: INTRO -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="intro" class="doc-section">
+  <div class="hero">
+    <div class="hero-badge">StexGV Typst v6.0</div>
+    <h1 class="hero-title">Hệ Thống Template Typst<br/><span class="accent">Chuẩn Mực Toán Học</span></h1>
+    <p class="hero-desc">Bộ công cụ soạn thảo tài liệu toán học hoàn chỉnh — từ đề thi THPT đến sách giáo khoa, chuyên đề và hình vẽ toán học chuyên nghiệp.</p>
+    <div class="hero-pills">
+      <span class="pill">📋 Đề thi 4 loại câu</span>
+      <span class="pill">📚 SGK / Chuyên đề</span>
+      <span class="pill">📈 BBT & Hình học</span>
+      <span class="pill">🎨 Hộp sư phạm đẹp</span>
+    </div>
+  </div>
+
+  <div class="card-grid">
+    <div class="feature-card" onclick="navigateTo('exam-overview')">
+      <div class="feature-icon">📋</div>
+      <div class="feature-title">Module Đề Thi</div>
+      <div class="feature-desc">Soạn đề THPT chuẩn với 4 loại câu: trắc nghiệm, đúng-sai, trả lời ngắn, tự luận. Tự động đánh số, in đáp án, 3 chế độ hiển thị.</div>
+      <div class="feature-tags"><span>sang-exam.typ</span><span>#tn #ds #tln #tl</span></div>
+    </div>
+    <div class="feature-card" onclick="navigateTo('book-overview')">
+      <div class="feature-icon">📚</div>
+      <div class="feature-title">Module Sách / SGK</div>
+      <div class="feature-desc">Xây dựng sách giáo khoa, chuyên đề toán với cấu trúc phân cấp, hộp sư phạm đầy màu sắc, bộ đếm thông minh.</div>
+      <div class="feature-tags"><span>modules/book.typ</span><span>#chapter #bai #vd #bt</span></div>
+    </div>
+    <div class="feature-card" onclick="navigateTo('bbt-overview')">
+      <div class="feature-icon">📈</div>
+      <div class="feature-title">Module Vẽ Hình</div>
+      <div class="feature-desc">Bảng biến thiên, bảng xét dấu chuẩn tkz-tab. Hình học phẳng, không gian, đồ thị hàm số với Cetz.</div>
+      <div class="feature-tags"><span>bbt.typ</span><span>geometry.typ</span></div>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <div class="info-box-title">ℹ️ Về hệ thống này</div>
+    <p>Hệ thống được thiết kế bởi <strong>GV Nguyễn Văn Sang</strong>, tương thích hoàn toàn với <strong>Typst ≥ 0.12</strong>. Tất cả file template nằm trong thư mục <code>typst/</code>. Lệnh biên dịch chuẩn luôn dùng <code>--root typst</code>.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION: INSTALL -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="install" class="doc-section hidden">
+  <h1>⚙️ Cài đặt & Biên dịch</h1>
+
+  <h2>Yêu cầu hệ thống</h2>
+  <div class="req-grid">
+    <div class="req-item"><span class="req-icon">✅</span><div><strong>Typst ≥ 0.12</strong><div class="req-note">Tải tại typst.app hoặc <code>winget install Typst.Typst</code></div></div></div>
+    <div class="req-item"><span class="req-icon">✅</span><div><strong>Cetz ≥ 0.5.2</strong><div class="req-note">Tự động tải khi biên dịch qua <code>@preview/cetz:0.5.2</code></div></div></div>
+    <div class="req-item"><span class="req-icon">✅</span><div><strong>Font New Computer Modern</strong><div class="req-note">Có sẵn trong Typst. Hoặc dùng Latin Modern / Times New Roman.</div></div></div>
+  </div>
+
+  <h2>Lệnh biên dịch chuẩn</h2>
+  <div class="callout callout-warning">
+    <strong>⚠️ Quan trọng:</strong> Luôn dùng <code>--root typst</code> để import tương đối hoạt động đúng.
+  </div>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-bash"># Biên dịch đề thi
+typst compile --root typst typst/exams/de-01.typ output/de-01.pdf
+
+# Biên dịch SGK / chuyên đề
+typst compile --root typst typst/sgk.typ output/sach.pdf
+
+# Chế độ watch (tự động biên dịch khi lưu)
+typst watch --root typst typst/exams/de-01.typ output/de-01.pdf
+
+# Biên dịch bộ đề thi
+typst compile --root typst typst/bo-de.typ output/bo-de.pdf</code></pre>
+  </div>
+
+  <h2>Cấu trúc thư mục</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">text</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code>typst/
+├── template.typ          ← Import cổng chính (dùng cái này)
+├── sang-exam.typ         ← Engine đề thi (tn, ds, tln, tl...)
+├── bbt.typ               ← Bảng biến thiên, xét dấu
+├── geometry.typ          ← Hình học phẳng & không gian
+├── modules/
+│   ├── book.typ          ← Sách, SGK, chuyên đề
+│   ├── exam.typ          ← Wrapper cho engine thi
+│   ├── exam-set.typ      ← Bộ đề nhiều đề
+│   └── research.typ      ← Bài nghiên cứu
+└── exams/                ← Đề thi mẫu
+    └── de-01.typ</code></pre>
+  </div>
+
+  <h2>Import chuẩn</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">// Cách 1: Import tất cả (khuyến nghị)
+#import "template.typ": *
+
+// Cách 2: Chỉ dùng engine thi
+#import "sang-exam.typ": *
+#import "@preview/cetz:0.5.2"
+
+// Cách 3: Chỉ dùng module sách
+#import "modules/book.typ": *</code></pre>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION: QUICKSTART -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="quickstart" class="doc-section hidden">
+  <h1>🚀 Khởi Động Nhanh</h1>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab(this,'tab-exam-qs')">📋 Đề thi</button>
+    <button class="tab" onclick="switchTab(this,'tab-book-qs')">📚 SGK / Sách</button>
+    <button class="tab" onclick="switchTab(this,'tab-bode-qs')">📰 Bộ đề</button>
+  </div>
+
+  <div id="tab-exam-qs" class="tab-content active">
+    <h2>File đề thi cơ bản (5 phút)</h2>
+    <div class="code-block-wrap">
+      <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+      <pre><code class="lang-typst">// ① Import
+#import "../sang-exam.typ": *
+#import "@preview/cetz:0.5.2"
+
+// ② Chế độ hiển thị
+#let mode   = "dethi"       // "dethi" | "loigiai" | "solcolor"
+#let accent = classic.blue  // classic.blue | .emerald | .crimson
+
+// ③ Tạo macro câu hỏi
+#let (tn, ds, tln, tl) = exam-mode(mode: mode, accent: accent)
+
+// ④ Show rules chuẩn
+#show: sang-setup
+
+// ⑤ Tiêu đề đề thi
+#show: thpt-school-exam.with(
+  department: "SỞ GIÁO DỤC VÀ ĐÀO TẠO",
+  school: "TỈNH ĐỒNG THÁP",
+  exam-title: "KỲ THI THỬ TỐT NGHIỆP THPT NĂM 2025",
+  subject: "TOÁN",
+  duration: "90 phút, không kể thời gian phát đề",
+  code: "001",
+)
+
+// ⑥ Phần I — Trắc nghiệm
+#exam-part([PHẦN I. Câu trắc nghiệm nhiều phương án.
+  Thí sinh chọn 1 phương án đúng.], count: 12)
+
+#tn(
+  [Đạo hàm của $f(x) = x^3 - 3x + 1$ tại $x = 2$ là],
+  ([$3$], [$6$], True([$9$]), [$-3$]),
+  loigiai: [$f'(x) = 3x^2 - 3 \Rightarrow f'(2) = 9$],
+)
+
+// ⑦ Phần II — Đúng-Sai
+#exam-part([PHẦN II. Câu đúng sai.], count: 4)
+
+#ds(
+  [Cho $f(x) = x^2 - 2x + 3$. Xét tính đúng/sai:],
+  (
+    True([Hàm đạt cực tiểu tại $x = 1$]),
+    True([Giá trị nhỏ nhất trên $[-1;3]$ bằng $2$]),
+    [Hàm nghịch biến trên $(1;3)$],
+    True([PT $f(x) = 3$ có nghiệm trên $[-1;3]$]),
+  ),
+  loigiai: [Phân tích từng ý...],
+)
+
+// ⑧ Phần III — Tự luận
+#exam-part([PHẦN III. Câu tự luận.])
+
+#tl(
+  [Cho $f(x) = x^3 - 3x^2 + 4$.
+   a) Khảo sát sự biến thiên.
+   b) Tìm $m$ để $f(x) = m$ có 3 nghiệm phân biệt.],
+  lines: 8,
+  loigiai: [Lời giải mẫu...],
+)</code></pre>
+    </div>
+  </div>
+
+  <div id="tab-book-qs" class="tab-content">
+    <h2>File sách / SGK cơ bản</h2>
+    <div class="code-block-wrap">
+      <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+      <pre><code class="lang-typst">#import "template.typ": *
+
+#show: stexgv-doc.with(
+  doc-type: "sgk",        // "sgk" | "book" | "chuyende"
+  title: "CHUYÊN ĐỀ TOÁN 12",
+  subtitle: "Giải tích & Hình học",
+  author: "GV Nguyễn Văn Sang",
+  institution: "Trường THPT...",
+  subject: "Toán",
+  grade: "Lớp 12",
+  academic-year: "2025–2026",
+)
+
+#chapter([Hàm Số & Đạo Hàm])
+
+#bai([Khảo sát hàm bậc ba])
+
+#muctieu[
+  - Lập được BBT của hàm bậc ba.
+  - Tìm được cực trị và khoảng đơn điệu.
+]
+
+#khoidong[
+  Quan sát đồ thị sau và trả lời: hàm có bao nhiêu cực trị?
+]
+
+#khampha[
+  Phương pháp: tính $f'(x)$, giải $f'(x) = 0$, lập BBT.
+]
+
+#vd(
+  [Khảo sát $f(x) = x^3 - 3x^2 + 4$.],
+  loigiai: [
+    $f'(x) = 3x^2 - 6x = 3x(x-2)$.
+    Lập BBT: cực đại $f(0) = 4$, cực tiểu $f(2) = 0$.
+  ],
+)
+
+#bt(
+  [Tìm cực trị của $f(x) = -x^3 + 3x - 2$.],
+  lines: 4,
+)</code></pre>
+    </div>
+  </div>
+
+  <div id="tab-bode-qs" class="tab-content">
+    <h2>Bộ đề nhiều đề trong một file</h2>
+    <div class="code-block-wrap">
+      <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+      <pre><code class="lang-typst">#import "template.typ": *
+
+#show: stexgv-doc.with(
+  doc-type: "bo-de",
+  title: "BỘ ĐỀ THI THỬ TOÁN 12",
+  author: "GV Nguyễn Văn Sang",
+  academic-year: "2025–2026",
+)
+
+#let (tn, ds, tln, tl) = exam-mode()
+
+// ──── ĐỀ SỐ 1 ────
+#de(
+  title: [Đề số 1],
+  code: "101",
+  subject: "TOÁN",
+  duration: "90 phút",
+  show-answer-key: true,    // In đáp án ngay sau đề
+)[\
+  #exam-part([PHẦN I. Trắc nghiệm.], count: 12)
+  #tn(
+    [Hàm $y = x^2$ có đạo hàm là],
+    ([$x$], [$2$], True([$2x$]), [$x^2$]),
+  )
+  // ... thêm câu hỏi ...
+]
+
+// ──── ĐỀ SỐ 2 ────
+#de(
+  title: [Đề số 2],
+  code: "102",
+  show-answer-key: true,
+)[\
+  #exam-part([PHẦN I. Trắc nghiệm.], count: 12)
+  // ... câu hỏi đề 2 ...
+]</code></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION: EXAM OVERVIEW -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="exam-overview" class="doc-section hidden">
+  <h1>📋 Tổng Quan Module Đề Thi</h1>
+  <p>Module đề thi (<code>sang-exam.typ</code>) cung cấp đầy đủ công cụ soạn đề thi THPT theo cấu trúc Bộ GD&ĐT từ 2025.</p>
+
+  <h2>Luồng làm việc</h2>
+  <div class="flow-steps">
+    <div class="flow-step"><div class="flow-num">1</div><div><strong>Import</strong><br/>sang-exam.typ + cetz</div></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step"><div class="flow-num">2</div><div><strong>Chọn mode</strong><br/>dethi / loigiai / solcolor</div></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step"><div class="flow-num">3</div><div><strong>exam-mode()</strong><br/>Tạo macro tn/ds/tln/tl</div></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step"><div class="flow-num">4</div><div><strong>Tiêu đề</strong><br/>thpt-school-exam</div></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step"><div class="flow-num">5</div><div><strong>Soạn câu</strong><br/>#tn #ds #tln #tl</div></div>
+  </div>
+
+  <h2>Ba chế độ hiển thị</h2>
+  <table class="doc-table">
+    <thead><tr><th>mode</th><th>Hiển thị</th><th>Dùng khi</th></tr></thead>
+    <tbody>
+      <tr><td><code>"dethi"</code></td><td>Câu hỏi thuần, không đáp án, ô trống trắng</td><td>In đề cho học sinh</td></tr>
+      <tr><td><code>"loigiai"</code></td><td>Câu hỏi + lời giải + đáp án đúng tô màu</td><td>Tài liệu ôn tập, đáp án</td></tr>
+      <tr><td><code>"solcolor"</code></td><td>Như loigiai nhưng đáp án đúng nổi bật hơn</td><td>Đáp án chiếu trình chiếu</td></tr>
+    </tbody>
+  </table>
+
+  <h2>4 loại câu hỏi</h2>
+  <div class="card-grid">
+    <div class="mini-card" onclick="navigateTo('tn')"><div class="mini-card-icon">①</div><code>#tn</code><div>Trắc nghiệm 4 phương án<br/>Tự chọn 1/2/4 cột</div></div>
+    <div class="mini-card" onclick="navigateTo('ds')"><div class="mini-card-icon">②</div><code>#ds</code><div>Đúng–Sai 4 phát biểu<br/>Bảng Đ/S tự động</div></div>
+    <div class="mini-card" onclick="navigateTo('tln')"><div class="mini-card-icon">③</div><code>#tln</code><div>Trả lời ngắn<br/>4 ô điền</div></div>
+    <div class="mini-card" onclick="navigateTo('tl')"><div class="mini-card-icon">④</div><code>#tl</code><div>Tự luận<br/>Dòng kẻ tự động</div></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION: TN -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="tn" class="doc-section hidden">
+  <h1>① #tn — Câu Trắc Nghiệm Nhiều Phương Án</h1>
+  <p><code>#tn</code> (alias của <code>#mcq</code>) soạn câu trắc nghiệm 4 phương án, tự động chọn số cột 1/2/4 tuỳ độ rộng phương án.</p>
+
+  <h2>Cú pháp đầy đủ</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#tn(
+  [Nội dung đề bài],
+  ( [$A$], True([$B$]), [$C$], [$D$] ),
+  loigiai: [Lời giải chi tiết],
+  
+  // Các tham số tuỳ chọn:
+  fig: none,
+  fig-pos: "right",
+  fig-width: 35%,
+  cols: 0,
+  lines: 0,
+  num: auto,
+  prefix: "Câu",
+  boxed: false
+)</code></pre>
+  </div>
+
+  <h2>Tham số chi tiết</h2>
+  <div class="param-table">
+    <div class="param-row"><span class="param-name">tham số 1</span><span class="param-badge required">bắt buộc</span><span class="param-type">content</span><span class="param-desc">Thân câu hỏi. Nhập trực tiếp nội dung đề bài vào trong ngoặc vuông <code>[...]</code>.</span></div>
+    <div class="param-row"><span class="param-name">tham số 2</span><span class="param-badge required">bắt buộc</span><span class="param-type">tuple</span><span class="param-desc">Bộ 4 phương án đặt trong ngoặc tròn <code>( ... )</code>. Đáp án đúng phải được bọc trong hàm <code>True(...)</code>.</span></div>
+    <div class="param-row"><span class="param-name">loigiai:</span><span class="param-badge optional">tuỳ chọn</span><span class="param-type">content</span><span class="param-desc">Lời giải chi tiết. Chỉ hiển thị khi <code>mode</code> là "loigiai" hoặc "solcolor".</span></div>
+    <div class="param-row"><span class="param-name">fig:</span><span class="param-badge optional">tuỳ chọn</span><span class="param-type">canvas</span><span class="param-desc">Hình vẽ đính kèm (thường dùng <code>cetz.canvas</code> hoặc <code>image</code>).</span></div>
+    <div class="param-row"><span class="param-name">fig-pos:</span><span class="param-badge optional">tuỳ chọn</span><span class="param-type">string</span><span class="param-desc">Vị trí hình: <code>"right"</code> (phải), <code>"left"</code> (trái), hoặc <code>"center"</code> (dưới đề).</span></div>
+    <div class="param-row"><span class="param-name">fig-width:</span><span class="param-badge optional">tuỳ chọn</span><span class="param-type">relative</span><span class="param-desc">Độ rộng của hình so với trang. Mặc định là <code>35%</code>.</span></div>
+    <div class="param-row"><span class="param-name">cols:</span><span class="param-badge optional">tuỳ chọn</span><span class="param-type">int</span><span class="param-desc">Số cột hiển thị đáp án. Mặc định <code>0</code> (tự động chia 1, 2 hoặc 4 cột). Nhập <code>2</code> hoặc <code>4</code> để ép buộc.</span></div>
+    <div class="param-row"><span class="param-name">lines:</span><span class="param-badge optional">tuỳ chọn</span><span class="param-type">int</span><span class="param-desc">Số dòng kẻ chấm chấm phía dưới để học sinh làm bài.</span></div>
+    <div class="param-row"><span class="param-name">num:</span><span class="param-badge optional">tuỳ chọn</span><span class="param-type">int</span><span class="param-desc">Ép số câu thủ công (VD: <code>5</code> -> Câu 5). Mặc định tự tăng.</span></div>
+  </div>
+
+  <h2>Ví dụ 1 — Câu đơn không hình</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#tn(
+  [Đạo hàm của hàm số $f(x) = x^3 - 3x + 1$ tại $x = 2$ bằng],
+  ([$3$], [$6$], True([$9$]), [$-3$]),
+  loigiai: [
+    $f'(x) = 3x^2 - 3 \Rightarrow f'(2) = 12 - 3 = 9$.
+  ],
+)</code></pre>
+  </div>
+
+  <h2>Ví dụ 2 — Câu có hình bên phải</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#tn(
+  [Đồ thị bên có bao nhiêu cực trị?],
+  ([$0$], [$1$], True([$2$]), [$3$]),
+  fig: cetz.canvas(length: 0.7cm, {
+    import cetz.draw: *
+    line((-2.2, 0), (2.2, 0), mark: (end: ">"))
+    line((0, -1.5), (0, 2), mark: (end: ">"))
+    content((2.2, 0.3), $x$)
+    content((0.3, 2), $y$)
+    let pts = ()
+    for i in range(-21, 21) {
+      let x = i * 0.1
+      let y = -x * x * x / 3 + x
+      if y >= -1.5 and y <= 2 { pts.push((x, y)) }
+    }
+    line(..pts, stroke: 1.5pt + blue)
+    circle((-1, 2/3), radius: 2.5pt, fill: red)
+    circle((1, -2/3), radius: 2.5pt, fill: red)
+  }),
+  fig-pos: "right",
+  fig-width: 38%,
+  loigiai: [Quan sát đồ thị: hàm có 2 cực trị (1 cực đại, 1 cực tiểu).],
+)</code></pre>
+  </div>
+
+  <h2>Ví dụ 3 — Phương án là hình vẽ</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">// Khi 4 phương án là hình vẽ (opt-fig: true)
+#tn(
+  [Đồ thị nào sau đây là của hàm số $y = x^3$?],
+  (
+    True(cetz.canvas(length:0.5cm, { /* vẽ parabol */ })),
+    cetz.canvas(length:0.5cm, { /* vẽ ... */ }),
+    cetz.canvas(length:0.5cm, { /* vẽ ... */ }),
+    cetz.canvas(length:0.5cm, { /* vẽ ... */ }),
+  ),
+  opt-fig: true,         // BẮT BUỘC khi option là canvas
+  opt-fig-cols: 2,       // 2×2 grid
+)</code></pre>
+  </div>
+
+  <div class="callout callout-tip">
+    <strong>💡 Mẹo:</strong> Hệ thống tự động phát hiện nếu phương án chứa <code>cetz.canvas()</code> và chuyển sang chế độ hình. Vẫn nên đặt <code>opt-fig: true</code> để rõ ràng.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION: DS -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="ds" class="doc-section hidden">
+  <h1>② #ds — Câu Đúng / Sai</h1>
+  <p>Câu hỏi gồm một thân chung và 4 phát biểu a/b/c/d, học sinh chọn Đúng/Sai cho từng ý. Tự động sinh bảng Đ/S có header màu.</p>
+
+  <h2>Cú pháp đầy đủ</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#ds(
+  [Thân câu chung — nêu tình huống / bài toán],
+  (
+    [Phát biểu a — SAI],
+    True([Phát biểu b — ĐÚNG]),
+    True([Phát biểu c — ĐÚNG]),
+    [Phát biểu d — SAI],
+  ),
+  loigiai: [Phân tích từng ý.],
+  
+  // Các tham số tuỳ chọn:
+  fig: none,
+  fig-pos: "right",
+  fig-width: 30%,
+  lines: 0,
+  num: auto,
+  prefix: "Câu",
+)</code></pre>
+  </div>
+
+  <h2>Ví dụ đầy đủ</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#ds(
+  [Cho $f(x) = x^2 - 2x + 3$ trên $[-1; 3]$. Xét tính đúng/sai:],
+  (
+    True([Hàm số đạt cực tiểu tại $x = 1$]),
+    True([Giá trị nhỏ nhất của hàm số trên đoạn là $2$]),
+    [Hàm số nghịch biến trên $(1; 3)$],
+    True([Phương trình $f(x) = 3$ có nghiệm trên $[-1; 3]$]),
+  ),
+  loigiai: [
+    - *Ý a) Đúng.* $f'(x)=2x-2=0 \Rightarrow x=1$, $f''(1)=2>0$ → cực tiểu.
+    - *Ý b) Đúng.* $f(1) = 1 - 2 + 3 = 2$.
+    - *Ý c) Sai.* Hàm đồng biến trên $(1;3)$ vì $f'(x)>0$.
+    - *Ý d) Đúng.* $f(0) = 3$ là nghiệm.
+  ],
+)</code></pre>
+  </div>
+
+  <div class="callout callout-warning">
+    <strong>⚠️ Lưu ý:</strong> Phát biểu <em>đúng</em> bọc bằng <code>True([...])</code>, phát biểu sai để nguyên <code>[...]</code>. Trong chế độ <code>loigiai</code>, hệ thống tự tô màu ô Đ/S.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION: TLN -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="tln" class="doc-section hidden">
+  <h1>③ #tln — Câu Trả Lời Ngắn</h1>
+  <p>Học sinh điền vào 4 ô trống (chế độ đề thi). Đáp án hiển thị trong ô màu xanh (chế độ lời giải).</p>
+
+  <h2>Cú pháp đầy đủ</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#tln(
+  [Nội dung đề bài],
+  [$6$],
+  loigiai: [Lời giải.],
+  
+  // Các tham số tuỳ chọn:
+  fig: none,
+  fig-pos: "right",
+  fig-width: 30%,
+  show-boxes: true,
+  box-count: 4,
+  lines: 0,
+  num: auto,
+  prefix: "Câu",
+)</code></pre>
+  </div>
+
+  <h2>Ví dụ 1 — Câu đơn</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#tln(
+  [Giải phương trình $2x - 5 = 7$, tìm $x$.],
+  [$6$],
+  loigiai: [$2x = 12 \Rightarrow x = 6$.],
+)</code></pre>
+  </div>
+
+  <h2>Ví dụ 2 — Có hình và dòng tính</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#tln(
+  [Tính diện tích tam giác $OAB$ với $A(3;0)$, $B(0;4)$.],
+  [$6$],
+  fig: cetz.canvas(length: 0.8cm, {
+    import cetz.draw: *
+    line((0,0),(3,0),(0,4),(0,0), stroke: 1pt)
+    content((3.3,0), $A$)
+    content((-0.3,4.3), $B$)
+    content((-0.3,-0.3), $O$)
+  }),
+  fig-pos: "center",   // hình dưới đề bài, căn giữa
+  lines: 2,            // 2 dòng kẻ để tính
+  loigiai: [$S = \frac{1}{2} \cdot 3 \cdot 4 = 6$],
+)</code></pre>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION: TL -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="tl" class="doc-section hidden">
+  <h1>④ #tl — Câu Tự Luận</h1>
+
+  <h2>Cú pháp đầy đủ</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#tl(
+  [Nội dung đề bài tự luận],
+  loigiai: [Lời giải mẫu.],
+  
+  // Các tham số tuỳ chọn:
+  fig: none,
+  fig-pos: "right",
+  fig-width: 30%,
+  lines: 6,
+  num: auto,
+  prefix: "Câu",
+  boxed: false,
+)</code></pre>
+  </div>
+
+  <h2>Ví dụ — Lời giải từng bước với #step</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#tl(
+  [Cho hàm số $f(x) = x^3 - 3x^2 + 4$.
+   a) Khảo sát sự biến thiên và vẽ đồ thị.
+   b) Tìm $m$ để phương trình $f(x) = m$ có 3 nghiệm phân biệt.],
+  lines: 8,
+  loigiai: [
+    #ppgiai[Dùng đạo hàm và BBT để trả lời cả hai phần.]
+    #step[$f'(x) = 3x^2 - 6x = 3x(x-2)$. Cho $f'(x)=0 \Rightarrow x=0$ hoặc $x=2$.]
+    #step[Cực đại: $f(0) = 4$. Cực tiểu: $f(2) = 0$.]
+    #step[Phương trình $f(x)=m$ có 3 nghiệm phân biệt khi $0 < m < 4$.]
+    #reset-step()
+  ],
+)</code></pre>
+  </div>
+
+  <h2>Macro #step — Tô màu từng bước</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">loigiai: [
+  // Bước tự đếm, tự chọn màu xoay qua 6 màu
+  #step[Đặt ẩn phụ $t = e^x > 0$...]
+  #step[Giải: $t = 1$ hoặc $t = 2$.]
+  #step[Trả lại: $x = 0$ hoặc $x = \ln 2$.]
+  #step(color: red)[Lưu ý điều kiện $t > 0$.]
+  #reset-step()   // Reset bộ đếm cho câu tiếp theo
+]</code></pre>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION: EXAM HEADER -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="exam-header" class="doc-section hidden">
+  <h1>🏷️ Tiêu Đề Đề Thi — #thpt-school-exam</h1>
+
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#show: thpt-school-exam.with(
+  department: "SỞ GIÁO DỤC VÀ ĐÀO TẠO",       // dòng 1 tiêu đề trái
+  school: "TỈNH ĐỒNG THÁP",                    // dòng 2 tiêu đề trái
+  exam-title: "KỲ THI THỬ TỐT NGHIỆP THPT",   // tên kỳ thi, căn giữa
+  subject: "TOÁN",
+  duration: "90 phút, không kể thời gian phát đề",
+  code: "001",                                  // mã đề
+  structure: auto,                              // tự sinh "Đề gồm X câu"
+  footer-left: [ĐỀ CHÍNH THỨC \ (Đề có 4 trang)],
+  accent: accent,                               // màu chủ đạo
+  show-topbar: true,                            // thanh màu phía trên
+  header-border: true,                          // đường kẻ dưới tiêu đề
+)</code></pre>
+  </div>
+
+  <div class="callout callout-warning">
+    <strong>⚠️ Thứ tự đặt lệnh:</strong> <code>#show: thpt-school-exam.with(...)</code> phải đặt <em>sau</em> <code>#let (tn,ds,tln,tl) = exam-mode(...)</code> và sau <code>#show: sang-setup</code>, nhưng <em>trước</em> câu hỏi đầu tiên.
+  </div>
+
+  <h2>Macro #exam-part — Tiêu đề phần thi</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">// Phần trắc nghiệm — tự sinh "Câu 1 đến Câu 12"
+#exam-part([PHẦN I. Câu trắc nghiệm nhiều phương án.
+  Thí sinh chọn 1 phương án đúng.], count: 12)
+
+// Phần đúng-sai
+#exam-part([PHẦN II. Câu đúng sai.
+  Thí sinh chọn Đúng hoặc Sai.], count: 4)
+
+// Phần tự luận (không cần count)
+#exam-part([PHẦN III. Câu tự luận.])
+
+// Reset số câu giữa các phần nếu cần
+#exam-part([PHẦN II.], reset-counter: true)</code></pre>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION: EXAM MODE -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="exam-mode" class="doc-section hidden">
+  <h1>🔀 Chế Độ Hiển Thị</h1>
+
+  <h2>exam-mode() — Tạo bộ macro câu hỏi</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">// Tạo macro theo mode và màu sắc
+#let (tn, ds, tln, tl) = exam-mode(
+  mode: "dethi",       // "dethi" | "loigiai" | "solcolor"
+  accent: classic.blue // classic.blue | .emerald | .crimson
+)
+
+// Bảng màu có sẵn
+classic.blue    // = rgb("#0057b8")  — xanh dương
+classic.emerald // = rgb("#1a7a2e")  — xanh lá
+classic.crimson // = rgb("#cc2200")  — đỏ đậm</code></pre>
+  </div>
+
+  <div class="callout callout-tip">
+    <strong>💡 Mẹo:</strong> Chỉ cần đổi dòng <code>mode = "loigiai"</code> và biên dịch lại — không cần sửa nội dung câu hỏi. Đây là điểm mạnh nhất của hệ thống.
+  </div>
+
+  <h2>Điều khiển bộ đếm câu</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">// Đặt câu kế tiếp là Câu 13
+#setcau(13)
+
+// Reset về Câu 1
+#resetcau()
+
+// Đặt phần kế tiếp là PHẦN III
+#setphan(3)
+
+// Reset trạng thái đề thi mới (dùng trong bộ đề)
+#resetexamstate(question-start: 1, part-start: 1)</code></pre>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION: PEDAGOGY BOXES -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="pedagogy-boxes" class="doc-section hidden">
+  <h1>📦 Các Hộp Sư Phạm</h1>
+  <p>Tất cả hộp dưới đây đều dùng được trong <code>loigiai:</code> của mọi loại câu hỏi.</p>
+
+  <h2>Nhóm hộp lời giải</h2>
+  <div class="box-showcase">
+    <div class="box-demo ppgiai-demo">
+      <div class="box-demo-label">💡 Phương pháp giải</div>
+      <div class="box-demo-code"><code>#ppgiai[...]</code></div>
+    </div>
+    <div class="box-demo luuy-demo">
+      <div class="box-demo-label">⚠ Lưu ý</div>
+      <div class="box-demo-code"><code>#luuy[...]</code></div>
+    </div>
+    <div class="box-demo meo-demo">
+      <div class="box-demo-label">🚀 Mẹo nhanh</div>
+      <div class="box-demo-code"><code>#meo[...]</code></div>
+    </div>
+    <div class="box-demo nhanxet-demo">
+      <div class="box-demo-label">📝 Nhận xét</div>
+      <div class="box-demo-code"><code>#nhanxet[...]</code></div>
+    </div>
+    <div class="box-demo lythuyet-demo">
+      <div class="box-demo-label">📖 Lý thuyết</div>
+      <div class="box-demo-code"><code>#lythuyet[...]</code></div>
+    </div>
+    <div class="box-demo note-demo">
+      <div class="box-demo-label">📌 Ghi chú</div>
+      <div class="box-demo-code"><code>#note[...]</code></div>
+    </div>
+  </div>
+
+  <h2>Nhóm hộp học thuật (Theorem style)</h2>
+  <div class="box-showcase">
+    <div class="box-demo dn-demo">
+      <div class="box-demo-label">Định nghĩa</div>
+      <div class="box-demo-code"><code>#dn[...]</code></div>
+    </div>
+    <div class="box-demo dl-demo">
+      <div class="box-demo-label">Định lý</div>
+      <div class="box-demo-code"><code>#dl[...]</code></div>
+    </div>
+    <div class="box-demo tc-demo">
+      <div class="box-demo-label">Tính chất</div>
+      <div class="box-demo-code"><code>#tc[...]</code></div>
+    </div>
+    <div class="box-demo bode-demo">
+      <div class="box-demo-label">Bổ đề</div>
+      <div class="box-demo-code"><code>#bode[...]</code></div>
+    </div>
+  </div>
+
+  <h2>Ví dụ sử dụng trong loigiai</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#tl(
+  [Tìm min của $f(x) = x^2 - 4x + 5$.],
+  loigiai: [
+    #ppgiai[Dùng hoàn phương hoặc đạo hàm.]
+    #lythuyet[$f(x) = (x-a)^2 + b$ đạt min khi $x = a$, $\min = b$.]
+    #step[$f(x) = (x-2)^2 + 1$.]
+    #step[Min $= 1$ khi $x = 2$.]
+    #luuy[Không nhầm cực tiểu với giá trị nhỏ nhất trên đoạn.]
+    #reset-step()
+  ],
+)</code></pre>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION: EXAM BOILERPLATE -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="exam-boiler" class="doc-section hidden">
+  <h1>📄 File Mẫu Đề Thi Hoàn Chỉnh</h1>
+  <p>Copy file mẫu này, đổi thông tin tiêu đề và thêm câu hỏi vào đúng phần.</p>
+
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst — de-thi-mau.typ</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">// ═══════════════════════════════════════════
+// ĐỀ THI MẪU — Chỉnh sửa phần có dấu ◄
+// Biên dịch: typst compile --root typst typst/exams/de-mau.typ output/de.pdf
+// ═══════════════════════════════════════════
+
+#import "../sang-exam.typ": *
+#import "@preview/cetz:0.5.2"
+
+// ── Chế độ ◄ ─────────────────────────────
+#let mode   = "dethi"       // ◄ đổi thành "loigiai" để xem đáp án
+#let accent = classic.blue  // ◄ classic.blue | .emerald | .crimson
+
+// ── Tạo macro ────────────────────────────
+#let (tn, ds, tln, tl) = exam-mode(mode: mode, accent: accent)
+#show: sang-setup
+
+// ── Trang ────────────────────────────────
+#set page(paper: "a4", margin: (x: 2cm, y: 2.5cm))
+#set text(font: "New Computer Modern", size: 11pt, lang: "vi")
+
+// ── Tiêu đề ◄ ────────────────────────────
+#show: thpt-school-exam.with(
+  department: "SỞ GIÁO DỤC VÀ ĐÀO TẠO",  // ◄ Đổi tên sở
+  school: "TỈNH ĐỒNG THÁP",               // ◄ Đổi tên tỉnh
+  exam-title: "KỲ THI THỬ TỐT NGHIỆP THPT NĂM 2025", // ◄
+  subject: "TOÁN",
+  duration: "90 phút, không kể thời gian phát đề",
+  code: "001",              // ◄ Mã đề
+  accent: accent,
+)
+
+// ═══════════════════════════════════════
+// PHẦN I — TRẮC NGHIỆM (12 câu)
+// ═══════════════════════════════════════
+#exam-part([PHẦN I. Câu trắc nghiệm nhiều phương án. _(Câu 1 đến Câu 12)_
+  Thí sinh chọn *một phương án đúng* cho mỗi câu.], count: 12)
+
+#tn(
+  [Đạo hàm của $f(x) = 2x^3 - 3x^2 + 1$ là],
+  ([$6x^2 - 3$], True([$6x^2 - 6x$]), [$6x - 6$], [$2x^2 - 6x$]),
+  loigiai: [$f'(x) = 6x^2 - 6x$],
+)
+
+// ◄ Thêm câu 2–12 ở đây...
+
+// ═══════════════════════════════════════
+// PHẦN II — ĐÚNG SAI (4 câu)
+// ═══════════════════════════════════════
+#exam-part([PHẦN II. Câu đúng sai. _(Câu 13 đến Câu 16)_
+  Thí sinh chọn *Đúng hoặc Sai* cho mỗi mệnh đề.], count: 4)
+
+#ds(
+  [Cho hàm số $f(x) = x^3 - 3x + 2$. Xét tính đúng/sai:],
+  (
+    [Hàm số có 2 cực trị.],           // SAI
+    True([$f(1) = 0$]),               // ĐÚNG
+    True([Cực đại tại $x = -1$]),     // ĐÚNG
+    [Hàm đồng biến trên $\mathbb{R}$], // SAI
+  ),
+  loigiai: [Phân tích từng ý...],
+)
+
+// ◄ Thêm câu 14–16 ở đây...
+
+// ═══════════════════════════════════════
+// PHẦN III — TRẢ LỜI NGẮN (4 câu)
+// ═══════════════════════════════════════
+#exam-part([PHẦN III. Câu trả lời ngắn. _(Câu 17 đến Câu 20)_
+  Thí sinh điền đáp án vào ô trống.], count: 4)
+
+#tln(
+  [Tính $\lim_{x \to 2} \frac{x^2 - 4}{x - 2}$.],
+  [$4$],
+  loigiai: [Rút gọn: $\frac{(x-2)(x+2)}{x-2} = x+2 \to 4$.],
+)
+
+// ◄ Thêm câu 18–20 ở đây...
+
+// ═══════════════════════════════════════
+// PHẦN IV — TỰ LUẬN (2 câu)
+// ═══════════════════════════════════════
+#exam-part([PHẦN IV. Câu tự luận. _(Câu 21 đến Câu 22)_])
+
+#tl(
+  [Khảo sát sự biến thiên của $f(x) = x^3 - 3x^2 + 4$.],
+  lines: 10,
+  loigiai: [
+    #ppgiai[Tính $f'$, giải $f' = 0$, lập BBT.]
+    #step[$f'(x) = 3x^2 - 6x = 3x(x-2)$.]
+    #step[CT: $f(0) = 4$; CT': $f(2) = 0$.]
+    #reset-step()
+  ],
+)</code></pre>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION: BOOK OVERVIEW -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="book-overview" class="doc-section hidden">
+  <h1>📚 Tổng Quan Module Sách / SGK</h1>
+  <p>Module sách (<code>modules/book.typ</code>) cung cấp hệ thống soạn thảo đầy đủ cho SGK, chuyên đề và bộ đề thi nhiều đề.</p>
+
+  <h2>Các loại tài liệu hỗ trợ</h2>
+  <table class="doc-table">
+    <thead><tr><th>doc-type</th><th>Mô tả</th><th>File mẫu</th></tr></thead>
+    <tbody>
+      <tr><td><code>"book"</code></td><td>Sách / chuyên đề cơ bản</td><td><code>typst/book.typ</code></td></tr>
+      <tr><td><code>"sgk"</code></td><td>Sách giáo khoa đầy đủ mạch dạy học</td><td><code>typst/sgk.typ</code></td></tr>
+      <tr><td><code>"chuyende"</code></td><td>Chuyên đề học tập dài</td><td><code>typst/chuyende.typ</code></td></tr>
+      <tr><td><code>"bo-de"</code></td><td>Bộ đề thi nhiều đề trong một file</td><td><code>typst/bo-de.typ</code></td></tr>
+      <tr><td><code>"research"</code></td><td>Bài nghiên cứu khoa học 2 cột</td><td><code>modules/research.typ</code></td></tr>
+    </tbody>
+  </table>
+
+  <h2>Metadata chuẩn</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#show: stexgv-doc.with(
+  doc-type: "sgk",           // Loại tài liệu
+  title: "TÊN SÁCH",
+  subtitle: "Phụ đề nếu có",
+  author: "GV Nguyễn Văn Sang",
+  institution: "Trường THPT...",
+  subject: "Toán",
+  grade: "Lớp 12",
+  series: "Tên bộ tài liệu",
+  academic-year: "2025–2026",
+  publisher: "Đơn vị phát hành",
+  theme-color: classic.blue, // Màu chủ đạo
+  show-cover: true,          // Bật/tắt trang bìa
+  show-outline: true,        // Bật/tắt mục lục
+  outline-depth: 3,          // Độ sâu mục lục
+)</code></pre>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION: BOOK STRUCTURE -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="book-structure" class="doc-section hidden">
+  <h1>🗂️ Cấu Trúc Phân Cấp Sách</h1>
+
+  <h2>Các lệnh cấu trúc</h2>
+  <div class="hierarchy-tree">
+    <div class="tree-item level-0"><code>#part([Tên phần])</code> <span class="tree-alias">alias: #unit</span></div>
+    <div class="tree-item level-1"><code>#chapter([Tên chương])</code></div>
+    <div class="tree-item level-2"><code>#bai([Tên bài])</code> <span class="tree-alias">alias: #lesson</span></div>
+    <div class="tree-item level-3"><code>#dang([Tên dạng toán])</code> <span class="tree-alias">alias: #topic</span></div>
+    <div class="tree-item level-4"><code>#muc([Tên mục])</code> <span class="tree-alias">alias: #section</span></div>
+    <div class="tree-item level-4"><code>#appendix([Tên phụ lục])</code> <span class="tree-alias">alias: #phuluc</span></div>
+  </div>
+
+  <h2>Các lệnh mở đầu tài liệu</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#loinoidau[Lời nói đầu...]        // alias: #preface
+#gioithieu[Giới thiệu...]          // alias: #introduction
+#huongdansudung[Hướng dẫn...]
+#muctieuchung[Mục tiêu chung...]
+#bangthuatngu[...]                 // alias: #glossary
+#tailieuthamkhao[...]              // alias: #references</code></pre>
+  </div>
+
+  <h2>Ví dụ cấu trúc đầy đủ</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#part([Phần 1: Giải Tích])
+
+#chapter([Hàm Số Và Đạo Hàm])
+
+#bai([Bài 1: Khảo sát hàm bậc ba])
+
+#muctieu[
+  - Lập được BBT của hàm bậc ba.
+  - Vẽ đồ thị hàm số.
+]
+
+#khoidong[
+  Quan sát đồ thị và nhận xét số cực trị.
+]
+
+#khampha[
+  Phương pháp: tính $f'(x)$, giải $f'(x) = 0$, lập BBT.
+]
+
+#vd(
+  [Khảo sát $f(x) = x^3 - 3x^2 + 4$.],
+  loigiai: [Lời giải...],
+)
+
+#bt([Tìm cực trị của $f(x) = -x^3 + 3x$], lines: 4)
+
+#luyentap[
+  #bt([Bài 1.], lines: 3)
+  #bt([Bài 2.], lines: 4)
+]
+
+#tomtat[
+  Hàm bậc ba $f(x) = ax^3 + bx^2 + cx + d$ ($a \ne 0$) có tối đa 2 cực trị.
+]
+
+#appendix([Phụ lục: Bảng đạo hàm])
+</code></pre>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION: BOOK BOXES -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="book-boxes" class="doc-section hidden">
+  <h1>📦 Các Hộp Nội Dung SGK</h1>
+
+  <h2>Hộp mạch dạy học SGK</h2>
+  <div class="box-list">
+    <div class="box-item"><code>#muctieu[...]</code><div>Hộp mục tiêu bài học — đặt đầu bài</div></div>
+    <div class="box-item"><code>#chuanbi[...]</code><div>Chuẩn bị / đồ dùng dạy học</div></div>
+    <div class="box-item"><code>#khoidong[...]</code><div>Hoạt động khởi động</div></div>
+    <div class="box-item"><code>#khampha[...]</code><div>Khám phá / hình thành kiến thức</div></div>
+    <div class="box-item"><code>#hoatdong[...]</code><div>Hoạt động nhóm / thực hành</div></div>
+    <div class="box-item"><code>#luyentap[...]</code><div>Phần luyện tập</div></div>
+    <div class="box-item"><code>#vandung[...]</code><div>Vận dụng / bài toán thực tế</div></div>
+    <div class="box-item"><code>#morang[...]</code><div>Mở rộng / nâng cao</div></div>
+    <div class="box-item"><code>#tomtat[...]</code><div>Tóm tắt lý thuyết</div></div>
+    <div class="box-item"><code>#duan[...]</code><div>Dự án học tập</div></div>
+  </div>
+
+  <h2>Hộp lý thuyết</h2>
+  <div class="box-list">
+    <div class="box-item"><code>#phuongphap[...]</code><div>Khung phương pháp giải</div></div>
+    <div class="box-item"><code>#lythuyet[...]</code><div>Banner lý thuyết xanh dương</div></div>
+    <div class="box-item"><code>#ghinho[...]</code><div>Ô ghi nhớ / ghi chú quan trọng</div></div>
+    <div class="box-item"><code>#nhanxet[...]</code><div>Nhận xét học thuật</div></div>
+    <div class="box-item"><code>#luuy[...]</code><div>Lưu ý / cảnh báo</div></div>
+    <div class="box-item"><code>#note[...]</code><div>Ghi chú bổ sung</div></div>
+    <div class="box-item"><code>#dn[...]</code><div>Định nghĩa</div></div>
+    <div class="box-item"><code>#dl[...]</code><div>Định lý</div></div>
+    <div class="box-item"><code>#tc[...]</code><div>Tính chất</div></div>
+    <div class="box-item"><code>#bode[...]</code><div>Bổ đề</div></div>
+  </div>
+
+  <h2>Các khối nội dung đánh số</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">// Ví dụ có lời giải
+#vd(
+  [Nội dung ví dụ.],
+  loigiai: [Lời giải chi tiết.],
+)
+
+// Bài tập với dòng trống
+#bt(
+  [Bài tập luyện tập.],
+  lines: 4,        // số dòng kẻ trống
+)
+
+// Câu hỏi củng cố
+#cauhoi([Câu hỏi kiểm tra kiến thức.])
+
+// Hoạt động nhóm
+#hd([Thực hiện hoạt động sau...])
+
+// Ôn luyện
+#onluyen([Bài ôn luyện chương...])</code></pre>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION: BOOK COUNTERS -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="book-counters" class="doc-section hidden">
+  <h1>🔢 Bộ Đếm Trong Sách</h1>
+
+  <h2>Điều khiển bộ đếm</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">// Đặt số chương / bài / mục / phụ lục
+#setchuong(3)       // Chương kế tiếp là Chương 3
+#setbai(4)          // Bài kế tiếp là Bài 4
+#setmuc(2)          // Mục kế tiếp là Mục 2
+#setphuluc(2)       // Phụ lục kế tiếp là Phụ lục 2
+
+// Reset về đầu
+#resetchuong()
+#resetbai()
+#resetmuc()
+
+// Ví dụ và bài tập
+#setvd(6)           // Ví dụ kế tiếp là Ví dụ 6
+#setbt(8)           // Bài tập kế tiếp là Bài 8
+#resetvd()
+#resetbt()
+
+// API tổng quát
+#setbookcounter("chapter", 3)   // = setchuong(3)
+#resetbookcounter("vd")</code></pre>
+  </div>
+
+  <div class="callout callout-tip">
+    <strong>💡 Lưu ý:</strong> Bộ đếm ví dụ và bài tập tự reset khi sang bài/chương mới. Chỉ dùng <code>setvd/setbt</code> khi ghép nội dung từ nhiều nguồn.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION: EXAM SET -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="exam-set" class="doc-section hidden">
+  <h1>📰 Bộ Đề Nhiều Đề — #de</h1>
+
+  <h2>Cú pháp #de</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#de(
+  title: [Đề số 1],          // tên trên mục lục bộ đề
+  exam-title: none,          // tên trên đề (nếu khác title)
+  department: "SỞ GD&ĐT",
+  school: "TỈNH...",
+  subject: "TOÁN",
+  duration: "90 phút",
+  code: "101",
+  show-answer-key: true,     // in đáp án sau đề
+  show-end: true,            // in dòng HẾT
+  reset-state: true,         // reset số câu/phần mỗi đề mới
+  question-start: 1,
+)[
+  // Nội dung đề thi ở đây
+  #exam-part([PHẦN I.], count: 12)
+  #tn([...], (...))
+  // ...
+]</code></pre>
+  </div>
+
+  <h2>Các hộp bổ sung trong bộ đề</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">// Đặt trước mỗi đề hoặc trước toàn tuyển tập
+#matran[Ma trận đề thi...]
+#dacta[Đặc tả câu hỏi...]
+#huongdancham[Hướng dẫn chấm điểm...]
+#luuybode[Lưu ý khi chấm...]</code></pre>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION: BOOK BOILERPLATE -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="book-boiler" class="doc-section hidden">
+  <h1>📄 File Mẫu Sách / Chuyên Đề</h1>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst — chuyen-de-mau.typ</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">// Biên dịch: typst compile --root typst typst/chuyen-de-mau.typ output/cd.pdf
+
+#import "template.typ": *
+#import "@preview/cetz:0.5.2"
+#import "bbt.typ": *
+
+#show: stexgv-doc.with(
+  doc-type: "chuyende",          // ◄ đổi thành "sgk" | "book" nếu cần
+  title: "CHUYÊN ĐỀ TOÁN 12",
+  subtitle: "Giải tích — Hình học — Xác suất",
+  author: "GV Nguyễn Văn Sang",
+  institution: "Trường THPT Nguyễn Du",
+  subject: "Toán",
+  grade: "Lớp 12",
+  academic-year: "2025–2026",
+  theme-color: classic.blue,
+)
+
+// ── Lời nói đầu ──────────────────────────
+#loinoidau[
+  Chuyên đề này được biên soạn nhằm...
+]
+
+// ── Cấu trúc nội dung ────────────────────
+#part([Phần 1: Giải Tích])
+
+#chapter([Chương 1: Hàm Số Đơn Điệu])
+
+#bai([Bài 1: Khảo sát hàm bậc ba])
+
+#muctieu[
+  - Lập được bảng biến thiên.
+  - Tìm cực trị và khoảng đơn điệu.
+]
+
+#phuongphap[
+  *Phương pháp tổng quát:*
+  + Tính $f'(x)$.
+  + Giải $f'(x) = 0$, xác định dấu $f'$.
+  + Lập BBT và kết luận.
+]
+
+#vd(
+  [Khảo sát $f(x) = 2x^3 - 3x^2 - 12x + 1$.],
+  loigiai: [
+    #step[$f'(x) = 6x^2 - 6x - 12 = 6(x-2)(x+1)$.]
+    #step[$f'(x) = 0 \Leftrightarrow x = -1$ hoặc $x = 2$.]
+    #step[CT: $f(-1) = 8$; ct: $f(2) = -19$.]
+    #reset-step()
+  ],
+)
+
+#bt([Khảo sát $f(x) = x^3 - 6x^2 + 9x - 4$.], lines: 6)
+
+#luyentap[
+  #bt([Tìm cực trị của $f(x) = x^4 - 8x^2 + 3$.], lines: 5)
+]
+
+#tomtat[
+  Hàm bậc ba $y = ax^3+bx^2+cx+d$ ($a \ne 0$):
+  - Có $\Delta' = b^2-3ac$: 2 cực trị khi $\Delta' > 0$.
+]</code></pre>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION: BBT OVERVIEW -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="bbt-overview" class="doc-section hidden">
+  <h1>📈 Tổng Quan Module Vẽ Hình</h1>
+  <p>Module này gồm hai file: <code>bbt.typ</code> (bảng biến thiên, xét dấu) và <code>geometry.typ</code> (hình học phẳng, không gian, đồ thị).</p>
+
+  <h2>Import</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">// Cần import cetz trước
+#import "@preview/cetz:0.5.2"
+
+// Bảng biến thiên & xét dấu
+#import "bbt.typ": *
+
+// Hình học
+#import "geometry.typ": *</code></pre>
+  </div>
+
+  <h2>Tổng hợp các hàm</h2>
+  <table class="doc-table">
+    <thead><tr><th>Hàm</th><th>File</th><th>Mô tả</th></tr></thead>
+    <tbody>
+      <tr><td><code>bbtv2(...)</code></td><td>bbt.typ</td><td>BBT tiêu chuẩn (khuyên dùng), tự điều chỉnh chiều cao</td></tr>
+      <tr><td><code>bbbt(...)</code></td><td>bbt.typ</td><td>BBT đầy đủ với hỗ trợ ranks thủ công</td></tr>
+      <tr><td><code>bxd(...)</code></td><td>bbt.typ</td><td>Bảng xét dấu nhiều hàm</td></tr>
+      <tr><td><code>bang-gia-tri(...)</code></td><td>bbt.typ</td><td>Bảng giá trị hàm số</td></tr>
+      <tr><td><code>tri-xyz(...)</code></td><td>geometry.typ</td><td>Tam giác từ 3 điểm toạ độ</td></tr>
+      <tr><td><code>tri-abc(...)</code></td><td>geometry.typ</td><td>Tam giác thường (đáy ngang)</td></tr>
+      <tr><td><code>tri-right(...)</code></td><td>geometry.typ</td><td>Tam giác vuông tại A</td></tr>
+      <tr><td><code>chop-sabc(...)</code></td><td>geometry.typ</td><td>Hình chóp S.ABC</td></tr>
+      <tr><td><code>chop-sabcd(...)</code></td><td>geometry.typ</td><td>Hình chóp S.ABCD</td></tr>
+      <tr><td><code>lang-tru-abc(...)</code></td><td>geometry.typ</td><td>Lăng trụ ABC.A'B'C'</td></tr>
+      <tr><td><code>axis-xy(...)</code></td><td>geometry.typ</td><td>Hệ trục Oxy</td></tr>
+      <tr><td><code>parabola(...)</code></td><td>geometry.typ</td><td>Đồ thị parabol y=ax²+bx+c</td></tr>
+      <tr><td><code>circle-desc(...)</code></td><td>geometry.typ</td><td>Đường tròn tâm O bán kính R</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION: BBTV2 -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="bbtv2" class="doc-section hidden">
+  <h1>#bbtv2 — Bảng Biến Thiên Tiêu Chuẩn</h1>
+  <p><code>bbtv2</code> là macro BBT chính, tự động điều chỉnh chiều cao ô, hỗ trợ vùng gạch chéo (tiệm cận đứng), tự tính vị trí mũi tên.</p>
+
+  <h2>Cú pháp đầy đủ</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#bbtv2(
+  var: $x$,           // nhãn hàng x (mặc định $x$)
+  der: $y'$,          // nhãn hàng đạo hàm
+  func: $y$,          // nhãn hàng hàm số
+  x-vals: (),         // mảng giá trị x (gồm cả −∞, +∞)
+  d-signs: (),        // mảng dấu đạo hàm
+  v-vals: (),         // mảng giá trị hàm tương ứng
+  shade: (),          // vùng gạch chéo: ((i, j),) cho i..j
+  w1: 1.5,            // chiều rộng cột nhãn (cm)
+  w2: 10,             // chiều rộng cột nội dung (cm)
+  h1: auto,           // chiều cao hàng x (tự điều chỉnh)
+  h2: 0.8,            // chiều cao hàng đạo hàm (cm)
+  h3: auto,           // chiều cao hàng hàm số (tự điều chỉnh)
+)</code></pre>
+  </div>
+
+  <h2>Quy tắc d-signs</h2>
+  <div class="callout callout-tip">
+    <strong>Quy tắc:</strong> Với n điểm x-vals, mảng d-signs có <strong>2n−1</strong> phần tử: xen kẽ <em>dấu khoảng</em> và <em>dấu tại điểm</em>.
+    <br/>VD: 4 điểm x → d-signs có 7 phần tử: <code>[khoảng₁, tại₂, khoảng₂, tại₃, khoảng₃, ...]</code>
+  </div>
+
+  <h2>Ví dụ 1 — Hàm bậc ba đơn giản</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">// f(x) = x³ - 3x, cực đại x=-1, cực tiểu x=1
+#bbtv2(
+  x-vals: ($-oo$, $-1$, $1$, $+oo$),
+  d-signs: ($+$, $0$, $-$, $0$, $+$),
+  //        ^khoảng1 ^tại-1 ^khoảng2 ^tại1 ^khoảng3
+  v-vals: ($-oo$, $2$, $-2$, $+oo$),
+)</code></pre>
+  </div>
+
+  <h2>Ví dụ 2 — Có tiệm cận đứng (dấu ||)</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">// y = 1/(x-1): tiệm cận đứng x=1
+#bbtv2(
+  x-vals: ($-oo$, $1$, $+oo$),
+  d-signs: ($-$, "||", $-$),
+  v-vals: ($0$, ($+oo$, $-oo$), $0$),
+  // v-vals tại tiệm cận: tuple (trái, phải)
+  shade: ((1, 2),),  // gạch chéo vùng [index 1, index 2)
+)</code></pre>
+  </div>
+
+  <h2>Ví dụ 3 — Hàm có 1 cực trị trên đoạn (bbt-opt)</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">// Dành cho bài toán tối ưu
+#bbt-opt(
+  x-vals: ($0$, $x_0$, $pi$),
+  d-signs: ($-$, $0$, $+$),
+  v-vals: ($f(0)$, $f(x_0)$, $f(\pi)$),
+  is-min: true,     // true = \/  ; false = /\
+)</code></pre>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION: BBBT -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="bbbt" class="doc-section hidden">
+  <h1>#bbbt — Bảng Biến Thiên Đầy Đủ</h1>
+  <p><code>bbbt</code> là phiên bản đầy đủ hơn, cho phép truyền ranks thủ công để can thiệp vị trí mũi tên.</p>
+
+  <h2>Ví dụ — Hàm có 2 cực trị, ranks thủ công</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#bbbt(
+  var: $x$,
+  der: $f'(x)$,
+  func: $f(x)$,
+  x-vals: ($-oo$, $-1$, $2$, $+oo$),
+  d-signs: ($+$, $0$, $-$, $0$, $+$),
+  v-vals: ($-oo$, $8$, $-19$, $+oo$),
+  // ranks thủ công: điều chỉnh vị trí nhãn nếu cần
+  ranks: ((0,), (2,), (0,), (2,)),
+  w2: 12,   // độ rộng cột nội dung
+)</code></pre>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION: BXD -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="bxd" class="doc-section hidden">
+  <h1>#bxd — Bảng Xét Dấu</h1>
+  <p>Dùng cho bảng xét dấu $f'(x)$, bất phương trình. Hỗ trợ nhiều hàng dấu cùng lúc.</p>
+
+  <h2>Ví dụ — 1 hàng dấu</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#bxd(
+  var: $x$,
+  func: $f'(x)$,
+  x-vals: ($-oo$, $-1$, $2$, $+oo$),
+  f-signs: ($+$, $0$, $-$, $0$, $+$),
+)</code></pre>
+  </div>
+
+  <h2>Ví dụ — Nhiều hàng dấu</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">// Xét dấu f'(x) = (x+1)(x-2)
+#bxd(
+  var: $x$,
+  func: ($x+1$, $x-2$, $f'(x)$),   // 3 hàng
+  x-vals: ($-oo$, $-1$, $2$, $+oo$),
+  f-signs: (
+    ($-$, $0$, $+$, $+$, $+$),     // dấu (x+1)
+    ($-$, $-$, $-$, $0$, $+$),     // dấu (x-2)
+    ($+$, $0$, $-$, $0$, $+$),     // dấu f'(x)
+  ),
+)</code></pre>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION: GEO 2D -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="geo-2d" class="doc-section hidden">
+  <h1>📐 Hình Học Phẳng</h1>
+  <p>Tất cả hàm trong <code>geometry.typ</code> trả về một <code>cetz.canvas</code> — dùng trực tiếp làm <code>fig:</code> trong câu hỏi.</p>
+
+  <h2>Tam giác</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">// Tam giác từ 3 điểm toạ độ thật
+#tri-xyz(
+  A: (0, 0), B: (5, 0), C: (2, 4),
+  labels: ("A", "B", "C"),
+  right-angle: none,   // "A" | "B" | "C" để đánh dấu góc vuông
+)
+
+// Tam giác thường (đáy ngang, đỉnh trên)
+#tri-abc(base: 6, height: 4, labels: ("A", "B", "C"))
+
+// Tam giác vuông tại A
+#tri-right(leg1: 4, leg2: 3, labels: ("A", "B", "C"))</code></pre>
+  </div>
+
+  <h2>Hình chữ nhật & Vuông</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">// Hình chữ nhật ABCD
+#rect-abc(width: 6, height: 4, labels: ("A", "B", "C", "D"))
+
+// Hình vuông
+#square(a: 4, labels: ("A", "B", "C", "D"))</code></pre>
+  </div>
+
+  <h2>Đường tròn</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">// Đường tròn tâm O bán kính R
+#circle-desc(center: (0, 0), radius: 2.5, label: "O")
+
+// Elip ngang
+#ellipse-h(center: (0, 0), a: 3, b: 2)</code></pre>
+  </div>
+
+  <h2>Dùng trực tiếp trong câu hỏi</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#tn(
+  [Tam giác $ABC$ có $AB = 5$, $BC = 4$, $\hat{B} = 90°$. Tính $AC$.],
+  ([$3$], [$\sqrt{41}$], True([$\sqrt{41}$]), [$9$]),
+  fig: tri-right(leg1: 5, leg2: 4, labels: ("B", "A", "C")),
+  fig-pos: "right",
+  fig-width: 30%,
+  loigiai: [$AC = \sqrt{AB^2 + BC^2} = \sqrt{41}$],
+)</code></pre>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION: GEO 3D -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="geo-3d" class="doc-section hidden">
+  <h1>🗜️ Hình Học Không Gian</h1>
+
+  <h2>Hình chóp</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">// Hình chóp tam giác S.ABC
+#chop-sabc(
+  S: (0, 8),
+  A: (-4, 0), B: (4, 0), C: (0, -2),
+  labels: ("S", "A", "B", "C"),
+  hidden: ("AC",),    // cạnh AC vẽ nét đứt (bị che)
+)
+
+// Hình chóp tứ giác S.ABCD
+#chop-sabcd(
+  S: (0, 7),
+  A: (-3, 0), B: (3, 0), C: (2, -2), D: (-2, -2),
+  labels: ("S", "A", "B", "C", "D"),
+  hidden: ("AD", "DC"),  // 2 cạnh đáy bị che
+)</code></pre>
+  </div>
+
+  <h2>Lăng trụ</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">// Lăng trụ tam giác đứng ABC.A'B'C'
+#lang-tru-abc(
+  A: (-3, 0), B: (3, 0), C: (0, -2),
+  A2: (-3, 5), B2: (3, 5), C2: (0, 3),
+  labels: ("A", "B", "C", "A'", "B'", "C'"),
+  hidden: ("AA'", "AB"),  // cạnh bị che → nét đứt
+)</code></pre>
+  </div>
+
+  <div class="callout callout-tip">
+    <strong>💡 Mẹo:</strong> Tham số <code>hidden</code> nhận tuple các nhãn cạnh (VD: <code>"SA"</code>, <code>"BC"</code>). Cạnh trong danh sách sẽ vẽ nét đứt thay vì nét liền.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION: GRAPHS -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="graphs" class="doc-section hidden">
+  <h1>📊 Đồ Thị Hàm Số</h1>
+
+  <h2>Hệ trục Oxy</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#axis-xy(
+  xmin: -3, xmax: 3,
+  ymin: -2, ymax: 4,
+  xlabel: "x",
+  ylabel: "y",
+  xstep: 1, ystep: 1,
+  scale: 1cm,
+  ticks: true,     // hiện số trên trục
+)</code></pre>
+  </div>
+
+  <h2>Parabol y = ax² + bx + c</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#parabola(
+  a: 1, b: -2, c: -3,  // y = x² - 2x - 3
+  xmin: -2, xmax: 4,
+  npts: 80,             // số điểm vẽ
+  show-vertex: true,    // hiện đỉnh
+  show-roots: true,     // hiện nghiệm
+  accent: rgb("#0057b8"),
+)</code></pre>
+  </div>
+
+  <h2>Vẽ đồ thị tuỳ ý với cetz</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">// Dùng trực tiếp cetz để vẽ hàm số bất kỳ
+fig: cetz.canvas(length: 0.8cm, {
+  import cetz.draw: *
+
+  // Trục
+  line((-3.2, 0), (3.2, 0), mark: (end: ">"))
+  line((0, -2.2), (0, 3.2), mark: (end: ">"))
+  content((3.2, 0.3), $x$)
+  content((0.3, 3.2), $y$)
+
+  // Vẽ đồ thị f(x) = x³ - 3x + 1
+  let pts = ()
+  for i in range(-30, 31) {
+    let x = i * 0.1
+    let y = x * x * x - 3 * x + 1
+    if y >= -2 and y <= 3 { pts.push((x, y)) }
+  }
+  line(..pts, stroke: 1.5pt + blue)
+
+  // Đánh dấu cực trị
+  circle((-1, 3), radius: 3pt, fill: red)
+  circle((1, -1), radius: 3pt, fill: red)
+  content((-1.5, 3.2), $(-1;\ 3)$)
+  content((1.5, -1.3), $(1;\ -1)$)
+})</code></pre>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION: DOWNLOADS -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="downloads" class="doc-section hidden">
+  <h1>⬇️ Tải Về Gói Template</h1>
+  <p>Tải về các gói template để bắt đầu soạn thảo ngay mà không cần cấu hình thêm.</p>
+
+  <div class="download-grid">
+    <div class="download-card">
+      <div class="dl-icon">📦</div>
+      <div class="dl-title">Gói Đầy Đủ</div>
+      <div class="dl-desc">Tất cả file template: sang-exam, bbt, geometry, book, exam-set. Kèm file mẫu đề thi và sách mẫu.</div>
+      <div class="dl-meta">ZIP · ~150KB · Typst ≥ 0.12</div>
+      <a href="downloads/stexgv-template-full.zip" class="dl-btn" download>⬇ Tải gói đầy đủ</a>
+    </div>
+    <div class="download-card">
+      <div class="dl-icon">📋</div>
+      <div class="dl-title">Chỉ Module Đề Thi</div>
+      <div class="dl-desc">sang-exam.typ + file mẫu đề thi THPT 4 phần.</div>
+      <div class="dl-meta">ZIP · ~60KB</div>
+      <a href="downloads/stexgv-exam-only.zip" class="dl-btn" download>⬇ Module đề thi</a>
+    </div>
+    <div class="download-card">
+      <div class="dl-icon">📚</div>
+      <div class="dl-title">Chỉ Module Sách</div>
+      <div class="dl-desc">modules/book.typ + template.typ + file mẫu SGK và chuyên đề.</div>
+      <div class="dl-meta">ZIP · ~50KB</div>
+      <a href="downloads/stexgv-book-only.zip" class="dl-btn" download>⬇ Module sách</a>
+    </div>
+    <div class="download-card">
+      <div class="dl-icon">📈</div>
+      <div class="dl-title">Chỉ Vẽ Hình</div>
+      <div class="dl-desc">bbt.typ + geometry.typ + file ví dụ BBT và hình học.</div>
+      <div class="dl-meta">ZIP · ~40KB</div>
+      <a href="downloads/stexgv-drawing.zip" class="dl-btn" download>⬇ Module vẽ hình</a>
+    </div>
+  </div>
+
+  <h2>Lệnh biên dịch sau khi tải về</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-bash"># Giải nén vào thư mục dự án
+unzip stexgv-template-full.zip -d my-typst-project/
+cd my-typst-project
+
+# Biên dịch đề thi mẫu
+typst compile --root typst typst/exams/de-mau.typ de-mau.pdf
+
+# Biên dịch sách mẫu
+typst compile --root typst typst/chuyende.typ chuyen-de.pdf
+
+# Chế độ watch (tự biên dịch khi lưu)
+typst watch --root typst typst/exams/de-mau.typ de-mau.pdf</code></pre>
+  </div>
+
+  <div class="callout callout-warning">
+    <strong>⚠️ Cần có Typst ≥ 0.12:</strong>
+    <ul>
+      <li>Windows: <code>winget install Typst.Typst</code></li>
+      <li>macOS: <code>brew install typst</code></li>
+      <li>Linux: <code>snap install typst</code></li>
+      <li>Hoặc tải tại <a href="https://github.com/typst/typst/releases" target="_blank">github.com/typst/typst/releases</a></li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<!-- ── BACK TO TOP ── -->
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script src="script.js"></script>
+</body>
+</html>

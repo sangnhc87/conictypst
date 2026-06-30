@@ -68,11 +68,11 @@
       #ftitle(color: C-CYAN)[1. LŨY THỪA $a^alpha$]
       #v(6pt)
       #fsub[
-        • *Khái niệm:* $a^n, a^(1/n) = root(n, a), a^(m/n) = root(n, a^m)$.\
-        • *Tính chất:* $(a b)^x = a^x b^x$, $a^x / a^y = a^(x-y)$, $(a^x)^y = a^(x y)$.\
+        • *Khái niệm:* $a^n, a^(1/n) = root(n, a), a^(m/n) = root(n, a^m)$. \
+        • *Tính chất:* $(a b)^x = a^x b^x$, $a^x / a^y = a^(x-y)$, $(a^x)^y = a^(x y)$. \
         • *Điều kiện cơ số:* \
-          - Mũ nguyên dương: $a in RR$\
-          - Mũ nguyên âm, $0$: $a != 0$\
+          - Mũ nguyên dương: $a in RR$ \
+          - Mũ nguyên âm, $0$: $a != 0$ \
           - Mũ hữu tỉ, vô tỉ: $a > 0$
       ]
     ],
@@ -84,10 +84,10 @@
       #ftitle(color: C-EMERALD)[2. LOGARIT $log_a b$]
       #v(6pt)
       #fsub[
-        • *Định nghĩa:* $alpha = log_a b <=> a^alpha = b$ ($a > 0, a != 1, b > 0$).\
-        • *Tính chất:* $log_a 1 = 0$, $log_a a = 1$, $a^(log_a b) = b$.\
-        • *Quy tắc:* Tích thành Tổng, Thương thành Hiệu.\
-        • *Đổi cơ số:* $log_a b = (log_c b)/(log_c a)$.\
+        • *Định nghĩa:* $alpha = log_a b <=> a^alpha = b$ ($a > 0, a != 1, b > 0$). \
+        • *Tính chất:* $log_a 1 = 0$, $log_a a = 1$, $a^(log_a b) = b$. \
+        • *Quy tắc:* Tích thành Tổng, Thương thành Hiệu. \
+        • *Đổi cơ số:* $log_a b = (log_c b)/(log_c a)$. \
         • *Log đặc biệt:* Thập phân ($lg x$), Tự nhiên ($ln x$).
       ]
     ]
@@ -109,9 +109,9 @@
       #ftitle(color: C-PURPLE)[HÀM SỐ MŨ $y = a^x$]
       #v(6pt)
       #fsub[
-        • *Tập xác định:* $D = RR$.\
-        • *Tập giá trị:* $T = (0; +oo)$.\
-        • *Tiệm cận:* Tiệm cận ngang $y = 0$.\
+        • *Tập xác định:* $D = RR$. \
+        • *Tập giá trị:* $T = (0; +oo)$. \
+        • *Tiệm cận:* Tiệm cận ngang $y = 0$. \
         • Đi qua điểm $(0; 1)$ và $(1; a)$.
       ]
     ],
@@ -125,9 +125,9 @@
       #ftitle(color: C-PURPLE)[HÀM SỐ LOGARIT $y = log_a x$]
       #v(6pt)
       #fsub[
-        • *Tập xác định:* $D = (0; +oo)$.\
-        • *Tập giá trị:* $T = RR$.\
-        • *Tiệm cận:* Tiệm cận đứng $x = 0$.\
+        • *Tập xác định:* $D = (0; +oo)$. \
+        • *Tập giá trị:* $T = RR$. \
+        • *Tiệm cận:* Tiệm cận đứng $x = 0$. \
         • Đi qua điểm $(1; 0)$ và $(a; 1)$.
       ]
     ]
@@ -138,7 +138,7 @@
       #ftitle(color: C-ROSE)[TÍNH ĐƠN ĐIỆU CỦA CẢ HAI HÀM]
       #v(4pt)
       #fsub[
-        *Nếu $a > 1$:* Hàm số Đồng Biến (Cùng chiều $a^x > a^y <=> x > y$).\
+        *Nếu $a > 1$:* Hàm số Đồng Biến (Cùng chiều $a^x > a^y <=> x > y$). \
         *Nếu $0 < a < 1$:* Hàm số Nghịch Biến (Đảo chiều $a^x > a^y <=> x < y$).
       ]
     ]
@@ -159,8 +159,8 @@
       #ftitle(color: C-AMBER)[1. CÙNG CƠ SỐ]
       #v(6pt)
       #fsub[
-        • $a^(f(x)) = a^(g(x)) <=> f(x) = g(x)$.\
-        • $log_a f(x) = log_a g(x) <=> f(x) = g(x) > 0$.\
+        • $a^(f(x)) = a^(g(x)) <=> f(x) = g(x)$. \
+        • $log_a f(x) = log_a g(x) <=> f(x) = g(x) > 0$. \
         • Quan trọng: Đừng quên điều kiện $X > 0$ của Logarit!
       ]
     ],
@@ -169,7 +169,7 @@
       #ftitle(color: C-AMBER)[2. ĐẶT ẨN PHỤ]
       #v(6pt)
       #fsub[
-        • Đặt $t = a^x$ (ĐK: $t > 0$). Chuyển về PT bậc hai $A t^2 + B t + C = 0$.\
+        • Đặt $t = a^x$ (ĐK: $t > 0$). Chuyển về PT bậc hai $A t^2 + B t + C = 0$. \
         • Đặt $t = log_a x$ (Không cần ĐK).
       ]
     ],
@@ -178,7 +178,7 @@
       #ftitle(color: C-AMBER)[3. LOGARIT HÓA]
       #v(6pt)
       #fsub[
-        • Khi cơ số khác nhau, ta lấy logarit hai vế.\
+        • Khi cơ số khác nhau, ta lấy logarit hai vế. \
         • Ví dụ: $2^x = 3^(x-1) => x = (x-1) log_2 3$.
       ]
     ]
@@ -198,8 +198,8 @@
       #ftitle(color: C-TEAL)[1. TÀI CHÍNH & KINH TẾ]
       #v(6pt)
       #fsub[
-        • *Lãi kép:* $T = A(1 + r)^n$.\
-        • *Lạm phát:* Tiền mất giá theo hàm mũ ngược.\
+        • *Lãi kép:* $T = A(1 + r)^n$. \
+        • *Lạm phát:* Tiền mất giá theo hàm mũ ngược. \
         • *Trả góp mua nhà:* Dòng tiền khấu hao (Amortization).
       ]
     ],
@@ -208,9 +208,9 @@
       #ftitle(color: C-TEAL)[2. VẬT LÝ, Y TẾ & ĐỊA LÝ]
       #v(6pt)
       #fsub[
-        • *Virus/Dân số:* $N(t) = N_0 e^(r t)$ (Tăng trưởng hàm mũ).\
-        • *Carbon-14:* Phân rã xác định tuổi khảo cổ.\
-        • *Richter & Decibel:* Động đất, cường độ âm thanh.\
+        • *Virus/Dân số:* $N(t) = N_0 e^(r t)$ (Tăng trưởng hàm mũ). \
+        • *Carbon-14:* Phân rã xác định tuổi khảo cổ. \
+        • *Richter & Decibel:* Động đất, cường độ âm thanh. \
         • *Newton:* Định luật làm nguội ly cà phê.
       ]
     ]

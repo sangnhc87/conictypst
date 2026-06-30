@@ -6,7 +6,7 @@
 
 #muc([1. Quy Tắc 72 Trong Đầu Tư Tài Chính])
 
-Trong giới đầu tư, "Quy tắc 72" là một công thức nhẩm siêu tốc: **Để biết mất bao lâu tài sản nhân đôi, hãy lấy 72 chia cho lãi suất phần trăm hàng năm.** \
+Trong giới đầu tư, "Quy tắc 72" là một công thức nhẩm siêu tốc: *Để biết mất bao lâu tài sản nhân đôi, hãy lấy 72 chia cho lãi suất phần trăm hàng năm.* \
 *Ví dụ:* Lãi suất $8%$/năm thì mất $72 / 8 = 9$ năm để nhân đôi tài sản.
 
 #block(breakable: false)[
@@ -153,7 +153,7 @@ Khi bạn vay tiền ngân hàng để mua nhà hoặc xe với lãi suất cố
 Giả sử vay $P$ đồng, lãi suất $r$ mỗi tháng, trả trong $n$ tháng. Tiền trả mỗi tháng:
 $ A = (P dot r dot (1+r)^n) / ((1+r)^n - 1) $
 
-*Bí mật mà ngân hàng không nhấn mạnh:* Trong những tháng đầu tiên, phần lớn số tiền bạn trả là để **trả lãi**, còn **tiền gốc** được trả rất ít. Càng về những năm cuối, biểu đồ mới đảo ngược!
+*Bí mật mà ngân hàng không nhấn mạnh:* Trong những tháng đầu tiên, phần lớn số tiền bạn trả là để *trả lãi*, còn *tiền gốc* được trả rất ít. Càng về những năm cuối, biểu đồ mới đảo ngược!
 
 #align(center)[
   *Giải phẫu cơ cấu dòng tiền Trả Góp Mua Nhà 20 năm* \

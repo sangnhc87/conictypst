@@ -126,7 +126,7 @@ Hàm số mũ và logarit không sinh ra để "làm khó" học sinh trên gi�
     $ M = lg(A / A_0) $
     Năng lượng tỏa ra $E$ liên hệ với độ Richter qua phương trình Gutenberg-Richter:
     $ lg E = 1.5M + 4.8 <=> E = 10^(1.5M + 4.8) $
-    Hệ quả: Động đất 8 độ có biên độ sóng gấp 10 lần động đất 7 độ, nhưng **Năng lượng tàn phá gấp $10^1.5 approx 31.6$ lần**.
+    Hệ quả: Động đất 8 độ có biên độ sóng gấp 10 lần động đất 7 độ, nhưng *Năng lượng tàn phá gấp $10^1.5 approx 31.6$ lần*.
   ]
 ]
 
@@ -196,9 +196,9 @@ Hàm số mũ và logarit không sinh ra để "làm khó" học sinh trên gi�
   [Một trận động đất mạnh 7.5 độ Richter ở Nhật Bản. Nếu một trận động đất khác có biên độ sóng địa chấn lớn gấp 100 lần, thì độ lớn của nó trên thang Richter là bao nhiêu?],
   ([$8.5$ độ], [$9.0$ độ], [$9.5$ độ], True([$9.5$ độ])),
   loigiai: [
-    #step[**B1: Phân tích chênh lệch biên độ** \ Ta có $M_2 - M_1 = lg(A_2 / A_0) - lg(A_1 / A_0) = lg(A_2 / A_1)$.]
-    #step[**B2: Thay số** \ Do $A_2 = 100 A_1 => lg(100) = 2$. Vậy $M_2 - M_1 = 2$.]
-    #step[**B3: Kết luận** \ $M_2 = 7.5 + 2 = 9.5$ độ Richter.]
+    #step[*B1: Phân tích chênh lệch biên độ* \ Ta có $M_2 - M_1 = lg(A_2 / A_0) - lg(A_1 / A_0) = lg(A_2 / A_1)$.]
+    #step[*B2: Thay số* \ Do $A_2 = 100 A_1 => lg(100) = 2$. Vậy $M_2 - M_1 = 2$.]
+    #step[*B3: Kết luận* \ $M_2 = 7.5 + 2 = 9.5$ độ Richter.]
   ]
 ))
 
@@ -206,9 +206,9 @@ Hàm số mũ và logarit không sinh ra để "làm khó" học sinh trên gi�
   [Để mua một căn hộ 2 tỷ đồng, bạn vay ngân hàng với lãi suất $0.6%$/tháng, trả góp đều đặn hàng tháng trong vòng 10 năm (120 tháng). Hỏi tháng ĐẦU TIÊN, số tiền bạn thực sự TRẢ VÀO GỐC (không tính phần trả lãi) là bao nhiêu? (Làm tròn đến nghìn đồng).],
   ([$11.365.000$], [$22.240.000$], True([$10.244.000$]), [$12.000.000$]),
   loigiai: [
-    #step[**B1: Tính số tiền trả cố định hàng tháng** \ $P = 2.000.000.000$, $r = 0.006$, $n = 120$. \ $A = (2.000.000.000 dot 0.006 dot 1.006^120) / (1.006^120 - 1) approx 22.244.000$ VNĐ.]
-    #step[**B2: Tính tiền LÃI tháng đầu** \ Lãi tháng đầu tính trên dư nợ gốc 2 tỷ: $I_1 = 2.000.000.000 dot 0.006 = 12.000.000$ VNĐ.]
-    #step[**B3: Tính tiền GỐC tháng đầu** \ Số tiền thực sự trừ vào gốc: $A - I_1 = 22.244.000 - 12.000.000 = 10.244.000$ VNĐ. \ *Bạn thấy đó, dù trả tới hơn 22 triệu nhưng gốc chỉ giảm được 10 triệu!*]
+    #step[*B1: Tính số tiền trả cố định hàng tháng* \ $P = 2.000.000.000$, $r = 0.006$, $n = 120$. \ $A = (2.000.000.000 dot 0.006 dot 1.006^120) / (1.006^120 - 1) approx 22.244.000$ VNĐ.]
+    #step[*B2: Tính tiền LÃI tháng đầu* \ Lãi tháng đầu tính trên dư nợ gốc 2 tỷ: $I_1 = 2.000.000.000 dot 0.006 = 12.000.000$ VNĐ.]
+    #step[*B3: Tính tiền GỐC tháng đầu* \ Số tiền thực sự trừ vào gốc: $A - I_1 = 22.244.000 - 12.000.000 = 10.244.000$ VNĐ. \ *Bạn thấy đó, dù trả tới hơn 22 triệu nhưng gốc chỉ giảm được 10 triệu!*]
   ]
 ))
 
@@ -216,9 +216,9 @@ Hàm số mũ và logarit không sinh ra để "làm khó" học sinh trên gi�
   [Một loài bèo tấm thả vào hồ nước. Ban đầu có 1 m² diện tích bèo. Biết rằng sau mỗi ngày, diện tích bèo tăng gấp đôi. Hỏi sau bao nhiêu ngày thì bèo phủ kín mặt hồ có diện tích 1024 m²?],
   ([$9$ ngày], True([$10$ ngày]), [$11$ ngày], [$12$ ngày]),
   loigiai: [
-    #step[**B1: Lập công thức** \ Diện tích bèo sau $t$ ngày là $S(t) = S_0 dot 2^t = 1 dot 2^t = 2^t$.]
-    #step[**B2: Giải phương trình** \ Ta cần tìm $t$ sao cho $S(t) = 1024 <=> 2^t = 1024$.]
-    #step[**B3: Kết luận** \ $t = log_2(1024) = 10$ ngày.]
+    #step[*B1: Lập công thức* \ Diện tích bèo sau $t$ ngày là $S(t) = S_0 dot 2^t = 1 dot 2^t = 2^t$.]
+    #step[*B2: Giải phương trình* \ Ta cần tìm $t$ sao cho $S(t) = 1024 <=> 2^t = 1024$.]
+    #step[*B3: Kết luận* \ $t = log_2(1024) = 10$ ngày.]
   ]
 ))
 
@@ -226,9 +226,9 @@ Hàm số mũ và logarit không sinh ra để "làm khó" học sinh trên gi�
   [Đồng vị Carbon-14 có chu kỳ bán rã là 5730 năm. Các nhà khảo cổ tìm thấy một mảnh xương cổ chỉ còn chứa $30%$ lượng Carbon-14 so với một khúc xương tươi cùng loại. Tuổi của mảnh xương cổ này xấp xỉ bao nhiêu năm?],
   ([$8500$ năm], True([$9952$ năm]), [$12000$ năm], [$17190$ năm]),
   loigiai: [
-    #step[**B1: Lập phương trình phân rã** \ Lượng C-14 còn lại sau thời gian $t$ là $m(t) = m_0 (1/2)^(t/5730)$.]
-    #step[**B2: Thay số liệu** \ Đề cho $m(t) = 0.3 m_0$, suy ra: $0.3 = (1/2)^(t/5730)$.]
-    #step[**B3: Giải logarit** \ $t/5730 = log_(0.5) (0.3) approx 1.737 => t = 5730 dot 1.737 approx 9952.9$ năm.]
+    #step[*B1: Lập phương trình phân rã* \ Lượng C-14 còn lại sau thời gian $t$ là $m(t) = m_0 (1/2)^(t/5730)$.]
+    #step[*B2: Thay số liệu* \ Đề cho $m(t) = 0.3 m_0$, suy ra: $0.3 = (1/2)^(t/5730)$.]
+    #step[*B3: Giải logarit* \ $t/5730 = log_(0.5) (0.3) approx 1.737 => t = 5730 dot 1.737 approx 9952.9$ năm.]
   ]
 ))
 
@@ -236,9 +236,9 @@ Hàm số mũ và logarit không sinh ra để "làm khó" học sinh trên gi�
   [Một loại pin điện thoại được sạc theo mô hình hàm số $Q(t) = 100(1 - e^(-k t))$, trong đó $Q(t)$ là phần trăm pin sạc được sau thời gian $t$ (phút). Biết rằng sau 30 phút, pin sạc được $50%$. Hỏi mất tổng cộng khoảng bao nhiêu phút (tính từ lúc hết sạch pin) để pin sạc đạt $90%$?],
   ([$60$ phút], [$75$ phút], True([$100$ phút]), [$120$ phút]),
   loigiai: [
-    #step[**B1: Tìm hằng số $k$** \ Khi $t = 30$ thì $Q(30) = 50$, ta có: $50 = 100(1 - e^(-30k)) <=> 1 - e^(-30k) = 0.5 <=> e^(-30k) = 0.5$. \ $=> -30k = ln(0.5) => k = -ln(0.5)/30 approx 0.0231$.]
-    #step[**B2: Tính thời gian $t$ để $Q(t) = 90$** \ $90 = 100(1 - e^(-0.0231 t)) <=> 0.9 = 1 - e^(-0.0231 t) <=> e^(-0.0231 t) = 0.1$. \ $=> -0.0231 t = ln(0.1) => t = (-ln(0.1)) / 0.0231 approx 99.68$ phút.]
-    #step[**B3: Kết luận** \ Cần xấp xỉ 100 phút để sạc đạt $90%$.]
+    #step[*B1: Tìm hằng số $k$* \ Khi $t = 30$ thì $Q(30) = 50$, ta có: $50 = 100(1 - e^(-30k)) <=> 1 - e^(-30k) = 0.5 <=> e^(-30k) = 0.5$. \ $=> -30k = ln(0.5) => k = -ln(0.5)/30 approx 0.0231$.]
+    #step[*B2: Tính thời gian $t$ để $Q(t) = 90$* \ $90 = 100(1 - e^(-0.0231 t)) <=> 0.9 = 1 - e^(-0.0231 t) <=> e^(-0.0231 t) = 0.1$. \ $=> -0.0231 t = ln(0.1) => t = (-ln(0.1)) / 0.0231 approx 99.68$ phút.]
+    #step[*B3: Kết luận* \ Cần xấp xỉ 100 phút để sạc đạt $90%$.]
   ]
 ))
 
@@ -246,9 +246,9 @@ Hàm số mũ và logarit không sinh ra để "làm khó" học sinh trên gi�
   [Áp suất khí quyển $P$ (tính bằng mmHg) giảm theo độ cao $h$ (tính bằng km) so với mực nước biển theo công thức $P = 760 dot e^(-0.12 h)$. Nếu áp suất tại đỉnh núi A đo được là $380$ mmHg, độ cao của đỉnh núi A xấp xỉ bao nhiêu km?],
   (True([$5.78$ km]), [$6.33$ km], [$7.60$ km], [$8.85$ km]),
   loigiai: [
-    #step[**B1: Thiết lập phương trình** \ $380 = 760 dot e^(-0.12 h) <=> e^(-0.12 h) = 380/760 = 0.5$.]
-    #step[**B2: Lấy logarit tự nhiên (ln)** \ $-0.12 h = ln(0.5) approx -0.693$.]
-    #step[**B3: Giải độ cao $h$** \ $h = (-0.693) / (-0.12) approx 5.776$ km.]
+    #step[*B1: Thiết lập phương trình* \ $380 = 760 dot e^(-0.12 h) <=> e^(-0.12 h) = 380/760 = 0.5$.]
+    #step[*B2: Lấy logarit tự nhiên (ln)* \ $-0.12 h = ln(0.5) approx -0.693$.]
+    #step[*B3: Giải độ cao $h$* \ $h = (-0.693) / (-0.12) approx 5.776$ km.]
   ]
 ))
 

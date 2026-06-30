@@ -121,7 +121,7 @@
         #text(size: 14pt, weight: "bold", fill: c-p2)[COMBINATORICS — CHUYÊN ĐỀ SƯ PHẠM TOÀN DIỆN]
         #linebreak()
         #v(0.4em)
-        #text(size: 15pt, weight: "bold", fill: c-p3)[15 CHỦ ĐỀ TOÀN DIỆN · KIẾN THỨC CỐT LÕI]
+        #text(size: 15pt, weight: "bold", fill: c-p3)[18 CHỦ ĐỀ TOÀN DIỆN · KIẾN THỨC CỐT LÕI]
         #v(0.7em)
         #line(length: 100%, stroke: 1.5pt + c-p2.lighten(55%))
         #v(0.6em)
@@ -133,7 +133,7 @@
           columns: (1fr, 1fr, 1fr, 1fr),
           column-gutter: 4pt,
           block(fill: c-p1, inset:(x:1pt,y:5pt), radius:4pt, width:100%)[
-            #align(center)[#text(fill:white, size:8pt, weight:"bold")[15 CHỦ ĐỀ]]
+            #align(center)[#text(fill:white, size:8pt, weight:"bold")[18 CHỦ ĐỀ]]
           ],
           block(fill: c-p2, inset:(x:1pt,y:5pt), radius:4pt, width:100%)[
             #align(center)[#text(fill:white, size:8pt, weight:"bold")[200+ BÀI TẬP]]
@@ -159,7 +159,7 @@
         inset: (x: 20pt, y: 12pt),
         radius: 8pt,
       )[
-        #text(fill: white, weight: "bold", size: 18pt)[15]
+        #text(fill: white, weight: "bold", size: 18pt)[18]
         #linebreak()
         #text(fill: white.transparentize(25%), size: 9pt)[CHỦ ĐỀ]
       ],
@@ -217,7 +217,7 @@
     set text(size: 8.5pt, fill: rgb("1565C0"))
     grid(
       columns: (1fr, auto),
-      [Chuyên Đề Đại Số Tổ Hợp — 15 Chủ Đề Toàn Diện],
+      [Chuyên Đề Đại Số Tổ Hợp — 18 Chủ Đề Toàn Diện],
       [GV Nguyễn Văn Sang · 0389.821.115],
     )
     v(-4pt)

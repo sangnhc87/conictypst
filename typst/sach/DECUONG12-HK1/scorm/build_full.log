@@ -1,0 +1,100 @@
+/Users/admin/conictypst/typst/sach/DECUONG12-HK1/scorm/build_scorm.py:1511: SyntaxWarning: invalid escape sequence '\$'
+  </html>"""
+/Users/admin/conictypst/typst/sach/DECUONG12-HK1/scorm/build_scorm.py:1511: SyntaxWarning: invalid escape sequence '\/'
+  </html>"""
+
+🚀 Build 26 SCORM Quiz — Tài liệu Toán 12 HK1
+───────────────────────────────────────────────────────
+[01/26] Đơn Điệu & Cực Trị — Đề 1
+    📖 Đang parse câu hỏi... 52 câu OK
+    ✅ scorm-C01-bai01-de1.zip (60 KB) — 52 câu
+[02/26] Đơn Điệu & Cực Trị — Đề 2
+    📖 Đang parse câu hỏi... 22 câu OK
+    ✅ scorm-C01-bai01-de2.zip (20 KB) — 22 câu
+[03/26] Đơn Điệu & Cực Trị — Đề 3 (Nâng Cao)
+    📖 Đang parse câu hỏi... 22 câu OK
+    ✅ scorm-C01-bai01-de3.zip (23 KB) — 22 câu
+[04/26] Đơn Điệu & Cực Trị — Đề 4 (Nâng Cao)
+    📖 Đang parse câu hỏi... 22 câu OK
+    ✅ scorm-C01-bai01-de4.zip (11 KB) — 22 câu
+[05/26] GTLN & GTNN — Đề 1
+    📖 Đang parse câu hỏi... 46 câu OK
+    ✅ scorm-C01-bai02-de1.zip (43 KB) — 46 câu
+[06/26] GTLN & GTNN — Đề 2
+    📖 Đang parse câu hỏi... 25 câu OK
+    ✅ scorm-C01-bai02-de2.zip (16 KB) — 25 câu
+[07/26] GTLN & GTNN — Đề 3
+    📖 Đang parse câu hỏi... 22 câu OK
+    ✅ scorm-C01-bai02-de3.zip (31 KB) — 22 câu
+[08/26] GTLN & GTNN — Đề 4
+    📖 Đang parse câu hỏi... 25 câu OK
+    ✅ scorm-C01-bai02-de4.zip (74 KB) — 25 câu
+[09/26] GTLN & GTNN — Đề 5
+    📖 Đang parse câu hỏi... 22 câu OK
+    ✅ scorm-C01-bai02-de5.zip (103 KB) — 22 câu
+[10/26] GTLN & GTNN — Đề 6
+    📖 Đang parse câu hỏi... 22 câu OK
+Canvas compile error: error: unknown variable: draw-ellipse
+  ┌─ output/cetz_125e7a59.typ:7:6
+  │
+7 │       draw-ellipse(0, 1.15, 1.63, 0.4, stroke: 1pt + blue, style: "dashed-back")
+  │       ^^^^^^^^^^^^
+  │
+  = hint: if you meant to use subtraction, try adding spaces around the minus sign: `draw - ellipse`
+
+
+    ✅ scorm-C01-bai02-de6.zip (29 KB) — 22 câu
+[11/26] Tiệm Cận — Đề 1
+    📖 Đang parse câu hỏi... 20 câu OK
+    ✅ scorm-C01-bai03-de1.zip (17 KB) — 20 câu
+[12/26] Tiệm Cận — Đề 2
+    📖 Đang parse câu hỏi... 20 câu OK
+    ✅ scorm-C01-bai03-de2.zip (17 KB) — 20 câu
+[13/26] Tiệm Cận — Đề 3
+    📖 Đang parse câu hỏi... 20 câu OK
+    ✅ scorm-C01-bai03-de3.zip (12 KB) — 20 câu
+[14/26] Khảo Sát Hàm Số — Đề 1
+    📖 Đang parse câu hỏi... 20 câu OK
+    ✅ scorm-C01-bai04-de1.zip (29 KB) — 20 câu
+[15/26] Khảo Sát Hàm Số — Đề 2
+    📖 Đang parse câu hỏi... 20 câu OK
+    ✅ scorm-C01-bai04-de2.zip (20 KB) — 20 câu
+[16/26] Khảo Sát Hàm Số — Đề 3
+    📖 Đang parse câu hỏi... 20 câu OK
+    ✅ scorm-C01-bai04-de3.zip (27 KB) — 20 câu
+[17/26] Ứng Dụng Thực Tiễn — Đề 1
+    📖 Đang parse câu hỏi... 40 câu OK
+    ✅ scorm-C01-bai05-de1.zip (11 KB) — 40 câu
+[18/26] Vectơ Không Gian — Đề 1
+    📖 Đang parse câu hỏi... 45 câu OK
+    ✅ scorm-C02-bai01-de1.zip (19 KB) — 45 câu
+[19/26] Vectơ Không Gian — Đề 2
+    📖 Đang parse câu hỏi... 34 câu OK
+    ✅ scorm-C02-bai01-de2.zip (15 KB) — 34 câu
+[20/26] Tọa Độ Vectơ — Đề 1
+    📖 Đang parse câu hỏi... 45 câu OK
+    ✅ scorm-C02-bai02-de1.zip (19 KB) — 45 câu
+[21/26] Phép Toán Vectơ — Đề 1
+    📖 Đang parse câu hỏi... 44 câu OK
+    ✅ scorm-C02-bai03-de1.zip (17 KB) — 44 câu
+[22/26] Phép Toán Vectơ — Đề 2
+    📖 Đang parse câu hỏi... 19 câu OK
+    ✅ scorm-C02-bai03-de2.zip (13 KB) — 19 câu
+[23/26] Thống Kê: Khoảng Biến Thiên — Đề 1
+    📖 Đang parse câu hỏi... 22 câu OK
+    ✅ scorm-C03-bai01-de1.zip (12 KB) — 22 câu
+[24/26] Thống Kê: Khoảng Biến Thiên — Đề 2
+    📖 Đang parse câu hỏi... 38 câu OK
+    ✅ scorm-C03-bai01-de2.zip (17 KB) — 38 câu
+[25/26] Thống Kê: Phương Sai & Độ Lệch Chuẩn — Đề 3
+    📖 Đang parse câu hỏi... 22 câu OK
+    ✅ scorm-C03-bai02-de3.zip (12 KB) — 22 câu
+[26/26] Thống Kê: Tổng Hợp Nâng Cao — Đề 4
+    📖 Đang parse câu hỏi... 22 câu OK
+    ✅ scorm-C03-bai02-de4-nangcao.zip (13 KB) — 22 câu
+
+=======================================================
+✅ Hoàn tất: 26/26 package(s)
+📂 Đầu ra:   /Users/admin/conictypst/typst/sach/DECUONG12-HK1/scorm/output
+=======================================================
+

@@ -68,50 +68,74 @@ def convert_to_typst(md_content, title):
             out_lines.append('#muc("3", "PHẨM CHẤT")')
             continue
             
-        # Match Hoat dong
-        # Either === 1. Hoạt động 1 or just === Hoạt động
-        m = re.search(r'===\s*(\d+)\.\s*Hoạt động\s*\d+:\s*(.*?)\(([^\)]+)\)', line, re.IGNORECASE)
-        if m:
+        # Match Hoạt động
+        m_hd = re.search(r'^===\s*(\d+)\.\s*Hoạt động\s*\d*:\s*(.*)', line, re.IGNORECASE)
+        if m_hd:
             close_block()
             in_block = None
-            out_lines.append(f'#hd("{m.group(1)}", "{m.group(2).strip()}", "{m.group(3).strip()}")')
+            hd_so = m_hd.group(1)
+            hd_rest = m_hd.group(2)
+            m_time = re.search(r'(.*?)\(([^)]+)\)\s*$', hd_rest)
+            if m_time:
+                hd_ten = m_time.group(1).strip()
+                hd_phut = m_time.group(2).strip()
+            else:
+                hd_ten = hd_rest.strip()
+                hd_phut = ""
+            out_lines.append(f'#hd("{hd_so}", "{hd_ten}", "{hd_phut}")')
+            continue
+            
+        m_hdtp = re.search(r'^====\s*Hoạt động\s*([0-9.]+):\s*(.*)', line, re.IGNORECASE)
+        if m_hdtp:
+            close_block()
+            in_block = None
+            hdtp_so = m_hdtp.group(1)
+            hdtp_rest = m_hdtp.group(2)
+            m_time = re.search(r'(.*?)\(([^)]+)\)\s*$', hdtp_rest)
+            if m_time:
+                hdtp_ten = m_time.group(1).strip()
+                hdtp_phut = m_time.group(2).strip()
+            else:
+                hdtp_ten = hdtp_rest.strip()
+                hdtp_phut = ""
+            out_lines.append(f'#hd-tp("{hdtp_so}", "{hdtp_ten}", "{hdtp_phut}")')
             continue
             
         # Match sub-blocks
-        m_mt = re.search(r'(====|-).*?a\)\s*Mục tiêu.*?:\s*\]?\s*(.*)', line, re.IGNORECASE)
+        m_mt = re.search(r'^(?:====|-).*?a\)\s*Mục tiêu[^\w]*(.*)', line, re.IGNORECASE)
         if m_mt:
             close_block()
             in_block = 'mt-hd'
             out_lines.append('#mt-hd[')
-            if m_mt.group(2).strip():
-                out_lines.append(m_mt.group(2).strip())
+            if m_mt.group(1).strip():
+                out_lines.append(m_mt.group(1).strip())
             continue
             
-        m_nd = re.search(r'(====|-).*?b\)\s*Nội dung.*?:\s*\]?\s*(.*)', line, re.IGNORECASE)
+        m_nd = re.search(r'^(?:====|-).*?b\)\s*Nội dung[^\w]*(.*)', line, re.IGNORECASE)
         if m_nd:
             close_block()
             in_block = 'nd-hd'
             out_lines.append('#nd-hd[')
-            if m_nd.group(2).strip():
-                out_lines.append(m_nd.group(2).strip())
+            if m_nd.group(1).strip():
+                out_lines.append(m_nd.group(1).strip())
             continue
             
-        m_sp = re.search(r'(====|-).*?c\)\s*Sản phẩm.*?:\s*\]?\s*(.*)', line, re.IGNORECASE)
+        m_sp = re.search(r'^(?:====|-).*?c\)\s*Sản phẩm[^\w]*(.*)', line, re.IGNORECASE)
         if m_sp:
             close_block()
             in_block = 'sp-hd'
             out_lines.append('#sp-hd[')
-            if m_sp.group(2).strip():
-                out_lines.append(m_sp.group(2).strip())
+            if m_sp.group(1).strip():
+                out_lines.append(m_sp.group(1).strip())
             continue
             
-        m_tc = re.search(r'(====|-).*?d\)\s*Tổ chức thực hiện.*?:\s*\]?\s*(.*)', line, re.IGNORECASE)
+        m_tc = re.search(r'^(?:====|-).*?d\)\s*Tổ chức thực hiện[^\w]*(.*)', line, re.IGNORECASE)
         if m_tc:
             close_block()
             in_block = 'tc-hd'
             out_lines.append('#tc-hd[')
-            if m_tc.group(2).strip():
-                out_lines.append(m_tc.group(2).strip())
+            if m_tc.group(1).strip():
+                out_lines.append(m_tc.group(1).strip())
             continue
             
         # Clean up pandoc tags

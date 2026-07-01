@@ -1278,7 +1278,8 @@
 
 // ─── Bài 20 ───────────────────────────────────────────────────
 #tln(
-  [Có bao nhiêu cách tạo tổng $15$ đồng từ các tờ mệnh giá $1$, $2$, $5$ đồng (mỗi loại dùng nhiều lần, *phân biệt thứ tự* — tức coi $1+2 \neq 2+1$)?],
+  [Có bao nhiêu cách tạo tổng $15$ đồng từ các tờ mệnh giá $1$, $2$, $5$ đồng (mỗi loại dùng nhiều lần, *phân biệt thứ tự* — tức coi $1+2 
+eq 2+1$)?],
   [1974],
   loigiai: [
     *Phân biệt thứ tự* → đếm *compositions* (sắp xếp có thứ tự).

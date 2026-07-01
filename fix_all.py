@@ -3,7 +3,7 @@ import re
 import os
 import glob
 
-files = glob.glob('typst/giao-an/khoi-12/*.typ')
+files = glob.glob('typst/giao-an/**/*.typ', recursive=True)
 
 for f in files:
     while True:

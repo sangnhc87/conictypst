@@ -774,7 +774,8 @@
     Hơn nữa, $arrow(D' C') = arrow(D C)$. Do đó vế trái rút gọn còn $arrow(D C)$. (Đúng)]
     #step[c) Áp dụng quy tắc hình hộp xuất phát từ đỉnh $B$, ta có $arrow(B C) + arrow(B A) + arrow(B B') = arrow(B D')$. (Đúng)]
     #step[d) Ta có $arrow(B A) + arrow(D D') = arrow(B A) + arrow(B B') = arrow(B A')$.
-    Vế trái trở thành $arrow(B A') + arrow(B D') \neq arrow(B C)$. (Sai)]
+    Vế trái trở thành $arrow(B A') + arrow(B D') 
+eq arrow(B C)$. (Sai)]
   ]
 )
 
@@ -788,7 +789,8 @@
   ),
   loigiai: [
     #step[a) Vế trái: $arrow(A B) + arrow(B C) + arrow(C D) + arrow(D A) = arrow(A C) + arrow(C A) = arrow(0)$.
-    Còn $arrow(S O) \neq arrow(0)$ vì $S$ không trùng $O$. (Sai)]
+    Còn $arrow(S O) 
+eq arrow(0)$ vì $S$ không trùng $O$. (Sai)]
     #step[b) Do $O$ là tâm hình bình hành $A B C D$ nên $O$ là trung điểm $A C$ và $B D$.
     Ta có $arrow(O A) + arrow(O C) = arrow(0)$ và $arrow(O B) + arrow(O D) = arrow(0)$, suy ra tổng bằng $arrow(0)$. (Đúng)]
     #step[c) Áp dụng quy tắc trung điểm với điểm $S$:
@@ -809,7 +811,8 @@
   ),
   loigiai: [
     #step[a) Áp dụng quy tắc hình hộp cho đỉnh $A$ ta có trực tiếp $arrow(A B) + arrow(A D) + arrow(A A') = arrow(A C')$. (Đúng)]
-    #step[b) Vì $G$ là trọng tâm của tam giác $A B' C$ nên ta có $arrow(G A) + arrow(G B') + arrow(G C) = arrow(0) \neq 2 arrow(G I)$. (Sai)]
+    #step[b) Vì $G$ là trọng tâm của tam giác $A B' C$ nên ta có $arrow(G A) + arrow(G B') + arrow(G C) = arrow(0) 
+eq 2 arrow(G I)$. (Sai)]
     #step[c) Ta có $arrow(A B) + arrow(A D) = arrow(A C)$. Mà mặt bên hình lập phương có các cạnh song song và bằng nhau nên $arrow(A C) = arrow(A' C')$. Vậy $arrow(A B) + arrow(A D) = arrow(A' C')$. (Đúng)]
     #step[d) Chọn hệ trục tọa độ với $B(0;0;0)$. Khi đó $A(a;0;0)$, $C(0;a;0)$, $B'(0;0;a)$.
     Trọng tâm $G$ của tam giác $A B' C$ có tọa độ $G(a/3; a/3; a/3) => arrow(B G) = (a/3; a/3; a/3)$.
@@ -867,11 +870,13 @@
   ),
   loigiai: [
     #step[a) Ta có $arrow(A B') = arrow(A B) + arrow(A A')$ và $arrow(C D') = arrow(C D) + arrow(C C') = - arrow(A B) + arrow(A A')$.
-    Do đó $arrow(A B') + arrow(C D') = 2 arrow(A A') \neq arrow(0)$. (Sai)]
+    Do đó $arrow(A B') + arrow(C D') = 2 arrow(A A') 
+eq arrow(0)$. (Sai)]
     #step[b) Ta có $arrow(A' D) = arrow(A D) - arrow(A A')$ và $arrow(C B') = arrow(C B) + arrow(B B') = - arrow(A D) + arrow(A A')$.
     Suy ra $arrow(A' D) + arrow(C B') = arrow(0)$. (Đúng)]
     #step[c) Ta có $arrow(A B) + arrow(A D) = arrow(A C)$ (do đáy là hình chữ nhật).
-    Độ dài là $|arrow(A C)| = sqrt(A B^2 + A D^2) = sqrt(a^2 + (a sqrt(3))^2) = 2a \neq a sqrt(5)$. (Sai)]
+    Độ dài là $|arrow(A C)| = sqrt(A B^2 + A D^2) = sqrt(a^2 + (a sqrt(3))^2) = 2a 
+eq a sqrt(5)$. (Sai)]
     #step[d) Ta có $arrow(A' D') = arrow(A D)$ và $arrow(C C') = arrow(A A')$.
     Do đó $arrow(A B) + arrow(A' D') + arrow(C C') = arrow(A B) + arrow(A D) + arrow(A A') = arrow(A C')$.
     Độ dài đường chéo hình hộp chữ nhật: $|arrow(A C')| = sqrt(A B^2 + A D^2 + A A'^2) = sqrt(a^2 + 3a^2 + 4a^2) = sqrt(8a^2) = 2 sqrt(2) a$. (Đúng)]
@@ -889,7 +894,8 @@
   loigiai: [
     #step[a) Ta biến đổi: $arrow(B' B) - arrow(D B) = arrow(B' B) + arrow(B D) = arrow(B' D)$. (Đúng)]
     #step[b) Theo quy tắc hình hộp cho đỉnh $B$ của hình lập phương: $arrow(B A) + arrow(B C) + arrow(B B') = arrow(B D')$. Đề ghi $arrow(B D)$ là Sai.]
-    #step[c) Độ dài vectơ tổng là độ dài đường chéo hình lập phương: $|arrow(B D')| = sqrt(a^2 + a^2 + a^2) = a sqrt(3) \neq a sqrt(2)$. (Sai)]
+    #step[c) Độ dài vectơ tổng là độ dài đường chéo hình lập phương: $|arrow(B D')| = sqrt(a^2 + a^2 + a^2) = a sqrt(3) 
+eq a sqrt(2)$. (Sai)]
     #step[d) Rút gọn biểu thức vectơ:
     $arrow(B C) - arrow(B A) + arrow(C' A') = arrow(A C) + arrow(C' A') = arrow(A C) - arrow(A C) = arrow(0)$ (vì $arrow(C' A') = - arrow(A' C') = - arrow(A C)$).
     Độ dài bằng 0 chứ không phải bằng $a$. (Sai)]

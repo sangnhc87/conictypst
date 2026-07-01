@@ -290,8 +290,10 @@
   ),
   loigiai: [
     #step[Gọi $M$ là trung điểm của cạnh $A B$.]
-    #step[Vì tam giác $A B C$ đều nên đường trung tuyến $C M$ cũng là đường cao, suy ra $C M perp A B$.\nVì tam giác $A B D$ đều nên đường trung tuyến $D M$ cũng là đường cao, suy ra $D M perp A B$.]
-    #step[Do $A B$ vuông góc với cả $C M$ và $D M$ nên $A B$ vuông góc với mặt phẳng $(C D M)$ chứa $C D$.\nSuy ra $A B perp C D$. Chọn đáp án B.]
+    #step[Vì tam giác $A B C$ đều nên đường trung tuyến $C M$ cũng là đường cao, suy ra $C M perp A B$.
+Vì tam giác $A B D$ đều nên đường trung tuyến $D M$ cũng là đường cao, suy ra $D M perp A B$.]
+    #step[Do $A B$ vuông góc với cả $C M$ và $D M$ nên $A B$ vuông góc với mặt phẳng $(C D M)$ chứa $C D$.
+Suy ra $A B perp C D$. Chọn đáp án B.]
     #resetstep()
   ]
 )
@@ -676,14 +678,20 @@
     True([$|arrow(a) + arrow(b) + arrow(c)| = 32.59$ N (làm tròn kết quả đến hàng phần mười).])
   ),
   loigiai: [
-    #step[a) Lực $arrow(a)$ cùng phương $arrow(A D)$, lực $arrow(b)$ cùng phương $arrow(A B)$ nên tổng hợp lực $arrow(a)+arrow(b)$ nằm trên mặt phẳng $(A B C D)$ và cùng phương với đường chéo $arrow(A C)$.\nTrong khi đó, lực $arrow(c)$ cùng phương với đường chéo không gian $arrow(A C')$. Do đó $arrow(a) + arrow(b) != arrow(c)$. (Sai)]
+    #step[a) Lực $arrow(a)$ cùng phương $arrow(A D)$, lực $arrow(b)$ cùng phương $arrow(A B)$ nên tổng hợp lực $arrow(a)+arrow(b)$ nằm trên mặt phẳng $(A B C D)$ và cùng phương với đường chéo $arrow(A C)$.
+Trong khi đó, lực $arrow(c)$ cùng phương với đường chéo không gian $arrow(A C')$. Do đó $arrow(a) + arrow(b) != arrow(c)$. (Sai)]
     #step[b) Vì $A B C D$ là hình vuông nên $A B perp A D => arrow(a) perp arrow(b)$.
     Độ lớn tổng lực hiệu dụng của $arrow(a)$ và $arrow(b)$ là:
     $|arrow(a) + arrow(b)| = sqrt(10^2 + 10^2) = 10 sqrt(2) approx 14.14$ N. (Sai)]
     #step[c) Do tính chất đối xứng của hình lập phương qua mặt phẳng chéo chứa $A C'$ và vuông góc đáy, các góc tạo bởi đường chéo $A C'$ với hai cạnh $A B$ và $A D$ là bằng nhau.
     Do đó tích vô hướng $arrow(a) dot arrow(c) = arrow(b) dot arrow(c)$.
     Suy ra: $|arrow(a)+arrow(c)|^2 = a^2 + c^2 + 2 arrow(a) dot arrow(c) = b^2 + c^2 + 2 arrow(b) dot arrow(c) = |arrow(b)+arrow(c)|^2$. (Đúng)]
-    #step[d) Chọn hệ trục tọa độ sao cho các lực hướng dọc theo các vectơ đơn vị:\n- $arrow(a) = (0; 10; 0)$,\n- $arrow(b) = (10; 0; 0)$,\n- $arrow(c) = 20/sqrt(3) (1; 1; 1) approx (11.547; 11.547; 11.547)$.\nTổng lực hiệu dụng: $arrow(F) = arrow(a) + arrow(b) + arrow(c) approx (21.547; 21.547; 11.547)$.\nĐộ lớn tổng lực: $F = sqrt(21.547^2 + 21.547^2 + 11.547^2) approx 32.59$ N. (Đúng)]
+    #step[d) Chọn hệ trục tọa độ sao cho các lực hướng dọc theo các vectơ đơn vị:
+- $arrow(a) = (0; 10; 0)$,
+- $arrow(b) = (10; 0; 0)$,
+- $arrow(c) = 20/sqrt(3) (1; 1; 1) approx (11.547; 11.547; 11.547)$.
+Tổng lực hiệu dụng: $arrow(F) = arrow(a) + arrow(b) + arrow(c) approx (21.547; 21.547; 11.547)$.
+Độ lớn tổng lực: $F = sqrt(21.547^2 + 21.547^2 + 11.547^2) approx 32.59$ N. (Đúng)]
   ]
 )
 

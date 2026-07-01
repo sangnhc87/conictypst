@@ -68,7 +68,8 @@
       $(C)' = 0$; \ \
       $(x^n)' = n x^(n-1)$; \ \
       $(sqrt(x))' = 1 / (2 sqrt(x))$ (với $x > 0$); \ \
-      $(1/x)' = -1 / x^2$ (với $x \neq 0$).
+      $(1/x)' = -1 / x^2$ (với $x 
+eq 0$).
     - *Hàm lượng giác:* \
       $(sin x)' = cos x$; \ \
       $(cos x)' = -sin x$; \ \
@@ -82,7 +83,8 @@
     Cho hai hàm số $u = u(x)$ và $v = v(x)$ có đạo hàm:
     - Tổng/Hiệu: $(u \pm v)' = u' \pm v'$
     - Tích: $(u \cdot v)' = u' \cdot v + u \cdot v'$
-    - Thương: $(u / v)' = (u' \cdot v - u \cdot v') / v^2$ (với $v \neq 0$)
+    - Thương: $(u / v)' = (u' \cdot v - u \cdot v') / v^2$ (với $v 
+eq 0$)
     - Hằng số: $(k u)' = k u'$
   ]
 ]

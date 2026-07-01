@@ -249,14 +249,14 @@
   #set enum(numbering: "a.", start: 1)
   + Giới thiệu ký hiệu $forall$ và $exists$ (Lượng từ).
   + Thực hành viết lại các phát biểu thành mệnh đề sử dụng ký hiệu.
-  + Lập quy tắc phủ định: $overline(\(forall x\,P\(x\)\))$ và
-    $overline(\(exists x\,P\(x\)\))$.
+  + Lập quy tắc phủ định: $overline((forall x\,P\(x\)))$ và
+    $overline((exists x\,P\(x\)))$.
   ]
 - #strong[Ví dụ minh họa:]
   - #strong[Mệnh đề:] \"Bình phương của mọi số thực đều không âm.\"
     $arrow.r.double forall x bb(in R\,) x^2 gt.eq 0$.
   - #strong[Mệnh đề phủ định:]
-    $overline(\(forall x bb(in R\,) x^2 gt.eq 0\))$ là
+    $overline((forall x bb(in R\,) x^2 gt.eq 0))$ là
     $exists x bb(in R\,) x^2 < 0$.
 - #strong[Sản phẩm:] Quy tắc sử dụng $forall\,exists$, quy tắc lập mệnh
   đề phủ định của chúng.

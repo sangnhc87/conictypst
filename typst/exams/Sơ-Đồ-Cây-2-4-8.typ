@@ -165,12 +165,16 @@
         import cetz.draw: *
 
         // Gốc
-        content((0, 0), text(weight: "bold")[Hộp I\n($5"T", 7"Đ"$)], name: "root")
+        content((0, 0), text(weight: "bold")[Hộp I
+($5"T", 7"Đ"$)], name: "root")
 
         // Tầng 1: Chuyển 2 bi
-        content((4, 4), text(fill: blue, weight: "bold")[Chuyển 2T\n#text(size: 0.8em)[Hộp II: 12T, 15Đ]], name: "2T")
-        content((4, 0), text(fill: purple, weight: "bold")[Chuyển 1T, 1Đ\n#text(size: 0.8em)[Hộp II: 11T, 16Đ]], name: "1T1D")
-        content((4, -4), text(fill: red, weight: "bold")[Chuyển 2Đ\n#text(size: 0.8em)[Hộp II: 10T, 17Đ]], name: "2D")
+        content((4, 4), text(fill: blue, weight: "bold")[Chuyển 2T
+#text(size: 0.8em)[Hộp II: 12T, 15Đ]], name: "2T")
+        content((4, 0), text(fill: purple, weight: "bold")[Chuyển 1T, 1Đ
+#text(size: 0.8em)[Hộp II: 11T, 16Đ]], name: "1T1D")
+        content((4, -4), text(fill: red, weight: "bold")[Chuyển 2Đ
+#text(size: 0.8em)[Hộp II: 10T, 17Đ]], name: "2D")
 
         // Tầng 2: Rút 1 bi từ Hộp II (Chỉ làm nổi bật nhánh rút bi Trắng vì đề cho biết đã rút được bi Trắng)
         content((9, 5), text(fill: blue, weight: "bold")[Rút được 1T], name: "2T_T")
@@ -259,11 +263,15 @@
         content((2.5, 2.5), [Hộp $A$], name: "A")
         content((2.5, -2.5), [Hộp $B$], name: "B")
 
-        content((6.2, 4), [Đỏ ($D_1$)\n#text(size: 0.8em)[(Hộp A: $1"Đ", 1"X"$)]], name: "AD1")
-        content((6.2, 1), [Xanh ($X_1$)\n#text(size: 0.8em)[(Hộp B: $1"Đ", 2"X"$)]], name: "AX1")
+        content((6.2, 4), [Đỏ ($D_1$)
+#text(size: 0.8em)[(Hộp A: $1"Đ", 1"X"$)]], name: "AD1")
+        content((6.2, 1), [Xanh ($X_1$)
+#text(size: 0.8em)[(Hộp B: $1"Đ", 2"X"$)]], name: "AX1")
 
-        content((6.2, -1), [Đỏ ($D_1$)\n#text(size: 0.8em)[(Hộp B: $0"Đ", 2"X"$)]], name: "BD1")
-        content((6.2, -4), [Xanh ($X_1$)\n#text(size: 0.8em)[(Hộp A: $2"Đ", 1"X"$)]], name: "BX1")
+        content((6.2, -1), [Đỏ ($D_1$)
+#text(size: 0.8em)[(Hộp B: $0"Đ", 2"X"$)]], name: "BD1")
+        content((6.2, -4), [Xanh ($X_1$)
+#text(size: 0.8em)[(Hộp A: $2"Đ", 1"X"$)]], name: "BX1")
 
         content((10.5, 4.8), [Đỏ ($D_2$)], name: "AD1D2")
         content((10.5, 3.2), [Xanh ($X_2$)], name: "AD1X2")
@@ -377,11 +385,14 @@
       #cetz.canvas(length: 1cm, {
         import cetz.draw: *
         // Nút gốc
-        content((0, 0), text(weight: "bold")[Tổng KH\n($20.000$)], name: "root")
+        content((0, 0), text(weight: "bold")[Tổng KH
+($20.000$)], name: "root")
 
         // Tầng 1: Giới tính
-        content((3, 3.5), text(fill: blue, weight: "bold")[Nam\n($9.600$)], name: "M")
-        content((3, -3.5), text(fill: rgb("d81b60"), weight: "bold")[Nữ\n($10.400$)], name: "F")
+        content((3, 3.5), text(fill: blue, weight: "bold")[Nam
+($9.600$)], name: "M")
+        content((3, -3.5), text(fill: rgb("d81b60"), weight: "bold")[Nữ
+($10.400$)], name: "F")
 
         // Tầng 2: Độ tuổi
         content((6.5, 5.25), text(fill: rgb("2e7d32"))[Trẻ ($2.700$)], name: "MT")

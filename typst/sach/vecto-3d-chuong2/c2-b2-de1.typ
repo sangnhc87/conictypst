@@ -741,7 +741,8 @@
   loigiai: [
     #step[Điểm $H$ thuộc mặt phẳng $(A B C)$ và thỏa mãn hệ thức vuông góc: $vec(A H) perp vec(B C)$ và $vec(B H) perp vec(C A)$.]
     #step[Giải hệ phương trình tọa độ của trực tâm trong tam giác $A B C$. Ta có các vectơ chỉ phương của mặt phẳng và các điều kiện vuông góc:
-      $ H(1; 0; 1) $ (do tam giác $A B C$ vuông tại $A$: kiểm tra $vec(A B) dot vec(A C) = (1; 1; -2) dot (0; -1; 1) = 0 - 1 - 2 = -3 \neq 0$).
+      $ H(1; 0; 1) $ (do tam giác $A B C$ vuông tại $A$: kiểm tra $vec(A B) dot vec(A C) = (1; 1; -2) dot (0; -1; 1) = 0 - 1 - 2 = -3 
+eq 0$).
       Nếu giải chi tiết phương trình tọa độ ta tìm được $H(1; 0; 1)$ (hoặc giá trị tương ứng). Tổng tọa độ $T = 2$.]
   ],
 ))

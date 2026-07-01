@@ -326,11 +326,14 @@
       #cetz.canvas(length: 1cm, {
         import cetz.draw: *
         // Nút gốc
-        content((0, 0), text(weight: "bold")[Tổng KH\n($20.000$)], name: "root")
+        content((0, 0), text(weight: "bold")[Tổng KH
+($20.000$)], name: "root")
 
         // Tầng 1: Giới tính
-        content((3, 3.5), text(fill: blue, weight: "bold")[Nam\n($9.600$)], name: "M")
-        content((3, -3.5), text(fill: rgb("d81b60"), weight: "bold")[Nữ\n($10.400$)], name: "F")
+        content((3, 3.5), text(fill: blue, weight: "bold")[Nam
+($9.600$)], name: "M")
+        content((3, -3.5), text(fill: rgb("d81b60"), weight: "bold")[Nữ
+($10.400$)], name: "F")
 
         // Tầng 2: Độ tuổi
         content((6.5, 5.25), text(fill: rgb("2e7d32"))[Trẻ ($2.700$)], name: "MT")

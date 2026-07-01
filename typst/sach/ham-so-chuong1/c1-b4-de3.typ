@@ -299,7 +299,8 @@
   accent: c-book,
   loigiai: [
     - a) Đúng. Chia tử số cho mẫu số ta được $A(x) = 3x + 10 + 48/x$.
-    - b) Đúng. Mẫu số của hàm số $A(x)$ triệt tiêu tại $x = 0$ và tử số tại đó là $48 \neq 0$ nên $x = 0$ là tiệm cận đứng.
+    - b) Đúng. Mẫu số của hàm số $A(x)$ triệt tiêu tại $x = 0$ và tử số tại đó là $48 
+eq 0$ nên $x = 0$ là tiệm cận đứng.
     - c) Đúng. Vì $lim_(x -> +oo) [A(x) - (3x + 10)] = lim_(x -> +oo) 48/x = 0$.
     - d) Sai. Khi $x -> +oo$, chi phí trung bình $A(x)$ tiến ra vô cực ($lim_(x -> +oo) A(x) = +oo$) do có thành phần $3x$ tiến ra vô cực. Đường tiệm cận xiên chỉ ra xu hướng tăng tuyến tính chứ không phải tiệm cận ngang về giá trị hằng số $10$.
   ],

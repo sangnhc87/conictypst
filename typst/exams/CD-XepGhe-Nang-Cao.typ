@@ -631,8 +631,10 @@ Dạng toán này có đặc trưng là hai lớp nhỏ (C và D) mỗi lớp ch
   - *Trường hợp 2.2: $t_(C D) = 0$*
     Khi đó phương trình của C và D trở thành: $t_(A C) + t_(B C) = 1$ và $t_(A D) + t_(B D) = 1$.
     Điều này cho ta 4 trường hợp con của cặp $((t_(A C), t_(B C)), (t_(A D), t_(B D)))$:
-    1. *Khả năng 1:* $t_(A C) = 1, t_(A D) = 1$  $arrow.r$  $t_(B C) = 0, t_(B D) = 0$. Thay vào phương trình A ta được $t_(A B) + 2 = 2  arrow.r.double  t_(A B) = 0$. Thay vào B ta được $0 + 0 + 0 = 0 \neq 2$ (loại).
-    2. *Khả năng 2:* $t_(B C) = 1, t_(B D) = 1$  $arrow.r$  $t_(A C) = 0, t_(A D) = 0$. Thay vào A ta được $t_(A B) = 2$. Thay vào B ta được $2 + 1 + 1 = 4 \neq 2$ (loại).
+    1. *Khả năng 1:* $t_(A C) = 1, t_(A D) = 1$  $arrow.r$  $t_(B C) = 0, t_(B D) = 0$. Thay vào phương trình A ta được $t_(A B) + 2 = 2  arrow.r.double  t_(A B) = 0$. Thay vào B ta được $0 + 0 + 0 = 0 
+eq 2$ (loại).
+    2. *Khả năng 2:* $t_(B C) = 1, t_(B D) = 1$  $arrow.r$  $t_(A C) = 0, t_(A D) = 0$. Thay vào A ta được $t_(A B) = 2$. Thay vào B ta được $2 + 1 + 1 = 4 
+eq 2$ (loại).
     3. *Khả năng 3:* $t_(A C) = 1, t_(B D) = 1$  $arrow.r$  $t_(B C) = 0, t_(A D) = 0$. Thay vào A ta được $t_(A B) + 1 = 2 arrow.r.double t_(A B) = 1$. Thay vào B ta được $1 + 0 + 1 = 2$ (thỏa mãn).
        Ta thu được cấu hình: $ {1 times (A, B), 1 times (A, C), 1 times (B, D)} $.
        + Số cách gán $M_2 = frac(3!, 1! 1! 1!) = 6$.

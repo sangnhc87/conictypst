@@ -801,9 +801,12 @@
   rect((-4, -2), (4, 0), fill: rgb(245, 158, 11, 30), stroke: none)
   
   // Labels for layers
-  content((-2.8, 2.5), [Môi trường 1\n$v_1 = 6$ m/s])
-  content((-2.8, 0.75), [Môi trường 2\n$v_2 = 8$ m/s])
-  content((-2.8, -1.0), [Môi trường 3\n$v_3 = 5$ m/s])
+  content((-2.8, 2.5), [Môi trường 1
+$v_1 = 6$ m/s])
+  content((-2.8, 0.75), [Môi trường 2
+$v_2 = 8$ m/s])
+  content((-2.8, -1.0), [Môi trường 3
+$v_3 = 5$ m/s])
   
   // Path: A(-2.5, 3.5) -> M1(-1.0, 1.5) -> M2(1.0, 0) -> B(2.5, -2.0)
   line((-2.5, 3.5), (-1.0, 1.5), (1.0, 0), (2.5, -2.0), stroke: 1.5pt + rgb("#ef4444"))

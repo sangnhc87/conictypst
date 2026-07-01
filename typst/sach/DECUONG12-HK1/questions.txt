@@ -1,0 +1,132 @@
+Q1 (tn): Một vật chuyển động theo phương trình $s(t) = t^3 - 6t^2 + 9t + 2$ (m), với $t$ tính bằng giây, $t >= 0$. Vận tốc tức thời của vật tại thời điểm $t = 2$ giây là:
+  A. $3$ m/s
+  B. $-3$ m/s [TRUE]
+  C. $0$ m/s
+  D. $6$ m/s
+Q2 (tn): Quãng đường $s$ (m) của một vật theo thời gian $t$ (giây) là $s(t) = 2t^3 - 3t^2 + 1$. Gia tốc của vật tại thời điểm $t = 1$ giây bằng:
+  A. $12$ m/s²
+  B. $0$ m/s²
+  C. $6$ m/s² [TRUE]
+  D. $-6$ m/s²
+Q4 (tn): Tổng chi phí sản xuất $x$ sản phẩm của một xưởng là $C(x) = x^3 - 15x^2 + 80x + 200$ (nghìn đồng). Chi phí cận biên tại sản lượng $x = 5$ sản phẩm là:
+  A. $30$ nghìn đồng
+  B. $-30$ nghìn đồng
+  C. $5$ nghìn đồng [TRUE]
+  D. $80$ nghìn đồng
+Q5 (tn): Một quả bóng ném thẳng đứng lên có độ cao $h(t) = -4.9t^2 + 20t + 1.5$ (mét) sau $t$ giây. Thời điểm quả bóng đạt độ cao lớn nhất xấp xỉ:
+  A. $t = 2$ giây
+  B. $t approx 2.04$ giây [TRUE]
+  C. $t = 4$ giây
+  D. $t = 1$ giây
+Q8 (tn): Hàm lượng thuốc $C(t) = (4t)/(t^2 + 4)$ (mg/L) trong máu bệnh nhân sau $t$ giờ tiêm. Nồng độ thuốc đạt cực đại tại:
+  A. $t = 4$ giờ
+  B. $t = 2$ giờ [TRUE]
+  C. $t = 1$ giờ
+  D. $t = 0$ giờ
+Q9 (tn): Một chiếc tàu chạy dọc con kênh với vị trí $x(t) = t^3 - 4.5t^2 + 3t$ (km). Vận tốc của tàu bằng $0$ lần đầu tiên vào khoảng thời gian:
+  A. $t approx 0.38$ giờ [TRUE]
+  B. $t = 1$ giờ
+  C. $t = 3$ giờ
+  D. $t = 0$ giờ
+Q10 (tn): Sản lượng lúa của một cánh đồng phụ thuộc vào lượng phân bón $x$ (kg/sào) theo hàm $Y(x) = -0.1x^2 + 8x + 500$ (kg). Lượng phân bón tối ưu để sản lượng lớn nhất là:
+  A. $x = 50$ kg/sào
+  B. $x = 40$ kg/sào [TRUE]
+  C. $x = 80$ kg/sào
+  D. $x = 20$ kg/sào
+Q11 (tn): Một viên đạn được bắn lên theo phương thẳng đứng với phương trình $h(t) = 40t - 5t^2$ (m). Khoảng thời gian viên đạn ở độ cao lớn hơn $60$ m là:
+  A. $2$ giây
+  B. $4$ giây [TRUE]
+  C. $6$ giây
+  D. $3$ giây
+Q12 (tn): Một nhà máy có hàm tổng chi phí $C(x) = 0.5x^2 + 40x + 5000$ (nghìn đồng). Chi phí trung bình mỗi sản phẩm nhỏ nhất đạt được khi sản xuất:
+  A. $x = 50$ sản phẩm
+  B. $x = 100$ sản phẩm [TRUE]
+  C. $x = 200$ sản phẩm
+  D. $x = 40$ sản phẩm
+Q13 (tn): Doanh thu bán hàng $R(t) = -t^3 + 9t^2 - 5$ (triệu đồng/ngày) biến đổi trong ngày $0 <= t <= 12$ giờ. Doanh thu tăng nhanh nhất (tốc độ tăng cực đại) vào lúc:
+  A. $t = 3$ giờ [TRUE]
+  B. $t = 6$ giờ
+  C. $t = 9$ giờ
+  D. $t = 12$ giờ
+Q14 (tn): Nhiệt độ (°C) của lò nung sau $t$ giờ là $T(t) = -t^3 + 9t^2 + 60$ với $0 <= t <= 8$. Nhiệt độ lò đạt giá trị lớn nhất là:
+  A. $120$ °C
+  B. $60$ °C
+  C. $168$ °C [TRUE]
+  D. $148$ °C
+Q15 (tn): Lượng hàng hóa (nghìn sản phẩm) sản xuất trong $t$ tháng là $Q(t) = 6t - t^2/2$ với $0 <= t <= 6$. Tốc độ sản xuất đang tăng hay giảm theo thời gian?
+  A. Tăng dần vì $Q'(t) > 0$
+  B. Giảm dần vì $Q''(t) < 0$ [TRUE]
+  C. Không đổi
+  D. Tăng rồi giảm
+Q17 (tn): Một tên lửa có độ cao $h(t) = 100t^2 - 10t^3$ (m), $0 <= t <= 10$. Tên lửa đạt độ cao lớn nhất tại:
+  A. $t = 5$ giây
+  B. $t = 20/3$ giây [TRUE]
+  C. $t = 10$ giây
+  D. $t = 3$ giây
+Q18 (tn): Khối lượng của vi khuẩn trong đĩa nuôi cấy tăng theo $M(t) = 5 dot 2^t$ (mg), $t$ tính bằng giờ. Biết $ln 2 approx 0.693$. Tốc độ tăng trưởng tức thời tại $t = 3$ giờ xấp xỉ:
+  A. $40$ mg/giờ
+  B. $20$ mg/giờ
+  C. $27.7$ mg/giờ [TRUE]
+  D. $5 dot 3$ mg/giờ
+Q19 (tn): Một đập nước tích nước với thể tích $V(t) = 3t^2 - t^3/3$ (triệu m³), $0 <= t <= 6$ ngày. Tốc độ tích nước lớn nhất vào ngày thứ:
+  A. $t = 6$
+  B. $t = 3$ [TRUE]
+  C. $t = 1$
+  D. $t = 2$
+Q20 (tn): Một vật dao động điều hòa theo $x(t) = 5 cos(2t)$ (cm). Vận tốc dao động tại thời điểm $t = pi/4$ giây là:
+  A. $5$ cm/s
+  B. $-10$ cm/s [TRUE]
+  C. $10$ cm/s
+  D. $0$ cm/s
+Q21 (ds): Một vật chuyển động theo phương trình $s(t) = t^3 - 9t^2 + 24t - 7$ (m), $t >= 0$ (giây). Khi đó:
+  A. Vận tốc của vật tại thời điểm $t$ là $v(t) = 3t^2 - 18t + 24$ (m/s) [TRUE]
+  B. Vật dừng lại tại hai thời điểm $t = 2$ giây và $t = 4$ giây [TRUE]
+  C. Vật chuyển động ngược chiều dương khi $t in (2; 4)$ [TRUE]
+  D. Gia tốc của vật tại $t = 3$ giây bằng $0$ m/s² [TRUE]
+Q22 (ds): Lợi nhuận (triệu đồng) của một công ty sau $t$ tháng hoạt động là $P(t) = t^3 - 6t^2 + 9t + 2$ với $0 <= t <= 8$. Khi đó:
+  A. Tốc độ thay đổi lợi nhuận bằng $0$ tại $t = 1$ và $t = 3$, đây là các điểm cực trị của $P(t)$ [TRUE]
+  B. Lợi nhuận lớn nhất của công ty trên $[0;8]$ đạt được tại $t = 3$
+  C. Trên khoảng $(1; 3)$, lợi nhuận công ty đang giảm [TRUE]
+  D. Lợi nhuận lớn nhất của công ty trên $[0; 8]$ là $P(8) = 202$ triệu đồng [TRUE]
+Q23 (ds): Nồng độ thuốc $C(t) = (4t)/(t^2 + 4)$ (mg/L) trong máu bệnh nhân ($t >= 0$ giờ). Khi đó:
+  A. Nồng độ thuốc đạt cực đại tại $t = 2$ giờ [TRUE]
+  B. Nồng độ thuốc cực đại là $C(2) = 1$ mg/L [TRUE]
+  C. Khi $t arrow.r +oo$, nồng độ thuốc tiến về $0$ mg/L [TRUE]
+  D. Nồng độ thuốc tăng liên tục theo thời gian $t$
+Q24 (ds): Giá trị tài sản (triệu đồng) sau $t$ năm là $A(t) = 500 dot 0.8^t$ ($t >= 0$). Biết $ln 0.8 approx -0.223$. Khi đó:
+  A. Tài sản giảm giá theo thời gian vì $A'(t) < 0$ [TRUE]
+  B. Tốc độ mất giá tại $t = 0$ xấp xỉ $111.5$ triệu đồng/năm [TRUE]
+  C. Sau $5$ năm, giá trị tài sản còn $200$ triệu đồng
+  D. Giá trị tài sản không bao giờ về đúng $0$, chỉ tiến về $0$ [TRUE]
+Q25 (ds): Năng suất tổng hợp của $n$ công nhân được cho bởi $P(n) = n(100 - n)$ (đơn vị/ngày), $0 < n < 100$. Khi đó:
+  A. Năng suất đạt cực đại khi sử dụng $n = 50$ công nhân [TRUE]
+  B. Năng suất cực đại đạt được là $2500$ đơn vị/ngày [TRUE]
+  C. Thêm một công nhân vào nhóm $60$ người sẽ làm tăng năng suất tổng hợp
+  D. Đạo hàm $P'(n) = 100 - 2n$ biểu diễn tốc độ thay đổi năng suất khi thêm một công nhân [TRUE]
+Q26 (ds): Một tên lửa có độ cao $h(t) = 100t^2 - 10t^3$ (m), $0 <= t <= 10$ giây. Khi đó:
+  A. Vận tốc của tên lửa tại $t = 5$ giây là $750$ m/s
+  B. Tên lửa đạt độ cao lớn nhất tại $t = 10$ giây
+  C. Gia tốc của tên lửa bằng $0$ tại $t = 10/3$ giây [TRUE]
+  D. Trong khoảng $(20/3; 10)$, tên lửa đang chuyển động đi xuống [TRUE]
+Q27 (ds): Lượng hàng hóa sản xuất trong $t$ tháng là $Q(t) = 6t - t^2/2$ nghìn sản phẩm, $0 <= t <= 6$. Khi đó:
+  A. Tốc độ sản xuất tại tháng thứ $3$ là $3$ nghìn sản phẩm/tháng [TRUE]
+  B. Tổng sản lượng trong $6$ tháng là $18$ nghìn sản phẩm [TRUE]
+  C. Tốc độ sản xuất tăng dần theo thời gian
+  D. Tháng thứ $6$ là tháng có tốc độ sản xuất bằng $0$ [TRUE]
+Q28 (ds): Một công ty mỏ khai thác dầu thu được $Q(t) = 100 t e^(-0.1 t)$ (tấn) sau $t$ ngày khai thác ($t >= 0$). Khi đó:
+  A. Ngày khai thác có sản lượng cao nhất là ngày thứ $10$ [TRUE]
+  B. Với $t < 10$: sản lượng mỗi ngày đang tăng [TRUE]
+  C. Khi $t arrow.r +oo$, sản lượng mỗi ngày tiến về $0$ [TRUE]
+  D. Sản lượng mỗi ngày tăng liên tục không giới hạn
+Q29 (ds): Một doanh nghiệp sản xuất sản phẩm với hàm chi phí $C(x) = x^3 - 6x^2 + 15x + 10$ (triệu đồng) và bán với giá cố định $27$ triệu đồng/sản phẩm ($x >= 0$ là số lượng sản phẩm). Gọi $P(x)$ là hàm lợi nhuận thu được. Khi đó:
+  A. Hàm lợi nhuận thu được là $P(x) = -x^3 + 6x^2 + 12x - 10$ (triệu đồng) [TRUE]
+  B. Tốc độ thay đổi lợi nhuận tức thời khi sản xuất $x$ sản phẩm là $P'(x) = -3x^2 + 12x + 12$ [TRUE]
+  C. Doanh nghiệp đạt lợi nhuận lớn nhất khi sản xuất khoảng $4.83$ sản phẩm (tức là $x = 2 + 2 sqrt(2)$) [TRUE]
+  D. Nếu doanh nghiệp sản xuất và bán ra $10$ sản phẩm thì sẽ có lãi
+Q30 (ds): Độ cao của sóng triều (mét) tại một cảng biển sau $t$ giờ ($0 <= t <= 24$) được mô hình hóa bởi hàm số $h(t) = 4 + 2 sin(pi t / 6 - pi / 3)$. Khi đó:
+  A. Độ cao lớn nhất của sóng triều là $6$ m [TRUE]
+  B. Độ cao thấp nhất của sóng triều là $2$ m [TRUE]
+  C. Tốc độ thay đổi độ cao sóng triều tại thời điểm $t$ là $h'(t) = pi/3 cos(pi t / 6 - pi / 3)$ (m/giờ) [TRUE]
+  D. Độ cao của sóng triều đang giảm tại thời điểm $t = 4$ giờ
+Q31 (tln): Một vật chuyển động theo phương trình $s(t) = 2t^3 - 9t^2 + 12t$ (m), $t >= 0$ (giây). Tổng quãng đường vật đi được trong $3$ giây đầu là bao nhiêu mét?
+Q32 (tln): Hàm doanh thu của một cửa hàng là $R(x) = 200x - x^2$ (nghìn đồng), $x$ là số sản phẩm bán ra. Doanh thu cận biên bằng $80$ nghìn đồng khi bán bao nhiêu sản phẩm?

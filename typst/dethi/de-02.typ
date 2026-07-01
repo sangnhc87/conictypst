@@ -718,7 +718,8 @@ Bảng biến thiên:
     ]
 
     #luuy[
-      Cảm ơn bạn đã nhắc nhở. Trong Typst, ký hiệu tập hợp hiệu là `$RR \setminus {2}$` và khác là `$forall x != 2$`, không dùng cú pháp LaTeX như `\mathbb{R}` hay `\neq`. Macro `bbt` cũng đã xử lý hoàn hảo nét gạch đôi `||` và tự động đứt gãy đồ thị mũi tên cho tiệm cận đứng.
+      Cảm ơn bạn đã nhắc nhở. Trong Typst, ký hiệu tập hợp hiệu là `$RR \setminus {2}$` và khác là `$forall x != 2$`, không dùng cú pháp LaTeX như `\mathbb{R}` hay `
+eq`. Macro `bbt` cũng đã xử lý hoàn hảo nét gạch đôi `||` và tự động đứt gãy đồ thị mũi tên cho tiệm cận đứng.
     ]
   ],
 )

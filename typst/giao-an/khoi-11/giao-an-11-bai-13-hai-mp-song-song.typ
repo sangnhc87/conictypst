@@ -86,7 +86,7 @@
   Trong hình ảnh này, em thấy những cặp đối tượng nào có vẻ như song
   song với nhau? Từ đó, hãy đề xuất cách kiểm tra xem hai mặt phẳng có
   song song hay không.
-
+//  ]
 ==== c) Sản phẩm
 - Kết quả xử lí tình huống: HS liệt kê được các cặp mặt phẳng song song
   (ví dụ: mặt sàn và mặt trần nhà).

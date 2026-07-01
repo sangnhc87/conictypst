@@ -617,7 +617,8 @@
             arc((0, 1), start: 90deg, stop: 270deg, radius: (0.3, 1))
             arc((0, 1), start: 90deg, stop: -90deg, radius: (0.3, 1), stroke: (dash: "dashed"))
 
-            content((-1.6, 0.6), text(size: 7pt)[Bán kính lỗ khoan \n $0,1$])
+            content((-1.6, 0.6), text(size: 7pt)[Bán kính lỗ khoan 
+ $0,1$])
             line((-1.4, 0.4), (-0.8, 0.05), mark: (end: ">"), stroke: 0.5pt)
 
             content((-2, -0.5), text(size: 7pt)[Trục xoay])

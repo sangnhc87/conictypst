@@ -339,7 +339,8 @@ Khi làm việc với lưới 2 chiều, nếu chỉ dùng cảm giác nhân h�
     
     // Group A box (Column i)
     rect((-1.5, 1), (1.5, 2.5), fill: gradient.linear(rgb("E8F5E9"), rgb("C8E6C9")), stroke: 1.5pt + rgb("2E7D32"), radius: 4pt, name: "col_i")
-    content("col_i", text(weight: "bold", fill: rgb("1B5E20"))[CỘT $i$\nTrạng thái gốc])
+    content("col_i", text(weight: "bold", fill: rgb("1B5E20"))[CỘT $i$
+Trạng thái gốc])
     
     // Branches
     bezier((-0.5, 1), (-2, -0.5), (-1, 0.5), (-1.5, 0), mark: (end: ">", fill: rgb("1565C0")), stroke: 1.5pt + rgb("1565C0"))
@@ -347,11 +348,13 @@ Khi làm việc với lưới 2 chiều, nếu chỉ dùng cảm giác nhân h�
     
     // Group A (Column i+1)
     rect((-3.5, -2), (-0.5, -0.5), fill: gradient.linear(rgb("E3F2FD"), rgb("BBDEFB")), stroke: 1.5pt + rgb("1565C0"), radius: 4pt, name: "col_i1_A")
-    content("col_i1_A", text(weight: "bold", fill: rgb("0D47A1"))[CỘT $i+1$\n$x$ nhóm A])
+    content("col_i1_A", text(weight: "bold", fill: rgb("0D47A1"))[CỘT $i+1$
+$x$ nhóm A])
     
     // Group B (Column i+1)
     rect((0.5, -2), (3.5, -0.5), fill: gradient.linear(rgb("FFF3E0"), rgb("FFE0B2")), stroke: 1.5pt + rgb("E65100"), radius: 4pt, name: "col_i1_B")
-    content("col_i1_B", text(weight: "bold", fill: rgb("E65100"))[CỘT $i+1$\n$y$ nhóm B])
+    content("col_i1_B", text(weight: "bold", fill: rgb("E65100"))[CỘT $i+1$
+$y$ nhóm B])
     
     // Badges
     circle((-1.8, 0.2), radius: 0.3, fill: rgb("1565C0"), stroke: none)
@@ -2537,10 +2540,14 @@ Khi đồ thị không thuộc loại nào quen thuộc, ta dùng *Thuật toán
   - $G \/ e$: *Chập đỉnh $u$ và $v$ làm 1* — hai đỉnh hợp nhất thành 1 đỉnh mới (ràng buộc chập vào).
 
   *Tại sao đúng?*
-  - $P(G, k)$ = số cách tô thỏa mãn tất cả ràng buộc kể cả $u \ne v$.
-  - $P(G backslash e, k)$ = số cách tô bỏ qua ràng buộc $u \ne v$ = đếm CẢ trường hợp $u = v$ lẫn $u \ne v$.
+  - $P(G, k)$ = số cách tô thỏa mãn tất cả ràng buộc kể cả $u 
+e v$.
+  - $P(G backslash e, k)$ = số cách tô bỏ qua ràng buộc $u 
+e v$ = đếm CẢ trường hợp $u = v$ lẫn $u 
+e v$.
   - $P(G / e, k)$ = số cách tô với $u$ và $v$ bị BẮT BUỘC TRÙNG màu.
-  - Hiệu = chỉ còn đúng các cách tô có $u \ne v$. ✓
+  - Hiệu = chỉ còn đúng các cách tô có $u 
+e v$. ✓
 ])
 
 #v(0.5em)

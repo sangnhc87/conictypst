@@ -7,7 +7,8 @@
 // ─── Tập hợp ────────────────────────────────────────────────
 #let cap = sym.inter         // ∩  (LaTeX: \cap)
 #let cup = sym.union         // ∪  (LaTeX: \cup)
-#let notin = sym.in.not        // ∉  (LaTeX: \notin)
+#let notin = sym.in.not        // ∉  (LaTeX: 
+otin)
 #let subseteq = sym.subset.eq     // ⊆  (LaTeX: \subseteq)
 #let supseteq = sym.supset.eq     // ⊇  (LaTeX: \supseteq)
 #let emptyset = sym.nothing       // ∅  (LaTeX: \emptyset)
@@ -19,7 +20,9 @@
 #let geq = sym.gt.eq         // ≥  (LaTeX: \geq / \ge)
 #let le = sym.lt.eq         // ≤  alias ngắn
 #let ge = sym.gt.eq         // ≥  alias ngắn
-#let neq = sym.eq.not        // ≠  (LaTeX: \neq / \ne)
+#let neq = sym.eq.not        // ≠  (LaTeX: 
+eq / 
+e)
 #let ne = sym.eq.not        // ≠  alias ngắn
 #let approx = sym.approx        // ≈  (LaTeX: \approx)
 #let equiv = sym.equiv         // ≡  (LaTeX: \equiv)
@@ -59,8 +62,10 @@
 // ─── Logic & lượng từ ──────────────────────────────────────
 #let forall = sym.forall        // ∀  (LaTeX: \forall)
 #let exists = sym.exists        // ∃  (LaTeX: \exists)
-#let nexists = sym.exists.not    // ∄  (LaTeX: \nexists)
-#let neg = sym.not           // ¬  (LaTeX: \neg)
+#let nexists = sym.exists.not    // ∄  (LaTeX: 
+exists)
+#let neg = sym.not           // ¬  (LaTeX: 
+eg)
 #let land = sym.and           // ∧  (LaTeX: \land)
 #let lor = sym.or            // ∨  (LaTeX: \lor)
 #let therefore = sym.therefore     // ∴  (LaTeX: \therefore)
@@ -74,7 +79,8 @@
 #let iiint = sym.integral.triple   // ∭  (LaTeX: \iiint)
 #let oint = sym.integral.cont     // ∮  (LaTeX: \oint)
 #let partial = sym.partial       // ∂  (LaTeX: \partial)
-#let nabla = sym.nabla         // ∇  (LaTeX: \nabla)
+#let nabla = sym.nabla         // ∇  (LaTeX: 
+abla)
 
 // ─── Vô cực & giới hạn ─────────────────────────────────────
 #let infty = sym.infinity      // ∞  (LaTeX: \infty)
@@ -152,7 +158,9 @@
 //  \cup            union           cup
 //  \leq / \le      lt.eq           leq / le
 //  \geq / \ge      gt.eq           geq / ge
-//  \neq / \ne      eq.not          neq / ne
+//  
+eq / 
+e      eq.not          neq / ne
 //  \pm             plus.minus      pm
 //  \cdot           dot.c           cdot
 //  \infty          infinity        infty
@@ -170,7 +178,8 @@
 //  \subseteq       subset.eq       subseteq
 //  \emptyset       nothing         emptyset
 //  \in             in              (đã có sẵn)
-//  \notin          in.not          notin
+//  
+otin          in.not          notin
 //  \cot            —               cot (math.op)
 //  \arcsin         —               arcsin (math.op)
 //  \vec{v}         arrow(v)        vec(v) / overrightarrow(v)

@@ -62,8 +62,10 @@ Cuốn sách này được thiết kế như một cuộc hành trình khai phó
     // Nấc thang 1
     rect((0,0), (3.6,2.2), radius: 0.15, stroke: 1.2pt + C-FOREST, fill: rgb("#F0F9FF"))
     content((1.8, 1.1), align(center)[
-      #text(weight: "bold", fill: C-FOREST, size: 9pt)[Bước 1: ĐƯỜNG THAM SỐ]\n
-      #text(size: 7.5pt, fill: rgb("#334155"))[1 biến biến thiên $t$\nQuỹ đạo, vận tốc, độ cong]
+      #text(weight: "bold", fill: C-FOREST, size: 9pt)[Bước 1: ĐƯỜNG THAM SỐ]
+
+      #text(size: 7.5pt, fill: rgb("#334155"))[1 biến biến thiên $t$
+Quỹ đạo, vận tốc, độ cong]
     ])
     
     // Mũi tên 1
@@ -72,8 +74,10 @@ Cuốn sách này được thiết kế như một cuộc hành trình khai phó
     // Nấc thang 2
     rect((4.8,0), (8.4,2.2), radius: 0.15, stroke: 1.2pt + C-PURPLE, fill: rgb("#F5F3FF"))
     content((6.6, 1.1), align(center)[
-      #text(weight: "bold", fill: C-PURPLE, size: 9pt)[Bước 2: MẶT THAM SỐ]\n
-      #text(size: 7.5pt, fill: rgb("#334155"))[2 biến độc lập $u, v$\nLưới tọa độ, tiếp diện]
+      #text(weight: "bold", fill: C-PURPLE, size: 9pt)[Bước 2: MẶT THAM SỐ]
+
+      #text(size: 7.5pt, fill: rgb("#334155"))[2 biến độc lập $u, v$
+Lưới tọa độ, tiếp diện]
     ])
     
     // Mũi tên 2
@@ -82,8 +86,10 @@ Cuốn sách này được thiết kế như một cuộc hành trình khai phó
     // Nấc thang 3
     rect((9.6,0), (13.2,2.2), radius: 0.15, stroke: 1.2pt + C-AMBER, fill: rgb("#FFFBEB"))
     content((11.4, 1.1), align(center)[
-      #text(weight: "bold", fill: C-AMBER, size: 9pt)[Bước 3: MẶT CONICOIDS]\n
-      #text(size: 7.5pt, fill: rgb("#334155"))[Các mặt bậc hai 3D\nDệt mặt kẻ, Tối ưu hóa]
+      #text(weight: "bold", fill: C-AMBER, size: 9pt)[Bước 3: MẶT CONICOIDS]
+
+      #text(size: 7.5pt, fill: rgb("#334155"))[Các mặt bậc hai 3D
+Dệt mặt kẻ, Tối ưu hóa]
     ])
   })
   #v(0.4em)

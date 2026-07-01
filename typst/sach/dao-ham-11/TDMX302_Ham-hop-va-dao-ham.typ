@@ -19,7 +19,8 @@
     Cho $u = u(x)$ là một hàm số có đạo hàm:
     - $(u^n)' = n u^(n-1) \cdot u'$
     - $(sqrt(u))' = u' / (2 sqrt(u))$ (với $u > 0$)
-    - $(1/u)' = -u' / u^2$ (với $u \neq 0$)
+    - $(1/u)' = -u' / u^2$ (với $u 
+eq 0$)
     - Lượng giác: $(sin u)' = u' cos u$; $(cos u)' = -u' sin u$.
   ]
 ]

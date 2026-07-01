@@ -764,7 +764,7 @@
     [$(0; 2)$]
   ),
   loigiai: [
-
+    #step[Đang cập nhật...]
   ]
 )
 
@@ -778,7 +778,7 @@
     [$3$]
   ),
   loigiai: [
-
+    #step[Đang cập nhật...]
   ]
 )
 
@@ -792,7 +792,7 @@
     [$2$]
   ),
   loigiai: [
-
+    #step[Đang cập nhật...]
   ]
 )
 
@@ -815,7 +815,9 @@
     [$1$]
   ),
   loigiai: [
-
+    #step[Dựa vào bảng xét dấu, ta thấy $f'(x)$ đổi dấu từ âm sang dương khi đi qua $x = -3$ và $x = 3$.]
+    #step[Do đó, hàm số đạt cực tiểu tại $x = -3$ và $x = 3$.]
+    #step[Vậy hàm số có $2$ điểm cực tiểu.]
   ]
 )
 
@@ -849,7 +851,9 @@
     True([$1$])
   ),
   loigiai: [
-
+    #step[Từ đồ thị hàm số $y = f'(x)$, ta thấy đồ thị cắt trục hoành tại duy nhất một điểm (nghiệm đơn) và tiếp xúc trục hoành tại một điểm (nghiệm kép).]
+    #step[Do đó, phương trình $f'(x) = 0$ chỉ có $1$ nghiệm bội lẻ.]
+    #step[Vậy hàm số $y = f(x)$ có $1$ điểm cực trị.]
   ]
 )
 
@@ -989,7 +993,10 @@
     True([Hàm số đã cho không có cực trị.])
   ),
   loigiai: [
-
+    #step[Tập xác định: $D = RR \\ {1}$.]
+    #step[Đạo hàm: $y' = (-1 - 3) / (x - 1)^2 = (-4) / (x - 1)^2 < 0, forall x in D$.]
+    #step[Do $y' < 0$ trên các khoảng $(-oo, 1)$ và $(1, +oo)$ nên hàm số nghịch biến trên từng khoảng xác định.]
+    #step[Hàm số không có cực trị.]
   ]
 )
 
@@ -1003,7 +1010,9 @@
     [Hàm số có hai điểm cực trị.]
   ),
   loigiai: [
-
+    #step[Tập xác định: $D = RR$.]
+    #step[Đạo hàm: $y' = x / sqrt(x^2 + 1)$. Cho $y' = 0 <=> x = 0$.]
+    #step[Qua $x=0$, $y'$ đổi dấu từ âm sang dương nên hàm số đạt cực tiểu tại $x=0$ và không có cực đại.]
   ]
 )
 
@@ -1018,7 +1027,10 @@
     True([Hàm số đạt cực tiểu tại $x = 0$, giá trị cực tiểu của hàm số là $y(0) = 1/2$.])
   ),
   loigiai: [
-
+    #step[Tập xác định: $D = RR$.]
+    #step[Đạo hàm: $y' = -2x^3 + 2x = -2x(x^2 - 1)$. Cho $y' = 0 <=> x = 0$ hoặc $x = pm 1$.]
+    #step[Ta có $y(0) = 1/2$ và $y(pm 1) = 1$.]
+    #step[Lập bảng xét dấu, ta thấy hàm số đạt cực tiểu tại $x=0$, $y_"CT" = y(0) = 1/2$ và đạt cực đại tại $x = pm 1$, $y_"CĐ" = y(pm 1) = 1$.]
   ]
 )
 

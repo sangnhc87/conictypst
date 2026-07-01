@@ -18,7 +18,12 @@
     [$0$ m/s],
     [$6$ m/s]
   ),
-  loigiai: []
+  loigiai: [
+    #step[Vận tốc tức thời của vật là đạo hàm của phương trình chuyển động $s(t)$ theo thời gian $t$.]
+    #step[Ta có $v(t) = s'(t) = 3t^2 - 12t + 9$.]
+    #step[Tại thời điểm $t = 2$, vận tốc của vật là $v(2) = 3(2)^2 - 12(2) + 9 = 12 - 24 + 9 = -3$ (m/s).]
+    #step[Kết luận: Chọn đáp án B.]
+  ]
 )
 
 // ─── CÂU 2 ───
@@ -31,7 +36,12 @@
     True([$6$ m/s²]),
     [$-6$ m/s²]
   ),
-  loigiai: []
+  loigiai: [
+    #step[Vận tốc của vật là $v(t) = s'(t) = 6t^2 - 6t$.]
+    #step[Gia tốc của vật là đạo hàm của vận tốc $a(t) = v'(t) = 12t - 6$.]
+    #step[Tại thời điểm $t = 1$, gia tốc của vật là $a(1) = 12(1) - 6 = 6$ (m/s²).]
+    #step[Kết luận: Chọn đáp án C.]
+  ]
 )
 
 // ─── CÂU 3 ───
@@ -44,7 +54,9 @@
     [$0$ nghìn người/năm],
     [$-10$ nghìn người/năm]
   ),
-  loigiai: []
+  loigiai: [
+    #step[Đang cập nhật...]
+  ]
 )
 
 // ─── CÂU 4 ───
@@ -57,7 +69,12 @@
     True([$5$ nghìn đồng]),
     [$80$ nghìn đồng]
   ),
-  loigiai: []
+  loigiai: [
+    #step[Chi phí cận biên là đạo hàm của hàm tổng chi phí $C(x)$ theo sản lượng $x$.]
+    #step[Ta có $C'(x) = 3x^2 - 30x + 80$.]
+    #step[Tại sản lượng $x = 5$, chi phí cận biên là $C'(5) = 3(5)^2 - 30(5) + 80 = 75 - 150 + 80 = 5$ (nghìn đồng).]
+    #step[Kết luận: Chọn đáp án C.]
+  ]
 )
 
 // ─── CÂU 5 ───
@@ -70,7 +87,12 @@
     [$t = 4$ giây],
     [$t = 1$ giây]
   ),
-  loigiai: []
+  loigiai: [
+    #step[Độ cao của quả bóng là $h(t) = -4.9t^2 + 20t + 1.5$. Quả bóng đạt độ cao lớn nhất khi $h'(t) = 0$.]
+    #step[Ta có $h'(t) = -9.8t + 20 = 0 <=> t = 20/9.8 approx 2.04$ (giây).]
+    #step[Tại $t approx 2.04$, $h''(t) = -9.8 < 0$ nên $h(t)$ đạt cực đại.]
+    #step[Kết luận: Chọn đáp án B.]
+  ]
 )
 
 // ─── CÂU 6 ───
@@ -83,7 +105,9 @@
     [$x = 20$],
     [$x = 40$]
   ),
-  loigiai: []
+  loigiai: [
+    #step[Đang cập nhật...]
+  ]
 )
 
 // ─── CÂU 7 ───
@@ -96,7 +120,9 @@
     [$t = 3$],
     [$t = 8$]
   ),
-  loigiai: []
+  loigiai: [
+    #step[Đang cập nhật...]
+  ]
 )
 
 // ─── CÂU 8 ───
@@ -109,7 +135,12 @@
     [$t = 1$ giờ],
     [$t = 0$ giờ]
   ),
-  loigiai: []
+  loigiai: [
+    #step[Hàm nồng độ thuốc là $C(t) = (4t)/(t^2 + 4)$. Ta cần tìm $t > 0$ sao cho $C(t)$ đạt lớn nhất.]
+    #step[Đạo hàm $C'(t) = (4(t^2 + 4) - 4t(2t))/(t^2 + 4)^2 = (16 - 4t^2)/(t^2 + 4)^2$.]
+    #step[Cho $C'(t) = 0 <=> 16 - 4t^2 = 0 <=> t = 2$ (vì $t > 0$). Lập bảng biến thiên ta thấy $C(t)$ đạt cực đại tại $t = 2$.]
+    #step[Kết luận: Chọn đáp án B.]
+  ]
 )
 
 // ─── CÂU 9 ───
@@ -122,7 +153,12 @@
     [$t = 3$ giờ],
     [$t = 0$ giờ]
   ),
-  loigiai: []
+  loigiai: [
+    #step[Vị trí của tàu là $x(t) = t^3 - 4.5t^2 + 3t$. Vận tốc tàu là $v(t) = x'(t) = 3t^2 - 9t + 3$.]
+    #step[Tàu dừng lại khi vận tốc bằng $0$, tức là $3t^2 - 9t + 3 = 0 <=> t^2 - 3t + 1 = 0$.]
+    #step[Giải phương trình bậc hai ta được $t = (3 +- sqrt(5))/2$. Thời điểm đầu tiên tàu dừng lại là $t = (3 - sqrt(5))/2 approx 0.38$ (giờ).]
+    #step[Kết luận: Chọn đáp án A.]
+  ]
 )
 
 // ─── CÂU 10 ───
@@ -135,7 +171,11 @@
     [$x = 80$ kg/sào],
     [$x = 20$ kg/sào]
   ),
-  loigiai: []
+  loigiai: [
+    #step[Sản lượng lúa $Y(x) = -0.1x^2 + 8x + 500$ đạt lớn nhất khi $Y'(x) = 0$.]
+    #step[Ta có $Y'(x) = -0.2x + 8 = 0 <=> x = 8 / 0.2 = 40$ (kg/sào).]
+    #step[Kết luận: Lượng phân bón tối ưu là $40$ kg/sào. Chọn đáp án B.]
+  ]
 )
 
 // ─── CÂU 11 ───
@@ -148,7 +188,12 @@
     [$6$ giây],
     [$3$ giây]
   ),
-  loigiai: []
+  loigiai: [
+    #step[Độ cao viên đạn lớn hơn $60$ m khi $h(t) > 60 <=> 40t - 5t^2 > 60$.]
+    #step[Bất phương trình tương đương: $-5t^2 + 40t - 60 > 0 <=> t^2 - 8t + 12 < 0$.]
+    #step[Nghiệm của bất phương trình là $2 < t < 6$.]
+    #step[Khoảng thời gian viên đạn ở độ cao trên $60$ m là $6 - 2 = 4$ (giây). Chọn đáp án B.]
+  ]
 )
 
 // ─── CÂU 12 ───
@@ -161,7 +206,11 @@
     [$x = 200$ sản phẩm],
     [$x = 40$ sản phẩm]
   ),
-  loigiai: []
+  loigiai: [
+    #step[Chi phí trung bình cho mỗi sản phẩm là $overline(C)(x) = C(x)/x = 0.5x + 40 + 5000/x$.]
+    #step[Đạo hàm $overline(C)'(x) = 0.5 - 5000/x^2$. Cho $overline(C)'(x) = 0 <=> x^2 = 10000 <=> x = 100$ (vì $x > 0$).]
+    #step[Vậy chi phí trung bình nhỏ nhất khi sản xuất $100$ sản phẩm. Chọn đáp án B.]
+  ]
 )
 
 // ─── CÂU 13 ───
@@ -174,7 +223,11 @@
     [$t = 9$ giờ],
     [$t = 12$ giờ]
   ),
-  loigiai: []
+  loigiai: [
+    #step[Tốc độ thay đổi doanh thu (doanh thu cận biên) là $v(t) = R'(t) = -3t^2 + 18t$.]
+    #step[Doanh thu tăng nhanh nhất khi $v(t)$ đạt cực đại. Đạo hàm $v'(t) = -6t + 18 = 0 <=> t = 3$.]
+    #step[Kết luận: Vào lúc $t = 3$ giờ, tốc độ tăng doanh thu là lớn nhất. Chọn đáp án A.]
+  ]
 )
 
 // ─── CÂU 14 ───
@@ -187,7 +240,14 @@
     True([$168$ °C]),
     [$148$ °C]
   ),
-  loigiai: []
+  loigiai: [
+    #step[Đạo hàm của nhiệt độ lò là $T'(t) = -3t^2 + 18t$. Cho $T'(t) = 0 <=> t = 0$ hoặc $t = 6$.]
+    #step[Tính các giá trị tại $t = 0, t = 6, t = 8$:]
+    #step[+$T(0) = 60$]
+    #step[+$T(6) = -(6)^3 + 9(6)^2 + 60 = 168$]
+    #step[+$T(8) = -(8)^3 + 9(8)^2 + 60 = 124$]
+    #step[Nhiệt độ lớn nhất là $168$ °C. Chọn đáp án C.]
+  ]
 )
 
 // ─── CÂU 15 ───
@@ -200,7 +260,11 @@
     [Không đổi],
     [Tăng rồi giảm]
   ),
-  loigiai: []
+  loigiai: [
+    #step[Tốc độ sản xuất là đạo hàm của hàm lượng hàng hóa: $v(t) = Q'(t) = 6 - t$.]
+    #step[Đạo hàm của tốc độ sản xuất là $v'(t) = Q''(t) = -1 < 0$ với mọi $t$.]
+    #step[Do $Q''(t) < 0$, tốc độ sản xuất đang giảm dần theo thời gian. Chọn đáp án B.]
+  ]
 )
 
 // ─── CÂU 16 ───
@@ -213,7 +277,9 @@
     True([$(2; 6)$ giây]),
     [Xe luôn cùng chiều dương]
   ),
-  loigiai: []
+  loigiai: [
+    #step[Đang cập nhật...]
+  ]
 )
 
 // ─── CÂU 17 ───
@@ -226,7 +292,11 @@
     [$t = 10$ giây],
     [$t = 3$ giây]
   ),
-  loigiai: []
+  loigiai: [
+    #step[Độ cao tên lửa $h(t) = 100t^2 - 10t^3$. Đạo hàm $h'(t) = 200t - 30t^2$.]
+    #step[Cho $h'(t) = 0 <=> 10t(20 - 3t) = 0 <=> t = 0$ hoặc $t = 20/3$.]
+    #step[Lập bảng biến thiên trên đoạn $[0; 10]$, ta thấy hàm số đạt cực đại và giá trị lớn nhất tại $t = 20/3$ giây. Chọn đáp án B.]
+  ]
 )
 
 // ─── CÂU 18 ───
@@ -239,7 +309,11 @@
     True([$27.7$ mg/giờ]),
     [$5 dot 3$ mg/giờ]
   ),
-  loigiai: []
+  loigiai: [
+    #step[Tốc độ tăng trưởng tức thời của vi khuẩn là đạo hàm $M'(t)$.]
+    #step[Ta có $M'(t) = 5(2^t) ln 2$. Tại $t = 3$, $M'(3) = 5(2^3) ln 2 = 40 ln 2$.]
+    #step[Với $ln 2 approx 0.693$, ta có $M'(3) approx 40(0.693) = 27.72 approx 27.7$ (mg/giờ). Chọn đáp án C.]
+  ]
 )
 
 // ─── CÂU 19 ───
@@ -252,7 +326,11 @@
     [$t = 1$],
     [$t = 2$]
   ),
-  loigiai: []
+  loigiai: [
+    #step[Tốc độ tích nước là $v(t) = V'(t) = 6t - t^2$.]
+    #step[Tốc độ lớn nhất khi hàm $v(t)$ đạt lớn nhất. Đạo hàm $v'(t) = 6 - 2t = 0 <=> t = 3$.]
+    #step[Do đây là parabol quay bề lõm xuống dưới, nó đạt cực đại tại $t = 3$. Chọn đáp án B.]
+  ]
 )
 
 // ─── CÂU 20 ───
@@ -265,7 +343,11 @@
     [$10$ cm/s],
     [$0$ cm/s]
   ),
-  loigiai: []
+  loigiai: [
+    #step[Vận tốc của vật dao động là $v(t) = x'(t) = -10 sin(2t)$.]
+    #step[Tại thời điểm $t = pi/4$, ta có $v(pi/4) = -10 sin(2(pi/4)) = -10 sin(pi/2) = -10$ (cm/s).]
+    #step[Kết luận: Chọn đáp án B.]
+  ]
 )
 
 #resetcau()
@@ -282,7 +364,9 @@
     True([Vật chuyển động ngược chiều dương khi $t in (2; 4)$]),
     True([Gia tốc của vật tại $t = 3$ giây bằng $0$ m/s²])
   ),
-  loigiai: []
+  loigiai: [
+    #step[Đang cập nhật...]
+  ]
 )
 
 // ─── CÂU 2 (PHẦN II) ───
@@ -295,7 +379,9 @@
     True([Trên khoảng $(1; 3)$, lợi nhuận công ty đang giảm]),
     True([Lợi nhuận lớn nhất của công ty trên $[0; 8]$ là $P(8) = 202$ triệu đồng])
   ),
-  loigiai: []
+  loigiai: [
+    #step[Đang cập nhật...]
+  ]
 )
 
 // ─── CÂU 3 (PHẦN II) ───
@@ -308,7 +394,9 @@
     True([Khi $t arrow.r +oo$, nồng độ thuốc tiến về $0$ mg/L]),
     [Nồng độ thuốc tăng liên tục theo thời gian $t$]
   ),
-  loigiai: []
+  loigiai: [
+    #step[Đang cập nhật...]
+  ]
 )
 
 // ─── CÂU 4 (PHẦN II) ───
@@ -321,7 +409,9 @@
     [Sau $5$ năm, giá trị tài sản còn $200$ triệu đồng],
     True([Giá trị tài sản không bao giờ về đúng $0$, chỉ tiến về $0$])
   ),
-  loigiai: []
+  loigiai: [
+    #step[Đang cập nhật...]
+  ]
 )
 
 // ─── CÂU 5 (PHẦN II) ───
@@ -334,7 +424,9 @@
     [Thêm một công nhân vào nhóm $60$ người sẽ làm tăng năng suất tổng hợp],
     True([Đạo hàm $P'(n) = 100 - 2n$ biểu diễn tốc độ thay đổi năng suất khi thêm một công nhân])
   ),
-  loigiai: []
+  loigiai: [
+    #step[Đang cập nhật...]
+  ]
 )
 
 // ─── CÂU 6 (PHẦN II) ───
@@ -347,7 +439,9 @@
     True([Gia tốc của tên lửa bằng $0$ tại $t = 10/3$ giây]),
     True([Trong khoảng $(20/3; 10)$, tên lửa đang chuyển động đi xuống])
   ),
-  loigiai: []
+  loigiai: [
+    #step[Đang cập nhật...]
+  ]
 )
 
 // ─── CÂU 7 (PHẦN II) ───
@@ -360,7 +454,9 @@
     [Tốc độ sản xuất tăng dần theo thời gian],
     True([Tháng thứ $6$ là tháng có tốc độ sản xuất bằng $0$])
   ),
-  loigiai: []
+  loigiai: [
+    #step[Đang cập nhật...]
+  ]
 )
 
 // ─── CÂU 8 (PHẦN II) ───
@@ -373,7 +469,9 @@
     True([Khi $t arrow.r +oo$, sản lượng mỗi ngày tiến về $0$]),
     [Sản lượng mỗi ngày tăng liên tục không giới hạn]
   ),
-  loigiai: []
+  loigiai: [
+    #step[Đang cập nhật...]
+  ]
 )
 
 // ─── CÂU 9 (PHẦN II) ───

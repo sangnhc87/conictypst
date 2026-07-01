@@ -37,9 +37,12 @@
         import draw: *
         // Three place value boxes
         let boxes = (
-          ("Trăm\nHundreds", "3", C-CH.at(0)),
-          ("Chục\nTens", "4", C-CH.at(1)),
-          ("Đơn vị\nOnes", "7", C-CH.at(2)),
+          ("Trăm
+Hundreds", "3", C-CH.at(0)),
+          ("Chục
+Tens", "4", C-CH.at(1)),
+          ("Đơn vị
+Ones", "7", C-CH.at(2)),
         )
         for (i, b) in boxes.enumerate() {
           let x = i * 3.5

@@ -1896,10 +1896,14 @@ Khi đồ thị không thuộc loại nào quen thuộc, ta dùng *Thuật toán
   - $G \/ e$: *Chập đỉnh $u$ và $v$ làm 1* — hai đỉnh hợp nhất thành 1 đỉnh mới (ràng buộc chập vào).
 
   *Tại sao đúng?*
-  - $P(G, k)$ = số cách tô thỏa mãn tất cả ràng buộc kể cả $u \ne v$.
-  - $P(G backslash e, k)$ = số cách tô bỏ qua ràng buộc $u \ne v$ = đếm CẢ trường hợp $u = v$ lẫn $u \ne v$.
+  - $P(G, k)$ = số cách tô thỏa mãn tất cả ràng buộc kể cả $u 
+e v$.
+  - $P(G backslash e, k)$ = số cách tô bỏ qua ràng buộc $u 
+e v$ = đếm CẢ trường hợp $u = v$ lẫn $u 
+e v$.
   - $P(G / e, k)$ = số cách tô với $u$ và $v$ bị BẮT BUỘC TRÙNG màu.
-  - Hiệu = chỉ còn đúng các cách tô có $u \ne v$. ✓
+  - Hiệu = chỉ còn đúng các cách tô có $u 
+e v$. ✓
 ])
 
 #v(0.5em)

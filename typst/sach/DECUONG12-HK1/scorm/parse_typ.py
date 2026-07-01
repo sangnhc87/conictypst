@@ -184,6 +184,14 @@ def _parse_options(paren_body: str) -> tuple:
 
 def _extract_stem_and_opts(body: str, q_type: str):
     """Trích stem, options, correct, answer_short từ body của block."""
+    # Xóa bỏ nội dung của fig: canvas(...) hoặc image(...) để không bị nhầm lẫn ngoặc vuông []
+    fig_match = re.search(r'\bfig\s*:\s*(?:canvas|image)\s*\(', body)
+    if fig_match:
+        start_paren = fig_match.end() - 1
+        end_paren = _balance(body, start_paren, '(', ')')
+        if end_paren > 0:
+            body = body[:fig_match.start()] + " " * (end_paren - fig_match.start() + 1) + body[end_paren+1:]
+
     stem = ''
     options, correct = [], []
     answer_short = ''

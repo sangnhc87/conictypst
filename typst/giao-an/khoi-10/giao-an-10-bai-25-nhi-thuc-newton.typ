@@ -211,12 +211,12 @@
       Xmind) để nộp sản phẩm.
   - #strong[Ví dụ cụ thể (Nhiệm vụ 2 - Bài tập thực tiễn/nâng cao):] Cho
     HS về nhà giải quyết bài toán tính tổng phức tạp hơn, ví dụ:
-    $T = C_n^0 - C_n^1 + C_n^2 - dots.h +\(- 1\)^nC_n^n$.
+    $T = C_n^0 - C_n^1 + C_n^2 - dots.h + (-1)^n C_n^n$.
 // ]
 #sp-hd[
   - Bài báo cáo/Sơ đồ tư duy tóm tắt kiến thức #strong[Nhị thức Newton]
     (dạng hình ảnh/file mềm).
-  - Lời giải cho bài toán tính tổng nâng cao: $T =\(1 - 1\)^n= 0$ (với
+  - Lời giải cho bài toán tính tổng nâng cao: $T = (1 - 1)^n = 0$ (với
     $n gt.eq 1$).
 ]
 #tc-hd[

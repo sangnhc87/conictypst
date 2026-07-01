@@ -1,0 +1,294 @@
+✅ typst/giao-an/giao-an-mau.typ compiled successfully.
+✅ typst/giao-an/khoi-12/giao-an-12-bai-12-tich-phan.typ compiled successfully.
+✅ typst/giao-an/khoi-12/giao-an-12-bai-6-vecto-trong-kg.typ compiled successfully.
+✅ typst/giao-an/khoi-12/giao-an-12-bai-8-bieu-thuc-toa-o.typ compiled successfully.
+✅ typst/giao-an/khoi-12/giao-an-12-bai-9-khoang-bt-va-khoang-tu-phan-vi.typ compiled successfully.
+✅ typst/giao-an/khoi-12/giao-an-12-hthtn-1-ks-va-vt-voi-phan-men-geogebra.typ compiled successfully.
+✅ typst/giao-an/khoi-12/giao-an-12-bai-17-pt-mat-cau.typ compiled successfully.
+✅ typst/giao-an/khoi-12/giao-an-12-bai-18-xs-co-k.typ compiled successfully.
+✅ typst/giao-an/khoi-12/giao-an-12-hthtn-4-tinh-ng-va-tp-bang-geogebra.typ compiled successfully.
+✅ typst/giao-an/khoi-12/giao-an-12-on-tap-cuoi-ky-1.typ compiled successfully.
+✅ typst/giao-an/khoi-12/giao-an-12-bai-9-khoang-bien-thien.typ compiled successfully.
+✅ typst/giao-an/khoi-12/giao-an-12-bai-7-he-truc-toa-o-trong-kg.typ compiled successfully.
+✅ typst/giao-an/khoi-12/giao-an-12-bai-2-gtln-gtnn-cua-ham-so.typ compiled successfully.
+✅ typst/giao-an/khoi-12/giao-an-12-bai-4-ks-va-ve-t-ham-so.typ compiled successfully.
+✅ typst/giao-an/khoi-12/giao-an-12-bai-1-tinh-on-ieu-va-cuc-tri.typ compiled successfully.
+✅ typst/giao-an/khoi-12/giao-an-12-hthtn-2-ve-vecto-tong-cua-3-vt.typ compiled successfully.
+✅ typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-6.typ compiled successfully.
+✅ typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-4.typ compiled successfully.
+✅ typst/giao-an/khoi-12/giao-an-12-bai-11-nguyen-ham.typ compiled successfully.
+✅ typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-5.typ compiled successfully.
+✅ typst/giao-an/khoi-12/giao-an-12-bai-16-cong-thuc-tinh-goc-trong-kg.typ compiled successfully.
+✅ typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-1.typ compiled successfully.
+✅ typst/giao-an/khoi-12/giao-an-12-hthtn-3-o-dai-gang-tay.typ compiled successfully.
+✅ typst/giao-an/khoi-12/giao-an-12-bai-3-uong-tiem-can.typ compiled successfully.
+❌ typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-2.typ failed with other error.
+error: the character `#` is not valid in code
+   ┌─ typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-2.typ:54:2
+   │
+54 │   #mt-hd[Kích hoạt kiến thức cũ, tạo hứng thú và đặt vấn đề thực tiễn liên quan đến tọa độ không gian.]
+   │   ^
+
+error: the character `#` is not valid in code
+   ┌─ typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-2.typ:55:2
+   │
+55 │   #nd-hd[
+   │   ^
+
+error: the character `#` is not valid in code
+   ┌─ typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-2.typ:60:2
+   │
+60 │   #sp-hd[
+   │   ^
+
+error: the character `#` is not valid in code
+   ┌─ typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-2.typ:64:2
+   │
+64 │   #tc-hd[Thảo luận nhóm đôi, cả lớp.]
+   │   ^
+
+error: the character `#` is not valid in code
+   ┌─ typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-2.typ:69:2
+   │
+69 │   #mt-hd[HS tự hệ thống hóa, tổ chức và trình bày kiến thức một cách trực quan, khoa học thông qua SĐTD số.]
+   │   ^
+
+error: the character `#` is not valid in code
+   ┌─ typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-2.typ:70:2
+   │
+70 │   #nd-hd[
+   │   ^
+
+error: the character `#` is not valid in code
+   ┌─ typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-2.typ:81:2
+   │
+81 │   #sp-hd[
+   │   ^
+
+error: the character `#` is not valid in code
+   ┌─ typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-2.typ:85:2
+   │
+85 │   #tc-hd[Hoạt động nhóm, thuyết trình.]
+   │   ^
+
+error: the character `#` is not valid in code
+   ┌─ typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-2.typ:91:2
+   │
+91 │   #mt-hd[Vận dụng linh hoạt kiến thức đã tổng hợp để giải quyết các dạng bài tập từ cơ bản đến nâng cao.]
+   │   ^
+
+error: the character `#` is not valid in code
+   ┌─ typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-2.typ:92:2
+   │
+92 │   #nd-hd[
+   │   ^
+
+error: the character `#` is not valid in code
+    ┌─ typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-2.typ:130:2
+    │
+130 │   #sp-hd[
+    │   ^
+
+error: the character `#` is not valid in code
+    ┌─ typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-2.typ:134:2
+    │
+134 │   #tc-hd[Hoạt động nhóm, thảo luận, thực hành trên máy tính.]
+    │   ^
+
+error: the character `#` is not valid in code
+    ┌─ typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-2.typ:139:2
+    │
+139 │   #mt-hd[HS biết vận dụng kiến thức vào giải quyết các bài toán có tính thực tiễn hoặc nâng cao, phát triển kỹ năng thuyết trình.]
+    │   ^
+
+error: the character `#` is not valid in code
+    ┌─ typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-2.typ:140:2
+    │
+140 │   #nd-hd[
+    │   ^
+
+error: the character `#` is not valid in code
+    ┌─ typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-2.typ:148:2
+    │
+148 │   #sp-hd[
+    │   ^
+
+error: the character `#` is not valid in code
+    ┌─ typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-2.typ:152:2
+    │
+152 │   #tc-hd[Hoạt động nhóm, thuyết trình, phản biện.]
+    │   ^
+
+
+✅ typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-3.typ compiled successfully.
+✅ typst/giao-an/khoi-12/giao-an-12-bai-15-pt-t-trong-kg.typ compiled successfully.
+✅ typst/giao-an/khoi-12/giao-an-12-hthtn-5-ve-o-hoa-3d-voi-geogebra.typ compiled successfully.
+✅ typst/giao-an/khoi-12/giao-an-12-bai-5-ung-dung-cua-h-vao-thuc-tien.typ compiled successfully.
+✅ typst/giao-an/khoi-12/giao-an-12-bai-10-phuong-sai.-o-lech-chuan.typ compiled successfully.
+✅ typst/giao-an/khoi-12/giao-an-12-bai-19-cong-thuc-xs.typ compiled successfully.
+❌ typst/giao-an/khoi-12/giao-an-12-bai-14-pt-mat-phang.typ aborted due to infinite loop.
+✅ typst/giao-an/khoi-12/giao-an-12-bai-13-ung-dung-hh-cua-tp.typ compiled successfully.
+✅ typst/giao-an/khoi-11/giao-an-11-hthtn-1-mot-vai-ung-dung-cua-toan-hoc-trong-tai-chinh.typ compiled successfully.
+✅ typst/giao-an/khoi-11/giao-an-11-hthtn-2-luc-cang-mat-ngoai-cua-nuoc.typ compiled successfully.
+❌ typst/giao-an/khoi-11/giao-an-11-bai-19-logarit.typ aborted due to infinite loop.
+❌ typst/giao-an/khoi-11/giao-an-11-bai-13-hai-mp-song-song.typ aborted due to infinite loop.
+❌ typst/giao-an/khoi-11/giao-an-11-bai-8-mau-so-lieu-ghep-nhom.typ aborted due to infinite loop.
+✅ typst/giao-an/khoi-11/giao-an-11-bai-9-cac-so-dac-trung-do-xu-the-trung-tam.typ compiled successfully.
+✅ typst/giao-an/khoi-11/giao-an-11-bai-21-pt-bpt-mu-va-logarit.typ compiled successfully.
+✅ typst/giao-an/khoi-11/giao-an-11-bai-2-cong-thuc-lg.typ compiled successfully.
+✅ typst/giao-an/khoi-11/giao-an-11-bai-10-t-va-mp-trong-kg.typ compiled successfully.
+✅ typst/giao-an/khoi-11/giao-an-11-bai-28-bc-hop,-bc-giao,-bc-oc-lap.typ compiled successfully.
+✅ typst/giao-an/khoi-11/giao-an-11-bai-24-phep-chieu-vg.typ compiled successfully.
+❌ typst/giao-an/khoi-11/giao-an-11-hthtn-4-hoat-ong-thuc-hanh-trai-nghiem-hinh-hoc.typ failed with other error.
+error: expected semicolon or line break
+  ┌─ typst/giao-an/khoi-11/giao-an-11-hthtn-4-hoat-ong-thuc-hanh-trai-nghiem-hinh-hoc.typ:1:35
+  │
+1 │ #import "../modules/giao-an.typ": *\n#import "@preview/cetz:0.3.3"\n\n// ════════════════════════════════════════════════════════════════════════
+  │                                    ^
+
+error: expected semicolon or line break
+  ┌─ typst/giao-an/khoi-11/giao-an-11-hthtn-4-hoat-ong-thuc-hanh-trai-nghiem-hinh-hoc.typ:1:66
+  │
+1 │ #import "../modules/giao-an.typ": *\n#import "@preview/cetz:0.3.3"\n\n// ════════════════════════════════════════════════════════════════════════
+  │                                                                   ^
+
+
+✅ typst/giao-an/khoi-11/giao-an-11-bai-7-cap-so-nhan.typ compiled successfully.
+❌ typst/giao-an/khoi-11/giao-an-11-bai-32-cac-quy-tac-tinh-ao-ham.typ aborted due to infinite loop.
+✅ typst/giao-an/khoi-11/giao-an-11-bai-30-cong-thuc-nhan-xs.typ compiled successfully.
+❌ typst/giao-an/khoi-11/giao-an-11-on-tap-chuong-9.typ failed with other error.
+error: expected semicolon or line break
+  ┌─ typst/giao-an/khoi-11/giao-an-11-on-tap-chuong-9.typ:1:35
+  │
+1 │ #import "../modules/giao-an.typ": *\n#import "@preview/cetz:0.3.3"\n\n#show: giao-an.with(
+  │                                    ^
+
+error: expected semicolon or line break
+  ┌─ typst/giao-an/khoi-11/giao-an-11-on-tap-chuong-9.typ:1:66
+  │
+1 │ #import "../modules/giao-an.typ": *\n#import "@preview/cetz:0.3.3"\n\n#show: giao-an.with(
+  │                                                                   ^
+
+
+❌ typst/giao-an/khoi-11/giao-an-11-on-tap-chuong-8.typ failed with other error.
+error: expected semicolon or line break
+  ┌─ typst/giao-an/khoi-11/giao-an-11-on-tap-chuong-8.typ:1:35
+  │
+1 │ #import "../modules/giao-an.typ": *\n#import "@preview/cetz:0.3.3"\n\n#show: giao-an.with(
+  │                                    ^
+
+error: expected semicolon or line break
+  ┌─ typst/giao-an/khoi-11/giao-an-11-on-tap-chuong-8.typ:1:66
+  │
+1 │ #import "../modules/giao-an.typ": *\n#import "@preview/cetz:0.3.3"\n\n#show: giao-an.with(
+  │                                                                   ^
+
+
+✅ typst/giao-an/khoi-11/giao-an-11-bai-14-phep-chieu-song-song.typ compiled successfully.
+❌ typst/giao-an/khoi-11/giao-an-11-bai-22-hai-t-vuong-goc.typ aborted due to infinite loop.
+✅ typst/giao-an/khoi-11/giao-an-11-bai-5-day-so.typ compiled successfully.
+❌ typst/giao-an/khoi-11/giao-an-11-bai-26-khoang-cach.typ aborted due to infinite loop.
+❌ typst/giao-an/khoi-11/giao-an-11-on-tap-chuong-5.typ failed with other error.
+error: expected semicolon or line break
+  ┌─ typst/giao-an/khoi-11/giao-an-11-on-tap-chuong-5.typ:1:35
+  │
+1 │ #import "../modules/giao-an.typ": *\n#import "@preview/cetz:0.3.3"\n\n#show: giao-an.with(
+  │                                    ^
+
+error: expected semicolon or line break
+  ┌─ typst/giao-an/khoi-11/giao-an-11-on-tap-chuong-5.typ:1:66
+  │
+1 │ #import "../modules/giao-an.typ": *\n#import "@preview/cetz:0.3.3"\n\n#show: giao-an.with(
+  │                                                                   ^
+
+
+✅ typst/giao-an/khoi-11/giao-an-11-on-tap-chuong-4.typ compiled successfully.
+❌ typst/giao-an/khoi-11/giao-an-11-on-tap-hoc-ky-1.typ aborted due to infinite loop.
+Cannot fix unknown variable k2π at typst/giao-an/khoi-11/giao-an-11-bai-3-ham-so-lg.typ:125
+✅ typst/giao-an/khoi-11/giao-an-11-on-tap-chuong-6.typ compiled successfully.
+✅ typst/giao-an/khoi-11/giao-an-11-on-tap-chuong-7.typ compiled successfully.
+✅ typst/giao-an/khoi-11/giao-an-11-bai-33-ao-ham-cap-hai.typ compiled successfully.
+❌ typst/giao-an/khoi-11/giao-an-11-on-tap-chuong-3.typ aborted due to infinite loop.
+✅ typst/giao-an/khoi-11/giao-an-11-on-tap-chuong-2.typ compiled successfully.
+✅ typst/giao-an/khoi-11/giao-an-11-bai-23-t-vuong-goc-voi-mp.typ compiled successfully.
+✅ typst/giao-an/khoi-11/giao-an-11-bai-4-pt-lg-co-ban.typ compiled successfully.
+✅ typst/giao-an/khoi-11/giao-an-11-on-tap-chuong-1.typ compiled successfully.
+❌ typst/giao-an/khoi-11/giao-an-11-bai-29-cong-thuc-cong-xac-suat.typ aborted due to infinite loop.
+✅ typst/giao-an/khoi-11/giao-an-11-hthtn-3-mot-so-mo-hinh-toan-hoc-su-dung-hs-mu,-hs-logarit.typ compiled successfully.
+✅ typst/giao-an/khoi-11/giao-an-11-bai-18-luy-thua-voi-so-mu-thuc.typ compiled successfully.
+✅ typst/giao-an/khoi-11/giao-an-11-bai-25-hai-mat-phang-vg.typ compiled successfully.
+✅ typst/giao-an/khoi-11/giao-an-11-bai-6-cap-so-cong.typ compiled successfully.
+❌ typst/giao-an/khoi-11/giao-an-11-bai-27-the-tich.typ failed with other error.
+error: expected semicolon or line break
+  ┌─ typst/giao-an/khoi-11/giao-an-11-bai-27-the-tich.typ:1:35
+  │
+1 │ #import "../modules/giao-an.typ": *\n#import "@preview/cetz:0.3.3"\n\n#show: giao-an.with(
+  │                                    ^
+
+error: expected semicolon or line break
+  ┌─ typst/giao-an/khoi-11/giao-an-11-bai-27-the-tich.typ:1:66
+  │
+1 │ #import "../modules/giao-an.typ": *\n#import "@preview/cetz:0.3.3"\n\n#show: giao-an.with(
+  │                                                                   ^
+
+
+❌ typst/giao-an/khoi-11/giao-an-11-bai-12-t-song-song-voi-mp.typ aborted due to infinite loop.
+❌ typst/giao-an/khoi-11/giao-an-11-bai-11-hai-uong-thang-song-song.typ aborted due to infinite loop.
+✅ typst/giao-an/khoi-11/giao-an-11-bai-9-cac-so-ac-trung-o-xu-the-trung-tam.typ compiled successfully.
+✅ typst/giao-an/khoi-11/giao-an-11-bai-17-ham-so-lien-tuc.typ compiled successfully.
+✅ typst/giao-an/khoi-11/giao-an-11-bai-16-gioi-han-cua-ham-so.typ compiled successfully.
+✅ typst/giao-an/khoi-11/giao-an-11-bai-20-hs-mu-va-hs-logarit.typ compiled successfully.
+✅ typst/giao-an/khoi-11/giao-an-11-bai-15-gioi-han-cua-day-so.typ compiled successfully.
+✅ typst/giao-an/khoi-11/giao-an-11-bai-31-inh-nghia-va-y-nghia-cua-h.typ compiled successfully.
+✅ typst/giao-an/khoi-11/giao-an-11-bai-1-gtlg-cua-glg.typ compiled successfully.
+✅ typst/giao-an/khoi-10/giao-an-10-bai-3-bpt-bac-nhat-2-an.typ compiled successfully.
+✅ typst/giao-an/khoi-10/giao-an-10-bai-19-phuong-trinh-uong-thang.typ compiled successfully.
+✅ typst/giao-an/khoi-10/giao-an-10-bai-15-ham-so.typ compiled successfully.
+✅ typst/giao-an/khoi-10/giao-an-10-bai-17-dau-cua-tam-thuc-bac-hai.typ compiled successfully.
+✅ typst/giao-an/khoi-10/giao-an-10-bai-16-ham-so-bac-hai.typ compiled successfully.
+❌ typst/giao-an/khoi-10/giao-an-10-bai-8-tong-va-hieu-cua-hai-vecto.typ aborted due to infinite loop.
+❌ typst/giao-an/khoi-10/giao-an-10-bai-24-hv-ch-th.typ aborted due to infinite loop.
+✅ typst/giao-an/khoi-10/giao-an-10-bai-6-he-thuc-luong.typ compiled successfully.
+✅ typst/giao-an/khoi-10/giao-an-10-hthtn-3-mot-so-noi-dung-cho-htn-hinh-hoc.typ compiled successfully.
+✅ typst/giao-an/khoi-10/giao-an-10-bai-9-tich-cua-mot-vt-voi-mot-so.typ compiled successfully.
+✅ typst/giao-an/khoi-10/giao-an-10-bai-13-cac-so-ac-trung-o-xu-the-trung-tam.typ compiled successfully.
+✅ typst/giao-an/khoi-10/giao-an-10-bai-21-uong-tron-trong-mp-toa-o.typ compiled successfully.
+✅ typst/giao-an/khoi-10/giao-an-10-hthtn-4-uoc-tinh-so-ca-the-trong-quan-the.typ compiled successfully.
+✅ typst/giao-an/khoi-10/giao-an-10-bai-14-cac-so-ac-trung-o-o-phan-tan.typ compiled successfully.
+✅ typst/giao-an/khoi-10/giao-an-10-bai-27-thuc-hanh-tinh-xs.typ compiled successfully.
+✅ typst/giao-an/khoi-10/giao-an-10-bai-23-quy-tac-em.typ compiled successfully.
+✅ typst/giao-an/khoi-10/giao-an-10-bai-7-cac-khai-niem-mo-au.typ compiled successfully.
+❌ typst/giao-an/khoi-10/giao-an-10-bai-2-tap-hop.typ aborted due to infinite loop.
+✅ typst/giao-an/khoi-10/giao-an-10-bai-12-so-gan-ung-va-sai-so.typ compiled successfully.
+✅ typst/giao-an/khoi-10/giao-an-10-bai-5-gia-tri-lg-cua-goc-tu-0-en-180.typ compiled successfully.
+✅ typst/giao-an/khoi-10/giao-an-10-on-tap-chuong-8.typ compiled successfully.
+✅ typst/giao-an/khoi-10/giao-an-10-bai-9-tich-vecto-voi-mot-so.typ compiled successfully.
+❌ typst/giao-an/khoi-10/giao-an-10-bai-25-nhi-thuc-newton.typ aborted due to infinite loop.
+❌ typst/giao-an/khoi-10/giao-an-10-on-tap-chuong-9.typ aborted due to infinite loop.
+✅ typst/giao-an/khoi-10/giao-an-10-bai-26-bien-co-va-n-xs.typ compiled successfully.
+❌ typst/giao-an/khoi-10/giao-an-10-on-tap-chuong-4.typ aborted due to infinite loop.
+✅ typst/giao-an/khoi-10/giao-an-10-on-tap-chuong-5.typ compiled successfully.
+❌ typst/giao-an/khoi-10/giao-an-10-on-tap-chuong-7.typ aborted due to infinite loop.
+✅ typst/giao-an/khoi-10/giao-an-10-bai-20-vi-tri-tuong-oi.typ compiled successfully.
+✅ typst/giao-an/khoi-10/test_no_cetz.typ compiled successfully.
+✅ typst/giao-an/khoi-10/giao-an-10-on-tap-chuong-6.typ compiled successfully.
+✅ typst/giao-an/khoi-10/giao-an-10-bai-22-ba-uong-conic.typ compiled successfully.
+✅ typst/giao-an/khoi-10/giao-an-10-on-tap-chuong-2.typ compiled successfully.
+❌ typst/giao-an/khoi-10/giao-an-10-on-tap-chuong-3.typ aborted due to infinite loop.
+✅ typst/giao-an/khoi-10/giao-an-10-on-tap-chuong-1.typ compiled successfully.
+❌ typst/giao-an/khoi-10/giao-an-10-bai-1-menh-e.typ failed with other error.
+error: unexpected argument
+    ┌─ typst/giao-an/khoi-10/giao-an-10-bai-1-menh-e.typ:184:49
+    │
+184 │   + Lập quy tắc phủ định: $overline(\(forall x , P\(x\)\))$ và $overline(\(exists x , P\(x\)\))$.
+    │                                                  ^^^^^^^^
+
+
+✅ typst/giao-an/khoi-10/giao-an-10-bai-6-he-thuc-luong-trong-tan-giac.typ compiled successfully.
+✅ typst/giao-an/khoi-10/giao-an-10-bai-18-pt-quy-ve-pt-bac-hai.typ compiled successfully.
+✅ typst/giao-an/khoi-10/giao-an-10-hthtn-1-tim-hieu-mot-so-kien-thuc-ve-tai-chinh.typ compiled successfully.
+✅ typst/giao-an/khoi-10/giao-an-10-hthtn-2-mang-xa-hoi-loi-va-hai.typ compiled successfully.
+✅ typst/giao-an/khoi-10/giao-an-10-bai-10-vecto-trong-mat-phang-toa-o.typ compiled successfully.
+❌ typst/giao-an/khoi-10/giao-an-10-bai-11-tich-vo-huong-cua-hai-vt.typ aborted due to infinite loop.
+❌ typst/giao-an/khoi-10/giao-an-10-on-tap-cuoi-ky-1.typ aborted due to infinite loop.
+✅ typst/giao-an/khoi-10/giao-an-10-bai-4-h-bpt-bac-nhat-hai-an.typ compiled successfully.

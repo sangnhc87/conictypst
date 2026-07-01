@@ -519,31 +519,39 @@ Dưới đây là sơ đồ cây biểu diễn đầy đủ 6 kịch bản này 
     
     // Gốc
     circle((0, 0), radius: 0.35, fill: rgb("FFE0B2"), stroke: 1.5pt + col-amber, name: "root")
-    content("root", text(size: 8pt, weight: "bold")[Trận 1\nA1-B1])
+    content("root", text(size: 8pt, weight: "bold")[Trận 1
+A1-B1])
     
     // Trận 2
     circle((4, 2), radius: 0.35, fill: rgb("E8F5E9"), stroke: 1.2pt + col-green, name: "a1_w")
-    content("a1_w", text(size: 7.5pt)[Trận 2\nA1-B2])
+    content("a1_w", text(size: 7.5pt)[Trận 2
+A1-B2])
     
     circle((4, -2), radius: 0.35, fill: rgb("E8F5E9"), stroke: 1.2pt + col-green, name: "b1_w")
-    content("b1_w", text(size: 7.5pt)[Trận 2\nA2-B1])
+    content("b1_w", text(size: 7.5pt)[Trận 2
+A2-B1])
     
     line("root", "a1_w.west", mark: (end: "stealth"))
-    content((1.8, 1.3), text(size: 8pt)[$A_1$ thắng\n0.5])
+    content((1.8, 1.3), text(size: 8pt)[$A_1$ thắng
+0.5])
     line("root", "b1_w.west", mark: (end: "stealth"))
-    content((1.8, -1.3), text(size: 8pt)[$B_1$ thắng\n0.5])
+    content((1.8, -1.3), text(size: 8pt)[$B_1$ thắng
+0.5])
     
     // Kết quả từ a1_w (Nhánh trên)
     circle((8, 3.2), radius: 0.3, fill: col-green.lighten(60%), stroke: 1pt + col-green, name: "w20")
     content("w20", text(size: 7pt, fill: col-green, weight: "bold")[A 2-0])
     
     circle((8, 0.8), radius: 0.35, fill: rgb("E3F2FD"), stroke: 1.2pt + col-blue, name: "b2_w_t2")
-    content("b2_w_t2", text(size: 7.5pt)[Trận 3\nA2-B2])
+    content("b2_w_t2", text(size: 7.5pt)[Trận 3
+A2-B2])
     
     line("a1_w", "w20.west", mark: (end: "stealth"))
-    content((5.8, 2.9), text(size: 7.5pt)[$A_1$ thắng\n0.4])
+    content((5.8, 2.9), text(size: 7.5pt)[$A_1$ thắng
+0.4])
     line("a1_w", "b2_w_t2.west", mark: (end: "stealth"))
-    content((5.8, 1.1), text(size: 7.5pt)[$B_2$ thắng\n0.6])
+    content((5.8, 1.1), text(size: 7.5pt)[$B_2$ thắng
+0.6])
     
     // Kết quả từ b2_w_t2
     circle((12, 1.5), radius: 0.3, fill: col-green.lighten(60%), stroke: 1pt + col-green, name: "w21a")
@@ -553,21 +561,26 @@ Dưới đây là sơ đồ cây biểu diễn đầy đủ 6 kịch bản này 
     content("l21a", text(size: 7pt, fill: col-red, weight: "bold")[B 2-1])
     
     line("b2_w_t2", "w21a.west", mark: (end: "stealth"))
-    content((10.0, 1.4), text(size: 7.5pt)[$A_2$ thắng\n0.6])
+    content((10.0, 1.4), text(size: 7.5pt)[$A_2$ thắng
+0.6])
     line("b2_w_t2", "l21a.west", mark: (end: "stealth"))
-    content((10.0, 0.2), text(size: 7.5pt)[$B_2$ thắng\n0.4])
+    content((10.0, 0.2), text(size: 7.5pt)[$B_2$ thắng
+0.4])
     
     // Kết quả từ b1_w (Nhánh dưới)
     circle((8, -3.2), radius: 0.3, fill: col-red.lighten(80%), stroke: 1pt + col-red, name: "l20")
     content("l20", text(size: 7pt, fill: col-red, weight: "bold")[B 2-0])
     
     circle((8, -0.8), radius: 0.35, fill: rgb("E3F2FD"), stroke: 1.2pt + col-blue, name: "a2_w_t2")
-    content("a2_w_t2", text(size: 7.5pt)[Trận 3\nA2-B2])
+    content("a2_w_t2", text(size: 7.5pt)[Trận 3
+A2-B2])
     
     line("b1_w", "l20.west", mark: (end: "stealth"))
-    content((5.8, -2.9), text(size: 7.5pt)[$B_1$ thắng\n0.4])
+    content((5.8, -2.9), text(size: 7.5pt)[$B_1$ thắng
+0.4])
     line("b1_w", "a2_w_t2.west", mark: (end: "stealth"))
-    content((5.8, -1.1), text(size: 7.5pt)[$A_2$ thắng\n0.6])
+    content((5.8, -1.1), text(size: 7.5pt)[$A_2$ thắng
+0.6])
     
     // Kết quả từ a2_w_t2
     circle((12, -0.1), radius: 0.3, fill: col-green.lighten(60%), stroke: 1pt + col-green, name: "w21b")
@@ -577,9 +590,11 @@ Dưới đây là sơ đồ cây biểu diễn đầy đủ 6 kịch bản này 
     content("l21b", text(size: 7pt, fill: col-red, weight: "bold")[B 2-1])
     
     line("a2_w_t2", "w21b.west", mark: (end: "stealth"))
-    content((10.0, -0.2), text(size: 7.5pt)[$A_2$ thắng\n0.4])
+    content((10.0, -0.2), text(size: 7.5pt)[$A_2$ thắng
+0.4])
     line("a2_w_t2", "l21b.west", mark: (end: "stealth"))
-    content((10.0, -1.4), text(size: 7.5pt)[$B_2$ thắng\n0.6])
+    content((10.0, -1.4), text(size: 7.5pt)[$B_2$ thắng
+0.6])
   })
 ]
 
@@ -1269,11 +1284,14 @@ Dưới đây là sơ đồ cây biểu diễn các khả năng xảy ra từ l�
     content("p_opp", text(size: 7.5pt)[B gieo (P)])
     
     line("root", "win_a.west", mark: (end: "stealth"))
-    content((1.8, 1.3), text(size: 7.5pt)[Mặt 6\n1/6])
+    content((1.8, 1.3), text(size: 7.5pt)[Mặt 6
+1/6])
     line("root", "q_opp.west", mark: (end: "stealth"))
-    content((1.8, 0.2), text(size: 7.5pt)[Mặt 1\n1/6])
+    content((1.8, 0.2), text(size: 7.5pt)[Mặt 1
+1/6])
     line("root", "p_opp.west", mark: (end: "stealth"))
-    content((1.8, -1.3), text(size: 7.5pt)[Mặt 2-5\n2/3])
+    content((1.8, -1.3), text(size: 7.5pt)[Mặt 2-5
+2/3])
     
     // Phân nhánh của q_opp
     circle((8, 0.6), radius: 0.3, fill: col-red.lighten(80%), stroke: 1pt + col-red, name: "b_win_q")
@@ -1449,31 +1467,40 @@ Dưới đây là sơ đồ cây mô phỏng chi tiết 5 nhánh thi đấu dẫ
     
     // Gốc
     circle((0, 0), radius: 0.35, fill: rgb("FFE0B2"), stroke: 1.5pt + col-amber, name: "root")
-    content("root", text(size: 8pt, weight: "bold")[Trận 1\nA-B])
+    content("root", text(size: 8pt, weight: "bold")[Trận 1
+A-B])
     
     // Vòng 2
     circle((3, 2), radius: 0.35, fill: rgb("E8F5E9"), stroke: 1.2pt + col-green, name: "t1_a")
-    content("t1_a", text(size: 7.5pt)[Trận 2\nA-C])
+    content("t1_a", text(size: 7.5pt)[Trận 2
+A-C])
     
     circle((3, -2), radius: 0.35, fill: rgb("F3E5F5"), stroke: 1.2pt + col-violet, name: "t1_b")
-    content("t1_b", text(size: 7.5pt)[Trận 2\nB-C])
+    content("t1_b", text(size: 7.5pt)[Trận 2
+B-C])
     
     line("root", "t1_a.west", mark: (end: "stealth"))
-    content((1.5, 1.2), text(size: 7.5pt)[$A$ thắng\n0.6])
+    content((1.5, 1.2), text(size: 7.5pt)[$A$ thắng
+0.6])
     line("root", "t1_b.west", mark: (end: "stealth"))
-    content((1.5, -1.2), text(size: 7.5pt)[$B$ thắng\n0.4])
+    content((1.5, -1.2), text(size: 7.5pt)[$B$ thắng
+0.4])
     
     // Phân nhánh từ t1_a
     circle((6, 3.2), radius: 0.35, fill: rgb("E3F2FD"), stroke: 1.2pt + col-blue, name: "t2_a_w")
-    content("t2_a_w", text(size: 7pt)[Trận 3\nB-C])
+    content("t2_a_w", text(size: 7pt)[Trận 3
+B-C])
     
     circle((6, 0.8), radius: 0.35, fill: rgb("E3F2FD"), stroke: 1.2pt + col-blue, name: "t2_a_l")
-    content("t2_a_l", text(size: 7pt)[Trận 3\nA-B])
+    content("t2_a_l", text(size: 7pt)[Trận 3
+A-B])
     
     line("t1_a", "t2_a_w.west", mark: (end: "stealth"))
-    content((4.5, 2.8), text(size: 7pt)[$A$ thắng\n0.5])
+    content((4.5, 2.8), text(size: 7pt)[$A$ thắng
+0.5])
     line("t1_a", "t2_a_l.west", mark: (end: "stealth"))
-    content((4.5, 1.2), text(size: 7pt)[$C$ thắng\n0.5])
+    content((4.5, 1.2), text(size: 7pt)[$C$ thắng
+0.5])
     
     // Kết quả từ t2_a_w
     circle((9, 3.8), radius: 0.35, fill: rgb("FFF8E1"), stroke: 1pt + col-amber, name: "t3_a_b")
@@ -1483,9 +1510,11 @@ Dưới đây là sơ đồ cây mô phỏng chi tiết 5 nhánh thi đấu dẫ
     content("t3_a_c", text(size: 6.5pt)[CK: A-C])
     
     line("t2_a_w", "t3_a_b.west", mark: (end: "stealth"))
-    content((7.5, 3.7), text(size: 7pt)[$B$ thắng\n0.7])
+    content((7.5, 3.7), text(size: 7pt)[$B$ thắng
+0.7])
     line("t2_a_w", "t3_a_c.west", mark: (end: "stealth"))
-    content((7.5, 2.7), text(size: 7pt)[$C$ thắng\n0.3])
+    content((7.5, 2.7), text(size: 7pt)[$C$ thắng
+0.3])
     
     // Lá chung cuộc của t2_a_w
     circle((12, 3.8), radius: 0.25, fill: col-green.lighten(60%), stroke: 1pt + col-green, name: "w111")
@@ -1504,7 +1533,8 @@ Dưới đây là sơ đồ cây mô phỏng chi tiết 5 nhánh thi đấu dẫ
     content("t3_a_gf3", text(size: 6.5pt)[CK: C-A])
     
     line("t2_a_l", "t3_a_gf3.west", mark: (end: "stealth"))
-    content((7.5, 1.1), text(size: 7pt)[$A$ thắng\n0.6])
+    content((7.5, 1.1), text(size: 7pt)[$A$ thắng
+0.6])
     
     circle((12, 0.8), radius: 0.25, fill: col-green.lighten(60%), stroke: 1pt + col-green, name: "w121")
     content("w121", text(size: 7pt, fill: col-green, weight: "bold")[A])
@@ -1514,22 +1544,27 @@ Dưới đây là sơ đồ cây mô phỏng chi tiết 5 nhánh thi đấu dẫ
     
     // Phân nhánh từ t1_b
     circle((6, -1.0), radius: 0.35, fill: rgb("E3F2FD"), stroke: 1.2pt + col-blue, name: "t2_b_w")
-    content("t2_b_w", text(size: 7pt)[Trận 3\nA-C])
+    content("t2_b_w", text(size: 7pt)[Trận 3
+A-C])
     
     circle((6, -3.0), radius: 0.35, fill: rgb("E3F2FD"), stroke: 1.2pt + col-blue, name: "t2_b_l")
-    content("t2_b_l", text(size: 7pt)[Trận 3\nA-B])
+    content("t2_b_l", text(size: 7pt)[Trận 3
+A-B])
     
     line("t1_b", "t2_b_w.west", mark: (end: "stealth"))
-    content((4.5, -1.2), text(size: 7pt)[$B$ thắng\n0.7])
+    content((4.5, -1.2), text(size: 7pt)[$B$ thắng
+0.7])
     line("t1_b", "t2_b_l.west", mark: (end: "stealth"))
-    content((4.5, -2.8), text(size: 7pt)[$C$ thắng\n0.3])
+    content((4.5, -2.8), text(size: 7pt)[$C$ thắng
+0.3])
     
     // Kết quả từ t2_b_w
     circle((9, -1.0), radius: 0.35, fill: rgb("FFF8E1"), stroke: 1pt + col-amber, name: "t3_b_gf4")
     content("t3_b_gf4", text(size: 6.5pt)[CK: B-A])
     
     line("t2_b_w", "t3_b_gf4.west", mark: (end: "stealth"))
-    content((7.5, -0.7), text(size: 7pt)[$A$ thắng\n0.5])
+    content((7.5, -0.7), text(size: 7pt)[$A$ thắng
+0.5])
     
     circle((12, -1.0), radius: 0.25, fill: col-green.lighten(60%), stroke: 1pt + col-green, name: "w211")
     content("w211", text(size: 7pt, fill: col-green, weight: "bold")[A])
@@ -1542,7 +1577,8 @@ Dưới đây là sơ đồ cây mô phỏng chi tiết 5 nhánh thi đấu dẫ
     content("t3_b_gf5", text(size: 6.5pt)[CK: C-A])
     
     line("t2_b_l", "t3_b_gf5.west", mark: (end: "stealth"))
-    content((7.5, -2.7), text(size: 7pt)[$A$ thắng\n0.6])
+    content((7.5, -2.7), text(size: 7pt)[$A$ thắng
+0.6])
     
     circle((12, -3.0), radius: 0.25, fill: col-green.lighten(60%), stroke: 1pt + col-green, name: "w221")
     content("w221", text(size: 7pt, fill: col-green, weight: "bold")[A])
@@ -1718,43 +1754,53 @@ Dưới đây là sơ đồ cây biểu diễn chuỗi trận đấu xuất phá
     
     // Trận 2
     circle((0, 0), radius: 0.35, fill: rgb("FFE0B2"), stroke: 1.5pt + col-amber, name: "s_start")
-    content("s_start", text(size: 7.5pt)[Trận 2\n(A-C)])
+    content("s_start", text(size: 7.5pt)[Trận 2
+(A-C)])
     
     // Kết quả Trận 2
     circle((3, 1.5), radius: 0.3, fill: col-green.lighten(60%), stroke: 1pt + col-green, name: "win_a_t2")
     content("win_a_t2", text(size: 7pt, fill: col-green, weight: "bold")[A vô địch])
     
     circle((3, -1.5), radius: 0.35, fill: rgb("E3F2FD"), stroke: 1.2pt + col-blue, name: "t3")
-    content("t3", text(size: 7.5pt)[Trận 3\n(C-B)])
+    content("t3", text(size: 7.5pt)[Trận 3
+(C-B)])
     
     line("s_start", "win_a_t2.west", mark: (end: "stealth"))
-    content((1.3, 1.0), text(size: 7.5pt)[$A$ thắng\n0.4])
+    content((1.3, 1.0), text(size: 7.5pt)[$A$ thắng
+0.4])
     line("s_start", "t3.west", mark: (end: "stealth"))
-    content((1.3, -1.0), text(size: 7.5pt)[$C$ thắng\n0.6])
+    content((1.3, -1.0), text(size: 7.5pt)[$C$ thắng
+0.6])
     
     // Kết quả Trận 3
     circle((6, -0.5), radius: 0.3, fill: col-red.lighten(80%), stroke: 1pt + col-red, name: "win_c_t3")
     content("win_c_t3", text(size: 7pt, fill: col-red, weight: "bold")[C vô địch])
     
     circle((6, -2.5), radius: 0.35, fill: rgb("F3E5F5"), stroke: 1.2pt + col-violet, name: "t4")
-    content("t4", text(size: 7.5pt)[Trận 4\n(B-A)])
+    content("t4", text(size: 7.5pt)[Trận 4
+(B-A)])
     
     line("t3", "win_c_t3.west", mark: (end: "stealth"))
-    content((4.3, -0.8), text(size: 7.5pt)[$C$ thắng\n0.4])
+    content((4.3, -0.8), text(size: 7.5pt)[$C$ thắng
+0.4])
     line("t3", "t4.west", mark: (end: "stealth"))
-    content((4.3, -2.2), text(size: 7.5pt)[$B$ thắng\n0.6])
+    content((4.3, -2.2), text(size: 7.5pt)[$B$ thắng
+0.6])
     
     // Kết quả Trận 4
     circle((9, -1.5), radius: 0.3, fill: col-red.lighten(80%), stroke: 1pt + col-red, name: "win_b_t4")
     content("win_b_t4", text(size: 7pt, fill: col-red, weight: "bold")[B vô địch])
     
     circle((9, -3.5), radius: 0.35, fill: rgb("FFF8E1"), stroke: 1.2pt + col-amber, name: "loop_node")
-    content("loop_node", text(size: 7.5pt)[Quay lại\nTrận 2])
+    content("loop_node", text(size: 7.5pt)[Quay lại
+Trận 2])
     
     line("t4", "win_b_t4.west", mark: (end: "stealth"))
-    content((7.3, -1.8), text(size: 7.5pt)[$B$ thắng\n0.4])
+    content((7.3, -1.8), text(size: 7.5pt)[$B$ thắng
+0.4])
     line("t4", "loop_node.west", mark: (end: "stealth"))
-    content((7.3, -3.2), text(size: 7.5pt)[$A$ thắng\n0.6])
+    content((7.3, -3.2), text(size: 7.5pt)[$A$ thắng
+0.6])
     
     // Vẽ đường quay lại (loop back)
     line("loop_node.east", (10.5, -3.5), (10.5, -4.5), (-1.5, -4.5), (-1.5, 0), "s_start.west", mark: (end: "stealth"))

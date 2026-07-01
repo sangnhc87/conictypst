@@ -1689,9 +1689,12 @@
 
     // Sub-nodes của ĐẾM
     let dem-subs = (
-      (-2.8, 6.6, "Quy tắc\nCộng", rgb("E8F5E9"), c-teal),
-      (0, 6.8, "Quy tắc\nNhân", rgb("E8F5E9"), c-teal),
-      (2.8, 6.6, "C, A\n$C_n^k, A_n^k$", rgb("E8F5E9"), c-teal),
+      (-2.8, 6.6, "Quy tắc
+Cộng", rgb("E8F5E9"), c-teal),
+      (0, 6.8, "Quy tắc
+Nhân", rgb("E8F5E9"), c-teal),
+      (2.8, 6.6, "C, A
+$C_n^k, A_n^k$", rgb("E8F5E9"), c-teal),
     )
     for (x, y, lbl, fc, sc) in dem-subs {
       content(
@@ -1714,9 +1717,12 @@
     line("omega", "xs", stroke: 1.8pt + rgb("00897B"), mark: (end: "stealth", fill: rgb("00897B"), scale: 0.7))
 
     let xs-subs = (
-      (6.2, 4.1, "Cây XS\n(Weighted)", rgb("E0F2F1"), rgb("004D40")),
-      (6.5, 2.2, "Xác suất\ncổ điển", rgb("E0F2F1"), rgb("004D40")),
-      (5.0, 0.8, "Toàn phần\n$sum P(A|B_i)P(B_i)$", rgb("E0F2F1"), rgb("004D40")),
+      (6.2, 4.1, "Cây XS
+(Weighted)", rgb("E0F2F1"), rgb("004D40")),
+      (6.5, 2.2, "Xác suất
+cổ điển", rgb("E0F2F1"), rgb("004D40")),
+      (5.0, 0.8, "Toàn phần
+$sum P(A|B_i)P(B_i)$", rgb("E0F2F1"), rgb("004D40")),
     )
     for (x, y, lbl, fc, sc) in xs-subs {
       content(
@@ -1739,9 +1745,12 @@
     line("omega", "dk", stroke: 1.8pt + rgb("0288D1"), mark: (end: "stealth", fill: rgb("0288D1"), scale: 0.7))
 
     let dk-subs = (
-      (6.3, -1.8, "$P(A|B)$\nCó điều kiện", rgb("E1F5FE"), rgb("01579B")),
-      (6.8, -3.2, "Bayes\n(lọc ngược)", rgb("E1F5FE"), rgb("01579B")),
-      (5.2, -4.8, "Inclusion-\nExclusion", rgb("E1F5FE"), rgb("01579B")),
+      (6.3, -1.8, "$P(A|B)$
+Có điều kiện", rgb("E1F5FE"), rgb("01579B")),
+      (6.8, -3.2, "Bayes
+(lọc ngược)", rgb("E1F5FE"), rgb("01579B")),
+      (5.2, -4.8, "Inclusion-
+Exclusion", rgb("E1F5FE"), rgb("01579B")),
     )
     for (x, y, lbl, fc, sc) in dk-subs {
       content(
@@ -1764,9 +1773,12 @@
     line("omega", "dp", stroke: 1.8pt + c-amber, mark: (end: "stealth", fill: c-amber, scale: 0.7))
 
     let dp-subs = (
-      (-6.8, -1.8, "FSM\nMáy trạng thái", rgb("FBE9E7"), c-amber),
-      (-6.8, -3.4, "Truy hồi\n$f(n) = f(n-1)+...$", rgb("FBE9E7"), c-amber),
-      (-5.2, -5.0, "Fibonacci &\nChuỗi đặc biệt", rgb("FBE9E7"), c-amber),
+      (-6.8, -1.8, "FSM
+Máy trạng thái", rgb("FBE9E7"), c-amber),
+      (-6.8, -3.4, "Truy hồi
+$f(n) = f(n-1)+...$", rgb("FBE9E7"), c-amber),
+      (-5.2, -5.0, "Fibonacci &
+Chuỗi đặc biệt", rgb("FBE9E7"), c-amber),
     )
     for (x, y, lbl, fc, sc) in dp-subs {
       content(
@@ -1789,9 +1801,12 @@
     line("omega", "hs", stroke: 1.8pt + c-violet, mark: (end: "stealth", fill: c-violet, scale: 0.7))
 
     let hs-subs = (
-      (-6.5, 4.2, "OGF\n$G(x)=sum a_n x^n$", rgb("F3E5F5"), c-violet),
-      (-7.0, 2.4, "Stars & Bars\nVách ngăn", rgb("F3E5F5"), c-violet),
-      (-5.5, 0.8, "Đa thức nhân\nChu kỳ", rgb("F3E5F5"), c-violet),
+      (-6.5, 4.2, "OGF
+$G(x)=sum a_n x^n$", rgb("F3E5F5"), c-violet),
+      (-7.0, 2.4, "Stars & Bars
+Vách ngăn", rgb("F3E5F5"), c-violet),
+      (-5.5, 0.8, "Đa thức nhân
+Chu kỳ", rgb("F3E5F5"), c-violet),
     )
     for (x, y, lbl, fc, sc) in hs-subs {
       content(
@@ -1815,7 +1830,8 @@
 
     content(
       (2.8, -5.2),
-      [#text(size: 7pt)["Ít nhất một..."\n$P = 1 - P(overline(A))$]],
+      [#text(size: 7pt)["Ít nhất một..."
+$P = 1 - P(overline(A))$]],
       name: "bcd-sub",
       frame: "rect",
       padding: 3pt,
@@ -1835,7 +1851,8 @@
       stroke: 0.8pt + rgb("BDBDBD"),
       mark: (end: "stealth", fill: rgb("BDBDBD"), scale: 0.55),
     )
-    content((-6.2, 0), text(size: 7pt, fill: rgb("9E9E9E"))[GF của\ntruy hồi])
+    content((-6.2, 0), text(size: 7pt, fill: rgb("9E9E9E"))[GF của
+truy hồi])
 
     // XS ↔ Điều kiện (Bayes)
     bezier(

@@ -126,7 +126,8 @@
 
   align(center, {
     block(below: 0.4em)[
-      #text(size: 14pt, weight: "bold", fill: _navy)[#upper(ten-bai)]
+      #show heading: it => text(size: 14pt, weight: "bold", fill: _navy)[#upper(it.body)]
+      #heading(level: 2, outlined: true, bookmarked: true)[#ten-bai]
     ]
     text(size: 11pt, style: "italic", fill: _crimson)[
       Thời gian thực hiện: #thoi-gian
@@ -193,12 +194,12 @@
 
 /// Tiêu đề chính (I. MỤC TIÊU / II. THIẾT BỊ / III. TIẾN TRÌNH DẠY HỌC)
 #let phan(la-ma, ten) = {
-  heading(level: 1, bookmarked: true, outlined: true)[#la-ma. #upper(ten)]
+  heading(level: 1, bookmarked: true, outlined: false)[#la-ma. #upper(ten)]
 }
 
 /// Tiêu đề mục con (1. Về kiến thức / 2. Về năng lực / 3. Về phẩm chất)
 #let muc(so, ve) = {
-  heading(level: 2, bookmarked: true, outlined: true)[#so. Về #ve]
+  heading(level: 2, bookmarked: true, outlined: false)[#so. Về #ve]
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -207,12 +208,12 @@
 
 /// Hoạt động chính (Mở đầu, Hình thành kiến thức, Luyện tập, Vận dụng)
 #let hd(so, ten, phut) = {
-  heading(level: 3, bookmarked: true, outlined: true)[#so. Hoạt động #so: #ten (#phut phút)]
+  heading(level: 3, bookmarked: true, outlined: false)[#so. Hoạt động #so: #ten (#phut phút)]
 }
 
 /// Hoạt động thành phần (Hoạt động 2.1, 2.2...)
 #let hd-tp(so, ten, phut) = {
-  heading(level: 4, bookmarked: true, outlined: true)[Hoạt động thành phần #so: #ten (#phut phút)]
+  heading(level: 4, bookmarked: true, outlined: false)[Hoạt động thành phần #so: #ten (#phut phút)]
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════

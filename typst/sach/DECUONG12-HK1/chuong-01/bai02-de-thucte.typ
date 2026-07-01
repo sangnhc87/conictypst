@@ -326,7 +326,8 @@
     #step[b) Gọi đơn giá vật liệu làm thân là $1$ thì đơn giá làm đáy là $2$. Chi phí: $C(x) = 2 dot S_("đáy") + 1 dot S_("xung quanh") = 2x^2 + 4x h = 2x^2 + 4x(108/x^2) = 2x^2 + 432/x$. Mệnh đề b sai.]
     #step[c) Đạo hàm $C'(x) = 4x - 432/x^2 = 0 <=> 4x^3 = 432 <=> x^3 = 108 <=> x = 3 root(3, 4) approx 4.76$. 
 c) Đạo hàm $C'(x) = 4x - 432/x^2 = 0 <=> 4x^3 = 432 <=> x^3 = 108 <=> x = 3 root(3, 4) approx 4.76$. Vậy $x=6$ là Sai. (Sai)]
-    #step[d) Với $x = 3 root(3, 4)$, chiều cao $h = 108 / (9 \cdot 4^{2/3}) \neq 6$. (Sai)]
+    #step[d) Với $x = 3 root(3, 4)$, chiều cao $h = 108 / (9 \cdot 4^{2/3}) 
+eq 6$. (Sai)]
   ]
 )
 #ds(

@@ -81,7 +81,7 @@ chính xác bằng công cụ số học (toạ độ)?
   mặt phẳng toạ độ quen thuộc và đặt câu hỏi.
 
 #quote(block: true)[
-#box(image("media/image1.jpeg", height: 1.38728in, width: 2.08168in, alt: "Cartesian coordinate system with points plotted"))
+// #box(image("media/image1.jpeg", height: 1.38728in, width: 2.08168in, alt: "Cartesian coordinate system with points plotted"))
 ]
 
 - #strong[Câu hỏi gợi mở:]

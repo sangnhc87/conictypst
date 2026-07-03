@@ -120,36 +120,52 @@ async function compileTySvg(code) {
   }
 
   // Detect context để import đúng
-  const hasBbt = /#bbtv2\(|#bbbt\(|#bxd\(|#bbt-opt\(/.test(code);
+  const hasBbt   = /#bbtv2\(|#bbbt\(|#bxd\(|#bbt-opt\(/.test(code);
   const hasCetzDirect = /cetz\.canvas|#canvas\(/.test(code);
-  const hasSang = /#tn\(|#ds\(|#tln\(|#tl\(|#q-wrap\(/.test(code);
+  const hasSang  = /#tn\(|#ds\(|#tln\(|#tl\(|#q-wrap\(/.test(code);
 
   let imports = '';
-  // Import cetz chỉ khi code dùng trực tiếp VÀ không qua bbt.typ (bbt.typ tự import cetz rồi)
+  // Import cetz chỉ khi code dùng trực tiếp VÀ không qua bbt.typ
   if (hasCetzDirect && !hasBbt) {
     imports += `#import "@preview/cetz:0.5.2": *\n`;
     imports += `#import "@preview/cetz-plot:0.1.1": *\n`;
   }
   if (SYSTEM_FILES['/math-sym.typ']) imports += `#import "/math-sym.typ": *\n`;
-  if (hasBbt && SYSTEM_FILES['/bbt.typ']) imports += `#import "/bbt.typ": *\n`;
+  if (hasBbt  && SYSTEM_FILES['/bbt.typ'])       imports += `#import "/bbt.typ": *\n`;
   if (hasSang && SYSTEM_FILES['/sang-exam.typ']) imports += `#import "/sang-exam.typ": *\n`;
   if (SYSTEM_FILES['/geometry.typ']) imports += `#import "/geometry.typ": *\n`;
 
+  // ── Page setup tùy loại content ──────────────────────────
+  // - BBT / CeTZ: width:auto (tự fit với canvas)
+  // - Exam macros (#tn, #ds…): cần fixed width vì dùng layout() để auto-detect số cột
+  const pageSetup = hasSang
+    ? `#set page(width: 190mm, height: auto, margin: (x: 16pt, y: 12pt), fill: white)`
+    : `#set page(width: auto,   height: auto, margin: 16pt,             fill: white)`;
+
   const wrapper = `${imports}
-#set page(width: auto, height: auto, margin: 16pt, fill: white)
+${pageSetup}
 #set text(font: "New Computer Modern", size: 10.5pt)
-#set par(leading: 0.35em)
+#set par(leading: 0.55em)
+${hasSang ? '#show: sang-setup' : ''}
 ${code}`;
 
   _compiler.addSource('/pg_main.typ', wrapper);
 
-  const result = await _compiler.compile({
+  const compileResult = await _compiler.compile({
     mainFilePath: '/pg_main.typ',
     format: 0,
   });
-  if (!result || !result.result) throw new Error('Compile failed');
+  if (!compileResult || !compileResult.result) {
+    let msg = 'Compile failed';
+    if (compileResult?.diagnostics?.length) {
+      msg = compileResult.diagnostics
+        .map(d => `[${d.severity ?? 'error'}] ${d.message}` + (d.span ? ` (line ${(d.span.start?.line ?? 0) + 1})` : ''))
+        .join('\n');
+    }
+    throw new Error(msg);
+  }
 
-  const session = await _renderer.createModule(result.result);
+  const session = await _renderer.createModule(compileResult.result);
   const svg = await _renderer.renderSvg({ renderSession: session });
   return svg;
 }
@@ -266,13 +282,25 @@ async function runPlayground() {
 // ══════════════════════════════════════════════
 // Inject "▶ Chạy" buttons vào mọi code block có typst
 // ══════════════════════════════════════════════
+function isRunnableTypstSnippet(text) {
+  const hasRunnableMacro = /#bbtv2\(|#bbbt\(|#bxd\(|#bbt-opt\(|#tn\(|#ds\(|#tln\(|#tl\(|cetz\.canvas|#canvas\(|#tri-xyz\(|#tri-abc\(|#tri-right\(|#rect-abc\(|#square\(|#circle-desc\(|#ellipse-h\(|#chop-sabc\(|#chop-sabcd\(|#lang-tru-abc\(|#axis-xy\(|#parabola\(/.test(text);
+  if (!hasRunnableMacro) return false;
+
+  // Các block này là file mẫu / API skeleton cần thêm file ngoài hoặc dữ liệu thật.
+  // Để nút Copy thôi sẽ rõ ràng hơn là mở playground rồi báo lỗi.
+  const looksLikeExternalFile = /#import\s+"(?:template\.typ|modules\/|\.\.\/)/.test(text);
+  const looksLikeExamSetSkeleton = /#de\(|#tn\(\s*\[\.\.\.\]\s*,\s*\(\.\.\.\)\s*\)/.test(text);
+  const looksLikeEmptyBbtSignature = /#bbtv2\([\s\S]*x-vals:\s*\(\)[\s\S]*d-signs:\s*\(\)[\s\S]*v-vals:\s*\(\)/.test(text);
+  return !(looksLikeExternalFile || looksLikeExamSetSkeleton || looksLikeEmptyBbtSignature);
+}
+
 function injectRunButtons() {
   document.querySelectorAll('.code-block-wrap').forEach(wrap => {
     const codeEl = wrap.querySelector('code');
     if (!codeEl) return;
-    // Chỉ inject nếu là typst code và có macro đặc biệt
-    const text = codeEl.textContent || '';
-    const isRunnable = /#bbtv2\(|#bbbt\(|#bxd\(|#bbt-opt\(|#tn\(|#ds\(|#tln\(|#tl\(|cetz\.canvas|#canvas\(/.test(text);
+    // Chỉ inject nếu là typst code chạy độc lập được trong playground
+    const text = window.getCodeSource ? window.getCodeSource(codeEl) : (codeEl.textContent || '');
+    const isRunnable = isRunnableTypstSnippet(text);
     if (!isRunnable) return;
 
     // Tránh add 2 lần
@@ -286,7 +314,8 @@ function injectRunButtons() {
     btn.textContent = '▶ Chạy';
     btn.title = 'Mở playground để chạy code này (Ctrl+Enter)';
     btn.addEventListener('click', () => {
-      openPg(codeEl.textContent.trim());
+      const source = window.getCodeSource ? window.getCodeSource(codeEl) : codeEl.textContent;
+      openPg(source.trim());
     });
     header.appendChild(btn);
   });
@@ -314,3 +343,8 @@ if (document.readyState === 'loading') {
 } else {
   initPlayground();
 }
+
+window.openTypstPlayground = openPg;
+window.compileTypstToSvg = compileTySvg;
+window.initTypstCompiler = initTypst;
+document.dispatchEvent(new CustomEvent('typst-playground-ready'));

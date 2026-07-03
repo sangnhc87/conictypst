@@ -25,6 +25,8 @@
 //   dashed-line(A,B)          Đường đứt nét
 // ─────────────────────────────────────────────────────────
 
+#import "@preview/cetz:0.5.2"
+
 // ── Hằng ─────────────────────────────────────────────────
 #let _ge-blue = rgb("#0057b8")
 #let _ge-red = rgb("#cc2200")
@@ -77,7 +79,7 @@
 #let tri-abc(base: 5, height: 3.5, labels: ("A", "B", "C"), scale: _ge-scale) = {
   let hw = base / 2
   tri-xyz(
-    A: (-hw, 0), B: (hw, 0), C: (0, height),
+    (-hw, 0), (hw, 0), (0, height),
     labels: labels,
     scale: scale,
   )
@@ -86,7 +88,7 @@
 // ── Tam giác vuông tại A ────────────────────────────────
 #let tri-right(leg1: 4, leg2: 3, labels: ("A", "B", "C"), right-angle-vertex: "A", scale: _ge-scale) = {
   tri-xyz(
-    A: (0, 0), B: (leg1, 0), C: (0, leg2),
+    (0, 0), (leg1, 0), (0, leg2),
     labels: labels,
     right-angle: right-angle-vertex,
     scale: scale,
@@ -252,12 +254,12 @@
     line(
       (center.at(0) - radius, center.at(1)),
       (center.at(0) + radius, center.at(1)),
-      stroke: 0.4pt + _ge-gray + dotted,
+      stroke: (paint: _ge-gray, thickness: 0.4pt, dash: "dotted"),
     )
     line(
       (center.at(0), center.at(1) - radius),
       (center.at(0), center.at(1) + radius),
-      stroke: 0.4pt + _ge-gray + dotted,
+      stroke: (paint: _ge-gray, thickness: 0.4pt, dash: "dotted"),
     )
   })
 }
@@ -338,7 +340,11 @@
   cetz.canvas(length: scale, {
     import cetz.draw: *
     if xmin != auto and xmax != auto and ymin != auto and ymax != auto {
-      axis-xy(xmin: xmin, xmax: xmax, ymin: ymin, ymax: ymax, scale: scale, ticks: false)
+      line((xmin, 0), (xmax, 0), mark: (end: ">"), stroke: 1pt + black)
+      line((0, ymin), (0, ymax), mark: (end: ">"), stroke: 1pt + black)
+      content((xmax - 0.4, 0.35), $x$)
+      content((0.35, ymax - 0.3), $y$)
+      content((-0.25, -0.25), $O$)
     }
     line(..points, stroke: stroke-width + stroke-color)
   })
@@ -368,7 +374,11 @@
     }
     let mymin = if ymin == auto { calc.min(..yvals) - 0.5 } else { ymin }
     let mymax = if ymax == auto { calc.max(..yvals) + 0.5 } else { ymax }
-    axis-xy(xmin: xmin, xmax: xmax, ymin: mymin, ymax: mymax, scale: scale)
+    line((xmin, 0), (xmax, 0), mark: (end: ">"), stroke: 1pt + black)
+    line((0, mymin), (0, mymax), mark: (end: ">"), stroke: 1pt + black)
+    content((xmax - 0.4, 0.35), $x$)
+    content((0.35, mymax - 0.3), $y$)
+    content((-0.25, -0.25), $O$)
     line(..pts, stroke: 1.2pt + accent)
     // Đỉnh
     if show-vertex {

@@ -470,6 +470,7 @@
   row-gutter: auto,
   opt-fig: false,
   opt-fig-cols: 2,
+  opt-style: "plain",
   lines: 0,
   num: auto,
   prefix: "Câu",
@@ -485,6 +486,20 @@
   let q-state = _next-question-num(num: num)
   let num = q-state.num
   let labels = ("A", "B", "C", "D", "E", "F")
+
+  let render-label(i, col) = {
+    if opt-style == "circled" or opt-style == "circle" {
+      box(
+        stroke: 0.7pt + col,
+        radius: 50%,
+        width: 1.3em,
+        height: 1.3em,
+        align(center + horizon)[#text(size: 0.85em, weight: "bold", fill: col)[#labels.at(i)]]
+      )
+    } else {
+      text(weight: "bold", fill: col)[#labels.at(i).]
+    }
+  }
 
   // Tìm đáp án đúng & lưu state
   let ai = -1
@@ -567,7 +582,7 @@
             inset: (x: 8pt, top: 6pt, bottom: 8pt),
             fill: if hi { rgb("#fff5f5") } else { white },
           )[
-            #text(weight: "bold", fill: col)[#labels.at(i).]
+            #render-label(i, col)
             #v(0.3em)
             #align(center)[#t]
           ]
@@ -611,7 +626,7 @@
               columns: (label-width, 1fr),
               column-gutter: label-gap,
               align: (left + top, left + top),
-              text(weight: "bold", fill: col)[#labels.at(i).],
+              render-label(i, col),
               [
                 #set par(justify: false, leading: option-leading)
                 #text(fill: col, weight: if hi { "bold" } else { "regular" })[#t]
@@ -713,6 +728,7 @@
   fig: none,
   fig-pos: "right",
   fig-width: 30%,
+  ds-style: "table",
   lines: 0,
   num: auto,
   prefix: "Câu",

@@ -4,8 +4,8 @@
 // THPT Nguyễn Hữu Cảnh  ·  Tổ Toán
 // ═══════════════════════════════════════════════════════════════════════════
 
-#import "../giao-an/modules/lecture-beamer.typ": *
-#import "../bbt.typ": *
+#import "../../giao-an/modules/lecture-beamer-premium-v2.typ": *
+#import "../../bbt.typ": *
 #import "@preview/cetz:0.5.2"
 
 #let hoac(..args) = math.cases(delim: "[", ..args.named(), ..args.pos().map(math.display))
@@ -19,15 +19,15 @@
 #let palette = (ink: black, muted: rgb("#555"), border: rgb("#bbb"), accent: rgb("#0057b8"), correct: rgb("#1a7a2e"), wrong: rgb("#cc2200"), sol-bg: rgb("#f0f6ff"))
 
 
-#show: lecture-theme.with(
-  title:       "Bài 1: Tính Đơn Điệu và Cực Trị",
+#show: lecture-theme-premium.with(
+  title:       "Bài 1: Tính Đơn Điệu và Cực Trị (Bản Premium V2)",
   subtitle:    "TOÁN 12 — Chương I: Ứng dụng của đạo hàm",
   author:      "GV Nguyễn Văn Sang",
   institution: "THPT Nguyễn Hữu Cảnh",
   
   // Tuỳ chỉnh giao diện chữ và Toán
   base-size:   24pt,                                // Size chữ cơ bản (phóng to để dễ nhìn)
-  math-color:  rgb("#d81b60"),                      // Màu toán (Magenta)
+  math-color:  rgb("#06b6d4"),                      // Màu toán (Cyan)
   math-size:   1.05em,                              // Tỷ lệ size Toán so với chữ (1.05 lần)
   body-font:   ("Arial", "Times New Roman"),   // Font chữ (Sans-serif hiện đại, đẳng cấp)
 )
@@ -58,7 +58,9 @@
     [
       #v(1em)
       #align(center)[
-        #cetz.canvas({
+        #context cetz.canvas({
+        let __clr = text.fill
+        cetz.draw.set-style(stroke: __clr, fill: none, mark: (fill: __clr, stroke: __clr))
           import cetz.draw: *
           line((0,0), (0, 7), mark: (end: ">"), name: "y")
           line((0,0), (4.5, 0), mark: (end: ">"), name: "x")
@@ -102,7 +104,9 @@
   #lt-two-col(
     ratio: (1fr, 1fr),
     align(center)[
-      #cetz.canvas({
+      #context cetz.canvas({
+        let __clr = text.fill
+        cetz.draw.set-style(stroke: __clr, fill: none, mark: (fill: __clr, stroke: __clr))
         import cetz.draw: *
         line((-1,0), (3,0), mark: (end: ">"))
         line((0,-1), (0,3), mark: (end: ">"))
@@ -111,7 +115,9 @@
       })
     ],
     align(center)[
-      #cetz.canvas({
+      #context cetz.canvas({
+        let __clr = text.fill
+        cetz.draw.set-style(stroke: __clr, fill: none, mark: (fill: __clr, stroke: __clr))
         import cetz.draw: *
         line((-1,0), (3,0), mark: (end: ">"))
         line((0,-1), (0,3), mark: (end: ">"))
@@ -135,32 +141,24 @@
         #lt-note[Định lý mở rộng: Dấu "=" có thể xảy ra tại *hữu hạn điểm* trên $K$.]
     ],
     align(center)[
-      #cetz.canvas(length: 1.2cm, {
+      #context cetz.canvas({
+        let __clr = text.fill
+        cetz.draw.set-style(stroke: __clr, fill: none, mark: (fill: __clr, stroke: __clr))
         import cetz.draw: *
-        // Hệ trục toạ độ
-        line((-1, 0), (4.5, 0), mark: (end: ">"), name: "x")
-        line((0, -1), (0, 4.5), mark: (end: ">"), name: "y")
-        content((4.5, -0.3), $x$, anchor: "north")
-        content((-0.3, 4.5), $y$, anchor: "east")
-        content((-0.2, -0.2), $O$, anchor: "north-east")
+        line((-1,0), (4,0), mark: (end: ">"), name: "x")
+        line((0,-1), (0,4), mark: (end: ">"), name: "y")
+        bezier((0.5,0.5), (3.5,3.5), (2,0.5), (2,3.5), stroke: 1.5pt + blue)
         
-        // Đồ thị hàm số f(x)
-        bezier((0.5, 0.5), (3.5, 3.5), (2, 0.5), (2, 3.5), stroke: 1.5pt + blue)
-        content((3.6, 3.5), $y = f(x)$, anchor: "west")
+        let p1 = (1.2, 0.8)
+        circle(p1, radius: 0.06, fill: black)
+        line((0.2, 0.5), (2.2, 1.1), stroke: red)
+        content((2.5, 0.9), text(fill: red)[Tiếp tuyến hướng lên
+ $f'(x) > 0$])
         
-        // Điểm tiếp xúc và tiếp tuyến
-        let p0 = (1.5, 1.1)
-        line((0.5, 0.0), (2.5, 2.2), stroke: 1.2pt + red)
-        circle(p0, radius: 0.05, fill: black)
-        
-        // Đường gióng
-        line((1.5, 1.1), (1.5, 0), stroke: (paint: gray, dash: "dashed"))
-        line((1.5, 1.1), (0, 1.1), stroke: (paint: gray, dash: "dashed"))
-        content((1.5, -0.3), $x_0$, anchor: "north")
-        content((-0.3, 1.1), $f(x_0)$, anchor: "east")
-        
-        // Nhãn giải thích
-        content((2.7, 1.0), text(fill: red)[Tiếp tuyến hướng lên\ $f'(x_0) > 0$], anchor: "west")
+        let p2 = (2.8, 3.1)
+        circle(p2, radius: 0.06, fill: black)
+        line((2.0, 2.0), (3.6, 4.2), stroke: red)
+        content((3.8, 3.0), text(fill: red)[$f'(x) > 0$])
       })
     ]
   )
@@ -232,7 +230,9 @@
   ]
   #pause
   #align(center)[
-    #cetz.canvas({
+    #context cetz.canvas({
+        let __clr = text.fill
+        cetz.draw.set-style(stroke: __clr, fill: none, mark: (fill: __clr, stroke: __clr))
       import cetz.draw: *
       line((-0.5,0), (4.5,0), mark: (end: ">"), name: "x")
       line((0,-0.5), (0,3.5), mark: (end: ">"), name: "y")
@@ -308,8 +308,6 @@
   ]
 ]
 
-#let math-color = rgb("#000000")
-#show math.equation: set text(fill: math-color)
 
 
 
@@ -386,7 +384,9 @@
 #lt-tn(de: "Đề 1", 
   [Cho hàm số $y=f(x)$ có đồ thị như hình vẽ bên.
   #align(center)[
-    #cetz.canvas({
+    #context cetz.canvas({
+        let __clr = text.fill
+        cetz.draw.set-style(stroke: __clr, fill: none, mark: (fill: __clr, stroke: __clr))
       import cetz.draw: *
       line((-2, 0), (4, 0), mark: (end: ">"))
       content((4, -0.3), [$x$])
@@ -426,7 +426,9 @@
 #lt-tn(de: "Đề 1", 
   [Cho đồ thị hàm số $y=f(x)$ như hình vẽ:
   #align(center)[
-    #cetz.canvas({
+    #context cetz.canvas({
+        let __clr = text.fill
+        cetz.draw.set-style(stroke: __clr, fill: none, mark: (fill: __clr, stroke: __clr))
       import cetz.draw: *
       line((-3, 0), (3, 0), mark: (end: ">"))
       content((3, -0.3), [$x$])
@@ -487,7 +489,9 @@
 #lt-tn(de: "Đề 1", 
   [Cho hàm số $y = f(x)$ liên tục trên $RR$ và có đồ thị đạo hàm $y = f'(x)$ như hình vẽ:
   #align(center)[
-    #cetz.canvas({
+    #context cetz.canvas({
+        let __clr = text.fill
+        cetz.draw.set-style(stroke: __clr, fill: none, mark: (fill: __clr, stroke: __clr))
       import cetz.draw: *
       line((-3, 0), (4, 0), mark: (end: ">"))
       content((4, -0.3), [$x$])
@@ -575,7 +579,9 @@
 #lt-tn(de: "Đề 1", 
   [Cho hàm số $y=f(x)$ có đạo hàm liên tục trên $RR$ và đồ thị hàm số $y=f'(x)$ như hình vẽ.
   #align(center)[
-    #cetz.canvas({
+    #context cetz.canvas({
+        let __clr = text.fill
+        cetz.draw.set-style(stroke: __clr, fill: none, mark: (fill: __clr, stroke: __clr))
       import cetz.draw: *
       line((-2, 0), (4, 0), mark: (end: ">"))
       content((4, -0.3), [$x$])
@@ -652,7 +658,9 @@
 #lt-ds(de: "Đề 1", 
   [Cho hàm số $y = (a x + b)/(c x + d)$ có đồ thị như hình vẽ.
   #align(center)[
-    #cetz.canvas({
+    #context cetz.canvas({
+        let __clr = text.fill
+        cetz.draw.set-style(stroke: __clr, fill: none, mark: (fill: __clr, stroke: __clr))
       import cetz.draw: *
       line((-3, 0), (3, 0), mark: (end: ">"))
       line((0, -3), (0, 3), mark: (end: ">"))
@@ -697,7 +705,9 @@
 #lt-ds(de: "Đề 1", 
   [Cho hàm số $y = f(x)$ có đồ thị đạo hàm $y = f'(x)$ như hình vẽ.
   #align(center)[
-    #cetz.canvas({
+    #context cetz.canvas({
+        let __clr = text.fill
+        cetz.draw.set-style(stroke: __clr, fill: none, mark: (fill: __clr, stroke: __clr))
       import cetz.draw: *
       line((-3, 0), (4, 0), mark: (end: ">"))
       line((0, -3), (0, 3), mark: (end: ">"))
@@ -827,8 +837,6 @@
   ]
 )
 
-#let math-color = rgb("#000000")
-#show math.equation: set text(fill: math-color)
 
 
 ",
@@ -866,7 +874,9 @@
 #lt-tn(de: "Đề 2", 
   [Cho hàm số $y=f(x)$ có đồ thị như hình vẽ bên.
   #align(center)[
-    #cetz.canvas({
+    #context cetz.canvas({
+        let __clr = text.fill
+        cetz.draw.set-style(stroke: __clr, fill: none, mark: (fill: __clr, stroke: __clr))
       import cetz.draw: *
       line((-3, 0), (3, 0), mark: (end: ">"))
       content((3, -0.3), [$x$])
@@ -950,7 +960,9 @@
 #lt-tn(de: "Đề 2", 
   [Cho đồ thị hàm số $y=f'(x)$ như hình vẽ. 
   #align(center)[
-    #cetz.canvas({
+    #context cetz.canvas({
+        let __clr = text.fill
+        cetz.draw.set-style(stroke: __clr, fill: none, mark: (fill: __clr, stroke: __clr))
       import cetz.draw: *
       line((-3, 0), (4, 0), mark: (end: ">"))
       content((4, -0.3), [$x$])
@@ -1069,7 +1081,9 @@
 #lt-tn(de: "Đề 2", 
   [Cho hàm số $y=f(x)$ có đồ thị như hình vẽ.
   #align(center)[
-    #cetz.canvas({
+    #context cetz.canvas({
+        let __clr = text.fill
+        cetz.draw.set-style(stroke: __clr, fill: none, mark: (fill: __clr, stroke: __clr))
       import cetz.draw: *
       line((-3, 0), (3, 0), mark: (end: ">"))
       content((3, -0.3), [$x$])
@@ -1186,7 +1200,9 @@
 #lt-ds(de: "Đề 2", 
   [Cho đồ thị hàm số $y = f(x)$ như hình bên. 
   #align(center)[
-    #cetz.canvas({
+    #context cetz.canvas({
+        let __clr = text.fill
+        cetz.draw.set-style(stroke: __clr, fill: none, mark: (fill: __clr, stroke: __clr))
       import cetz.draw: *
       line((-3, 0), (3, 0), mark: (end: ">"))
       line((0, -3), (0, 3), mark: (end: ">"))
@@ -1300,8 +1316,6 @@
   ]
 )
 
-#let math-color = rgb("#000000")
-#show math.equation: set text(fill: math-color)
 
 
 ",
@@ -1390,7 +1404,9 @@
 #lt-tn(de: "Đề 3", 
   [Cho hàm số $y = f(x)$ liên tục trên $RR$ và có đồ thị đạo hàm $y = f'(x)$ như hình vẽ.
   #align(center)[
-    #cetz.canvas({
+    #context cetz.canvas({
+        let __clr = text.fill
+        cetz.draw.set-style(stroke: __clr, fill: none, mark: (fill: __clr, stroke: __clr))
       import cetz.draw: *
       line((-3, 0), (4, 0), mark: (end: ">"))
       content((4, -0.3), [$x$])
@@ -1496,7 +1512,9 @@
 #lt-tn(de: "Đề 3", 
   [Cho hàm số $y=f(x)$ liên tục trên $RR$ và có đồ thị như hình vẽ bên.
   #align(center)[
-    #cetz.canvas({
+    #context cetz.canvas({
+        let __clr = text.fill
+        cetz.draw.set-style(stroke: __clr, fill: none, mark: (fill: __clr, stroke: __clr))
       import cetz.draw: *
       line((-3, 0), (3, 0), mark: (end: ">"))
       line((0, -2), (0, 4), mark: (end: ">"))
@@ -1672,7 +1690,9 @@
 #lt-ds(de: "Đề 3", 
   [Cho đồ thị hàm số $y = f'(x)$ như hình bên. 
   #align(center)[
-    #cetz.canvas({
+    #context cetz.canvas({
+        let __clr = text.fill
+        cetz.draw.set-style(stroke: __clr, fill: none, mark: (fill: __clr, stroke: __clr))
       import cetz.draw: *
       line((-3, 0), (4, 0), mark: (end: ">"))
       line((0, -2), (0, 3), mark: (end: ">"))
@@ -1825,8 +1845,6 @@
   ]
 )
 
-#let math-color = rgb("#000000")
-#show math.equation: set text(fill: math-color)
 
 
 ",

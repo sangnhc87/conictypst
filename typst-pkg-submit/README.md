@@ -1,16 +1,16 @@
-# conictypst
+# sang-math
 
 A comprehensive package for Vietnamese high school mathematics, providing macros for:
 - Sign tables and variation tables (Bảng biến thiên & Bảng xét dấu)
 - Multiple-choice questions (Trắc nghiệm)
 - Geometry drawing via CeTZ (Hình học phẳng & không gian)
 
-📖 **Full documentation / Hướng dẫn sử dụng:** [https://hdsd-conictypst.pages.dev](https://hdsd-conictypst.pages.dev)
+📖 **Full documentation / Hướng dẫn sử dụng:** [https://hdsd-sang-math.pages.dev](https://hdsd-sang-math.pages.dev)
 
 ## Usage
 
 ```typ
-#import "@preview/conictypst:1.0.0": *
+#import "@preview/sang-math:1.0.0": *
 ```
 
 ### 1. Variation Tables (Bảng biến thiên)

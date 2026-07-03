@@ -168,9 +168,9 @@
         let yR = map-y(rv.at(1))
         let vL = if type(val) == array and val.len() > 0 { val.at(0) } else { val }
         let vR = if type(val) == array and val.len() > 1 { val.at(1) } else { val }
-        let off = 0.35
-        if not is-inf(vL) { content((px - off, yL), vL, name: "v" + str(i) + "L", padding: 0.15) }
-        if not is-inf(vR) { content((px + off, yR), vR, name: "v" + str(i) + "R", padding: 0.15) }
+        let off = 0.15
+        if not is-inf(vL) { content((px - off, yL), vL, name: "v" + str(i) + "L", padding: 0.15, anchor: "east") }
+        if not is-inf(vR) { content((px + off, yR), vR, name: "v" + str(i) + "R", padding: 0.15, anchor: "west") }
       }
     }
 
@@ -193,7 +193,7 @@
         let yR = map-y(rv.at(1))
         let vL = if type(val) == array and val.len() > 0 { val.at(0) } else { val }
         let vR = if type(val) == array and val.len() > 1 { val.at(1) } else { val }
-        let off = 0.35
+        let off = 0.15
         let aL = if is-inf(vL) { (px - off, yL) } else { "v" + str(i) + "L" }
         let aR = if is-inf(vR) { (px + off, yR) } else { "v" + str(i) + "R" }
         node-anchors.push((aL, aR))
@@ -410,9 +410,9 @@
         let yR = map-y(rv.at(1))
         let vL = if type(val) == array and val.len() > 0 { val.at(0) } else { val }
         let vR = if type(val) == array and val.len() > 1 { val.at(1) } else { val }
-        let off = 0.35
-        if not is-inf(vL) { content((px - off, yL), vL, name: "v" + str(i) + "L", padding: 0.15) }
-        if not is-inf(vR) { content((px + off, yR), vR, name: "v" + str(i) + "R", padding: 0.15) }
+        let off = 0.15
+        if not is-inf(vL) { content((px - off, yL), vL, name: "v" + str(i) + "L", padding: 0.15, anchor: "east") }
+        if not is-inf(vR) { content((px + off, yR), vR, name: "v" + str(i) + "R", padding: 0.15, anchor: "west") }
       }
     }
 
@@ -435,7 +435,7 @@
         let yR = map-y(rv.at(1))
         let vL = if type(val) == array and val.len() > 0 { val.at(0) } else { val }
         let vR = if type(val) == array and val.len() > 1 { val.at(1) } else { val }
-        let off = 0.35
+        let off = 0.15
         let aL = if is-inf(vL) { (px - off, yL) } else { "v" + str(i) + "L" }
         let aR = if is-inf(vR) { (px + off, yR) } else { "v" + str(i) + "R" }
         node-anchors.push((aL, aR))

@@ -1,0 +1,160 @@
+warning: no text within stars
+    ┌─ typst/hdsd-exam.typ:543:3
+    │
+543 │ 1. **Số cột phương án (`cols`)**:
+    │    ^^
+    │
+    = hint: using multiple consecutive stars (e.g. **) has no additional effect
+
+warning: no text within stars
+    ┌─ typst/hdsd-exam.typ:543:30
+    │
+543 │ 1. **Số cột phương án (`cols`)**:
+    │                               ^^
+    │
+    = hint: using multiple consecutive stars (e.g. **) has no additional effect
+
+warning: no text within stars
+    ┌─ typst/hdsd-exam.typ:548:3
+    │
+548 │ 2. **Kiểu nhãn lựa chọn (`opt-style`)**:
+    │    ^^
+    │
+    = hint: using multiple consecutive stars (e.g. **) has no additional effect
+
+warning: no text within stars
+    ┌─ typst/hdsd-exam.typ:548:37
+    │
+548 │ 2. **Kiểu nhãn lựa chọn (`opt-style`)**:
+    │                                      ^^
+    │
+    = hint: using multiple consecutive stars (e.g. **) has no additional effect
+
+warning: no text within stars
+    ┌─ typst/hdsd-exam.typ:549:77
+    │
+549 │    - `opt-style: "plain"` (Mặc định): Hiển thị nhãn thường kèm dấu chấm dạng **A.**, **B.**, **C.**, **D.**
+    │                                                                              ^^
+    │
+    = hint: using multiple consecutive stars (e.g. **) has no additional effect
+
+warning: no text within stars
+    ┌─ typst/hdsd-exam.typ:549:81
+    │
+549 │    - `opt-style: "plain"` (Mặc định): Hiển thị nhãn thường kèm dấu chấm dạng **A.**, **B.**, **C.**, **D.**
+    │                                                                                  ^^
+    │
+    = hint: using multiple consecutive stars (e.g. **) has no additional effect
+
+warning: no text within stars
+    ┌─ typst/hdsd-exam.typ:549:85
+    │
+549 │    - `opt-style: "plain"` (Mặc định): Hiển thị nhãn thường kèm dấu chấm dạng **A.**, **B.**, **C.**, **D.**
+    │                                                                                      ^^
+    │
+    = hint: using multiple consecutive stars (e.g. **) has no additional effect
+
+warning: no text within stars
+    ┌─ typst/hdsd-exam.typ:549:89
+    │
+549 │    - `opt-style: "plain"` (Mặc định): Hiển thị nhãn thường kèm dấu chấm dạng **A.**, **B.**, **C.**, **D.**
+    │                                                                                          ^^
+    │
+    = hint: using multiple consecutive stars (e.g. **) has no additional effect
+
+warning: no text within stars
+    ┌─ typst/hdsd-exam.typ:549:93
+    │
+549 │    - `opt-style: "plain"` (Mặc định): Hiển thị nhãn thường kèm dấu chấm dạng **A.**, **B.**, **C.**, **D.**
+    │                                                                                              ^^
+    │
+    = hint: using multiple consecutive stars (e.g. **) has no additional effect
+
+warning: no text within stars
+    ┌─ typst/hdsd-exam.typ:549:97
+    │
+549 │    - `opt-style: "plain"` (Mặc định): Hiển thị nhãn thường kèm dấu chấm dạng **A.**, **B.**, **C.**, **D.**
+    │                                                                                                  ^^
+    │
+    = hint: using multiple consecutive stars (e.g. **) has no additional effect
+
+warning: no text within stars
+    ┌─ typst/hdsd-exam.typ:549:101
+    │
+549 │    - `opt-style: "plain"` (Mặc định): Hiển thị nhãn thường kèm dấu chấm dạng **A.**, **B.**, **C.**, **D.**
+    │                                                                                                      ^^
+    │
+    = hint: using multiple consecutive stars (e.g. **) has no additional effect
+
+warning: no text within stars
+    ┌─ typst/hdsd-exam.typ:549:105
+    │
+549 │    - `opt-style: "plain"` (Mặc định): Hiển thị nhãn thường kèm dấu chấm dạng **A.**, **B.**, **C.**, **D.**
+    │                                                                                                          ^^
+    │
+    = hint: using multiple consecutive stars (e.g. **) has no additional effect
+
+warning: no text within stars
+    ┌─ typst/hdsd-exam.typ:550:86
+    │
+550 │    - `opt-style: "circle"` hoặc `"circled"`: Tự động vẽ hình tròn bao quanh nhãn dạng **Ⓐ**, **Ⓑ**, **Ⓒ**, **Ⓓ**.
+    │                                                                                       ^^
+    │
+    = hint: using multiple consecutive stars (e.g. **) has no additional effect
+
+warning: no text within stars
+    ┌─ typst/hdsd-exam.typ:550:89
+    │
+550 │    - `opt-style: "circle"` hoặc `"circled"`: Tự động vẽ hình tròn bao quanh nhãn dạng **Ⓐ**, **Ⓑ**, **Ⓒ**, **Ⓓ**.
+    │                                                                                          ^^
+    │
+    = hint: using multiple consecutive stars (e.g. **) has no additional effect
+
+warning: no text within stars
+    ┌─ typst/hdsd-exam.typ:550:93
+    │
+550 │    - `opt-style: "circle"` hoặc `"circled"`: Tự động vẽ hình tròn bao quanh nhãn dạng **Ⓐ**, **Ⓑ**, **Ⓒ**, **Ⓓ**.
+    │                                                                                              ^^
+    │
+    = hint: using multiple consecutive stars (e.g. **) has no additional effect
+
+warning: no text within stars
+    ┌─ typst/hdsd-exam.typ:550:96
+    │
+550 │    - `opt-style: "circle"` hoặc `"circled"`: Tự động vẽ hình tròn bao quanh nhãn dạng **Ⓐ**, **Ⓑ**, **Ⓒ**, **Ⓓ**.
+    │                                                                                                 ^^
+    │
+    = hint: using multiple consecutive stars (e.g. **) has no additional effect
+
+warning: no text within stars
+    ┌─ typst/hdsd-exam.typ:550:100
+    │
+550 │    - `opt-style: "circle"` hoặc `"circled"`: Tự động vẽ hình tròn bao quanh nhãn dạng **Ⓐ**, **Ⓑ**, **Ⓒ**, **Ⓓ**.
+    │                                                                                                     ^^
+    │
+    = hint: using multiple consecutive stars (e.g. **) has no additional effect
+
+warning: no text within stars
+    ┌─ typst/hdsd-exam.typ:550:103
+    │
+550 │    - `opt-style: "circle"` hoặc `"circled"`: Tự động vẽ hình tròn bao quanh nhãn dạng **Ⓐ**, **Ⓑ**, **Ⓒ**, **Ⓓ**.
+    │                                                                                                        ^^
+    │
+    = hint: using multiple consecutive stars (e.g. **) has no additional effect
+
+warning: no text within stars
+    ┌─ typst/hdsd-exam.typ:550:107
+    │
+550 │    - `opt-style: "circle"` hoặc `"circled"`: Tự động vẽ hình tròn bao quanh nhãn dạng **Ⓐ**, **Ⓑ**, **Ⓒ**, **Ⓓ**.
+    │                                                                                                            ^^
+    │
+    = hint: using multiple consecutive stars (e.g. **) has no additional effect
+
+warning: no text within stars
+    ┌─ typst/hdsd-exam.typ:550:110
+    │
+550 │    - `opt-style: "circle"` hoặc `"circled"`: Tự động vẽ hình tròn bao quanh nhãn dạng **Ⓐ**, **Ⓑ**, **Ⓒ**, **Ⓓ**.
+    │                                                                                                               ^^
+    │
+    = hint: using multiple consecutive stars (e.g. **) has no additional effect
+

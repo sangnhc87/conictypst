@@ -12,6 +12,7 @@
     "sync:bank": "cp bank.json typst/bank.json",
     "deploy": "npm run build:public && wrangler pages deploy dist --project-name conictypsst",
     "deploy:pages": "npm run build:public && wrangler pages deploy dist --project-name conictypsst",
+    "deploy:hdsd": "wrangler pages deploy public/hdsd --project-name hdsd-conictypst --commit-dirty=true",
     "deploy:workers": "npm run build:public && wrangler deploy",
     "deploy:gh-pages": "VITE_APP_MODE=public vite build --base=/conictypst/ && gh-pages -d dist",
     "bank:stat": "node scripts/bank-stat.js",

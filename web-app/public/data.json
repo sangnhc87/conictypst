@@ -1,0 +1,380 @@
+[
+  {
+    "id": "11-1-1-20",
+    "title": "Bài 1: Goc Luong Giac",
+    "grade": 11,
+    "chapter": 1,
+    "chapterTitle": "Chương 1: Lượng giác",
+    "lesson_num": 1,
+    "file": "/pdfs/beamer-11-bai-1-goc-luong-giac.pdf"
+  },
+  {
+    "id": "11-1-2-22",
+    "title": "Bài 2: Ham So Luong Giac",
+    "grade": 11,
+    "chapter": 1,
+    "chapterTitle": "Chương 1: Lượng giác",
+    "lesson_num": 2,
+    "file": "/pdfs/beamer-11-bai-2-ham-so-luong-giac.pdf"
+  },
+  {
+    "id": "11-1-3-21",
+    "title": "Bài 3: Phuong Trinh Luong Giac",
+    "grade": 11,
+    "chapter": 1,
+    "chapterTitle": "Chương 1: Lượng giác",
+    "lesson_num": 3,
+    "file": "/pdfs/beamer-11-bai-3-phuong-trinh-luong-giac.pdf"
+  },
+  {
+    "id": "11-1-4-15",
+    "title": "Bài 4: Cong Thuc Luong Giac",
+    "grade": 11,
+    "chapter": 1,
+    "chapterTitle": "Chương 1: Lượng giác",
+    "lesson_num": 4,
+    "file": "/pdfs/beamer-11-bai-4-cong-thuc-luong-giac.pdf"
+  },
+  {
+    "id": "11-1-5-19",
+    "title": "Bài 5: Ung Dung Lien Mon",
+    "grade": 11,
+    "chapter": 1,
+    "chapterTitle": "Chương 1: Lượng giác",
+    "lesson_num": 5,
+    "file": "/pdfs/beamer-11-bai-5-ung-dung-lien-mon.pdf"
+  },
+  {
+    "id": "11-1-6-16",
+    "title": "Bài 6: Ham Tong Hop",
+    "grade": 11,
+    "chapter": 1,
+    "chapterTitle": "Chương 1: Lượng giác",
+    "lesson_num": 6,
+    "file": "/pdfs/beamer-11-bai-6-ham-tong-hop.pdf"
+  },
+  {
+    "id": "11-1-7-17",
+    "title": "Bài 7: Bat Phuong Trinh",
+    "grade": 11,
+    "chapter": 1,
+    "chapterTitle": "Chương 1: Lượng giác",
+    "lesson_num": 7,
+    "file": "/pdfs/beamer-11-bai-7-bat-phuong-trinh.pdf"
+  },
+  {
+    "id": "11-1-13-18",
+    "title": "Bài 13: Dinh Ly Sin Cos",
+    "grade": 11,
+    "chapter": 1,
+    "chapterTitle": "Chương 1: Lượng giác",
+    "lesson_num": 13,
+    "file": "/pdfs/beamer-11-bai-13-dinh-ly-sin-cos.pdf"
+  },
+  {
+    "id": "11-3-1-25",
+    "title": "Bài 1: Day So",
+    "grade": 11,
+    "chapter": 3,
+    "chapterTitle": "Chương 3: Dãy số - Cấp số",
+    "lesson_num": 1,
+    "file": "/pdfs/beamer-11-c3-bai-1-day-so.pdf"
+  },
+  {
+    "id": "11-3-2-23",
+    "title": "Bài 2: Cap So Cong",
+    "grade": 11,
+    "chapter": 3,
+    "chapterTitle": "Chương 3: Dãy số - Cấp số",
+    "lesson_num": 2,
+    "file": "/pdfs/beamer-11-c3-bai-2-cap-so-cong.pdf"
+  },
+  {
+    "id": "11-3-3-24",
+    "title": "Bài 3: Cap So Nhan",
+    "grade": 11,
+    "chapter": 3,
+    "chapterTitle": "Chương 3: Dãy số - Cấp số",
+    "lesson_num": 3,
+    "file": "/pdfs/beamer-11-c3-bai-3-cap-so-nhan.pdf"
+  },
+  {
+    "id": "11-6-1-43",
+    "title": "Bài 1: Luy Thua",
+    "grade": 11,
+    "chapter": 6,
+    "chapterTitle": "Chương 6: Mũ và Logarit",
+    "lesson_num": 1,
+    "file": "/pdfs/beamer-11-mu-bai-1-luy-thua.pdf"
+  },
+  {
+    "id": "11-6-2-41",
+    "title": "Bài 2: Logarit",
+    "grade": 11,
+    "chapter": 6,
+    "chapterTitle": "Chương 6: Mũ và Logarit",
+    "lesson_num": 2,
+    "file": "/pdfs/beamer-11-mu-bai-2-logarit.pdf"
+  },
+  {
+    "id": "11-6-3-40",
+    "title": "Bài 3: Ham So",
+    "grade": 11,
+    "chapter": 6,
+    "chapterTitle": "Chương 6: Mũ và Logarit",
+    "lesson_num": 3,
+    "file": "/pdfs/beamer-11-mu-bai-3-ham-so.pdf"
+  },
+  {
+    "id": "11-6-4-42",
+    "title": "Bài 4: Pt Bpt",
+    "grade": 11,
+    "chapter": 6,
+    "chapterTitle": "Chương 6: Mũ và Logarit",
+    "lesson_num": 4,
+    "file": "/pdfs/beamer-11-mu-bai-4-pt-bpt.pdf"
+  },
+  {
+    "id": "11-6-5-36",
+    "title": "Bài 5: Ung Dung",
+    "grade": 11,
+    "chapter": 6,
+    "chapterTitle": "Chương 6: Mũ và Logarit",
+    "lesson_num": 5,
+    "file": "/pdfs/beamer-11-mu-bai-5-ung-dung.pdf"
+  },
+  {
+    "id": "11-6-6-37",
+    "title": "Bài 6: Luyen Tap",
+    "grade": 11,
+    "chapter": 6,
+    "chapterTitle": "Chương 6: Mũ và Logarit",
+    "lesson_num": 6,
+    "file": "/pdfs/beamer-11-mu-bai-6-luyen-tap.pdf"
+  },
+  {
+    "id": "11-6-7-39",
+    "title": "Bài 7: Casestudy",
+    "grade": 11,
+    "chapter": 6,
+    "chapterTitle": "Chương 6: Mũ và Logarit",
+    "lesson_num": 7,
+    "file": "/pdfs/beamer-11-mu-bai-7-casestudy.pdf"
+  },
+  {
+    "id": "11-6-8-38",
+    "title": "Bài 8: Bachkhoa",
+    "grade": 11,
+    "chapter": 6,
+    "chapterTitle": "Chương 6: Mũ và Logarit",
+    "lesson_num": 8,
+    "file": "/pdfs/beamer-11-mu-bai-8-bachkhoa.pdf"
+  },
+  {
+    "id": "12-1-1-3",
+    "title": "Bài 1: Tinh On Dieu Cuc Tri",
+    "grade": 12,
+    "chapter": 1,
+    "chapterTitle": "Chương 1: Ứng dụng của đạo hàm",
+    "lesson_num": 1,
+    "file": "/pdfs/beamer-12-bai-1-tinh-on-dieu-cuc-tri.pdf"
+  },
+  {
+    "id": "12-1-1-12",
+    "title": "Bài 1: Tinh On Dieu Cuc Tri",
+    "grade": 12,
+    "chapter": 1,
+    "chapterTitle": "Chương 1: Ứng dụng của đạo hàm",
+    "lesson_num": 1,
+    "file": "/pdfs/beamer-12-bai-1-tinh-on-dieu-cuc-tri.pdf"
+  },
+  {
+    "id": "12-1-1-11",
+    "title": "Bài 1: Tinh On Dieu Cuc Tri Premium",
+    "grade": 12,
+    "chapter": 1,
+    "chapterTitle": "Chương 1: Ứng dụng của đạo hàm",
+    "lesson_num": 1,
+    "file": "/pdfs/beamer-12-bai-1-tinh-on-dieu-cuc-tri-premium.pdf"
+  },
+  {
+    "id": "12-1-1-26",
+    "title": "C1",
+    "grade": 12,
+    "chapter": 1,
+    "chapterTitle": "Chương 1: Ứng dụng đạo hàm (Phần 1)",
+    "lesson_num": 1,
+    "file": "/pdfs/beamer-12-udh-phan1-c1.pdf"
+  },
+  {
+    "id": "12-1-2-10",
+    "title": "Bài 2: Gtln Gtnn Cua Ham So",
+    "grade": 12,
+    "chapter": 1,
+    "chapterTitle": "Chương 1: Ứng dụng của đạo hàm",
+    "lesson_num": 2,
+    "file": "/pdfs/beamer-12-bai-2-gtln-gtnn-cua-ham-so.pdf"
+  },
+  {
+    "id": "12-1-2-27",
+    "title": "C2",
+    "grade": 12,
+    "chapter": 1,
+    "chapterTitle": "Chương 1: Ứng dụng đạo hàm (Phần 1)",
+    "lesson_num": 2,
+    "file": "/pdfs/beamer-12-udh-phan1-c2.pdf"
+  },
+  {
+    "id": "12-1-3-4",
+    "title": "Bài 3: Duong Tiem Can",
+    "grade": 12,
+    "chapter": 1,
+    "chapterTitle": "Chương 1: Ứng dụng của đạo hàm",
+    "lesson_num": 3,
+    "file": "/pdfs/beamer-12-bai-3-duong-tiem-can.pdf"
+  },
+  {
+    "id": "12-1-3-29",
+    "title": "C3",
+    "grade": 12,
+    "chapter": 1,
+    "chapterTitle": "Chương 1: Ứng dụng đạo hàm (Phần 1)",
+    "lesson_num": 3,
+    "file": "/pdfs/beamer-12-udh-phan1-c3.pdf"
+  },
+  {
+    "id": "12-1-4-2",
+    "title": "Bài 4: Khao Sat Ve Dothi",
+    "grade": 12,
+    "chapter": 1,
+    "chapterTitle": "Chương 1: Ứng dụng của đạo hàm",
+    "lesson_num": 4,
+    "file": "/pdfs/beamer-12-bai-4-khao-sat-ve-dothi.pdf"
+  },
+  {
+    "id": "12-1-5-8",
+    "title": "Bài 5: Ung Dung Thuc Tien",
+    "grade": 12,
+    "chapter": 1,
+    "chapterTitle": "Chương 1: Ứng dụng của đạo hàm",
+    "lesson_num": 5,
+    "file": "/pdfs/beamer-12-bai-5-ung-dung-thuc-tien.pdf"
+  },
+  {
+    "id": "12-1-6-6",
+    "title": "Bài 6: Tiep Tuyen Tuong Giao",
+    "grade": 12,
+    "chapter": 1,
+    "chapterTitle": "Chương 1: Ứng dụng của đạo hàm",
+    "lesson_num": 6,
+    "file": "/pdfs/beamer-12-bai-6-tiep-tuyen-tuong-giao.pdf"
+  },
+  {
+    "id": "12-2-1-33",
+    "title": "C1",
+    "grade": 12,
+    "chapter": 2,
+    "chapterTitle": "Chương 1: Ứng dụng đạo hàm (Phần 2)",
+    "lesson_num": 1,
+    "file": "/pdfs/beamer-12-udh-phan2-c1.pdf"
+  },
+  {
+    "id": "12-2-2-35",
+    "title": "C2",
+    "grade": 12,
+    "chapter": 2,
+    "chapterTitle": "Chương 1: Ứng dụng đạo hàm (Phần 2)",
+    "lesson_num": 2,
+    "file": "/pdfs/beamer-12-udh-phan2-c2.pdf"
+  },
+  {
+    "id": "12-2-3-34",
+    "title": "C3",
+    "grade": 12,
+    "chapter": 2,
+    "chapterTitle": "Chương 1: Ứng dụng đạo hàm (Phần 2)",
+    "lesson_num": 3,
+    "file": "/pdfs/beamer-12-udh-phan2-c3.pdf"
+  },
+  {
+    "id": "12-2-7-0",
+    "title": "Bài 7: Vecto Trong Khong Gian",
+    "grade": 12,
+    "chapter": 2,
+    "chapterTitle": "Chương 2: Vectơ trong không gian",
+    "lesson_num": 7,
+    "file": "/pdfs/beamer-12-bai-7-vecto-trong-khong-gian.pdf"
+  },
+  {
+    "id": "12-2-8-7",
+    "title": "Bài 8: Toa Do Vecto",
+    "grade": 12,
+    "chapter": 2,
+    "chapterTitle": "Chương 2: Vectơ trong không gian",
+    "lesson_num": 8,
+    "file": "/pdfs/beamer-12-bai-8-toa-do-vecto.pdf"
+  },
+  {
+    "id": "12-2-9-1",
+    "title": "Bài 9: Phep Toan Vecto",
+    "grade": 12,
+    "chapter": 2,
+    "chapterTitle": "Chương 2: Vectơ trong không gian",
+    "lesson_num": 9,
+    "file": "/pdfs/beamer-12-bai-9-phep-toan-vecto.pdf"
+  },
+  {
+    "id": "12-2-999-28",
+    "title": "Review",
+    "grade": 12,
+    "chapter": 2,
+    "chapterTitle": "Chương 1: Ứng dụng đạo hàm (Phần 2)",
+    "lesson_num": 999,
+    "file": "/pdfs/beamer-12-udh-phan2-review.pdf"
+  },
+  {
+    "id": "12-3-1-32",
+    "title": "C1",
+    "grade": 12,
+    "chapter": 3,
+    "chapterTitle": "Chương 1: Ứng dụng đạo hàm (Phần 3)",
+    "lesson_num": 1,
+    "file": "/pdfs/beamer-12-udh-phan3-c1.pdf"
+  },
+  {
+    "id": "12-3-2-30",
+    "title": "C2",
+    "grade": 12,
+    "chapter": 3,
+    "chapterTitle": "Chương 1: Ứng dụng đạo hàm (Phần 3)",
+    "lesson_num": 2,
+    "file": "/pdfs/beamer-12-udh-phan3-c2.pdf"
+  },
+  {
+    "id": "12-3-3-31",
+    "title": "C3",
+    "grade": 12,
+    "chapter": 3,
+    "chapterTitle": "Chương 1: Ứng dụng đạo hàm (Phần 3)",
+    "lesson_num": 3,
+    "file": "/pdfs/beamer-12-udh-phan3-c3.pdf"
+  },
+  {
+    "id": "12-3-10-9",
+    "title": "Bài 10: Khoang Bien Thien Tu Phan Vi",
+    "grade": 12,
+    "chapter": 3,
+    "chapterTitle": "Chương 3: Thống kê",
+    "lesson_num": 10,
+    "file": "/pdfs/beamer-12-bai-10-khoang-bien-thien-tu-phan-vi.pdf"
+  },
+  {
+    "id": "12-3-11-5",
+    "title": "Bài 11: Phuong Sai Do Lech Chuan",
+    "grade": 12,
+    "chapter": 3,
+    "chapterTitle": "Chương 3: Thống kê",
+    "lesson_num": 11,
+    "file": "/pdfs/beamer-12-bai-11-phuong-sai-do-lech-chuan.pdf"
+  }
+]

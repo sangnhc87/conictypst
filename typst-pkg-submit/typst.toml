@@ -1,5 +1,5 @@
 [package]
-name = "conictypst"
+name = "sang-math"
 version = "1.0.0"
 entrypoint = "lib.typ"
 authors = ["Sang Nguyen <sangnhc87@gmail.com>"]

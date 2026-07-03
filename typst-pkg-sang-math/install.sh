@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # ================================================================
-# install.sh — Cài conictypst vào Typst local package
-# Sau khi cài, dùng: #import "@local/conictypst:1.0.0": *
+# install.sh — Cài sang-math vào Typst local package
+# Sau khi cài, dùng: #import "@local/sang-math:1.0.0": *
 # ================================================================
 set -e
 
-PKG_NAME="conictypst"
+PKG_NAME="sang-math"
 PKG_VERSION="1.0.0"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
@@ -41,7 +41,7 @@ echo ""
 echo "✅ Cài đặt thành công!"
 echo ""
 echo "Dùng trong file .typ:"
-echo '  #import "@local/conictypst:1.0.0": *'
+echo '  #import "@local/sang-math:1.0.0": *'
 echo ""
 echo "Hoặc chỉ import module cần:"
-echo '  #import "@local/conictypst:1.0.0": tn, bbtv2, bxd'
+echo '  #import "@local/sang-math:1.0.0": tn, bbtv2, bxd'

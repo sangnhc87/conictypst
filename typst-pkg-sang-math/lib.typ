@@ -1,7 +1,7 @@
 // ================================================================
 // CONICTYPST — Bộ macro Toán THPT chuẩn
-// Entry point: #import "@local/conictypst:1.0.0": *
-// hoặc:        #import "@preview/conictypst:1.0.0": *  (sau khi publish)
+// Entry point: #import "@local/sang-math:1.0.0": *
+// hoặc:        #import "@preview/sang-math:1.0.0": *  (sau khi publish)
 // ================================================================
 
 // ── Core modules ─────────────────────────────────────────────────

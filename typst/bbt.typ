@@ -20,7 +20,8 @@
   h1: auto,
   h2: 0.8,
   h3: auto,
-) = {
+) = context {
+  let __clr = text.fill
   // Tự động phân tích AST để điều chỉnh chiều cao nếu h1, h3 là auto
   let h1 = if h1 == auto {
     let has-tall = x-vals.any(x => {
@@ -58,10 +59,10 @@
     }
 
     // 1. Kẻ khung cơ bản
-    rect((0, 0), (tw, -th), stroke: 1pt)
-    line((0, -h1), (tw, -h1), stroke: 1pt)
-    line((0, -h1 - h2), (tw, -h1 - h2), stroke: 1pt)
-    line((w1, 0), (w1, -th), stroke: 1pt)
+    rect((0, 0), (tw, -th), stroke: 1pt + __clr)
+    line((0, -h1), (tw, -h1), stroke: 1pt + __clr)
+    line((0, -h1 - h2), (tw, -h1 - h2), stroke: 1pt + __clr)
+    line((w1, 0), (w1, -th), stroke: 1pt + __clr)
 
     // 2. Xử lý vùng Shade (gạch chéo vùng không xác định)
     let hatch = tiling(size: (8pt, 8pt))[
@@ -71,7 +72,7 @@
       let xL = x-pos.at(s.at(0))
       let xR = x-pos.at(s.at(1))
       rect((xL, -h1), (xR, -th), fill: hatch, stroke: none)
-      line((xL, -h1 - h2), (xR, -h1 - h2), stroke: 1pt)
+      line((xL, -h1 - h2), (xR, -h1 - h2), stroke: 1pt + __clr)
     }
 
     // Nhãn cột trái
@@ -106,11 +107,11 @@
           let px = x-pos.at(i)
           let is-double = type(v-vals.at(i)) == array or v-vals.at(i) == "||" or v-vals.at(i) == none or (type(v-vals.at(i)) == content and (repr(v-vals.at(i)).contains("|") or repr(v-vals.at(i)).contains("||")))
           if is-double {
-            line((px - 0.05, -h1), (px - 0.05, -th), stroke: 0.8pt)
-            line((px + 0.05, -h1), (px + 0.05, -th), stroke: 0.8pt)
+            line((px - 0.05, -h1), (px - 0.05, -th), stroke: 0.8pt + __clr)
+            line((px + 0.05, -h1), (px + 0.05, -th), stroke: 0.8pt + __clr)
           } else {
-            line((px - 0.05, -h1), (px - 0.05, -h1 - h2), stroke: 0.8pt)
-            line((px + 0.05, -h1), (px + 0.05, -h1 - h2), stroke: 0.8pt)
+            line((px - 0.05, -h1), (px - 0.05, -h1 - h2), stroke: 0.8pt + __clr)
+            line((px + 0.05, -h1), (px + 0.05, -h1 - h2), stroke: 0.8pt + __clr)
           }
         } else {
           content((x-pos.at(i), -h1 - h2 / 2), render-sign(d-signs.at(sign-idx)))
@@ -174,9 +175,9 @@
         let yR = map-y(rv.at(1))
         let vL = if type(val) == array and val.len() > 0 { val.at(0) } else { val }
         let vR = if type(val) == array and val.len() > 1 { val.at(1) } else { val }
-        let off = 0.35
-        if not is-inf(vL) { content((px - off, yL), vL, name: "v" + str(i) + "L", padding: 0.15) }
-        if not is-inf(vR) { content((px + off, yR), vR, name: "v" + str(i) + "R", padding: 0.15) }
+        let off = 0.15
+        if not is-inf(vL) { content((px - off, yL), vL, name: "v" + str(i) + "L", padding: 0.15, anchor: "east") }
+        if not is-inf(vR) { content((px + off, yR), vR, name: "v" + str(i) + "R", padding: 0.15, anchor: "west") }
       }
     }
 
@@ -199,7 +200,7 @@
         let yR = map-y(rv.at(1))
         let vL = if type(val) == array and val.len() > 0 { val.at(0) } else { val }
         let vR = if type(val) == array and val.len() > 1 { val.at(1) } else { val }
-        let off = 0.35
+        let off = 0.15
         let aL = if is-inf(vL) { (px - off, yL) } else { "v" + str(i) + "L" }
         let aR = if is-inf(vR) { (px + off, yR) } else { "v" + str(i) + "R" }
         node-anchors.push((aL, aR))
@@ -214,7 +215,7 @@
         let s = node-anchors.at(i).at(1)
         let e = node-anchors.at(i + 1).at(0)
         if s != none and e != none {
-          line(s, e, mark: (end: ">", fill: black), stroke: 0.8pt)
+          line(s, e, mark: (end: ">", fill: __clr), stroke: 0.8pt + __clr)
         }
       }
     }
@@ -237,7 +238,8 @@
   w2: 8,
   h1: 0.8,
   h2: 0.8, // chiều cao mỗi dòng dấu
-) = {
+) = context {
+  let __clr = text.fill
   // Chuẩn hóa: nếu func là mảng thì nhiều dòng
   let funcs = if type(func) == array { func } else { (func,) }
   let signs-list = if type(f-signs) == array and f-signs.len() > 0 and type(f-signs.at(0)) == array {
@@ -253,9 +255,9 @@
     let tw = w1 + w2
     let th = h1 + h2 * nrows
 
-    rect((0, 0), (tw, -th), stroke: 1pt)
-    line((0, -h1), (tw, -h1), stroke: 1pt)
-    line((w1, 0), (w1, -th), stroke: 1pt)
+    rect((0, 0), (tw, -th), stroke: 1pt + __clr)
+    line((0, -h1), (tw, -h1), stroke: 1pt + __clr)
+    line((w1, 0), (w1, -th), stroke: 1pt + __clr)
     // Đường ngang giữa các dòng dấu (nếu > 1 dòng)
     for r in range(1, nrows) {
       line((0, -h1 - h2 * r), (tw, -h1 - h2 * r), stroke: 0.5pt + luma(150))
@@ -297,8 +299,8 @@
           let sign-idx = 2 * i - 1
           if row-signs.len() > sign-idx and sign-of(row-signs.at(sign-idx)) == "||" {
             let px = x-pos.at(i)
-            line((px - 0.05, y-top-row), (px - 0.05, y-bot-row), stroke: 0.8pt)
-            line((px + 0.05, y-top-row), (px + 0.05, y-bot-row), stroke: 0.8pt)
+            line((px - 0.05, y-top-row), (px - 0.05, y-bot-row), stroke: 0.8pt + __clr)
+            line((px + 0.05, y-top-row), (px + 0.05, y-bot-row), stroke: 0.8pt + __clr)
           } else if row-signs.len() > sign-idx {
             content((x-pos.at(i), y-mid), render-sign(row-signs.at(sign-idx)))
           }
@@ -325,7 +327,8 @@
   h1: auto,
   h2: 0.98, 
   h3: auto,
-) = {
+) = context {
+  let __clr = text.fill
   // Tự động phân tích AST để điều chỉnh chiều cao nếu h1, h3 là auto
   let h1 = if h1 == auto {
     let has-tall = x-vals.any(x => {
@@ -356,10 +359,10 @@
     let th = h1 + h2 + h3
 
     // Kẻ khung
-    rect((0, 0), (tw, -th), stroke: 1pt)
-    line((0, -h1), (tw, -h1), stroke: 1pt)
-    line((0, -h1 - h2), (tw, -h1 - h2), stroke: 1pt)
-    line((w1, 0), (w1, -th), stroke: 1pt)
+    rect((0, 0), (tw, -th), stroke: 1pt + __clr)
+    line((0, -h1), (tw, -h1), stroke: 1pt + __clr)
+    line((0, -h1 - h2), (tw, -h1 - h2), stroke: 1pt + __clr)
+    line((w1, 0), (w1, -th), stroke: 1pt + __clr)
 
     content((w1 / 2, -h1 / 2), var)
     content((w1 / 2, -h1 - h2 / 2), der)
@@ -395,11 +398,11 @@
           let px = x-pos.at(i)
           let is-double = type(v-vals.at(i)) == array or v-vals.at(i) == "||" or v-vals.at(i) == none or (type(v-vals.at(i)) == content and (repr(v-vals.at(i)).contains("|") or repr(v-vals.at(i)).contains("||")))
           if is-double {
-            line((px - 0.05, -h1), (px - 0.05, -th), stroke: 0.8pt)
-            line((px + 0.05, -h1), (px + 0.05, -th), stroke: 0.8pt)
+            line((px - 0.05, -h1), (px - 0.05, -th), stroke: 0.8pt + __clr)
+            line((px + 0.05, -h1), (px + 0.05, -th), stroke: 0.8pt + __clr)
           } else {
-            line((px - 0.05, -h1), (px - 0.05, -h1 - h2), stroke: 0.8pt)
-            line((px + 0.05, -h1), (px + 0.05, -h1 - h2), stroke: 0.8pt)
+            line((px - 0.05, -h1), (px - 0.05, -h1 - h2), stroke: 0.8pt + __clr)
+            line((px + 0.05, -h1), (px + 0.05, -h1 - h2), stroke: 0.8pt + __clr)
           }
         } else {
           content((x-pos.at(i), -h1 - h2 / 2), render-sign(d-signs.at(sign-idx)))
@@ -459,9 +462,9 @@
         let yR = map-y(rv.at(1))
         let vL = if type(val) == array and val.len() > 0 { val.at(0) } else { val }
         let vR = if type(val) == array and val.len() > 1 { val.at(1) } else { val }
-        let off = 0.35
-        if not is-inf(vL) { content((px - off, yL), vL, name: "v" + str(i) + "L", padding: 0.15) }
-        if not is-inf(vR) { content((px + off, yR), vR, name: "v" + str(i) + "R", padding: 0.15) }
+        let off = 0.15
+        if not is-inf(vL) { content((px - off, yL), vL, name: "v" + str(i) + "L", padding: 0.15, anchor: "east") }
+        if not is-inf(vR) { content((px + off, yR), vR, name: "v" + str(i) + "R", padding: 0.15, anchor: "west") }
       }
     }
 
@@ -484,7 +487,7 @@
         let yR = map-y(rv.at(1))
         let vL = if type(val) == array and val.len() > 0 { val.at(0) } else { val }
         let vR = if type(val) == array and val.len() > 1 { val.at(1) } else { val }
-        let off = 0.35
+        let off = 0.15
         let aL = if is-inf(vL) { (px - off, yL) } else { "v" + str(i) + "L" }
         let aR = if is-inf(vR) { (px + off, yR) } else { "v" + str(i) + "R" }
         node-anchors.push((aL, aR))
@@ -496,7 +499,7 @@
       let s = node-anchors.at(i).at(1)
       let e = node-anchors.at(i + 1).at(0)
       if s != none and e != none {
-        line(s, e, mark: (end: ">", fill: black), stroke: 0.8pt)
+        line(s, e, mark: (end: ">", fill: __clr), stroke: 0.8pt + __clr)
       }
     }
   })
@@ -513,7 +516,8 @@
   is-min: true, // true: cực tiểu (\/), false: cực đại (/\)
   w1: 1.5, // Chiều rộng cột nhãn
   w2: 7, // Chiều rộng cột nội dung
-) = {
+) = context {
+  let __clr = text.fill
   canvas(length: 1cm, {
     import draw: *
 
@@ -524,10 +528,10 @@
     let th = h1 + h2 + h3
 
     // Kẻ khung và các đường ngang, dọc
-    rect((0, 0), (tw, -th), stroke: 1pt)
-    line((0, -h1), (tw, -h1), stroke: 1pt)
-    line((0, -h1 - h2), (tw, -h1 - h2), stroke: 1pt)
-    line((w1, 0), (w1, -th), stroke: 1pt)
+    rect((0, 0), (tw, -th), stroke: 1pt + __clr)
+    line((0, -h1), (tw, -h1), stroke: 1pt + __clr)
+    line((0, -h1 - h2), (tw, -h1 - h2), stroke: 1pt + __clr)
+    line((w1, 0), (w1, -th), stroke: 1pt + __clr)
 
     // Nhãn các hàng
     content((w1 / 2, -h1 / 2), var)
@@ -564,8 +568,8 @@
     content((x3, y3), v-vals.at(2), name: "v3", padding: 0.1)
 
     // Vẽ mũi tên biến thiên
-    line("v1", "v2", mark: (end: ">", fill: black), stroke: 0.8pt)
-    line("v2", "v3", mark: (end: ">", fill: black), stroke: 0.8pt)
+    line("v1", "v2", mark: (end: ">", fill: __clr), stroke: 0.8pt + __clr)
+    line("v2", "v3", mark: (end: ">", fill: __clr), stroke: 0.8pt + __clr)
   })
 }
 
@@ -579,7 +583,8 @@
   rows: (),      // mảng các hàng, mỗi hàng là tuple giá trị
   accent: rgb("#0057b8"),
   scale: 1cm,
-) = {
+) = context {
+  let __clr = text.fill
   canvas(length: scale, {
     import draw: *
     let ncols = labels.len()
@@ -588,7 +593,7 @@
     let rh = 1.0
     let tw = ncols * cw
     let th = nrows * rh
-    rect((0, 0), (tw, -th), stroke: 0.8pt + black)
+    rect((0, 0), (tw, -th), stroke: 0.8pt + __clr )
     for i in range(1, ncols) {
       line((i * cw, 0), (i * cw, -th), stroke: 0.5pt + luma(180))
     }
@@ -615,7 +620,8 @@
   items: (),     // ((x1, p1), (x2, p2), ...)
   accent: rgb("#0057b8"),
   scale: 1cm,
-) = {
+) = context {
+  let __clr = text.fill
   canvas(length: scale, {
     import draw: *
     let n = items.len()
@@ -623,7 +629,7 @@
     let rh = 0.9
     let tw = 2 * cw
     let th = (n + 1) * rh
-    rect((0, 0), (tw, -th), stroke: 0.8pt + black)
+    rect((0, 0), (tw, -th), stroke: 0.8pt + __clr )
     line((cw, 0), (cw, -th), stroke: 0.5pt + luma(180))
     for j in range(1, n + 2) {
       line((0, -j * rh), (tw, -j * rh), stroke: 0.5pt + luma(180))
@@ -644,7 +650,8 @@
   x: (),
   y-phay: (),
   y: (),
-) = {
+) = context {
+  let __clr = text.fill
   align(center)[
     #canvas({
       import draw: *
@@ -657,10 +664,10 @@
       let h = 4.0
 
       // Vẽ khung và lưới cơ bản
-      rect((0, 0), (w, h), stroke: 0.75pt + black)
-      line((0, 2), (w, 2), stroke: 0.75pt + black)
-      line((0, 3), (w, 3), stroke: 0.75pt + black)
-      line((col1, 0), (col1, h), stroke: 0.75pt + black)
+      rect((0, 0), (w, h), stroke: 0.75pt + __clr )
+      line((0, 2), (w, 2), stroke: 0.75pt + __clr )
+      line((0, 3), (w, 3), stroke: 0.75pt + __clr )
+      line((col1, 0), (col1, h), stroke: 0.75pt + __clr )
 
       // Cột tiêu đề
       content((col1 / 2, 3.5), [$x$])
@@ -718,13 +725,13 @@
 
         if y_start > y_end {
           // Nghịch biến (Đi xuống)
-          line((x1, y_start - dy), (x2, y_end + dy), mark: (end: "stealth", fill: black))
+          line((x1, y_start - dy), (x2, y_end + dy), mark: (end: "stealth", fill: __clr))
         } else if y_start < y_end {
           // Đồng biến (Đi lên)
-          line((x1, y_start + dy), (x2, y_end - dy), mark: (end: "stealth", fill: black))
+          line((x1, y_start + dy), (x2, y_end - dy), mark: (end: "stealth", fill: __clr))
         } else {
           // Hàm hằng (Đi ngang)
-          line((x1 + 0.2, y_start), (x2 - 0.2, y_end), mark: (end: "stealth", fill: black))
+          line((x1 + 0.2, y_start), (x2 - 0.2, y_end), mark: (end: "stealth", fill: __clr))
         }
       }
     })

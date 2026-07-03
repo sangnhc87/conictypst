@@ -1,6 +1,8 @@
-# StexGV — Hệ Thống Template Typst
+# HDSD Typst — Sách hướng dẫn hệ thống
 
 > Website HDSD: mở file `public/hdsd/index.html` trong trình duyệt.
+> Production URL: `https://hdsd-conictypst.pages.dev`
+> Deploy riêng project HDSD: `npm run deploy:hdsd`.
 
 ## Cấu trúc thư mục
 
@@ -43,6 +45,12 @@ typst compile --root typst typst/chuyende.typ output/cd.pdf
 
 # Watch mode
 typst watch --root typst typst/exams/de-01.typ output/de.pdf
+
+# Sách HDSD PDF
+typst compile --root . typst/hdsd-exam.typ typst/hdsd-exam.pdf
+
+# Web HDSD project riêng
+npm run deploy:hdsd
 ```
 
 ## Import chuẩn

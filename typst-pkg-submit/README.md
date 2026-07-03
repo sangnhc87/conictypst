@@ -18,3 +18,14 @@ A comprehensive Typst package for typesetting Vietnamese High School Mathematics
 
 // Your awesome math document
 ```
+
+## Tác giả (Author)
+- **Tên:** Nguyễn Văn Sang
+- **Công việc:** Giáo viên Toán tại Trường THPT Nguyễn Hữu Cảnh - TP. HCM
+- **Email:** nguyensangnhc@gmail.com
+- **Facebook:** [Nguyễn Văn Sang](https://www.facebook.com/nguyenvan.sang.92798072/)
+
+## Ủng hộ dự án (Donate)
+Nếu bạn thấy thư viện này hữu ích cho công việc giảng dạy và soạn thảo tài liệu Toán học, bạn có thể ủng hộ tác giả qua mã QR Momo/ZaloPay hoặc chuyển khoản ngân hàng nhé!
+
+*(Vui lòng thêm mã QR bằng file ảnh ở đây, hoặc ghi số tài khoản của bạn)*

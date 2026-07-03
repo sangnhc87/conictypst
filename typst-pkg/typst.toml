@@ -1,0 +1,13 @@
+[package]
+name = "conictypst"
+version = "1.0.0"
+entrypoint = "lib.typ"
+authors = ["Sang Nguyen <sangnhc87@gmail.com>"]
+license = "MIT"
+description = "Bộ macro Toán THPT – BBT, Bảng xét dấu, Trắc nghiệm, Tự luận, Hình học CeTZ"
+keywords = ["math", "exam", "vietnam", "thpt", "bbt"]
+homepage = "https://hdsd-conictypst.pages.dev"
+repository = "https://github.com/sangnhc87/conictypst"
+
+[dependencies]
+cetz = { version = ">=0.5.2", registry = "https://packages.typst.org" }

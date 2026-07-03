@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════
-   StexGV HDSD — style.css
+   HDSD Typst — style.css
    Light theme — Sáng, sạch, chuyên nghiệp
    ═══════════════════════════════════════════════════════ */
 
@@ -639,3 +639,287 @@ pre code {
   .card-grid { grid-template-columns: 1fr; }
   .download-grid { grid-template-columns: 1fr; }
 }
+
+/* ══════════════════════════════════════════════
+   Live Playground — Modal & UI
+   ══════════════════════════════════════════════ */
+
+/* Nút ▶ Chạy trên mỗi code block */
+.pg-run-btn {
+  background: linear-gradient(135deg, #1a73e8, #0d5bd1);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
+  white-space: nowrap;
+  box-shadow: 0 1px 4px rgba(26,115,232,0.3);
+}
+.pg-run-btn:hover {
+  background: linear-gradient(135deg, #0d5bd1, #0a4db5);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(26,115,232,0.4);
+}
+.pg-run-btn:active { transform: translateY(0); }
+
+/* Modal backdrop */
+#pg-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+}
+#pg-modal.open { display: block; }
+
+#pg-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(2px);
+}
+
+/* Panel */
+#pg-panel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(96vw, 1180px);
+  height: min(88vh, 760px);
+  background: #1e1e2e;
+  border-radius: 14px;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.55);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.07);
+  animation: pg-slide-in 0.22s cubic-bezier(0.34,1.2,0.64,1);
+}
+
+@keyframes pg-slide-in {
+  from { opacity: 0; transform: translate(-50%, -48%) scale(0.97); }
+  to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+/* Header */
+#pg-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  background: #181825;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  flex-shrink: 0;
+}
+
+#pg-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #cdd6f4;
+  letter-spacing: 0.02em;
+}
+
+#pg-header-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+#pg-run-btn {
+  background: linear-gradient(135deg, #1a73e8, #0d5bd1);
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  padding: 7px 20px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, box-shadow 0.15s;
+  box-shadow: 0 2px 8px rgba(26,115,232,0.4);
+}
+#pg-run-btn:hover { background: linear-gradient(135deg, #0d5bd1, #0a49b5); box-shadow: 0 4px 16px rgba(26,115,232,0.5); }
+#pg-run-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+#pg-close-btn {
+  background: rgba(255,255,255,0.08);
+  color: #cdd6f4;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+#pg-close-btn:hover { background: rgba(255,255,255,0.15); }
+
+/* Body: editor + preview side by side */
+#pg-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+#pg-editor-pane, #pg-preview-pane {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#pg-editor-pane { flex: 1; min-width: 0; }
+#pg-preview-pane { flex: 1.1; min-width: 0; background: #f8f9fa; }
+
+#pg-divider {
+  width: 4px;
+  background: rgba(255,255,255,0.06);
+  cursor: col-resize;
+  flex-shrink: 0;
+}
+#pg-divider:hover { background: rgba(26,115,232,0.5); }
+
+#pg-editor-label, #pg-preview-label {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 6px 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+#pg-editor-label {
+  background: #181825;
+  color: #6c7086;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+#pg-preview-label {
+  background: #e8eaed;
+  color: #5f6368;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+/* Editor textarea */
+#pg-editor {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  background: #1e1e2e;
+  color: #cdd6f4;
+  border: none;
+  outline: none;
+  resize: none;
+  padding: 16px 18px;
+  font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+  font-size: 13.5px;
+  line-height: 1.65;
+  tab-size: 2;
+  -moz-tab-size: 2;
+}
+#pg-editor::placeholder { color: #45475a; }
+#pg-editor:focus { outline: none; }
+
+/* Preview pane */
+#pg-preview {
+  flex: 1;
+  overflow: auto;
+  padding: 20px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+#pg-placeholder {
+  color: #9aa0a6;
+  font-size: 14px;
+  text-align: center;
+  padding: 40px 20px;
+  width: 100%;
+}
+#pg-placeholder kbd {
+  background: #e8eaed;
+  border: 1px solid #dadce0;
+  border-radius: 4px;
+  padding: 2px 7px;
+  font-size: 12px;
+  font-family: inherit;
+}
+
+#pg-svg-wrap {
+  max-width: 100%;
+  overflow: auto;
+}
+#pg-svg-wrap svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 6px;
+}
+
+/* Spinner */
+.pg-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 40px;
+  width: 100%;
+  color: #5f6368;
+  font-size: 14px;
+}
+.pg-spin {
+  width: 36px; height: 36px;
+  border: 3px solid #dadce0;
+  border-top-color: #1a73e8;
+  border-radius: 50%;
+  animation: pg-spin 0.7s linear infinite;
+}
+@keyframes pg-spin { to { transform: rotate(360deg); } }
+
+/* Error */
+.pg-error-msg {
+  background: #fce8e6;
+  border: 1px solid #f28b82;
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-size: 13px;
+  color: #c5221f;
+  width: 100%;
+}
+.pg-error-msg pre {
+  margin-top: 8px;
+  font-size: 12px;
+  white-space: pre-wrap;
+  word-break: break-all;
+  opacity: 0.9;
+}
+
+/* Status bar */
+#pg-status {
+  font-size: 12px;
+  padding: 5px 14px;
+  height: 26px;
+  flex-shrink: 0;
+  border-top: 1px solid rgba(0,0,0,0.07);
+  font-family: var(--font-mono);
+}
+#pg-status.pg-ok { color: #137333; background: #e6f4ea; }
+#pg-status.pg-err { color: #c5221f; background: #fce8e6; }
+#pg-status.pg-loading { color: #e37400; background: #fef7e0; }
+
+/* Mobile: stack vertically */
+@media (max-width: 700px) {
+  #pg-panel {
+    width: 100vw;
+    height: 100vh;
+    top: 0; left: 0;
+    transform: none;
+    border-radius: 0;
+  }
+  #pg-body { flex-direction: column; }
+  #pg-divider { width: 100%; height: 4px; cursor: row-resize; }
+  #pg-editor-pane, #pg-preview-pane { flex: none; height: 50%; }
+}
+

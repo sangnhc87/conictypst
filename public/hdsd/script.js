@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════
-   script.js — StexGV HDSD
+   script.js — HDSD Typst
    ═══════════════════════════════════════════ */
 
 // ── Navigation ──────────────────────────────────
@@ -66,6 +66,8 @@ window.addEventListener('scroll', () => {
 // Initial section from hash
 const initSection = (location.hash.slice(1)) || 'intro';
 showSection(initSection);
+// Expose globally for playground.js to hook in
+window.showSection = showSection;
 
 // ── Tabs ────────────────────────────────────────
 function switchTab(btn, targetId) {
@@ -115,6 +117,8 @@ const searchIndex = [
   { title: '#tl — Tự luận', section: 'tl', keywords: ['tl', 'essay', 'tự luận', 'step', 'bước', 'lời giải'] },
   { title: 'Tiêu đề đề thi', section: 'exam-header', keywords: ['thpt-school-exam', 'tiêu đề', 'department', 'school', 'duration', 'code', 'header'] },
   { title: 'Chế độ hiển thị', section: 'exam-mode', keywords: ['mode', 'dethi', 'loigiai', 'solcolor', 'exam-mode', 'accent', 'setcau', 'resetcau'] },
+  { title: 'ID & ngân hàng câu hỏi', section: 'ids-bank', keywords: ['id', 'tags', 'bank', 'bank.json', 'question-bank', 'questions.typ', 'render-selection', 'question-select'] },
+  { title: 'Tham số Typst thường dùng', section: 'typst-params', keywords: ['typst', 'tham số', 'grid', 'block', 'box', 'table', 'content', 'tuple', 'dictionary', 'metadata'] },
   { title: 'Hộp sư phạm', section: 'pedagogy-boxes', keywords: ['ppgiai', 'luuy', 'meo', 'nhanxet', 'lythuyet', 'note', 'dn', 'dl', 'tc', 'bode', 'hộp'] },
   { title: 'File mẫu đề thi', section: 'exam-boiler', keywords: ['mẫu', 'template', 'boilerplate', 'đề thi mẫu', 'de-thi'] },
   { title: 'Tổng quan sách', section: 'book-overview', keywords: ['sách', 'sgk', 'chuyên đề', 'book', 'stexgv-doc', 'doc-type'] },

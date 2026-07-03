@@ -3,12 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HDSD Hệ Thống Template Typst — GV Nguyễn Văn Sang</title>
-  <meta name="description" content="Hướng dẫn sử dụng đầy đủ hệ thống soạn thảo Typst: đề thi, sách giáo khoa, chuyên đề, vẽ hình BBT và hình học." />
+  <title>HDSD Typst — Sách hướng dẫn đầy đủ</title>
+  <meta name="description" content="Sách hướng dẫn sử dụng đầy đủ hệ thống Typst: đề thi, sách giáo khoa, chuyên đề, ID, ngân hàng câu hỏi, BBT và hình học." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <!-- Import map: cho phép dynamic import() resolve bare specifiers từ jsDelivr CDN -->
+  <script type="importmap">
+  {
+    "imports": {
+      "@myriaddreamin/typst.ts/dist/esm/main.mjs":          "https://cdn.jsdelivr.net/npm/@myriaddreamin/typst.ts@0.7.0-rc2/dist/esm/main.mjs",
+      "@myriaddreamin/typst.ts/dist/esm/options.init.mjs":   "https://cdn.jsdelivr.net/npm/@myriaddreamin/typst.ts@0.7.0-rc2/dist/esm/options.init.mjs",
+      "@myriaddreamin/typst.ts/dist/esm/fs/memory.mjs":      "https://cdn.jsdelivr.net/npm/@myriaddreamin/typst.ts@0.7.0-rc2/dist/esm/fs/memory.mjs",
+      "@myriaddreamin/typst.ts/dist/esm/fs/index.mjs":       "https://cdn.jsdelivr.net/npm/@myriaddreamin/typst.ts@0.7.0-rc2/dist/esm/fs/index.mjs",
+      "@myriaddreamin/typst-ts-web-compiler":                "https://cdn.jsdelivr.net/npm/@myriaddreamin/typst-ts-web-compiler@0.7.0-rc2/pkg/typst_ts_web_compiler.mjs",
+      "@myriaddreamin/typst-ts-renderer":                    "https://cdn.jsdelivr.net/npm/@myriaddreamin/typst-ts-renderer@0.7.0-rc2/pkg/typst_ts_renderer.mjs"
+    }
+  }
+  </script>
 </head>
 <body>
 
@@ -21,8 +34,8 @@
     <div class="logo">
       <span class="logo-icon">𝒯</span>
       <div>
-        <div class="logo-title">StexGV Typst</div>
-        <div class="logo-sub">Hướng dẫn sử dụng</div>
+        <div class="logo-title">HDSD Typst</div>
+        <div class="logo-sub">Sách hướng dẫn</div>
       </div>
     </div>
     <div class="topbar-search">
@@ -54,6 +67,8 @@
     <a href="#tl" class="nav-link" data-section="tl">④ #tl — Tự luận</a>
     <a href="#exam-header" class="nav-link" data-section="exam-header">🏷️ Tiêu đề đề thi</a>
     <a href="#exam-mode" class="nav-link" data-section="exam-mode">🔀 Chế độ hiển thị</a>
+    <a href="#ids-bank" class="nav-link" data-section="ids-bank">🆔 ID & ngân hàng</a>
+    <a href="#typst-params" class="nav-link" data-section="typst-params">⚙️ Tham số Typst</a>
     <a href="#pedagogy-boxes" class="nav-link" data-section="pedagogy-boxes">📦 Hộp sư phạm</a>
     <a href="#exam-boiler" class="nav-link" data-section="exam-boiler">📄 File mẫu đề thi</a>
   </div>
@@ -93,9 +108,9 @@
 <!-- ═══════════════════════════════════════════ -->
 <section id="intro" class="doc-section">
   <div class="hero">
-    <div class="hero-badge">StexGV Typst v6.0</div>
-    <h1 class="hero-title">Hệ Thống Template Typst<br/><span class="accent">Chuẩn Mực Toán Học</span></h1>
-    <p class="hero-desc">Bộ công cụ soạn thảo tài liệu toán học hoàn chỉnh — từ đề thi THPT đến sách giáo khoa, chuyên đề và hình vẽ toán học chuyên nghiệp.</p>
+    <div class="hero-badge">HDSD Typst v6.0</div>
+    <h1 class="hero-title">Sách HDSD Typst<br/><span class="accent">Dùng Được Từ Đề Thi Đến Sách</span></h1>
+    <p class="hero-desc">Bộ hướng dẫn công khai, chi tiết cho hệ thống soạn thảo tài liệu toán học: đề thi THPT, sách giáo khoa, chuyên đề, ID, ngân hàng câu hỏi, BBT và hình vẽ Cetz.</p>
     <div class="hero-pills">
       <span class="pill">📋 Đề thi 4 loại câu</span>
       <span class="pill">📚 SGK / Chuyên đề</span>
@@ -763,6 +778,189 @@ classic.crimson // = rgb("#cc2200")  — đỏ đậm</code></pre>
 </section>
 
 <!-- ═══════════════════════════════════════════ -->
+<!-- SECTION: IDS & BANK -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="ids-bank" class="doc-section hidden">
+  <h1>🆔 ID, Tags & Ngân Hàng Câu Hỏi</h1>
+  <p>Hệ thống dùng ID để quản lý câu hỏi bền vững. ID trong câu hỏi giúp đối soát khi trộn đề; ID trong <code>bank.json</code> là bản đồ phân loại để lọc theo lớp, chương, bài, dạng và mức độ.</p>
+
+  <h2>Quy ước ID khuyến nghị</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">text</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code>0D1N1-1
+│││││ └─ số thứ tự trong cụm
+││││└── bài/dạng
+│││└── mức độ: N=NB, H=TH, V=VD, C=VDC
+││└── chương
+│└── phân môn: D=Đại số/Giải tích, H=Hình học
+└── khối: 0=Lớp 10, 1=Lớp 11, 2=Lớp 12</code></pre>
+  </div>
+
+  <div class="callout callout-tip">
+    <strong>Luồng nhanh:</strong> chạy <code>npm run bank:gen-id</code> để sinh ID mới, <code>npm run bank:stat</code> để thống kê, <code>npm run sync:bank</code> nếu vừa chỉnh <code>bank.json</code> ở root.
+  </div>
+
+  <h2>Gắn ID và tags trực tiếp trong câu</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#tn(
+  [Hàm số $y = x^3 - 3x$ nghịch biến trên khoảng nào?],
+  ([$(-oo;-1)$], True([$(-1;1)$]), [$(1;+oo)$], [$RR$]),
+  id: "2D1H1-7",
+  tags: ("lop12", "dao-ham", "don-dieu", "bbt"),
+  loigiai: [
+    $y' = 3x^2 - 3 = 3(x-1)(x+1)$.
+    Hàm nghịch biến khi $-1 &lt; x &lt; 1$.
+  ],
+)</code></pre>
+  </div>
+
+  <div class="param-table">
+    <div class="param-row"><span class="param-name">id:</span><span class="param-badge optional">tuỳ chọn</span><span class="param-type">string</span><span class="param-desc">Mã câu hỏi ổn định. Engine lưu vào metadata đáp án nội bộ; thường không hiện trên đề học sinh.</span></div>
+    <div class="param-row"><span class="param-name">tags:</span><span class="param-badge optional">tuỳ chọn</span><span class="param-type">tuple</span><span class="param-desc">Nhãn tìm kiếm nhanh như <code>("lop12","bbt","vd")</code>. <code>#tn/#ds/#tln</code> có thể render tags nhỏ cạnh stem.</span></div>
+    <div class="param-row"><span class="param-name">solution:</span><span class="param-badge optional">tuỳ chọn</span><span class="param-type">content</span><span class="param-desc">Alias của <code>loigiai:</code>; dùng được trong engine nếu <code>loigiai</code> để <code>none</code>.</span></div>
+  </div>
+
+  <h2>bank.json chỉ giữ metadata</h2>
+  <p>Không nên nhét đề bài dài, công thức và hình Cetz vào JSON. Hãy để <code>bank.json</code> làm bản đồ mã, còn nội dung câu hỏi thật viết trong <code>typst/questions.typ</code>.</p>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">json</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code>{
+  "0D1N1-1": "Lớp 10 | Đại số | Ch1: Mệnh đề | Bài 1: Mệnh đề | Nhận biết"
+}</code></pre>
+  </div>
+
+  <h2>Khai báo câu hỏi thật trong Typst</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#import "modules/question-bank.typ": (
+  ds-item, question-tn, question-ds, question-tln, question-tl,
+  render-question, render-selection,
+)
+
+#let question-bank = (
+  "0D1N1-1": question-tn(
+    [Phát biểu nào sau đây là một mệnh đề?],
+    ([Bạn học tốt nhé!], [$2$ là số nguyên tố.], [Hôm nay đẹp quá!], [$x+1=3$]),
+    correct: 2,
+    solution: [Chỉ phát biểu "$2$ là số nguyên tố" xác định đúng/sai.],
+    tags: ("lop10", "menh-de"),
+    difficulty: "NB",
+    status: "ready",
+    source: "questions.typ",
+  ),
+)</code></pre>
+  </div>
+
+  <h2>API quản lý bank</h2>
+  <table class="doc-table">
+    <thead><tr><th>Lệnh</th><th>Ý nghĩa</th></tr></thead>
+    <tbody>
+      <tr><td><code>#load-bank()</code></td><td>Đọc metadata từ <code>typst/bank.json</code>.</td></tr>
+      <tr><td><code>#bank-filter(...)</code></td><td>Lọc metadata theo lớp, phân môn, chương, bài, dạng, query hoặc danh sách ID.</td></tr>
+      <tr><td><code>#bank-count(entries, by: "chapter")</code></td><td>Đếm số mã theo chương, bài, dạng, phân môn.</td></tr>
+      <tr><td><code>#question-filter(...)</code></td><td>Lọc câu hỏi thật theo type, difficulty, status, source, tags, ids.</td></tr>
+      <tr><td><code>#question-select(...)</code></td><td>Nối metadata trong bank với câu hỏi thật trong registry.</td></tr>
+      <tr><td><code>#render-selection(..., show-id: true)</code></td><td>Render danh sách câu; bật ID khi biên tập nội bộ.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Dựng câu theo bộ lọc</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#import "template.typ": *
+#import "questions.typ": question-bank
+
+#let bank = load-bank()
+#let selected = question-select(
+  bank,
+  question-bank,
+  chapter: "Mệnh đề",
+  status: "ready",
+)
+
+#render-selection(selected, mode: "loigiai", show-id: true)</code></pre>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION: TYPST PARAMS -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="typst-params" class="doc-section hidden">
+  <h1>⚙️ Tham Số Typst Thường Dùng</h1>
+  <p>Đây là bảng đọc nhanh các lệnh Typst xuất hiện dày trong hệ thống. Hiểu nhóm này là đọc được phần lớn template.</p>
+
+  <h2>Tham số nâng cao của câu hỏi</h2>
+  <table class="doc-table">
+    <thead><tr><th>Tham số</th><th>Macro</th><th>Ý nghĩa</th></tr></thead>
+    <tbody>
+      <tr><td><code>row-gutter:</code></td><td><code>#tn</code></td><td>Khoảng cách giữa các hàng phương án, hữu ích khi phương án có phân số/căn/log.</td></tr>
+      <tr><td><code>opt-fig:</code></td><td><code>#tn</code></td><td>Đặt <code>true</code> khi phương án là hình vẽ để render dạng card.</td></tr>
+      <tr><td><code>opt-fig-cols:</code></td><td><code>#tn</code></td><td>Số cột khi phương án là hình; thường dùng <code>2</code>.</td></tr>
+      <tr><td><code>box-count:</code></td><td><code>#tln</code></td><td>Số ô đáp số trong chế độ đề thi.</td></tr>
+      <tr><td><code>show-boxes:</code></td><td><code>#tln</code></td><td>Tắt/bật cụm ô đáp số.</td></tr>
+      <tr><td><code>boxed:</code></td><td>Tất cả</td><td>Đóng khung toàn câu, kèm <code>box-fill</code>, <code>box-stroke</code>, <code>box-inset</code>, <code>box-radius</code>.</td></tr>
+      <tr><td><code>num:</code></td><td>Tất cả</td><td>Ép số câu thủ công; mặc định <code>auto</code>.</td></tr>
+      <tr><td><code>prefix:</code></td><td>Tất cả</td><td>Đổi nhãn câu, ví dụ <code>"Bài"</code> hoặc <code>"Question"</code>.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Layout cốt lõi</h2>
+  <table class="doc-table">
+    <thead><tr><th>Lệnh</th><th>Cách hiểu nhanh</th></tr></thead>
+    <tbody>
+      <tr><td><code>#set page(...)</code></td><td>Khổ giấy, lề, header/footer, watermark/nền trang.</td></tr>
+      <tr><td><code>#set text(...)</code></td><td>Font, cỡ chữ, ngôn ngữ, màu, độ đậm.</td></tr>
+      <tr><td><code>#set par(...)</code></td><td>Căn đều đoạn văn và khoảng cách dòng.</td></tr>
+      <tr><td><code>block(...)[...]</code></td><td>Khối lớn có nền, viền, padding, bo góc, khoảng cách trên/dưới.</td></tr>
+      <tr><td><code>box(...)[...]</code></td><td>Hộp nhỏ/inline, hay dùng cho badge, ô đáp án, nhãn.</td></tr>
+      <tr><td><code>grid(columns: (...), ...)</code></td><td>Bố cục nhiều cột. Ví dụ <code>(1fr, 35%)</code> là text co giãn + hình 35%.</td></tr>
+      <tr><td><code>table(columns: (...), ...)</code></td><td>Bảng dữ liệu; có thể tô header hoặc zebra row bằng hàm <code>fill</code>.</td></tr>
+      <tr><td><code>align(center)[...]</code></td><td>Căn nội dung trái/phải/giữa/trên/dưới.</td></tr>
+      <tr><td><code>pad(x:, y:)[...]</code></td><td>Thêm khoảng đệm quanh nội dung.</td></tr>
+      <tr><td><code>v(...)</code> / <code>h(...)</code></td><td>Khoảng trắng dọc/ngang.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Kiểu dữ liệu hay gặp</h2>
+  <table class="doc-table">
+    <thead><tr><th>Kiểu</th><th>Ví dụ</th></tr></thead>
+    <tbody>
+      <tr><td><code>content</code></td><td><code>[Nội dung]</code>, <code>[$x^2$]</code>, dùng cho stem/lời giải.</td></tr>
+      <tr><td><code>string</code></td><td><code>"dethi"</code>, <code>"right"</code>, <code>"0D1N1-1"</code>.</td></tr>
+      <tr><td><code>tuple</code></td><td><code>([$A$], True([$B$]), [$C$], [$D$])</code>; tuple 1 phần tử cần dấu phẩy như <code>("AC",)</code>.</td></tr>
+      <tr><td><code>dictionary</code></td><td><code>(body: [text], correct: true)</code>; <code>True([...])</code> là dictionary.</td></tr>
+      <tr><td><code>color</code></td><td><code>rgb("#0057b8")</code>, <code>classic.blue</code>, <code>red</code>.</td></tr>
+      <tr><td><code>length</code></td><td><code>12pt</code>, <code>0.8em</code>, <code>1cm</code>.</td></tr>
+      <tr><td><code>relative</code></td><td><code>35%</code>, <code>100%</code>.</td></tr>
+      <tr><td><code>auto</code></td><td>Để hệ thống tự tính: <code>num: auto</code>, <code>structure: auto</code>, <code>h1: auto</code>.</td></tr>
+      <tr><td><code>none</code></td><td>Không có giá trị: tắt hình, lời giải, watermark, subtitle.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Hình dài: dùng grid trong stem</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#tln(
+  [
+    Đoạn mở đầu full-width.
+
+    #grid(
+      columns: (1fr, 38%),
+      column-gutter: 14pt,
+      align: (left + top, center + top),
+      [Đoạn văn song song với hình.],
+      cetz.canvas(length: 1cm, { /* hình */ }),
+    )
+
+    Đoạn kết vẫn full-width.
+  ],
+  [$42$],
+)</code></pre>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
 <!-- SECTION: PEDAGOGY BOXES -->
 <!-- ═══════════════════════════════════════════ -->
 <section id="pedagogy-boxes" class="doc-section hidden">
@@ -1282,9 +1480,9 @@ classic.crimson // = rgb("#cc2200")  — đỏ đậm</code></pre>
   <table class="doc-table">
     <thead><tr><th>Hàm</th><th>File</th><th>Mô tả</th></tr></thead>
     <tbody>
-      <tr><td><code>bbtv2(...)</code></td><td>bbt.typ</td><td>BBT tiêu chuẩn (khuyên dùng), tự điều chỉnh chiều cao</td></tr>
-      <tr><td><code>bbbt(...)</code></td><td>bbt.typ</td><td>BBT đầy đủ với hỗ trợ ranks thủ công</td></tr>
-      <tr><td><code>bxd(...)</code></td><td>bbt.typ</td><td>Bảng xét dấu nhiều hàm</td></tr>
+      <tr><td><code>bbtv2(...)</code></td><td>bbt.typ</td><td>BBT tiêu chuẩn, tự điều chỉnh chiều cao, hỗ trợ <code>shade</code> vùng gạch chéo</td></tr>
+      <tr><td><code>bbbt(...)</code></td><td>bbt.typ</td><td>BBT đầy đủ, có <code>ranks</code> thủ công để chỉnh cao độ nhãn và mũi tên</td></tr>
+      <tr><td><code>bxd(...)</code></td><td>bbt.typ</td><td>Bảng xét dấu một hoặc nhiều dòng</td></tr>
       <tr><td><code>bang-gia-tri(...)</code></td><td>bbt.typ</td><td>Bảng giá trị hàm số</td></tr>
       <tr><td><code>tri-xyz(...)</code></td><td>geometry.typ</td><td>Tam giác từ 3 điểm toạ độ</td></tr>
       <tr><td><code>tri-abc(...)</code></td><td>geometry.typ</td><td>Tam giác thường (đáy ngang)</td></tr>
@@ -1325,11 +1523,28 @@ classic.crimson // = rgb("#cc2200")  — đỏ đậm</code></pre>
 )</code></pre>
   </div>
 
-  <h2>Quy tắc d-signs</h2>
+  <h2>Quy tắc d-signs / f-signs</h2>
   <div class="callout callout-tip">
-    <strong>Quy tắc:</strong> Với n điểm x-vals, mảng d-signs có <strong>2n−1</strong> phần tử: xen kẽ <em>dấu khoảng</em> và <em>dấu tại điểm</em>.
-    <br/>VD: 4 điểm x → d-signs có 7 phần tử: <code>[khoảng₁, tại₂, khoảng₂, tại₃, khoảng₃, ...]</code>
+    <strong>Quy tắc thực tế:</strong> Với <code>n</code> mốc <code>x-vals</code>, mảng dấu thường có <strong>2n−3</strong> phần tử: xen kẽ <em>dấu khoảng</em> và <em>dấu tại các mốc giữa</em>.
+    <br/>VD: 4 mốc x → 5 dấu: <code>(khoảng₁, tại₂, khoảng₂, tại₃, khoảng₃)</code>.
   </div>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">x-vals:  ($-oo$, $-1$, $2$, $+oo$)
+d-signs: ($+$,   $0$,  $-$, $0$,  $+$)
+//          khoảng1 tại-1 khoảng2 tại2 khoảng3</code></pre>
+  </div>
+
+  <table class="doc-table">
+    <thead><tr><th>Giá trị dấu</th><th>Ý nghĩa</th></tr></thead>
+    <tbody>
+      <tr><td><code>$+$</code> hoặc <code>"+"</code></td><td>Dấu dương.</td></tr>
+      <tr><td><code>$-$</code> hoặc <code>"-"</code></td><td>Dấu âm.</td></tr>
+      <tr><td><code>$0$</code> hoặc <code>"0"</code></td><td>Điểm bằng 0.</td></tr>
+      <tr><td><code>"||"</code></td><td>Vạch đôi, tiệm cận hoặc điểm không xác định.</td></tr>
+      <tr><td><code>none</code>, <code>""</code>, <code>[]</code></td><td>Ô trống.</td></tr>
+    </tbody>
+  </table>
 
   <h2>Ví dụ 1 — Hàm bậc ba đơn giản</h2>
   <div class="code-block-wrap">
@@ -1356,6 +1571,16 @@ classic.crimson // = rgb("#cc2200")  — đỏ đậm</code></pre>
 )</code></pre>
   </div>
 
+  <h2>Tham số đầy đủ</h2>
+  <div class="param-table">
+    <div class="param-row"><span class="param-name">x-vals:</span><span class="param-badge required">bắt buộc</span><span class="param-type">tuple</span><span class="param-desc">Các mốc trên hàng <code>x</code>, gồm vô cực, điểm cực trị hoặc điểm không xác định.</span></div>
+    <div class="param-row"><span class="param-name">d-signs:</span><span class="param-badge required">bắt buộc</span><span class="param-type">tuple</span><span class="param-desc">Dấu đạo hàm xen kẽ theo khoảng và mốc giữa. Dùng <code>"||"</code> cho tiệm cận/không xác định.</span></div>
+    <div class="param-row"><span class="param-name">v-vals:</span><span class="param-badge required">bắt buộc</span><span class="param-type">tuple</span><span class="param-desc">Giá trị hàm tại các mốc. Tại tiệm cận dùng tuple con như <code>($+oo$, $-oo$)</code>.</span></div>
+    <div class="param-row"><span class="param-name">shade:</span><span class="param-badge optional">tuỳ chọn</span><span class="param-type">tuple</span><span class="param-desc">Vùng gạch chéo, ví dụ <code>((1, 2),)</code>. Đồng thời ngắt mũi tên qua vùng này.</span></div>
+    <div class="param-row"><span class="param-name">w1/w2:</span><span class="param-badge optional">tuỳ chọn</span><span class="param-type">number</span><span class="param-desc">Độ rộng cột trái và vùng nội dung. Tăng <code>w2</code> khi nhiều mốc hoặc nhãn dài.</span></div>
+    <div class="param-row"><span class="param-name">h1/h2/h3:</span><span class="param-badge optional">tuỳ chọn</span><span class="param-type">number | auto</span><span class="param-desc">Chiều cao các hàng. <code>h1</code>, <code>h3</code> có thể để <code>auto</code> để tự tăng khi có phân số/cases.</span></div>
+  </div>
+
   <h2>Ví dụ 3 — Hàm có 1 cực trị trên đoạn (bbt-opt)</h2>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
@@ -1376,6 +1601,10 @@ classic.crimson // = rgb("#cc2200")  — đỏ đậm</code></pre>
   <h1>#bbbt — Bảng Biến Thiên Đầy Đủ</h1>
   <p><code>bbbt</code> là phiên bản đầy đủ hơn, cho phép truyền ranks thủ công để can thiệp vị trí mũi tên.</p>
 
+  <div class="callout callout-tip">
+    <strong>Khi nào dùng ranks?</strong> Khi nhãn giá trị quá sát nhau, mũi tên đè lên nhãn, hoặc bảng có tiệm cận làm cao độ tự động chưa đẹp.
+  </div>
+
   <h2>Ví dụ — Hàm có 2 cực trị, ranks thủ công</h2>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
@@ -1390,6 +1619,17 @@ classic.crimson // = rgb("#cc2200")  — đỏ đậm</code></pre>
   ranks: ((0,), (2,), (0,), (2,)),
   w2: 12,   // độ rộng cột nội dung
 )</code></pre>
+  </div>
+
+  <h2>Cách hiểu ranks</h2>
+  <p>Mỗi mốc <code>x</code> nhận một rank tương đối. Rank càng lớn thì nhãn càng cao. Với 4 mốc, truyền 4 tuple rank; tại tiệm cận có thể dùng hai rank cho hai phía.</p>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">// 4 mốc x nên có 4 phần tử ranks
+ranks: ((0,), (2,), (0,), (2,))
+
+// Mốc giữa là tiệm cận, có hai phía trái/phải
+ranks: ((0,), (2, -2), (0,))</code></pre>
   </div>
 </section>
 
@@ -1426,6 +1666,18 @@ classic.crimson // = rgb("#cc2200")  — đỏ đậm</code></pre>
   ),
 )</code></pre>
   </div>
+
+  <h2>Lỗi BBT / BXD thường gặp</h2>
+  <table class="doc-table">
+    <thead><tr><th>Triệu chứng</th><th>Cách sửa</th></tr></thead>
+    <tbody>
+      <tr><td>Lỗi index hoặc bảng không render</td><td>Kiểm tra số mốc <code>x-vals</code> và số phần tử <code>d-signs/f-signs</code>.</td></tr>
+      <tr><td>Nhãn đè mũi tên</td><td>Tăng <code>w2</code>, tăng <code>h3</code>, hoặc dùng <code>#bbbt(ranks: ...)</code>.</td></tr>
+      <tr><td>Phân số làm hàng quá thấp</td><td>Để <code>h1: auto</code>, <code>h3: auto</code>; nếu vẫn chật, đặt thủ công <code>h3: 3.2</code>.</td></tr>
+      <tr><td>Tiệm cận không có vạch đôi</td><td>Dùng <code>"||"</code> đúng vị trí dấu tại mốc và dùng <code>v-vals</code> dạng hai phía.</td></tr>
+      <tr><td>Vùng không xác định vẫn có mũi tên</td><td>Thêm <code>shade: ((i, j),)</code> để tô vùng và ngắt mũi tên.</td></tr>
+    </tbody>
+  </table>
 </section>
 
 <!-- ═══════════════════════════════════════════ -->
@@ -1665,5 +1917,7 @@ typst watch --root typst typst/exams/de-mau.typ de-mau.pdf</code></pre>
 <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 <script src="script.js"></script>
+<!-- Live Playground — load as ES module, cần type=module cho dynamic import() -->
+<script type="module" src="playground.js"></script>
 </body>
 </html>

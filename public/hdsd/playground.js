@@ -121,12 +121,14 @@ async function compileTySvg(code) {
 
   // Detect context để import đúng
   const hasBbt = /#bbtv2\(|#bbbt\(|#bxd\(|#bbt-opt\(/.test(code);
-  const hasCetz = /cetz/.test(code);
-  const hasSang = /#tn\(|#ds\(|#tln\(|#tl\(/.test(code);
+  const hasCetzDirect = /cetz\.canvas|#canvas\(/.test(code);
+  const hasSang = /#tn\(|#ds\(|#tln\(|#tl\(|#q-wrap\(/.test(code);
 
   let imports = '';
-  if (hasCetz || hasBbt) {
+  // Import cetz chỉ khi code dùng trực tiếp VÀ không qua bbt.typ (bbt.typ tự import cetz rồi)
+  if (hasCetzDirect && !hasBbt) {
     imports += `#import "@preview/cetz:0.5.2": *\n`;
+    imports += `#import "@preview/cetz-plot:0.1.1": *\n`;
   }
   if (SYSTEM_FILES['/math-sym.typ']) imports += `#import "/math-sym.typ": *\n`;
   if (hasBbt && SYSTEM_FILES['/bbt.typ']) imports += `#import "/bbt.typ": *\n`;

@@ -1324,6 +1324,20 @@
   out
 }
 
+#let _chunk(arr, n) = {
+  let out = ()
+  let cur = ()
+  for x in arr {
+    cur.push(x)
+    if cur.len() == n {
+      out.push(cur)
+      cur = ()
+    }
+  }
+  if cur.len() > 0 { out.push(cur) }
+  out
+}
+
 #let print-answer-key() = context {
   let mcq-ans = _mcq-meta.get()
   let tf-ans = _tf-meta.get()
@@ -1333,47 +1347,67 @@
 
   // ── Bảng 1: Trắc nghiệm ──────────────────────────────
   if mcq-ans.len() > 0 {
-    v(0.8em)
-    align(center)[
-      #text(weight: "bold", size: 12pt, fill: palette.accent)[BẢNG ĐÁP ÁN — TRẮC NGHIỆM]
-    ]
-    v(0.3em)
+    align(center, block(fill: palette.accent, inset: (x: 16pt, y: 5pt), radius: 3pt, text(
+      fill: white,
+      weight: "bold",
+      size: 12pt,
+    )[BẢNG ĐÁP ÁN — TRẮC NGHIỆM]))
+    v(0.4em)
     align(center, table(
-      columns: (1fr,) * 5,
-      stroke: 0.5pt + rgb("#cbd5e1"),
+      columns: (auto,) + (1fr,) * 10,
+      stroke: 0.5pt + palette.border,
       align: center + horizon,
-      inset: (x: 8pt, y: 6pt),
-      ..mcq-ans.map(it => [
-        #text(weight: "bold", fill: rgb("#475569"))[#it.num.]
-        #h(0.3em)
-        #text(weight: "bold", fill: palette.accent)[#it.ans]
-      ])
+      .._chunk(mcq-ans, 10)
+        .map(grp => {
+          let pn = 10 - grp.len()
+          let r1 = (
+            (
+              table.cell(fill: palette.accent, pad(x: 6pt, y: 4pt)[#text(fill: white, weight: "bold", size: 9pt)[Câu]]),
+            )
+              + grp.map(it => table.cell(fill: rgb("#e8f0fc"), pad(y: 4pt)[#text(weight: "bold")[Câu #it.num]]))
+              + range(pn).map(_ => table.cell(fill: rgb("#e8f0fc"))[])
+          )
+          let r2 = (
+            (
+              table.cell(fill: palette.accent, pad(x: 6pt, y: 4pt)[#text(
+                fill: white,
+                weight: "bold",
+                size: 9pt,
+              )[Đáp án]]),
+            )
+              + grp.map(it => pad(y: 4pt)[#text(weight: "bold", fill: palette.accent)[#it.ans]])
+              + range(pn).map(_ => [])
+          )
+          (..r1, ..r2)
+        })
+        .flatten()
     ))
     v(1em)
   }
 
   // ── Bảng 2: Đúng/Sai ─────────────────────────────────
   if tf-ans.len() > 0 {
-    v(0.8em)
-    align(center)[
-      #text(weight: "bold", size: 12pt, fill: palette.accent)[BẢNG ĐÁP ÁN — ĐÚNG/SAI]
-    ]
-    v(0.3em)
+    align(center, block(fill: palette.accent, inset: (x: 16pt, y: 5pt), radius: 3pt, text(
+      fill: white,
+      weight: "bold",
+      size: 12pt,
+    )[BẢNG ĐÁP ÁN — ĐÚNG/SAI]))
+    v(0.4em)
     align(center, table(
-      columns: (1.5fr, 1fr, 1fr, 1fr, 1fr),
-      stroke: 0.5pt + rgb("#cbd5e1"),
+      columns: (auto, 1fr, 1fr, 1fr, 1fr),
+      stroke: 0.5pt + palette.border,
       align: center + horizon,
-      inset: (x: 8pt, y: 6pt),
-      table.cell(fill: rgb("#f1f5f9"), pad(y: 4pt)[#text(weight: "bold", fill: rgb("#334155"))[Câu]]),
+      table.cell(fill: palette.accent, pad(x: 8pt, y: 5pt)[#text(fill: white, weight: "bold")[Câu]]),
       ..(
         ("a", "b", "c", "d").map(l => {
-          table.cell(fill: rgb("#f1f5f9"), pad(y: 4pt)[#text(weight: "bold", fill: rgb("#334155"))[#l)]])
+          let lbl = l + ")"
+          table.cell(fill: palette.accent, pad(y: 5pt)[#text(fill: white, weight: "bold")[#lbl]])
         })
       ),
       ..tf-ans
         .map(item => {
           let cells = (
-            table.cell(fill: rgb("#f8fafc"), pad(y: 4pt)[#text(weight: "bold", fill: rgb("#475569"))[Câu #item.num]]),
+            table.cell(fill: rgb("#e8f0fc"), pad(y: 4pt)[#text(weight: "bold")[#item.num]]),
           )
           for vv in item.ans {
             let col = if vv == "Đ" { palette.correct } else { palette.wrong }
@@ -1388,21 +1422,20 @@
 
   // ── Bảng 3: Điền số ───────────────────────────────────
   if sh-ans.len() > 0 {
-    v(0.8em)
-    align(center)[
-      #text(weight: "bold", size: 12pt, fill: palette.accent)[BẢNG ĐÁP ÁN — ĐIỀN SỐ]
-    ]
-    v(0.3em)
+    align(center, block(fill: palette.accent, inset: (x: 16pt, y: 5pt), radius: 3pt, text(
+      fill: white,
+      weight: "bold",
+      size: 12pt,
+    )[BẢNG ĐÁP ÁN — ĐIỀN SỐ]))
+    v(0.4em)
     align(center, table(
-      columns: (1fr,) * 5,
-      stroke: 0.5pt + rgb("#cbd5e1"),
+      columns: (auto,) + range(sh-ans.len()).map(_ => 1fr),
+      stroke: 0.5pt + palette.border,
       align: center + horizon,
-      inset: (x: 8pt, y: 6pt),
-      ..sh-ans.map(it => [
-        #text(weight: "bold", fill: rgb("#475569"))[#it.num.]
-        #h(0.3em)
-        #text(weight: "bold", fill: palette.accent)[#it.ans]
-      ])
+      table.cell(fill: palette.accent, pad(x: 8pt, y: 5pt)[#text(fill: white, weight: "bold", size: 9pt)[Câu]]),
+      ..sh-ans.map(it => table.cell(fill: rgb("#e8f0fc"), pad(y: 5pt)[#text(weight: "bold")[Câu #it.num]])),
+      table.cell(fill: palette.accent, pad(x: 8pt, y: 5pt)[#text(fill: white, weight: "bold", size: 9pt)[Đáp án]]),
+      ..sh-ans.map(it => pad(y: 5pt)[#text(weight: "bold", fill: palette.accent)[#it.ans]]),
     ))
   }
 }

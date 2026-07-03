@@ -321,7 +321,7 @@
         $=>$ Nữ, Già, Độc thân = $6800 - 5600 = 1200$.
 
     *Bước 2: Vẽ sơ đồ cây tổng quát*
-    #import "@preview/cetz:0.3.2"
+    #import "@preview/cetz:0.5.2"
     #align(center)[
       #cetz.canvas(length: 1cm, {
         import cetz.draw: *

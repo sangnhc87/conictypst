@@ -159,7 +159,7 @@
         $ P("Chuyển khác màu" | "Rút được bi Trắng") = ("Xác suất nhánh: Khác màu  VÀ  Rút Trắng") / ("Tổng các nhánh Rút được bi Trắng") $
     ]
     
-    #import "@preview/cetz:0.3.2"
+    #import "@preview/cetz:0.5.2"
     #align(center)[
       #cetz.canvas(length: 1cm, {
         import cetz.draw: *
@@ -252,7 +252,7 @@
         $ P(D_1 | D_2) = ("Xác suất nhánh " D_1 "và " D_2) / ("Tổng xác suất nhánh " D_2) $
     ]
     
-    #import "@preview/cetz:0.3.2"
+    #import "@preview/cetz:0.5.2"
     #align(center)[
       #cetz.canvas(length: 1.1cm, {
         import cetz.draw: *
@@ -380,7 +380,7 @@
         $=>$ Nữ, Già, Độc thân = $6800 - 5600 = 1200$.
 
     *Bước 2: Vẽ sơ đồ cây tổng quát*
-    #import "@preview/cetz:0.3.2"
+    #import "@preview/cetz:0.5.2"
     #align(center)[
       #cetz.canvas(length: 1cm, {
         import cetz.draw: *

@@ -7,3 +7,7 @@
 #import "sang-exam.typ": *   // Trắc nghiệm, Tự luận, q-wrap...
 #import "math-sym.typ": *    // Ký hiệu toán tắt (vô cùng, tập hợp...)
 #import "geometry.typ": *    // Hình học phẳng/không gian CeTZ
+
+// ── Additional modules ───────────────────────────────────────────
+#import "sang-book.typ" as book     // Chuyên đề, Sách (smartbox, theorem...)
+#import "sang-beamer.typ" as beamer // Beamer presentation (slide, make-questions)

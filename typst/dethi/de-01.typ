@@ -4,7 +4,7 @@
 // ═══════════════════════════════════════════════════════════
 // CẤU HÌNH ĐỀ THI — Chỉ thay đổi ở đây
 // ═══════════════════════════════════════════════════════════
-#let mode = "dethi"   // dethi | loigiai | solcolor
+#let mode = "loigiai"   // dethi | loigiai | solcolor
 #let accent = classic.blue // classic.blue | classic.emerald | classic.crimson
 
 // Tuỳ chọn đổi màu công thức toán học
@@ -496,7 +496,7 @@ cetz.canvas(length: .7cm,{
         - $M$: "Hệ thống mở cửa cho người đó" (nhận diện là nhân viên).
       - Theo đề bài, ta có sơ đồ cây xác suất:
     ]
-    #import "@preview/cetz:0.3.2"
+    #import "@preview/cetz:0.5.2"
 
 #let tree = cetz.canvas(length: 1cm, {
   import cetz.draw: *

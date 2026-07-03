@@ -735,7 +735,7 @@ cetz.canvas(length: .7cm,{
         - $M$: "Hệ thống mở cửa cho người đó" (nhận diện là nhân viên).
       - Theo đề bài, ta có sơ đồ cây xác suất:
     ]
-    #import "@preview/cetz:0.3.2"
+    #import "@preview/cetz:0.5.2"
 
 #let tree = cetz.canvas(length: 1cm, {
   import cetz.draw: *

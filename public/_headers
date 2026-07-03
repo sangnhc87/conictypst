@@ -2,3 +2,7 @@
   Cross-Origin-Opener-Policy: same-origin
   Cross-Origin-Embedder-Policy: require-corp
   Cross-Origin-Resource-Policy: cross-origin
+
+/hdsd/typst/*
+  Access-Control-Allow-Origin: *
+  Content-Type: text/plain; charset=utf-8

@@ -29,6 +29,6 @@ A comprehensive Typst package for typesetting Vietnamese High School Mathematics
 Nếu bạn thấy thư viện này hữu ích cho công việc giảng dạy và soạn thảo tài liệu Toán học, bạn có thể ủng hộ tác giả qua:
 
 - **Ngân hàng VPBank:** Số tài khoản `10389821115` - Chủ tài khoản: NGUYEN VAN SANG
-<img src="https://img.vietqr.io/image/vpbank-10389821115-compact.jpg" width="300">
+<img src="https://img.vietqr.io/image/vpbank-10389821115-compact.jpg" width="300" alt="VPBank QR Code">
 
 *(Để hiển thị thêm mã QR của Momo, bạn có thể tải ảnh Momo lên mạng (ví dụ tải lên chính Github hoặc Facebook) rồi chèn link ảnh vào đây nhé!)*

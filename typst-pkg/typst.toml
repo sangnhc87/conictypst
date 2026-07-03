@@ -8,6 +8,3 @@ description = "Bộ macro Toán THPT – BBT, Bảng xét dấu, Trắc nghiệm
 keywords = ["math", "exam", "vietnam", "thpt", "bbt"]
 homepage = "https://hdsd-conictypst.pages.dev"
 repository = "https://github.com/sangnhc87/conictypst"
-
-[dependencies]
-cetz = { version = ">=0.5.2", registry = "https://packages.typst.org" }

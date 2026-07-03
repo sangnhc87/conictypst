@@ -84,12 +84,14 @@
   <div class="sidebar-section">
     <div class="sidebar-label">Module 3 — Vẽ hình</div>
     <a href="#bbt-overview" class="nav-link" data-section="bbt-overview">📈 Bảng biến thiên</a>
-    <a href="#bbtv2" class="nav-link" data-section="bbtv2">#bbtv2 — Tiêu chuẩn</a>
+    <a href="#bbtv2" class="nav-link" data-section="bbtv2">#bbtv2 — Live BBT</a>
     <a href="#bbbt" class="nav-link" data-section="bbbt">#bbbt — Đầy đủ</a>
     <a href="#bxd" class="nav-link" data-section="bxd">#bxd — Xét dấu</a>
+    <a href="#cetz-basics" class="nav-link" data-section="cetz-basics">✏️ Cetz cơ bản</a>
     <a href="#geo-2d" class="nav-link" data-section="geo-2d">📐 Hình phẳng</a>
     <a href="#geo-3d" class="nav-link" data-section="geo-3d">🗜️ Hình không gian</a>
     <a href="#graphs" class="nav-link" data-section="graphs">📊 Đồ thị hàm số</a>
+    <a href="#figure-gallery" class="nav-link" data-section="figure-gallery">🧩 Kho hình mẫu</a>
   </div>
   <div class="sidebar-section">
     <div class="sidebar-label">Tải về</div>
@@ -157,6 +159,10 @@
     <div class="req-item"><span class="req-icon">✅</span><div><strong>Typst ≥ 0.12</strong><div class="req-note">Tải tại typst.app hoặc <code>winget install Typst.Typst</code></div></div></div>
     <div class="req-item"><span class="req-icon">✅</span><div><strong>Cetz ≥ 0.5.2</strong><div class="req-note">Tự động tải khi biên dịch qua <code>@preview/cetz:0.5.2</code></div></div></div>
     <div class="req-item"><span class="req-icon">✅</span><div><strong>Font New Computer Modern</strong><div class="req-note">Có sẵn trong Typst. Hoặc dùng Latin Modern / Times New Roman.</div></div></div>
+  </div>
+
+  <div class="callout callout-tip">
+    <strong>Web HDSD chạy được trên máy chưa cài Typst.</strong> Các nút <code>▶ Chạy</code> dùng Typst compiler dạng WASM chạy ngay trong trình duyệt, vì vậy người dùng chỉ cần Chrome / Edge / Safari / Firefox hiện đại và mạng internet để tải compiler, Cetz, font/package lần đầu. Chỉ khi muốn biên dịch file PDF trên máy cá nhân bằng terminal thì mới cần cài Typst CLI.
   </div>
 
   <h2>Lệnh biên dịch chuẩn</h2>
@@ -257,7 +263,7 @@ typst compile --root typst typst/bo-de.typ output/bo-de.pdf</code></pre>
 #tn(
   [Đạo hàm của $f(x) = x^3 - 3x + 1$ tại $x = 2$ là],
   ([$3$], [$6$], True([$9$]), [$-3$]),
-  loigiai: [$f'(x) = 3x^2 - 3 \Rightarrow f'(2) = 9$],
+  loigiai: [$f'(x) = 3x^2 - 3 => f'(2) = 9$],
 )
 
 // ⑦ Phần II — Đúng-Sai
@@ -466,7 +472,7 @@ typst compile --root typst typst/bo-de.typ output/bo-de.pdf</code></pre>
   [Đạo hàm của hàm số $f(x) = x^3 - 3x + 1$ tại $x = 2$ bằng],
   ([$3$], [$6$], True([$9$]), [$-3$]),
   loigiai: [
-    $f'(x) = 3x^2 - 3 \Rightarrow f'(2) = 12 - 3 = 9$.
+    $f'(x) = 3x^2 - 3 => f'(2) = 12 - 3 = 9$.
   ],
 )</code></pre>
   </div>
@@ -563,7 +569,7 @@ typst compile --root typst typst/bo-de.typ output/bo-de.pdf</code></pre>
     True([Phương trình $f(x) = 3$ có nghiệm trên $[-1; 3]$]),
   ),
   loigiai: [
-    - *Ý a) Đúng.* $f'(x)=2x-2=0 \Rightarrow x=1$, $f''(1)=2>0$ → cực tiểu.
+    - *Ý a) Đúng.* $f'(x)=2x-2=0 => x=1$, $f''(1)=2>0$ → cực tiểu.
     - *Ý b) Đúng.* $f(1) = 1 - 2 + 3 = 2$.
     - *Ý c) Sai.* Hàm đồng biến trên $(1;3)$ vì $f'(x)>0$.
     - *Ý d) Đúng.* $f(0) = 3$ là nghiệm.
@@ -609,7 +615,7 @@ typst compile --root typst typst/bo-de.typ output/bo-de.pdf</code></pre>
     <pre><code class="lang-typst">#tln(
   [Giải phương trình $2x - 5 = 7$, tìm $x$.],
   [$6$],
-  loigiai: [$2x = 12 \Rightarrow x = 6$.],
+  loigiai: [$2x = 12 => x = 6$.],
 )</code></pre>
   </div>
 
@@ -617,7 +623,7 @@ typst compile --root typst typst/bo-de.typ output/bo-de.pdf</code></pre>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
     <pre><code class="lang-typst">#tln(
-  [Tính diện tích tam giác $OAB$ với $A(3;0)$, $B(0;4)$.],
+  [Tính diện tích tam giác OAB với $A(3;0)$, $B(0;4)$.],
   [$6$],
   fig: cetz.canvas(length: 0.8cm, {
     import cetz.draw: *
@@ -628,7 +634,7 @@ typst compile --root typst typst/bo-de.typ output/bo-de.pdf</code></pre>
   }),
   fig-pos: "center",   // hình dưới đề bài, căn giữa
   lines: 2,            // 2 dòng kẻ để tính
-  loigiai: [$S = \frac{1}{2} \cdot 3 \cdot 4 = 6$],
+  loigiai: [$S = frac(1, 2) dot 3 dot 4 = 6$],
 )</code></pre>
   </div>
 </section>
@@ -667,7 +673,7 @@ typst compile --root typst typst/bo-de.typ output/bo-de.pdf</code></pre>
   lines: 8,
   loigiai: [
     #ppgiai[Dùng đạo hàm và BBT để trả lời cả hai phần.]
-    #step[$f'(x) = 3x^2 - 6x = 3x(x-2)$. Cho $f'(x)=0 \Rightarrow x=0$ hoặc $x=2$.]
+    #step[$f'(x) = 3x^2 - 6x = 3x(x-2)$. Cho $f'(x)=0 => x=0$ hoặc $x=2$.]
     #step[Cực đại: $f(0) = 4$. Cực tiểu: $f(2) = 0$.]
     #step[Phương trình $f(x)=m$ có 3 nghiệm phân biệt khi $0 < m < 4$.]
     #reset-step()
@@ -1112,9 +1118,9 @@ classic.crimson // = rgb("#cc2200")  — đỏ đậm</code></pre>
   Thí sinh điền đáp án vào ô trống.], count: 4)
 
 #tln(
-  [Tính $\lim_{x \to 2} \frac{x^2 - 4}{x - 2}$.],
+  [Tính $lim_(x -> 2) frac(x^2 - 4, x - 2)$.],
   [$4$],
-  loigiai: [Rút gọn: $\frac{(x-2)(x+2)}{x-2} = x+2 \to 4$.],
+  loigiai: [Rút gọn: $frac((x-2)(x+2), x-2) = x+2 -> 4$.],
 )
 
 // ◄ Thêm câu 18–20 ở đây...
@@ -1504,6 +1510,76 @@ classic.crimson // = rgb("#cc2200")  — đỏ đậm</code></pre>
   <h1>#bbtv2 — Bảng Biến Thiên Tiêu Chuẩn</h1>
   <p><code>bbtv2</code> là macro BBT chính, tự động điều chỉnh chiều cao ô, hỗ trợ vùng gạch chéo (tiệm cận đứng), tự tính vị trí mũi tên.</p>
 
+  <div class="bbt-live" id="bbtLive">
+    <div class="bbt-live-head">
+      <div>
+        <span class="bbt-live-kicker">Live BBT Lab</span>
+        <h2>Dựng bảng và lấy code ngay</h2>
+        <p>Đổi mốc <code>x</code>, dấu đạo hàm, giá trị hàm hoặc vùng gạch chéo; kết quả bên phải được render chính thức bằng Typst, đoạn code bên dưới luôn đồng bộ.</p>
+      </div>
+      <div class="bbt-live-actions">
+        <select id="bbtPreset" aria-label="Chọn mẫu BBT">
+          <option value="cubic">Bậc ba: cực đại/cực tiểu</option>
+          <option value="asymptote">Tiệm cận đứng</option>
+          <option value="quartic">Bậc bốn: 3 cực trị</option>
+          <option value="monotone">Đơn điệu trên khoảng</option>
+        </select>
+        <button type="button" class="bbt-action-btn" id="bbtCopyBtn">Copy code</button>
+        <button type="button" class="bbt-action-btn ghost" id="bbtOpenPgBtn">Chạy Typst</button>
+      </div>
+    </div>
+
+    <div class="bbt-live-grid">
+      <div class="bbt-control-panel" aria-label="Tham số bbtv2">
+        <label>
+          <span>Nhãn hàng</span>
+          <div class="bbt-inline-3">
+            <input id="bbtVar" value="$x$" aria-label="Nhãn biến" />
+            <input id="bbtDer" value="$y'$" aria-label="Nhãn đạo hàm" />
+            <input id="bbtFunc" value="$y$" aria-label="Nhãn hàm số" />
+          </div>
+        </label>
+        <label>
+          <span>x-vals</span>
+          <textarea id="bbtXVals" rows="2" spellcheck="false">$-oo$, $-1$, $1$, $+oo$</textarea>
+        </label>
+        <label>
+          <span>d-signs</span>
+          <textarea id="bbtDSigns" rows="2" spellcheck="false">$+$, $0$, $-$, $0$, $+$</textarea>
+        </label>
+        <label>
+          <span>v-vals</span>
+          <textarea id="bbtVVals" rows="2" spellcheck="false">$-oo$, $2$, $-2$, $+oo$</textarea>
+        </label>
+        <label>
+          <span>shade</span>
+          <input id="bbtShade" value="" placeholder="VD: 1-2 hoặc ((1, 2),)" />
+        </label>
+        <div class="bbt-inline-3">
+          <label><span>w1</span><input id="bbtW1" type="number" step="0.1" value="1.5" /></label>
+          <label><span>w2</span><input id="bbtW2" type="number" step="0.5" value="10" /></label>
+          <label><span>h3</span><input id="bbtH3" value="auto" /></label>
+        </div>
+        <div class="bbt-live-note" id="bbtLiveNote"></div>
+      </div>
+
+      <div class="bbt-preview-panel">
+        <div class="bbt-preview-toolbar">
+          <strong>Kết quả Typst chính thức</strong>
+          <span id="bbtCheckBadge">Đang khởi tạo</span>
+        </div>
+        <div class="bbt-preview-scroll">
+          <div id="bbtPreview" class="bbt-official-preview"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block-wrap bbt-generated-code">
+      <div class="code-header"><span class="code-lang">typst · tự sinh</span><button class="copy-btn" id="bbtGeneratedCopy" type="button">Copy</button></div>
+      <pre><code class="lang-typst" id="bbtGeneratedCode"></code></pre>
+    </div>
+  </div>
+
   <h2>Cú pháp đầy đủ</h2>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
@@ -1681,6 +1757,114 @@ ranks: ((0,), (2, -2), (0,))</code></pre>
 </section>
 
 <!-- ═══════════════════════════════════════════ -->
+<!-- SECTION: CETZ BASICS -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="cetz-basics" class="doc-section hidden">
+  <h1>✏️ Cetz cơ bản — Typst tương đương TikZ</h1>
+  <p>Nếu trong LaTeX bạn quen viết <code>\begin{tikzpicture} ... \end{tikzpicture}</code>, thì trong Typst/Cetz bạn viết một khối <code>#cetz.canvas(...)</code>. Bên trong canvas là các lệnh vẽ như <code>line</code>, <code>circle</code>, <code>content</code>, vòng lặp <code>for</code>, biến <code>let</code>.</p>
+
+  <div class="callout callout-tip">
+    <strong>Công thức nhớ nhanh:</strong> TikZ picture = Cetz canvas. Tọa độ viết dạng <code>(x, y)</code>; trục <code>x</code> sang phải, trục <code>y</code> đi lên; <code>length: 0.8cm</code> quyết định 1 đơn vị tọa độ trên hình dài bao nhiêu.
+  </div>
+
+  <h2>So sánh trực tiếp TikZ và Cetz</h2>
+  <div class="compare-grid">
+    <div>
+      <h3>LaTeX / TikZ</h3>
+      <div class="code-block-wrap">
+        <div class="code-header"><span class="code-lang">latex</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="lang-latex">\begin{tikzpicture}[scale=.8]
+  \draw[->] (-2,0) -- (3,0) node[right] {$x$};
+  \draw[->] (0,-1) -- (0,3) node[above] {$y$};
+  \draw[blue, thick] (-1,1) -- (2,2);
+  \fill (2,2) circle (2pt) node[above] {$A$};
+\end{tikzpicture}</code></pre>
+      </div>
+    </div>
+    <div>
+      <h3>Typst / Cetz</h3>
+      <div class="code-block-wrap">
+        <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="lang-typst">#import "@preview/cetz:0.5.2"
+
+#cetz.canvas(length: 0.8cm, {
+  import cetz.draw: *
+
+  line((-2, 0), (3, 0), mark: (end: ">"))
+  line((0, -1), (0, 3), mark: (end: ">"))
+  content((2.85, 0.3), $x$)
+  content((0.3, 2.85), $y$)
+
+  line((-1, 1), (2, 2), stroke: 1.4pt + blue)
+  circle((2, 2), radius: 2.5pt, fill: black)
+  content((2.25, 2.25), $A$)
+})</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <h2>Khung lệnh chuẩn khi tự vẽ</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#cetz.canvas(length: 0.8cm, {
+  import cetz.draw: *
+
+  let A = (0, 0)
+  let B = (4, 0)
+  let C = (1.2, 2.8)
+
+  line(A, B, C, A, stroke: 1.1pt + black)
+  circle(A, radius: 2.4pt, fill: black)
+  circle(B, radius: 2.4pt, fill: black)
+  circle(C, radius: 2.4pt, fill: black)
+  content((-0.35, -0.35), $A$)
+  content((4.25, -0.35), $B$)
+  content((1.2, 3.15), $C$)
+})</code></pre>
+  </div>
+
+  <h2>Các lệnh hay dùng nhất</h2>
+  <table class="doc-table">
+    <thead><tr><th>Lệnh Cetz</th><th>Dùng để</th><th>Ví dụ ngắn</th></tr></thead>
+    <tbody>
+      <tr><td><code>line(A, B)</code></td><td>Vẽ đoạn, đường gấp khúc, đa giác</td><td><code>line((0,0), (3,1))</code></td></tr>
+      <tr><td><code>line(..., mark: (end: "&gt;"))</code></td><td>Vẽ mũi tên</td><td><code>line((0,0), (2,0), mark: (end: "&gt;"))</code></td></tr>
+      <tr><td><code>circle(P, radius: ...)</code></td><td>Vẽ điểm hoặc đường tròn</td><td><code>circle((0,0), radius: 2pt, fill: black)</code></td></tr>
+      <tr><td><code>content(P, ...)</code></td><td>Đặt nhãn, công thức, chữ lên hình</td><td><code>content((1,1), $A$)</code></td></tr>
+      <tr><td><code>stroke: 1pt + blue</code></td><td>Chọn màu và độ dày nét</td><td><code>stroke: 1.2pt + rgb("#0057b8")</code></td></tr>
+      <tr><td><code>dash: "dashed"</code></td><td>Vẽ cạnh khuất hoặc nét phụ</td><td><code>stroke: (paint: gray, thickness: .7pt, dash: "dashed")</code></td></tr>
+      <tr><td><code>for ... in range(...)</code></td><td>Lấy nhiều điểm để vẽ đường cong</td><td><code>pts.push((x, x*x))</code></td></tr>
+    </tbody>
+  </table>
+
+  <h2>Đưa hình vào câu hỏi</h2>
+  <p>Với đề thi, hình thường đặt vào tham số <code>fig:</code>. Nếu dùng hình ngắn, đặt <code>fig-pos: "right"</code>; nếu hình to, đặt <code>fig-pos: "center"</code>.</p>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#tn(
+  [Cho tam giác $A B C$ như hình. Khẳng định nào đúng?],
+  ([$A B = A C$], True([$B C$ là cạnh đáy]), [$A$ là trung điểm], [$B C = 0$]),
+  fig: [
+    #cetz.canvas(length: 0.75cm, {
+      import cetz.draw: *
+      let A = (0, 2.8)
+      let B = (-2, 0)
+      let C = (2, 0)
+      line(A, B, C, A, stroke: 1.1pt + black)
+      line(A, (0, 0), stroke: (paint: gray, thickness: 0.7pt, dash: "dashed"))
+      content((0, 3.15), $A$)
+      content((-2.25, -0.3), $B$)
+      content((2.25, -0.3), $C$)
+    })
+  ],
+  fig-pos: "right",
+  fig-width: 32%,
+  loigiai: [Quan sát hình, cạnh $B C$ là đáy của tam giác cân.],
+)</code></pre>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
 <!-- SECTION: GEO 2D -->
 <!-- ═══════════════════════════════════════════ -->
 <section id="geo-2d" class="doc-section hidden">
@@ -1692,7 +1876,7 @@ ranks: ((0,), (2, -2), (0,))</code></pre>
     <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
     <pre><code class="lang-typst">// Tam giác từ 3 điểm toạ độ thật
 #tri-xyz(
-  A: (0, 0), B: (5, 0), C: (2, 4),
+  (0, 0), (5, 0), (2, 4),
   labels: ("A", "B", "C"),
   right-angle: none,   // "A" | "B" | "C" để đánh dấu góc vuông
 )
@@ -1728,12 +1912,12 @@ ranks: ((0,), (2, -2), (0,))</code></pre>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
     <pre><code class="lang-typst">#tn(
-  [Tam giác $ABC$ có $AB = 5$, $BC = 4$, $\hat{B} = 90°$. Tính $AC$.],
-  ([$3$], [$\sqrt{41}$], True([$\sqrt{41}$]), [$9$]),
-  fig: tri-right(leg1: 5, leg2: 4, labels: ("B", "A", "C")),
+  [Tam giác ABC có $A B = 5$, $B C = 4$, góc B bằng $90 degree$. Tính $A C$.],
+  ([$3$], [$sqrt(41)$], True([$sqrt(41)$]), [$9$]),
+  fig: [#tri-right(leg1: 5, leg2: 4, labels: ("B", "A", "C"))],
   fig-pos: "right",
   fig-width: 30%,
-  loigiai: [$AC = \sqrt{AB^2 + BC^2} = \sqrt{41}$],
+  loigiai: [$A C = sqrt(A B^2 + B C^2) = sqrt(41)$],
 )</code></pre>
   </div>
 </section>
@@ -1807,6 +1991,7 @@ ranks: ((0,), (2, -2), (0,))</code></pre>
     <pre><code class="lang-typst">#parabola(
   a: 1, b: -2, c: -3,  // y = x² - 2x - 3
   xmin: -2, xmax: 4,
+  ymin: -5, ymax: 2,
   npts: 80,             // số điểm vẽ
   show-vertex: true,    // hiện đỉnh
   show-roots: true,     // hiện nghiệm
@@ -1818,7 +2003,7 @@ ranks: ((0,), (2, -2), (0,))</code></pre>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
     <pre><code class="lang-typst">// Dùng trực tiếp cetz để vẽ hàm số bất kỳ
-fig: cetz.canvas(length: 0.8cm, {
+	#cetz.canvas(length: 0.8cm, {
   import cetz.draw: *
 
   // Trục
@@ -1842,6 +2027,480 @@ fig: cetz.canvas(length: 0.8cm, {
   content((-1.5, 3.2), $(-1;\ 3)$)
   content((1.5, -1.3), $(1;\ -1)$)
 })</code></pre>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION: FIGURE GALLERY -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="figure-gallery" class="doc-section hidden">
+  <h1>🧩 Kho Hình Mẫu</h1>
+  <p>Kho này gom các mẫu hình thường gặp khi soạn đề Toán. Mỗi mẫu đều là Typst/Cetz thật: bấm <code>▶ Chạy</code>, sửa tọa độ hoặc tham số, rồi copy vào <code>fig:</code> hoặc nội dung bài.</p>
+
+  <div class="figure-index">
+    <span>Hình phẳng</span>
+    <span>Hình không gian</span>
+    <span>Đồ thị</span>
+    <span>Câu hỏi có hình</span>
+    <span>Cetz thủ công</span>
+  </div>
+
+  <h2>Nhóm A — Hình phẳng dùng macro nhanh</h2>
+
+  <h3>Mẫu 01 — Tam giác thường theo tọa độ</h3>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#tri-xyz(
+  (0, 0), (5, 0), (1.4, 3.2),
+  labels: ("A", "B", "C"),
+  scale: 0.75cm,
+)</code></pre>
+  </div>
+
+  <h3>Mẫu 02 — Tam giác vuông có dấu góc vuông</h3>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#tri-right(
+  leg1: 5,
+  leg2: 3,
+  labels: ("A", "B", "C"),
+  right-angle-vertex: "A",
+  scale: 0.75cm,
+)</code></pre>
+  </div>
+
+  <h3>Mẫu 03 — Hình chữ nhật có kích thước đẹp</h3>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#rect-abc(
+  width: 6,
+  height: 3.5,
+  labels: ("A", "B", "C", "D"),
+  scale: 0.65cm,
+)</code></pre>
+  </div>
+
+  <h3>Mẫu 04 — Đường tròn tâm O</h3>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#circle-desc(
+  center: (0, 0),
+  radius: 2.4,
+  label: "O",
+  scale: 0.75cm,
+)</code></pre>
+  </div>
+
+  <h3>Mẫu 05 — Elip ngang</h3>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#ellipse-h(
+  center: (0, 0),
+  a: 3,
+  b: 1.6,
+  accent: rgb("#0057b8"),
+  scale: 0.75cm,
+)</code></pre>
+  </div>
+
+  <h2>Nhóm B — Hình phẳng Cetz thủ công</h2>
+
+  <h3>Mẫu 06 — Tam giác có đường cao và trung tuyến</h3>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#cetz.canvas(length: 0.8cm, {
+  import cetz.draw: *
+  let A = (0, 3)
+  let B = (-2.6, 0)
+  let C = (3.2, 0)
+  let H = (0, 0)
+  let M = ((B.at(0) + C.at(0)) / 2, 0)
+
+  line(A, B, C, A, stroke: 1.1pt + black)
+  line(A, H, stroke: (paint: gray, thickness: 0.7pt, dash: "dashed"))
+  line(A, M, stroke: 0.8pt + rgb("#cc2200"))
+  line((0, 0), (0.35, 0), (0.35, 0.35), (0, 0.35), stroke: 0.6pt + black)
+  content((0, 3.35), $A$)
+  content((-2.9, -0.3), $B$)
+  content((3.45, -0.3), $C$)
+  content((-0.35, -0.35), $H$)
+  content((M.at(0), -0.35), $M$)
+})</code></pre>
+  </div>
+
+  <h3>Mẫu 07 — Hình thang cân</h3>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#cetz.canvas(length: 0.75cm, {
+  import cetz.draw: *
+  let A = (-1.8, 2.4)
+  let B = (1.8, 2.4)
+  let C = (3, 0)
+  let D = (-3, 0)
+  line(A, B, C, D, A, stroke: 1.1pt + black)
+  line(A, C, stroke: (paint: gray, thickness: 0.6pt, dash: "dashed"))
+  line(B, D, stroke: (paint: gray, thickness: 0.6pt, dash: "dashed"))
+  content((-2.05, 2.7), $A$)
+  content((2.05, 2.7), $B$)
+  content((3.25, -0.25), $C$)
+  content((-3.3, -0.25), $D$)
+})</code></pre>
+  </div>
+
+  <h3>Mẫu 08 — Hình bình hành có đường chéo</h3>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#cetz.canvas(length: 0.75cm, {
+  import cetz.draw: *
+  let A = (0, 0)
+  let B = (4.2, 0)
+  let D = (1.4, 2.4)
+  let C = (5.6, 2.4)
+  line(A, B, C, D, A, stroke: 1.1pt + black)
+  line(A, C, stroke: 0.8pt + rgb("#0057b8"))
+  line(B, D, stroke: (paint: rgb("#cc2200"), thickness: 0.8pt, dash: "dashed"))
+  content((-0.3, -0.3), $A$)
+  content((4.45, -0.3), $B$)
+  content((5.85, 2.55), $C$)
+  content((1.15, 2.55), $D$)
+})</code></pre>
+  </div>
+
+  <h3>Mẫu 09 — Đường tròn, bán kính và tiếp tuyến</h3>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#cetz.canvas(length: 0.8cm, {
+  import cetz.draw: *
+  let O = (0, 0)
+  let A = (2, 0)
+  circle(O, radius: 2, stroke: 1.1pt + black)
+  line(O, A, stroke: 1pt + rgb("#0057b8"))
+  line((2, -1.7), (2, 1.7), stroke: 1pt + rgb("#cc2200"))
+  line((2, 0), (1.7, 0), (1.7, 0.3), (2, 0.3), stroke: 0.6pt + black)
+  circle(O, radius: 2.5pt, fill: black)
+  circle(A, radius: 2.5pt, fill: black)
+  content((-0.35, -0.35), $O$)
+  content((2.2, -0.25), $A$)
+  content((0.95, 0.3), $R$)
+})</code></pre>
+  </div>
+
+  <h3>Mẫu 10 — Nửa đường tròn đường kính AB</h3>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#cetz.canvas(length: 0.8cm, {
+  import cetz.draw: *
+  let pts = ()
+  for i in range(0, 61) {
+    let t = calc.pi * i / 60
+    pts.push((2.5 * calc.cos(t), 2.5 * calc.sin(t)))
+  }
+  line(..pts, stroke: 1.2pt + rgb("#0057b8"))
+  line((-2.5, 0), (2.5, 0), stroke: 1pt + black)
+  circle((0, 0), radius: 2.5pt, fill: black)
+  content((-2.75, -0.3), $A$)
+  content((2.75, -0.3), $B$)
+  content((-0.25, -0.35), $O$)
+})</code></pre>
+  </div>
+
+  <h2>Nhóm C — Hình không gian</h2>
+
+  <h3>Mẫu 11 — Hình chóp tam giác S.ABC</h3>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#chop-sabc(
+  S: (0, 7),
+  A: (-3.5, 0),
+  B: (3.5, 0),
+  C: (0, -1.8),
+  hidden: ("AC",),
+  scale: 0.65cm,
+)</code></pre>
+  </div>
+
+  <h3>Mẫu 12 — Hình chóp tứ giác S.ABCD</h3>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#chop-sabcd(
+  S: (0, 6.5),
+  A: (-3, 0),
+  B: (3, 0),
+  C: (2, -2),
+  D: (-2, -2),
+  hidden: ("AD", "DC"),
+  scale: 0.68cm,
+)</code></pre>
+  </div>
+
+  <h3>Mẫu 13 — Lăng trụ tam giác đứng</h3>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#lang-tru-abc(
+  A: (-3, 0), B: (3, 0), C: (0, -1.8),
+  A2: (-3, 4.8), B2: (3, 4.8), C2: (0, 3),
+  hidden: ("AB", "AA'"),
+  scale: 0.65cm,
+)</code></pre>
+  </div>
+
+  <h3>Mẫu 14 — Hình hộp chữ nhật thủ công</h3>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#cetz.canvas(length: 0.62cm, {
+  import cetz.draw: *
+  let A = (0, 0); let B = (4, 0); let C = (5.3, 1.1); let D = (1.3, 1.1)
+  let A2 = (0, 3); let B2 = (4, 3); let C2 = (5.3, 4.1); let D2 = (1.3, 4.1)
+  line(A, B, C, D, A, stroke: 1pt + black)
+  line(A2, B2, C2, D2, A2, stroke: 1pt + black)
+  line(A, A2, stroke: 1pt + black)
+  line(B, B2, stroke: 1pt + black)
+  line(C, C2, stroke: 1pt + black)
+  line(D, D2, stroke: (paint: gray, thickness: 0.8pt, dash: "dashed"))
+  content((-0.3, -0.3), $A$)
+  content((4.25, -0.3), $B$)
+  content((5.55, 1.0), $C$)
+  content((1.0, 1.25), $D$)
+})</code></pre>
+  </div>
+
+  <h3>Mẫu 15 — Hình nón</h3>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#cetz.canvas(length: 0.75cm, {
+  import cetz.draw: *
+  let S = (0, 3.5)
+  let front = ()
+  let back = ()
+  for i in range(0, 41) {
+    let t = calc.pi + calc.pi * i / 40
+    front.push((2.2 * calc.cos(t), 0.45 * calc.sin(t)))
+  }
+  for i in range(0, 41) {
+    let t = calc.pi * i / 40
+    back.push((2.2 * calc.cos(t), 0.45 * calc.sin(t)))
+  }
+  line(..back, stroke: (paint: gray, thickness: 0.7pt, dash: "dashed"))
+  line(..front, stroke: 1pt + black)
+  line(S, (-2.2, 0), stroke: 1pt + black)
+  line(S, (2.2, 0), stroke: 1pt + black)
+  line(S, (0, 0), stroke: (paint: gray, thickness: 0.7pt, dash: "dashed"))
+  content((0, 3.85), $S$)
+  content((0.25, -0.35), $O$)
+})</code></pre>
+  </div>
+
+  <h3>Mẫu 16 — Hình trụ</h3>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#cetz.canvas(length: 0.75cm, {
+  import cetz.draw: *
+  let top = ()
+  let bottom = ()
+  for i in range(0, 81) {
+    let t = 2 * calc.pi * i / 80
+    top.push((2 * calc.cos(t), 3 + 0.42 * calc.sin(t)))
+    bottom.push((2 * calc.cos(t), 0.42 * calc.sin(t)))
+  }
+  line(..top, stroke: 1pt + black)
+  line(..bottom, stroke: 1pt + black)
+  line((-2, 3), (-2, 0), stroke: 1pt + black)
+  line((2, 3), (2, 0), stroke: 1pt + black)
+  line((0, 3), (0, 0), stroke: (paint: gray, thickness: 0.7pt, dash: "dashed"))
+  content((0.25, 1.5), $h$)
+})</code></pre>
+  </div>
+
+  <h2>Nhóm D — Đồ thị hàm số</h2>
+
+  <h3>Mẫu 17 — Hệ trục Oxy có tick</h3>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#axis-xy(
+  xmin: -4, xmax: 4,
+  ymin: -3, ymax: 4,
+  xstep: 1,
+  ystep: 1,
+  ticks: true,
+  scale: 0.8cm,
+)</code></pre>
+  </div>
+
+  <h3>Mẫu 18 — Parabol có đỉnh và nghiệm</h3>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#parabola(
+  a: 1,
+  b: -2,
+  c: -3,
+  xmin: -2,
+  xmax: 4,
+  ymin: -5,
+  ymax: 2,
+  show-vertex: true,
+  show-roots: true,
+  scale: 0.8cm,
+)</code></pre>
+  </div>
+
+  <h3>Mẫu 19 — Đồ thị bậc ba tự lấy điểm</h3>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#cetz.canvas(length: 0.8cm, {
+  import cetz.draw: *
+  line((-3.2, 0), (3.2, 0), mark: (end: ">"))
+  line((0, -3.2), (0, 4.2), mark: (end: ">"))
+  content((3.1, 0.32), $x$)
+  content((0.32, 4.0), $y$)
+  let pts = ()
+  for i in range(-30, 31) {
+    let x = i * 0.1
+    let y = x * x * x - 3 * x + 1
+    if y >= -3 and y &lt;= 4 {
+      pts.push((x, y))
+    }
+  }
+  line(..pts, stroke: 1.3pt + rgb("#0057b8"))
+  circle((-1, 3), radius: 2.8pt, fill: rgb("#cc2200"))
+  circle((1, -1), radius: 2.8pt, fill: rgb("#cc2200"))
+})</code></pre>
+  </div>
+
+  <h3>Mẫu 20 — Đồ thị trị tuyệt đối</h3>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#cetz.canvas(length: 0.8cm, {
+  import cetz.draw: *
+  line((-3.2, 0), (3.2, 0), mark: (end: ">"))
+  line((0, -0.5), (0, 3.2), mark: (end: ">"))
+  let left = ()
+  let right = ()
+  for i in range(-30, 1) {
+    let x = i * 0.1
+    left.push((x, -x))
+  }
+  for i in range(0, 31) {
+    let x = i * 0.1
+    right.push((x, x))
+  }
+  line(..left, stroke: 1.3pt + rgb("#0057b8"))
+  line(..right, stroke: 1.3pt + rgb("#0057b8"))
+  circle((0, 0), radius: 2.8pt, fill: rgb("#cc2200"))
+  content((1.2, 1.45), $y = abs(x)$)
+})</code></pre>
+  </div>
+
+  <h3>Mẫu 21 — Diện tích xấp xỉ bằng các lát đứng</h3>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#cetz.canvas(length: 0.8cm, {
+  import cetz.draw: *
+  line((-0.4, 0), (4.2, 0), mark: (end: ">"))
+  line((0, -0.2), (0, 3.5), mark: (end: ">"))
+  let pts = ()
+  for i in range(0, 41) {
+    let x = i * 0.1
+    let y = 0.25 * x * x + 0.4
+    pts.push((x, y))
+  }
+  for i in range(4, 37, step: 4) {
+    let x = i * 0.1
+    let y = 0.25 * x * x + 0.4
+    line((x, 0), (x, y), stroke: 0.45pt + rgb("#9aa0a6"))
+  }
+  line(..pts, stroke: 1.3pt + rgb("#0057b8"))
+  content((2.6, 2.45), $y = 1/4 x^2 + 0.4$)
+})</code></pre>
+  </div>
+
+  <h3>Mẫu 22 — Đường thẳng cắt parabol</h3>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#cetz.canvas(length: 0.8cm, {
+  import cetz.draw: *
+  line((-3.2, 0), (3.2, 0), mark: (end: ">"))
+  line((0, -2.2), (0, 4.2), mark: (end: ">"))
+  let p = ()
+  for i in range(-30, 31) {
+    let x = i * 0.1
+    let y = x * x - 1
+    if y &lt;= 4 {
+      p.push((x, y))
+    }
+  }
+  line(..p, stroke: 1.3pt + rgb("#0057b8"))
+  line((-3, -1), (3, 2), stroke: 1.1pt + rgb("#cc2200"))
+  circle((-1, 0), radius: 2.7pt, fill: black)
+  circle((2, 3), radius: 2.7pt, fill: black)
+})</code></pre>
+  </div>
+
+  <h2>Nhóm E — Mẫu câu hỏi có hình</h2>
+
+  <h3>Mẫu 23 — Trắc nghiệm có hình tam giác bên phải</h3>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#tn(
+  [Tam giác vuông $A B C$ vuông tại $A$, $A B = 5$, $A C = 3$. Tính $B C$.],
+  ([$4$], [$8$], True([$sqrt(34)$]), [$2 sqrt(10)$]),
+  fig: [#tri-right(leg1: 5, leg2: 3, labels: ("A", "B", "C"))],
+  fig-pos: "right",
+  fig-width: 30%,
+  loigiai: [$B C = sqrt(A B^2 + A C^2) = sqrt(34)$.],
+)</code></pre>
+  </div>
+
+  <h3>Mẫu 24 — Đúng sai có đồ thị parabol</h3>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#ds(
+  [Cho parabol $y = x^2 - 2x - 3$ như hình. Xét các phát biểu sau:],
+  (
+    True([Trục đối xứng là $x = 1$.]),
+    False([Parabol quay bề lõm xuống.]),
+    True([Đồ thị cắt trục hoành tại hai điểm.]),
+    False([Giá trị nhỏ nhất bằng $0$.]),
+  ),
+  fig: [#parabola(a: 1, b: -2, c: -3, xmin: -2, xmax: 4, ymin: -5, ymax: 2, show-vertex: true, show-roots: true)],
+  fig-pos: "right",
+  fig-width: 36%,
+  loigiai: [Đỉnh là $(1; -4)$, hệ số $a = 1 > 0$, nên parabol quay lên.],
+)</code></pre>
+  </div>
+
+  <h3>Mẫu 25 — Trả lời ngắn có hình tọa độ</h3>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#tln(
+  [Điểm $A(3;4)$ cách gốc tọa độ $O$ một khoảng bằng bao nhiêu?],
+  [$5$],
+  fig: [
+    #cetz.canvas(length: 0.7cm, {
+      import cetz.draw: *
+      line((-0.5, 0), (4, 0), mark: (end: ">"))
+      line((0, -0.5), (0, 4.6), mark: (end: ">"))
+      line((0, 0), (3, 4), stroke: 1.2pt + rgb("#0057b8"))
+      circle((3, 4), radius: 2.8pt, fill: rgb("#cc2200"))
+      content((3.2, 4.2), $A(3;4)$)
+      content((-0.3, -0.3), $O$)
+    })
+  ],
+  fig-pos: "right",
+  fig-width: 34%,
+  loigiai: [$O A = sqrt(3^2 + 4^2) = 5$.],
+)</code></pre>
+  </div>
+
+  <h3>Mẫu 26 — Tự luận có hình chóp</h3>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#tl(
+  [Cho hình chóp $S.A B C$ có $S A$ vuông góc với đáy. Hãy xác định đường cao của hình chóp.],
+  fig: [#chop-sabc(S: (0, 6), A: (-3, 0), B: (3, 0), C: (0, -1.6), hidden: ("AC",))],
+  fig-pos: "right",
+  fig-width: 34%,
+  loigiai: [Vì $S A$ vuông góc với mặt phẳng đáy $(A B C)$ nên $S A$ là đường cao của hình chóp.],
+)</code></pre>
   </div>
 </section>
 
@@ -1918,6 +2577,6 @@ typst watch --root typst typst/exams/de-mau.typ de-mau.pdf</code></pre>
 
 <script src="script.js"></script>
 <!-- Live Playground — load as ES module, cần type=module cho dynamic import() -->
-<script type="module" src="playground.js"></script>
+<script type="module" src="playground.js?v=2"></script>
 </body>
 </html>

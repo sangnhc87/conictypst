@@ -365,7 +365,10 @@
                             <p style="margin:4px 0 0;font-size:0.83rem;">PNG, JPG, WEBP, PDF — tối đa 20MB</p>
                         </div>
                         <input type="file" id="fileInput" accept="image/*,.pdf" />
-                        <img id="imagePreview" alt="preview" />
+                        <div id="previewContainer" style="position:relative; max-width:100%; overflow:auto; display:none; background:#fafafa; border:1px solid var(--line); border-radius:6px; padding:4px;">
+                            <canvas id="baseCanvas"></canvas>
+                            <canvas id="overlayCanvas" style="position:absolute; left:4px; top:4px; cursor:crosshair;"></canvas>
+                        </div>
                         <div id="pdfPages" class="pdf-pages"></div>
                     </div>
                 </div>
@@ -501,6 +504,7 @@
             updateModelList()
             loadSavedSettings()
             setupDragDrop()
+            initSnippingOverlay()
             window.lucide?.createIcons()
         })
 
@@ -558,37 +562,132 @@
             })
         }
 
+        let isDrawing = false;
+        let startPos = { x: 0, y: 0 };
+        let snippingRect = null;
+
+        function getMousePos(canvas, evt) {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            return {
+                x: (evt.clientX - rect.left) * scaleX,
+                y: (evt.clientY - rect.top) * scaleY
+            };
+        }
+
+        function initSnippingOverlay() {
+            const overlay = document.getElementById('overlayCanvas');
+            if (!overlay) return;
+            
+            overlay.addEventListener('mousedown', e => {
+                isDrawing = true;
+                startPos = getMousePos(overlay, e);
+                snippingRect = null;
+            });
+
+            overlay.addEventListener('mousemove', e => {
+                if (!isDrawing) return;
+                const currentPos = getMousePos(overlay, e);
+                const ctx = overlay.getContext('2d');
+                ctx.clearRect(0, 0, overlay.width, overlay.height);
+                ctx.strokeStyle = 'red';
+                ctx.lineWidth = 2 * (window.devicePixelRatio || 1);
+                ctx.strokeRect(startPos.x, startPos.y, currentPos.x - startPos.x, currentPos.y - startPos.y);
+            });
+
+            overlay.addEventListener('mouseup', e => {
+                if (!isDrawing) return;
+                isDrawing = false;
+                const endPos = getMousePos(overlay, e);
+                const rect = {
+                    x: Math.min(startPos.x, endPos.x),
+                    y: Math.min(startPos.y, endPos.y),
+                    width: Math.abs(startPos.x - endPos.x),
+                    height: Math.abs(startPos.y - endPos.y)
+                };
+                
+                if (rect.width > 10 && rect.height > 10) {
+                    snippingRect = rect;
+                    const ctx = overlay.getContext('2d');
+                    ctx.clearRect(0, 0, overlay.width, overlay.height);
+                    ctx.strokeStyle = 'blue';
+                    ctx.lineWidth = 4 * (window.devicePixelRatio || 1);
+                    ctx.strokeRect(rect.x, rect.y, rect.width, rect.height);
+                    setStatus('ok', 'Đã khoanh vùng câu hỏi. Nhấn nhận dạng để quét vùng này!');
+                } else {
+                    const ctx = overlay.getContext('2d');
+                    ctx.clearRect(0, 0, overlay.width, overlay.height);
+                    snippingRect = null;
+                    setStatus('ready', 'Gửi toàn bộ ảnh/trang.');
+                }
+            });
+        }
+
+        function setupSnippingOverlay() {
+            const baseCanvas = document.getElementById('baseCanvas');
+            const overlayCanvas = document.getElementById('overlayCanvas');
+            if (!baseCanvas || !overlayCanvas) return;
+
+            overlayCanvas.width = baseCanvas.width;
+            overlayCanvas.height = baseCanvas.height;
+            overlayCanvas.style.width = baseCanvas.style.width;
+            overlayCanvas.style.height = baseCanvas.style.height;
+            overlayCanvas.style.top = `${baseCanvas.offsetTop}px`;
+            overlayCanvas.style.left = `${baseCanvas.offsetLeft}px`;
+        }
+
         function handleFile(file) {
-            const preview = document.getElementById('imagePreview')
+            const previewContainer = document.getElementById('previewContainer')
+            const baseCanvas = document.getElementById('baseCanvas')
             const runBtn = document.getElementById('runBtn')
 
+            snippingRect = null;
+            const overlay = document.getElementById('overlayCanvas');
+            if (overlay) overlay.getContext('2d').clearRect(0, 0, overlay.width, overlay.height);
+
             if (file.type === 'application/pdf') {
-                // Show PDF icon placeholder
-                preview.style.display = 'none'
+                previewContainer.style.display = 'none'
                 setStatus('ready', `PDF: ${file.name}`)
-                // Convert first page to image via canvas (basic approach)
                 convertPdfPage(file)
             } else if (file.type.startsWith('image/')) {
                 const reader = new FileReader()
                 reader.onload = ev => {
-                    const dataUrl = ev.target.result
-                    preview.src = dataUrl
-                    preview.style.display = 'block'
-                    // Extract base64
-                    const parts = dataUrl.split(',')
-                    currentBase64 = parts[1]
-                    currentMimeType = file.type
-                    runBtn.disabled = false
-                    setStatus('ready', `Ảnh sẵn sàng: ${file.name}`)
+                    const img = new Image()
+                    img.onload = () => {
+                        const dpr = window.devicePixelRatio || 1;
+                        const maxWidth = previewContainer.parentElement.clientWidth - 40;
+                        const scale = Math.min(1, maxWidth / img.width);
+                        
+                        const displayWidth = img.width * scale;
+                        const displayHeight = img.height * scale;
+                        
+                        baseCanvas.width = displayWidth * dpr;
+                        baseCanvas.height = displayHeight * dpr;
+                        baseCanvas.style.width = `${displayWidth}px`;
+                        baseCanvas.style.height = `${displayHeight}px`;
+                        
+                        const ctx = baseCanvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, baseCanvas.width, baseCanvas.height);
+                        
+                        previewContainer.style.display = 'block';
+                        
+                        const parts = ev.target.result.split(',')
+                        currentBase64 = parts[1]
+                        currentMimeType = file.type
+                        runBtn.disabled = false
+                        setStatus('ready', `Ảnh sẵn sàng (kéo chuột để cắt bớt câu): ${file.name}`)
+                        
+                        setTimeout(setupSnippingOverlay, 50);
+                    }
+                    img.src = ev.target.result
                 }
                 reader.readAsDataURL(file)
             }
         }
 
         function convertPdfPage(file) {
-            // We use pdf.js from CDN for PDF rendering
             if (!window.pdfjsLib) {
-                // Load pdf.js dynamically
                 const script = document.createElement('script')
                 script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js'
                 script.onload = () => {
@@ -604,6 +703,8 @@
         async function renderPdf(file) {
             const runBtn = document.getElementById('runBtn')
             const pdfPages = document.getElementById('pdfPages')
+            const previewContainer = document.getElementById('previewContainer')
+            const baseCanvas = document.getElementById('baseCanvas')
             setStatus('loading', 'Đang tải PDF...')
 
             const arrayBuffer = await file.arrayBuffer()
@@ -624,21 +725,62 @@
                 thumb.onclick = () => {
                     document.querySelectorAll('.pdf-page-thumb').forEach(t => t.classList.remove('active'))
                     thumb.classList.add('active')
+                    
+                    const dpr = window.devicePixelRatio || 1;
+                    const maxWidth = previewContainer.parentElement.clientWidth - 40;
+                    const scale = Math.min(1, maxWidth / canvas.width);
+                    
+                    const displayWidth = canvas.width * scale;
+                    const displayHeight = canvas.height * scale;
+                    
+                    baseCanvas.width = displayWidth * dpr;
+                    baseCanvas.height = displayHeight * dpr;
+                    baseCanvas.style.width = `${displayWidth}px`;
+                    baseCanvas.style.height = `${displayHeight}px`;
+                    
+                    const ctx = baseCanvas.getContext('2d');
+                    ctx.drawImage(canvas, 0, 0, baseCanvas.width, baseCanvas.height);
+                    
+                    previewContainer.style.display = 'block';
+                    snippingRect = null;
+                    const overlay = document.getElementById('overlayCanvas');
+                    if (overlay) overlay.getContext('2d').clearRect(0, 0, overlay.width, overlay.height);
+                    
                     currentBase64 = canvas.toDataURL('image/jpeg', 0.9).split(',')[1]
                     currentMimeType = 'image/jpeg'
                     runBtn.disabled = false
+                    
+                    setTimeout(setupSnippingOverlay, 50);
                 }
                 pdfPages.appendChild(thumb)
 
                 if (i === 1) {
+                    const dpr = window.devicePixelRatio || 1;
+                    const maxWidth = previewContainer.parentElement.clientWidth - 40;
+                    const scale = Math.min(1, maxWidth / canvas.width);
+                    
+                    const displayWidth = canvas.width * scale;
+                    const displayHeight = canvas.height * scale;
+                    
+                    baseCanvas.width = displayWidth * dpr;
+                    baseCanvas.height = displayHeight * dpr;
+                    baseCanvas.style.width = `${displayWidth}px`;
+                    baseCanvas.style.height = `${displayHeight}px`;
+                    
+                    const ctx = baseCanvas.getContext('2d');
+                    ctx.drawImage(canvas, 0, 0, baseCanvas.width, baseCanvas.height);
+                    
+                    previewContainer.style.display = 'block';
+                    snippingRect = null;
+                    
                     currentBase64 = canvas.toDataURL('image/jpeg', 0.9).split(',')[1]
                     currentMimeType = 'image/jpeg'
                     runBtn.disabled = false
-                    document.getElementById('imagePreview').src = canvas.toDataURL()
-                    document.getElementById('imagePreview').style.display = 'block'
+                    
+                    setTimeout(setupSnippingOverlay, 50);
                 }
             }
-            setStatus('ok', `PDF ${pdf.numPages} trang — chọn trang và nhấn nhận dạng`)
+            setStatus('ok', `PDF ${pdf.numPages} trang — chọn trang, kéo chuột vẽ vùng câu hỏi và nhấn nhận dạng`)
         }
 
         // ── System prompt ──────────────────────────────────────
@@ -706,6 +848,22 @@ ${typMap[outputType] || typMap.auto}
             setStatus('loading', 'Đang nhận dạng...')
             document.getElementById('runBtn').disabled = true
             document.getElementById('resultArea').value = '// Đang nhận dạng, vui lòng chờ...'
+
+            // Crop image if snippingRect exists
+            if (snippingRect) {
+                const baseCanvas = document.getElementById('baseCanvas');
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width = snippingRect.width;
+                tempCanvas.height = snippingRect.height;
+                const tempCtx = tempCanvas.getContext('2d');
+                tempCtx.drawImage(
+                    baseCanvas,
+                    snippingRect.x, snippingRect.y, snippingRect.width, snippingRect.height,
+                    0, 0, snippingRect.width, snippingRect.height
+                );
+                currentBase64 = tempCanvas.toDataURL('image/jpeg', 0.95).split(',')[1];
+                currentMimeType = 'image/jpeg';
+            }
 
             try {
                 let result = ''
@@ -828,11 +986,14 @@ ${typMap[outputType] || typMap.auto}
 
         function clearResult() {
             document.getElementById('resultArea').value = ''
-            document.getElementById('imagePreview').style.display = 'none'
+            document.getElementById('previewContainer').style.display = 'none'
             document.getElementById('pdfPages').innerHTML = ''
             document.getElementById('fileInput').value = ''
             currentBase64 = null
             currentMimeType = null
+            snippingRect = null
+            const overlay = document.getElementById('overlayCanvas')
+            if (overlay) overlay.getContext('2d').clearRect(0, 0, overlay.width, overlay.height)
             document.getElementById('runBtn').disabled = true
             setStatus('', 'Chưa chạy')
         }

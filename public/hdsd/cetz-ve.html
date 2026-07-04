@@ -1,0 +1,1837 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CeTZ Board — ConicTypst</title>
+    <link rel="stylesheet" href="dashboard.css" />
+    <script defer src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .geoboard-layout {
+            display: grid;
+            grid-template-columns: 240px 1fr 320px;
+            height: calc(100vh - 60px);
+            overflow: hidden;
+            background: #0f172a;
+        }
+
+        @media (max-width: 1000px) {
+            .geoboard-layout {
+                grid-template-columns: 1fr;
+                height: auto;
+                overflow: auto;
+            }
+        }
+
+        .side-panel {
+            background: #1e293b;
+            border-right: 1px solid #334155;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            color: #cbd5e1;
+        }
+
+        .side-panel-title {
+            padding: 14px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #94a3b8;
+            border-bottom: 1px solid #334155;
+            background: #0f172a;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .tool-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            padding: 10px 14px;
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            font-size: 0.88rem;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.15s;
+        }
+
+        .tool-btn:hover {
+            background: #334155;
+            color: #fff;
+        }
+
+        .tool-btn.active {
+            background: #0ea5e9;
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .tool-shortcut {
+            margin-left: auto;
+            font-family: monospace;
+            font-size: 0.72rem;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #64748b;
+        }
+
+        .tool-btn.active .tool-shortcut {
+            background: rgba(255, 255, 255, 0.25);
+            color: #fff;
+        }
+
+        .canvas-area {
+            position: relative;
+            background: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            min-height: 400px;
+        }
+
+        .canvas-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            background: #fff;
+            border-bottom: 1px solid #e2e8f0;
+            flex-wrap: wrap;
+            z-index: 10;
+        }
+
+        .canvas-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            border: 1px solid #e2e8f0;
+            background: #fff;
+            color: #334155;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .canvas-btn:hover {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+        }
+
+        .canvas-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .grid-btn {
+            padding: 4px 8px;
+            font-size: 0.75rem;
+            border: 1px solid #e2e8f0;
+            background: #fff;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .grid-btn.active {
+            background: #eef2ff;
+            border-color: #6366f1;
+            color: #4338ca;
+            font-weight: 700;
+        }
+
+        .canvas-container {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+        }
+
+        .prop-panel {
+            background: #0f172a;
+            border-left: 1px solid #334155;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            color: #cbd5e1;
+        }
+
+        .prop-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 14px;
+            gap: 10px;
+            font-size: 0.8rem;
+        }
+
+        .prop-label {
+            color: #94a3b8;
+            font-weight: 600;
+            width: 90px;
+            flex-shrink: 0;
+        }
+
+        .prop-input {
+            flex: 1;
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 4px;
+            padding: 5px 8px;
+            color: #fff;
+            font-size: 0.8rem;
+            outline: none;
+        }
+
+        .prop-input:focus {
+            border-color: #0ea5e9;
+        }
+
+        .color-dot {
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: transform 0.1s;
+        }
+
+        .color-dot:hover {
+            transform: scale(1.15);
+        }
+
+        .color-dot.active {
+            border-color: #fff;
+            box-shadow: 0 0 0 1px #0ea5e9;
+        }
+
+        .code-tabs {
+            display: flex;
+            border-bottom: 1px solid #334155;
+            background: #1e293b;
+        }
+
+        .code-tab-btn {
+            flex: 1;
+            padding: 8px 0;
+            font-size: 0.8rem;
+            border: none;
+            background: transparent;
+            color: #94a3b8;
+            cursor: pointer;
+            font-weight: 600;
+            border-bottom: 2px solid transparent;
+            transition: all 0.15s;
+        }
+
+        .code-tab-btn.active {
+            color: #0ea5e9;
+            border-bottom-color: #0ea5e9;
+            background: #0f172a;
+        }
+
+        .code-output {
+            margin: 0;
+            padding: 12px 14px;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.72rem;
+            line-height: 1.6;
+            color: #cbd5e1;
+            white-space: pre-wrap;
+            word-break: break-all;
+            background: #0f172a;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        /* 3D and sample options modal */
+        .template-section {
+            padding: 12px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            border-top: 1px solid #334155;
+        }
+
+        .template-btn {
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: #cbd5e1;
+            font-size: 0.75rem;
+            padding: 6px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.15s;
+            text-align: left;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .template-btn:hover {
+            background: #334155;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="dash-topbar" style="position: relative; z-index: 50;">
+        <div class="dash-topbar-inner">
+            <a class="dash-brand" href="dashboard.html">
+                <span class="dash-brand-mark">C</span>
+                <span><strong>ConicTypst</strong><small>CeTZ Board</small></span>
+            </a>
+            <div></div>
+            <nav class="dash-nav">
+                <a href="dashboard.html">Dashboard</a>
+                <a href="index.html">HDSD</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="geoboard-layout">
+        <!-- LEFT PANEL: Toolbar and Shapes -->
+        <div class="side-panel">
+            <div class="side-panel-title">Hộp Công Cụ</div>
+            <div style="flex: 1;">
+                <button class="tool-btn active" id="tool-select" onclick="setActiveTool('select')">
+                    <i data-lucide="mouse-pointer"></i> <span>Chọn & Di chuyển</span> <span class="tool-shortcut">V</span>
+                </button>
+                <button class="tool-btn" id="tool-point" onclick="setActiveTool('point')">
+                    <i data-lucide="dot"></i> <span>Điểm vẽ tự do</span> <span class="tool-shortcut">P</span>
+                </button>
+                <button class="tool-btn" id="tool-midpoint" onclick="setActiveTool('midpoint')">
+                    <i data-lucide="git-commit"></i> <span>Trung điểm</span> <span class="tool-shortcut">M</span>
+                </button>
+                <button class="tool-btn" id="tool-segment" onclick="setActiveTool('segment')">
+                    <i data-lucide="minus"></i> <span>Đoạn thẳng</span> <span class="tool-shortcut">S</span>
+                </button>
+                <button class="tool-btn" id="tool-arrow" onclick="setActiveTool('arrow')">
+                    <i data-lucide="arrow-up-right"></i> <span>Vectơ</span> <span class="tool-shortcut">A</span>
+                </button>
+                <button class="tool-btn" id="tool-line" onclick="setActiveTool('line')">
+                    <i data-lucide="move-horizontal"></i> <span>Đường thẳng</span> <span class="tool-shortcut">L</span>
+                </button>
+                <button class="tool-btn" id="tool-ray" onclick="setActiveTool('ray')">
+                    <i data-lucide="trending-up"></i> <span>Tia vẽ</span> <span class="tool-shortcut">R</span>
+                </button>
+                <button class="tool-btn" id="tool-polygon" onclick="setActiveTool('polygon')">
+                    <i data-lucide="triangle"></i> <span>Đa giác</span> <span class="tool-shortcut">G</span>
+                </button>
+                <button class="tool-btn" id="tool-circle" onclick="setActiveTool('circle')">
+                    <i data-lucide="circle"></i> <span>Đường tròn</span> <span class="tool-shortcut">C</span>
+                </button>
+                <button class="tool-btn" id="tool-ellipse" onclick="setActiveTool('ellipse')">
+                    <i data-lucide="circle-dashed"></i> <span>Elip</span> <span class="tool-shortcut">E</span>
+                </button>
+                <button class="tool-btn" id="tool-arc" onclick="setActiveTool('arc')">
+                    <i data-lucide="rotate-ccw"></i> <span>Cung tròn</span> <span class="tool-shortcut">U</span>
+                </button>
+                <button class="tool-btn" id="tool-bezier" onclick="setActiveTool('bezier')">
+                    <i data-lucide="spline"></i> <span>Đường Bezier</span> <span class="tool-shortcut">B</span>
+                </button>
+                <button class="tool-btn" id="tool-angle" onclick="setActiveTool('angle')">
+                    <i data-lucide="angle"></i> <span>Kí hiệu góc</span> <span class="tool-shortcut">N</span>
+                </button>
+                <button class="tool-btn" id="tool-text" onclick="setActiveTool('text')">
+                    <i data-lucide="type"></i> <span>Chữ / Nhãn</span> <span class="tool-shortcut">T</span>
+                </button>
+            </div>
+
+            <!-- Predefined templates -->
+            <div class="side-panel-title">Hình Mẫu Có Sẵn</div>
+            <div class="template-section">
+                <button class="template-btn" onclick="insertTemplate('tri_thuong')">△ TG Thường</button>
+                <button class="template-btn" onclick="insertTemplate('tri_vuong')">⊿ TG Vuông</button>
+                <button class="template-btn" onclick="insertTemplate('tri_deu')">△ TG Đều</button>
+                <button class="template-btn" onclick="insertTemplate('rec')">▭ Chữ Nhật</button>
+                <button class="template-btn" onclick="insertTemplate('square')">⬜ Hình Vuông</button>
+                <button class="template-btn" onclick="insertTemplate('para')">▱ Bình Hành</button>
+                <button class="template-btn" onclick="insertTemplate('trap')">⏢ Hình Thang</button>
+                <button class="template-btn" onclick="insertTemplate('circle_o')">☉ Tròn (Tâm O)</button>
+                <button class="template-btn" onclick="insertTemplate('oxy_2d')">◱ Oxy 2D</button>
+                <button class="template-btn" onclick="insertTemplate('oxyz_3d')">◲ Oxyz 3D</button>
+                <button class="template-btn" onclick="insertTemplate('cube_3d')">立方 Lập Phương</button>
+                <button class="template-btn" onclick="insertTemplate('box_3d')">▰ Hộp Chữ Nhật</button>
+            </div>
+        </div>
+
+        <!-- CENTER: Canvas Area -->
+        <div class="canvas-area">
+            <div class="canvas-toolbar">
+                <button class="canvas-btn" onclick="undo()" id="btn-undo"><i data-lucide="undo" style="width:14px;height:14px;"></i> Hoàn tác</button>
+                <button class="canvas-btn" onclick="redo()" id="btn-redo"><i data-lucide="redo" style="width:14px;height:14px;"></i> Làm lại</button>
+                <div style="width:1px;height:18px;background:#e2e8f0;margin:0 4px;"></div>
+                <button class="canvas-btn" onclick="insertAxes3D()" title="Chèn trục tọa độ 3D xiên"><i data-lucide="box" style="width:14px;height:14px;color:#0ea5e9;"></i> Trục 3D</button>
+                <div style="width:1px;height:18px;background:#e2e8f0;margin:0 4px;"></div>
+                <span style="font-size:0.75rem;color:#64748b;font-weight:600;">Lưới bắt:</span>
+                <button class="grid-btn" onclick="setSnapGrid(1)" id="grid-1">1</button>
+                <button class="grid-btn active" onclick="setSnapGrid(0.5)" id="grid-0.5">½</button>
+                <button class="grid-btn" onclick="setSnapGrid(0.25)" id="grid-0.25">¼</button>
+                <button class="grid-btn" onclick="setSnapGrid(0)" id="grid-0">∅</button>
+                <div style="width:1px;height:18px;background:#e2e8f0;margin:0 4px;"></div>
+                <button class="canvas-btn" onclick="clearCanvas()" style="color:#ef4444;"><i data-lucide="trash-2" style="width:14px;height:14px;"></i> Xóa hết</button>
+                <div style="flex:1;"></div>
+                <button class="canvas-btn" onclick="resetView()"><i data-lucide="home" style="width:14px;height:14px;"></i> Mặc định</button>
+            </div>
+
+            <div class="canvas-container" id="canvasContainer">
+                <svg id="geoSvg" width="100%" height="100%" style="display:block; background:#f8fafc; overflow:hidden; user-select:none;">
+                    <defs>
+                        <!-- Markers will be added dynamically by JS -->
+                    </defs>
+                    <g id="gridGroup"></g>
+                    <g id="shapesGroup"></g>
+                    <g id="previewGroup" pointer-events="none"></g>
+                    <g id="snapGroup" pointer-events="none"></g>
+                    <g id="handlesGroup"></g>
+                    <text id="coordText" x="12" y="30" font-size="11" fill="#94a3b8" pointer-events="none"></text>
+                </svg>
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL: Properties and Generated Code -->
+        <div class="prop-panel">
+            <div class="side-panel-title">Thuộc Tính Đối Tượng</div>
+            <div id="propertiesBody" style="border-bottom:1px solid #334155; min-height: 180px;">
+                <!-- Filled dynamically by JavaScript -->
+                <div style="padding:14px; color:#64748b; font-size:0.8rem; font-style:italic;">Chọn một đối tượng trên hình vẽ để chỉnh sửa các thuộc tính chi tiết...</div>
+            </div>
+
+            <!-- CODE EXPORT -->
+            <div class="side-panel-title" style="border-top: 1px solid #334155;">Mã Nguồn Xuất Bản</div>
+            <div class="code-tabs">
+                <button class="code-tab-btn active" id="tab-cetz" onclick="setCodeTab('cetz')">CeTZ (Typst)</button>
+                <button class="code-tab-btn" id="tab-tikz" onclick="setCodeTab('tikz')">TikZ (LaTeX)</button>
+                <button class="code-tab-btn" onclick="copyCode()" style="background:#0284c7; color:#fff; border-radius:0;">Copy</button>
+            </div>
+            <pre class="code-output" id="codeOutput">// Vẽ hình để xem mã nguồn...</pre>
+        </div>
+    </div>
+
+    <script>
+        // ── Constants & Initial State ───────────────────────────
+        const DEFAULT_ZOOM = 60;
+        const SNAP_GRID = 0.5;
+        const SNAP_PT_PX = 16;
+        const NAMES = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const DEG = Math.PI / 180;
+        const RAD = 180 / Math.PI;
+
+        const COLORS = ['#1e293b', '#3b82f6', '#ef4444', '#22c55e', '#f97316', '#8b5cf6', '#ec4899', '#14b8a6', '#eab308'];
+        const CETZ_MAP = {
+            '#1e293b': 'black', '#3b82f6': 'blue', '#ef4444': 'red', '#22c55e': 'green',
+            '#f97316': 'orange', '#8b5cf6': 'purple', '#ec4899': 'pink', '#14b8a6': 'teal', '#eab308': 'yellow'
+        };
+        const TIKZ_MAP = {
+            '#1e293b': 'black', '#3b82f6': 'blue', '#ef4444': 'red', '#22c55e': 'green',
+            '#f97316': 'orange!80!black', '#8b5cf6': 'violet', '#ec4899': 'pink', '#14b8a6': 'teal', '#eab308': 'yellow!70!black'
+        };
+
+        const dashArr = { solid: 'none', dashed: '8,4', dotted: '2,4' };
+
+        // App state
+        let shapes = [];
+        let activeTool = 'select';
+        let selectedId = null;
+        let cam = { ox: 400, oy: 300, zoom: DEFAULT_ZOOM };
+        let ts = null; // temporary creation state
+        let hDrag = null; // handle dragging state
+        let pan = null; // pan state
+        let snapGrid = 0.5;
+        let codeTab = 'cetz';
+        let hovId = null;
+
+        // Undo/Redo stacks
+        let historyStack = [[]];
+        let historyIndex = 0;
+
+        // HTML elements
+        let svg, shapesGroup, handlesGroup, previewGroup, snapGroup, gridGroup, coordText, codeOutput, propertiesBody;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            svg = document.getElementById('geoSvg');
+            shapesGroup = document.getElementById('shapesGroup');
+            handlesGroup = document.getElementById('handlesGroup');
+            previewGroup = document.getElementById('previewGroup');
+            snapGroup = document.getElementById('snapGroup');
+            gridGroup = document.getElementById('gridGroup');
+            coordText = document.getElementById('coordText');
+            codeOutput = document.getElementById('codeOutput');
+            propertiesBody = document.getElementById('propertiesBody');
+
+            // Set size dynamically
+            const resize = () => {
+                const rect = svg.parentElement.getBoundingClientRect();
+                svg.setAttribute('width', rect.width);
+                svg.setAttribute('height', rect.height);
+                // Center origin on first load
+                if (cam.ox === 400 && cam.oy === 300) {
+                    cam.ox = rect.width / 2;
+                    cam.oy = rect.height / 2;
+                }
+                drawGrid();
+                render();
+            };
+            window.addEventListener('resize', resize);
+
+            // Wheel zooming
+            svg.addEventListener('wheel', e => {
+                e.preventDefault();
+                const rect = svg.getBoundingClientRect();
+                const px = e.clientX - rect.left, py = e.clientY - rect.top;
+                const f = e.deltaY < 0 ? 1.12 : 0.89;
+                const nz = Math.min(400, Math.max(6, cam.zoom * f));
+                cam.ox = px - (px - cam.ox) * (nz / cam.zoom);
+                cam.oy = py - (py - cam.oy) * (nz / cam.zoom);
+                cam.zoom = nz;
+                drawGrid();
+                render();
+            }, { passive: false });
+
+            // Pointer event listeners
+            svg.addEventListener('pointerdown', onPointerDown);
+            svg.addEventListener('pointermove', onPointerMove);
+            window.addEventListener('pointerup', onPointerUp);
+
+            // Shortcuts
+            window.addEventListener('keydown', handleKeydown);
+
+            resize();
+            updateHistoryButtons();
+            window.lucide?.createIcons();
+        });
+
+        // ── Helper Math Functions ──────────────────────────────
+        const uid = () => Math.random().toString(36).slice(2, 9);
+        const dist = (ax, ay, bx, by) => Math.hypot(bx - ax, by - ay);
+        const fmtN = v => parseFloat(Number(v).toFixed(2));
+        const mathDeg = (vx, vy, px, py) => Math.atan2(py - vy, px - vx) * RAD;
+
+        const m2s = (mx, my) => ({ sx: cam.ox + mx * cam.zoom, sy: cam.oy - my * cam.zoom });
+        const s2m = (sx, sy) => ({ mx: (sx - cam.ox) / cam.zoom, my: (cam.oy - sy) / cam.zoom });
+
+        function extLine(x1, y1, x2, y2, ext = 20) {
+            const dx = x2 - x1, dy = y2 - y1, len = Math.hypot(dx, dy) || 1;
+            const ux = dx / len, uy = dy / len;
+            return { ax: x1 - ux * ext, ay: y1 - uy * ext, bx: x1 + ux * ext, by: y1 + uy * ext };
+        }
+
+        function extRay(x1, y1, x2, y2, ext = 20) {
+            const dx = x2 - x1, dy = y2 - y1, len = Math.hypot(dx, dy) || 1;
+            const ux = dx / len, uy = dy / len;
+            return { ax: x1, ay: y1, bx: x1 + ux * ext, by: y1 + uy * ext };
+        }
+
+        function rightAnglePts(vx, vy, ax, ay, bx, by, sz = 0.18) {
+            const d1 = dist(vx, vy, ax, ay) || 1, d2 = dist(vx, vy, bx, by) || 1;
+            const u1 = [(ax - vx) / d1, (ay - vy) / d1], u2 = [(bx - vx) / d2, (by - vy) / d2];
+            const p1 = [vx + u1[0] * sz, vy + u1[1] * sz];
+            const p2 = [vx + u2[0] * sz, vy + u2[1] * sz];
+            const c = [p1[0] + u2[0] * sz, p1[1] + u2[1] * sz];
+            return { p1, p2, c };
+        }
+
+        function nextName() {
+            const used = new Set(shapes.filter(s => s.type === 'point').map(s => s.name));
+            for (const c of NAMES) if (!used.has(c)) return c;
+            return 'P' + shapes.filter(s => s.type === 'point').length;
+        }
+
+        // ── History Management ──────────────────────────────────
+        function pushHistory() {
+            historyStack = historyStack.slice(0, historyIndex + 1);
+            historyStack.push(JSON.parse(JSON.stringify(shapes)));
+            historyIndex = historyStack.length - 1;
+            updateHistoryButtons();
+        }
+
+        function undo() {
+            if (historyIndex > 0) {
+                historyIndex--;
+                shapes = JSON.parse(JSON.stringify(historyStack[historyIndex]));
+                selectedId = null;
+                ts = null;
+                render();
+                updateHistoryButtons();
+            }
+        }
+
+        function redo() {
+            if (historyIndex < historyStack.length - 1) {
+                historyIndex++;
+                shapes = JSON.parse(JSON.stringify(historyStack[historyIndex]));
+                selectedId = null;
+                ts = null;
+                render();
+                updateHistoryButtons();
+            }
+        }
+
+        function updateHistoryButtons() {
+            document.getElementById('btn-undo').disabled = historyIndex === 0;
+            document.getElementById('btn-redo').disabled = historyIndex === historyStack.length - 1;
+        }
+
+        // ── Shape Resolver ──────────────────────────────────────
+        function resolveShapes(shapeList) {
+            const findPt = id => { const p = shapeList.find(s => s.id === id); return p && 'x' in p ? p : null; };
+            return shapeList.map(s => {
+                if (s.derivedFrom === 'midpoint' && s.parentId) {
+                    const parent = shapeList.find(p => p.id === s.parentId);
+                    if (parent && 'x1' in parent)
+                        return { ...s, x: (parent.x1 + parent.x2) / 2, y: (parent.y1 + parent.y2) / 2 };
+                }
+                let r = s;
+                if (s.bindP1) { const p = findPt(s.bindP1); if (p) r = { ...r, x1: p.x, y1: p.y }; }
+                if (s.bindP2) { const p = findPt(s.bindP2); if (p) r = { ...r, x2: p.x, y2: p.y }; }
+                if (s.bindCenter) { const p = findPt(s.bindCenter); if (p) r = { ...r, cx: p.x, cy: p.y }; }
+                if (s.bindVx) { const p = findPt(s.bindVx); if (p) r = { ...r, vx: p.x, vy: p.y }; }
+                if (s.bindAx) { const p = findPt(s.bindAx); if (p) r = { ...r, ax: p.x, ay: p.y }; }
+                if (s.bindBx) { const p = findPt(s.bindBx); if (p) r = { ...r, bx: p.x, by: p.y }; }
+                if (s.bindV && s.vertices) {
+                    r = { ...r, vertices: s.vertices.map((v, i) => { const p = findPt(s.bindV[i]); return p ? [p.x, p.y] : v; }) };
+                }
+                return r;
+            });
+        }
+
+        // ── Grid & Drawing ──────────────────────────────────────
+        function drawGrid() {
+            let html = '';
+            const rect = svg.getBoundingClientRect();
+            const w = rect.width, h = rect.height;
+
+            // Draw axis lines
+            html += `<line x1="0" y1="${cam.oy}" x2="${w}" y2="${cam.oy}" stroke="#e2e8f0" stroke-width="1.5" />`;
+            html += `<line x1="${cam.ox}" y1="0" x2="${cam.ox}" y2="${h}" stroke="#e2e8f0" stroke-width="1.5" />`;
+
+            // Draw major grid lines based on zoom
+            const step = cam.zoom;
+            if (step > 20) {
+                // X axis vertical grid lines
+                const startX = cam.ox % step;
+                for (let x = startX; x < w; x += step) {
+                    if (Math.abs(x - cam.ox) > 1) {
+                        html += `<line x1="${x}" y1="0" x2="${x}" y2="${h}" stroke="#f1f5f9" stroke-width="1" />`;
+                    }
+                }
+                // Y axis horizontal grid lines
+                const startY = cam.oy % step;
+                for (let y = startY; y < h; y += step) {
+                    if (Math.abs(y - cam.oy) > 1) {
+                        html += `<line x1="0" y1="${y}" x2="${w}" y2="${y}" stroke="#f1f5f9" stroke-width="1" />`;
+                    }
+                }
+            }
+            gridGroup.innerHTML = html;
+        }
+
+        function render() {
+            const resolved = resolveShapes(shapes);
+
+            // 1. Defs markers
+            const defs = svg.querySelector('defs');
+            const uniqueColors = [...new Set([...shapes.map(s => s.color || '#1e293b'), '#6366f1'])];
+            let markersHtml = '';
+            uniqueColors.forEach(c => {
+                const id = `arr${c.replace('#', '')}`;
+                markersHtml += `<marker id="${id}" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="${c}" /></marker>`;
+            });
+            defs.innerHTML = markersHtml;
+
+            // 2. Render shapes
+            let shapesHtml = '';
+            resolved.forEach(s => {
+                shapesHtml += getShapeHtml(s);
+            });
+            shapesGroup.innerHTML = shapesHtml;
+
+            // 3. Render handles for selection
+            let handlesHtml = '';
+            if (activeTool === 'select' && selectedId) {
+                const selectedShape = resolved.find(s => s.id === selectedId);
+                if (selectedShape && !selectedShape.derivedFrom) {
+                    handlesHtml += getHandlesHtml(selectedShape);
+                }
+            }
+            handlesGroup.innerHTML = handlesHtml;
+
+            // 4. Update code panel
+            updateCodePanel();
+            updatePropertiesPanel();
+        }
+
+        function getShapeHtml(s) {
+            const col = s.color || '#1e293b';
+            const da = dashArr[s.dash || 'solid'] || 'none';
+            const sw = s.width || 2;
+            const hili = s.id === selectedId || s.id === hovId;
+            const clickStyles = `stroke: ${col}; stroke-width: ${sw}; stroke-dasharray: ${da}; fill: none; cursor: pointer; pointer-events: all;`;
+            const hoverGlow = hili ? `stroke: ${col}; stroke-width: ${sw + 8}; stroke-opacity: 0.15; fill: none; stroke-linecap: round; pointer-events: none;` : '';
+
+            let body = '';
+            switch (s.type) {
+                case 'point': {
+                    const { sx, sy } = m2s(s.x, s.y);
+                    const glow = hili ? `<circle cx="${sx}" cy="${sy}" r="10" fill="${col}" fill-opacity="0.12" stroke="none" />` : '';
+                    const lbl = s.label !== false && s.name ? `<text x="${sx + 8}" y="${sy - 6}" font-size="13" fill="${col}" font-style="italic" font-weight="600" pointer-events="none">${s.name}</text>` : '';
+                    body = `${glow}<circle cx="${sx}" cy="${sy}" r="5.5" fill="${col}" stroke="white" stroke-width="1.8" cursor="pointer" pointer-events="all" onpointerdown="onShapeDown(event, '${s.id}')" onpointerenter="hovId='${s.id}';render();" onpointerleave="hovId=null;render();" />${lbl}`;
+                    break;
+                }
+                case 'segment': case 'arrow': case 'line': case 'ray': {
+                    const e2 = s.type === 'line' ? extLine(s.x1, s.y1, s.x2, s.y2)
+                        : s.type === 'ray' ? extRay(s.x1, s.y1, s.x2, s.y2)
+                            : { ax: s.x1, ay: s.y1, bx: s.x2, by: s.y2 };
+                    const { sx: x1s, sy: y1s } = m2s(e2.ax, e2.ay);
+                    const { sx: x2s, sy: y2s } = m2s(e2.bx, e2.by);
+                    const mEnd = (s.type === 'arrow' || s.type === 'ray') ? `marker-end="url(#arr${col.replace('#', '')})"` : '';
+                    const glow = hili ? `<line x1="${x1s}" y1="${y1s}" x2="${x2s}" y2="${y2s}" style="${hoverGlow}" />` : '';
+                    body = `${glow}<line x1="${x1s}" y1="${y1s}" x2="${x2s}" y2="${y2s}" style="${clickStyles}" ${mEnd} stroke-linecap="round" onpointerdown="onShapeDown(event, '${s.id}')" onpointerenter="hovId='${s.id}';render();" onpointerleave="hovId=null;render();" />`;
+                    break;
+                }
+                case 'circle': {
+                    const { sx: csx, sy: csy } = m2s(s.cx, s.cy);
+                    const rsc = s.r * cam.zoom;
+                    const glow = hili ? `<circle cx="${csx}" cy="${csy}" r="${rsc + 5}" stroke="${col}" stroke-width="1" stroke-opacity="0.25" fill="none" stroke-dasharray="4,3" />` : '';
+                    const fillStr = s.fill ? `fill: ${s.fill}; fill-opacity: ${s.fillOpacity || 0.15};` : '';
+                    body = `${glow}<circle cx="${csx}" cy="${csy}" r="${rsc}" style="${clickStyles} ${fillStr}" onpointerdown="onShapeDown(event, '${s.id}')" onpointerenter="hovId='${s.id}';render();" onpointerleave="hovId=null;render();" />`;
+                    break;
+                }
+                case 'ellipse': {
+                    const { sx: csx, sy: csy } = m2s(s.cx, s.cy);
+                    const rxsc = s.rx * cam.zoom, rysc = s.ry * cam.zoom;
+                    const glow = hili ? `<ellipse cx="${csx}" cy="${csy}" rx="${rxsc + 5}" ry="${rysc + 5}" stroke="${col}" stroke-width="1" stroke-opacity="0.25" fill="none" stroke-dasharray="4,3" />` : '';
+                    const fillStr = s.fill ? `fill: ${s.fill}; fill-opacity: ${s.fillOpacity || 0.15};` : '';
+                    body = `${glow}<ellipse cx="${csx}" cy="${csy}" rx="${rxsc}" ry="${rysc}" style="${clickStyles} ${fillStr}" onpointerdown="onShapeDown(event, '${s.id}')" onpointerenter="hovId='${s.id}';render();" onpointerleave="hovId=null;render();" />`;
+                    break;
+                }
+                case 'polygon': {
+                    const pts = s.vertices.map(([mx2, my2]) => { const { sx, sy } = m2s(mx2, my2); return `${sx},${sy}`; }).join(' ');
+                    const glow = hili ? `<polygon points="${pts}" stroke="${col}" stroke-width="${sw + 8}" stroke-opacity="0.12" fill="none" />` : '';
+                    const fillStr = s.fill ? `fill: ${s.fill}; fill-opacity: ${s.fillOpacity || 0.15};` : '';
+                    body = `${glow}<polygon points="${pts}" style="${clickStyles} ${fillStr} stroke-linejoin: round;" onpointerdown="onShapeDown(event, '${s.id}')" onpointerenter="hovId='${s.id}';render();" onpointerleave="hovId=null;render();" />`;
+                    break;
+                }
+                case 'arc': {
+                    const { sx: csx, sy: csy } = m2s(s.cx, s.cy);
+                    const rsc = s.r * cam.zoom;
+                    const th1 = -s.startAngle * DEG, th2 = -s.endAngle * DEG;
+                    const delta = ((th2 - th1) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI);
+                    const ms = delta <= Math.PI ? 1 : 0;
+                    const px1 = csx + rsc * Math.cos(th1), py1 = csy + rsc * Math.sin(th1);
+                    const px2 = csx + rsc * Math.cos(th2), py2 = csy + rsc * Math.sin(th2);
+                    const arcD = s.large
+                        ? `M ${px1} ${py1} A ${rsc} ${rsc} 0 1 ${1 - ms} ${px2} ${py2}`
+                        : `M ${px1} ${py1} A ${rsc} ${rsc} 0 0 ${ms} ${px2} ${py2}`;
+                    const glow = hili ? `<path d="${arcD}" stroke="${col}" stroke-width="${sw + 8}" stroke-opacity="0.15" fill="none" />` : '';
+                    body = `${glow}<path d="${arcD}" style="${clickStyles}" onpointerdown="onShapeDown(event, '${s.id}')" onpointerenter="hovId='${s.id}';render();" onpointerleave="hovId=null;render();" />`;
+                    break;
+                }
+                case 'bezier': {
+                    const { sx: x1s, sy: y1s } = m2s(s.x1, s.y1);
+                    const { sx: cp1x, sy: cp1y } = m2s(s.cx1, s.cy1);
+                    const { sx: cp2x, sy: cp2y } = m2s(s.cx2, s.cy2);
+                    const { sx: x2s, sy: y2s } = m2s(s.x2, s.y2);
+                    const d = `M ${x1s} ${y1s} C ${cp1x} ${cp1y} ${cp2x} ${cp2y} ${x2s} ${y2s}`;
+                    const glow = hili ? `<path d="${d}" stroke="${col}" stroke-width="${sw + 8}" stroke-opacity="0.15" fill="none" />` : '';
+                    const helperLines = hili ? `<line x1="${x1s}" y1="${y1s}" x2="${cp1x}" y2="${cp1y}" stroke="${col}" stroke-width="1" stroke-opacity="0.35" stroke-dasharray="4,3" /><line x1="${x2s}" y1="${y2s}" x2="${cp2x}" y2="${cp2y}" stroke="${col}" stroke-width="1" stroke-opacity="0.35" stroke-dasharray="4,3" />` : '';
+                    body = `${glow}${helperLines}<path d="${d}" style="${clickStyles}" onpointerdown="onShapeDown(event, '${s.id}')" onpointerenter="hovId='${s.id}';render();" onpointerleave="hovId=null;render();" />`;
+                    break;
+                }
+                case 'angle': {
+                    const { sx: vsx, sy: vsy } = m2s(s.vx, s.vy);
+                    const { sx: asx, sy: asy } = m2s(s.ax, s.ay);
+                    const { sx: bsx, sy: bsy } = m2s(s.bx, s.by);
+                    const r = (s.arcR || 0.4) * cam.zoom;
+                    const th1 = Math.atan2(asy - vsy, asx - vsx), th2 = Math.atan2(bsy - vsy, bsx - vsx);
+                    const delta = ((th2 - th1) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI);
+                    const sweep = delta <= Math.PI ? 1 : 0;
+                    const clickArea = `stroke: transparent; stroke-width: 12; fill: none; cursor: pointer; pointer-events: all;`;
+                    if (s.rightAngle) {
+                        const sc = s.arcR || 0.3;
+                        const { p1, p2, c } = rightAnglePts(s.vx, s.vy, s.ax, s.ay, s.bx, s.by, sc);
+                        const P1 = m2s(...p1), P2 = m2s(...p2), C = m2s(...c);
+                        const d = `M ${P1.sx} ${P1.sy} L ${C.sx} ${C.sy} L ${P2.sx} ${P2.sy}`;
+                        body = `<path d="${d}" stroke="${col}" stroke-width="${sw}" fill="none" stroke-linecap="square" /><path d="${d}" style="${clickArea}" onpointerdown="onShapeDown(event, '${s.id}')" />`;
+                    } else {
+                        const sx1 = vsx + r * Math.cos(th1), sy1 = vsy + r * Math.sin(th1);
+                        const sx2 = vsx + r * Math.cos(th2), sy2 = vsy + r * Math.sin(th2);
+                        const arcD = `M ${sx1} ${sy1} A ${r} ${r} 0 0 ${sweep} ${sx2} ${sy2}`;
+                        body = `<path d="${arcD}" stroke="${col}" stroke-width="${sw}" fill="none" /><path d="${arcD}" style="${clickArea}" onpointerdown="onShapeDown(event, '${s.id}')" />`;
+                    }
+                    break;
+                }
+                case 'text': {
+                    const { sx, sy } = m2s(s.x, s.y);
+                    const glow = hili ? `<rect x="${sx - 4}" y="${sy - 18}" width="${(s.text || '').length * 8 + 14}" height="24" rx="3" fill="${col}" fill-opacity="0.08" stroke="${col}" stroke-width="1" stroke-opacity="0.25" pointer-events="none" />` : '';
+                    body = `${glow}<text x="${sx}" y="${sy}" font-size="${s.fontSize || 16}" fill="${col}" font-weight="bold" cursor="pointer" pointer-events="all" onpointerdown="onShapeDown(event, '${s.id}')" onpointerenter="hovId='${s.id}';render();" onpointerleave="hovId=null;render();">${s.text || ''}</text>`;
+                    break;
+                }
+            }
+            return `<g id="group-${s.id}">${body}</g>`;
+        }
+
+        function getHandlesHtml(s) {
+            let html = '';
+            const H = (mx, my, hkey, color = '#6366f1', diamond = false) => {
+                const { sx, sy } = m2s(mx, my);
+                if (diamond) {
+                    const r = 7;
+                    return `<polygon points="${sx},${sy - r} ${sx + r},${sy} ${sx},${sy + r} ${sx - r},${sy}" fill="${color}" stroke="white" stroke-width="1.5" cursor="crosshair" onpointerdown="onHandleDown(event, '${s.id}', '${hkey}')" />`;
+                }
+                return `<circle cx="${sx}" cy="${sy}" r="6.5" fill="${color}" stroke="white" stroke-width="1.8" cursor="crosshair" onpointerdown="onHandleDown(event, '${s.id}', '${hkey}')" />`;
+            };
+
+            switch (s.type) {
+                case 'point': html += H(s.x, s.y, 'pt'); break;
+                case 'segment': case 'arrow': case 'line': case 'ray':
+                    html += H(s.x1, s.y1, 'p1', s.bindP1 ? '#f59e0b' : '#6366f1');
+                    html += H(s.x2, s.y2, 'p2', s.bindP2 ? '#f59e0b' : '#6366f1');
+                    break;
+                case 'circle':
+                    html += H(s.cx, s.cy, 'center', s.bindCenter ? '#f59e0b' : '#6366f1');
+                    html += H(s.cx + s.r, s.cy, 'radius', '#f97316');
+                    break;
+                case 'ellipse':
+                    html += H(s.cx, s.cy, 'center', s.bindCenter ? '#f59e0b' : '#6366f1');
+                    html += H(s.cx + s.rx, s.cy, 'rx_pt', '#f97316');
+                    html += H(s.cx, s.cy + s.ry, 'ry_pt', '#22c55e');
+                    break;
+                case 'polygon':
+                    s.vertices.forEach(([vx, vy], i) => {
+                        html += H(vx, vy, `v${i}`, s.bindV?.[i] ? '#f59e0b' : '#6366f1');
+                    });
+                    break;
+                case 'arc': {
+                    const spx = s.cx + s.r * Math.cos(s.startAngle * DEG), spy = s.cy + s.r * Math.sin(s.startAngle * DEG);
+                    const epx = s.cx + s.r * Math.cos(s.endAngle * DEG), epy = s.cy + s.r * Math.sin(s.endAngle * DEG);
+                    html += H(s.cx, s.cy, 'center', s.bindCenter ? '#f59e0b' : '#6366f1');
+                    html += H(spx, spy, 'start_pt', '#f97316');
+                    html += H(epx, epy, 'end_pt', '#22c55e');
+                    break;
+                }
+                case 'bezier':
+                    html += H(s.x1, s.y1, 'p1');
+                    html += H(s.cx1, s.cy1, 'cp1', '#f97316', true);
+                    html += H(s.cx2, s.cy2, 'cp2', '#f97316', true);
+                    html += H(s.x2, s.y2, 'p2');
+                    break;
+                case 'angle':
+                    html += H(s.vx, s.vy, 'vertex', s.bindVx ? '#f59e0b' : '#6366f1');
+                    html += H(s.ax, s.ay, 'arm1', s.bindAx ? '#f59e0b' : '#f97316');
+                    html += H(s.bx, s.by, 'arm2', s.bindBx ? '#f59e0b' : '#22c55e');
+                    break;
+                case 'text': html += H(s.x, s.y, 'pt'); break;
+            }
+            return html;
+        }
+
+        // ── Event Handlers ──────────────────────────────────────
+        function setActiveTool(tool) {
+            activeTool = tool;
+            ts = null;
+            document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(`tool-${tool}`).classList.add('active');
+            render();
+        }
+
+        function setSnapGrid(gridVal) {
+            snapGrid = gridVal;
+            document.querySelectorAll('.grid-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(`grid-${gridVal}`).classList.add('active');
+            render();
+        }
+
+        function setCodeTab(tab) {
+            codeTab = tab;
+            document.querySelectorAll('.code-tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(`tab-${tab}`)?.classList.add('active');
+            updateCodePanel();
+        }
+
+        function onPointerDown(e) {
+            if (e.button === 1 || (e.button === 0 && e.altKey)) {
+                e.preventDefault();
+                pan = { startX: e.clientX, startY: e.clientY, ox: cam.ox, oy: cam.oy };
+                return;
+            }
+            if (e.button !== 0) return;
+
+            const rect = svg.getBoundingClientRect();
+            const sx = e.clientX - rect.left, sy = e.clientY - rect.top;
+            const { mx, my } = s2m(sx, sy);
+            const { mx: smx, my: smy, snapInfo: si } = doSnap(mx, my);
+            const bid = si?.id || null;
+
+            if (activeTool === 'select') {
+                // If not clicking any shape, clear selection
+                if (e.target === svg) {
+                    selectedId = null;
+                    render();
+                }
+                return;
+            }
+
+            // Create shapes based on tool
+            switch (activeTool) {
+                case 'point':
+                    shapes.push({ id: uid(), type: 'point', x: smx, y: smy, name: nextName(), color: COLORS[0], label: true });
+                    pushHistory();
+                    render();
+                    break;
+                case 'midpoint':
+                    if (!ts) {
+                        ts = { step: 1, x: smx, y: smy };
+                    } else {
+                        shapes.push({ id: uid(), type: 'point', x: (ts.x + smx) / 2, y: (ts.y + smy) / 2, name: nextName(), color: COLORS[1], label: true });
+                        ts = null;
+                        pushHistory();
+                        render();
+                    }
+                    break;
+                case 'segment': case 'arrow': case 'line': case 'ray':
+                    if (!ts) {
+                        ts = { x1: smx, y1: smy, ...(bid ? { bindP1: bid } : {}) };
+                    } else {
+                        shapes.push({
+                            id: uid(), type: activeTool, x1: ts.x1, y1: ts.y1, x2: smx, y2: smy,
+                            ...(ts.bindP1 ? { bindP1: ts.bindP1 } : {}), ...(bid ? { bindP2: bid } : {}),
+                            color: COLORS[0], dash: 'solid', width: 2
+                        });
+                        ts = null;
+                        pushHistory();
+                        render();
+                    }
+                    break;
+                case 'polygon':
+                    if (!ts) {
+                        ts = { verts: [[smx, smy]], bindV: [bid] };
+                    } else {
+                        const { sx: fx, sy: fy } = m2s(ts.verts[0][0], ts.verts[0][1]);
+                        const dClose = dist(fx, fy, sx, sy);
+                        if (ts.verts.length >= 3 && dClose < SNAP_PT_PX) {
+                            const bv = ts.bindV;
+                            const hasBind = bv && bv.some(Boolean);
+                            shapes.push({
+                                id: uid(), type: 'polygon', vertices: [...ts.verts],
+                                ...(hasBind ? { bindV: bv } : {}), color: COLORS[0], fill: '', dash: 'solid', width: 2
+                            });
+                            ts = null;
+                            pushHistory();
+                            render();
+                        } else {
+                            ts.verts.push([smx, smy]);
+                            ts.bindV.push(bid);
+                        }
+                    }
+                    break;
+                case 'circle':
+                    if (!ts) {
+                        ts = { cx: smx, cy: smy, ...(bid ? { bindCenter: bid } : {}) };
+                    } else {
+                        shapes.push({
+                            id: uid(), type: 'circle', cx: ts.cx, cy: ts.cy, r: Math.max(0.05, fmtN(dist(ts.cx, ts.cy, smx, smy))),
+                            ...(ts.bindCenter ? { bindCenter: ts.bindCenter } : {}), color: COLORS[0], fill: '', dash: 'solid', width: 2
+                        });
+                        ts = null;
+                        pushHistory();
+                        render();
+                    }
+                    break;
+                case 'ellipse':
+                    if (!ts) {
+                        ts = { step: 1, cx: smx, cy: smy, ...(bid ? { bindCenter: bid } : {}) };
+                    } else {
+                        shapes.push({
+                            id: uid(), type: 'ellipse', cx: ts.cx, cy: ts.cy,
+                            ...(ts.bindCenter ? { bindCenter: ts.bindCenter } : {}),
+                            rx: Math.max(0.1, fmtN(Math.abs(smx - ts.cx))), ry: Math.max(0.1, fmtN(Math.abs(smy - ts.cy))),
+                            color: COLORS[0], fill: '', dash: 'solid', width: 2
+                        });
+                        ts = null;
+                        pushHistory();
+                        render();
+                    }
+                    break;
+                case 'arc':
+                    if (!ts) {
+                        ts = { step: 1, cx: smx, cy: smy, ...(bid ? { bindCenter: bid } : {}) };
+                    } else if (ts.step === 1) {
+                        ts.step = 2;
+                        ts.r = Math.max(0.05, dist(ts.cx, ts.cy, smx, smy));
+                        ts.startAngle = fmtN(mathDeg(ts.cx, ts.cy, smx, smy));
+                    } else {
+                        shapes.push({
+                            id: uid(), type: 'arc', cx: ts.cx, cy: ts.cy,
+                            ...(ts.bindCenter ? { bindCenter: ts.bindCenter } : {}),
+                            r: fmtN(ts.r), startAngle: ts.startAngle, endAngle: fmtN(mathDeg(ts.cx, ts.cy, smx, smy)),
+                            large: false, color: COLORS[0], dash: 'solid', width: 2
+                        });
+                        ts = null;
+                        pushHistory();
+                        render();
+                    }
+                    break;
+                case 'bezier':
+                    if (!ts) {
+                        ts = { step: 1, x1: smx, y1: smy, ...(bid ? { bindP1: bid } : {}) };
+                    } else if (ts.step === 1) {
+                        ts.step = 2; ts.cx1 = smx; ts.cy1 = smy;
+                    } else if (ts.step === 2) {
+                        ts.step = 3; ts.cx2 = smx; ts.cy2 = smy;
+                    } else {
+                        shapes.push({
+                            id: uid(), type: 'bezier', x1: ts.x1, y1: ts.y1, cx1: ts.cx1, cy1: ts.cy1, cx2: ts.cx2, cy2: ts.cy2, x2: smx, y2: smy,
+                            ...(ts.bindP1 ? { bindP1: ts.bindP1 } : {}), ...(bid ? { bindP2: bid } : {}),
+                            color: COLORS[0], dash: 'solid', width: 2
+                        });
+                        ts = null;
+                        pushHistory();
+                        render();
+                    }
+                    break;
+                case 'angle':
+                    if (!ts) {
+                        ts = { step: 1, vx: smx, vy: smy, ...(bid ? { bindVx: bid } : {}) };
+                    } else if (ts.step === 1) {
+                        ts.step = 2; ts.ax = smx; ts.ay = smy; ts.bindAx = bid;
+                    } else {
+                        shapes.push({
+                            id: uid(), type: 'angle', vx: ts.vx, vy: ts.vy, ax: ts.ax, ay: ts.ay, bx: smx, by: smy,
+                            ...(ts.bindVx ? { bindVx: ts.bindVx } : {}), ...(ts.bindAx ? { bindAx: ts.bindAx } : {}), ...(bid ? { bindBx: bid } : {}),
+                            color: COLORS[0], arcR: 0.4, rightAngle: false
+                        });
+                        ts = null;
+                        pushHistory();
+                        render();
+                    }
+                    break;
+                case 'text':
+                    shapes.push({ id: uid(), type: 'text', x: smx, y: smy, text: 'Điểm O', color: COLORS[0], fontSize: 16 });
+                    pushHistory();
+                    render();
+                    break;
+            }
+        }
+
+        function onPointerMove(e) {
+            const rect = svg.getBoundingClientRect();
+            const sx = e.clientX - rect.left, sy = e.clientY - rect.top;
+            const { mx, my } = s2m(sx, sy);
+            const { mx: smx, my: smy, snapInfo: si } = doSnap(mx, my);
+
+            // Coordinates info text
+            coordText.textContent = `(${fmtN(smx)}, ${fmtN(smy)})`;
+
+            // Pan logic
+            if (pan) {
+                const dx = e.clientX - pan.startX, dy = e.clientY - pan.startY;
+                cam.ox = pan.ox + dx;
+                cam.oy = pan.oy + dy;
+                drawGrid();
+                render();
+                return;
+            }
+
+            // Drag handle/shape logic
+            if (hDrag) {
+                const dx = mx - hDrag.initMx, dy = my - hDrag.initMy;
+                const updated = applyHandleDrag(hDrag.orig, hDrag.key, dx, dy);
+                shapes = shapes.map(s => s.id === hDrag.shapeId ? updated : s);
+                render();
+                return;
+            }
+
+            // Render drawing previews
+            updateDrawingPreview(smx, smy, si, sx, sy);
+        }
+
+        function onPointerUp(e) {
+            if (pan) {
+                pan = null;
+                return;
+            }
+            if (hDrag) {
+                hDrag = null;
+                pushHistory();
+                render();
+            }
+        }
+
+        function onShapeDown(e, id) {
+            if (activeTool !== 'select') return;
+            e.stopPropagation();
+            selectedId = id;
+            const s = shapes.find(x => x.id === id);
+            if (s && !s.derivedFrom) {
+                const hasBind = s.bindP1 || s.bindP2 || s.bindCenter || s.bindVx || s.bindAx || s.bindBx || (s.bindV && s.bindV.some(Boolean));
+                if (!hasBind) {
+                    const rect = svg.getBoundingClientRect();
+                    const { mx, my } = s2m(e.clientX - rect.left, e.clientY - rect.top);
+                    hDrag = { shapeId: s.id, key: 'whole', orig: JSON.parse(JSON.stringify(s)), initMx: mx, initMy: my };
+                }
+            }
+            render();
+        }
+
+        function onHandleDown(e, shapeId, key) {
+            e.stopPropagation();
+            const rect = svg.getBoundingClientRect();
+            const { mx, my } = s2m(e.clientX - rect.left, e.clientY - rect.top);
+            const shape = shapes.find(s => s.id === shapeId);
+            if (shape) {
+                hDrag = { shapeId, key, orig: JSON.parse(JSON.stringify(shape)), initMx: mx, initMy: my };
+            }
+        }
+
+        // ── Snap to Grid & Points ──────────────────────────────
+        function doSnap(rawMx, rawMy) {
+            const { sx: rmx, sy: rmy } = m2s(rawMx, rawMy);
+
+            // Pass 1: Named points win first
+            let namedBest = null, namedBestD = SNAP_PT_PX;
+            shapes.forEach(s => {
+                if (s.type === 'point') {
+                    const { sx, sy } = m2s(s.x, s.y);
+                    const d = dist(sx, sy, rmx, rmy);
+                    if (d < namedBestD) {
+                        namedBestD = d;
+                        namedBest = { mx: s.x, my: s.y, type: 'point', sx, sy, id: s.id };
+                    }
+                }
+            });
+            if (namedBest) return { mx: namedBest.mx, my: namedBest.my, snapInfo: namedBest };
+
+            // Pass 2: Shape key points
+            let best = null, bestD = SNAP_PT_PX;
+            shapes.forEach(s => {
+                const pts = [];
+                if ('x' in s && 'y' in s && !('x1' in s) && !('cx' in s)) pts.push({ x: s.x, y: s.y });
+                if ('x1' in s) { pts.push({ x: s.x1, y: s.y1 }); pts.push({ x: s.x2, y: s.y2 }); }
+                if ('cx' in s && 'cy' in s) pts.push({ x: s.cx, y: s.cy });
+                if ('vx' in s) { pts.push({ x: s.vx, y: s.vy }); pts.push({ x: s.ax, y: s.ay }); pts.push({ x: s.bx, y: s.by }); }
+                if ('vertices' in s) s.vertices.forEach(([vx, vy]) => pts.push({ x: vx, y: vy }));
+
+                pts.forEach(({ x: px, y: py }) => {
+                    const { sx, sy } = m2s(px, py);
+                    const d = dist(sx, sy, rmx, rmy);
+                    if (d < bestD) {
+                        bestD = d;
+                        best = { mx: px, my: py, type: 'point', sx, sy, id: null };
+                    }
+                });
+            });
+            if (best) return { mx: best.mx, my: best.my, snapInfo: best };
+
+            // Pass 3: Midpoints of segments
+            let bestM = null, bestMD = SNAP_PT_PX;
+            shapes.forEach(s => {
+                if ('x1' in s && 'x2' in s) {
+                    const px = (s.x1 + s.x2) / 2, py = (s.y1 + s.y2) / 2;
+                    const { sx, sy } = m2s(px, py);
+                    const d = dist(sx, sy, rmx, rmy);
+                    if (d < bestMD) {
+                        bestMD = d;
+                        bestM = { mx: px, my: py, type: 'midpoint', sx, sy };
+                    }
+                }
+            });
+            if (bestM) return { mx: bestM.mx, my: bestM.my, snapInfo: bestM };
+
+            // Pass 4: Math Snap Grid
+            const sg = v => snapGrid > 0 ? Math.round(v / snapGrid) * snapGrid : v;
+            return { mx: sg(rawMx), my: sg(rawMy), snapInfo: null };
+        }
+
+        function applyHandleDrag(orig, key, dx, dy) {
+            const sg = v => snapGrid > 0 ? Math.round(v / snapGrid) * snapGrid : v;
+            switch (key) {
+                case 'whole': {
+                    const o = orig;
+                    if ('x' in o && 'y' in o && !('x1' in o) && !('cx' in o) && !('vertices' in o) && !('vx' in o))
+                        return { ...o, x: sg(o.x + dx), y: sg(o.y + dy) };
+                    if ('x1' in o) {
+                        const r = { ...o, x1: sg(o.x1 + dx), y1: sg(o.y1 + dy), x2: sg(o.x2 + dx), y2: sg(o.y2 + dy) };
+                        if ('cx1' in o) Object.assign(r, { cx1: sg(o.cx1 + dx), cy1: sg(o.cy1 + dy), cx2: sg(o.cx2 + dx), cy2: sg(o.cy2 + dy) });
+                        return r;
+                    }
+                    if ('cx' in o && 'cy' in o) return { ...o, cx: sg(o.cx + dx), cy: sg(o.cy + dy) };
+                    if ('vertices' in o) return { ...o, vertices: o.vertices.map(([vx, vy]) => [sg(vx + dx), sg(vy + dy)]) };
+                    if ('vx' in o) return { ...o, vx: sg(o.vx + dx), vy: sg(o.vy + dy), ax: sg(o.ax + dx), ay: sg(o.ay + dy), bx: sg(o.bx + dx), by: sg(o.by + dy) };
+                    return orig;
+                }
+                case 'pt': return { ...orig, x: sg(orig.x + dx), y: sg(orig.y + dy) };
+                case 'p1': return { ...orig, x1: sg(orig.x1 + dx), y1: sg(orig.y1 + dy) };
+                case 'p2': return { ...orig, x2: sg(orig.x2 + dx), y2: sg(orig.y2 + dy) };
+                case 'cp1': return { ...orig, cx1: sg(orig.cx1 + dx), cy1: sg(orig.cy1 + dy) };
+                case 'cp2': return { ...orig, cx2: sg(orig.cx2 + dx), cy2: sg(orig.cy2 + dy) };
+                case 'center': return { ...orig, cx: sg(orig.cx + dx), cy: sg(orig.cy + dy) };
+                case 'radius': return { ...orig, r: Math.max(0.1, fmtN(orig.r + dx)) };
+                case 'rx_pt': return { ...orig, rx: Math.max(0.1, fmtN(orig.rx + dx)) };
+                case 'ry_pt': return { ...orig, ry: Math.max(0.1, fmtN(orig.ry - dy)) };
+                case 'arm1': return { ...orig, ax: sg(orig.ax + dx), ay: sg(orig.ay + dy) };
+                case 'arm2': return { ...orig, bx: sg(orig.bx + dx), by: sg(orig.by + dy) };
+                case 'vertex': return { ...orig, vx: sg(orig.vx + dx), vy: sg(orig.vy + dy) };
+                case 'start_pt': {
+                    const spx = orig.cx + orig.r * Math.cos(orig.startAngle * DEG) + dx, spy = orig.cy + orig.r * Math.sin(orig.startAngle * DEG) + dy;
+                    return { ...orig, startAngle: fmtN(mathDeg(orig.cx, orig.cy, spx, spy)), r: fmtN(Math.max(0.1, dist(orig.cx, orig.cy, spx, spy))) };
+                }
+                case 'end_pt': {
+                    const epx = orig.cx + orig.r * Math.cos(orig.endAngle * DEG) + dx, epy = orig.cy + orig.r * Math.sin(orig.endAngle * DEG) + dy;
+                    return { ...orig, endAngle: fmtN(mathDeg(orig.cx, orig.cy, epx, epy)) };
+                }
+                default:
+                    if (key.startsWith('v')) {
+                        const i = parseInt(key.slice(1));
+                        return { ...orig, vertices: orig.vertices.map((v, j) => j === i ? [sg(v[0] + dx), sg(v[1] + dy)] : v) };
+                    }
+                    return orig;
+            }
+        }
+
+        // ── Drawing Preview renderer ───────────────────────────
+        function updateDrawingPreview(smx, smy, si, sx, sy) {
+            let previewHtml = '';
+            let snapHtml = '';
+
+            // Snap indicator
+            if (si) {
+                const { sx: ssx, sy: ssy } = m2s(si.mx, si.my);
+                if (si.type === 'midpoint') {
+                    snapHtml = `<polygon points="${ssx},${ssy - 8} ${ssx + 8},${ssy} ${ssx},${ssy + 8} ${ssx - 8},${ssy}" fill="#f97316" fill-opacity="0.8" />`;
+                } else if (si.id) {
+                    snapHtml = `<g><circle cx="${ssx}" cy="${ssy}" r="9" stroke="#f59e0b" stroke-width="2" fill="none" /><circle cx="${ssx}" cy="${ssy}" r="3.5" fill="#f59e0b" /></g>`;
+                } else {
+                    snapHtml = `<circle cx="${ssx}" cy="${ssy}" r="8" stroke="#22c55e" stroke-width="2" fill="none" />`;
+                }
+            }
+            snapGroup.innerHTML = snapHtml;
+
+            // Live tool preview
+            if (ts) {
+                const col = '#6366f1';
+                const { sx: pmx, sy: pmy } = m2s(smx, smy);
+
+                switch (activeTool) {
+                    case 'segment': case 'arrow': case 'line': case 'ray':
+                        const p1s = m2s(ts.x1, ts.y1);
+                        previewHtml = `<line x1="${p1s.sx}" y1="${p1s.sy}" x2="${pmx}" y2="${pmy}" stroke="${col}" stroke-width="1.5" stroke-dasharray="6,3" stroke-opacity="0.65" />`;
+                        break;
+                    case 'midpoint':
+                        const m1s = m2s(ts.x, ts.y);
+                        previewHtml = `<line x1="${m1s.sx}" y1="${m1s.sy}" x2="${pmx}" y2="${pmy}" stroke="${col}" stroke-dasharray="5,3" stroke-width="1.5" stroke-opacity="0.45" /><circle cx="${(m1s.sx + pmx) / 2}" cy="${(m1s.sy + pmy) / 2}" r="4.5" fill="#f97316" />`;
+                        break;
+                    case 'circle':
+                        const cs = m2s(ts.cx, ts.cy);
+                        const r = dist(cs.sx, cs.sy, pmx, pmy);
+                        previewHtml = `<circle cx="${cs.sx}" cy="${cs.sy}" r="${r}" stroke="${col}" stroke-width="1.5" stroke-dasharray="6,3" fill="none" stroke-opacity="0.6" />`;
+                        break;
+                    case 'ellipse':
+                        const ces = m2s(ts.cx, ts.cy);
+                        previewHtml = `<ellipse cx="${ces.sx}" cy="${ces.sy}" rx="${Math.max(1, Math.abs(pmx - ces.sx))}" ry="${Math.max(1, Math.abs(pmy - ces.sy))}" stroke="${col}" stroke-width="1.5" stroke-dasharray="6,3" fill="none" stroke-opacity="0.6" />`;
+                        break;
+                    case 'arc':
+                        if (ts.step === 1) {
+                            const acs = m2s(ts.cx, ts.cy);
+                            previewHtml = `<line x1="${acs.sx}" y1="${acs.sy}" x2="${pmx}" y2="${pmy}" stroke="${col}" stroke-dasharray="5,3" stroke-width="1.5" stroke-opacity="0.5" />`;
+                        } else if (ts.step === 2) {
+                            const { sx: csx, sy: csy } = m2s(ts.cx, ts.cy);
+                            const rsc = ts.r * cam.zoom;
+                            const th1 = -ts.startAngle * DEG, th2 = -mathDeg(ts.cx, ts.cy, smx, smy) * DEG;
+                            const delta = ((th2 - th1) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI);
+                            const ms = delta <= Math.PI ? 1 : 0;
+                            const px1 = csx + rsc * Math.cos(th1), py1 = csy + rsc * Math.sin(th1);
+                            const px2 = csx + rsc * Math.cos(th2), py2 = csy + rsc * Math.sin(th2);
+                            previewHtml = `<path d="M ${px1} ${py1} A ${rsc} ${rsc} 0 0 ${ms} ${px2} ${py2}" stroke="${col}" stroke-width="1.5" stroke-dasharray="6,3" fill="none" stroke-opacity="0.7" />`;
+                        }
+                        break;
+                    case 'bezier':
+                        const b1s = m2s(ts.x1, ts.y1);
+                        if (ts.step === 1) {
+                            previewHtml = `<line x1="${b1s.sx}" y1="${b1s.sy}" x2="${pmx}" y2="${pmy}" stroke="${col}" stroke-dasharray="5,3" stroke-width="1.5" stroke-opacity="0.6" />`;
+                        } else if (ts.step === 2) {
+                            const bcp1 = m2s(ts.cx1, ts.cy1);
+                            previewHtml = `<path d="M ${b1s.sx} ${b1s.sy} Q ${bcp1.sx} ${bcp1.sy} ${pmx} ${pmy}" stroke="${col}" stroke-width="1.5" stroke-dasharray="6,3" fill="none" stroke-opacity="0.7" />`;
+                        }
+                        break;
+                    case 'angle':
+                        const as = m2s(ts.vx, ts.vy);
+                        if (ts.step === 1) {
+                            previewHtml = `<line x1="${as.sx}" y1="${as.sy}" x2="${pmx}" y2="${pmy}" stroke="${col}" stroke-dasharray="5,3" stroke-width="1.5" stroke-opacity="0.6" />`;
+                        } else {
+                            const b2 = m2s(ts.ax, ts.ay);
+                            previewHtml = `<line x1="${as.sx}" y1="${as.sy}" x2="${b2.sx}" y2="${b2.sy}" stroke="${col}" stroke-width="1" stroke-opacity="0.5" /><line x1="${as.sx}" y1="${as.sy}" x2="${pmx}" y2="${pmy}" stroke="${col}" stroke-dasharray="5,3" stroke-width="1.5" stroke-opacity="0.5" />`;
+                        }
+                        break;
+                    case 'polygon':
+                        const polyPts = [...ts.verts, [smx, smy]].map(([x, y]) => { const { sx, sy } = m2s(x, y); return `${sx},${sy}`; }).join(' ');
+                        previewHtml = `<polyline points="${polyPts}" stroke="${col}" stroke-width="1.5" stroke-dasharray="6,3" fill="none" stroke-opacity="0.7" />`;
+                        break;
+                }
+            } else if (activeTool === 'point') {
+                const { sx: pmx, sy: pmy } = m2s(smx, smy);
+                previewHtml = `<circle cx="${pmx}" cy="${pmy}" r="5" fill="#6366f1" fill-opacity="0.5" />`;
+            }
+            previewGroup.innerHTML = previewHtml;
+        }
+
+        // ── Shortcuts / Keydown ─────────────────────────────────
+        function handleKeydown(e) {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'TEXTAREA') return;
+
+            if (e.key === 'Escape') {
+                ts = null;
+                setActiveTool('select');
+                selectedId = null;
+                render();
+            }
+
+            if ((e.key === 'Delete' || e.key === 'Backspace') && selectedId && activeTool === 'select') {
+                e.preventDefault();
+                shapes = shapes.filter(s => s.id !== selectedId);
+                selectedId = null;
+                pushHistory();
+                render();
+            }
+
+            if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
+                e.preventDefault();
+                undo();
+            }
+
+            if ((e.ctrlKey || e.metaKey) && e.key === 'y') {
+                e.preventDefault();
+                redo();
+            }
+
+            if ((e.ctrlKey || e.metaKey) && e.key === 'd' && selectedId && activeTool === 'select') {
+                e.preventDefault();
+                const found = shapes.find(s => s.id === selectedId);
+                if (found) {
+                    const ns = { ...JSON.parse(JSON.stringify(found)), id: uid() };
+                    delete ns.derivedFrom; delete ns.parentId;
+                    shapes.push(applyHandleDrag(ns, 'whole', 0.5, -0.5));
+                    pushHistory();
+                    render();
+                }
+            }
+
+            if (!e.ctrlKey && !e.metaKey && !e.altKey) {
+                const MAP = {
+                    v: 'select', p: 'point', m: 'midpoint', s: 'segment', a: 'arrow',
+                    l: 'line', r: 'ray', g: 'polygon', c: 'circle', n: 'angle',
+                    t: 'text', u: 'arc', e: 'ellipse', b: 'bezier'
+                };
+                const tl = MAP[e.key.toLowerCase()];
+                if (tl) {
+                    setActiveTool(tl);
+                }
+            }
+        }
+
+        // ── Code Generators ─────────────────────────────────────
+        function genCeTZ(shapeList) {
+            const rs = resolveShapes(shapeList);
+            const lines = ['#import "@preview/cetz:0.5.2"', '', '#cetz.canvas({', '  import cetz.draw: *'];
+            rs.forEach(s => {
+                const col = CETZ_MAP[s.color || '#1e293b'] || 'black';
+                const sw = fmtN(s.width || 2);
+                const dsh = s.dash && s.dash !== 'solid'
+                    ? `, stroke: (paint: ${col}, thickness: ${sw}pt, dash: "${s.dash}")`
+                    : `, stroke: (paint: ${col}, thickness: ${sw}pt)`;
+                switch (s.type) {
+                    case 'point':
+                        lines.push(`  circle((${fmtN(s.x)},${fmtN(s.y)}), radius: 0.06, fill: ${col}, stroke: none)  // ${s.name || ''}`);
+                        if (s.label !== false && s.name) lines.push(`  content((${fmtN(s.x + 0.15)},${fmtN(s.y + 0.15)}), text(${col})[${s.name}])`);
+                        break;
+                    case 'segment': lines.push(`  line((${fmtN(s.x1)},${fmtN(s.y1)}), (${fmtN(s.x2)},${fmtN(s.y2)})${dsh})`); break;
+                    case 'arrow': lines.push(`  line((${fmtN(s.x1)},${fmtN(s.y1)}), (${fmtN(s.x2)},${fmtN(s.y2)}), mark: (end: ">")${dsh})`); break;
+                    case 'line': { const e = extLine(s.x1, s.y1, s.x2, s.y2, 10); lines.push(`  line((${fmtN(e.ax)},${fmtN(e.ay)}), (${fmtN(e.bx)},${fmtN(e.by)})${dsh})`); break; }
+                    case 'ray': { const e = extRay(s.x1, s.y1, s.x2, s.y2, 10); lines.push(`  line((${fmtN(e.ax)},${fmtN(e.ay)}), (${fmtN(e.bx)},${fmtN(e.by)}), mark: (end: ">")${dsh})`); break; }
+                    case 'circle': {
+                        const fs = s.fill ? `, fill: ${CETZ_MAP[s.fill] || 'blue'}.transparentize(${Math.round((1 - (s.fillOpacity || 0.15)) * 100)}%)` : '';
+                        lines.push(`  circle((${fmtN(s.cx)},${fmtN(s.cy)}), radius: ${fmtN(s.r)}${dsh}${fs})`); break;
+                    }
+                    case 'ellipse': {
+                        const fs = s.fill ? `, fill: ${CETZ_MAP[s.fill] || 'blue'}.transparentize(${Math.round((1 - (s.fillOpacity || 0.15)) * 100)}%)` : '';
+                        lines.push(`  circle((${fmtN(s.cx)},${fmtN(s.cy)}), radius: (${fmtN(s.rx)},${fmtN(s.ry)})${dsh}${fs})`); break;
+                    }
+                    case 'polygon': {
+                        const pts = s.vertices.map(([x, y]) => `(${fmtN(x)},${fmtN(y)})`).join(', ');
+                        const fs = s.fill ? `, fill: ${CETZ_MAP[s.fill] || 'blue'}.transparentize(${Math.round((1 - (s.fillOpacity || 0.15)) * 100)}%)` : '';
+                        lines.push(`  line(${pts}, close: true${dsh}${fs})`); break;
+                    }
+                    case 'arc': {
+                        const dccw = ((s.endAngle - s.startAngle) % 360 + 360) % 360;
+                        let a1, a2;
+                        if (!s.large) {
+                            a1 = dccw <= 180 ? s.startAngle : s.endAngle;
+                            a2 = dccw <= 180 ? s.endAngle : s.startAngle;
+                        } else {
+                            a1 = dccw <= 180 ? s.endAngle : s.startAngle;
+                            a2 = dccw <= 180 ? s.startAngle : s.endAngle;
+                        }
+                        lines.push(`  arc((${fmtN(s.cx)},${fmtN(s.cy)}), radius: ${fmtN(s.r)}, start: ${fmtN(a1)}deg, stop: ${fmtN(a2)}deg${dsh})`); break;
+                    }
+                    case 'bezier':
+                        lines.push(`  bezier((${fmtN(s.x1)},${fmtN(s.y1)}), (${fmtN(s.x2)},${fmtN(s.y2)}), (${fmtN(s.cx1)},${fmtN(s.cy1)}), (${fmtN(s.cx2)},${fmtN(s.cy2)})${dsh})`); break;
+                    case 'angle': {
+                        if (s.rightAngle) {
+                            const sc = s.arcR || 0.3;
+                            const { p1, p2, c } = rightAnglePts(s.vx, s.vy, s.ax, s.ay, s.bx, s.by, sc);
+                            lines.push(`  line((${fmtN(p1[0])},${fmtN(p1[1])}), (${fmtN(c[0])},${fmtN(c[1])}), (${fmtN(p2[0])},${fmtN(p2[1])})${dsh})`);
+                        } else {
+                            const dccw = ((mathDeg(s.vx, s.vy, s.bx, s.by) - mathDeg(s.vx, s.vy, s.ax, s.ay)) % 360 + 360) % 360;
+                            const a1 = fmtN(mathDeg(s.vx, s.vy, s.ax, s.ay)), a2 = fmtN(mathDeg(s.vx, s.vy, s.bx, s.by));
+                            const r = fmtN(s.arcR || 0.4);
+                            const [ca1, ca2] = dccw <= 180 ? [a1, a2] : [a2, a1];
+                            lines.push(`  arc((${fmtN(s.vx)},${fmtN(s.vy)}), radius: ${r}, start: ${ca1}deg, stop: ${ca2}deg${dsh})`);
+                        }
+                        break;
+                    }
+                    case 'text':
+                        lines.push(`  content((${fmtN(s.x)},${fmtN(s.y)}), text(${col})[${(s.text || '').replace(/\\/g, '\\\\')}])`); break;
+                }
+            });
+            lines.push('})');
+            return lines.join('\n');
+        }
+
+        function genTikZ(shapeList) {
+            const rs = resolveShapes(shapeList);
+            const lines = ['\\begin{tikzpicture}'];
+            rs.forEach(s => {
+                const col = TIKZ_MAP[s.color || '#1e293b'] || 'black';
+                const dsh = s.dash === 'dashed' ? ',dashed' : s.dash === 'dotted' ? ',dotted' : '';
+                const opt = `[${col}${dsh}]`;
+                const optF = s.fill ? `[${col}${dsh},fill=${TIKZ_MAP[s.fill] || 'blue'}!20]` : opt;
+                switch (s.type) {
+                    case 'point':
+                        lines.push(`  \\fill[${col}] (${fmtN(s.x)},${fmtN(s.y)}) circle (1.5pt);`);
+                        if (s.label !== false && s.name) lines.push(`  \\node[${col}] at (${fmtN(s.x + 0.15)},${fmtN(s.y + 0.15)}) {$${s.name}$};`);
+                        break;
+                    case 'segment': lines.push(`  \\draw${opt} (${fmtN(s.x1)},${fmtN(s.y1)}) -- (${fmtN(s.x2)},${fmtN(s.y2)});`); break;
+                    case 'arrow': lines.push(`  \\draw[${col}${dsh},->] (${fmtN(s.x1)},${fmtN(s.y1)}) -- (${fmtN(s.x2)},${fmtN(s.y2)});`); break;
+                    case 'line': { const e = extLine(s.x1, s.y1, s.x2, s.y2, 10); lines.push(`  \\draw${opt} (${fmtN(e.ax)},${fmtN(e.ay)}) -- (${fmtN(e.bx)},${fmtN(e.by)});`); break; }
+                    case 'ray': { const e = extRay(s.x1, s.y1, s.x2, s.y2, 10); lines.push(`  \\draw[${col}${dsh},->] (${fmtN(e.ax)},${fmtN(e.ay)}) -- (${fmtN(e.bx)},${fmtN(e.by)});`); break; }
+                    case 'circle': lines.push(`  \\draw${s.fill ? optF : opt} (${fmtN(s.cx)},${fmtN(s.cy)}) circle (${fmtN(s.r)}cm);`); break;
+                    case 'ellipse': lines.push(`  \\draw${s.fill ? optF : opt} (${fmtN(s.cx)},${fmtN(s.cy)}) ellipse (${fmtN(s.rx)} and ${fmtN(s.ry)});`); break;
+                    case 'polygon': {
+                        const pts = [...s.vertices, s.vertices[0]].map(([x, y]) => `(${fmtN(x)},${fmtN(y)})`).join(' -- ');
+                        lines.push(`  \\draw${s.fill ? optF : opt} ${pts};`); break;
+                    }
+                    case 'arc': {
+                        const dccw = ((s.endAngle - s.startAngle) % 360 + 360) % 360;
+                        let arcA, arcB;
+                        if (!s.large) {
+                            arcA = s.startAngle; arcB = dccw <= 180 ? s.startAngle + dccw : s.startAngle - (360 - dccw);
+                        } else {
+                            arcA = s.startAngle; arcB = dccw <= 180 ? s.startAngle - (360 - dccw) : s.startAngle + dccw;
+                        }
+                        const px = fmtN(s.cx + s.r * Math.cos(arcA * DEG)), py = fmtN(s.cy + s.r * Math.sin(arcA * DEG));
+                        lines.push(`  \\draw${opt} (${px},${py}) arc (${fmtN(arcA)}:${fmtN(arcB)}:${fmtN(s.r)});`); break;
+                    }
+                    case 'bezier':
+                        lines.push(`  \\draw${opt} (${fmtN(s.x1)},${fmtN(s.y1)}) .. controls (${fmtN(s.cx1)},${fmtN(s.cy1)}) and (${fmtN(s.cx2)},${fmtN(s.cy2)}) .. (${fmtN(s.x2)},${fmtN(s.y2)});`); break;
+                    case 'angle': {
+                        if (s.rightAngle) {
+                            const sc = s.arcR || 0.3;
+                            const { p1, p2, c } = rightAnglePts(s.vx, s.vy, s.ax, s.ay, s.bx, s.by, sc);
+                            lines.push(`  \\draw${opt} (${fmtN(p1[0])},${fmtN(p1[1])}) -- (${fmtN(c[0])},${fmtN(c[1])}) -- (${fmtN(p2[0])},${fmtN(p2[1])});`);
+                        } else {
+                            const dccw = ((mathDeg(s.vx, s.vy, s.bx, s.by) - mathDeg(s.vx, s.vy, s.ax, s.ay)) % 360 + 360) % 360;
+                            const a1 = fmtN(mathDeg(s.vx, s.vy, s.ax, s.ay)), a2 = fmtN(mathDeg(s.vx, s.vy, s.bx, s.by));
+                            const r = fmtN(s.arcR || 0.4);
+                            const px = fmtN(s.vx + r * Math.cos(a1 * DEG)), py = fmtN(s.vy + r * Math.sin(a1 * DEG));
+                            const [fa, fb] = dccw <= 180 ? [a1, a2] : [a2, a1];
+                            lines.push(`  \\draw${opt} (${px},${py}) arc (${fa}:${fb}:${r}cm);`);
+                        }
+                        break;
+                    }
+                    case 'text': lines.push(`  \\node[${col}] at (${fmtN(s.x)},${fmtN(s.y)}) {${s.text || ''}};`); break;
+                }
+            });
+            lines.push('\\end{tikzpicture}');
+            return lines.join('\n');
+        }
+
+        function updateCodePanel() {
+            if (shapes.length === 0) {
+                codeOutput.innerHTML = `<span style="color:#64748b;font-style:italic;">Hãy vẽ hình hoặc chèn hình mẫu để sinh mã nguồn tự động.</span>`;
+            } else {
+                codeOutput.textContent = codeTab === 'cetz' ? genCeTZ(shapes) : genTikZ(shapes);
+            }
+        }
+
+        function copyCode() {
+            const code = codeTab === 'cetz' ? genCeTZ(shapes) : genTikZ(shapes);
+            if (!code || shapes.length === 0) return;
+            navigator.clipboard.writeText(code).then(() => {
+                Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'Đã copy mã vào clipboard!', showConfirmButton: false, timer: 1500 });
+            });
+        }
+
+        // ── Properties Panel ────────────────────────────────────
+        function updatePropertiesPanel() {
+            if (!selectedId) {
+                propertiesBody.innerHTML = `<div style="padding:14px; color:#64748b; font-size:0.8rem; font-style:italic;">Chọn một đối tượng trên hình vẽ để chỉnh sửa các thuộc tính chi tiết...</div>`;
+                return;
+            }
+
+            const s = shapes.find(x => x.id === selectedId);
+            if (!s) return;
+
+            const hasDash = ['segment', 'arrow', 'line', 'ray', 'circle', 'ellipse', 'polygon', 'arc', 'bezier'].includes(s.type);
+            const hasFill = ['circle', 'ellipse', 'polygon'].includes(s.type);
+            const typeLabels = { point: 'Điểm', segment: 'Đoạn thẳng', arrow: 'Vectơ', line: 'Đường thẳng', ray: 'Tia', polygon: 'Đa giác', circle: 'Đường tròn', ellipse: 'Elip', arc: 'Cung tròn', bezier: 'Bezier', angle: 'Góc', text: 'Chữ' };
+
+            let html = `<div style="padding: 12px 14px; display:flex; flex-direction:column; gap:8px;">
+                <div style="font-weight:700; font-size:0.85rem; color:#fff; border-bottom:1px solid #334155; padding-bottom:6px; margin-bottom:4px;">${typeLabels[s.type] || s.type}</div>`;
+
+            // Color Row
+            html += `<div class="prop-row">
+                <span class="prop-label">Màu sắc</span>
+                <div style="display:flex; gap:6px; flex-wrap:wrap; flex:1;">`;
+            COLORS.forEach(c => {
+                html += `<div class="color-dot ${s.color === c ? 'active' : ''}" style="background:${c};" onclick="updateProp('color', '${c}')"></div>`;
+            });
+            html += `</div></div>`;
+
+            // Dash & Weight Row
+            if (hasDash) {
+                html += `<div class="prop-row">
+                    <span class="prop-label">Nét vẽ</span>
+                    <select class="prop-input" onchange="updateProp('dash', this.value)">
+                        <option value="solid" ${s.dash === 'solid' ? 'selected' : ''}>Liền</option>
+                        <option value="dashed" ${s.dash === 'dashed' ? 'selected' : ''}>Đứt nét</option>
+                        <option value="dotted" ${s.dash === 'dotted' ? 'selected' : ''}>Chấm</option>
+                    </select>
+                </div>`;
+                html += `<div class="prop-row">
+                    <span class="prop-label">Độ dày</span>
+                    <input type="number" class="prop-input" value="${s.width || 2}" min="0.5" max="8" step="0.5" onchange="updateProp('width', parseFloat(this.value))" />
+                </div>`;
+            }
+
+            // Fill Row
+            if (hasFill) {
+                html += `<div class="prop-row">
+                    <span class="prop-label">Tô màu</span>
+                    <div style="display:flex; gap:6px; flex-wrap:wrap; flex:1; align-items:center;">
+                        <div class="color-dot ${!s.fill ? 'active' : ''}" style="background:#0f172a; border:1.5px dashed #475569; display:flex; align-items:center; justify-content:center; color:#94a3b8; font-size:9px;" onclick="updateProp('fill', '')">x</div>`;
+                COLORS.forEach(c => {
+                    html += `<div class="color-dot ${s.fill === c ? 'active' : ''}" style="background:${c};" onclick="updateProp('fill', '${c}')"></div>`;
+                });
+                html += `</div></div>`;
+
+                if (s.fill) {
+                    html += `<div class="prop-row">
+                        <span class="prop-label">Độ mờ</span>
+                        <select class="prop-input" onchange="updateProp('fillOpacity', parseFloat(this.value))">
+                            <option value="0.1" ${s.fillOpacity === 0.1 ? 'selected' : ''}>10%</option>
+                            <option value="0.15" ${s.fillOpacity === 0.15 || !s.fillOpacity ? 'selected' : ''}>15%</option>
+                            <option value="0.3" ${s.fillOpacity === 0.3 ? 'selected' : ''}>30%</option>
+                            <option value="0.5" ${s.fillOpacity === 0.5 ? 'selected' : ''}>50%</option>
+                            <option value="0.8" ${s.fillOpacity === 0.8 ? 'selected' : ''}>80%</option>
+                            <option value="1" ${s.fillOpacity === 1 ? 'selected' : ''}>100%</option>
+                        </select>
+                    </div>`;
+                }
+            }
+
+            // Specific coords / parameters
+            if (s.type === 'point') {
+                html += `<div class="prop-row">
+                    <span class="prop-label">Tên điểm</span>
+                    <input type="text" class="prop-input" value="${s.name || ''}" oninput="updateProp('name', this.value)" />
+                </div>`;
+                html += `<div class="prop-row">
+                    <span class="prop-label">Hiện nhãn</span>
+                    <input type="checkbox" ${s.label !== false ? 'checked' : ''} onchange="updateProp('label', this.checked)" />
+                </div>`;
+                html += `<div class="prop-row">
+                    <span class="prop-label">Tọa độ X</span>
+                    <input type="number" class="prop-input" value="${fmtN(s.x)}" step="0.1" onchange="updateProp('x', parseFloat(this.value))" />
+                </div>`;
+                html += `<div class="prop-row">
+                    <span class="prop-label">Tọa độ Y</span>
+                    <input type="number" class="prop-input" value="${fmtN(s.y)}" step="0.1" onchange="updateProp('y', parseFloat(this.value))" />
+                </div>`;
+            } else if (s.type === 'circle') {
+                html += `<div class="prop-row">
+                    <span class="prop-label">Bán kính</span>
+                    <input type="number" class="prop-input" value="${s.r}" min="0.05" step="0.1" onchange="updateProp('r', parseFloat(this.value))" />
+                </div>`;
+            } else if (s.type === 'ellipse') {
+                html += `<div class="prop-row">
+                    <span class="prop-label">Bán trục X</span>
+                    <input type="number" class="prop-input" value="${s.rx}" min="0.05" step="0.1" onchange="updateProp('rx', parseFloat(this.value))" />
+                </div>`;
+                html += `<div class="prop-row">
+                    <span class="prop-label">Bán trục Y</span>
+                    <input type="number" class="prop-input" value="${s.ry}" min="0.05" step="0.1" onchange="updateProp('ry', parseFloat(this.value))" />
+                </div>`;
+            } else if (s.type === 'arc') {
+                html += `<div class="prop-row">
+                    <span class="prop-label">Bán kính</span>
+                    <input type="number" class="prop-input" value="${s.r}" min="0.05" step="0.1" onchange="updateProp('r', parseFloat(this.value))" />
+                </div>`;
+                html += `<div class="prop-row">
+                    <span class="prop-label">Góc đầu (độ)</span>
+                    <input type="number" class="prop-input" value="${s.startAngle}" step="5" onchange="updateProp('startAngle', parseFloat(this.value))" />
+                </div>`;
+                html += `<div class="prop-row">
+                    <span class="prop-label">Góc cuối (độ)</span>
+                    <input type="number" class="prop-input" value="${s.endAngle}" step="5" onchange="updateProp('endAngle', parseFloat(this.value))" />
+                </div>`;
+                html += `<div class="prop-row">
+                    <span class="prop-label">Cung lớn</span>
+                    <input type="checkbox" ${s.large ? 'checked' : ''} onchange="updateProp('large', this.checked)" />
+                </div>`;
+            } else if (s.type === 'angle') {
+                html += `<div class="prop-row">
+                    <span class="prop-label">Góc vuông</span>
+                    <input type="checkbox" ${s.rightAngle ? 'checked' : ''} onchange="updateProp('rightAngle', this.checked)" />
+                </div>`;
+                html += `<div class="prop-row">
+                    <span class="prop-label">Cung bán kính</span>
+                    <input type="number" class="prop-input" value="${s.arcR || 0.4}" min="0.1" step="0.05" onchange="updateProp('arcR', parseFloat(this.value))" />
+                </div>`;
+            } else if (s.type === 'text') {
+                html += `<div class="prop-row">
+                    <span class="prop-label">Nội dung</span>
+                    <input type="text" class="prop-input" value="${s.text || ''}" oninput="updateProp('text', this.value)" />
+                </div>`;
+                html += `<div class="prop-row">
+                    <span class="prop-label">Cỡ chữ</span>
+                    <input type="number" class="prop-input" value="${s.fontSize || 16}" min="8" max="72" onchange="updateProp('fontSize', parseInt(this.value))" />
+                </div>`;
+            }
+
+            html += `</div>`;
+            propertiesBody.innerHTML = html;
+        }
+
+        function updateProp(key, val) {
+            if (!selectedId) return;
+            shapes = shapes.map(s => {
+                if (s.id === selectedId) {
+                    return { ...s, [key]: val };
+                }
+                return s;
+            });
+            render();
+            // Do not push history on input type/slide immediately, but standard inputs yes.
+            // For simplicity in Vanilla JS, push on change
+            pushHistory();
+        }
+
+        // ── Predefined Template Library Insertion ──────────────────
+        function insertTemplate(tplName) {
+            ts = null;
+            let list = [];
+            const freshUid = () => uid();
+            switch (tplName) {
+                case 'tri_thuong': {
+                    const idA = freshUid(), idB = freshUid(), idC = freshUid();
+                    list = [
+                        { id: idA, type: 'point', x: 0, y: 0, name: 'A', color: COLORS[0], label: true },
+                        { id: idB, type: 'point', x: 4, y: 0, name: 'B', color: COLORS[0], label: true },
+                        { id: idC, type: 'point', x: 2, y: 3, name: 'C', color: COLORS[0], label: true },
+                        { id: freshUid(), type: 'polygon', vertices: [[0, 0], [4, 0], [2, 3]], bindV: [idA, idB, idC], color: COLORS[0], fill: '', dash: 'solid', width: 2 }
+                    ];
+                    break;
+                }
+                case 'tri_vuong': {
+                    const idA = freshUid(), idB = freshUid(), idC = freshUid();
+                    list = [
+                        { id: idA, type: 'point', x: 0, y: 0, name: 'A', color: COLORS[0], label: true },
+                        { id: idB, type: 'point', x: 4, y: 0, name: 'B', color: COLORS[0], label: true },
+                        { id: idC, type: 'point', x: 0, y: 3, name: 'C', color: COLORS[0], label: true },
+                        { id: freshUid(), type: 'polygon', vertices: [[0, 0], [4, 0], [0, 3]], bindV: [idA, idB, idC], color: COLORS[0], fill: '', dash: 'solid', width: 2 },
+                        { id: freshUid(), type: 'angle', vx: 0, vy: 0, ax: 4, ay: 0, bx: 0, by: 3, bindVx: idA, bindAx: idB, bindBx: idC, rightAngle: true, arcR: 0.35, color: COLORS[0] }
+                    ];
+                    break;
+                }
+                case 'tri_deu': {
+                    const idA = freshUid(), idB = freshUid(), idC = freshUid();
+                    const h = fmtN(Math.sqrt(3) * 2);
+                    list = [
+                        { id: idA, type: 'point', x: 0, y: 0, name: 'A', color: COLORS[0], label: true },
+                        { id: idB, type: 'point', x: 4, y: 0, name: 'B', color: COLORS[0], label: true },
+                        { id: idC, type: 'point', x: 2, y: h, name: 'C', color: COLORS[0], label: true },
+                        { id: freshUid(), type: 'polygon', vertices: [[0, 0], [4, 0], [2, h]], bindV: [idA, idB, idC], color: COLORS[0], fill: '', dash: 'solid', width: 2 }
+                    ];
+                    break;
+                }
+                case 'rec': {
+                    const idA = freshUid(), idB = freshUid(), idC = freshUid(), idD = freshUid();
+                    list = [
+                        { id: idA, type: 'point', x: 0, y: 0, name: 'A', color: COLORS[0], label: true },
+                        { id: idB, type: 'point', x: 4, y: 0, name: 'B', color: COLORS[0], label: true },
+                        { id: idC, type: 'point', x: 4, y: 3, name: 'C', color: COLORS[0], label: true },
+                        { id: idD, type: 'point', x: 0, y: 3, name: 'D', color: COLORS[0], label: true },
+                        { id: freshUid(), type: 'polygon', vertices: [[0, 0], [4, 0], [4, 3], [0, 3]], bindV: [idA, idB, idC, idD], color: COLORS[0], fill: '', dash: 'solid', width: 2 }
+                    ];
+                    break;
+                }
+                case 'square': {
+                    const idA = freshUid(), idB = freshUid(), idC = freshUid(), idD = freshUid();
+                    list = [
+                        { id: idA, type: 'point', x: 0, y: 0, name: 'A', color: COLORS[0], label: true },
+                        { id: idB, type: 'point', x: 3, y: 0, name: 'B', color: COLORS[0], label: true },
+                        { id: idC, type: 'point', x: 3, y: 3, name: 'C', color: COLORS[0], label: true },
+                        { id: idD, type: 'point', x: 0, y: 3, name: 'D', color: COLORS[0], label: true },
+                        { id: freshUid(), type: 'polygon', vertices: [[0, 0], [3, 0], [3, 3], [0, 3]], bindV: [idA, idB, idC, idD], color: COLORS[0], fill: '', dash: 'solid', width: 2 }
+                    ];
+                    break;
+                }
+                case 'para': {
+                    const idA = freshUid(), idB = freshUid(), idC = freshUid(), idD = freshUid();
+                    list = [
+                        { id: idA, type: 'point', x: 0, y: 0, name: 'A', color: COLORS[0], label: true },
+                        { id: idB, type: 'point', x: 4, y: 0, name: 'B', color: COLORS[0], label: true },
+                        { id: idC, type: 'point', x: 5, y: 2.5, name: 'C', color: COLORS[0], label: true },
+                        { id: idD, type: 'point', x: 1, y: 2.5, name: 'D', color: COLORS[0], label: true },
+                        { id: freshUid(), type: 'polygon', vertices: [[0, 0], [4, 0], [5, 2.5], [1, 2.5]], bindV: [idA, idB, idC, idD], color: COLORS[0], fill: '', dash: 'solid', width: 2 }
+                    ];
+                    break;
+                }
+                case 'trap': {
+                    const idA = freshUid(), idB = freshUid(), idC = freshUid(), idD = freshUid();
+                    list = [
+                        { id: idA, type: 'point', x: 0, y: 0, name: 'A', color: COLORS[0], label: true },
+                        { id: idB, type: 'point', x: 5, y: 0, name: 'B', color: COLORS[0], label: true },
+                        { id: idC, type: 'point', x: 4, y: 2.5, name: 'C', color: COLORS[0], label: true },
+                        { id: idD, type: 'point', x: 1, y: 2.5, name: 'D', color: COLORS[0], label: true },
+                        { id: freshUid(), type: 'polygon', vertices: [[0, 0], [5, 0], [4, 2.5], [1, 2.5]], bindV: [idA, idB, idC, idD], color: COLORS[0], fill: '', dash: 'solid', width: 2 }
+                    ];
+                    break;
+                }
+                case 'circle_o': {
+                    const idO = freshUid();
+                    list = [
+                        { id: idO, type: 'point', x: 0, y: 0, name: 'O', color: COLORS[0], label: true },
+                        { id: freshUid(), type: 'circle', cx: 0, cy: 0, r: 2.5, bindCenter: idO, color: COLORS[0], fill: '', dash: 'solid', width: 2 }
+                    ];
+                    break;
+                }
+                case 'oxy_2d': {
+                    list = [
+                        { id: freshUid(), type: 'arrow', x1: -1, y1: 0, x2: 6, y2: 0, color: COLORS[0], dash: 'solid', width: 1.5 },
+                        { id: freshUid(), type: 'arrow', x1: 0, y1: -1, x2: 0, y2: 5, color: COLORS[0], dash: 'solid', width: 1.5 },
+                        { id: freshUid(), type: 'point', x: 0, y: 0, name: 'O', color: COLORS[0], label: true },
+                        { id: freshUid(), type: 'text', x: 6.2, y: 0, text: 'x', color: COLORS[0], fontSize: 14 },
+                        { id: freshUid(), type: 'text', x: 0.15, y: 5.2, text: 'y', color: COLORS[0], fontSize: 14 }
+                    ];
+                    break;
+                }
+                case 'oxyz_3d': {
+                    const zx = fmtN(5 * Math.cos(45 * DEG) * 0.5);
+                    const zy = fmtN(5 * Math.sin(45 * DEG) * 0.5);
+                    list = [
+                        { id: freshUid(), type: 'arrow', x1: 0, y1: 0, x2: 5, y2: 0, color: COLORS[2], dash: 'solid', width: 2 },
+                        { id: freshUid(), type: 'arrow', x1: 0, y1: 0, x2: 0, y2: 5, color: COLORS[3], dash: 'solid', width: 2 },
+                        { id: freshUid(), type: 'arrow', x1: 0, y1: 0, x2: zx, y2: zy, color: COLORS[1], dash: 'dashed', width: 1.5 },
+                        { id: freshUid(), type: 'text', x: 5.3, y: 0, text: 'x', color: COLORS[2], fontSize: 14 },
+                        { id: freshUid(), type: 'text', x: 0.15, y: 5.3, text: 'y', color: COLORS[3], fontSize: 14 },
+                        { id: freshUid(), type: 'text', x: zx + 0.2, y: zy + 0.2, text: 'z', color: COLORS[1], fontSize: 14 }
+                    ];
+                    break;
+                }
+                case 'cube_3d': {
+                    const a = 2.5;
+                    const p = (x, y, z) => {
+                        const px = x + z * Math.cos(45 * DEG) * 0.55;
+                        const py = y + z * Math.sin(45 * DEG) * 0.55;
+                        return [fmtN(px), fmtN(py)];
+                    };
+                    const pts = {
+                        A: p(0, 0, 0), B: p(a, 0, 0), C: p(a, a, 0), D: p(0, a, 0),
+                        E: p(0, 0, a), F: p(a, 0, a), G: p(a, a, a), H: p(0, a, a)
+                    };
+                    const seg = (p1, p2, dsh = 'solid') => ({ id: freshUid(), type: 'segment', x1: p1[0], y1: p1[1], x2: p2[0], y2: p2[1], color: COLORS[0], dash: dsh, width: 1.5 });
+                    list = [
+                        seg(pts.A, pts.B, 'dashed'), seg(pts.A, pts.D, 'dashed'), seg(pts.A, pts.E, 'dashed'),
+                        seg(pts.B, pts.C), seg(pts.C, pts.D), seg(pts.D, pts.H),
+                        seg(pts.B, pts.F), seg(pts.C, pts.G), seg(pts.E, pts.F),
+                        seg(pts.F, pts.G), seg(pts.G, pts.H), seg(pts.H, pts.E)
+                    ];
+                    break;
+                }
+                case 'box_3d': {
+                    const [W, H, D] = [3.5, 2.5, 1.8];
+                    const p = (x, y, z) => {
+                        const px = x + z * Math.cos(45 * DEG) * 0.55;
+                        const py = y + z * Math.sin(45 * DEG) * 0.55;
+                        return [fmtN(px), fmtN(py)];
+                    };
+                    const pts = {
+                        A: p(0, 0, 0), B: p(W, 0, 0), C: p(W, H, 0), D: p(0, H, 0),
+                        E: p(0, 0, D), F: p(W, 0, D), G: p(W, H, D), H: p(0, H, D)
+                    };
+                    const seg = (p1, p2, dsh = 'solid') => ({ id: freshUid(), type: 'segment', x1: p1[0], y1: p1[1], x2: p2[0], y2: p2[1], color: COLORS[0], dash: dsh, width: 1.5 });
+                    list = [
+                        seg(pts.A, pts.B, 'dashed'), seg(pts.A, pts.D, 'dashed'), seg(pts.A, pts.E, 'dashed'),
+                        seg(pts.B, pts.C), seg(pts.C, pts.D), seg(pts.D, pts.H),
+                        seg(pts.B, pts.F), seg(pts.C, pts.G), seg(pts.E, pts.F),
+                        seg(pts.F, pts.G), seg(pts.G, pts.H), seg(pts.H, pts.E)
+                    ];
+                    break;
+                }
+            }
+
+            if (list.length > 0) {
+                shapes = shapes.concat(list);
+                pushHistory();
+                render();
+            }
+        }
+
+        function insertAxes3D() {
+            insertTemplate('oxyz_3d');
+        }
+
+        function clearCanvas() {
+            Swal.fire({
+                title: 'Xóa toàn bộ hình?',
+                text: 'Bạn sẽ mất toàn bộ các đối tượng hình vẽ hiện tại!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ef4444',
+                cancelButtonColor: '#334155',
+                confirmButtonText: 'Đồng ý xóa',
+                cancelButtonText: 'Hủy bỏ'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    shapes = [];
+                    selectedId = null;
+                    ts = null;
+                    pushHistory();
+                    render();
+                }
+            });
+        }
+
+        function resetView() {
+            const rect = svg.getBoundingClientRect();
+            cam = { ox: rect.width / 2, oy: rect.height / 2, zoom: DEFAULT_ZOOM };
+            drawGrid();
+            render();
+        }
+    </script>
+</body>
+
+</html>

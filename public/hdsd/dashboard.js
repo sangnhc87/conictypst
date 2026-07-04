@@ -28,7 +28,7 @@ const exploreSections = [
 ]
 
 const tools = [
-  { title: 'Hỗ trợ vẽ CeTZ', desc: 'Từ TikZ sang hình Typst-native', icon: 'wrench', color: 'mint', href: 'index.html#cetz-basics', status: 'Đã có', keywords: 'hỗ trợ vẽ tikz cetz geometry typst drawing' },
+  { title: 'Hỗ trợ vẽ CeTZ', desc: 'Từ TikZ sang hình Typst-native', icon: 'wrench', color: 'mint', href: 'cetz-ve.html', status: 'Live ✓', keywords: 'hỗ trợ vẽ tikz cetz geometry typst drawing' },
   { title: 'Sơ đồ cây', desc: 'Mẫu xác suất, Bayes, nhánh sự kiện', icon: 'git-branch', color: 'blue', href: 'index.html#figure-gallery', status: 'Mẫu', keywords: 'sơ đồ cây tree diagram xác suất bayes cetz' },
   { title: 'Bảng biến thiên', desc: 'Live BBT nhập là sinh #bbtv2() ngay', icon: 'layout-grid', color: 'violet', href: 'bbt-live.html', status: 'Live ✓', keywords: 'bbt bbtv2 bảng biến thiên live typst cetz' },
   { title: 'Thư viện CeTZ', desc: 'Kho hình thay thế thư viện TikZ', icon: 'archive', color: 'purple', href: 'index.html#figure-gallery', status: 'Đã có', keywords: 'thư viện tikz cetz kho hình mẫu gallery' },
@@ -36,7 +36,7 @@ const tools = [
   { title: 'Soạn bảng', desc: 'Bảng dữ liệu, bảng đáp án, matrix', icon: 'table-2', color: 'amber', href: 'index.html#typst-params', status: 'Đã có', keywords: 'soạn bảng table typst matrix đáp án' },
   { title: 'Miền nghiệm BPT', desc: 'Quy hoạch tuyến tính bằng CeTZ', icon: 'bar-chart-3', color: 'orange', href: 'index.html#graphs', status: 'Mẫu', keywords: 'miền nghiệm bpt bất phương trình quy hoạch tuyến tính' },
   { title: 'Tô miền', desc: 'Shade vùng, giao miền, hình phẳng', icon: 'pen-line', color: 'sky', href: 'index.html#geo-2d', status: 'Mẫu', keywords: 'tô miền shade miền nghiệm cetz' },
-  { title: 'Vẽ & sinh code CeTZ', desc: 'Mẫu lệnh cho đồ thị và hình học', icon: 'image', color: 'cyan', href: 'index.html#cetz-basics', status: 'Đã có', keywords: 'sinh code cetz vẽ hình typst' },
+  { title: 'Vẽ & sinh code CeTZ', desc: 'Mẫu lệnh cho đồ thị và hình học', icon: 'image', color: 'cyan', href: 'cetz-ve.html', status: 'Live ✓', keywords: 'sinh code cetz vẽ hình typst' },
   { title: 'Tròn xoay', desc: 'Thể tích, mặt cắt, hình minh họa', icon: 'box', color: 'rose', href: 'index.html#geo-3d', status: 'Mẫu', keywords: 'tròn xoay thể tích hình không gian tích phân' },
   { title: 'AI tạo bài tương tự', desc: 'Sinh bài tập mới từ bài toán mẫu', icon: 'cpu', color: 'violet', href: 'ai-tuong-tu.html', status: 'Live ✓', keywords: 'ai tạo bài tương tự sinh câu hỏi gemini' },
   { title: 'Sinh hàng loạt', desc: 'Import bank, mix nhiều mã đề', icon: 'layers', color: 'blue', href: 'index.html#exam-mix-typst', status: 'Đã có', keywords: 'sinh hàng loạt batch bank import mix đề' },
@@ -71,8 +71,8 @@ const adminTools = [
   { title: 'Kho phần mềm', icon: 'save', href: 'index.html#downloads', active: false, keywords: 'kho phần mềm download' },
   { title: 'BST HSG', icon: 'trophy', href: 'index.html#exam-set', active: false, keywords: 'hsg học sinh giỏi' },
   { title: 'CeTZ Plot', icon: 'line-chart', href: 'index.html#graphs', active: true, keywords: 'cetz plot đồ thị' },
-  { title: 'CeTZ Euclide', icon: 'drafting-compass', href: 'index.html#geo-2d', active: true, keywords: 'cetz euclide hình phẳng' },
-  { title: 'TikZ -> CeTZ Euclide', icon: 'ruler', href: 'index.html#cetz-basics', active: false, keywords: 'tikz euclide cetz chuyển đổi' },
+  { title: 'CeTZ Euclide', icon: 'drafting-compass', href: 'cetz-ve.html', active: true, keywords: 'cetz euclide hình phẳng' },
+  { title: 'TikZ -> CeTZ Euclide', icon: 'ruler', href: 'cetz-ve.html', active: true, keywords: 'tikz euclide cetz chuyển đổi' },
 ]
 
 function createIcon(name) {

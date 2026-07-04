@@ -1081,11 +1081,26 @@
         let bankMeta = null
         async function loadBankMeta() {
             if (bankMeta) return
+            bankMeta = {}
             try {
-                const r = await fetch('../../bank.json')
-                if (r.ok) bankMeta = await r.json()
-            } catch {
-                bankMeta = {}
+                let r = await fetch('./bank.json')
+                if (!r.ok) r = await fetch('../../bank.json')
+                if (r.ok) {
+                    const data = await r.json()
+                    Object.assign(bankMeta, data)
+                }
+            } catch (e) {
+                console.error("Lỗi tải bank.json", e)
+            }
+            try {
+                let r = await fetch('./bank-cu.json')
+                if (!r.ok) r = await fetch('../../bank-cu.json')
+                if (r.ok) {
+                    const data = await r.json()
+                    Object.assign(bankMeta, data)
+                }
+            } catch (e) {
+                console.error("Lỗi tải bank-cu.json", e)
             }
         }
 

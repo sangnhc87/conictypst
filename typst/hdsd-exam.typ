@@ -2242,6 +2242,142 @@ npm run sync:bank
 
 #tip[Muốn đề tự dựng từ ID cố định, dùng `qb-pick(question-bank, "ID1", "ID2", ...)` trong `questions.typ`; muốn lọc mềm, dùng `question-select(...)` với `bank.json`.]
 
+== Trộn đề Typst-native từ ngân hàng
+
+Phần trộn đề mới lấy cảm hứng từ hệ `stexgv.web.app`, nhưng chạy ngay trong Typst: mỗi câu vẫn có ID ổn định, ma trận đề là danh sách slot, seed quyết định cách chọn câu, engine tránh trùng ID trong cùng một mã đề, trộn phương án trắc nghiệm và xuất bảng đáp án sau khi đã trộn.
+
+File mẫu có sẵn:
+
+```bash
+typst compile --root typst typst/exam-mix-demo.typ output/exam-mix-demo.pdf
+```
+
+Nhập kho STEXGV sang Typst:
+
+```bash
+npm run stexgv:import
+npm run stexgv:mix -- --compile
+```
+
+Bridge mới đọc trực tiếp `/Users/admin/stexgv/src/pages/ThptExamBuilder/banks`, gọi `generateLatex(seed)`, giữ ID gốc, slot 1-22, topic, source, latex gốc và sinh registry Typst trong `typst/stexgv-import/`.
+
+#table(
+  columns: (1.15fr, 2fr),
+  stroke: 0.45pt + luma(210),
+  inset: 6pt,
+  [File], [Vai trò],
+  [`scripts/stexgv-typst-bridge.mjs`], [Importer STEXGV: đọc module JS, phân tích `choice`, `choiceTF`, `shortans`, `loigiai`.],
+  [`typst/stexgv-import/stexgv-bank.json`], [Snapshot quản lý ngân hàng: ID, slot, loại câu, topic, source, latex gốc, trạng thái.],
+  [`typst/stexgv-import/stexgv-bank.typ`], [Registry Typst dùng ngay với `build-exam-plan` và `render-exam-plan`.],
+  [`typst/stexgv-import/stexgv-mix-demo.typ`], [File trộn đề 22 slot chuẩn THPT, sinh 2 mã đề và bảng đáp án.],
+  [`output/stexgv-mix-demo.pdf`], [Đầu ra PDF khi chạy thêm `--compile`.],
+)
+
+Trạng thái import hiện tại: bridge nhập được 1.553 câu STEXGV. Có 743 câu `ready`, 810 câu `review` vì còn TikZ, tkz-tab hoặc lệnh LaTeX đặc thù cần chuyển sâu sang CeTZ/BBT. Tất cả câu vẫn có ID và trộn đề được khi dùng `status: none`.
+
+Import lõi:
+
+```typst
+#import "sang-exam.typ": *
+#import "questions.typ": question-bank
+#import "modules/question-bank.typ": (
+  exam-slot,
+  build-exam-plan,
+  render-exam-plan,
+  render-answer-key,
+  thpt-2025-matrix,
+)
+```
+
+Khai báo ma trận slot:
+
+```typst
+#let matrix = (
+  exam-slot(1, label: [TN — mệnh đề], type: "tn", ids: ("0D1N1-1",)),
+  exam-slot(2, label: [TN — Oxyz], type: "tn", ids: ("12HH-MC-01", "12HH-DT-01")),
+  exam-slot(3, label: [TN — tích phân], type: "tn", tags: ("tich-phan",), difficulty: ("NB", "TH")),
+  exam-slot(4, label: [Đúng sai — xác suất], type: "ds", tags: ("xac-suat",), difficulty: ("VD",)),
+  exam-slot(5, label: [Trả lời ngắn], type: "tln", difficulty: ("VD", "VDC")),
+)
+```
+
+Dựng đề từ seed:
+
+```typst
+#let plan = build-exam-plan(
+  question-bank,
+  matrix,
+  seed: 2026,
+  strict: false,
+  allow-duplicates: false,
+)
+
+#render-exam-plan(
+  plan,
+  mode: "dethi",
+  seed: 2026,
+  shuffle-options: true,
+  show-id: true,
+)
+
+#pagebreak()
+#render-answer-key(plan, seed: 2026, shuffle-options: true)
+```
+
+Sinh nhiều mã đề:
+
+```typst
+#let render-code(code, seed) = {
+  let plan = build-exam-plan(question-bank, matrix, seed: seed)
+
+  #show: thpt-school-exam.with(
+    school: "CONICTYPST",
+    exam-title: "ĐỀ TRỘN TỪ NGÂN HÀNG",
+    subject: "TOÁN",
+    duration: "90 phút",
+    code: code,
+  )
+
+  render-exam-plan(plan, seed: seed, shuffle-options: true)
+  pagebreak()
+  render-answer-key(plan, seed: seed, shuffle-options: true, title: [Bảng đáp án mã #code])
+}
+
+#render-code("101", 2026)
+#pagebreak()
+#render-code("102", 2027)
+```
+
+Khi ngân hàng đủ dữ liệu theo tags/mức độ, dùng ma trận 22 slot chuẩn:
+
+```typst
+#let plan = build-exam-plan(
+  question-bank,
+  thpt-2025-matrix,
+  seed: 26072026,
+  strict: false,
+)
+
+#render-exam-plan(plan, seed: 26072026, shuffle-options: true)
+#pagebreak()
+#render-answer-key(plan, seed: 26072026, shuffle-options: true)
+```
+
+#table(
+  columns: (auto, 1fr),
+  stroke: 0.5pt + luma(180),
+  inset: 8pt,
+  fill: (_, row) => if row == 0 { luma(225) } else if calc.rem(row, 2) == 0 { luma(248) } else { white },
+  [*Hàm*], [*Vai trò*],
+  [`#exam-slot(...)`], [Mô tả một ô ma trận: loại câu, ID cố định, tags, mức độ, nguồn, trạng thái.],
+  [`#build-exam-plan(...)`], [Chọn câu theo seed, tránh trùng ID, trả về danh sách câu đã chọn.],
+  [`#render-exam-plan(...)`], [Render đề bằng macro `#tn/#ds/#tln/#tl`.],
+  [`#render-answer-key(...)`], [Xuất bảng đáp án đúng sau khi đã trộn phương án.],
+  [`#thpt-2025-matrix`], [Ma trận mẫu 22 slot: 12 trắc nghiệm, 4 đúng/sai, 6 trả lời ngắn.],
+)
+
+#caution[`thpt-2025-matrix` là khung chuẩn. Nếu ngân hàng chưa có đủ câu khớp tags/mức độ, engine sẽ báo thiếu slot trong PDF để người soạn bổ sung câu hoặc nới bộ lọc.]
+
 // ══════════════════════════════════════════════════════════════════
 = Tham số nâng cao của câu hỏi
 // ══════════════════════════════════════════════════════════════════
@@ -3965,8 +4101,6 @@ Các hàm `tn`, `ds`, `tln`, `tl` trong beamer nhận *cùng tham số* với sa
 )
 
 #tip[Hộp `#ppgiai`, `#luuy`, `#meo`, `#step` dùng bình thường trong `loigiai:` của beamer — chữ tự chuyển sang màu tối để đọc được trên nền hộp sáng.]
-
-
 
 
 

@@ -126,6 +126,7 @@ const searchIndex = [
   { title: 'Tiêu đề đề thi', section: 'exam-header', keywords: ['thpt-school-exam', 'tiêu đề', 'department', 'school', 'duration', 'code', 'header'] },
   { title: 'Chế độ hiển thị', section: 'exam-mode', keywords: ['mode', 'dethi', 'loigiai', 'solcolor', 'exam-mode', 'accent', 'setcau', 'resetcau'] },
   { title: 'ID & ngân hàng câu hỏi', section: 'ids-bank', keywords: ['id', 'tags', 'bank', 'bank.json', 'question-bank', 'questions.typ', 'render-selection', 'question-select'] },
+  { title: 'Trộn đề Typst', section: 'exam-mix-typst', keywords: ['trộn đề', 'tron de', 'mix exam', 'seed', 'ma trận', 'matrix', 'exam-slot', 'build-exam-plan', 'render-exam-plan', 'render-answer-key', 'mã đề', 'thpt-2025-matrix', 'stexgv', 'stexgv import', 'stexgv typst bridge', 'ngân hàng câu hỏi', 'quan ly ngan hang', 'stexgv-bank'] },
   { title: 'Tham số Typst thường dùng', section: 'typst-params', keywords: ['typst', 'tham số', 'grid', 'block', 'box', 'table', 'content', 'tuple', 'dictionary', 'metadata'] },
   { title: 'Hộp sư phạm', section: 'pedagogy-boxes', keywords: ['ppgiai', 'luuy', 'meo', 'nhanxet', 'lythuyet', 'note', 'dn', 'dl', 'tc', 'bode', 'hộp'] },
   { title: 'File mẫu đề thi', section: 'exam-boiler', keywords: ['mẫu', 'template', 'boilerplate', 'đề thi mẫu', 'de-thi'] },

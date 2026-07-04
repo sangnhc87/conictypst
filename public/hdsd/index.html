@@ -43,6 +43,9 @@
       <div class="search-results" id="searchResults"></div>
     </div>
     <div class="topbar-actions">
+      <a href="dashboard.html" class="btn-dashboard">
+        Dashboard
+      </a>
       <a href="downloads/stexgv-template-full.zip" class="btn-download" id="mainDownloadBtn" download>
         ⬇ Tải gói đầy đủ
       </a>
@@ -54,6 +57,7 @@
 <nav class="sidebar" id="sidebar">
   <div class="sidebar-section">
     <div class="sidebar-label">Bắt đầu</div>
+    <a href="dashboard.html" class="nav-link">⚡ Dashboard</a>
     <a href="#intro" class="nav-link active" data-section="intro">🏠 Giới thiệu</a>
     <a href="#install" class="nav-link" data-section="install">⚙️ Cài đặt & Biên dịch</a>
     <a href="#quickstart" class="nav-link" data-section="quickstart">🚀 Khởi động nhanh</a>
@@ -68,6 +72,7 @@
     <a href="#exam-header" class="nav-link" data-section="exam-header">🏷️ Tiêu đề đề thi</a>
     <a href="#exam-mode" class="nav-link" data-section="exam-mode">🔀 Chế độ hiển thị</a>
     <a href="#ids-bank" class="nav-link" data-section="ids-bank">🆔 ID & ngân hàng</a>
+    <a href="#exam-mix-typst" class="nav-link" data-section="exam-mix-typst">🧪 Trộn đề Typst</a>
     <a href="#typst-params" class="nav-link" data-section="typst-params">⚙️ Tham số Typst</a>
     <a href="#pedagogy-boxes" class="nav-link" data-section="pedagogy-boxes">📦 Hộp sư phạm</a>
     <a href="#exam-boiler" class="nav-link" data-section="exam-boiler">📄 File mẫu đề thi</a>
@@ -887,6 +892,145 @@ classic.crimson // = rgb("#cc2200")  — đỏ đậm</code></pre>
 
 #render-selection(selected, mode: "loigiai", show-id: true)</code></pre>
   </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION: EXAM MIX TYPST -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="exam-mix-typst" class="doc-section hidden">
+  <h1>🧪 Trộn Đề Bằng Typst</h1>
+  <p>Phần này là bản Typst-native của ý tưởng trong <code>stexgv.web.app</code>: vẫn dùng ID ổn định, vẫn có ma trận slot, seed trộn, tránh trùng câu, trộn phương án trắc nghiệm và xuất bảng đáp án — nhưng render trực tiếp bằng <code>#tn/#ds/#tln/#tl</code>.</p>
+
+  <div class="callout callout-tip">
+    <strong>File mẫu đã có:</strong> mở <code>typst/exam-mix-demo.typ</code> hoặc chạy <code>typst compile --root typst typst/exam-mix-demo.typ output/exam-mix-demo.pdf</code>. Demo sinh 2 mã đề từ cùng một ngân hàng và tự in bảng đáp án.
+  </div>
+
+  <h2>Nhập kho STEXGV sang Typst</h2>
+  <p>Nếu máy có thư mục <code>/Users/admin/stexgv</code>, bridge mới sẽ đọc trực tiếp kho <code>ThptExamBuilder/banks</code>, giữ ID gốc, slot 1-22, topic, source, seed sinh câu, rồi xuất registry Typst để trộn đề.</p>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-bash">npm run stexgv:import
+npm run stexgv:mix -- --compile</code></pre>
+  </div>
+  <table class="doc-table">
+    <thead><tr><th>File</th><th>Vai trò</th></tr></thead>
+    <tbody>
+      <tr><td><code>scripts/stexgv-typst-bridge.mjs</code></td><td>Importer STEXGV: gọi <code>generateLatex(seed)</code>, phân tích <code>\choice</code>, <code>\choiceTF</code>, <code>\shortans</code>, <code>\loigiai</code>.</td></tr>
+      <tr><td><code>typst/stexgv-import/stexgv-bank.json</code></td><td>Snapshot quản lý ngân hàng: ID, slot, loại câu, topic, source, latex gốc, trạng thái.</td></tr>
+      <tr><td><code>typst/stexgv-import/stexgv-bank.typ</code></td><td>Registry Typst dùng ngay với <code>#build-exam-plan</code> và <code>#render-exam-plan</code>.</td></tr>
+      <tr><td><code>typst/stexgv-import/stexgv-mix-demo.typ</code></td><td>File trộn đề 22 slot chuẩn THPT, sinh 2 mã đề và bảng đáp án.</td></tr>
+      <tr><td><code>output/stexgv-mix-demo.pdf</code></td><td>Đầu ra PDF khi chạy thêm <code>--compile</code>.</td></tr>
+    </tbody>
+  </table>
+  <div class="callout callout-warning">
+    <strong>Trạng thái import hiện tại:</strong> bridge nhập được 1.553 câu STEXGV. Có 743 câu <code>ready</code>, 810 câu <code>review</code> vì còn TikZ, tkz-tab hoặc lệnh LaTeX đặc thù cần chuyển sâu sang CeTZ/BBT. Tất cả câu vẫn có ID và trộn đề được khi dùng <code>status: none</code>.
+  </div>
+
+  <h2>Import lõi trộn đề</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#import "sang-exam.typ": *
+#import "questions.typ": question-bank
+#import "modules/question-bank.typ": (
+  exam-slot,
+  build-exam-plan,
+  render-exam-plan,
+  render-answer-key,
+  thpt-2025-matrix,
+)</code></pre>
+  </div>
+
+  <h2>Khai báo ma trận slot</h2>
+  <p>Mỗi <code>exam-slot(...)</code> tương đương một ô trong ma trận đề. Có thể chọn theo <code>ids</code> cố định, hoặc lọc mềm bằng <code>type</code>, <code>difficulty</code>, <code>tags</code>, <code>chapter</code>, <code>lesson</code>, <code>form</code>.</p>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#let matrix = (
+  // Chọn cố định theo ID
+  exam-slot(1, label: [TN — mệnh đề], type: "tn", ids: ("0D1N1-1",)),
+
+  // Chọn ngẫu nhiên trong nhóm ID
+  exam-slot(2, label: [TN — Oxyz], type: "tn", ids: ("12HH-MC-01", "12HH-DT-01", "12HH-MP-01")),
+
+  // Chọn mềm theo tag / mức độ
+  exam-slot(3, label: [TN — tích phân], type: "tn", tags: ("tich-phan",), difficulty: ("NB", "TH")),
+  exam-slot(4, label: [Đúng sai — xác suất], type: "ds", tags: ("xac-suat",), difficulty: ("VD",)),
+  exam-slot(5, label: [Trả lời ngắn], type: "tln", difficulty: ("VD", "VDC")),
+)</code></pre>
+  </div>
+
+  <h2>Sinh đề từ seed</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#let plan = build-exam-plan(
+  question-bank,
+  matrix,
+  seed: 2026,
+  strict: false,          // false = nếu thiếu câu sẽ nới difficulty/tags
+  allow-duplicates: false // không lấy lại cùng một ID trong cùng đề
+)
+
+#render-exam-plan(
+  plan,
+  mode: "dethi",
+  seed: 2026,
+  shuffle-options: true,  // trộn phương án A/B/C/D nhưng vẫn giữ đúng đáp án
+  show-id: true,          // bật khi soạn nội bộ; tắt khi in cho học sinh
+)
+
+#pagebreak()
+#render-answer-key(plan, seed: 2026, shuffle-options: true)</code></pre>
+  </div>
+
+  <h2>Sinh 2 mã đề</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#let render-code(code, seed) = {
+  let plan = build-exam-plan(question-bank, matrix, seed: seed)
+
+  #show: thpt-school-exam.with(
+    school: "CONICTYPST",
+    exam-title: "ĐỀ TRỘN TỪ NGÂN HÀNG",
+    subject: "TOÁN",
+    duration: "90 phút",
+    code: code,
+  )
+
+  render-exam-plan(plan, seed: seed, shuffle-options: true)
+  pagebreak()
+  render-answer-key(plan, seed: seed, shuffle-options: true, title: [Bảng đáp án mã #code])
+}
+
+#render-code("101", 2026)
+#pagebreak()
+#render-code("102", 2027)</code></pre>
+  </div>
+
+  <h2>Ma trận 22 slot chuẩn THPT</h2>
+  <p>Hệ thống đã có sẵn <code>thpt-2025-matrix</code> theo cấu trúc 12 câu trắc nghiệm, 4 câu đúng/sai, 6 câu trả lời ngắn. Khi ngân hàng đủ dữ liệu, dùng trực tiếp:</p>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#let plan = build-exam-plan(
+  question-bank,
+  thpt-2025-matrix,
+  seed: 26072026,
+  strict: false,
+)
+
+#render-exam-plan(plan, seed: 26072026, shuffle-options: true)
+#pagebreak()
+#render-answer-key(plan, seed: 26072026, shuffle-options: true)</code></pre>
+  </div>
+
+  <table class="doc-table">
+    <thead><tr><th>Hàm</th><th>Vai trò</th></tr></thead>
+    <tbody>
+      <tr><td><code>#exam-slot(...)</code></td><td>Mô tả một ô ma trận: loại câu, ID, tags, mức độ, nguồn, trạng thái.</td></tr>
+      <tr><td><code>#build-exam-plan(...)</code></td><td>Chọn câu theo seed, tránh trùng ID, trả về danh sách câu đã chọn.</td></tr>
+      <tr><td><code>#render-exam-plan(...)</code></td><td>Render đề bằng macro <code>#tn/#ds/#tln/#tl</code>.</td></tr>
+      <tr><td><code>#render-answer-key(...)</code></td><td>Xuất bảng đáp án sau khi đã trộn phương án.</td></tr>
+      <tr><td><code>#thpt-2025-matrix</code></td><td>Ma trận mẫu 22 slot theo cấu trúc THPT hiện hành.</td></tr>
+    </tbody>
+  </table>
 </section>
 
 <!-- ═══════════════════════════════════════════ -->

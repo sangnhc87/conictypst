@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ngân Hàng Typst — ConicTypst</title>
+    <link rel="stylesheet" href="dashboard.css" />
+    <script defer src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+    <style>
+        body {
+            background: #f8fafc;
+        }
+
+        .page {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--muted);
+            font-size: .88rem;
+            margin-bottom: 14px;
+        }
+
+        .back-link:hover {
+            color: var(--text);
+        }
+
+        /* Bank header */
+        .bank-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .bank-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .bank-icon {
+            font-size: 1.6rem;
+        }
+
+        .bank-title h1 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        .bank-title p {
+            font-size: .82rem;
+            color: var(--muted);
+            margin: 0;
+        }
+
+        .bank-actions {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border-radius: 7px;
+            font-size: .83rem;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: all .15s;
+        }
+
+        .btn-blue {
+            background: #1d4ed8;
+            color: #fff;
+        }
+
+        .btn-blue:hover {
+            background: #1e40af;
+        }
+
+        .btn-green {
+            background: #16a34a;
+            color: #fff;
+        }
+
+        .btn-green:hover {
+            background: #15803d;
+        }
+
+        .btn-sky {
+            background: #0ea5e9;
+            color: #fff;
+        }
+
+        .btn-sky:hover {
+            background: #0284c7;
+        }
+
+        .btn-amber {
+            background: #d97706;
+            color: #fff;
+        }
+
+        .btn-amber:hover {
+            background: #b45309;
+        }
+
+        .btn-red {
+            background: #dc2626;
+            color: #fff;
+        }
+
+        .btn-red:hover {
+            background: #b91c1c;
+        }
+
+        .btn-gray {
+            background: #f1f5f9;
+            border: 1px solid var(--line);
+            color: #374151;
+        }
+
+        .btn-gray:hover {
+            background: #e2e8f0;
+        }
+
+        .btn-purple {
+            background: #7c3aed;
+            color: #fff;
+        }
+
+        .btn-purple:hover {
+            background: #6d28d9;
+        }
+
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: .78rem;
+        }
+
+        /* Search + filter bar */
+        .search-bar {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .search-input-wrap {
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: #fff;
+            flex: 1;
+            min-width: 200px;
+            max-width: 420px;
+        }
+
+        .search-input-wrap input {
+            flex: 1;
+            padding: 9px 12px;
+            border: none;
+            outline: none;
+            font-size: .88rem;
+            border-radius: 8px;
+        }
+
+        .search-icon {
+            padding: 0 10px;
+            color: var(--muted);
+        }
+
+        select.filter-select {
+            padding: 9px 12px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            font-size: .83rem;
+            background: #fff;
+            cursor: pointer;
+        }
+
+        /* Tool row */
+        .tool-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+        }
+
+        .tool-label {
+            font-size: .85rem;
+            font-weight: 600;
+            color: var(--muted);
+        }
+
+        .tool-row input[type=number] {
+            width: 60px;
+            padding: 6px 8px;
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            font-size: .85rem;
+        }
+
+        /* Tree */
+        .tree-container {
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .tree-node {
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .tree-node:last-child {
+            border-bottom: none;
+        }
+
+        .tree-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 14px;
+            cursor: pointer;
+            transition: background .12s;
+            user-select: none;
+        }
+
+        .tree-row:hover {
+            background: #f8fafc;
+        }
+
+        .tree-row.selected {
+            background: #eff6ff;
+        }
+
+        .tree-toggle {
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted);
+            flex-shrink: 0;
+            transition: transform .18s;
+        }
+
+        .tree-toggle.open {
+            transform: rotate(90deg);
+        }
+
+        .tree-indent {
+            flex-shrink: 0;
+        }
+
+        .tree-icon {
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .tree-name {
+            flex: 1;
+            font-size: .88rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .tree-count {
+            font-size: .78rem;
+            color: var(--muted);
+            background: #f1f5f9;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .tree-children {
+            display: none;
+        }
+
+        .tree-children.open {
+            display: block;
+        }
+
+        /* Level-specific colors */
+        .level-0>.tree-row .tree-icon {
+            color: #1d4ed8;
+        }
+
+        .level-1>.tree-row .tree-icon {
+            color: #16a34a;
+        }
+
+        .level-2>.tree-row .tree-icon {
+            color: #d97706;
+        }
+
+        .level-3>.tree-row .tree-icon {
+            color: #7c3aed;
+        }
+
+        /* Question detail panel */
+        .layout {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 16px;
+        }
+
+        @media(max-width:1000px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .detail-panel {
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 18px;
+            position: sticky;
+            top: 76px;
+        }
+
+        .detail-empty {
+            text-align: center;
+            color: var(--muted);
+            padding: 40px 20px;
+        }
+
+        /* Q item in list */
+        .q-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px 14px;
+            border-bottom: 1px solid #f1f5f9;
+            cursor: pointer;
+            transition: background .12s;
+        }
+
+        .q-row:hover {
+            background: #f8fafc;
+        }
+
+        .q-row.selected {
+            background: #eff6ff;
+        }
+
+        .q-checkbox {
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .q-body {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .q-id {
+            font-size: .73rem;
+            font-weight: 700;
+            color: #1d4ed8;
+            background: #eff6ff;
+            padding: 1px 6px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 3px;
+        }
+
+        .q-preview {
+            font-size: .83rem;
+            color: var(--text);
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .q-meta {
+            font-size: .73rem;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .q-type-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 6px;
+        }
+
+        .dot-tn {
+            background: #1d4ed8;
+        }
+
+        .dot-ds {
+            background: #16a34a;
+        }
+
+        .dot-tln {
+            background: #d97706;
+        }
+
+        .dot-tl {
+            background: #7c3aed;
+        }
+
+        /* Stats bar */
+        .stats-bar {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            padding: 10px 16px;
+            background: #f0f9ff;
+            border-radius: 8px;
+            margin-bottom: 14px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .stat-value {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #1d4ed8;
+        }
+
+        .stat-label {
+            font-size: .72rem;
+            color: var(--muted);
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 200;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: .88rem;
+            transition: all .25s;
+            transform: translateX(120%);
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            background: #16a34a;
+            color: #fff;
+        }
+
+        .toast.error {
+            background: #dc2626;
+            color: #fff;
+        }
+
+        .toast.info {
+            background: #0ea5e9;
+            color: #fff;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .5);
+            z-index: 150;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal {
+            background: #fff;
+            border-radius: 12px;
+            padding: 24px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal h3 {
+            margin: 0 0 16px;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            float: right;
+            cursor: pointer;
+            color: var(--muted);
+            font-size: 1.3rem;
+            line-height: 1;
+        }
+
+        .modal-footer {
+            margin-top: 18px;
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+
+        /* Code preview */
+        pre.q-code {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: .78rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        /* Selected bar */
+        .selected-bar {
+            display: none;
+            position: sticky;
+            bottom: 0;
+            background: #fff;
+            border-top: 2px solid #1d4ed8;
+            padding: 12px 16px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .selected-bar.visible {
+            display: flex;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        .difficulty-badge {
+            padding: 2px 7px;
+            border-radius: 10px;
+            font-size: .73rem;
+            font-weight: 700;
+        }
+
+        .diff-NB {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .diff-TH {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .diff-VD {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .diff-VDC {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="dash-topbar">
+        <div class="dash-topbar-inner">
+            <a class="dash-brand" href="dashboard.html">
+                <span class="dash-brand-mark">C</span>
+                <span><strong>ConicTypst</strong><small>Ngân Hàng</small></span>
+            </a>
+            <div></div>
+            <nav class="dash-nav">
+                <a href="tron-de.html">Trộn Đề</a>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="index.html">HDSD</a>
+            </nav>
+        </div>
+    </header>
+
+    <div id="toast" class="toast"></div>
+
+    <!-- Import Modal -->
+    <div id="importModal" class="modal-overlay" style="display:none;">
+        <div class="modal">
+            <span class="modal-close" onclick="closeModal('importModal')">×</span>
+            <h3>📥 Nhập Bank từ file .typ</h3>
+            <p style="color:var(--muted);font-size:.85rem;margin-bottom:14px;">
+                Chọn file .typ chứa câu hỏi (#tn, #ds, #tln, #tl) để nhập vào ngân hàng.<br>
+                Câu có comment <code>//[ID]</code> sẽ được gán ID tự động.
+            </p>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+                <div>
+                    <label style="font-size:.83rem;font-weight:600;">Chọn file .typ hoặc dán nội dung:</label>
+                    <div style="display:flex;gap:8px;margin-top:6px;">
+                        <button class="btn btn-blue btn-sm" onclick="document.getElementById('fileInput').click()">
+                            <i data-lucide="upload"></i> Chọn file
+                        </button>
+                        <span id="importFileName" style="font-size:.83rem;color:var(--muted);align-self:center;">Chưa
+                            chọn file</span>
+                    </div>
+                </div>
+                <textarea id="importPaste"
+                    style="height:160px;width:100%;font-family:monospace;font-size:.78rem;padding:10px;border:1px solid var(--line);border-radius:6px;outline:none;resize:vertical;"
+                    placeholder="//[2D1N1-1]
+#tn[Câu hỏi...][A][#True[B]][C][D][#ppgiai[...]]"></textarea>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                    <div style="display:flex;flex-direction:column;gap:4px;flex:1;">
+                        <label style="font-size:.82rem;font-weight:600;color:var(--muted);">Lớp mặc định</label>
+                        <select id="importGrade"
+                            style="padding:7px;border:1px solid var(--line);border-radius:6px;font-size:.85rem;">
+                            <option value="10">Lớp 10</option>
+                            <option value="11">Lớp 11</option>
+                            <option value="12" selected>Lớp 12</option>
+                        </select>
+                    </div>
+                    <div style="display:flex;flex-direction:column;gap:4px;flex:1;">
+                        <label style="font-size:.82rem;font-weight:600;color:var(--muted);">Nhãn nguồn</label>
+                        <input id="importSource"
+                            style="padding:7px;border:1px solid var(--line);border-radius:6px;font-size:.85rem;"
+                            placeholder="vd: De-THPT-2026" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-gray" onclick="closeModal('importModal')">Hủy</button>
+                <button class="btn btn-blue" onclick="doImport()"><i data-lucide="download"></i> Nhập Bank</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detail Modal -->
+    <div id="detailModal" class="modal-overlay" style="display:none;">
+        <div class="modal">
+            <span class="modal-close" onclick="closeModal('detailModal')">×</span>
+            <h3 id="detailTitle">Chi tiết câu hỏi</h3>
+            <div id="detailContent"></div>
+            <div class="modal-footer">
+                <button class="btn btn-gray" onclick="closeModal('detailModal')">Đóng</button>
+                <button class="btn btn-green" onclick="addSelectedToCart()"><i data-lucide="plus"></i> Thêm vào
+                    đề</button>
+            </div>
+        </div>
+    </div>
+
+    <input type="file" id="fileInput" accept=".typ,.txt" />
+
+    <main class="page">
+        <a class="back-link" href="dashboard.html"><i data-lucide="arrow-left"></i> Về Dashboard</a>
+
+        <!-- Header -->
+        <div class="bank-header">
+            <div class="bank-title">
+                <span class="bank-icon">🌳</span>
+                <div>
+                    <h1>Ngân Hàng Typst</h1>
+                    <p>Duyệt và soạn đề từ file .typ — lưu trữ local, không cần tài khoản</p>
+                </div>
+            </div>
+            <div class="bank-actions">
+                <button class="btn btn-blue" onclick="openModal('importModal')"><i data-lucide="folder-plus"></i> Nhập
+                    Bank</button>
+                <button class="btn btn-green" onclick="exportBank()"><i data-lucide="download"></i> Xuất Bank</button>
+                <button class="btn btn-sky" onclick="importBankJSON()"><i data-lucide="cloud-download"></i> Nạp
+                    JSON</button>
+                <button class="btn btn-red btn-sm" onclick="clearBank()"><i data-lucide="trash-2"></i> Xóa Bank</button>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-bar" id="statsBar">
+            <div class="stat-item"><span class="stat-value" id="stat-total">0</span><span class="stat-label">Tổng
+                    câu</span></div>
+            <div class="stat-item"><span class="stat-value" id="stat-tn" style="color:#1d4ed8;">0</span><span
+                    class="stat-label">Trắc nghiệm</span></div>
+            <div class="stat-item"><span class="stat-value" id="stat-ds" style="color:#16a34a;">0</span><span
+                    class="stat-label">Đúng sai</span></div>
+            <div class="stat-item"><span class="stat-value" id="stat-tln" style="color:#d97706;">0</span><span
+                    class="stat-label">Trả lời ngắn</span></div>
+            <div class="stat-item"><span class="stat-value" id="stat-tl" style="color:#7c3aed;">0</span><span
+                    class="stat-label">Tự luận</span></div>
+            <div class="stat-item"><span class="stat-value" id="stat-ready" style="color:#059669;">0</span><span
+                    class="stat-label">Đã lọc</span></div>
+        </div>
+
+        <!-- Search + filter -->
+        <div class="search-bar">
+            <div class="search-input-wrap">
+                <span class="search-icon"><i data-lucide="search"></i></span>
+                <input type="search" id="searchInput" placeholder="Tìm ID, nội dung câu hỏi..."
+                    oninput="filterQuestions()" />
+            </div>
+            <select class="filter-select" id="filterType" onchange="filterQuestions()">
+                <option value="">Tất cả loại</option>
+                <option value="tn">Trắc nghiệm</option>
+                <option value="ds">Đúng sai</option>
+                <option value="tln">Trả lời ngắn</option>
+                <option value="tl">Tự luận</option>
+            </select>
+            <select class="filter-select" id="filterGrade" onchange="filterQuestions()">
+                <option value="">Tất cả lớp</option>
+                <option value="10">Lớp 10</option>
+                <option value="11">Lớp 11</option>
+                <option value="12">Lớp 12</option>
+            </select>
+            <select class="filter-select" id="filterDiff" onchange="filterQuestions()">
+                <option value="">Tất cả mức</option>
+                <option value="NB">Nhận biết</option>
+                <option value="TH">Thông hiểu</option>
+                <option value="VD">Vận dụng</option>
+                <option value="VDC">Vận dụng cao</option>
+            </select>
+            <button class="btn btn-gray btn-sm" onclick="findDuplicates()"><i data-lucide="scan-search"></i> Tìm câu
+                trùng</button>
+        </div>
+
+        <!-- Tool row -->
+        <div class="tool-row">
+            <span class="tool-label">Công cụ tạo đề:</span>
+            <input type="number" id="examCount" value="1" min="1" max="10" />
+            <span class="tool-label">đề</span>
+            <button class="btn btn-green btn-sm" onclick="createFromSelected()"><i data-lucide="file-plus"></i> Tạo từ
+                câu chọn</button>
+            <button class="btn btn-sky btn-sm" onclick="createFromTemplate()"><i data-lucide="file-text"></i> Tạo từ
+                file Mẫu</button>
+            <button class="btn btn-gray btn-sm" onclick="deselectAll()"><i data-lucide="x"></i> Bỏ chọn</button>
+            <span id="selectedCount" style="margin-left:auto;font-size:.83rem;font-weight:600;color:#1d4ed8;"></span>
+        </div>
+
+        <div class="layout">
+            <!-- LEFT: Tree + Question list -->
+            <div>
+                <div id="emptyState" style="text-align:center;padding:60px 20px;color:var(--muted);">
+                    <i data-lucide="inbox" style="font-size:3rem;display:block;margin-bottom:16px;opacity:.3;"></i>
+                    <p style="font-size:1rem;font-weight:600;margin:0 0 8px;">Ngân hàng trống</p>
+                    <p style="font-size:.85rem;margin:0 0 16px;">Nhấn <strong>Nhập Bank</strong> để thêm câu hỏi từ file
+                        .typ</p>
+                    <button class="btn btn-blue" onclick="openModal('importModal')"><i data-lucide="folder-plus"></i>
+                        Nhập Bank ngay</button>
+                </div>
+
+                <!-- Tree view -->
+                <div id="treeView" style="display:none;" class="tree-container"></div>
+
+                <!-- Flat list (shown when searching) -->
+                <div id="flatList"
+                    style="display:none;border:1px solid var(--line);border-radius:10px;background:#fff;overflow:hidden;margin-top:14px;">
+                </div>
+            </div>
+
+            <!-- RIGHT: Detail panel -->
+            <div>
+                <div class="detail-panel">
+                    <div id="detailPanelContent" class="detail-empty">
+                        <i data-lucide="mouse-pointer-2"
+                            style="font-size:2rem;display:block;margin-bottom:10px;opacity:.3;"></i>
+                        <p>Nhấp vào câu hỏi để xem chi tiết</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Selected bar -->
+    <div id="selectedBar" class="selected-bar">
+        <span id="selectedBarCount" style="font-weight:700;color:#1d4ed8;"></span>
+        <button class="btn btn-green btn-sm" onclick="createFromSelected()"><i data-lucide="shuffle"></i> Tạo đề từ câu
+            chọn</button>
+        <button class="btn btn-sky btn-sm" onclick="exportSelected()"><i data-lucide="download"></i> Xuất .typ</button>
+        <button class="btn btn-gray btn-sm" onclick="deselectAll()">Bỏ chọn</button>
+    </div>
+
+    <script>
+        // ════════════════════════════════════════
+        // STORAGE
+        // ════════════════════════════════════════
+        const BANK_KEY = 'conictypst_bank_v1'
+        const CART_KEY = 'conictypst_cart_v1'
+        let bank = []         // all questions
+        let filtered = []     // currently visible
+        let selectedIds = new Set()
+        let currentDetailIdx = null
+
+        function loadBank() {
+            try { bank = JSON.parse(localStorage.getItem(BANK_KEY) || '[]') } catch { bank = [] }
+            filtered = [...bank]
+        }
+        function saveBank() { localStorage.setItem(BANK_KEY, JSON.stringify(bank)) }
+
+        // ════════════════════════════════════════
+        // PARSE TYPST FILE
+        // ════════════════════════════════════════
+        function parseBalanced(str, start) {
+            let depth = 0, i = start, inMath = false
+            for (; i < str.length; i++) {
+                const c = str[i]
+                if (c === '$') inMath = !inMath
+                if (inMath) continue
+                if (c === '[') depth++
+                if (c === ']') { depth--; if (depth === 0) return [str.slice(start + 1, i), i] }
+            }
+            return [str.slice(start + 1), str.length - 1]
+        }
+
+        function parseBankFile(code, defaultGrade, sourceTag) {
+            const qs = []
+            const macroRe = /#(tn|ds|tln|tl)\[/g
+            let m
+            while ((m = macroRe.exec(code)) !== null) {
+                const type = m[1], blockStart = m.index
+                const firstBracket = m.index + m[0].length - 1
+                const [_, end] = parseBalanced(code, firstBracket)
+                let full = code.slice(blockStart, end + 1)
+                let i = end + 1
+                while (i < code.length) {
+                    while (i < code.length && /\s/.test(code[i])) i++
+                    if (code[i] !== '[') break
+                    const [c2, e2] = parseBalanced(code, i)
+                    full += code.slice(i, e2 + 1); i = e2 + 1
+                }
+                // ID from comment
+                const before = code.slice(Math.max(0, blockStart - 100), blockStart)
+                const idMatch = before.match(/\/\/\[([^\]]+)\]\s*$/)
+                const id = idMatch ? idMatch[1] : ''
+                // Extract difficulty from ID e.g. 2D1N1-1 → N=NB
+                const diffCode = id.match(/[NHVC]/)?.[0] || ''
+                const diffMap = { 'N': 'NB', 'H': 'TH', 'V': 'VD', 'C': 'VDC' }
+                const diff = diffMap[diffCode] || ''
+                // Grade from ID: first char
+                const gradeCode = { '0': 10, '1': 11, '2': 12 }
+                const gradeFromId = gradeCode[id[0]] || defaultGrade
+                // Preview
+                const preview = full.replace(/#ppgiai\[[\s\S]*?\]/, '').replace(/#True\[/g, '').replace(/#False\[/g, '').replace(/\$[^$]*\$/g, '…').replace(/[[\]#]/g, '').replace(/\s+/g, ' ').trim().slice(0, 120)
+                // Look up bank.json metadata
+                const meta = getBankMeta(id)
+                qs.push({
+                    uid: Date.now() + Math.random(),
+                    id, type, raw: full, preview,
+                    grade: gradeFromId,
+                    diff,
+                    subject: meta?.subject || '',
+                    chapter: meta?.chapter || '',
+                    lesson: meta?.lesson || '',
+                    form: meta?.form || '',
+                    source: sourceTag,
+                    addedAt: new Date().toISOString()
+                })
+            }
+            return qs
+        }
+
+        // ════════════════════════════════════════
+        // BANK.JSON METADATA
+        // ════════════════════════════════════════
+        let bankMeta = null
+        async function loadBankMeta() {
+            if (bankMeta) return
+            try {
+                const r = await fetch('../../bank.json')
+                if (r.ok) bankMeta = await r.json()
+            } catch {
+                bankMeta = {}
+            }
+        }
+
+        function getBankMeta(id) {
+            if (!bankMeta || !id) return null
+            const raw = bankMeta[id]
+            if (!raw) return null
+            const parts = raw.split('|').map(s => s.trim())
+            return { grade: parts[0], subject: parts[1], chapter: parts[2], lesson: parts[3], form: parts[4] }
+        }
+
+        // ════════════════════════════════════════
+        // IMPORT
+        // ════════════════════════════════════════
+        document.getElementById('fileInput').addEventListener('change', e => {
+            const f = e.target.files[0]
+            if (!f) return
+            const reader = new FileReader()
+            reader.onload = ev => {
+                document.getElementById('importPaste').value = ev.target.result
+                document.getElementById('importFileName').textContent = f.name
+            }
+            reader.readAsText(f, 'UTF-8')
+        })
+
+        async function doImport() {
+            await loadBankMeta()
+            const code = document.getElementById('importPaste').value.trim()
+            if (!code) { toast('Vui lòng chọn file hoặc dán nội dung.', 'error'); return }
+            const grade = parseInt(document.getElementById('importGrade').value) || 12
+            const source = document.getElementById('importSource').value || 'unknown'
+            const newQs = parseBankFile(code, grade, source)
+            if (newQs.length === 0) { toast('Không tìm thấy câu hỏi nào.', 'error'); return }
+            // Dedup by id
+            const existingIds = new Set(bank.map(q => q.id).filter(Boolean))
+            const dupes = newQs.filter(q => q.id && existingIds.has(q.id))
+            const fresh = newQs.filter(q => !q.id || !existingIds.has(q.id))
+            bank = [...bank, ...fresh]
+            saveBank()
+            closeModal('importModal')
+            toast(`Nhập ${fresh.length} câu (bỏ qua ${dupes.length} trùng).`, 'success')
+            renderAll()
+        }
+
+        // ════════════════════════════════════════
+        // EXPORT / CLEAR
+        // ════════════════════════════════════════
+        function exportBank() {
+            const content = bank.map(q => `//[${q.id || 'no-id'}]\n${q.raw}`).join('\n\n')
+            downloadText(content, 'conictypst-bank.typ')
+            toast(`Đã xuất ${bank.length} câu.`, 'success')
+        }
+
+        function exportSelected() {
+            const qs = bank.filter(q => selectedIds.has(q.uid))
+            if (qs.length === 0) { toast('Chưa chọn câu nào.', 'error'); return }
+            const content = qs.map(q => `//[${q.id || 'no-id'}]\n${q.raw}`).join('\n\n')
+            downloadText(content, 'selected-questions.typ')
+            toast(`Đã xuất ${qs.length} câu.`, 'success')
+        }
+
+        function importBankJSON() {
+            const input = document.createElement('input')
+            input.type = 'file'; input.accept = '.json'
+            input.onchange = e => {
+                const f = e.target.files[0]; if (!f) return
+                const reader = new FileReader()
+                reader.onload = ev => {
+                    try {
+                        const data = JSON.parse(ev.target.result)
+                        if (Array.isArray(data)) { bank = [...bank, ...data]; saveBank(); renderAll(); toast(`Nạp ${data.length} câu từ JSON.`, 'success') }
+                        else toast('File JSON không đúng định dạng.', 'error')
+                    } catch { toast('Lỗi đọc file JSON.', 'error') }
+                }
+                reader.readAsText(f)
+            }
+            input.click()
+        }
+
+        function clearBank() {
+            if (!confirm(`Xóa toàn bộ ${bank.length} câu hỏi? Không thể hoàn tác.`)) return
+            bank = []; saveBank(); renderAll()
+            toast('Đã xóa toàn bộ ngân hàng.', 'info')
+        }
+
+        // ════════════════════════════════════════
+        // FILTER
+        // ════════════════════════════════════════
+        function filterQuestions() {
+            const q = document.getElementById('searchInput').value.toLowerCase()
+            const type = document.getElementById('filterType').value
+            const grade = document.getElementById('filterGrade').value
+            const diff = document.getElementById('filterDiff').value
+            filtered = bank.filter(item => {
+                if (type && item.type !== type) return false
+                if (grade && String(item.grade) !== grade) return false
+                if (diff && item.diff !== diff) return false
+                if (q && !item.preview.toLowerCase().includes(q) && !item.id.toLowerCase().includes(q)) return false
+                return true
+            })
+            updateStats()
+            if (q || type || grade || diff) {
+                // Show flat list
+                document.getElementById('treeView').style.display = 'none'
+                document.getElementById('flatList').style.display = 'block'
+                renderFlatList()
+            } else {
+                document.getElementById('treeView').style.display = 'block'
+                document.getElementById('flatList').style.display = 'none'
+                buildTree()
+            }
+        }
+
+        // ════════════════════════════════════════
+        // STATS
+        // ════════════════════════════════════════
+        function updateStats() {
+            document.getElementById('stat-total').textContent = bank.length
+            document.getElementById('stat-tn').textContent = bank.filter(q => q.type === 'tn').length
+            document.getElementById('stat-ds').textContent = bank.filter(q => q.type === 'ds').length
+            document.getElementById('stat-tln').textContent = bank.filter(q => q.type === 'tln').length
+            document.getElementById('stat-tl').textContent = bank.filter(q => q.type === 'tl').length
+            document.getElementById('stat-ready').textContent = filtered.length
+        }
+
+        // ════════════════════════════════════════
+        // TREE VIEW
+        // ════════════════════════════════════════
+        function buildTree() {
+            const tree = document.getElementById('treeView')
+            if (bank.length === 0) { tree.style.display = 'none'; return }
+            tree.style.display = 'block'
+            // Group: grade → subject → chapter
+            const groups = {}
+            bank.forEach(q => {
+                const g = `Lớp ${q.grade || '?'}`
+                const s = q.subject || 'Không rõ môn'
+                const c = q.chapter || 'Không rõ chương'
+                if (!groups[g]) groups[g] = {}
+                if (!groups[g][s]) groups[g][s] = {}
+                if (!groups[g][s][c]) groups[g][s][c] = []
+                groups[g][s][c].push(q)
+            })
+            let html = ''
+            Object.entries(groups).forEach(([grade, subjects]) => {
+                const gTotal = Object.values(subjects).reduce((a, s) => a + Object.values(s).reduce((b, c) => b + c.length, 0), 0)
+                html += `<div class="tree-node level-0">
+          <div class="tree-row" onclick="toggleNode(this)">
+            <span class="tree-toggle"><i data-lucide="chevron-right"></i></span>
+            <span class="tree-icon">📁</span>
+            <span class="tree-name">${grade}</span>
+            <span class="tree-count">${gTotal}</span>
+          </div>
+          <div class="tree-children">`
+                Object.entries(subjects).forEach(([subj, chapters]) => {
+                    const sTotal = Object.values(chapters).reduce((a, c) => a + c.length, 0)
+                    html += `<div class="tree-node level-1">
+            <div class="tree-row" style="padding-left:28px;" onclick="toggleNode(this)">
+              <span class="tree-toggle"><i data-lucide="chevron-right"></i></span>
+              <span class="tree-icon">📒</span>
+              <span class="tree-name">${escHtml(subj)}</span>
+              <span class="tree-count">${sTotal}</span>
+            </div>
+            <div class="tree-children">`
+                    Object.entries(chapters).forEach(([ch, qs]) => {
+                        html += `<div class="tree-node level-2">
+              <div class="tree-row" style="padding-left:48px;" onclick="toggleNode(this)" data-chapter="${escHtml(ch)}">
+                <span class="tree-toggle"><i data-lucide="chevron-right"></i></span>
+                <span class="tree-icon">📄</span>
+                <span class="tree-name">${escHtml(ch)}</span>
+                <span class="tree-count">${qs.length}</span>
+              </div>
+              <div class="tree-children">
+                ${qs.map(q => renderQRow(q, '64px')).join('')}
+              </div>
+            </div>`
+                    })
+                    html += `</div></div>`
+                })
+                html += `</div></div>`
+            })
+            tree.innerHTML = html
+            window.lucide?.createIcons()
+        }
+
+        function toggleNode(el) {
+            const toggle = el.querySelector('.tree-toggle')
+            const children = el.nextElementSibling
+            if (!children) return
+            const isOpen = children.classList.contains('open')
+            children.classList.toggle('open', !isOpen)
+            if (toggle) toggle.classList.toggle('open', !isOpen)
+        }
+
+        function renderQRow(q, indent = '0px') {
+            const typeColors = { tn: '#1d4ed8', ds: '#16a34a', tln: '#d97706', tl: '#7c3aed' }
+            const typeLabels = { tn: 'TN', ds: 'DS', tln: 'TLN', tl: 'TL' }
+            const isSelected = selectedIds.has(q.uid)
+            return `<div class="q-row${isSelected ? ' selected' : ''}" data-uid="${q.uid}" style="padding-left:${indent};" onclick="onQClick(event,'${q.uid}')">
+        <input type="checkbox" class="q-checkbox" ${isSelected ? 'checked' : ''} onclick="e=>e.stopPropagation()" onchange="toggleSelect('${q.uid}',this.checked)" />
+        <span class="q-type-dot dot-${q.type}"></span>
+        <div class="q-body">
+          ${q.id ? `<span class="q-id">[${escHtml(q.id)}]</span>` : ''}<span class="q-preview">${escHtml(q.preview)}</span>
+          <div class="q-meta">${q.source ? `📌 ${escHtml(q.source)} · ` : ''}<span class="difficulty-badge diff-${q.diff}">${q.diff || '?'}</span></div>
+        </div>
+        <span style="font-size:.72rem;font-weight:700;color:${typeColors[q.type] || '#666'};background:${typeColors[q.type] || '#666'}20;padding:2px 6px;border-radius:6px;flex-shrink:0;">${typeLabels[q.type] || q.type}</span>
+      </div>`
+        }
+
+        function renderFlatList() {
+            const el = document.getElementById('flatList')
+            if (filtered.length === 0) {
+                el.innerHTML = `<div style="text-align:center;padding:30px;color:var(--muted);">Không tìm thấy câu nào phù hợp.</div>`
+                return
+            }
+            el.innerHTML = filtered.map(q => renderQRow(q, '14px')).join('')
+        }
+
+        function onQClick(e, uid) {
+            if (e.target.type === 'checkbox') return
+            const q = bank.find(q => String(q.uid) === String(uid))
+            if (q) showDetail(q)
+        }
+
+        function toggleSelect(uid, checked) {
+            uid = parseFloat(uid) || uid
+            if (checked) selectedIds.add(uid)
+            else selectedIds.delete(uid)
+            updateSelectedBar()
+            // Update checkbox visuals
+            document.querySelectorAll(`[data-uid="${uid}"]`).forEach(el => {
+                el.classList.toggle('selected', checked)
+                const cb = el.querySelector('input[type=checkbox]')
+                if (cb) cb.checked = checked
+            })
+        }
+
+        function updateSelectedBar() {
+            const n = selectedIds.size
+            document.getElementById('selectedCount').textContent = n ? `${n} đã chọn` : ''
+            document.getElementById('selectedBar').classList.toggle('visible', n > 0)
+            document.getElementById('selectedBarCount').textContent = `${n} câu đã chọn`
+        }
+
+        function deselectAll() {
+            selectedIds.clear()
+            document.querySelectorAll('.q-row.selected').forEach(el => el.classList.remove('selected'))
+            document.querySelectorAll('.q-row input[type=checkbox]').forEach(el => el.checked = false)
+            updateSelectedBar()
+        }
+
+        // ════════════════════════════════════════
+        // DETAIL PANEL
+        // ════════════════════════════════════════
+        function showDetail(q) {
+            currentDetailIdx = q.uid
+            const typeLabels = { tn: 'Trắc nghiệm', ds: 'Đúng sai', tln: 'Trả lời ngắn', tl: 'Tự luận' }
+            const html = `
+        <div style="margin-bottom:12px;">
+          ${q.id ? `<span class="q-id" style="font-size:.85rem;">[${escHtml(q.id)}]</span> ` : ''}
+          <span class="difficulty-badge diff-${q.diff}">${q.diff || '?'}</span>
+          <span style="margin-left:6px;font-size:.82rem;color:var(--muted);">${typeLabels[q.type] || q.type}</span>
+        </div>
+        <div style="font-size:.85rem;margin-bottom:14px;line-height:1.6;">${escHtml(q.preview)}</div>
+        <div style="font-size:.8rem;color:var(--muted);margin-bottom:10px;">
+          ${q.grade ? `🎓 Lớp ${q.grade} ` : ''}
+          ${q.subject ? `· ${escHtml(q.subject)} ` : ''}
+          ${q.chapter ? `· ${escHtml(q.chapter)}` : ''}
+        </div>
+        <pre class="q-code">${escHtml(q.raw)}</pre>
+        <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn btn-sky btn-sm" onclick="copyQ('${q.uid}')"><i data-lucide="copy"></i> Copy Typst</button>
+          <button class="btn btn-green btn-sm" onclick="toggleSelect('${q.uid}',true);updateSelectedBar()"><i data-lucide="plus"></i> Chọn câu này</button>
+        </div>`
+            document.getElementById('detailPanelContent').innerHTML = html
+            window.lucide?.createIcons()
+        }
+
+        async function copyQ(uid) {
+            const q = bank.find(q => String(q.uid) === String(uid))
+            if (!q) return
+            await navigator.clipboard.writeText(`//[${q.id || 'no-id'}]\n${q.raw}`)
+            toast('Đã copy câu hỏi!', 'success')
+        }
+
+        // ════════════════════════════════════════
+        // CREATE EXAM
+        // ════════════════════════════════════════
+        function createFromSelected() {
+            const qs = bank.filter(q => selectedIds.has(q.uid))
+            if (qs.length === 0) { toast('Chưa chọn câu nào.', 'error'); return }
+            // Open tron-de with this content
+            const content = qs.map(q => `//[${q.id || 'no-id'}]\n${q.raw}`).join('\n\n')
+            localStorage.setItem('conictypst_tron_de_content', content)
+            toast(`Đã lưu ${qs.length} câu → mở Trộn Đề...`, 'success')
+            setTimeout(() => window.open('tron-de.html', '_blank'), 800)
+        }
+
+        function createFromTemplate() {
+            toast('Tính năng đang phát triển. Dùng "Tạo từ câu chọn" tạm thời.', 'info')
+        }
+
+        // ════════════════════════════════════════
+        // DUPLICATES
+        // ════════════════════════════════════════
+        function findDuplicates() {
+            const seen = new Map()
+            const dupes = []
+            bank.forEach(q => {
+                const key = q.id || q.preview.slice(0, 60)
+                if (seen.has(key)) dupes.push(q)
+                else seen.set(key, q)
+            })
+            if (dupes.length === 0) { toast('Không tìm thấy câu trùng!', 'success'); return }
+            toast(`Tìm thấy ${dupes.length} câu trùng (xem console).`, 'info')
+            console.table(dupes.map(q => ({ id: q.id, preview: q.preview.slice(0, 60) })))
+        }
+
+        // ════════════════════════════════════════
+        // UTILS
+        // ════════════════════════════════════════
+        function renderAll() {
+            const isEmpty = bank.length === 0
+            document.getElementById('emptyState').style.display = isEmpty ? 'block' : 'none'
+            document.getElementById('treeView').style.display = isEmpty ? 'none' : 'block'
+            filterQuestions()
+            buildTree()
+            updateStats()
+        }
+
+        function downloadText(content, filename) {
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' })
+            const url = URL.createObjectURL(blob)
+            const a = document.createElement('a'); a.href = url; a.download = filename; a.click()
+            URL.revokeObjectURL(url)
+        }
+
+        function openModal(id) { document.getElementById(id).style.display = 'flex' }
+        function closeModal(id) { document.getElementById(id).style.display = 'none' }
+        function escHtml(s) { return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') }
+        function toast(msg, type = 'success') {
+            const el = document.getElementById('toast')
+            el.textContent = msg; el.className = `toast ${type} show`
+            setTimeout(() => el.classList.remove('show'), 2800)
+        }
+
+        // ════════════════════════════════════════
+        // INIT
+        // ════════════════════════════════════════
+        document.addEventListener('DOMContentLoaded', async () => {
+            loadBank()
+            await loadBankMeta()
+            renderAll()
+            window.lucide?.createIcons()
+
+            // Load content from tron-de if redirected
+            const pending = localStorage.getItem('conictypst_bank_import_pending')
+            if (pending) {
+                localStorage.removeItem('conictypst_bank_import_pending')
+                document.getElementById('importPaste').value = pending
+                openModal('importModal')
+            }
+        })
+    </script>
+</body>
+
+</html>

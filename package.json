@@ -18,6 +18,8 @@
     "bank:stat": "node scripts/bank-stat.js",
     "bank:search": "node scripts/bank-stat.js",
     "bank:gen-id": "node scripts/gen-id.js",
+    "stexgv:import": "node scripts/stexgv-typst-bridge.mjs import",
+    "stexgv:mix": "node scripts/stexgv-typst-bridge.mjs mix",
     "new:exam": "node scripts/new-exam.js",
     "compile:exam": "sh -c 'exam=${npm_config_de:-$1}; typst compile --font-path src/assets/fonts --font-path fonts \"typst/exams/$exam.typ\" --root .' --",
     "compile:beamer": "sh -c 'exam=${npm_config_de:-$1}; typst compile --font-path src/assets/fonts --font-path fonts \"typst/exams/${exam}-beamer.typ\" --root .' --",

@@ -86,7 +86,7 @@
 )
 
 // ── Hợp nhất toàn bộ ngân hàng ──────────────────────────
-#let question-bank = (
+#let question-bank = (:
   .._q-lop10-mau,
   ..q-lop12-giai-tich,
   ..q-lop12-hinh-hoc,
@@ -104,6 +104,9 @@
   if q == none { return none }
   (id: id, question: q)
 }
+
+#let _qb-get-field(q, k, d) = if type(q) == dictionary { q.at(k, default: d) } else { d }
+#let _qb-is-array(value) = type(value) == array
 
 // Lọc câu theo nhiều tiêu chí — tất cả tuỳ chọn
 //
@@ -132,7 +135,6 @@
   limit: none,
 ) = {
   let _ci(a, b) = lower(str(a)).contains(lower(str(b)))
-  let _get(q, k, d) = if type(q) == dictionary { q.at(k, default: d) } else { d }
   let _all-tags(qtags, wanted) = {
     let ok = true
     for t in wanted { if not qtags.contains(t) { ok = false } }
@@ -150,13 +152,13 @@
 
     // Lọc type
     if type != none {
-      if not _ci(_get(q, "type", "tn"), type) { continue }
+      if not _ci(_qb-get-field(q, "type", "tn"), type) { continue }
     }
 
     // Lọc difficulty (có thể là 1 giá trị hoặc array)
     if difficulty != none {
-      let qd = _get(q, "difficulty", "")
-      let diffs = if type(difficulty) == array { difficulty } else { (str(difficulty),) }
+      let qd = _qb-get-field(q, "difficulty", "")
+      let diffs = if _qb-is-array(difficulty) { difficulty } else { (str(difficulty),) }
       let match = false
       for d in diffs { if str(qd) == str(d) { match = true } }
       if not match { continue }
@@ -164,17 +166,17 @@
 
     // Lọc status
     if status != none {
-      if _get(q, "status", "draft") != str(status) { continue }
+      if _qb-get-field(q, "status", "draft") != str(status) { continue }
     }
 
     // Lọc source (partial match)
     if source != none {
-      if not _ci(_get(q, "source", ""), source) { continue }
+      if not _ci(_qb-get-field(q, "source", ""), source) { continue }
     }
 
     // Lọc tag đơn (partial match)
     if tag != none {
-      let qtags = _get(q, "tags", ())
+      let qtags = _qb-get-field(q, "tags", ())
       let found = false
       for t in qtags { if _ci(t, tag) { found = true } }
       if not found { continue }
@@ -182,7 +184,7 @@
 
     // Lọc nhiều tags (phải có TẤT CẢ — exact match)
     if tags.len() > 0 {
-      if not _all-tags(_get(q, "tags", ()), tags) { continue }
+      if not _all-tags(_qb-get-field(q, "tags", ()), tags) { continue }
     }
 
     result.push((id: id, question: q))

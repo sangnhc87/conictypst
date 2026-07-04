@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trộn Đề Typst 2025 — ConicTypst</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .math-preview { font-family: 'Latin Modern Math', 'STIX Two Math', serif; }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    .fade-in { animation: fadeIn 0.2s ease-in-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+    .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  </style>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            tn: { 50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8' },
+            ds: { 50: '#f0fdf4', 100: '#dcfce7', 500: '#22c55e', 600: '#16a34a', 700: '#15803d' },
+            tln: { 50: '#fffbeb', 100: '#fef3c7', 500: '#f59e0b', 600: '#d97706', 700: '#b45309' },
+            tl: { 50: '#f5f3ff', 100: '#ede9fe', 500: '#8b5cf6', 600: '#7c3aed', 700: '#6d28d9' },
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+  <div id="toastContainer" class="fixed top-4 right-4 z-50 flex flex-col gap-2"></div>
+
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center text-white font-bold text-lg shadow-sm">C</div>
+          <div>
+            <h1 class="text-lg font-bold text-slate-900 leading-tight">Trộn Đề Typst 2025</h1>
+            <p class="text-xs text-slate-500">ConicTypst · Hỗ trợ <code class="bg-slate-100 px-1 rounded">#tn/#ds/#tln/#tl</code> dạng <code class="bg-slate-100 px-1 rounded">[...]</code> và <code class="bg-slate-100 px-1 rounded">(...)</code></p>
+          </div>
+        </div>
+        <nav class="flex items-center gap-1 bg-slate-100 p-1 rounded-lg" id="mainNav">
+          <button data-tab="mixer" class="nav-tab px-4 py-2 text-sm font-medium rounded-md bg-white text-slate-900 shadow-sm">Trộn nhanh</button>
+          <button data-tab="bank" class="nav-tab px-4 py-2 text-sm font-medium rounded-md text-slate-600 hover:text-slate-900">Ngân hàng <span id="navBankCount" class="ml-1 bg-slate-200 text-slate-700 text-xs px-1.5 py-0.5 rounded-full">0</span></button>
+          <button data-tab="cart" class="nav-tab px-4 py-2 text-sm font-medium rounded-md text-slate-600 hover:text-slate-900">Đã chọn <span id="navCartCount" class="ml-1 bg-blue-100 text-blue-700 text-xs px-1.5 py-0.5 rounded-full">0</span></button>
+          <button data-tab="results" class="nav-tab px-4 py-2 text-sm font-medium rounded-md text-slate-600 hover:text-slate-900">Kết quả</button>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <section id="tab-mixer" class="tab-pane fade-in">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 space-y-6">
+          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+            <h2 class="text-base font-semibold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="upload-cloud" class="w-5 h-5 text-blue-600"></i> Tải file .typ để trộn</h2>
+            <div id="dropZone" class="border-2 border-dashed border-slate-300 rounded-xl p-10 text-center hover:border-blue-500 hover:bg-blue-50/50 transition-colors cursor-pointer group">
+              <div class="w-14 h-14 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-100 transition-colors">
+                <i data-lucide="file-code-2" class="w-7 h-7 text-blue-600"></i>
+              </div>
+              <p class="text-sm font-medium text-slate-700">Kéo thả hoặc click để chọn file .typ</p>
+              <p class="text-xs text-slate-500 mt-1">Hỗ trợ nhiều file, cú pháp ngoặc vuông và ngoặc tròn</p>
+              <input type="file" id="fileInput" accept=".typ,.txt,.tex" multiple class="hidden">
+            </div>
+            <div id="uploadStats" class="mt-4 hidden">
+              <div class="flex flex-wrap gap-2" id="uploadFileList"></div>
+            </div>
+          </div>
+          <div id="quickPreview" class="hidden bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="text-base font-semibold text-slate-900">Câu hỏi vừa phân tích</h2>
+              <button id="addAllToCartBtn" class="text-sm bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg font-medium">Thêm tất cả vào đề</button>
+            </div>
+            <div id="quickQuestionList" class="space-y-2 max-h-96 overflow-y-auto"></div>
+          </div>
+        </div>
+        <div class="space-y-6">
+          <div class="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-xl shadow-sm p-6 text-white">
+            <h3 class="font-semibold mb-2 flex items-center gap-2"><i data-lucide="sparkles" class="w-5 h-5"></i> Trộn đề thông minh</h3>
+            <p class="text-sm text-blue-100 mb-4">Phân tích cả hai cú pháp Typst, trộn cấu trúc và phương án, quản lý ngân hàng câu hỏi ngay trong trình duyệt.</p>
+            <div class="grid grid-cols-2 gap-3 text-center">
+              <div class="bg-white/10 rounded-lg p-3"><div class="text-2xl font-bold" id="statTotalBank">0</div><div class="text-xs text-blue-100">câu trong ngân hàng</div></div>
+              <div class="bg-white/10 rounded-lg p-3"><div class="text-2xl font-bold" id="statTotalCart">0</div><div class="text-xs text-blue-100">câu đã chọn</div></div>
+            </div>
+          </div>
+          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+            <h3 class="text-sm font-semibold text-slate-900 mb-3">Hướng dẫn nhanh</h3>
+            <ol class="text-sm text-slate-600 space-y-2 list-decimal list-inside">
+              <li>Tải lên file <code class="bg-slate-100 px-1 rounded">.typ</code> chứa câu hỏi.</li>
+              <li>Kiểm tra câu hỏi ở <strong>Ngân hàng</strong>.</li>
+              <li>Chọn câu vào <strong>Đã chọn</strong>, điền thông tin đề thi.</li>
+              <li>Nhấn <strong>Trộn & Tạo đề</strong> để xuất file.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-bank" class="tab-pane hidden fade-in">
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div class="lg:col-span-1 space-y-6">
+          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 sticky top-24">
+            <h3 class="text-sm font-semibold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="filter" class="w-4 h-4"></i> Bộ lọc</h3>
+            <div class="space-y-4">
+              <div>
+                <label class="text-xs font-medium text-slate-500 mb-1 block">Tìm kiếm</label>
+                <input type="text" id="bankQuery" placeholder="ID, nội dung, tag, nguồn..." class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+              </div>
+              <div>
+                <label class="text-xs font-medium text-slate-500 mb-2 block">Loại câu</label>
+                <div class="flex flex-wrap gap-2" id="bankTypeFilters">
+                  <label class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-medium cursor-pointer hover:bg-slate-50"><input type="checkbox" value="tn" checked class="rounded text-blue-600"> TN</label>
+                  <label class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-medium cursor-pointer hover:bg-slate-50"><input type="checkbox" value="ds" checked class="rounded text-green-600"> Đ/S</label>
+                  <label class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-medium cursor-pointer hover:bg-slate-50"><input type="checkbox" value="tln" checked class="rounded text-amber-600"> TLN</label>
+                  <label class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-medium cursor-pointer hover:bg-slate-50"><input type="checkbox" value="tl" checked class="rounded text-violet-600"> TL</label>
+                </div>
+              </div>
+              <div>
+                <label class="text-xs font-medium text-slate-500 mb-1 block">Độ khó</label>
+                <select id="bankDifficulty" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg outline-none"><option value="">Tất cả</option></select>
+              </div>
+              <div>
+                <label class="text-xs font-medium text-slate-500 mb-1 block">Nguồn</label>
+                <select id="bankSource" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg outline-none"><option value="">Tất cả</option></select>
+              </div>
+              <div>
+                <label class="text-xs font-medium text-slate-500 mb-1 block">Tags</label>
+                <input type="text" id="bankTags" placeholder="cách nhau dấu phẩy" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg outline-none">
+              </div>
+              <div class="pt-2 border-t border-slate-100">
+                <button id="resetBankFilters" class="w-full text-xs text-slate-500 hover:text-slate-800 py-1">Đặt lại bộ lọc</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="lg:col-span-3 space-y-4">
+          <div class="flex items-center justify-between flex-wrap gap-3">
+            <div class="flex items-center gap-3">
+              <h2 class="text-lg font-semibold text-slate-900">Ngân hàng câu hỏi</h2>
+              <span id="bankCount" class="text-sm text-slate-500">0 câu</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <button id="bankUploadBtn" class="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50"><i data-lucide="upload" class="w-4 h-4"></i> Thêm file</button>
+              <button id="addFilteredToCartBtn" class="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700"><i data-lucide="plus" class="w-4 h-4"></i> Thêm đã lọc</button>
+              <button id="deleteFilteredBtn" class="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-red-600 bg-white border border-red-200 rounded-lg hover:bg-red-50"><i data-lucide="trash-2" class="w-4 h-4"></i> Xóa đã lọc</button>
+            </div>
+          </div>
+          <div id="bankGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+          <div id="bankEmpty" class="hidden text-center py-16 bg-white rounded-xl border border-dashed border-slate-300">
+            <i data-lucide="inbox" class="w-12 h-12 text-slate-300 mx-auto mb-3"></i>
+            <p class="text-slate-500">Ngân hàng trống. Hãy tải lên file .typ.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-cart" class="tab-pane hidden fade-in">
+      <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+        <div class="xl:col-span-2 space-y-6">
+          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="text-base font-semibold text-slate-900">Câu hỏi đã chọn</h2>
+              <div class="flex items-center gap-2">
+                <button id="clearCartBtn" class="text-xs text-red-600 hover:text-red-700 px-2 py-1">Xóa tất cả</button>
+                <button id="goToBankBtn" class="text-xs text-blue-600 hover:text-blue-700 px-2 py-1">+ Thêm từ ngân hàng</button>
+              </div>
+            </div>
+            <div id="cartList" class="space-y-2 max-h-[600px] overflow-y-auto pr-1"></div>
+            <div id="cartEmpty" class="hidden text-center py-12">
+              <i data-lucide="clipboard-list" class="w-12 h-12 text-slate-300 mx-auto mb-3"></i>
+              <p class="text-slate-500">Chưa có câu hỏi nào được chọn.</p>
+            </div>
+          </div>
+        </div>
+        <div class="space-y-6">
+          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-sm font-semibold text-slate-900">Chế độ trộn</h3>
+              <div class="flex gap-1">
+                <button data-preset="balanced" class="preset-btn text-xs px-2 py-1 rounded bg-blue-100 text-blue-700 font-medium">Cân bằng</button>
+                <button data-preset="strict" class="preset-btn text-xs px-2 py-1 rounded text-slate-600 hover:bg-slate-100">Giữ form</button>
+                <button data-preset="keep" class="preset-btn text-xs px-2 py-1 rounded text-slate-600 hover:bg-slate-100">Giữ nguyên</button>
+              </div>
+            </div>
+            <div class="space-y-3" id="shuffleModeList"></div>
+          </div>
+          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+            <h3 class="text-sm font-semibold text-slate-900 mb-4">Thông tin đề thi</h3>
+            <div class="space-y-3">
+              <div><label class="text-xs font-medium text-slate-500">Tên trường</label><input id="metaSchool" class="w-full mt-1 px-3 py-2 text-sm border border-slate-300 rounded-lg outline-none"></div>
+              <div><label class="text-xs font-medium text-slate-500">Giáo viên / Tổ</label><input id="metaTeacher" class="w-full mt-1 px-3 py-2 text-sm border border-slate-300 rounded-lg outline-none"></div>
+              <div><label class="text-xs font-medium text-slate-500">Tên kỳ thi</label><input id="metaExam" class="w-full mt-1 px-3 py-2 text-sm border border-slate-300 rounded-lg outline-none"></div>
+              <div><label class="text-xs font-medium text-slate-500">Môn học</label><input id="metaSubject" class="w-full mt-1 px-3 py-2 text-sm border border-slate-300 rounded-lg outline-none"></div>
+              <div class="grid grid-cols-2 gap-3">
+                <div><label class="text-xs font-medium text-slate-500">Thời gian (phút)</label><input id="metaTime" type="number" class="w-full mt-1 px-3 py-2 text-sm border border-slate-300 rounded-lg outline-none"></div>
+                <div><label class="text-xs font-medium text-slate-500">Số mã đề</label><input id="metaNumVersions" type="number" min="1" max="50" class="w-full mt-1 px-3 py-2 text-sm border border-slate-300 rounded-lg outline-none"></div>
+              </div>
+              <div><label class="text-xs font-medium text-slate-500">Mã đề (phân cách dấu phẩy)</label><input id="metaCodes" class="w-full mt-1 px-3 py-2 text-sm border border-slate-300 rounded-lg outline-none"></div>
+              <div><label class="text-xs font-medium text-slate-500">Seed trộn (để trống = ngẫu nhiên)</label><input id="metaSeed" placeholder="VD: 2026" class="w-full mt-1 px-3 py-2 text-sm border border-slate-300 rounded-lg outline-none"></div>
+            </div>
+          </div>
+          <button id="generateBtn" class="w-full bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 text-white font-semibold py-3 rounded-xl shadow-sm flex items-center justify-center gap-2"><i data-lucide="shuffle" class="w-5 h-5"></i> Trộn & Tạo đề</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-results" class="tab-pane hidden fade-in">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 space-y-6">
+          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="text-base font-semibold text-slate-900">Kết quả trộn đề</h2>
+              <button id="downloadAllBtn" class="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700"><i data-lucide="download-cloud" class="w-4 h-4"></i> Tải tất cả</button>
+            </div>
+            <div id="resultsList" class="space-y-4"></div>
+            <div id="resultsEmpty" class="hidden text-center py-16">
+              <i data-lucide="file-output" class="w-12 h-12 text-slate-300 mx-auto mb-3"></i>
+              <p class="text-slate-500">Chưa có đề nào được tạo.</p>
+            </div>
+          </div>
+        </div>
+        <div class="space-y-6">
+          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 sticky top-24">
+            <h3 class="text-sm font-semibold text-slate-900 mb-4">Bảng đáp án</h3>
+            <div id="answerKey" class="text-sm text-slate-700 space-y-2 max-h-[600px] overflow-y-auto"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <input type="file" id="bankFileInput" accept=".typ,.txt,.tex" multiple class="hidden">
+
+  <script>
+    const STORAGE_BANK = 'conictypst.tronde.bank';
+    const STORAGE_CART = 'conictypst.tronde.cart';
+    const STORAGE_FORM = 'conictypst.tronde.form';
+    const STORAGE_MODES = 'conictypst.tronde.modes';
+    const TYPE_ORDER = ['tn', 'ds', 'tln', 'tl'];
+    const TYPE_LABELS = { tn: 'Trắc nghiệm', ds: 'Đúng / Sai', tln: 'Trả lời ngắn', tl: 'Tự luận' };
+    const TYPE_SHORT = { tn: 'TN', ds: 'Đ/S', tln: 'TLN', tl: 'TL' };
+    const TYPE_COLORS = { tn: 'blue', ds: 'green', tln: 'amber', tl: 'violet' };
+    const SHUFFLE_MODES = {
+      both: 'Trộn câu & phương án',
+      structure: 'Chỉ trộn câu',
+      options: 'Chỉ trộn phương án',
+      keep: 'Giữ nguyên'
+    };
+    const PRESETS = {
+      balanced: { tn: 'both', ds: 'both', tln: 'structure', tl: 'keep' },
+      strict: { tn: 'structure', ds: 'structure', tln: 'structure', tl: 'keep' },
+      keep: { tn: 'keep', ds: 'keep', tln: 'keep', tl: 'keep' }
+    };
+
+    let bank = loadBank();
+    let cart = loadCart();
+    let lastParsed = [];
+    let generatedResults = [];
+    let currentAnswerKey = [];
+
+    function loadBank() { try { return JSON.parse(localStorage.getItem(STORAGE_BANK) || '[]'); } catch { return []; } }
+    function saveBank() { localStorage.setItem(STORAGE_BANK, JSON.stringify(bank)); updateCounts(); renderBank(); }
+    function loadCart() { try { return JSON.parse(localStorage.getItem(STORAGE_CART) || '[]'); } catch { return []; } }
+    function saveCart() { localStorage.setItem(STORAGE_CART, JSON.stringify(cart)); updateCounts(); renderCart(); }
+    function loadForm() { try { return JSON.parse(localStorage.getItem(STORAGE_FORM) || 'null'); } catch { return null; } }
+    function saveForm() {
+      const form = {
+        school: document.getElementById('metaSchool').value,
+        teacher: document.getElementById('metaTeacher').value,
+        exam: document.getElementById('metaExam').value,
+        subject: document.getElementById('metaSubject').value,
+        time: document.getElementById('metaTime').value,
+        numVersions: document.getElementById('metaNumVersions').value,
+        codes: document.getElementById('metaCodes').value,
+        seed: document.getElementById('metaSeed').value,
+      };
+      localStorage.setItem(STORAGE_FORM, JSON.stringify(form));
+    }
+    function loadModes() { try { return JSON.parse(localStorage.getItem(STORAGE_MODES) || 'null'); } catch { return null; } }
+    function saveModes(modes) { localStorage.setItem(STORAGE_MODES, JSON.stringify(modes)); }
+
+    function parseBalanced(str, start, openChar = '[', closeChar = ']') {
+      let depth = 0, inMath = false, inString = false, inLineComment = false;
+      for (let i = start; i < str.length; i++) {
+        const c = str[i], next = str[i + 1];
+        if (inLineComment) { if (c === '\n') inLineComment = false; continue; }
+        if (inString) { if (c === '\\') { i++; continue; } if (c === '"') inString = false; continue; }
+        if (c === '"') { inString = true; continue; }
+        if (c === '/' && next === '/') { inLineComment = true; i++; continue; }
+        if (c === '$') inMath = !inMath;
+        if (inMath) continue;
+        if (c === openChar) depth++;
+        if (c === closeChar) { depth--; if (depth === 0) return [str.slice(start + 1, i), i]; }
+      }
+      return [str.slice(start + 1), str.length - 1];
+    }
+
+    function splitTopLevel(text, delimiter) {
+      const parts = []; let start = 0;
+      let paren = 0, bracket = 0, brace = 0;
+      let inString = false, inMath = false, inLineComment = false;
+      for (let i = 0; i < text.length; i++) {
+        const c = text[i], next = text[i + 1];
+        if (inLineComment) { if (c === '\n') inLineComment = false; continue; }
+        if (inString) { if (c === '\\') { i++; continue; } if (c === '"') inString = false; continue; }
+        if (c === '"') { inString = true; continue; }
+        if (c === '/' && next === '/') { inLineComment = true; i++; continue; }
+        if (c === '$') inMath = !inMath;
+        if (inMath) continue;
+        if (c === '(') paren++; if (c === ')') paren--;
+        if (c === '[') bracket++; if (c === ']') bracket--;
+        if (c === '{') brace++; if (c === '}') brace--;
+        if (c === delimiter && paren === 0 && bracket === 0 && brace === 0) { parts.push(text.slice(start, i)); start = i + 1; }
+      }
+      parts.push(text.slice(start));
+      return parts;
+    }
+
+    function parseNamedArgs(argsRaw) {
+      const named = {}, meta = {};
+      const metaKeys = new Set(['tags', 'difficulty', 'source', 'status', 'points', 'note', 'id']);
+      for (const arg of argsRaw) {
+        const m = arg.match(/^([a-zA-Z_][\w-]*)\s*:\s*([\s\S]*)$/);
+        if (!m) continue;
+        if (metaKeys.has(m[1])) meta[m[1]] = m[2].trim();
+        else named[m[1]] = m[2].trim();
+      }
+      return { named, meta };
+    }
+
+    function parseValue(value) {
+      if (value.startsWith('(') && value.endsWith(')')) {
+        const inner = value.slice(1, -1);
+        return splitTopLevel(inner, ',').map(s => s.trim()).filter(Boolean);
+      }
+      if (value.startsWith('[') && value.endsWith(']')) {
+        const [inner] = parseBalanced(value, 0, '[', ']');
+        return inner.trim();
+      }
+      if (value.startsWith('"') && value.endsWith('"')) return value.slice(1, -1);
+      return value;
+    }
+
+    function parseTnOption(rawItem) {
+      const trimmed = rawItem.trim();
+      const trueMatch = trimmed.match(/^#?\s*True\s*\(/);
+      if (trueMatch) {
+        const openIdx = trimmed.indexOf('(');
+        const [body] = parseBalanced(trimmed, openIdx, '(', ')');
+        return { body: body.trim(), correct: true, raw: trimmed };
+      }
+      if (trimmed.startsWith('(') && /correct\s*:/.test(trimmed)) {
+        const [inner] = parseBalanced(trimmed, 0, '(', ')');
+        const parts = splitTopLevel(inner, ',').map(s => s.trim()).filter(Boolean);
+        let body = '', correct = false;
+        for (const part of parts) {
+          if (part.startsWith('body:')) {
+            const bodyRaw = part.slice(5).trim();
+            if (bodyRaw.startsWith('[')) { const [b] = parseBalanced(bodyRaw, 0, '[', ']'); body = b.trim(); }
+            else body = bodyRaw;
+          } else if (part.startsWith('correct:')) correct = part.slice(8).trim() === 'true';
+        }
+        return { body, correct, raw: trimmed };
+      }
+      return { body: trimmed, correct: false, raw: trimmed };
+    }
+
+    function parseDsStatement(rawItem) {
+      const trimmed = rawItem.trim();
+      const dsItemMatch = trimmed.match(/^#?\s*ds-item\s*\(/);
+      if (dsItemMatch) {
+        const openIdx = trimmed.indexOf('(');
+        const [inner] = parseBalanced(trimmed, openIdx, '(', ')');
+        const parts = splitTopLevel(inner, ',').map(s => s.trim()).filter(Boolean);
+        let body = '', correct = false;
+        for (const part of parts) {
+          if (part.startsWith('correct:')) correct = part.slice(8).trim() === 'true';
+          else {
+            if (part.startsWith('[')) { const [b] = parseBalanced(part, 0, '[', ']'); body = b.trim(); }
+            else body = part;
+          }
+        }
+        return { body, correct, raw: trimmed };
+      }
+      const trueMatch = trimmed.match(/^#?\s*True\s*\(/);
+      if (trueMatch) {
+        const openIdx = trimmed.indexOf('(');
+        const [body] = parseBalanced(trimmed, openIdx, '(', ')');
+        return { body: body.trim(), correct: true, raw: trimmed };
+      }
+      if (trimmed.startsWith('(') && /correct\s*:/.test(trimmed)) return parseTnOption(rawItem);
+      return { body: trimmed, correct: false, raw: trimmed };
+    }
+
+    function parseQuestionBlock(raw, fileName = '') {
+      const m = raw.match(/^#\s*(tn|ds|tln|tl)\s*([\[(])/);
+      if (!m) return null;
+      const type = m[1], openChar = m[2];
+      const firstDelim = m.index + m[0].length - 1;
+      const [inner, endIdx] = parseBalanced(raw, firstDelim, openChar, openChar === '[' ? ']' : ')');
+      let full = raw.slice(0, endIdx + 1);
+      let stem = '', options = null, statements = null, answer = null, solution = null;
+      let named = {}, meta = {};
+
+      if (openChar === '[') {
+        const args = []; let i = firstDelim;
+        while (i < raw.length) {
+          while (i < raw.length && /\s/.test(raw[i])) i++;
+          if (raw[i] !== '[') break;
+          const [content, e] = parseBalanced(raw, i, '[', ']');
+          args.push({ content, start: i, end: e });
+          i = e + 1;
+        }
+        full = raw.slice(0, i);
+        if (!args[0]) return null;
+        stem = args[0].content.trim();
+        const parseArg = (a) => {
+          const content = a.content.trim();
+          const trueMatch = content.match(/^#?\s*True\s*\[/);
+          if (trueMatch) {
+            const openIdx = content.indexOf('[');
+            const [body] = parseBalanced(content, openIdx, '[', ']');
+            return { body: body.trim(), correct: true, raw: a.content };
+          }
+          return { body: content, correct: false, raw: a.content };
+        };
+        const isSolution = (content) => /^#?\s*ppgiai\s*\[/.test(content);
+        const extractSolution = (content) => {
+          const openIdx = content.indexOf('[');
+          const [sol] = parseBalanced(content, openIdx, '[', ']');
+          return sol.trim();
+        };
+        if (type === 'tn') {
+          options = args.slice(1).map(parseArg);
+          const last = options[options.length - 1];
+          if (last && isSolution(last.body)) { solution = extractSolution(last.body); options.pop(); }
+        } else if (type === 'ds') {
+          statements = args.slice(1).map(parseArg);
+          const last = statements[statements.length - 1];
+          if (last && isSolution(last.body)) { solution = extractSolution(last.body); statements.pop(); }
+        } else if (type === 'tln') {
+          if (args[1]) answer = args[1].content.trim();
+          if (args[2]) {
+            const content = args[2].content.trim();
+            solution = isSolution(content) ? extractSolution(content) : content;
+          }
+        } else if (type === 'tl') {
+          if (args[1]) {
+            const content = args[1].content.trim();
+            solution = isSolution(content) ? extractSolution(content) : content;
+          }
+        }
+      } else {
+        const args = splitTopLevel(inner, ',').map(s => s.trim()).filter(s => s && !s.startsWith('//'));
+        const positional = [], namedRaw = [];
+        for (const arg of args) if (/^[a-zA-Z_][\w-]*\s*:/.test(arg)) namedRaw.push(arg); else positional.push(arg);
+        const parsed = parseNamedArgs(namedRaw);
+        named = parsed.named; meta = parsed.meta;
+        if (named.loigiai) solution = parseValue(named.loigiai);
+        if (named.solution) solution = parseValue(named.solution);
+        if (positional[0]) {
+          const stemRaw = positional[0];
+          if (stemRaw.startsWith('[')) { const [b] = parseBalanced(stemRaw, 0, '[', ']'); stem = b.trim(); }
+          else stem = stemRaw;
+        }
+        if (type === 'tn' && positional[1]) {
+          const tupleRaw = positional[1];
+          if (tupleRaw.startsWith('(') && tupleRaw.endsWith(')')) {
+            const tupleInner = tupleRaw.slice(1, -1);
+            options = splitTopLevel(tupleInner, ',').map(s => s.trim()).filter(Boolean).map(parseTnOption);
+          }
+        } else if (type === 'ds' && positional[1]) {
+          const tupleRaw = positional[1];
+          if (tupleRaw.startsWith('(') && tupleRaw.endsWith(')')) {
+            const tupleInner = tupleRaw.slice(1, -1);
+            statements = splitTopLevel(tupleInner, ',').map(s => s.trim()).filter(Boolean).map(parseDsStatement);
+          }
+        } else if (type === 'tln' && positional[1]) {
+          const ansRaw = positional[1];
+          if (ansRaw.startsWith('[')) { const [b] = parseBalanced(ansRaw, 0, '[', ']'); answer = b.trim(); }
+          else answer = ansRaw;
+        }
+      }
+
+      let correct;
+      if (type === 'tn') correct = (options || []).map((o, i) => o.correct ? i + 1 : null).filter(Boolean);
+      else if (type === 'ds') correct = (statements || []).map(s => s.correct);
+      else if (type === 'tln') correct = answer;
+      else correct = null;
+
+      return {
+        _uid: generateUid(), id: '', type, syntax: openChar === '(' ? 'paren' : 'bracket',
+        stem, options, statements, answer, solution, correct, named, meta,
+        raw: full, fileName
+      };
+    }
+
+    function parseTypstSource(text, fileName = '') {
+      const questions = [];
+      const re = /#\s*(tn|ds|tln|tl)\s*([\[(])/g;
+      let m;
+      while ((m = re.exec(text)) !== null) {
+        const lineStart = text.lastIndexOf('\n', m.index) + 1;
+        const linePrefix = text.slice(lineStart, m.index);
+        if (linePrefix.includes('//')) continue;
+        const openChar = m[2];
+        const firstDelim = m.index + m[0].length - 1;
+        const [, endIdx] = parseBalanced(text, firstDelim, openChar, openChar === '[' ? ']' : ')');
+        let blockEnd = endIdx + 1;
+        if (openChar === '[') {
+          let i = blockEnd;
+          while (i < text.length) {
+            while (i < text.length && /\s/.test(text[i])) i++;
+            if (text[i] !== '[') break;
+            const [, e] = parseBalanced(text, i, '[', ']');
+            blockEnd = e + 1; i = blockEnd;
+          }
+        }
+        const raw = text.slice(m.index, blockEnd);
+        const q = parseQuestionBlock(raw, fileName);
+        if (!q) continue;
+        const before = text.slice(Math.max(0, m.index - 200), m.index);
+        const idMatch = before.match(/\/\/\[([^\]]+)\]\s*$/);
+        q.id = idMatch ? idMatch[1] : '';
+        questions.push(q);
+      }
+      return questions;
+    }
+
+    function generateUid() { return 'q_' + Math.random().toString(36).slice(2, 11); }
+    function hashString(str) { let h = 0; for (let i = 0; i < str.length; i++) { h = ((h << 5) - h) + str.charCodeAt(i); h |= 0; } return Math.abs(h).toString(36).slice(0, 8); }
+    function makeRng(seedText) {
+      let s = 0;
+      if (seedText) { for (const c of String(seedText)) s = ((s << 5) - s) + c.charCodeAt(0); s = Math.abs(s); }
+      if (!s) s = Math.floor(Math.random() * 0x7fffffff);
+      return function() { s = (1664525 * s + 1013904223) >>> 0; return s / 4294967296; };
+    }
+    function shuffleArray(arr, rng) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rng() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+      return a;
+    }
+    function escapeHtml(s) { return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+    function previewText(raw) {
+      return String(raw || '').replace(/#ppgiai\[[\s\S]*?\]/g, '').replace(/#True\[/g, '').replace(/#False\[/g, '').replace(/\$[^$]*\$/g, '…').replace(/[[\]()#]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 120);
+    }
+    function refreshIcons() { if (window.lucide) lucide.createIcons(); }
+    function toast(message, type = 'success') {
+      const el = document.createElement('div');
+      el.className = `px-4 py-3 rounded-lg shadow-lg text-sm font-medium text-white flex items-center gap-2 fade-in ${type === 'error' ? 'bg-red-600' : type === 'info' ? 'bg-slate-800' : 'bg-green-600'}`;
+      el.innerHTML = `<i data-lucide="${type === 'error' ? 'alert-circle' : type === 'info' ? 'info' : 'check-circle'}" class="w-4 h-4"></i><span>${escapeHtml(message)}</span>`;
+      document.getElementById('toastContainer').appendChild(el);
+      refreshIcons();
+      setTimeout(() => { el.style.opacity = '0'; setTimeout(() => el.remove(), 200); }, 3000);
+    }
+
+    function ensureUniqueIds(questions) {
+      const seen = new Set(bank.map(q => q.id).filter(Boolean));
+      for (const q of questions) {
+        if (!q.id) q.id = 'auto-' + hashString(q.stem + q.fileName);
+        let base = q.id, suffix = 1;
+        while (seen.has(q.id)) q.id = `${base}-${suffix++}`;
+        seen.add(q.id);
+      }
+      return questions;
+    }
+    function addToBank(questions) {
+      if (!questions.length) return 0;
+      ensureUniqueIds(questions);
+      bank = [...bank, ...questions];
+      saveBank();
+      return questions.length;
+    }
+    function removeFromBank(uid) { bank = bank.filter(q => q._uid !== uid); saveBank(); }
+    function addToCartFromBank(uid) {
+      const q = bank.find(x => x._uid === uid);
+      if (!q) return;
+      if (cart.some(x => x._uid === uid)) { toast('Câu này đã có trong đề.', 'info'); return; }
+      cart.push({ ...q, locked: false });
+      saveCart();
+      toast('Đã thêm vào đề.');
+    }
+    function addAllToCart(questions) {
+      let added = 0;
+      for (const q of questions) {
+        if (!cart.some(x => x._uid === q._uid)) { cart.push({ ...q, locked: false }); added++; }
+      }
+      saveCart();
+      if (added) toast(`Đã thêm ${added} câu vào đề.`);
+    }
+
+    function renderQuestionBlock(q) {
+      if (q.syntax === 'paren') return renderParenQuestion(q);
+      return renderBracketQuestion(q);
+    }
+    function renderBracketQuestion(q) {
+      const wrap = (body, correct) => correct ? `#True[${body}]` : `[${body}]`;
+      if (q.type === 'tn') {
+        let s = `#tn[${q.stem}]`;
+        for (const o of q.options) s += wrap(o.body, o.correct);
+        if (q.solution) s += `[#ppgiai[${q.solution}]]`;
+        return s;
+      }
+      if (q.type === 'ds') {
+        let s = `#ds[${q.stem}]`;
+        for (const st of q.statements) s += wrap(st.body, st.correct);
+        if (q.solution) s += `[#ppgiai[${q.solution}]]`;
+        return s;
+      }
+      if (q.type === 'tln') {
+        let s = `#tln[${q.stem}][${q.answer}]`;
+        if (q.solution) s += `[#ppgiai[${q.solution}]]`;
+        return s;
+      }
+      let s = `#tl[${q.stem}]`;
+      if (q.solution) s += `[#ppgiai[${q.solution}]]`;
+      return s;
+    }
+    function renderParenQuestion(q) {
+      const renderNamed = (skip = new Set()) => {
+        const parts = [];
+        for (const [k, v] of Object.entries(q.named || {})) {
+          if (skip.has(k)) continue;
+          parts.push(`${k}: ${v}`);
+        }
+        return parts;
+      };
+      const skipNamed = new Set(['correct', 'loigiai', 'solution']);
+      const wrapOpt = (o) => o.correct ? `True([${o.body}])` : `[${o.body}]`;
+      if (q.type === 'tn') {
+        const opts = (q.options || []).map(wrapOpt).join(', ');
+        const namedParts = renderNamed(skipNamed);
+        if (q.solution) namedParts.push(`loigiai: [${q.solution}]`);
+        return `#tn(\n  [${q.stem}],\n  (${opts}),\n  ${namedParts.join(',\n  ')}\n)`;
+      }
+      if (q.type === 'ds') {
+        const stmts = (q.statements || []).map(wrapOpt).join(', ');
+        const namedParts = renderNamed(skipNamed);
+        if (q.solution) namedParts.push(`loigiai: [${q.solution}]`);
+        return `#ds(\n  [${q.stem}],\n  (${stmts}),\n  ${namedParts.join(',\n  ')}\n)`;
+      }
+      if (q.type === 'tln') {
+        const namedParts = renderNamed(skipNamed);
+        if (q.solution) namedParts.push(`loigiai: [${q.solution}]`);
+        return `#tln(\n  [${q.stem}],\n  [${q.answer}],\n  ${namedParts.join(',\n  ')}\n)`;
+      }
+      const namedParts = renderNamed(skipNamed);
+      if (q.solution) namedParts.push(`loigiai: [${q.solution}]`);
+      return `#tl(\n  [${q.stem}],\n  ${namedParts.join(',\n  ')}\n)`;
+    }
+
+    function shuffleOptions(q, rng) {
+      const next = { ...q };
+      if (q.type === 'tn' && q.options && q.options.length > 1) {
+        next.options = shuffleArray(q.options, rng);
+      } else if (q.type === 'ds' && q.statements && q.statements.length > 1) {
+        next.statements = shuffleArray(q.statements, rng);
+      }
+      return next;
+    }
+    function shuffleStructure(questions, rng) {
+      const result = [...questions];
+      let i = 0;
+      while (i < result.length) {
+        const type = result[i].type;
+        let j = i;
+        while (j < result.length && result[j].type === type) j++;
+        const run = result.slice(i, j);
+        const movableIdx = run.map((q, idx) => q.locked ? -1 : idx).filter(idx => idx !== -1);
+        const movable = movableIdx.map(idx => run[idx]);
+        const shuffledMovable = shuffleArray(movable, rng);
+        let si = 0;
+        for (let k = 0; k < run.length; k++) {
+          if (!run[k].locked) run[k] = shuffledMovable[si++];
+        }
+        for (let k = 0; k < run.length; k++) result[i + k] = run[k];
+        i = j;
+      }
+      return result;
+    }
+    function computeAnswer(q) {
+      const labels = ['A', 'B', 'C', 'D', 'E', 'F'];
+      if (q.type === 'tn') {
+        const ans = (q.options || []).map((o, i) => o.correct ? labels[i] : null).filter(Boolean);
+        return ans.join(', ') || '?';
+      }
+      if (q.type === 'ds') return (q.statements || []).map(s => s.correct ? 'Đ' : 'S').join('');
+      if (q.type === 'tln') return q.answer || '?';
+      return 'Tự luận';
+    }
+
+    function buildHeader(form, code) {
+      return `// ═══════════════════════════════════════════════════════════
+// Đề thi Typst — Mã đề: ${code}
+// Trường: ${form.school}
+// Giáo viên: ${form.teacher}
+// Kỳ thi: ${form.exam}
+// Môn: ${form.subject} — ${form.time} phút
+// Sinh bởi: ConicTypst Trộn Đề 2025
+// ═══════════════════════════════════════════════════════════
+
+#import "sang-exam.typ": *
+
+#show: thpt-school-exam.with(
+  school: "${form.school}",
+  teacher: "${form.teacher}",
+  exam-title: "${form.exam}",
+  subject: "${form.subject}",
+  duration: "${form.time}",
+  code: "${code}",
+)
+
+`;
+    }
+    function generateVariants() {
+      const form = getFormState();
+      const modes = getShuffleModes();
+      const seedText = document.getElementById('metaSeed').value.trim();
+      const codes = form.codes.split(',').map(s => s.trim()).filter(Boolean);
+      const num = Math.max(1, parseInt(form.numVersions) || 1);
+      while (codes.length < num) codes.push(String(100 + codes.length + 1));
+      const results = [];
+      const answerKey = [];
+      for (let idx = 0; idx < num; idx++) {
+        const code = codes[idx];
+        const rng = makeRng(seedText ? seedText + '-' + idx : '');
+        let qs = cart.map(q => ({ ...q }));
+        if (modes.structure === 'both' || modes.structure === 'structure') qs = shuffleStructure(qs, rng);
+        if (modes.options === 'both' || modes.options === 'options') qs = qs.map(q => shuffleOptions(q, rng));
+        const body = qs.map(renderQuestionBlock).join('\n\n');
+        const content = buildHeader(form, code) + body + '\n\n#het\n';
+        results.push({ code, content, qs });
+        answerKey.push({ code, answers: qs.map((q, i) => ({ num: i + 1, type: q.type, answer: computeAnswer(q) })) });
+      }
+      generatedResults = results;
+      currentAnswerKey = answerKey;
+      renderResults();
+      renderAnswerKey();
+      switchTab('results');
+      toast(`Đã tạo ${results.length} mã đề.`);
+    }
+
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-pane').forEach(el => el.classList.add('hidden'));
+      document.getElementById('tab-' + tab).classList.remove('hidden');
+      document.querySelectorAll('.nav-tab').forEach(btn => {
+        const active = btn.dataset.tab === tab;
+        btn.className = `nav-tab px-4 py-2 text-sm font-medium rounded-md ${active ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-600 hover:text-slate-900'}`;
+      });
+      if (tab === 'bank') renderBank();
+      if (tab === 'cart') renderCart();
+      if (tab === 'results') { renderResults(); renderAnswerKey(); }
+      refreshIcons();
+    }
+
+    function getFilteredBank() {
+      const query = document.getElementById('bankQuery').value.toLowerCase().trim();
+      const types = Array.from(document.querySelectorAll('#bankTypeFilters input:checked')).map(i => i.value);
+      const diff = document.getElementById('bankDifficulty').value;
+      const source = document.getElementById('bankSource').value;
+      const tags = document.getElementById('bankTags').value.toLowerCase().split(',').map(s => s.trim()).filter(Boolean);
+      return bank.filter(q => {
+        if (!types.includes(q.type)) return false;
+        if (diff && (q.meta?.difficulty || '').toString() !== diff) return false;
+        if (source && (q.meta?.source || '').toString() !== source) return false;
+        if (tags.length && !tags.some(t => (q.meta?.tags || []).some(tag => tag.toLowerCase().includes(t)))) return false;
+        if (query) {
+          const hay = [q.id, q.stem, q.fileName, (q.meta?.source || ''), (q.meta?.difficulty || ''), (q.meta?.tags || []).join(' ')].join(' ').toLowerCase();
+          if (!hay.includes(query)) return false;
+        }
+        return true;
+      });
+    }
+    function updateFilterOptions() {
+      const diffs = [...new Set(bank.map(q => (q.meta?.difficulty || '').toString()).filter(Boolean))].sort();
+      const sources = [...new Set(bank.map(q => (q.meta?.source || '').toString()).filter(Boolean))].sort();
+      const diffSel = document.getElementById('bankDifficulty');
+      const srcSel = document.getElementById('bankSource');
+      const curDiff = diffSel.value, curSrc = srcSel.value;
+      diffSel.innerHTML = '<option value="">Tất cả</option>' + diffs.map(d => `<option value="${escapeHtml(d)}">${escapeHtml(d)}</option>`).join('');
+      srcSel.innerHTML = '<option value="">Tất cả</option>' + sources.map(s => `<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`).join('');
+      diffSel.value = diffs.includes(curDiff) ? curDiff : '';
+      srcSel.value = sources.includes(curSrc) ? curSrc : '';
+    }
+    function renderBank() {
+      updateFilterOptions();
+      const filtered = getFilteredBank();
+      document.getElementById('bankCount').textContent = `${filtered.length} câu`;
+      const grid = document.getElementById('bankGrid');
+      const empty = document.getElementById('bankEmpty');
+      if (!filtered.length) { grid.innerHTML = ''; empty.classList.remove('hidden'); refreshIcons(); return; }
+      empty.classList.add('hidden');
+      grid.innerHTML = filtered.map(q => {
+        const color = TYPE_COLORS[q.type];
+        const tags = (q.meta?.tags || []).map(t => `<span class="text-[10px] px-1.5 py-0.5 bg-slate-100 text-slate-600 rounded">${escapeHtml(t)}</span>`).join('');
+        const diff = q.meta?.difficulty ? `<span class="text-[10px] px-1.5 py-0.5 bg-${color}-50 text-${color}-700 rounded font-medium">${escapeHtml(q.meta.difficulty)}</span>` : '';
+        const src = q.meta?.source ? `<span class="text-[10px] px-1.5 py-0.5 bg-slate-100 text-slate-600 rounded">${escapeHtml(q.meta.source)}</span>` : '';
+        return `
+        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-4 hover:shadow-md transition-shadow">
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-xs font-bold px-2 py-0.5 rounded bg-${color}-100 text-${color}-700">${TYPE_SHORT[q.type]}</span>
+                ${q.id ? `<span class="text-xs text-slate-400 font-mono">#${escapeHtml(q.id)}</span>` : ''}
+              </div>
+              <p class="text-sm text-slate-800 line-clamp-2">${escapeHtml(previewText(q.stem))}</p>
+              <div class="flex flex-wrap items-center gap-1.5 mt-2">${tags}${diff}${src}</div>
+            </div>
+            <div class="flex flex-col gap-1">
+              <button onclick="addToCartFromBank('${q._uid}')" class="p-1.5 text-blue-600 hover:bg-blue-50 rounded" title="Thêm vào đề"><i data-lucide="plus" class="w-4 h-4"></i></button>
+              <button onclick="removeFromBank('${q._uid}')" class="p-1.5 text-red-500 hover:bg-red-50 rounded" title="Xóa khỏi ngân hàng"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+      refreshIcons();
+    }
+
+    function renderCart() {
+      const list = document.getElementById('cartList');
+      const empty = document.getElementById('cartEmpty');
+      if (!cart.length) { list.innerHTML = ''; empty.classList.remove('hidden'); refreshIcons(); return; }
+      empty.classList.add('hidden');
+      list.innerHTML = cart.map((q, i) => {
+        const color = TYPE_COLORS[q.type];
+        return `
+        <div class="flex items-center gap-3 p-3 bg-white border border-slate-200 rounded-xl">
+          <div class="text-xs text-slate-400 font-mono w-5">${i + 1}</div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 mb-0.5">
+              <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-${color}-100 text-${color}-700">${TYPE_SHORT[q.type]}</span>
+              ${q.id ? `<span class="text-[10px] text-slate-400 font-mono">#${escapeHtml(q.id)}</span>` : ''}
+            </div>
+            <p class="text-sm text-slate-700 line-clamp-1">${escapeHtml(previewText(q.stem))}</p>
+          </div>
+          <div class="flex items-center gap-1">
+            <button onclick="moveCart(${i}, -1)" class="p-1 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded" ${i === 0 ? 'disabled' : ''}><i data-lucide="chevron-up" class="w-4 h-4"></i></button>
+            <button onclick="moveCart(${i}, 1)" class="p-1 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded" ${i === cart.length - 1 ? 'disabled' : ''}><i data-lucide="chevron-down" class="w-4 h-4"></i></button>
+            <button onclick="toggleLock(${i})" class="p-1 ${q.locked ? 'text-amber-600 bg-amber-50' : 'text-slate-400 hover:text-amber-600 hover:bg-amber-50'} rounded" title="Cố định vị trí"><i data-lucide="${q.locked ? 'lock' : 'unlock'}" class="w-4 h-4"></i></button>
+            <button onclick="removeCart(${i})" class="p-1 text-red-500 hover:bg-red-50 rounded"><i data-lucide="x" class="w-4 h-4"></i></button>
+          </div>
+        </div>`;
+      }).join('');
+      renderShuffleModes();
+      refreshIcons();
+    }
+    function moveCart(i, dir) {
+      const j = i + dir;
+      if (j < 0 || j >= cart.length) return;
+      [cart[i], cart[j]] = [cart[j], cart[i]];
+      saveCart();
+    }
+    function toggleLock(i) { cart[i].locked = !cart[i].locked; saveCart(); }
+    function removeCart(i) { cart.splice(i, 1); saveCart(); }
+
+    function getShuffleModes() {
+      const modes = {};
+      for (const t of TYPE_ORDER) modes[t] = document.getElementById(`mode-${t}`).value;
+      return modes;
+    }
+    function setShuffleModes(modes) {
+      for (const t of TYPE_ORDER) {
+        const sel = document.getElementById(`mode-${t}`);
+        if (sel && modes[t]) sel.value = modes[t];
+      }
+    }
+    function renderShuffleModes() {
+      const container = document.getElementById('shuffleModeList');
+      container.innerHTML = TYPE_ORDER.map(t => {
+        const color = TYPE_COLORS[t];
+        return `
+        <div class="flex items-center justify-between p-2 rounded-lg border border-slate-100 bg-slate-50">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold px-2 py-0.5 rounded bg-${color}-100 text-${color}-700">${TYPE_SHORT[t]}</span>
+            <span class="text-xs text-slate-600">${TYPE_LABELS[t]}</span>
+          </div>
+          <select id="mode-${t}" onchange="saveModes(getShuffleModes())" class="text-xs border border-slate-300 rounded-md px-2 py-1 outline-none bg-white">
+            ${Object.entries(SHUFFLE_MODES).map(([k, v]) => `<option value="${k}">${v}</option>`).join('')}
+          </select>
+        </div>`;
+      }).join('');
+      const saved = loadModes();
+      if (saved) setShuffleModes(saved); else setShuffleModes(PRESETS.balanced);
+    }
+
+    function renderResults() {
+      const list = document.getElementById('resultsList');
+      const empty = document.getElementById('resultsEmpty');
+      if (!generatedResults.length) { list.innerHTML = ''; empty.classList.remove('hidden'); refreshIcons(); return; }
+      empty.classList.add('hidden');
+      list.innerHTML = generatedResults.map((r, i) => {
+        const counts = { tn: 0, ds: 0, tln: 0, tl: 0 };
+        r.qs.forEach(q => counts[q.type]++);
+        const countText = Object.entries(counts).filter(([, v]) => v).map(([k, v]) => `${TYPE_SHORT[k]} ${v}`).join(' · ');
+        return `
+        <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+          <div class="flex items-center justify-between px-4 py-3 bg-slate-50 border-b border-slate-200">
+            <div class="flex items-center gap-3">
+              <span class="font-semibold text-slate-800">Mã đề ${escapeHtml(r.code)}</span>
+              <span class="text-xs text-slate-500">${countText}</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="copyResult(${i})" class="text-xs px-2.5 py-1.5 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 font-medium">Copy</button>
+              <button onclick="downloadResult(${i})" class="text-xs px-2.5 py-1.5 rounded-lg bg-green-50 text-green-700 hover:bg-green-100 font-medium">Tải file</button>
+            </div>
+          </div>
+          <div class="p-0">
+            <textarea readonly class="w-full h-48 bg-slate-900 text-slate-200 text-xs font-mono p-4 outline-none resize-y border-0">${escapeHtml(r.content)}</textarea>
+          </div>
+        </div>`;
+      }).join('');
+      refreshIcons();
+    }
+    function renderAnswerKey() {
+      const el = document.getElementById('answerKey');
+      if (!currentAnswerKey.length) { el.innerHTML = '<p class="text-slate-400 text-sm">Chưa có đáp án.</p>'; return; }
+      el.innerHTML = currentAnswerKey.map(k => {
+        const rows = k.answers.map(a => `<div class="flex items-center gap-2"><span class="text-xs text-slate-400 w-12">Câu ${a.num}</span><span class="text-xs font-mono px-1.5 py-0.5 rounded bg-slate-100 text-slate-700">${escapeHtml(a.answer)}</span></div>`).join('');
+        return `<div class="mb-4"><div class="text-xs font-semibold text-slate-900 mb-1">Mã đề ${escapeHtml(k.code)}</div>${rows}</div>`;
+      }).join('');
+    }
+    function copyResult(i) {
+      navigator.clipboard.writeText(generatedResults[i].content).then(() => toast('Đã copy mã đề ' + generatedResults[i].code));
+    }
+    function downloadResult(i) {
+      const r = generatedResults[i];
+      const blob = new Blob([r.content], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = `de-${r.code}.typ`; a.click();
+      URL.revokeObjectURL(url);
+    }
+    function downloadAll() {
+      generatedResults.forEach((_, i) => setTimeout(() => downloadResult(i), i * 200));
+    }
+
+    function renderQuickPreview(questions) {
+      const container = document.getElementById('quickQuestionList');
+      container.innerHTML = questions.map((q, i) => {
+        const color = TYPE_COLORS[q.type];
+        return `
+        <div class="flex items-center gap-3 p-3 border border-slate-100 rounded-lg hover:bg-slate-50">
+          <span class="text-xs font-bold px-2 py-0.5 rounded bg-${color}-100 text-${color}-700">${TYPE_SHORT[q.type]}</span>
+          <span class="text-xs text-slate-400 w-5">${i + 1}</span>
+          <p class="text-sm text-slate-700 line-clamp-1 flex-1">${escapeHtml(previewText(q.stem))}</p>
+        </div>`;
+      }).join('');
+      document.getElementById('quickPreview').classList.remove('hidden');
+      refreshIcons();
+    }
+
+    function getFormState() {
+      return {
+        school: document.getElementById('metaSchool').value,
+        teacher: document.getElementById('metaTeacher').value,
+        exam: document.getElementById('metaExam').value,
+        subject: document.getElementById('metaSubject').value,
+        time: document.getElementById('metaTime').value,
+        numVersions: document.getElementById('metaNumVersions').value,
+        codes: document.getElementById('metaCodes').value,
+        seed: document.getElementById('metaSeed').value,
+      };
+    }
+    function setFormState(form) {
+      if (!form) return;
+      document.getElementById('metaSchool').value = form.school || '';
+      document.getElementById('metaTeacher').value = form.teacher || '';
+      document.getElementById('metaExam').value = form.exam || '';
+      document.getElementById('metaSubject').value = form.subject || '';
+      document.getElementById('metaTime').value = form.time || '';
+      document.getElementById('metaNumVersions').value = form.numVersions || '';
+      document.getElementById('metaCodes').value = form.codes || '';
+      document.getElementById('metaSeed').value = form.seed || '';
+    }
+    function syncCodesFromNum() {
+      const n = parseInt(document.getElementById('metaNumVersions').value) || 0;
+      if (n > 0) document.getElementById('metaCodes').value = Array.from({ length: n }, (_, i) => 101 + i).join(', ');
+    }
+
+    async function handleFiles(files, addToBankOnly = false) {
+      let total = 0;
+      const all = [];
+      for (const file of files) {
+        const text = await file.text();
+        const qs = parseTypstSource(text, file.name);
+        if (qs.length) { all.push(...qs); total += qs.length; }
+      }
+      if (!total) { toast('Không tìm thấy câu hỏi #tn/#ds/#tln/#tl nào trong file.', 'error'); return; }
+      if (addToBankOnly) {
+        const added = addToBank(all);
+        toast(`Đã thêm ${added} câu vào ngân hàng.`);
+        switchTab('bank');
+      } else {
+        lastParsed = all;
+        renderQuickPreview(all);
+        const added = addToBank(all);
+        toast(`Đã phân tích ${total} câu, thêm ${added} câu mới vào ngân hàng.`);
+      }
+    }
+
+    function updateCounts() {
+      document.getElementById('navBankCount').textContent = bank.length;
+      document.getElementById('navCartCount').textContent = cart.length;
+      document.getElementById('statTotalBank').textContent = bank.length;
+      document.getElementById('statTotalCart').textContent = cart.length;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      updateCounts();
+      setFormState(loadForm() || {
+        school: 'TRƯỜNG THPT NGUYỄN HỮU CẢNH',
+        teacher: 'TỔ TOÁN',
+        exam: 'KIỂM TRA GHKI NĂM HỌC 2025-2026',
+        subject: 'MÔN TOÁN - LỚP 12',
+        time: '90',
+        numVersions: '4',
+        codes: '101, 102, 103, 104',
+        seed: ''
+      });
+      renderShuffleModes();
+      renderBank();
+      renderCart();
+      renderResults();
+      renderAnswerKey();
+
+      document.querySelectorAll('.nav-tab').forEach(btn => btn.addEventListener('click', () => switchTab(btn.dataset.tab)));
+
+      const dropZone = document.getElementById('dropZone');
+      const fileInput = document.getElementById('fileInput');
+      dropZone.addEventListener('click', () => fileInput.click());
+      dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('border-blue-500', 'bg-blue-50/50'); });
+      dropZone.addEventListener('dragleave', () => dropZone.classList.remove('border-blue-500', 'bg-blue-50/50'));
+      dropZone.addEventListener('drop', e => {
+        e.preventDefault();
+        dropZone.classList.remove('border-blue-500', 'bg-blue-50/50');
+        if (e.dataTransfer.files.length) handleFiles(e.dataTransfer.files);
+      });
+      fileInput.addEventListener('change', e => { if (e.target.files.length) handleFiles(e.target.files); fileInput.value = ''; });
+
+      const bankFileInput = document.getElementById('bankFileInput');
+      document.getElementById('bankUploadBtn').addEventListener('click', () => bankFileInput.click());
+      bankFileInput.addEventListener('change', e => { if (e.target.files.length) handleFiles(e.target.files, true); bankFileInput.value = ''; });
+
+      document.getElementById('addAllToCartBtn').addEventListener('click', () => { addAllToCart(lastParsed); switchTab('cart'); });
+
+      ['bankQuery', 'bankDifficulty', 'bankSource', 'bankTags'].forEach(id => {
+        document.getElementById(id).addEventListener('input', renderBank);
+        document.getElementById(id).addEventListener('change', renderBank);
+      });
+      document.querySelectorAll('#bankTypeFilters input').forEach(i => i.addEventListener('change', renderBank));
+      document.getElementById('resetBankFilters').addEventListener('click', () => {
+        document.getElementById('bankQuery').value = '';
+        document.getElementById('bankTags').value = '';
+        document.getElementById('bankDifficulty').value = '';
+        document.getElementById('bankSource').value = '';
+        document.querySelectorAll('#bankTypeFilters input').forEach(i => i.checked = true);
+        renderBank();
+      });
+      document.getElementById('addFilteredToCartBtn').addEventListener('click', () => { addAllToCart(getFilteredBank()); switchTab('cart'); });
+      document.getElementById('deleteFilteredBtn').addEventListener('click', () => {
+        const toDelete = new Set(getFilteredBank().map(q => q._uid));
+        bank = bank.filter(q => !toDelete.has(q._uid));
+        saveBank();
+        toast('Đã xóa các câu đã lọc.');
+      });
+
+      document.getElementById('clearCartBtn').addEventListener('click', () => { cart = []; saveCart(); });
+      document.getElementById('goToBankBtn').addEventListener('click', () => switchTab('bank'));
+
+      document.querySelectorAll('.preset-btn').forEach(btn => btn.addEventListener('click', () => {
+        document.querySelectorAll('.preset-btn').forEach(b => b.className = 'preset-btn text-xs px-2 py-1 rounded text-slate-600 hover:bg-slate-100');
+        btn.className = 'preset-btn text-xs px-2 py-1 rounded bg-blue-100 text-blue-700 font-medium';
+        setShuffleModes(PRESETS[btn.dataset.preset]);
+        saveModes(getShuffleModes());
+      }));
+
+      ['metaSchool', 'metaTeacher', 'metaExam', 'metaSubject', 'metaTime', 'metaCodes', 'metaSeed'].forEach(id => {
+        document.getElementById(id).addEventListener('input', saveForm);
+      });
+      document.getElementById('metaNumVersions').addEventListener('input', () => { syncCodesFromNum(); saveForm(); });
+
+      document.getElementById('generateBtn').addEventListener('click', () => {
+        if (!cart.length) { toast('Chưa có câu hỏi nào được chọn.', 'error'); return; }
+        generateVariants();
+      });
+
+      document.getElementById('downloadAllBtn').addEventListener('click', downloadAll);
+    });
+  </script>
+</body>
+</html>

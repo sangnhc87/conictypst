@@ -3,6 +3,8 @@
 // Ngân hàng câu hỏi — Lớp 12 — Hình học không gian & Oxyz
 // ═══════════════════════════════════════════════════════════
 
+#import "../math-sym.typ": *
+#import "../sang-exam.typ": vect
 #import "../modules/question-bank.typ": ds-item, question-tn, question-ds, question-tln, question-tl
 
 #let q-lop12-hinh-hoc = (
@@ -16,7 +18,7 @@
   ([$8 sqrt(6)$], [$4 sqrt(6)$], [$8 sqrt(3)$], [$(8 sqrt(6))/3$]),
   correct: 1,
   solution: [
-    $A C = 2sqrt(2)$. Góc $angle(A C', (ABCD)) = angle A C A' = 60^degree$.
+    $A C = 2sqrt(2)$. Góc $angle(A C', (A B C D)) = angle A C A' = 60^degree$.
     $A A' = A C dot tan 60^degree = 2sqrt(2) dot sqrt(3) = 2sqrt(6)$.
     $V = S_("đáy") times A A' = 4 times 2sqrt(6) = 8sqrt(6)$.
   ],
@@ -88,17 +90,17 @@
 ),
 
 "12HH-RADAR-01": question-ds(
-  [Trong hệ $O x y z$ (đơn vị km), mặt phẳng $(O x y)$ là mặt đất. Trạm ra-đa đặt tại $A(1; 2; 0)$, bán kính quét $R = 100 \" km\"$. Vật thể xuất phát từ $B(2; -1; 0)$, vận tốc $v(t) = 10 + 1/2 t - 1/1200 t^2 \" (m/s)\"$, bay theo hướng $vect(u) = (2; 2; 1)$, đến vị trí $C$ độ cao $6 \" km\"$.],
+  [Trong hệ $O x y z$ (đơn vị km), mặt phẳng $(O x y)$ là mặt đất. Trạm ra-đa đặt tại $A(1; 2; 0)$, bán kính quét $R = 100 " km"$. Vật thể xuất phát từ $B(2; -1; 0)$, vận tốc $v(t) = 10 + 1/2 t - 1/1200 t^2 " (m/s)"$, bay theo hướng $vect(u) = (2; 2; 1)$, đến vị trí $C$ độ cao $6 " km"$.],
   (
     ds-item([Phương trình mặt cầu giám sát của ra-đa là $(x-1)^2 + (y-2)^2 + (z-1)^2 = 100$.], correct: false),
     ds-item([Phương trình đường thẳng $B C$ là $(x-2)/2 = (y+1)/2 = z/1$.], correct: true),
-    ds-item([Quãng đường từ $B$ đến $C$ là $18 \" km\"$.], correct: true),
+    ds-item([Quãng đường từ $B$ đến $C$ là $18 " km"$.], correct: true),
     ds-item([Thời gian từ khi xuất phát đến khi thoát vùng giám sát bé hơn 21 phút.], correct: false),
   ),
   solution: [
     a) Sai: $(x-1)^2 + (y-2)^2 + z^2 = 10000$ (bán kính 100 km, tâm $z = 0$).
-    b) Đúng: Đường $BC$ qua $B(2;-1;0)$, $vect(u) = (2;2;1)$.
-    c) Đúng: $t = 6$, $C = (14;11;6)$, $BC = sqrt(144+144+36) = 18 \" km\"$.
+    b) Đúng: Đường $B C$ qua $B(2;-1;0)$, $vect(u) = (2;2;1)$.
+    c) Đúng: $t = 6$, $C = (14;11;6)$, $B C = sqrt(144+144+36) = 18 " km"$.
     d) Sai: Tổng thời gian $approx 21.29 > 21$ phút.
   ],
   tags: ("mat-cau", "duong-thang", "tich-phan-ung-dung", "oxyz"),
@@ -148,7 +150,7 @@
 ),
 
 "12HH-TC-01": question-tn(
-  [Cho hàm số $y = (ax + b)/(cx + d)$ có đồ thị như hình. Đường tiệm cận đứng là],
+  [Cho hàm số $y = (a x + b)/(c x + d)$ có đồ thị như hình. Đường tiệm cận đứng là],
   ([$y=2$], [$y=1$], [$x=1$], [$x=2$]),
   correct: 3,
   solution: [

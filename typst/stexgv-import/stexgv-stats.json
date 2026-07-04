@@ -1,0 +1,38 @@
+{
+  "total": 1553,
+  "bySlot": {
+    "1": 49,
+    "2": 47,
+    "3": 47,
+    "4": 47,
+    "5": 47,
+    "6": 47,
+    "7": 46,
+    "8": 47,
+    "9": 46,
+    "10": 46,
+    "11": 47,
+    "12": 282,
+    "13": 27,
+    "14": 24,
+    "15": 21,
+    "16": 47,
+    "17": 88,
+    "18": 22,
+    "19": 146,
+    "20": 168,
+    "21": 26,
+    "22": 186
+  },
+  "byStatus": {
+    "review": 810,
+    "ready": 743
+  },
+  "errors": [
+    {
+      "file": "/Users/admin/stexgv/src/pages/ThptExamBuilder/banks/bank_07/Q7_NewExam6_Auto.js",
+      "id": "Q7-NE6-AUTO",
+      "error": "Cannot read properties of undefined (reading 'generateLatex')"
+    }
+  ]
+}

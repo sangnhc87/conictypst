@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Typst Linter — ConicTypst</title>
+    <link rel="stylesheet" href="dashboard.css" />
+    <script defer src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+    <style>
+        .tool-page {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 28px 24px;
+        }
+
+        .tool-header {
+            margin-bottom: 24px;
+        }
+
+        .tool-header h1 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin: 0 0 6px;
+        }
+
+        .tool-header p {
+            color: var(--muted);
+            margin: 0;
+            font-size: 0.93rem;
+        }
+
+        .tool-layout {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 20px;
+        }
+
+        @media (max-width: 900px) {
+            .tool-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .panel {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .panel-head {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--line);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .panel-body {
+            padding: 16px;
+        }
+
+        #lintInput {
+            width: 100%;
+            height: 480px;
+            font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            padding: 14px;
+            resize: vertical;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            background: #0f172a;
+            color: #e2e8f0;
+            outline: none;
+        }
+
+        #lintInput:focus {
+            border-color: #0ea5e9;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: var(--radius);
+            font-size: 0.88rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all .18s;
+        }
+
+        .btn-primary {
+            background: #0ea5e9;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #0284c7;
+        }
+
+        .btn-secondary {
+            background: var(--bg);
+            border: 1px solid var(--line);
+            color: var(--text);
+        }
+
+        .btn-secondary:hover {
+            background: var(--line);
+        }
+
+        .btn-success {
+            background: #22c55e;
+            color: #fff;
+        }
+
+        .btn-success:hover {
+            background: #16a34a;
+        }
+
+        .issue-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 520px;
+            overflow-y: auto;
+        }
+
+        .issue-item {
+            display: flex;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: 6px;
+            border-left: 4px solid transparent;
+            cursor: pointer;
+            transition: background .15s;
+            font-size: 0.87rem;
+        }
+
+        .issue-item:hover {
+            background: var(--bg);
+        }
+
+        .issue-item.error {
+            border-color: #ef4444;
+            background: #fef2f2;
+        }
+
+        .issue-item.warning {
+            border-color: #f59e0b;
+            background: #fffbeb;
+        }
+
+        .issue-item.suggestion {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+
+        .issue-icon {
+            font-size: 1rem;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .issue-title {
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .issue-suggestion {
+            color: var(--muted);
+            font-size: 0.82rem;
+            margin-top: 2px;
+        }
+
+        .issue-line {
+            font-size: 0.78rem;
+            color: var(--muted);
+            margin-top: 3px;
+        }
+
+        .stat-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+        }
+
+        .stat-chip {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+
+        .stat-chip.error {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .stat-chip.warning {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .stat-chip.suggestion {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        .stat-chip.ok {
+            background: #d1fae5;
+            color: #059669;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--muted);
+        }
+
+        .empty-state i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .rule-table {
+            font-size: 0.83rem;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .rule-table tr {
+            border-bottom: 1px solid var(--line);
+        }
+
+        .rule-table td {
+            padding: 6px 8px;
+        }
+
+        .rule-table td:first-child {
+            font-weight: 600;
+            width: 120px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 1px 7px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .badge.error {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .badge.warning {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .badge.suggestion {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--muted);
+            font-size: 0.88rem;
+            margin-bottom: 18px;
+        }
+
+        .back-link:hover {
+            color: var(--text);
+        }
+    </style>
+</head>
+
+<body>
+    <header class="dash-topbar">
+        <div class="dash-topbar-inner">
+            <a class="dash-brand" href="dashboard.html">
+                <span class="dash-brand-mark">C</span>
+                <span><strong>ConicTypst</strong><small>Typst Linter</small></span>
+            </a>
+            <div></div>
+            <nav class="dash-nav">
+                <a href="dashboard.html">Dashboard</a>
+                <a href="index.html">HDSD</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="tool-page">
+        <a class="back-link" href="dashboard.html"><i data-lucide="arrow-left"></i> Về Dashboard</a>
+
+        <div class="tool-header">
+            <h1><i data-lucide="badge-check"
+                    style="width:1.2em;height:1.2em;vertical-align:middle;margin-right:6px;"></i>Kiểm Lỗi Typst</h1>
+            <p>Rà lỗi cấu trúc câu hỏi, macro, ID — tương đương LatexLinterPage.jsx nhưng dành cho Typst ConicTypst.</p>
+        </div>
+
+        <div class="tool-layout">
+            <!-- LEFT: Editor -->
+            <div>
+                <div class="panel">
+                    <div class="panel-head">
+                        <i data-lucide="code-2"></i> Mã Typst
+                        <span id="lineCount"
+                            style="margin-left:auto;font-weight:400;color:var(--muted);font-size:0.82rem;"></span>
+                    </div>
+                    <div class="panel-body">
+                        <textarea id="lintInput" spellcheck="false" placeholder="// Dán mã Typst vào đây...
+//[2D1N1-1]
+#tn[
+  Câu hỏi mẫu
+][A. phương án 1][#True[B. phương án đúng]][C. phương án 3][D. phương án 4][
+  #ppgiai[Lời giải...]
+]"></textarea>
+                        <div class="btn-row">
+                            <button class="btn btn-primary" onclick="runLint()">
+                                <i data-lucide="play"></i> Kiểm tra lỗi
+                            </button>
+                            <button class="btn btn-secondary" onclick="loadSample()">
+                                <i data-lucide="file-text"></i> Mẫu thử
+                            </button>
+                            <button class="btn btn-secondary" onclick="clearAll()">
+                                <i data-lucide="trash-2"></i> Xóa
+                            </button>
+                            <button class="btn btn-success" id="copyBtn" onclick="copyCode()" style="margin-left:auto">
+                                <i data-lucide="copy"></i> Copy code
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT: Issues -->
+            <div style="display:flex;flex-direction:column;gap:16px;">
+                <div class="panel">
+                    <div class="panel-head"><i data-lucide="alert-triangle"></i> Kết quả kiểm tra</div>
+                    <div class="panel-body">
+                        <div class="stat-row" id="statRow"></div>
+                        <div class="issue-list" id="issueList">
+                            <div class="empty-state">
+                                <i data-lucide="scan-search"></i>
+                                <p>Nhấn <strong>Kiểm tra lỗi</strong> để bắt đầu.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-head"><i data-lucide="book-open"></i> Quy tắc kiểm tra</div>
+                    <div class="panel-body" style="overflow-x:auto;">
+                        <table class="rule-table">
+                            <tr>
+                                <td>LaTeX còn sót</td>
+                                <td><span class="badge error">lỗi</span> <code>\begin{</code>, <code>\frac</code>,
+                                    <code>\choice</code></td>
+                            </tr>
+                            <tr>
+                                <td>Thiếu đáp án</td>
+                                <td><span class="badge error">lỗi</span> <code>#tn[...]</code> không có
+                                    <code>#True[...]</code></td>
+                            </tr>
+                            <tr>
+                                <td>Thiếu lời giải</td>
+                                <td><span class="badge warning">cảnh báo</span> <code>#tn/#ds/#tln</code> không có
+                                    <code>#ppgiai</code></td>
+                            </tr>
+                            <tr>
+                                <td>Thiếu ID</td>
+                                <td><span class="badge warning">cảnh báo</span> Câu hỏi không có comment ID
+                                    <code>//[...]</code></td>
+                            </tr>
+                            <tr>
+                                <td>CeTZ thiếu import</td>
+                                <td><span class="badge warning">cảnh báo</span> Dùng <code>canvas(</code> mà không
+                                    import cetz</td>
+                            </tr>
+                            <tr>
+                                <td>Format phân số</td>
+                                <td><span class="badge suggestion">gợi ý</span> Dùng <code>frac(a,b)</code> thay
+                                    <code>\frac{a}{b}</code></td>
+                            </tr>
+                            <tr>
+                                <td>Ngoặc đơn bare</td>
+                                <td><span class="badge suggestion">gợi ý</span> Hàm toán học ngoài <code>$...$</code>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // ── Helpers ────────────────────────────────────────────
+        function getLines(text) { return text.split('\n') }
+        function lineOf(text, idx) { return text.substring(0, idx).split('\n').length }
+
+        // ── Rules ─────────────────────────────────────────────
+        const RULES = [
+            {
+                id: 'latex-remnant',
+                severity: 'error',
+                message: 'LaTeX còn sót trong mã Typst.',
+                suggestion: 'Chuyển \\frac{a}{b} → frac(a,b), \\begin{...} → môi trường Typst.',
+                check(block, _full, lineNum) {
+                    const patterns = [/\\begin\{/, /\\end\{/, /\\frac\{/, /\\choice/, /\\loigiai/, /\\begin{ex}/]
+                    for (const p of patterns) {
+                        if (p.test(block)) return { lineNum }
+                    }
+                    return null
+                }
+            },
+            {
+                id: 'tn-missing-true',
+                severity: 'error',
+                message: '#tn không có #True[...] đánh dấu đáp án đúng.',
+                suggestion: 'Bọc phương án đúng: #True[Phương án B].',
+                check(block, _full, lineNum) {
+                    if (!/#tn\[/.test(block)) return null
+                    if (!/#True\[/.test(block)) return { lineNum }
+                    return null
+                }
+            },
+            {
+                id: 'ds-missing-markers',
+                severity: 'error',
+                message: '#ds không có #True[...] hoặc #False[...] cho các ý.',
+                suggestion: 'Bọc từng ý: #True[Đúng] hoặc #False[Sai].',
+                check(block, _full, lineNum) {
+                    if (!/#ds\[/.test(block)) return null
+                    if (!/#True\[/.test(block) && !/#False\[/.test(block)) return { lineNum }
+                    return null
+                }
+            },
+            {
+                id: 'missing-solution',
+                severity: 'warning',
+                message: 'Câu hỏi chưa có lời giải (#ppgiai / #loigiai).',
+                suggestion: 'Thêm #ppgiai[...] ở cuối khối câu hỏi.',
+                check(block, _full, lineNum) {
+                    const isQuestion = /#tn\[/.test(block) || /#ds\[/.test(block) || /#tln\[/.test(block)
+                    if (!isQuestion) return null
+                    if (!/#ppgiai\[/.test(block) && !/#loigiai\[/.test(block)) return { lineNum }
+                    return null
+                }
+            },
+            {
+                id: 'cetz-no-import',
+                severity: 'warning',
+                message: 'Dùng canvas(...) nhưng không thấy #import "@preview/cetz".',
+                suggestion: 'Thêm #import "@preview/cetz:0.5.2": canvas, draw ở đầu file.',
+                check(_block, full, lineNum) {
+                    // Only check once (for the first canvas usage)
+                    if (lineNum > 1) return null
+                    if (/canvas\(/.test(full) && !/#import "@preview\/cetz/.test(full)) return { lineNum: 1 }
+                    return null
+                }
+            },
+            {
+                id: 'missing-id',
+                severity: 'warning',
+                message: 'Khối câu hỏi thiếu comment ID (//[...]).',
+                suggestion: 'Thêm //[2D1N1-1] trước mỗi câu hỏi.',
+                check(block, _full, lineNum) {
+                    const isQuestion = /#tn\[/.test(block) || /#ds\[/.test(block) || /#tln\[/.test(block)
+                    if (!isQuestion) return null
+                    // Check if there's an ID comment anywhere before this block in full
+                    return null // skip for now — check per-block below
+                }
+            },
+            {
+                id: 'bare-math-func',
+                severity: 'suggestion',
+                message: 'Hàm toán học có thể nằm ngoài $...$.',
+                suggestion: 'Đảm bảo sin, cos, tan... nằm trong công thức $sin(x)$.',
+                check(block, _full, lineNum) {
+                    // Look for sin/cos/tan/log outside $...$
+                    const withoutMath = block.replace(/\$[^$]*\$/g, '')
+                    if (/\b(sin|cos|tan|cot|log|ln)\s*\(/.test(withoutMath)) return { lineNum }
+                    return null
+                }
+            },
+        ]
+
+        // ── Parse question blocks ──────────────────────────────
+        function parseBlocks(code) {
+            const blocks = []
+            // Split by #tn[, #ds[, #tln[, #tl[
+            const re = /(#(?:tn|ds|tln|tl)\[)/g
+            let m
+            const positions = []
+            while ((m = re.exec(code)) !== null) positions.push(m.index)
+
+            for (let i = 0; i < positions.length; i++) {
+                const start = positions[i]
+                const end = positions[i + 1] || code.length
+                blocks.push({ code: code.slice(start, end), startLine: lineOf(code, start) })
+            }
+
+            // Also extract any standalone block (no question macro) for cetz check
+            if (blocks.length === 0) {
+                blocks.push({ code, startLine: 1 })
+            }
+            return blocks
+        }
+
+        // ── Main lint ─────────────────────────────────────────
+        function runLint() {
+            const code = document.getElementById('lintInput').value
+            const blocks = parseBlocks(code)
+            const issues = []
+            const seen = new Set()
+
+            for (const { code: block, startLine } of blocks) {
+                for (const rule of RULES) {
+                    const key = `${rule.id}-${startLine}`
+                    if (seen.has(key)) continue
+                    const result = rule.check(block, code, startLine)
+                    if (result) {
+                        seen.add(key)
+                        issues.push({ ...rule, lineNum: result.lineNum || startLine })
+                    }
+                }
+            }
+
+            // cetz check once
+            const cetzRule = RULES.find(r => r.id === 'cetz-no-import')
+            if (cetzRule && !seen.has('cetz-no-import-1')) {
+                const result = cetzRule.check(code, code, 1)
+                if (result) issues.push({ ...cetzRule, lineNum: 1 })
+            }
+
+            renderIssues(issues)
+        }
+
+        function renderIssues(issues) {
+            const list = document.getElementById('issueList')
+            const statRow = document.getElementById('statRow')
+
+            const counts = { error: 0, warning: 0, suggestion: 0 }
+            for (const i of issues) counts[i.severity]++
+
+            // Stat chips
+            statRow.innerHTML = ''
+            if (issues.length === 0) {
+                statRow.innerHTML = '<span class="stat-chip ok">✓ Không có lỗi</span>'
+            } else {
+                if (counts.error) statRow.innerHTML += `<span class="stat-chip error">${counts.error} lỗi</span>`
+                if (counts.warning) statRow.innerHTML += `<span class="stat-chip warning">${counts.warning} cảnh báo</span>`
+                if (counts.suggestion) statRow.innerHTML += `<span class="stat-chip suggestion">${counts.suggestion} gợi ý</span>`
+            }
+
+            // Issue list
+            if (issues.length === 0) {
+                list.innerHTML = `<div class="empty-state"><i data-lucide="check-circle" style="color:#22c55e"></i><p style="color:#22c55e;font-weight:600;">Mã Typst sạch — không phát hiện lỗi!</p></div>`
+                window.lucide?.createIcons()
+                return
+            }
+
+            const icons = { error: '⛔', warning: '⚠️', suggestion: '💡' }
+            list.innerHTML = issues.map(issue => `
+        <div class="issue-item ${issue.severity}" onclick="gotoLine(${issue.lineNum})">
+          <span class="issue-icon">${icons[issue.severity]}</span>
+          <div>
+            <div class="issue-title">${issue.message}</div>
+            <div class="issue-suggestion">${issue.suggestion}</div>
+            <div class="issue-line">Dòng ~${issue.lineNum}</div>
+          </div>
+        </div>
+      `).join('')
+            window.lucide?.createIcons()
+        }
+
+        function gotoLine(line) {
+            const ta = document.getElementById('lintInput')
+            const lines = ta.value.split('\n')
+            let pos = 0
+            for (let i = 0; i < Math.min(line - 1, lines.length); i++) pos += lines[i].length + 1
+            ta.focus()
+            ta.setSelectionRange(pos, pos + (lines[line - 1]?.length || 0))
+            // Scroll into view
+            const lineHeight = 20.8
+            ta.scrollTop = Math.max(0, (line - 5) * lineHeight)
+        }
+
+        function loadSample() {
+            document.getElementById('lintInput').value = `// ═══ Mẫu câu hỏi Typst ═══
+
+//[2D1N1-1]
+#tn[
+  Hàm số $y = frac(x^2 - 1, x + 1)$ có tập xác định là
+][
+  $RR$
+][
+  #True[$RR \\ {-1}$]
+][
+  $RR \\ {1}$
+][
+  $[- 1; +oo)$
+][
+  #ppgiai[
+    Điều kiện: $x + 1 != 0 <=> x != -1$.
+    Vậy tập xác định là $D = RR \\ {-1}$.
+  ]
+]
+
+// Ví dụ câu hỏi lỗi — thiếu #True và #ppgiai
+//[2D1N1-2]
+#tn[
+  Đạo hàm của $f(x) = sin(x^2)$ là
+][A. $2x sin(x^2)$][B. $cos(x^2)$][C. $2x cos(x^2)$][D. $-2x cos(x^2)$]
+
+// Ví dụ LaTeX còn sót
+//[2D1N1-3]
+#tn[
+  \\frac{1}{2} + x
+][A][B][#True[C]][D][#ppgiai[...]]`
+            updateLineCount()
+            runLint()
+        }
+
+        function clearAll() {
+            document.getElementById('lintInput').value = ''
+            document.getElementById('issueList').innerHTML = `<div class="empty-state"><i data-lucide="scan-search"></i><p>Nhấn <strong>Kiểm tra lỗi</strong> để bắt đầu.</p></div>`
+            document.getElementById('statRow').innerHTML = ''
+            updateLineCount()
+            window.lucide?.createIcons()
+        }
+
+        async function copyCode() {
+            const val = document.getElementById('lintInput').value
+            await navigator.clipboard.writeText(val)
+            const btn = document.getElementById('copyBtn')
+            const old = btn.innerHTML
+            btn.innerHTML = '<i data-lucide="check"></i> Đã copy'
+            btn.classList.remove('btn-success'); btn.classList.add('btn-secondary')
+            window.lucide?.createIcons()
+            setTimeout(() => { btn.innerHTML = old; btn.classList.remove('btn-secondary'); btn.classList.add('btn-success'); window.lucide?.createIcons() }, 1400)
+        }
+
+        function updateLineCount() {
+            const lines = document.getElementById('lintInput').value.split('\n').length
+            document.getElementById('lineCount').textContent = `${lines} dòng`
+        }
+
+        document.getElementById('lintInput').addEventListener('input', updateLineCount)
+        document.addEventListener('DOMContentLoaded', () => {
+            updateLineCount()
+            window.lucide?.createIcons()
+        })
+    </script>
+</body>
+
+</html>

@@ -5,6 +5,8 @@
 // từ modules/question-bank.typ
 // ═══════════════════════════════════════════════════════════
 
+#import "../math-sym.typ": *
+#import "../sang-exam.typ": vect
 #import "../modules/question-bank.typ": ds-item, question-tn, question-ds, question-tln, question-tl
 
 #let q-lop12-giai-tich = (
@@ -103,21 +105,21 @@
 // ─────────────────────────────────────────────────────────
 
 "12GT-UD-PIN-01": question-ds(
-  [Một viên pin dự phòng $10000 \" mAh\"$ đang vừa sạc vừa cấp điện.
-  Tốc độ nạp: $f(t) = 250 e^(-0.01t) \" (mAh/phút)\"$.
-  Tốc độ tiêu hao: $g(t) = 10 e^(0.04t) \" (mAh/phút)\"$.
+  [Một viên pin dự phòng $10000 " mAh"$ đang vừa sạc vừa cấp điện.
+  Tốc độ nạp: $f(t) = 250 e^(-0.01t) " (mAh/phút)"$.
+  Tốc độ tiêu hao: $g(t) = 10 e^(0.04t) " (mAh/phút)"$.
   Lượng điện tích $Q(t)$ thỏa mãn $Q'(t) = f(t) - g(t)$, $Q(0) = 0$.],
   (
     ds-item([$Q(t)$ là một nguyên hàm của $h(t) = 250 e^(-0.01t) - 10 e^(0.04t)$.], correct: true),
     ds-item([$Q(t) = -25000 e^(-0.01t) - 250 e^(0.04t) + C$, $C$ là hằng số.], correct: false),
     ds-item([Sạc trong 30 phút thì pin chưa được $60%$.], correct: true),
-    ds-item([Lượng điện tích từ dây sạc thường lớn hơn dây sạc thông minh trên $1000 \" mAh\"$.], correct: true),
+    ds-item([Lượng điện tích từ dây sạc thường lớn hơn dây sạc thông minh trên $1000 " mAh"$.], correct: true),
   ),
   solution: [
     a) Đúng: Theo định nghĩa nguyên hàm, $Q'(t) = h(t)$.
     b) Sai: Đây là họ nguyên hàm. $Q(t)$ là hàm xác định với $C = 25250$.
-    c) Đúng: $Q(30) approx 5899.5 < 6000 \" mAh\"$ ($60%$ của $10000$).
-    d) Đúng: $Delta Q = Q_max - Q_2 approx 1292.2 > 1000 \" mAh\"$.
+    c) Đúng: $Q(30) approx 5899.5 < 6000 " mAh"$ ($60%$ của $10000$).
+    d) Đúng: $Delta Q = Q_max - Q_2 approx 1292.2 > 1000 " mAh"$.
   ],
   tags: ("tich-phan", "ung-dung", "mo-hinh-toan-hoc"),
   difficulty: "VDC",
@@ -126,13 +128,13 @@
 ),
 
 "12GT-UD-DON-01": question-tln(
-  [Một nghệ nhân chế tác đôn đồng dạng khối tròn xoay, cao $40 \" cm\"$, đường kính trên-dưới $30 \" cm\"$, eo nhỏ nhất $24 \" cm\"$, mặt cắt qua trục là hai parabol đối xứng. Khối lượng riêng đồng $8960 \" kg/m\"^3$, giá $220 \" nghìn đồng/kg\"$, gia công $10 \" triệu\"$. Tổng chi phí (triệu đồng, làm tròn đến hàng phần mười)?],
+  [Một nghệ nhân chế tác đôn đồng dạng khối tròn xoay, cao $40 " cm"$, đường kính trên-dưới $30 " cm"$, eo nhỏ nhất $24 " cm"$, mặt cắt qua trục là hai parabol đối xứng. Khối lượng riêng đồng $8960 " kg/m"^3$, giá $220 " nghìn đồng/kg"$, gia công $10 " triệu"$. Tổng chi phí (triệu đồng, làm tròn đến hàng phần mười)?],
   [$52,1$],
   solution: [
     Đường sinh parabol: $x = 3/400 y^2 + 12$, $y in [-20; 20]$.
-    $V = 2pi integral_0^20 (3/400 y^2 + 12)^2 dif y = 6792pi \" cm\"^3$.
-    $m = 8960 times 6792pi times 10^(-6) approx 191.45 \" kg\"$.
-    Chi phí = $191.45 times 220 times 10^(-3) + 10 approx 52.1 \" triệu\"$.
+    $V = 2pi integral_0^20 (3/400 y^2 + 12)^2 dif y = 6792pi " cm"^3$.
+    $m = 8960 times 6792pi times 10^(-6) approx 191.45 " kg"$.
+    Chi phí = $191.45 times 220 times 10^(-3) + 10 approx 52.1 " triệu"$.
   ],
   tags: ("tich-phan", "ung-dung", "khai-niem-trong-khong-gian"),
   difficulty: "VDC",

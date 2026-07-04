@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ConicTypst Dashboard — Tool Hub Typst</title>
+  <meta name="description" content="Tool Hub cho ConicTypst: soạn đề, trộn đề, ngân hàng câu hỏi, CeTZ, BBT, OCR, linter, beamer và admin bank." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="dashboard.css" />
+  <script defer src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script defer src="dashboard.js"></script>
+</head>
+<body>
+  <header class="dash-topbar">
+    <div class="dash-topbar-inner">
+      <a class="dash-brand" href="dashboard.html" aria-label="ConicTypst Dashboard">
+        <span class="dash-brand-mark">C</span>
+        <span>
+          <strong>ConicTypst</strong>
+          <small>Typst tool hub</small>
+        </span>
+      </a>
+
+      <label class="dash-search" aria-label="Tìm nhanh chức năng">
+        <i data-lucide="search"></i>
+        <input id="dashboardSearch" type="search" placeholder="Tìm nhanh: bbt, cetz, bank, trộn đề, ocr..." autocomplete="off" />
+      </label>
+
+      <nav class="dash-nav" aria-label="Liên kết nhanh">
+        <a href="#quick-actions">Nhanh</a>
+        <a href="#explore">Khám phá</a>
+        <a href="#all-tools">Công cụ</a>
+        <a href="#admin-panel">Admin</a>
+        <a href="index.html">HDSD</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="dash-main">
+    <section class="welcome-band" aria-labelledby="welcomeTitle">
+      <div>
+        <p class="eyebrow">Tool Hub Typst</p>
+        <h1 id="welcomeTitle"><span id="greetingText">Chào bạn</span>, ConicTypst</h1>
+        <p>Phiên bản Typst của tinh thần STEXGV: soạn đề, trộn đề, quản lý ngân hàng câu hỏi, Live BBT, CeTZ, OCR, linter và kho học liệu.</p>
+      </div>
+      <div class="welcome-stats" aria-label="Thống kê STEXGV import">
+        <span><strong>1.553</strong> câu import</span>
+        <span><strong>22</strong> slot THPT</span>
+        <span><strong>743</strong> ready</span>
+      </div>
+    </section>
+
+    <section class="dash-section" id="quick-actions" aria-labelledby="quickActionsTitle">
+      <div class="section-title-row">
+        <h2 id="quickActionsTitle"><i data-lucide="zap"></i> Thao tác nhanh</h2>
+      </div>
+      <div class="quick-grid" id="quickActionsGrid"></div>
+    </section>
+
+    <section class="dash-section" id="explore" aria-labelledby="exploreTitle">
+      <div class="section-title-row">
+        <h2 id="exploreTitle"><i data-lucide="globe-2"></i> Khám phá</h2>
+      </div>
+      <div class="explore-grid" id="exploreGrid"></div>
+    </section>
+
+    <section class="dash-section" id="all-tools" aria-labelledby="allToolsTitle">
+      <div class="section-title-row">
+        <h2 id="allToolsTitle"><i data-lucide="briefcase"></i> Tất cả công cụ</h2>
+        <span id="resultCount">Đang nạp công cụ</span>
+      </div>
+      <div class="tool-grid" id="allToolsGrid"></div>
+    </section>
+
+    <section class="admin-panel" id="admin-panel" aria-labelledby="adminTitle">
+      <div class="admin-head">
+        <div>
+          <span class="admin-icon"><i data-lucide="settings"></i></span>
+          <h2 id="adminTitle">Admin Panel</h2>
+        </div>
+        <a class="admin-cta" href="index.html#exam-mix-typst">
+          <i data-lucide="brain"></i>
+          Mở Typst Bank Bridge
+        </a>
+      </div>
+      <div class="admin-grid" id="adminGrid"></div>
+    </section>
+
+    <section class="system-panel" aria-labelledby="systemTitle">
+      <div class="system-copy">
+        <p class="eyebrow">Pipeline đang chạy được</p>
+        <h2 id="systemTitle">Trộn đề kiểu STEXGV, nhưng đầu ra là Typst</h2>
+        <p>Bridge hiện đọc kho <code>ThptExamBuilder/banks</code>, gọi <code>generateLatex(seed)</code>, phân tích <code>\choice</code>, <code>\choiceTF</code>, <code>\shortans</code>, <code>\loigiai</code>, rồi sinh registry Typst dùng với <code>#build-exam-plan</code>.</p>
+      </div>
+
+      <div class="command-stack" aria-label="Lệnh chạy nhanh">
+        <button class="command-row" type="button" data-copy="npm run stexgv:import">
+          <i data-lucide="copy"></i>
+          <code>npm run stexgv:import</code>
+        </button>
+        <button class="command-row" type="button" data-copy="npm run stexgv:mix -- --compile">
+          <i data-lucide="copy"></i>
+          <code>npm run stexgv:mix -- --compile</code>
+        </button>
+        <a class="open-doc" href="index.html#exam-mix-typst">
+          <i data-lucide="arrow-right"></i>
+          Mở hướng dẫn trộn đề Typst
+        </a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BBT Live — ConicTypst</title>
+    <link rel="stylesheet" href="dashboard.css" />
+    <script defer src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+    <style>
+        .tool-page {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 28px 24px;
+        }
+
+        .tool-header {
+            margin-bottom: 24px;
+        }
+
+        .tool-header h1 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin: 0 0 6px;
+        }
+
+        .tool-header p {
+            color: var(--muted);
+            margin: 0;
+            font-size: 0.93rem;
+        }
+
+        .tool-layout {
+            display: grid;
+            grid-template-columns: 1fr 500px;
+            gap: 20px;
+        }
+
+        @media (max-width: 1000px) {
+            .tool-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .panel {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .panel-head {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--line);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .panel-body {
+            padding: 16px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: var(--radius);
+            font-size: 0.88rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all .18s;
+        }
+
+        .btn-primary {
+            background: #0ea5e9;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #0284c7;
+        }
+
+        .btn-secondary {
+            background: var(--bg);
+            border: 1px solid var(--line);
+            color: var(--text);
+        }
+
+        .btn-secondary:hover {
+            background: var(--line);
+        }
+
+        .btn-danger {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+        }
+
+        .btn-danger:hover {
+            background: #fee2e2;
+        }
+
+        .btn-sm {
+            padding: 4px 10px;
+            font-size: 0.8rem;
+        }
+
+        /* BBT Visual Table */
+        .bbt-visual {
+            font-family: var(--font);
+            overflow-x: auto;
+        }
+
+        .bbt-table {
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+
+        .bbt-table td,
+        .bbt-table th {
+            border: 1.5px solid #334155;
+            padding: 0;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 0.88rem;
+        }
+
+        .bbt-table .row-label {
+            background: #f8fafc;
+            font-weight: 600;
+            padding: 6px 12px;
+            white-space: nowrap;
+            min-width: 60px;
+            border-right: 2px solid #334155;
+        }
+
+        .bbt-table .x-cell {
+            min-width: 70px;
+            height: 40px;
+        }
+
+        .bbt-table .interval-cell {
+            min-width: 60px;
+            height: 40px;
+        }
+
+        .bbt-table .y-cell {
+            min-width: 80px;
+            height: 60px;
+        }
+
+        .bbt-table input {
+            border: none;
+            outline: none;
+            background: transparent;
+            text-align: center;
+            width: 100%;
+            padding: 4px;
+            font-size: 0.88rem;
+            font-family: 'Georgia', serif;
+        }
+
+        .bbt-table select {
+            border: none;
+            outline: none;
+            background: transparent;
+            text-align: center;
+            width: 90%;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .sign-plus {
+            color: #16a34a;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .sign-minus {
+            color: #dc2626;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .sign-zero {
+            color: #7c3aed;
+            font-weight: 700;
+        }
+
+        .arrow-up {
+            color: #16a34a;
+            font-size: 1.3rem;
+        }
+
+        .arrow-down {
+            color: #dc2626;
+            font-size: 1.3rem;
+        }
+
+        /* Y-value with up/down arrows */
+        .y-cell-inner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 4px;
+        }
+
+        .y-tip {
+            font-size: 0.82rem;
+            color: var(--muted);
+        }
+
+        .y-main {
+            font-size: 0.9rem;
+        }
+
+        /* Form controls */
+        .form-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .form-group label {
+            font-size: 0.83rem;
+            font-weight: 600;
+            color: var(--muted);
+        }
+
+        .form-input {
+            padding: 7px 10px;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            font-size: 0.88rem;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #0ea5e9;
+        }
+
+        select.form-input {
+            cursor: pointer;
+        }
+
+        /* Output */
+        #codeOutput {
+            width: 100%;
+            height: 320px;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            padding: 14px;
+            resize: vertical;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            background: #0f172a;
+            color: #e2e8f0;
+            outline: none;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--muted);
+            font-size: 0.88rem;
+            margin-bottom: 18px;
+        }
+
+        .back-link:hover {
+            color: var(--text);
+        }
+
+        .help-tip {
+            font-size: 0.8rem;
+            color: var(--muted);
+            background: #f8fafc;
+            padding: 6px 12px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+        }
+
+        .x-point-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .x-point-label {
+            font-size: 0.83rem;
+            font-weight: 600;
+            min-width: 80px;
+        }
+
+        .section-divider {
+            border: none;
+            border-top: 1px solid var(--line);
+            margin: 16px 0;
+        }
+
+        .shade-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .shade-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: #fef9c3;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+        }
+
+        /* Examples strip */
+        .example-strip {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .example-btn {
+            padding: 5px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--line);
+            font-size: 0.82rem;
+            cursor: pointer;
+            background: var(--surface);
+        }
+
+        .example-btn:hover {
+            background: #eff6ff;
+            border-color: #0ea5e9;
+            color: #0ea5e9;
+        }
+
+        .live-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #22c55e;
+            margin-right: 6px;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: .3
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="dash-topbar">
+        <div class="dash-topbar-inner">
+            <a class="dash-brand" href="dashboard.html">
+                <span class="dash-brand-mark">C</span>
+                <span><strong>ConicTypst</strong><small>BBT Live</small></span>
+            </a>
+            <div></div>
+            <nav class="dash-nav">
+                <a href="dashboard.html">Dashboard</a>
+                <a href="index.html#bbtv2">HDSD BBT</a>
+                <a href="index.html">HDSD</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="tool-page">
+        <a class="back-link" href="dashboard.html"><i data-lucide="arrow-left"></i> Về Dashboard</a>
+
+        <div class="tool-header">
+            <h1><i data-lucide="layout-grid"
+                    style="width:1.2em;height:1.2em;vertical-align:middle;margin-right:6px;"></i>Bảng Biến Thiên Live
+            </h1>
+            <p>Nhập dấu và giá trị → sinh mã <code>#bbtv2(...)</code> Typst ngay lập tức. Tương đương TikZTableGenerator
+                của STEXGV nhưng dùng CeTZ Typst-native.</p>
+        </div>
+
+        <!-- Examples -->
+        <div class="example-strip">
+            <span style="font-size:0.83rem;font-weight:600;color:var(--muted);align-self:center;">Ví dụ nhanh:</span>
+            <button class="example-btn" onclick="loadExample('bac3')">Bậc 3 (1 cực trị)</button>
+            <button class="example-btn" onclick="loadExample('bac4')">Bậc 4 (2 cực trị)</button>
+            <button class="example-btn" onclick="loadExample('hyperbola')">Hyperbola (tiệm cận)</button>
+            <button class="example-btn" onclick="loadExample('sqrt')">Căn bậc 2</button>
+            <button class="example-btn" onclick="loadExample('tang')">Đơn điệu tăng</button>
+        </div>
+
+        <div class="tool-layout">
+            <!-- LEFT: Form -->
+            <div style="display:flex;flex-direction:column;gap:16px;">
+                <div class="panel">
+                    <div class="panel-head"><i data-lucide="sliders"></i> Cấu hình BBT</div>
+                    <div class="panel-body">
+                        <!-- Basic settings -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Biến (var)</label>
+                                <input class="form-input" id="varName" value="x" style="width:80px" placeholder="x"
+                                    oninput="generate()" />
+                            </div>
+                            <div class="form-group">
+                                <label>Nhãn y′ (der)</label>
+                                <input class="form-input" id="derName" value="y'" style="width:80px" placeholder="y'"
+                                    oninput="generate()" />
+                            </div>
+                            <div class="form-group">
+                                <label>Nhãn hàm (func)</label>
+                                <input class="form-input" id="funcName" value="y" style="width:80px" placeholder="y"
+                                    oninput="generate()" />
+                            </div>
+                            <div class="form-group">
+                                <label>Số cực trị</label>
+                                <input class="form-input" type="number" id="numPoints" value="1" min="0" max="8"
+                                    style="width:80px" onchange="rebuildTable()" />
+                            </div>
+                        </div>
+
+                        <hr class="section-divider" />
+
+                        <!-- BBT Visual table -->
+                        <div class="help-tip">
+                            Điền <strong>x</strong>, <strong>dấu y′</strong>, và <strong>giá trị y</strong>. Dùng:
+                            <code>+oo</code> = +∞, <code>-oo</code> = -∞, <code>0</code> = 0.
+                            <br>Ký hiệu đặc biệt: <code>||</code> = bất liên tục/gián đoạn, <code>0</code> = điểm cực
+                            trị.
+                        </div>
+                        <div id="bbtFormContainer"></div>
+
+                        <hr class="section-divider" />
+
+                        <!-- Shade options -->
+                        <div class="form-group" style="margin-bottom:8px;">
+                            <label>Vùng gạch chéo (tiệm cận / không xác định)</label>
+                            <div class="help-tip" style="margin-top:4px;">
+                                Nhập cặp index cột (từ 0), vd: <code>1,2</code> để gạch từ cột 1 đến cột 2.
+                                Cột 0 = x[0] (-∞), cột 1 = x[1], v.v.
+                            </div>
+                            <div id="shadeItems" class="shade-row" style="margin-bottom:8px;"></div>
+                            <div style="display:flex;gap:6px;align-items:center;">
+                                <input class="form-input" type="text" id="shadeInput" placeholder="vd: 1,2"
+                                    style="width:120px" />
+                                <button class="btn btn-secondary btn-sm" onclick="addShade()"><i data-lucide="plus"></i>
+                                    Thêm vùng</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preview table -->
+                <div class="panel">
+                    <div class="panel-head">
+                        <span class="live-indicator"></span> Preview BBT
+                    </div>
+                    <div class="panel-body">
+                        <div id="bbtPreview" class="bbt-visual">
+                            <p style="color:var(--muted);font-size:0.88rem;">BBT sẽ hiển thị ở đây...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT: Output code -->
+            <div style="display:flex;flex-direction:column;gap:16px;">
+                <div class="panel">
+                    <div class="panel-head"><i data-lucide="code-2"></i> Mã Typst sinh ra</div>
+                    <div class="panel-body">
+                        <textarea id="codeOutput" readonly></textarea>
+                        <div class="btn-row">
+                            <button class="btn btn-primary" onclick="copyCode()"><i data-lucide="copy"></i> Copy
+                                code</button>
+                            <button class="btn btn-secondary" onclick="copyFull()"><i data-lucide="file-code"></i> Copy
+                                file đầy đủ</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-head"><i data-lucide="book-open"></i> Tham chiếu macro bbtv2</div>
+                    <div class="panel-body" style="font-size:0.83rem;line-height:1.8;">
+                        <strong>Signature:</strong>
+                        <pre
+                            style="background:#f1f5f9;padding:10px;border-radius:6px;font-size:0.78rem;overflow-x:auto;margin:6px 0;">#bbtv2(
+  var: $x$,         // biến số
+  der: $y'$,        // nhãn đạo hàm
+  func: $y$,        // nhãn hàm số
+  x-vals: (),       // mảng x (gồm cả -∞, +∞)
+  d-signs: (),      // dấu: 2n-3 phần tử
+  v-vals: (),       // giá trị y tại mỗi x-val
+  shade: (),        // vùng gạch chéo: ((i,j),)
+)</pre>
+                        <strong>d-signs — quy tắc dài 2n-3:</strong><br>
+                        Với n x-vals: [khoảng₀, tại_x₁, khoảng₁, tại_x₂, ..., khoảng_{n-2}]<br><br>
+                        <strong>v-vals — giá trị tại mỗi x-val:</strong><br>
+                        • Đơn: <code>$3$</code> hoặc <code>$+oo$</code><br>
+                        • Nhảy (tiệm cận): <code>($+oo$, $-oo$)</code> — giá trị trái, phải<br><br>
+                        <strong>shade:</strong> <code>((1, 2),)</code> — gạch chéo từ cột 1 đến cột 2
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // ── State ──────────────────────────────────────────────
+        let state = {
+            numPoints: 1,  // số điểm cực trị (interior points)
+            xVals: [],     // x values for all points including -∞ and +∞
+            dSigns: [],    // derivative signs
+            yVals: [],     // y values (single or jump)
+            isJump: [],    // whether each y-val is a jump
+            yValsLeft: [], // left y values for jumps
+            yValsRight: [], // right y values for jumps
+            shades: [],    // shade pairs
+        }
+
+        function initState(n) {
+            state.numPoints = n
+            const total = n + 2  // interior + 2 boundaries
+            state.xVals = Array(total).fill('').map((_, i) => {
+                if (i === 0) return '-oo'
+                if (i === total - 1) return '+oo'
+                return String(i)  // placeholder
+            })
+            state.dSigns = Array(2 * n + 1).fill('+') // 2n+1 for interior+interval signs = 2*total-3
+            state.yVals = Array(total).fill('')
+            state.yVals[0] = '-oo'
+            state.yVals[total - 1] = '+oo'
+            state.isJump = Array(total).fill(false)
+            state.yValsLeft = Array(total).fill('')
+            state.yValsRight = Array(total).fill('')
+        }
+
+        function rebuildTable() {
+            const n = parseInt(document.getElementById('numPoints').value) || 0
+            if (n !== state.numPoints) {
+                initState(n)
+                state.shades = []
+                document.getElementById('shadeItems').innerHTML = ''
+            }
+            renderForm()
+            generate()
+        }
+
+        // ── Render Form ───────────────────────────────────────
+        function renderForm() {
+            const n = state.numPoints
+            const total = n + 2
+            const container = document.getElementById('bbtFormContainer')
+
+            let html = `<div style="overflow-x:auto;">`
+            html += `<table style="border-collapse:collapse;width:100%;min-width:400px;">`
+
+            // Header row with x values
+            html += `<tr>`
+            html += `<td style="padding:6px 12px;font-weight:600;background:#f8fafc;border:1px solid var(--line);">x</td>`
+            for (let i = 0; i < total; i++) {
+                html += `<td style="border:1px solid var(--line);padding:4px;">`
+                html += `<input class="form-input" style="width:80px;text-align:center;" id="xval_${i}" value="${state.xVals[i]}" placeholder="${i === 0 ? '-oo' : i === total - 1 ? '+oo' : 'x' + i}" oninput="onXChange(${i})" />`
+                html += `</td>`
+                if (i < total - 1) {
+                    // Interval column
+                    html += `<td style="border:1px solid var(--line);padding:4px;background:#fafafa;min-width:50px;"></td>`
+                }
+            }
+            html += `</tr>`
+
+            // Derivative row
+            html += `<tr>`
+            html += `<td style="padding:6px 12px;font-weight:600;background:#f8fafc;border:1px solid var(--line);">y′</td>`
+            const dLen = 2 * n + 1  // for total = n+2, d-signs length = 2*(n+2)-3 = 2n+1
+            let dIdx = 0
+            for (let i = 0; i < total; i++) {
+                html += `<td style="border:1px solid var(--line);padding:4px;text-align:center;">`
+                if (i === 0 || i === total - 1) {
+                    html += `<span style="color:var(--muted)">—</span>`
+                } else {
+                    // Sign at x[i] (interior point)
+                    html += `<select id="dsign_at_${i}" onchange="onDSignChange()" style="border:none;cursor:pointer;font-size:0.95rem;width:60px;text-align:center;">`
+                    html += `<option value="0" ${state.dSigns[dIdx * 2 - 1] === '0' ? 'selected' : ''}>0</option>`
+                    html += `<option value="||" ${state.dSigns[dIdx * 2 - 1] === '||' ? 'selected' : ''}>&Vert;</option>`
+                    html += `<option value="" ${state.dSigns[dIdx * 2 - 1] === '' ? 'selected' : ''}>—</option>`
+                    html += `</select>`
+                }
+                html += `</td>`
+                if (i < total - 1) {
+                    // Sign in interval
+                    const signIdx = i === 0 ? 0 : dIdx * 2
+                    html += `<td style="border:1px solid var(--line);padding:4px;background:#fafafa;">`
+                    html += `<select id="dsign_interval_${i}" onchange="onDSignChange()" style="border:none;cursor:pointer;font-size:1rem;width:50px;text-align:center;">`
+                    html += `<option value="+" ${(i === 0 ? state.dSigns[0] : state.dSigns[dIdx * 2]) === '+' ? 'selected' : ''}>+</option>`
+                    html += `<option value="-" ${(i === 0 ? state.dSigns[0] : state.dSigns[dIdx * 2]) === '-' ? 'selected' : ''}>−</option>`
+                    html += `<option value="" ${(i === 0 ? state.dSigns[0] : state.dSigns[dIdx * 2]) === '' ? 'selected' : ''}>—</option>`
+                    html += `</select>`
+                    html += `</td>`
+                    if (i > 0) dIdx++
+                }
+            }
+            html += `</tr>`
+
+            // Y row
+            html += `<tr>`
+            html += `<td style="padding:6px 12px;font-weight:600;background:#f8fafc;border:1px solid var(--line);">y</td>`
+            for (let i = 0; i < total; i++) {
+                html += `<td style="border:1px solid var(--line);padding:4px;vertical-align:middle;">`
+                if (state.isJump[i]) {
+                    html += `<div style="display:flex;flex-direction:column;gap:2px;">`
+                    html += `<input class="form-input" style="width:70px;font-size:0.8rem;" id="yleft_${i}" value="${state.yValsLeft[i]}" placeholder="trái" oninput="onYChange(${i})" />`
+                    html += `<input class="form-input" style="width:70px;font-size:0.8rem;" id="yright_${i}" value="${state.yValsRight[i]}" placeholder="phải" oninput="onYChange(${i})" />`
+                    html += `<button class="btn btn-danger btn-sm" onclick="toggleJump(${i})" title="Bỏ nhảy">×</button>`
+                    html += `</div>`
+                } else {
+                    html += `<div style="display:flex;gap:3px;align-items:center;">`
+                    html += `<input class="form-input" style="width:70px;" id="yval_${i}" value="${state.yVals[i]}" placeholder="y${i}" oninput="onYChange(${i})" />`
+                    if (i > 0 && i < total - 1) {
+                        html += `<button class="btn btn-secondary btn-sm" onclick="toggleJump(${i})" title="Gián đoạn/Tiệm cận">⇕</button>`
+                    }
+                    html += `</div>`
+                }
+                html += `</td>`
+                if (i < total - 1) {
+                    html += `<td style="border:1px solid var(--line);padding:4px;background:#fafafa;text-align:center;">`
+                    // show arrow direction based on signs
+                    html += `<span id="arrow_${i}" style="font-size:1.2rem;">→</span>`
+                    html += `</td>`
+                }
+            }
+            html += `</tr>`
+            html += `</table></div>`
+
+            container.innerHTML = html
+            updateArrows()
+        }
+
+        function updateArrows() {
+            const n = state.numPoints
+            const total = n + 2
+            const signs = getDSignsArray()
+
+            for (let i = 0; i < total - 1; i++) {
+                const intervalSign = signs[i === 0 ? 0 : i * 2]
+                const el = document.getElementById(`arrow_${i}`)
+                if (!el) continue
+                if (intervalSign === '+') el.innerHTML = '<span style="color:#16a34a;font-size:1.3rem">↗</span>'
+                else if (intervalSign === '-') el.innerHTML = '<span style="color:#dc2626;font-size:1.3rem">↘</span>'
+                else el.innerHTML = '<span style="color:#94a3b8;">→</span>'
+            }
+        }
+
+        function getDSignsArray() {
+            const n = state.numPoints
+            const total = n + 2
+            const signs = []
+            // Structure: interval0, at_x1, interval1, at_x2, ..., at_x_{n}, interval_{n}
+            // = 2n+1 elements for n interior points
+            for (let i = 0; i < total; i++) {
+                if (i < total - 1) {
+                    const el = document.getElementById(`dsign_interval_${i}`)
+                    signs.push(el ? el.value : '+')
+                }
+                if (i > 0 && i < total - 1) {
+                    const el = document.getElementById(`dsign_at_${i}`)
+                    signs.push(el ? el.value : '0')
+                }
+            }
+            return signs
+        }
+
+        function onXChange(i) {
+            state.xVals[i] = document.getElementById(`xval_${i}`).value
+            generate()
+        }
+
+        function onDSignChange() {
+            updateArrows()
+            generate()
+        }
+
+        function onYChange(i) {
+            if (state.isJump[i]) {
+                state.yValsLeft[i] = document.getElementById(`yleft_${i}`)?.value || ''
+                state.yValsRight[i] = document.getElementById(`yright_${i}`)?.value || ''
+            } else {
+                state.yVals[i] = document.getElementById(`yval_${i}`)?.value || ''
+            }
+            generate()
+        }
+
+        function toggleJump(i) {
+            state.isJump[i] = !state.isJump[i]
+            if (state.isJump[i]) {
+                state.yValsLeft[i] = state.yVals[i]
+                state.yValsRight[i] = ''
+            }
+            renderForm()
+            generate()
+        }
+
+        // ── Generate Typst code ───────────────────────────────
+        function generate() {
+            const varName = document.getElementById('varName').value || 'x'
+            const derName = document.getElementById('derName').value || "y'"
+            const funcName = document.getElementById('funcName').value || 'y'
+            const n = state.numPoints
+            const total = n + 2
+
+            // Collect current values from DOM
+            const xVals = []
+            for (let i = 0; i < total; i++) {
+                xVals.push(document.getElementById(`xval_${i}`)?.value || state.xVals[i])
+            }
+
+            const dSigns = getDSignsArray()
+
+            const yVals = []
+            for (let i = 0; i < total; i++) {
+                if (state.isJump[i]) {
+                    const l = document.getElementById(`yleft_${i}`)?.value || ''
+                    const r = document.getElementById(`yright_${i}`)?.value || ''
+                    yVals.push({ type: 'jump', left: l, right: r })
+                } else {
+                    const v = document.getElementById(`yval_${i}`)?.value || state.yVals[i]
+                    yVals.push({ type: 'single', val: v })
+                }
+            }
+
+            // Build Typst code
+            const typstXVals = xVals.map(x => formatTypstVal(x))
+            const typstDSigns = dSigns.map(s => formatSign(s))
+            const typstYVals = yVals.map(y => {
+                if (y.type === 'jump') return `(${formatTypstVal(y.left)}, ${formatTypstVal(y.right)})`
+                return formatTypstVal(y.val)
+            })
+
+            const shadeCode = state.shades.length > 0
+                ? `\n  shade: (${state.shades.map(([a, b]) => `(${a}, ${b})`).join(', ')},),`
+                : ''
+
+            const code = `#bbtv2(
+  var: $${varName}$, der: $${derName}$, func: $${funcName}$,
+  x-vals: (${typstXVals.join(', ')}),
+  d-signs: (${typstDSigns.join(', ')}),
+  v-vals: (${typstYVals.join(', ')}),${shadeCode}
+)`
+
+            document.getElementById('codeOutput').value = code
+            renderPreview(xVals, dSigns, yVals, varName, derName, funcName)
+        }
+
+        function formatTypstVal(v) {
+            if (!v || v === '') return '$" "$'
+            v = v.trim()
+            if (v.startsWith('$')) return v
+            if (v === '+oo') return '$+oo$'
+            if (v === '-oo') return '$-oo$'
+            if (v === '||') return '$"||"$'
+            if (v === '0' || /^-?\d+(\.\d+)?$/.test(v)) return `$${v}$`
+            return `$${v}$`
+        }
+
+        function formatSign(s) {
+            if (s === '+') return '$+$'
+            if (s === '-') return '$-$'
+            if (s === '0') return '$0$'
+            if (s === '||') return '$"||"$'
+            if (s === '') return '$" "$'
+            return `$${s}$`
+        }
+
+        function renderPreview(xVals, dSigns, yVals, varName, derName, funcName) {
+            const n = state.numPoints
+            const total = n + 2
+            const prev = document.getElementById('bbtPreview')
+
+            let html = `<table class="bbt-table">`
+            // X row
+            html += `<tr><td class="row-label">${varName}</td>`
+            for (let i = 0; i < total; i++) {
+                html += `<td class="x-cell">${displayVal(xVals[i])}</td>`
+                if (i < total - 1) html += `<td class="interval-cell"></td>`
+            }
+            html += `</tr>`
+
+            // y' row
+            html += `<tr><td class="row-label">${derName}</td>`
+            let dIdx = 0
+            for (let i = 0; i < total; i++) {
+                html += `<td class="x-cell" style="text-align:center;">`
+                if (i === 0 || i === total - 1) html += `<span style="color:#ccc">—</span>`
+                else html += signHtml(dSigns[dIdx * 2 - 1])
+                html += `</td>`
+                if (i < total - 1) {
+                    const intervalSign = dSigns[i === 0 ? 0 : dIdx * 2]
+                    html += `<td class="interval-cell">${signHtml(intervalSign)}</td>`
+                    if (i > 0) dIdx++
+                }
+            }
+            html += `</tr>`
+
+            // y row with arrows
+            html += `<tr><td class="row-label">${funcName}</td>`
+            for (let i = 0; i < total; i++) {
+                const y = yVals[i]
+                html += `<td class="y-cell">`
+                if (y.type === 'jump') {
+                    html += `<div class="y-cell-inner"><span class="y-tip">${displayVal(y.left)}</span><span>|</span><span class="y-tip">${displayVal(y.right)}</span></div>`
+                } else {
+                    html += `<div class="y-cell-inner"><span>${displayVal(y.val)}</span></div>`
+                }
+                html += `</td>`
+                if (i < total - 1) {
+                    const dSign = dSigns[i === 0 ? 0 : (dIdx - 1) * 2] || ''
+                    const arrowStr = dSign === '+' ? '↗' : dSign === '-' ? '↘' : '→'
+                    const arrowColor = dSign === '+' ? '#16a34a' : dSign === '-' ? '#dc2626' : '#ccc'
+                    html += `<td class="interval-cell" style="font-size:1.3rem;color:${arrowColor};">${arrowStr}</td>`
+                }
+            }
+            html += `</tr>`
+
+            html += `</table>`
+            prev.innerHTML = html
+        }
+
+        function signHtml(s) {
+            if (s === '+') return `<span class="sign-plus">+</span>`
+            if (s === '-') return `<span class="sign-minus">−</span>`
+            if (s === '0') return `<span class="sign-zero">0</span>`
+            if (s === '||') return `<span style="color:#7c3aed;font-weight:700;">||</span>`
+            return `<span style="color:#ccc">—</span>`
+        }
+
+        function displayVal(v) {
+            if (!v) return '·'
+            if (v === '+oo' || v === '+∞') return '+∞'
+            if (v === '-oo' || v === '-∞') return '−∞'
+            if (v === '||') return '||'
+            // Simple math display
+            return v.replace(/\^(\w+)/g, '<sup>$1</sup>').replace(/frac\((.+?),(.+?)\)/g, '$1/$2')
+        }
+
+        // ── Shade management ──────────────────────────────────
+        function addShade() {
+            const input = document.getElementById('shadeInput').value.trim()
+            const match = input.match(/^(\d+)\s*,\s*(\d+)$/)
+            if (!match) { alert('Nhập dạng: i,j (ví dụ: 1,2)'); return }
+            const [_, a, b] = match
+            state.shades.push([parseInt(a), parseInt(b)])
+            document.getElementById('shadeInput').value = ''
+            renderShadeItems()
+            generate()
+        }
+
+        function removeShade(i) {
+            state.shades.splice(i, 1)
+            renderShadeItems()
+            generate()
+        }
+
+        function renderShadeItems() {
+            document.getElementById('shadeItems').innerHTML = state.shades.map((s, i) =>
+                `<span class="shade-item">Cột ${s[0]}→${s[1]} <button onclick="removeShade(${i})" style="border:none;background:none;cursor:pointer;color:#dc2626;font-size:1rem;">×</button></span>`
+            ).join('')
+        }
+
+        // ── Copy ──────────────────────────────────────────────
+        async function copyCode() {
+            const code = document.getElementById('codeOutput').value
+            await navigator.clipboard.writeText(code)
+            alert('✓ Đã copy mã #bbtv2!')
+        }
+
+        async function copyFull() {
+            const code = document.getElementById('codeOutput').value
+            const full = `#import "@preview/cetz:0.5.2": canvas, draw
+#import "bbt.typ": bbtv2
+
+// Kết quả BBT
+#align(center)[${code}]`
+            await navigator.clipboard.writeText(full)
+            alert('✓ Đã copy file Typst đầy đủ!')
+        }
+
+        // ── Examples ──────────────────────────────────────────
+        const EXAMPLES = {
+            bac3: {
+                numPoints: 1, var: 'x', der: "y'", func: 'y',
+                xVals: ['-oo', '-1', '+oo'],
+                dSigns: ['+', '0', '-'],
+                yVals: ['-oo', '3', '-oo'],
+                isJump: [false, false, false],
+                shades: []
+            },
+            bac4: {
+                numPoints: 2, var: 'x', der: "y'", func: 'y',
+                xVals: ['-oo', '-1', '1', '+oo'],
+                dSigns: ['-', '0', '+', '0', '-'],
+                yVals: ['+oo', '-2', '2', '-oo'],
+                isJump: [false, false, false, false],
+                shades: []
+            },
+            hyperbola: {
+                numPoints: 2, var: 'x', der: "y'", func: 'y',
+                xVals: ['-oo', '0', '1', '+oo'],
+                dSigns: ['+', '||', '', '||', '+'],
+                yVals: ['-oo', ['+oo', '-oo'], ['+oo', '-oo'], '+oo'],
+                isJump: [false, true, true, false],
+                yValsLeft: ['', '+oo', '+oo', ''],
+                yValsRight: ['', '-oo', '-oo', ''],
+                shades: [[1, 2]]
+            },
+            sqrt: {
+                numPoints: 1, var: 'x', der: "y'", func: 'y',
+                xVals: ['-oo', '0', '+oo'],
+                dSigns: ['||', '||', '+'],
+                yVals: ['+oo', '0', '+oo'],
+                isJump: [false, false, false],
+                shades: []
+            },
+            tang: {
+                numPoints: 0, var: 'x', der: "y'", func: 'y',
+                xVals: ['-oo', '+oo'],
+                dSigns: ['+'],
+                yVals: ['-oo', '+oo'],
+                isJump: [false, false],
+                shades: []
+            }
+        }
+
+        function loadExample(key) {
+            const ex = EXAMPLES[key]
+            if (!ex) return
+
+            state.numPoints = ex.numPoints
+            state.xVals = [...ex.xVals]
+            state.yVals = ex.yVals.map(v => Array.isArray(v) ? '' : v)
+            state.isJump = [...(ex.isJump || ex.xVals.map(() => false))]
+            state.yValsLeft = ex.xVals.map((_, i) => Array.isArray(ex.yVals[i]) ? ex.yVals[i][0] : (ex.yValsLeft?.[i] || ''))
+            state.yValsRight = ex.xVals.map((_, i) => Array.isArray(ex.yVals[i]) ? ex.yVals[i][1] : (ex.yValsRight?.[i] || ''))
+            state.shades = [...(ex.shades || [])]
+
+            document.getElementById('numPoints').value = ex.numPoints
+            document.getElementById('varName').value = ex.var
+            document.getElementById('derName').value = ex.der
+            document.getElementById('funcName').value = ex.func
+
+            renderForm()
+            renderShadeItems()
+
+            // Restore signs after form render
+            setTimeout(() => {
+                const total = ex.numPoints + 2
+                const dLen = 2 * ex.numPoints + 1
+
+                let dIdx = 0
+                for (let i = 0; i < total; i++) {
+                    if (i < total - 1) {
+                        const signIdx = i === 0 ? 0 : dIdx * 2
+                        const el = document.getElementById(`dsign_interval_${i}`)
+                        if (el) el.value = ex.dSigns[signIdx] || '+'
+                    }
+                    if (i > 0 && i < total - 1) {
+                        const el = document.getElementById(`dsign_at_${i}`)
+                        if (el) el.value = ex.dSigns[dIdx * 2 - 1] || '0'
+                        dIdx++
+                    }
+                }
+
+                // Restore y values
+                for (let i = 0; i < total; i++) {
+                    if (state.isJump[i]) {
+                        const lEl = document.getElementById(`yleft_${i}`)
+                        const rEl = document.getElementById(`yright_${i}`)
+                        if (lEl) lEl.value = state.yValsLeft[i]
+                        if (rEl) rEl.value = state.yValsRight[i]
+                    } else {
+                        const el = document.getElementById(`yval_${i}`)
+                        if (el) el.value = state.yVals[i] || ex.yVals[i] || ''
+                    }
+                }
+
+                generate()
+            }, 50)
+        }
+
+        // ── Init ──────────────────────────────────────────────
+        document.addEventListener('DOMContentLoaded', () => {
+            window.lucide?.createIcons()
+            loadExample('bac3')
+        })
+    </script>
+</body>
+
+</html>

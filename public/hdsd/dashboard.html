@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ConicTypst Dashboard — Tool Hub Typst</title>
+  <title>ConicTypst Hub — Unified Dashboard</title>
   <meta name="description" content="Tool Hub cho ConicTypst: soạn đề, trộn đề, ngân hàng câu hỏi, CeTZ, BBT, OCR, linter, beamer và admin bank." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -11,11 +12,200 @@
   <link rel="stylesheet" href="dashboard.css" />
   <script defer src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
   <script defer src="dashboard.js"></script>
+  <style>
+    body {
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .dash-wrapper {
+      display: flex;
+      flex: 1;
+      height: calc(100vh - 68px);
+      overflow: hidden;
+    }
+
+    .dash-sidebar {
+      width: 250px;
+      background: #0f172a;
+      border-right: 1px solid #1e293b;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      flex-shrink: 0;
+      padding: 16px 0;
+    }
+
+    .sidebar-group {
+      margin-bottom: 20px;
+    }
+
+    .sidebar-group-title {
+      padding: 0 20px 6px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #475569;
+    }
+
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 20px;
+      color: #94a3b8;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .sidebar-item i,
+    .sidebar-item svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    .sidebar-item:hover {
+      background: #1e293b;
+      color: #fff;
+    }
+
+    .sidebar-item.active {
+      background: #0ea5e9;
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .dash-content {
+      flex: 1;
+      overflow-y: auto;
+      background: var(--bg);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .view-panel {
+      height: 100%;
+      width: 100%;
+    }
+
+    #view-home {
+      padding: 24px;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .dash-main {
+      padding: 0 !important;
+      margin: 0 !important;
+      max-width: none !important;
+      width: 100%;
+    }
+
+    #view-iframe {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      background: #fff;
+    }
+
+    .iframe-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 20px;
+      background: #fff;
+      border-bottom: 1px solid #e2e8f0;
+      flex-shrink: 0;
+    }
+
+    #iframe-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-back-home {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: 1px solid #cbd5e1;
+      background: #fff;
+      color: #334155;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .btn-back-home:hover {
+      background: #f1f5f9;
+      border-color: #94a3b8;
+    }
+
+    .tab-iframe {
+      width: 100%;
+      flex: 1;
+      border: none;
+      background: #fff;
+    }
+
+    @media (max-width: 768px) {
+      .dash-wrapper {
+        flex-direction: column;
+        height: auto;
+        overflow: visible;
+      }
+
+      .dash-sidebar {
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid #1e293b;
+        flex-direction: row;
+        overflow-x: auto;
+        padding: 10px;
+        gap: 8px;
+      }
+
+      .sidebar-group {
+        margin-bottom: 0;
+        display: flex;
+        gap: 6px;
+      }
+
+      .sidebar-group-title {
+        display: none;
+      }
+
+      .sidebar-item {
+        padding: 6px 12px;
+        border-radius: 4px;
+        white-space: nowrap;
+      }
+
+      .tab-iframe {
+        height: calc(100vh - 180px);
+      }
+    }
+  </style>
 </head>
+
 <body>
   <header class="dash-topbar">
     <div class="dash-topbar-inner">
-      <a class="dash-brand" href="dashboard.html" aria-label="ConicTypst Dashboard">
+      <a class="dash-brand" href="dashboard.html" aria-label="ConicTypst Dashboard" onclick="event.preventDefault(); showTab('home')">
         <span class="dash-brand-mark">C</span>
         <span>
           <strong>ConicTypst</strong>
@@ -29,87 +219,275 @@
       </label>
 
       <nav class="dash-nav" aria-label="Liên kết nhanh">
-        <a href="#quick-actions">Nhanh</a>
-        <a href="#explore">Khám phá</a>
-        <a href="#all-tools">Công cụ</a>
-        <a href="#admin-panel">Admin</a>
-        <a href="index.html">HDSD</a>
+        <a href="#" onclick="event.preventDefault(); showTab('home')">Bảng điều khiển</a>
+        <a href="#" onclick="event.preventDefault(); showTab('hdsd', 'index.html')">HDSD</a>
       </nav>
     </div>
   </header>
 
-  <main class="dash-main">
-    <section class="welcome-band" aria-labelledby="welcomeTitle">
-      <div>
-        <p class="eyebrow">Tool Hub Typst</p>
-        <h1 id="welcomeTitle"><span id="greetingText">Chào bạn</span>, ConicTypst</h1>
-        <p>Phiên bản Typst của tinh thần STEXGV: soạn đề, trộn đề, quản lý ngân hàng câu hỏi, Live BBT, CeTZ, OCR, linter và kho học liệu.</p>
+  <div class="dash-wrapper">
+    <!-- Sidebar Left -->
+    <aside class="dash-sidebar">
+      <div class="sidebar-group">
+        <div class="sidebar-group-title">Hệ Thống</div>
+        <a class="sidebar-item active" onclick="showTab('home')" id="side-home">
+          <i data-lucide="layout-dashboard"></i> Bảng điều khiển
+        </a>
+        <a class="sidebar-item" onclick="showTab('hdsd', 'index.html')" id="side-hdsd">
+          <i data-lucide="book-open"></i> Hướng dẫn sử dụng
+        </a>
       </div>
-      <div class="welcome-stats" aria-label="Thống kê STEXGV import">
-        <span><strong>1.553</strong> câu import</span>
-        <span><strong>22</strong> slot THPT</span>
-        <span><strong>743</strong> ready</span>
-      </div>
-    </section>
 
-    <section class="dash-section" id="quick-actions" aria-labelledby="quickActionsTitle">
-      <div class="section-title-row">
-        <h2 id="quickActionsTitle"><i data-lucide="zap"></i> Thao tác nhanh</h2>
+      <div class="sidebar-group">
+        <div class="sidebar-group-title">Soạn & Trộn đề</div>
+        <a class="sidebar-item" onclick="showTab('ngan-hang', 'ngan-hang.html')" id="side-ngan-hang">
+          <i data-lucide="database"></i> Ngân hàng câu hỏi
+        </a>
+        <a class="sidebar-item" onclick="showTab('tron-de', 'tron-de.html')" id="side-tron-de">
+          <i data-lucide="shuffle"></i> Trộn đề thi
+        </a>
+        <a class="sidebar-item" onclick="showTab('ai-tao-de', 'ai-tao-de.html?tab=gen')" id="side-ai-tao-de">
+          <i data-lucide="sparkles"></i> AI Sinh đề tự chọn
+        </a>
+        <a class="sidebar-item" onclick="showTab('ai-tao-de-pro', 'ai-tao-de.html?tab=pro')" id="side-ai-tao-de-pro">
+          <i data-lucide="award"></i> VDC tốt nghiệp THPT
+        </a>
       </div>
-      <div class="quick-grid" id="quickActionsGrid"></div>
-    </section>
 
-    <section class="dash-section" id="explore" aria-labelledby="exploreTitle">
-      <div class="section-title-row">
-        <h2 id="exploreTitle"><i data-lucide="globe-2"></i> Khám phá</h2>
+      <div class="sidebar-group">
+        <div class="sidebar-group-title">Vẽ hình & Đồ thị</div>
+        <a class="sidebar-item" onclick="showTab('cetz-ve', 'cetz-ve.html')" id="side-cetz-ve">
+          <i data-lucide="wrench"></i> Bảng vẽ CeTZ
+        </a>
+        <a class="sidebar-item" onclick="showTab('bbt-live', 'bbt-live.html')" id="side-bbt-live">
+          <i data-lucide="grid-3x3"></i> Bảng biến thiên Live
+        </a>
       </div>
-      <div class="explore-grid" id="exploreGrid"></div>
-    </section>
 
-    <section class="dash-section" id="all-tools" aria-labelledby="allToolsTitle">
-      <div class="section-title-row">
-        <h2 id="allToolsTitle"><i data-lucide="briefcase"></i> Tất cả công cụ</h2>
-        <span id="resultCount">Đang nạp công cụ</span>
+      <div class="sidebar-group">
+        <div class="sidebar-group-title">AI & Trợ lý khác</div>
+        <a class="sidebar-item" onclick="showTab('ocr', 'ocr-typst.html')" id="side-ocr">
+          <i data-lucide="camera"></i> OCR -> Typst
+        </a>
+        <a class="sidebar-item" onclick="showTab('linter', 'typst-linter.html')" id="side-linter">
+          <i data-lucide="badge-check"></i> Kiểm lỗi Typst
+        </a>
+        <a class="sidebar-item" onclick="showTab('beamer', 'beamer-converter.html')" id="side-beamer">
+          <i data-lucide="presentation"></i> Beamer Converter
+        </a>
+        <a class="sidebar-item" onclick="showTab('ai-tro-ly', 'ai-tro-ly.html')" id="side-ai-tro-ly">
+          <i data-lucide="bot"></i> Trợ lý Typst AI
+        </a>
+        <a class="sidebar-item" onclick="showTab('ai-tuong-tu', 'ai-tuong-tu.html')" id="side-ai-tuong-tu">
+          <i data-lucide="cpu"></i> Sinh bài tương tự
+        </a>
       </div>
-      <div class="tool-grid" id="allToolsGrid"></div>
-    </section>
+    </aside>
 
-    <section class="admin-panel" id="admin-panel" aria-labelledby="adminTitle">
-      <div class="admin-head">
-        <div>
-          <span class="admin-icon"><i data-lucide="settings"></i></span>
-          <h2 id="adminTitle">Admin Panel</h2>
+    <!-- Main Content Area -->
+    <main class="dash-content">
+      <!-- Tab Home (original dashboard content) -->
+      <div id="view-home" class="view-panel">
+        <section class="welcome-band" aria-labelledby="welcomeTitle">
+          <div>
+            <p class="eyebrow">Tool Hub Typst</p>
+            <h1 id="welcomeTitle"><span id="greetingText">Chào bạn</span>, ConicTypst</h1>
+            <p>Phiên bản Typst của tinh thần STEXGV: soạn đề, trộn đề, quản lý ngân hàng câu hỏi, Live BBT, CeTZ, OCR, linter và kho học liệu.</p>
+          </div>
+          <div class="welcome-stats" aria-label="Thống kê STEXGV import">
+            <span><strong>1.553</strong> câu import</span>
+            <span><strong>22</strong> slot THPT</span>
+            <span><strong>743</strong> ready</span>
+          </div>
+        </section>
+
+        <section class="dash-section" id="quick-actions" aria-labelledby="quickActionsTitle">
+          <div class="section-title-row">
+            <h2 id="quickActionsTitle"><i data-lucide="zap"></i> Thao tác nhanh</h2>
+          </div>
+          <div class="quick-grid" id="quickActionsGrid"></div>
+        </section>
+
+        <section class="dash-section" id="explore" aria-labelledby="exploreTitle">
+          <div class="section-title-row">
+            <h2 id="exploreTitle"><i data-lucide="globe-2"></i> Khám phá</h2>
+          </div>
+          <div class="explore-grid" id="exploreGrid"></div>
+        </section>
+
+        <section class="dash-section" id="all-tools" aria-labelledby="allToolsTitle">
+          <div class="section-title-row">
+            <h2 id="allToolsTitle"><i data-lucide="briefcase"></i> Tất cả công cụ</h2>
+            <span id="resultCount">Đang nạp công cụ</span>
+          </div>
+          <div class="tool-grid" id="allToolsGrid"></div>
+        </section>
+
+        <section class="admin-panel" id="admin-panel" aria-labelledby="adminTitle">
+          <div class="admin-head">
+            <div>
+              <span class="admin-icon"><i data-lucide="settings"></i></span>
+              <h2 id="adminTitle">Admin Panel</h2>
+            </div>
+            <a class="admin-cta" href="ngan-hang.html">
+              <i data-lucide="brain"></i>
+              Mở Typst Bank Bridge
+            </a>
+          </div>
+          <div class="admin-grid" id="adminGrid"></div>
+        </section>
+
+        <section class="system-panel" aria-labelledby="systemTitle">
+          <div class="system-copy">
+            <p class="eyebrow">Pipeline đang chạy được</p>
+            <h2 id="systemTitle">Trộn đề kiểu STEXGV, nhưng đầu ra là Typst</h2>
+            <p>Bridge hiện đọc kho <code>ThptExamBuilder/banks</code>, gọi <code>generateLatex(seed)</code>, phân tích <code>\choice</code>, <code>\choiceTF</code>, <code>\shortans</code>, <code>\loigiai</code>, rồi sinh registry Typst dùng với <code>#build-exam-plan</code>.</p>
+          </div>
+
+          <div class="command-stack" aria-label="Lệnh chạy nhanh">
+            <button class="command-row" type="button" data-copy="npm run stexgv:import">
+              <i data-lucide="copy"></i>
+              <code>npm run stexgv:import</code>
+            </button>
+            <button class="command-row" type="button" data-copy="npm run stexgv:mix -- --compile">
+              <i data-lucide="copy"></i>
+              <code>npm run stexgv:mix -- --compile</code>
+            </button>
+            <a class="open-doc" href="index.html">
+              <i data-lucide="arrow-right"></i>
+              Mở hướng dẫn trộn đề Typst
+            </a>
+          </div>
+        </section>
+      </div>
+
+      <!-- Tab IFrame -->
+      <div id="view-iframe" class="view-panel" style="display: none; flex-direction: column; height: 100%;">
+        <div class="iframe-header">
+          <span id="iframe-title">Học liệu</span>
+          <button class="btn-back-home" onclick="showTab('home')">
+            <i data-lucide="arrow-left"></i> Về Dashboard
+          </button>
         </div>
-        <a class="admin-cta" href="index.html#exam-mix-typst">
-          <i data-lucide="brain"></i>
-          Mở Typst Bank Bridge
-        </a>
+        <iframe id="tab-iframe" class="tab-iframe"></iframe>
       </div>
-      <div class="admin-grid" id="adminGrid"></div>
-    </section>
+    </main>
+  </div>
 
-    <section class="system-panel" aria-labelledby="systemTitle">
-      <div class="system-copy">
-        <p class="eyebrow">Pipeline đang chạy được</p>
-        <h2 id="systemTitle">Trộn đề kiểu STEXGV, nhưng đầu ra là Typst</h2>
-        <p>Bridge hiện đọc kho <code>ThptExamBuilder/banks</code>, gọi <code>generateLatex(seed)</code>, phân tích <code>\choice</code>, <code>\choiceTF</code>, <code>\shortans</code>, <code>\loigiai</code>, rồi sinh registry Typst dùng với <code>#build-exam-plan</code>.</p>
-      </div>
+  <script>
+    function showTab(tabId, url) {
+      if (tabId === 'home') {
+        window.location.hash = '';
+        document.getElementById('view-home').style.display = 'block';
+        document.getElementById('view-iframe').style.display = 'none';
+        document.getElementById('tab-iframe').src = '';
+      } else {
+        window.location.hash = tabId;
+        document.getElementById('view-home').style.display = 'none';
+        document.getElementById('view-iframe').style.display = 'flex';
+        if (url) {
+          document.getElementById('tab-iframe').src = url;
+        }
 
-      <div class="command-stack" aria-label="Lệnh chạy nhanh">
-        <button class="command-row" type="button" data-copy="npm run stexgv:import">
-          <i data-lucide="copy"></i>
-          <code>npm run stexgv:import</code>
-        </button>
-        <button class="command-row" type="button" data-copy="npm run stexgv:mix -- --compile">
-          <i data-lucide="copy"></i>
-          <code>npm run stexgv:mix -- --compile</code>
-        </button>
-        <a class="open-doc" href="index.html#exam-mix-typst">
-          <i data-lucide="arrow-right"></i>
-          Mở hướng dẫn trộn đề Typst
-        </a>
-      </div>
-    </section>
-  </main>
+        const nameMap = {
+          'hdsd': 'Hướng dẫn sử dụng ConicTypst',
+          'ngan-hang': 'Ngân hàng câu hỏi & Quản lý ID',
+          'tron-de': 'Trộn đề thi trắc nghiệm & tự luận',
+          'ai-tao-de': 'AI Sinh đề thi tự chọn',
+          'ai-tao-de-pro': 'AI Sinh câu hỏi Vận dụng cao THPT',
+          'cetz-ve': 'Bảng vẽ hình học CeTZ tương tác',
+          'bbt-live': 'Live Sinh Bảng Biến Thiên',
+          'ocr': 'OCR Trích xuất đề thi sang Typst',
+          'linter': 'Kiểm lỗi cú pháp & biên dịch Typst',
+          'beamer': 'Beamer Converter - Trình chiếu slide',
+          'ai-tro-ly': 'Trợ lý Lập trình & Định dạng Typst',
+          'ai-tuong-tu': 'AI Sinh câu hỏi tương tự',
+        };
+        document.getElementById('iframe-title').innerHTML = `<i data-lucide="external-link" style="width:16px;height:16px;color:#0ea5e9;"></i> ${nameMap[tabId] || 'Học liệu'}`;
+      }
+
+      document.querySelectorAll('.sidebar-item').forEach(item => {
+        item.classList.remove('active');
+      });
+      const activeItem = document.getElementById('side-' + tabId);
+      if (activeItem) {
+        activeItem.classList.add('active');
+      }
+      window.lucide?.createIcons();
+    }
+
+    function handleHash() {
+      const hash = window.location.hash.slice(1);
+      if (!hash) {
+        showTab('home');
+        return;
+      }
+
+      const item = document.getElementById('side-' + hash);
+      if (item) {
+        const urlMap = {
+          'hdsd': 'index.html',
+          'ngan-hang': 'ngan-hang.html',
+          'tron-de': 'tron-de.html',
+          'ai-tao-de': 'ai-tao-de.html?tab=gen',
+          'ai-tao-de-pro': 'ai-tao-de.html?tab=pro',
+          'cetz-ve': 'cetz-ve.html',
+          'bbt-live': 'bbt-live.html',
+          'ocr': 'ocr-typst.html',
+          'linter': 'typst-linter.html',
+          'beamer': 'beamer-converter.html',
+          'ai-tro-ly': 'ai-tro-ly.html',
+          'ai-tuong-tu': 'ai-tuong-tu.html'
+        };
+        showTab(hash, urlMap[hash]);
+      }
+    }
+
+    // Intercept clicks on relative .html links
+    document.addEventListener('click', e => {
+      const a = e.target.closest('a');
+      if (!a) return;
+
+      if (a.hasAttribute('onclick')) return;
+
+      const href = a.getAttribute('href');
+      if (!href) return;
+
+      // Handle custom local link clicks within home
+      if (href.endsWith('.html') || href.includes('.html?')) {
+        e.preventDefault();
+        let tabId = '';
+        if (href.startsWith('ngan-hang.html')) tabId = 'ngan-hang';
+        else if (href.startsWith('tron-de.html')) tabId = 'tron-de';
+        else if (href.startsWith('ai-tao-de.html?tab=gen') || href.includes('tab=gen')) tabId = 'ai-tao-de';
+        else if (href.startsWith('ai-tao-de.html?tab=pro') || href.includes('tab=pro')) tabId = 'ai-tao-de-pro';
+        else if (href.startsWith('ai-tao-de.html?tab=grade') || href.includes('tab=grade')) tabId = 'ocr';
+        else if (href.startsWith('cetz-ve.html')) tabId = 'cetz-ve';
+        else if (href.startsWith('bbt-live.html')) tabId = 'bbt-live';
+        else if (href.startsWith('ocr-typst.html')) tabId = 'ocr';
+        else if (href.startsWith('typst-linter.html')) tabId = 'linter';
+        else if (href.startsWith('beamer-converter.html')) tabId = 'beamer';
+        else if (href.startsWith('ai-tro-ly.html')) tabId = 'ai-tro-ly';
+        else if (href.startsWith('ai-tuong-tu.html')) tabId = 'ai-tuong-tu';
+        else if (href.startsWith('index.html')) tabId = 'hdsd';
+
+        if (tabId) {
+          showTab(tabId, href);
+        } else {
+          showTab('custom', href);
+        }
+      }
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      handleHash();
+      window.addEventListener('message', e => {
+        if (e.data && e.data.action === 'goHome') {
+          showTab('home');
+        }
+      });
+    });
+  </script>
 </body>
+
 </html>

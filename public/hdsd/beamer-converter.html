@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Beamer Converter — ConicTypst</title>
+    <link rel="stylesheet" href="dashboard.css" />
+    <script defer src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .tool-page {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 28px 24px;
+        }
+
+        .tool-header {
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tool-header h1 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tool-header p {
+            color: var(--muted);
+            margin: 6px 0 0;
+            font-size: 0.93rem;
+        }
+
+        .tool-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 900px) {
+            .tool-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .panel {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            display: flex;
+            flex-direction: column;
+            height: 550px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .panel-head {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--line);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .panel-body {
+            padding: 16px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .editor-area {
+            flex: 1;
+            width: 100%;
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 14px;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            resize: none;
+            outline: none;
+            background: #fafafa;
+            color: #1e293b;
+        }
+
+        .editor-area:focus {
+            border-color: #0ea5e9;
+            background: #fff;
+        }
+
+        /* Config Form */
+        .config-bar {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .config-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .config-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .config-label {
+            font-weight: 600;
+            font-size: 0.88rem;
+            color: var(--text);
+        }
+
+        .form-select, .form-input {
+            height: 38px;
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 0 12px;
+            font-size: 0.88rem;
+            outline: none;
+            background: #fff;
+            color: var(--text);
+            transition: border-color 0.2s;
+        }
+
+        .form-select:focus, .form-input:focus {
+            border-color: #0ea5e9;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 16px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            outline: none;
+        }
+
+        .btn-blue { background: #2563eb; color: #fff; }
+        .btn-blue:hover { background: #1d4ed8; }
+        .btn-green { background: #16a34a; color: #fff; }
+        .btn-green:hover { background: #15803d; }
+        .btn-gray { background: #64748b; color: #fff; }
+        .btn-gray:hover { background: #475569; }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.82rem;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+    </style>
+</head>
+<body>
+    <header class="dash-topbar">
+        <div class="dash-topbar-inner">
+            <a class="dash-brand" href="dashboard.html">
+                <span class="dash-brand-mark">C</span>
+                <span>
+                    <strong>ConicTypst</strong>
+                    <small>Typst tool hub</small>
+                </span>
+            </a>
+            <div></div>
+            <nav class="dash-nav">
+                <a href="dashboard.html"><i data-lucide="arrow-left" style="vertical-align: middle; width: 16px;"></i> Về Dashboard</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="tool-page">
+        <div class="tool-header">
+            <div>
+                <h1><i data-lucide="presentation" style="color: #6366f1;"></i> Beamer Converter</h1>
+                <p>Chuyển đổi danh sách câu hỏi đề thi Typst sang slide trình chiếu Beamer chữa bài giảng một cách nhanh chóng.</p>
+            </div>
+        </div>
+
+        <div class="tool-layout">
+            <!-- Left Panel: Paste questions -->
+            <div class="panel">
+                <div class="panel-head">
+                    <span><i data-lucide="file-text" style="color: #6366f1; vertical-align: middle;"></i> Nội dung đề thi (.typ)</span>
+                    <select class="form-select" id="sampleSelector" onchange="loadSample()" style="height: 30px; font-size: 0.8rem; padding: 0 8px;">
+                        <option value="">Chọn mẫu nhanh...</option>
+                        <option value="ex">Đề thi ngắn mẫu</option>
+                    </select>
+                </div>
+                <div class="panel-body">
+                    <textarea class="editor-area" id="sourceText" placeholder="Dán danh sách các câu hỏi (#tn, #ds, #tln, #tl) ở đây..."></textarea>
+                </div>
+            </div>
+
+            <!-- Right Panel: Result slide -->
+            <div class="panel">
+                <div class="panel-head">
+                    <span><i data-lucide="presentation" style="color: #10b981; vertical-align: middle;"></i> Mã Beamer Slide tương ứng</span>
+                    <button class="btn btn-green btn-sm" id="copyBtn" onclick="copyResult()" disabled><i data-lucide="copy"></i> Sao chép</button>
+                </div>
+                <div class="panel-body">
+                    <textarea class="editor-area" id="resultText" readonly placeholder="Mã Beamer sẽ được sinh ra ở đây..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Configurations -->
+        <div class="config-bar">
+            <div class="config-grid">
+                <div class="config-group">
+                    <span class="config-label">Tiêu đề slide:</span>
+                    <input type="text" class="form-input" id="bmTitle" value="CHỮA ĐỀ THI KHẢO SÁT HỌC KÌ II" />
+                </div>
+                <div class="config-group">
+                    <span class="config-label">Phụ đề:</span>
+                    <input type="text" class="form-input" id="bmSubtitle" value="MÔN TOÁN - LỚP 12" />
+                </div>
+                <div class="config-group">
+                    <span class="config-label">Tác giả (Giáo viên):</span>
+                    <input type="text" class="form-input" id="bmAuthor" value="GV Nguyễn Văn Sang" />
+                </div>
+                <div class="config-group">
+                    <span class="config-label">Đơn vị / Kỳ thi:</span>
+                    <input type="text" class="form-input" id="bmInstitution" value="THPT NGUYỄN HỮU CẢNH" />
+                </div>
+                <div class="config-group">
+                    <span class="config-label">Màu chủ đạo (Accent):</span>
+                    <select class="form-select" id="bmAccent">
+                        <option value="classic.blue">classic.blue (Xanh dương)</option>
+                        <option value="classic.emerald">classic.emerald (Xanh lá)</option>
+                        <option value="classic.crimson">classic.crimson (Đỏ)</option>
+                        <option value="rgb(&quot;#7c3aed&quot;)">Tím Violet</option>
+                    </select>
+                </div>
+                <div class="config-group">
+                    <span class="config-label">Màu nền slide:</span>
+                    <select class="form-select" id="bmBgColor">
+                        <option value="rgb(&quot;#f1f5f9&quot;)">Xám nhạt (#f1f5f9) - Sáng</option>
+                        <option value="rgb(&quot;#ffffff&quot;)">Trắng tinh (#ffffff) - Sáng</option>
+                        <option value="rgb(&quot;#0f172a&quot;)">Tối đêm (#0f172a) - Tối</option>
+                        <option value="rgb(&quot;#0a1628&quot;)">Xanh Navy (#0a1628) - Tối</option>
+                    </select>
+                </div>
+                <div class="config-group">
+                    <span class="config-label">Màu công thức toán (Highlight):</span>
+                    <select class="form-select" id="bmMathColor">
+                        <option value="rgb(&quot;#fb923c&quot;)">Vàng cam (#fb923c)</option>
+                        <option value="rgb(&quot;#f108ca&quot;)">Hồng Sen (#f108ca)</option>
+                        <option value="rgb(&quot;#4ade80&quot;)">Xanh lá mạ (#4ade80)</option>
+                        <option value="rgb(&quot;#000000&quot;)">Màu đen (#000000)</option>
+                    </select>
+                </div>
+                <div class="config-group">
+                    <span class="config-label">Cỡ chữ cơ bản (Base Size):</span>
+                    <select class="form-select" id="bmBaseSize">
+                        <option value="20pt">20pt</option>
+                        <option value="22pt">22pt</option>
+                        <option value="24pt" selected>24pt (Mặc định)</option>
+                        <option value="26pt">26pt</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="btn-container">
+                <button class="btn btn-blue" onclick="generateBeamer()"><i data-lucide="presentation"></i> Sinh mã Beamer Slide</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const sampleText = `//[0D1N1-1]
+#tn[
+  Mệnh đề nào sau đây đúng?
+][
+  $1 + 1 = 3$
+][
+  #True[Trái Đất quay quanh Mặt Trời.]
+][
+  Mặt Trời quay quanh Trái Đất.
+][
+  $2 > 3$
+][
+  loigiai: [
+    Trái Đất quay quanh Mặt Trời là một mệnh đề đúng khoa học.
+  ]
+]
+
+//[0D1H2-1]
+#ds[
+  Cho tập hợp $A = {1, 2, 3}$. Xét tính đúng sai của các khẳng định sau:
+][
+  #True[$1 in A$]
+][
+  $4 in A$
+][
+  #True[$A$ có 8 tập con.]
+][
+  \${1, 2\} in A$
+][
+  loigiai: [
+    - $1 in A$ đúng.
+    - $4 in A$ sai.
+    - Số tập con của $A$ là $2^3 = 8$ đúng.
+    - \${1, 2\} subset A$ chứ không phải $in A$ nên khẳng định 4 sai.
+  ]
+]`;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            window.lucide?.createIcons();
+        });
+
+        function loadSample() {
+            const val = document.getElementById('sampleSelector').value;
+            if (val === 'ex') {
+                document.getElementById('sourceText').value = sampleText;
+            }
+        }
+
+        function countQuestions(text) {
+            const matches = text.match(/#\s*(tn|ds|tln|tl)\s*([\[(])/g);
+            return matches ? matches.length : 0;
+        }
+
+        function generateBeamer() {
+            const questions = document.getElementById('sourceText').value.trim();
+            if (!questions) {
+                Swal.fire('Thiếu dữ liệu', 'Vui lòng dán nội dung các câu hỏi trước.', 'warning');
+                return;
+            }
+
+            const title = document.getElementById('bmTitle').value.trim();
+            const subtitle = document.getElementById('bmSubtitle').value.trim();
+            const author = document.getElementById('bmAuthor').value.trim();
+            const institution = document.getElementById('bmInstitution').value.trim();
+            const accent = document.getElementById('bmAccent').value;
+            const bgColor = document.getElementById('bmBgColor').value;
+            const mathColor = document.getElementById('bmMathColor').value;
+            const baseSize = document.getElementById('bmBaseSize').value;
+            
+            const totalQ = countQuestions(questions);
+
+            const beamerCode = `// ═══════════════════════════════════════════════════════════
+// BEAMER SLIDE — TRÌNH CHIẾU CHỮA ĐỀ
+// Tự động sinh bởi ConicTypst Beamer Converter
+// ═══════════════════════════════════════════════════════════
+
+#import "@local/sang-math:1.0.0": *
+#import beamer: *
+
+// ── Thông tin bài giảng ───────────────────────────────────
+#let bm-title = "${title}"
+#let bm-subtitle = "${subtitle}"
+#let bm-author = "${author}"
+#let bm-institution = "${institution}"
+#let bm-code = "9999"
+
+// ── Cấu hình giao diện và màu sắc ─────────────────────────
+#let accent = ${accent}
+#let bm-bg-color = ${bgColor}
+#let bm-math-color = ${mathColor}
+#let bm-base-size = ${baseSize}
+
+#let bm-text-size = bm-base-size * 1.15
+#let bm-q-size = bm-base-size
+#let bm-opt-size = bm-base-size * 0.85
+#let bm-sol-size = bm-base-size * 0.75
+#let bm-table-size = bm-base-size * 0.75
+
+#let bm-total-q = ${totalQ || 10}
+#let bm-auto-step = false
+
+#show: sang-beamer-theme.with(
+  title: bm-title,
+  subtitle: bm-subtitle,
+  author: bm-author,
+  institution: bm-institution,
+  accent: accent,
+  code: bm-code,
+  total-q: bm-total-q,
+  bg_color: bm-bg-color,
+  text_size: bm-text-size,
+  math_color: bm-math-color,
+  question_size: bm-q-size,
+  option_size: bm-opt-size,
+  solution_size: bm-sol-size,
+  table_size: bm-table-size,
+  auto_step_pause: bm-auto-step,
+)
+
+#let mode = "loigiai"
+#let _m = exam-mode(mode: mode, accent: accent)
+#let (mcq, tf, short) = (_m.mcq, _m.tf, _m.short)
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║                    DANH SÁCH CÂU HỎI                    ║
+// ╚══════════════════════════════════════════════════════════╝
+
+#let make-questions(tn: tn, ds: ds, tln: tln, tl: tl, exam-part: exam-part) = [
+${questions}
+]
+
+#make-questions(tn: _m.tn, ds: _m.ds, tln: _m.tln, tl: _m.tl, exam-part: exam-part)
+#pagebreak()
+#print-answer-key()
+#het
+`;
+
+            document.getElementById('resultText').value = beamerCode;
+            document.getElementById('copyBtn').disabled = false;
+
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                title: 'Đã sinh mã Beamer thành công!',
+                showConfirmButton: false,
+                timer: 2000
+            });
+        }
+
+        function copyResult() {
+            const res = document.getElementById('resultText');
+            res.select();
+            document.execCommand('copy');
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                title: 'Đã copy vào bộ nhớ tạm!',
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
+    </script>
+</body>
+</html>

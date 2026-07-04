@@ -7,10 +7,10 @@ const allToolsGrid = document.getElementById('allToolsGrid')
 const adminGrid = document.getElementById('adminGrid')
 
 const quickActions = [
-  { title: 'AI tạo đề theo API key của bạn', desc: 'Tự chọn model, tự nhập key, mở cho mọi người dùng', icon: 'zap', color: 'cyan', href: 'index.html#exam-mix-typst', keywords: 'ai tạo đề api key typst model' },
-  { title: 'AI tạo đề thi tốt nghiệp hay-lạ-khó', desc: 'Quản lý tạo đề bằng AI Pro', icon: 'cpu', color: 'violet', href: 'index.html#exam-mix-typst', keywords: 'ai tạo đề thi tốt nghiệp hay lạ khó thpt' },
+  { title: 'AI tạo đề theo API key của bạn', desc: 'Tự chọn model, tự nhập key, mở cho mọi người dùng', icon: 'zap', color: 'cyan', href: 'ai-tao-de.html?tab=gen', keywords: 'ai tạo đề api key typst model' },
+  { title: 'AI tạo đề thi tốt nghiệp hay-lạ-khó', desc: 'Quản lý tạo đề bằng AI Pro', icon: 'cpu', color: 'violet', href: 'ai-tao-de.html?tab=pro', keywords: 'ai tạo đề thi tốt nghiệp hay lạ khó thpt' },
   { title: 'Ngân hàng câu hỏi', desc: 'Quản lý, soạn đề, lọc ID/tags/source', icon: 'layout-grid', color: 'blue', href: 'ngan-hang.html', keywords: 'ngân hàng câu hỏi bank id quản lý typst' },
-  { title: 'Siêu tạo đề', desc: 'AI tự động sinh đề theo ma trận', icon: 'zap', color: 'magenta', href: 'index.html#exam-mix-typst', keywords: 'siêu tạo đề sinh đề tự động matrix' },
+  { title: 'Siêu tạo đề', desc: 'AI tự động sinh đề theo ma trận', icon: 'zap', color: 'magenta', href: 'ai-tao-de.html?tab=gen', keywords: 'siêu tạo đề sinh đề tự động matrix' },
   { title: 'Typst → Word/PDF', desc: 'Xuất PDF, chuẩn hóa nội dung, lộ trình DOCX', icon: 'file-text', color: 'teal', href: 'index.html#downloads', keywords: 'typst word pdf docx export' },
   { title: 'Trộn đề từ nhiều file', desc: 'Xáo trộn nguyên bản, nhiều mã đề .typ', icon: 'shuffle', color: 'orange', href: 'tron-de.html', keywords: 'trộn đề từ nhiều file randomizer seed typst' },
   { title: 'Kiểm lỗi Typst', desc: 'Tìm lỗi #tn/#ds/#tln, LaTeX sót, cetz', icon: 'circle-check', color: 'red', href: 'typst-linter.html', keywords: 'kiểm lỗi typst linter compile macro' },
@@ -22,8 +22,8 @@ const exploreSections = [
   { title: 'Bài toán nâng cao', desc: 'Tổ hợp, xác suất, hình học nâng cao', icon: 'book-open', color: 'green', href: 'index.html#book-overview', keywords: 'bài toán nâng cao tổ hợp xác suất hình học' },
   { title: 'Toán thực tế', desc: 'Bài toán thực tiễn đời sống & ứng dụng', icon: 'globe-2', color: 'sky', href: 'index.html#geo-3d', keywords: 'toán thực tế ứng dụng đời sống' },
   { title: 'Toán thực tế V2', desc: '12+ chủ đề ứng dụng thực tiễn', icon: 'box', color: 'rose', href: 'index.html#book-overview', keywords: 'toán thực tế v2 chủ đề ứng dụng' },
-  { title: 'PDF từ ảnh', desc: 'Trích xuất nội dung từ PDF & hình ảnh', icon: 'image', color: 'purple', href: 'index.html#exam-mix-typst', keywords: 'pdf từ ảnh trích xuất ocr typst' },
-  { title: 'Giải toán phổ thông', desc: 'Công cụ tính toán K10-K12', icon: 'calculator', color: 'green', href: 'index.html#typst-params', keywords: 'giải toán phổ thông k10 k11 k12' },
+  { title: 'PDF từ ảnh', desc: 'Trích xuất nội dung từ PDF & hình ảnh', icon: 'image', color: 'purple', href: 'ai-tao-de.html?tab=grade', keywords: 'pdf từ ảnh trích xuất ocr typst' },
+  { title: 'Giải toán phổ thông', desc: 'Công cụ tính toán K10-K12', icon: 'calculator', color: 'green', href: 'ai-tao-de.html?tab=gen', keywords: 'giải toán phổ thông k10 k11 k12' },
   { title: 'Sân chơi trí tuệ', desc: '30+ game luyện tư duy toán học', icon: 'play', color: 'orange', href: '#all-tools', keywords: 'sân chơi trí tuệ game luyện tư duy' },
 ]
 
@@ -54,7 +54,7 @@ const tools = [
 ]
 
 const adminTools = [
-  { title: 'AI tạo đề thi THPT', icon: 'graduation-cap', href: 'index.html#exam-mix-typst', active: false, keywords: 'ai tạo đề thi tốt nghiệp thpt' },
+  { title: 'AI tạo đề thi THPT', icon: 'graduation-cap', href: 'ai-tao-de.html?tab=pro', active: true, keywords: 'ai tạo đề thi tốt nghiệp thpt' },
   { title: 'Typst Bank Bridge', icon: 'brain', href: 'ngan-hang.html', active: true, keywords: 'deepseek bridge typst bank import' },
   { title: 'Magic Chương', icon: 'sprout', href: 'index.html#book-structure', active: false, keywords: 'magic chương lesson chapter' },
   { title: 'Kho đề gốc .typ', icon: 'folder', href: 'index.html#exam-set', active: false, keywords: 'kho đề gốc typ' },

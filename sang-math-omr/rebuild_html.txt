@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SANG MATH OMR – Hệ Thống Chấm Thi Thông Minh</title>
+  <link rel="icon" href="data:,">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0d0b1f;
+      --card: rgba(20,16,45,0.8);
+      --border: rgba(255,255,255,0.08);
+      --red: #e63946;
+      --blue: #3399ff;
+      --green: #00cc66;
+      --purple: #9b59b6;
+      --orange: #f39c12;
+      --text: #f0eaf8;
+      --muted: #9b92b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Outfit', sans-serif; background: radial-gradient(ellipse at 30% 20%, #1a1040 0%, var(--bg) 60%); color: var(--text); min-height: 100vh; }
+
+    /* HEADER */
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 28px;
+      background: rgba(10,8,28,0.9);
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 100;
+      backdrop-filter: blur(14px);
+    }
+    .logo { font-size: 22px; font-weight: 800; letter-spacing: 0.5px; }
+    .logo span { color: var(--red); }
+    .status-badge { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+    .status-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+    .status-dot.ready { background: var(--green); }
+    @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:.4;} }
+
+    /* TABS */
+    .tabs-bar {
+      display: flex; gap: 4px; padding: 10px 24px 0;
+      background: rgba(10,8,28,0.6);
+      border-bottom: 1px solid var(--border);
+    }
+    .tab-btn {
+      padding: 10px 22px; border-radius: 10px 10px 0 0;
+      border: 1px solid transparent; border-bottom: none;
+      background: transparent; color: var(--muted);
+      font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600;
+      cursor: pointer; transition: all .2s;
+    }
+    .tab-btn:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+    .tab-btn.active {
+      background: rgba(22,16,50,0.95); color: white;
+      border-color: var(--border); border-bottom-color: rgba(22,16,50,0.95);
+      position: relative; bottom: -1px;
+    }
+    .tab-btn .tab-icon { margin-right: 6px; }
+
+    /* TAB CONTENT */
+    .tab-panel { display: none; padding: 22px 24px; }
+    .tab-panel.active { display: block; }
+
+    /* CARDS */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      backdrop-filter: blur(12px);
+    }
+    .card h2 { font-size: 15px; font-weight: 700; margin-bottom: 16px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+    .card h3 { font-size: 14px; font-weight: 600; margin-bottom: 10px; }
+
+    /* LAYOUT GRIDS */
+    .two-col { display: grid; grid-template-columns: 380px 1fr; gap: 18px; }
+    .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+    @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
+
+    /* FORM ELEMENTS */
+    .form-group { margin-bottom: 14px; }
+    .form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 5px; text-transform: uppercase; letter-spacing: .5px; }
+    .form-input {
+      width: 100%; padding: 10px 14px;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px; color: var(--text);
+      font-family: 'Outfit', sans-serif; font-size: 14px;
+      transition: border-color .2s;
+    }
+    .form-input:focus { outline: none; border-color: var(--blue); }
+    select.form-input option { background: #1a1040; }
+
+    /* BUTTONS */
+    .btn {
+      padding: 11px 22px; border-radius: 9px; border: none;
+      font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 700;
+      cursor: pointer; transition: all .2s; display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-primary { background: linear-gradient(135deg, var(--red), #c0392b); color: #fff; }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(230,57,70,.35); }
+    .btn-primary:disabled { opacity: .45; cursor: default; transform: none; box-shadow: none; }
+    .btn-secondary { background: rgba(255,255,255,0.08); color: var(--text); border: 1px solid var(--border); }
+    .btn-secondary:hover { background: rgba(255,255,255,0.14); }
+    .btn-success { background: linear-gradient(135deg, #00cc66, #00994d); color: #fff; }
+    .btn-info { background: linear-gradient(135deg, var(--blue), #1a6ec0); color: #fff; }
+    .btn-orange { background: linear-gradient(135deg, var(--orange), #d35400); color: #fff; }
+    .btn-sm { padding: 7px 14px; font-size: 12px; border-radius: 7px; }
+    .spinner { width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none; }
+    @keyframes spin{to{transform:rotate(360deg);}}
+
+    /* ===== HEADER ANIMATION ===== */
+    header { background: rgba(10,8,28,0.92) !important; }
+    .logo { background: linear-gradient(135deg, #fff 30%, #e63946 70%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: logoShine 3s ease-in-out infinite; }
+    @keyframes logoShine { 0%,100%{filter:brightness(1);} 50%{filter:brightness(1.3);} }
+
+    /* ===== PROGRESS BAR ===== */
+    .progress-wrap { margin-top: 10px; }
+    .progress-bar-bg { background: rgba(255,255,255,.07); border-radius: 6px; height: 8px; overflow: hidden; }
+    .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--blue), var(--green)); border-radius: 6px; transition: width .4s; width: 0%; }
+    .progress-label { font-size: 11px; color: var(--muted); margin-top: 4px; text-align: right; }
+
+    /* ===== TAB 1: SINH PHIẾU ===== */
+    .template-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 12px; margin-bottom: 18px; }
+    .tmpl-card {
+      border: 2px solid var(--border); border-radius: 14px; padding: 14px;
+      cursor: pointer; transition: all .25s cubic-bezier(.4,0,.2,1); text-align: center;
+      background: rgba(255,255,255,0.03); position: relative; overflow: hidden;
+    }
+    .tmpl-card::before { content:''; position:absolute; inset:0; background: radial-gradient(circle at 50% 0%, rgba(255,255,255,.04), transparent 70%); opacity:0; transition: opacity .25s; }
+    .tmpl-card:hover { border-color: var(--blue); background: rgba(51,153,255,.08); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(51,153,255,.15); }
+    .tmpl-card:hover::before { opacity:1; }
+    .tmpl-card.selected { border-color: var(--red); background: rgba(230,57,70,.12); box-shadow: 0 0 20px rgba(230,57,70,.2); }
+    .tmpl-card .tmpl-icon { font-size: 30px; margin-bottom: 6px; filter: drop-shadow(0 2px 6px rgba(255,255,255,.15)); }
+    .tmpl-card .tmpl-name { font-size: 13px; font-weight: 700; }
+    .tmpl-card .tmpl-desc { font-size: 11px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
+    .tmpl-card .tmpl-badge { display: inline-block; padding: 2px 7px; border-radius: 20px; font-size: 10px; font-weight: 700; margin-top: 6px; }
+    .badge-tn { background: rgba(230,57,70,.2); color: var(--red); }
+    .badge-ds { background: rgba(0,204,102,.2); color: var(--green); }
+    .badge-tln { background: rgba(155,89,182,.2); color: var(--purple); }
+    .badge-hybrid { background: rgba(243,156,18,.2); color: var(--orange); }
+    .badge-custom { background: rgba(51,153,255,.2); color: var(--blue); }
+    .preview-sheet { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: white; min-height: 200px; display: flex; align-items: center; justify-content: center; color: #333; font-size: 13px; }
+
+    /* ===== SMART BUILDER ===== */
+    .builder-section { background: linear-gradient(135deg, rgba(20,14,50,.8), rgba(10,8,28,.8)); border: 1px solid rgba(100,80,200,.25); border-radius: 14px; padding: 20px; }
+    .builder-section h2 { font-size: 15px; font-weight: 700; margin-bottom: 16px; color: #a78bfa; text-transform: uppercase; letter-spacing: 1px; }
+    .builder-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+    .builder-label { font-size: 12px; font-weight: 700; color: var(--muted); width: 100px; flex-shrink: 0; text-transform: uppercase; letter-spacing: .5px; }
+    .builder-input { width: 70px; padding: 8px 10px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.15); border-radius: 8px; color: var(--text); font-family:'Outfit',sans-serif; font-size: 14px; font-weight: 700; text-align: center; }
+    .builder-input:focus { outline: none; border-color: #a78bfa; box-shadow: 0 0 10px rgba(167,139,250,.2); }
+    .preset-pills { display: flex; gap: 5px; flex-wrap: wrap; }
+    .preset-pill { padding: 4px 10px; border-radius: 20px; border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.04); color: var(--muted); font-size: 11px; font-weight: 700; cursor: pointer; transition: all .15s; }
+    .preset-pill:hover { border-color: #a78bfa; color: #a78bfa; background: rgba(167,139,250,.08); }
+    .preset-pill.active-preset { border-color: #a78bfa; color: #a78bfa; background: rgba(167,139,250,.15); }
+    .builder-preview { background: rgba(0,0,0,.3); border-radius: 10px; padding: 14px; margin-top: 14px; font-size: 12px; }
+    .builder-preview-row { display: flex; gap: 6px; align-items: center; margin-bottom: 6px; }
+    .bpr-icon { width: 20px; text-align: center; }
+    .bpr-bar { height: 16px; border-radius: 4px; display: flex; align-items: center; padding: 0 8px; font-size: 10px; font-weight: 700; color: white; transition: width .4s; min-width: 30px; }
+    .bpr-mcq { background: linear-gradient(90deg, var(--red), #c0392b); }
+    .bpr-tf  { background: linear-gradient(90deg, var(--green), #00994d); }
+    .bpr-tln { background: linear-gradient(90deg, var(--purple), #7d3c98); }
+    .builder-typst-output { background: rgba(0,0,0,.5); border-radius: 8px; padding: 12px; font-family: monospace; font-size: 10px; color: #8be9fd; overflow-x: auto; margin-top: 10px; max-height: 200px; overflow-y: auto; white-space: pre; }
+
+    /* ===== TAB 2: CHẤM BÀI ===== */
+    .answer-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; max-height: 420px; overflow-y: auto; padding-right: 4px; }
+    .answer-grid::-webkit-scrollbar { width: 5px; }
+    .answer-grid::-webkit-scrollbar-track { background: transparent; }
+    .answer-grid::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 3px; }
+    .q-row { display: flex; align-items: center; gap: 6px; padding: 3px 0; }
+    .q-num { font-size: 12px; font-weight: 700; color: var(--muted); width: 24px; text-align: right; flex-shrink: 0; }
+    .q-options { display: flex; gap: 4px; }
+    .opt-btn {
+      width: 30px; height: 28px; border: 1.5px solid rgba(255,255,255,.15);
+      border-radius: 6px; background: rgba(255,255,255,.05);
+      color: var(--muted); font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 700;
+      cursor: pointer; transition: all .15s;
+    }
+    .opt-btn:hover { border-color: rgba(255,255,255,.3); color: white; }
+    .opt-btn.active { background: var(--red); border-color: var(--red); color: white; }
+    .upload-zone {
+      border: 2px dashed rgba(255,255,255,.18); border-radius: 12px;
+      padding: 30px; text-align: center; cursor: pointer;
+      transition: all .2s; color: var(--muted);
+    }
+    .upload-zone:hover, .upload-zone.drag-over { border-color: var(--blue); color: var(--text); background: rgba(51,153,255,.05); }
+    .upload-zone .upload-icon { font-size: 36px; margin-bottom: 8px; }
+    .upload-zone p { font-size: 13px; }
+    .preview-img { max-width: 100%; border-radius: 8px; display: none; }
+    .batch-list { margin-top: 12px; }
+    .batch-item { display: flex; align-items: center; justify-content: space-between; padding: 7px 10px; background: rgba(255,255,255,.04); border-radius: 7px; margin-bottom: 5px; font-size: 12px; }
+    .batch-item .status { font-weight: 700; }
+    .status-ok { color: var(--green); }
+    .status-err { color: var(--red); }
+    .status-pending { color: var(--muted); }
+    .viewer-wrap { width: 100%; aspect-ratio: 3/4.2; background: #111; border-radius: 10px; overflow: hidden; position: relative; display: flex; align-items: center; justify-content: center; }
+    .no-data { text-align: center; color: var(--muted); font-size: 13px; padding: 40px; }
+    canvas#canvasOutput { max-width: 100%; max-height: 100%; display: none; }
+    .score-circle {
+      width: 110px; height: 110px; border-radius: 50%;
+      background: conic-gradient(var(--red) 0%, #2d1b3d 0%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      margin: 0 auto 16px; box-shadow: 0 0 30px rgba(230,57,70,.3);
+      position: relative;
+    }
+    .score-circle.success { box-shadow: 0 0 30px rgba(0,204,102,.35); }
+    .score-circle.success::before { border-color: var(--green); }
+    .score-value { font-size: 30px; font-weight: 800; line-height: 1; }
+    .score-label { font-size: 10px; color: var(--muted); margin-top: 2px; }
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .stat-item { background: rgba(255,255,255,.05); border-radius: 9px; padding: 10px; text-align: center; }
+    .stat-lbl { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; }
+    .stat-val { font-size: 20px; font-weight: 700; margin-top: 4px; }
+
+    /* ===== TAB 3: QUẢN LÝ LỚP ===== */
+    .class-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .class-table th { padding: 10px 12px; background: rgba(255,255,255,.07); text-align: left; font-weight: 600; font-size: 11px; color: var(--muted); text-transform: uppercase; }
+    .class-table td { padding: 9px 12px; border-bottom: 1px solid var(--border); }
+    .class-table tr:hover td { background: rgba(255,255,255,.03); }
+    .csv-drop { border: 2px dashed rgba(255,255,255,.15); border-radius: 10px; padding: 20px; text-align: center; color: var(--muted); font-size: 13px; margin-bottom: 14px; cursor: pointer; }
+    .csv-drop:hover { border-color: var(--green); }
+
+    /* ===== TAB 4: THỐNG KÊ ===== */
+    .chart-bar-wrap { margin-bottom: 14px; }
+    .chart-row { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; font-size: 12px; }
+    .chart-label { width: 40px; text-align: right; color: var(--muted); }
+    .chart-bar-bg { flex: 1; background: rgba(255,255,255,.06); border-radius: 4px; height: 20px; overflow: hidden; }
+    .chart-bar { height: 100%; border-radius: 4px; transition: width .5s; display: flex; align-items: center; padding-left: 8px; font-size: 11px; font-weight: 700; }
+    .results-table-wrap { max-height: 380px; overflow-y: auto; }
+    .results-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .results-table th { padding: 9px 12px; background: rgba(255,255,255,.07); text-align: left; font-weight: 600; font-size: 11px; color: var(--muted); position: sticky; top: 0; }
+    .results-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); }
+    .grade-a { color: var(--green); font-weight: 700; }
+    .grade-b { color: var(--blue); font-weight: 700; }
+    .grade-c { color: var(--orange); font-weight: 700; }
+    .grade-d { color: var(--red); font-weight: 700; }
+
+    /* MISC */
+    .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .row-between { display: flex; justify-content: space-between; align-items: center; }
+    .mb-3 { margin-bottom: 12px; }
+    .mb-4 { margin-bottom: 16px; }
+    .mt-3 { margin-top: 12px; }
+    .text-muted { color: var(--muted); font-size: 12px; }
+    .text-green { color: var(--green); }
+    .text-red { color: var(--red); }
+    .text-blue { color: var(--blue); }
+    .separator { height: 1px; background: var(--border); margin: 16px 0; }
+    .pill { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+    .pill-red { background: rgba(230,57,70,.15); color: var(--red); }
+    .pill-green { background: rgba(0,204,102,.15); color: var(--green); }
+    .pill-blue { background: rgba(51,153,255,.15); color: var(--blue); }
+    textarea.form-input { resize: vertical; min-height: 80px; }
+    .info-box { background: rgba(51,153,255,.1); border: 1px solid rgba(51,153,255,.25); border-radius: 8px; padding: 10px 14px; font-size: 12px; color: #7dc3ff; margin-bottom: 12px; }
+    .warn-box { background: rgba(243,156,18,.08); border: 1px solid rgba(243,156,18,.25); border-radius: 8px; padding: 10px 14px; font-size: 12px; color: #f8c471; margin-bottom: 12px; }
+
+    /* SCROLLBAR */
+    ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: rgba(255,255,255,.12); border-radius: 3px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><span>SANG</span> MATH OMR</div>
+  <div style="display:flex; align-items:center; gap: 10px;">
+    <div class="status-badge" style="cursor:help" title="Hệ thống chấm điểm siêu tốc OpenCV.js (Offline)">
+      <div class="status-dot" id="statusDot" style="background-color: #555; box-shadow: none;"></div>
+      <span id="statusText">Đang tải bộ não OpenCV.js...</span>
+    </div>
+  </div>
+</header>
+
+<!-- NAVIGATION TABS -->
+<div class="tabs-bar">
+  <button class="tab-btn active" onclick="switchTab('tab-grade')" id="btn-tab-grade">
+    <span class="tab-icon">🎯</span>Chấm Bài
+  </button>
+  <button class="tab-btn" onclick="switchTab('tab-generate')" id="btn-tab-generate">
+    <span class="tab-icon">📋</span>Sinh Phiếu
+  </button>
+  <button class="tab-btn" onclick="switchTab('tab-class')" id="btn-tab-class">
+    <span class="tab-icon">👥</span>Quản Lý Lớp
+  </button>
+  <button class="tab-btn" onclick="switchTab('tab-stats')" id="btn-tab-stats">
+    <span class="tab-icon">📊</span>Thống Kê
+  </button>
+
+  <button class="tab-btn" onclick="switchTab('tab-help')" id="btn-tab-help">
+    <span class="tab-icon">📖</span>Hướng Dẫn
+  </button>
+</div>
+
+
+
+<!-- ===================== TAB: HƯỚNG DẪN ===================== -->
+<div class="tab-panel" id="tab-help">
+  <div class="card">
+    <h2 style="font-size: 18px; margin-top:0; color:var(--accent);">Hướng Dẫn Vận Hành & Chấm Cả Lớp</h2>
+    <p>Hệ thống OMR này được thiết kế để chạy <strong>100% Offline trên trình duyệt</strong>, do đó bạn có thể dùng trên cả <strong>Máy tính (PC/Laptop)</strong> lẫn <strong>Điện thoại di động (Mobile)</strong>.</p>
+    
+    <hr style="border:0; border-top:1px solid var(--border); margin:15px 0;">
+    
+    <h3 style="font-size: 15px; margin-top:0; color:var(--text);">📱 1. Vận hành trên Điện thoại (Nhanh, tiện lợi)</h3>
+    <ul style="margin-left: 20px; line-height: 1.6;">
+      <li>Mở trang web này trên trình duyệt điện thoại (Safari/Chrome).</li>
+      <li>Vào tab <strong>Chấm Bài</strong>, bấm nút <strong>Tải ảnh / Chụp ảnh</strong>.</li>
+      <li>Điện thoại sẽ cho phép bạn chọn <em>"Chụp ảnh (Take Photo)"</em>. Bạn có thể chụp liên tiếp từng bài của học sinh.</li>
+      <li>Hoặc bạn có thể chụp sẵn toàn bộ 40 bài của lớp lưu vào thư viện ảnh (Gallery), sau đó quét chọn toàn bộ 40 ảnh và bấm Tải lên.</li>
+      <li>Bấm <strong>Bắt đầu chấm</strong>. Hệ thống sẽ tự động lướt qua 40 bài chỉ trong vài giây!</li>
+    </ul>
+
+    <h3 style="font-size: 15px; margin-top:20px; color:var(--text);">💻 2. Vận hành trên Máy tính (Khuyên dùng cho số lượng lớn)</h3>
+    <ul style="margin-left: 20px; line-height: 1.6;">
+      <li>Nếu trường học có máy Photo/Scan: Hãy quét (scan) nguyên một xấp bài thi của lớp thành 1 file PDF duy nhất.</li>
+      <li>Sử dụng các công cụ chuyển PDF sang JPG (như <em>pdf2image</em> hoặc các trang web online) để tách file PDF thành một thư mục chứa 40 ảnh (JPG/PNG).</li>
+      <li>Trên trang web này, bấm <strong>Tải ảnh lên</strong>, bôi đen (Ctrl+A) toàn bộ thư mục ảnh đó và tải lên cùng 1 lúc.</li>
+      <li>Hệ thống sẽ chấm nguyên một lớp trong chớp mắt và hiển thị Bảng điểm tổng kết. Bạn có thể bấm <strong>Xuất Excel</strong> để lấy điểm vào sổ!</li>
+    </ul>
+    
+    <h3 style="font-size: 15px; margin-top:20px; color:var(--text);">🤖 3. Công nghệ Human-in-the-loop (Chống gian lận)</h3>
+    <p style="line-height:1.6; margin-top:5px;">
+      Trong lúc hệ thống đang tự động chấm cả xấp bài, nếu phát hiện ra một bài thi có dấu hiệu đáng ngờ (học sinh tô 2 ô cùng 1 câu, hoặc tẩy xóa mờ mờ nửa đen nửa trắng), hệ thống sẽ lập tức:
+    </p>
+    <ul style="margin-left: 20px; line-height: 1.6;">
+      <li><strong>Phát ra tiếng BÍP cảnh báo.</strong></li>
+      <li><strong>Tạm dừng</strong> quá trình chấm hàng loạt.</li>
+      <li>Hiển thị hộp thoại báo lỗi chi tiết (Ví dụ: "Cảnh báo bài số 5: Câu 14 tô nhiều ô").</li>
+    </ul>
+    <p style="line-height:1.6;">Giáo viên có thể dùng mắt kiểm tra lại ảnh trên màn hình, tự chốt điểm, sau đó bấm <strong>OK</strong> để hệ thống tiếp tục chấm các bài còn lại. Không lo sai sót!</p>
+    
+    <h3 style="font-size: 15px; margin-top:20px; color:var(--text);">🔲 4. Nhận diện Mã Đề Tự Động (QR Code)</h3>
+    <p style="line-height:1.6; margin-top:5px;">
+      Mỗi mẫu phiếu in ra đều có mã QR Code ở góc phải. Hệ thống sẽ quét mã này trước tiên để biết phiếu đó là loại nào (A4, A5, bao nhiêu câu). Do đó bạn <strong>không cần phải phân loại phiếu</strong> trước khi chấm, cứ trộn lẫn vào nhau hệ thống vẫn tự hiểu!
+    </p>
+  </div>
+</div>
+
+
+<!-- ===================== TAB 1: CHẤM BÀI ===================== -->
+<div class="tab-panel active" id="tab-grade">
+  <div class="two-col">
+    <!-- LEFT PANEL -->
+    <div style="display:flex;flex-direction:column;gap:14px;">
+
+      <!-- Cấu hình đề thi -->
+      <div class="card">
+        <h2>⚙️ Cấu Hình Đề Thi</h2>
+        <div class="row mb-3">
+          <div class="form-group" style="flex:1;margin:0">
+            <label>Loại phiếu</label>
+            <select class="form-input" id="sheetTypeGrade" onchange="onSheetTypeChange()">
+              <option value="12-4-6ngang">A5 Ngang (Toán 12-4-6)</option>
+              <option value="12-4-6ngang" selected>TN-50 (50 câu ABCD)</option>
+              <option value="thptqg-toan">🎯 THPTQG Toán 2025 (12TN + 4ĐS + 6TLN)</option>
+              <option value="tn-40">TN-40 (40 câu ABCD)</option>
+              <option value="tn-60">TN-60 (60 câu ABCD)</option>
+            </select>
+          </div>
+          <div class="form-group" style="flex:1;margin:0">
+            <label>Mã đề kỳ vọng</label>
+            <input class="form-input" id="expectedMade" placeholder="VD: 001" maxlength="3">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>SBD kỳ vọng (tuỳ chọn)</label>
+          <input class="form-input" id="expectedSbd" placeholder="VD: 0025" maxlength="4">
+        </div>
+        <div class="form-group" style="margin-top: 10px;">
+          <label>🚀 Động cơ chấm điểm</label>
+          <select class="form-input" id="gradeEngine" onchange="toggleApiKeyInput()">
+            <option value="opencv">⚡ Siêu tốc Offline (OpenCV) - Nhanh, Miễn phí</option>
+            <option value="gemini">🧠 Trí Tuệ AI (Gemini 3.5) - Chậm, Rất chính xác</option>
+          </select>
+        </div>
+        <div class="form-group" id="apiKeyContainer" style="margin-top: 10px; display: none;">
+          <label>🔑 Gemini API Key (Bắt buộc)</label>
+          <input type="password" class="form-input" id="geminiApiKey" placeholder="Nhập API Key của Google Gemini...">
+          <div style="font-size: 11px; color: var(--muted); margin-top: 4px;">
+            Dùng AI Gemini 3.5 Flash để cứu các bài thi méo, mờ, tẩy xoá.
+          </div>
+        </div>
+      </div>
+
+      <!-- Đáp án -->
+      <div class="card">
+        <div class="row-between mb-3">
+          <h2 style="margin:0">📝 Đáp Án Đúng</h2>
+          <div class="row" style="gap:6px">
+            <button class="btn btn-secondary btn-sm" onclick="generateRandomKeys()">🎲 Ngẫu Nhiên</button>
+            <button class="btn btn-secondary btn-sm" onclick="clearKeys()">✕ Xoá</button>
+            <button class="btn btn-secondary btn-sm" onclick="importCSVKey()">📂 Import CSV</button>
+          </div>
+        </div>
+        <div class="answer-grid" id="answersGrid"></div>
+      </div>
+
+      <!-- Upload ảnh -->
+      <div class="card">
+        <h2>📸 Ảnh Chụp Bài Làm</h2>
+        <div class="warn-box">Chấm 1 bài: kéo thả 1 ảnh bên dưới. Chấm hàng loạt: kéo thả nhiều ảnh.</div>
+        <div class="upload-zone" id="uploadZoneSingle" onclick="document.getElementById('fileInputSingle').click()">
+          <div class="upload-icon">📤</div>
+          <p>Kéo thả ảnh chụp phiếu tô hoặc nhấn để chọn</p>
+          <input type="file" id="fileInputSingle" accept="image/*" multiple style="display:none">
+        </div>
+        <div id="previewContainer" style="margin-top:10px;display:none">
+          <img id="imagePreview" class="preview-img" style="display:block;max-height:200px;border-radius:8px;object-fit:contain;" alt="">
+        </div>
+        <div id="batchList" class="batch-list"></div>
+        <div class="mt-3">
+          <button class="btn btn-primary" id="gradeBtn" disabled style="width:100%;justify-content:center;">
+            <div class="spinner" id="gradeSpinner"></div>
+            <span>CHẤM BÀI NGAY</span>
+          </button>
+          <div class="progress-wrap" id="batchProgress" style="display:none">
+            <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill"></div></div>
+            <div class="progress-label" id="progressLabel">0 / 0 bài</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div class="card" style="flex:1;">
+        <div class="row-between mb-3">
+          <h2 style="margin:0">🖼️ Ảnh Kết Quả Chấm Điểm</h2>
+          <button class="btn btn-primary btn-sm" id="btnExportPDF" onclick="exportGradedPDF()" style="display:none;">📄 Tải Xuống PDF</button>
+        </div>
+        <div class="viewer-wrap">
+          <div class="no-data" id="noDataMsg">
+            <div style="font-size:48px;margin-bottom:12px">📋</div>
+            <div>Chưa có kết quả.</div>
+            <div style="margin-top:6px;font-size:11px">Tải ảnh lên và nhấn "CHẤM BÀI NGAY"</div>
+          </div>
+          <canvas id="canvasOutput"></canvas>
+        </div>
+      </div>
+
+      <div class="card" id="resultsCard" style="display:none;">
+        <h2>📊 Kết Quả Phân Tích</h2>
+        <div class="score-circle" id="scoreCircle">
+          <div class="score-value" id="scoreVal">—</div>
+          <div class="score-label">Điểm</div>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-lbl">Số báo danh</div>
+            <div class="stat-val" id="resSbd">—</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-lbl">Mã đề</div>
+            <div class="stat-val" id="resMade">—</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-lbl">Câu đúng</div>
+            <div class="stat-val" id="resCorrect">—</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-lbl">Đánh giá</div>
+            <div class="stat-val" style="font-size:13px;padding-top:4px" id="resMatch">—</div>
+          </div>
+        </div>
+
+        <div class="mt-3 row" style="gap:8px">
+          <button class="btn btn-secondary btn-sm" onclick="exportSingleResult()">💾 Lưu Kết Quả</button>
+          <button class="btn btn-secondary btn-sm" onclick="exportResultImage()">🖼️ Tải Ảnh Kết Quả</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== TAB 2: SINH PHIẾU ===================== -->
+<div class="tab-panel" id="tab-generate">
+  <div class="two-col">
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div class="card">
+        <h2>📋 Chọn Loại Phiếu</h2>
+        <div class="template-cards" id="tmplCards">
+          <div class="tmpl-card" data-type="thptqg-toan" onclick="selectTemplate('thptqg-toan', this)"
+               style="border-color:var(--orange);background:rgba(243,156,18,.08)">
+            <div class="tmpl-icon">🎯</div>
+            <div class="tmpl-name">THPTQG Toán</div>
+            <div class="tmpl-desc">12TN + 4ĐS + 6TLN<br>Chính thức 2025</div>
+            <span class="tmpl-badge" style="background:rgba(243,156,18,.2);color:var(--orange)">2025</span>
+          </div>
+          <div class="tmpl-card selected" data-type="12-4-6ngang" onclick="selectTemplate('12-4-6ngang', this)">
+            <div class="tmpl-icon">📝</div>
+            <div class="tmpl-name">TN-50</div>
+            <div class="tmpl-desc">50 câu ABCD<br>3 cột</div>
+            <span class="tmpl-badge badge-tn">TN</span>
+          </div>
+          <div class="tmpl-card" data-type="tn-40" onclick="selectTemplate('tn-40', this)">
+            <div class="tmpl-icon">📄</div>
+            <div class="tmpl-name">TN-40</div>
+            <div class="tmpl-desc">40 câu ABCD<br>2 cột</div>
+            <span class="tmpl-badge badge-tn">TN</span>
+          </div>
+          <div class="tmpl-card" data-type="tn-60" onclick="selectTemplate('tn-60', this)">
+            <div class="tmpl-icon">📃</div>
+            <div class="tmpl-name">TN-60</div>
+            <div class="tmpl-desc">60 câu ABCD<br>THPTQG</div>
+            <span class="tmpl-badge badge-tn">TN</span>
+          </div>
+          <div class="tmpl-card" data-type="ds-12" onclick="selectTemplate('ds-12', this)">
+            <div class="tmpl-icon">🔢</div>
+            <div class="tmpl-name">DS-12</div>
+            <div class="tmpl-desc">12 câu Điền Số<br>Thập phân</div>
+            <span class="tmpl-badge badge-ds">DS</span>
+          </div>
+          <div class="tmpl-card" data-type="tln-10" onclick="selectTemplate('tln-10', this)"
+               style="border-color:rgba(155,89,182,.4);background:rgba(155,89,182,.06)">
+            <div class="tmpl-icon">✍️</div>
+            <div class="tmpl-name">TLN-10</div>
+            <div class="tmpl-desc">10 câu Tự Luận Ngắn<br>A4 Portrait</div>
+            <span class="tmpl-badge badge-tln">TLN</span>
+          </div>
+          <div class="tmpl-card" data-type="custom" onclick="scrollToBuilder()" 
+               style="border-color:rgba(51,153,255,.4);background:rgba(51,153,255,.06)">
+            <div class="tmpl-icon">⚙️</div>
+            <div class="tmpl-name">Tuỳ Chỉnh</div>
+            <div class="tmpl-desc">Tự chọn số câu<br>MCQ / ĐS / TLN</div>
+            <span class="tmpl-badge badge-custom">SMART</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="card">
+        <h2>🏫 Thông Tin Kỳ Thi</h2>
+        <div class="form-group">
+          <label>Tên trường</label>
+          <input class="form-input" id="genSchool" value="TRƯỜNG THPT SANG MATH">
+        </div>
+        <div class="form-group">
+          <label>Tên kỳ thi / môn</label>
+          <input class="form-input" id="genSubtitle" value="Kiểm tra cuối học kỳ – Môn Toán">
+        </div>
+        <div class="form-group">
+          <label>Mẫu phiếu</label>
+          <select class="form-input" id="genTemplate">
+            <option value="thptqg-toan">THPTQG Toán (2025)</option>
+            <option value="12-4-6ngang" selected>TN-50 (50 câu)</option>
+            <option value="tn-40">TN-40</option>
+            <option value="tn-60">TN-60</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Mã đề (nhiều mã cách nhau bởi dấu phẩy)</label>
+          <input class="form-input" id="genMade" value="001, 002, 003" placeholder="VD: 001, 002, 003, 004">
+        </div>
+        <div class="form-group">
+          <label>Số bản in mỗi mã đề</label>
+          <input class="form-input" type="number" id="genCopies" value="30" min="1" max="500">
+        </div>
+        <div class="form-group" style="margin-top: 10px;">
+          <label style="display:flex;align-items:center;gap:5px;cursor:pointer;">
+            <input type="checkbox" id="genHandwritten" checked>
+            ✍ Có chừa khoảng trống Tự luận viết tay (để gọn phiếu khi tắt)
+          </label>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>⚙️ Sinh Phiếu</h2>
+        <div class="info-box">
+          ℹ️ Tải trực tiếp file PDF để in ngay. 
+        </div>
+        <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="generatePdfsDirectly()">
+          📥 Tải Phiếu OMR (PDF/ZIP)
+        </button>
+      </div>
+
+      <!-- ======= SMART BUILDER ======= -->
+      <div class="builder-section" id="smartBuilder">
+        <h2>🛠️ Bộ Sinh Mẫu Thông Minh</h2>
+        <div class="info-box" style="margin-bottom:14px;">Tuỳ chỉnh số câu từng phần → hệ thống tự sinh code Typst hoàn chỉnh để tải về.</div>
+
+        <div class="builder-row">
+          <span class="builder-label">📝 Câu TN (ABCD)</span>
+          <input class="builder-input" id="bldMcq" type="number" value="12" min="0" max="100" oninput="updateBuilder()">
+          <div class="preset-pills" id="presetMcq">
+            <span class="preset-pill" onclick="setBuilderVal('bldMcq',0,this)">0</span>
+            <span class="preset-pill" onclick="setBuilderVal('bldMcq',10,this)">10</span>
+            <span class="preset-pill active-preset" onclick="setBuilderVal('bldMcq',12,this)">12</span>
+            <span class="preset-pill" onclick="setBuilderVal('bldMcq',20,this)">20</span>
+            <span class="preset-pill" onclick="setBuilderVal('bldMcq',30,this)">30</span>
+            <span class="preset-pill" onclick="setBuilderVal('bldMcq',40,this)">40</span>
+            <span class="preset-pill" onclick="setBuilderVal('bldMcq',50,this)">50</span>
+          </div>
+        </div>
+
+        <div class="builder-row">
+          <span class="builder-label">✅ Câu Đ/S</span>
+          <input class="builder-input" id="bldTf" type="number" value="4" min="0" max="12" oninput="updateBuilder()">
+          <div class="preset-pills" id="presetTf">
+            <span class="preset-pill" onclick="setBuilderVal('bldTf',0,this)">0</span>
+            <span class="preset-pill active-preset" onclick="setBuilderVal('bldTf',4,this)">4</span>
+            <span class="preset-pill" onclick="setBuilderVal('bldTf',8,this)">8</span>
+            <span class="preset-pill" onclick="setBuilderVal('bldTf',12,this)">12</span>
+          </div>
+        </div>
+
+        <div class="builder-row">
+          <span class="builder-label">✍️ Câu TLN</span>
+          <input class="builder-input" id="bldTln" type="number" value="6" min="0" max="20" oninput="updateBuilder()">
+          <div class="preset-pills" id="presetTln">
+            <span class="preset-pill" onclick="setBuilderVal('bldTln',0,this)">0</span>
+            <span class="preset-pill" onclick="setBuilderVal('bldTln',5,this)">5</span>
+            <span class="preset-pill active-preset" onclick="setBuilderVal('bldTln',6,this)">6</span>
+            <span class="preset-pill" onclick="setBuilderVal('bldTln',10,this)">10</span>
+            <span class="preset-pill" onclick="setBuilderVal('bldTln',15,this)">15</span>
+          </div>
+        </div>
+
+        <div class="builder-row">
+          <span class="builder-label">📄 Khổ giấy</span>
+          <div style="display:flex;gap:8px">
+            <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:13px">
+              <input type="radio" name="bldPaper" value="a5" id="bldA5" onchange="updateBuilder()">
+              A5 Ngang
+            </label>
+            <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:13px">
+              <input type="radio" name="bldPaper" value="a4" id="bldA4" checked onchange="updateBuilder()">
+              A4 Đứng
+            </label>
+          </div>
+        </div>
+        <div class="builder-row">
+          <span class="builder-label">✍ Tự luận viết tay</span>
+          <div style="display:flex;gap:8px">
+            <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:13px">
+              <input type="checkbox" id="bldHandwritten" checked onchange="updateBuilder()">
+              Có phần tự luận viết tay
+            </label>
+          </div>
+        </div>
+
+        <!-- Live Preview -->
+        <div class="builder-preview">
+          <div style="font-size:11px;color:var(--muted);margin-bottom:10px;font-weight:600">PREVIEW BỐ CỤC</div>
+          <div class="builder-preview-row">
+            <span class="bpr-icon">📝</span>
+            <div class="bpr-bar bpr-mcq" id="barMcq" style="width:40%">12 TN</div>
+          </div>
+          <div class="builder-preview-row">
+            <span class="bpr-icon">✅</span>
+            <div class="bpr-bar bpr-tf" id="barTf" style="width:14%">4 Đ/S</div>
+          </div>
+          <div class="builder-preview-row">
+            <span class="bpr-icon">✍️</span>
+            <div class="bpr-bar bpr-tln" id="barTln" style="width:20%">6 TLN</div>
+          </div>
+          <div style="font-size:11px;color:var(--muted);margin-top:10px" id="bldSummary">Tổng: 22 câu · A4 Đứng · Ước tính 1 trang</div>
+        </div>
+
+        <div class="row mt-3" style="gap:8px;flex-wrap:wrap">
+          <button class="btn btn-primary" onclick="generateBuilderCode()" style="flex:1;justify-content:center">⚡ Sinh Code Typst</button>
+          <button class="btn btn-info" onclick="downloadBuilderTyp()" style="flex:1;justify-content:center">📥 Tải file .typ</button>
+        </div>
+
+        <div id="builderOutput" style="display:none;margin-top:12px">
+          <div style="font-size:11px;color:var(--muted);margin-bottom:6px">📋 Code Typst (copy vào file .typ rồi compile):</div>
+          <div class="builder-typst-output" id="builderCode"></div>
+          <button class="btn btn-secondary btn-sm mt-3" onclick="copyBuilderCode()" style="margin-top:8px">📋 Copy Code</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dual Preview: Canvas | Typst WASM -->
+    <div class="card" style="height:fit-content;position:sticky;top:80px;">
+
+      <!-- Header -->
+      <div class="row-between mb-3">
+        <h2 style="margin:0">🖼️ Xem Trước</h2>
+        <div style="display:flex;gap:5px;align-items:center">
+          <span id="wasmStatusBadge" style="font-size:10px;padding:3px 9px;border-radius:12px;background:rgba(255,255,255,.06);color:var(--muted);font-weight:700">CANVAS</span>
+          <button class="btn btn-secondary btn-sm" id="btnDownloadPreview" onclick="downloadActivePreview()">💾 Tải PNG</button>
+        </div>
+      </div>
+
+      <!-- Mode tabs -->
+      <div style="display:flex;gap:0;margin-bottom:10px;border-radius:10px;overflow:hidden;border:1px solid var(--border)">
+        <button id="tabCanvas" onclick="setPreviewMode('canvas')"
+          style="flex:1;padding:8px;font-size:12px;font-weight:700;border:none;cursor:pointer;transition:.15s;background:rgba(51,153,255,.18);color:#5bc8ff;border-right:1px solid var(--border)">
+          📐 Canvas
+        </button>
+        <button id="tabWasm" onclick="activateTypstWasm()"
+          style="flex:1;padding:8px;font-size:12px;font-weight:700;border:none;cursor:pointer;transition:.15s;background:rgba(255,255,255,.04);color:var(--muted)">
+          ⚡ Typst WASM
+        </button>
+      </div>
+
+      <!-- Canvas mode -->
+      <div id="panelCanvas">
+        <div style="background:#e8e8e8;border-radius:10px;padding:8px;position:relative;overflow:hidden">
+          <canvas id="sheetCanvas" style="display:block;border-radius:6px;box-shadow:0 4px 20px rgba(0,0,0,.3);cursor:zoom-in" onclick="togglePreviewZoom(this)"></canvas>
+          <div style="position:absolute;bottom:10px;right:10px;font-size:10px;color:rgba(0,0,0,.35);pointer-events:none">Nhấn để phóng to</div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:11px;color:var(--muted)">
+          <span id="prevInfoLeft">—</span>
+          <span id="prevInfoRight">—</span>
+        </div>
+      </div>
+
+      <!-- WASM mode -->
+      <div id="panelWasm" style="display:none">
+        <!-- Status bar -->
+        <div id="wasmStatusBar" style="display:flex;align-items:center;gap:8px;padding:10px 12px;background:rgba(255,255,255,.04);border-radius:10px;margin-bottom:10px;font-size:12px">
+          <div id="wasmSpinner" style="width:14px;height:14px;border:2px solid rgba(255,255,255,.15);border-top-color:#a78bfa;border-radius:50%;animation:spin .6s linear infinite;display:none;flex-shrink:0"></div>
+          <span id="wasmStatusMsg" style="color:var(--muted);flex:1">Nhấn tab để tải Typst WASM (~6MB, 1 lần)</span>
+          <span id="wasmVersion" style="font-size:10px;color:rgba(255,255,255,.2)"></span>
+        </div>
+        <!-- SVG output -->
+        <div id="svgPreviewWrap" style="background:#e8e8e8;border-radius:10px;padding:8px;min-height:200px;display:flex;align-items:flex-start;justify-content:center;overflow:auto;cursor:zoom-in" onclick="zoomSvgPreview()">
+          <div id="svgPreviewContainer" style="width:100%">
+            <div style="text-align:center;padding:60px 20px;color:#aaa;font-size:13px">
+              ⚡ Typst WASM sẽ render phiếu thực sự tại đây
+            </div>
+          </div>
+        </div>
+        <!-- Error detail -->
+        <div id="wasmErrorDetail" style="display:none;margin-top:8px;background:rgba(230,57,70,.08);border:1px solid rgba(230,57,70,.2);border-radius:8px;padding:10px;font-family:monospace;font-size:10px;color:#f8a0a0;overflow-x:auto"></div>
+      </div>
+
+      <!-- Hidden compat elements -->
+      <div style="display:none">
+        <span id="prevSchool"></span><span id="prevSubtitle"></span>
+        <div id="prevQGrid"></div><div id="prevNote"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ZOOM MODAL (Canvas) -->
+<div id="previewModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.88);backdrop-filter:blur(8px);align-items:center;justify-content:center;cursor:zoom-out" onclick="closePreviewModal()">
+  <canvas id="sheetCanvasZoom" style="max-width:90vw;max-height:90vh;border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,.6)"></canvas>
+</div>
+<!-- ZOOM MODAL (SVG) -->
+<div id="svgZoomModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.88);backdrop-filter:blur(8px);align-items:center;justify-content:center;cursor:zoom-out;overflow:auto;padding:20px" onclick="closeSvgZoom()">
+  <div id="svgZoomContent" style="background:white;border-radius:12px;padding:12px;box-shadow:0 20px 60px rgba(0,0,0,.6);max-width:95vw"></div>
+</div>
+
+<!-- ===================== TAB 3: QUẢN LÝ LỚP ===================== -->
+<div class="tab-panel" id="tab-class">
+  <div class="two-col">
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div class="card">
+        <h2>📂 Import Danh Sách Học Sinh</h2>
+        <div class="info-box">File CSV cần có cột: <strong>SBD, Họ tên</strong> (tuỳ chọn: Lớp). Dòng đầu tiên là tiêu đề.</div>
+        <div class="csv-drop" id="csvDrop" onclick="document.getElementById('csvInput').click()">
+          📁 Kéo thả file CSV hoặc nhấn để chọn tệp
+          <input type="file" id="csvInput" accept=".csv" style="display:none">
+        </div>
+        <div class="form-group">
+          <label>Hoặc nhập thủ công (mỗi dòng: SBD,Họ tên,Lớp)</label>
+          <textarea class="form-input" id="manualStudents" rows="6" placeholder="0001,Nguyễn Văn A,10A1&#10;0002,Trần Thị B,10A1&#10;0003,Lê Văn C,10A2"></textarea>
+        </div>
+        <div class="row">
+          <button class="btn btn-primary" onclick="importStudents()">✅ Nhập Danh Sách</button>
+          <button class="btn btn-secondary" onclick="clearStudents()">🗑️ Xoá</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>📥 Ghép Kết Quả</h2>
+        <div class="text-muted mb-3">Hệ thống sẽ ghép điểm từ kết quả chấm bài với danh sách học sinh theo SBD.</div>
+        <button class="btn btn-success" style="width:100%;justify-content:center" onclick="mergeResults()">🔗 Ghép Điểm Vào Danh Sách</button>
+        <div class="separator"></div>
+        <div class="row" style="gap:8px">
+          <button class="btn btn-info btn-sm" onclick="exportCSV()">📊 Xuất CSV</button>
+          <button class="btn btn-secondary btn-sm" onclick="exportExcel()">📗 Xuất Excel</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>👥 Danh Sách Học Sinh</h2>
+      <div id="classTableWrap">
+        <div class="text-muted" style="text-align:center;padding:40px">Chưa có danh sách. Import file CSV để bắt đầu.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== TAB 4: THỐNG KÊ ===================== -->
+<div class="tab-panel" id="tab-stats">
+  <div class="three-col mb-4">
+    <div class="card" style="text-align:center">
+      <div style="font-size:36px;font-weight:800" id="statTotal">0</div>
+      <div class="text-muted" style="margin-top:4px">Tổng bài chấm</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div style="font-size:36px;font-weight:800;color:var(--green)" id="statAvg">—</div>
+      <div class="text-muted" style="margin-top:4px">Điểm trung bình</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div style="font-size:36px;font-weight:800;color:var(--blue)" id="statPass">—</div>
+      <div class="text-muted" style="margin-top:4px">Tỷ lệ đạt (≥5.0)</div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="card">
+      <h2>📊 Phân Phối Điểm</h2>
+      <div class="chart-bar-wrap" id="scoreDistChart">
+        <div class="text-muted" style="text-align:center;padding:30px">Chưa có dữ liệu. Chấm bài để xem thống kê.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🔬 Phân Tích Từng Câu</h2>
+      <div class="info-box">Tỷ lệ trả lời đúng từng câu giúp phát hiện câu quá khó hoặc bẫy bẫy học sinh.</div>
+      <div class="chart-bar-wrap" id="qAnalysisChart">
+        <div class="text-muted" style="text-align:center;padding:30px">Chấm nhiều bài để xem phân tích.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mt-3" style="margin-top:14px">
+    <div class="row-between mb-3">
+      <h2 style="margin:0">📋 Bảng Điểm Chi Tiết</h2>
+      <div class="row" style="gap:8px">
+        <button class="btn btn-info btn-sm" onclick="exportCSV()">📊 Xuất CSV</button>
+        <button class="btn btn-secondary btn-sm" onclick="clearAllResults()">🗑️ Xoá Tất Cả</button>
+      </div>
+    </div>
+    <div class="results-table-wrap">
+      <table class="results-table" id="resultsTable">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>SBD</th>
+            <th>Họ tên</th>
+            <th>Mã đề</th>
+            <th>Điểm</th>
+            <th>Đúng/Tổng</th>
+            <th>Xếp loại</th>
+          </tr>
+        </thead>
+        <tbody id="resultsBody">
+          <tr><td colspan="7" style="text-align:center;color:var(--muted);padding:30px">Chưa có kết quả</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================================== -->
+<!-- EMBEDDED COORDINATE TEMPLATE (TN-50, SBD 4-digit)       -->
+<!-- Coordinates calibrated on 1000×1500px warped image      -->
+<!-- ======================================================== -->
+<script>
+const TEMPLATES = {

@@ -1,0 +1,186 @@
+import re
+
+html_code = open('index.html', 'r', encoding='utf-8').read()
+
+start_idx = html_code.find('function genWasmTypst({ mcq, tf, tln, paper, school, subtitle }) {')
+end_idx = html_code.find('// ── Zoom SVG', start_idx)
+
+if start_idx == -1 or end_idx == -1:
+    print("Function not found!")
+    exit(1)
+
+new_func = """function genWasmTypst({ mcq, tf, tln, paper, school, subtitle }) {
+  const isA5 = paper === 'a5';
+  const cols = mcq <= 20 ? 2 : mcq <= 40 ? 3 : 4;
+  const perCol = mcq > 0 ? Math.ceil(mcq / cols) : 0;
+
+  // Build TN section
+  let tnSection = '';
+  if (mcq > 0) {
+    let tnColsArr = [];
+    for (let ci = 0; ci < cols; ci++) {
+      let colContent = `#grid(columns: (18pt, 1fr, 1fr, 1fr, 1fr), row-gutter: 4pt, align: horizon,\\n`;
+      colContent += `  [], [#align(center)[#text(6pt)[A]]], [#align(center)[#text(6pt)[B]]], [#align(center)[#text(6pt)[C]]], [#align(center)[#text(6pt)[D]]],\\n`;
+      for (let qi = 0; qi < perCol; qi++) {
+        const qnum = ci * perCol + qi + 1;
+        if (qnum <= mcq) {
+          colContent += `  [#align(right)[#text(7pt)[${qnum}.]]], [#align(center)[#circle(radius:3.5pt,stroke:.4pt)[]]], [#align(center)[#circle(radius:3.5pt,stroke:.4pt)[]]], [#align(center)[#circle(radius:3.5pt,stroke:.4pt)[]]], [#align(center)[#circle(radius:3.5pt,stroke:.4pt)[]]],\\n`;
+        }
+      }
+      colContent += `)`;
+      tnColsArr.push(`[#pad(x: 4pt, y: 6pt)[${colContent}]]`);
+    }
+    tnSection = `
+#block(width:100%, stroke:0.8pt, radius:4pt, clip:true, [
+  #rect(fill:luma(240), width:100%, height:16pt, [#align(center+horizon)[#text(8pt, weight:"bold")[PHẦN I – TRẮC NGHIỆM (${mcq} câu, chọn 1 đáp án)]]])
+  #grid(columns: (1fr,) * ${cols}, stroke: (x,y) => if x > 0 { (left: 0.3pt) } else { none },
+    ${tnColsArr.join(',\\n    ')}
+  )
+])`;
+  }
+
+  // Build TF section
+  let tfSection = '';
+  if (tf > 0) {
+    const tfCols = Math.min(tf, 4);
+    const stmts = ['a)', 'b)', 'c)', 'd)'];
+    let tfColsArr = [];
+    for (let ci = 0; ci < tfCols; ci++) {
+      let colContent = `#align(center)[#text(7pt, weight:"bold")[Câu ${ci+1}]]\\n`;
+      colContent += `#v(4pt)\\n`;
+      colContent += `#grid(columns: (1fr, 16pt, 16pt), row-gutter: 6pt, align: horizon,\\n`;
+      colContent += `  [], [#align(center)[#text(6pt)[Đ]]], [#align(center)[#text(6pt)[S]]],\\n`;
+      for (let si = 0; si < 4; si++) {
+        colContent += `  [#align(right)[#text(6pt)[${stmts[si]}]]], [#align(center)[#circle(radius:3.5pt,stroke:.4pt)[]]], [#align(center)[#circle(radius:3.5pt,stroke:.4pt)[]]],\\n`;
+      }
+      colContent += `)`;
+      tfColsArr.push(`[#pad(x: 4pt, y: 6pt)[${colContent}]]`);
+    }
+
+    tfSection = `
+#v(4pt)
+#block(width:100%, stroke:0.8pt, radius:4pt, clip:true, [
+  #rect(fill:luma(240), width:100%, height:16pt, [#align(center+horizon)[#text(8pt, weight:"bold")[PHẦN II – ĐÚNG / SAI (${tf} câu, 4 ý a/b/c/d)]]])
+  #grid(columns: (1fr,) * ${tfCols}, stroke: (x,y) => if x > 0 { (left: 0.3pt) } else { none },
+    ${tfColsArr.join(',\\n    ')}
+  )
+])`;
+  }
+
+  // Build TLN section
+  let tlnSection = '';
+  if (tln > 0) {
+    const tlnCols = Math.min(tln, tln <= 6 ? tln : Math.ceil(tln/2));
+    const rows    = Math.ceil(tln / tlnCols);
+    let parts = '';
+    for (let r = 0; r < rows; r++) {
+      const start = r * tlnCols + 1;
+      const end   = Math.min(start + tlnCols - 1, tln);
+      const cnt   = end - start + 1;
+      
+      let tlnColsArr = [];
+      for (let ci = 0; ci < cnt; ci++) {
+        let colContent = `#align(center)[#text(7pt,weight:"bold")[Câu ${start+ci}]]\\n`;
+        colContent += `#v(2pt)\\n`;
+        colContent += `#align(center)[#rect(fill:black,width:8pt,height:8pt) #h(2pt) ${Array.from({length:4},(_,b)=>`#rect(width:9pt,height:9pt,stroke:.5pt)[]`).join(' #h(1pt) ')}]\\n`;
+        colContent += `#v(4pt)\\n`;
+        colContent += `#align(center)[#grid(columns: (10pt, 13pt, 13pt, 13pt, 13pt), row-gutter: 4pt, align: horizon,\\n`;
+        for (let row = 0; row < 12; row++) {
+          const label = row === 0 ? '-' : row === 1 ? ',' : String(row - 2);
+          colContent += `  [#align(right)[#text(5.5pt, fill: rgb("#444"))[${label}]]], [#align(center)[#circle(radius:2.5pt,stroke:.4pt)[]]], [#align(center)[#circle(radius:2.5pt,stroke:.4pt)[]]], [#align(center)[#circle(radius:2.5pt,stroke:.4pt)[]]], [#align(center)[#circle(radius:2.5pt,stroke:.4pt)[]]],\\n`;
+        }
+        colContent += `)]`;
+        tlnColsArr.push(`[#pad(x: 2pt, y: 4pt)[${colContent}]]`);
+      }
+
+      parts += `
+  #v(4pt)
+  #block(width:100%, stroke:0.8pt, radius:4pt, clip:true, [
+    #rect(fill:luma(240), width:100%, height:16pt, [#align(center+horizon)[#text(8pt, weight:"bold")[PHẦN ${r===0?'III':'IV'} – TỰ LUẬN NGẮN (Câu ${start}–${end})]]])
+    #grid(columns: (1fr,) * ${cnt}, stroke: (x,y) => if x > 0 { (left: 0.3pt) } else { none },
+      ${tlnColsArr.join(',\\n      ')}
+    )
+  ])`;
+    }
+    tlnSection = parts;
+  }
+
+  return `// Preview-safe Typst – no external packages
+// Generated by Sang Math OMR
+
+#set page(
+  paper: "${isA5 ? 'a5' : 'a4'}",
+  flipped: ${isA5},
+  margin: (top:5mm, bottom:5mm, left:6mm, right:6mm),
+)
+#set text(size: 8pt, lang: "vi")
+
+// Corner markers
+#place(top+left,   dx:-1mm, dy:-1mm, square(size:10pt, fill:black))
+#place(top+right,  dx:1mm,  dy:-1mm, square(size:10pt, fill:black))
+#place(bottom+left,  dx:-1mm, dy:1mm, square(size:10pt, fill:black))
+#place(bottom+right, dx:1mm,  dy:1mm, square(size:10pt, fill:black))
+
+// ── HEADER ──────────────────────────────────────────────────
+#block(width:100%, stroke:0.8pt, radius:4pt, clip:true, [
+  #grid(columns:(86pt, 54pt, 1fr, 30pt), gutter:0pt, stroke: (x,y) => if x > 0 and x < 3 { (left: 0.5pt) } else { none },
+    grid.cell([
+      #pad(x: 2pt, y: 4pt)[
+        #align(center)[#text(7pt, weight:"bold")[SỐ BÁO DANH]]
+        #v(4pt)
+        #align(center)[#grid(columns:(1fr,)*6, row-gutter:2pt, align:center, ..range(6).map(_=>[#rect(width:10pt,height:10pt,stroke:.6pt)]))]
+        #v(4pt)
+        #align(center)[#grid(columns:(1fr,)*6, row-gutter:3pt, align:center, ..range(10).map(r => range(6).map(_=>[#circle(radius:2.5pt,stroke:.4pt)[]])).flatten())]
+      ]
+    ]),
+    grid.cell([
+      #pad(x: 2pt, y: 4pt)[
+        #align(center)[#text(7pt, weight:"bold")[MÃ ĐỀ THI]]
+        #v(4pt)
+        #align(center)[#grid(columns:(1fr,)*3, row-gutter:2pt, align:center, ..range(3).map(_=>[#rect(width:10pt,height:10pt,stroke:.6pt)]))]
+        #v(4pt)
+        #align(center)[#grid(columns:(1fr,)*3, row-gutter:3pt, align:center, ..range(10).map(r => range(3).map(_=>[#circle(radius:2.5pt,stroke:.4pt)[]])).flatten())]
+      ]
+    ]),
+    grid.cell([
+      #pad(x:6pt, y: 4pt)[
+        #text(9pt, weight:"bold", fill:rgb("#c0392b"))[PHIẾU TRẢ LỜI TRẮC NGHIỆM]
+        #v(2pt)
+        #text(7pt)[${school}]\\\\
+        #text(7pt)[Họ và tên: \\\\....................................................................] \\\\
+        #text(7pt)[Lớp: ........................ Môn: ........................ Điểm: ..............]
+      ]
+    ]),
+    grid.cell([
+      #pad(x: 4pt, y: 16pt)[
+        #align(center)[
+          #rect(fill: luma(220), width: 24pt, height: 24pt, stroke: none)[
+            #align(center+horizon)[#text(5pt, fill: luma(100))[QR]]
+          ]
+        ]
+      ]
+    ])
+  )
+])
+${tnSection}
+${tfSection}
+${tlnSection}
+
+// ── TỰ LUẬN VIẾT TAY ────────────────────────────────────────
+#v(4pt)
+#block(width:100%, stroke:0.8pt, radius:4pt, clip:true, fill:luma(252), [
+  #rect(fill:luma(238), width:100%, height:16pt, [#align(center+horizon)[#text(8pt, fill:gray)[✍ PHẦN TỰ LUẬN – Viết bên dưới]]])
+  #v(4pt)
+  #set par(leading: 14pt)
+  #for _ in range(${Math.floor(isA5 ? 4 : 8)}) [
+    #line(length:100%, stroke:(thickness:.3pt, dash:"dashed", paint:luma(200))) \\\\
+  ]
+  #v(4pt)
+])
+`;
+}
+"""
+
+new_html = html_code[:start_idx] + new_func + '\n' + html_code[end_idx:]
+open('index.html', 'w', encoding='utf-8').write(new_html)
+print("Updated index.html!")

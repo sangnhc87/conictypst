@@ -10,6 +10,50 @@ window.OmrEngine = {
     window.dispatchEvent(new Event('opencvLoaded'));
   },
 
+  detectMarkers(src) {
+    let gray = new cv.Mat();
+    cv.cvtColor(src, gray, cv.COLOR_RGBA2GRAY);
+    let threshMarker = new cv.Mat();
+    cv.threshold(gray, threshMarker, 100, 255, cv.THRESH_BINARY_INV);
+
+    let contours = new cv.MatVector();
+    let hierarchy = new cv.Mat();
+    cv.findContours(threshMarker, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
+
+    let candidates = [];
+    for (let i = 0; i < contours.size(); ++i) {
+      const c = contours.get(i);
+      const area = cv.contourArea(c);
+      if (area > 300) { 
+        const M2 = cv.moments(c);
+        if (M2.m00 !== 0) {
+          const cx = Math.round(M2.m10 / M2.m00), cy = Math.round(M2.m01 / M2.m00);
+          candidates.push({ cx, cy, area });
+        }
+      }
+    }
+
+    // Clean up memory
+    gray.delete();
+    threshMarker.delete();
+    contours.delete();
+    hierarchy.delete();
+
+    if (candidates.length >= 4) {
+      // Sort corners
+      candidates.sort((a, b) => (a.cx + a.cy) - (b.cx + b.cy));
+      let tl = [candidates[0].cx, candidates[0].cy];
+      let br = [candidates[candidates.length - 1].cx, candidates[candidates.length - 1].cy];
+
+      candidates.sort((a, b) => (a.cx - a.cy) - (b.cx - b.cy));
+      let bl = [candidates[0].cx, candidates[0].cy];
+      let tr = [candidates[candidates.length - 1].cx, candidates[candidates.length - 1].cy];
+      
+      return { tl, tr, bl, br };
+    }
+    return null;
+  },
+
   readBubbleCol(thresh_img, coords, radius = 6) {
     const results = [];
     for (let row = 0; row < 10; row++) {
@@ -443,46 +487,168 @@ window.OmrEngine = {
       let finalScoreStr = totalScore.toFixed(2);
       if (finalScoreStr.endsWith('0')) finalScoreStr = parseFloat(finalScoreStr).toString();
 
-      // If not warped, draw result table on the image
-      if (!isWarped && wrongDetails.length > 0) {
-        rctx.fillStyle = "rgba(255, 255, 255, 0.9)";
-        rctx.fillRect(20, 150, 300, 30 + wrongDetails.length * 20);
-        rctx.fillStyle = "#d32f2f";
-        rctx.font = "bold 18px sans-serif";
-        rctx.fillText("BẢNG CÁC CÂU SAI:", 30, 175);
-        rctx.fillStyle = "#333";
-        rctx.font = "14px monospace";
-        wrongDetails.forEach((line, i) => {
-          rctx.fillText(line, 30, 200 + i * 20);
-        });
+      // ── Smart comment by score band ──────────────────────────────────────────
+      const sc = parseFloat(finalScoreStr);
+      let verdict, verdictColor, autoComment;
+      if (sc >= 9.0) {
+        verdict = '🏆 Xuất Sắc'; verdictColor = '#00b87a';
+        autoComment = 'Em đã trả lời xuất sắc! Tiếp tục phát huy nhé 🌟';
+      } else if (sc >= 7.0) {
+        verdict = '⭐ Khá';    verdictColor = '#2196f3';
+        autoComment = 'Kết quả tốt! Xem lại các câu còn sai để hoàn thiện hơn 👍';
+      } else if (sc >= 5.0) {
+        verdict = '📖 Trung Bình'; verdictColor = '#ff9800';
+        autoComment = 'Cần ôn tập thêm các phần còn yếu, em nhé 📚';
+      } else {
+        verdict = '💪 Cần Cố Gắng'; verdictColor = '#f44336';
+        autoComment = 'Gặp thầy/cô để được hỗ trợ thêm. Em đừng nản nhé! 💪';
       }
 
-      // Draw final badge
-      const badgeW = 320;
-      const badgeH = 120;
-      const badgeX = Math.max(0, drawMat.cols - badgeW - 20);
-      const badgeY = 20;
+      // ── Wrong-answer panel (bottom-left) ────────────────────────────────────
+      if (wrongDetails.length > 0) {
+        const panelW = Math.min(400, drawMat.cols - 20);
+        const rowH = 22;
+        const panelH = 44 + wrongDetails.length * rowH;
+        const panelX = 14;
+        const panelY = drawMat.rows - panelH - 14;
 
-      rctx.fillStyle = "rgba(255, 255, 255, 0.95)";
+        // Panel background
+        rctx.save();
+        rctx.shadowColor = 'rgba(0,0,0,0.35)';
+        rctx.shadowBlur = 12;
+        rctx.fillStyle = 'rgba(255,255,255,0.94)';
+        rctx.beginPath();
+        if (rctx.roundRect) rctx.roundRect(panelX, panelY, panelW, panelH, 10);
+        else rctx.rect(panelX, panelY, panelW, panelH);
+        rctx.fill();
+        rctx.restore();
+
+        // Red top bar
+        rctx.fillStyle = '#e53935';
+        rctx.beginPath();
+        if (rctx.roundRect) rctx.roundRect(panelX, panelY, panelW, 24, [10, 10, 0, 0]);
+        else rctx.rect(panelX, panelY, panelW, 24);
+        rctx.fill();
+
+        rctx.fillStyle = '#fff';
+        rctx.font = 'bold 12px "Segoe UI", sans-serif';
+        rctx.textAlign = 'left';
+        rctx.fillText(`❌  ${wrongDetails.length} CÂU SAI – CẦN XEM LẠI`, panelX + 10, panelY + 16);
+
+        wrongDetails.forEach((line, i) => {
+          const rowY = panelY + 24 + i * rowH;
+          rctx.fillStyle = i % 2 === 0 ? 'rgba(229,57,53,0.07)' : 'transparent';
+          rctx.fillRect(panelX, rowY, panelW, rowH);
+          rctx.fillStyle = '#1a1a2e';
+          rctx.font = `${rowH - 6}px "Courier New", monospace`;
+          rctx.fillText(line, panelX + 10, rowY + rowH - 6);
+        });
+        rctx.textAlign = 'left';
+      }
+
+      // ── Premium Score Badge (top-right) ─────────────────────────────────────
+      const badgeW = 300;
+      const badgeH = 158;
+      const badgeX = Math.max(10, drawMat.cols - badgeW - 14);
+      const badgeY = 14;
+      const radius = 14;
+
+      // Shadow + white card
+      rctx.save();
+      rctx.shadowColor = 'rgba(0,0,0,0.35)';
+      rctx.shadowBlur = 18;
+      rctx.fillStyle = 'rgba(255,255,255,0.97)';
       rctx.beginPath();
-      rctx.roundRect(badgeX, badgeY, badgeW, badgeH, 15);
+      if (rctx.roundRect) rctx.roundRect(badgeX, badgeY, badgeW, badgeH, radius);
+      else rctx.rect(badgeX, badgeY, badgeW, badgeH);
       rctx.fill();
-      rctx.lineWidth = 4;
-      rctx.strokeStyle = totalScore >= 8 ? "#2e7d32" : (totalScore >= 5 ? "#1565c0" : "#d32f2f");
+      rctx.restore();
+
+      // Colored top banner
+      const grad = rctx.createLinearGradient(badgeX, badgeY, badgeX + badgeW, badgeY);
+      grad.addColorStop(0, verdictColor);
+      grad.addColorStop(1, verdictColor + 'aa');
+      rctx.fillStyle = grad;
+      rctx.beginPath();
+      if (rctx.roundRect) rctx.roundRect(badgeX, badgeY, badgeW, 34, [radius, radius, 0, 0]);
+      else rctx.rect(badgeX, badgeY, badgeW, 34);
+      rctx.fill();
+
+      // "KẾT QUẢ CHẤM" label
+      rctx.fillStyle = '#fff';
+      rctx.font = 'bold 13px "Segoe UI", sans-serif';
+      rctx.textAlign = 'center';
+      rctx.fillText('KẾT QUẢ CHẤM THI  ·  SANG MATH OMR', badgeX + badgeW / 2, badgeY + 22);
+
+      // Big score number
+      rctx.fillStyle = verdictColor;
+      rctx.font = 'bold 58px "Segoe UI", Arial, sans-serif';
+      rctx.textAlign = 'center';
+      rctx.fillText(finalScoreStr, badgeX + 80, badgeY + 104);
+
+      // Divider
+      rctx.strokeStyle = '#eee';
+      rctx.lineWidth = 1;
+      rctx.beginPath();
+      rctx.moveTo(badgeX + 130, badgeY + 44);
+      rctx.lineTo(badgeX + 130, badgeY + 148);
       rctx.stroke();
 
-      rctx.fillStyle = rctx.strokeStyle;
-      rctx.font = "bold 24px sans-serif";
-      rctx.textAlign = "center";
-      rctx.fillText("KẾT QUẢ CHẤM", badgeX + badgeW / 2, badgeY + 35);
+      // Right panel: verdict + detail + comment
+      rctx.textAlign = 'left';
+      rctx.fillStyle = verdictColor;
+      rctx.font = 'bold 14px "Segoe UI", sans-serif';
+      rctx.fillText(verdict, badgeX + 142, badgeY + 60);
 
-      rctx.font = "bold 48px sans-serif";
-      rctx.fillText(finalScoreStr, badgeX + badgeW / 2, badgeY + 85);
+      rctx.fillStyle = '#555';
+      rctx.font = '12px "Segoe UI", sans-serif';
+      rctx.fillText(`TN: ${totalCorrectMCQ}/${template.numQ} câu đúng`, badgeX + 142, badgeY + 80);
+      if (wrongDetails.length > 0) {
+        rctx.fillStyle = '#e53935';
+        rctx.fillText(`Sai: ${wrongDetails.length} câu`, badgeX + 142, badgeY + 98);
+      } else {
+        rctx.fillStyle = '#00b87a';
+        rctx.fillText('Không có câu sai! 🎉', badgeX + 142, badgeY + 98);
+      }
 
-      rctx.fillStyle = "#333";
-      rctx.font = "18px sans-serif";
-      rctx.fillText(`Trắc nghiệm: ${totalCorrectMCQ}/${template.numQ}`, badgeX + badgeW / 2, badgeY + 110);
-      rctx.textAlign = "left";
+      // Auto-comment (word-wrap simple)
+      rctx.fillStyle = '#777';
+      rctx.font = 'italic 10.5px "Segoe UI", sans-serif';
+      const words = autoComment.split(' ');
+      let line = '', lineY = badgeY + 118, maxLineW = badgeW - 148;
+      words.forEach(word => {
+        const test = line + (line ? ' ' : '') + word;
+        if (rctx.measureText(test).width > maxLineW && line) {
+          rctx.fillText(line, badgeX + 142, lineY);
+          line = word; lineY += 14;
+        } else { line = test; }
+      });
+      if (line) rctx.fillText(line, badgeX + 142, lineY);
+
+      // Bottom thin bar – score arc indicator
+      const arcW = badgeW;
+      const arcH = 6;
+      rctx.fillStyle = '#eee';
+      rctx.fillRect(badgeX, badgeY + badgeH - arcH, arcW, arcH);
+      const fillW = Math.round((sc / 10) * arcW);
+      const arcGrad = rctx.createLinearGradient(badgeX, 0, badgeX + arcW, 0);
+      arcGrad.addColorStop(0, '#f44336');
+      arcGrad.addColorStop(0.5, '#ff9800');
+      arcGrad.addColorStop(0.7, '#2196f3');
+      arcGrad.addColorStop(1.0, '#00b87a');
+      rctx.fillStyle = arcGrad;
+      rctx.fillRect(badgeX, badgeY + badgeH - arcH, fillW, arcH);
+
+      rctx.textAlign = 'left';
+
+      // ── Watermark ────────────────────────────────────────────────────────────
+      rctx.save();
+      rctx.globalAlpha = 0.12;
+      rctx.fillStyle = '#333';
+      rctx.font = 'bold 14px "Segoe UI", sans-serif';
+      rctx.textAlign = 'right';
+      rctx.fillText('SANG MATH OMR', drawMat.cols - 10, drawMat.rows - 8);
+      rctx.restore();
 
       return {
         sbd: geminiAns.sbd || '?',
@@ -490,8 +656,11 @@ window.OmrEngine = {
         made: geminiAns.made || '?',
         correct: totalCorrectMCQ, total: template.numQ,
         score: finalScoreStr,
+        verdict: verdict,
+        autoComment: autoComment,
+        wrongDetails: wrongDetails,
         answers: answerMap,
-        imageDataURL: resultCanvas.toDataURL("image/jpeg", 0.8)
+        imageDataURL: resultCanvas.toDataURL('image/png')
       };
 
     } finally {

@@ -12,15 +12,15 @@
 
 #let bubble(label) = {
   circle(
-    radius: 5pt,
+    radius: 4.3pt,
     stroke: 0.5pt + rgb("#333333"),
     fill: white,
-    align(center + horizon)[#text(size: 7pt, weight: "bold", fill: rgb("#444444"))[#label]],
+    align(center + horizon)[#text(size: 7pt, weight: "regular", fill: rgb("#888888"))[#label]],
   )
 }
 
 #align(center + horizon)[
-  #scale(x: 95%, y: 95%, origin: center)[
+  #scale(x: 88%, y: 88%, origin: center)[
     #place(top + left, dx: -5mm, dy: -5mm, marker)
     #place(top + right, dx: 5mm, dy: -5mm, marker)
     #place(bottom + left, dx: -5mm, dy: 5mm, marker)
@@ -29,38 +29,39 @@
     #v(2pt)
     
     #let sbd-box = block(
-      inset: (left: 2pt, right: 2pt, top: 2pt, bottom: 2pt),
+      inset: (left: 6pt, right: 3pt, top: 1pt, bottom: 1pt),
       [
         #align(center)[#text(weight: "bold", size: 8pt)[SBD]]
-        #v(2pt)
+        #v(1pt)
         #grid(
-          columns: (12pt,) * 6, gutter: 1.5pt,
-          ..range(6).map(i => align(center, box(stroke: 0.8pt + black, width: 11pt, height: 11pt)))
+          columns: (12pt,) * 6, gutter: 1.2pt,
+          ..range(6).map(i => align(center, box(stroke: 0.8pt + black, width: 10pt, height: 10pt)))
         )
-        #v(2pt)
+        #v(1pt)
         #grid(
-          columns: (12pt,) * 6, row-gutter: 1.5pt, column-gutter: 1.5pt,
+          columns: (12pt,) * 6, row-gutter: 0.8pt, column-gutter: 1.5pt,
           ..range(10).map(r => range(6).map(c => align(center, bubble(str(r))))).flatten()
         )
       ],
     )
     
     #let made-box = block(
-      inset: (left: 2pt, right: 2pt, top: 2pt, bottom: 2pt),
+      inset: (left: 3pt, right: 3pt, top: 1pt, bottom: 1pt),
       [
         #align(center)[#text(weight: "bold", size: 8pt)[Mã đề]]
-        #v(2pt)
+        #v(1pt)
         #grid(
-          columns: (12pt,) * 3,
-          gutter: 1.5pt,
-          align(center, box(stroke: 0.8pt + black, width: 11pt, height: 11pt)),
-          align(center, box(stroke: 0.8pt + black, width: 11pt, height: 11pt)),
-          align(center, box(stroke: 0.8pt + black, width: 11pt, height: 11pt)),
+          columns: (12pt,) * 4,
+          gutter: 1.2pt,
+          align(center, box(stroke: 0.8pt + black, width: 10pt, height: 10pt)),
+          align(center, box(stroke: 0.8pt + black, width: 10pt, height: 10pt)),
+          align(center, box(stroke: 0.8pt + black, width: 10pt, height: 10pt)),
+          align(center, box(stroke: 0.8pt + black, width: 10pt, height: 10pt)),
         )
-        #v(2pt)
+        #v(1pt)
         #grid(
-          columns: (12pt,) * 3, row-gutter: 1.5pt, column-gutter: 1.5pt,
-          ..range(10).map(r => range(3).map(c => align(center, bubble(str(r))))).flatten()
+          columns: (12pt,) * 4, row-gutter: 0.8pt, column-gutter: 1.5pt,
+          ..range(10).map(r => range(4).map(c => align(center, bubble(str(r))))).flatten()
         )
       ],
     )
@@ -88,17 +89,17 @@
             Lớp: .................... Môn: .................... Điểm: .......
           ],
         )
-        #line(length: 100%, stroke: 0.8pt)
+        #line(length: 100%, stroke: (paint: rgb("#666666"), thickness: 0.8pt, dash: "dashed"))
         #block(
           inset: (left: 4pt, right: 4pt, top: 2pt, bottom: 2pt),
           [ *PHẦN I* ],
         )
-        #line(length: 100%, stroke: 0.8pt)
+        #line(length: 100%, stroke: (paint: rgb("#666666"), thickness: 0.8pt, dash: "dashed"))
         #grid(
           columns: (1fr, 1fr, 1fr),
           // Col 1
           block(
-            stroke: (right: 0.5pt),
+            stroke: (right: (paint: rgb("#666666"), thickness: 0.5pt, dash: "dashed")),
             inset: 2pt,
             [
               #grid(
@@ -106,12 +107,12 @@
                 align(center)[#tracking-marker], align(center)[*A*], align(center)[*B*], align(center)[*C*], align(center)[*D*],
               )
               #v(2pt)
-              #grid(columns: 1, row-gutter: 1.5pt, ..range(1, 5).map(i => mcq-row(i)))
+              #grid(columns: 1, row-gutter: 0.8pt, ..range(1, 5).map(i => mcq-row(i)))
             ]
           ),
           // Col 2
           block(
-            stroke: (right: 0.5pt),
+            stroke: (right: (paint: rgb("#666666"), thickness: 0.5pt, dash: "dashed")),
             inset: 2pt,
             [
               #grid(
@@ -119,7 +120,7 @@
                 align(center)[#tracking-marker], align(center)[*A*], align(center)[*B*], align(center)[*C*], align(center)[*D*],
               )
               #v(2pt)
-              #grid(columns: 1, row-gutter: 1.5pt, ..range(5, 9).map(i => mcq-row(i)))
+              #grid(columns: 1, row-gutter: 0.8pt, ..range(5, 9).map(i => mcq-row(i)))
             ]
           ),
           // Col 3
@@ -131,7 +132,7 @@
                 align(center)[#tracking-marker], align(center)[*A*], align(center)[*B*], align(center)[*C*], align(center)[*D*],
               )
               #v(2pt)
-              #grid(columns: 1, row-gutter: 1.5pt, ..range(9, 13).map(i => mcq-row(i)))
+              #grid(columns: 1, row-gutter: 0.8pt, ..range(9, 13).map(i => mcq-row(i)))
             ]
           )
         )
@@ -141,7 +142,7 @@
     #let tf-q(num) = {
       grid(
         columns: (12pt, 14pt, 14pt),
-        row-gutter: 1.5pt,
+        row-gutter: 0.8pt,
         grid.cell(rowspan: 2, align: center + horizon)[#tracking-marker],
         grid.cell(colspan: 2, align: center + bottom)[#text(size: 7pt, weight: "bold")[Câu #num]],
         align(center)[#text(size: 7pt, weight: "bold")[Đ]], align(center)[#text(size: 7pt, weight: "bold")[S]],
@@ -154,19 +155,19 @@
     
     #let phan2-box = block(
       [
-        #block(inset: 2pt, [ *PHẦN II* ])
-        #line(length: 100%, stroke: 0.8pt)
+        #block(inset: (left: 4pt, top: 2pt, bottom: 2pt), [ *PHẦN II* ])
+        #line(length: 100%, stroke: (paint: rgb("#666666"), thickness: 0.8pt, dash: "dashed"))
         #block(
-          inset: (top: 2pt, bottom: 2pt, left: 2pt, right: 2pt),
+          inset: (top: 2pt, bottom: 2pt, left: 4pt, right: 6pt),
           grid(
             columns: (1fr, 1fr),
             gutter: 4pt,
             tf-q(1), tf-q(2),
           ),
         )
-        #line(length: 100%, stroke: 0.5pt)
+        #line(length: 100%, stroke: (paint: rgb("#666666"), thickness: 0.5pt, dash: "dashed"))
         #block(
-          inset: (top: 2pt, bottom: 2pt, left: 2pt, right: 2pt),
+          inset: (top: 2pt, bottom: 2pt, left: 4pt, right: 6pt),
           grid(
             columns: (1fr, 1fr),
             gutter: 4pt,
@@ -179,66 +180,66 @@
     // TOP BLOCK (SBD, Mã đề, Phần I, Phần II)
     #block(
       width: 100%,
-      stroke: 0.8pt + black,
+      stroke: (paint: rgb("#666666"), thickness: 0.8pt, dash: "dashed"),
+      radius: 4pt,
+      clip: true,
       grid(
         columns: (auto, auto, 2.2fr, 1.2fr),
         sbd-box,
-        block(stroke: (left: 0.8pt, right: 0.8pt), made-box),
+        block(stroke: (left: (paint: rgb("#666666"), thickness: 0.8pt, dash: "dashed"), right: (paint: rgb("#666666"), thickness: 0.8pt, dash: "dashed")), made-box),
         info-phan1-box,
-        block(stroke: (left: 0.8pt), phan2-box)
+        block(stroke: (left: (paint: rgb("#666666"), thickness: 0.8pt, dash: "dashed")), phan2-box)
       )
     )
-    
+    #v(-2pt)
     // BOTTOM BLOCK (Phần III)
     #let tln-col(num) = {
       block(
-        stroke: (right: if num < 6 { 0.5pt } else { 0pt }),
+        stroke: (right: if num < 6 { (paint: rgb("#666666"), thickness: 0.5pt, dash: "dashed") } else { 0pt }),
         width: 100%,
+        inset: (bottom: 2pt),
         [
-          #block(
-            inset: (top: 2pt, bottom: 2pt, left: 4pt),
-            align(left)[#text(size:8pt)[*Câu #num*]]
+          #align(left)[#text(size:8pt)[*Câu #num*]]
+          #v(1pt)
+          #grid(
+            columns: (12pt, 12pt, 12pt, 12pt, 12pt),
+            align: center + horizon,
+            tracking-marker,
+            box(stroke: 0.5pt, width: 11pt, height: 11pt),
+            box(stroke: 0.5pt, width: 11pt, height: 11pt),
+            box(stroke: 0.5pt, width: 11pt, height: 11pt),
+            box(stroke: 0.5pt, width: 11pt, height: 11pt),
           )
-          #block(
-            inset: 2pt,
-            grid(
-              columns: (12pt, 12pt, 12pt, 12pt, 12pt),
-              align(center, tracking-marker),
-              align(center, box(stroke: 0.5pt, width: 11pt, height: 11pt)),
-              align(center, box(stroke: 0.5pt, width: 11pt, height: 11pt)),
-              align(center, box(stroke: 0.5pt, width: 11pt, height: 11pt)),
-              align(center, box(stroke: 0.5pt, width: 11pt, height: 11pt)),
-            ),
-          )
-          #block(
-            inset: (top: 2pt, bottom: 2pt, left: 1pt, right: 1pt),
-            grid(
-              columns: (12pt, 12pt, 12pt, 12pt, 12pt),
-              row-gutter: 1pt,
-              align(center)[-], align(center, bubble("")), [], [], [],
-              align(center)[,], [], align(center, bubble("")), align(center, bubble("")), [],
-              align(center)[*0*], [], align(center, bubble("")), align(center, bubble("")), align(center, bubble("")),
-              ..range(1, 10).map(r => (
-                align(center)[*#r*],
-                align(center, bubble("")),
-                align(center, bubble("")),
-                align(center, bubble("")),
-                align(center, bubble(""))
-              )).flatten(),
-            ),
+          #v(1pt)
+          #grid(
+            columns: (12pt, 12pt, 12pt, 12pt, 12pt),
+            rows: (9.8pt,) * 13,
+            align: center + horizon,
+            [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
+            [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
+            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], [], bubble(""), bubble(""), bubble(""),
+            ..range(1, 10).map(r => (
+              [#text(size: 6.5pt, fill: rgb("#666666"))[#r]],
+              bubble(""),
+              bubble(""),
+              bubble(""),
+              bubble("")
+            )).flatten(),
           )
         ],
       )
     }
-    
+    #v(-2pt)
     #block(
-      stroke: 0.8pt + black,
+      stroke: (paint: rgb("#666666"), thickness: 0.8pt, dash: "dashed"),
+      radius: 4pt,
+      clip: true,
       width: 100%,
       [
-        #block(inset: 2pt, [*PHẦN III*])
-        #line(length: 100%, stroke: 0.8pt)
+        #block(inset: 3pt, [*PHẦN III – TỰ LUẬN NGẮN*])
+        #line(length: 100%, stroke: (paint: rgb("#666666"), thickness: 0.8pt, dash: "dashed"))
         #block(
-          inset: (left: 10pt, right: 10pt),
+          inset: (left: 10pt, right: 10pt, top: 3pt, bottom: 5pt),
           grid(
             columns: (1fr,) * 6,
             ..range(1, 7).map(i => tln-col(i))

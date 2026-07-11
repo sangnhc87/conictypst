@@ -1,7 +1,7 @@
 // Preview-safe Typst – math standard layout
 #set page(
-  paper: "a4",
-  flipped: false,
+  paper: "a5",
+  flipped: true,
   fill: white,
   margin: (top: 5mm, bottom: 5mm, left: 6mm, right: 6mm),
 )
@@ -12,55 +12,55 @@
 
 #let bubble(label) = {
   circle(
-    radius: if false { 4.3pt } else { 5pt },
+    radius: if true { 4.3pt } else { 5pt },
     stroke: 0.5pt + rgb("#333333"),
     fill: white,
-    align(center + horizon)[#text(size: if false { 6.0pt } else { 7pt }, weight: "regular", fill: rgb("#888888"))[#label]],
+    align(center + horizon)[#text(size: if true { 6.0pt } else { 7pt }, weight: "regular", fill: rgb("#888888"))[#label]],
   )
 }
 
-#align(if false { center + horizon } else { top + center })[
-  #scale(x: if false { 88% } else { 95% }, y: if false { 88% } else { 95% }, origin: if false { center } else { top })[
+#align(if true { center + horizon } else { top + center })[
+  #scale(x: if true { 88% } else { 95% }, y: if true { 88% } else { 95% }, origin: if true { center } else { top })[
     #block(width: 100%, height: 0pt)[
       #place(left, dx: -5mm, dy: -5mm, marker)
       #place(right, dx: 5mm, dy: -5mm, marker)
     ]
     
-    #v(if false { 1pt } else { 2pt })
+    #v(if true { 1pt } else { 2pt })
     
     #let sbd-box = block(
-      inset: (left: if false { 6pt } else { 4pt }, right: if false { 3pt } else { 2pt }, top: if false { 1pt } else { 2pt }, bottom: if false { 1pt } else { 2pt }),
+      inset: (left: if true { 6pt } else { 4pt }, right: if true { 3pt } else { 2pt }, top: if true { 1pt } else { 2pt }, bottom: if true { 1pt } else { 2pt }),
       [
         #align(center)[#text(weight: "bold", size: 8pt)[SBD]]
-        #v(if false { 1pt } else { 2pt })
+        #v(if true { 1pt } else { 2pt })
         #grid(
-          columns: (12pt,) * 6, gutter: if false { 1.2pt } else { 1.5pt },
-          ..range(6).map(i => align(center, box(stroke: 0.8pt + black, width: if false { 10pt } else { 11pt }, height: if false { 10pt } else { 11pt })))
+          columns: (12pt,) * 6, gutter: if true { 1.2pt } else { 1.5pt },
+          ..range(6).map(i => align(center, box(stroke: 0.8pt + black, width: if true { 10pt } else { 11pt }, height: if true { 10pt } else { 11pt })))
         )
-        #v(if false { 1pt } else { 2pt })
+        #v(if true { 1pt } else { 2pt })
         #grid(
-          columns: (12pt,) * 6, row-gutter: if false { 0.8pt } else { 1.5pt }, column-gutter: 1.5pt,
+          columns: (12pt,) * 6, row-gutter: if true { 0.8pt } else { 1.5pt }, column-gutter: 1.5pt,
           ..range(10).map(r => range(6).map(c => align(center, bubble(str(r))))).flatten()
         )
       ],
     )
     
     #let made-box = block(
-      inset: (left: if false { 3pt } else { 2pt }, right: if false { 3pt } else { 2pt }, top: if false { 1pt } else { 2pt }, bottom: if false { 1pt } else { 2pt }),
+      inset: (left: if true { 3pt } else { 2pt }, right: if true { 3pt } else { 2pt }, top: if true { 1pt } else { 2pt }, bottom: if true { 1pt } else { 2pt }),
       [
         #align(center)[#text(weight: "bold", size: 8pt)[Mã đề]]
-        #v(if false { 1pt } else { 2pt })
+        #v(if true { 1pt } else { 2pt })
         #grid(
           columns: (12pt,) * 4,
-          gutter: if false { 1.2pt } else { 1.5pt },
-          align(center, box(stroke: 0.8pt + black, width: if false { 10pt } else { 11pt }, height: if false { 10pt } else { 11pt })),
-          align(center, box(stroke: 0.8pt + black, width: if false { 10pt } else { 11pt }, height: if false { 10pt } else { 11pt })),
-          align(center, box(stroke: 0.8pt + black, width: if false { 10pt } else { 11pt }, height: if false { 10pt } else { 11pt })),
-          align(center, box(stroke: 0.8pt + black, width: if false { 10pt } else { 11pt }, height: if false { 10pt } else { 11pt })),
+          gutter: if true { 1.2pt } else { 1.5pt },
+          align(center, box(stroke: 0.8pt + black, width: if true { 10pt } else { 11pt }, height: if true { 10pt } else { 11pt })),
+          align(center, box(stroke: 0.8pt + black, width: if true { 10pt } else { 11pt }, height: if true { 10pt } else { 11pt })),
+          align(center, box(stroke: 0.8pt + black, width: if true { 10pt } else { 11pt }, height: if true { 10pt } else { 11pt })),
+          align(center, box(stroke: 0.8pt + black, width: if true { 10pt } else { 11pt }, height: if true { 10pt } else { 11pt })),
         )
-        #v(if false { 1pt } else { 2pt })
+        #v(if true { 1pt } else { 2pt })
         #grid(
-          columns: (12pt,) * 4, row-gutter: if false { 0.8pt } else { 1.5pt }, column-gutter: 1.5pt,
+          columns: (12pt,) * 4, row-gutter: if true { 0.8pt } else { 1.5pt }, column-gutter: 1.5pt,
           ..range(10).map(r => range(4).map(c => align(center, bubble(str(r))))).flatten()
         )
       ],
@@ -110,7 +110,7 @@
                 align(center)[#tracking-marker], align(center)[*A*], align(center)[*B*], align(center)[*C*], align(center)[*D*],
               )
               #v(2pt)
-              #grid(columns: 1, row-gutter: if false { 0.8pt } else { 1.5pt }, ..range(1, 5).map(i => mcq-row(i)))
+              #grid(columns: 1, row-gutter: if true { 0.8pt } else { 1.5pt }, ..range(1, 5).map(i => mcq-row(i)))
             ]
           ),
           // Col 2
@@ -123,7 +123,7 @@
                 align(center)[#tracking-marker], align(center)[*A*], align(center)[*B*], align(center)[*C*], align(center)[*D*],
               )
               #v(2pt)
-              #grid(columns: 1, row-gutter: if false { 0.8pt } else { 1.5pt }, ..range(5, 9).map(i => mcq-row(i)))
+              #grid(columns: 1, row-gutter: if true { 0.8pt } else { 1.5pt }, ..range(5, 9).map(i => mcq-row(i)))
             ]
           ),
           // Col 3
@@ -135,7 +135,7 @@
                 align(center)[#tracking-marker], align(center)[*A*], align(center)[*B*], align(center)[*C*], align(center)[*D*],
               )
               #v(2pt)
-              #grid(columns: 1, row-gutter: if false { 0.8pt } else { 1.5pt }, ..range(9, 13).map(i => mcq-row(i)))
+              #grid(columns: 1, row-gutter: if true { 0.8pt } else { 1.5pt }, ..range(9, 13).map(i => mcq-row(i)))
             ]
           )
         )
@@ -145,7 +145,7 @@
     #let tf-q(num) = {
       grid(
         columns: (12pt, 14pt, 14pt),
-        row-gutter: if false { 0.8pt } else { 1.5pt },
+        row-gutter: if true { 0.8pt } else { 1.5pt },
         grid.cell(rowspan: 2, align: center + horizon)[#tracking-marker],
         grid.cell(colspan: 2, align: center + bottom)[#text(size: 7pt, weight: "bold")[Câu #num]],
         align(center)[#text(size: 7pt, weight: "bold")[Đ]], align(center)[#text(size: 7pt, weight: "bold")[S]],
@@ -161,7 +161,7 @@
         #block(inset: (left: 4pt, top: 2pt, bottom: 2pt), [ *PHẦN II – ĐÚNG / SAI* ])
         #line(length: 100%, stroke: (paint: rgb("#666666"), thickness: 0.8pt, dash: "dashed"))
         #block(
-          inset: (top: 2pt, bottom: 2pt, left: 4pt, right: if false { 6pt } else { 2pt }),
+          inset: (top: 2pt, bottom: 2pt, left: 4pt, right: if true { 6pt } else { 2pt }),
           grid(
             columns: (1fr, 1fr),
             gutter: 4pt,
@@ -170,7 +170,7 @@
         )
         #line(length: 100%, stroke: (paint: rgb("#666666"), thickness: 0.5pt, dash: "dashed"))
         #block(
-          inset: (top: 2pt, bottom: 2pt, left: 4pt, right: if false { 6pt } else { 2pt }),
+          inset: (top: 2pt, bottom: 2pt, left: 4pt, right: if true { 6pt } else { 2pt }),
           grid(
             columns: (1fr, 1fr),
             gutter: 4pt,
@@ -195,30 +195,30 @@
       )
     )
     
-    #v(if false { -2pt } else { 4pt })
+    #v(if true { -2pt } else { 4pt })
     
     // BOTTOM BLOCK (Phần III)
     #let tln-col(num) = {
       block(
         stroke: (right: if num < 6 { (paint: rgb("#666666"), thickness: 0.5pt, dash: "dashed") } else { 0pt }),
         width: 100%,
-        inset: (bottom: if false { 2pt } else { 4pt }),
+        inset: (bottom: if true { 2pt } else { 4pt }),
         [
           #align(left)[#text(size:8pt)[*Câu #num*]]
-          #v(if false { 1pt } else { 2pt })
+          #v(if true { 1pt } else { 2pt })
           #grid(
             columns: (12pt, 12pt, 12pt, 12pt, 12pt),
             align: center + horizon,
             tracking-marker,
-            box(stroke: 0.5pt, width: if false { 10pt } else { 11pt }, height: if false { 10pt } else { 11pt }),
-            box(stroke: 0.5pt, width: if false { 10pt } else { 11pt }, height: if false { 10pt } else { 11pt }),
-            box(stroke: 0.5pt, width: if false { 10pt } else { 11pt }, height: if false { 10pt } else { 11pt }),
-            box(stroke: 0.5pt, width: if false { 10pt } else { 11pt }, height: if false { 10pt } else { 11pt }),
+            box(stroke: 0.5pt, width: if true { 10pt } else { 11pt }, height: if true { 10pt } else { 11pt }),
+            box(stroke: 0.5pt, width: if true { 10pt } else { 11pt }, height: if true { 10pt } else { 11pt }),
+            box(stroke: 0.5pt, width: if true { 10pt } else { 11pt }, height: if true { 10pt } else { 11pt }),
+            box(stroke: 0.5pt, width: if true { 10pt } else { 11pt }, height: if true { 10pt } else { 11pt }),
           )
-          #v(if false { 1pt } else { 2pt })
+          #v(if true { 1pt } else { 2pt })
           #grid(
             columns: (12pt, 12pt, 12pt, 12pt, 12pt),
-            rows: (if false { 9.8pt } else { 12.5pt },) * 13,
+            rows: (if true { 9.8pt } else { 12.5pt },) * 13,
             align: center + horizon,
             [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
             [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
@@ -244,7 +244,7 @@
         #block(inset: 3pt, [*PHẦN III – TỰ LUẬN NGẮN*])
         #line(length: 100%, stroke: (paint: rgb("#666666"), thickness: 0.8pt, dash: "dashed"))
         #block(
-          inset: (left: 10pt, right: 10pt, top: if false { 3pt } else { 0pt }, bottom: if false { 5pt } else { 6pt }),
+          inset: (left: 10pt, right: 10pt, top: if true { 3pt } else { 0pt }, bottom: if true { 5pt } else { 6pt }),
           grid(
             columns: (1fr,) * 6,
             ..range(1, 7).map(i => tln-col(i))
@@ -253,7 +253,7 @@
       ],
     )
 
-    #if "a4" == "a4" and true [
+    #if "a5" == "a4" and true [
       #v(6pt)
       #block(width: 100%, stroke: 0.8pt, radius: 4pt, clip: true, [
         #rect(width: 100%, height: 16pt, [#align(center+horizon)[#text(8pt, weight: "bold")[✍ PHẦN TỰ LUẬN – Viết bên dưới]]])
@@ -271,7 +271,7 @@
   ]
 ]
 
-#if "a4" == "a5" and true [
+#if "a5" == "a5" and true [
   #pagebreak()
   #align(center + horizon)[
     #scale(x: 95%, y: 95%, origin: center)[

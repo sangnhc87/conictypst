@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SANG MATH OMR – Hệ Thống Chấm Thi Thông Minh</title>
+    <link rel="manifest" href="./manifest.json">
     <link rel="icon" href="data:,">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
@@ -1181,6 +1182,15 @@
                     <h2>⚙️ Cấu Hình Đề Thi</h2>
                     <div class="row mb-3">
                         <div class="form-group" style="flex:1;margin:0">
+                            <label>Kỳ thi / Lớp</label>
+                            <div style="display:flex;gap:6px;">
+                                <select class="form-input" id="sessionNameSelect" onchange="window.onSessionChange()">
+                                    <option value="Mặc định">Mặc định</option>
+                                </select>
+                                <button class="btn btn-outline" style="padding:0 12px" onclick="window.promptAddSession()">➕</button>
+                            </div>
+                        </div>
+                        <div class="form-group" style="flex:1;margin:0">
                             <label>Loại phiếu</label>
                             <select class="form-input" id="sheetTypeGrade" onchange="onSheetTypeChange()">
                                 <option value="tn-50" selected>TN-50 (50 câu ABCD)</option>
@@ -1735,6 +1745,16 @@
             </div>
             <div class="results-table-wrap">
                 <table class="results-table" id="resultsTable">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 16px;">
+                        <div style="display:flex; align-items:center; gap:12px;">
+                            <label style="font-weight:600; font-size:14px; margin:0">Lọc theo Lớp/Kỳ thi:</label>
+                            <select id="statsSessionSelect" class="form-input" style="width:200px" onchange="window.renderStats()">
+                                <option value="All">-- Tất cả --</option>
+                                <option value="Mặc định">Mặc định</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-outline" onclick="exportExcel()">Tải Excel</button>
+                    </div>
                     <thead>
                         <tr>
                             <th>#</th>
@@ -13901,6 +13921,7 @@ function _showArResult(result, templateName) {
   result.name = 'Live Camera';
   result.cls  = 'Live';
   result.timestamp = Date.now();
+  result.sessionName = document.getElementById('sessionNameSelect').value || 'Mặc định';
   gradeResults.push(result);
   saveToStorage();
   renderStats();
@@ -14047,7 +14068,7 @@ async function arScanLoop(timestamp) {
       fCtx.drawImage(videoEl, 0, 0);
 
       // Gọi hàm chấm
-      const templateName = document.getElementById('selTemplate').value;
+      const templateName = document.getElementById('sheetTypeGrade').value;
       const template = TEMPLATES[templateName];
       const apiKey = document.getElementById('geminiApiKey').value.trim();
       // Auto-choose engine: if apiKey provided use Gemini (smarter), fallback OpenCV
@@ -14079,7 +14100,97 @@ async function arScanLoop(timestamp) {
         const correctAnswers = {};
         const OPTIONS = ["A", "B", "C", "D"];
         let uploadedFiles = [];      // Batch: list of {file, imgEl}
-        let gradeResults = [];       // All grading results (localStorage-backed)
+        // Quản lý lớp/kỳ thi
+let examSessions = ['Mặc định'];
+
+function loadSessions() {
+    const saved = localStorage.getItem('omr_sessions_v1');
+    if (saved) {
+        try {
+            examSessions = JSON.parse(saved);
+        } catch(e) {}
+    }
+    updateSessionSelects();
+}
+
+function saveSessions() {
+    localStorage.setItem('omr_sessions_v1', JSON.stringify(examSessions));
+    updateSessionSelects();
+}
+
+function updateSessionSelects() {
+    const sel1 = document.getElementById('sessionNameSelect');
+    const sel2 = document.getElementById('statsSessionSelect');
+    if(!sel1 || !sel2) return;
+    
+    const curr1 = sel1.value;
+    const curr2 = sel2.value;
+    
+    let html1 = '';
+    let html2 = '<option value="All">-- Tất cả --</option>';
+    examSessions.forEach(s => {
+        const opt = `<option value="${s}">${s}</option>`;
+        html1 += opt;
+        html2 += opt;
+    });
+    
+    sel1.innerHTML = html1;
+    sel2.innerHTML = html2;
+    
+    if(examSessions.includes(curr1)) sel1.value = curr1;
+    if(curr2 === 'All' || examSessions.includes(curr2)) sel2.value = curr2;
+}
+
+window.promptAddSession = function() {
+    const name = prompt("Nhập tên Lớp / Kỳ thi mới (VD: Kiểm tra 15p Lớp 12A1):");
+    if (name && name.trim()) {
+        const t = name.trim();
+        if (!examSessions.includes(t)) {
+            examSessions.push(t);
+            saveSessions();
+            document.getElementById('sessionNameSelect').value = t;
+        }
+    }
+};
+
+window.onSessionChange = function() {
+    // Không cần xử lý logic gì đặc biệt vì khi chấm tự lấy value này
+};
+
+function exportExcel() {
+    const sessionFilter = document.getElementById('statsSessionSelect').value;
+    let filtered = gradeResults;
+    if (sessionFilter !== 'All') {
+        filtered = gradeResults.filter(r => (r.sessionName || 'Mặc định') === sessionFilter);
+    }
+    if (filtered.length === 0) {
+        alert("Không có dữ liệu để xuất!");
+        return;
+    }
+    let csv = "\uFEFF"; // BOM for UTF-8 Excel
+    csv += "STT,SBD,Họ tên,Mã đề,Điểm,Số câu đúng,Tổng số câu,Xếp loại,Lớp/Kỳ thi,Thời gian\n";
+    filtered.forEach((r, idx) => {
+        const t = new Date(r.timestamp).toLocaleString();
+        csv += `${idx + 1},${r.sbd},${r.name},${r.made},${r.score},${r.correct},${r.total},${r.verdict},${r.sessionName || 'Mặc định'},${t}\n`;
+    });
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `Diem_Thi_${sessionFilter === 'All' ? 'TongHop' : sessionFilter}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+// Chèn gọi loadSessions vào window.onload
+const oldOnload = window.onload;
+window.onload = function() {
+    if(oldOnload) oldOnload();
+    loadSessions();
+};
+
+let gradeResults = [];       // All grading results (localStorage-backed)
         let studentList = [];        // Imported class list
         let selectedTemplate = "12-4-6ngang";
         let currentTemplate = TEMPLATES["12-4-6ngang"];
@@ -14387,7 +14498,7 @@ async function arScanLoop(timestamp) {
                 });
                 div.appendChild(row);
             }
-            container.appendChild(div);
+            div.appendChild(row);
         }
 
         function buildTFAnswerGrid() {
@@ -16560,6 +16671,18 @@ ${parts.join('\n    #v(if isA5 { -2pt } else { 5pt })\n')}
 </div>
 
 
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('./sw.js').then(function(registration) {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }, function(err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+    </script>
 </body>
 
 </html>

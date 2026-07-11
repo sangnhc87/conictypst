@@ -1314,7 +1314,7 @@
                             <div class="tmpl-desc">10 câu Tự Luận Ngắn<br>A4 Dọc</div>
                             <span class="tmpl-badge">A4 Dọc</span>
                         </div>
-                        <div class="tmpl-card" data-type="custom" onclick="scrollToBuilder()">
+                        <div class="tmpl-card" data-type="custom" onclick="selectTemplate('custom', this); scrollToBuilder()">
                             <div class="tmpl-icon">⚙️</div>
                             <div class="tmpl-name">Tuỳ Chỉnh</div>
                             <div class="tmpl-desc">Tự chọn số câu<br>MCQ / ĐS / TLN</div>
@@ -4349,7 +4349,16 @@
                 'ds-12': { mcq: 0, tf: 0, tln: 12, paper: 'a4' },
                 'tln-10': { mcq: 0, tf: 0, tln: 10, paper: 'a4' },
             };
-            const cfg = presets[type] || { mcq: 50, tf: 0, tln: 0, paper: 'a5' };
+            let cfg = presets[type];
+            if (!cfg) {
+                // Custom template from Smart Builder
+                cfg = {
+                    mcq: parseInt(document.getElementById('bldMcq')?.value) || 12,
+                    tf: parseInt(document.getElementById('bldTf')?.value) || 4,
+                    tln: parseInt(document.getElementById('bldTln')?.value) || 6,
+                    paper: document.querySelector('input[name="bldPaper"]:checked')?.value || 'a4',
+                };
+            }
             return genWasmTypst({ ...cfg, school, subtitle, hasEssay });
         }
 
@@ -5028,15 +5037,15 @@ ${hasEssay ? `
                 // Info block
                 const ix = mx + madeW;
                 const infoW = cw - sbdW - madeW;
-                g.font = 'bold 10px Arial'; g.fillStyle = '#c0392b'; g.textAlign = 'left';
+                g.font = 'bold 10px "Times New Roman"'; g.fillStyle = '#c0392b'; g.textAlign = 'left';
                 g.fillText('PHIẾU TRẢ LỜI TRẮC NGHIỆM', ix + 8, y + 16);
-                g.font = '7.5px Arial'; g.fillStyle = '#333';
+                g.font = '7.5px "Times New Roman"'; g.fillStyle = '#333';
                 g.fillText(school || 'SANG MATH OMR', ix + 8, y + 26);
                 g.fillText('Họ và tên: .................................', ix + 8, y + 40);
                 g.fillText(`Lớp: ........... Môn: ........... Điểm: .....`, ix + 8, y + 52);
                 // Mini QR stub
                 g.strokeStyle = '#999'; g.lineWidth = 0.5; g.strokeRect(ix + infoW - 30, y + 4, 24, 24);
-                g.font = '5px Arial'; g.fillStyle = '#999'; g.textAlign = 'center';
+                g.font = '5px "Times New Roman"'; g.fillStyle = '#999'; g.textAlign = 'center';
                 g.fillText('QR', ix + infoW - 18, y + 18);
 
                 y += headerH + 6;
@@ -5058,14 +5067,14 @@ ${hasEssay ? `
                         if (ci > 0) { g.strokeStyle = '#ccc'; g.lineWidth = 0.5; g.beginPath(); g.moveTo(pad + ci * colW, y + 14); g.lineTo(pad + ci * colW, y + rowH); g.stroke(); }
                         // Header row A B C D
                         ['A', 'B', 'C', 'D'].forEach((l, li) => {
-                            g.font = '6px Arial'; g.fillStyle = '#555'; g.textAlign = 'center';
+                            g.font = '6px "Times New Roman"'; g.fillStyle = '#555'; g.textAlign = 'center';
                             g.fillText(l, xs + 14 + li * 7, y + 22);
                         });
                         for (let qi = 0; qi < per; qi++) {
                             const qnum = ci * per + qi + 1;
                             if (qnum > mcq) break;
                             const qy = y + 26 + qi * 10;
-                            g.font = '6px Arial'; g.fillStyle = '#222'; g.textAlign = 'right';
+                            g.font = '6px "Times New Roman"'; g.fillStyle = '#222'; g.textAlign = 'right';
                             g.fillText(qnum + '.', xs + 10, qy + 5);
                             for (let oi = 0; oi < 4; oi++) {
                                 g.strokeStyle = '#777'; g.lineWidth = 0.4;
@@ -5094,13 +5103,13 @@ ${hasEssay ? `
                         this._label(g, `Câu ${ci + 1}`, xs + tfW / 2, y + 22, 7, 'bold', '#333');
                         // Đ S header
                         ['Đ', 'S'].forEach((l, li) => {
-                            g.font = '6px Arial'; g.fillStyle = '#555'; g.textAlign = 'center';
+                            g.font = '6px "Times New Roman"'; g.fillStyle = '#555'; g.textAlign = 'center';
                             g.fillText(l, xs + tfW / 2 + (li === 0 ? -8 : 8), y + 30);
                         });
                         // a b c d rows
                         ['a)', 'b)', 'c)', 'd)'].forEach((l, ri) => {
                             const ry = y + 36 + ri * 8;
-                            g.font = '6px Arial'; g.fillStyle = '#666'; g.textAlign = 'right';
+                            g.font = '6px "Times New Roman"'; g.fillStyle = '#666'; g.textAlign = 'right';
                             g.fillText(l, xs + tfW / 2 - 14, ry + 4);
                             [0, 1].forEach(oi => {
                                 g.strokeStyle = '#777'; g.lineWidth = 0.4;
@@ -5140,7 +5149,7 @@ ${hasEssay ? `
                             // Bubbles 0-9 for 4 cols
                             for (let r = 0; r < 12; r++) {
                                 const label = r === 0 ? '-' : r === 1 ? ',' : String(r - 2);
-                                g.font = '4.5px Arial'; g.fillStyle = '#666'; g.textAlign = 'right';
+                                g.font = '4.5px "Times New Roman"'; g.fillStyle = '#666'; g.textAlign = 'right';
                                 g.fillText(label, xs + 10, y + 36 + r * 3.3);
                                 for (let c = 0; c < 4; c++) {
                                     g.strokeStyle = '#999'; g.lineWidth = 0.3;
@@ -5183,7 +5192,7 @@ ${hasEssay ? `
             },
 
             _label(g, text, x, y, size, weight, color) {
-                g.font = `${weight} ${size}px Arial`;
+                g.font = `${weight} ${size}px "Times New Roman"`;
                 g.fillStyle = color;
                 g.textAlign = 'center';
                 g.fillText(text, x, y);
@@ -5407,6 +5416,12 @@ ${hasEssay ? `
         }
 
         function updateBuilder() {
+            selectedTemplateType = 'custom';
+            document.querySelectorAll('.tmpl-card').forEach(c => {
+                if (c.getAttribute('data-type') === 'custom') c.classList.add('selected');
+                else c.classList.remove('selected');
+            });
+
             const mcq = parseInt(document.getElementById('bldMcq').value) || 0;
             const tf = parseInt(document.getElementById('bldTf').value) || 0;
             const tln = parseInt(document.getElementById('bldTln').value) || 0;
@@ -5684,6 +5699,11 @@ ${parts.join('\n    #v(5pt)\n')}
         document.getElementById('genSchool').addEventListener('input', () => { updateSheetPreview(); renderSheetPreview(); });
         document.getElementById('genSubtitle').addEventListener('input', () => { updateSheetPreview(); renderSheetPreview(); });
         document.getElementById('genHasEssay').addEventListener('change', renderSheetPreview);
+
+        document.getElementById('bldMcq').addEventListener('input', updateBuilder);
+        document.getElementById('bldTf').addEventListener('input', updateBuilder);
+        document.getElementById('bldTln').addEventListener('input', updateBuilder);
+        document.querySelectorAll('input[name="bldPaper"]').forEach(r => r.addEventListener('change', updateBuilder));
 
         // Pure JS Engine: removed
     </script>

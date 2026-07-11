@@ -68,15 +68,13 @@
         }
 
         .logo {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 800;
-            letter-spacing: -0.3px;
-            background: linear-gradient(90deg, #ff4d6d, #fb923c);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+            color: var(--text);
         }
 
-        .logo span { -webkit-text-fill-color: unset; color: var(--blue); }
+        .logo span { color: var(--blue); }
 
         .status-badge {
             display: flex;
@@ -106,7 +104,7 @@
             display: flex;
             gap: 2px;
             padding: 10px 24px 0;
-            background: rgba(6,10,24,0.5);
+            background: #ffffff;
             border-bottom: 1px solid var(--border);
         }
 
@@ -321,29 +319,9 @@
             }
         }
 
-        /* ===== HEADER ANIMATION ===== */
+        /* ===== HEADER OVERRIDES (CLEAN LIGHT) ===== */
         header {
-            background: rgba(11,20,38,0.92) !important;
-        }
-
-        .logo {
-            background: linear-gradient(135deg, #fff 20%, #ff5577 60%, #60a5fa 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: logoShine 3s ease-in-out infinite;
-        }
-
-        @keyframes logoShine {
-
-            0%,
-            100% {
-                filter: brightness(1);
-            }
-
-            50% {
-                filter: brightness(1.3);
-            }
+            background: rgba(255, 255, 255, 0.9) !important;
         }
 
         /* ===== PROGRESS BAR ===== */
@@ -566,24 +544,25 @@
         }
 
         .bpr-mcq {
-            background: linear-gradient(90deg, var(--red), #c0392b);
+            background: var(--red);
         }
 
         .bpr-tf {
-            background: linear-gradient(90deg, var(--green), #00994d);
+            background: var(--green);
         }
 
         .bpr-tln {
-            background: linear-gradient(90deg, var(--purple), #7d3c98);
+            background: var(--purple);
         }
 
         .builder-typst-output {
-            background: rgba(0, 0, 0, .5);
+            background: #f1f5f9;
+            border: 1px solid var(--border);
             border-radius: 8px;
             padding: 12px;
             font-family: monospace;
-            font-size: 10px;
-            color: #8be9fd;
+            font-size: 11px;
+            color: #0f172a;
             overflow-x: auto;
             margin-top: 10px;
             max-height: 200px;

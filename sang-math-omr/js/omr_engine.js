@@ -14,7 +14,7 @@ window.OmrEngine = {
     let gray = new cv.Mat();
     cv.cvtColor(src, gray, cv.COLOR_RGBA2GRAY);
     let threshMarker = new cv.Mat();
-    cv.threshold(gray, threshMarker, 100, 255, cv.THRESH_BINARY_INV);
+    cv.adaptiveThreshold(gray, threshMarker, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY_INV, 51, 15);
 
     let contours = new cv.MatVector();
     let hierarchy = new cv.Mat();
@@ -108,7 +108,7 @@ window.OmrEngine = {
         gray = new cv.Mat();
         cv.cvtColor(src, gray, cv.COLOR_RGBA2GRAY);
         threshMarker = new cv.Mat();
-        cv.threshold(gray, threshMarker, 100, 255, cv.THRESH_BINARY_INV);
+        cv.adaptiveThreshold(gray, threshMarker, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY_INV, 51, 15);
 
         contours = new cv.MatVector(); hierarchy = new cv.Mat();
         cv.findContours(threshMarker, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
@@ -190,7 +190,7 @@ window.OmrEngine = {
         let threshWarped = new cv.Mat();
         let grayWarped = new cv.Mat();
         cv.cvtColor(warped, grayWarped, cv.COLOR_RGBA2GRAY);
-        cv.threshold(grayWarped, threshWarped, 140, 255, cv.THRESH_BINARY_INV);
+        cv.adaptiveThreshold(grayWarped, threshWarped, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY_INV, 31, 15);
 
         const OPTIONS = ['A', 'B', 'C', 'D'];
 
@@ -252,6 +252,8 @@ window.OmrEngine = {
                 const pair = pts[idx]; // [point_Đ, point_S]
                 const cD = window.OmrEngine.readBubbleCol(threshWarped, [pair[0]], 9)[0];
                 const cS = window.OmrEngine.readBubbleCol(threshWarped, [pair[1]], 9)[0];
+                if (cD > 30 && cS > 30) warnings.push(`Câu ${q} ý ${lbl} tô nhiều ô`);
+                else if (Math.max(cD, cS) > 30 && Math.max(cD, cS) < 100) warnings.push(`Câu ${q} ý ${lbl} tô mờ/tẩy xóa`);
                 if (cD > 30 || cS > 30) {
                   geminiAns.tf[q][lbl] = cD > cS ? 'Đ' : 'S';
                 }
@@ -273,6 +275,9 @@ window.OmrEngine = {
                   const colPts = tinfo[colIdx];
                   const counts = window.OmrEngine.readBubbleCol(threshWarped, colPts, 9);
                   const maxCount = Math.max(...counts);
+                  const filled = counts.filter(c => c > 30).length;
+                  if (filled > 1) warnings.push(`Câu ${q} tô nhiều ô`);
+                  else if (maxCount > 30 && maxCount < 100) warnings.push(`Câu ${q} tô mờ`);
                   if (maxCount > 30) {
                     const maxIdx = counts.indexOf(maxCount);
                     if (colIdx === 0) {
@@ -295,6 +300,9 @@ window.OmrEngine = {
                   tinfo.int.forEach(colPts => {
                     const counts = window.OmrEngine.readBubbleCol(threshWarped, colPts, 9);
                     const maxCount = Math.max(...counts);
+                    const filled = counts.filter(c => c > 30).length;
+                    if (filled > 1) warnings.push(`Câu ${q} tô nhiều ô`);
+                    else if (maxCount > 30 && maxCount < 100) warnings.push(`Câu ${q} tô mờ`);
                     if (maxCount > 30) ansStr += DIGITS[counts.indexOf(maxCount)];
                   });
                 }
@@ -303,6 +311,9 @@ window.OmrEngine = {
                   tinfo.frac.forEach(colPts => {
                     const counts = window.OmrEngine.readBubbleCol(threshWarped, colPts, 9);
                     const maxCount = Math.max(...counts);
+                    const filled = counts.filter(c => c > 30).length;
+                    if (filled > 1) warnings.push(`Câu ${q} tô nhiều ô`);
+                    else if (maxCount > 30 && maxCount < 100) warnings.push(`Câu ${q} tô mờ`);
                     if (maxCount > 30) fracStr += DIGITS[counts.indexOf(maxCount)];
                   });
                   if (fracStr.length > 0) ansStr += "," + fracStr;

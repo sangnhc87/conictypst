@@ -13848,7 +13848,47 @@ let arStream = null;
 let arScanInterval = null;
 let arCurrentFacingMode = 'environment';
 let isArScanning = false;
-let arForceGemini = false; // Manual chụp / AI mode
+let arForceGemini = false;
+
+let tempReviewResult = null;
+
+function discardAndRescan() {
+  document.getElementById('reviewModal').style.display = 'none';
+  resumeCamera();
+}
+
+function forceSaveResult() {
+  if (!tempReviewResult) return;
+  document.getElementById('reviewModal').style.display = 'none';
+  
+  // Apply edits
+  tempReviewResult.sbd = document.getElementById('editSBD').value.trim() || tempReviewResult.sbd;
+  tempReviewResult.made = document.getElementById('editMade').value.trim() || tempReviewResult.made;
+  tempReviewResult.score = document.getElementById('editScore').value.trim() || tempReviewResult.score;
+  
+  // Save
+  tempReviewResult.name = 'Live Camera';
+  tempReviewResult.cls  = 'Live';
+  tempReviewResult.timestamp = Date.now();
+  tempReviewResult.sessionName = document.getElementById('sessionNameSelect') ? document.getElementById('sessionNameSelect').value : 'Mặc định';
+  
+  gradeResults.push(tempReviewResult);
+  saveToStorage();
+  renderStats();
+  
+  // Update result overlay with forced values
+  const sc = parseFloat(tempReviewResult.score);
+  let vColor = sc >= 9 ? '#00b87a' : sc >= 7 ? '#4ade80' : sc >= 5 ? '#f59e0b' : '#f87171';
+  document.getElementById('arScore').textContent = tempReviewResult.score;
+  document.getElementById('arScore').style.color = vColor;
+  document.getElementById('arDetails').textContent = `SBD: ${tempReviewResult.sbd}  •  Mã Đề: ${tempReviewResult.made}`;
+  
+  document.getElementById('arResult').style.display = 'block';
+  document.getElementById('arStatus').textContent = 'Đã lưu! Bấm tiếp tục để quét bài khác.';
+  playBeep();
+  showSingleResult(tempReviewResult);
+}
+ // Manual chụp / AI mode
 
 function toggleArEngine() {
   arForceGemini = !arForceGemini;
@@ -13905,6 +13945,38 @@ async function manualSnap() {
 }
 
 function _showArResult(result, templateName) {
+  if (result.warnings && result.warnings.length > 0) {
+    // Show Review Modal
+    tempReviewResult = result;
+    const ul = document.getElementById('reviewWarningsList');
+    ul.innerHTML = '';
+    // Show max 5 warnings to save space
+    const warns = result.warnings.slice(0, 5);
+    warns.forEach(w => {
+       const li = document.createElement('li');
+       li.textContent = w;
+       ul.appendChild(li);
+    });
+    if (result.warnings.length > 5) {
+       const li = document.createElement('li');
+       li.textContent = `...và ${result.warnings.length - 5} lỗi khác`;
+       ul.appendChild(li);
+    }
+    
+    document.getElementById('editSBD').value = result.sbd;
+    document.getElementById('editMade').value = result.made;
+    document.getElementById('editScore').value = result.score;
+    
+    document.getElementById('reviewModal').style.display = 'flex';
+    // Bíp cảnh báo (tần số thấp)
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    const osc = audioCtx.createOscillator();
+    osc.type = 'square'; osc.frequency.setValueAtTime(250, audioCtx.currentTime);
+    osc.connect(audioCtx.destination);
+    osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+    return;
+  }
+
   const sc = parseFloat(result.score);
   let vColor = sc >= 9 ? '#00b87a' : sc >= 7 ? '#4ade80' : sc >= 5 ? '#f59e0b' : '#f87171';
   document.getElementById('arScore').textContent = result.score;
@@ -13921,7 +13993,7 @@ function _showArResult(result, templateName) {
   result.name = 'Live Camera';
   result.cls  = 'Live';
   result.timestamp = Date.now();
-  result.sessionName = document.getElementById('sessionNameSelect').value || 'Mặc định';
+  result.sessionName = document.getElementById('sessionNameSelect') ? document.getElementById('sessionNameSelect').value : 'Mặc định';
   gradeResults.push(result);
   saveToStorage();
   renderStats();
@@ -14001,6 +14073,9 @@ function playBeep() {
 }
 
 let lastScanTime = 0;
+let arLastMarkers = null;
+let arStableFrames = 0;
+
 async function arScanLoop(timestamp) {
   if (!isArScanning) return;
   requestAnimationFrame(arScanLoop);
@@ -14032,12 +14107,25 @@ async function arScanLoop(timestamp) {
     srcMat.delete();
 
     if (markers) {
+      if (arLastMarkers) {
+        let maxDist = 0;
+        for (const k of ['tl', 'tr', 'bl', 'br']) {
+          const d = Math.hypot(markers[k][0] - arLastMarkers[k][0], markers[k][1] - arLastMarkers[k][1]);
+          if (d > maxDist) maxDist = d;
+        }
+        if (maxDist < 15) arStableFrames++;
+        else arStableFrames = 0;
+      } else {
+        arStableFrames = 1;
+      }
+      arLastMarkers = markers;
+
       // Scale back coords to overlay sizing
       const rx = canvasOverlay.width / scanCanvas.width;
       const ry = canvasOverlay.height / scanCanvas.height;
       const pts = [markers.tl, markers.tr, markers.br, markers.bl];
       
-      // Vẽ viền AR màu xanh
+      // Vẽ viền AR màu xanh (chớp nếu đủ frame)
       ctx.beginPath();
       ctx.moveTo(pts[0][0]*rx, pts[0][1]*ry);
       ctx.lineTo(pts[1][0]*rx, pts[1][1]*ry);
@@ -14045,14 +14133,18 @@ async function arScanLoop(timestamp) {
       ctx.lineTo(pts[3][0]*rx, pts[3][1]*ry);
       ctx.closePath();
       ctx.lineWidth = 4;
-      ctx.strokeStyle = '#4ade80';
-      ctx.fillStyle = 'rgba(74, 222, 128, 0.2)';
+      ctx.strokeStyle = arStableFrames >= 3 ? '#4ade80' : '#f59e0b';
+      ctx.fillStyle = arStableFrames >= 3 ? 'rgba(74, 222, 128, 0.2)' : 'rgba(245, 158, 11, 0.1)';
       ctx.fill();
       ctx.stroke();
 
-      // KHÓA FRAME VÀ CHẤM
-      isArScanning = false;
-      document.getElementById('arStatus').textContent = 'Tìm thấy bài! Đang chấm điểm...';
+      if (arStableFrames >= 3) {
+        arStableFrames = 0;
+        arLastMarkers = null;
+        
+        // KHÓA FRAME VÀ CHẤM
+        isArScanning = false;
+        document.getElementById('arStatus').textContent = 'Tìm thấy bài! Đang chấm điểm...';
 
       // Flash guide frame green
       const gf = document.getElementById('arGuideFrame');
@@ -14083,6 +14175,9 @@ async function arScanLoop(timestamp) {
         document.getElementById('arStatus').textContent = 'Lỗi chấm: ' + err.message;
         setTimeout(resumeCamera, 3000);
       }
+    } else {
+      arStableFrames = 0;
+      arLastMarkers = null;
     }
   } catch(e) {
     // console error safely
@@ -16683,6 +16778,32 @@ ${parts.join('\n    #v(if isA5 { -2pt } else { 5pt })\n')}
             });
         }
     </script>
+
+<!-- Review & Edit Modal -->
+<div class="modal" id="reviewModal" style="display:none; position:fixed; top:0;left:0;width:100%;height:100%;background:rgba(15,23,42,0.9);z-index:9999;align-items:center;justify-content:center;">
+  <div style="background:#1e293b; padding:20px; border-radius:16px; width:90%; max-width:400px; color:white; box-shadow: 0 10px 25px rgba(0,0,0,0.5); border: 1px solid #334155;">
+     <h3 style="color:#f59e0b; margin-top:0; display:flex; align-items:center; gap:8px;">
+       <span>⚠️</span> Cảnh báo nét tô mờ/lỗi
+     </h3>
+     <p style="font-size:13px; color:#94a3b8; margin-bottom:10px;">Hệ thống phát hiện một số ô tô không rõ ràng (tẩy chưa sạch hoặc tô quá mờ):</p>
+     <ul id="reviewWarningsList" style="font-size:14px; color:#cbd5e1; margin-bottom:20px; padding-left:20px;"></ul>
+     
+     <div style="background:rgba(0,0,0,0.2); padding:12px; border-radius:8px; margin-bottom:20px;">
+        <label style="font-size:12px; color:#94a3b8;">Sửa SBD (nếu sai):</label>
+        <input id="editSBD" class="form-input" style="margin-bottom:8px;">
+        <label style="font-size:12px; color:#94a3b8;">Sửa Mã Đề:</label>
+        <input id="editMade" class="form-input" style="margin-bottom:8px;">
+        <label style="font-size:12px; color:#94a3b8;">Sửa Điểm (ghi đè):</label>
+        <input id="editScore" class="form-input" style="margin-bottom:8px;">
+     </div>
+
+     <div style="display:flex; gap:10px;">
+        <button class="btn btn-outline" style="flex:1" onclick="discardAndRescan()">Chụp lại</button>
+        <button class="btn btn-success" style="flex:1" onclick="forceSaveResult()">Lưu kết quả</button>
+     </div>
+  </div>
+</div>
+
 </body>
 
 </html>

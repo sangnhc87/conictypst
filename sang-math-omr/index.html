@@ -4197,6 +4197,7 @@
                 badge.style.background = isCanvas ? 'rgba(51,153,255,.12)' : 'rgba(167,139,250,.15)';
                 badge.style.color = isCanvas ? '#5bc8ff' : '#a78bfa';
             }
+            refreshPreview();
         }
 
         // ── WASM loader ───────────────────────────────────────────────
@@ -4383,7 +4384,7 @@
             const subtitle = document.getElementById('genSubtitle')?.value || 'Kiểm tra – Môn Toán';
             const hasEssay = document.getElementById('genHasEssay')?.checked;
 
-            return genMathStandardTypst({ ...cfg, school, subtitle, hasEssay });
+            return genWasmTypst({ ...cfg, school, subtitle, hasEssay });
         }
 
         function genMathStandardTypst({ paper, school, subtitle, hasEssay }) {
@@ -5268,6 +5269,14 @@ ${hasEssay ? `
             }
         }
 
+        function refreshPreview() {
+            if (activePreviewMode === 'wasm') {
+                renderTypstLive();
+            } else {
+                renderSheetPreview();
+            }
+        }
+
         function togglePreviewZoom(srcCanvas) {
             const modal = document.getElementById('previewModal');
             const zoomCanvas = document.getElementById('sheetCanvasZoom');
@@ -5696,9 +5705,9 @@ ${parts.join('\n    #v(5pt)\n')}
         setupUpload();
         updateSheetPreview();
 
-        document.getElementById('genSchool').addEventListener('input', () => { updateSheetPreview(); renderSheetPreview(); });
-        document.getElementById('genSubtitle').addEventListener('input', () => { updateSheetPreview(); renderSheetPreview(); });
-        document.getElementById('genHasEssay').addEventListener('change', renderSheetPreview);
+        document.getElementById('genSchool').addEventListener('input', () => { updateSheetPreview(); refreshPreview(); });
+        document.getElementById('genSubtitle').addEventListener('input', () => { updateSheetPreview(); refreshPreview(); });
+        document.getElementById('genHasEssay').addEventListener('change', refreshPreview);
 
         document.getElementById('bldMcq').addEventListener('input', updateBuilder);
         document.getElementById('bldTf').addEventListener('input', updateBuilder);

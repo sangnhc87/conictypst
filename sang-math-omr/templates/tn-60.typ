@@ -23,12 +23,39 @@
   ]
 }
 #let empty-box = box(stroke: 0.8pt + black, width: if false { 10pt } else { 11pt }, height: if false { 10pt } else { 11pt })
+#let qb = box(width: 1.8pt, height: 1.8pt, fill: black)
+#let qw = box(width: 1.8pt, height: 1.8pt, fill: white)
 
 #align(if false { center + horizon } else { top + center })[
   #scale(x: if false { 88% } else { 95% }, y: if false { 88% } else { 95% }, origin: if false { center } else { top })[
     #block(width: 100%, height: 0pt)[
       #place(left, dx: -5mm, dy: -5mm, marker)
       #place(right, dx: 5mm, dy: -5mm, marker)
+      #place(left, dx: if false { 35mm } else { 43mm }, dy: 15mm)[
+        #grid(columns: 21, spacing: 0pt,
+  qb, qb, qb, qb, qb, qb, qb, qw, qw, qw, qb, qb, qb, qw, qb, qb, qb, qb, qb, qb, qb,
+  qb, qw, qw, qw, qw, qw, qb, qw, qb, qb, qb, qw, qb, qw, qb, qw, qw, qw, qw, qw, qb,
+  qb, qw, qb, qb, qb, qw, qb, qw, qw, qw, qb, qb, qb, qw, qb, qw, qb, qb, qb, qw, qb,
+  qb, qw, qb, qb, qb, qw, qb, qw, qb, qb, qw, qw, qb, qw, qb, qw, qb, qb, qb, qw, qb,
+  qb, qw, qb, qb, qb, qw, qb, qw, qw, qb, qw, qw, qb, qw, qb, qw, qb, qb, qb, qw, qb,
+  qb, qw, qw, qw, qw, qw, qb, qw, qb, qw, qw, qb, qw, qw, qb, qw, qw, qw, qw, qw, qb,
+  qb, qb, qb, qb, qb, qb, qb, qw, qb, qw, qb, qw, qb, qw, qb, qb, qb, qb, qb, qb, qb,
+  qw, qw, qw, qw, qw, qw, qw, qw, qw, qb, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw,
+  qb, qb, qb, qb, qb, qw, qb, qb, qb, qw, qw, qb, qw, qb, qw, qb, qw, qb, qw, qb, qw,
+  qb, qb, qb, qb, qb, qb, qw, qw, qb, qb, qw, qb, qb, qb, qb, qw, qw, qb, qw, qw, qb,
+  qb, qw, qw, qb, qb, qw, qb, qw, qw, qb, qb, qw, qb, qw, qb, qb, qw, qw, qw, qb, qw,
+  qw, qw, qb, qw, qb, qb, qw, qw, qw, qw, qb, qb, qb, qb, qb, qw, qw, qw, qb, qw, qw,
+  qb, qw, qw, qb, qb, qw, qb, qb, qw, qw, qb, qw, qb, qw, qw, qb, qw, qw, qw, qb, qw,
+  qw, qw, qw, qw, qw, qw, qw, qw, qb, qb, qb, qw, qb, qw, qw, qb, qw, qb, qw, qb, qb,
+  qb, qb, qb, qb, qb, qb, qb, qw, qb, qw, qb, qb, qw, qb, qw, qw, qb, qb, qb, qb, qw,
+  qb, qw, qw, qw, qw, qw, qb, qw, qw, qw, qw, qw, qw, qw, qw, qb, qb, qw, qb, qb, qw,
+  qb, qw, qb, qb, qb, qw, qb, qw, qb, qb, qb, qb, qw, qb, qw, qw, qb, qb, qw, qb, qw,
+  qb, qw, qb, qb, qb, qw, qb, qw, qb, qb, qb, qb, qb, qb, qb, qb, qw, qb, qb, qw, qw,
+  qb, qw, qb, qb, qb, qw, qb, qw, qb, qw, qb, qw, qb, qw, qb, qb, qw, qw, qw, qw, qw,
+  qb, qw, qw, qw, qw, qw, qb, qw, qb, qb, qw, qb, qb, qb, qb, qb, qw, qw, qb, qw, qw,
+  qb, qb, qb, qb, qb, qb, qb, qw, qb, qb, qw, qw, qb, qw, qw, qb, qw, qb, qw, qb, qw
+)
+      ]
     ]
     
 

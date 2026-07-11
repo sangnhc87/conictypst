@@ -14102,6 +14102,24 @@ async function arScanLoop(timestamp) {
   scanCtx.drawImage(videoEl, 0, 0, scanCanvas.width, scanCanvas.height);
 
   try {
+    // Quick QR check
+    const imgData = scanCtx.getImageData(0, 0, scanCanvas.width, scanCanvas.height);
+    const code = jsQR(imgData.data, imgData.width, imgData.height, { inversionAttempts: "dontInvert" });
+    if (code && code.data) {
+        const detectedType = code.data.trim();
+        const selectEl = document.getElementById('sheetTypeGrade');
+        if (TEMPLATES[detectedType] && selectEl.value !== detectedType) {
+            selectEl.value = detectedType;
+            document.getElementById('arStatus').textContent = `Mẫu tự động: ${detectedType.toUpperCase()}`;
+            // Bíp nhẹ báo hiệu đổi mẫu
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            osc.type = 'sine'; osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+            osc.connect(audioCtx.destination);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.1);
+        }
+    }
+
     let srcMat = cv.imread(scanCanvas);
     let markers = window.OmrEngine.detectMarkers(srcMat);
     srcMat.delete();
@@ -15298,7 +15316,7 @@ let gradeResults = [];       // All grading results (localStorage-backed)
             return genWasmTypst({ ...cfg, school, subtitle, hasEssay });
         }
 
-        function genMathStandardTypst({ paper, school, subtitle, hasEssay }) {
+        function genMathStandardTypst({ paper, school, subtitle, hasEssay, qrCodeStr }) {
             const isA5 = paper === 'a5';
             return `// Preview-safe Typst – math standard layout
 #set page(
@@ -15591,9 +15609,9 @@ let gradeResults = [];       // All grading results (localStorage-backed)
 `;
         }
 
-        function genWasmTypst({ mcq, tf, tln, paper, school, subtitle, hasEssay }) {
+        function genWasmTypst({ mcq, tf, tln, paper, school, subtitle, hasEssay, qrCodeStr }) {
             if (mcq === 12 && tf === 4 && tln === 6) {
-                return genMathStandardTypst({ paper, school, subtitle, hasEssay });
+                return genMathStandardTypst({ paper, school, subtitle, hasEssay, qrCodeStr });
             }
             const isA5 = paper === 'a5';
             const cols = mcq <= 20 ? 2 : mcq <= 40 ? 3 : 4;
@@ -15753,12 +15771,17 @@ let gradeResults = [];       // All grading results (localStorage-backed)
   ]
 }
 #let empty-box = box(stroke: 0.8pt + black, width: if ${isA5} { 10pt } else { 11pt }, height: if ${isA5} { 10pt } else { 11pt })
+#let qb = box(width: 1.8pt, height: 1.8pt, fill: black)
+#let qw = box(width: 1.8pt, height: 1.8pt, fill: white)
 
 #align(if ${isA5} { center + horizon } else { top + center })[
   #scale(x: if ${isA5} { 88% } else { 95% }, y: if ${isA5} { 88% } else { 95% }, origin: if ${isA5} { center } else { top })[
     #block(width: 100%, height: 0pt)[
       #place(left, dx: -5mm, dy: -5mm, marker)
       #place(right, dx: 5mm, dy: -5mm, marker)
+      #place(left, dx: if ${isA5} { 35mm } else { 43mm }, dy: 15mm)[
+        ${qrCodeStr || ''}
+      ]
     ]
     
 

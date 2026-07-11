@@ -4374,12 +4374,12 @@
             const subtitle = document.getElementById('genSubtitle')?.value || 'Kiểm tra – Môn Toán';
             const hasEssay = document.getElementById('genHasEssay')?.checked;
 
-            return genWasmTypst({ ...cfg, school, subtitle, hasEssay });
+            return genMathStandardTypst({ ...cfg, school, subtitle, hasEssay });
         }
 
         function genMathStandardTypst({ paper, school, subtitle, hasEssay }) {
             const isA5 = paper === 'a5';
-            return `// Preview-safe Typst – math standard layout (MCQ 12, TF 4, TLN 6)
+            return `// Preview-safe Typst – math standard layout
 #set page(
   paper: "${paper}",
   flipped: ${isA5},
@@ -4393,10 +4393,10 @@
 
 #let bubble(label) = {
   circle(
-    radius: 5pt,
+    radius: if ${isA5} { 4.3pt } else { 5pt },
     stroke: 0.5pt + rgb("#333333"),
     fill: white,
-    align(center + horizon)[#text(size: 7pt, weight: "bold", fill: rgb("#444444"))[#label]],
+    align(center + horizon)[#text(size: if ${isA5} { 6.0pt } else { 7pt }, weight: "bold", fill: rgb("#444444"))[#label]],
   )
 }
 
@@ -4407,20 +4407,20 @@
     #place(bottom + left, dx: -5mm, dy: 5mm, marker)
     #place(bottom + right, dx: 5mm, dy: 5mm, marker)
     
-    #v(2pt)
+    #v(if ${isA5} { 1pt } else { 2pt })
     
     #let sbd-box = block(
       inset: (left: 2pt, right: 2pt, top: 2pt, bottom: 2pt),
       [
         #align(center)[#text(weight: "bold", size: 8pt)[SBD]]
-        #v(2pt)
+        #v(if ${isA5} { 1pt } else { 2pt })
         #grid(
           columns: (12pt,) * 6, gutter: 1.5pt,
           ..range(6).map(i => align(center, box(stroke: 0.8pt + black, width: 11pt, height: 11pt)))
         )
-        #v(2pt)
+        #v(if ${isA5} { 1pt } else { 2pt })
         #grid(
-          columns: (12pt,) * 6, row-gutter: 1.5pt, column-gutter: 1.5pt,
+          columns: (12pt,) * 6, row-gutter: if ${isA5} { 1.0pt } else { 1.5pt }, column-gutter: 1.5pt,
           ..range(10).map(r => range(6).map(c => align(center, bubble(str(r))))).flatten()
         )
       ],
@@ -4430,7 +4430,7 @@
       inset: (left: 2pt, right: 2pt, top: 2pt, bottom: 2pt),
       [
         #align(center)[#text(weight: "bold", size: 8pt)[Mã đề]]
-        #v(2pt)
+        #v(if ${isA5} { 1pt } else { 2pt })
         #grid(
           columns: (12pt,) * 3,
           gutter: 1.5pt,
@@ -4438,9 +4438,9 @@
           align(center, box(stroke: 0.8pt + black, width: 11pt, height: 11pt)),
           align(center, box(stroke: 0.8pt + black, width: 11pt, height: 11pt)),
         )
-        #v(2pt)
+        #v(if ${isA5} { 1pt } else { 2pt })
         #grid(
-          columns: (12pt,) * 3, row-gutter: 1.5pt, column-gutter: 1.5pt,
+          columns: (12pt,) * 3, row-gutter: if ${isA5} { 1.0pt } else { 1.5pt }, column-gutter: 1.5pt,
           ..range(10).map(r => range(3).map(c => align(center, bubble(str(r))))).flatten()
         )
       ],
@@ -4582,25 +4582,25 @@
         width: 100%,
         [
           #block(
-            inset: (top: 2pt, bottom: 2pt, left: 4pt),
+            inset: (top: if ${isA5} { 1.2pt } else { 2pt }, bottom: if ${isA5} { 1.2pt } else { 2pt }, left: 4pt),
             align(left)[#text(size:8pt)[*Câu #num*]]
           )
           #block(
-            inset: 2pt,
+            inset: if ${isA5} { 1.2pt } else { 2pt },
             grid(
               columns: (12pt, 12pt, 12pt, 12pt, 12pt),
               align(center, tracking-marker),
-              align(center, box(stroke: 0.5pt, width: 11pt, height: 11pt)),
-              align(center, box(stroke: 0.5pt, width: 11pt, height: 11pt)),
-              align(center, box(stroke: 0.5pt, width: 11pt, height: 11pt)),
-              align(center, box(stroke: 0.5pt, width: 11pt, height: 11pt)),
+              align(center, box(stroke: 0.5pt, width: if ${isA5} { 10pt } else { 11pt }, height: if ${isA5} { 10pt } else { 11pt })),
+              align(center, box(stroke: 0.5pt, width: if ${isA5} { 10pt } else { 11pt }, height: if ${isA5} { 10pt } else { 11pt })),
+              align(center, box(stroke: 0.5pt, width: if ${isA5} { 10pt } else { 11pt }, height: if ${isA5} { 10pt } else { 11pt })),
+              align(center, box(stroke: 0.5pt, width: if ${isA5} { 10pt } else { 11pt }, height: if ${isA5} { 10pt } else { 11pt })),
             ),
           )
           #block(
-            inset: (top: 2pt, bottom: 2pt, left: 1pt, right: 1pt),
+            inset: (top: if ${isA5} { 1.2pt } else { 2pt }, bottom: if ${isA5} { 1.2pt } else { 2pt }, left: 1pt, right: 1pt),
             grid(
               columns: (12pt, 12pt, 12pt, 12pt, 12pt),
-              row-gutter: 1pt,
+              row-gutter: if ${isA5} { 0.6pt } else { 1pt },
               align(center)[-], align(center, bubble("")), [], [], [],
               align(center)[,], [], align(center, bubble("")), align(center, bubble("")), [],
               align(center)[*0*], [], align(center, bubble("")), align(center, bubble("")), align(center, bubble("")),
@@ -4624,7 +4624,7 @@
         #block(inset: 2pt, [*PHẦN III – TỰ LUẬN NGẮN*])
         #line(length: 100%, stroke: 0.8pt)
         #block(
-          inset: (left: 10pt, right: 10pt, bottom: 6pt),
+          inset: (left: 10pt, right: 10pt, bottom: if ${isA5} { 2pt } else { 6pt }),
           grid(
             columns: (1fr,) * 6,
             ..range(1, 7).map(i => tln-col(i))
@@ -5551,19 +5551,26 @@ ${colCode}
 // Sinh tự động bởi Smart Builder
 // ════════════════════════════════════════
 
+#let isA5 = ${paper === 'a5'}
+#let bubble-rad = if isA5 { 4.3pt } else { 5pt }
+#let bubble-txt = if isA5 { 6.0pt } else { 7pt }
+#let box-dim = if isA5 { 10pt } else { 11pt }
+#let row-gut = if isA5 { 0.6pt } else { 1.0pt }
+#let tln-inset = if isA5 { 1.2pt } else { 2.0pt }
+
 #set page(${paperStr}
   margin: (top:5mm, bottom:5mm, left:6mm, right:6mm),)
 #set text(size:8pt, font:"Times New Roman")
 
 #let marker = box(fill:black, width:12pt, height:12pt)
 #let tracking-marker = box(fill:black, width:10pt, height:10pt)
-#let bubble(label) = circle(radius:5pt, stroke:0.5pt+rgb("#333"), fill:white,
-  align(center+horizon)[#text(size:7pt,weight:"bold",fill:rgb("#444"))[#label]])
+#let bubble(label) = circle(radius: bubble-rad, stroke:0.5pt+rgb("#333"), fill:white,
+  align(center+horizon)[#text(size: bubble-txt, weight:"bold", fill:rgb("#444"))[#label]])
 
 #let mcq-row(num) = grid(columns:(13pt,12pt,12pt,12pt,12pt),
   align(center+horizon)[*#num*], bubble(""), bubble(""), bubble(""), bubble(""))
 
-#let tf-q(num) = grid(columns:(12pt,14pt,14pt), row-gutter:1.5pt,
+#let tf-q(num) = grid(columns:(12pt,14pt,14pt), row-gutter: row-gut,
   grid.cell(rowspan:2,align:center+horizon)[#tracking-marker],
   grid.cell(colspan:2,align:center+bottom)[#text(size:7pt,weight:"bold")[Câu #num]],
   align(center)[#text(size:7pt,weight:"bold")[Đ]], align(center)[#text(size:7pt,weight:"bold")[S]],
@@ -5572,13 +5579,13 @@ ${colCode}
 
 #let tln-col(num, last-in-row: false) = block(
   stroke:(right: if last-in-row {0pt} else {0.5pt}), width:100%,
-  [#block(inset:(top:2pt,bottom:2pt,left:4pt),align(left)[#text(size:8pt)[*Câu #num*]])
-   #block(inset:2pt,grid(columns:(12pt,)*5,
+  [#block(inset:(top: tln-inset, bottom: tln-inset, left:4pt), align(left)[#text(size:8pt)[*Câu #num*]])
+   #block(inset: tln-inset, grid(columns:(12pt,)*5,
      align(center,tracking-marker),
-     align(center,box(stroke:0.5pt,width:11pt,height:11pt)),align(center,box(stroke:0.5pt,width:11pt,height:11pt)),
-     align(center,box(stroke:0.5pt,width:11pt,height:11pt)),align(center,box(stroke:0.5pt,width:11pt,height:11pt)),))
-   #block(inset:(top:2pt,bottom:2pt,left:1pt,right:1pt),
-     grid(columns:(12pt,)*5,row-gutter:1pt,
+     align(center,box(stroke:0.5pt,width: box-dim, height: box-dim)), align(center,box(stroke:0.5pt,width: box-dim, height: box-dim)),
+     align(center,box(stroke:0.5pt,width: box-dim, height: box-dim)), align(center,box(stroke:0.5pt,width: box-dim, height: box-dim)),))
+   #block(inset:(top: tln-inset, bottom: tln-inset, left:1pt, right:1pt),
+     grid(columns:(12pt,)*5, row-gutter: row-gut,
        align(center)[-],bubble(""),[],[],[],
        align(center)[,],[],bubble(""),bubble(""),[],
        align(center)[*0*],[],bubble(""),bubble(""),bubble(""),

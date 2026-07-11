@@ -14352,7 +14352,12 @@ let gradeResults = [];       // All grading results (localStorage-backed)
             }
         }
         // Load saved results on page start
-        window.addEventListener('DOMContentLoaded', () => loadFromStorage());
+        window.addEventListener('DOMContentLoaded', () => {
+            loadFromStorage();
+            if (window.TFGraderInstance) {
+                window.TFGraderInstance.loadModel('tfjs_model/model.json');
+            }
+        });
 
 
 
@@ -16724,6 +16729,8 @@ ${parts.join('\n    #v(if isA5 { -2pt } else { 5pt })\n')}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <!-- Gemini API -->
     <script src="js/gemini_grader.js"></script>
+  <script src="js/tf_grader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.10.0/dist/tf.min.js"></script>
     <!-- OpenCV.js & Engine - omr_engine must load FIRST to define onOpenCvReady -->
     <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
     <script src="js/omr_engine.js"></script>

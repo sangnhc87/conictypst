@@ -6,6 +6,8 @@
   <title>Trộn Đề Typst 2025 — ConicTypst</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
   <script src="global-nav.js" defer></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -230,8 +232,34 @@
         </div>
         <div class="space-y-6">
           <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 sticky top-24">
-            <h3 class="text-sm font-semibold text-slate-900 mb-4">Bảng đáp án</h3>
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-sm font-semibold text-slate-900">Bảng đáp án</h3>
+              <div class="flex gap-1.5">
+                <button onclick="exportAnswerKeyExcel()" title="Xuất Excel đáp án" class="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-green-700 bg-green-50 border border-green-200 rounded-lg hover:bg-green-100">
+                  📊 Excel
+                </button>
+                <button onclick="exportAnswerKeyQR()" title="Tạo QR đáp án để nhập vào Chấm Bài" class="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-blue-700 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100">
+                  📱 QR/JSON
+                </button>
+              </div>
+            </div>
             <div id="answerKey" class="text-sm text-slate-700 space-y-2 max-h-[600px] overflow-y-auto"></div>
+          </div>
+          <!-- QR Modal -->
+          <div id="qrModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onclick="if(event.target===this) document.getElementById('qrModal').classList.add('hidden')">
+            <div class="bg-white rounded-2xl shadow-2xl p-6 max-w-md w-full">
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="text-base font-semibold text-slate-900">📱 Gói đáp án — QR / JSON</h3>
+                <button onclick="document.getElementById('qrModal').classList.add('hidden')" class="text-slate-400 hover:text-slate-700 text-xl">&times;</button>
+              </div>
+              <p class="text-xs text-slate-500 mb-3">Scan QR bằng điện thoại hoặc copy JSON text, rồi paste vào <strong>Chấm Bài → Nhập Gói Đáp Án</strong>.</p>
+              <div id="qrCanvas" class="flex justify-center mb-3"></div>
+              <div class="relative">
+                <textarea id="qrJsonText" readonly class="w-full h-24 text-xs font-mono bg-slate-900 text-green-400 p-3 rounded-lg resize-none outline-none"></textarea>
+                <button onclick="copyQRJson()" class="absolute top-2 right-2 text-xs px-2 py-1 bg-slate-700 text-slate-200 rounded hover:bg-slate-600">Copy</button>
+              </div>
+              <p class="text-xs text-slate-400 mt-2">Kích thước: <span id="qrJsonSize">-</span></p>
+            </div>
           </div>
         </div>
       </div>
@@ -924,9 +952,149 @@
       const el = document.getElementById('answerKey');
       if (!currentAnswerKey.length) { el.innerHTML = '<p class="text-slate-400 text-sm">Chưa có đáp án.</p>'; return; }
       el.innerHTML = currentAnswerKey.map(k => {
-        const rows = k.answers.map(a => `<div class="flex items-center gap-2"><span class="text-xs text-slate-400 w-12">Câu ${a.num}</span><span class="text-xs font-mono px-1.5 py-0.5 rounded bg-slate-100 text-slate-700">${escapeHtml(a.answer)}</span></div>`).join('');
-        return `<div class="mb-4"><div class="text-xs font-semibold text-slate-900 mb-1">Mã đề ${escapeHtml(k.code)}</div>${rows}</div>`;
+        const rows = k.answers.map(a => {
+          let badge = '';
+          if (a.type === 'tn') badge = `<span class="px-1 py-0.5 text-xs rounded bg-blue-100 text-blue-700">${escapeHtml(a.answer)}</span>`;
+          else if (a.type === 'ds') badge = `<span class="px-1 py-0.5 text-xs rounded bg-green-100 text-green-700 font-mono">${escapeHtml(a.answer)}</span>`;
+          else if (a.type === 'tln') badge = `<span class="px-1 py-0.5 text-xs rounded bg-amber-100 text-amber-700">${escapeHtml(a.answer)}</span>`;
+          else badge = `<span class="text-xs text-slate-400">TL</span>`;
+          return `<div class="flex items-center gap-2 py-0.5"><span class="text-xs text-slate-400 w-12">Câu ${a.num}</span>${badge}</div>`;
+        }).join('');
+        return `<div class="mb-4 pb-4 border-b border-slate-100 last:border-0"><div class="text-xs font-semibold text-slate-900 mb-2 flex items-center gap-2"><span class="bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full">Mã đề ${escapeHtml(k.code)}</span></div>${rows}</div>`;
       }).join('');
+    }
+
+    // ── EXPORT FUNCTIONS ─────────────────────────────────────────────────────
+    function buildMasterAnswerKeys() {
+      // Convert currentAnswerKey (array) → masterAnswerKeys object (OMR format)
+      // currentAnswerKey = [{code, answers: [{num, type, answer}]}]
+      // output = { '101': { mcq:{}, tf:{}, tln:{} }, '102': {...} }
+      const result = {};
+      for (const entry of currentAnswerKey) {
+        const code = entry.code;
+        result[code] = { mcq: {}, tf: {}, tln: {} };
+        let tnIdx = 1, dsIdx = 1, tlnIdx = 1;
+        for (const a of entry.answers) {
+          if (a.type === 'tn') {
+            result[code].mcq[String(tnIdx)] = a.answer;
+            tnIdx++;
+          } else if (a.type === 'ds') {
+            // a.answer = 'ĐSSĐ' — convert to {a:'Đ', b:'S', c:'S', d:'Đ'}
+            const lbls = ['a','b','c','d'];
+            const obj = {};
+            const chars = a.answer.split('');
+            chars.forEach((ch, i) => { if (lbls[i]) obj[lbls[i]] = ch; });
+            result[code].tf[String(12 + dsIdx)] = obj;  // DS starts at q13
+            dsIdx++;
+          } else if (a.type === 'tln') {
+            // TLN question numbers — calculate from offset
+            const tlnQNum = 12 + 4 + tlnIdx; // after 12 TN + 4 DS = q17 onwards
+            result[code].tln[String(tlnQNum)] = a.answer;
+            tlnIdx++;
+          }
+        }
+      }
+      return result;
+    }
+
+    function exportAnswerKeyExcel() {
+      if (!currentAnswerKey.length) { toast('Chưa có đáp án để xuất!', 'error'); return; }
+      if (typeof XLSX === 'undefined') { toast('Đang tải thư viện Excel...', 'info'); return; }
+      const wb = XLSX.utils.book_new();
+
+      // Sheet 1: Answer Key Table
+      // Header: made | q1 | q2 | ... | tf13a | tf13b | tf13c | tf13d | tf14a | ... | tln17 | ...
+      const tnCount = currentAnswerKey[0]?.answers.filter(a => a.type === 'tn').length || 0;
+      const dsCount = currentAnswerKey[0]?.answers.filter(a => a.type === 'ds').length || 0;
+      const tlnCount = currentAnswerKey[0]?.answers.filter(a => a.type === 'tln').length || 0;
+
+      const headers = ['made'];
+      for (let i = 1; i <= tnCount; i++) headers.push(`q${i}`);
+      const dsCols = []; // track DS column names
+      for (let d = 0; d < dsCount; d++) {
+        const q = 13 + d;
+        ['a','b','c','d'].forEach(lbl => {
+          const col = `tf${q}${lbl}`;
+          headers.push(col); dsCols.push({q, lbl, col});
+        });
+      }
+      for (let t = 0; t < tlnCount; t++) headers.push(`tln${17 + t}`);
+
+      const rows = [headers];
+      for (const entry of currentAnswerKey) {
+        const row = [entry.code];
+        const byType = { tn: [], ds: [], tln: [] };
+        entry.answers.forEach(a => { if (byType[a.type]) byType[a.type].push(a); });
+        for (let i = 0; i < tnCount; i++) row.push(byType.tn[i]?.answer || '');
+        for (let d = 0; d < dsCount; d++) {
+          const ans = byType.ds[d]?.answer || ''; // e.g. 'ĐSSĐ'
+          const chars = ans.split('');
+          ['a','b','c','d'].forEach((_, i) => row.push(chars[i] || ''));
+        }
+        for (let t = 0; t < tlnCount; t++) row.push(byType.tln[t]?.answer || '');
+        rows.push(row);
+      }
+      const ws1 = XLSX.utils.aoa_to_sheet(rows);
+      ws1['!cols'] = headers.map((_, i) => ({ wch: i === 0 ? 8 : 6 }));
+      XLSX.utils.book_append_sheet(wb, ws1, 'DapAn');
+
+      // Sheet 2: Metadata
+      const form = getFormState ? getFormState() : {};
+      const ws2 = XLSX.utils.aoa_to_sheet([
+        ['Thông tin đề thi'],
+        ['Tên trường', form.school || ''],
+        ['Kỳ thi', form.exam || ''],
+        ['Môn học', form.subject || ''],
+        ['Thời gian', form.time || ''],
+        ['Số mã đề', currentAnswerKey.length],
+        ['Số câu TN', tnCount],
+        ['Số câu DS', dsCount],
+        ['Số câu TLN', tlnCount],
+        ['Xuất lúc', new Date().toLocaleString('vi-VN')],
+        ['Công cụ', 'ConicTypst Trộn Đề 2025'],
+      ]);
+      XLSX.utils.book_append_sheet(wb, ws2, 'ThongTin');
+
+      const fileName = `dap-an-${new Date().toISOString().slice(0,10)}.xlsx`;
+      XLSX.writeFile(wb, fileName);
+      toast(`Đã xuất ${fileName}`);
+    }
+
+    function exportAnswerKeyQR() {
+      if (!currentAnswerKey.length) { toast('Chưa có đáp án để tạo QR!', 'error'); return; }
+      const masterKeys = buildMasterAnswerKeys();
+      const form = getFormState ? getFormState() : {};
+      const totalQ = currentAnswerKey[0]?.answers.length || 0;
+      const payload = {
+        v: 1,
+        meta: { exam: form.exam || '', subject: form.subject || '', n: totalQ, date: new Date().toISOString().slice(0,10) },
+        keys: masterKeys
+      };
+      const jsonStr = JSON.stringify(payload);
+      const sizeKb = (jsonStr.length / 1024).toFixed(1);
+
+      document.getElementById('qrJsonText').value = jsonStr;
+      document.getElementById('qrJsonSize').textContent = `${sizeKb} KB (${jsonStr.length} ký tự)`;
+
+      // Generate QR
+      const qrDiv = document.getElementById('qrCanvas');
+      qrDiv.innerHTML = '';
+      try {
+        if (typeof QRCode !== 'undefined' && jsonStr.length <= 2953) {
+          new QRCode(qrDiv, { text: jsonStr, width: 200, height: 200, colorDark: '#0f172a', colorLight: '#ffffff' });
+        } else {
+          qrDiv.innerHTML = '<p class="text-xs text-slate-400 text-center py-4">JSON quá lớn để tạo QR (>2953 ký tự).<br>Vui lòng dùng chức năng Copy JSON.</p>';
+        }
+      } catch(e) {
+        qrDiv.innerHTML = '<p class="text-xs text-red-400">Lỗi tạo QR.</p>';
+      }
+
+      document.getElementById('qrModal').classList.remove('hidden');
+    }
+
+    function copyQRJson() {
+      const text = document.getElementById('qrJsonText').value;
+      navigator.clipboard.writeText(text).then(() => toast('Đã copy JSON đáp án!'));
     }
     function copyResult(i) {
       navigator.clipboard.writeText(generatedResults[i].content).then(() => toast('Đã copy mã đề ' + generatedResults[i].code));

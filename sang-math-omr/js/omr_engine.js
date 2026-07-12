@@ -450,9 +450,24 @@ window.OmrEngine = {
       const OPTIONS = ['A', 'B', 'C', 'D'];
       const LBLS = ['a', 'b', 'c', 'd'];
 
-      const expectedMCQ = fullAnswers.mcq || {};
-      const expectedTF = fullAnswers.tf || {};
-      const expectedTLN = fullAnswers.tln || {};
+      // Multi-key lookup: resolve answer key based on detected exam code
+      // fullAnswers can be either:
+      //   - old flat format: { mcq:{}, tf:{}, tln:{} }
+      //   - new masterAnswerKeys format: { 'default': { mcq:{}, tf:{}, tln:{} }, '101': {...}, '102': {...} }
+      let keySet;
+      const madeCode = geminiAns.made || '';
+      if (fullAnswers && (fullAnswers.mcq !== undefined || fullAnswers.tf !== undefined || fullAnswers.tln !== undefined)) {
+        // Old flat format — backward compatible
+        keySet = fullAnswers;
+      } else if (fullAnswers && typeof fullAnswers === 'object') {
+        // New masterAnswerKeys format — lookup by detected mã đề
+        keySet = fullAnswers[madeCode] || fullAnswers['default'] || { mcq: {}, tf: {}, tln: {} };
+      } else {
+        keySet = { mcq: {}, tf: {}, tln: {} };
+      }
+      const expectedMCQ = keySet.mcq || {};
+      const expectedTF = keySet.tf || {};
+      const expectedTLN = keySet.tln || {};
 
       const wrongDetails = [];
 

@@ -1205,14 +1205,6 @@
                                 <option value="ds20-tln10-ngang">ĐS20+TLN10 (A5 Siêu gọn)</option>
                             </select>
                         </div>
-                        <div class="form-group" style="flex:1;margin:0">
-                            <label>Mã đề kỳ vọng</label>
-                            <input class="form-input" id="expectedMade" placeholder="VD: 001" maxlength="3">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>SBD kỳ vọng (tuỳ chọn)</label>
-                        <input class="form-input" id="expectedSbd" placeholder="VD: 0025" maxlength="4">
                     </div>
                     <div class="form-group" style="margin-top: 10px;">
                         <label>🚀 Động cơ chấm điểm</label>
@@ -1239,8 +1231,27 @@
                             <button class="btn btn-secondary btn-sm" onclick="generateRandomKeys()">🎲 Ngẫu
                                 Nhiên</button>
                             <button class="btn btn-secondary btn-sm" onclick="clearKeys()">✕ Xoá</button>
-                            <button class="btn btn-secondary btn-sm" onclick="importCSVKey()">📂 Import CSV</button>
+                            <button class="btn btn-secondary btn-sm" onclick="importCSVKey()">📂 CSV</button>
+                            <button class="btn btn-primary btn-sm" onclick="document.getElementById('importPkgPanel').classList.toggle('hidden')" style="background:linear-gradient(135deg,#6366f1,#3b82f6);border:none;">📥 Nhập gói đề</button>
                         </div>
+                    </div>
+
+                    <!-- IMPORT PACKAGE PANEL -->
+                    <div id="importPkgPanel" class="hidden" style="background:#f0f9ff;border:1.5px solid #3b82f6;border-radius:10px;padding:14px;margin-bottom:12px;">
+                      <div style="font-size:13px;font-weight:700;color:#1e40af;margin-bottom:8px;">📥 Nhập Gói Đáp Án từ Trộn Đề</div>
+                      <p style="font-size:11px;color:#475569;margin-bottom:10px;">Sau khi trộn đề tại <a href="https://hdsd-conictypst.pages.dev/tron-de" target="_blank" style="color:#3b82f6;">tron-de</a>, xuất gói đáp án (Excel hoặc QR/JSON) rồi nhập vào đây.</p>
+                      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+                        <button onclick="document.getElementById('importExcelKey').click()" class="btn btn-outline btn-sm" style="border-color:#16a34a;color:#16a34a;">📊 Import Excel</button>
+                        <input type="file" id="importExcelKey" accept=".xlsx,.xls" style="display:none" onchange="importAnswerPackageExcel(this)">
+                      </div>
+                      <div style="margin-bottom:6px;">
+                        <label style="font-size:11px;font-weight:600;color:#475569;">Paste JSON (từ nút QR/JSON ở trang Trộn Đề):</label>
+                        <div style="position:relative;">
+                          <textarea id="importJsonText" rows="3" placeholder='Paste JSON đáp án vào đây... {"v":1,"keys":{...}}' style="width:100%;font-size:11px;font-family:monospace;background:#0f172a;color:#4ade80;padding:8px;border-radius:6px;border:none;outline:none;resize:vertical;box-sizing:border-box;"></textarea>
+                          <button onclick="importAnswerPackageJSON()" style="margin-top:6px;width:100%;padding:7px;background:linear-gradient(135deg,#6366f1,#3b82f6);color:white;border:none;border-radius:6px;font-weight:600;font-size:12px;cursor:pointer;">✅ Nạp đáp án</button>
+                        </div>
+                      </div>
+                      <div id="importPkgStatus" style="font-size:11px;color:#16a34a;font-weight:600;"></div>
                     </div>
                                         <div class="row-between mb-3" style="background:#f8fafc; padding:10px; border-radius:8px; border:1px solid #e2e8f0;">
                         <div class="row" style="gap:10px; align-items:center;">
@@ -16794,9 +16805,123 @@ let gradeResults = [];       // All grading results (localStorage-backed)
             input.click();
         }
 
+        // ── IMPORT ANSWER PACKAGE (từ Trộn Đề) ─────────────────────────────
+        function importAnswerPackageJSON() {
+            const text = (document.getElementById('importJsonText').value || '').trim();
+            if (!text) { showImportStatus('⚠️ Chưa paste JSON!', 'orange'); return; }
+            let payload;
+            try { payload = JSON.parse(text); } catch(e) {
+                showImportStatus('❌ JSON không hợp lệ: ' + e.message, 'red'); return;
+            }
+            applyAnswerPackage(payload);
+        }
+
+        function importAnswerPackageExcel(inputEl) {
+            const file = inputEl.files[0];
+            if (!file) return;
+            if (typeof XLSX === 'undefined') {
+                // Load SheetJS dynamically
+                const s = document.createElement('script');
+                s.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+                s.onload = () => readExcelFile(file);
+                document.head.appendChild(s);
+            } else { readExcelFile(file); }
+        }
+
+        function readExcelFile(file) {
+            const reader = new FileReader();
+            reader.onload = ev => {
+                try {
+                    const wb = XLSX.read(ev.target.result, { type: 'array' });
+                    const ws = wb.Sheets[wb.SheetNames[0]];
+                    const rows = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '' });
+                    if (rows.length < 2) { showImportStatus('❌ File Excel trống hoặc sai định dạng.', 'red'); return; }
+                    const headers = rows[0].map(h => String(h).trim().toLowerCase());
+                    const madeIdx = headers.indexOf('made');
+                    if (madeIdx === -1) { showImportStatus('❌ Không tìm thấy cột "made" trong Excel.', 'red'); return; }
+
+                    // Build masterAnswerKeys from Excel rows
+                    const newKeys = {};
+                    for (let r = 1; r < rows.length; r++) {
+                        const row = rows[r];
+                        const madeCode = String(row[madeIdx] || '').trim();
+                        if (!madeCode) continue;
+                        const key = { mcq: {}, tf: {}, tln: {} };
+                        headers.forEach((h, i) => {
+                            const val = String(row[i] || '').trim();
+                            if (!val) return;
+                            // MCQ: q1, q2, ...
+                            const mcqM = h.match(/^q(\d+)$/);
+                            if (mcqM) { key.mcq[mcqM[1]] = val.toUpperCase(); return; }
+                            // TF: tf13a, tf14b, ...
+                            const tfM = h.match(/^tf(\d+)([abcd])$/);
+                            if (tfM) {
+                                const q = tfM[1], lbl = tfM[2];
+                                if (!key.tf[q]) key.tf[q] = { a:'', b:'', c:'', d:'' };
+                                key.tf[q][lbl] = val;
+                                return;
+                            }
+                            // TLN: tln17, tln18, ...
+                            const tlnM = h.match(/^tln(\d+)$/);
+                            if (tlnM) { key.tln[tlnM[1]] = val; return; }
+                        });
+                        newKeys[madeCode] = key;
+                    }
+                    applyAnswerPackage({ v: 1, keys: newKeys, _fromExcel: true });
+                } catch(e) {
+                    showImportStatus('❌ Lỗi đọc Excel: ' + e.message, 'red');
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function applyAnswerPackage(payload) {
+            if (!payload || payload.v !== 1 || !payload.keys || typeof payload.keys !== 'object') {
+                showImportStatus('❌ Định dạng gói đáp án không đúng (cần v:1 + keys:{...}).', 'red');
+                return;
+            }
+            const newKeys = payload.keys;
+            const codes = Object.keys(newKeys);
+            if (codes.length === 0) { showImportStatus('⚠️ Không có mã đề nào trong gói!', 'orange'); return; }
+
+            // Merge into masterAnswerKeys (preserve existing 'default' key)
+            for (const code of codes) {
+                window.masterAnswerKeys[code] = newKeys[code];
+            }
+            saveMasterAnswerKeys();
+
+            // Rebuild dropdown and switch to first imported code
+            const selectEl = document.getElementById('activeMadeKey');
+            if (selectEl) {
+                selectEl.innerHTML = '';
+                for (const k in window.masterAnswerKeys) {
+                    const opt = document.createElement('option');
+                    opt.value = k;
+                    opt.textContent = k === 'default' ? 'Mặc định (Chung)' : `Mã đề ${k}`;
+                    selectEl.appendChild(opt);
+                }
+                // Switch to first non-default code
+                const firstCode = codes.find(c => c !== 'default') || codes[0];
+                selectEl.value = firstCode;
+                switchAnswerKey(firstCode);
+            }
+
+            const meta = payload.meta || {};
+            const info = meta.exam ? ` (${meta.exam})` : '';
+            showImportStatus(`✅ Đã nạp ${codes.length} mã đề${info}: ${codes.join(', ')}`, '#16a34a');
+            document.getElementById('importPkgPanel').classList.add('hidden');
+        }
+
+        function showImportStatus(msg, color) {
+            const el = document.getElementById('importPkgStatus');
+            if (el) { el.textContent = msg; el.style.color = color; }
+        }
+
+
         function buildCustomTLNAnswerGrid(start, end) {
             const container = document.getElementById('answersGrid').parentNode;
             const div = document.createElement('div');
+
             div.id = 'tlnAnswerSection';
             div.style.marginTop = '14px';
             div.innerHTML = `<div style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">

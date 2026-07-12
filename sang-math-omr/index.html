@@ -15356,6 +15356,7 @@ let gradeResults = [];       // All grading results (localStorage-backed)
     #let sbd-box = block(
       inset: (left: if ${isA5} { 6pt } else { 4pt }, right: if ${isA5} { 3pt } else { 2pt }, top: if ${isA5} { 1pt } else { 2pt }, bottom: if ${isA5} { 1pt } else { 2pt }),
       [
+        #place(top + left, dx: -2pt, dy: -2pt)[#tracking-marker]
         #align(center)[#text(weight: "bold", size: 8pt)[SBD]]
         #v(if ${isA5} { 1pt } else { 2pt })
         #grid(
@@ -15373,6 +15374,7 @@ let gradeResults = [];       // All grading results (localStorage-backed)
     #let made-box = block(
       inset: (left: if ${isA5} { 3pt } else { 2pt }, right: if ${isA5} { 3pt } else { 2pt }, top: if ${isA5} { 1pt } else { 2pt }, bottom: if ${isA5} { 1pt } else { 2pt }),
       [
+        #place(top + left, dx: -2pt, dy: -2pt)[#tracking-marker]
         #align(center)[#text(weight: "bold", size: 8pt)[Mã đề]]
         #v(if ${isA5} { 1pt } else { 2pt })
         #grid(
@@ -15794,7 +15796,8 @@ let gradeResults = [];       // All grading results (localStorage-backed)
 #let sbd-box = block(
   inset: (left: if ${isA5} { 6pt } else { 4pt }, right: if ${isA5} { 3pt } else { 2pt }, top: if ${isA5} { 1pt } else { 2pt }, bottom: if ${isA5} { 1pt } else { 2pt }),
   [
-    #align(center)[#text(weight: "bold", size: 8pt)[SỐ BÁO DANH]]
+    #place(top + left, dx: -2pt, dy: -2pt)[#tracking-marker]
+        #align(center)[#text(weight: "bold", size: 8pt)[SỐ BÁO DANH]]
     #v(if ${isA5} { 1pt } else { 2pt })
     #grid(
       columns: (12pt,) * 6, gutter: if ${isA5} { 1.2pt } else { 1.5pt },
@@ -15811,7 +15814,8 @@ let gradeResults = [];       // All grading results (localStorage-backed)
 #let made-box = block(
   inset: (left: if ${isA5} { 3pt } else { 2pt }, right: if ${isA5} { 3pt } else { 2pt }, top: if ${isA5} { 1pt } else { 2pt }, bottom: if ${isA5} { 1pt } else { 2pt }),
   [
-    #align(center)[#text(weight: "bold", size: 8pt)[MÃ ĐỀ THI]]
+    #place(top + left, dx: -2pt, dy: -2pt)[#tracking-marker]
+        #align(center)[#text(weight: "bold", size: 8pt)[MÃ ĐỀ THI]]
     #v(if ${isA5} { 1pt } else { 2pt })
     #grid(
       columns: (12pt,) * 4,
@@ -16625,7 +16629,8 @@ ${colCode}
 )
 
 #let sbd-box = block(inset:(left: if isA5 { 6pt } else { 4pt }, right: if isA5 { 3pt } else { 2pt }, top: if isA5 { 1pt } else { 2pt }, bottom: if isA5 { 1pt } else { 2pt }),[
-  #align(center)[#text(weight:"bold",size:8pt)[SBD]]
+  #place(top + left, dx: -2pt, dy: -2pt)[#tracking-marker]
+        #align(center)[#text(weight: "bold", size: 8pt)[SBD]]
   #v(if isA5 { 1pt } else { 2pt })
   #grid(columns:(12pt,)*6,gutter: if isA5 { 1.2pt } else { 1.5pt },
     ..range(6).map(i=>align(center,box(stroke:0.8pt+black,width:if isA5 { 10pt } else { 11pt },height:if isA5 { 10pt } else { 11pt }))))
@@ -16634,7 +16639,8 @@ ${colCode}
     ..range(10).map(r=>range(6).map(c=>align(center,bubble(str(r))))).flatten())
 ])
 #let made-box = block(inset:(left: if isA5 { 3pt } else { 2pt }, right: if isA5 { 3pt } else { 2pt }, top: if isA5 { 1pt } else { 2pt }, bottom: if isA5 { 1pt } else { 2pt }),[
-  #align(center)[#text(weight:"bold",size:8pt)[Mã đề]]
+  #place(top + left, dx: -2pt, dy: -2pt)[#tracking-marker]
+        #align(center)[#text(weight: "bold", size: 8pt)[Mã đề]]
   #v(if isA5 { 1pt } else { 2pt })
   #grid(columns:(12pt,)*4,gutter: if isA5 { 1.2pt } else { 1.5pt },
     align(center,box(stroke:0.8pt+black,width:if isA5 { 10pt } else { 11pt },height:if isA5 { 10pt } else { 11pt })),

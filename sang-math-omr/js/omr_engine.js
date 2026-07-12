@@ -182,7 +182,14 @@ window.OmrEngine = {
           throw new Error("Gemini AI lỗi: " + err.message);
         }
       } else {
+        
         // Pure OpenCV logic
+        window._sbdOff = null;
+        window._madeOff = null;
+        window._mcqOff = null;
+        window._tfOff = null;
+        window._tlnOff = null;
+
         if (!isWarped) {
           throw new Error("Không thể căn chỉnh góc ảnh, vui lòng chụp rõ 4 góc hoặc chuyển sang chế độ AI Gemini.");
         }
@@ -199,7 +206,28 @@ window.OmrEngine = {
         if (template.sbd) {
           let str = "";
           for (let col = 0; col < template.sbd.length; col++) {
-            const counts = window.OmrEngine.readBubbleCol(threshWarped, template.sbd[col], 9);
+            
+            let pts = template.sbd[col].map(p => [...p]);
+            if (col === 0) {
+                window._sbdOff = getLocalOffset(pts[0][0] - 12, pts[0][1] - 49);
+            }
+            if (window._sbdOff) pts = pts.map(p => [p[0] + window._sbdOff.dx, p[1] + window._sbdOff.dy]);
+            
+            let currentPts = pts.map(p => [...p]);
+            // If it's the first question of a column (e.g. Q1, Q11, Q21)
+            // Wait, we can just detect if it's the start of a column by looking at Y coordinate!
+            if (q === 1 || (pts[0][1] < 300 && template.mcq[(q - 1).toString()] && template.mcq[(q - 1).toString()][0][1] > pts[0][1])) {
+                window._mcqOff = getLocalOffset(pts[0][0] - 21, pts[0][1] - 20);
+            } else if (q === 1 && !window._mcqOff) {
+                window._mcqOff = getLocalOffset(pts[0][0] - 21, pts[0][1] - 20);
+            }
+            if (window._mcqOff) currentPts = currentPts.map(p => [p[0] + window._mcqOff.dx, p[1] + window._mcqOff.dy]);
+            const counts = window.OmrEngine.readBubbleCol(threshWarped, currentPts, 9);
+            // Replace pts with currentPts for AI fallback
+            const originalPts = pts;
+            pts = currentPts;
+
+
             const maxCount = Math.max(...counts);
             const filled = counts.filter(c => c > 30).length;
             if (filled > 1) warnings.push(`SBD cột ${col + 1} tô nhiều ô`);
@@ -213,7 +241,28 @@ window.OmrEngine = {
         if (template.made) {
           let str = "";
           for (let col = 0; col < template.made.length; col++) {
-            const counts = window.OmrEngine.readBubbleCol(threshWarped, template.made[col], 9);
+            
+            let pts = template.made[col].map(p => [...p]);
+            if (col === 0) {
+                window._madeOff = getLocalOffset(pts[0][0] - 12, pts[0][1] - 49);
+            }
+            if (window._madeOff) pts = pts.map(p => [p[0] + window._madeOff.dx, p[1] + window._madeOff.dy]);
+            
+            let currentPts = pts.map(p => [...p]);
+            // If it's the first question of a column (e.g. Q1, Q11, Q21)
+            // Wait, we can just detect if it's the start of a column by looking at Y coordinate!
+            if (q === 1 || (pts[0][1] < 300 && template.mcq[(q - 1).toString()] && template.mcq[(q - 1).toString()][0][1] > pts[0][1])) {
+                window._mcqOff = getLocalOffset(pts[0][0] - 21, pts[0][1] - 20);
+            } else if (q === 1 && !window._mcqOff) {
+                window._mcqOff = getLocalOffset(pts[0][0] - 21, pts[0][1] - 20);
+            }
+            if (window._mcqOff) currentPts = currentPts.map(p => [p[0] + window._mcqOff.dx, p[1] + window._mcqOff.dy]);
+            const counts = window.OmrEngine.readBubbleCol(threshWarped, currentPts, 9);
+            // Replace pts with currentPts for AI fallback
+            const originalPts = pts;
+            pts = currentPts;
+
+
             const maxCount = Math.max(...counts);
             const filled = counts.filter(c => c > 30).length;
             if (filled > 1) warnings.push(`Mã đề cột ${col + 1} tô nhiều ô`);
@@ -228,7 +277,21 @@ window.OmrEngine = {
         for (let q = 1; q <= template.numQ; q++) {
           const pts = template.mcq[q.toString()];
           if (pts) {
-            const counts = window.OmrEngine.readBubbleCol(threshWarped, pts, 9);
+            
+            let currentPts = pts.map(p => [...p]);
+            // If it's the first question of a column (e.g. Q1, Q11, Q21)
+            // Wait, we can just detect if it's the start of a column by looking at Y coordinate!
+            if (q === 1 || (pts[0][1] < 300 && template.mcq[(q - 1).toString()] && template.mcq[(q - 1).toString()][0][1] > pts[0][1])) {
+                window._mcqOff = getLocalOffset(pts[0][0] - 21, pts[0][1] - 20);
+            } else if (q === 1 && !window._mcqOff) {
+                window._mcqOff = getLocalOffset(pts[0][0] - 21, pts[0][1] - 20);
+            }
+            if (window._mcqOff) currentPts = currentPts.map(p => [p[0] + window._mcqOff.dx, p[1] + window._mcqOff.dy]);
+            const counts = window.OmrEngine.readBubbleCol(threshWarped, currentPts, 9);
+            // Replace pts with currentPts for AI fallback
+            const originalPts = pts;
+            pts = currentPts;
+
             const maxCount = Math.max(...counts);
             const filled = counts.filter(c => c > 30).length;
             

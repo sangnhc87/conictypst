@@ -1232,12 +1232,12 @@
                                 Nhiên</button>
                             <button class="btn btn-secondary btn-sm" onclick="clearKeys()">✕ Xoá</button>
                             <button class="btn btn-secondary btn-sm" onclick="importCSVKey()">📂 CSV</button>
-                            <button class="btn btn-primary btn-sm" onclick="document.getElementById('importPkgPanel').classList.toggle('hidden')" style="background:linear-gradient(135deg,#6366f1,#3b82f6);border:none;">📥 Nhập gói đề</button>
+                            <button class="btn btn-primary btn-sm" onclick="const p=document.getElementById('importPkgPanel');p.style.display=p.style.display==='none'?'block':'none'" style="background:linear-gradient(135deg,#6366f1,#3b82f6);border:none;">📥 Nhập gói đề</button>
                         </div>
                     </div>
 
                     <!-- IMPORT PACKAGE PANEL -->
-                    <div id="importPkgPanel" class="hidden" style="background:#f0f9ff;border:1.5px solid #3b82f6;border-radius:10px;padding:14px;margin-bottom:12px;">
+                    <div id="importPkgPanel" style="display:none;background:#f0f9ff;border:1.5px solid #3b82f6;border-radius:10px;padding:14px;margin-bottom:12px;">
                       <div style="font-size:13px;font-weight:700;color:#1e40af;margin-bottom:8px;">📥 Nhập Gói Đáp Án từ Trộn Đề</div>
                       <p style="font-size:11px;color:#475569;margin-bottom:10px;">Sau khi trộn đề tại <a href="https://hdsd-conictypst.pages.dev/tron-de" target="_blank" style="color:#3b82f6;">tron-de</a>, xuất gói đáp án (Excel hoặc QR/JSON) rồi nhập vào đây.</p>
                       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
@@ -16909,7 +16909,7 @@ let gradeResults = [];       // All grading results (localStorage-backed)
             const meta = payload.meta || {};
             const info = meta.exam ? ` (${meta.exam})` : '';
             showImportStatus(`✅ Đã nạp ${codes.length} mã đề${info}: ${codes.join(', ')}`, '#16a34a');
-            document.getElementById('importPkgPanel').classList.add('hidden');
+            document.getElementById('importPkgPanel').style.display = 'none';
         }
 
         function showImportStatus(msg, color) {

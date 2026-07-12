@@ -8,6 +8,9 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
   <script src="global-nav.js" defer></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -61,47 +64,97 @@
 
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
     <section id="tab-mixer" class="tab-pane fade-in">
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div class="lg:col-span-2 space-y-6">
-          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
-            <h2 class="text-base font-semibold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="upload-cloud" class="w-5 h-5 text-blue-600"></i> Tải file .typ để trộn</h2>
-            <div id="dropZone" class="border-2 border-dashed border-slate-300 rounded-xl p-10 text-center hover:border-blue-500 hover:bg-blue-50/50 transition-colors cursor-pointer group">
-              <div class="w-14 h-14 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-100 transition-colors">
-                <i data-lucide="file-code-2" class="w-7 h-7 text-blue-600"></i>
+      <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <!-- LEFT: Upload + quick preview + bank stats -->
+        <div class="lg:col-span-3 space-y-4">
+          <!-- Status bar -->
+          <div id="mixerStatusBar" class="flex items-center gap-3 px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm">
+            <span class="text-slate-500">Ngân hàng:</span>
+            <span id="statusBankCount" class="font-bold text-slate-800">0 câu</span>
+            <span id="statusTypeBreakdown" class="text-xs text-slate-400"></span>
+            <span class="mx-1 text-slate-200">|</span>
+            <span class="text-slate-500">Đã chọn:</span>
+            <span id="statusCartCount" class="font-bold text-blue-700">0 câu</span>
+            <span id="statusCartTypes" class="text-xs text-slate-400"></span>
+          </div>
+
+          <!-- Upload zone -->
+          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5">
+            <h2 class="text-sm font-semibold text-slate-900 mb-3 flex items-center gap-2"><i data-lucide="upload-cloud" class="w-4 h-4 text-blue-600"></i> Bước 1 — Tải file .typ</h2>
+            <div id="dropZone" class="border-2 border-dashed border-slate-300 rounded-xl p-7 text-center hover:border-blue-500 hover:bg-blue-50/50 transition-colors cursor-pointer group">
+              <div class="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:bg-blue-100 transition-colors">
+                <i data-lucide="file-code-2" class="w-6 h-6 text-blue-600"></i>
               </div>
               <p class="text-sm font-medium text-slate-700">Kéo thả hoặc click để chọn file .typ</p>
               <p class="text-xs text-slate-500 mt-1">Hỗ trợ nhiều file, cú pháp ngoặc vuông và ngoặc tròn</p>
               <input type="file" id="fileInput" accept=".typ,.txt,.tex" multiple class="hidden">
             </div>
-            <div id="uploadStats" class="mt-4 hidden">
+            <div id="uploadStats" class="mt-3 hidden">
               <div class="flex flex-wrap gap-2" id="uploadFileList"></div>
             </div>
           </div>
-          <div id="quickPreview" class="hidden bg-white rounded-xl border border-slate-200 shadow-sm p-6">
-            <div class="flex items-center justify-between mb-4">
-              <h2 class="text-base font-semibold text-slate-900">Câu hỏi vừa phân tích</h2>
-              <button id="addAllToCartBtn" class="text-sm bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg font-medium">Thêm tất cả vào đề</button>
+
+          <!-- Bank summary + quick preview -->
+          <div id="quickPreview" class="hidden bg-white rounded-xl border border-slate-200 shadow-sm p-5">
+            <div class="flex items-center justify-between mb-3">
+              <h2 class="text-sm font-semibold text-slate-900">Bước 2 — Câu hỏi vừa phân tích</h2>
+              <button id="addAllToCartBtn" class="text-xs bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg font-medium">Thêm tất cả →</button>
             </div>
-            <div id="quickQuestionList" class="space-y-2 max-h-96 overflow-y-auto"></div>
+            <div id="quickQuestionList" class="space-y-2 max-h-80 overflow-y-auto"></div>
+          </div>
+
+          <!-- Bank mini-panel -->
+          <div id="bankMiniPanel" class="bg-white rounded-xl border border-slate-200 shadow-sm p-5">
+            <div class="flex items-center justify-between mb-3">
+              <h2 class="text-sm font-semibold text-slate-900">📚 Ngân hàng câu hỏi</h2>
+              <button onclick="switchTab('bank')" class="text-xs text-blue-600 hover:underline">Xem chi tiết →</button>
+            </div>
+            <div id="bankMiniStats" class="text-xs text-slate-500">Chưa có câu nào. Tải file .typ để bắt đầu.</div>
+            <div id="bankMiniWarnings" class="mt-2 space-y-1"></div>
           </div>
         </div>
-        <div class="space-y-6">
-          <div class="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-xl shadow-sm p-6 text-white">
-            <h3 class="font-semibold mb-2 flex items-center gap-2"><i data-lucide="sparkles" class="w-5 h-5"></i> Trộn đề thông minh</h3>
-            <p class="text-sm text-blue-100 mb-4">Phân tích cả hai cú pháp Typst, trộn cấu trúc và phương án, quản lý ngân hàng câu hỏi ngay trong trình duyệt.</p>
-            <div class="grid grid-cols-2 gap-3 text-center">
-              <div class="bg-white/10 rounded-lg p-3"><div class="text-2xl font-bold" id="statTotalBank">0</div><div class="text-xs text-blue-100">câu trong ngân hàng</div></div>
-              <div class="bg-white/10 rounded-lg p-3"><div class="text-2xl font-bold" id="statTotalCart">0</div><div class="text-xs text-blue-100">câu đã chọn</div></div>
+
+        <!-- RIGHT: Exam info form + shuffle mode + generate button -->
+        <div class="lg:col-span-2 space-y-4">
+          <!-- Exam info form -->
+          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5">
+            <h3 class="text-sm font-semibold text-slate-900 mb-3 flex items-center gap-2"><i data-lucide="file-text" class="w-4 h-4 text-indigo-500"></i> Thông tin đề thi</h3>
+            <div class="space-y-2.5">
+              <div><label class="text-xs font-medium text-slate-500">Tên trường</label><input id="metaSchool" class="w-full mt-1 px-3 py-2 text-sm border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-400" oninput="saveForm()"></div>
+              <div><label class="text-xs font-medium text-slate-500">Giáo viên / Tổ</label><input id="metaTeacher" class="w-full mt-1 px-3 py-2 text-sm border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-400" oninput="saveForm()"></div>
+              <div><label class="text-xs font-medium text-slate-500">Tên kỳ thi</label><input id="metaExam" class="w-full mt-1 px-3 py-2 text-sm border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-400" oninput="saveForm()"></div>
+              <div><label class="text-xs font-medium text-slate-500">Môn học</label><input id="metaSubject" class="w-full mt-1 px-3 py-2 text-sm border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-400" oninput="saveForm()"></div>
+              <div class="grid grid-cols-2 gap-2">
+                <div><label class="text-xs font-medium text-slate-500">Thời gian (phút)</label><input id="metaTime" type="number" class="w-full mt-1 px-3 py-2 text-sm border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-400" oninput="saveForm()"></div>
+                <div><label class="text-xs font-medium text-slate-500">Số mã đề</label><input id="metaNumVersions" type="number" min="1" max="50" class="w-full mt-1 px-3 py-2 text-sm border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-400" oninput="saveForm()"></div>
+              </div>
+              <div><label class="text-xs font-medium text-slate-500">Mã đề (cách nhau dấu phẩy)</label><input id="metaCodes" class="w-full mt-1 px-3 py-2 text-sm border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-400" oninput="saveForm()"></div>
+              <div><label class="text-xs font-medium text-slate-500">Seed trộn (để trống = ngẫu nhiên)</label><input id="metaSeed" placeholder="VD: 2026" class="w-full mt-1 px-3 py-2 text-sm border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-400" oninput="saveForm()"></div>
             </div>
           </div>
-          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
-            <h3 class="text-sm font-semibold text-slate-900 mb-3">Hướng dẫn nhanh</h3>
-            <ol class="text-sm text-slate-600 space-y-2 list-decimal list-inside">
-              <li>Tải lên file <code class="bg-slate-100 px-1 rounded">.typ</code> chứa câu hỏi.</li>
-              <li>Kiểm tra câu hỏi ở <strong>Ngân hàng</strong>.</li>
-              <li>Chọn câu vào <strong>Đã chọn</strong>, điền thông tin đề thi.</li>
-              <li>Nhấn <strong>Trộn & Tạo đề</strong> để xuất file.</li>
-            </ol>
+
+          <!-- Shuffle mode (compact) -->
+          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5">
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="text-sm font-semibold text-slate-900">⚙️ Chế độ trộn</h3>
+              <div class="flex gap-1">
+                <button data-preset="balanced" class="preset-btn text-xs px-2 py-1 rounded bg-blue-100 text-blue-700 font-medium">Cân bằng</button>
+                <button data-preset="strict" class="preset-btn text-xs px-2 py-1 rounded text-slate-600 hover:bg-slate-100">Giữ form</button>
+                <button data-preset="keep" class="preset-btn text-xs px-2 py-1 rounded text-slate-600 hover:bg-slate-100">Giữ nguyên</button>
+              </div>
+            </div>
+            <div class="space-y-2" id="shuffleModeList"></div>
+          </div>
+
+          <!-- GENERATE BUTTON -->
+          <button id="generateBtn" class="w-full bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 text-white font-semibold py-3.5 rounded-xl shadow-sm flex items-center justify-center gap-2 text-base transition-all">
+            <i data-lucide="shuffle" class="w-5 h-5"></i> Trộn &amp; Tạo đề
+          </button>
+
+          <!-- Validation summary (shows warnings before generate) -->
+          <div id="validationSummary" class="hidden bg-amber-50 border border-amber-200 rounded-xl p-4">
+            <div class="text-xs font-semibold text-amber-800 mb-2">⚠️ Cảnh báo trước khi trộn</div>
+            <div id="validationList" class="space-y-1 text-xs text-amber-700"></div>
           </div>
         </div>
       </div>
@@ -167,10 +220,10 @@
 
     <section id="tab-cart" class="tab-pane hidden fade-in">
       <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
-        <div class="xl:col-span-2 space-y-6">
-          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
-            <div class="flex items-center justify-between mb-4">
-              <h2 class="text-base font-semibold text-slate-900">Câu hỏi đã chọn</h2>
+        <div class="xl:col-span-2 space-y-4">
+          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5">
+            <div class="flex items-center justify-between mb-3">
+              <h2 class="text-base font-semibold text-slate-900">Câu hỏi đã chọn <span id="cartCountLabel" class="text-sm text-slate-400 font-normal"></span></h2>
               <div class="flex items-center gap-2">
                 <button id="clearCartBtn" class="text-xs text-red-600 hover:text-red-700 px-2 py-1">Xóa tất cả</button>
                 <button id="goToBankBtn" class="text-xs text-blue-600 hover:text-blue-700 px-2 py-1">+ Thêm từ ngân hàng</button>
@@ -183,34 +236,20 @@
             </div>
           </div>
         </div>
-        <div class="space-y-6">
-          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
-            <div class="flex items-center justify-between mb-4">
-              <h3 class="text-sm font-semibold text-slate-900">Chế độ trộn</h3>
-              <div class="flex gap-1">
-                <button data-preset="balanced" class="preset-btn text-xs px-2 py-1 rounded bg-blue-100 text-blue-700 font-medium">Cân bằng</button>
-                <button data-preset="strict" class="preset-btn text-xs px-2 py-1 rounded text-slate-600 hover:bg-slate-100">Giữ form</button>
-                <button data-preset="keep" class="preset-btn text-xs px-2 py-1 rounded text-slate-600 hover:bg-slate-100">Giữ nguyên</button>
-              </div>
-            </div>
-            <div class="space-y-3" id="shuffleModeList"></div>
+        <div class="space-y-4">
+          <!-- Cart validation panel -->
+          <div id="cartValidationPanel" class="hidden bg-amber-50 border border-amber-200 rounded-xl p-4">
+            <div class="text-xs font-semibold text-amber-800 mb-2">⚠️ Cảnh báo câu hỏi</div>
+            <div id="cartValidationList" class="space-y-1 text-xs text-amber-700"></div>
           </div>
-          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
-            <h3 class="text-sm font-semibold text-slate-900 mb-4">Thông tin đề thi</h3>
-            <div class="space-y-3">
-              <div><label class="text-xs font-medium text-slate-500">Tên trường</label><input id="metaSchool" class="w-full mt-1 px-3 py-2 text-sm border border-slate-300 rounded-lg outline-none"></div>
-              <div><label class="text-xs font-medium text-slate-500">Giáo viên / Tổ</label><input id="metaTeacher" class="w-full mt-1 px-3 py-2 text-sm border border-slate-300 rounded-lg outline-none"></div>
-              <div><label class="text-xs font-medium text-slate-500">Tên kỳ thi</label><input id="metaExam" class="w-full mt-1 px-3 py-2 text-sm border border-slate-300 rounded-lg outline-none"></div>
-              <div><label class="text-xs font-medium text-slate-500">Môn học</label><input id="metaSubject" class="w-full mt-1 px-3 py-2 text-sm border border-slate-300 rounded-lg outline-none"></div>
-              <div class="grid grid-cols-2 gap-3">
-                <div><label class="text-xs font-medium text-slate-500">Thời gian (phút)</label><input id="metaTime" type="number" class="w-full mt-1 px-3 py-2 text-sm border border-slate-300 rounded-lg outline-none"></div>
-                <div><label class="text-xs font-medium text-slate-500">Số mã đề</label><input id="metaNumVersions" type="number" min="1" max="50" class="w-full mt-1 px-3 py-2 text-sm border border-slate-300 rounded-lg outline-none"></div>
-              </div>
-              <div><label class="text-xs font-medium text-slate-500">Mã đề (phân cách dấu phẩy)</label><input id="metaCodes" class="w-full mt-1 px-3 py-2 text-sm border border-slate-300 rounded-lg outline-none"></div>
-              <div><label class="text-xs font-medium text-slate-500">Seed trộn (để trống = ngẫu nhiên)</label><input id="metaSeed" placeholder="VD: 2026" class="w-full mt-1 px-3 py-2 text-sm border border-slate-300 rounded-lg outline-none"></div>
-            </div>
+          <!-- Cart stats -->
+          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-4">
+            <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">Thống kê</h3>
+            <div id="cartStatBreakdown" class="space-y-2 text-sm text-slate-700"></div>
           </div>
-          <button id="generateBtn" class="w-full bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 text-white font-semibold py-3 rounded-xl shadow-sm flex items-center justify-center gap-2"><i data-lucide="shuffle" class="w-5 h-5"></i> Trộn & Tạo đề</button>
+          <button onclick="switchTab('mixer')" class="w-full flex items-center justify-center gap-2 text-sm text-indigo-600 border border-indigo-200 hover:bg-indigo-50 py-2.5 rounded-xl">
+            ← Quay lại Trộn đề &amp; Cài thông tin
+          </button>
         </div>
       </div>
     </section>
@@ -582,6 +621,73 @@
       return String(raw || '').replace(/#ppgiai\[[\s\S]*?\]/g, '').replace(/#True\[/g, '').replace(/#False\[/g, '').replace(/\$[^$]*\$/g, '…').replace(/[[\]()#]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 120);
     }
     function refreshIcons() { if (window.lucide) lucide.createIcons(); }
+
+    // ── KaTeX math rendering ──────────────────────────────────────────────
+    function renderMathText(raw) {
+      if (!raw) return '';
+      // Strip Typst macros before rendering
+      let text = String(raw)
+        .replace(/#ppgiai\[[\s\S]*?\]/g, '')
+        .replace(/#True\s*\[([^\]]*?)\]/g, '$1')
+        .replace(/#False\s*\[([^\]]*?)\]/g, '$1')
+        .replace(/#(bold|italic|text|emph|underline|strike)\s*\[([^\]]*?)\]/g, '$2')
+        .replace(/\\([aeiou])/gi, '$1'); // strip simple escape sequences
+      // If KaTeX is not loaded yet, fall back to escaped plain text
+      if (!window.katex) return escapeHtml(text).slice(0, 200);
+      try {
+        // Use KaTeX auto-render via renderToString for inline display math
+        const html = text.replace(/\$\$([\s\S]+?)\$\$/g, (_, math) => {
+          try { return katex.renderToString(math, { throwOnError: false, displayMode: true }); }
+          catch { return `<span class="text-slate-400">[math]</span>`; }
+        }).replace(/\$([^$\n]+?)\$/g, (_, math) => {
+          try { return katex.renderToString(math, { throwOnError: false, displayMode: false }); }
+          catch { return `<span class="text-slate-400">[math]</span>`; }
+        });
+        // Escape any remaining non-math HTML
+        return html;
+      } catch { return escapeHtml(text).slice(0, 200); }
+    }
+
+    // ── Question validation ────────────────────────────────────────────────
+    function validateQuestion(q) {
+      const warns = [];
+      if (q.type === 'tn') {
+        const opts = q.options || [];
+        const correctCount = opts.filter(o => o.correct).length;
+        if (opts.length < 2) warns.push('Câu TN có ít hơn 2 phương án');
+        if (correctCount === 0) warns.push('Câu TN không có đáp án đúng');
+        if (correctCount > 1) warns.push(`Câu TN có ${correctCount} đáp án đúng`);
+        const dupes = new Set();
+        for (const o of opts) {
+          const key = (o.body || '').trim().toLowerCase();
+          if (dupes.has(key) && key.length > 0) warns.push('Câu TN có phương án trùng nội dung');
+          dupes.add(key);
+        }
+      } else if (q.type === 'ds') {
+        const stmts = q.statements || [];
+        if (stmts.length < 2) warns.push('Câu Đ/S có ít hơn 2 mệnh đề');
+        if (stmts.length > 4) warns.push('Câu Đ/S có nhiều hơn 4 mệnh đề');
+      } else if (q.type === 'tln') {
+        if (!q.answer || String(q.answer).trim() === '') warns.push('Câu TLN chưa có đáp án');
+      }
+      if (!q.stem || q.stem.trim().length < 3) warns.push('Đề câu quá ngắn hoặc trống');
+      return warns;
+    }
+
+    function getAllWarnings(questions) {
+      const all = [];
+      questions.forEach((q, i) => {
+        const warns = validateQuestion(q);
+        warns.forEach(w => all.push({ num: i + 1, id: q.id, warn: w }));
+      });
+      return all;
+    }
+
+    function renderWarningBadge(warns) {
+      if (!warns.length) return '';
+      return `<span class="inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 bg-amber-100 text-amber-700 rounded font-medium" title="${warns.map(w => escapeHtml(w)).join('\n')}">⚠️ ${warns.length}</span>`;
+    }
+
     function toast(message, type = 'success') {
       const el = document.createElement('div');
       el.className = `px-4 py-3 rounded-lg shadow-lg text-sm font-medium text-white flex items-center gap-2 fade-in ${type === 'error' ? 'bg-red-600' : type === 'info' ? 'bg-slate-800' : 'bg-green-600'}`;
@@ -829,18 +935,22 @@
       empty.classList.add('hidden');
       grid.innerHTML = filtered.map(q => {
         const color = TYPE_COLORS[q.type];
+        const warns = validateQuestion(q);
         const tags = (q.meta?.tags || []).map(t => `<span class="text-[10px] px-1.5 py-0.5 bg-slate-100 text-slate-600 rounded">${escapeHtml(t)}</span>`).join('');
         const diff = q.meta?.difficulty ? `<span class="text-[10px] px-1.5 py-0.5 bg-${color}-50 text-${color}-700 rounded font-medium">${escapeHtml(q.meta.difficulty)}</span>` : '';
         const src = q.meta?.source ? `<span class="text-[10px] px-1.5 py-0.5 bg-slate-100 text-slate-600 rounded">${escapeHtml(q.meta.source)}</span>` : '';
+        const warnBadge = renderWarningBadge(warns);
+        const mathStem = renderMathText(q.stem);
         return `
-        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-4 hover:shadow-md transition-shadow">
+        <div class="bg-white rounded-xl border ${warns.length ? 'border-amber-200' : 'border-slate-200'} shadow-sm p-4 hover:shadow-md transition-shadow">
           <div class="flex items-start justify-between gap-3">
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-2 mb-2">
                 <span class="text-xs font-bold px-2 py-0.5 rounded bg-${color}-100 text-${color}-700">${TYPE_SHORT[q.type]}</span>
                 ${q.id ? `<span class="text-xs text-slate-400 font-mono">#${escapeHtml(q.id)}</span>` : ''}
+                ${warnBadge}
               </div>
-              <p class="text-sm text-slate-800 line-clamp-2">${escapeHtml(previewText(q.stem))}</p>
+              <div class="text-sm text-slate-800 line-clamp-3 katex-preview">${mathStem}</div>
               <div class="flex flex-wrap items-center gap-1.5 mt-2">${tags}${diff}${src}</div>
             </div>
             <div class="flex flex-col gap-1">
@@ -860,15 +970,19 @@
       empty.classList.add('hidden');
       list.innerHTML = cart.map((q, i) => {
         const color = TYPE_COLORS[q.type];
+        const warns = validateQuestion(q);
+        const warnBadge = renderWarningBadge(warns);
+        const mathStem = renderMathText(q.stem);
         return `
-        <div class="flex items-center gap-3 p-3 bg-white border border-slate-200 rounded-xl">
+        <div class="flex items-center gap-3 p-3 bg-white border ${warns.length ? 'border-amber-200 bg-amber-50/30' : 'border-slate-200'} rounded-xl">
           <div class="text-xs text-slate-400 font-mono w-5">${i + 1}</div>
           <div class="flex-1 min-w-0">
             <div class="flex items-center gap-2 mb-0.5">
               <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-${color}-100 text-${color}-700">${TYPE_SHORT[q.type]}</span>
               ${q.id ? `<span class="text-[10px] text-slate-400 font-mono">#${escapeHtml(q.id)}</span>` : ''}
+              ${warnBadge}
             </div>
-            <p class="text-sm text-slate-700 line-clamp-1">${escapeHtml(previewText(q.stem))}</p>
+            <div class="text-sm text-slate-700 line-clamp-1 katex-preview">${mathStem}</div>
           </div>
           <div class="flex items-center gap-1">
             <button onclick="moveCart(${i}, -1)" class="p-1 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded" ${i === 0 ? 'disabled' : ''}><i data-lucide="chevron-up" class="w-4 h-4"></i></button>
@@ -1114,11 +1228,15 @@
       const container = document.getElementById('quickQuestionList');
       container.innerHTML = questions.map((q, i) => {
         const color = TYPE_COLORS[q.type];
+        const warns = validateQuestion(q);
+        const warnBadge = renderWarningBadge(warns);
+        const mathStem = renderMathText(q.stem);
         return `
-        <div class="flex items-center gap-3 p-3 border border-slate-100 rounded-lg hover:bg-slate-50">
+        <div class="flex items-center gap-3 p-3 border ${warns.length ? 'border-amber-200 bg-amber-50/20' : 'border-slate-100'} rounded-lg hover:bg-slate-50">
           <span class="text-xs font-bold px-2 py-0.5 rounded bg-${color}-100 text-${color}-700">${TYPE_SHORT[q.type]}</span>
           <span class="text-xs text-slate-400 w-5">${i + 1}</span>
-          <p class="text-sm text-slate-700 line-clamp-1 flex-1">${escapeHtml(previewText(q.stem))}</p>
+          <div class="text-sm text-slate-700 line-clamp-1 flex-1 katex-preview">${mathStem}</div>
+          ${warnBadge}
         </div>`;
       }).join('');
       document.getElementById('quickPreview').classList.remove('hidden');
@@ -1174,6 +1292,19 @@
       }
     }
 
+    function countByType(arr) {
+      const counts = { tn: 0, ds: 0, tln: 0, tl: 0 };
+      for (const q of arr) if (counts[q.type] !== undefined) counts[q.type]++;
+      return counts;
+    }
+    function typeBreakdownText(counts) {
+      const parts = [];
+      if (counts.tn) parts.push(`${counts.tn} TN`);
+      if (counts.ds) parts.push(`${counts.ds} Đ/S`);
+      if (counts.tln) parts.push(`${counts.tln} TLN`);
+      if (counts.tl) parts.push(`${counts.tl} TL`);
+      return parts.join(' · ');
+    }
     function updateCounts() {
       const nb = document.getElementById('navBankCount');
       const nc = document.getElementById('navCartCount');
@@ -1183,6 +1314,70 @@
       if (nc) nc.textContent = cart.length;
       if (sb) sb.textContent = bank.length;
       if (sc) sc.textContent = cart.length;
+
+      // Mixer status bar
+      const bankCounts = countByType(bank);
+      const cartCounts = countByType(cart);
+      const sbc = document.getElementById('statusBankCount');
+      const std = document.getElementById('statusTypeBreakdown');
+      const scc = document.getElementById('statusCartCount');
+      const sct = document.getElementById('statusCartTypes');
+      if (sbc) sbc.textContent = bank.length + ' câu';
+      if (std) std.textContent = bank.length ? `(${typeBreakdownText(bankCounts)})` : '';
+      if (scc) scc.textContent = cart.length + ' câu';
+      if (sct) sct.textContent = cart.length ? `(${typeBreakdownText(cartCounts)})` : '';
+
+      // Bank mini panel
+      const miniStats = document.getElementById('bankMiniStats');
+      if (miniStats) {
+        if (!bank.length) {
+          miniStats.textContent = 'Chưa có câu nào. Tải file .typ để bắt đầu.';
+        } else {
+          miniStats.innerHTML = `<span class="font-semibold text-slate-700">${bank.length} câu</span> <span class="text-slate-400">—</span> ${typeBreakdownText(bankCounts)}`;
+        }
+      }
+      // Bank mini warnings
+      const miniWarnings = document.getElementById('bankMiniWarnings');
+      if (miniWarnings) {
+        const warns = getAllWarnings(bank);
+        if (warns.length) {
+          miniWarnings.innerHTML = `<div class="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">⚠️ ${warns.length} cảnh báo trong ngân hàng</div>`;
+        } else {
+          miniWarnings.innerHTML = bank.length ? `<div class="text-xs text-green-700 bg-green-50 border border-green-200 rounded-lg px-3 py-2">✅ Không có vấn đề</div>` : '';
+        }
+      }
+
+      // Cart tab label and stats
+      const cartLabel = document.getElementById('cartCountLabel');
+      if (cartLabel) cartLabel.textContent = cart.length ? `(${cart.length} câu)` : '';
+      const cartStat = document.getElementById('cartStatBreakdown');
+      if (cartStat && cart.length) {
+        cartStat.innerHTML = Object.entries(cartCounts).filter(([,v]) => v > 0)
+          .map(([t, v]) => `<div class="flex justify-between"><span class="text-slate-500">${TYPE_LABELS[t]}</span><span class="font-semibold">${v} câu</span></div>`).join('');
+      } else if (cartStat) { cartStat.innerHTML = '<div class="text-slate-400 text-sm">Chưa có câu nào.</div>'; }
+
+      // Cart validation panel
+      const cartWarns = getAllWarnings(cart);
+      const cvPanel = document.getElementById('cartValidationPanel');
+      const cvList = document.getElementById('cartValidationList');
+      if (cvPanel && cvList) {
+        if (cartWarns.length) {
+          cvPanel.classList.remove('hidden');
+          cvList.innerHTML = cartWarns.map(w => `<div>• Câu ${w.num}${w.id ? ` [${escapeHtml(w.id)}]` : ''}: ${escapeHtml(w.warn)}</div>`).join('');
+        } else { cvPanel.classList.add('hidden'); }
+      }
+
+      // Mixer validation summary
+      const vs = document.getElementById('validationSummary');
+      const vl = document.getElementById('validationList');
+      if (vs && vl) {
+        const allWarns = getAllWarnings(cart);
+        if (allWarns.length) {
+          vs.classList.remove('hidden');
+          vl.innerHTML = allWarns.slice(0, 5).map(w => `<div>• Câu ${w.num}: ${escapeHtml(w.warn)}</div>`).join('')
+            + (allWarns.length > 5 ? `<div class="text-amber-500">...và ${allWarns.length - 5} cảnh báo khác</div>` : '');
+        } else { vs.classList.add('hidden'); }
+      }
     }
 
     document.addEventListener('DOMContentLoaded', () => {

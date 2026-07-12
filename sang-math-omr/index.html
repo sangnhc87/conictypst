@@ -1242,6 +1242,19 @@
                             <button class="btn btn-secondary btn-sm" onclick="importCSVKey()">📂 Import CSV</button>
                         </div>
                     </div>
+                                        <div class="row-between mb-3" style="background:#f8fafc; padding:10px; border-radius:8px; border:1px solid #e2e8f0;">
+                        <div class="row" style="gap:10px; align-items:center;">
+                            <label style="font-weight:600; color:#334155;">Mã đề đang chọn:</label>
+                            <select id="activeMadeKey" class="form-input" style="width:140px; padding:4px 8px; font-weight:bold;" onchange="switchAnswerKey(this.value)">
+                                <option value="default">Mặc định (Chung)</option>
+                            </select>
+                        </div>
+                        <div class="row" style="gap:6px;">
+                            <button class="btn btn-outline btn-sm" onclick="addAnswerKey()" style="padding:4px 10px; border-color:#3b82f6; color:#3b82f6;">➕ Thêm mã</button>
+                            <button class="btn btn-outline btn-sm" onclick="removeAnswerKey()" style="padding:4px 10px; border-color:#ef4444; color:#ef4444;" title="Xoá mã đề đang chọn">🗑️</button>
+                        </div>
+                    </div>
+                    
                     <div class="answer-grid" id="answersGrid"></div>
                 </div>
 
@@ -1375,24 +1388,9 @@
                             <div class="tmpl-desc">12TN + 4ĐS + 6TLN<br>Toán học / Vật Lý</div>
                             <span class="tmpl-badge" style="background: #e0f2fe; color: #0284c7; border-color: #bae6fd;">A5 Ngang</span>
                         </div>
-                        <div class="tmpl-card" data-type="ds-20-ngang" onclick="selectTemplate('ds-20-ngang', this)">
-                            <div class="tmpl-icon">✅</div>
-                            <div class="tmpl-name">ĐS-20</div>
-                            <div class="tmpl-desc">20 câu Đúng/Sai<br>Luyện tập chuyên sâu</div>
-                            <span class="tmpl-badge" style="background: #e0f2fe; color: #0284c7; border-color: #bae6fd;">A5 Ngang</span>
-                        </div>
-                        <div class="tmpl-card" data-type="tln-10-ngang" onclick="selectTemplate('tln-10-ngang', this)">
-                            <div class="tmpl-icon">✏️</div>
-                            <div class="tmpl-name">TLN-10</div>
-                            <div class="tmpl-desc">10 câu Tự Luận Ngắn<br>Form điền đáp án</div>
-                            <span class="tmpl-badge" style="background: #e0f2fe; color: #0284c7; border-color: #bae6fd;">A5 Ngang</span>
-                        </div>
-                        <div class="tmpl-card" data-type="ds20-tln10-ngang" onclick="selectTemplate('ds20-tln10-ngang', this)">
-                            <div class="tmpl-icon">🌟</div>
-                            <div class="tmpl-name">ĐS20+TLN10</div>
-                            <div class="tmpl-desc">20 ĐS + 10 TLN<br>Tiết kiệm không gian</div>
-                            <span class="tmpl-badge" style="background: #e0f2fe; color: #0284c7; border-color: #bae6fd;">A5 Ngang</span>
-                        </div>
+                        
+                        
+                        
                         <div class="tmpl-card" data-type="tn-40" onclick="selectTemplate('tn-40', this)">
                             <div class="tmpl-icon">📑</div>
                             <div class="tmpl-name">TN-40</div>
@@ -16183,7 +16181,7 @@ async function manualSnap() {
 
   const fullAnswers = { mcq: {}, tf: {}, tln: {} }; // grading without key = just read answers
   try {
-    const result = await window.OmrEngine.gradeImage(fc, template, fullAnswers, apiKey, templateName, 'gemini');
+    const result = await window.OmrEngine.gradeImage(fc, template, window.masterAnswerKeys, apiKey, templateName, 'gemini');
     _showArResult(result, templateName);
   } catch(err) {
     document.getElementById('arStatus').textContent = 'Lỗi: ' + err.message;
@@ -16435,7 +16433,7 @@ async function arScanLoop(timestamp) {
 
       const fullAnswers = { mcq: {}, tf: {}, tln: {} };
       try {
-        const result = await window.OmrEngine.gradeImage(fullCanvas, template, fullAnswers, apiKey, templateName, engine);
+        const result = await window.OmrEngine.gradeImage(fullCanvas, template, window.masterAnswerKeys, apiKey, templateName, engine);
         _showArResult(result, templateName);
       } catch (err) {
         if (gf) { gf.style.borderStyle = 'dashed'; gf.style.borderColor = 'rgba(255,255,255,0.35)'; }
@@ -16460,8 +16458,98 @@ async function arScanLoop(timestamp) {
     <!-- ======================================================== -->
     <script>
         // ---- STATE ----
-        const correctAnswers = {};
+        window.masterAnswerKeys = { 'default': { mcq: {}, tf: {}, tln: {} } };
+        window.currentMadeKey = 'default';
+        
+        function saveMasterAnswerKeys() {
+            localStorage.setItem('omr_answerKeys_v2', JSON.stringify(window.masterAnswerKeys));
+        }
+        function loadMasterAnswerKeys() {
+            try {
+                const stored = localStorage.getItem('omr_answerKeys_v2');
+                if (stored) {
+                    window.masterAnswerKeys = JSON.parse(stored);
+                    const sel = document.getElementById('activeMadeKey');
+                    if (sel) {
+                        for (let made in window.masterAnswerKeys) {
+                            if (made !== 'default') {
+                                const opt = document.createElement('option');
+                                opt.value = made;
+                                opt.textContent = `Mã đề: ${made}`;
+                                sel.appendChild(opt);
+                            }
+                        }
+                    }
+                }
+            } catch(e) {}
+        }
+        // Load keys on startup
+        loadMasterAnswerKeys();
+
         const OPTIONS = ["A", "B", "C", "D"];
+        const LBLS = ["a", "b", "c", "d"];
+
+        // Getter helpers for backwards compatibility in UI rendering
+        const correctAnswers = new Proxy({}, {
+            get: (t, p) => window.masterAnswerKeys[window.currentMadeKey].mcq[p],
+            set: (t, p, v) => { window.masterAnswerKeys[window.currentMadeKey].mcq[p] = v; saveMasterAnswerKeys(); return true; }
+        });
+        const tfAnswerKey = new Proxy({}, {
+            get: (t, p) => {
+                if (!window.masterAnswerKeys[window.currentMadeKey].tf[p]) {
+                    window.masterAnswerKeys[window.currentMadeKey].tf[p] = { a: '', b: '', c: '', d: '' };
+                }
+                return window.masterAnswerKeys[window.currentMadeKey].tf[p];
+            },
+            set: (t, p, v) => { window.masterAnswerKeys[window.currentMadeKey].tf[p] = v; saveMasterAnswerKeys(); return true; }
+        });
+        const tlnAnswerKey = new Proxy({}, {
+            get: (t, p) => window.masterAnswerKeys[window.currentMadeKey].tln[p] || '',
+            set: (t, p, v) => { window.masterAnswerKeys[window.currentMadeKey].tln[p] = v; saveMasterAnswerKeys(); return true; }
+        });
+
+        function switchAnswerKey(made) {
+            window.currentMadeKey = made;
+            document.getElementById('activeMadeKey').value = made;
+            // Re-render UI
+            const sheetType = document.getElementById('sheetTypeGrade').value;
+            onSheetTypeChange();
+        }
+
+        function addAnswerKey() {
+            const m = prompt("Nhập mã đề mới (VD: 101, 102...):");
+            if (!m || !m.trim()) return;
+            const made = m.trim();
+            if (!window.masterAnswerKeys[made]) {
+                window.masterAnswerKeys[made] = { mcq: {}, tf: {}, tln: {} };
+                const opt = document.createElement('option');
+                opt.value = made;
+                opt.textContent = `Mã đề: ${made}`;
+                document.getElementById('activeMadeKey').appendChild(opt);
+            }
+            saveMasterAnswerKeys();
+            switchAnswerKey(made);
+        }
+
+        function removeAnswerKey() {
+            if (window.currentMadeKey === 'default') {
+                alert("Không thể xoá mã đề mặc định!");
+                return;
+            }
+            if (confirm(`Bạn có chắc muốn xoá đáp án của mã đề ${window.currentMadeKey}?`)) {
+                delete window.masterAnswerKeys[window.currentMadeKey];
+                const sel = document.getElementById('activeMadeKey');
+                for (let i = 0; i < sel.options.length; i++) {
+                    if (sel.options[i].value === window.currentMadeKey) {
+                        sel.remove(i);
+                        break;
+                    }
+                }
+                saveMasterAnswerKeys();
+                switchAnswerKey('default');
+            }
+        }
+        
         let uploadedFiles = [];      // Batch: list of {file, imgEl}
         // Quản lý lớp/kỳ thi
 let examSessions = ['Mặc định'];
@@ -16520,31 +16608,6 @@ window.onSessionChange = function() {
     // Không cần xử lý logic gì đặc biệt vì khi chấm tự lấy value này
 };
 
-function exportExcel() {
-    const sessionFilter = document.getElementById('statsSessionSelect').value;
-    let filtered = gradeResults;
-    if (sessionFilter !== 'All') {
-        filtered = gradeResults.filter(r => (r.sessionName || 'Mặc định') === sessionFilter);
-    }
-    if (filtered.length === 0) {
-        alert("Không có dữ liệu để xuất!");
-        return;
-    }
-    let csv = "\uFEFF"; // BOM for UTF-8 Excel
-    csv += "STT,SBD,Họ tên,Mã đề,Điểm,Số câu đúng,Tổng số câu,Xếp loại,Lớp/Kỳ thi,Thời gian\n";
-    filtered.forEach((r, idx) => {
-        const t = new Date(r.timestamp).toLocaleString();
-        csv += `${idx + 1},${r.sbd},${r.name},${r.made},${r.score},${r.correct},${r.total},${r.verdict},${r.sessionName || 'Mặc định'},${t}\n`;
-    });
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.setAttribute("href", url);
-    link.setAttribute("download", `Diem_Thi_${sessionFilter === 'All' ? 'TongHop' : sessionFilter}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-}
 
 // Chèn gọi loadSessions vào window.onload
 const oldOnload = window.onload;
@@ -16831,8 +16894,8 @@ let gradeResults = [];       // All grading results (localStorage-backed)
 
 
         // ---- TF ANSWER KEY BUILDER ----
-        const tfAnswerKey = {};   // { "13": {a:'Đ',b:'S',c:'Đ',d:'Đ'}, ... }
-        const tlnAnswerKey = {};  // { "17": "2.5", ... }
+        
+        
 
         function buildCustomTFAnswerGrid(start, end) {
             const container = document.getElementById('answersGrid').parentNode;
@@ -16942,7 +17005,7 @@ let gradeResults = [];       // All grading results (localStorage-backed)
                                  tln: tlnAnswerKey
                              };
                             const engine = document.getElementById('gradeEngine').value;
-                            const result = await window.OmrEngine.gradeImage(entry.imgEl, template, fullAnswers, apiKey, sheetType, engine);
+                            const result = await window.OmrEngine.gradeImage(entry.imgEl, template, window.masterAnswerKeys, apiKey, sheetType, engine);
                             result.filename = entry.name;
                             result.timestamp = new Date().toLocaleString('vi-VN');
                             gradeResults.push(result);
@@ -17025,13 +17088,7 @@ let gradeResults = [];       // All grading results (localStorage-backed)
                 document.getElementById('resCorrect').textContent = `${result.correct}/${result.total}`;
             }
 
-            const expSbd = document.getElementById('expectedSbd').value;
-            const expMade = document.getElementById('expectedMade').value;
-            let matchTxt = '✅ Khớp hoàn toàn', matchClr = 'var(--green)';
-            if (expSbd && result.sbd !== expSbd) { matchTxt = `⚠️ Lệch SBD (${result.sbd})`; matchClr = 'var(--orange)'; }
-            else if (expMade && result.made !== expMade) { matchTxt = `⚠️ Lệch Mã đề (${result.made})`; matchClr = 'var(--orange)'; }
-            document.getElementById('resMatch').textContent = matchTxt;
-            document.getElementById('resMatch').style.color = matchClr;
+            
 
             const sc = parseFloat(result.score);
             const circle = document.getElementById('scoreCircle');

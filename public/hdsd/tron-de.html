@@ -1175,10 +1175,14 @@
     }
 
     function updateCounts() {
-      document.getElementById('navBankCount').textContent = bank.length;
-      document.getElementById('navCartCount').textContent = cart.length;
-      document.getElementById('statTotalBank').textContent = bank.length;
-      document.getElementById('statTotalCart').textContent = cart.length;
+      const nb = document.getElementById('navBankCount');
+      const nc = document.getElementById('navCartCount');
+      const sb = document.getElementById('statTotalBank');
+      const sc = document.getElementById('statTotalCart');
+      if (nb) nb.textContent = bank.length;
+      if (nc) nc.textContent = cart.length;
+      if (sb) sb.textContent = bank.length;
+      if (sc) sc.textContent = cart.length;
     }
 
     document.addEventListener('DOMContentLoaded', () => {

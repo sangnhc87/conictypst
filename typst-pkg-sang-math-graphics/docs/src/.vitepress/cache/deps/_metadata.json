@@ -1,0 +1,55 @@
+{
+  "hash": "a85dadc6",
+  "configHash": "ce0daa5f",
+  "lockfileHash": "9d3faa61",
+  "browserHash": "2cd585d8",
+  "optimized": {
+    "vue": {
+      "src": "../../../../node_modules/vue/dist/vue.runtime.esm-bundler.js",
+      "file": "vue.js",
+      "fileHash": "91d7c285",
+      "needsInterop": false
+    },
+    "vitepress > @vue/devtools-api": {
+      "src": "../../../../node_modules/@vue/devtools-api/dist/index.js",
+      "file": "vitepress___@vue_devtools-api.js",
+      "fileHash": "097359c7",
+      "needsInterop": false
+    },
+    "vitepress > @vueuse/core": {
+      "src": "../../../../node_modules/@vueuse/core/index.mjs",
+      "file": "vitepress___@vueuse_core.js",
+      "fileHash": "ae84b2d4",
+      "needsInterop": false
+    },
+    "@theme/index": {
+      "src": "../../../../node_modules/vitepress/dist/client/theme-default/index.js",
+      "file": "@theme_index.js",
+      "fileHash": "710412ff",
+      "needsInterop": false
+    },
+    "@myriaddreamin/typst.ts": {
+      "src": "../../../../node_modules/@myriaddreamin/typst.ts/dist/esm/index.mjs",
+      "file": "@myriaddreamin_typst__ts.js",
+      "fileHash": "7010df8c",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-QAUAGEFW": {
+      "file": "chunk-QAUAGEFW.js"
+    },
+    "chunk-YRNSJHMG": {
+      "file": "chunk-YRNSJHMG.js"
+    },
+    "wasm-pack-shim-WWOKHW27": {
+      "file": "wasm-pack-shim-WWOKHW27.js"
+    },
+    "wasm-pack-shim-TD4HBA2F": {
+      "file": "wasm-pack-shim-TD4HBA2F.js"
+    },
+    "chunk-UVKRO5ER": {
+      "file": "chunk-UVKRO5ER.js"
+    }
+  }
+}

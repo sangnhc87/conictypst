@@ -1,0 +1,40 @@
+1
+00:00:00,000 --> 00:00:02,809
+Xin chào các thầy cô và các bạn. Chào
+
+2
+00:00:02,909 --> 00:00:05,876
+mừng đến với hệ thống Typst thế hệ mới.
+
+3
+00:00:07,466 --> 00:00:10,567
+Một giải pháp toàn diện giúp soạn thảo siêu tốc, tự
+
+4
+00:00:10,667 --> 00:00:13,391
+động hóa hình vẽ Toán học, và tối ưu hóa thời
+
+5
+00:00:13,491 --> 00:00:16,654
+gian xuất bản sách, đề thi, hay hệ thống trực tuyến.
+
+6
+00:00:18,250 --> 00:00:21,161
+Đặc biệt, hệ thống không chỉ dừng lại ở tài liệu in
+
+7
+00:00:21,261 --> 00:00:23,641
+ấn, mà còn tự động sinh ra các vi đê ô bài
+
+8
+00:00:23,741 --> 00:00:26,358
+giảng hoạt hình cực kì sinh động và trực quan.
+
+9
+00:00:28,450 --> 00:00:31,787
+Tất cả mọi thứ... được giải quyết tự động chỉ với một
+
+10
+00:00:31,887 --> 00:00:35,550
+vài dòng lệnh đơn giản. Hãy cùng trải nghiệm ngay hôm nay!
+

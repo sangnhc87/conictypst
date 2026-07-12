@@ -1,0 +1,25 @@
+{
+    "name": "sang-math-graphics",
+    "version": "0.1.0",
+    "description": "Package Typst vẽ hình Toán phức tạp: 3D, conic, đường xoắn ốc...",
+    "type": "module",
+    "scripts": {
+        "build:gallery": "typst compile examples/gallery.typ output/gallery.pdf",
+        "build:manual": "typst compile docs/src/manual.typ output/manual.pdf",
+        "build:examples": "bash scripts/build-examples.sh",
+        "build:docs": "bash scripts/build-docs.sh",
+        "build:web": "bash scripts/build-web.sh",
+        "build:all": "npm run build:examples && npm run build:docs && npm run build:web",
+        "dev:web": "cd docs && npm run dev",
+        "test": "bash scripts/test-compile.sh"
+    },
+    "keywords": [
+        "typst",
+        "cetz",
+        "math",
+        "geometry",
+        "3d",
+        "conic"
+    ],
+    "license": "MIT"
+}

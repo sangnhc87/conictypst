@@ -1,0 +1,28 @@
+1
+00:00:00,000 --> 00:00:02,245
+Hệ thống đã tự động kết xuất thành công
+
+2
+00:00:02,345 --> 00:00:04,652
+tuyển tập 100 bảng biến thiên chuẩn mực.
+
+3
+00:00:06,250 --> 00:00:09,209
+Hãy cùng xem một ví dụ về bảng biến thiên của hàm số
+
+4
+00:00:09,309 --> 00:00:12,269
+bậc ba, mọi chi tiết từ dấu đạo hàm đến mũi tên đồng
+
+5
+00:00:12,369 --> 00:00:15,270
+biến, nghịch biến đều được tính toán và vẽ tự động.
+
+6
+00:00:17,366 --> 00:00:20,668
+Hàng trăm ví dụ tương tự đã sẵn sàng để thầy cô sử
+
+7
+00:00:20,768 --> 00:00:24,682
+dụng. Giải phóng hoàn toàn thời gian gõ công thức thủ công.
+

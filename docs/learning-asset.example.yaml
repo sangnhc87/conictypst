@@ -1,0 +1,25 @@
+id: CD-Lorenz-Gini
+kind: cd
+title: "Lorenz - Gini"
+grade: 12
+domain: "Tích phân ứng dụng"
+cluster: "Giải tích thực tế"
+chapter: "Nguyên hàm - Tích phân"
+difficulty: 4
+status: gold
+year_first_used: "2025-2026"
+year_last_used: "2026-2027"
+skills:
+  - đọc đồ thị
+  - mô hình hóa
+  - tính diện tích
+tags:
+  - tích phân
+  - kinh tế xã hội
+  - vdc
+source_typ: "typst/exams/CD-Lorenz-Gini.typ"
+pdf: "typst/exams/CD-Lorenz-Gini.pdf"
+related_beamer:
+  - beamer-12-bai-5-ung-dung-thuc-tien
+teacher_note: "Dùng sau khi HS đã biết ý nghĩa diện tích dưới đồ thị."
+student_pitfall: "Nhầm diện tích giữa đường Lorenz và đường y=x."

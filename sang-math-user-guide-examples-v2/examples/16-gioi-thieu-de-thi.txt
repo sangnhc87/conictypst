@@ -1,0 +1,12 @@
+Quý thầy cô đang tìm kiếm một giải pháp thiết kế đề thi hoàn hảo? Hôm nay, chúng tôi xin giới thiệu hệ thống tự động định dạng đề thi Toán siêu việt nhất trên Typst, giúp thầy cô tạo ra những đề kiểm tra không chỉ chính xác mà còn vô cùng đẹp mắt.
+Khởi đầu với phong cách Cổ Điển. Một thiết kế tối giản, bám sát cấu trúc chuẩn của Bộ Giáo dục, hoàn hảo cho các kỳ thi học kỳ và tốt nghiệp.
+Chuyển sang phong cách Đại Dương Xanh dịu mắt. Điểm nhấn nằm ở các nhãn câu hỏi bo góc mềm mại và đáp án khoanh tròn thanh lịch, giúp học sinh giảm áp lực phòng thi.
+Đặc biệt hơn với phong cách Tím Mộng Mơ kết hợp nhãn đáp án Ngôi Sao Vàng đậm chất Việt Nam. Đây là sự lựa chọn tuyệt vời cho các đề thi cá nhân hóa.
+Phong cách Đỏ sậm rực rỡ và mạnh mẽ. Thiết kế sử dụng hộp câu hỏi ruy băng và đáp án ô vuông, cực kỳ thích hợp cho các bài kiểm tra đánh giá năng lực gắt gao.
+Nếu thầy cô thích sự hiện đại, hãy chọn Xanh Mòng Két với điểm nhấn là nhãn cờ đuôi nheo và các hình thoi kim cương tinh tế.
+Hoặc vươn tới sự sang trọng tuyệt đối với phong cách Navy Gold. Chữ gạch chân cổ điển và các đa giác màu vàng kim tạo nên đẳng cấp của một kỳ thi lớn.
+Phong cách Đỏ Mận quyến rũ kết hợp với lục giác, mang đến làn gió mới mẻ, làm nổi bật ngay cả những dòng công thức khô khan nhất.
+Giao diện Xanh Bầu Trời trẻ trung, với font chữ nghệ thuật ở đáp án, mang lại cảm giác phá cách và năng động.
+Không chỉ là đề thi, hệ thống còn hỗ trợ xuất bản Lời giải chi tiết với chỉ một cú nhấp chuột. Chế độ Giáo viên sẽ tự động khoanh tròn đỏ đáp án đúng và hiển thị lời giải ngay dưới mỗi câu hỏi.
+Ở bất kỳ giao diện nào, lời giải cũng đều được căn lề tự động, đồng bộ màu sắc và đóng khung rõ ràng, tạo ra một tài liệu lưu hành nội bộ hoàn hảo cho thầy cô.
+Hàng chục giao diện, hàng trăm biến thể. Hãy giải phóng bản thân khỏi việc định dạng văn bản để tập trung vào chuyên môn. Trải nghiệm ngay hệ thống đề thi tự động cùng ConicTypst!

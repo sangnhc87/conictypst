@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Typst Playground</title>
+  <style>
+    body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; font-family: sans-serif; background: #fff; }
+    #preview { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; overflow: auto; }
+    .loading { color: #666; font-style: italic; }
+    .error { color: red; white-space: pre-wrap; font-family: monospace; padding: 1rem; }
+    svg { max-width: 100%; height: auto; }
+  </style>
+</head>
+<body>
+  <div id="preview"><div class="loading">Loading compiler...</div></div>
+  <script type="module">
+    const TYPST_VERSION = '0.7.0-rc2';
+    const CDN = 'https://cdn.jsdelivr.net/npm/@myriaddreamin';
+    const COMPILER_WASM = `${CDN}/typst-ts-web-compiler@${TYPST_VERSION}/pkg/typst_ts_web_compiler_bg.wasm`;
+    const RENDERER_WASM = `${CDN}/typst-ts-renderer@${TYPST_VERSION}/pkg/typst_ts_renderer_bg.wasm`;
+    const COMPILER_MJS = `${CDN}/typst-ts-web-compiler@${TYPST_VERSION}/pkg/typst_ts_web_compiler.mjs`;
+    const RENDERER_MJS = `${CDN}/typst-ts-renderer@${TYPST_VERSION}/pkg/typst_ts_renderer.mjs`;
+    const TYPST_TS_ESM = `${CDN}/typst.ts@${TYPST_VERSION}/dist/esm/main.mjs`;
+    const TYPST_INIT_ESM = `${CDN}/typst.ts@${TYPST_VERSION}/dist/esm/options.init.mjs`;
+    const TYPST_MEMORY_ESM = `${CDN}/typst.ts@${TYPST_VERSION}/dist/esm/fs/memory.mjs`;
+
+    let compiler = null;
+    let renderer = null;
+
+    async function init() {
+      try {
+        const [compilerWrapper, rendererWrapper] = await Promise.all([
+          import(COMPILER_MJS),
+          import(RENDERER_MJS),
+        ]);
+        const mod = await import(TYPST_TS_ESM);
+        const { withAccessModel, withPackageRegistry } = await import(TYPST_INIT_ESM);
+        const { MemoryAccessModel } = await import(TYPST_MEMORY_ESM);
+
+        const accessModel = new MemoryAccessModel();
+        const packageRegistry = new mod.FetchPackageRegistry(accessModel);
+
+        compiler = mod.createTypstCompiler();
+        await compiler.init({
+          getModule: () => COMPILER_WASM,
+          getWrapper: () => compilerWrapper,
+          beforeBuild: [
+            withAccessModel(accessModel),
+            withPackageRegistry(packageRegistry),
+            mod.loadFonts([], { assets: ['text'] }),
+          ],
+        });
+
+        renderer = mod.createTypstRenderer();
+        await renderer.init({
+          getModule: () => RENDERER_WASM,
+          getWrapper: () => rendererWrapper,
+        });
+
+        document.getElementById('preview').innerHTML = '<div class="loading">Ready. Waiting for code...</div>';
+        window.parent.postMessage({ type: 'ready' }, '*');
+      } catch (e) {
+        document.getElementById('preview').innerHTML = `<div class="error">Init error: ${e.message || String(e)}</div>`;
+      }
+    }
+
+    async function renderCode(code) {
+      if (!compiler || !renderer) return;
+      document.getElementById('preview').innerHTML = '<div class="loading">Rendering...</div>';
+      try {
+        compiler.addSource('/main.typ', code);
+        const compileResult = await compiler.compile({ mainFilePath: '/main.typ', format: 0 });
+        if (compileResult && compileResult.result) {
+          const session = await renderer.createModule(compileResult.result);
+          const svgStr = await renderer.renderSvg({ renderSession: session });
+          document.getElementById('preview').innerHTML = svgStr;
+        } else {
+          throw new Error('Biên dịch thất bại');
+        }
+      } catch (e) {
+        document.getElementById('preview').innerHTML = `<div class="error">${e.message || String(e)}</div>`;
+      }
+    }
+
+    window.addEventListener('message', (event) => {
+      if (event.data && event.data.type === 'render') {
+        renderCode(event.data.code);
+      }
+    });
+
+    init();
+  </script>
+</body>
+</html>

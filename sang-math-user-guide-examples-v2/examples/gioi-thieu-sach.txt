@@ -1,0 +1,12 @@
+Bạn có biết, cuốn sách đầu tiên học trò cầm lên tay, chính là lời khẳng định đẳng cấp của người thầy? Nhưng thiết kế một tài liệu Toán vừa đẹp, vừa chuyên nghiệp, lại mất quá nhiều thời gian căn chỉnh. Hãy để chúng tôi giới thiệu 10 tuyệt tác mẫu sách giáo khoa được biên dịch tự động hoàn toàn bằng code.
+Mẫu số 1: Chuẩn mực và thanh lịch, hoàn hảo cho các chuyên đề lý thuyết chuyên sâu, như Ứng dụng Hàm sinh bạn đang xem.
+Mẫu số 2: Phá vỡ quy tắc với cấu trúc tạp chí Mỹ, sử dụng hộp chú thích lề vô cùng độc đáo.
+Mẫu số 3: Đường nét đương đại với góc bo tròn mềm mại, giúp học sinh giảm bớt áp lực trước những con số.
+Mẫu số 4: Cổ điển, dứt khoát, hệ thống phân cấp đánh số mạch lạc, chuyên trị kiến thức hàn lâm.
+Mẫu số 5: Sử dụng mảng khối không gian 3 chiều, biến trang giấy phẳng trở nên đa chiều sống động.
+Mẫu số 6: Tối giản hoàn toàn, loại bỏ chi tiết rườm rà để vẻ đẹp nguyên bản của công thức Toán lên ngôi.
+Mẫu số 7: Mang âm hưởng công nghệ kỹ thuật số, lựa chọn số 1 cho các đội tuyển học sinh giỏi.
+Mẫu số 8: Nghệ thuật phối màu Pastel dịu mắt, sang trọng mà cực kỳ lôi cuốn.
+Mẫu số 9: Các dải ruy băng rực rỡ, đánh thức thị giác, xoáy sâu vào các Định lý quan trọng nhất.
+Và Mẫu số 10: Đỉnh cao thiết kế sư phạm hiện đại.
+Không chỉ là Word, không phải InDesign. Tất cả chỉ cần gõ nội dung, thiết kế đã có thuật toán Typst lo liệu. Hãy nâng tầm tài liệu của bạn ngay hôm nay cùng ConicTypst Publishing.

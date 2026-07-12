@@ -1,0 +1,3 @@
+Bài toán tính đạo hàm. Tìm đạo hàm của hàm số sau.
+
+Ta áp dụng công thức đạo hàm cơ bản, suy ra y phẩy bằng 3 x bình phương trừ 3.

@@ -1,0 +1,84 @@
+1
+00:00:00,000 --> 00:00:05,132
+Chào các bạn. Hôm nay chúng ta sẽ giải quyết bài toán xếp ghế.
+
+2
+00:00:06,716 --> 00:00:09,568
+Đề bài cho hai học sinh lớp A, hai học
+
+3
+00:00:09,668 --> 00:00:12,208
+sinh lớp B, và hai học sinh lớp C.
+
+4
+00:00:12,300 --> 00:00:14,462
+Xếp sáu học sinh này vào sáu chiếc ghế
+
+5
+00:00:14,562 --> 00:00:16,784
+được chia thành hai hàng đối diện nhau.
+
+6
+00:00:16,883 --> 00:00:19,591
+Điều kiện là: Không có hai học sinh cùng lớp
+
+7
+00:00:19,691 --> 00:00:22,207
+nào được ngồi kề hoặc ngồi đối diện nhau.
+
+8
+00:00:23,300 --> 00:00:26,008
+Chúng ta cùng bắt đầu phân tích nhé.
+
+9
+00:00:26,100 --> 00:00:29,720
+Đây là sáu chiếc ghế được xếp thành hai hàng đối diện.
+
+10
+00:00:29,816 --> 00:00:32,572
+Và đây là sáu học sinh tương ứng.
+
+11
+00:00:33,666 --> 00:00:37,694
+Do không có hai học sinh cùng lớp nào ngồi kề hay đối diện...
+
+12
+00:00:37,783 --> 00:00:40,189
+Nên mỗi cột dọc gồm hai ghế đối diện,
+
+13
+00:00:40,289 --> 00:00:42,627
+bắt buộc phải chứa hai bạn khác lớp.
+
+14
+00:00:42,716 --> 00:00:45,448
+Đây là ba cột dọc của chúng ta.
+
+15
+00:00:46,533 --> 00:00:50,451
+Suy ra, ba cột dọc này chính là ba tổ hợp:
+
+16
+00:00:50,551 --> 00:00:53,225
+Cột A B, cột B C, và cột C A.
+
+17
+00:00:53,316 --> 00:00:57,584
+Ví dụ, ta xếp ngẫu nhiên một trường hợp thỏa mãn như trên hình.
+
+18
+00:00:58,683 --> 00:01:04,175
+Bước một, xếp ba cặp này vào ba cột, ta có ba giai thừa, bằng 6 cách.
+
+19
+00:01:04,266 --> 00:01:07,784
+Bước hai, trong mỗi cột, ta có hai cách hoán vị
+
+20
+00:01:07,884 --> 00:01:10,862
+học sinh, nên có hai mũ ba, bằng 8 cách.
+
+21
+00:01:11,950 --> 00:01:17,418
+Vậy, số cách xếp ghế thỏa mãn bài toán là 6 nhân 8, bằng 48 cách.
+

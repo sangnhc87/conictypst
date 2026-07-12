@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Sang Math Atlas Learning Asset",
+  "type": "object",
+  "required": ["id", "kind", "title", "source_typ"],
+  "properties": {
+    "id": { "type": "string" },
+    "kind": { "type": "string", "enum": ["cd", "beamer", "exam", "book", "worksheet"] },
+    "title": { "type": "string" },
+    "grade": { "type": ["integer", "null"], "minimum": 1, "maximum": 12 },
+    "domain": { "type": "string" },
+    "cluster": { "type": "string" },
+    "chapter": { "type": ["string", "integer", "null"] },
+    "difficulty": { "type": ["integer", "null"], "minimum": 1, "maximum": 5 },
+    "status": { "type": "string", "enum": ["draft", "tested", "ready", "gold", "revise", "retire"] },
+    "year_first_used": { "type": ["string", "null"] },
+    "year_last_used": { "type": ["string", "null"] },
+    "skills": { "type": "array", "items": { "type": "string" } },
+    "tags": { "type": "array", "items": { "type": "string" } },
+    "source_typ": { "type": "string" },
+    "pdf": { "type": ["string", "null"] },
+    "related_beamer": { "type": "array", "items": { "type": "string" } },
+    "teacher_note": { "type": "string" },
+    "student_pitfall": { "type": "string" }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,4 @@
+media/
+preview/
+__pycache__/
+*.log

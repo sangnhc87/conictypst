@@ -1,0 +1,6 @@
+Chào mừng các bạn đến với bộ đề thi khảo sát chất lượng Toán 12 của hệ thống Sang Math.
+Chúng ta cùng xem một câu hỏi tiêu biểu: Hàm số y bằng, x mũ 3 trừ 3x, đạt cực đại tại điểm nào?
+Sau đây là giải chi tiết. Tập xác định là, D bằng e rờ.
+Ta lấy đạo hàm y phẩy bằng, 3 x bình phương trừ 3.
+Cho y phẩy bằng 0, ta tìm được hai nghiệm là x bằng 1 và x bằng trừ 1.
+Qua điểm x bằng trừ 1, đạo hàm đổi dấu từ dương sang âm. Do đó, hàm số đạt cực đại tại x bằng trừ 1. Chúng ta chọn đáp án A.

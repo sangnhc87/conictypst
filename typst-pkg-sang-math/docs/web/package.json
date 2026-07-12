@@ -1,0 +1,21 @@
+{
+  "name": "web",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "docs:dev": "vitepress dev",
+    "docs:build": "vitepress build",
+    "docs:preview": "vitepress preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@myriaddreamin/typst.ts": "^0.7.0",
+    "@myriaddreamin/typst.vue3": "^0.7.0",
+    "vitepress": "^1.6.4",
+    "vue": "^3.5.39"
+  }
+}

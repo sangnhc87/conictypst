@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+
+  <script>
+    (function(){
+      var _0x4f2a=['hostname','includes','hdsd-conictypst.pages.dev','conictypst.com','localhost','127.0.0.1','innerHTML','<div style="display:flex;height:100vh;width:100vw;background:#0f172a;color:#f1f5f9;align-items:center;justify-content:center;font-family:sans-serif;text-align:center;padding:20px;"><div><h2 style="color:#ef4444;margin-bottom:10px;">⚠️ Cảnh báo bản quyền</h2><p>Công cụ này thuộc bản quyền của <b>ConicTypst</b>.</p><p>Phiên bản này đang được chạy trái phép.</p></div></div>','stop','search','?unlock=conic','getItem','unlock_admin','setItem'];
+      
+      // Secret backdoor for the owner
+      if (window.location[_0x4f2a[9]][_0x4f2a[1]](_0x4f2a[10])) {
+         localStorage[_0x4f2a[13]](_0x4f2a[12], "1");
+      }
+      if (localStorage[_0x4f2a[11]](_0x4f2a[12]) === "1") return;
+
+      var d = window.location[_0x4f2a[0]];
+      // If d is empty (opening file:/// directly), it will not block.
+      if(d && ![_0x4f2a[2],_0x4f2a[3],_0x4f2a[4],_0x4f2a[5]].some(function(x){return d[_0x4f2a[1]](x);})){
+         document.documentElement[_0x4f2a[6]] = _0x4f2a[7];
+         window[_0x4f2a[8]]();
+      }
+    })();
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kho Mẫu Đề Thi & Sách — Sang Math</title>
+  <meta name="description" content="Gallery 18 theme đề thi sang-math 1.0.0, profile đề/lời giải/2 cột/nháp/beamer và roadmap template sách." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="dashboard.css" />
+  <script defer src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script src="global-nav.js" defer></script>
+  <script type="module" src="playground.js"></script>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #64748b;
+      --line: #dbe4ef;
+      --paper: #ffffff;
+      --wash: #f4f8fb;
+      --accent: #0f766e;
+      --accent-soft: #e6fffb;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        linear-gradient(180deg, rgba(236, 253, 245, 0.9), rgba(244, 248, 251, 0) 260px),
+        var(--wash);
+      color: var(--ink);
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .template-shell {
+      width: min(1480px, calc(100vw - 40px));
+      margin: 0 auto;
+      padding: 34px 0 56px;
+    }
+
+    .template-head {
+      margin-bottom: 22px;
+      display: flex;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .template-title {
+      background: var(--paper);
+      border: 1px solid rgba(15, 118, 110, 0.16);
+      border-radius: 12px;
+      padding: 32px 24px;
+      box-shadow: 0 12px 36px rgba(15, 23, 42, 0.06);
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .template-title p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+      max-width: 820px;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      font-size: 0.76rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 4vw, 4.5rem);
+      line-height: 0.98;
+      letter-spacing: 0;
+    }
+
+    .control-card {
+      background: #0f172a;
+      color: #e5edf6;
+      border-radius: 8px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.16);
+    }
+
+    
+
+    .switch-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin: 18px 0 32px;
+    }
+
+    .switch-btn {
+      border: 1px solid var(--line);
+      background: var(--paper);
+      color: var(--muted);
+      border-radius: 30px;
+      padding: 8px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .switch-btn.active {
+      background: #0f766e;
+      color: #fff;
+      border-color: #0f766e;
+      box-shadow: 0 4px 12px rgba(15, 118, 110, 0.25);
+    }
+
+    .template-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .template-toggles {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--ink);
+      padding: 0 8px;
+    }
+
+    .template-toolbar input,
+    .template-toolbar select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      min-height: 44px;
+      padding: 0 12px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+    }
+
+    .template-toolbar button,
+    .copy-btn {
+      border: 0;
+      border-radius: 8px;
+      min-height: 44px;
+      padding: 0 14px;
+      background: #172033;
+      color: #fff;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .theme-card,
+    .book-card,
+    .profile-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+    }
+
+    .theme-preview {
+      min-height: 260px;
+      padding: 18px;
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--theme) 12%, #fff), #fff 45%);
+      border-bottom: 1px solid color-mix(in srgb, var(--theme) 24%, #e5e7eb);
+    }
+
+    .paper-mini {
+      background: #fff;
+      border: 1px solid color-mix(in srgb, var(--theme) 38%, #d1d5db);
+      border-radius: 6px;
+      padding: 14px;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
+    }
+
+    .paper-top {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: start;
+      border-bottom: 2px solid var(--theme);
+      padding-bottom: 8px;
+    }
+
+    .school {
+      font-size: 0.62rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: #334155;
+      line-height: 1.35;
+    }
+
+    .code-pill {
+      border: 1px solid var(--theme);
+      color: var(--theme);
+      border-radius: 999px;
+      padding: 3px 7px;
+      font-size: 0.62rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .exam-name {
+      text-align: center;
+      color: var(--theme);
+      font-weight: 900;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      line-height: 1.25;
+    }
+
+    .question-line {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      font-size: 0.67rem;
+      line-height: 1.45;
+    }
+
+    .q-mark {
+      flex: 0 0 auto;
+      background: var(--theme);
+      color: #fff;
+      border-radius: 999px;
+      padding: 3px 7px;
+      font-weight: 900;
+      font-size: 0.6rem;
+    }
+
+    .option-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 5px;
+    }
+
+    .option {
+      min-height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      border-radius: 6px;
+      background: color-mix(in srgb, var(--theme) 8%, #fff);
+      font-size: 0.62rem;
+      color: #334155;
+    }
+
+    .option-badge {
+      width: 18px;
+      height: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1.5px solid var(--theme);
+      color: var(--theme);
+      font-weight: 900;
+      font-size: 0.58rem;
+      background: #fff;
+    }
+
+    .plain .option-badge {
+      width: auto;
+      border: 0;
+      background: none;
+    }
+
+    .circle .option-badge,
+    .solid-circle .option-badge,
+    .double-circle .option-badge { border-radius: 999px; }
+    .solid-circle .option-badge,
+    .solid-pentagon .option-badge,
+    .solid-hexagon .option-badge,
+    .solid-diamond .option-badge,
+    .solid-triangle .option-badge,
+    .solid-square .option-badge {
+      background: var(--theme);
+      color: #fff;
+    }
+    .double-circle .option-badge { box-shadow: inset 0 0 0 2px #fff; }
+    .pentagon .option-badge,
+    .solid-pentagon .option-badge {
+      clip-path: polygon(50% 0, 98% 36%, 80% 100%, 20% 100%, 2% 36%);
+    }
+    .hexagon .option-badge,
+    .solid-hexagon .option-badge {
+      clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0 50%);
+    }
+    .diamond .option-badge,
+    .solid-diamond .option-badge {
+      transform: rotate(45deg);
+      border-radius: 2px;
+    }
+    .diamond .option-badge span,
+    .solid-diamond .option-badge span { transform: rotate(-45deg); }
+    .triangle .option-badge,
+    .solid-triangle .option-badge {
+      clip-path: polygon(50% 0, 100% 100%, 0 100%);
+      padding-top: 3px;
+    }
+
+    .draft-zone {
+      display: none;
+      border-left: 1px dashed color-mix(in srgb, var(--theme) 42%, #cbd5e1);
+      padding-left: 8px;
+      color: #94a3b8;
+      font-size: 0.58rem;
+    }
+
+    .profile-draft .question-wrap {
+      display: grid;
+      grid-template-columns: 1fr 34%;
+      gap: 8px;
+    }
+
+    .profile-draft .draft-zone { display: block; }
+
+    .profile-compact .question-area {
+      column-count: 2;
+      column-gap: 12px;
+    }
+
+    .answer-key-mini {
+      display: none;
+      margin-top: auto;
+      padding-top: 8px;
+      border-top: 1px dashed color-mix(in srgb, var(--theme) 34%, #cbd5e1);
+      font-size: 0.62rem;
+      color: var(--theme);
+      font-weight: 800;
+    }
+
+    .profile-loigiai .answer-key-mini,
+    .profile-beamer .answer-key-mini { display: block; }
+
+    .theme-body {
+      padding: 16px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .theme-body h3 {
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 1rem;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tag {
+      border-radius: 999px;
+      background: #eef4f8;
+      color: #475569;
+      padding: 5px 8px;
+      font-size: 0.72rem;
+      font-weight: 800;
+    }
+
+    .copy-output {
+      background: #0f172a;
+      color: #dbeafe;
+      border-radius: 8px;
+      padding: 14px;
+      display: grid;
+      gap: 8px;
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+
+    .copy-output pre {
+      margin: 0;
+      overflow: auto;
+      white-space: pre-wrap;
+    }
+
+    .wasm-panel {
+      background: #0f172a;
+      color: #e2e8f0;
+      border-radius: 8px;
+      padding: 18px;
+      margin-bottom: 22px;
+      display: grid;
+      grid-template-columns: minmax(260px, 0.75fr) minmax(0, 1.25fr);
+      gap: 16px;
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.16);
+    }
+
+    .wasm-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .wasm-actions button {
+      border: 0;
+      border-radius: 8px;
+      min-height: 42px;
+      padding: 0 13px;
+      background: #38bdf8;
+      color: #082f49;
+      font-weight: 900;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .wasm-actions button.secondary {
+      background: #10b981;
+      color: #052e24;
+    }
+
+    .wasm-actions button.ghost {
+      background: #334155;
+      color: #fff;
+    }
+
+    .wasm-preview {
+      min-height: 360px;
+      max-height: 620px;
+      overflow: auto;
+      background: #fff;
+      color: #172033;
+      border-radius: 8px;
+      padding: 14px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+    }
+
+    .wasm-preview svg {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .wasm-code {
+      width: 100%;
+      min-height: 170px;
+      resize: vertical;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      background: #020617;
+      color: #bae6fd;
+      padding: 12px;
+      font: 0.78rem "SFMono-Regular", Consolas, monospace;
+      line-height: 1.5;
+      box-sizing: border-box;
+      margin-top: 12px;
+    }
+
+    .profile-grid,
+    .book-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .profile-card,
+    .book-card {
+      padding: 18px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .profile-card h3,
+    .book-card h3 {
+      margin: 0;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .book-band {
+      height: 90px;
+      border-radius: 8px;
+      background:
+        linear-gradient(135deg, color-mix(in srgb, var(--book) 82%, #111827), color-mix(in srgb, var(--book) 22%, #fff));
+      display: flex;
+      align-items: end;
+      padding: 12px;
+      color: #fff;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 1180px) {
+      .gallery-grid,
+      .profile-grid,
+      .book-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .template-shell { width: min(100vw - 24px, 1480px); padding-top: 18px; }
+      .gallery-grid,
+      .profile-grid,
+      .book-grid,
+      .wasm-panel,
+      .template-toolbar {
+        grid-template-columns: 1fr;
+      }
+      .panel-title { align-items: flex-start; }
+    }
+
+    /* Ecosystem Grid & Cards */
+    #ecoPanel {
+      margin-top: 24px;
+      animation: fadeIn 0.4s ease-out;
+    }
+    .eco-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .eco-header h2 {
+      font-size: 2.2rem;
+      background: linear-gradient(135deg, #0f766e, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+    }
+    .eco-header p {
+      color: var(--muted);
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .ecosystem-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      width: 100%;
+    }
+    .eco-card {
+      background: var(--paper);
+      border-radius: 16px;
+      padding: 32px 24px;
+      border: 1px solid rgba(15, 118, 110, 0.1);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+    .eco-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, #0f766e, #14b8a6);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .eco-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(15, 118, 110, 0.12);
+      border-color: rgba(15, 118, 110, 0.2);
+    }
+    .eco-card:hover::before {
+      opacity: 1;
+    }
+    .eco-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 12px;
+      background: rgba(15, 118, 110, 0.08);
+      color: #0f766e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .eco-icon i {
+      width: 28px;
+      height: 28px;
+    }
+    .eco-card h3 {
+      margin: 0 0 8px;
+      font-size: 1.4rem;
+      color: var(--ink);
+    }
+    .eco-card .slogan {
+      color: #0f766e;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 16px;
+    }
+    .eco-card p {
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 24px;
+      flex-grow: 1;
+    }
+    .eco-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 20px;
+      background: var(--wash);
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 600;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+    .eco-link i {
+      margin-left: 8px;
+      width: 18px;
+      height: 18px;
+      transition: transform 0.2s;
+    }
+    .eco-link:hover {
+      background: #0f766e;
+      color: white;
+    }
+    .eco-link:hover i {
+      transform: translateX(4px);
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+
+</head>
+<body>
+  <main class="template-shell">
+    <section class="template-head">
+      <div class="template-title">
+        <div class="eyebrow">Sang Math 1.0.0</div>
+        <h1>Kho Mẫu Đề Thi & Sách</h1>
+        <p>Xem nhanh 18 theme trong `exam-template-demo.typ`, đổi profile đề/lời giải/2 cột/nháp/beamer, copy đúng các dòng cần sửa trong “BẢNG ĐIỀU KHIỂN”. Không cần nhớ lệnh terminal.</p>
+      </div>
+      
+    </section>
+
+    <div class="switch-grid" role="tablist" aria-label="Chọn nhóm template">
+      <button class="switch-btn active" type="button" data-panel="examPanel"><i data-lucide="file-check-2"></i> Mẫu đề thi</button>
+      <button class="switch-btn" type="button" data-panel="profilePanel"><i data-lucide="sliders-horizontal"></i> Profile & tuỳ chọn</button>
+      <button class="switch-btn" type="button" data-panel="chuyendePanel"><i data-lucide="layers"></i> Mẫu Chuyên Đề</button>
+      <button class="switch-btn" type="button" data-panel="bookPanel"><i data-lucide="book-open"></i> Mẫu sách</button>
+      <button class="switch-btn" type="button" data-panel="beamerPanel"><i data-lucide="monitor-play"></i> Mẫu Slide</button>
+      
+    </div>
+
+    <section class="wasm-panel" aria-labelledby="wasmTitle">
+      <div>
+        <div class="eyebrow">Preview thật bằng hiệu ứng đang biên dịch đẹp đẳng cấp</div>
+        <h2 id="wasmTitle" style="margin:0 0 8px;">Không còn ảnh giả lập</h2>
+        <p style="margin:0;color:#cbd5e1;line-height:1.65;">Nút bên dưới biên dịch mã Typst thật trong trình duyệt. Phần sách dùng `book-templates.typ`; phần đề dùng `exam-templates.typ` và `sang-exam.typ`.</p>
+        <div class="wasm-actions" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; background: rgba(15, 23, 42, 0.4); padding: 8px; border-radius: 8px; border: 1px solid #1e293b;">
+          <button type="button" id="renderExamBtn" style="padding: 6px 12px; font-size: 0.85rem; border-radius: 6px; background: #3b82f6; border: none; color: white; display: flex; align-items: center; gap: 6px; cursor: pointer; transition: all 0.2s;"><i data-lucide="file-check-2" style="width: 16px; height: 16px;"></i> Xem Trước Đề</button>
+          <button type="button" id="renderChuyendeBtn" style="padding: 6px 12px; font-size: 0.85rem; border-radius: 6px; background: #8b5cf6; border: none; color: white; display: flex; align-items: center; gap: 6px; cursor: pointer; transition: all 0.2s;"><i data-lucide="layers" style="width: 16px; height: 16px;"></i> Xem Chuyên Đề</button>
+          <button type="button" id="renderBookBtn" style="padding: 6px 12px; font-size: 0.85rem; border-radius: 6px; background: #10b981; border: none; color: white; display: flex; align-items: center; gap: 6px; cursor: pointer; transition: all 0.2s;"><i data-lucide="book-open" style="width: 16px; height: 16px;"></i> Xem Sách</button>
+          <button type="button" id="renderBeamerBtn" style="padding: 6px 12px; font-size: 0.85rem; border-radius: 6px; background: #f59e0b; border: none; color: white; display: flex; align-items: center; gap: 6px; cursor: pointer; transition: all 0.2s;"><i data-lucide="monitor-play" style="width: 16px; height: 16px;"></i> Xem Slide</button>
+          <button type="button" id="toggleCodeBtn" style="padding: 6px 12px; font-size: 0.85rem; border-radius: 6px; background: transparent; border: 1px solid #475569; color: #cbd5e1; display: flex; align-items: center; gap: 6px; cursor: pointer; transition: all 0.2s; margin-left: auto;" onmouseover="this.style.background='#334155'" onmouseout="this.style.background='transparent'"><i data-lucide="code" style="width: 16px; height: 16px;"></i> Mã Nguồn</button>
+          <button type="button" id="copyLiveCodeBtn" style="padding: 6px 12px; font-size: 0.85rem; border-radius: 6px; background: transparent; border: 1px dashed #475569; color: #cbd5e1; display: flex; align-items: center; gap: 6px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#334155'" onmouseout="this.style.background='transparent'"><i data-lucide="copy" style="width: 16px; height: 16px;"></i> Copy</button>
+        </div>
+        <select id="chuyendeThemeSelect" style="margin-top:10px;width:100%;min-height:42px;border-radius:8px;border:1px solid #334155;background:#020617;color:#e2e8f0;padding:0 12px;font:inherit;display:none;">
+          <option value="12-mau-chuyen-de-vip.typ">MẪU CHUYÊN ĐỀ VIP</option>
+          <option value="13-mau-chuyen-de-thuc-te.typ">MẪU BÀI TOÁN THỰC TẾ</option>
+          <option value="14-mau-chuyen-de-hinh-hoc.typ">MẪU HÌNH HỌC KHÔNG GIAN</option>
+        </select>
+        <select id="bookThemeSelect" style="margin-top:10px;width:100%;min-height:42px;border-radius:8px;border:1px solid #334155;background:#020617;color:#e2e8f0;padding:0 12px;font:inherit;display:none;">
+          <option value="21-mau-sach-doc-la.typ">Mẫu sách Độc lạ 1</option>
+          <option value="22-mau-sach-doc-la-2.typ">Mẫu sách Độc lạ 2</option>
+          <option value="23-mau-sach-doc-la-3.typ">Mẫu sách Độc lạ 3</option>
+          <option value="24-mau-sach-doc-la-4.typ">Mẫu sách Độc lạ 4</option>
+          <option value="25-mau-sach-doc-la-5.typ">Mẫu sách Độc lạ 5</option>
+          <option value="26-mau-sach-doc-la-6.typ">Mẫu sách Độc lạ 6</option>
+          <option value="27-mau-sach-doc-la-7.typ">Mẫu sách Độc lạ 7</option>
+          <option value="28-mau-sach-doc-la-8.typ">Mẫu sách Độc lạ 8</option>
+          <option value="29-mau-sach-doc-la-9.typ">Mẫu sách Độc lạ 9</option>
+          <option value="30-mau-sach-doc-la-10.typ">Mẫu sách Độc lạ 10</option>
+        </select>
+        <select id="beamerThemeSelect" style="margin-top:10px;width:100%;min-height:42px;border-radius:8px;border:1px solid #334155;background:#020617;color:#e2e8f0;padding:0 12px;font:inherit;display:none;">
+        </select>
+        <textarea id="liveTypstCode" class="wasm-code" spellcheck="false" style="display: none;"></textarea>
+      </div>
+      <div id="wasmPreview" class="wasm-preview">
+        <div style="align-self:center;color:#64748b;font-weight:800;">Bấm Render để xem kết quả Typst thật.</div>
+      </div>
+    </section>
+
+    <section id="examPanel">
+      <div class="template-toolbar">
+        <input id="themeSearch" type="search" placeholder="Tìm theme: aurora, navy, in đen trắng, lời giải..." style="flex: 1; min-width: 200px;" />
+        <select id="profileSelect" aria-label="Chọn profile preview" style="width: auto;">
+          <option value="dethi">dethi: đề học sinh</option>
+          <option value="loigiai" selected>loigiai: lời giải + đáp án</option>
+          <option value="compact">compact: 2 cột</option>
+          <option value="draft">draft: nháp bên phải</option>
+          <option value="beamer">beamer: chuyển slide</option>
+        </select>
+        <select id="optionSelect" aria-label="Chọn kiểu đáp án" style="width: auto;">
+          <option value="auto" selected>Opt: auto (chuẩn theme)</option>
+          <option value="plain">plain</option>
+          <option value="circle">circle</option>
+          <option value="solid-circle">solid-circle</option>
+          <option value="double-circle">double-circle</option>
+          <option value="square">square</option>
+          <option value="solid-square">solid-square</option>
+          <option value="rounded-square">rounded-square</option>
+          <option value="diamond">diamond</option>
+          <option value="solid-diamond">solid-diamond</option>
+          <option value="triangle">triangle</option>
+          <option value="solid-triangle">solid-triangle</option>
+          <option value="pentagon">pentagon</option>
+          <option value="solid-pentagon">solid-pentagon</option>
+          <option value="hexagon">hexagon</option>
+          <option value="solid-hexagon">solid-hexagon</option>
+          <option value="badge">badge</option>
+          <option value="calligraphy">calligraphy</option>
+          <option value="vietnam-star">vietnam-star</option>
+        </select>
+        <select id="qLabelSelect" aria-label="Kiểu chữ Câu 1" style="width: auto;">
+          <option value="auto" selected>Nhãn câu: auto</option>
+          <option value="plain">plain (thường)</option>
+          <option value="pill">pill (bo viên)</option>
+          <option value="solid-pill">solid-pill</option>
+          <option value="badge">badge</option>
+          <option value="ribbon">ribbon (ruy băng)</option>
+          <option value="flag">flag (lá cờ)</option>
+          <option value="underline">underline</option>
+          <option value="spark">spark (toả sáng)</option>
+        </select>
+        <div class="template-toggles">
+          <label><input type="checkbox" id="answerKeyCheck"> In bảng đáp án</label>
+          <label><input type="checkbox" id="twoColumnsCheck"> Đề 2 cột</label>
+        </div>
+      </div>
+      <div class="gallery-grid" id="themeGrid"></div>
+    </section>
+
+    <section id="profilePanel" class="hidden">
+      <div class="template-title" style="margin-bottom: 18px;">
+        <div class="eyebrow">Công tắc trong file</div>
+        <h2 style="margin:0 0 10px;">Profile nào dùng khi nào?</h2>
+        <p>Mỗi profile chỉ là một chuỗi trong file demo. Người dùng phổ thông chỉ cần sửa `#let profile = "..."` và bấm compile trong editor.</p>
+      </div>
+      <div class="profile-grid" id="profileGrid"></div>
+    </section>
+
+    <section id="chuyendePanel" class="hidden">
+      <div class="template-title" style="margin-bottom: 18px;">
+        <div class="eyebrow">Chuyên Đề & Tài Liệu</div>
+        <h2 style="margin:0 0 10px;">Thư viện Mẫu Chuyên Đề</h2>
+        <p>Bộ template Chuyên đề với thiết kế bìa tuyệt đẹp, được tách ra khỏi nội dung cá nhân để chia sẻ công khai.</p>
+      </div>
+      <div class="book-grid" id="chuyendeGrid"></div>
+    </section>
+
+    <section id="bookPanel" class="hidden">
+      <div class="template-title" style="margin-bottom: 18px;">
+        <div class="eyebrow">Bước kế tiếp</div>
+        <h2 style="margin:0 0 10px;">Catalog mẫu sách cần nâng cấp</h2>
+        <p>Hiện hệ thống đã có `typst/modules/book.typ`, `typst/book.typ`, `typst/sgk.typ`, `typst/chuyende.typ`. Bảng dưới là bản thiết kế template sách để bước sau biến thành `book-templates.typ` giống bộ đề thi.</p>
+      </div>
+      <div class="book-grid" id="bookGrid"></div>
+    </section>
+
+    <section id="beamerPanel" class="hidden">
+      <div class="template-title" style="margin-bottom: 18px;">
+        <div class="eyebrow">Slide Trình Chiếu</div>
+        <h2 style="margin:0 0 10px;">Bộ 30 Mẫu Slide (Beamer)</h2>
+        <p>Hỗ trợ đổi màu sắc tự động (Dark / Light mode) chuẩn chỉ qua `sang-beamer.typ` và `sang-beamer-themes.typ`. Bạn hãy chọn một mẫu, copy mã Typst hoặc bấm Render Slide ngay bên dưới để xem tận mắt.</p>
+      </div>
+      <div class="gallery-grid" id="beamerGrid"></div>
+    </section>
+
+    
+  </main>
+
+  <script>
+    const themes = [
+      { name: "classic", label: "Classic", color: "#0057b8", opt: "circle", q: "underline", use: "Đề chính thức, nghiêm túc, dễ in.", tags: "xanh chính thức gọn truyền thống" },
+      { name: "ocean", label: "Ocean", color: "#0e7490", opt: "hexagon", q: "pill", use: "Đề luyện tập hiện đại, dịu mắt.", tags: "xanh ngọc hiện đại luyện tập" },
+      { name: "emerald", label: "Emerald", color: "#047857", opt: "solid-circle", q: "badge", use: "Lời giải, phiếu học tập, bài chữa.", tags: "xanh lá lời giải dễ nhìn" },
+      { name: "royal", label: "Royal", color: "#4338ca", opt: "pentagon", q: "spark", use: "Đề chọn lọc, chuyên đề có điểm nhấn.", tags: "xanh tím cao cấp chọn lọc" },
+      { name: "violet", label: "Violet", color: "#7c3aed", opt: "diamond", q: "flag", use: "Đề ôn tốc độ, phân hóa.", tags: "tím nổi bật phân hóa" },
+      { name: "crimson", label: "Crimson", color: "#be123c", opt: "solid-hexagon", q: "solid-pill", use: "Thi thử, kiểm tra nghiêm túc.", tags: "đỏ thi thử kiểm tra" },
+      { name: "graphite", label: "Graphite", color: "#334155", opt: "double-circle", q: "underline", use: "In laser sạch, tối giản.", tags: "đen xám tối giản in laser" },
+      { name: "amber", label: "Amber", color: "#b45309", opt: "rounded-square", q: "ribbon", use: "Phiếu cuối tuần, luyện nhẹ.", tags: "ấm cuối tuần practice" },
+      { name: "teal-pro", label: "Teal Pro", color: "#0f766e", opt: "solid-pentagon", q: "badge", use: "Mặc định cân bằng, chuyên nghiệp.", tags: "teal pro mặc định chuyên nghiệp" },
+      { name: "sky", label: "Sky", color: "#0284c7", opt: "circle", q: "pill", use: "Tài liệu phát học sinh, thoáng.", tags: "xanh trời tài liệu học sinh" },
+      { name: "indigo-minimal", label: "Indigo Minimal", color: "#4f46e5", opt: "plain", q: "underline", use: "Ít trang trí, nhiều khoảng thở.", tags: "indigo minimal tiết chế" },
+      { name: "print-economy", label: "Print Economy", color: "#111827", opt: "plain", q: "plain", use: "In đen trắng tiết kiệm mực.", tags: "đen trắng tiết kiệm mực" },
+      { name: "aurora", label: "Aurora", color: "#2563eb", opt: "solid-diamond", q: "spark", use: "Xanh sáng, đề đẹp nổi bật.", tags: "aurora xanh sáng sapphire" },
+      { name: "lotus", label: "Lotus", color: "#be185d", opt: "solid-triangle", q: "flag", use: "Hồng sen trang nhã cho chuyên đề.", tags: "lotus hồng sen chuyên đề" },
+      { name: "navy-gold", label: "Navy Gold", color: "#1d4ed8", opt: "solid-hexagon", q: "solid-pill", use: "Đề chọn lọc cao cấp.", tags: "navy gold elite cao cấp" },
+      { name: "jade", label: "Jade", color: "#059669", opt: "hexagon", q: "badge", use: "Đề nhiều lời giải, dịu mắt.", tags: "jade xanh ngọc lời giải" },
+      { name: "coral", label: "Coral", color: "#ea580c", opt: "solid-square", q: "ribbon", use: "Đề kiểm tra ngắn, luyện tốc độ.", tags: "coral cam kiểm tra nhanh" },
+      { name: "plum", label: "Plum", color: "#7e22ce", opt: "pentagon", q: "spark", use: "Chuyên đề nâng cao, VDC.", tags: "plum tím mận vdc nâng cao" },
+    ];
+
+    const profiles = [
+      { name: "dethi", title: "Đề học sinh", icon: "file-text", desc: "Ẩn lời giải, không in bảng đáp án. Dùng khi phát đề kiểm tra.", snippet: '#let profile = "dethi"' },
+      { name: "loigiai", title: "Lời giải + bảng đáp án", icon: "list-checks", desc: "Hiện lời giải trong từng câu và in bảng đáp án cuối đề.", snippet: '#let profile = "loigiai"' },
+      { name: "compact", title: "Đề 2 cột", icon: "columns-2", desc: "Gọn trang cho đề luyện, phiếu ngắn, hoặc bản in tiết kiệm.", snippet: '#let profile = "compact"' },
+      { name: "draft", title: "Có nháp bên phải", icon: "panel-right", desc: "Mỗi câu có vùng nháp, hợp đề luyện tự học hoặc lớp học.", snippet: '#let profile = "draft"' },
+      { name: "beamer", title: "Sẵn chuyển slide", icon: "presentation", desc: "Bật mode lời giải, bỏ cảm giác trang in, thuận tiện đưa sang sang-beamer.typ.", snippet: '#let profile = "beamer"' },
+      { name: "option", title: "Kiểu A/B/C/D", icon: "shapes", desc: "auto/plain là A. B. C. D. nguyên thủy; theme dùng style riêng từng mẫu.", snippet: '#let opt-style = "theme"' },
+    ];
+
+    const books = [
+      { title: "Sách Độc Lạ 1", color: "#e11d48", desc: "Mẫu sách độc lạ thiết kế riêng chuyên Toán.", macros: '21-mau-sach-doc-la.typ' },
+      { title: "Sách Độc Lạ 2", color: "#c026d3", desc: "Định dạng bo góc, icon emoji sinh động.", macros: '22-mau-sach-doc-la-2.typ' },
+      { title: "Sách Độc Lạ 3", color: "#7c3aed", desc: "Pedagogy box, tối ưu chú ý học sinh.", macros: '23-mau-sach-doc-la-3.typ' },
+      { title: "Sách Độc Lạ 4", color: "#4f46e5", desc: "Compact layout, phối màu sang trọng.", macros: '24-mau-sach-doc-la-4.typ' },
+      { title: "Sách Độc Lạ 5", color: "#2563eb", desc: "Tự động đánh số theo chapter, icon SVG.", macros: '25-mau-sach-doc-la-5.typ' },
+      { title: "Sách Độc Lạ 6", color: "#0891b2", desc: "Mẫu giáo trình đại học / chuyên sâu.", macros: '26-mau-sach-doc-la-6.typ' },
+      { title: "Sách Độc Lạ 7", color: "#0d9488", desc: "Đường kẻ ngang, note-taking phong cách Notion.", macros: '27-mau-sach-doc-la-7.typ' },
+      { title: "Sách Độc Lạ 8", color: "#059669", desc: "Thanh lịch, font Serif truyền thống.", macros: '28-mau-sach-doc-la-8.typ' },
+      { title: "Sách Độc Lạ 9", color: "#65a30d", desc: "Creative layout, chia đoạn linh hoạt.", macros: '29-mau-sach-doc-la-9.typ' },
+      { title: "Sách Độc Lạ 10", color: "#ea580c", desc: "Dark mode / high-contrast ấn tượng.", macros: '30-mau-sach-doc-la-10.typ' },
+    ];
+
+        const chuyende = [
+  {
+    "title": "MẪU CHUYÊN ĐỀ VIP",
+    "color": "#6A1B9A",
+    "desc": "Mẫu chuyên đề thiết kế bìa đẹp mắt, có thống kê nội dung.",
+    "macros": "12-mau-chuyen-de-vip.typ"
+  },
+  {
+    "title": "MẪU BÀI TOÁN THỰC TẾ",
+    "color": "#00695C",
+    "desc": "Mẫu chuyên đề tone xanh lá, phù hợp tài liệu thực tế.",
+    "macros": "13-mau-chuyen-de-thuc-te.typ"
+  },
+  {
+    "title": "MẪU HÌNH HỌC KHÔNG GIAN",
+    "color": "#0277BD",
+    "desc": "Mẫu chuyên đề tone xanh dương mướt mắt cho Hình học.",
+    "macros": "14-mau-chuyen-de-hinh-hoc.typ"
+  }
+];
+
+    const beamerThemes = [
+      { id: 1, name: "Navy Gold", bg: "#0f172a", text: "#f8fafc", accent: "#f59e0b" },
+      { id: 2, name: "Midnight Ruby", bg: "#1e1b4b", text: "#ffe4e6", accent: "#e11d48" },
+      { id: 3, name: "Cyberpunk", bg: "#000000", text: "#ffffff", accent: "#06b6d4" },
+      { id: 4, name: "Coffee Bean", bg: "#271c19", text: "#fefae0", accent: "#d4a373" },
+      { id: 5, name: "Aurora Borealis", bg: "#022c22", text: "#f8fafc", accent: "#10b981" },
+      { id: 6, name: "Crimson Night", bg: "#2a0a0a", text: "#fecaca", accent: "#ef4444" },
+      { id: 7, name: "Deep Purple", bg: "#2e1065", text: "#f3e8ff", accent: "#a855f7" },
+      { id: 8, name: "Abyss Blue", bg: "#082f49", text: "#e0f2fe", accent: "#38bdf8" },
+      { id: 9, name: "Charcoal Orange", bg: "#1c1917", text: "#f5f5f4", accent: "#f97316" },
+      { id: 10, name: "Dark Forest", bg: "#14532d", text: "#f7fee7", accent: "#84cc16" },
+      { id: 11, name: "Graphite Pink", bg: "#27272a", text: "#f4f4f5", accent: "#f43f5e" },
+      { id: 12, name: "Obsidian Cyan", bg: "#171717", text: "#fafafa", accent: "#22d3ee" },
+      { id: 13, name: "Royal Violet", bg: "#1e1b4b", text: "#ede9fe", accent: "#8b5cf6" },
+      { id: 14, name: "Chocolate Gold", bg: "#3f2723", text: "#fffbeb", accent: "#fbbf24" },
+      { id: 15, name: "Dark Slate Teal", bg: "#0f172a", text: "#f1f5f9", accent: "#14b8a6" },
+      { id: 16, name: "Teal Pro", bg: "#f0fdfa", text: "#0f172a", accent: "#0f766e" },
+      { id: 17, name: "Ocean Breeze", bg: "#f0f9ff", text: "#0c4a6e", accent: "#0284c7" },
+      { id: 18, name: "Plum Light", bg: "#fdf4ff", text: "#4a044e", accent: "#c026d3" },
+      { id: 19, name: "Forest Minimal", bg: "#f7fee7", text: "#1a2e05", accent: "#4d7c0f" },
+      { id: 20, name: "Sunset Rose", bg: "#fff1f2", text: "#4c0519", accent: "#e11d48" },
+      { id: 21, name: "Amber Light", bg: "#fffbeb", text: "#451a03", accent: "#d97706" },
+      { id: 22, name: "Mint Fresh", bg: "#ecfdf5", text: "#022c22", accent: "#059669" },
+      { id: 23, name: "Sky Blue", bg: "#e0f2fe", text: "#1e3a8a", accent: "#2563eb" },
+      { id: 24, name: "Lavender Minimal", bg: "#f5f3ff", text: "#2e1065", accent: "#7c3aed" },
+      { id: 25, name: "Peach Light", bg: "#fff7ed", text: "#431407", accent: "#ea580c" },
+      { id: 26, name: "Ice Cyan", bg: "#ecfeff", text: "#083344", accent: "#0891b2" },
+      { id: 27, name: "Cloud Gray", bg: "#f8fafc", text: "#0f172a", accent: "#475569" },
+      { id: 28, name: "Vanilla Gold", bg: "#fefce8", text: "#422006", accent: "#ca8a04" },
+      { id: 29, name: "Sakura Pink", bg: "#fdf2f8", text: "#500724", accent: "#db2777" },
+      { id: 30, name: "Lime Crisp", bg: "#f7fee7", text: "#1a2e05", accent: "#65a30d" },
+    ];
+
+    const profileSelect = document.getElementById("profileSelect");
+    const optionSelect = document.getElementById("optionSelect");
+    const qLabelSelect = document.getElementById("qLabelSelect");
+    const answerKeyCheck = document.getElementById("answerKeyCheck");
+    const twoColumnsCheck = document.getElementById("twoColumnsCheck");
+    const themeSearch = document.getElementById("themeSearch");
+    const themeGrid = document.getElementById("themeGrid");
+    const profileGrid = document.getElementById("profileGrid");
+    const bookGrid = document.getElementById("bookGrid");
+    const beamerGrid = document.getElementById("beamerGrid");
+        const liveTypstCode = document.getElementById("liveTypstCode");
+    const wasmPreview = document.getElementById("wasmPreview");
+    const bookThemeSelect = document.getElementById("bookThemeSelect");
+    const beamerThemeSelect = document.getElementById("beamerThemeSelect");
+
+    function optionClass(theme) {
+      const selected = optionSelect.value;
+      if (selected === "auto") return theme.opt || "plain";
+      return selected;
+    }
+
+    function updateSnippet(themeName = "teal-pro") {
+      const opt = optionSelect.value === "auto" ? "auto" : `"${optionSelect.value}"`;
+      const qlb = qLabelSelect.value === "auto" ? "auto" : `"${qLabelSelect.value}"`;
+      const ak = answerKeyCheck.checked ? "true" : "false";
+      const tc = twoColumnsCheck.checked ? "true" : "false";
+      
+      selectedSnippet.textContent = `#let theme = "${themeName}"
+#let profile = "${profileSelect.value}"
+#let opt-style = ${opt}
+#let q-label-style = ${qlb}
+#let answer-key = ${ak}
+#let two-columns = ${tc}`;
+    }
+
+    function currentThemeName() {
+      return document.querySelector("[data-theme]")?.dataset.theme || "teal-pro";
+    }
+
+    let examBodyCache = null;
+
+    async function loadExamBody() {
+      if (examBodyCache) return examBodyCache;
+      const res = await fetch("typst/exam-demo-body.typ");
+      if (!res.ok) throw new Error("Không tải được typst/exam-demo-body.typ");
+      examBodyCache = await res.text();
+      return examBodyCache;
+    }
+
+    async function examTypstCode(themeName = currentThemeName()) {
+      const opt = optionSelect.value === "auto" ? "auto" : `"${optionSelect.value}"`;
+      const qlb = qLabelSelect.value === "auto" ? "auto" : `"${qLabelSelect.value}"`;
+      const ak = answerKeyCheck.checked ? "true" : "false";
+      const tc = twoColumnsCheck.checked ? "true" : "false";
+      const body = await loadExamBody();
+      return `#let theme = "${themeName}"
+#let profile = "${profileSelect.value}"
+#let opt-style = ${opt}
+#let q-label-style = ${qlb}
+#let answer-key = ${ak}
+#let two-columns = ${tc}
+
+#let preset = exam-preset(
+  theme: theme, 
+  profile: profile, 
+  opt-style: opt-style,
+  q-label-style: q-label-style,
+  answer-key: answer-key,
+  two-columns: two-columns
+)
+#let (tn, ds, tln, tl) = exam-mode(..preset.question)
+#show: sang-setup.with(math-color: preset.accent)
+#show: body => exam-theme(
+  body,
+  theme: preset.theme,
+  department: "SỞ GIÁO DỤC VÀ ĐÀO TẠO",
+  school: "TRƯỜNG THPT SANG-MATH",
+  exam-title: "ĐỀ PREVIEW TEMPLATE",
+  subject: "TOÁN 12",
+  duration: "20 phút",
+  code: "101",
+  footer-left: [Preview bằng hiệu ứng đang biên dịch đẹp đẳng cấp],
+  ..preset.template,
+)
+
+${body}`;
+    }
+
+    let bookBodyCache = {};
+    let beamerBodyCache = null;
+    
+    async function bookTypstCode(filename = "21-mau-sach-doc-la.typ") {
+      if (bookBodyCache[filename]) return bookBodyCache[filename];
+      try {
+        const res = await fetch(`typst/${filename}`);
+        if (!res.ok) throw new Error("Lỗi tải file");
+        const code = await res.text();
+        bookBodyCache[filename] = code;
+        return code;
+      } catch (err) {
+        return `// Lỗi tải file ${filename}
+// Đảm bảo file tồn tại trong thư mục public/hdsd/typst/`;
+      }
+    }
+
+    async function beamerTypstCode(themeId = "1") {
+      try {
+        if (!beamerBodyCache) {
+          const res = await fetch("typst/beamer-demo.typ");
+          if (!res.ok) throw new Error("Không tải được beamer-demo.typ");
+          beamerBodyCache = await res.text();
+        }
+        return beamerBodyCache.replace(/#let theme-id = \d+/, `#let theme-id = ${themeId}`);
+      } catch(err) {
+        return `// Lỗi tải file beamer-demo.typ`;
+      }
+    }
+
+    async function renderTypst(kind) {
+      const themeName = currentThemeName();
+      if (kind === "chuyende") liveTypstCode.value = await bookTypstCode(document.getElementById("chuyendeThemeSelect").value);
+      else if (kind === "book") liveTypstCode.value = await bookTypstCode(bookThemeSelect.value);
+      else if (kind === "beamer") liveTypstCode.value = await beamerTypstCode(beamerThemeSelect.value);
+      else liveTypstCode.value = await examTypstCode(themeName);
+      
+      wasmPreview.innerHTML = '<div style="align-self:center;color:#64748b;font-weight:800;">Đang khởi tạo hiệu ứng đang biên dịch đẹp đẳng cấp...</div>';
+      try {
+        if (!window.compileTypstToSvg) {
+          await new Promise(resolve => document.addEventListener("typst-playground-ready", resolve, { once: true }));
+        }
+        const svg = await window.compileTypstToSvg(liveTypstCode.value);
+        wasmPreview.innerHTML = svg;
+      } catch (err) {
+        wasmPreview.innerHTML = `<pre style="white-space:pre-wrap;color:#b91c1c;background:#fee2e2;border:1px solid #fecaca;border-radius:8px;padding:12px;width:100%;">${String(err).replace(/</g, "&lt;")}</pre>`;
+      }
+    }
+
+    function renderThemeCard(theme) {
+      const profile = profileSelect.value;
+      const opt = optionClass(theme);
+      const qNote = profile === "compact" ? "2 cột" : profile === "draft" ? "nháp" : profile === "beamer" ? "slide" : profile === "loigiai" ? "lời giải" : "đề";
+      return `
+        <article class="theme-card" style="--theme:${theme.color}" data-theme="${theme.name}" data-search="${theme.name} ${theme.label} ${theme.tags} ${theme.use}">
+          <div class="theme-preview profile-${profile}">
+            <div class="paper-mini ${opt}">
+              <div class="paper-top">
+                <div class="school">SỞ GD&ĐT<br>TRƯỜNG THPT SANG-MATH</div>
+                <div class="code-pill">Mã 101</div>
+              </div>
+              <div class="exam-name">Đề mẫu ${theme.label}</div>
+              <div class="question-wrap">
+                <div class="question-area">
+                  <div class="question-line"><span class="q-mark">Câu 1</span><span>Đạo hàm của hàm số <strong>f(x)=x³-3x+2</strong> là</span></div>
+                  <div class="option-row">
+                    ${["A", "B", "C", "D"].map((letter, idx) => `<div class="option"><span class="option-badge"><span>${letter}</span></span><span>${idx === 1 ? "3x²-3" : idx === 0 ? "3x²" : idx === 2 ? "x²-3" : "3x²+2"}</span></div>`).join("")}
+                  </div>
+                  <div class="question-line"><span class="q-mark">Đ/S</span><span>Hàm số đồng biến trên khoảng nào?</span></div>
+                  <div class="question-line"><span class="q-mark">TLN</span><span>Tính f'(2) biết f(x)=x³+x.</span></div>
+                </div>
+                <div class="draft-zone">Nháp<br>· · · · · ·<br>· · · · · ·<br>· · · · · ·</div>
+              </div>
+              <div class="answer-key-mini">Bảng đáp án: 1B · 2ĐS · TLN 13</div>
+            </div>
+          </div>
+          <div class="theme-body">
+            <h3><span>${theme.label}</span><span class="tag">${qNote}</span></h3>
+            <p style="margin:0;color:#64748b;line-height:1.55;">${theme.use}</p>
+            <div class="tag-row">
+              <span class="tag">theme: ${theme.name}</span>
+              <span class="tag">opt: ${theme.opt}</span>
+              <span class="tag">q: ${theme.q}</span>
+            </div>
+            <button class="copy-btn" type="button" data-theme-copy="${theme.name}"><i data-lucide="copy"></i> Copy cấu hình</button>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderThemes() {
+      const q = themeSearch.value.trim().toLowerCase();
+      const list = themes.filter(theme => (`${theme.name} ${theme.label} ${theme.tags} ${theme.use}`).toLowerCase().includes(q));
+      themeGrid.innerHTML = list.map(renderThemeCard).join("");
+      bindThemeButtons();
+      updateSnippet(list[0]?.name || "teal-pro");
+      window.lucide?.createIcons();
+    }
+
+    function bindThemeButtons() {
+      document.querySelectorAll("[data-theme-copy]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          updateSnippet(btn.dataset.themeCopy);
+          navigator.clipboard?.writeText(selectedSnippet.textContent);
+          btn.innerHTML = '<i data-lucide="check"></i> Đã copy';
+          window.lucide?.createIcons();
+          setTimeout(() => {
+            btn.innerHTML = '<i data-lucide="copy"></i> Copy cấu hình';
+            window.lucide?.createIcons();
+          }, 1200);
+        });
+      });
+    }
+
+    function renderProfiles() {
+      profileGrid.innerHTML = profiles.map(item => `
+        <article class="profile-card">
+          <h3><i data-lucide="${item.icon}"></i> ${item.title}</h3>
+          <p style="margin:0;color:#64748b;line-height:1.6;">${item.desc}</p>
+          <div class="copy-output"><pre>${item.snippet}</pre></div>
+        </article>
+      `).join("");
+    }
+
+    function renderChuyende() {
+      document.getElementById("chuyendeGrid").innerHTML = chuyende.map(item => `
+        <article class="book-card" style="--book:${item.color}">
+          <div class="book-band" style="font-size: 0.85em; height: 110px;">${item.title}</div>
+          <p style="margin:0;color:#64748b;line-height:1.6;font-size:0.8rem;">${item.desc}</p>
+          <div class="tag-row">
+            <span class="tag" style="background:#0284c7;color:#fff;">chuyên đề mẫu</span>
+            <span class="tag">${item.macros}</span>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function renderBooks() {
+      bookGrid.innerHTML = books.map(item => `
+        <article class="book-card" style="--book:${item.color}">
+          <div class="book-band">${item.title}</div>
+          <p style="margin:0;color:#64748b;line-height:1.6;">${item.desc}</p>
+          <div class="tag-row">
+            <span class="tag">roadmap</span>
+            <span class="tag">${item.macros}</span>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function renderBeamerThemes() {
+      beamerGrid.innerHTML = beamerThemes.map(t => `
+        <article class="book-card" style="--book:${t.bg}; border: 1px solid ${t.accent};">
+          <div class="book-band" style="background:${t.accent}; color:${t.bg};">${t.id}. ${t.name}</div>
+          <div style="padding-top:12px; display:flex; gap:10px; align-items:center;">
+            <div style="width:24px;height:24px;border-radius:4px;background:${t.bg};border:1px solid #334"></div> Nền
+            <div style="width:24px;height:24px;border-radius:4px;background:${t.accent};border:1px solid #334"></div> Nhấn
+            <div style="width:24px;height:24px;border-radius:4px;background:${t.text};border:1px solid #334"></div> Chữ
+          </div>
+        </article>
+      `).join("");
+      
+      beamerThemeSelect.innerHTML = beamerThemes.map(t => `<option value="${t.id}">${t.id}. ${t.name}</option>`).join("");
+    }
+
+    document.querySelectorAll(".switch-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".switch-btn").forEach(item => item.classList.remove("active"));
+        btn.classList.add("active");
+        ["examPanel", "profilePanel", "chuyendePanel", "bookPanel", "beamerPanel"].forEach(id => {
+          document.getElementById(id).classList.toggle("hidden", id !== btn.dataset.panel);
+        });
+        
+        document.getElementById("renderExamBtn").style.display = btn.dataset.panel === "examPanel" || btn.dataset.panel === "profilePanel" ? "inline-flex" : "none";
+        document.getElementById("renderBookBtn").style.display = btn.dataset.panel === "bookPanel" ? "inline-flex" : "none";
+        document.getElementById("renderChuyendeBtn").style.display = btn.dataset.panel === "chuyendePanel" ? "inline-flex" : "none";
+        document.getElementById("renderBeamerBtn").style.display = btn.dataset.panel === "beamerPanel" ? "inline-flex" : "none";
+        
+        bookThemeSelect.style.display = btn.dataset.panel === "bookPanel" ? "block" : "none";
+        document.getElementById("chuyendeThemeSelect").style.display = btn.dataset.panel === "chuyendePanel" ? "block" : "none";
+        beamerThemeSelect.style.display = btn.dataset.panel === "beamerPanel" ? "block" : "none";
+      });
+    });
+
+    document.querySelectorAll("[data-copy-target]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const target = document.getElementById(btn.dataset.copyTarget);
+        navigator.clipboard?.writeText(target.textContent);
+        btn.innerHTML = '<i data-lucide="check"></i> Đã copy cấu hình';
+        window.lucide?.createIcons();
+        setTimeout(() => {
+          btn.innerHTML = '<i data-lucide="copy"></i> Copy cấu hình đang xem';
+          window.lucide?.createIcons();
+        }, 1300);
+      });
+    });
+
+    document.getElementById("renderExamBtn").addEventListener("click", () => renderTypst("exam"));
+    document.getElementById("renderChuyendeBtn").addEventListener("click", () => renderTypst("chuyende"));
+    document.getElementById("renderBookBtn").addEventListener("click", () => renderTypst("book"));
+    document.getElementById("renderBeamerBtn").addEventListener("click", () => renderTypst("beamer"));
+    document.getElementById("copyLiveCodeBtn").addEventListener("click", () => {
+      navigator.clipboard?.writeText(liveTypstCode.value);
+    });
+    const toggleCodeBtn = document.getElementById("toggleCodeBtn");
+    if (toggleCodeBtn) {
+      toggleCodeBtn.addEventListener("click", () => {
+        if (liveTypstCode.style.display === "none") {
+          liveTypstCode.style.display = "block";
+          toggleCodeBtn.innerHTML = '<i data-lucide="eye-off" style="width: 16px; height: 16px;"></i> Ẩn Mã';
+        } else {
+          liveTypstCode.style.display = "none";
+          toggleCodeBtn.innerHTML = '<i data-lucide="code" style="width: 16px; height: 16px;"></i> Mã Nguồn';
+        }
+        window.lucide?.createIcons();
+      });
+    }
+    const toggleCodeBtn = document.getElementById("toggleCodeBtn");
+    if (toggleCodeBtn) {
+      toggleCodeBtn.addEventListener("click", () => {
+        if (liveTypstCode.style.display === "none") {
+          liveTypstCode.style.display = "block";
+          toggleCodeBtn.innerHTML = '<i data-lucide="eye-off" style="width: 16px; height: 16px;"></i> Ẩn Mã';
+        } else {
+          liveTypstCode.style.display = "none";
+          toggleCodeBtn.innerHTML = '<i data-lucide="code" style="width: 16px; height: 16px;"></i> Mã Nguồn';
+        }
+        window.lucide?.createIcons();
+      });
+    }
+
+    document.getElementById("chuyendeThemeSelect").addEventListener("change", async () => {
+      const code = await bookTypstCode(document.getElementById("chuyendeThemeSelect").value);
+      liveTypstCode.value = code;
+    });
+
+    bookThemeSelect.addEventListener("change", async () => {
+      const code = await bookTypstCode(bookThemeSelect.value);
+      liveTypstCode.value = code;
+    });
+
+    beamerThemeSelect.addEventListener("change", async () => {
+      const code = await beamerTypstCode(beamerThemeSelect.value);
+      liveTypstCode.value = code;
+    });
+
+    profileSelect.addEventListener("change", renderThemes);
+    optionSelect.addEventListener("change", renderThemes);
+    qLabelSelect.addEventListener("change", renderThemes);
+    answerKeyCheck.addEventListener("change", renderThemes);
+    twoColumnsCheck.addEventListener("change", renderThemes);
+    themeSearch.addEventListener("input", renderThemes);
+
+    renderThemes();
+    renderProfiles();
+    renderChuyende();
+    renderBooks();
+    renderBeamerThemes();
+    
+    // Initial hide/show setup
+    document.getElementById("renderBookBtn").style.display = "none";
+    document.getElementById("renderChuyendeBtn").style.display = "none";
+    document.getElementById("renderBeamerBtn").style.display = "none";
+    loadExamBody()
+      .then(() => examTypstCode("teal-pro"))
+      .then(code => { liveTypstCode.value = code; })
+      .catch(() => { liveTypstCode.value = "# Bấm Render đề thật để tải mẫu đầy đủ."; });
+    window.lucide?.createIcons();
+  </script>
+</body>
+</html>

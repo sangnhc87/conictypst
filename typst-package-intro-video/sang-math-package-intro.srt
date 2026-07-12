@@ -1,0 +1,112 @@
+1
+00:00:00,000 --> 00:00:03,385
+Xin chào, tôi là Nguyễn Văn Sang, giáo viên trường Trung
+
+2
+00:00:03,485 --> 00:00:06,933
+học phổ thông Nguyễn Hữu Cảnh. Đây là sang-math: bộ macro
+
+3
+00:00:07,033 --> 00:00:10,045
+Typst tôi xây dựng để soạn đề, lời giải, bảng biến
+
+4
+00:00:10,145 --> 00:00:13,220
+thiên và học liệu Toán trung học phổ thông gọn hơn.
+
+5
+00:00:14,016 --> 00:00:18,305
+Trên màn hình là toàn bộ điểm vào của package. Một dòng import
+
+6
+00:00:18,405 --> 00:00:22,269
+mở ra sáu nhóm công cụ: bảng biến thiên, câu hỏi đề thi,
+
+7
+00:00:22,369 --> 00:00:26,516
+giao diện đề, giao diện sách, ký hiệu toán và hình học CeTZ.
+
+8
+00:00:28,916 --> 00:00:32,695
+Bên trái là một câu trắc nghiệm có đáp án đúng và lời giải.
+
+9
+00:00:32,795 --> 00:00:37,099
+Bên phải là bốn kiểu câu tôi dùng hằng ngày: trắc nghiệm, đúng sai,
+
+10
+00:00:37,199 --> 00:00:40,912
+trả lời ngắn và tự luận. Chỉ đổi mode là cùng một nguồn có
+
+11
+00:00:41,012 --> 00:00:43,936
+thể xuất bản đề học sinh hoặc bản có lời giải.
+
+12
+00:00:44,733 --> 00:00:48,165
+Đây là ví dụ cụ thể với hàm x mũ ba trừ ba x. Hai
+
+13
+00:00:48,265 --> 00:00:52,561
+mốc âm một và một chia trục số; dấu đạo hàm lần lượt là cộng,
+
+14
+00:00:52,661 --> 00:00:57,895
+không, trừ, không, cộng. Vì vậy hàm tăng, rồi giảm, rồi tăng; cực đại bằng
+
+15
+00:00:57,995 --> 00:01:02,940
+hai tại âm một, cực tiểu bằng âm hai tại một. Trong sang-math, tôi chỉ
+
+16
+00:01:03,040 --> 00:01:06,977
+nhập mốc, dấu và giá trị, bảng được dựng lại thống nhất.
+
+17
+00:01:07,766 --> 00:01:12,124
+Ở slide này, exam-preset là phần gom cấu hình. Hàng trên là
+
+18
+00:01:12,224 --> 00:01:16,280
+các theme màu; cột bên phải là các profile xuất bản: đề
+
+19
+00:01:16,380 --> 00:01:20,813
+học sinh, lời giải, bản compact, bản nháp và bản beamer. Nhờ
+
+20
+00:01:20,913 --> 00:01:23,986
+vậy một file đề có thể đổi dáng rất nhanh.
+
+21
+00:01:24,783 --> 00:01:28,814
+Bên trái là khung sách và chuyên đề: chương, bài học, hộp lý
+
+22
+00:01:28,914 --> 00:01:32,669
+thuyết và hộp ví dụ. Bên phải là nhóm hình học CeTZ cùng
+
+23
+00:01:32,769 --> 00:01:36,524
+các ký hiệu toán tắt. Đây là phần giúp học liệu hằng năm
+
+24
+00:01:36,624 --> 00:01:39,347
+không chỉ đẹp hơn, mà còn dễ bảo trì hơn.
+
+25
+00:01:40,133 --> 00:01:44,310
+Tóm lại, sang-math là một gói lệnh sống cho công việc dạy Toán:
+
+26
+00:01:44,410 --> 00:01:48,724
+đề thi, bảng biến thiên, hình học, sách, template và ký hiệu cùng
+
+27
+00:01:48,824 --> 00:01:52,458
+đi trong một hệ thống. Mục tiêu của tôi là viết ít hơn,
+
+28
+00:01:52,558 --> 00:01:55,921
+sửa nhanh hơn, và dạy Toán rõ hơn qua từng năm học.
+

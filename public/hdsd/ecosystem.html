@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hệ sinh thái & Tác giả - ConicTypst</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --paper: #ffffff;
+      --ink: #0f172a;
+      --muted: #64748b;
+      --accent: #0f766e;
+      --wash: #f1f5f9;
+    }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Inter", sans-serif;
+    }
+    .page-wrapper {
+      max-width: 1200px;
+      margin: 60px auto;
+      padding: 0 24px 60px;
+    }
+    
+    /* Author Section */
+    .author-section {
+      background: var(--paper);
+      border-radius: 20px;
+      padding: 40px;
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.03);
+      border: 1px solid rgba(15, 118, 110, 0.1);
+      margin-bottom: 60px;
+    }
+    .author-main {
+      flex: 1;
+    }
+    .author-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    .author-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      background: #e0f2fe;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 2rem;
+      border: 1px solid #bae6fd;
+    }
+    .author-info h2 {
+      margin: 0 0 6px;
+      font-size: 1.8rem;
+      color: #0f766e;
+      letter-spacing: -0.01em;
+    }
+    .author-title {
+      color: var(--muted);
+      font-weight: 500;
+      font-size: 1rem;
+      margin: 0;
+    }
+    .author-desc p {
+      color: var(--ink);
+      line-height: 1.6;
+      font-size: 1.05rem;
+      margin: 0 0 16px;
+    }
+    .author-desc code {
+      font-family: "JetBrains Mono", monospace;
+      background: #e2e8f0;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.9em;
+      color: #3b82f6;
+    }
+    .author-desc em {
+      color: var(--muted);
+      font-style: italic;
+    }
+    .author-actions {
+      margin-top: 24px;
+    }
+    .fb-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #eef2ff;
+      color: #4f46e5;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+    }
+    .fb-btn:hover {
+      background: #4f46e5;
+      color: white;
+    }
+    
+    .author-donate {
+      flex-shrink: 0;
+    }
+    .donate-card {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      width: 240px;
+    }
+    .donate-bank {
+      font-weight: 700;
+      color: #10b981;
+      font-size: 1.2rem;
+      margin-bottom: 4px;
+    }
+    .donate-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 2px;
+    }
+    .donate-number {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+    .donate-qr {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      border: 1px solid #f1f5f9;
+    }
+
+    /* Ecosystem Header */
+    .eco-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .eco-header h2 {
+      font-size: 2.6rem;
+      background: linear-gradient(135deg, #0f766e, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 16px;
+    }
+    .eco-header p {
+      color: var(--muted);
+      font-size: 1.15rem;
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* Ecosystem Grid */
+    .ecosystem-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 32px;
+      width: 100%;
+    }
+    .eco-card {
+      background: var(--paper);
+      border-radius: 16px;
+      padding: 40px 32px;
+      border: 1px solid rgba(15, 118, 110, 0.1);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+    .eco-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 5px;
+      background: linear-gradient(90deg, #0f766e, #14b8a6);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .eco-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 24px 48px rgba(15, 118, 110, 0.12);
+      border-color: rgba(15, 118, 110, 0.2);
+    }
+    .eco-card:hover::before {
+      opacity: 1;
+    }
+    .eco-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      background: rgba(15, 118, 110, 0.08);
+      color: #0f766e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+    .eco-icon i {
+      width: 32px;
+      height: 32px;
+    }
+    .eco-card h3 {
+      margin: 0 0 12px;
+      font-size: 1.6rem;
+      color: var(--ink);
+    }
+    .eco-card .slogan {
+      color: #0f766e;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 20px;
+    }
+    .eco-card p {
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 32px;
+      flex-grow: 1;
+      font-size: 1.05rem;
+    }
+    .eco-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 24px;
+      background: var(--wash);
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 600;
+      border-radius: 10px;
+      transition: all 0.2s;
+      font-size: 1.05rem;
+    }
+    .eco-link i {
+      margin-left: 8px;
+      width: 20px;
+      height: 20px;
+      transition: transform 0.2s;
+    }
+    .eco-link:hover {
+      background: #0f766e;
+      color: white;
+    }
+    .eco-link:hover i {
+      transform: translateX(6px);
+    }
+    @media (max-width: 768px) {
+      .ecosystem-grid { grid-template-columns: 1fr; }
+      .page-wrapper { margin: 40px auto; padding: 0 16px 40px; }
+      .author-section { flex-direction: column; padding: 30px 20px; }
+      .author-donate { width: 100%; display: flex; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+    
+    <!-- Tác giả -->
+    <div class="author-section">
+      <div class="author-main">
+        <div class="author-header">
+          <div class="author-avatar">🧑‍🏫</div>
+          <div class="author-info">
+            <h2>Thầy Nguyễn Văn Sang</h2>
+            <p class="author-title">Giáo viên môn Toán — THPT Nguyễn Hữu Cảnh, TP. HCM</p>
+          </div>
+        </div>
+        <div class="author-desc">
+          <p>Dự án <strong>ConicTypst</strong> và thư viện <code>sang-math</code> được phát triển và duy trì hoàn toàn phi lợi nhuận với mong muốn cống hiến cho cộng đồng giáo viên một công cụ soạn thảo đề thi, sách giáo khoa và trình chiếu mạnh mẽ nhất.</p>
+          <p><em>Nếu Thầy/Cô thấy hệ thống hữu ích và tiết kiệm được nhiều thời gian, một ly cà phê nhỏ sẽ là nguồn động viên tinh thần to lớn để dự án tiếp tục được hoàn thiện mỗi ngày. Xin chân thành cảm ơn!</em></p>
+        </div>
+        <div class="author-actions">
+          <a href="https://www.facebook.com/sang.nguyenhuu.35" target="_blank" class="fb-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+            Kết nối qua Facebook
+          </a>
+        </div>
+      </div>
+      <div class="author-donate">
+        <div class="donate-card">
+          <div class="donate-bank">VPBank</div>
+          <div class="donate-name">NGUYEN VAN SANG</div>
+          <div class="donate-number">10389821115</div>
+          <img src="https://img.vietqr.io/image/vpbank-10389821115-compact2.png?amount=&addInfo=&accountName=NGUYEN%20VAN%20SANG" alt="QR Code" class="donate-qr" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Hệ sinh thái -->
+    <div class="eco-header">
+      <h2>Hệ Sinh Thái Giáo Dục Số</h2>
+      <p>Một chuỗi các nền tảng và công cụ được thiết kế chuyên biệt, liên kết chặt chẽ nhằm tối ưu hoá 100% quy trình giảng dạy, quản lý và sáng tạo tài liệu Toán học.</p>
+    </div>
+    
+    <div class="ecosystem-grid">
+      
+      <!-- STEXGV -->
+      <div class="eco-card">
+        <div class="eco-icon"><i data-lucide="cpu"></i></div>
+        <h3>STEXGV Cloud</h3>
+        <div class="slogan">Trợ Lý AI & LaTeX Đắc Lực Nhất</div>
+        <p>Nền tảng web chuyên dụng hỗ trợ thầy cô sử dụng LaTeX chuyên nghiệp mà không thiếu bất cứ chức năng gì. Tiên phong tích hợp công nghệ AI (Groq, Kyma) siêu tốc cho phép nhận dạng ảnh trực tiếp sang LaTeX cực kỳ chuẩn xác. Kèm theo đó là bộ não tự động trộn đề, tìm câu hỏi tương tự thông minh và soát lỗi mượt mà ngay trên trình duyệt.</p>
+        <a href="https://stexgv.web.app/" target="_blank" class="eco-link">Khám phá STEXGV <i data-lucide="arrow-right"></i></a>
+      </div>
+      
+      <!-- ConicGV -->
+      <div class="eco-card">
+        <div class="eco-icon"><i data-lucide="users"></i></div>
+        <h3>ConicGV</h3>
+        <div class="slogan">Hệ Thống Thi Online Chuyên Nghiệp</div>
+        <p>Hệ thống thi online chuyên nghiệp được xây dựng trực tiếp từ nền tảng LaTeX. Không gian số hoá hoàn hảo giúp thầy cô quản lý lớp học, tổ chức thi trực tuyến, và phân phối tài liệu đến học sinh chỉ trong vài thao tác. Giao diện được thiết kế tối giản, trực quan, bảo mật tuyệt đối, mang lại trải nghiệm dạy học thanh lịch và thảnh thơi nhất.</p>
+        <a href="https://conicgv.web.app/" target="_blank" class="eco-link">Khám phá ConicGV <i data-lucide="arrow-right"></i></a>
+      </div>
+      
+      <!-- ConicTypst -->
+      <div class="eco-card">
+        <div class="eco-icon"><i data-lucide="pen-tool"></i></div>
+        <h3>Sang Math (ConicTypst)</h3>
+        <div class="slogan">Kỷ Nguyên Mới Của Tài Liệu</div>
+        <p>Tạm biệt LaTeX nặng nề, Typst chính là tương lai! Cung cấp kho giao diện (Theme) đồ sộ tuyệt đẹp dành cho Chuyên đề, Đề thi, và Beamer. Kết hợp sức mạnh biên dịch hiệu ứng đang biên dịch đẹp đẳng cấp siêu tốc độ, quý thầy cô có thể tạo ra những ấn phẩm Toán học chuẩn quốc tế ngay trên nền tảng web.</p>
+        <a href="exam-templates.html" class="eco-link">Trải nghiệm Typst <i data-lucide="arrow-right"></i></a>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="global-nav.js"></script>
+  <script>lucide.createIcons();</script>
+</body>
+</html>

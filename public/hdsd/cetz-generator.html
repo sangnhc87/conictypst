@@ -1,0 +1,2608 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+  <script>
+    (function(){
+      var _0x4f2a=['hostname','includes','hdsd-conictypst.pages.dev','conictypst.com','localhost','127.0.0.1','innerHTML','<div style="display:flex;height:100vh;width:100vw;background:#0f172a;color:#f1f5f9;align-items:center;justify-content:center;font-family:sans-serif;text-align:center;padding:20px;"><div><h2 style="color:#ef4444;margin-bottom:10px;">⚠️ Cảnh báo bản quyền</h2><p>Công cụ này thuộc bản quyền của <b>ConicTypst</b>.</p><p>Phiên bản này đang được chạy trái phép.</p></div></div>','stop','search','?unlock=conic','getItem','unlock_admin','setItem'];
+      
+      // Secret backdoor for the owner
+      if (window.location[_0x4f2a[9]][_0x4f2a[1]](_0x4f2a[10])) {
+         localStorage[_0x4f2a[13]](_0x4f2a[12], "1");
+      }
+      if (localStorage[_0x4f2a[11]](_0x4f2a[12]) === "1") return;
+
+      var d = window.location[_0x4f2a[0]];
+      // If d is empty (opening file:/// directly), it will not block.
+      if(d && ![_0x4f2a[2],_0x4f2a[3],_0x4f2a[4],_0x4f2a[5]].some(function(x){return d[_0x4f2a[1]](x);})){
+         document.documentElement[_0x4f2a[6]] = _0x4f2a[7];
+         window[_0x4f2a[8]]();
+      }
+    })();
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CeTZ Generator & Solver — ConicTypst</title>
+  <link rel="stylesheet" href="dashboard.css" />
+  <script defer src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.js"></script>
+  <script src="global-nav.js" defer></script>
+  <script type="module" src="playground.js"></script>
+  <style>
+    body {
+      background: #0f172a;
+      color: #e2e8f0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .generator-layout {
+      display: grid;
+      grid-template-columns: 300px 1fr 340px;
+      flex: 1;
+      height: calc(100vh - 60px);
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    @media (max-width: 1200px) {
+      .generator-layout {
+        grid-template-columns: 1fr;
+        height: auto;
+        overflow: auto;
+      }
+    }
+
+    /* Panels Styling */
+    .panel-left, .panel-right {
+      background: #1e293b;
+      border-right: 1px solid #334155;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .panel-right {
+      border-right: none;
+      border-left: 1px solid #334155;
+    }
+
+    .panel-title {
+      padding: 12px 16px;
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #94a3b8;
+      background: #0f172a;
+      border-bottom: 1px solid #334155;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    .panel-scrollable {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Collapsible Group header */
+    .group-header {
+      padding: 10px 16px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #94a3b8;
+      background: #111827;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #273549;
+      user-select: none;
+    }
+
+    .group-content {
+      display: flex;
+      flex-direction: column;
+      background: #1e293b;
+      border-bottom: 1px solid #334155;
+    }
+
+    .group-content.collapsed {
+      display: none;
+    }
+
+    /* Suggestion Items */
+    .suggestion-item {
+      padding: 8px 16px;
+      border: none;
+      background: transparent;
+      color: #cbd5e1;
+      text-align: left;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.12s;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      border-bottom: 1px dashed #334155;
+    }
+
+    .suggestion-item:last-child {
+      border-bottom: none;
+    }
+
+    .suggestion-item:hover {
+      background: #334155;
+      color: #fff;
+    }
+
+    .suggestion-item code {
+      font-family: monospace;
+      color: #38bdf8;
+      font-size: 0.78rem;
+    }
+
+    .suggestion-item small {
+      color: #94a3b8;
+    }
+
+    /* Console Command input */
+    .console-box {
+      padding: 12px 16px;
+      border-bottom: 1px solid #334155;
+      background: #0f172a;
+      flex-shrink: 0;
+    }
+
+    .console-input-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .console-input {
+      flex: 1;
+      background: #1e293b;
+      border: 1px solid #475569;
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-family: monospace;
+      font-size: 0.8rem;
+      outline: none;
+    }
+
+    .console-input:focus {
+      border-color: #38bdf8;
+    }
+
+    .history-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .history-chip {
+      background: #1e293b;
+      border: 1px solid #334155;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      color: #94a3b8;
+      cursor: pointer;
+      font-family: monospace;
+      transition: all 0.12s;
+    }
+
+    .history-chip:hover {
+      border-color: #38bdf8;
+      color: #fff;
+    }
+
+    /* Element List Cards */
+    .element-list {
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .element-card {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 6px;
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.8rem;
+    }
+
+    .element-card.selected {
+      border-color: #38bdf8;
+      background: #132438;
+    }
+
+    .element-card-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .element-card-title {
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .element-card-desc {
+      font-size: 0.72rem;
+      color: #94a3b8;
+      font-family: monospace;
+    }
+
+    .element-card-delete {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+      transition: all 0.12s;
+    }
+
+    .element-card-delete:hover {
+      background: #ef4444;
+      color: #fff;
+    }
+
+    /* Middle Canvas Area styling */
+    .canvas-area {
+      display: flex;
+      flex-direction: column;
+      background: #f8fafc;
+      overflow: hidden;
+    }
+
+    .canvas-toolbar {
+      height: 48px;
+      background: #1a1f2e;
+      border-bottom: 1px solid #2e3650;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      gap: 4px;
+      flex-shrink: 0;
+      z-index: 10;
+    }
+
+    .tool-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .tool-btn:hover {
+      background: #2e3650;
+      color: #fff;
+    }
+
+    .tool-btn.active {
+      background: #2563eb;
+      color: #fff;
+      box-shadow: 0 0 12px rgba(37, 99, 235, 0.4);
+    }
+
+    .canvas-container {
+      flex: 1;
+      position: relative;
+      background: #f8fafc;
+      overflow: hidden;
+    }
+
+    .canvas-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      background: #273043;
+      border: 1px solid #3d4a66;
+      color: #94a3b8;
+      cursor: pointer;
+      transition: all 0.12s;
+    }
+
+    .canvas-btn:hover {
+      background: #3d4a66;
+      color: #fff;
+    }
+
+    .canvas-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    /* Right Panel property styling */
+    .prop-row {
+      padding: 12px 16px;
+      border-bottom: 1px solid #334155;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 0.82rem;
+    }
+
+    .prop-label {
+      font-weight: 600;
+      color: #94a3b8;
+    }
+
+    .prop-control {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .prop-slider {
+      flex: 1;
+      accent-color: #38bdf8;
+    }
+
+    .code-tabs {
+      display: flex;
+      border-bottom: 1px solid #334155;
+      background: #0f172a;
+      flex-shrink: 0;
+    }
+
+    .code-tab {
+      flex: 1;
+      padding: 12px;
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      font-weight: 600;
+      font-size: 0.82rem;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s;
+    }
+
+    .code-tab.active {
+      color: #38bdf8;
+      border-bottom-color: #38bdf8;
+      background: #1e293b;
+    }
+
+    .code-output {
+      padding: 14px;
+      font-family: monospace;
+      font-size: 0.78rem;
+      color: #cbd5e1;
+      background: #0f172a;
+      overflow: auto;
+      flex: 1;
+      margin: 0;
+      white-space: pre-wrap;
+    }
+
+    .preview-pane {
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      flex: 1;
+      overflow: auto;
+      position: relative;
+    }
+
+    .preview-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255, 255, 255, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #334155;
+      font-weight: 600;
+      font-size: 0.88rem;
+      z-index: 10;
+    }
+
+    .btn-compile {
+      background: #10b981;
+      color: #fff;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: all 0.12s;
+    }
+
+    .btn-compile:hover {
+      background: #059669;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="dash-topbar">
+    <!-- Unified top bar dynamically injected by global-nav.js -->
+  </header>
+
+  <div class="generator-layout">
+    <!-- LEFT PANEL: Command console & elements scene graph -->
+    <div class="panel-left">
+      <div class="panel-title">
+        <span>Bảng điều khiển</span>
+        <span style="font-size:0.75rem; color:#64748b;" id="elementCount">0 đối tượng</span>
+      </div>
+
+      <!-- Console command bar -->
+      <div class="console-box">
+        <div class="console-input-row">
+          <input type="text" class="console-input" id="cmdInput" placeholder="VD: M = mid(A, B)..." autocomplete="off" />
+          <button class="canvas-btn" id="btnRunCmd" style="background:#0ea5e9; border-color:#0284c7; color:#fff; width:36px; height:32px;">Chạy</button>
+        </div>
+        <div class="history-chips" id="recentCommands">
+          <!-- chips added dynamically -->
+        </div>
+      </div>
+
+      <!-- Left tabs switcher -->
+      <div style="display:flex; border-bottom:1px solid #334155; background:#111827; flex-shrink:0;">
+        <button class="code-tab active" id="tabElements" onclick="setLeftTab('elements')" style="font-size:0.78rem; padding:8px 0;">Đối tượng</button>
+        <button class="code-tab" id="tabSuggestions" onclick="setLeftTab('suggestions')" style="font-size:0.78rem; padding:8px 0;">Gợi ý lệnh</button>
+      </div>
+
+      <!-- Left elements list panel -->
+      <div class="panel-scrollable" id="elementsPanel">
+        <div class="element-list" id="elementListContainer">
+          <!-- dynamically rendered cards -->
+        </div>
+      </div>
+
+      <!-- Left suggestions list panel -->
+      <div class="panel-scrollable" id="suggestionsPanel" style="display:none;">
+        <div id="suggestionGroups">
+          <!-- dynamically rendered categories -->
+        </div>
+      </div>
+    </div>
+
+    <!-- CENTER PANEL: GeoGebra style Drawing Workspace -->
+    <div class="canvas-area">
+      <!-- Interactive drawing toolbar -->
+      <div class="canvas-toolbar">
+        <button class="tool-btn active" id="tool-select" onclick="setTool('select')">
+          <i data-lucide="mouse-pointer" style="width:14px;height:14px;"></i> Chọn
+        </button>
+        <button class="tool-btn" id="tool-point" onclick="setTool('point')">
+          <i data-lucide="circle-dot" style="width:14px;height:14px;"></i> Điểm
+        </button>
+        <button class="tool-btn" id="tool-segment" onclick="setTool('segment')">
+          <i data-lucide="minus" style="width:14px;height:14px;"></i> Đoạn thẳng
+        </button>
+        <button class="tool-btn" id="tool-line" onclick="setTool('line')">
+          <i data-lucide="move-horizontal" style="width:14px;height:14px;"></i> Đường thẳng
+        </button>
+        <button class="tool-btn" id="tool-ray" onclick="setTool('ray')">
+          <i data-lucide="arrow-right" style="width:14px;height:14px;"></i> Tia
+        </button>
+        <button class="tool-btn" id="tool-circle" onclick="setTool('circle')">
+          <i data-lucide="circle" style="width:14px;height:14px;"></i> Đường tròn
+        </button>
+        <button class="tool-btn" id="tool-rightAngle" onclick="setTool('rightAngle')">
+          <i data-lucide="corner-down-right" style="width:14px;height:14px;"></i> Góc vuông
+        </button>
+
+        <div style="width:1px; height:18px; background:#475569; margin:0 8px;"></div>
+        
+        <button class="canvas-btn" id="btnUndo" title="Undo"><i data-lucide="undo" style="width:14px;height:14px;"></i></button>
+        <button class="canvas-btn" id="btnRedo" title="Redo"><i data-lucide="redo" style="width:14px;height:14px;"></i></button>
+        <button class="canvas-btn" id="btnClear" title="Xóa tất cả" style="color:#ef4444;"><i data-lucide="trash-2" style="width:14px;height:14px;"></i></button>
+        <button class="canvas-btn" id="btnResetView" title="Reset View"><i data-lucide="home" style="width:14px;height:14px;"></i></button>
+      </div>
+
+      <!-- Main SVG drawing board -->
+      <div class="canvas-container">
+        <svg id="geoSvg" width="100%" height="100%" style="display:block; background:#f8fafc; overflow:hidden; user-select:none;">
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#334155" />
+            </marker>
+            <marker id="axisArrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+              <path d="M 0 2 L 6 5 L 0 8 z" fill="context-stroke" />
+            </marker>
+          </defs>
+          <g id="gridGroup"></g>
+          <g id="shapesGroup"></g>
+          <g id="draftGroup" pointer-events="none"></g>
+          <g id="snapGroup" pointer-events="none"></g>
+          <g id="handlesGroup"></g>
+          <text id="coordText" x="12" y="24" font-size="11" fill="#64748b" font-weight="600" pointer-events="none"></text>
+          <text id="draftMsg" x="12" y="44" font-size="11" fill="#e11d48" font-weight="700" pointer-events="none"></text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL: Display properties & live compile output -->
+    <div class="panel-right">
+      <div class="panel-title">Tùy chọn & Mã nguồn</div>
+
+      <!-- 3D settings group -->
+      <div class="prop-row" style="background:#111827;">
+        <div class="prop-label" style="display:flex; justify-content:space-between; align-items:center;">
+          <span>Góc xoay chiếu xiên 3D</span>
+          <label style="display:inline-flex; align-items:center; gap:6px; font-weight:normal; cursor:pointer;">
+            <input type="checkbox" id="chkProj3d" style="accent-color:#38bdf8;" /> Bật 3D
+          </label>
+        </div>
+        <div class="prop-control">
+          <span style="width:60px; font-size:0.75rem; color:#94a3b8;">X-shrink (α)</span>
+          <input type="range" class="prop-slider" id="sldAlpha" min="0.1" max="1.0" step="0.05" value="0.5" />
+          <span style="width:30px; font-size:0.75rem; text-align:right;" id="lblAlpha">0.5</span>
+        </div>
+        <div class="prop-control">
+          <span style="width:60px; font-size:0.75rem; color:#94a3b8;">Y-shrink (β)</span>
+          <input type="range" class="prop-slider" id="sldBeta" min="0.1" max="1.0" step="0.05" value="0.35" />
+          <span style="width:30px; font-size:0.75rem; text-align:right;" id="lblBeta">0.35</span>
+        </div>
+        <div class="prop-control">
+          <span style="width:60px; font-size:0.75rem; color:#94a3b8;">Scale 3D</span>
+          <input type="range" class="prop-slider" id="sldScale3d" min="1.0" max="6.0" step="0.2" value="3.5" />
+          <span style="width:30px; font-size:0.75rem; text-align:right;" id="lblScale3d">3.5</span>
+        </div>
+      </div>
+
+      <!-- Snapping and Axes settings -->
+      <div class="prop-row">
+        <span class="prop-label">Lưới bắt điểm (Snapping)</span>
+        <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:6px; margin-bottom:8px;">
+          <button class="canvas-btn" id="snap-1" onclick="setSnap(1)" style="width:auto; font-size:0.78rem; font-weight:700;">1</button>
+          <button class="canvas-btn active" id="snap-0.5" onclick="setSnap(0.5)" style="width:auto; font-size:0.78rem; font-weight:700; background:#2563eb; border-color:#2563eb; color:#fff;">½</button>
+          <button class="canvas-btn" id="snap-0.25" onclick="setSnap(0.25)" style="width:auto; font-size:0.78rem; font-weight:700;">¼</button>
+          <button class="canvas-btn" id="snap-0" onclick="setSnap(0)" style="width:auto; font-size:0.78rem; font-weight:700;">Tắt</button>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <label style="display:inline-flex; align-items:center; gap:6px; cursor:pointer;">
+            <input type="checkbox" id="chkShowAxes" checked style="accent-color:#38bdf8;" /> Hiện trục tọa độ
+          </label>
+        </div>
+      </div>
+
+      <!-- Selected property editor -->
+      <div class="prop-row" id="propSelectedArea" style="min-height:100px; background:#1e293b;">
+        <span class="prop-label">Thuộc tính đối tượng</span>
+        <div id="propBody" style="font-size:0.78rem; color:#64748b; font-style:italic;">Chọn một điểm hoặc đường để chỉnh sửa...</div>
+      </div>
+
+      <!-- Code outputs and Live preview tabs -->
+      <div style="display:flex; flex-direction:column; flex:1; overflow:hidden;">
+        <div class="code-tabs">
+          <button class="code-tab active" id="tabCode" onclick="setRightTab('code')">Mã nguồn</button>
+          <button class="code-tab" id="tabPreview" onclick="setRightTab('preview')">Live Preview</button>
+        </div>
+
+        <!-- CODE TAB VIEW -->
+        <div id="viewCode" style="display:flex; flex-direction:column; flex:1; overflow:hidden;">
+          <div style="display:flex; background:#111827; padding:6px 12px; border-bottom:1px solid #334155; justify-content:space-between; align-items:center; flex-shrink:0;">
+            <div style="display:flex; gap:6px;">
+              <button class="canvas-btn" id="fmtCetz" onclick="setOutputFormat('cetz')" style="width:auto; padding:4px 8px; font-size:0.72rem; font-weight:700; background:#2563eb; color:#fff; border-color:#2563eb;">CeTZ (Typst)</button>
+              <button class="canvas-btn" id="fmtTikz" onclick="setOutputFormat('tikz')" style="width:auto; padding:4px 8px; font-size:0.72rem; font-weight:700;">TikZ (LaTeX)</button>
+            </div>
+            <button class="canvas-btn" onclick="copyGeneratedCode()" style="background:#10b981; color:#fff; border-color:#059669; width:auto; padding:4px 12px; font-size:0.72rem; font-weight:700;">Copy</button>
+          </div>
+          <pre class="code-output" id="codeTextOutput">// Vẽ các điểm hoặc hình để tự động sinh mã nguồn...</pre>
+        </div>
+
+        <!-- LIVE PREVIEW TAB VIEW -->
+        <div id="viewPreview" class="preview-pane" style="display:none;">
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 12px; border-bottom:1px solid #e2e8f0; background:#f8fafc; flex-shrink:0;">
+            <span style="font-weight:700; color:#334155; font-size:0.8rem;">Typst Compiled Image (hiệu ứng đang biên dịch đẹp đẳng cấp)</span>
+            <button class="btn-compile" id="btnTriggerCompile">Biên dịch</button>
+          </div>
+          <div id="compiledSvgContainer" style="flex:1; display:flex; align-items:center; justify-content:center; overflow:auto; padding:16px; background:#fff;">
+            <div style="color:#94a3b8; font-style:italic; font-size:0.8rem; text-align:center;">Nhấp **Biên dịch** để render bản vẽ thật bằng hiệu ứng đang biên dịch đẹp đẳng cấp.</div>
+          </div>
+          <div id="compileOverlay" class="preview-overlay" style="display:none;">Đang chạy hiệu ứng đang biên dịch đẹp đẳng cấp...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ── Predefined suggestions (conditional display for 2D vs 3D) ──
+    const SUGGESTIONS_2D = [
+      {
+        group: '📐 Điểm đặc biệt (2D)',
+        items: [
+          { label: 'Trung điểm', desc: 'Sinh M từ A và B', cmd: 'M=mid(A,B)' },
+          { label: 'Điểm chia đoạn', desc: 'P trên AB với t=0.35', cmd: 'P=div(A,B,0.35)' },
+          { label: 'Hình chiếu vuông góc', desc: 'Chân đường cao từ A xuống BC', cmd: 'H=foot(A,B,C)' },
+          { label: 'Tâm ngoại tiếp', desc: 'Tâm đường tròn ngoại tiếp ABC', cmd: 'O=circum(A,B,C)' },
+          { label: 'Tâm nội tiếp', desc: 'Tâm đường tròn nội tiếp ABC', cmd: 'I=incenter(A,B,C)' },
+          { label: 'Trọng tâm', desc: 'Trọng tâm tam giác ABC', cmd: 'G=centroid(A,B,C)' },
+          { label: 'Trực tâm', desc: 'Trực tâm tam giác ABC', cmd: 'H=orthocenter(A,B,C)' },
+        ],
+      },
+      {
+        group: '🔄 Biến đổi hình học',
+        items: [
+          { label: 'Xoay điểm', desc: 'Xoay B quanh A góc 60°', cmd: 'C=rotate(B,A,60)' },
+          { label: 'Tịnh tiến', desc: 'Tịnh tiến A theo vector (2,3)', cmd: 'B=shift(A,2,3)' },
+          { label: 'Đối xứng', desc: "Đối xứng P qua đường AB", cmd: "Q=reflect(P,A,B)" },
+          { label: 'Vectơ tịnh tiến', desc: 'D = A + 1·BC', cmd: 'D=vector(A,B,C,1)' },
+          { label: 'Phân giác trong', desc: 'Điểm trên pg trong ABС, kc=2', cmd: 'I=bisectorIn(A,B,C,2)' },
+          { label: 'Phân giác ngoài', desc: 'Điểm trên pg ngoài ABС, kc=2', cmd: 'J=bisectorOut(A,B,C,2)' },
+        ],
+      },
+      {
+        group: '❌ Giao điểm phẳng',
+        items: [
+          { label: 'Giao 2 đường thẳng', desc: 'Giao đường AB và CD', cmd: 'I=intersLL(A,B,C,D)' },
+          { label: 'Giao đường & tròn (1)', desc: 'Giao đường AB với tròn O(A), điểm 1', cmd: 'I1=intersLC(A,B,O,A,1)' },
+          { label: 'Giao đường & tròn (2)', desc: 'Điểm giao thứ 2', cmd: 'I2=intersLC(A,B,O,A,2)' },
+        ],
+      },
+    ];
+
+    const SUGGESTIONS_3D = [
+      {
+        group: '🧱 Hình khối đa diện',
+        items: [
+          { label: 'Hình lập phương', desc: 'Cạnh a = 3', cmd: 'cube3d(3)' },
+          { label: 'Hình hộp chữ nhật', desc: 'a×b×c = 3×2×2', cmd: 'box3d(3,2,2)' },
+          { label: 'Lăng trụ tam giác đều', desc: 'Cạnh đáy a=3, cao h=4', cmd: 'triprism3d(3,4)' },
+          { label: 'Chóp tứ giác đều', desc: 'S.ABCD đáy=4, cao=3', cmd: 'sqpyr3d(4,3)' },
+          { label: 'Chóp tam giác đều', desc: 'S.ABC cạnh đáy=3, cao=4', cmd: 'tripyr3d(3,4)' },
+          { label: 'Tứ diện đều', desc: 'Cạnh a = 3', cmd: 'tet3d(3)' },
+          { label: 'Hệ trục tọa độ Oxyz', desc: 'Trục xiên góc 3D (có lưới)', cmd: 'axes3d(4,3,3)' },
+        ],
+      },
+      {
+        group: '🔵 Khối tròn xoay (Revolution Solids)',
+        items: [
+          { label: 'Hình cầu', desc: 'Bán kính r=2, tâm O=(0,0,0)', cmd: 'sphere3d(2)' },
+          { label: 'Hình cầu tại tâm', desc: 'r=2, tâm (cx,cy,cz)', cmd: 'sphere3d(2,0,0,0)' },
+          { label: 'Hình trụ (tròn xoay)', desc: 'r=2, cao h=4 quanh Oz', cmd: 'cyl3d(2,4)' },
+          { label: 'Hình nón (tròn xoay)', desc: 'r=2, cao h=4 quanh Oz', cmd: 'cone3d(2,4)' },
+          { label: 'Hình nón cụt (tròn xoay)', desc: 'r1=1, r2=3, cao=4 quanh Oz', cmd: 'conet3d(1,3,4)' },
+          { label: 'Mặt xoay quanh Oz (fn)', desc: 'r(z)=2-z/2, z∈[0,4]', cmd: 'revoz(2-z/2,0,4)' },
+          { label: 'Mặt xoay quanh Oz (fn)', desc: 'r(z)=sqrt(4-z*z), z∈[-2,2] → cầu', cmd: 'revoz(sqrt(4-z*z),-2,2)' },
+          { label: 'Mặt xoay quanh Oy (fn)', desc: 'r(y)=1+y/4, y∈[0,3]', cmd: 'revoy(1+y/4,0,3)' },
+          { label: 'Mặt xoay parabol', desc: 'r(z)=sqrt(z), z∈[0,4]', cmd: 'revoz(sqrt(z),0,4)' },
+        ],
+      },
+      {
+        group: '⭕ Đường tròn 3D trong mặt phẳng',
+        items: [
+          { label: 'Đường tròn mp XY (z=0)', desc: 'Tâm O=(0,0,0), r=2 trong mp XY', cmd: 'circle3d(0,0,0,2,xy)' },
+          { label: 'Đường tròn mp XZ (y=0)', desc: 'Tâm O=(0,0,0), r=2 trong mp XZ', cmd: 'circle3d(0,0,0,2,xz)' },
+          { label: 'Đường tròn mp YZ (x=0)', desc: 'Tâm O=(0,0,0), r=2 trong mp YZ', cmd: 'circle3d(0,0,0,2,yz)' },
+        ],
+      },
+    ];
+
+    // ── Math helpers ──
+    const midpoint = (p1, p2) => ({ x: (p1.x + p2.x) / 2, y: (p1.y + p2.y) / 2 });
+    const dist = (p1, p2) => Math.hypot(p2.x - p1.x, p2.y - p1.y);
+    const pointOnLine = (p1, p2, t) => ({
+      x: p1.x + t * (p2.x - p1.x),
+      y: p1.y + t * (p2.y - p1.y),
+    });
+    const projectPointOnLine = (pt, l1, l2) => {
+      const dx = l2.x - l1.x, dy = l2.y - l1.y;
+      const denom = dx * dx + dy * dy;
+      if (denom < 1e-10) return { x: l1.x, y: l1.y };
+      const t = ((pt.x - l1.x) * dx + (pt.y - l1.y) * dy) / denom;
+      return { x: l1.x + t * dx, y: l1.y + t * dy };
+    };
+    const rotatePoint = (pt, center, angleDeg) => {
+      const a = (angleDeg * Math.PI) / 180;
+      const dx = pt.x - center.x, dy = pt.y - center.y;
+      return {
+        x: center.x + dx * Math.cos(a) - dy * Math.sin(a),
+        y: center.y + dx * Math.sin(a) + dy * Math.cos(a),
+      };
+    };
+    const reflectPoint = (pt, l1, l2) => {
+      const proj = projectPointOnLine(pt, l1, l2);
+      return { x: 2 * proj.x - pt.x, y: 2 * proj.y - pt.y };
+    };
+    const lineLineIntersection = (p1, p2, p3, p4) => {
+      const d1x = p2.x - p1.x, d1y = p2.y - p1.y;
+      const d2x = p4.x - p3.x, d2y = p4.y - p3.y;
+      const denom = d1x * d2y - d1y * d2x;
+      if (Math.abs(denom) < 1e-10) return null;
+      const t = ((p3.x - p1.x) * d2y - (p3.y - p1.y) * d2x) / denom;
+      return { x: p1.x + t * d1x, y: p1.y + t * d1y };
+    };
+    const circumcenter = (a, b, c) => {
+      const D = 2 * (a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y));
+      if (Math.abs(D) < 1e-10) return null;
+      const ux = ((a.x**2 + a.y**2) * (b.y - c.y) + (b.x**2 + b.y**2) * (c.y - a.y) + (c.x**2 + c.y**2) * (a.y - b.y)) / D;
+      const uy = ((a.x**2 + a.y**2) * (c.x - b.x) + (b.x**2 + b.y**2) * (a.x - c.x) + (c.x**2 + c.y**2) * (b.x - a.x)) / D;
+      return { x: ux, y: uy };
+    };
+    const incenter = (a, b, c) => {
+      const ab = dist(a, b), bc = dist(b, c), ca = dist(c, a);
+      const p = ab + bc + ca;
+      if (p < 1e-10) return { x: a.x, y: a.y };
+      return { x: (bc * a.x + ca * b.x + ab * c.x) / p, y: (bc * a.y + ca * b.y + ab * c.y) / p };
+    };
+    const centroid = (a, b, c) => ({ x: (a.x + b.x + c.x) / 3, y: (a.y + b.y + c.y) / 3 });
+    const orthocenter = (a, b, c) => {
+      const G = centroid(a, b, c);
+      const O = circumcenter(a, b, c);
+      if (!O) return G;
+      return { x: 3 * G.x - 2 * O.x, y: 3 * G.y - 2 * O.y };
+    };
+    const lineCircleIntersection = (p1, p2, center, edgePt) => {
+      const r = dist(center, edgePt);
+      const dx = p2.x - p1.x, dy = p2.y - p1.y;
+      const fx = p1.x - center.x, fy = p1.y - center.y;
+      const a = dx * dx + dy * dy;
+      const b = 2 * (fx * dx + fy * dy);
+      const c = fx * fx + fy * fy - r * r;
+      const disc = b * b - 4 * a * c;
+      if (disc < 0) return [];
+      const sqrtD = Math.sqrt(disc);
+      const t1 = (-b - sqrtD) / (2 * a);
+      const t2 = (-b + sqrtD) / (2 * a);
+      return [
+        { x: p1.x + t1 * dx, y: p1.y + t1 * dy },
+        { x: p1.x + t2 * dx, y: p1.y + t2 * dy },
+      ];
+    };
+    const circleCircleIntersection = (c1, e1, c2, e2) => {
+      const r1 = dist(c1, e1), r2 = dist(c2, e2);
+      const d = dist(c1, c2);
+      if (d > r1 + r2 || d < Math.abs(r1 - r2) || d < 1e-10) return [];
+      const a = (r1 * r1 - r2 * r2 + d * d) / (2 * d);
+      const h = Math.sqrt(Math.max(0, r1 * r1 - a * a));
+      const mx = c1.x + a * (c2.x - c1.x) / d;
+      const my = c1.y + a * (c2.y - c1.y) / d;
+      const px = h * (c2.y - c1.y) / d, py = h * (c2.x - c1.x) / d;
+      return [{ x: mx + px, y: my - py }, { x: mx - px, y: my + py }];
+    };
+    const shiftPoint = (p, dx, dy) => ({ x: p.x + dx, y: p.y + dy });
+    const vectorPoint = (a, b, c, k) => ({
+      x: a.x + k * (c.x - b.x),
+      y: a.y + k * (c.y - b.y),
+    });
+    const bisectorPoint = (a, vertex, c, k, isExternal = false) => {
+      const lenAV = dist(a, vertex), lenCV = dist(c, vertex);
+      if (lenAV < 1e-10 || lenCV < 1e-10) return { x: vertex.x, y: vertex.y };
+      const uAx = (a.x - vertex.x) / lenAV, uAy = (a.y - vertex.y) / lenAV;
+      const uCx = (c.x - vertex.x) / lenCV, uCy = (c.y - vertex.y) / lenCV;
+      const bx = isExternal ? uAx - uCx : uAx + uCx;
+      const by = isExternal ? uAy - uCy : uAy + uCy;
+      const blen = Math.hypot(bx, by);
+      if (blen < 1e-10) return { x: vertex.x, y: vertex.y };
+      return { x: vertex.x + (bx / blen) * k, y: vertex.y + (by / blen) * k };
+    };
+
+    // ── 3D Oblique projection ──
+    const proj3dToXY = (x3, y3, z3, alpha, beta) => ({
+      x: (y3 - alpha * x3),
+      y: (z3 - beta * x3),
+    });
+
+    // ── Application state ──
+    let scene = { points: [], objects: [] };
+    let activeTool = 'select';
+    let selectedId = null;
+    let dragPt = null;
+    let panState = null;
+    let cam = { ox: 380, oy: 250, zoom: 45 };
+    let snapGrid = 0.5;
+    let outputFormat = 'cetz';
+    let rightTab = 'code';
+    let leftTab = 'elements';
+
+    // Click drawing drafting state
+    let draft = null; 
+    let mouseCoord = { x: 0, y: 0 };
+
+    // Undo/Redo stack
+    let undoStack = [];
+    let redoStack = [];
+
+    // Projection options
+    let view = {
+      proj3d: false,
+      p3dAlpha: 0.5,
+      p3dBeta: 0.35,
+      p3dScale: 3.5,
+      snap: 0.5,
+      showAxes: true,
+    };
+
+    // TOOL REQUIREMENTS
+    const TOOL_REQS = {
+      segment: 2,
+      line: 2,
+      ray: 2,
+      circle: 2,
+      rightAngle: 3,
+    };
+
+    // Automatic naming index
+    const nextPointName = (pts) => {
+      const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      const names = new Set(pts.map(p => p.name));
+      for (let i = 0; i < alphabet.length; i++) {
+        if (!names.has(alphabet[i])) return alphabet[i];
+      }
+      for (let i = 1; i < 100; i++) {
+        for (let j = 0; j < alphabet.length; j++) {
+          const name = alphabet[j] + i;
+          if (!names.has(name)) return name;
+        }
+      }
+      return 'P' + Date.now();
+    };
+
+    function cloneScene(sc) {
+      return JSON.parse(JSON.stringify(sc));
+    }
+
+    function pushHistory() {
+      undoStack.push(cloneScene(scene));
+      redoStack = [];
+      updateHistoryButtons();
+    }
+
+    function updateHistoryButtons() {
+      document.getElementById('btnUndo').disabled = undoStack.length === 0;
+      document.getElementById('btnRedo').disabled = redoStack.length === 0;
+    }
+
+    // ── Coordinate mapping ──
+    const toCanvas = (mx, my) => ({
+      x: cam.ox + mx * cam.zoom,
+      y: cam.oy - my * cam.zoom,
+    });
+
+    const toMath = (cx, cy) => ({
+      x: (cx - cam.ox) / cam.zoom,
+      y: (cam.oy - cy) / cam.zoom,
+    });
+
+    function numberString(value, digits = 2) {
+      return Number.parseFloat(Number(value || 0).toFixed(digits)).toString();
+    }
+
+    function buildPointMap(pts) {
+      const pm = {};
+      pts.forEach((p) => {
+        pm[p.name] = p;
+      });
+      return pm;
+    }
+
+    // Recalculate derived points chain-propagation
+    function propagateSceneDependencies(sc) {
+      const pm = buildPointMap(sc.points);
+      let changed = true;
+      let iterations = 0;
+      while (changed && iterations < 8) {
+        changed = false;
+        iterations++;
+        for (const pt of sc.points) {
+          if (!pt.derivedFrom) continue;
+          const d = pt.derivedFrom;
+          let result = null;
+          try {
+            if (d.type === 'mid') {
+              const p1 = pm[d.refs[0]], p2 = pm[d.refs[1]];
+              if (p1 && p2) result = midpoint(p1, p2);
+            } else if (d.type === 'div') {
+              const p1 = pm[d.refs[0]], p2 = pm[d.refs[1]];
+              if (p1 && p2) result = pointOnLine(p1, p2, d.t);
+            } else if (d.type === 'foot') {
+              const p = pm[d.refs[0]], l1 = pm[d.refs[1]], l2 = pm[d.refs[2]];
+              if (p && l1 && l2) result = projectPointOnLine(p, l1, l2);
+            } else if (d.type === 'circum') {
+              const a = pm[d.refs[0]], b = pm[d.refs[1]], c = pm[d.refs[2]];
+              if (a && b && c) result = circumcenter(a, b, c);
+            } else if (d.type === 'incenter') {
+              const a = pm[d.refs[0]], b = pm[d.refs[1]], c = pm[d.refs[2]];
+              if (a && b && c) result = incenter(a, b, c);
+            } else if (d.type === 'centroid') {
+              const a = pm[d.refs[0]], b = pm[d.refs[1]], c = pm[d.refs[2]];
+              if (a && b && c) result = centroid(a, b, c);
+            } else if (d.type === 'orthocenter') {
+              const a = pm[d.refs[0]], b = pm[d.refs[1]], c = pm[d.refs[2]];
+              if (a && b && c) result = orthocenter(a, b, c);
+            } else if (d.type === 'rotate') {
+              const ptSrc = pm[d.refs[0]], center = pm[d.refs[1]];
+              if (ptSrc && center) result = rotatePoint(ptSrc, center, d.angle);
+            } else if (d.type === 'shift') {
+              const ptSrc = pm[d.refs[0]];
+              if (ptSrc) result = shiftPoint(ptSrc, d.dx, d.dy);
+            } else if (d.type === 'reflect') {
+              const ptSrc = pm[d.refs[0]], l1 = pm[d.refs[1]], l2 = pm[d.refs[2]];
+              if (ptSrc && l1 && l2) result = reflectPoint(ptSrc, l1, l2);
+            } else if (d.type === 'vector') {
+              const a = pm[d.refs[0]], b = pm[d.refs[1]], c = pm[d.refs[2]];
+              if (a && b && c) result = vectorPoint(a, b, c, d.k);
+            } else if (d.type === 'bisectorIn') {
+              const a = pm[d.refs[0]], v = pm[d.refs[1]], c = pm[d.refs[2]];
+              if (a && v && c) result = bisectorPoint(a, v, c, d.k, false);
+            } else if (d.type === 'bisectorOut') {
+              const a = pm[d.refs[0]], v = pm[d.refs[1]], c = pm[d.refs[2]];
+              if (a && v && c) result = bisectorPoint(a, v, c, d.k, true);
+            } else if (d.type === 'intersLL') {
+              const p1 = pm[d.refs[0]], p2 = pm[d.refs[1]], p3 = pm[d.refs[2]], p4 = pm[d.refs[3]];
+              if (p1 && p2 && p3 && p4) result = lineLineIntersection(p1, p2, p3, p4);
+            } else if (d.type === 'intersLC') {
+              const p1 = pm[d.refs[0]], p2 = pm[d.refs[1]], center = pm[d.refs[2]], edge = pm[d.refs[3]];
+              if (p1 && p2 && center && edge) {
+                const pts = lineCircleIntersection(p1, p2, center, edge);
+                if (pts.length) result = pts[Math.min(d.index, pts.length - 1)];
+              }
+            } else if (d.type === 'intersCC') {
+              const c1 = pm[d.refs[0]], e1 = pm[d.refs[1]], c2 = pm[d.refs[2]], e2 = pm[d.refs[3]];
+              if (c1 && e1 && c2 && e2) {
+                const pts = circleCircleIntersection(c1, e1, c2, e2);
+                if (pts.length) result = pts[Math.min(d.index, pts.length - 1)];
+              }
+            }
+          } catch (_e) { }
+
+          if (result && (Math.abs(result.x - pt.x) > 1e-9 || Math.abs(result.y - pt.y) > 1e-9)) {
+            pt.x = result.x;
+            pt.y = result.y;
+            pm[pt.name] = pt; // keep pm fresh
+            changed = true;
+          }
+        }
+      }
+    }
+
+    function reproject3dScene() {
+      scene.points.forEach((pt) => {
+        if (pt.xyz3d && view.proj3d) {
+          const { x, y } = proj3dToXY(pt.xyz3d[0], pt.xyz3d[1], pt.xyz3d[2], view.p3dAlpha, view.p3dBeta);
+          pt.x = x;
+          pt.y = y;
+        }
+      });
+      propagateSceneDependencies(scene);
+    }
+
+    // ── Command Line executor ──
+    function parseCommand(command, sc) {
+      const input = command.trim();
+      if (!input) return { error: 'Nhập lệnh trước khi chạy.' };
+
+      const nextScene = cloneScene(sc);
+      const pointMap = buildPointMap(nextScene.points);
+
+      const upsertPoint = (name, point) => {
+        if (pointMap[name]) {
+          Object.assign(pointMap[name], point);
+          return pointMap[name];
+        }
+        const created = {
+          id: `pt_${name}_${Date.now()}`,
+          type: 'point',
+          name,
+          x: point.x,
+          y: point.y,
+          label: name,
+          anchor: 'north-east',
+          color: 'black',
+          radius: 4,
+          filled: true,
+          visible: true,
+          derivedFrom: null,
+          ...point,
+        };
+        nextScene.points.push(created);
+        pointMap[name] = created;
+        return created;
+      };
+
+      const requirePoint = (name) => {
+        const point = pointMap[name];
+        if (!point) throw new Error(`Thiếu điểm ${name}.`);
+        return point;
+      };
+
+      try {
+        // Point: A = (1, 2)
+        const coordinatePoint = input.match(/^([A-Za-z]\w*)\s*=\s*\(\s*([-+]?\d*\.?\d+)\s*,\s*([-+]?\d*\.?\d+)\s*\)$/);
+        if (coordinatePoint) {
+          const [, name, rawX, rawY] = coordinatePoint;
+          const point = upsertPoint(name, {
+            x: Number.parseFloat(rawX),
+            y: Number.parseFloat(rawY),
+            derivedFrom: null,
+          });
+          return { nextScene, selectionId: point.id };
+        }
+
+        // Point 3D: p(A, 1, 2, 3)
+        const point3dMatch = input.match(/^p\(([A-Za-z]\w*),([-+]?\d*\.?\d+),([-+]?\d*\.?\d+),([-+]?\d*\.?\d+)\)$/i);
+        if (point3dMatch) {
+          const [, name, rawX, rawY, rawZ] = point3dMatch;
+          const x3 = Number.parseFloat(rawX);
+          const y3 = Number.parseFloat(rawY);
+          const z3 = Number.parseFloat(rawZ);
+          const { x, y } = proj3dToXY(x3, y3, z3, view.p3dAlpha, view.p3dBeta);
+          const point = upsertPoint(name, {
+            x,
+            y,
+            xyz3d: [x3, y3, z3],
+            derivedFrom: null,
+          });
+          return { nextScene, selectionId: point.id };
+        }
+
+        // Derived point helpers
+        const derivedPatterns = [
+          {
+            regex: /^([A-Za-z]\w*)\s*=\s*mid\(([A-Za-z]\w*),([A-Za-z]\w*)\)$/i,
+            resolve: ([, name, p1, p2]) => {
+              const pt = midpoint(requirePoint(p1), requirePoint(p2));
+              return upsertPoint(name, { ...pt, label: name, derivedFrom: { type: 'mid', refs: [p1, p2] } });
+            },
+          },
+          {
+            regex: /^([A-Za-z]\w*)\s*=\s*div\(([A-Za-z]\w*),([A-Za-z]\w*),([-+]?\d*\.?\d+)\)$/i,
+            resolve: ([, name, p1, p2, rawT]) => {
+              const t = Number.parseFloat(rawT);
+              const pt = pointOnLine(requirePoint(p1), requirePoint(p2), t);
+              return upsertPoint(name, { ...pt, label: name, derivedFrom: { type: 'div', refs: [p1, p2], t } });
+            },
+          },
+          {
+            regex: /^([A-Za-z]\w*)\s*=\s*foot\(([A-Za-z]\w*),([A-Za-z]\w*),([A-Za-z]\w*)\)$/i,
+            resolve: ([, name, source, l1, l2]) => {
+              const pt = projectPointOnLine(requirePoint(source), requirePoint(l1), requirePoint(l2));
+              return upsertPoint(name, { ...pt, label: name, derivedFrom: { type: 'foot', refs: [source, l1, l2] } });
+            },
+          },
+          {
+            regex: /^([A-Za-z]\w*)\s*=\s*circum\(([A-Za-z]\w*),([A-Za-z]\w*),([A-Za-z]\w*)\)$/i,
+            resolve: ([, name, a, b, c]) => {
+              const pt = circumcenter(requirePoint(a), requirePoint(b), requirePoint(c));
+              if (!pt) throw new Error('Thẳng hàng!');
+              return upsertPoint(name, { ...pt, label: name, derivedFrom: { type: 'circum', refs: [a, b, c] } });
+            },
+          },
+          {
+            regex: /^([A-Za-z]\w*)\s*=\s*incenter\(([A-Za-z]\w*),([A-Za-z]\w*),([A-Za-z]\w*)\)$/i,
+            resolve: ([, name, a, b, c]) => {
+              const pt = incenter(requirePoint(a), requirePoint(b), requirePoint(c));
+              return upsertPoint(name, { ...pt, label: name, derivedFrom: { type: 'incenter', refs: [a, b, c] } });
+            },
+          },
+          {
+            regex: /^([A-Za-z]\w*)\s*=\s*centroid\(([A-Za-z]\w*),([A-Za-z]\w*),([A-Za-z]\w*)\)$/i,
+            resolve: ([, name, a, b, c]) => {
+              const pt = centroid(requirePoint(a), requirePoint(b), requirePoint(c));
+              return upsertPoint(name, { ...pt, label: name, derivedFrom: { type: 'centroid', refs: [a, b, c] } });
+            },
+          },
+          {
+            regex: /^([A-Za-z]\w*)\s*=\s*orthocenter\(([A-Za-z]\w*),([A-Za-z]\w*),([A-Za-z]\w*)\)$/i,
+            resolve: ([, name, a, b, c]) => {
+              const pt = orthocenter(requirePoint(a), requirePoint(b), requirePoint(c));
+              return upsertPoint(name, { ...pt, label: name, derivedFrom: { type: 'orthocenter', refs: [a, b, c] } });
+            },
+          },
+          {
+            regex: /^([A-Za-z]\w*)\s*=\s*rotate\(([A-Za-z]\w*),([A-Za-z]\w*),([-+]?\d*\.?\d+)\)$/i,
+            resolve: ([, name, src, center, rawAngle]) => {
+              const angle = Number.parseFloat(rawAngle);
+              const pt = rotatePoint(requirePoint(src), requirePoint(center), angle);
+              return upsertPoint(name, { ...pt, label: name, derivedFrom: { type: 'rotate', refs: [src, center], angle } });
+            },
+          },
+          {
+            regex: /^([A-Za-z]\w*)\s*=\s*vector\(([A-Za-z]\w*),([A-Za-z]\w*),([A-Za-z]\w*),([-+]?\d*\.?\d+)\)$/i,
+            resolve: ([, name, a, b, c, rawK]) => {
+              const k = Number.parseFloat(rawK);
+              const pt = vectorPoint(requirePoint(a), requirePoint(b), requirePoint(c), k);
+              return upsertPoint(name, { ...pt, label: name, derivedFrom: { type: 'vector', refs: [a, b, c], k } });
+            },
+          },
+        ];
+
+        for (const pattern of derivedPatterns) {
+          const match = input.match(pattern.regex);
+          if (match) {
+            const point = pattern.resolve(match);
+            return { nextScene, selectionId: point.id };
+          }
+        }
+
+        // Draw Line segment: seg(A, B)
+        const lineCommand = input.match(/^(seg|line|ray)\(([A-Za-z]\w*),([A-Za-z]\w*)\)$/i);
+        if (lineCommand) {
+          const [, type, from, to] = lineCommand;
+          requirePoint(from);
+          requirePoint(to);
+          const obj = {
+            id: `obj_${Date.now()}`,
+            type: type.toLowerCase() === 'seg' ? 'segment' : type.toLowerCase(),
+            from,
+            to,
+            strokeColor: '#334155',
+            strokeWidth: 1.25,
+            dash: 'solid',
+          };
+          nextScene.objects.push(obj);
+          return { nextScene, selectionId: obj.id };
+        }
+
+        // Circle: circle(O, A) or circ(O, 2.5)
+        const circleCommand = input.match(/^circle\(([A-Za-z]\w*),([A-Za-z]\w*)\)$/i);
+        if (circleCommand) {
+          const [, center, edge] = circleCommand;
+          requirePoint(center);
+          requirePoint(edge);
+          const obj = {
+            id: `obj_${Date.now()}`,
+            type: 'circle',
+            center,
+            edge,
+            strokeColor: '#334155',
+            strokeWidth: 1.25,
+            dash: 'solid',
+          };
+          nextScene.objects.push(obj);
+          return { nextScene, selectionId: obj.id };
+        }
+
+        const circRadiusCmd = input.match(/^circ\(([A-Za-z]\w*),([-+]?\d*\.?\d+)\)$/i);
+        if (circRadiusCmd) {
+          const [, center, rawR] = circRadiusCmd;
+          requirePoint(center);
+          const r = Number.parseFloat(rawR);
+          const obj = {
+            id: `obj_${Date.now()}`,
+            type: 'circle_r',
+            center,
+            r,
+            strokeColor: '#334155',
+            strokeWidth: 1.25,
+            dash: 'solid',
+          };
+          nextScene.objects.push(obj);
+          return { nextScene, selectionId: obj.id };
+        }
+
+        // Right angle marker: rightAngle(A,B,C)
+        const rightAngleCmd = input.match(/^rightAngle\(([A-Za-z]\w*),([A-Za-z]\w*),([A-Za-z]\w*)\)$/i);
+        if (rightAngleCmd) {
+          const [, a, b, c] = rightAngleCmd;
+          requirePoint(a);
+          requirePoint(b);
+          requirePoint(c);
+          const obj = {
+            id: `obj_${Date.now()}`,
+            type: 'rightAngle',
+            a, b, c,
+            strokeColor: '#ef4444',
+            strokeWidth: 1.05,
+            dash: 'solid',
+          };
+          nextScene.objects.push(obj);
+          return { nextScene, selectionId: obj.id };
+        }
+
+        // Angle marker: angle(A,B,C)
+        const angleCmd = input.match(/^angle\(([A-Za-z]\w*),([A-Za-z]\w*),([A-Za-z]\w*)\)$/i);
+        if (angleCmd) {
+          const [, a, b, c] = angleCmd;
+          requirePoint(a);
+          requirePoint(b);
+          requirePoint(c);
+          const obj = {
+            id: `obj_${Date.now()}`,
+            type: 'angle',
+            a, b, c,
+            strokeColor: '#ef4444',
+            strokeWidth: 1.0,
+            dash: 'solid',
+          };
+          nextScene.objects.push(obj);
+          return { nextScene, selectionId: obj.id };
+        }
+
+        // 3D Solids Generators
+        const box3dCmd = input.match(/^box3d\(([\d.]+),([\d.]+),([\d.]+)\)$/i);
+        if (box3dCmd) {
+          const [, a, b, c] = box3dCmd;
+          const scWithBox = genBox3D(Number.parseFloat(a), Number.parseFloat(b), Number.parseFloat(c), nextScene);
+          view.proj3d = true;
+          document.getElementById('chkProj3d').checked = true;
+          return { nextScene: scWithBox };
+        }
+
+        const cube3dCmd = input.match(/^cube3d\(([\d.]+)\)$/i);
+        if (cube3dCmd) {
+          const [, a] = cube3dCmd;
+          const scWithCube = genBox3D(Number.parseFloat(a), Number.parseFloat(a), Number.parseFloat(a), nextScene);
+          view.proj3d = true;
+          document.getElementById('chkProj3d').checked = true;
+          return { nextScene: scWithCube };
+        }
+
+        const triprism3dCmd = input.match(/^triprism3d\(([\d.]+),([\d.]+)\)$/i);
+        if (triprism3dCmd) {
+          const [, a, h] = triprism3dCmd;
+          const scWithPrism = genTriPrism3D(Number.parseFloat(a), Number.parseFloat(h), nextScene);
+          view.proj3d = true;
+          document.getElementById('chkProj3d').checked = true;
+          return { nextScene: scWithPrism };
+        }
+
+        const sqpyr3dCmd = input.match(/^sqpyr3d\(([\d.]+),([\d.]+)\)$/i);
+        if (sqpyr3dCmd) {
+          const [, a, h] = sqpyr3dCmd;
+          const scWithPyr = genSqPyr3D(Number.parseFloat(a), Number.parseFloat(h), nextScene);
+          view.proj3d = true;
+          document.getElementById('chkProj3d').checked = true;
+          return { nextScene: scWithPyr };
+        }
+
+        const tripyr3dCmd = input.match(/^tripyr3d\(([\d.]+),([\d.]+)\)$/i);
+        if (tripyr3dCmd) {
+          const [, a, h] = tripyr3dCmd;
+          const scWithPyr = genTriPyr3D(Number.parseFloat(a), Number.parseFloat(h), nextScene);
+          view.proj3d = true;
+          document.getElementById('chkProj3d').checked = true;
+          return { nextScene: scWithPyr };
+        }
+
+        const tet3dCmd = input.match(/^tet3d\(([\d.]+)\)$/i);
+        if (tet3dCmd) {
+          const [, a] = tet3dCmd;
+          const scWithTet = genTet3D(Number.parseFloat(a), nextScene);
+          view.proj3d = true;
+          document.getElementById('chkProj3d').checked = true;
+          return { nextScene: scWithTet };
+        }
+
+        const axes3dCmd = input.match(/^axes3d\(([\d.]+),([\d.]+),([\d.]+)\)$/i);
+        if (axes3dCmd) {
+          const [, x, y, z] = axes3dCmd;
+          const scWithAxes = genAxes3D(Number.parseFloat(x), Number.parseFloat(y), Number.parseFloat(z), nextScene);
+          view.proj3d = true;
+          document.getElementById('chkProj3d').checked = true;
+          return { nextScene: scWithAxes };
+        }
+
+        // ── Revolution Solids ──────────────────────────────────────────────────
+
+        // Hình cầu: sphere3d(r) or sphere3d(r,cx,cy,cz)
+        const sphere3dCmd = input.match(/^sphere3d\(([\d.]+)(?:,([\-\d.]+),([\-\d.]+),([\-\d.]+))?\)$/i);
+        if (sphere3dCmd) {
+          const r = Number.parseFloat(sphere3dCmd[1]);
+          const cx = Number.parseFloat(sphere3dCmd[2] ?? 0);
+          const cy = Number.parseFloat(sphere3dCmd[3] ?? 0);
+          const cz = Number.parseFloat(sphere3dCmd[4] ?? 0);
+          const obj = { id: `sphere3d_${Date.now()}`, type: 'sphere3d', r, cx, cy, cz, alpha: view.p3dAlpha, beta: view.p3dBeta, strokeColor: '#1e293b', strokeWidth: 1.2, fillColor: '', fillOpacity: 0.12 };
+          nextScene.objects.push(obj);
+          view.proj3d = true;
+          document.getElementById('chkProj3d').checked = true;
+          return { nextScene, selectionId: obj.id };
+        }
+
+        // Hình trụ tròn xoay: cyl3d(r, h)
+        const cyl3dCmd = input.match(/^cyl3d\(([\d.]+),([\d.]+)\)$/i);
+        if (cyl3dCmd) {
+          const r = Number.parseFloat(cyl3dCmd[1]);
+          const h = Number.parseFloat(cyl3dCmd[2]);
+          const samples = [{ z: 0, r }, { z: h, r }];
+          const obj = { id: `revoz3d_${Date.now()}`, type: 'revoz3d', _samples: samples, alpha: view.p3dAlpha, beta: view.p3dBeta, strokeColor: '#1e293b', strokeWidth: 1.2, fillColor: '', fillOpacity: 0.08, desc: `Trụ r=${r}, h=${h}` };
+          nextScene.objects.push(obj);
+          view.proj3d = true;
+          document.getElementById('chkProj3d').checked = true;
+          return { nextScene, selectionId: obj.id };
+        }
+
+        // Hình nón tròn xoay: cone3d(r, h)
+        const cone3dCmd = input.match(/^cone3d\(([\d.]+),([\d.]+)\)$/i);
+        if (cone3dCmd) {
+          const r = Number.parseFloat(cone3dCmd[1]);
+          const h = Number.parseFloat(cone3dCmd[2]);
+          const samples = [{ z: 0, r }, { z: h, r: 0 }];
+          const obj = { id: `revoz3d_${Date.now()}`, type: 'revoz3d', _samples: samples, alpha: view.p3dAlpha, beta: view.p3dBeta, strokeColor: '#1e293b', strokeWidth: 1.2, fillColor: '', fillOpacity: 0.08, desc: `Nón r=${r}, h=${h}` };
+          nextScene.objects.push(obj);
+          view.proj3d = true;
+          document.getElementById('chkProj3d').checked = true;
+          return { nextScene, selectionId: obj.id };
+        }
+
+        // Hình nón cụt: conet3d(r1, r2, h)
+        const conet3dCmd = input.match(/^conet3d\(([\d.]+),([\d.]+),([\d.]+)\)$/i);
+        if (conet3dCmd) {
+          const r1 = Number.parseFloat(conet3dCmd[1]);
+          const r2 = Number.parseFloat(conet3dCmd[2]);
+          const h = Number.parseFloat(conet3dCmd[3]);
+          const samples = [{ z: 0, r: r1 }, { z: h, r: r2 }];
+          const obj = { id: `revoz3d_${Date.now()}`, type: 'revoz3d', _samples: samples, alpha: view.p3dAlpha, beta: view.p3dBeta, strokeColor: '#1e293b', strokeWidth: 1.2, fillColor: '', fillOpacity: 0.08, desc: `Nón cụt r1=${r1}, r2=${r2}, h=${h}` };
+          nextScene.objects.push(obj);
+          view.proj3d = true;
+          document.getElementById('chkProj3d').checked = true;
+          return { nextScene, selectionId: obj.id };
+        }
+
+        // Mặt xoay quanh Oz với hàm: revoz(expr, z0, z1)
+        const revozCmd = input.match(/^revoz\((.+?),([\-\d.]+),([\-\d.]+)\)$/i);
+        if (revozCmd) {
+          const fnStr = revozCmd[1];
+          const z0 = Number.parseFloat(revozCmd[2]);
+          const z1 = Number.parseFloat(revozCmd[3]);
+          try {
+            // eslint-disable-next-line no-new-func
+            const fn = new Function('z', `const sqrt=Math.sqrt,abs=Math.abs,sin=Math.sin,cos=Math.cos,PI=Math.PI; return Math.max(0, ${fnStr});`);
+            const NZ = 40;
+            const samples = [];
+            for (let i = 0; i <= NZ; i++) {
+              const z = z0 + (z1 - z0) * i / NZ;
+              samples.push({ z, r: fn(z) });
+            }
+            const obj = { id: `revoz3d_${Date.now()}`, type: 'revoz3d', _samples: samples, alpha: view.p3dAlpha, beta: view.p3dBeta, strokeColor: '#1e293b', strokeWidth: 1.2, fillColor: '', fillOpacity: 0.08, desc: `revoz(${fnStr}), z∈[${z0},${z1}]` };
+            nextScene.objects.push(obj);
+            view.proj3d = true;
+            document.getElementById('chkProj3d').checked = true;
+            return { nextScene, selectionId: obj.id };
+          } catch (er) { throw new Error(`Lỗi hàm revoz: ${er.message}`); }
+        }
+
+        // Mặt xoay quanh Oy với hàm: revoy(expr, y0, y1)
+        const revoyCmd = input.match(/^revoy\((.+?),([\-\d.]+),([\-\d.]+)\)$/i);
+        if (revoyCmd) {
+          const fnStr = revoyCmd[1];
+          const y0 = Number.parseFloat(revoyCmd[2]);
+          const y1 = Number.parseFloat(revoyCmd[3]);
+          try {
+            const fn = new Function('y', `const sqrt=Math.sqrt,abs=Math.abs,sin=Math.sin,cos=Math.cos,PI=Math.PI; return Math.max(0, ${fnStr});`);
+            const NY = 40;
+            const samples = [];
+            for (let i = 0; i <= NY; i++) {
+              const y = y0 + (y1 - y0) * i / NY;
+              samples.push({ y, r: fn(y) });
+            }
+            const obj = { id: `revoy3d_${Date.now()}`, type: 'revoy3d', _samples: samples, alpha: view.p3dAlpha, beta: view.p3dBeta, strokeColor: '#1e293b', strokeWidth: 1.2, fillColor: '', fillOpacity: 0.08, desc: `revoy(${fnStr}), y∈[${y0},${y1}]` };
+            nextScene.objects.push(obj);
+            view.proj3d = true;
+            document.getElementById('chkProj3d').checked = true;
+            return { nextScene, selectionId: obj.id };
+          } catch (er) { throw new Error(`Lỗi hàm revoy: ${er.message}`); }
+        }
+
+        // Đường tròn trong mặt phẳng 3D: circle3d(cx,cy,cz,r,plane)
+        const circle3dCmd = input.match(/^circle3d\(([\-\d.]+),([\-\d.]+),([\-\d.]+),([\d.]+),(xy|xz|yz)\)$/i);
+        if (circle3dCmd) {
+          const [, cx, cy, cz, r, plane] = circle3dCmd;
+          const obj = { id: `circle3d_${Date.now()}`, type: 'circle3d', cx: Number.parseFloat(cx), cy: Number.parseFloat(cy), cz: Number.parseFloat(cz), r: Number.parseFloat(r), plane: plane.toLowerCase(), alpha: view.p3dAlpha, beta: view.p3dBeta, strokeColor: '#1e293b', strokeWidth: 1.2 };
+          nextScene.objects.push(obj);
+          view.proj3d = true;
+          document.getElementById('chkProj3d').checked = true;
+          return { nextScene, selectionId: obj.id };
+        }
+
+        throw new Error('Cú pháp lệnh không chính xác hoặc chưa được hỗ trợ.');
+      } catch (err) {
+        return { error: err.message };
+      }
+    }
+
+    // ── Oblique 3D Solids coordinate calculators ──
+    function genBox3D(a, b, c, sc) {
+      const P = (n, x3, y3, z3, lbl) => {
+        const { x, y } = proj3dToXY(x3, y3, z3, view.p3dAlpha, view.p3dBeta);
+        return { id: `pt_${n}_${Date.now()}`, type: 'point', name: n, x, y, label: lbl ?? n, xyz3d: [x3, y3, z3], color: 'black', radius: 4, filled: true, visible: true };
+      };
+      const pts = [
+        P('A', 0, 0, 0, 'A'), P('B', 0, b, 0, 'B'), P('C', a, b, 0, 'C'), P('D', a, 0, 0, 'D'),
+        P('Ap', 0, 0, c, "A'"), P('Bp', 0, b, c, "B'"), P('Cp', a, b, c, "C'"), P('Dp', a, 0, c, "D'")
+      ];
+      const vis = [['A','B'],['B','C'],['A','Ap'],['B','Bp'],['C','Cp'],['D','Dp'],['Ap','Bp'],['Bp','Cp'],['Cp','Dp'],['Ap','Dp']];
+      const hid = [['A','D'],['D','C'],['D','Dp']];
+      
+      pts.forEach((pt) => {
+        sc.points = sc.points.filter((p) => p.name !== pt.name);
+        sc.points.push(pt);
+      });
+      vis.forEach(([from, to]) => sc.objects.push({ id: `obj_${from}_${to}`, type: 'segment', from, to, strokeColor: '#1e293b', strokeWidth: 1.2, dash: 'solid' }));
+      hid.forEach(([from, to]) => sc.objects.push({ id: `obj_${from}_${to}`, type: 'segment', from, to, strokeColor: '#1e293b', strokeWidth: 1.2, dash: 'dashed' }));
+      return sc;
+    }
+
+    function genTriPrism3D(a, h, sc) {
+      const cx = a * 0.45, cy = a * 0.45;
+      const P = (n, x3, y3, z3, lbl) => {
+        const { x, y } = proj3dToXY(x3, y3, z3, view.p3dAlpha, view.p3dBeta);
+        return { id: `pt_${n}_${Date.now()}`, type: 'point', name: n, x, y, label: lbl ?? n, xyz3d: [x3, y3, z3], color: 'black', radius: 4, filled: true, visible: true };
+      };
+      const pts = [
+        P('A', 0, 0, 0, 'A'), P('B', 0, a, 0, 'B'), P('C', cx, cy, 0, 'C'),
+        P('Ap', 0, 0, h, "A'"), P('Bp', 0, a, h, "B'"), P('Cp', cx, cy, h, "C'")
+      ];
+      const vis = [['A','B'],['A','Ap'],['B','Bp'],['Ap','Bp'],['Ap','Cp'],['Bp','Cp'],['B','C'],['C','Cp']];
+      const hid = [['A','C']];
+      
+      pts.forEach((pt) => {
+        sc.points = sc.points.filter((p) => p.name !== pt.name);
+        sc.points.push(pt);
+      });
+      vis.forEach(([from, to]) => sc.objects.push({ id: `obj_${from}_${to}`, type: 'segment', from, to, strokeColor: '#1e293b', strokeWidth: 1.2, dash: 'solid' }));
+      hid.forEach(([from, to]) => sc.objects.push({ id: `obj_${from}_${to}`, type: 'segment', from, to, strokeColor: '#1e293b', strokeWidth: 1.2, dash: 'dashed' }));
+      return sc;
+    }
+
+    function genSqPyr3D(a, h, sc) {
+      const P = (n, x3, y3, z3, lbl) => {
+        const { x, y } = proj3dToXY(x3, y3, z3, view.p3dAlpha, view.p3dBeta);
+        return { id: `pt_${n}_${Date.now()}`, type: 'point', name: n, x, y, label: lbl ?? n, xyz3d: [x3, y3, z3], color: 'black', radius: 4, filled: true, visible: true };
+      };
+      const pts = [
+        P('A', 0, 0, 0, 'A'), P('B', 0, a, 0, 'B'), P('C', a, a, 0, 'C'), P('D', a, 0, 0, 'D'),
+        P('S', a / 2, a / 2, h, 'S')
+      ];
+      const vis = [['S','A'],['S','B'],['S','C'],['A','B'],['B','C']];
+      const hid = [['S','D'],['A','D'],['D','C']];
+      
+      pts.forEach((pt) => {
+        sc.points = sc.points.filter((p) => p.name !== pt.name);
+        sc.points.push(pt);
+      });
+      vis.forEach(([from, to]) => sc.objects.push({ id: `obj_${from}_${to}`, type: 'segment', from, to, strokeColor: '#1e293b', strokeWidth: 1.2, dash: 'solid' }));
+      hid.forEach(([from, to]) => sc.objects.push({ id: `obj_${from}_${to}`, type: 'segment', from, to, strokeColor: '#1e293b', strokeWidth: 1.2, dash: 'dashed' }));
+      return sc;
+    }
+
+    function genTriPyr3D(a, h, sc) {
+      const cx = a * 0.45, cy = a * 0.45;
+      const sx = (0 + 0 + cx) / 3, sy = (0 + a + cy) / 3;
+      const P = (n, x3, y3, z3, lbl) => {
+        const { x, y } = proj3dToXY(x3, y3, z3, view.p3dAlpha, view.p3dBeta);
+        return { id: `pt_${n}_${Date.now()}`, type: 'point', name: n, x, y, label: lbl ?? n, xyz3d: [x3, y3, z3], color: 'black', radius: 4, filled: true, visible: true };
+      };
+      const pts = [
+        P('A', 0, 0, 0, 'A'), P('B', 0, a, 0, 'B'), P('C', cx, cy, 0, 'C'), P('S', sx, sy, h, 'S')
+      ];
+      const vis = [['S','A'],['S','B'],['A','B'],['B','C'],['S','C']];
+      const hid = [['A','C']];
+      
+      pts.forEach((pt) => {
+        sc.points = sc.points.filter((p) => p.name !== pt.name);
+        sc.points.push(pt);
+      });
+      vis.forEach(([from, to]) => sc.objects.push({ id: `obj_${from}_${to}`, type: 'segment', from, to, strokeColor: '#1e293b', strokeWidth: 1.2, dash: 'solid' }));
+      hid.forEach(([from, to]) => sc.objects.push({ id: `obj_${from}_${to}`, type: 'segment', from, to, strokeColor: '#1e293b', strokeWidth: 1.2, dash: 'dashed' }));
+      return sc;
+    }
+
+    function genTet3D(a, sc) {
+      const cx = a * 0.45, cy = a * 0.45;
+      const gx = (0 + 0 + cx) / 3, gy = (0 + a + cy) / 3;
+      const gh = Math.sqrt(2 / 3) * a;
+      const P = (n, x3, y3, z3, lbl) => {
+        const { x, y } = proj3dToXY(x3, y3, z3, view.p3dAlpha, view.p3dBeta);
+        return { id: `pt_${n}_${Date.now()}`, type: 'point', name: n, x, y, label: lbl ?? n, xyz3d: [x3, y3, z3], color: 'black', radius: 4, filled: true, visible: true };
+      };
+      const pts = [
+        P('A', 0, 0, 0, 'A'), P('B', 0, a, 0, 'B'), P('C', cx, cy, 0, 'C'), P('D', gx, gy, gh, 'D')
+      ];
+      const vis = [['D','A'],['D','B'],['D','C'],['A','B'],['B','C']];
+      const hid = [['A','C']];
+      
+      pts.forEach((pt) => {
+        sc.points = sc.points.filter((p) => p.name !== pt.name);
+        sc.points.push(pt);
+      });
+      vis.forEach(([from, to]) => sc.objects.push({ id: `obj_${from}_${to}`, type: 'segment', from, to, strokeColor: '#1e293b', strokeWidth: 1.2, dash: 'solid' }));
+      hid.forEach(([from, to]) => sc.objects.push({ id: `obj_${from}_${to}`, type: 'segment', from, to, strokeColor: '#1e293b', strokeWidth: 1.2, dash: 'dashed' }));
+      return sc;
+    }
+
+    function genAxes3D(x, y, z, sc) {
+      const P = (n, x3, y3, z3, lbl) => {
+        const { x: cx, y: cy } = proj3dToXY(x3, y3, z3, view.p3dAlpha, view.p3dBeta);
+        return { id: `pt_${n}_${Date.now()}`, type: 'point', name: n, x: cx, y: cy, label: lbl ?? n, xyz3d: [x3, y3, z3], color: 'black', radius: 4, filled: true, visible: true };
+      };
+      const pts = [
+        P('O', 0, 0, 0, 'O'), P('X', x, 0, 0, 'x'), P('Y', 0, y, 0, 'y'), P('Z', 0, 0, z, 'z')
+      ];
+      pts.forEach((pt) => {
+        sc.points = sc.points.filter((p) => p.name !== pt.name);
+        sc.points.push(pt);
+      });
+      sc.objects.push({ id: `obj_OX`, type: 'ray', from: 'O', to: 'X', strokeColor: 'gray', strokeWidth: 1.0, dash: 'solid' });
+      sc.objects.push({ id: `obj_OY`, type: 'ray', from: 'O', to: 'Y', strokeColor: 'gray', strokeWidth: 1.0, dash: 'solid' });
+      sc.objects.push({ id: `obj_OZ`, type: 'ray', from: 'O', to: 'Z', strokeColor: 'gray', strokeWidth: 1.0, dash: 'solid' });
+      return sc;
+    }
+
+    // ── Code Generation: CeTZ (Typst) ──
+    function generateCetzCode(sc, viewOpts) {
+      const pointMap = buildPointMap(sc.points);
+      const lines = [];
+
+      lines.push('#import "@preview/cetz:0.5.2": *');
+      lines.push('#canvas({');
+      
+      const hasProj3d = viewOpts.proj3d && sc.points.some((p) => p.xyz3d);
+      if (hasProj3d) {
+        lines.push(`  let _alpha = ${numberString(viewOpts.p3dAlpha)}`);
+        lines.push(`  let _beta  = ${numberString(viewOpts.p3dBeta)}`);
+        lines.push(`  let _sc    = ${numberString(viewOpts.p3dScale)}`);
+        lines.push(`  let p(x, y, z) = ((y - _alpha * x) * _sc, (z - _beta * x) * _sc)`);
+        lines.push('');
+      }
+
+      lines.push('  // Khai báo điểm');
+      sc.points.forEach((point) => {
+        if (point.xyz3d) {
+          const [x3, y3, z3] = point.xyz3d;
+          if (hasProj3d) {
+            lines.push(`  let ${point.name} = p(${numberString(x3)}, ${numberString(y3)}, ${numberString(z3)})`);
+          } else {
+            lines.push(`  let ${point.name} = (${numberString(x3)}, ${numberString(y3)}, ${numberString(z3)})`);
+          }
+        } else if (point.derivedFrom) {
+          const d = point.derivedFrom;
+          if (d.type === 'mid') {
+            lines.push(`  let ${point.name} = pt_mid(${d.refs[0]}, ${d.refs[1]})`);
+          } else if (d.type === 'div') {
+            lines.push(`  let ${point.name} = pt_div(${d.refs[0]}, ${d.refs[1]}, ${d.t})`);
+          } else {
+            lines.push(`  let ${point.name} = (${numberString(point.x)}, ${numberString(point.y)})`);
+          }
+        } else {
+          lines.push(`  let ${point.name} = (${numberString(point.x)}, ${numberString(point.y)})`);
+        }
+      });
+      lines.push('');
+
+      lines.push('  // Các đối tượng vẽ');
+      sc.objects.forEach((obj) => {
+        const strokeStr = obj.dash === 'dashed' ? '(paint: black, dash: "dashed", thickness: 1.2pt)' : '1.2pt';
+        if (obj.type === 'segment') {
+          lines.push(`  line(${obj.from}, ${obj.to}, stroke: ${strokeStr})`);
+        } else if (obj.type === 'line') {
+          lines.push(`  line(${obj.from}, ${obj.to}, stroke: ${strokeStr}) // Line kéo dài`);
+        } else if (obj.type === 'ray') {
+          lines.push(`  line(${obj.from}, ${obj.to}, stroke: ${strokeStr}, mark: (end: "stealth"))`);
+        } else if (obj.type === 'circle') {
+          lines.push(`  circle(${obj.center}, radius: ${numberString(dist(pointMap[obj.center], pointMap[obj.edge]))}, stroke: 1.2pt)`);
+        } else if (obj.type === 'rightAngle') {
+          lines.push(`  // Đánh dấu góc vuông tại ${obj.b}`);
+          lines.push(`  line(${obj.a}, ${obj.b}, ${obj.c}, stroke: 1pt)`);
+        }
+      });
+
+      lines.push('})');
+      return lines.join('\n');
+    }
+
+    // ── Code Generation: TikZ (LaTeX) ──
+    function generateTikZCode(sc) {
+      const lines = [];
+      lines.push('\\begin{tikzpicture}[scale=1.0]');
+      
+      lines.push('  % Khai báo điểm');
+      sc.points.forEach((point) => {
+        lines.push(`  \\coordinate (${point.name}) at (${numberString(point.x)}, ${numberString(point.y)});`);
+      });
+      lines.push('');
+
+      lines.push('  % Vẽ đường thẳng, đa giác');
+      sc.objects.forEach((obj) => {
+        const opt = obj.dash === 'dashed' ? '[dashed, thick]' : '[thick]';
+        if (obj.type === 'segment') {
+          lines.push(`  \\draw${opt} (${obj.from}) -- (${obj.to});`);
+        } else if (obj.type === 'circle') {
+          lines.push(`  \\draw[thick] (${obj.center}) circle [radius=1.5];`);
+        }
+      });
+
+      lines.push('  % Gắn nhãn điểm');
+      sc.points.forEach((point) => {
+        if (point.label) {
+          lines.push(`  \\fill (${point.name}) circle (1.5pt) node[above right] {$${point.label}$};`);
+        }
+      });
+
+      lines.push('\\end{tikzpicture}');
+      return lines.join('\n');
+    }
+
+    // ── Element list card update ──
+    function updateElementPanel() {
+      const listContainer = document.getElementById('elementListContainer');
+      document.getElementById('elementCount').textContent = `${scene.points.length + scene.objects.length} đối tượng`;
+
+      if (scene.points.length === 0 && scene.objects.length === 0) {
+        listContainer.innerHTML = `<div style="color:#64748b; font-style:italic; font-size:0.8rem; text-align:center; padding:20px 0;">Không có điểm hay hình vẽ nào. Hãy chọn công cụ để vẽ!</div>`;
+        return;
+      }
+
+      let html = '';
+      
+      // Points list
+      scene.points.forEach((p) => {
+        const isSel = selectedId === p.id;
+        const sub = p.xyz3d ? `3D (${p.xyz3d[0]}, ${p.xyz3d[1]}, ${p.xyz3d[2]})` : `(${numberString(p.x)}, ${numberString(p.y)})`;
+        html += `
+          <div class="element-card ${isSel ? 'selected' : ''}" onclick="selectElement('${p.id}', event)">
+            <div class="element-card-info">
+              <span class="element-card-title">Điểm ${p.name}</span>
+              <span class="element-card-desc">${sub}</span>
+            </div>
+            <button class="element-card-delete" onclick="deleteElement('${p.id}', event)" title="Xóa điểm"><i data-lucide="trash" style="width:12px;height:12px;"></i></button>
+          </div>
+        `;
+      });
+
+      // Objects list
+      scene.objects.forEach((o) => {
+        const isSel = selectedId === o.id;
+        let title = o.type;
+        let desc = '';
+        if (o.type === 'segment') { title = 'Đoạn thẳng'; desc = `${o.from} — ${o.to}`; }
+        else if (o.type === 'line') { title = 'Đường thẳng'; desc = `qua ${o.from}, ${o.to}`; }
+        else if (o.type === 'ray') { title = 'Tia'; desc = `từ ${o.from} qua ${o.to}`; }
+        else if (o.type === 'circle') { title = 'Đường tròn'; desc = `tâm ${o.center} qua ${o.edge}`; }
+        else if (o.type === 'rightAngle') { title = 'Góc vuông'; desc = `tại ${o.b} (${o.a}-${o.b}-${o.c})`; }
+        else if (o.type === 'sphere3d') { title = '🔵 Hình cầu'; desc = `r=${o.r}, tâm(${o.cx},${o.cy},${o.cz})`; }
+        else if (o.type === 'revoz3d') { title = '🌀 Xoay Oz'; desc = o.desc || `${o._samples?.length ?? 0} điểm mẫu`; }
+        else if (o.type === 'revoy3d') { title = '🌀 Xoay Oy'; desc = o.desc || `${o._samples?.length ?? 0} điểm mẫu`; }
+        else if (o.type === 'circle3d') { title = '⭕ Tròn 3D'; desc = `mp ${o.plane?.toUpperCase()}, r=${o.r}, tâm(${o.cx},${o.cy},${o.cz})`; }
+        
+        html += `
+          <div class="element-card ${isSel ? 'selected' : ''}" onclick="selectElement('${o.id}', event)">
+            <div class="element-card-info">
+              <span class="element-card-title">${title}</span>
+              <span class="element-card-desc">${desc}</span>
+            </div>
+            <button class="element-card-delete" onclick="deleteElement('${o.id}', event)" title="Xóa đối tượng"><i data-lucide="trash" style="width:12px;height:12px;"></i></button>
+          </div>
+        `;
+      });
+
+      listContainer.innerHTML = html;
+      window.lucide?.createIcons();
+    }
+
+    window.selectElement = function(id, e) {
+      if (e) e.stopPropagation();
+      selectedId = id;
+      
+      const pt = scene.points.find(p => p.id === id);
+      const obj = scene.objects.find(o => o.id === id);
+      showProperties(pt || obj);
+      render();
+    };
+
+    window.deleteElement = function(id, e) {
+      if (e) e.stopPropagation();
+      pushHistory();
+      
+      const pt = scene.points.find(p => p.id === id);
+      if (pt) {
+        // Remove point and all objects connected to it
+        scene.points = scene.points.filter(p => p.id !== id);
+        scene.objects = scene.objects.filter(o => o.from !== pt.name && o.to !== pt.name && o.center !== pt.name && o.edge !== pt.name && o.a !== pt.name && o.b !== pt.name && o.c !== pt.name);
+      } else {
+        scene.objects = scene.objects.filter(o => o.id !== id);
+      }
+      
+      if (selectedId === id) selectedId = null;
+      showProperties(null);
+      render();
+    };
+
+    // ── Main UI Interaction & SVG Rendering ──
+    function render() {
+      const shapesGroup = document.getElementById('shapesGroup');
+      const handlesGroup = document.getElementById('handlesGroup');
+      const gridGroup = document.getElementById('gridGroup');
+      const draftGroup = document.getElementById('draftGroup');
+      
+      shapesGroup.innerHTML = '';
+      handlesGroup.innerHTML = '';
+      gridGroup.innerHTML = '';
+      draftGroup.innerHTML = '';
+
+      const w = document.getElementById('geoSvg').clientWidth || 800;
+      const h = document.getElementById('geoSvg').clientHeight || 500;
+      const minVal = toMath(0, h);
+      const maxVal = toMath(w, 0);
+
+      // Render Grid Lines / 3D oblique grid
+      if (view.proj3d) {
+        // Cabinet oblique 3D grid with floor + two walls
+        const alpha = view.p3dAlpha;
+        const beta = view.p3dBeta;
+        const px = (x3, y3, z3) => {
+          const { x, y } = proj3dToXY(x3, y3, z3, alpha, beta);
+          return toCanvas(x, y);
+        };
+        const G = 5; // grid size
+        const GH = 4; // height grid size
+        let gridHtml = '';
+
+        // ── Floor grid (XY plane, z=0) ──
+        for (let k = 0; k <= G; k++) {
+          // Lines parallel to Y axis
+          const a = px(k, 0, 0), b = px(k, G, 0);
+          gridHtml += `<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="#94a3b8" stroke-width="0.6" opacity="0.45" />`;
+          // Lines parallel to X axis
+          const c = px(0, k, 0), d = px(G, k, 0);
+          gridHtml += `<line x1="${c.x}" y1="${c.y}" x2="${d.x}" y2="${d.y}" stroke="#94a3b8" stroke-width="0.6" opacity="0.45" />`;
+        }
+
+        // ── Back-Left Wall (XZ plane, y=0) ──
+        for (let k = 0; k <= G; k++) {
+          // vertical lines (along Z) at x=k
+          const a = px(k, 0, 0), b = px(k, 0, GH);
+          gridHtml += `<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="#64748b" stroke-width="0.5" stroke-dasharray="3,4" opacity="0.35" />`;
+        }
+        for (let k = 0; k <= GH; k++) {
+          // horizontal lines (along X) at z=k
+          const a = px(0, 0, k), b = px(G, 0, k);
+          gridHtml += `<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="#64748b" stroke-width="0.5" stroke-dasharray="3,4" opacity="0.35" />`;
+        }
+
+        // ── Back-Right Wall (YZ plane, x=0) ──
+        for (let k = 0; k <= G; k++) {
+          // vertical lines (along Z) at y=k
+          const a = px(0, k, 0), b = px(0, k, GH);
+          gridHtml += `<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="#64748b" stroke-width="0.5" stroke-dasharray="3,4" opacity="0.35" />`;
+        }
+        for (let k = 0; k <= GH; k++) {
+          // horizontal lines (along Y) at z=k
+          const a = px(0, 0, k), b = px(0, G, k);
+          gridHtml += `<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="#64748b" stroke-width="0.5" stroke-dasharray="3,4" opacity="0.35" />`;
+        }
+
+        gridGroup.innerHTML = gridHtml;
+
+        // ── Axes lines Oxyz ──
+        const O = px(0,0,0);
+        const Ax = px(G + 0.7, 0, 0);
+        const Ay = px(0, G + 0.7, 0);
+        const Az = px(0, 0, GH + 0.7);
+
+        gridGroup.innerHTML += `
+          <line x1="${O.x}" y1="${O.y}" x2="${Ax.x}" y2="${Ax.y}" stroke="#ef4444" stroke-width="2" marker-end="url(#axisArrow)" />
+          <text x="${Ax.x + 6}" y="${Ax.y + 4}" fill="#ef4444" font-size="13" font-weight="700" font-family="Georgia,serif" font-style="italic">x</text>
+          
+          <line x1="${O.x}" y1="${O.y}" x2="${Ay.x}" y2="${Ay.y}" stroke="#10b981" stroke-width="2" marker-end="url(#axisArrow)" />
+          <text x="${Ay.x + 6}" y="${Ay.y + 4}" fill="#10b981" font-size="13" font-weight="700" font-family="Georgia,serif" font-style="italic">y</text>
+          
+          <line x1="${O.x}" y1="${O.y}" x2="${Az.x}" y2="${Az.y}" stroke="#3b82f6" stroke-width="2" marker-end="url(#axisArrow)" />
+          <text x="${Az.x + 6}" y="${Az.y - 4}" fill="#3b82f6" font-size="13" font-weight="700" font-family="Georgia,serif" font-style="italic">z</text>
+          
+          <text x="${O.x - 14}" y="${O.y + 14}" fill="#475569" font-size="12" font-weight="700" font-family="Georgia,serif">O</text>
+        `;
+      } else if (view.showAxes) {
+        // Standard 2D Grid
+        const step = 1.0;
+        for (let x = Math.floor(minVal.x); x <= Math.ceil(maxVal.x); x += step) {
+          const c1 = toCanvas(x, minVal.y);
+          const c2 = toCanvas(x, maxVal.y);
+          gridGroup.innerHTML += `<line x1="${c1.x}" y1="${c1.y}" x2="${c2.x}" y2="${c2.y}" stroke="#e2e8f0" stroke-width="0.5" />`;
+        }
+        for (let y = Math.floor(minVal.y); y <= Math.ceil(maxVal.y); y += step) {
+          const c1 = toCanvas(minVal.x, y);
+          const c2 = toCanvas(maxVal.x, y);
+          gridGroup.innerHTML += `<line x1="${c1.x}" y1="${c1.y}" x2="${c2.x}" y2="${c2.y}" stroke="#e2e8f0" stroke-width="0.5" />`;
+        }
+
+        // Main 2D axes
+        const originCanvas = toCanvas(0, 0);
+        gridGroup.innerHTML += `
+          <line x1="0" y1="${originCanvas.y}" x2="${w}" y2="${originCanvas.y}" stroke="#94a3b8" stroke-width="1" />
+          <line x1="${originCanvas.x}" y1="0" x2="${originCanvas.x}" y2="${h}" stroke="#94a3b8" stroke-width="1" />
+        `;
+      }
+
+      const pointMap = buildPointMap(scene.points);
+
+      // Render Objects
+      scene.objects.forEach((obj) => {
+        const isSelected = selectedId === obj.id;
+        const color = isSelected ? '#3b82f6' : obj.strokeColor || '#334155';
+        const sw = isSelected ? 3.0 : obj.strokeWidth || 1.25;
+        const dash = obj.dash === 'dashed' ? '6,5' : 'none';
+
+        if (obj.type === 'segment' || obj.type === 'line' || obj.type === 'ray') {
+          const from = pointMap[obj.from];
+          const to = pointMap[obj.to];
+          if (!from || !to) return;
+          const c1 = toCanvas(from.x, from.y);
+          const c2 = toCanvas(to.x, to.y);
+
+          shapesGroup.innerHTML += `<line x1="${c1.x}" y1="${c1.y}" x2="${c2.x}" y2="${c2.y}" stroke="${color}" stroke-width="${sw}" stroke-dasharray="${dash}" marker-end="${obj.type === 'ray' ? 'url(#arrow)' : ''}" />`;
+        } else if (obj.type === 'circle') {
+          const center = pointMap[obj.center];
+          const edge = pointMap[obj.edge];
+          if (!center || !edge) return;
+          const cc = toCanvas(center.x, center.y);
+          const radius = dist(center, edge) * cam.zoom;
+          shapesGroup.innerHTML += `<circle cx="${cc.x}" cy="${cc.y}" r="${radius}" stroke="${color}" stroke-width="${sw}" stroke-dasharray="${dash}" fill="none" />`;
+        } else if (obj.type === 'rightAngle') {
+          const a = pointMap[obj.a], b = pointMap[obj.b], c = pointMap[obj.c];
+          if (a && b && c) {
+            const size = 0.25;
+            const lenAB = dist(a, b), lenCB = dist(c, b);
+            if (lenAB > 1e-5 && lenCB > 1e-5) {
+              const uAx = (a.x - b.x) / lenAB, uAy = (a.y - b.y) / lenAB;
+              const uCx = (c.x - b.x) / lenCB, uCy = (c.y - b.y) / lenCB;
+              const p1 = toCanvas(b.x + uAx * size, b.y + uAy * size);
+              const p2 = toCanvas(b.x + (uAx + uCx) * size, b.y + (uAy + uCy) * size);
+              const p3 = toCanvas(b.x + uCx * size, b.y + uCy * size);
+              const originCanvas = toCanvas(b.x, b.y);
+              shapesGroup.innerHTML += `<polyline points="${p1.x},${p1.y} ${p2.x},${p2.y} ${p3.x},${p3.y} ${originCanvas.x},${originCanvas.y}" fill="none" stroke="${color}" stroke-width="1.0" />`;
+            }
+          }
+        } else if (obj.type === 'sphere3d') {
+          // ── Sphere: silhouette ellipse + equatorial great circle (front solid / back dashed) ──
+          const { r, cx: ox, cy: oy, cz: oz, alpha: al, beta: be } = obj;
+          const { x: cu, y: cv } = proj3dToXY(ox, oy, oz, al, be);
+          const cpx = toCanvas(cu, cv);
+
+          // Silhouette ellipse (analytically exact for oblique cabinet projection)
+          const rxPx = r * Math.sqrt(al * al + be * be + 1) * cam.zoom;
+          const ryPx = r * cam.zoom;
+          const rotDeg = Math.atan2(-be, al) * 180 / Math.PI;
+
+          shapesGroup.innerHTML += `<ellipse cx="${cpx.x}" cy="${cpx.y}" rx="${rxPx}" ry="${ryPx}"
+            transform="rotate(${rotDeg}, ${cpx.x}, ${cpx.y})"
+            stroke="${color}" stroke-width="${sw}" fill="${obj.fillColor || 'none'}" fill-opacity="${obj.fillOpacity ?? 0.08}" />`;
+
+          // Equatorial circle in XY plane — sample N points, split front (sinT≤0) vs back
+          const N = 60;
+          const eqFront = [], eqBack = [];
+          for (let i = 0; i <= N; i++) {
+            const t = (2 * Math.PI * i) / N;
+            const { x: ex, y: ey } = proj3dToXY(ox + r * Math.cos(t), oy + r * Math.sin(t), oz, al, be);
+            const ep = toCanvas(ex, ey);
+            (Math.cos(t) <= 0 ? eqFront : eqBack).push(`${ep.x},${ep.y}`);
+          }
+          if (eqBack.length > 1) shapesGroup.innerHTML += `<polyline points="${eqBack.join(' ')}" stroke="${color}" stroke-width="${sw * 0.65}" stroke-dasharray="5,5" fill="none" opacity="0.5" />`;
+          if (eqFront.length > 1) shapesGroup.innerHTML += `<polyline points="${eqFront.join(' ')}" stroke="${color}" stroke-width="${sw * 0.65}" fill="none" opacity="0.8" />`;
+
+          // Vertical meridian circle (in XZ plane, y=oy) — always dashed/faint
+          const mPts = [];
+          for (let i = 0; i <= N; i++) {
+            const t = (2 * Math.PI * i) / N;
+            const { x: mx, y: my } = proj3dToXY(ox + r * Math.cos(t), oy, oz + r * Math.sin(t), al, be);
+            const mp = toCanvas(mx, my);
+            mPts.push(`${mp.x},${mp.y}`);
+          }
+          if (mPts.length > 1) shapesGroup.innerHTML += `<polyline points="${mPts.join(' ')}" stroke="${color}" stroke-width="${sw * 0.5}" stroke-dasharray="4,4" fill="none" opacity="0.4" />`;
+
+        } else if (obj.type === 'revoz3d') {
+          // ── Revolution around Oz: samples {z, r}, draw left & right outlines + top/bottom circles ──
+          const { _samples, alpha: al, beta: be } = obj;
+          if (_samples && _samples.length >= 2) {
+            const leftPts = [], rightPts = [];
+            _samples.forEach(({ z, r: rad }) => {
+              const { x: lx, y: ly } = proj3dToXY(0, -rad, z, al, be);
+              const { x: rx, y: ry } = proj3dToXY(0, rad, z, al, be);
+              leftPts.push(`${toCanvas(lx, ly).x},${toCanvas(lx, ly).y}`);
+              rightPts.push(`${toCanvas(rx, ry).x},${toCanvas(rx, ry).y}`);
+            });
+
+            shapesGroup.innerHTML += `<polyline points="${leftPts.join(' ')}" stroke="${color}" stroke-width="${sw}" fill="none" />`;
+            shapesGroup.innerHTML += `<polyline points="${rightPts.join(' ')}" stroke="${color}" stroke-width="${sw}" fill="none" />`;
+
+            // Top & bottom cross-section ellipses (front solid, back dashed)
+            const drawRevCircle = (z, rad) => {
+              if (rad < 0.01) return;
+              const NR = 48;
+              const fp = [], bp = [];
+              for (let i = 0; i <= NR; i++) {
+                const t = (2 * Math.PI * i) / NR;
+                const sinT = Math.sin(t);
+                const { x: px3, y: py3 } = proj3dToXY(rad * sinT, rad * Math.cos(t), z, al, be);
+                const cp = toCanvas(px3, py3);
+                (sinT <= 0 ? fp : bp).push(`${cp.x},${cp.y}`);
+              }
+              if (bp.length > 1) shapesGroup.innerHTML += `<polyline points="${bp.join(' ')}" stroke="${color}" stroke-width="${sw * 0.6}" stroke-dasharray="5,4" fill="none" opacity="0.45" />`;
+              if (fp.length > 1) shapesGroup.innerHTML += `<polyline points="${fp.join(' ')}" stroke="${color}" stroke-width="${sw * 0.85}" fill="none" />`;
+            };
+
+            const top = _samples[_samples.length - 1];
+            const bot = _samples[0];
+            drawRevCircle(bot.z, bot.r);
+            drawRevCircle(top.z, top.r);
+
+            // Intermediate latitude circles for non-linear profiles
+            if (_samples.length > 6) {
+              const step = Math.max(1, Math.floor(_samples.length / 4));
+              for (let i = step; i < _samples.length - step; i += step) {
+                const { z, r: rad } = _samples[i];
+                if (rad > 0.01) {
+                  const NR = 48;
+                  const pts = [];
+                  for (let j = 0; j <= NR; j++) {
+                    const t = (2 * Math.PI * j) / NR;
+                    const { x: px3, y: py3 } = proj3dToXY(rad * Math.sin(t), rad * Math.cos(t), z, al, be);
+                    const cp = toCanvas(px3, py3);
+                    pts.push(`${cp.x},${cp.y}`);
+                  }
+                  shapesGroup.innerHTML += `<polyline points="${pts.join(' ')}" stroke="${color}" stroke-width="${sw * 0.5}" stroke-dasharray="3,4" fill="none" opacity="0.35" />`;
+                }
+              }
+            }
+          }
+
+        } else if (obj.type === 'revoy3d') {
+          // ── Revolution around Oy: samples {y, r}, draw top & bottom outlines + end circles ──
+          const { _samples, alpha: al, beta: be } = obj;
+          if (_samples && _samples.length >= 2) {
+            const topPts = [], botPts = [];
+            _samples.forEach(({ y: yval, r: rad }) => {
+              const { x: tx, y: ty } = proj3dToXY(0, yval, rad, al, be);
+              const { x: bx, y: by } = proj3dToXY(0, yval, -rad, al, be);
+              const tp = toCanvas(tx, ty), bp = toCanvas(bx, by);
+              topPts.push(`${tp.x},${tp.y}`);
+              botPts.push(`${bp.x},${bp.y}`);
+            });
+
+            shapesGroup.innerHTML += `<polyline points="${topPts.join(' ')}" stroke="${color}" stroke-width="${sw}" fill="none" />`;
+            shapesGroup.innerHTML += `<polyline points="${botPts.join(' ')}" stroke="${color}" stroke-width="${sw}" fill="none" />`;
+
+            // End circles
+            const drawRevYCircle = (yval, rad) => {
+              if (rad < 0.01) return;
+              const NR = 48;
+              const fp = [], bp = [];
+              for (let i = 0; i <= NR; i++) {
+                const t = (2 * Math.PI * i) / NR;
+                const sinT = Math.sin(t);
+                const { x: px3, y: py3 } = proj3dToXY(rad * sinT, yval, rad * Math.cos(t), al, be);
+                const cp = toCanvas(px3, py3);
+                (sinT <= 0 ? fp : bp).push(`${cp.x},${cp.y}`);
+              }
+              if (bp.length > 1) shapesGroup.innerHTML += `<polyline points="${bp.join(' ')}" stroke="${color}" stroke-width="${sw * 0.6}" stroke-dasharray="5,4" fill="none" opacity="0.45" />`;
+              if (fp.length > 1) shapesGroup.innerHTML += `<polyline points="${fp.join(' ')}" stroke="${color}" stroke-width="${sw * 0.85}" fill="none" />`;
+            };
+
+            const top = _samples[_samples.length - 1];
+            const bot = _samples[0];
+            drawRevYCircle(bot.y, bot.r);
+            drawRevYCircle(top.y, top.r);
+          }
+
+        } else if (obj.type === 'circle3d') {
+          // ── Circle in 3D plane (XY/XZ/YZ), front solid / back dashed ──
+          const { cx: ox, cy: oy, cz: oz, r: rad, plane, alpha: al, beta: be } = obj;
+          const N = 60;
+          const visPts = [], hidPts = [];
+          for (let i = 0; i <= N; i++) {
+            const t = (2 * Math.PI * i) / N;
+            let x3 = ox, y3 = oy, z3 = oz;
+            if (plane === 'xy') { x3 += rad * Math.sin(t); y3 += rad * Math.cos(t); }
+            else if (plane === 'xz') { x3 += rad * Math.sin(t); z3 += rad * Math.cos(t); }
+            else { y3 += rad * Math.cos(t); z3 += rad * Math.sin(t); } // yz
+            const { x: px3, y: py3 } = proj3dToXY(x3, y3, z3, al, be);
+            const cp = toCanvas(px3, py3);
+            // Front half: x3 <= ox (visible)
+            (x3 <= ox ? visPts : hidPts).push(`${cp.x},${cp.y}`);
+          }
+          if (hidPts.length > 0) shapesGroup.innerHTML += `<polyline points="${hidPts.join(' ')}" stroke="${color}" stroke-width="${sw}" stroke-dasharray="5,5" fill="none" opacity="0.6" />`;
+          if (visPts.length > 0) shapesGroup.innerHTML += `<polyline points="${visPts.join(' ')}" stroke="${color}" stroke-width="${sw}" fill="none" />`;
+        }
+      });
+
+      // Render Points & Labels
+      scene.points.forEach((pt) => {
+        const cc = toCanvas(pt.x, pt.y);
+        const isSelected = selectedId === pt.id;
+        const color = isSelected ? '#3b82f6' : pt.color || 'black';
+        const r = isSelected ? 6.5 : pt.radius || 4.5;
+
+        handlesGroup.innerHTML += `<circle cx="${cc.x}" cy="${cc.y}" r="${r}" fill="${color}" stroke="#fff" stroke-width="1.5" style="cursor:move;" id="pt-handle-${pt.id}" />`;
+
+        if (pt.label) {
+          handlesGroup.innerHTML += `<text x="${cc.x + 8}" y="${cc.y - 8}" fill="#0f172a" font-size="12" font-weight="700" font-family="Georgia, serif" font-style="italic" pointer-events="none">${pt.label}</text>`;
+        }
+      });
+
+      // Render Draft (preview of current tool action)
+      if (draft) {
+        const first = pointMap[draft.refs[0]];
+        const second = pointMap[draft.refs[1]];
+        if (first) {
+          const c1 = toCanvas(first.x, first.y);
+          const cMouse = toCanvas(mouseCoord.x, mouseCoord.y);
+
+          if (draft.tool === 'segment' || draft.tool === 'line' || draft.tool === 'ray') {
+            draftGroup.innerHTML += `<line x1="${c1.x}" y1="${c1.y}" x2="${cMouse.x}" y2="${cMouse.y}" stroke="#3b82f6" stroke-dasharray="5,5" stroke-width="1.5" />`;
+          } else if (draft.tool === 'circle') {
+            const radius = Math.hypot(cMouse.x - c1.x, cMouse.y - c1.y);
+            draftGroup.innerHTML += `<circle cx="${c1.x}" cy="${c1.y}" r="${radius}" stroke="#3b82f6" stroke-dasharray="5,5" stroke-width="1.5" fill="none" />`;
+          } else if (draft.tool === 'rightAngle' && second) {
+            const c2 = toCanvas(second.x, second.y);
+            draftGroup.innerHTML += `
+              <line x1="${c1.x}" y1="${c1.y}" x2="${c2.x}" y2="${c2.y}" stroke="#3b82f6" stroke-width="1.5" />
+              <line x1="${c2.x}" y1="${c2.y}" x2="${cMouse.x}" y2="${cMouse.y}" stroke="#3b82f6" stroke-dasharray="5,5" stroke-width="1.5" />
+            `;
+          }
+        }
+      }
+
+      updateCodeOutput();
+      updateElementPanel();
+    }
+
+    function updateCodeOutput() {
+      const code = outputFormat === 'tikz' ? generateTikZCode(scene) : generateCetzCode(scene, view);
+      document.getElementById('codeTextOutput').textContent = code;
+    }
+
+    // ── Tool Switch ──
+    window.setTool = function(tool) {
+      activeTool = tool;
+      document.querySelectorAll('.tool-btn').forEach((btn) => btn.classList.remove('active'));
+      const activeBtn = document.getElementById('tool-' + tool);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      // Clear draft on tool change
+      draft = null;
+      document.getElementById('draftMsg').textContent = '';
+      
+      // Update cursor style
+      const svg = document.getElementById('geoSvg');
+      svg.style.cursor = tool === 'select' ? 'default' : 'crosshair';
+      render();
+    };
+
+    window.setLeftTab = function(tab) {
+      leftTab = tab;
+      document.getElementById('tabElements').classList.toggle('active', tab === 'elements');
+      document.getElementById('tabSuggestions').classList.toggle('active', tab === 'suggestions');
+      document.getElementById('elementsPanel').style.display = tab === 'elements' ? 'flex' : 'none';
+      document.getElementById('suggestionsPanel').style.display = tab === 'suggestions' ? 'flex' : 'none';
+    };
+
+    window.setRightTab = function(tab) {
+      rightTab = tab;
+      document.getElementById('tabCode').classList.toggle('active', tab === 'code');
+      document.getElementById('tabPreview').classList.toggle('active', tab === 'preview');
+      document.getElementById('viewCode').style.display = tab === 'code' ? 'flex' : 'none';
+      document.getElementById('viewPreview').style.display = tab === 'preview' ? 'flex' : 'none';
+    };
+
+    window.setOutputFormat = function(fmt) {
+      outputFormat = fmt;
+      document.getElementById('fmtCetz').classList.toggle('active', fmt === 'cetz');
+      document.getElementById('fmtTikz').classList.toggle('active', fmt === 'tikz');
+      updateCodeOutput();
+    };
+
+    window.copyGeneratedCode = function() {
+      const text = document.getElementById('codeTextOutput').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        Swal.fire({ title: 'Đã copy!', text: 'Mã nguồn đã được lưu vào clipboard.', icon: 'success', timer: 1200, showConfirmButton: false });
+      });
+    };
+
+    window.setSnap = function(val) {
+      snapGrid = val;
+      document.querySelectorAll('[id^="snap-"]').forEach((btn) => btn.classList.remove('active'));
+      const activeBtn = document.getElementById('snap-' + val);
+      if (activeBtn) {
+        activeBtn.classList.add('active');
+        activeBtn.style.background = '#2563eb';
+        activeBtn.style.color = '#fff';
+      }
+    };
+
+    // Prefill suggestion
+    window.prefillCommand = function(cmd) {
+      const input = document.getElementById('cmdInput');
+      input.value = cmd;
+      input.focus();
+    };
+
+    // ── Mouse / Touch interaction handlers ──
+    document.addEventListener('DOMContentLoaded', () => {
+      const svg = document.getElementById('geoSvg');
+
+      // Click to draw / select
+      svg.addEventListener('mousedown', (e) => {
+        const rect = svg.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+        const mathCoords = toMath(mouseX, mouseY);
+
+        // Grid snapping
+        let nx = mathCoords.x;
+        let ny = mathCoords.y;
+        if (snapGrid > 0) {
+          nx = Math.round(nx / snapGrid) * snapGrid;
+          ny = Math.round(ny / snapGrid) * Math.round(ny / snapGrid) ? Math.round(ny / snapGrid) * snapGrid : ny;
+        }
+
+        // Find clicked point
+        let clickedPt = null;
+        for (const pt of scene.points) {
+          const ptCanvas = toCanvas(pt.x, pt.y);
+          const d = Math.hypot(ptCanvas.x - mouseX, ptCanvas.y - mouseY);
+          if (d < 15) {
+            clickedPt = pt;
+            break;
+          }
+        }
+
+        if (activeTool === 'select') {
+          if (clickedPt) {
+            dragPt = clickedPt;
+            selectedId = clickedPt.id;
+            pushHistory();
+            showProperties(clickedPt);
+            render();
+          } else {
+            // Find clicked object
+            let clickedObj = null;
+            // Simplified line/circle click detection
+            for (const obj of scene.objects) {
+              if (obj.type === 'segment') {
+                const pm = buildPointMap(scene.points);
+                const from = pm[obj.from], to = pm[obj.to];
+                if (from && to) {
+                  const proj = projectPointOnLine(mathCoords, from, to);
+                  const dLine = dist(mathCoords, proj);
+                  const dFrom = dist(mathCoords, from), dTo = dist(mathCoords, to), dSeg = dist(from, to);
+                  if (dLine < 0.18 && (dFrom + dTo < dSeg + 0.1)) {
+                    clickedObj = obj;
+                    break;
+                  }
+                }
+              }
+            }
+
+            if (clickedObj) {
+              selectedId = clickedObj.id;
+              showProperties(clickedObj);
+            } else {
+              selectedId = null;
+              showProperties(null);
+            }
+            panState = { startX: mouseX, startY: mouseY, ox: cam.ox, oy: cam.oy };
+            render();
+          }
+        } else if (activeTool === 'point') {
+          pushHistory();
+          if (!clickedPt) {
+            const name = nextPointName(scene.points);
+            const pt = {
+              id: `pt_${name}_${Date.now()}`,
+              type: 'point',
+              name,
+              x: nx,
+              y: ny,
+              label: name,
+              anchor: 'north-east',
+              color: 'black',
+              radius: 4,
+              filled: true,
+              visible: true,
+              derivedFrom: null,
+            };
+            scene.points.push(pt);
+            selectedId = pt.id;
+            showProperties(pt);
+          } else {
+            selectedId = clickedPt.id;
+            showProperties(clickedPt);
+          }
+          render();
+        } else {
+          // Drawing tools Segment, Line, Ray, Circle, RightAngle
+          pushHistory();
+          let ptName = '';
+          if (clickedPt) {
+            ptName = clickedPt.name;
+          } else {
+            // Create a new point at click location
+            const name = nextPointName(scene.points);
+            const pt = {
+              id: `pt_${name}_${Date.now()}`,
+              type: 'point',
+              name,
+              x: nx,
+              y: ny,
+              label: name,
+              anchor: 'north-east',
+              color: 'black',
+              radius: 4,
+              filled: true,
+              visible: true,
+              derivedFrom: null,
+            };
+            scene.points.push(pt);
+            ptName = name;
+          }
+
+          if (!draft) {
+            draft = { tool: activeTool, refs: [ptName] };
+            const req = TOOL_REQS[activeTool];
+            document.getElementById('draftMsg').textContent = `Chọn tiếp ${req - 1} điểm nữa...`;
+          } else {
+            draft.refs.push(ptName);
+            const req = TOOL_REQS[activeTool];
+            if (draft.refs.length >= req) {
+              // Complete tool action
+              if (activeTool === 'segment' || activeTool === 'line' || activeTool === 'ray') {
+                scene.objects.push({
+                  id: `obj_${Date.now()}`,
+                  type: activeTool,
+                  from: draft.refs[0],
+                  to: draft.refs[1],
+                  strokeColor: '#334155',
+                  strokeWidth: 1.25,
+                  dash: 'solid',
+                });
+              } else if (activeTool === 'circle') {
+                scene.objects.push({
+                  id: `obj_${Date.now()}`,
+                  type: 'circle',
+                  center: draft.refs[0],
+                  edge: draft.refs[1],
+                  strokeColor: '#334155',
+                  strokeWidth: 1.25,
+                  dash: 'solid',
+                });
+              } else if (activeTool === 'rightAngle') {
+                scene.objects.push({
+                  id: `obj_${Date.now()}`,
+                  type: 'rightAngle',
+                  a: draft.refs[0],
+                  b: draft.refs[1],
+                  c: draft.refs[2],
+                  strokeColor: '#ef4444',
+                  strokeWidth: 1.05,
+                  dash: 'solid',
+                });
+              }
+              draft = null;
+              document.getElementById('draftMsg').textContent = '';
+            } else {
+              document.getElementById('draftMsg').textContent = `Chọn tiếp ${req - draft.refs.length} điểm nữa...`;
+            }
+          }
+          render();
+        }
+      });
+
+      svg.addEventListener('mousemove', (e) => {
+        const rect = svg.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+        const mathCoords = toMath(mouseX, mouseY);
+        
+        let nx = mathCoords.x;
+        let ny = mathCoords.y;
+        if (snapGrid > 0) {
+          nx = Math.round(nx / snapGrid) * snapGrid;
+          ny = Math.round(ny / snapGrid) * snapGrid;
+        }
+
+        mouseCoord = { x: nx, y: ny };
+        document.getElementById('coordText').textContent = `x: ${numberString(mathCoords.x)}, y: ${numberString(mathCoords.y)}`;
+
+        if (dragPt) {
+          if (dragPt.xyz3d) {
+            dragPt.xyz3d[1] += nx - dragPt.x;
+            dragPt.xyz3d[2] += ny - dragPt.y;
+          }
+          dragPt.x = nx;
+          dragPt.y = ny;
+
+          propagateSceneDependencies(scene);
+          showProperties(dragPt);
+          render();
+        } else if (panState) {
+          cam.ox = panState.ox + (mouseX - panState.startX);
+          cam.oy = panState.oy + (mouseY - panState.startY);
+          render();
+        } else if (draft) {
+          render(); // Redraw draft preview line
+        }
+      });
+
+      const endDragging = () => {
+        dragPt = null;
+        panState = null;
+      };
+
+      svg.addEventListener('mouseup', endDragging);
+      svg.addEventListener('mouseleave', endDragging);
+
+      svg.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        const rect = svg.getBoundingClientRect();
+        const px = e.clientX - rect.left, py = e.clientY - rect.top;
+        const f = e.deltaY < 0 ? 1.15 : 0.85;
+        const nz = Math.min(300, Math.max(8, cam.zoom * f));
+        cam.ox = px - (px - cam.ox) * (nz / cam.zoom);
+        cam.oy = py - (py - cam.oy) * (nz / cam.zoom);
+        cam.zoom = nz;
+        render();
+      });
+
+      // Suggestion rendering
+      renderSuggestions();
+
+      // Actions
+      document.getElementById('btnRunCmd').addEventListener('click', runCommand);
+      document.getElementById('cmdInput').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') runCommand();
+      });
+
+      document.getElementById('chkProj3d').addEventListener('change', (e) => {
+        view.proj3d = e.target.checked;
+        reproject3dScene();
+        renderSuggestions();
+        render();
+      });
+
+      const sldAlpha = document.getElementById('sldAlpha');
+      const sldBeta = document.getElementById('sldBeta');
+      const sldScale3d = document.getElementById('sldScale3d');
+
+      sldAlpha.addEventListener('input', (e) => {
+        view.p3dAlpha = Number.parseFloat(e.target.value);
+        document.getElementById('lblAlpha').textContent = e.target.value;
+        reproject3dScene();
+        render();
+      });
+      sldBeta.addEventListener('input', (e) => {
+        view.p3dBeta = Number.parseFloat(e.target.value);
+        document.getElementById('lblBeta').textContent = e.target.value;
+        reproject3dScene();
+        render();
+      });
+      sldScale3d.addEventListener('input', (e) => {
+        view.p3dScale = Number.parseFloat(e.target.value);
+        document.getElementById('lblScale3d').textContent = e.target.value;
+        reproject3dScene();
+        render();
+      });
+
+      document.getElementById('btnUndo').addEventListener('click', () => {
+        if (undoStack.length) {
+          redoStack.push(cloneScene(scene));
+          scene = undoStack.pop();
+          render();
+          updateHistoryButtons();
+        }
+      });
+
+      document.getElementById('btnRedo').addEventListener('click', () => {
+        if (redoStack.length) {
+          undoStack.push(cloneScene(scene));
+          scene = redoStack.pop();
+          render();
+          updateHistoryButtons();
+        }
+      });
+
+      document.getElementById('btnClear').addEventListener('click', () => {
+        Swal.fire({
+          title: 'Xóa toàn bộ hình vẽ?',
+          text: 'Thao tác này sẽ xóa sạch các điểm và đối tượng.',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#ef4444',
+          confirmButtonText: 'Xóa hết',
+          cancelButtonText: 'Hủy'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            pushHistory();
+            scene = { points: [], objects: [] };
+            render();
+          }
+        });
+      });
+
+      document.getElementById('btnResetView').addEventListener('click', () => {
+        cam = { ox: 380, oy: 250, zoom: 45 };
+        render();
+      });
+
+      document.getElementById('btnTriggerCompile').addEventListener('click', triggerTypstCompile);
+
+      // Default run
+      render();
+    });
+
+    function toggleSuggestionGroup(titleEl) {
+      const list = titleEl.nextElementSibling;
+      const isVisible = !list.classList.contains('collapsed');
+      if (isVisible) {
+        list.classList.add('collapsed');
+        titleEl.querySelector('i:last-child').setAttribute('data-lucide', 'chevron-right');
+      } else {
+        list.classList.remove('collapsed');
+        titleEl.querySelector('i:last-child').setAttribute('data-lucide', 'chevron-down');
+      }
+      window.lucide?.createIcons();
+    }
+
+    function renderSuggestions() {
+      const groups = view.proj3d ? SUGGESTIONS_3D : SUGGESTIONS_2D;
+      const container = document.getElementById('suggestionGroups');
+      container.innerHTML = groups.map((g) => `
+        <div class="group-header" onclick="toggleSuggestionGroup(this)">
+          <span>${g.group}</span>
+          <i data-lucide="chevron-down" style="width:12px;height:12px;"></i>
+        </div>
+        <div class="group-content">
+          ${g.items.map((item) => `
+            <button class="suggestion-item" onclick="prefillCommand('${item.cmd}')">
+              <code>${item.cmd}</code>
+              <small>${item.label} — ${item.desc}</small>
+            </button>
+          `).join('')}
+        </div>
+      `).join('');
+      window.lucide?.createIcons();
+    }
+
+    function runCommand() {
+      const input = document.getElementById('cmdInput');
+      const cmd = input.value.trim();
+      if (!cmd) return;
+
+      pushHistory();
+      const result = parseCommand(cmd, scene);
+      if (result.error) {
+        Swal.fire({ title: 'Lỗi cú pháp', text: result.error, icon: 'error' });
+      } else {
+        scene = result.nextScene;
+        if (result.selectionId) selectedId = result.selectionId;
+        
+        // Add cmd to chip history
+        addHistoryChip(cmd);
+        input.value = '';
+        render();
+      }
+    }
+
+    function addHistoryChip(cmd) {
+      const container = document.getElementById('recentCommands');
+      // Limit to 4 chips
+      if (container.children.length >= 4) {
+        container.removeChild(container.children[0]);
+      }
+      const chip = document.createElement('span');
+      chip.className = 'history-chip';
+      chip.textContent = cmd;
+      chip.onclick = () => prefillCommand(cmd);
+      container.appendChild(chip);
+    }
+
+    function showProperties(obj) {
+      const container = document.getElementById('propBody');
+      if (!obj) {
+        container.innerHTML = `<div style="color:#64748b; font-style:italic;">Chọn một điểm hoặc đường để chỉnh sửa...</div>`;
+        return;
+      }
+
+      if (obj.type === 'point') {
+        container.innerHTML = `
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span><strong>Điểm:</strong> ${obj.name}</span>
+              <span style="font-size:0.75rem; color:#94a3b8;">Coord: (${numberString(obj.x)}, ${numberString(obj.y)})</span>
+            </div>
+            <label style="display:flex; flex-direction:column; gap:4px;">
+              <span style="color:#94a3b8; font-size:0.75rem;">Nhãn hiển thị:</span>
+              <input type="text" class="console-input" value="${obj.label || ''}" oninput="updatePointLabel('${obj.id}', this.value)" style="padding:4px 8px;" />
+            </label>
+            <div style="display:flex; gap:10px;">
+              <label style="display:inline-flex; align-items:center; gap:6px; cursor:pointer;">
+                <input type="checkbox" ${obj.filled ? 'checked' : ''} onchange="updatePointFilled('${obj.id}', this.checked)" style="accent-color:#3b82f6;" /> Có tô tâm
+              </label>
+            </div>
+          </div>
+        `;
+      } else {
+        container.innerHTML = `
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <div><strong>Đối tượng:</strong> ${obj.type}</div>
+            <div style="display:flex; gap:10px;">
+              <label style="display:inline-flex; align-items:center; gap:6px; cursor:pointer;">
+                <input type="checkbox" ${obj.dash === 'dashed' ? 'checked' : ''} onchange="updateObjectDash('${obj.id}', this.checked)" style="accent-color:#3b82f6;" /> Nét đứt (Dashed)
+              </label>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    window.updatePointLabel = function(id, val) {
+      const pt = scene.points.find(p => p.id === id);
+      if (pt) {
+        pt.label = val;
+        render();
+      }
+    };
+
+    window.updatePointFilled = function(id, checked) {
+      const pt = scene.points.find(p => p.id === id);
+      if (pt) {
+        pt.filled = checked;
+        render();
+      }
+    };
+
+    window.updateObjectDash = function(id, checked) {
+      const obj = scene.objects.find(o => o.id === id);
+      if (obj) {
+        obj.dash = checked ? 'dashed' : 'solid';
+        render();
+      }
+    };
+
+    // Typst Compiler Preview Trigger
+    async function triggerTypstCompile() {
+      const overlay = document.getElementById('compileOverlay');
+      const container = document.getElementById('compiledSvgContainer');
+      overlay.style.display = 'flex';
+
+      try {
+        const cetzCode = generateCetzCode(scene, view);
+        if (window.compileTypstToSvg) {
+          const svgMarkup = await window.compileTypstToSvg(cetzCode);
+          container.innerHTML = svgMarkup;
+        } else {
+          container.innerHTML = `<div style="color:#ef4444; font-weight:600; font-size:0.8rem; text-align:center;">Hiệu ứng đang biên dịch đẹp đẳng cấp đang khởi tạo. Vui lòng thử lại sau 2 giây.</div>`;
+        }
+      } catch (err) {
+        container.innerHTML = `<pre style="color:#ef4444; font-size:0.75rem; background:#fee2e2; border:1px solid #fecaca; padding:12px; border-radius:6px; text-align:left; width:100%; overflow:auto;">Biên dịch lỗi:\n${err.message}</pre>`;
+      } finally {
+        overlay.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>

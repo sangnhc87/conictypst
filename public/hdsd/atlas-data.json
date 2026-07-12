@@ -1,0 +1,2125 @@
+{
+  "generated_at": "2026-07-05T04:30:22.652Z",
+  "counts": {
+    "total": 116,
+    "cd": 73,
+    "beamer": 43
+  },
+  "assets": [
+    {
+      "id": "CD-ChiPhi-An-VanToc",
+      "kind": "cd",
+      "title": "ChiPhi An VanToc",
+      "grade": 12,
+      "cluster": "Kinh tế - tối ưu",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Kinh tế - tối ưu",
+        "kinh tế"
+      ],
+      "source_typ": "typst/exams/CD-ChiPhi-An-VanToc.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-ChiPhi-An-VanToc.typ",
+      "pdf": "typst/exams/CD-ChiPhi-An-VanToc.pdf",
+      "pdf_url": null,
+      "base_id": "CD-ChiPhi-An-VanToc"
+    },
+    {
+      "id": "CD-Chia-Keo-Euler",
+      "kind": "cd",
+      "title": "Chia Keo Euler",
+      "grade": 12,
+      "cluster": "Tổ hợp - xác suất",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Tổ hợp - xác suất",
+        "tổ hợp"
+      ],
+      "source_typ": "typst/exams/CD-Chia-Keo-Euler.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Chia-Keo-Euler.typ",
+      "pdf": "typst/exams/CD-Chia-Keo-Euler.pdf",
+      "pdf_url": null,
+      "base_id": "CD-Chia-Keo-Euler"
+    },
+    {
+      "id": "CD-Chim-Săn-Mồi",
+      "kind": "cd",
+      "title": "Chim Săn Mồi",
+      "grade": 12,
+      "cluster": "Chuyên đề tổng hợp",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Chuyên đề tổng hợp"
+      ],
+      "source_typ": "typst/exams/CD-Chim-Săn-Mồi.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Chim-S%C4%83n-M%E1%BB%93i.typ",
+      "pdf": null,
+      "pdf_url": null,
+      "base_id": "CD-Chim-Săn-Mồi"
+    },
+    {
+      "id": "CD-ChuoiTrangThai-Markov",
+      "kind": "cd",
+      "title": "ChuoiTrangThai Markov",
+      "grade": 12,
+      "cluster": "Tổ hợp - xác suất",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Tổ hợp - xác suất",
+        "xác suất"
+      ],
+      "source_typ": "typst/exams/CD-ChuoiTrangThai-Markov.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-ChuoiTrangThai-Markov.typ",
+      "pdf": "typst/exams/CD-ChuoiTrangThai-Markov.pdf",
+      "pdf_url": null,
+      "base_id": "CD-ChuoiTrangThai-Markov"
+    },
+    {
+      "id": "CD-Conic-DayDu",
+      "kind": "cd",
+      "title": "Conic DayDu",
+      "grade": 12,
+      "cluster": "Hình học khó",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Hình học khó"
+      ],
+      "source_typ": "typst/exams/CD-Conic-DayDu.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Conic-DayDu.typ",
+      "pdf": "typst/exams/CD-Conic-DayDu.pdf",
+      "pdf_url": null,
+      "base_id": "CD-Conic-DayDu"
+    },
+    {
+      "id": "CD-Conic-KhoiQuay",
+      "kind": "cd",
+      "title": "Conic KhoiQuay",
+      "grade": 12,
+      "cluster": "Hình học khó",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Hình học khó"
+      ],
+      "source_typ": "typst/exams/CD-Conic-KhoiQuay.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Conic-KhoiQuay.typ",
+      "pdf": "typst/exams/CD-Conic-KhoiQuay.pdf",
+      "pdf_url": null,
+      "base_id": "CD-Conic-KhoiQuay"
+    },
+    {
+      "id": "CD-DaiBacVanNang-MoRong",
+      "kind": "cd",
+      "title": "DaiBacVanNang MoRong",
+      "grade": 12,
+      "cluster": "Chuyên đề tổng hợp",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Chuyên đề tổng hợp",
+        "VDC"
+      ],
+      "source_typ": "typst/exams/CD-DaiBacVanNang-MoRong.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-DaiBacVanNang-MoRong.typ",
+      "pdf": "typst/exams/CD-DaiBacVanNang-MoRong.pdf",
+      "pdf_url": null,
+      "base_id": "CD-DaiBacVanNang-MoRong"
+    },
+    {
+      "id": "CD-DaiSo-ToHop-content",
+      "kind": "cd",
+      "title": "DaiSo ToHop content",
+      "grade": 12,
+      "cluster": "Tổ hợp - xác suất",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Tổ hợp - xác suất",
+        "tổ hợp"
+      ],
+      "source_typ": "typst/exams/CD-DaiSo-ToHop-content.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-DaiSo-ToHop-content.typ",
+      "pdf": null,
+      "pdf_url": null,
+      "base_id": "CD-DaiSo-ToHop-content"
+    },
+    {
+      "id": "CD-DaiSo-ToHop",
+      "kind": "cd",
+      "title": "DaiSo ToHop",
+      "grade": 12,
+      "cluster": "Tổ hợp - xác suất",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Tổ hợp - xác suất",
+        "tổ hợp"
+      ],
+      "source_typ": "typst/exams/CD-DaiSo-ToHop.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-DaiSo-ToHop.typ",
+      "pdf": "typst/exams/CD-DaiSo-ToHop.pdf",
+      "pdf_url": null,
+      "base_id": "CD-DaiSo-ToHop"
+    },
+    {
+      "id": "CD-DoanhThu-ChiPhi-Thue",
+      "kind": "cd",
+      "title": "DoanhThu ChiPhi Thue",
+      "grade": 12,
+      "cluster": "Kinh tế - tối ưu",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Kinh tế - tối ưu",
+        "kinh tế"
+      ],
+      "source_typ": "typst/exams/CD-DoanhThu-ChiPhi-Thue.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-DoanhThu-ChiPhi-Thue.typ",
+      "pdf": "typst/exams/CD-DoanhThu-ChiPhi-Thue.pdf",
+      "pdf_url": null,
+      "base_id": "CD-DoanhThu-ChiPhi-Thue"
+    },
+    {
+      "id": "CD-DuongThang-Oxyz",
+      "kind": "cd",
+      "title": "DuongThang Oxyz",
+      "grade": 12,
+      "cluster": "Oxyz - hình học không gian",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Oxyz - hình học không gian",
+        "Oxyz"
+      ],
+      "source_typ": "typst/exams/CD-DuongThang-Oxyz.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-DuongThang-Oxyz.typ",
+      "pdf": null,
+      "pdf_url": null,
+      "base_id": "CD-DuongThang-Oxyz"
+    },
+    {
+      "id": "CD-FSM-Dem-To-Hop",
+      "kind": "cd",
+      "title": "FSM Dem To Hop",
+      "grade": 12,
+      "cluster": "Tổ hợp - xác suất",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Tổ hợp - xác suất",
+        "tổ hợp"
+      ],
+      "source_typ": "typst/exams/CD-FSM-Dem-To-Hop.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-FSM-Dem-To-Hop.typ",
+      "pdf": "typst/exams/CD-FSM-Dem-To-Hop.pdf",
+      "pdf_url": null,
+      "base_id": "CD-FSM-Dem-To-Hop"
+    },
+    {
+      "id": "CD-Goc-Khoang-Cach",
+      "kind": "cd",
+      "title": "Goc Khoang Cach",
+      "grade": 12,
+      "cluster": "Oxyz - hình học không gian",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Oxyz - hình học không gian"
+      ],
+      "source_typ": "typst/exams/CD-Goc-Khoang-Cach.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Goc-Khoang-Cach.typ",
+      "pdf": "typst/exams/CD-Goc-Khoang-Cach.pdf",
+      "pdf_url": null,
+      "base_id": "CD-Goc-Khoang-Cach"
+    },
+    {
+      "id": "CD-HHKG",
+      "kind": "cd",
+      "title": "HHKG",
+      "grade": 12,
+      "cluster": "Chuyên đề tổng hợp",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Chuyên đề tổng hợp"
+      ],
+      "source_typ": "typst/exams/CD-HHKG.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-HHKG.typ",
+      "pdf": "typst/exams/CD-HHKG.pdf",
+      "pdf_url": null,
+      "base_id": "CD-HHKG"
+    },
+    {
+      "id": "CD-Hai-con-bo",
+      "kind": "cd",
+      "title": "Hai con bo",
+      "grade": 12,
+      "cluster": "Chuyên đề tổng hợp",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Chuyên đề tổng hợp"
+      ],
+      "source_typ": "typst/exams/CD-Hai-con-bo.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Hai-con-bo.typ",
+      "pdf": "typst/exams/CD-Hai-con-bo.pdf",
+      "pdf_url": null,
+      "base_id": "CD-Hai-con-bo"
+    },
+    {
+      "id": "CD-HamSinh-GeneratingFunction-content",
+      "kind": "cd",
+      "title": "HamSinh GeneratingFunction content",
+      "grade": 12,
+      "cluster": "Chuyên đề tổng hợp",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Chuyên đề tổng hợp"
+      ],
+      "source_typ": "typst/exams/CD-HamSinh-GeneratingFunction-content.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-HamSinh-GeneratingFunction-content.typ",
+      "pdf": "typst/exams/CD-HamSinh-GeneratingFunction-content.pdf",
+      "pdf_url": null,
+      "base_id": "CD-HamSinh-GeneratingFunction-content"
+    },
+    {
+      "id": "CD-HamSinh-GeneratingFunction",
+      "kind": "cd",
+      "title": "HamSinh GeneratingFunction",
+      "grade": 12,
+      "cluster": "Chuyên đề tổng hợp",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Chuyên đề tổng hợp"
+      ],
+      "source_typ": "typst/exams/CD-HamSinh-GeneratingFunction.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-HamSinh-GeneratingFunction.typ",
+      "pdf": "typst/exams/CD-HamSinh-GeneratingFunction.pdf",
+      "pdf_url": null,
+      "base_id": "CD-HamSinh-GeneratingFunction"
+    },
+    {
+      "id": "CD-HamSinh-LoiBai-NangCao-content",
+      "kind": "cd",
+      "title": "HamSinh LoiBai NangCao content",
+      "grade": 12,
+      "cluster": "Chuyên đề tổng hợp",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Chuyên đề tổng hợp"
+      ],
+      "source_typ": "typst/exams/CD-HamSinh-LoiBai-NangCao-content.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-HamSinh-LoiBai-NangCao-content.typ",
+      "pdf": null,
+      "pdf_url": null,
+      "base_id": "CD-HamSinh-LoiBai-NangCao-content"
+    },
+    {
+      "id": "CD-HamSinh-LoiBai-NangCao",
+      "kind": "cd",
+      "title": "HamSinh LoiBai NangCao",
+      "grade": 12,
+      "cluster": "Chuyên đề tổng hợp",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Chuyên đề tổng hợp"
+      ],
+      "source_typ": "typst/exams/CD-HamSinh-LoiBai-NangCao.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-HamSinh-LoiBai-NangCao.typ",
+      "pdf": "typst/exams/CD-HamSinh-LoiBai-NangCao.pdf",
+      "pdf_url": null,
+      "base_id": "CD-HamSinh-LoiBai-NangCao"
+    },
+    {
+      "id": "CD-HamSinh-TronBo",
+      "kind": "cd",
+      "title": "HamSinh TronBo",
+      "grade": 12,
+      "cluster": "Chuyên đề tổng hợp",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Chuyên đề tổng hợp"
+      ],
+      "source_typ": "typst/exams/CD-HamSinh-TronBo.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-HamSinh-TronBo.typ",
+      "pdf": "typst/exams/CD-HamSinh-TronBo.pdf",
+      "pdf_url": null,
+      "base_id": "CD-HamSinh-TronBo"
+    },
+    {
+      "id": "CD-KhaoSat-HamSo-ThucTe",
+      "kind": "cd",
+      "title": "KhaoSat HamSo ThucTe",
+      "grade": 12,
+      "cluster": "Giải tích thực tế",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Giải tích thực tế",
+        "đạo hàm"
+      ],
+      "source_typ": "typst/exams/CD-KhaoSat-HamSo-ThucTe.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-KhaoSat-HamSo-ThucTe.typ",
+      "pdf": "typst/exams/CD-KhaoSat-HamSo-ThucTe.pdf",
+      "pdf_url": null,
+      "base_id": "CD-KhaoSat-HamSo-ThucTe"
+    },
+    {
+      "id": "CD-KhoangCach-2DuongCong",
+      "kind": "cd",
+      "title": "KhoangCach 2DuongCong",
+      "grade": 12,
+      "cluster": "Hình học khó",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Hình học khó"
+      ],
+      "source_typ": "typst/exams/CD-KhoangCach-2DuongCong.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-KhoangCach-2DuongCong.typ",
+      "pdf": "typst/exams/CD-KhoangCach-2DuongCong.pdf",
+      "pdf_url": null,
+      "base_id": "CD-KhoangCach-2DuongCong"
+    },
+    {
+      "id": "CD-Kinh-Te-Tich-Phan",
+      "kind": "cd",
+      "title": "Kinh Te Tich Phan",
+      "grade": 12,
+      "cluster": "Kinh tế - tối ưu",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Kinh tế - tối ưu",
+        "kinh tế"
+      ],
+      "source_typ": "typst/exams/CD-Kinh-Te-Tich-Phan.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Kinh-Te-Tich-Phan.typ",
+      "pdf": "typst/exams/CD-Kinh-Te-Tich-Phan.pdf",
+      "pdf_url": null,
+      "base_id": "CD-Kinh-Te-Tich-Phan"
+    },
+    {
+      "id": "CD-LaiSuat",
+      "kind": "cd",
+      "title": "LaiSuat",
+      "grade": 12,
+      "cluster": "Kinh tế - tối ưu",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Kinh tế - tối ưu",
+        "kinh tế"
+      ],
+      "source_typ": "typst/exams/CD-LaiSuat.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-LaiSuat.typ",
+      "pdf": "typst/exams/CD-LaiSuat.pdf",
+      "pdf_url": null,
+      "base_id": "CD-LaiSuat"
+    },
+    {
+      "id": "CD-Lorenz-Gini",
+      "kind": "cd",
+      "title": "Lorenz Gini",
+      "grade": 12,
+      "cluster": "Kinh tế - tối ưu",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Kinh tế - tối ưu",
+        "tích phân"
+      ],
+      "source_typ": "typst/exams/CD-Lorenz-Gini.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Lorenz-Gini.typ",
+      "pdf": "typst/exams/CD-Lorenz-Gini.pdf",
+      "pdf_url": null,
+      "base_id": "CD-Lorenz-Gini"
+    },
+    {
+      "id": "CD-MatCau",
+      "kind": "cd",
+      "title": "MatCau",
+      "grade": 12,
+      "cluster": "Oxyz - hình học không gian",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Oxyz - hình học không gian",
+        "Oxyz"
+      ],
+      "source_typ": "typst/exams/CD-MatCau.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-MatCau.typ",
+      "pdf": "typst/exams/CD-MatCau.pdf",
+      "pdf_url": null,
+      "base_id": "CD-MatCau"
+    },
+    {
+      "id": "CD-MatPhong-Oxyz-ThucTe",
+      "kind": "cd",
+      "title": "MatPhong Oxyz ThucTe",
+      "grade": 12,
+      "cluster": "Oxyz - hình học không gian",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Oxyz - hình học không gian",
+        "Oxyz"
+      ],
+      "source_typ": "typst/exams/CD-MatPhong-Oxyz-ThucTe.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-MatPhong-Oxyz-ThucTe.typ",
+      "pdf": "typst/exams/CD-MatPhong-Oxyz-ThucTe.pdf",
+      "pdf_url": null,
+      "base_id": "CD-MatPhong-Oxyz-ThucTe"
+    },
+    {
+      "id": "CD-NangSuat-NhaMay-ToiUu",
+      "kind": "cd",
+      "title": "NangSuat NhaMay ToiUu",
+      "grade": 12,
+      "cluster": "Kinh tế - tối ưu",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Kinh tế - tối ưu",
+        "đạo hàm",
+        "kinh tế"
+      ],
+      "source_typ": "typst/exams/CD-NangSuat-NhaMay-ToiUu.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-NangSuat-NhaMay-ToiUu.typ",
+      "pdf": "typst/exams/CD-NangSuat-NhaMay-ToiUu.pdf",
+      "pdf_url": null,
+      "base_id": "CD-NangSuat-NhaMay-ToiUu"
+    },
+    {
+      "id": "CD-NguyenHam-ThucTe",
+      "kind": "cd",
+      "title": "NguyenHam ThucTe",
+      "grade": 12,
+      "cluster": "Giải tích thực tế",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Giải tích thực tế",
+        "tích phân"
+      ],
+      "source_typ": "typst/exams/CD-NguyenHam-ThucTe.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-NguyenHam-ThucTe.typ",
+      "pdf": "typst/exams/CD-NguyenHam-ThucTe.pdf",
+      "pdf_url": null,
+      "base_id": "CD-NguyenHam-ThucTe"
+    },
+    {
+      "id": "CD-Oxyz-ChuyenDong-CamBien",
+      "kind": "cd",
+      "title": "Oxyz ChuyenDong CamBien",
+      "grade": 12,
+      "cluster": "Oxyz - hình học không gian",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Oxyz - hình học không gian",
+        "Oxyz"
+      ],
+      "source_typ": "typst/exams/CD-Oxyz-ChuyenDong-CamBien.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Oxyz-ChuyenDong-CamBien.typ",
+      "pdf": "typst/exams/CD-Oxyz-ChuyenDong-CamBien.pdf",
+      "pdf_url": null,
+      "base_id": "CD-Oxyz-ChuyenDong-CamBien"
+    },
+    {
+      "id": "CD-Oxyz-Min-Max-20-Mo-Hinh",
+      "kind": "cd",
+      "title": "Oxyz Min Max 20 Mo Hinh",
+      "grade": 12,
+      "cluster": "Oxyz - hình học không gian",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Oxyz - hình học không gian",
+        "Oxyz",
+        "VDC"
+      ],
+      "source_typ": "typst/exams/CD-Oxyz-Min-Max-20-Mo-Hinh.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Oxyz-Min-Max-20-Mo-Hinh.typ",
+      "pdf": null,
+      "pdf_url": null,
+      "base_id": "CD-Oxyz-Min-Max-20-Mo-Hinh"
+    },
+    {
+      "id": "CD-Oxyz-VectoHuong-DiChuyen",
+      "kind": "cd",
+      "title": "Oxyz VectoHuong DiChuyen",
+      "grade": 12,
+      "cluster": "Oxyz - hình học không gian",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Oxyz - hình học không gian",
+        "Oxyz"
+      ],
+      "source_typ": "typst/exams/CD-Oxyz-VectoHuong-DiChuyen.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Oxyz-VectoHuong-DiChuyen.typ",
+      "pdf": "typst/exams/CD-Oxyz-VectoHuong-DiChuyen.pdf",
+      "pdf_url": null,
+      "base_id": "CD-Oxyz-VectoHuong-DiChuyen"
+    },
+    {
+      "id": "CD-Parabol",
+      "kind": "cd",
+      "title": "Parabol",
+      "grade": 12,
+      "cluster": "Giải tích thực tế",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Giải tích thực tế"
+      ],
+      "source_typ": "typst/exams/CD-Parabol.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Parabol.typ",
+      "pdf": "typst/exams/CD-Parabol.pdf",
+      "pdf_url": null,
+      "base_id": "CD-Parabol"
+    },
+    {
+      "id": "CD-PhanPhoi-4TruongHop-DeLuyen",
+      "kind": "cd",
+      "title": "PhanPhoi 4TruongHop DeLuyen",
+      "grade": 12,
+      "cluster": "Tổ hợp - xác suất",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Tổ hợp - xác suất",
+        "xác suất"
+      ],
+      "source_typ": "typst/exams/CD-PhanPhoi-4TruongHop-DeLuyen.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-PhanPhoi-4TruongHop-DeLuyen.typ",
+      "pdf": "typst/exams/CD-PhanPhoi-4TruongHop-DeLuyen.pdf",
+      "pdf_url": null,
+      "base_id": "CD-PhanPhoi-4TruongHop-DeLuyen"
+    },
+    {
+      "id": "CD-PhanPhoi-4TruongHop-OnNhanh",
+      "kind": "cd",
+      "title": "PhanPhoi 4TruongHop OnNhanh",
+      "grade": 12,
+      "cluster": "Tổ hợp - xác suất",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Tổ hợp - xác suất",
+        "xác suất"
+      ],
+      "source_typ": "typst/exams/CD-PhanPhoi-4TruongHop-OnNhanh.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-PhanPhoi-4TruongHop-OnNhanh.typ",
+      "pdf": "typst/exams/CD-PhanPhoi-4TruongHop-OnNhanh.pdf",
+      "pdf_url": null,
+      "base_id": "CD-PhanPhoi-4TruongHop-OnNhanh"
+    },
+    {
+      "id": "CD-PhanPhoi-4TruongHop",
+      "kind": "cd",
+      "title": "PhanPhoi 4TruongHop",
+      "grade": 12,
+      "cluster": "Tổ hợp - xác suất",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Tổ hợp - xác suất",
+        "xác suất"
+      ],
+      "source_typ": "typst/exams/CD-PhanPhoi-4TruongHop.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-PhanPhoi-4TruongHop.typ",
+      "pdf": "typst/exams/CD-PhanPhoi-4TruongHop.pdf",
+      "pdf_url": null,
+      "base_id": "CD-PhanPhoi-4TruongHop"
+    },
+    {
+      "id": "CD-QuyDaoTron-KhoangCach",
+      "kind": "cd",
+      "title": "QuyDaoTron KhoangCach",
+      "grade": 12,
+      "cluster": "Chuyên đề tổng hợp",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Chuyên đề tổng hợp"
+      ],
+      "source_typ": "typst/exams/CD-QuyDaoTron-KhoangCach.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-QuyDaoTron-KhoangCach.typ",
+      "pdf": "typst/exams/CD-QuyDaoTron-KhoangCach.pdf",
+      "pdf_url": null,
+      "base_id": "CD-QuyDaoTron-KhoangCach"
+    },
+    {
+      "id": "CD-QuyHoachDong-DemDuongDi",
+      "kind": "cd",
+      "title": "QuyHoachDong DemDuongDi",
+      "grade": 12,
+      "cluster": "Kinh tế - tối ưu",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Kinh tế - tối ưu",
+        "tổ hợp"
+      ],
+      "source_typ": "typst/exams/CD-QuyHoachDong-DemDuongDi.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-QuyHoachDong-DemDuongDi.typ",
+      "pdf": null,
+      "pdf_url": null,
+      "base_id": "CD-QuyHoachDong-DemDuongDi"
+    },
+    {
+      "id": "CD-QuyHoachTuyenTinh",
+      "kind": "cd",
+      "title": "QuyHoachTuyenTinh",
+      "grade": 12,
+      "cluster": "Kinh tế - tối ưu",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Kinh tế - tối ưu"
+      ],
+      "source_typ": "typst/exams/CD-QuyHoachTuyenTinh.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-QuyHoachTuyenTinh.typ",
+      "pdf": "typst/exams/CD-QuyHoachTuyenTinh.pdf",
+      "pdf_url": null,
+      "base_id": "CD-QuyHoachTuyenTinh"
+    },
+    {
+      "id": "CD-SoDoCay-XacSuat-TroChoi",
+      "kind": "cd",
+      "title": "SoDoCay XacSuat TroChoi",
+      "grade": 12,
+      "cluster": "Tổ hợp - xác suất",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Tổ hợp - xác suất",
+        "xác suất"
+      ],
+      "source_typ": "typst/exams/CD-SoDoCay-XacSuat-TroChoi.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-SoDoCay-XacSuat-TroChoi.typ",
+      "pdf": "typst/exams/CD-SoDoCay-XacSuat-TroChoi.pdf",
+      "pdf_url": null,
+      "base_id": "CD-SoDoCay-XacSuat-TroChoi"
+    },
+    {
+      "id": "CD-SuTiepXuc",
+      "kind": "cd",
+      "title": "SuTiepXuc",
+      "grade": 12,
+      "cluster": "Hình học khó",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Hình học khó"
+      ],
+      "source_typ": "typst/exams/CD-SuTiepXuc.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-SuTiepXuc.typ",
+      "pdf": "typst/exams/CD-SuTiepXuc.pdf",
+      "pdf_url": null,
+      "base_id": "CD-SuTiepXuc"
+    },
+    {
+      "id": "CD-Sự-Tiếp-Xúc-2-Đường-Cong",
+      "kind": "cd",
+      "title": "Sự Tiếp Xúc 2 Đường Cong",
+      "grade": 12,
+      "cluster": "Hình học khó",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Hình học khó"
+      ],
+      "source_typ": "typst/exams/CD-Sự-Tiếp-Xúc-2-Đường-Cong.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-S%E1%BB%B1-Ti%E1%BA%BFp-X%C3%BAc-2-%C4%90%C6%B0%E1%BB%9Dng-Cong.typ",
+      "pdf": "typst/exams/CD-Sự-Tiếp-Xúc-2-Đường-Cong.pdf",
+      "pdf_url": "https://raw.githubusercontent.com/sangnhc87/conictypst/main/typst/exams/CD-S%E1%BB%B1-Ti%E1%BA%BFp-X%C3%BAc-2-%C4%90%C6%B0%E1%BB%9Dng-Cong.pdf",
+      "base_id": "CD-Sự-Tiếp-Xúc-2-Đường-Cong"
+    },
+    {
+      "id": "CD-Tang-Giam-LienTuc-DeLuyen",
+      "kind": "cd",
+      "title": "Tang Giam LienTuc DeLuyen",
+      "grade": 12,
+      "cluster": "Giải tích thực tế",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Giải tích thực tế",
+        "đạo hàm"
+      ],
+      "source_typ": "typst/exams/CD-Tang-Giam-LienTuc-DeLuyen.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Tang-Giam-LienTuc-DeLuyen.typ",
+      "pdf": "typst/exams/CD-Tang-Giam-LienTuc-DeLuyen.pdf",
+      "pdf_url": null,
+      "base_id": "CD-Tang-Giam-LienTuc-DeLuyen"
+    },
+    {
+      "id": "CD-Tang-Giam-LienTuc-OnNhanh",
+      "kind": "cd",
+      "title": "Tang Giam LienTuc OnNhanh",
+      "grade": 12,
+      "cluster": "Giải tích thực tế",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Giải tích thực tế",
+        "đạo hàm"
+      ],
+      "source_typ": "typst/exams/CD-Tang-Giam-LienTuc-OnNhanh.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Tang-Giam-LienTuc-OnNhanh.typ",
+      "pdf": "typst/exams/CD-Tang-Giam-LienTuc-OnNhanh.pdf",
+      "pdf_url": null,
+      "base_id": "CD-Tang-Giam-LienTuc-OnNhanh"
+    },
+    {
+      "id": "CD-Tang-Giam-LienTuc",
+      "kind": "cd",
+      "title": "Tang Giam LienTuc",
+      "grade": 12,
+      "cluster": "Giải tích thực tế",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Giải tích thực tế",
+        "đạo hàm"
+      ],
+      "source_typ": "typst/exams/CD-Tang-Giam-LienTuc.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Tang-Giam-LienTuc.typ",
+      "pdf": "typst/exams/CD-Tang-Giam-LienTuc.pdf",
+      "pdf_url": null,
+      "base_id": "CD-Tang-Giam-LienTuc"
+    },
+    {
+      "id": "CD-Thiet-Dien-Parabol-Hinh-Non",
+      "kind": "cd",
+      "title": "Thiet Dien Parabol Hinh Non",
+      "grade": 12,
+      "cluster": "Giải tích thực tế",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Giải tích thực tế"
+      ],
+      "source_typ": "typst/exams/CD-Thiet-Dien-Parabol-Hinh-Non.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Thiet-Dien-Parabol-Hinh-Non.typ",
+      "pdf": "typst/exams/CD-Thiet-Dien-Parabol-Hinh-Non.pdf",
+      "pdf_url": null,
+      "base_id": "CD-Thiet-Dien-Parabol-Hinh-Non"
+    },
+    {
+      "id": "CD-ThongKe-Chan9-10",
+      "kind": "cd",
+      "title": "ThongKe Chan9 10",
+      "grade": 12,
+      "cluster": "Chuyên đề tổng hợp",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Chuyên đề tổng hợp"
+      ],
+      "source_typ": "typst/exams/CD-ThongKe-Chan9-10.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-ThongKe-Chan9-10.typ",
+      "pdf": "typst/exams/CD-ThongKe-Chan9-10.pdf",
+      "pdf_url": null,
+      "base_id": "CD-ThongKe-Chan9-10"
+    },
+    {
+      "id": "CD-TichPhan-TocDo-DoanhThu",
+      "kind": "cd",
+      "title": "TichPhan TocDo DoanhThu",
+      "grade": 12,
+      "cluster": "Kinh tế - tối ưu",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Kinh tế - tối ưu",
+        "tích phân",
+        "kinh tế"
+      ],
+      "source_typ": "typst/exams/CD-TichPhan-TocDo-DoanhThu.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-TichPhan-TocDo-DoanhThu.typ",
+      "pdf": "typst/exams/CD-TichPhan-TocDo-DoanhThu.pdf",
+      "pdf_url": null,
+      "base_id": "CD-TichPhan-TocDo-DoanhThu"
+    },
+    {
+      "id": "CD-TichPhan-UngDung-Chan9-10",
+      "kind": "cd",
+      "title": "TichPhan UngDung Chan9 10",
+      "grade": 12,
+      "cluster": "Giải tích thực tế",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Giải tích thực tế",
+        "tích phân"
+      ],
+      "source_typ": "typst/exams/CD-TichPhan-UngDung-Chan9-10.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-TichPhan-UngDung-Chan9-10.typ",
+      "pdf": "typst/exams/CD-TichPhan-UngDung-Chan9-10.pdf",
+      "pdf_url": null,
+      "base_id": "CD-TichPhan-UngDung-Chan9-10"
+    },
+    {
+      "id": "CD-TiemCan-ThucTe",
+      "kind": "cd",
+      "title": "TiemCan ThucTe",
+      "grade": 12,
+      "cluster": "Giải tích thực tế",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Giải tích thực tế",
+        "đạo hàm"
+      ],
+      "source_typ": "typst/exams/CD-TiemCan-ThucTe.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-TiemCan-ThucTe.typ",
+      "pdf": "typst/exams/CD-TiemCan-ThucTe.pdf",
+      "pdf_url": null,
+      "base_id": "CD-TiemCan-ThucTe"
+    },
+    {
+      "id": "CD-ToHop-XacSuat-ChiaPhong",
+      "kind": "cd",
+      "title": "ToHop XacSuat ChiaPhong",
+      "grade": 12,
+      "cluster": "Tổ hợp - xác suất",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Tổ hợp - xác suất",
+        "xác suất",
+        "tổ hợp"
+      ],
+      "source_typ": "typst/exams/CD-ToHop-XacSuat-ChiaPhong.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-ToHop-XacSuat-ChiaPhong.typ",
+      "pdf": "typst/exams/CD-ToHop-XacSuat-ChiaPhong.pdf",
+      "pdf_url": null,
+      "base_id": "CD-ToHop-XacSuat-ChiaPhong"
+    },
+    {
+      "id": "CD-ToHop-XacSuat-GheNgoi",
+      "kind": "cd",
+      "title": "ToHop XacSuat GheNgoi",
+      "grade": 12,
+      "cluster": "Tổ hợp - xác suất",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Tổ hợp - xác suất",
+        "xác suất",
+        "tổ hợp"
+      ],
+      "source_typ": "typst/exams/CD-ToHop-XacSuat-GheNgoi.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-ToHop-XacSuat-GheNgoi.typ",
+      "pdf": "typst/exams/CD-ToHop-XacSuat-GheNgoi.pdf",
+      "pdf_url": null,
+      "base_id": "CD-ToHop-XacSuat-GheNgoi"
+    },
+    {
+      "id": "CD-ToMau",
+      "kind": "cd",
+      "title": "ToMau",
+      "grade": 12,
+      "cluster": "Tổ hợp - xác suất",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Tổ hợp - xác suất",
+        "tổ hợp"
+      ],
+      "source_typ": "typst/exams/CD-ToMau.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-ToMau.typ",
+      "pdf": "typst/exams/CD-ToMau.pdf",
+      "pdf_url": null,
+      "base_id": "CD-ToMau"
+    },
+    {
+      "id": "CD-ToiUu-KinhTe-DaDieuKien-DeLuyen",
+      "kind": "cd",
+      "title": "ToiUu KinhTe DaDieuKien DeLuyen",
+      "grade": 12,
+      "cluster": "Chuyên đề tổng hợp",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Chuyên đề tổng hợp",
+        "đạo hàm"
+      ],
+      "source_typ": "typst/exams/CD-ToiUu-KinhTe-DaDieuKien-DeLuyen.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-ToiUu-KinhTe-DaDieuKien-DeLuyen.typ",
+      "pdf": "typst/exams/CD-ToiUu-KinhTe-DaDieuKien-DeLuyen.pdf",
+      "pdf_url": null,
+      "base_id": "CD-ToiUu-KinhTe-DaDieuKien-DeLuyen"
+    },
+    {
+      "id": "CD-ToiUu-KinhTe-DaDieuKien",
+      "kind": "cd",
+      "title": "ToiUu KinhTe DaDieuKien",
+      "grade": 12,
+      "cluster": "Chuyên đề tổng hợp",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Chuyên đề tổng hợp",
+        "đạo hàm"
+      ],
+      "source_typ": "typst/exams/CD-ToiUu-KinhTe-DaDieuKien.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-ToiUu-KinhTe-DaDieuKien.typ",
+      "pdf": "typst/exams/CD-ToiUu-KinhTe-DaDieuKien.pdf",
+      "pdf_url": null,
+      "base_id": "CD-ToiUu-KinhTe-DaDieuKien"
+    },
+    {
+      "id": "CD-TongHop-TatCa-ChuyenDe",
+      "kind": "cd",
+      "title": "TongHop TatCa ChuyenDe",
+      "grade": 12,
+      "cluster": "Chuyên đề tổng hợp",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Chuyên đề tổng hợp"
+      ],
+      "source_typ": "typst/exams/CD-TongHop-TatCa-ChuyenDe.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-TongHop-TatCa-ChuyenDe.typ",
+      "pdf": "typst/exams/CD-TongHop-TatCa-ChuyenDe.pdf",
+      "pdf_url": null,
+      "base_id": "CD-TongHop-TatCa-ChuyenDe"
+    },
+    {
+      "id": "CD-TongHop-YTuong-DeThi",
+      "kind": "cd",
+      "title": "TongHop YTuong DeThi",
+      "grade": 12,
+      "cluster": "Chuyên đề tổng hợp",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Chuyên đề tổng hợp"
+      ],
+      "source_typ": "typst/exams/CD-TongHop-YTuong-DeThi.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-TongHop-YTuong-DeThi.typ",
+      "pdf": null,
+      "pdf_url": null,
+      "base_id": "CD-TongHop-YTuong-DeThi"
+    },
+    {
+      "id": "CD-TrangThai-ToHop-XacSuat",
+      "kind": "cd",
+      "title": "TrangThai ToHop XacSuat",
+      "grade": 12,
+      "cluster": "Tổ hợp - xác suất",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Tổ hợp - xác suất",
+        "xác suất",
+        "tổ hợp"
+      ],
+      "source_typ": "typst/exams/CD-TrangThai-ToHop-XacSuat.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-TrangThai-ToHop-XacSuat.typ",
+      "pdf": "typst/exams/CD-TrangThai-ToHop-XacSuat.pdf",
+      "pdf_url": null,
+      "base_id": "CD-TrangThai-ToHop-XacSuat"
+    },
+    {
+      "id": "CD-Treo-Vật",
+      "kind": "cd",
+      "title": "Treo Vật",
+      "grade": 12,
+      "cluster": "Chuyên đề tổng hợp",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Chuyên đề tổng hợp"
+      ],
+      "source_typ": "typst/exams/CD-Treo-Vật.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Treo-V%E1%BA%ADt.typ",
+      "pdf": "typst/exams/CD-Treo-Vật.pdf",
+      "pdf_url": "https://raw.githubusercontent.com/sangnhc87/conictypst/main/typst/exams/CD-Treo-V%E1%BA%ADt.pdf",
+      "base_id": "CD-Treo-Vật"
+    },
+    {
+      "id": "CD-Vật-Chắn-Tầm-Nhìn",
+      "kind": "cd",
+      "title": "Vật Chắn Tầm Nhìn",
+      "grade": 12,
+      "cluster": "Chuyên đề tổng hợp",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Chuyên đề tổng hợp"
+      ],
+      "source_typ": "typst/exams/CD-Vật-Chắn-Tầm-Nhìn.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-V%E1%BA%ADt-Ch%E1%BA%AFn-T%E1%BA%A7m-Nh%C3%ACn.typ",
+      "pdf": null,
+      "pdf_url": null,
+      "base_id": "CD-Vật-Chắn-Tầm-Nhìn"
+    },
+    {
+      "id": "CD-Xac-Suất-Bayes-Tim-x",
+      "kind": "cd",
+      "title": "Xac Suất Bayes Tim x",
+      "grade": 12,
+      "cluster": "Tổ hợp - xác suất",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Tổ hợp - xác suất",
+        "xác suất"
+      ],
+      "source_typ": "typst/exams/CD-Xac-Suất-Bayes-Tim-x.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Xac-Su%E1%BA%A5t-Bayes-Tim-x.typ",
+      "pdf": "typst/exams/CD-Xac-Suất-Bayes-Tim-x.pdf",
+      "pdf_url": "https://raw.githubusercontent.com/sangnhc87/conictypst/main/typst/exams/CD-Xac-Su%E1%BA%A5t-Bayes-Tim-x.pdf",
+      "base_id": "CD-Xac-Suất-Bayes-Tim-x"
+    },
+    {
+      "id": "CD-XacSuat-DieuKien-Gia",
+      "kind": "cd",
+      "title": "XacSuat DieuKien Gia",
+      "grade": 12,
+      "cluster": "Tổ hợp - xác suất",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Tổ hợp - xác suất",
+        "xác suất"
+      ],
+      "source_typ": "typst/exams/CD-XacSuat-DieuKien-Gia.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-XacSuat-DieuKien-Gia.typ",
+      "pdf": "typst/exams/CD-XacSuat-DieuKien-Gia.pdf",
+      "pdf_url": null,
+      "base_id": "CD-XacSuat-DieuKien-Gia"
+    },
+    {
+      "id": "CD-XacSuat-DieuKien-PhanPhoi",
+      "kind": "cd",
+      "title": "XacSuat DieuKien PhanPhoi",
+      "grade": 12,
+      "cluster": "Tổ hợp - xác suất",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Tổ hợp - xác suất",
+        "xác suất"
+      ],
+      "source_typ": "typst/exams/CD-XacSuat-DieuKien-PhanPhoi.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-XacSuat-DieuKien-PhanPhoi.typ",
+      "pdf": "typst/exams/CD-XacSuat-DieuKien-PhanPhoi.pdf",
+      "pdf_url": null,
+      "base_id": "CD-XacSuat-DieuKien-PhanPhoi"
+    },
+    {
+      "id": "CD-XepGhe-3Cot",
+      "kind": "cd",
+      "title": "XepGhe 3Cot",
+      "grade": 12,
+      "cluster": "Tổ hợp - xác suất",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Tổ hợp - xác suất",
+        "tổ hợp"
+      ],
+      "source_typ": "typst/exams/CD-XepGhe-3Cot.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-XepGhe-3Cot.typ",
+      "pdf": "typst/exams/CD-XepGhe-3Cot.pdf",
+      "pdf_url": null,
+      "base_id": "CD-XepGhe-3Cot"
+    },
+    {
+      "id": "CD-XepGhe-KhongKe",
+      "kind": "cd",
+      "title": "XepGhe KhongKe",
+      "grade": 12,
+      "cluster": "Tổ hợp - xác suất",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Tổ hợp - xác suất",
+        "tổ hợp"
+      ],
+      "source_typ": "typst/exams/CD-XepGhe-KhongKe.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-XepGhe-KhongKe.typ",
+      "pdf": "typst/exams/CD-XepGhe-KhongKe.pdf",
+      "pdf_url": null,
+      "base_id": "CD-XepGhe-KhongKe"
+    },
+    {
+      "id": "CD-XepGhe-Nang-Cao",
+      "kind": "cd",
+      "title": "XepGhe Nang Cao",
+      "grade": 12,
+      "cluster": "Tổ hợp - xác suất",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Tổ hợp - xác suất",
+        "tổ hợp",
+        "VDC"
+      ],
+      "source_typ": "typst/exams/CD-XepGhe-Nang-Cao.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-XepGhe-Nang-Cao.typ",
+      "pdf": "typst/exams/CD-XepGhe-Nang-Cao.pdf",
+      "pdf_url": null,
+      "base_id": "CD-XepGhe-Nang-Cao"
+    },
+    {
+      "id": "CD-min-2-DuongTron-3D",
+      "kind": "cd",
+      "title": "min 2 DuongTron 3D",
+      "grade": 12,
+      "cluster": "Hình học khó",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Hình học khó",
+        "VDC"
+      ],
+      "source_typ": "typst/exams/CD-min-2-DuongTron-3D.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-min-2-DuongTron-3D.typ",
+      "pdf": "typst/exams/CD-min-2-DuongTron-3D.pdf",
+      "pdf_url": null,
+      "base_id": "CD-min-2-DuongTron-3D"
+    },
+    {
+      "id": "CD-min-2-DuongTron-ChuyenSau",
+      "kind": "cd",
+      "title": "min 2 DuongTron ChuyenSau",
+      "grade": 12,
+      "cluster": "Hình học khó",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Hình học khó",
+        "VDC"
+      ],
+      "source_typ": "typst/exams/CD-min-2-DuongTron-ChuyenSau.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-min-2-DuongTron-ChuyenSau.typ",
+      "pdf": "typst/exams/CD-min-2-DuongTron-ChuyenSau.pdf",
+      "pdf_url": null,
+      "base_id": "CD-min-2-DuongTron-ChuyenSau"
+    },
+    {
+      "id": "CD-min-MatCau-DuongTron-3D",
+      "kind": "cd",
+      "title": "min MatCau DuongTron 3D",
+      "grade": 12,
+      "cluster": "Oxyz - hình học không gian",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Oxyz - hình học không gian",
+        "Oxyz",
+        "VDC"
+      ],
+      "source_typ": "typst/exams/CD-min-MatCau-DuongTron-3D.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-min-MatCau-DuongTron-3D.typ",
+      "pdf": "typst/exams/CD-min-MatCau-DuongTron-3D.pdf",
+      "pdf_url": null,
+      "base_id": "CD-min-MatCau-DuongTron-3D"
+    },
+    {
+      "id": "CD-min-dt-dtron-3D",
+      "kind": "cd",
+      "title": "min dt dtron 3D",
+      "grade": 12,
+      "cluster": "Hình học khó",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Hình học khó",
+        "VDC"
+      ],
+      "source_typ": "typst/exams/CD-min-dt-dtron-3D.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-min-dt-dtron-3D.typ",
+      "pdf": "typst/exams/CD-min-dt-dtron-3D.pdf",
+      "pdf_url": null,
+      "base_id": "CD-min-dt-dtron-3D"
+    },
+    {
+      "id": "CD-min-max-DT-DuongTron",
+      "kind": "cd",
+      "title": "min max DT DuongTron",
+      "grade": 12,
+      "cluster": "Hình học khó",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Hình học khó",
+        "VDC"
+      ],
+      "source_typ": "typst/exams/CD-min-max-DT-DuongTron.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-min-max-DT-DuongTron.typ",
+      "pdf": "typst/exams/CD-min-max-DT-DuongTron.pdf",
+      "pdf_url": null,
+      "base_id": "CD-min-max-DT-DuongTron"
+    },
+    {
+      "id": "CD-tich-Phan-đọc lạ",
+      "kind": "cd",
+      "title": "tich Phan đọc lạ",
+      "grade": 12,
+      "cluster": "Chuyên đề tổng hợp",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Chuyên đề tổng hợp"
+      ],
+      "source_typ": "typst/exams/CD-tich-Phan-đọc lạ.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-tich-Phan-%C4%91%E1%BB%8Dc%20l%E1%BA%A1.typ",
+      "pdf": "typst/exams/CD-tich-Phan-đọc lạ.pdf",
+      "pdf_url": "https://raw.githubusercontent.com/sangnhc87/conictypst/main/typst/exams/CD-tich-Phan-%C4%91%E1%BB%8Dc%20l%E1%BA%A1.pdf",
+      "base_id": "CD-tich-Phan-đọc lạ"
+    },
+    {
+      "id": "CD-Đếm Nâng Cao",
+      "kind": "cd",
+      "title": "Đếm Nâng Cao",
+      "grade": 12,
+      "cluster": "Tổ hợp - xác suất",
+      "status": "draft",
+      "difficulty": null,
+      "tags": [
+        "Tổ hợp - xác suất",
+        "tổ hợp"
+      ],
+      "source_typ": "typst/exams/CD-Đếm Nâng Cao.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-%C4%90%E1%BA%BFm%20N%C3%A2ng%20Cao.typ",
+      "pdf": null,
+      "pdf_url": null,
+      "base_id": "CD-Đếm Nâng Cao"
+    },
+    {
+      "id": "beamer-12-bai-1-tinh-on-dieu-cuc-tri",
+      "kind": "beamer",
+      "title": "bai 1 tinh on dieu cuc tri",
+      "grade": 12,
+      "chapter": "Ứng dụng đạo hàm",
+      "lesson": 1,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Ứng dụng đạo hàm",
+        "Khối 12"
+      ],
+      "source_typ": "typst/beamer/beamer-12-bai-1-tinh-on-dieu-cuc-tri.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/beamer-12-bai-1-tinh-on-dieu-cuc-tri.typ",
+      "pdf": "typst/beamer/beamer-12-bai-1-tinh-on-dieu-cuc-tri.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-12-bai-1-tinh-on-dieu-cuc-tri.pdf",
+      "base_id": "beamer-12-bai-1-tinh-on-dieu-cuc-tri"
+    },
+    {
+      "id": "beamer-12-bai-10-khoang-bien-thien-tu-phan-vi",
+      "kind": "beamer",
+      "title": "bai 10 khoang bien thien tu phan vi",
+      "grade": 12,
+      "chapter": "Bài giảng",
+      "lesson": 10,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Bài giảng",
+        "Khối 12"
+      ],
+      "source_typ": "typst/beamer/beamer-12-bai-10-khoang-bien-thien-tu-phan-vi.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/beamer-12-bai-10-khoang-bien-thien-tu-phan-vi.typ",
+      "pdf": "typst/beamer/beamer-12-bai-10-khoang-bien-thien-tu-phan-vi.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-12-bai-10-khoang-bien-thien-tu-phan-vi.pdf",
+      "base_id": "beamer-12-bai-10-khoang-bien-thien-tu-phan-vi"
+    },
+    {
+      "id": "beamer-12-bai-11-phuong-sai-do-lech-chuan",
+      "kind": "beamer",
+      "title": "bai 11 phuong sai do lech chuan",
+      "grade": 12,
+      "chapter": "Bài giảng",
+      "lesson": 11,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Bài giảng",
+        "Khối 12"
+      ],
+      "source_typ": "typst/beamer/beamer-12-bai-11-phuong-sai-do-lech-chuan.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/beamer-12-bai-11-phuong-sai-do-lech-chuan.typ",
+      "pdf": "typst/beamer/beamer-12-bai-11-phuong-sai-do-lech-chuan.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-12-bai-11-phuong-sai-do-lech-chuan.pdf",
+      "base_id": "beamer-12-bai-11-phuong-sai-do-lech-chuan"
+    },
+    {
+      "id": "beamer-12-bai-2-gtln-gtnn-cua-ham-so",
+      "kind": "beamer",
+      "title": "bai 2 gtln gtnn cua ham so",
+      "grade": 12,
+      "chapter": "Ứng dụng đạo hàm",
+      "lesson": 2,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Ứng dụng đạo hàm",
+        "Khối 12"
+      ],
+      "source_typ": "typst/beamer/beamer-12-bai-2-gtln-gtnn-cua-ham-so.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/beamer-12-bai-2-gtln-gtnn-cua-ham-so.typ",
+      "pdf": "typst/beamer/beamer-12-bai-2-gtln-gtnn-cua-ham-so.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-12-bai-2-gtln-gtnn-cua-ham-so.pdf",
+      "base_id": "beamer-12-bai-2-gtln-gtnn-cua-ham-so"
+    },
+    {
+      "id": "beamer-12-bai-3-duong-tiem-can",
+      "kind": "beamer",
+      "title": "bai 3 duong tiem can",
+      "grade": 12,
+      "chapter": "Ứng dụng đạo hàm",
+      "lesson": 3,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Ứng dụng đạo hàm",
+        "Khối 12"
+      ],
+      "source_typ": "typst/beamer/beamer-12-bai-3-duong-tiem-can.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/beamer-12-bai-3-duong-tiem-can.typ",
+      "pdf": "typst/beamer/beamer-12-bai-3-duong-tiem-can.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-12-bai-3-duong-tiem-can.pdf",
+      "base_id": "beamer-12-bai-3-duong-tiem-can"
+    },
+    {
+      "id": "beamer-12-bai-4-khao-sat-ve-dothi",
+      "kind": "beamer",
+      "title": "bai 4 khao sat ve dothi",
+      "grade": 12,
+      "chapter": "Bài giảng",
+      "lesson": 4,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Bài giảng",
+        "Khối 12"
+      ],
+      "source_typ": "typst/beamer/beamer-12-bai-4-khao-sat-ve-dothi.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/beamer-12-bai-4-khao-sat-ve-dothi.typ",
+      "pdf": "typst/beamer/beamer-12-bai-4-khao-sat-ve-dothi.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-12-bai-4-khao-sat-ve-dothi.pdf",
+      "base_id": "beamer-12-bai-4-khao-sat-ve-dothi"
+    },
+    {
+      "id": "beamer-12-bai-5-ung-dung-thuc-tien",
+      "kind": "beamer",
+      "title": "bai 5 ung dung thuc tien",
+      "grade": 12,
+      "chapter": "Bài giảng",
+      "lesson": 5,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Bài giảng",
+        "Khối 12"
+      ],
+      "source_typ": "typst/beamer/beamer-12-bai-5-ung-dung-thuc-tien.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/beamer-12-bai-5-ung-dung-thuc-tien.typ",
+      "pdf": "typst/beamer/beamer-12-bai-5-ung-dung-thuc-tien.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-12-bai-5-ung-dung-thuc-tien.pdf",
+      "base_id": "beamer-12-bai-5-ung-dung-thuc-tien"
+    },
+    {
+      "id": "beamer-12-bai-6-tiep-tuyen-tuong-giao",
+      "kind": "beamer",
+      "title": "bai 6 tiep tuyen tuong giao",
+      "grade": 12,
+      "chapter": "Bài giảng",
+      "lesson": 6,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Bài giảng",
+        "Khối 12"
+      ],
+      "source_typ": "typst/beamer/beamer-12-bai-6-tiep-tuyen-tuong-giao.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/beamer-12-bai-6-tiep-tuyen-tuong-giao.typ",
+      "pdf": "typst/beamer/beamer-12-bai-6-tiep-tuyen-tuong-giao.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-12-bai-6-tiep-tuyen-tuong-giao.pdf",
+      "base_id": "beamer-12-bai-6-tiep-tuyen-tuong-giao"
+    },
+    {
+      "id": "beamer-12-bai-7-vecto-trong-khong-gian",
+      "kind": "beamer",
+      "title": "bai 7 vecto trong khong gian",
+      "grade": 12,
+      "chapter": "Bài giảng",
+      "lesson": 7,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Bài giảng",
+        "Khối 12"
+      ],
+      "source_typ": "typst/beamer/beamer-12-bai-7-vecto-trong-khong-gian.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/beamer-12-bai-7-vecto-trong-khong-gian.typ",
+      "pdf": "typst/beamer/beamer-12-bai-7-vecto-trong-khong-gian.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-12-bai-7-vecto-trong-khong-gian.pdf",
+      "base_id": "beamer-12-bai-7-vecto-trong-khong-gian"
+    },
+    {
+      "id": "beamer-12-bai-8-toa-do-vecto",
+      "kind": "beamer",
+      "title": "bai 8 toa do vecto",
+      "grade": 12,
+      "chapter": "Bài giảng",
+      "lesson": 8,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Bài giảng",
+        "Khối 12"
+      ],
+      "source_typ": "typst/beamer/beamer-12-bai-8-toa-do-vecto.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/beamer-12-bai-8-toa-do-vecto.typ",
+      "pdf": "typst/beamer/beamer-12-bai-8-toa-do-vecto.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-12-bai-8-toa-do-vecto.pdf",
+      "base_id": "beamer-12-bai-8-toa-do-vecto"
+    },
+    {
+      "id": "beamer-12-bai-9-phep-toan-vecto",
+      "kind": "beamer",
+      "title": "bai 9 phep toan vecto",
+      "grade": 12,
+      "chapter": "Bài giảng",
+      "lesson": 9,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Bài giảng",
+        "Khối 12"
+      ],
+      "source_typ": "typst/beamer/beamer-12-bai-9-phep-toan-vecto.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/beamer-12-bai-9-phep-toan-vecto.typ",
+      "pdf": "typst/beamer/beamer-12-bai-9-phep-toan-vecto.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-12-bai-9-phep-toan-vecto.pdf",
+      "base_id": "beamer-12-bai-9-phep-toan-vecto"
+    },
+    {
+      "id": "beamer-11-bai-1-goc-luong-giac",
+      "kind": "beamer",
+      "title": "bai 1 goc luong giac",
+      "grade": 11,
+      "chapter": "Lượng giác",
+      "lesson": 1,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Lượng giác",
+        "Khối 11"
+      ],
+      "source_typ": "typst/beamer/chuong1-luong-giac/beamer-11-bai-1-goc-luong-giac.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/chuong1-luong-giac/beamer-11-bai-1-goc-luong-giac.typ",
+      "pdf": "typst/beamer/chuong1-luong-giac/beamer-11-bai-1-goc-luong-giac.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-11-bai-1-goc-luong-giac.pdf",
+      "base_id": "beamer-11-bai-1-goc-luong-giac"
+    },
+    {
+      "id": "beamer-11-bai-13-dinh-ly-sin-cos",
+      "kind": "beamer",
+      "title": "bai 13 dinh ly sin cos",
+      "grade": 11,
+      "chapter": "Bài giảng",
+      "lesson": 13,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Bài giảng",
+        "Khối 11"
+      ],
+      "source_typ": "typst/beamer/chuong1-luong-giac/beamer-11-bai-13-dinh-ly-sin-cos.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/chuong1-luong-giac/beamer-11-bai-13-dinh-ly-sin-cos.typ",
+      "pdf": "typst/beamer/chuong1-luong-giac/beamer-11-bai-13-dinh-ly-sin-cos.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-11-bai-13-dinh-ly-sin-cos.pdf",
+      "base_id": "beamer-11-bai-13-dinh-ly-sin-cos"
+    },
+    {
+      "id": "beamer-11-bai-2-ham-so-luong-giac",
+      "kind": "beamer",
+      "title": "bai 2 ham so luong giac",
+      "grade": 11,
+      "chapter": "Lượng giác",
+      "lesson": 2,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Lượng giác",
+        "Khối 11"
+      ],
+      "source_typ": "typst/beamer/chuong1-luong-giac/beamer-11-bai-2-ham-so-luong-giac.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/chuong1-luong-giac/beamer-11-bai-2-ham-so-luong-giac.typ",
+      "pdf": "typst/beamer/chuong1-luong-giac/beamer-11-bai-2-ham-so-luong-giac.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-11-bai-2-ham-so-luong-giac.pdf",
+      "base_id": "beamer-11-bai-2-ham-so-luong-giac"
+    },
+    {
+      "id": "beamer-11-bai-3-phuong-trinh-luong-giac",
+      "kind": "beamer",
+      "title": "bai 3 phuong trinh luong giac",
+      "grade": 11,
+      "chapter": "Lượng giác",
+      "lesson": 3,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Lượng giác",
+        "Khối 11"
+      ],
+      "source_typ": "typst/beamer/chuong1-luong-giac/beamer-11-bai-3-phuong-trinh-luong-giac.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/chuong1-luong-giac/beamer-11-bai-3-phuong-trinh-luong-giac.typ",
+      "pdf": "typst/beamer/chuong1-luong-giac/beamer-11-bai-3-phuong-trinh-luong-giac.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-11-bai-3-phuong-trinh-luong-giac.pdf",
+      "base_id": "beamer-11-bai-3-phuong-trinh-luong-giac"
+    },
+    {
+      "id": "beamer-11-bai-4-cong-thuc-luong-giac",
+      "kind": "beamer",
+      "title": "bai 4 cong thuc luong giac",
+      "grade": 11,
+      "chapter": "Lượng giác",
+      "lesson": 4,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Lượng giác",
+        "Khối 11"
+      ],
+      "source_typ": "typst/beamer/chuong1-luong-giac/beamer-11-bai-4-cong-thuc-luong-giac.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/chuong1-luong-giac/beamer-11-bai-4-cong-thuc-luong-giac.typ",
+      "pdf": "typst/beamer/chuong1-luong-giac/beamer-11-bai-4-cong-thuc-luong-giac.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-11-bai-4-cong-thuc-luong-giac.pdf",
+      "base_id": "beamer-11-bai-4-cong-thuc-luong-giac"
+    },
+    {
+      "id": "beamer-11-bai-5-ung-dung-lien-mon",
+      "kind": "beamer",
+      "title": "bai 5 ung dung lien mon",
+      "grade": 11,
+      "chapter": "Bài giảng",
+      "lesson": 5,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Bài giảng",
+        "Khối 11"
+      ],
+      "source_typ": "typst/beamer/chuong1-luong-giac/beamer-11-bai-5-ung-dung-lien-mon.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/chuong1-luong-giac/beamer-11-bai-5-ung-dung-lien-mon.typ",
+      "pdf": "typst/beamer/chuong1-luong-giac/beamer-11-bai-5-ung-dung-lien-mon.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-11-bai-5-ung-dung-lien-mon.pdf",
+      "base_id": "beamer-11-bai-5-ung-dung-lien-mon"
+    },
+    {
+      "id": "beamer-11-bai-6-ham-tong-hop",
+      "kind": "beamer",
+      "title": "bai 6 ham tong hop",
+      "grade": 11,
+      "chapter": "Bài giảng",
+      "lesson": 6,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Bài giảng",
+        "Khối 11"
+      ],
+      "source_typ": "typst/beamer/chuong1-luong-giac/beamer-11-bai-6-ham-tong-hop.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/chuong1-luong-giac/beamer-11-bai-6-ham-tong-hop.typ",
+      "pdf": "typst/beamer/chuong1-luong-giac/beamer-11-bai-6-ham-tong-hop.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-11-bai-6-ham-tong-hop.pdf",
+      "base_id": "beamer-11-bai-6-ham-tong-hop"
+    },
+    {
+      "id": "beamer-11-bai-7-bat-phuong-trinh",
+      "kind": "beamer",
+      "title": "bai 7 bat phuong trinh",
+      "grade": 11,
+      "chapter": "Bài giảng",
+      "lesson": 7,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Bài giảng",
+        "Khối 11"
+      ],
+      "source_typ": "typst/beamer/chuong1-luong-giac/beamer-11-bai-7-bat-phuong-trinh.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/chuong1-luong-giac/beamer-11-bai-7-bat-phuong-trinh.typ",
+      "pdf": "typst/beamer/chuong1-luong-giac/beamer-11-bai-7-bat-phuong-trinh.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-11-bai-7-bat-phuong-trinh.pdf",
+      "base_id": "beamer-11-bai-7-bat-phuong-trinh"
+    },
+    {
+      "id": "beamer-11-c3-bai-1-day-so",
+      "kind": "beamer",
+      "title": "c3 bai 1 day so",
+      "grade": 11,
+      "chapter": "Dãy số",
+      "lesson": 1,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Dãy số",
+        "Khối 11"
+      ],
+      "source_typ": "typst/beamer/chuong3-day-so/beamer-11-c3-bai-1-day-so.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/chuong3-day-so/beamer-11-c3-bai-1-day-so.typ",
+      "pdf": "typst/beamer/chuong3-day-so/beamer-11-c3-bai-1-day-so.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-11-c3-bai-1-day-so.pdf",
+      "base_id": "beamer-11-c3-bai-1-day-so"
+    },
+    {
+      "id": "beamer-11-c3-bai-2-cap-so-cong",
+      "kind": "beamer",
+      "title": "c3 bai 2 cap so cong",
+      "grade": 11,
+      "chapter": "Dãy số",
+      "lesson": 2,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Dãy số",
+        "Khối 11"
+      ],
+      "source_typ": "typst/beamer/chuong3-day-so/beamer-11-c3-bai-2-cap-so-cong.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/chuong3-day-so/beamer-11-c3-bai-2-cap-so-cong.typ",
+      "pdf": "typst/beamer/chuong3-day-so/beamer-11-c3-bai-2-cap-so-cong.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-11-c3-bai-2-cap-so-cong.pdf",
+      "base_id": "beamer-11-c3-bai-2-cap-so-cong"
+    },
+    {
+      "id": "beamer-11-c3-bai-3-cap-so-nhan",
+      "kind": "beamer",
+      "title": "c3 bai 3 cap so nhan",
+      "grade": 11,
+      "chapter": "Dãy số",
+      "lesson": 3,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Dãy số",
+        "Khối 11"
+      ],
+      "source_typ": "typst/beamer/chuong3-day-so/beamer-11-c3-bai-3-cap-so-nhan.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/chuong3-day-so/beamer-11-c3-bai-3-cap-so-nhan.typ",
+      "pdf": "typst/beamer/chuong3-day-so/beamer-11-c3-bai-3-cap-so-nhan.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-11-c3-bai-3-cap-so-nhan.pdf",
+      "base_id": "beamer-11-c3-bai-3-cap-so-nhan"
+    },
+    {
+      "id": "beamer-12-bai-1-premium-test",
+      "kind": "beamer",
+      "title": "bai 1 premium test",
+      "grade": 12,
+      "chapter": "Bài giảng",
+      "lesson": 1,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Bài giảng",
+        "Khối 12"
+      ],
+      "source_typ": "typst/beamer/khoi-12/beamer-12-bai-1-premium-test.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/khoi-12/beamer-12-bai-1-premium-test.typ",
+      "pdf": "typst/beamer/khoi-12/beamer-12-bai-1-premium-test.pdf",
+      "pdf_url": "https://raw.githubusercontent.com/sangnhc87/conictypst/main/typst/beamer/khoi-12/beamer-12-bai-1-premium-test.pdf",
+      "base_id": "beamer-12-bai-1-premium-test"
+    },
+    {
+      "id": "beamer-12-bai-1-tinh-on-dieu-cuc-tri-premium",
+      "kind": "beamer",
+      "title": "bai 1 tinh on dieu cuc tri premium",
+      "grade": 12,
+      "chapter": "Ứng dụng đạo hàm",
+      "lesson": 1,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Ứng dụng đạo hàm",
+        "Khối 12"
+      ],
+      "source_typ": "typst/beamer/khoi-12/beamer-12-bai-1-tinh-on-dieu-cuc-tri-premium.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/khoi-12/beamer-12-bai-1-tinh-on-dieu-cuc-tri-premium.typ",
+      "pdf": "typst/beamer/khoi-12/beamer-12-bai-1-tinh-on-dieu-cuc-tri-premium.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-12-bai-1-tinh-on-dieu-cuc-tri-premium.pdf",
+      "base_id": "beamer-12-bai-1-tinh-on-dieu-cuc-tri-premium"
+    },
+    {
+      "id": "beamer-12-bai-1-tinh-on-dieu-cuc-tri--khoi-12",
+      "kind": "beamer",
+      "title": "bai 1 tinh on dieu cuc tri",
+      "grade": 12,
+      "chapter": "Ứng dụng đạo hàm",
+      "lesson": 1,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Ứng dụng đạo hàm",
+        "Khối 12"
+      ],
+      "source_typ": "typst/beamer/khoi-12/beamer-12-bai-1-tinh-on-dieu-cuc-tri.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/khoi-12/beamer-12-bai-1-tinh-on-dieu-cuc-tri.typ",
+      "pdf": "typst/beamer/khoi-12/beamer-12-bai-1-tinh-on-dieu-cuc-tri.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-12-bai-1-tinh-on-dieu-cuc-tri.pdf",
+      "base_id": "beamer-12-bai-1-tinh-on-dieu-cuc-tri"
+    },
+    {
+      "id": "beamer-11-mu-bai-1-luy-thua",
+      "kind": "beamer",
+      "title": "mu bai 1 luy thua",
+      "grade": 11,
+      "chapter": "Mũ - Logarit",
+      "lesson": 1,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Mũ - Logarit",
+        "Khối 11"
+      ],
+      "source_typ": "typst/beamer/mu-logarit/beamer-11-mu-bai-1-luy-thua.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/mu-logarit/beamer-11-mu-bai-1-luy-thua.typ",
+      "pdf": "typst/beamer/mu-logarit/beamer-11-mu-bai-1-luy-thua.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-11-mu-bai-1-luy-thua.pdf",
+      "base_id": "beamer-11-mu-bai-1-luy-thua"
+    },
+    {
+      "id": "beamer-11-mu-bai-2-logarit",
+      "kind": "beamer",
+      "title": "mu bai 2 logarit",
+      "grade": 11,
+      "chapter": "Mũ - Logarit",
+      "lesson": 2,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Mũ - Logarit",
+        "Khối 11"
+      ],
+      "source_typ": "typst/beamer/mu-logarit/beamer-11-mu-bai-2-logarit.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/mu-logarit/beamer-11-mu-bai-2-logarit.typ",
+      "pdf": "typst/beamer/mu-logarit/beamer-11-mu-bai-2-logarit.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-11-mu-bai-2-logarit.pdf",
+      "base_id": "beamer-11-mu-bai-2-logarit"
+    },
+    {
+      "id": "beamer-11-mu-bai-3-ham-so",
+      "kind": "beamer",
+      "title": "mu bai 3 ham so",
+      "grade": 11,
+      "chapter": "Mũ - Logarit",
+      "lesson": 3,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Mũ - Logarit",
+        "Khối 11"
+      ],
+      "source_typ": "typst/beamer/mu-logarit/beamer-11-mu-bai-3-ham-so.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/mu-logarit/beamer-11-mu-bai-3-ham-so.typ",
+      "pdf": "typst/beamer/mu-logarit/beamer-11-mu-bai-3-ham-so.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-11-mu-bai-3-ham-so.pdf",
+      "base_id": "beamer-11-mu-bai-3-ham-so"
+    },
+    {
+      "id": "beamer-11-mu-bai-4-pt-bpt",
+      "kind": "beamer",
+      "title": "mu bai 4 pt bpt",
+      "grade": 11,
+      "chapter": "Mũ - Logarit",
+      "lesson": 4,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Mũ - Logarit",
+        "Khối 11"
+      ],
+      "source_typ": "typst/beamer/mu-logarit/beamer-11-mu-bai-4-pt-bpt.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/mu-logarit/beamer-11-mu-bai-4-pt-bpt.typ",
+      "pdf": "typst/beamer/mu-logarit/beamer-11-mu-bai-4-pt-bpt.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-11-mu-bai-4-pt-bpt.pdf",
+      "base_id": "beamer-11-mu-bai-4-pt-bpt"
+    },
+    {
+      "id": "beamer-11-mu-bai-5-ung-dung",
+      "kind": "beamer",
+      "title": "mu bai 5 ung dung",
+      "grade": 11,
+      "chapter": "Mũ - Logarit",
+      "lesson": 5,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Mũ - Logarit",
+        "Khối 11"
+      ],
+      "source_typ": "typst/beamer/mu-logarit/beamer-11-mu-bai-5-ung-dung.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/mu-logarit/beamer-11-mu-bai-5-ung-dung.typ",
+      "pdf": "typst/beamer/mu-logarit/beamer-11-mu-bai-5-ung-dung.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-11-mu-bai-5-ung-dung.pdf",
+      "base_id": "beamer-11-mu-bai-5-ung-dung"
+    },
+    {
+      "id": "beamer-11-mu-bai-6-luyen-tap",
+      "kind": "beamer",
+      "title": "mu bai 6 luyen tap",
+      "grade": 11,
+      "chapter": "Mũ - Logarit",
+      "lesson": 6,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Mũ - Logarit",
+        "Khối 11"
+      ],
+      "source_typ": "typst/beamer/mu-logarit/beamer-11-mu-bai-6-luyen-tap.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/mu-logarit/beamer-11-mu-bai-6-luyen-tap.typ",
+      "pdf": "typst/beamer/mu-logarit/beamer-11-mu-bai-6-luyen-tap.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-11-mu-bai-6-luyen-tap.pdf",
+      "base_id": "beamer-11-mu-bai-6-luyen-tap"
+    },
+    {
+      "id": "beamer-11-mu-bai-7-casestudy",
+      "kind": "beamer",
+      "title": "mu bai 7 casestudy",
+      "grade": 11,
+      "chapter": "Mũ - Logarit",
+      "lesson": 7,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Mũ - Logarit",
+        "Khối 11"
+      ],
+      "source_typ": "typst/beamer/mu-logarit/beamer-11-mu-bai-7-casestudy.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/mu-logarit/beamer-11-mu-bai-7-casestudy.typ",
+      "pdf": "typst/beamer/mu-logarit/beamer-11-mu-bai-7-casestudy.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-11-mu-bai-7-casestudy.pdf",
+      "base_id": "beamer-11-mu-bai-7-casestudy"
+    },
+    {
+      "id": "beamer-11-mu-bai-8-bachkhoa",
+      "kind": "beamer",
+      "title": "mu bai 8 bachkhoa",
+      "grade": 11,
+      "chapter": "Mũ - Logarit",
+      "lesson": 8,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Mũ - Logarit",
+        "Khối 11"
+      ],
+      "source_typ": "typst/beamer/mu-logarit/beamer-11-mu-bai-8-bachkhoa.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/mu-logarit/beamer-11-mu-bai-8-bachkhoa.typ",
+      "pdf": "typst/beamer/mu-logarit/beamer-11-mu-bai-8-bachkhoa.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-11-mu-bai-8-bachkhoa.pdf",
+      "base_id": "beamer-11-mu-bai-8-bachkhoa"
+    },
+    {
+      "id": "beamer-12-udh-phan1-c1",
+      "kind": "beamer",
+      "title": "udh phan1 c1",
+      "grade": 12,
+      "chapter": "Ứng dụng đạo hàm",
+      "lesson": 0,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Ứng dụng đạo hàm",
+        "Khối 12"
+      ],
+      "source_typ": "typst/beamer/ung-dung-dao-ham/beamer-12-udh-phan1-c1.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/ung-dung-dao-ham/beamer-12-udh-phan1-c1.typ",
+      "pdf": "typst/beamer/ung-dung-dao-ham/beamer-12-udh-phan1-c1.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-12-udh-phan1-c1.pdf",
+      "base_id": "beamer-12-udh-phan1-c1"
+    },
+    {
+      "id": "beamer-12-udh-phan1-c2",
+      "kind": "beamer",
+      "title": "udh phan1 c2",
+      "grade": 12,
+      "chapter": "Ứng dụng đạo hàm",
+      "lesson": 0,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Ứng dụng đạo hàm",
+        "Khối 12"
+      ],
+      "source_typ": "typst/beamer/ung-dung-dao-ham/beamer-12-udh-phan1-c2.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/ung-dung-dao-ham/beamer-12-udh-phan1-c2.typ",
+      "pdf": "typst/beamer/ung-dung-dao-ham/beamer-12-udh-phan1-c2.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-12-udh-phan1-c2.pdf",
+      "base_id": "beamer-12-udh-phan1-c2"
+    },
+    {
+      "id": "beamer-12-udh-phan1-c3",
+      "kind": "beamer",
+      "title": "udh phan1 c3",
+      "grade": 12,
+      "chapter": "Dãy số",
+      "lesson": 0,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Dãy số",
+        "Khối 12"
+      ],
+      "source_typ": "typst/beamer/ung-dung-dao-ham/beamer-12-udh-phan1-c3.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/ung-dung-dao-ham/beamer-12-udh-phan1-c3.typ",
+      "pdf": "typst/beamer/ung-dung-dao-ham/beamer-12-udh-phan1-c3.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-12-udh-phan1-c3.pdf",
+      "base_id": "beamer-12-udh-phan1-c3"
+    },
+    {
+      "id": "beamer-12-udh-phan2-c1",
+      "kind": "beamer",
+      "title": "udh phan2 c1",
+      "grade": 12,
+      "chapter": "Ứng dụng đạo hàm",
+      "lesson": 0,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Ứng dụng đạo hàm",
+        "Khối 12"
+      ],
+      "source_typ": "typst/beamer/ung-dung-dao-ham/beamer-12-udh-phan2-c1.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/ung-dung-dao-ham/beamer-12-udh-phan2-c1.typ",
+      "pdf": "typst/beamer/ung-dung-dao-ham/beamer-12-udh-phan2-c1.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-12-udh-phan2-c1.pdf",
+      "base_id": "beamer-12-udh-phan2-c1"
+    },
+    {
+      "id": "beamer-12-udh-phan2-c2",
+      "kind": "beamer",
+      "title": "udh phan2 c2",
+      "grade": 12,
+      "chapter": "Ứng dụng đạo hàm",
+      "lesson": 0,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Ứng dụng đạo hàm",
+        "Khối 12"
+      ],
+      "source_typ": "typst/beamer/ung-dung-dao-ham/beamer-12-udh-phan2-c2.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/ung-dung-dao-ham/beamer-12-udh-phan2-c2.typ",
+      "pdf": "typst/beamer/ung-dung-dao-ham/beamer-12-udh-phan2-c2.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-12-udh-phan2-c2.pdf",
+      "base_id": "beamer-12-udh-phan2-c2"
+    },
+    {
+      "id": "beamer-12-udh-phan2-c3",
+      "kind": "beamer",
+      "title": "udh phan2 c3",
+      "grade": 12,
+      "chapter": "Dãy số",
+      "lesson": 0,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Dãy số",
+        "Khối 12"
+      ],
+      "source_typ": "typst/beamer/ung-dung-dao-ham/beamer-12-udh-phan2-c3.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/ung-dung-dao-ham/beamer-12-udh-phan2-c3.typ",
+      "pdf": "typst/beamer/ung-dung-dao-ham/beamer-12-udh-phan2-c3.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-12-udh-phan2-c3.pdf",
+      "base_id": "beamer-12-udh-phan2-c3"
+    },
+    {
+      "id": "beamer-12-udh-phan2-review",
+      "kind": "beamer",
+      "title": "udh phan2 review",
+      "grade": 12,
+      "chapter": "Ứng dụng đạo hàm",
+      "lesson": 0,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Ứng dụng đạo hàm",
+        "Khối 12"
+      ],
+      "source_typ": "typst/beamer/ung-dung-dao-ham/beamer-12-udh-phan2-review.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/ung-dung-dao-ham/beamer-12-udh-phan2-review.typ",
+      "pdf": "typst/beamer/ung-dung-dao-ham/beamer-12-udh-phan2-review.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-12-udh-phan2-review.pdf",
+      "base_id": "beamer-12-udh-phan2-review"
+    },
+    {
+      "id": "beamer-12-udh-phan3-c1",
+      "kind": "beamer",
+      "title": "udh phan3 c1",
+      "grade": 12,
+      "chapter": "Ứng dụng đạo hàm",
+      "lesson": 0,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Ứng dụng đạo hàm",
+        "Khối 12"
+      ],
+      "source_typ": "typst/beamer/ung-dung-dao-ham/beamer-12-udh-phan3-c1.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/ung-dung-dao-ham/beamer-12-udh-phan3-c1.typ",
+      "pdf": "typst/beamer/ung-dung-dao-ham/beamer-12-udh-phan3-c1.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-12-udh-phan3-c1.pdf",
+      "base_id": "beamer-12-udh-phan3-c1"
+    },
+    {
+      "id": "beamer-12-udh-phan3-c2",
+      "kind": "beamer",
+      "title": "udh phan3 c2",
+      "grade": 12,
+      "chapter": "Ứng dụng đạo hàm",
+      "lesson": 0,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Ứng dụng đạo hàm",
+        "Khối 12"
+      ],
+      "source_typ": "typst/beamer/ung-dung-dao-ham/beamer-12-udh-phan3-c2.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/ung-dung-dao-ham/beamer-12-udh-phan3-c2.typ",
+      "pdf": "typst/beamer/ung-dung-dao-ham/beamer-12-udh-phan3-c2.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-12-udh-phan3-c2.pdf",
+      "base_id": "beamer-12-udh-phan3-c2"
+    },
+    {
+      "id": "beamer-12-udh-phan3-c3",
+      "kind": "beamer",
+      "title": "udh phan3 c3",
+      "grade": 12,
+      "chapter": "Dãy số",
+      "lesson": 0,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Dãy số",
+        "Khối 12"
+      ],
+      "source_typ": "typst/beamer/ung-dung-dao-ham/beamer-12-udh-phan3-c3.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/ung-dung-dao-ham/beamer-12-udh-phan3-c3.typ",
+      "pdf": "typst/beamer/ung-dung-dao-ham/beamer-12-udh-phan3-c3.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-12-udh-phan3-c3.pdf",
+      "base_id": "beamer-12-udh-phan3-c3"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+Xin chào. Video này hướng dẫn giải bài toán giới hạn dạng không chia không. Cụ thể là tính giới hạn khi x tiến tới 1 của biểu thức x bình trừ 1 chia cho x trừ 1.
+Bước đầu tiên, chúng ta sẽ bắt đầu bằng việc phân tích biểu thức.
+Nhận thấy tử số là hằng đẳng thức đáng nhớ, ta phân tích x bình trừ 1 thành tích của x trừ 1 và x cộng 1.
+Thay vào biểu thức giới hạn ban đầu, ta được một giới hạn mới như trên màn hình.
+Vì x tiến tới 1, tức là x khác 1, nên ta có quyền triệt tiêu đại lượng x trừ 1 ở cả tử và mẫu. Biểu thức chỉ còn lại là giới hạn của x cộng 1.
+Cuối cùng, bằng cách thay trực tiếp x bằng 1, ta dễ dàng tính được giới hạn L bằng 2. Bài toán kết thúc.

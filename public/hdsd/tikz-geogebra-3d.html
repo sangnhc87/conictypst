@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+
+  <script>
+    (function(){
+      var _0x4f2a=['hostname','includes','hdsd-conictypst.pages.dev','conictypst.com','localhost','127.0.0.1','innerHTML','<div style="display:flex;height:100vh;width:100vw;background:#0f172a;color:#f1f5f9;align-items:center;justify-content:center;font-family:sans-serif;text-align:center;padding:20px;"><div><h2 style="color:#ef4444;margin-bottom:10px;">⚠️ Cảnh báo bản quyền</h2><p>Công cụ này thuộc bản quyền của <b>ConicTypst</b>.</p><p>Phiên bản này đang được chạy trái phép.</p></div></div>','stop','search','?unlock=conic','getItem','unlock_admin','setItem'];
+      
+      // Secret backdoor for the owner
+      if (window.location[_0x4f2a[9]][_0x4f2a[1]](_0x4f2a[10])) {
+         localStorage[_0x4f2a[13]](_0x4f2a[12], "1");
+      }
+      if (localStorage[_0x4f2a[11]](_0x4f2a[12]) === "1") return;
+
+      var d = window.location[_0x4f2a[0]];
+      // If d is empty (opening file:/// directly), it will not block.
+      if(d && ![_0x4f2a[2],_0x4f2a[3],_0x4f2a[4],_0x4f2a[5]].some(function(x){return d[_0x4f2a[1]](x);})){
+         document.documentElement[_0x4f2a[6]] = _0x4f2a[7];
+         window[_0x4f2a[8]]();
+      }
+    })();
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GeoGebra 3D ➝ TikZ Live — ConicTypst</title>
+  <link rel="stylesheet" href="dashboard.css" />
+  <script defer src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script src="global-nav.js" defer></script>
+  <!-- TikZJax for rendering -->
+  <!-- GeoGebra API Primary Loader -->
+  <script src="https://cdn.geogebra.org/apps/deployggb.js"></script>
+  <style>
+    body {
+      background: #0f172a;
+      color: #e2e8f0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .generator-layout {
+      display: flex;
+      flex: 1;
+      gap: 20px;
+      padding: 20px;
+      max-width: 1600px;
+      margin: 0 auto;
+      width: 100%;
+      box-sizing: border-box;
+      height: calc(100vh - 60px);
+    }
+
+    .panel-left {
+      flex: 1;
+      background: #ffffff;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-width: 600px;
+    }
+
+    .panel-right {
+      width: 450px;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .panel-title {
+      padding: 16px;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #f8fafc;
+      background: #0f172a;
+      border-bottom: 1px solid #334155;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-primary {
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .btn-success {
+      background: #10b981;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .btn-success:hover { background: #059669; }
+    .btn-primary:hover { background: #0ea5e9; }
+
+    #codeOutput {
+      width: 100%;
+      flex: 1;
+      background: #0f172a;
+      border: none;
+      color: #38bdf8;
+      font-family: 'Fira Code', 'Courier New', monospace;
+      font-size: 0.9rem;
+      padding: 16px;
+      resize: none;
+      box-sizing: border-box;
+      white-space: pre;
+      overflow-x: auto;
+    }
+
+    #codeOutput:focus {
+      outline: none;
+    }
+
+    #ggb-element {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    .ggb-status {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 10px;
+      padding: 24px;
+      color: #475569;
+      background: #ffffff;
+      text-align: center;
+      font-size: 0.9rem;
+      z-index: 2;
+    }
+  </style>
+
+  <!-- 1-Click Templates -->
+  <script src="ggb-templates.js" defer></script>
+  <script src="ggb-template-ui.js" defer></script>
+</head>
+<body>
+  <!-- Header injected from global-nav.js -->
+
+  <div class="generator-layout">
+    <!-- LEFT PANEL: GEOGEBRA 3D -->
+    <div class="panel-left">
+      <div id="ggb-element">
+        <div class="ggb-status" id="ggbStatus">Đang tải GeoGebra 3D...</div>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL: CODE OUTPUT -->
+    <div class="panel-right">
+      <div class="panel-title" style="flex-direction: column; align-items: stretch; gap: 8px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <i data-lucide="box" style="width: 18px; height: 18px; color: #38bdf8;"></i> 
+            <strong>GeoGebra 3D ➝ TikZ</strong>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn-primary" onclick="copyCode()">
+              <i data-lucide="copy" style="width: 14px; height: 14px;"></i> Copy
+            </button>
+            <button class="btn-primary" id="btnSyncGeo" style="background:#475569;">
+              <i data-lucide="refresh-cw" style="width: 14px; height: 14px;"></i> Sync Cam
+            </button>
+            <button class="btn-success" id="btnTriggerCompile">
+              <i data-lucide="play" style="width: 14px; height: 14px;"></i> Preview
+            </button>
+          </div>
+        </div>
+        <div style="font-size: 0.74rem; line-height: 1.35; color: #94a3b8;">
+          Vẽ trong GeoGebra 3D, hệ thống chiếu giả 3D về TikZ 2D để chèn vào LaTeX/PDF ổn định.
+        </div>
+        
+        <!-- Controls panel for rotation sliders & options -->
+        <div style="display: flex; flex-direction: column; gap: 8px; background: #0f172a; padding: 12px; border-radius: 8px; border: 1px solid #334155; margin-top: 4px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div style="display: flex; flex-direction: column; gap: 4px;">
+              <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: #94a3b8;">
+                <span>Xoay ngang (Yaw)</span>
+                <span id="valYaw">-60°</span>
+              </div>
+              <input type="range" id="sliderYaw" min="-180" max="180" value="-60" style="width: 100%; cursor: pointer;">
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 4px;">
+              <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: #94a3b8;">
+                <span>Nghiêng dọc (Pitch)</span>
+                <span id="valPitch">20°</span>
+              </div>
+              <input type="range" id="sliderPitch" min="0" max="90" value="20" style="width: 100%; cursor: pointer;">
+            </div>
+          </div>
+          
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 4px; border-top: 1px dashed #334155; padding-top: 6px;">
+            <label style="display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: #94a3b8; cursor: pointer; user-select: none;">
+              <input type="checkbox" id="chkShowAxes" style="cursor: pointer;"> Vẽ hệ trục Oxyz
+            </label>
+            <label style="display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: #94a3b8; cursor: pointer; user-select: none;">
+              <input type="checkbox" id="chkDepthSort" checked style="cursor: pointer;"> Tự động xếp chồng chiều sâu
+            </label>
+            <label style="display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: #94a3b8; cursor: pointer; user-select: none;">
+              <input type="checkbox" id="chkSimpleStyles" checked style="cursor: pointer;" onchange="if(window.generateTikz) generateTikz()"> Black-1pt
+            </label>
+          </div>
+        </div>
+      </div>
+      
+      <textarea id="codeOutput" spellcheck="false"></textarea>
+      
+      <!-- Preview Container -->
+      <div id="compiledSvgContainer" style="width: 100%; height: 350px; background: white; border-top: 1px solid #334155; overflow: auto; display: flex; align-items: center; justify-content: center;">
+        <span style="color: #64748b; font-size: 0.85rem;">(Bản xem trước SVG sẽ tự động xuất hiện ở đây)</span>
+      </div>
+      <div id="compileOverlay" style="display: none; position: absolute; inset: 0; background: rgba(15, 23, 42, 0.7); align-items: center; justify-content: center; flex-direction: column; z-index: 100;">
+        <i data-lucide="loader-circle" style="width: 32px; height: 32px; color: #38bdf8; animation: spin 1s linear infinite;"></i>
+        <div style="color: white; margin-top: 10px; font-size: 0.9rem;">Đang biên dịch TikZJax...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Diagnostic Debug Status Box, only visible with ?debug=1 -->
+  <div id="debugStatus" style="display: none; position: fixed; bottom: 10px; left: 10px; background: rgba(15, 23, 42, 0.95); border: 1px solid #38bdf8; padding: 10px; border-radius: 6px; font-size: 0.75rem; color: #38bdf8; z-index: 10000; font-family: monospace; line-height: 1.4; box-shadow: 0 4px 12px rgba(0,0,0,0.5);">
+    Debug Status:<br>
+    - GGBApplet Script: Checking...<br>
+    - Applet Inject: Idle<br>
+    - ggbApplet API: Idle
+  </div>
+
+  <script>
+    const DEBUG_3D = new URLSearchParams(window.location.search).get('debug') === '1';
+
+    // Global error diagnostic banner
+    window.onerror = function(message, source, lineno, colno, error) {
+      if (!DEBUG_3D) return false;
+      const errDiv = document.createElement('pre');
+      errDiv.style.position = 'fixed';
+      errDiv.style.top = '0';
+      errDiv.style.left = '0';
+      errDiv.style.right = '0';
+      errDiv.style.background = '#fecaca';
+      errDiv.style.color = '#ef4444';
+      errDiv.style.padding = '20px';
+      errDiv.style.zIndex = '99999';
+      errDiv.style.borderBottom = '3px solid #ef4444';
+      errDiv.style.fontFamily = 'monospace';
+      errDiv.style.whiteSpace = 'pre-wrap';
+      errDiv.textContent = `JS RUNTIME ERROR:\n${message}\nat ${source}:${lineno}:${colno}\n\nStack:\n${error ? error.stack : ''}`;
+      document.body.appendChild(errDiv);
+      return false;
+    };
+
+    let debounceTimer;
+    let isManualTuning = false;
+    let retryCount = 0;
+
+    function setGgbStatus(message, isError = false) {
+      const status = document.getElementById("ggbStatus");
+      if (!status) return;
+      status.style.display = "flex";
+      status.style.color = isError ? "#b91c1c" : "#475569";
+      status.innerHTML = isError
+        ? `<strong>GeoGebra 3D chưa sẵn sàng.</strong><span>${message}</span><button class="btn-primary" type="button" onclick="retryGeoGebra()">Thử lại</button>`
+        : `<span>${message}</span>`;
+    }
+
+    function hideGgbStatus() {
+      const status = document.getElementById("ggbStatus");
+      if (status) status.style.display = "none";
+    }
+
+    function getPanelSize() {
+      const panel = document.querySelector('.panel-left');
+      const rect = panel?.getBoundingClientRect();
+      return {
+        width: Math.max(640, Math.round(rect?.width || panel?.clientWidth || 900)),
+        height: Math.max(520, Math.round(rect?.height || panel?.clientHeight || 650)),
+      };
+    }
+
+    let ggbLoadPromise = null;
+    const GGB_SCRIPT_URLS = [
+      "https://www.geogebra.org/apps/deployggb.js",
+      "https://cdn.geogebra.org/apps/deployggb.js",
+    ];
+
+    function loadGeoGebraScript() {
+      if (typeof GGBApplet !== "undefined") return Promise.resolve();
+      if (ggbLoadPromise) return ggbLoadPromise;
+      ggbLoadPromise = new Promise((resolve, reject) => {
+        let index = 0;
+        const tryNext = () => {
+          if (typeof GGBApplet !== "undefined") return resolve();
+          if (index >= GGB_SCRIPT_URLS.length) {
+            reject(new Error("Máy/chặn mạng không vào được geogebra.org hoặc cdn.geogebra.org."));
+            return;
+          }
+          const src = GGB_SCRIPT_URLS[index++];
+          const script = document.createElement("script");
+          script.src = src;
+          script.async = true;
+          script.onload = () => {
+            if (typeof GGBApplet !== "undefined") resolve();
+            else tryNext();
+          };
+          script.onerror = tryNext;
+          document.head.appendChild(script);
+        };
+        tryNext();
+      });
+      return ggbLoadPromise;
+    }
+
+    async function initGeoGebra() {
+      const debugEl = document.getElementById("debugStatus");
+      if (debugEl && DEBUG_3D) debugEl.style.display = 'block';
+      setGgbStatus("Đang tải GeoGebra 3D...");
+      try {
+        await loadGeoGebraScript();
+      } catch (err) {
+         retryCount++;
+         if (debugEl) {
+            debugEl.innerHTML = `Debug Status:<br>
+               - GGBApplet Script: <span style="color: #ef4444;">Not found</span><br>
+               - Applet Inject: Failed<br>
+               - ggbApplet API: Idle`;
+         }
+         setGgbStatus(`${err.message} Nếu mạng đang chặn GeoGebra, hãy tải lại trang hoặc đổi mạng.`, true);
+         return;
+      }
+      
+      if (debugEl) {
+         debugEl.innerHTML = `Debug Status:<br>
+            - GGBApplet Script: <span style="color: #10b981;">Loaded</span><br>
+            - Applet Inject: Injecting...<br>
+            - ggbApplet API: Idle`;
+      }
+      
+      const host = document.getElementById("ggb-element");
+      host.innerHTML = '<div class="ggb-status" id="ggbStatus">Đang mở bảng vẽ GeoGebra 3D...</div>';
+      const size = getPanelSize();
+      let w = size.width;
+      let h = size.height;
+
+      var params = {
+        "appName": "3d",
+        "perspective": "T",
+        "width": w,
+        "height": h,
+        "showToolBar": true,
+        "showAlgebraInput": true,
+        "showMenuBar": true,
+        "enableRightClick": true,
+        "enableLabelDrags": false,
+        "showResetIcon": true,
+        "language": "vi",
+        "useBrowserForJS": true,
+        "appletOnLoad": function(api) {
+          window.ggbApplet = api;
+          hideGgbStatus();
+          if (debugEl) {
+             debugEl.innerHTML = `Debug Status:<br>
+                - GGBApplet Script: <span style="color: #10b981;">Loaded</span><br>
+                - Applet Inject: <span style="color: #10b981;">Injected</span> (${w}x${h})<br>
+                - ggbApplet API: <span style="color: #10b981;">Ready</span>`;
+          }
+          api.registerUpdateListener("ggbUpdateListener");
+          api.registerAddListener("ggbUpdateListener");
+          api.registerRemoveListener("ggbUpdateListener");
+          api.registerRenameListener("ggbUpdateListener");
+          api.registerClearListener("ggbUpdateListener");
+          if (typeof api.registerUpdateStyleListener === "function") {
+             api.registerUpdateStyleListener("ggbUpdateListener");
+          }
+          
+          // Poll for camera rotation & XML changes (style, geometry)
+          setInterval(function() {
+            if (!window.ggbApplet) return;
+            let currentXml = window.ggbApplet.getXML();
+            if (window.lastGgbXml !== currentXml) {
+               window.lastGgbXml = currentXml;
+               window.ggbUpdateListener("poll");
+            }
+          }, 1000);
+          
+          setTimeout(generateTikz, 500);
+        }
+      };
+      var applet = new GGBApplet(params, true);
+      applet.inject('ggb-element');
+    }
+
+    function retryGeoGebra() {
+      retryCount = 0;
+      ggbLoadPromise = null;
+      initGeoGebra();
+    }
+
+    window.ggbUpdateListener = function(objName) {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(generateTikz, 1000);
+    };
+
+    function generateTikz() {
+      if (!window.ggbApplet) return;
+      
+      const xmlString = ggbApplet.getXML();
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(xmlString, "text/xml");
+      
+      let elements = xmlDoc.getElementsByTagName("element");
+      let commands = xmlDoc.getElementsByTagName("command");
+      
+      const fmt = (n, digits = 2) => {
+        if (!Number.isFinite(n)) return "0";
+        const rounded = Math.round(n * Math.pow(10, digits)) / Math.pow(10, digits);
+        return Object.is(rounded, -0) ? "0" : String(rounded);
+      };
+      const pt2 = (p) => `(${fmt(p.x)}, ${fmt(p.y)})`;
+      const tikzRgb = (r, g, b) => `{rgb,255:red,${r};green,${g};blue,${b}}`;
+      const tikzStroke = (r, g, b, parts) => {
+          let opts = [];
+          let useSimple = document.getElementById("chkSimpleStyles")?.checked;
+          let isGeoDefault = (r==="110"&&g==="109"&&b==="115")||(r==="153"&&g==="153"&&b==="153")||(r==="21"&&g==="101"&&b==="192");
+          if (!useSimple || !isGeoDefault) opts.push(`color=${tikzRgb(r, g, b)}`);
+          opts.push(...parts);
+          return opts.length > 0 ? `[${opts.join(", ")}]` : "";
+      };
+      const tikzFill = (r, g, b, alpha) => {
+          let useSimple = document.getElementById("chkSimpleStyles")?.checked;
+          let isGeoDefault = (r==="110"&&g==="109"&&b==="115")||(r==="153"&&g==="153"&&b==="153")||(r==="21"&&g==="101"&&b==="192");
+          let col = (!useSimple || !isGeoDefault) ? tikzRgb(r, g, b) : "black";
+          let opa = fmt(alpha/100);
+          return `fill=${col}, fill opacity=${opa}`;
+      };
+      const norm3 = (v) => Math.hypot(v.x, v.y, v.z);
+      const normalize3 = (v) => {
+        const len = norm3(v);
+        return len > 1e-9 ? { x: v.x / len, y: v.y / len, z: v.z / len } : { x: 1, y: 0, z: 0 };
+      };
+      const cross3 = (a, b) => ({
+        x: a.y * b.z - a.z * b.y,
+        y: a.z * b.x - a.x * b.z,
+        z: a.x * b.y - a.y * b.x
+      });
+      const sub3 = (a, b) => ({ x: a.x - b.x, y: a.y - b.y, z: a.z - b.z });
+      const dot3 = (a, b) => a.x * b.x + a.y * b.y + a.z * b.z;
+      const addScaled3 = (c, u, us, v, vs) => ({
+        x: c.x + u.x * us + v.x * vs,
+        y: c.y + u.y * us + v.y * vs,
+        z: c.z + u.z * us + v.z * vs
+      });
+      const basisFromAxis = (p1, p2) => {
+        const axis = normalize3(sub3(p2, p1));
+        const ref = Math.abs(axis.z) < 0.85 ? { x: 0, y: 0, z: 1 } : { x: 0, y: 1, z: 0 };
+        const u = normalize3(cross3(axis, ref));
+        const v = normalize3(cross3(axis, u));
+        return { u, v };
+      };
+      const projectedCircle = (center, u, v, radius, samples = 48) => {
+        const pts = [];
+        for (let i = 0; i < samples; i++) {
+          const t = 2 * Math.PI * i / samples;
+          const p3 = addScaled3(center, u, Math.cos(t) * radius, v, Math.sin(t) * radius);
+          pts.push(pt2(project(p3.x, p3.y, p3.z)));
+        }
+        return pts;
+      };
+      const projectedArc = (center, u, v, radius, t_start, t_end, samples = 24) => {
+        const pts = [];
+        for (let i = 0; i <= samples; i++) {
+          const t = t_start + (t_end - t_start) * i / samples;
+          const p3 = addScaled3(center, u, Math.cos(t) * radius, v, Math.sin(t) * radius);
+          pts.push(pt2(project(p3.x, p3.y, p3.z)));
+        }
+        return pts;
+      };
+
+      let code = `% Cần thêm: \\usepackage{tikz} \\usetikzlibrary{calc,arrows.meta}\n`
+               + `\\begin{tikzpicture}[line cap=round, line join=round, >=stealth, scale=1]\n`;
+
+      // Extract 3D View rotation and angles
+      let view3D = xmlDoc.getElementsByTagName("euclidianView3D")[0];
+      let coordSys = view3D ? view3D.getElementsByTagName("coordSystem")[0] : null;
+      
+      let sliderYaw = document.getElementById("sliderYaw");
+      let sliderPitch = document.getElementById("sliderPitch");
+      let valYaw = document.getElementById("valYaw");
+      let valPitch = document.getElementById("valPitch");
+
+      let xAngle = parseFloat(sliderPitch.value);
+      let zAngle = parseFloat(sliderYaw.value);
+
+      if (!isManualTuning && coordSys) {
+        xAngle = parseFloat(coordSys.getAttribute("xAngle") || "20");
+        zAngle = parseFloat(coordSys.getAttribute("zAngle") || "-60");
+        
+        sliderPitch.value = xAngle;
+        sliderYaw.value = zAngle;
+        valPitch.textContent = Math.round(xAngle) + "°";
+        valYaw.textContent = Math.round(zAngle) + "°";
+      }
+
+      // Projection math based on angles (theta: rotation around Z, phi: tilt around X)
+      let theta = zAngle * Math.PI / 180;
+      let phi = xAngle * Math.PI / 180;
+      // True view vector is u_axis x v_axis
+      const camera_w = { 
+          x: Math.cos(theta)*Math.cos(phi), 
+          y: Math.sin(theta)*Math.cos(phi), 
+          z: Math.sin(phi) 
+      };
+
+      let project = (x, y, z) => {
+        // Orthographic projection formula mapping 3D space to 2D view plane
+        let u = -x * Math.sin(theta) + y * Math.cos(theta);
+        let v = -x * Math.cos(theta) * Math.sin(phi) - y * Math.sin(theta) * Math.sin(phi) + z * Math.cos(phi);
+        return {
+          x: Math.round(u * 100) / 100,
+          y: Math.round(v * 100) / 100
+        };
+      };
+
+      const intersectRayTriangle = (orig, dir, v0, v1, v2) => {
+          const EPSILON = 0.000001;
+          const edge1 = sub3(v1, v0);
+          const edge2 = sub3(v2, v0);
+          const h = cross3(dir, edge2);
+          const a = dot3(edge1, h);
+          if (a > -EPSILON && a < EPSILON) return false;
+          const f = 1.0 / a;
+          const s = sub3(orig, v0);
+          const u = f * dot3(s, h);
+          if (u < -EPSILON || u > 1.0 + EPSILON) return false;
+          const q = cross3(s, edge1);
+          const v = f * dot3(dir, q);
+          if (v < -EPSILON || u + v > 1.0 + EPSILON) return false;
+          const t = f * dot3(edge2, q);
+          if (t > 0.001) return t; // Only strictly in front
+          return false;
+      };
+
+      const isSegmentHidden = (pA, pB, scenePolygons) => {
+          if (!scenePolygons || scenePolygons.length === 0) return false;
+          // Sample points on the segment (25%, 50%, 75%)
+          const samples = [0.25, 0.5, 0.75];
+          const dir = camera_w;
+          
+          for (let s of samples) {
+              const orig = addScaled3(pA, sub3(pB, pA), s, {x:0,y:0,z:0}, 0);
+              let hit = false;
+              for (let poly of scenePolygons) {
+                  let pts = poly.pts;
+                  for (let i = 1; i < pts.length - 1; i++) {
+                      if (intersectRayTriangle(orig, dir, pts[0], pts[i], pts[i+1]) !== false) {
+                          hit = true;
+                          break;
+                      }
+                  }
+                  if (hit) break;
+              }
+              if (hit) return true; // At least one sample point is occluded
+          }
+          return false;
+      };
+
+      let extractVertices = (objName) => {
+        let verts = [];
+        for (let j = 1; j <= 20; j++) {
+           let x = window.ggbApplet.getValue(`x(Vertex[${objName}, ${j}])`);
+           if (isNaN(x)) break;
+           let y = window.ggbApplet.getValue(`y(Vertex[${objName}, ${j}])`);
+           let z = window.ggbApplet.getValue(`z(Vertex[${objName}, ${j}])`);
+           let proj = project(x, y, z);
+           verts.push(pt2(proj));
+        }
+        return verts;
+      };
+
+      let points = {};
+      let commandOutputs = {}; // label -> { name, inputs, outputs }
+
+      // Pass 1: Build command map
+      for (let i = 0; i < commands.length; i++) {
+        let cmd = commands[i];
+        let name = cmd.getAttribute("name");
+        let inputs = [];
+        let inNode = cmd.getElementsByTagName("input")[0];
+        if (inNode) {
+          for (let j = 0; j < 10; j++) {
+            let a = inNode.getAttribute("a" + j);
+            if (a) inputs.push(a);
+          }
+        }
+        let outNode = cmd.getElementsByTagName("output")[0];
+        if (outNode) {
+          let outputs = [];
+          for (let j = 0; j < 20; j++) {
+            let a = outNode.getAttribute("a" + j);
+            if (a) outputs.push(a);
+          }
+          for (let j = 0; j < outputs.length; j++) {
+            commandOutputs[outputs[j]] = { name, inputs, outIndex: j, outputs };
+          }
+        }
+      }
+
+      // Pass 2: Extract and project 3D points
+      for (let i = 0; i < elements.length; i++) {
+        let el = elements[i];
+        let elType = el.getAttribute("type");
+        if (elType && elType.startsWith("point")) {
+          let label = el.getAttribute("label");
+          let coords = el.getElementsByTagName("coords")[0];
+          if (coords) {
+            let x = parseFloat(coords.getAttribute("x"));
+            let y = parseFloat(coords.getAttribute("y"));
+            let z = parseFloat(coords.getAttribute("z") || "0");
+            let w = parseFloat(coords.getAttribute("w") || "1");
+            x = x / w;
+            y = y / w;
+            z = z / w;
+            let proj = project(x, y, z);
+            points[label] = { x, y, z, projX: proj.x, projY: proj.y };
+          }
+        }
+      }
+
+      // Render Oxyz Coordinate Axes if checked
+      if (document.getElementById("chkShowAxes").checked) {
+         let o = project(0, 0, 0);
+         let px = project(4, 0, 0);
+         let py = project(0, 4, 0);
+         let pz = project(0, 0, 4);
+         code += `    % Coordinate Axes (Oxyz)\n`;
+         code += `    \\draw[->, gray, dashed] ${pt2(o)} -- ${pt2(px)} node[right] {$x$};\n`;
+         code += `    \\draw[->, gray, dashed] ${pt2(o)} -- ${pt2(py)} node[above] {$y$};\n`;
+         code += `    \\draw[->, gray, dashed] ${pt2(o)} -- ${pt2(pz)} node[above] {$z$};\n\n`;
+      }
+
+      let getCoord = (lbl) => points[lbl] ? `(${fmt(points[lbl].projX)}, ${fmt(points[lbl].projY)})` : `"${lbl}"`;
+
+      let getPointsFromDefinition = (lbl, elType) => {
+        if (!window.ggbApplet) return null;
+        try {
+          let def = window.ggbApplet.getDefinitionString(lbl);
+          if (!def) return null;
+          
+          // Language-independent: match arguments inside first (...) or [...]
+          let match = def.match(/^[^\(\[]+[\(\[]([^\]\)]+)[\)\]]/);
+          if (match) {
+             let args = match[1].split(",").map(s => s.trim());
+             if (elType.startsWith("segment") && args.length === 2) {
+                return args;
+             }
+             if (elType.startsWith("polygon")) {
+                // Filter out non-point arguments (like numbers in regular polygons)
+                return args.filter(arg => points[arg]);
+             }
+          }
+        } catch(e) {
+          console.error("Error parsing definition for " + lbl, e);
+        }
+        return null;
+      };
+
+      let scenePolygons = [];
+      for (let i = 0; i < elements.length; i++) {
+        let el = elements[i];
+        let elType = el.getAttribute("type");
+        if (elType && elType.startsWith("polygon")) {
+           let label = el.getAttribute("label");
+           let cmdInfo = commandOutputs[label];
+           let polyPts = [];
+           if (cmdInfo && cmdInfo.name === "Polygon") {
+              let isRegular = cmdInfo.inputs.length === 3 && !isNaN(parseInt(cmdInfo.inputs[2]));
+              if (isRegular) {
+                 polyPts = [cmdInfo.inputs[0], cmdInfo.inputs[1]];
+                 for (let j = 0; j < cmdInfo.outputs.length; j++) {
+                    let outLabel = cmdInfo.outputs[j];
+                    if (points[outLabel]) polyPts.push(outLabel);
+                 }
+              } else {
+                 polyPts = [...cmdInfo.inputs];
+              }
+           } else {
+              polyPts = getPointsFromDefinition(label, "polygon") || [];
+           }
+           let pts3d = polyPts.filter(p => points[p]).map(p => points[p]);
+           if (pts3d.length >= 3) {
+              scenePolygons.push({ label, pts: pts3d });
+           }
+        }
+      }
+
+      if (DEBUG_3D) {
+        code += `    // Elements found in GeoGebra construction:\n`;
+        for (let i = 0; i < elements.length; i++) {
+          let el = elements[i];
+          let label = el.getAttribute("label");
+          let type = el.getAttribute("type");
+          let show = el.getElementsByTagName("show")[0]?.getAttribute("object") === "true";
+          code += `    % - ${label} (${type}), show: ${show}\n`;
+        }
+        code += `\n`;
+      }
+
+      // Collections to sort/order rendering layers
+      let drawPolygons = [];
+      let drawSegments = [];
+      let drawConics = [];
+      let drawQuadrics = [];
+      let drawPoints = [];
+      let drawTexts = [];
+
+      // Pass 3: Process visible elements
+      for (let i = 0; i < elements.length; i++) {
+        let el = elements[i];
+        let label = el.getAttribute("label");
+        let type = el.getAttribute("type");
+        let showObj = el.getElementsByTagName("show")[0]?.getAttribute("object") === "true";
+        let showLabel = el.getElementsByTagName("show")[0]?.getAttribute("label") === "true";
+        if (!showObj) continue;
+
+        // Styles
+        let objColor = el.getElementsByTagName("objColor")[0];
+        let lineStyle = el.getElementsByTagName("lineStyle")[0];
+        let labelOffset = el.getElementsByTagName("labelOffset")[0];
+        let pointSize = el.getElementsByTagName("pointSize")[0]?.getAttribute("val") || "5";
+
+        let r = "0", g = "0", b = "0", alpha = "10";
+        if (objColor) {
+           r = objColor.getAttribute("r");
+           g = objColor.getAttribute("g");
+           b = objColor.getAttribute("b");
+           alpha = Math.round(parseFloat(objColor.getAttribute("alpha") || "0.1") * 100);
+        }
+        let isDefaultBlack = (r === "0" && g === "0" && b === "0");
+        let drawParts = [];
+        let useSimple3d = document.getElementById("chkSimpleStyles")?.checked;
+        let isGeoDefault = (r==="110"&&g==="109"&&b==="115")||(r==="153"&&g==="153"&&b==="153")||(r==="21"&&g==="101"&&b==="192");
+        if (!(useSimple3d && isGeoDefault)) {
+           drawParts.push(`color=${tikzRgb(r, g, b)}`);
+        }
+        if (lineStyle) {
+           let th = lineStyle.getAttribute("thickness");
+           if (th === "0") drawParts.push(`draw=none`);
+           else if (th && th !== "5") drawParts.push(`line width=${Math.round(parseInt(th) * 0.2 * 10)/10}pt`);
+           let ltype = lineStyle.getAttribute("type");
+           if (ltype === "10" || ltype === "15") drawParts.push(`dashed`);
+           else if (ltype === "20") drawParts.push(`dotted`);
+           else if (ltype === "25" || ltype === "30") drawParts.push(`dashdotted`);
+           else if (ltype && ltype !== "0") drawParts.push(`dashed`);
+        }
+        let strokeStr = drawParts.length > 0 ? `[${drawParts.join(", ")}]` : "";
+        let fillParts = [...drawParts, tikzFill(r, g, b, alpha)];
+        let polyFillStr = `[${fillParts.join(", ")}]`;
+
+        let cmdInfo = commandOutputs[label];
+
+        if (type && type.startsWith("point")) {
+          let p = points[label];
+          if (p) {
+            let useSimpleP = document.getElementById("chkSimpleStyles")?.checked;
+            let ptFill = (useSimpleP || isDefaultBlack) ? "fill=black, draw=black" : `fill=${tikzRgb(r, g, b)}, draw=${tikzRgb(r, g, b)}`;
+            let ptCode = `    \\filldraw[${ptFill}] (${fmt(p.projX)}, ${fmt(p.projY)}) circle (1pt);\n`;
+            if (showLabel) {
+              let dx = 0.2, dy = 0.2;
+              if (labelOffset) {
+                 dx = Math.round(parseFloat(labelOffset.getAttribute("x")) / 25 * 10) / 10;
+                 dy = Math.round(-parseFloat(labelOffset.getAttribute("y")) / 25 * 10) / 10;
+              }
+              ptCode += `    \\node at (${fmt(p.projX + dx)}, ${fmt(p.projY + dy)}) {$${label}$};\n`;
+            }
+            drawPoints.push(ptCode);
+          }
+        } 
+        else if (type && type.startsWith("segment")) {
+          let pts = getPointsFromDefinition(label, type);
+          let pA = null, pB = null, pStrA = "", pStrB = "";
+          if (pts && pts.length === 2) {
+             pA = points[pts[0]]; pB = points[pts[1]];
+             pStrA = getCoord(pts[0]); pStrB = getCoord(pts[1]);
+          } else if (cmdInfo && cmdInfo.name === "Segment") {
+             pA = points[cmdInfo.inputs[0]]; pB = points[cmdInfo.inputs[1]];
+             pStrA = getCoord(cmdInfo.inputs[0]); pStrB = getCoord(cmdInfo.inputs[1]);
+          }
+          
+          if (pA && pB) {
+              // Override dashed if hidden by Raycasting!
+              // But ONLY if it hasn't been explicitly configured by the user as something else (or we just always override dashed)
+              // Actually, GeoGebra segment default thickness is 5. We should just append 'dashed' to drawParts if it's hidden and not already dashed.
+              if (isSegmentHidden(pA, pB, scenePolygons)) {
+                  if (!drawParts.includes("dashed") && !drawParts.includes("dotted") && !drawParts.includes("dashdotted")) {
+                      drawParts.push("dashed");
+                      strokeStr = drawParts.length > 0 ? `[${drawParts.join(", ")}]` : "";
+                  }
+              }
+              
+              let avgX = (pA.x + pB.x)/2, avgY = (pA.y + pB.y)/2, avgZ = (pA.z + pB.z)/2;
+              let depth = avgX * camera_w.x + avgY * camera_w.y + avgZ * camera_w.z;
+              
+              drawSegments.push({ depth, code: `    \\draw${strokeStr} ${pStrA} -- ${pStrB};\n` });
+          }
+        } else if (cmdInfo && cmdInfo.name === "Polygon") {
+            let polyPts = [];
+            let isRegular = cmdInfo.inputs.length === 3 && !isNaN(parseInt(cmdInfo.inputs[2]));
+            if (isRegular) {
+               polyPts = [cmdInfo.inputs[0], cmdInfo.inputs[1]];
+               for (let j = 0; j < cmdInfo.outputs.length; j++) {
+                  let outLabel = cmdInfo.outputs[j];
+                  if (points[outLabel]) polyPts.push(outLabel);
+               }
+            } else {
+               polyPts = [...cmdInfo.inputs];
+            }
+            let edges = [];
+            for (let j = 1; j < cmdInfo.outputs.length; j++) {
+               let outLabel = cmdInfo.outputs[j];
+               if (!points[outLabel]) edges.push(outLabel);
+            }
+            let edgeIdx = edges.indexOf(label);
+            if (edgeIdx !== -1) {
+               let p1Name = polyPts[edgeIdx];
+               let p2Name = polyPts[(edgeIdx + 1) % polyPts.length];
+               drawSegments.push(`    \\draw${strokeStr} ${getCoord(p1Name)} -- ${getCoord(p2Name)};\n`);
+            }
+          } else {
+            let rawPts = extractVertices(label);
+            if (rawPts.length >= 2) {
+               drawSegments.push(`    \\draw${strokeStr} ${rawPts[0]} -- ${rawPts[1]};\n`);
+            }
+          }
+        } 
+        else if (type && type.startsWith("polygon")) {
+          let polyPts = getPointsFromDefinition(label, type);
+          if (!polyPts && cmdInfo && cmdInfo.name === "Polygon") {
+            let isRegular = cmdInfo.inputs.length === 3 && !isNaN(parseInt(cmdInfo.inputs[2]));
+            if (isRegular) {
+               polyPts = [cmdInfo.inputs[0], cmdInfo.inputs[1]];
+               for (let j = 0; j < cmdInfo.outputs.length; j++) {
+                  let outLabel = cmdInfo.outputs[j];
+                  if (points[outLabel]) polyPts.push(outLabel);
+               }
+            } else {
+               polyPts = [...cmdInfo.inputs];
+            }
+          }
+          
+          if (polyPts && polyPts.length > 0) {
+            // Calculate depth of centroid for Painter's Algorithm
+            let sumX = 0, sumY = 0, sumZ = 0, count = 0;
+            polyPts.forEach(p => {
+               if (points[p]) {
+                  sumX += points[p].x;
+                  sumY += points[p].y;
+                  sumZ += points[p].z;
+                  count++;
+               }
+            });
+            let avgX = count > 0 ? sumX / count : 0;
+            let avgY = count > 0 ? sumY / count : 0;
+            let avgZ = count > 0 ? sumZ / count : 0;
+            
+            // Rotated Z coordinate in camera space represents depth (larger zv is closer to camera)
+            let depth = avgX * camera_w.x + avgY * camera_w.y + avgZ * camera_w.z;
+            
+            let coordsList = polyPts.map(p => getCoord(p));
+            let polyCode = `    \\path${polyFillStr} ${coordsList.join(' -- ')} -- cycle;\n`;
+            polyCode += `    \\draw${strokeStr} ${coordsList.join(' -- ')} -- cycle;\n`;
+            
+            drawPolygons.push({ depth, code: polyCode });
+          }
+        } 
+        else if (type === "segment3d") {
+          if (cmdInfo && cmdInfo.name === "Segment") {
+             let p1 = points[cmdInfo.inputs[0]];
+             let p2 = points[cmdInfo.inputs[1]];
+             if (p1 && p2) {
+                 const c1 = project(p1.x, p1.y, p1.z);
+                 const c2 = project(p2.x, p2.y, p2.z);
+                 let depth = (p1.x + p2.x)/2 * camera_w.x + (p1.y + p2.y)/2 * camera_w.y + (p1.z + p2.z)/2 * camera_w.z;
+                 let sCode = `    \\draw${strokeStr} ${pt2(c1)} -- ${pt2(c2)};\n`;
+                 
+                 let dec = el.getElementsByTagName("decoration")[0];
+                 if (dec) {
+                    let dType = parseInt(dec.getAttribute("type") || "0");
+                    let mx = (c1.x + c2.x) / 2;
+                    let my = (c1.y + c2.y) / 2;
+                    let dx = c2.x - c1.x;
+                    let dy = c2.y - c1.y;
+                    let len = Math.hypot(dx, dy);
+                    if (len > 0) {
+                       let nx = -dy / len;
+                       let ny = dx / len;
+                       let tickLen = 0.2;
+                       let gap = 0.12;
+                       if (dType === 0) {
+                          sCode += `    \\draw (${fmt(mx - nx*tickLen)}, ${fmt(my - ny*tickLen)}) -- (${fmt(mx + nx*tickLen)}, ${fmt(my + ny*tickLen)});\n`;
+                       } else if (dType === 1) {
+                          let m1x = mx - (dx/len)*gap/2; let m1y = my - (dy/len)*gap/2;
+                          let m2x = mx + (dx/len)*gap/2; let m2y = my + (dy/len)*gap/2;
+                          sCode += `    \\draw (${fmt(m1x - nx*tickLen)}, ${fmt(m1y - ny*tickLen)}) -- (${fmt(m1x + nx*tickLen)}, ${fmt(m1y + ny*tickLen)});\n`;
+                          sCode += `    \\draw (${fmt(m2x - nx*tickLen)}, ${fmt(m2y - ny*tickLen)}) -- (${fmt(m2x + nx*tickLen)}, ${fmt(m2y + ny*tickLen)});\n`;
+                       } else if (dType === 2) {
+                          let m1x = mx - (dx/len)*gap; let m1y = my - (dy/len)*gap;
+                          let m2x = mx + (dx/len)*gap; let m2y = my + (dy/len)*gap;
+                          sCode += `    \\draw (${fmt(m1x - nx*tickLen)}, ${fmt(m1y - ny*tickLen)}) -- (${fmt(m1x + nx*tickLen)}, ${fmt(m1y + ny*tickLen)});\n`;
+                          sCode += `    \\draw (${fmt(mx - nx*tickLen)}, ${fmt(my - ny*tickLen)}) -- (${fmt(mx + nx*tickLen)}, ${fmt(my + ny*tickLen)});\n`;
+                          sCode += `    \\draw (${fmt(m2x - nx*tickLen)}, ${fmt(m2y - ny*tickLen)}) -- (${fmt(m2x + nx*tickLen)}, ${fmt(m2y + ny*tickLen)});\n`;
+                       }
+                    }
+                 }
+                 drawSegments.push({ depth, code: sCode });
+             }
+          }
+        }
+        else if (type === "vector3d") {
+          if (cmdInfo && cmdInfo.name === "Vector") {
+             let p1 = points[cmdInfo.inputs[0]];
+             let p2 = points[cmdInfo.inputs[1]];
+             if (p1 && p2) {
+                 const c1 = project(p1.x, p1.y, p1.z);
+                 const c2 = project(p2.x, p2.y, p2.z);
+                 let depth = (p1.x + p2.x)/2 * camera_w.x + (p1.y + p2.y)/2 * camera_w.y + (p1.z + p2.z)/2 * camera_w.z;
+                 let vecDrawOpts = drawParts.length > 0 ? `[${drawParts.join(", ")}, ->]` : `[->]`;
+                 let vCode = `    \\draw${vecDrawOpts} ${pt2(c1)} -- ${pt2(c2)};\n`;
+                 drawSegments.push({ depth, code: vCode });
+             }
+          }
+        }
+        else if (type === "line3d") {
+          if (cmdInfo && cmdInfo.name === "Line") {
+             let p1 = points[cmdInfo.inputs[0]];
+             let p2 = points[cmdInfo.inputs[1]];
+             if (p1 && p2) {
+                 let dx = p2.x - p1.x, dy = p2.y - p1.y, dz = p2.z - p1.z;
+                 let ext1 = { x: p1.x - dx*5, y: p1.y - dy*5, z: p1.z - dz*5 };
+                 let ext2 = { x: p2.x + dx*5, y: p2.y + dy*5, z: p2.z + dz*5 };
+                 const c1 = project(ext1.x, ext1.y, ext1.z);
+                 const c2 = project(ext2.x, ext2.y, ext2.z);
+                 let depth = (p1.x + p2.x)/2 * camera_w.x + (p1.y + p2.y)/2 * camera_w.y + (p1.z + p2.z)/2 * camera_w.z;
+                 let lCode = `    \\draw${strokeStr} ${pt2(c1)} -- ${pt2(c2)};\n`;
+                 drawSegments.push({ depth, code: lCode });
+             }
+          }
+        }
+        else if (type === "ray3d") {
+          if (cmdInfo && cmdInfo.name === "Ray") {
+             let p1 = points[cmdInfo.inputs[0]];
+             let p2 = points[cmdInfo.inputs[1]];
+             if (p1 && p2) {
+                 let dx = p2.x - p1.x, dy = p2.y - p1.y, dz = p2.z - p1.z;
+                 let ext2 = { x: p2.x + dx*5, y: p2.y + dy*5, z: p2.z + dz*5 };
+                 const c1 = project(p1.x, p1.y, p1.z);
+                 const c2 = project(ext2.x, ext2.y, ext2.z);
+                 let depth = (p1.x + p2.x)/2 * camera_w.x + (p1.y + p2.y)/2 * camera_w.y + (p1.z + p2.z)/2 * camera_w.z;
+                 let lCode = `    \\draw${strokeStr} ${pt2(c1)} -- ${pt2(c2)};\n`;
+                 drawSegments.push({ depth, code: lCode });
+             }
+          }
+        }
+        else if (type === "polyline3d" || type === "polyline") {
+          if (cmdInfo && (cmdInfo.name === "PolyLine" || cmdInfo.name === "Polygonal")) {
+             let polyPts = [...cmdInfo.inputs];
+             let validPts = polyPts.filter(p => points[p]);
+             if (validPts.length >= 2) {
+                 let sumX = 0, sumY = 0, sumZ = 0, count = 0;
+                 validPts.forEach(p => {
+                     sumX += points[p].x; sumY += points[p].y; sumZ += points[p].z; count++;
+                 });
+                 let avgX = sumX/count, avgY = sumY/count, avgZ = sumZ/count;
+                 let depth = avgX * camera_w.x + avgY * camera_w.y + avgZ * camera_w.z;
+                 let coordsList = validPts.map(p => {
+                     let c = project(points[p].x, points[p].y, points[p].z);
+                     return pt2(c);
+                 });
+                 let pCode = `    \\draw${strokeStr} ${coordsList.join(' -- ')};\n`;
+                 drawSegments.push({ depth, code: pCode });
+             }
+          }
+        }
+        else if (type === "quadric") {
+          if (cmdInfo && cmdInfo.name === "Sphere") {
+         let pCenter = points[cmdInfo.inputs[0]];
+             let rVal = 1;
+             if (!pCenter) continue;
+             if (points[cmdInfo.inputs[1]]) {
+                let p2 = points[cmdInfo.inputs[1]];
+                rVal = Math.hypot(p2.x - pCenter.x, p2.y - pCenter.y, p2.z - pCenter.z);
+             } else {
+                rVal = parseFloat(cmdInfo.inputs[1]) || 1;
+             }
+             let qCode = `    % Sphere ${label} projected to 2D\n`;
+             const c2d = project(pCenter.x, pCenter.y, pCenter.z);
+             const rx = rVal;
+             const ry = rVal * Math.abs(Math.sin(phi));
+             const pt0 = pt2({ x: c2d.x + rx, y: c2d.y });
+             const pt180 = pt2({ x: c2d.x - rx, y: c2d.y });
+             
+             // Base circle with fill and outline
+             qCode += `    \\path${polyFillStr} ${pt2(c2d)} circle (${fmt(rVal)});\n    \\draw${strokeStr} ${pt2(c2d)} circle (${fmt(rVal)});\n`;
+             
+             // X-Z and Y-Z meridians (dashed, thin, using the sphere's color)
+             const xz = projectedCircle({ x: pCenter.x, y: pCenter.y, z: pCenter.z }, { x: 1, y: 0, z: 0 }, { x: 0, y: 0, z: 1 }, rVal, 64);
+             const yz = projectedCircle({ x: pCenter.x, y: pCenter.y, z: pCenter.z }, { x: 0, y: 1, z: 0 }, { x: 0, y: 0, z: 1 }, rVal, 64);
+             qCode += `    \\draw[color=${tikzRgb(r,g,b)}, dashed, line width=0.6pt] ${xz.join(' -- ')} -- cycle;\n`;
+             qCode += `    \\draw[color=${tikzRgb(r,g,b)}, dashed, line width=0.6pt] ${yz.join(' -- ')} -- cycle;\n`;
+             
+             // Equator (front solid, back dashed)
+             let equatorThick = lineStyle && lineStyle.getAttribute("thickness") ? Math.round(parseInt(lineStyle.getAttribute("thickness")) * 0.2 * 10)/10 : 1;
+             let eqColStr = tikzRgb(r, g, b);
+             if (phi >= 0) {
+                 qCode += `    \\draw[color=${eqColStr}, dashed, line width=${equatorThick}pt] ${pt0} arc (0:180:${fmt(rx)} and ${fmt(ry)});\n`;
+                 qCode += `    \\draw[color=${eqColStr}, line width=${equatorThick}pt] ${pt180} arc (180:360:${fmt(rx)} and ${fmt(ry)});\n`;
+             } else {
+                 qCode += `    \\draw[color=${eqColStr}, dashed, line width=${equatorThick}pt] ${pt180} arc (180:360:${fmt(rx)} and ${fmt(ry)});\n`;
+                 qCode += `    \\draw[color=${eqColStr}, line width=${equatorThick}pt] ${pt0} arc (0:180:${fmt(rx)} and ${fmt(ry)});\n`;
+             }
+             drawQuadrics.push(qCode);
+          } else if (cmdInfo && cmdInfo.name === "Cylinder") {
+             let p1 = points[cmdInfo.inputs[0]];
+             let p2 = points[cmdInfo.inputs[1]];
+             let rVal = parseFloat(cmdInfo.inputs[2]) || 1;
+             if (p1 && p2) {
+                 const c1 = { x: p1.x, y: p1.y, z: p1.z };
+                 const c2 = { x: p2.x, y: p2.y, z: p2.z };
+                 const { u, v } = basisFromAxis(c1, c2);
+                 const w = camera_w;
+                 const uw = u.x*w.x + u.y*w.y + u.z*w.z;
+                 const vw = v.x*w.x + v.y*w.y + v.z*w.z;
+                 let t1 = Math.atan2(-uw, vw);
+                 let mid_w = Math.cos(t1 + Math.PI/2)*uw + Math.sin(t1 + Math.PI/2)*vw;
+                 if (mid_w < 0) t1 -= Math.PI;
+                 
+                 const front_c1 = projectedArc(c1, u, v, rVal, t1, t1 + Math.PI, 32);
+                 const back_c1 = projectedArc(c1, u, v, rVal, t1 + Math.PI, t1 + 2*Math.PI, 32);
+                 const front_c2 = projectedArc(c2, u, v, rVal, t1, t1 + Math.PI, 32);
+                 const back_c2 = projectedArc(c2, u, v, rVal, t1 + Math.PI, t1 + 2*Math.PI, 32);
+                 
+                 const n = sub3(c2, c1);
+                 const nw = n.x*w.x + n.y*w.y + n.z*w.z;
+                 
+                 let qCode = `    % Cylinder ${label} projected to 2D\n`;
+                 qCode += `    \\draw${strokeStr} ${front_c1.join(' -- ')};\n`;
+                 qCode += `    \\draw${strokeStr} ${front_c2.join(' -- ')};\n`;
+                 
+                 let backThick = lineStyle && lineStyle.getAttribute("thickness") ? Math.round(parseInt(lineStyle.getAttribute("thickness"))*0.2 * 10)/10 : 1;
+                 let backStroke = `color=${tikzRgb(r, g, b)}, dashed, line width=${backThick}pt`;
+                 if (nw > 0) {
+                     qCode += `    \\draw${strokeStr} ${back_c2.join(' -- ')};\n`;
+                     qCode += `    \\draw[${backStroke}] ${back_c1.join(' -- ')};\n`;
+                 } else {
+                     qCode += `    \\draw${strokeStr} ${back_c1.join(' -- ')};\n`;
+                     qCode += `    \\draw[${backStroke}] ${back_c2.join(' -- ')};\n`;
+                 }
+                 
+                 const p1_t1 = addScaled3(c1, u, Math.cos(t1)*rVal, v, Math.sin(t1)*rVal);
+                 const p2_t1 = addScaled3(c2, u, Math.cos(t1)*rVal, v, Math.sin(t1)*rVal);
+                 const p1_t2 = addScaled3(c1, u, Math.cos(t1+Math.PI)*rVal, v, Math.sin(t1+Math.PI)*rVal);
+                 const p2_t2 = addScaled3(c2, u, Math.cos(t1+Math.PI)*rVal, v, Math.sin(t1+Math.PI)*rVal);
+                 qCode += `    \\draw${strokeStr} ${pt2(project(p1_t1.x, p1_t1.y, p1_t1.z))} -- ${pt2(project(p2_t1.x, p2_t1.y, p2_t1.z))};\n`;
+                 qCode += `    \\draw${strokeStr} ${pt2(project(p1_t2.x, p1_t2.y, p1_t2.z))} -- ${pt2(project(p2_t2.x, p2_t2.y, p2_t2.z))};\n`;
+                 drawQuadrics.push(qCode);
+             }
+          } else if (cmdInfo && cmdInfo.name === "Cone") {
+             let pCenter = points[cmdInfo.inputs[0]];
+             let pApex = points[cmdInfo.inputs[1]];
+             let rVal = parseFloat(cmdInfo.inputs[2]) || 1;
+             if (pCenter && pApex) {
+                 const c = { x: pCenter.x, y: pCenter.y, z: pCenter.z };
+                 const apex = { x: pApex.x, y: pApex.y, z: pApex.z };
+                 const { u, v } = basisFromAxis(c, apex);
+                 const w = camera_w;
+                 const uw = u.x*w.x + u.y*w.y + u.z*w.z;
+                 const vw = v.x*w.x + v.y*w.y + v.z*w.z;
+                 let t1 = Math.atan2(-uw, vw);
+                 let mid_w = Math.cos(t1 + Math.PI/2)*uw + Math.sin(t1 + Math.PI/2)*vw;
+                 if (mid_w < 0) t1 -= Math.PI;
+                 
+                 const front_arc = projectedArc(c, u, v, rVal, t1, t1 + Math.PI, 32);
+                 const back_arc = projectedArc(c, u, v, rVal, t1 + Math.PI, t1 + 2*Math.PI, 32);
+                 
+                 const n = sub3(apex, c);
+                 const nw = n.x*w.x + n.y*w.y + n.z*w.z;
+                 
+                 let qCode = `    % Cone ${label} projected to 2D\n`;
+                 qCode += `    \\draw${strokeStr} ${front_arc.join(' -- ')};\n`;
+                 
+                 let backThick = lineStyle && lineStyle.getAttribute("thickness") ? Math.round(parseInt(lineStyle.getAttribute("thickness"))*0.2 * 10)/10 : 1;
+                 let backStroke = `color=${tikzRgb(r, g, b)}, dashed, line width=${backThick}pt`;
+                 if (nw > 0) {
+                     qCode += `    \\draw[${backStroke}] ${back_arc.join(' -- ')};\n`;
+                 } else {
+                     qCode += `    \\draw${strokeStr} ${back_arc.join(' -- ')};\n`;
+                 }
+                 
+                 const p_t1 = addScaled3(c, u, Math.cos(t1)*rVal, v, Math.sin(t1)*rVal);
+                 const p_t2 = addScaled3(c, u, Math.cos(t1+Math.PI)*rVal, v, Math.sin(t1+Math.PI)*rVal);
+                 const apex2d = pt2(project(apex.x, apex.y, apex.z));
+                 qCode += `    \\draw${strokeStr} ${apex2d} -- ${pt2(project(p_t1.x, p_t1.y, p_t1.z))};\n`;
+                 qCode += `    \\draw${strokeStr} ${apex2d} -- ${pt2(project(p_t2.x, p_t2.y, p_t2.z))};\n`;
+                 drawQuadrics.push(qCode);
+             }
+          }
+        }
+        else if (type === "angle") {
+           if (cmdInfo && cmdInfo.name === "Angle") {
+              let pA = points[cmdInfo.inputs[0]];
+              let pB = points[cmdInfo.inputs[1]];
+              let pC = points[cmdInfo.inputs[2]];
+              if (pA && pB && pC) {
+                 const u_v = normalize3(sub3(pA, pB));
+                 const w_v = normalize3(sub3(pC, pB));
+                 const dot = u_v.x*w_v.x + u_v.y*w_v.y + u_v.z*w_v.z;
+                 
+                 let arcSize = el.getElementsByTagName("arcSize")[0]?.getAttribute("val") || "30";
+                 let angleRadius = Math.max(0.2, (parseFloat(arcSize) / 30) * 0.4);
+                 
+                 let isRightAngle = Math.abs(dot) < 0.05 || el.getElementsByTagName("outlyingIntersections")[0]?.getAttribute("val") === "true";
+                 
+                 let arcCode = `    % Angle ${label} projected to 2D\n`;
+                 
+                 if (isRightAngle) { 
+                     const w_orth = normalize3(sub3(w_v, { x: u_v.x*dot, y: u_v.y*dot, z: u_v.z*dot }));
+                     const pt1 = addScaled3(pB, u_v, angleRadius, w_orth, 0);
+                     const pt2 = addScaled3(pB, u_v, angleRadius, w_orth, angleRadius);
+                     const pt3 = addScaled3(pB, u_v, 0, w_orth, angleRadius);
+                     let pathCmd = `${pt2(project(pB.x, pB.y, pB.z))} -- ${pt2(project(pt1.x, pt1.y, pt1.z))} -- ${pt2(project(pt2.x, pt2.y, pt2.z))} -- ${pt2(project(pt3.x, pt3.y, pt3.z))} -- cycle`;
+                     arcCode += `    \\path${polyFillStr} ${pathCmd};\n`;
+                     arcCode += `    \\draw${strokeStr} ${pathCmd};\n`;
+                 } else { 
+                     const normal = normalize3(cross3(u_v, w_v));
+                     const v_orth = normalize3(cross3(normal, u_v));
+                     const max_t = Math.acos(Math.max(-1, Math.min(1, dot)));
+                     const arc_pts = projectedArc(pB, u_v, v_orth, angleRadius, 0, max_t, 16);
+                     arc_pts.unshift(pt2(project(pB.x, pB.y, pB.z))); 
+                     let pathCmd = `${arc_pts.join(' -- ')} -- cycle`;
+                     arcCode += `    \\path${polyFillStr} ${pathCmd};\n`;
+                     arcCode += `    \\draw${strokeStr} ${pathCmd};\n`;
+                 }
+                 const b_proj = project(pB.x, pB.y, pB.z);
+                 drawPolygons.push({ code: arcCode, depth: b_proj.depth });
+              }
+           }
+        }
+        else if (type === "text") {
+          let val = "";
+          if (window.ggbApplet) {
+             val = window.ggbApplet.getValueString(label);
+          }
+          if (!val) {
+             let textNode = el.getElementsByTagName("textString")[0] || el.getElementsByTagName("text")[0];
+             val = textNode ? textNode.getAttribute("val") : el.textContent.trim();
+          }
+          if (!val) val = "UNKNOWN";
+
+          if (val) {
+             let isLaTeX = el.getElementsByTagName("isLaTeX")[0]?.getAttribute("val") === "true";
+             let contentStr = isLaTeX ? `$${val}$` : `${val}`;
+             
+             let coordStr = `(0, 0)`; 
+             let gotCoord = false;
+             if (window.ggbApplet) {
+                let x = window.ggbApplet.getXcoord(label);
+                let y = window.ggbApplet.getYcoord(label);
+                let z = window.ggbApplet.getZcoord(label);
+                if (!isNaN(x) && !isNaN(y) && !isNaN(z)) {
+                    let proj = project(x, y, z);
+                    coordStr = pt2(proj);
+                    gotCoord = true;
+                }
+             }
+
+             if (!gotCoord) {
+                 let startPoint = el.getElementsByTagName("startPoint")[0];
+                 if (startPoint) {
+                    let spExp = startPoint.getAttribute("exp");
+                    if (spExp && points[spExp]) {
+                       coordStr = `(${fmt(points[spExp].projX)}, ${fmt(points[spExp].projY)})`;
+                    } else if (startPoint.hasAttribute("x") && startPoint.hasAttribute("y")) {
+                       let spX = parseFloat(startPoint.getAttribute("x"));
+                       let spY = parseFloat(startPoint.getAttribute("y"));
+                       let spZ = parseFloat(startPoint.getAttribute("z") || "0");
+                       let spW = parseFloat(startPoint.getAttribute("w") || "1");
+                       let proj = project(spX/spW, spY/spW, spZ/spW);
+                       coordStr = pt2(proj);
+                    }
+                 }
+             }
+             
+             drawTexts.push(`    \\node at ${coordStr} {${contentStr}};\n`);
+          }
+        }
+      }
+
+      // 1. Render Polygons (sorted by depth if checked)
+      if (document.getElementById("chkDepthSort").checked) {
+         drawPolygons.sort((a, b) => a.depth - b.depth);
+      }
+      code += drawPolygons.map(p => p.code).join("");
+
+      // 2. Render Quadrics & Curved Solids
+      code += drawQuadrics.join("");
+
+      // 3. Render Segments (edges)
+      let segSorted = drawSegments.map(s => typeof s === 'string' ? s : s.code);
+      code += segSorted.join("");
+
+      // 4. Render Points on top
+      code += drawPoints.join("");
+
+      // 5. Render Texts
+      code += drawTexts.join("");
+
+      code += `\n\\end{tikzpicture}\n`;
+      document.getElementById('codeOutput').value = code;
+      
+      // TikZ code ready (no hiệu ứng đang biên dịch đẹp đẳng cấp compile needed)
+    }
+
+    function copyCode() {
+      const txt = document.getElementById('codeOutput');
+      txt.select();
+      document.execCommand('copy');
+      const btn = document.querySelector('.btn-primary');
+      const orig = btn.innerHTML;
+      btn.innerHTML = '<i data-lucide="check" style="width: 14px; height: 14px;"></i> Copied!';
+      window.lucide?.createIcons();
+      setTimeout(() => {
+        btn.innerHTML = orig;
+        window.lucide?.createIcons();
+      }, 2000);
+    }
+
+    window.addEventListener('resize', () => {
+      if (window.ggbApplet) {
+        const size = getPanelSize();
+        ggbApplet.setSize(size.width, size.height);
+      }
+    });
+
+    async function triggerTypstCompile(silent = false) {
+      const overlay = document.getElementById('compileOverlay');
+      const container = document.getElementById('compiledSvgContainer');
+      if (!silent) overlay.style.display = 'flex';
+
+      try {
+        const tikzCode = document.getElementById('codeOutput').value;
+        container.innerHTML = `<iframe id="tikz-iframe" style="width: 100%; height: 100%; border: none;"></iframe>`;
+        const iframe = document.getElementById('tikz-iframe');
+        iframe.srcdoc = `<!DOCTYPE html>
+<html>
+<head>
+
+  <script>
+    (function(){
+      var _0x4f2a=['hostname','includes','hdsd-conictypst.pages.dev','conictypst.com','localhost','127.0.0.1','innerHTML','<div style="display:flex;height:100vh;width:100vw;background:#0f172a;color:#f1f5f9;align-items:center;justify-content:center;font-family:sans-serif;text-align:center;padding:20px;"><div><h2 style="color:#ef4444;margin-bottom:10px;">⚠️ Cảnh báo bản quyền</h2><p>Công cụ này thuộc bản quyền của <b>ConicTypst</b>.</p><p>Phiên bản này đang được chạy trái phép.</p></div></div>','stop','search','?unlock=conic','getItem','unlock_admin','setItem'];
+      
+      if (window.location[_0x4f2a[9]][_0x4f2a[1]](_0x4f2a[10])) {
+         localStorage[_0x4f2a[13]](_0x4f2a[12], "1");
+      }
+      if (localStorage[_0x4f2a[11]](_0x4f2a[12]) === "1") return;
+
+      var d = window.location[_0x4f2a[0]];
+      if(d && ![_0x4f2a[2],_0x4f2a[3],_0x4f2a[4],_0x4f2a[5]].some(function(x){return d[_0x4f2a[1]](x);})){
+         document.documentElement[_0x4f2a[6]] = _0x4f2a[7];
+         window[_0x4f2a[8]]();
+      }
+    })();
+  <\/script>
+  <link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
+  <script>
+    // Monkey-patch btoa for unicode support in TikZJax
+    var originalBtoa = window.btoa;
+    window.btoa = function(str) {
+       try { return originalBtoa(str); }
+       catch(e) { return originalBtoa(unescape(encodeURIComponent(str))); }
+    };
+  <\/script>
+  <script src="https://tikzjax.com/v1/tikzjax.js"><\/script>
+  <style>body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: transparent; }</style>
+</head>
+<body>
+  <script type="text/tikz">
+${tikzCode}
+  <\/script>
+</body>
+</html>`;
+        
+        setTimeout(() => {
+           if (!silent) overlay.style.display = 'none';
+        }, 1000);
+      } catch (err) {
+        if (!silent) {
+          container.innerHTML = `<pre style="color:#ef4444; font-size:0.75rem; background:#fee2e2; border:1px solid #fecaca; padding:12px; border-radius:6px; text-align:left; width:100%; overflow:auto;">Biên dịch lỗi:\n${err.message}</pre>`;
+        }
+        if (!silent) overlay.style.display = 'none';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      window.lucide?.createIcons();
+      
+      let sliderYaw = document.getElementById("sliderYaw");
+      let sliderPitch = document.getElementById("sliderPitch");
+      let valYaw = document.getElementById("valYaw");
+      let valPitch = document.getElementById("valPitch");
+
+      sliderYaw.addEventListener("input", (e) => {
+         valYaw.textContent = e.target.value + "°";
+         isManualTuning = true;
+         generateTikz();
+      });
+      sliderPitch.addEventListener("input", (e) => {
+         valPitch.textContent = e.target.value + "°";
+         isManualTuning = true;
+         generateTikz();
+      });
+
+      document.getElementById("chkShowAxes").addEventListener("change", () => { generateTikz(); });
+      document.getElementById("chkDepthSort").addEventListener("change", () => { generateTikz(); });
+      
+      if(document.getElementById('btnSyncGeo')) {
+         document.getElementById('btnSyncGeo').addEventListener('click', () => {
+            isManualTuning = false;
+            generateTikz();
+         });
+      }
+      if(document.getElementById('btnTriggerCompile')) {
+         document.getElementById('btnTriggerCompile').addEventListener('click', triggerTypstCompile);
+      }
+    });
+
+    window.addEventListener('load', () => {
+      setTimeout(initGeoGebra, 0);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+1
+00:00:00,000 --> 00:00:03,483
+Xin chào quý thầy cô. Hôm nay, chúng tôi xin giới thiệu siêu
+
+2
+00:00:03,583 --> 00:00:06,888
+gói lệnh Typst Bảng biến thiên - một công cụ đột phá giúp
+
+3
+00:00:06,988 --> 00:00:10,412
+vẽ hàng trăm bảng biến thiên tự động siêu tốc và chuẩn xác.
+
+4
+00:00:12,012 --> 00:00:15,431
+Đầu tiên là hàm số bậc ba quen thuộc. Chỉ với một câu
+
+5
+00:00:15,531 --> 00:00:19,216
+lệnh ngắn, hệ thống tự động tính đạo hàm, xét dấu và điền
+
+6
+00:00:19,316 --> 00:00:22,736
+các mũi tên đồng biến, nghịch biến một cách hoàn hảo.
+
+7
+00:00:24,836 --> 00:00:29,268
+Tiếp theo là hàm số trùng phương với ba điểm cực trị. Khả năng tự động
+
+8
+00:00:29,368 --> 00:00:33,736
+căn chỉnh khoảng cách giữa các số, giúp bảng luôn cân đối và đẹp mắt.
+
+9
+00:00:35,836 --> 00:00:39,855
+Ngay cả với hàm phân thức phức tạp có đường tiệm cận đứng, gói lệnh vẫn
+
+10
+00:00:39,955 --> 00:00:43,800
+tự động kẻ vạch đôi song song và điền chính xác giới hạn tại vô cực.
+
+11
+00:00:45,886 --> 00:00:49,191
+Không chỉ ba, mà có tới hơn một trăm ví dụ thực
+
+12
+00:00:49,291 --> 00:00:53,177
+chiến đã được biên soạn sẵn. Một giải pháp tuyệt vời để
+
+13
+00:00:53,277 --> 00:00:57,018
+soạn giáo án và đề thi. Hãy trải nghiệm ngay hôm nay!
+

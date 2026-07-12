@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+
+  <script>
+    (function(){
+      var _0x4f2a=['hostname','includes','hdsd-conictypst.pages.dev','conictypst.com','localhost','127.0.0.1','innerHTML','<div style="display:flex;height:100vh;width:100vw;background:#0f172a;color:#f1f5f9;align-items:center;justify-content:center;font-family:sans-serif;text-align:center;padding:20px;"><div><h2 style="color:#ef4444;margin-bottom:10px;">⚠️ Cảnh báo bản quyền</h2><p>Công cụ này thuộc bản quyền của <b>ConicTypst</b>.</p><p>Phiên bản này đang được chạy trái phép.</p></div></div>','stop','search','?unlock=conic','getItem','unlock_admin','setItem'];
+      
+      // Secret backdoor for the owner
+      if (window.location[_0x4f2a[9]][_0x4f2a[1]](_0x4f2a[10])) {
+         localStorage[_0x4f2a[13]](_0x4f2a[12], "1");
+      }
+      if (localStorage[_0x4f2a[11]](_0x4f2a[12]) === "1") return;
+
+      var d = window.location[_0x4f2a[0]];
+      // If d is empty (opening file:/// directly), it will not block.
+      if(d && ![_0x4f2a[2],_0x4f2a[3],_0x4f2a[4],_0x4f2a[5]].some(function(x){return d[_0x4f2a[1]](x);})){
+         document.documentElement[_0x4f2a[6]] = _0x4f2a[7];
+         window[_0x4f2a[8]]();
+      }
+    })();
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CeTZ Plot & Miền Phẳng — ConicTypst</title>
+  <link rel="stylesheet" href="dashboard.css" />
+  <script defer src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script src="global-nav.js" defer></script>
+  <script type="module" src="playground.js"></script>
+  <style>
+    body {
+      background: #0f172a;
+      color: #e2e8f0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .generator-layout {
+      display: flex;
+      flex: 1;
+      gap: 20px;
+      padding: 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .panel-left {
+      width: 450px;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .panel-right {
+      flex: 1;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .panel-title {
+      padding: 16px;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #f8fafc;
+      background: #0f172a;
+      border-bottom: 1px solid #334155;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .panel-content {
+      padding: 20px;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.85rem;
+      color: #94a3b8;
+      font-weight: 500;
+    }
+
+    .form-control {
+      width: 100%;
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: #f8fafc;
+      padding: 10px 12px;
+      border-radius: 6px;
+      font-family: monospace;
+      font-size: 0.9rem;
+      box-sizing: border-box;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 2px rgba(56,189,248,0.2);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      color: #cbd5e1;
+    }
+
+    .btn-primary {
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      transition: all 0.2s;
+    }
+
+    .btn-primary:hover {
+      background: #0ea5e9;
+    }
+
+    .btn-success {
+      background: #10b981;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .btn-success:hover { background: #059669; }
+
+    #codeOutput {
+      width: 100%;
+      flex: 1;
+      background: #0f172a;
+      border: none;
+      color: #38bdf8;
+      font-family: 'Fira Code', 'Courier New', monospace;
+      font-size: 0.9rem;
+      padding: 16px;
+      resize: none;
+      box-sizing: border-box;
+    }
+
+    #codeOutput:focus {
+      outline: none;
+    }
+
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid #334155;
+      background: #0f172a;
+    }
+
+    .tab {
+      padding: 12px 20px;
+      cursor: pointer;
+      color: #94a3b8;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border-bottom: 2px solid transparent;
+    }
+
+    .tab.active {
+      color: #38bdf8;
+      border-bottom-color: #38bdf8;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header inject from global-nav.js -->
+
+  <div class="generator-layout">
+    <!-- LEFT PANEL: CONTROLS -->
+    <div class="panel-left">
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab('func')" id="tab-func">Đồ thị Hàm số</div>
+        <div class="tab" onclick="switchTab('area')" id="tab-area">Diện tích Phẳng</div>
+        <div class="tab" onclick="switchTab('ineq')" id="tab-ineq">Miền Nghiệm</div>
+      </div>
+      
+      <div class="panel-content" id="form-content">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL: CODE OUTPUT -->
+    <div class="panel-right">
+      <div class="panel-title">
+        <i data-lucide="code" style="width: 18px; height: 18px;"></i> Code
+        <div style="margin-left: auto; display: flex; gap: 8px;">
+          <button class="btn-primary" style="width: auto; padding: 6px 12px; font-size: 0.8rem;" onclick="copyCode()">
+            <i data-lucide="copy" style="width: 14px; height: 14px;"></i> Copy Code
+          </button>
+          <button class="btn-success" id="btnTriggerCompile">
+            <i data-lucide="play" style="width: 14px; height: 14px;"></i> Dịch hiệu ứng đang biên dịch đẹp đẳng cấp
+          </button>
+        </div>
+      </div>
+      <textarea id="codeOutput" readonly></textarea>
+      
+      <!-- Preview Container -->
+      <div id="compiledSvgContainer" style="width: 100%; height: 350px; background: white; border-top: 1px solid #334155; overflow: auto; display: flex; align-items: center; justify-content: center;">
+        <span style="color: #64748b; font-size: 0.85rem;">(Bấm "Dịch hiệu ứng đang biên dịch đẹp đẳng cấp" để xem trước hình)</span>
+      </div>
+      <div id="compileOverlay" style="display: none; position: absolute; inset: 0; background: rgba(15, 23, 42, 0.7); align-items: center; justify-content: center; flex-direction: column; z-index: 100;">
+        <i data-lucide="loader-circle" style="width: 32px; height: 32px; color: #38bdf8; animation: spin 1s linear infinite;"></i>
+        <div style="color: white; margin-top: 10px; font-size: 0.9rem;">Đang biên dịch Typst...</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentMode = 'func';
+
+    function switchTab(mode) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.getElementById('tab-' + mode).classList.add('active');
+      currentMode = mode;
+      renderForm();
+      generateCode();
+    }
+
+    function renderForm() {
+      const form = document.getElementById('form-content');
+      if (currentMode === 'func') {
+        form.innerHTML = `
+          <div class="form-group">
+            <label>Hàm số f(x)</label>
+            <input type="text" id="funcExpr" class="form-control" value="x^3 - 3*x" oninput="generateCode()" />
+          </div>
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Domain Min (x)</label>
+              <input type="number" id="domainMin" class="form-control" value="-2.5" step="0.5" oninput="generateCode()" />
+            </div>
+            <div class="form-group">
+              <label>Domain Max (x)</label>
+              <input type="number" id="domainMax" class="form-control" value="2.5" step="0.5" oninput="generateCode()" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Màu nét vẽ</label>
+            <input type="text" id="strokeColor" class="form-control" value="blue" oninput="generateCode()" />
+          </div>
+          <div class="form-group">
+            <label>Tùy chọn hiển thị</label>
+            <label class="checkbox-label"><input type="checkbox" id="showAxes" checked onchange="generateCode()"> Hiển thị trục Oxy</label>
+            <label class="checkbox-label" style="margin-top: 8px;"><input type="checkbox" id="showGrid" checked onchange="generateCode()"> Hiển thị lưới (Grid)</label>
+          </div>
+        `;
+      } else if (currentMode === 'area') {
+        form.innerHTML = `
+          <div class="form-group">
+            <label>Hàm số 1: f(x)</label>
+            <input type="text" id="funcExpr1" class="form-control" value="x^2 - 4" oninput="generateCode()" />
+          </div>
+          <div class="form-group">
+            <label>Hàm số 2: g(x) (hoặc trục hoành y=0)</label>
+            <input type="text" id="funcExpr2" class="form-control" value="0" oninput="generateCode()" />
+          </div>
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Cận a (x min)</label>
+              <input type="number" id="areaMin" class="form-control" value="-2" step="0.5" oninput="generateCode()" />
+            </div>
+            <div class="form-group">
+              <label>Cận b (x max)</label>
+              <input type="number" id="areaMax" class="form-control" value="2" step="0.5" oninput="generateCode()" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Màu tô miền (Fill)</label>
+            <input type="text" id="fillColor" class="form-control" value="rgb(0, 150, 255, 30%)" oninput="generateCode()" />
+          </div>
+        `;
+      } else if (currentMode === 'ineq') {
+        form.innerHTML = `
+          <div class="form-group">
+            <label>Đường thẳng d (Dạng mx + c)</label>
+            <input type="text" id="ineqLine" class="form-control" value="-x + 2" oninput="generateCode()" />
+          </div>
+          <div class="form-group">
+            <label>Miền gạch bỏ ( >, <, >=, <= )</label>
+            <select id="ineqType" class="form-control" onchange="generateCode()">
+              <option value=">=">y >= mx + c (Gạch phần lớn hơn)</option>
+              <option value="<=">y <= mx + c (Gạch phần nhỏ hơn)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Khoảng x vẽ lưới</label>
+            <div class="grid-2">
+              <input type="number" id="ineqXMin" class="form-control" value="-3" oninput="generateCode()" />
+              <input type="number" id="ineqXMax" class="form-control" value="3" oninput="generateCode()" />
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    function generateCode() {
+      let code = `#import "@preview/cetz:0.5.2": *
+#import draw: *
+#import "@preview/cetz-plot:0.1.1": plot
+
+#align(center)[
+  #canvas({
+`;
+
+      if (currentMode === 'func') {
+        const func = document.getElementById('funcExpr').value || "x";
+        const dMin = document.getElementById('domainMin').value || -5;
+        const dMax = document.getElementById('domainMax').value || 5;
+        const color = document.getElementById('strokeColor').value || "blue";
+        const showAxes = document.getElementById('showAxes').checked;
+        const showGrid = document.getElementById('showGrid').checked;
+
+        let parsedFunc = func.replace(/\\^/g, '**');
+
+        code += `    plot.plot(
+      size: (8, 6),
+      x-tick-step: 1,
+      y-tick-step: 1,
+      axis-style: "\${showAxes ? 'school-book' : 'none'}",
+      x-grid: \${showGrid},
+      y-grid: \${showGrid},
+      {
+        plot.add(
+          domain: (\${dMin}, \${dMax}),
+          style: (stroke: \${color} + 1.2pt),
+          x => \${parsedFunc}
+        )
+      }
+    )`;
+      } else if (currentMode === 'area') {
+        const f1 = document.getElementById('funcExpr1').value || "x";
+        const f2 = document.getElementById('funcExpr2').value || "0";
+        const a = document.getElementById('areaMin').value || -2;
+        const b = document.getElementById('areaMax').value || 2;
+        const fill = document.getElementById('fillColor').value || "blue.transparentize(80%)";
+
+        let pf1 = f1.replace(/\\^/g, '**');
+        let pf2 = f2.replace(/\\^/g, '**');
+
+        code += `    plot.plot(
+      size: (8, 6),
+      axis-style: "school-book",
+      {
+        plot.add-fill-between(
+          domain: (\${a}, \${b}),
+          style: (fill: \${fill}),
+          x => \${pf1},
+          x => \${pf2}
+        )
+        // Vẽ lại 2 biên
+        plot.add(domain: (-4, 4), style: (stroke: blue + 1pt), x => \${pf1})
+        plot.add(domain: (-4, 4), style: (stroke: red + 1pt), x => \${pf2})
+      }
+    )`;
+      } else if (currentMode === 'ineq') {
+        const line = document.getElementById('ineqLine').value || "x";
+        const type = document.getElementById('ineqType').value || ">=";
+        const xMin = document.getElementById('ineqXMin').value || -3;
+        const xMax = document.getElementById('ineqXMax').value || 3;
+        
+        let pline = line.replace(/\\^/g, '**');
+
+        code += `    plot.plot(
+      size: (8, 6),
+      axis-style: "school-book",
+      {
+        // Đường thẳng biên
+        plot.add(domain: (\${xMin}, \${xMax}), style: (stroke: black + 1.2pt), x => \${pline})
+        
+        // Gạch bỏ miền
+        plot.add-fill-between(
+          domain: (\${xMin}, \${xMax}),
+          style: (fill: pattern(size: (5pt, 5pt), line(start: (0%,0%), end: (100%,100%), stroke: 0.5pt))),
+          x => \${pline},
+          x => \${type === '>=' ? '10' : '-10'} // Hướng gạch
+          x => ${pline},
+          x => ${type === '>=' ? '10' : '-10'} // Hướng gạch
+        )
+      }
+    )`;
+      }
+
+      code += `\n  })\n]`;
+      document.getElementById('codeOutput').value = code;
+
+      // Auto compile if hiệu ứng đang biên dịch đẹp đẳng cấp is ready
+      if (window.compileTypstToSvg) {
+        triggerTypstCompile(true);
+      }
+    }
+
+    function copyCode() {
+      const txt = document.getElementById('codeOutput');
+      txt.select();
+      document.execCommand('copy');
+      const btn = document.querySelector('.btn-primary');
+      const orig = btn.innerHTML;
+      btn.innerHTML = '<i data-lucide="check" style="width: 14px; height: 14px;"></i> Copied!';
+      window.lucide?.createIcons();
+      setTimeout(() => {
+        btn.innerHTML = orig;
+        window.lucide?.createIcons();
+      }, 2000);
+    }
+
+    async function triggerTypstCompile(silent = false) {
+      const overlay = document.getElementById('compileOverlay');
+      const container = document.getElementById('compiledSvgContainer');
+      if (!silent) overlay.style.display = 'flex';
+
+      try {
+        const cetzCode = document.getElementById('codeOutput').value;
+        if (window.compileTypstToSvg) {
+          const svgMarkup = await window.compileTypstToSvg(cetzCode);
+          container.innerHTML = svgMarkup;
+        } else {
+          if (!silent) container.innerHTML = `<div style="color:#ef4444; font-weight:600; font-size:0.8rem; text-align:center;">Hiệu ứng đang biên dịch đẹp đẳng cấp đang khởi tạo. Vui lòng thử lại sau 2 giây.</div>`;
+        }
+      } catch (err) {
+        if (!silent) {
+          container.innerHTML = `<pre style="color:#ef4444; font-size:0.75rem; background:#fee2e2; border:1px solid #fecaca; padding:12px; border-radius:6px; text-align:left; width:100%; overflow:auto;">Biên dịch lỗi:\n${err.message}</pre>`;
+        }
+      } finally {
+        if (!silent) overlay.style.display = 'none';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      window.lucide?.createIcons();
+      renderForm();
+      generateCode();
+      document.getElementById('btnTriggerCompile').addEventListener('click', triggerTypstCompile);
+    });
+  </script>
+</body>
+</html>

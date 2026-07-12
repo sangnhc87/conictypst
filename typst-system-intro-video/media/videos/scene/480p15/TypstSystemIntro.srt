@@ -1,0 +1,104 @@
+1
+00:00:00,000 --> 00:00:04,778
+Xin chào. Tôi là giáo viên Nguyễn Văn Sang. Đây là ConicTypst, hệ
+
+2
+00:00:04,878 --> 00:00:09,356
+sinh thái tôi đang xây dựng để soạn học liệu Toán bằng Typst.
+
+3
+00:00:10,156 --> 00:00:14,202
+Một giáo viên Toán mỗi năm phải lặp lại rất nhiều việc: soạn đề,
+
+4
+00:00:14,302 --> 00:00:18,543
+vẽ hình, làm bảng biến thiên, quản lý câu hỏi, trình chiếu và hướng
+
+5
+00:00:18,643 --> 00:00:23,208
+dẫn học sinh. ConicTypst gom các việc đó thành một quy trình thống nhất.
+
+6
+00:00:26,308 --> 00:00:31,047
+Dashboard là cửa vào chính. Ở đây tôi có thể đi thẳng đến ngân hàng
+
+7
+00:00:31,147 --> 00:00:36,248
+câu hỏi, trộn đề, OCR, công cụ CeTZ, Beamer và tài liệu hướng dẫn. Những
+
+8
+00:00:36,348 --> 00:00:41,016
+con số trên dashboard giúp tôi biết hệ thống đang lớn lên đến đâu.
+
+9
+00:00:43,116 --> 00:00:48,278
+Phần đề thi dùng macro Typst thống nhất. Mỗi câu có cấu trúc rõ, có đáp
+
+10
+00:00:48,378 --> 00:00:52,947
+án đúng, có lời giải và có ID để đối soát. Khi cần, hệ thống có
+
+11
+00:00:53,047 --> 00:00:57,320
+thể trộn nhiều mã đề bằng seed mà vẫn giữ được bảng đáp án.
+
+12
+00:00:58,120 --> 00:01:02,124
+Với CeTZ và BBT, hình vẽ không còn là ảnh rời khó sửa. Đồ
+
+13
+00:01:02,224 --> 00:01:06,732
+thị, bảng biến thiên, bảng xét dấu và hình không gian đều có thể
+
+14
+00:01:06,832 --> 00:01:10,404
+sinh từ mã Typst, sửa tọa độ là hình cập nhật theo.
+
+15
+00:01:12,604 --> 00:01:16,106
+Atlas là nơi tôi gom các chuyên đề tâm đắc để dùng lại
+
+16
+00:01:16,206 --> 00:01:20,176
+hằng năm. Mỗi năm chỉ cần thêm file, cập nhật trạng thái, rồi
+
+17
+00:01:20,276 --> 00:01:23,712
+học liệu cũ và mới cùng nằm trong một bản đồ rõ ràng.
+
+18
+00:01:25,662 --> 00:01:29,213
+Phần Beamer giúp tôi biến bài giảng Typst thành thư viện
+
+19
+00:01:29,313 --> 00:01:32,539
+trình chiếu. Khi lên lớp, chỉ cần mở bài, phóng to,
+
+20
+00:01:32,639 --> 00:01:35,930
+sang slide và tập trung vào nhịp giảng với học sinh.
+
+21
+00:01:36,728 --> 00:01:40,013
+Tất cả được đưa lên web để chính tôi và học sinh
+
+22
+00:01:40,113 --> 00:01:43,891
+không phải nhớ nhiều địa chỉ. Một link duy nhất dẫn đến
+
+23
+00:01:43,991 --> 00:01:47,980
+HDSD, Dashboard, Atlas, Beamer và các công cụ thường dùng.
+
+24
+00:01:49,795 --> 00:01:54,017
+ConicTypst chưa phải là điểm kết thúc. Nó là một hệ thống sống: mỗi
+
+25
+00:01:54,117 --> 00:01:57,952
+năm tôi dạy, tôi cập nhật thêm; mỗi chuyên đề tốt sẽ được giữ
+
+26
+00:01:58,052 --> 00:02:01,887
+lại; và học sinh có một nguồn học liệu ngày càng rõ ràng hơn.
+

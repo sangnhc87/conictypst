@@ -1,0 +1,7 @@
+Chào mừng các em đến với video giải chi tiết môn Toán.
+Đề bài yêu cầu chúng ta tính giới hạn của biểu thức x bình trừ 1, tất cả chia cho x trừ 1, khi x tiến tới 1.
+Để giải quyết bài toán giới hạn dạng 0 chia 0 này, bước đầu tiên, ta phân tích tử số thành nhân tử. x bình trừ 1 được viết lại thành tích của x trừ 1, và x cộng 1.
+Khi đó, biểu thức giới hạn ban đầu sẽ trở thành giới hạn của tích x trừ 1 và x cộng 1, tất cả chia cho x trừ 1.
+Ta tiến hành triệt tiêu đại lượng x trừ 1 ở cả tử và mẫu. Biểu thức lúc này chỉ còn lại là giới hạn của x cộng 1.
+Cuối cùng, thay trực tiếp x bằng 1 vào biểu thức, ta được giới hạn bằng 1 cộng 1, tức là bằng 2.
+So sánh với các phương án, ta chọn đáp án B. Bài toán được giải quyết hoàn toàn.

@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+
+  <script>
+    (function(){
+      var _0x4f2a=['hostname','includes','hdsd-conictypst.pages.dev','conictypst.com','localhost','127.0.0.1','innerHTML','<div style="display:flex;height:100vh;width:100vw;background:#0f172a;color:#f1f5f9;align-items:center;justify-content:center;font-family:sans-serif;text-align:center;padding:20px;"><div><h2 style="color:#ef4444;margin-bottom:10px;">⚠️ Cảnh báo bản quyền</h2><p>Công cụ này thuộc bản quyền của <b>ConicTypst</b>.</p><p>Phiên bản này đang được chạy trái phép.</p></div></div>','stop','search','?unlock=conic','getItem','unlock_admin','setItem'];
+      
+      // Secret backdoor for the owner
+      if (window.location[_0x4f2a[9]][_0x4f2a[1]](_0x4f2a[10])) {
+         localStorage[_0x4f2a[13]](_0x4f2a[12], "1");
+      }
+      if (localStorage[_0x4f2a[11]](_0x4f2a[12]) === "1") return;
+
+      var d = window.location[_0x4f2a[0]];
+      // If d is empty (opening file:/// directly), it will not block.
+      if(d && ![_0x4f2a[2],_0x4f2a[3],_0x4f2a[4],_0x4f2a[5]].some(function(x){return d[_0x4f2a[1]](x);})){
+         document.documentElement[_0x4f2a[6]] = _0x4f2a[7];
+         window[_0x4f2a[8]]();
+      }
+    })();
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CeTZ 3D & Tròn Xoay — ConicTypst</title>
+  <link rel="stylesheet" href="dashboard.css" />
+  <script defer src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script src="global-nav.js" defer></script>
+  <script type="module" src="playground.js"></script>
+  <style>
+    body {
+      background: #0f172a;
+      color: #e2e8f0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .generator-layout {
+      display: flex;
+      flex: 1;
+      gap: 20px;
+      padding: 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .panel-left {
+      width: 450px;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .panel-right {
+      flex: 1;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .panel-title {
+      padding: 16px;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #f8fafc;
+      background: #0f172a;
+      border-bottom: 1px solid #334155;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .panel-content {
+      padding: 20px;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.85rem;
+      color: #94a3b8;
+      font-weight: 500;
+    }
+
+    .form-control {
+      width: 100%;
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: #f8fafc;
+      padding: 10px 12px;
+      border-radius: 6px;
+      font-family: monospace;
+      font-size: 0.9rem;
+      box-sizing: border-box;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 2px rgba(56,189,248,0.2);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      color: #cbd5e1;
+    }
+
+    .btn-primary {
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      transition: all 0.2s;
+    }
+
+    .btn-primary:hover {
+      background: #0ea5e9;
+    }
+
+    .btn-success {
+      background: #10b981;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .btn-success:hover { background: #059669; }
+
+    #codeOutput {
+      width: 100%;
+      flex: 1;
+      background: #0f172a;
+      border: none;
+      color: #38bdf8;
+      font-family: 'Fira Code', 'Courier New', monospace;
+      font-size: 0.9rem;
+      padding: 16px;
+      resize: none;
+      box-sizing: border-box;
+      white-space: pre;
+      overflow-x: auto;
+    }
+
+    #codeOutput:focus {
+      outline: none;
+    }
+
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid #334155;
+      background: #0f172a;
+    }
+
+    .tab {
+      padding: 12px 14px;
+      cursor: pointer;
+      color: #94a3b8;
+      font-size: 0.85rem;
+      font-weight: 500;
+      border-bottom: 2px solid transparent;
+    }
+
+    .tab.active {
+      color: #38bdf8;
+      border-bottom-color: #38bdf8;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header inject from global-nav.js -->
+
+  <div class="generator-layout">
+    <!-- LEFT PANEL: CONTROLS -->
+    <div class="panel-left">
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab('grid3d')" id="tab-grid3d">Lưới 3MP</div>
+        <div class="tab" onclick="switchTab('sphere')" id="tab-sphere">Khối Cầu</div>
+        <div class="tab" onclick="switchTab('cone')" id="tab-cone">Khối Nón</div>
+        <div class="tab" onclick="switchTab('cylinder')" id="tab-cylinder">Khối Trụ</div>
+      </div>
+      
+      <div class="panel-content" id="form-content">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL: CODE OUTPUT -->
+    <div class="panel-right">
+      <div class="panel-title">
+        <i data-lucide="code" style="width: 18px; height: 18px;"></i> Code
+        <div style="margin-left: auto; display: flex; gap: 8px;">
+          <button class="btn-primary" style="width: auto; padding: 6px 12px; font-size: 0.8rem;" onclick="copyCode()">
+            <i data-lucide="copy" style="width: 14px; height: 14px;"></i> Copy Code
+          </button>
+          <button class="btn-success" id="btnTriggerCompile">
+            <i data-lucide="play" style="width: 14px; height: 14px;"></i> Dịch hiệu ứng đang biên dịch đẹp đẳng cấp
+          </button>
+        </div>
+      </div>
+      <textarea id="codeOutput" readonly></textarea>
+      
+      <!-- Preview Container -->
+      <div id="compiledSvgContainer" style="width: 100%; height: 350px; background: white; border-top: 1px solid #334155; overflow: auto; display: flex; align-items: center; justify-content: center;">
+        <span style="color: #64748b; font-size: 0.85rem;">(Bấm "Dịch hiệu ứng đang biên dịch đẹp đẳng cấp" để xem trước hình)</span>
+      </div>
+      <div id="compileOverlay" style="display: none; position: absolute; inset: 0; background: rgba(15, 23, 42, 0.7); align-items: center; justify-content: center; flex-direction: column; z-index: 100;">
+        <i data-lucide="loader-circle" style="width: 32px; height: 32px; color: #38bdf8; animation: spin 1s linear infinite;"></i>
+        <div style="color: white; margin-top: 10px; font-size: 0.9rem;">Đang biên dịch Typst...</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="playground.js"></script>
+  <script>
+    let currentMode = 'grid3d';
+
+    function switchTab(mode) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.getElementById('tab-' + mode).classList.add('active');
+      currentMode = mode;
+      renderForm();
+      generateCode();
+    }
+
+    function renderForm() {
+      const form = document.getElementById('form-content');
+      
+      // Common 3D Perspective controls for all tabs
+      let commonControls = `
+        <div class="form-group" style="border-top: 1px solid #334155; margin-top: 20px; padding-top: 20px;">
+          <label style="color: #38bdf8;">Góc nhìn 3D (Perspective)</label>
+          <div class="grid-2">
+            <div>
+              <label style="font-size: 0.75rem">X-Angle (độ)</label>
+              <input type="number" id="xAngle" class="form-control" value="15" oninput="generateCode()" />
+            </div>
+            <div>
+              <label style="font-size: 0.75rem">Y-Angle (độ)</label>
+              <input type="number" id="yAngle" class="form-control" value="25" oninput="generateCode()" />
+            </div>
+            <div>
+              <label style="font-size: 0.75rem">Z-Angle (độ)</label>
+              <input type="number" id="zAngle" class="form-control" value="0" oninput="generateCode()" />
+            </div>
+            <div>
+              <label style="font-size: 0.75rem">Scale</label>
+              <input type="number" id="scale3d" class="form-control" value="1.0" step="0.1" oninput="generateCode()" />
+            </div>
+          </div>
+        </div>
+      `;
+
+      if (currentMode === 'grid3d') {
+        form.innerHTML = `
+          <div class="form-group">
+            <label>Kích thước lưới (x, y, z tối đa)</label>
+            <div class="grid-3">
+              <input type="number" id="gridX" class="form-control" value="4" oninput="generateCode()" />
+              <input type="number" id="gridY" class="form-control" value="4" oninput="generateCode()" />
+              <input type="number" id="gridZ" class="form-control" value="4" oninput="generateCode()" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Hiển thị các mặt phẳng cơ sở</label>
+            <label class="checkbox-label"><input type="checkbox" id="showOxy" checked onchange="generateCode()"> Mặt Oxy (Đáy)</label>
+            <label class="checkbox-label" style="margin-top: 8px;"><input type="checkbox" id="showOyz" checked onchange="generateCode()"> Mặt Oyz (Tường phải)</label>
+            <label class="checkbox-label" style="margin-top: 8px;"><input type="checkbox" id="showOzx" checked onchange="generateCode()"> Mặt Ozx (Tường trái)</label>
+          </div>
+        ` + commonControls;
+      } else if (currentMode === 'sphere') {
+        form.innerHTML = `
+          <div class="form-group">
+            <label>Bán kính mặt cầu (R)</label>
+            <input type="number" id="sphereR" class="form-control" value="3" step="0.5" oninput="generateCode()" />
+          </div>
+          <div class="form-group">
+            <label>Tùy chọn vẽ</label>
+            <label class="checkbox-label"><input type="checkbox" id="showEquator" checked onchange="generateCode()"> Vẽ đường xích đạo (Elip lớn)</label>
+            <label class="checkbox-label" style="margin-top: 8px;"><input type="checkbox" id="showCenter" checked onchange="generateCode()"> Đánh dấu Tâm O</label>
+          </div>
+        ` + commonControls;
+      } else if (currentMode === 'cone') {
+        form.innerHTML = `
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Bán kính đáy (R)</label>
+              <input type="number" id="coneR" class="form-control" value="2" step="0.5" oninput="generateCode()" />
+            </div>
+            <div class="form-group">
+              <label>Chiều cao (h)</label>
+              <input type="number" id="coneH" class="form-control" value="4" step="0.5" oninput="generateCode()" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Tùy chọn vẽ</label>
+            <label class="checkbox-label"><input type="checkbox" id="showConeAxis" checked onchange="generateCode()"> Vẽ đường cao SO (Trục)</label>
+            <label class="checkbox-label" style="margin-top: 8px;"><input type="checkbox" id="showConeGeneratrix" checked onchange="generateCode()"> Vẽ đường sinh viền</label>
+          </div>
+        ` + commonControls;
+      } else if (currentMode === 'cylinder') {
+        form.innerHTML = `
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Bán kính đáy (R)</label>
+              <input type="number" id="cylR" class="form-control" value="2" step="0.5" oninput="generateCode()" />
+            </div>
+            <div class="form-group">
+              <label>Chiều cao (h)</label>
+              <input type="number" id="cylH" class="form-control" value="4" step="0.5" oninput="generateCode()" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Tùy chọn vẽ</label>
+            <label class="checkbox-label"><input type="checkbox" id="showCylAxis" checked onchange="generateCode()"> Vẽ trục OO'</label>
+          </div>
+        ` + commonControls;
+      }
+    }
+
+    function generateCode() {
+      const xAngle = document.getElementById('xAngle')?.value || 15;
+      const yAngle = document.getElementById('yAngle')?.value || 25;
+      const zAngle = document.getElementById('zAngle')?.value || 0;
+      const scale = document.getElementById('scale3d')?.value || 1.0;
+
+      let code = `#import "@preview/cetz:0.5.2": *
+#import draw: *
+
+#align(center)[
+  #canvas({
+    set-style(
+      mark: (fill: black, scale: 0.6),
+      stroke: (thickness: 0.8pt)
+    )
+
+    // Khởi tạo môi trường 3D
+    scale(\${scale})
+    set-viewport(
+      perspective: (
+        x: \${xAngle}deg,
+        y: \${yAngle}deg,
+        z: \${zAngle}deg
+      )
+    )
+
+`;
+
+      if (currentMode === 'grid3d') {
+        const gx = document.getElementById('gridX').value || 4;
+        const gy = document.getElementById('gridY').value || 4;
+        const gz = document.getElementById('gridZ').value || 4;
+        const oxy = document.getElementById('showOxy').checked;
+        const oyz = document.getElementById('showOyz').checked;
+        const ozx = document.getElementById('showOzx').checked;
+
+        code += `    // Trục tọa độ
+    line((0,0,0), (\${gx},0,0), mark: (end: ">"), name: "x")
+    content("x.end", [\\ $x$ \\], anchor: "west")
+    
+    line((0,0,0), (0,\${gy},0), mark: (end: ">"), name: "y")
+    content("y.end", [\\ $y$ \\], anchor: "south")
+    
+    line((0,0,0), (0,0,\${gz}), mark: (end: ">"), name: "z")
+    content("z.end", [\\ $z$ \\], anchor: "south")
+    
+    content((0,0,0), [\\ $O$ \\], anchor: "north-east")\n\n`;
+
+        if (oxy) {
+          code += `    // Lưới Oxy (Đáy)
+    for i in range(1, \${gx} + 1) {
+      line((i,0,0), (i,\${gy},0), stroke: (dash: "dotted", paint: gray))
+    }
+    for j in range(1, \${gy} + 1) {
+      line((0,j,0), (\${gx},j,0), stroke: (dash: "dotted", paint: gray))
+    }\n\n`;
+        }
+        if (oyz) {
+          code += `    // Lưới Oyz (Tường phải)
+    for j in range(1, \${gy} + 1) {
+      line((0,j,0), (0,j,\${gz}), stroke: (dash: "dotted", paint: gray))
+    }
+    for k in range(1, \${gz} + 1) {
+      line((0,0,k), (0,\${gy},k), stroke: (dash: "dotted", paint: gray))
+    }\n\n`;
+        }
+        if (ozx) {
+          code += `    // Lưới Ozx (Tường trái)
+    for i in range(1, \${gx} + 1) {
+      line((i,0,0), (i,0,\${gz}), stroke: (dash: "dotted", paint: gray))
+    }
+    for k in range(1, \${gz} + 1) {
+      line((0,0,k), (\${gx},0,k), stroke: (dash: "dotted", paint: gray))
+    }\n\n`;
+        }
+      } else if (currentMode === 'sphere') {
+        const r = document.getElementById('sphereR').value || 3;
+        const equator = document.getElementById('showEquator').checked;
+        const center = document.getElementById('showCenter').checked;
+
+        code += `    // Mặt cầu 3D
+    circle((0,0,0), radius: \${r}) // Viền ngoài mặt cầu 2D projection
+`;
+        if (equator) {
+          // Elip mô phỏng đường xích đạo 3D (arc)
+          // Since CeTZ doesn't do true 3D curves perfectly without math, we simulate via arc and scale
+          code += `    
+    // Đường xích đạo (Elip lớn)
+    group({
+      scale(y: 0.3) // Độ dẹt của elip
+      arc((0,0), start: 0deg, stop: 180deg, radius: \${r}, stroke: (dash: "dashed"))
+      arc((0,0), start: 180deg, stop: 360deg, radius: \${r})
+    })\n`;
+        }
+        if (center) {
+          code += `    
+    circle((0,0,0), radius: 0.05, fill: black)
+    content((0,0,0), [\\ $O$ \\], anchor: "north-west")\n`;
+        }
+      } else if (currentMode === 'cone') {
+        const r = document.getElementById('coneR').value || 2;
+        const h = document.getElementById('coneH').value || 4;
+        const showAxis = document.getElementById('showConeAxis').checked;
+        const showGen = document.getElementById('showConeGeneratrix').checked;
+
+        code += `    // Đáy nón (Elip ngang)
+    group({
+      scale(y: 0.3)
+      arc((0,0), start: 0deg, stop: 180deg, radius: \${r}, stroke: (dash: "dashed"))
+      arc((0,0), start: 180deg, stop: 360deg, radius: \${r})
+    })
+    
+    // Đỉnh nón
+    let S = (0, \${h})
+`;
+        if (showGen) {
+          code += `    line(S, (-\${r}, 0))
+    line(S, (\${r}, 0))\n`;
+        }
+        if (showAxis) {
+          code += `    line(S, (0,0), stroke: (dash: "dashed"))
+    circle((0,0), radius: 0.05, fill: black)
+    content((0,0), [\\ $O$ \\], anchor: "north")
+    content(S, [\\ $S$ \\], anchor: "south")\n`;
+        }
+      } else if (currentMode === 'cylinder') {
+        const r = document.getElementById('cylR').value || 2;
+        const h = document.getElementById('cylH').value || 4;
+        const showAxis = document.getElementById('showCylAxis').checked;
+
+        code += `    // Đáy dưới (Elip)
+    group({
+      scale(y: 0.3)
+      arc((0,0), start: 0deg, stop: 180deg, radius: \${r}, stroke: (dash: "dashed"))
+      arc((0,0), start: 180deg, stop: 360deg, radius: \${r})
+    })
+    
+    // Đáy trên (Elip viền nét liền hoàn toàn)
+    group({
+      translate(y: \${h})
+      scale(y: 0.3)
+      circle((0,0), radius: \${r})
+    })
+    
+    // Hai đường sinh
+    line((-\${r}, 0), (-\${r}, \${h}))
+    line((\${r}, 0), (\${r}, \${h}))
+`;
+        if (showAxis) {
+          code += `    // Trục OO'
+    line((0,0), (0,\${h}), stroke: (dash: "dashed"))
+    circle((0,0), radius: 0.05, fill: black)
+    circle((0,\${h}), radius: 0.05, fill: black)
+    content((0,0), [\\ $O$ \\], anchor: "north")
+    content((0,\${h}), [\\ $O'$ \\], anchor: "south")\n`;
+        }
+      }
+
+      code += `\n  })\n]`;
+      document.getElementById('codeOutput').value = code;
+
+      // Auto compile if hiệu ứng đang biên dịch đẹp đẳng cấp is ready
+      if (window.compileTypstToSvg) {
+        triggerTypstCompile(true);
+      }
+    }
+
+    function copyCode() {
+      const txt = document.getElementById('codeOutput');
+      txt.select();
+      document.execCommand('copy');
+      const btn = document.querySelector('.btn-primary');
+      const orig = btn.innerHTML;
+      btn.innerHTML = '<i data-lucide="check" style="width: 14px; height: 14px;"></i> Copied!';
+      window.lucide?.createIcons();
+      setTimeout(() => {
+        btn.innerHTML = orig;
+        window.lucide?.createIcons();
+      }, 2000);
+    }
+
+    async function triggerTypstCompile(silent = false) {
+      const overlay = document.getElementById('compileOverlay');
+      const container = document.getElementById('compiledSvgContainer');
+      if (!silent) overlay.style.display = 'flex';
+
+      try {
+        const cetzCode = document.getElementById('codeOutput').value;
+        if (window.compileTypstToSvg) {
+          const svgMarkup = await window.compileTypstToSvg(cetzCode);
+          container.innerHTML = svgMarkup;
+        } else {
+          if (!silent) container.innerHTML = `<div style="color:#ef4444; font-weight:600; font-size:0.8rem; text-align:center;">Hiệu ứng đang biên dịch đẹp đẳng cấp đang khởi tạo. Vui lòng thử lại sau 2 giây.</div>`;
+        }
+      } catch (err) {
+        if (!silent) {
+          container.innerHTML = `<pre style="color:#ef4444; font-size:0.75rem; background:#fee2e2; border:1px solid #fecaca; padding:12px; border-radius:6px; text-align:left; width:100%; overflow:auto;">Biên dịch lỗi:\n${err.message}</pre>`;
+        }
+      } finally {
+        if (!silent) overlay.style.display = 'none';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      window.lucide?.createIcons();
+      renderForm();
+      generateCode();
+      document.getElementById('btnTriggerCompile').addEventListener('click', triggerTypstCompile);
+    });
+  </script>
+</body>
+</html>

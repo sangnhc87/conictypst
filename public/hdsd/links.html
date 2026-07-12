@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ConicTypst Web Links</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script defer src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #64748b;
+      --line: #dbe3ef;
+      --soft: #f6f8fb;
+      --blue: #2563eb;
+      --teal: #0f766e;
+      --amber: #b45309;
+      --rose: #be123c;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: #fff;
+    }
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 28px 20px 42px;
+    }
+    .hero {
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, #f8fbff, #fff);
+      border-radius: 10px;
+      padding: 26px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
+      align-items: center;
+    }
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--teal);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-size: 12px;
+      font-weight: 800;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(30px, 4vw, 48px);
+      letter-spacing: 0;
+    }
+    .hero p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .hero-code {
+      border: 1px solid var(--line);
+      background: #0f172a;
+      color: #e2e8f0;
+      border-radius: 8px;
+      padding: 14px;
+      font-size: 13px;
+      line-height: 1.55;
+      min-width: 320px;
+    }
+    .section {
+      margin-top: 22px;
+    }
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .section h2 {
+      margin: 0;
+      font-size: 22px;
+    }
+    .section small {
+      color: var(--muted);
+      font-weight: 700;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .card {
+      display: grid;
+      gap: 10px;
+      min-height: 154px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 16px;
+      text-decoration: none;
+      color: inherit;
+      background: white;
+      transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: var(--blue);
+      box-shadow: 0 14px 30px rgba(15, 23, 42, .08);
+    }
+    .icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      color: white;
+      background: var(--blue);
+    }
+    .card.teal .icon { background: var(--teal); }
+    .card.amber .icon { background: var(--amber); }
+    .card.rose .icon { background: var(--rose); }
+    .card strong {
+      font-size: 17px;
+    }
+    .card span {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .url {
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 800;
+      word-break: break-all;
+    }
+    .note {
+      margin-top: 18px;
+      border-left: 4px solid var(--amber);
+      background: #fffbeb;
+      padding: 14px 16px;
+      border-radius: 8px;
+      color: #78350f;
+      line-height: 1.55;
+    }
+    @media (max-width: 920px) {
+      .hero, .grid { grid-template-columns: 1fr; }
+      .hero-code { min-width: 0; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="hero">
+      <div>
+        <p class="eyebrow">ConicTypst Web Hub</p>
+        <h1>Một chỗ để nhớ hết link web</h1>
+        <p>Trang này gom các địa chỉ đã deploy: trình chiếu Beamer, Atlas chuyên đề, HDSD, Dashboard và các công cụ vẽ/soạn đề.</p>
+      </div>
+      <div class="hero-code">
+        Link nhớ chính:<br />
+        <strong>hdsd-conictypst.pages.dev/links</strong><br /><br />
+        HDSD: <strong>hdsd-conictypst.pages.dev</strong><br />
+        Beamer: <strong>beamer-gjv.pages.dev</strong>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>Quan trọng nhất</h2>
+        <small>Nhớ nhóm này là đủ sống khỏe</small>
+      </div>
+      <div class="grid">
+        <a class="card teal" href="https://beamer-gjv.pages.dev/">
+          <div class="icon"><i data-lucide="presentation"></i></div>
+          <strong>Trình chiếu Beamer</strong>
+          <span>Web cũ để mở thư viện bài giảng và trình chiếu PDF như slide.</span>
+          <div class="url">https://beamer-gjv.pages.dev/</div>
+        </a>
+        <a class="card teal" href="https://beamer-gjv.pages.dev/pdfs/beamer-12-bai-1-tinh-on-dieu-cuc-tri.pdf">
+          <div class="icon"><i data-lucide="file-text"></i></div>
+          <strong>Bài trong ảnh</strong>
+          <span>Bài 1: Tính đơn điệu và Cực trị, Toán 12, Chương 1.</span>
+          <div class="url">https://beamer-gjv.pages.dev/pdfs/beamer-12-bai-1-tinh-on-dieu-cuc-tri.pdf</div>
+        </a>
+        <a class="card" href="https://hdsd-conictypst.pages.dev/atlas">
+          <div class="icon"><i data-lucide="map"></i></div>
+          <strong>Sang Math Atlas</strong>
+          <span>Kho chuyên đề CD + Beamer, lọc theo nhóm, khối, trạng thái.</span>
+          <div class="url">https://hdsd-conictypst.pages.dev/atlas</div>
+        </a>
+        <a class="card amber" href="https://hdsd-conictypst.pages.dev/dashboard">
+          <div class="icon"><i data-lucide="layout-dashboard"></i></div>
+          <strong>Dashboard HDSD</strong>
+          <span>Hub công cụ: đề thi, bank, CeTZ, OCR, Beamer, templates.</span>
+          <div class="url">https://hdsd-conictypst.pages.dev/dashboard</div>
+        </a>
+        <a class="card" href="https://conictypst.pages.dev/">
+          <div class="icon"><i data-lucide="blocks"></i></div>
+          <strong>ConicTypst App</strong>
+          <span>App chính: ngân hàng câu hỏi, editor, trộn đề và các module tổng.</span>
+          <div class="url">https://conictypst.pages.dev/</div>
+        </a>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>Công cụ hay dùng</h2>
+        <small>Đều là link web đã deploy</small>
+      </div>
+      <div class="grid">
+        <a class="card" href="https://hdsd-conictypst.pages.dev/">
+          <div class="icon"><i data-lucide="book-open"></i></div>
+          <strong>Sách HDSD</strong>
+          <span>Tài liệu hướng dẫn đầy đủ cho macro, đề thi, sách, BBT, CeTZ.</span>
+          <div class="url">https://hdsd-conictypst.pages.dev/</div>
+        </a>
+        <a class="card teal" href="https://hdsd-conictypst.pages.dev/cetz-geogebra">
+          <div class="icon"><i data-lucide="ruler"></i></div>
+          <strong>GeoGebra ➝ CeTZ</strong>
+          <span>Vẽ hình 2D kiểu GeoGebra rồi xuất code CeTZ.</span>
+          <div class="url">https://hdsd-conictypst.pages.dev/cetz-geogebra</div>
+        </a>
+        <a class="card teal" href="https://hdsd-conictypst.pages.dev/cetz-geogebra-3d">
+          <div class="icon"><i data-lucide="box"></i></div>
+          <strong>GeoGebra 3D ➝ CeTZ</strong>
+          <span>Dựng hình không gian, chóp, lăng trụ, hệ trục 3D.</span>
+          <div class="url">https://hdsd-conictypst.pages.dev/cetz-geogebra-3d</div>
+        </a>
+        <a class="card" href="https://hdsd-conictypst.pages.dev/bbt-live">
+          <div class="icon"><i data-lucide="table-2"></i></div>
+          <strong>Live BBT</strong>
+          <span>Sinh bảng biến thiên và bảng xét dấu nhanh.</span>
+          <div class="url">https://hdsd-conictypst.pages.dev/bbt-live</div>
+        </a>
+        <a class="card amber" href="https://hdsd-conictypst.pages.dev/exam-templates">
+          <div class="icon"><i data-lucide="palette"></i></div>
+          <strong>Exam Templates</strong>
+          <span>Gallery theme đề thi, profile, nháp, 2 cột, lời giải.</span>
+          <div class="url">https://hdsd-conictypst.pages.dev/exam-templates</div>
+        </a>
+        <a class="card rose" href="https://hdsd-conictypst.pages.dev/ngan-hang">
+          <div class="icon"><i data-lucide="database"></i></div>
+          <strong>Ngân hàng câu hỏi</strong>
+          <span>Quản lý bank, lọc câu, ID, tag và nguồn.</span>
+          <div class="url">https://hdsd-conictypst.pages.dev/ngan-hang</div>
+        </a>
+        <a class="card rose" href="https://hdsd-conictypst.pages.dev/tron-de">
+          <div class="icon"><i data-lucide="shuffle"></i></div>
+          <strong>Trộn đề</strong>
+          <span>Xáo mã đề, trộn câu, xuất bản đề thi.</span>
+          <div class="url">https://hdsd-conictypst.pages.dev/tron-de</div>
+        </a>
+        <a class="card" href="https://hdsd-conictypst.pages.dev/ocr-typst">
+          <div class="icon"><i data-lucide="scan-text"></i></div>
+          <strong>OCR Typst</strong>
+          <span>Ảnh/PDF đề cũ sang macro Typst.</span>
+          <div class="url">https://hdsd-conictypst.pages.dev/ocr-typst</div>
+        </a>
+        <a class="card" href="https://hdsd-conictypst.pages.dev/typst-linter">
+          <div class="icon"><i data-lucide="badge-check"></i></div>
+          <strong>Typst Linter</strong>
+          <span>Kiểm lỗi macro, ngoặc, LaTeX sót, CeTZ.</span>
+          <div class="url">https://hdsd-conictypst.pages.dev/typst-linter</div>
+        </a>
+      </div>
+    </section>
+
+    <div class="note">
+      Link nhớ chính của hệ thống là <strong>https://hdsd-conictypst.pages.dev/links</strong>. Beamer nằm riêng tại <strong>https://beamer-gjv.pages.dev</strong>.
+    </div>
+  </main>
+  <script>
+    if (window.lucide) window.lucide.createIcons();
+  </script>
+</body>
+</html>

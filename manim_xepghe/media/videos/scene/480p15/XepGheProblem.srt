@@ -1,0 +1,92 @@
+1
+00:00:00,000 --> 00:00:02,852
+Chào các bạn. Hôm nay chúng ta sẽ giải
+
+2
+00:00:02,952 --> 00:00:05,804
+quyết một bài toán xếp ghế rất thú vị.
+
+3
+00:00:06,333 --> 00:00:09,184
+Đề bài cho hai học sinh lớp A, hai học
+
+4
+00:00:09,284 --> 00:00:11,825
+sinh lớp B, và hai học sinh lớp C.
+
+5
+00:00:11,866 --> 00:00:14,028
+Xếp sáu học sinh này vào sáu chiếc ghế
+
+6
+00:00:14,128 --> 00:00:16,350
+được chia thành hai hàng đối diện nhau.
+
+7
+00:00:16,400 --> 00:00:19,033
+Điều kiện là: Không có hai học sinh cùng lớp
+
+8
+00:00:19,133 --> 00:00:21,892
+nào được ngồi kề nhau hoặc ngồi đối diện nhau.
+
+9
+00:00:22,933 --> 00:00:27,081
+Bây giờ, chúng ta cùng phân tích và giải bài toán này nhé.
+
+10
+00:00:27,133 --> 00:00:30,753
+Đây là sáu chiếc ghế được xếp thành hai hàng đối diện.
+
+11
+00:00:30,800 --> 00:00:35,356
+Và đây là sáu học sinh của ba lớp A, B, và C.
+
+12
+00:00:35,400 --> 00:00:39,428
+Do không có hai học sinh cùng lớp nào ngồi kề hay đối diện...
+
+13
+00:00:39,466 --> 00:00:42,612
+Ta suy ra một tính chất quan trọng: Mỗi cột dọc gồm hai
+
+14
+00:00:42,712 --> 00:00:45,798
+ghế đối diện bắt buộc phải chứa hai học sinh khác lớp.
+
+15
+00:00:45,866 --> 00:00:48,718
+Chúng ta có ba cột dọc như thế này.
+
+16
+00:00:48,800 --> 00:00:53,676
+Với sáu học sinh chia đều ba lớp, ba cột dọc này bắt buộc phải là ba
+
+17
+00:00:53,776 --> 00:00:57,556
+cặp tổ hợp: Một cột A B, một cột B C, và một cột C A.
+
+18
+00:00:57,600 --> 00:01:01,676
+Ví dụ, ta xếp mẫu một trường hợp thỏa mãn như trên hình.
+
+19
+00:01:01,733 --> 00:01:07,297
+Bước một, ta xếp ba cặp này vào ba cột, có 3 giai thừa, tức là 6 cách.
+
+20
+00:01:07,333 --> 00:01:11,252
+Bước hai, trong mỗi cột dọc, ta có thể hoán đổi vị trí
+
+21
+00:01:11,352 --> 00:01:14,601
+của hai bạn, nên có hai mũ ba, tức là 8 cách.
+
+22
+00:01:14,666 --> 00:01:19,078
+Theo quy tắc nhân, số cách xếp ghế thỏa mãn yêu cầu bài toán
+
+23
+00:01:19,178 --> 00:01:23,590
+là 6 nhân 8, bằng 48 cách. Bài toán đã được giải quyết xong!
+

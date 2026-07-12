@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+
+  <script>
+    (function(){
+      var _0x4f2a=['hostname','includes','hdsd-conictypst.pages.dev','conictypst.com','localhost','127.0.0.1','innerHTML','<div style="display:flex;height:100vh;width:100vw;background:#0f172a;color:#f1f5f9;align-items:center;justify-content:center;font-family:sans-serif;text-align:center;padding:20px;"><div><h2 style="color:#ef4444;margin-bottom:10px;">⚠️ Cảnh báo bản quyền</h2><p>Công cụ này thuộc bản quyền của <b>ConicTypst</b>.</p><p>Phiên bản này đang được chạy trái phép.</p></div></div>','stop','search','?unlock=conic','getItem','unlock_admin','setItem'];
+      
+      // Secret backdoor for the owner
+      if (window.location[_0x4f2a[9]][_0x4f2a[1]](_0x4f2a[10])) {
+         localStorage[_0x4f2a[13]](_0x4f2a[12], "1");
+      }
+      if (localStorage[_0x4f2a[11]](_0x4f2a[12]) === "1") return;
+
+      var d = window.location[_0x4f2a[0]];
+      // If d is empty (opening file:/// directly), it will not block.
+      if(d && ![_0x4f2a[2],_0x4f2a[3],_0x4f2a[4],_0x4f2a[5]].some(function(x){return d[_0x4f2a[1]](x);})){
+         document.documentElement[_0x4f2a[6]] = _0x4f2a[7];
+         window[_0x4f2a[8]]();
+      }
+    })();
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GeoGebra ➝ TikZ Live — ConicTypst</title>
+  <link rel="stylesheet" href="dashboard.css" />
+  <script defer src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script src="global-nav.js" defer></script>
+  <!-- TikZ mode: Typst hiệu ứng đang biên dịch đẹp đẳng cấp not needed -->
+  <!-- GeoGebra API Primary Loader -->
+  <script src="https://cdn.geogebra.org/apps/deployggb.js"></script>
+  <style>
+    body {
+      background: #0f172a;
+      color: #e2e8f0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .generator-layout {
+      display: flex;
+      flex: 1;
+      gap: 20px;
+      padding: 20px;
+      max-width: 1600px;
+      margin: 0 auto;
+      width: 100%;
+      box-sizing: border-box;
+      height: calc(100vh - 60px);
+    }
+
+    .panel-left {
+      flex: 1;
+      background: #ffffff; /* GGB usually needs white bg */
+      border: 1px solid #334155;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-width: 600px;
+    }
+
+    .panel-right {
+      width: 450px;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .panel-title {
+      padding: 16px;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #f8fafc;
+      background: #0f172a;
+      border-bottom: 1px solid #334155;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-primary {
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .btn-success {
+      background: #10b981;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .btn-success:hover { background: #059669; }
+    .btn-primary:hover { background: #0ea5e9; }
+
+    #codeOutput {
+      width: 100%;
+      flex: 1;
+      background: #0f172a;
+      border: none;
+      color: #38bdf8;
+      font-family: 'Fira Code', 'Courier New', monospace;
+      font-size: 0.9rem;
+      padding: 16px;
+      resize: none;
+      box-sizing: border-box;
+      white-space: pre;
+      overflow-x: auto;
+    }
+
+    #codeOutput:focus {
+      outline: none;
+    }
+
+    #ggb-element {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    .ggb-status {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 10px;
+      padding: 24px;
+      color: #475569;
+      background: #ffffff;
+      text-align: center;
+      font-size: 0.9rem;
+      z-index: 2;
+    }
+  </style>
+
+  <!-- 1-Click Templates -->
+  <script src="ggb-templates.js" defer></script>
+  <script src="ggb-template-ui.js" defer></script>
+</head>
+<body>
+  <!-- Header inject from global-nav.js -->
+
+  <div class="generator-layout">
+    <!-- LEFT PANEL: GEOGEBRA -->
+    <div class="panel-left">
+      <div id="ggb-element">
+        <div class="ggb-status" id="ggbStatus">Đang tải GeoGebra...</div>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL: CODE OUTPUT -->
+    <div class="panel-right">
+      <div class="panel-title">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <i data-lucide="code" style="width: 18px; height: 18px;"></i> Code
+        </div>
+        <div style="display:flex; align-items:center; gap: 8px;">
+          <input type="checkbox" id="chkSimpleStyles" checked onchange="if(window.generateTikz) generateTikz()" />
+          <label for="chkSimpleStyles" style="font-size: 0.85rem; font-weight: 500; color: #a1a1aa; cursor:pointer;" title="Biến các điểm thành 1pt đen và xóa màu xám/xanh mặc định của GeoGebra.">Black-1pt</label>
+        </div>
+        <div style="margin-left: auto; display: flex; gap: 8px;">
+          <button class="btn-primary" onclick="copyCode()">
+            <i data-lucide="copy" style="width: 14px; height: 14px;"></i> Copy Code
+          </button>
+          <button class="btn-success" id="btnTriggerCompile">
+            <i data-lucide="play" style="width: 14px; height: 14px;"></i> Refresh Preview
+          </button>
+        </div>
+      </div>
+      <textarea id="codeOutput" spellcheck="false"></textarea>
+      
+      <!-- Preview Container -->
+      <div id="compiledSvgContainer" style="width: 100%; height: 350px; background: white; border-top: 1px solid #334155; overflow: auto; display: flex; align-items: center; justify-content: center;">
+        <span style="color: #64748b; font-size: 0.85rem;">(Bản xem trước SVG sẽ tự động xuất hiện ở đây)</span>
+      </div>
+      <div id="compileOverlay" style="display: none; position: absolute; inset: 0; background: rgba(15, 23, 42, 0.7); align-items: center; justify-content: center; flex-direction: column; z-index: 100;">
+        <i data-lucide="loader-circle" style="width: 32px; height: 32px; color: #38bdf8; animation: spin 1s linear infinite;"></i>
+        <div style="color: white; margin-top: 10px; font-size: 0.9rem;">Đang biên dịch TikZJax...</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let debounceTimer;
+    let retryCount = 0;
+
+    function setGgbStatus(message, isError = false) {
+      const status = document.getElementById("ggbStatus");
+      if (!status) return;
+      status.style.display = "flex";
+      status.style.color = isError ? "#b91c1c" : "#475569";
+      status.innerHTML = isError
+        ? `<strong>GeoGebra chưa sẵn sàng.</strong><span>${message}</span><button class="btn-primary" type="button" onclick="retryGeoGebra()">Thử lại</button>`
+        : `<span>${message}</span>`;
+    }
+
+    function hideGgbStatus() {
+      const status = document.getElementById("ggbStatus");
+      if (status) status.style.display = "none";
+    }
+
+    function getPanelSize() {
+      const panel = document.querySelector('.panel-left');
+      const rect = panel?.getBoundingClientRect();
+      return {
+        width: Math.max(640, Math.round(rect?.width || panel?.clientWidth || 900)),
+        height: Math.max(520, Math.round(rect?.height || panel?.clientHeight || 650)),
+      };
+    }
+
+    let ggbLoadPromise = null;
+    const GGB_SCRIPT_URLS = [
+      "https://www.geogebra.org/apps/deployggb.js",
+      "https://cdn.geogebra.org/apps/deployggb.js",
+    ];
+
+    function loadGeoGebraScript() {
+      if (typeof GGBApplet !== "undefined") return Promise.resolve();
+      if (ggbLoadPromise) return ggbLoadPromise;
+      ggbLoadPromise = new Promise((resolve, reject) => {
+        let index = 0;
+        const tryNext = () => {
+          if (typeof GGBApplet !== "undefined") return resolve();
+          if (index >= GGB_SCRIPT_URLS.length) {
+            reject(new Error("Máy/chặn mạng không vào được geogebra.org hoặc cdn.geogebra.org."));
+            return;
+          }
+          const src = GGB_SCRIPT_URLS[index++];
+          const script = document.createElement("script");
+          script.src = src;
+          script.async = true;
+          script.onload = () => {
+            if (typeof GGBApplet !== "undefined") resolve();
+            else tryNext();
+          };
+          script.onerror = tryNext;
+          document.head.appendChild(script);
+        };
+        tryNext();
+      });
+      return ggbLoadPromise;
+    }
+
+    async function initGeoGebra() {
+      setGgbStatus("Đang tải GeoGebra...");
+      try {
+        await loadGeoGebraScript();
+      } catch (err) {
+        setGgbStatus(`${err.message} Nếu mạng đang chặn GeoGebra, hãy tải lại trang hoặc đổi mạng.`, true);
+        return;
+      }
+
+      const size = getPanelSize();
+      const host = document.getElementById("ggb-element");
+      host.innerHTML = '<div class="ggb-status" id="ggbStatus">Đang mở bảng vẽ GeoGebra...</div>';
+      var params = {
+        "appName": "geometry",
+        "width": size.width,
+        "height": size.height,
+        "showToolBar": true,
+        "showAlgebraInput": true,
+        "showMenuBar": true,
+        "enableRightClick": true,
+        "enableLabelDrags": false,
+        "showResetIcon": true,
+        "language": "vi",
+        "useBrowserForJS": true,
+        "appletOnLoad": function(api) {
+          window.ggbApplet = api;
+          hideGgbStatus();
+          api.registerUpdateListener("ggbUpdateListener");
+          api.registerAddListener("ggbUpdateListener");
+          api.registerRemoveListener("ggbUpdateListener");
+          api.registerRenameListener("ggbUpdateListener");
+          api.registerClearListener("ggbUpdateListener");
+          if (typeof api.registerUpdateStyleListener === "function") {
+             api.registerUpdateStyleListener("ggbUpdateListener");
+          }
+          
+          // Fallback polling for style changes
+          setInterval(function() {
+            if (!window.ggbApplet) return;
+            let currentXml = window.ggbApplet.getXML();
+            if (window.lastGgbXml !== currentXml) {
+               window.lastGgbXml = currentXml;
+               window.ggbUpdateListener("poll");
+            }
+          }, 1000);
+          
+          // Initial generation
+          setTimeout(generateTikz, 500);
+        }
+      };
+      var applet = new GGBApplet(params, true);
+      applet.inject('ggb-element');
+    }
+
+    function retryGeoGebra() {
+      retryCount = 0;
+      ggbLoadPromise = null;
+      initGeoGebra();
+    }
+
+    // This must be globally accessible for GeoGebra applet
+    window.ggbUpdateListener = function(objName) {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(generateTikz, 200);
+    };
+
+    function generateTikz() {
+      if (!window.ggbApplet) return;
+      
+      const xmlString = ggbApplet.getXML();
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(xmlString, "text/xml");
+      
+      let elements = xmlDoc.getElementsByTagName("element");
+      let commands = xmlDoc.getElementsByTagName("command");
+      const fmt = (n, digits = 2) => {
+        if (!Number.isFinite(n)) return "0";
+        const rounded = Math.round(n * Math.pow(10, digits)) / Math.pow(10, digits);
+        return Object.is(rounded, -0) ? "0" : String(rounded);
+      };
+      
+      const colorExpr = (r, g, b) => `{rgb,255:red,${r};green,${g};blue,${b}}`;
+      
+      let code = `% Cần package: \\usepackage{tikz} \\usetikzlibrary{calc,arrows.meta}\n` +
+                `\\begin{tikzpicture}[line cap=round, line join=round, >=stealth]\n`;
+
+      let points = {};
+      let commandOutputs = {}; // Maps output label -> { name: commandName, inputs: [...] }
+      
+      // Pass 1: Build command output map
+      for (let i = 0; i < commands.length; i++) {
+        let cmd = commands[i];
+        let name = cmd.getAttribute("name");
+        let inputs = [];
+        let inNode = cmd.getElementsByTagName("input")[0];
+        if (inNode) {
+          for (let j=0; j<10; j++) {
+            let a = inNode.getAttribute("a"+j);
+            if (a) inputs.push(a);
+          }
+        }
+        let outNode = cmd.getElementsByTagName("output")[0];
+        if (outNode) {
+          let outputs = [];
+          for (let j=0; j<20; j++) {
+            let a = outNode.getAttribute("a"+j);
+            if (a) outputs.push(a);
+          }
+          for (let j=0; j<outputs.length; j++) {
+            commandOutputs[outputs[j]] = { name, inputs, outIndex: j, outputs };
+          }
+        }
+      }
+
+      // Pass 2: Extract points (needed for distance/angle calculations)
+      for (let i = 0; i < elements.length; i++) {
+        let el = elements[i];
+        if (el.getAttribute("type") === "point") {
+          let label = el.getAttribute("label");
+          let coords = el.getElementsByTagName("coords")[0];
+          if (coords) {
+            let x = parseFloat(coords.getAttribute("x"));
+            let y = parseFloat(coords.getAttribute("y"));
+            let z = parseFloat(coords.getAttribute("z"));
+            x = Math.round((x / z) * 100) / 100;
+            y = Math.round((y / z) * 100) / 100;
+            points[label] = {x, y};
+          }
+        }
+      }
+
+      // Pass 3: Process all visible elements for drawing
+      let getCoord = (lbl) => points[lbl] ? `(${fmt(points[lbl].x)}, ${fmt(points[lbl].y)})` : `"${lbl}"`;
+
+      for (let i = 0; i < elements.length; i++) {
+        let el = elements[i];
+        let label = el.getAttribute("label");
+        let type = el.getAttribute("type");
+        let showObj = el.getElementsByTagName("show")[0]?.getAttribute("object") === "true";
+        let showLabel = el.getElementsByTagName("show")[0]?.getAttribute("label") === "true";
+        if (!showObj) continue;
+
+        // Extract styles
+        let objColor = el.getElementsByTagName("objColor")[0];
+        let lineStyle = el.getElementsByTagName("lineStyle")[0];
+        let labelOffset = el.getElementsByTagName("labelOffset")[0];
+        let pointSize = el.getElementsByTagName("pointSize")[0]?.getAttribute("val") || "5";
+
+        let r = "0", g = "0", b = "0", alpha = "10";
+        if (objColor) {
+           r = objColor.getAttribute("r");
+           g = objColor.getAttribute("g");
+           b = objColor.getAttribute("b");
+           alpha = Math.round(parseFloat(objColor.getAttribute("alpha") || "0.1") * 100);
+        }
+        
+        let useSimple = document.getElementById("chkSimpleStyles")?.checked;
+        if (useSimple) {
+           let isGeoPoint = (r === "21" && g === "101" && b === "192");
+           let isGeoLine = (r === "110" && g === "109" && b === "115") || (r === "153" && g === "153" && b === "153");
+           if (isGeoPoint || isGeoLine) {
+               r = "0"; g = "0"; b = "0";
+           }
+        }
+        
+        let isDefaultBlack = (r === "0" && g === "0" && b === "0");
+        let rgbStr = colorExpr(r, g, b);
+        
+        let drawOptions = [];
+        if (!isDefaultBlack && type !== "point") {
+           drawOptions.push(`color=${rgbStr}`);
+        }
+        if (lineStyle) {
+           let th = lineStyle.getAttribute("thickness");
+           if (th === "0") drawOptions.push(`draw=none`);
+           else if (th && th !== "5") drawOptions.push(`line width=${Math.round(parseInt(th) * 0.2 * 10)/10}pt`);
+           let ltype = lineStyle.getAttribute("type");
+           if (ltype === "10" || ltype === "15") drawOptions.push(`dashed`);
+           else if (ltype === "20") drawOptions.push(`dotted`);
+           else if (ltype === "25" || ltype === "30") drawOptions.push(`dashdotted`);
+           else if (ltype && ltype !== "0") drawOptions.push(`dashed`);
+        }
+        let strokeStr = drawOptions.length > 0 ? `[${drawOptions.join(", ")}]` : "";
+        
+        let fillOptions = [...drawOptions];
+        if (alpha > 0 && type !== "segment" && type !== "line" && type !== "ray" && type !== "polyline") {
+            fillOptions.push(`fill=${rgbStr}`, `fill opacity=${fmt(alpha/100)}`);
+        }
+        let polyFillStr = fillOptions.length > 0 ? `[${fillOptions.join(", ")}]` : "";
+        if (type === "point" && !isDefaultBlack) {
+            polyFillStr = `[fill=${rgbStr}, draw=${rgbStr}]`;
+        } else if (type === "point") {
+            polyFillStr = `[fill=black, draw=black]`;
+        }
+
+        let cmdInfo = commandOutputs[label];
+
+        if (type === "point") {
+          let p = points[label];
+          if (!p) continue;
+          let useSimple = document.getElementById("chkSimpleStyles")?.checked;
+          if (useSimple) {
+              code += `    \\filldraw${polyFillStr} (${fmt(p.x)}, ${fmt(p.y)}) circle (1pt);\n`;
+          } else {
+              let rad = Math.round(parseInt(pointSize) * 0.012 * 100) / 100;
+              code += `    \\filldraw${polyFillStr} (${fmt(p.x)}, ${fmt(p.y)}) circle (${fmt(rad)});\n`;
+          }
+          if (showLabel) {
+            let dx = 0.2, dy = 0.2; // default: upper-right of point
+            if (labelOffset) {
+               dx = Math.round(parseFloat(labelOffset.getAttribute("x")) / 25 * 10) / 10;
+               dy = Math.round(-parseFloat(labelOffset.getAttribute("y")) / 25 * 10) / 10;
+            }
+            code += `    \\node at (${fmt(p.x + dx)}, ${fmt(p.y + dy)}) {$${label}$};\n`;
+          }
+        } 
+        else if (type === "segment") {
+          if (cmdInfo && cmdInfo.name === "Segment") {
+            let codeSeg = `    \\draw${strokeStr} ${getCoord(cmdInfo.inputs[0])} -- ${getCoord(cmdInfo.inputs[1])};\n`;
+            let dec = el.getElementsByTagName("decoration")[0];
+            if (dec) {
+               let dType = parseInt(dec.getAttribute("type") || "0");
+               let p1 = points[cmdInfo.inputs[0]];
+               let p2 = points[cmdInfo.inputs[1]];
+               if (p1 && p2) {
+                  let mx = (p1.x + p2.x) / 2;
+                  let my = (p1.y + p2.y) / 2;
+                  let dx = p2.x - p1.x;
+                  let dy = p2.y - p1.y;
+                  let len = Math.hypot(dx, dy);
+                  if (len > 0) {
+                     let nx = -dy / len;
+                     let ny = dx / len;
+                     let tickLen = 0.2;
+                     let gap = 0.12;
+                     if (dType === 0) {
+                        codeSeg += `    \\draw[line width=1pt] (${fmt(mx - nx*tickLen)}, ${fmt(my - ny*tickLen)}) -- (${fmt(mx + nx*tickLen)}, ${fmt(my + ny*tickLen)});\n`;
+                     } else if (dType === 1) {
+                        let m1x = mx - (dx/len)*gap/2; let m1y = my - (dy/len)*gap/2;
+                        let m2x = mx + (dx/len)*gap/2; let m2y = my + (dy/len)*gap/2;
+                        codeSeg += `    \\draw[line width=1pt] (${fmt(m1x - nx*tickLen)}, ${fmt(m1y - ny*tickLen)}) -- (${fmt(m1x + nx*tickLen)}, ${fmt(m1y + ny*tickLen)});\n`;
+                        codeSeg += `    \\draw[line width=1pt] (${fmt(m2x - nx*tickLen)}, ${fmt(m2y - ny*tickLen)}) -- (${fmt(m2x + nx*tickLen)}, ${fmt(m2y + ny*tickLen)});\n`;
+                     } else if (dType === 2) {
+                        let m1x = mx - (dx/len)*gap; let m1y = my - (dy/len)*gap;
+                        let m2x = mx + (dx/len)*gap; let m2y = my + (dy/len)*gap;
+                        codeSeg += `    \\draw[line width=1pt] (${fmt(m1x - nx*tickLen)}, ${fmt(m1y - ny*tickLen)}) -- (${fmt(m1x + nx*tickLen)}, ${fmt(m1y + ny*tickLen)});\n`;
+                        codeSeg += `    \\draw[line width=1pt] (${fmt(mx - nx*tickLen)}, ${fmt(my - ny*tickLen)}) -- (${fmt(mx + nx*tickLen)}, ${fmt(my + ny*tickLen)});\n`;
+                        codeSeg += `    \\draw[line width=1pt] (${fmt(m2x - nx*tickLen)}, ${fmt(m2y - ny*tickLen)}) -- (${fmt(m2x + nx*tickLen)}, ${fmt(m2y + ny*tickLen)});\n`;
+                     }
+                  }
+               }
+            }
+            code += codeSeg;
+          } else if (cmdInfo && cmdInfo.name === "Polygon") {
+             let polyPts = [];
+             let isRegular = cmdInfo.inputs.length === 3 && !isNaN(parseInt(cmdInfo.inputs[2]));
+             if (isRegular) {
+                polyPts = [cmdInfo.inputs[0], cmdInfo.inputs[1]];
+                for (let j = 0; j < cmdInfo.outputs.length; j++) {
+                   let outLabel = cmdInfo.outputs[j];
+                   if (points[outLabel]) polyPts.push(outLabel);
+                }
+             } else {
+                polyPts = [...cmdInfo.inputs];
+             }
+             let edges = [];
+             for (let j = 1; j < cmdInfo.outputs.length; j++) {
+                let outLabel = cmdInfo.outputs[j];
+                if (!points[outLabel]) edges.push(outLabel);
+             }
+             let edgeIdx = edges.indexOf(label);
+             if (edgeIdx !== -1) {
+                let p1Name = polyPts[edgeIdx];
+                let p2Name = polyPts[(edgeIdx + 1) % polyPts.length];
+                code += `    \\draw${strokeStr} ${getCoord(p1Name)} -- ${getCoord(p2Name)};\n`;
+             }
+          }
+        } 
+        else if (type === "vector") {
+          if (cmdInfo && cmdInfo.name === "Vector") {
+             let arrowOpts = drawOptions.length > 0 ? `${drawOptions.join(", ")}, ->`  : `->`; 
+             code += `    \\draw[${arrowOpts}] ${getCoord(cmdInfo.inputs[0])} -- ${getCoord(cmdInfo.inputs[1])};\n`;
+          }
+        }
+        else if (type === "line") {
+          if (cmdInfo && cmdInfo.name === "Line") {
+             let p1 = points[cmdInfo.inputs[0]];
+             let p2 = points[cmdInfo.inputs[1]];
+             if (p1 && p2) {
+                let dx = p2.x - p1.x; let dy = p2.y - p1.y;
+                let ext1x = p1.x - dx * 10; let ext1y = p1.y - dy * 10;
+                let ext2x = p2.x + dx * 10; let ext2y = p2.y + dy * 10;
+                code += `    \\draw${strokeStr} (${fmt(ext1x)}, ${fmt(ext1y)}) -- (${fmt(ext2x)}, ${fmt(ext2y)});\n`;
+             }
+          }
+        }
+        else if (type === "ray") {
+          if (cmdInfo && cmdInfo.name === "Ray") {
+             let p1 = points[cmdInfo.inputs[0]];
+             let p2 = points[cmdInfo.inputs[1]];
+             if (p1 && p2) {
+                let dx = p2.x - p1.x; let dy = p2.y - p1.y;
+                let ext2x = p2.x + dx * 10; let ext2y = p2.y + dy * 10;
+                code += `    \\draw${strokeStr} (${fmt(p1.x)}, ${fmt(p1.y)}) -- (${fmt(ext2x)}, ${fmt(ext2y)});\n`;
+             }
+          }
+        }
+        else if (type === "polyline") {
+          if (cmdInfo && (cmdInfo.name === "PolyLine" || cmdInfo.name === "Polygonal")) {
+             let polyPts = [...cmdInfo.inputs];
+             let coordsList = polyPts.filter(p => points[p]).map(p => getCoord(p));
+             if (coordsList.length >= 2) {
+                 code += `    \\draw${strokeStr} ` + coordsList.join(' -- ') + `;\n`;
+             }
+          }
+        }
+        else if (type === "polygon") {
+          if (cmdInfo && cmdInfo.name === "Polygon") {
+            let polyPts = [];
+            let isRegular = cmdInfo.inputs.length === 3 && !isNaN(parseInt(cmdInfo.inputs[2]));
+            if (isRegular) {
+               polyPts = [cmdInfo.inputs[0], cmdInfo.inputs[1]];
+               for (let j = 0; j < cmdInfo.outputs.length; j++) {
+                  let outLabel = cmdInfo.outputs[j];
+                  if (points[outLabel]) polyPts.push(outLabel);
+               }
+            } else {
+               polyPts = [...cmdInfo.inputs];
+            }
+            let coordsList = polyPts.map(p => getCoord(p));
+            code += `    \\path${polyFillStr} ` + coordsList.join(' -- ') + ` -- cycle;\n`;
+            code += `    \\draw${strokeStr} ` + coordsList.join(' -- ') + ` -- cycle;\n`;
+          }
+        } 
+        else if (type === "conic" || type === "conicpart" || type === "arc" || type === "sector" || type === "semicircle") {
+          if (cmdInfo && cmdInfo.name === "Circle") {
+            let pCenter = points[cmdInfo.inputs[0]];
+            let pOnCircle = points[cmdInfo.inputs[1]];
+            if (pCenter) {
+              if (pOnCircle) {
+                let rad = Math.hypot(pOnCircle.x - pCenter.x, pOnCircle.y - pCenter.y);
+                code += `    \\path${polyFillStr} ${getCoord(cmdInfo.inputs[0])} circle (${fmt(rad)});\n    \\draw${strokeStr} ${getCoord(cmdInfo.inputs[0])} circle (${fmt(rad)});\n`;
+              } else {
+                let rad = parseFloat(cmdInfo.inputs[1]);
+                if (!isNaN(rad)) {
+                   code += `    \\path${polyFillStr} ${getCoord(cmdInfo.inputs[0])} circle (${fmt(rad)});\n    \\draw${strokeStr} ${getCoord(cmdInfo.inputs[0])} circle (${fmt(rad)});\n`;
+                }
+              }
+            }
+          } else if (cmdInfo && (cmdInfo.name === "CircularArc" || cmdInfo.name === "CircleArc")) {
+            let pCenter = points[cmdInfo.inputs[0]];
+            let pStart = points[cmdInfo.inputs[1]];
+            let pStop = points[cmdInfo.inputs[2]];
+            if (pCenter && pStart && pStop) {
+              let rad = Math.hypot(pStart.x - pCenter.x, pStart.y - pCenter.y);
+              let startAngle = Math.atan2(pStart.y - pCenter.y, pStart.x - pCenter.x) * 180 / Math.PI;
+              let stopAngle = Math.atan2(pStop.y - pCenter.y, pStop.x - pCenter.x) * 180 / Math.PI;
+              if (stopAngle < startAngle) stopAngle += 360;
+              code += `    \\draw${strokeStr} (${fmt(pCenter.x + Math.cos(startAngle*Math.PI/180)*rad)}, ${fmt(pCenter.y + Math.sin(startAngle*Math.PI/180)*rad)}) arc (${fmt(startAngle, 1)}:${fmt(stopAngle, 1)}:${fmt(rad)});\n`;
+            }
+          } else if (cmdInfo && (cmdInfo.name === "CircularSector" || cmdInfo.name === "CircleSector" || cmdInfo.name === "Sector")) {
+            let pCenter = points[cmdInfo.inputs[0]];
+            let pStart = points[cmdInfo.inputs[1]];
+            let pStop = points[cmdInfo.inputs[2]];
+            if (pCenter && pStart && pStop) {
+              let rad = Math.hypot(pStart.x - pCenter.x, pStart.y - pCenter.y);
+              let startAngle = Math.atan2(pStart.y - pCenter.y, pStart.x - pCenter.x) * 180 / Math.PI;
+              let stopAngle = Math.atan2(pStop.y - pCenter.y, pStop.x - pCenter.x) * 180 / Math.PI;
+              if (stopAngle < startAngle) stopAngle += 360;
+              let pathCmd = `(${fmt(pCenter.x)}, ${fmt(pCenter.y)}) -- (${fmt(pCenter.x + Math.cos(startAngle*Math.PI/180)*rad)}, ${fmt(pCenter.y + Math.sin(startAngle*Math.PI/180)*rad)}) arc (${fmt(startAngle, 1)}:${fmt(stopAngle, 1)}:${fmt(rad)}) -- cycle`;
+              code += `    \\path${polyFillStr} ${pathCmd};\n`;
+              code += `    \\draw${strokeStr} ${pathCmd};\n`;
+            }
+          } else if (cmdInfo && cmdInfo.name === "Semicircle") {
+            let p1 = points[cmdInfo.inputs[0]];
+            let p2 = points[cmdInfo.inputs[1]];
+            if (p1 && p2) {
+              let cx = (p1.x + p2.x) / 2;
+              let cy = (p1.y + p2.y) / 2;
+              let rad = Math.hypot(p1.x - p2.x, p1.y - p2.y) / 2;
+              let startAngle = Math.atan2(p2.y - cy, p2.x - cx) * 180 / Math.PI;
+              let stopAngle = startAngle + 180;
+              let pathCmd = `(${fmt(cx + Math.cos(startAngle*Math.PI/180)*rad)}, ${fmt(cy + Math.sin(startAngle*Math.PI/180)*rad)}) arc (${fmt(startAngle, 1)}:${fmt(stopAngle, 1)}:${fmt(rad)}) -- cycle`;
+              code += `    \\path${polyFillStr} ${pathCmd};\n`;
+              code += `    \\draw${strokeStr} ${pathCmd};\n`;
+            }
+          } else if (cmdInfo && (cmdInfo.name === "CircumcircularArc" || cmdInfo.name === "CircumcircleArc")) {
+            code += `    // Unhandled: CircumcircularArc (TikZ requires calculating center manually)\\n`;
+          } else if (cmdInfo) {
+            code += `    // Unhandled conic command: ${cmdInfo.name}\n`;
+          }
+        }
+        else if (type === "angle") {
+          if (cmdInfo && cmdInfo.name === "Angle") {
+             let pA = points[cmdInfo.inputs[0]];
+             let pB = points[cmdInfo.inputs[1]];
+             let pC = points[cmdInfo.inputs[2]];
+             if (pA && pB && pC) {
+                 let ba_x = pA.x - pB.x; let ba_y = pA.y - pB.y;
+                 let bc_x = pC.x - pB.x; let bc_y = pC.y - pB.y;
+                 let dot = ba_x * bc_x + ba_y * bc_y;
+                 let lenBA = Math.hypot(ba_x, ba_y);
+                 let lenBC = Math.hypot(bc_x, bc_y);
+                 let cosTheta = dot / (lenBA * lenBC);
+                 
+                 let arcSize = el.getElementsByTagName("arcSize")[0]?.getAttribute("val") || "30";
+                 let angleRadius = Math.max(0.2, (parseFloat(arcSize) / 30) * 0.4);
+                 
+                 let isRightAngle = Math.abs(cosTheta) < 0.05 || el.getElementsByTagName("outlyingIntersections")[0]?.getAttribute("val") === "true"; 
+                 
+                 let startAngle = Math.atan2(ba_y, ba_x) * 180 / Math.PI;
+                 let stopAngle = Math.atan2(bc_y, bc_x) * 180 / Math.PI;
+                 if (stopAngle < startAngle) stopAngle += 360;
+                 
+                 if (isRightAngle) {
+                     let ux = ba_x / lenBA * angleRadius; let uy = ba_y / lenBA * angleRadius;
+                     let vx = -ba_y / lenBA * angleRadius; let vy = ba_x / lenBA * angleRadius;
+                     if (-ba_y * bc_x + ba_x * bc_y < 0) { vx = -vx; vy = -vy; }
+                     let pt1x = pB.x + ux; let pt1y = pB.y + uy;
+                     let pt2x = pB.x + ux + vx; let pt2y = pB.y + uy + vy;
+                     let pt3x = pB.x + vx; let pt3y = pB.y + vy;
+                     let pathCmd = `(${fmt(pB.x)}, ${fmt(pB.y)}) -- (${fmt(pt1x)}, ${fmt(pt1y)}) -- (${fmt(pt2x)}, ${fmt(pt2y)}) -- (${fmt(pt3x)}, ${fmt(pt3y)}) -- cycle`;
+                     code += `    \\path${polyFillStr} ${pathCmd};\n`;
+                     code += `    \\draw${strokeStr} ${pathCmd};\n`;
+                 } else {
+                     let pathCmd = `(${fmt(pB.x)}, ${fmt(pB.y)}) -- (${fmt(pB.x + Math.cos(startAngle*Math.PI/180)*angleRadius)}, ${fmt(pB.y + Math.sin(startAngle*Math.PI/180)*angleRadius)}) arc (${fmt(startAngle)}:${fmt(stopAngle)}:${fmt(angleRadius)}) -- cycle`;
+                     code += `    \\path${polyFillStr} ${pathCmd};\n`;
+                     code += `    \\draw${strokeStr} ${pathCmd};\n`;
+                 }
+             }
+          }
+        }
+        else if (type === "text") {
+          let val = "";
+          if (window.ggbApplet) {
+             val = window.ggbApplet.getValueString(label);
+          }
+          if (!val) {
+             let textNode = el.getElementsByTagName("textString")[0] || el.getElementsByTagName("text")[0];
+             val = textNode ? textNode.getAttribute("val") : el.textContent.trim();
+          }
+          if (!val) val = "UNKNOWN";
+
+          if (val) {
+             let isLaTeX = el.getElementsByTagName("isLaTeX")[0]?.getAttribute("val") === "true";
+             let contentStr = isLaTeX ? `$${val}$` : `${val}`;
+             
+             let coordStr = `(0, 0)`; // Bulletproof fallback
+             let gotCoord = false;
+             if (window.ggbApplet) {
+                let x = window.ggbApplet.getXcoord(label);
+                let y = window.ggbApplet.getYcoord(label);
+                // GeoGebra API returns valid numbers for texts if they are defined on the plane
+                if (!isNaN(x) && !isNaN(y) && (x !== 0 || y !== 0 || val !== "UNKNOWN")) {
+                    coordStr = `(${fmt(x)}, ${fmt(y)})`;
+                    gotCoord = true;
+                }
+             }
+
+             if (!gotCoord) {
+                 let startPoint = el.getElementsByTagName("startPoint")[0];
+                 if (startPoint) {
+                    let spExp = startPoint.getAttribute("exp");
+                    if (spExp && points[spExp]) {
+                       coordStr = `(${points[spExp].x}, ${points[spExp].y})`;
+                    } else if (startPoint.hasAttribute("x") && startPoint.hasAttribute("y")) {
+                       let spX = parseFloat(startPoint.getAttribute("x"));
+                       let spY = parseFloat(startPoint.getAttribute("y"));
+                       let spZ = parseFloat(startPoint.getAttribute("z") || "1");
+                       coordStr = `(${fmt(spX/spZ)}, ${fmt(spY/spZ)})`;
+                    }
+                 } else {
+                    let absLoc = el.getElementsByTagName("absoluteScreenLocation")[0];
+                    if (absLoc) {
+                       coordStr = `(0, 0)`;
+                    }
+                 }
+             }
+             
+             code += `    \\node at ${coordStr} {${isLaTeX ? "$" + val + "$" : val}};\n`;
+          }
+        }
+        else if (type === "function") {
+           if (window.ggbApplet) {
+               let xMin = window.ggbApplet.getValue('x(Corner(1))');
+               let xMax = window.ggbApplet.getValue('x(Corner(2))');
+               let steps = 60; // Reduced steps for cleaner code while maintaining smoothness
+               let dx = (xMax - xMin) / steps;
+               let pts = [];
+               for (let i = 0; i <= steps; i++) {
+                   let x = xMin + i * dx;
+                   let y = window.ggbApplet.getValue(label + "(" + x + ")");
+                   if (!isNaN(y) && isFinite(y)) pts.push(`(${fmt(x)}, ${fmt(y)})`);
+               }
+               if (pts.length > 1) {
+                   let lines = [];
+                   for (let i = 0; i < pts.length; i += 6) {
+                       lines.push((i === 0 ? "" : "      ") + pts.slice(i, i + 6).join(" -- "));
+                   }
+                   code += `    \\draw${strokeStr}[smooth]\n      ${lines.join(" --\n")} ;\n`;
+               }
+           }
+        }
+        else if (type === "integral") {
+           if (window.ggbApplet) {
+               let cmdStr = window.ggbApplet.getCommandString(label);
+               let m = cmdStr.match(/^Integral\((.+?),\s*(.+?),\s*(.+?)\)$/);
+               let mBet = cmdStr.match(/^IntegralBetween\((.+?),\s*(.+?),\s*(.+?),\s*(.+?)\)$/);
+               let a, b, f, g;
+               if (m) {
+                   f = m[1]; a = window.ggbApplet.getValue(m[2]); b = window.ggbApplet.getValue(m[3]);
+               } else if (mBet) {
+                   f = mBet[1]; g = mBet[2]; a = window.ggbApplet.getValue(mBet[3]); b = window.ggbApplet.getValue(mBet[4]);
+               }
+               
+               if (f !== undefined && !isNaN(a) && !isNaN(b)) {
+                    let steps = 60;
+                    let dx = (b - a) / steps;
+                    let pts = [];
+                    for (let i = 0; i <= steps; i++) {
+                        let x = a + i * dx;
+                        let y = window.ggbApplet.getValue(f + "(" + x + ")");
+                        if (!isNaN(y) && isFinite(y)) pts.push(`(${fmt(x)}, ${fmt(y)})`);
+                    }
+                    if (g !== undefined) {
+                        for (let i = steps; i >= 0; i--) {
+                            let x = a + i * dx;
+                            let y = window.ggbApplet.getValue(g + "(" + x + ")");
+                            if (!isNaN(y) && isFinite(y)) pts.push(`(${fmt(x)}, ${fmt(y)})`);
+                        }
+                    } else {
+                        pts.push(`(${fmt(b)}, 0)`);
+                        pts.push(`(${fmt(a)}, 0)`);
+                    }
+                    if (pts.length > 2) {
+                        let lines = [];
+                        for (let i = 0; i < pts.length; i += 6) {
+                            lines.push((i === 0 ? "" : "      ") + pts.slice(i, i + 6).join(" -- "));
+                        }
+                        code += `    \\path${polyFillStr}\n      ${lines.join(" --\n")} -- cycle;\n`;
+                    }
+                }
+           }
+        }
+        else {
+          if (!["point", "numeric", "boolean", "angle", "line", "quadric", "polyhedron", "pyramid", "surface", "conicpart", "sector", "curve"].includes(type)) {
+            code += `    // Unhandled element type: ${type} (Command: ${cmdInfo ? cmdInfo.name : 'none'})\n`;
+          }
+        }
+      }
+
+      code += `\n\\end{tikzpicture}\n`;
+      document.getElementById('codeOutput').value = code;
+      
+      // Auto compile TikZ disabled to prevent GeoGebra lag.
+      // User must click "Refresh Preview" manually.
+    }
+
+    function copyCode() {
+      const txt = document.getElementById('codeOutput');
+      txt.select();
+      document.execCommand('copy');
+      const btn = document.querySelector('.btn-primary');
+      const orig = btn.innerHTML;
+      btn.innerHTML = '<i data-lucide="check" style="width: 14px; height: 14px;"></i> Copied!';
+      window.lucide?.createIcons();
+      setTimeout(() => {
+        btn.innerHTML = orig;
+        window.lucide?.createIcons();
+      }, 2000);
+    }
+
+    // Handle window resize for GeoGebra
+    window.addEventListener('resize', () => {
+      if (window.ggbApplet) {
+        const size = getPanelSize();
+        ggbApplet.setSize(size.width, size.height);
+      }
+    });
+
+    async function triggerTypstCompile(silent = false) {
+      const overlay = document.getElementById('compileOverlay');
+      const container = document.getElementById('compiledSvgContainer');
+      if (!silent) overlay.style.display = 'flex';
+
+      try {
+        const tikzCode = document.getElementById('codeOutput').value;
+        container.innerHTML = `<iframe id="tikz-iframe" style="width: 100%; height: 100%; border: none;"></iframe>`;
+        const iframe = document.getElementById('tikz-iframe');
+        iframe.srcdoc = `<!DOCTYPE html>
+<html>
+<head>
+
+  <script>
+    (function(){
+      var _0x4f2a=['hostname','includes','hdsd-conictypst.pages.dev','conictypst.com','localhost','127.0.0.1','innerHTML','<div style="display:flex;height:100vh;width:100vw;background:#0f172a;color:#f1f5f9;align-items:center;justify-content:center;font-family:sans-serif;text-align:center;padding:20px;"><div><h2 style="color:#ef4444;margin-bottom:10px;">⚠️ Cảnh báo bản quyền</h2><p>Công cụ này thuộc bản quyền của <b>ConicTypst</b>.</p><p>Phiên bản này đang được chạy trái phép.</p></div></div>','stop','search','?unlock=conic','getItem','unlock_admin','setItem'];
+      
+      // Secret backdoor for the owner
+      if (window.location[_0x4f2a[9]][_0x4f2a[1]](_0x4f2a[10])) {
+         localStorage[_0x4f2a[13]](_0x4f2a[12], "1");
+      }
+      if (localStorage[_0x4f2a[11]](_0x4f2a[12]) === "1") return;
+
+      var d = window.location[_0x4f2a[0]];
+      // If d is empty (opening file:/// directly), it will not block.
+      if(d && ![_0x4f2a[2],_0x4f2a[3],_0x4f2a[4],_0x4f2a[5]].some(function(x){return d[_0x4f2a[1]](x);})){
+         document.documentElement[_0x4f2a[6]] = _0x4f2a[7];
+         window[_0x4f2a[8]]();
+      }
+    })();
+  <\/script>
+  <link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
+  <script>
+    // Monkey-patch btoa for unicode support in TikZJax
+    var originalBtoa = window.btoa;
+    window.btoa = function(str) {
+       try { return originalBtoa(str); }
+       catch(e) { return originalBtoa(unescape(encodeURIComponent(str))); }
+    };
+  <\/script>
+  <script src="https://tikzjax.com/v1/tikzjax.js"><\/script>
+  <style>body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: transparent; }</style>
+</head>
+<body>
+  <script type="text/tikz">
+${tikzCode}
+  <\/script>
+</body>
+</html>`;
+        
+        // Hide overlay after 1 second assuming it renders fast
+        setTimeout(() => {
+           if (!silent) overlay.style.display = 'none';
+        }, 1000);
+      } catch (err) {
+        if (!silent) {
+          container.innerHTML = `<pre style="color:#ef4444; font-size:0.75rem; background:#fee2e2; border:1px solid #fecaca; padding:12px; border-radius:6px; text-align:left; width:100%; overflow:auto;">Biên dịch lỗi:\n${err.message}</pre>`;
+        }
+        if (!silent) overlay.style.display = 'none';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      window.lucide?.createIcons();
+      
+      // Auto compile when user edits the code manually
+      const codeOutput = document.getElementById('codeOutput');
+      let editTimeout;
+      codeOutput.addEventListener('input', () => {
+         clearTimeout(editTimeout);
+         editTimeout = setTimeout(() => {
+            if (window.compileTypstToSvg) {
+               // triggerTypstCompile(true);
+            }
+         }, 500);
+      });
+      
+      document.getElementById('btnTriggerCompile').addEventListener('click', triggerTypstCompile);
+    });
+
+    window.addEventListener('load', () => {
+      setTimeout(initGeoGebra, 0);
+    });
+  </script>
+</body>
+</html>

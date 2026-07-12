@@ -14193,6 +14193,7 @@ async function arScanLoop(timestamp) {
         document.getElementById('arStatus').textContent = 'Lỗi chấm: ' + err.message;
         setTimeout(resumeCamera, 3000);
       }
+    }
     } else {
       arStableFrames = 0;
       arLastMarkers = null;
@@ -14300,13 +14301,14 @@ function exportExcel() {
 const oldOnload = window.onload;
 window.onload = function() {
     if(oldOnload) oldOnload();
+    currentTemplate = window.TEMPLATES ? window.TEMPLATES["12-4-6ngang"] : null;
     loadSessions();
 };
 
 let gradeResults = [];       // All grading results (localStorage-backed)
         let studentList = [];        // Imported class list
         let selectedTemplate = "12-4-6ngang";
-        let currentTemplate = TEMPLATES["12-4-6ngang"];
+        let currentTemplate = null;
         let currentNumQ = 50;
 
         // ─── localStorage helpers ────────────────────────────────────────────

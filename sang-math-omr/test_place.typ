@@ -1,5 +1,0 @@
-#set page(width: 100pt, height: 100pt, margin: 20pt)
-#let marker = box(fill: black, width: 10pt, height: 10pt)
-#place(top + left, dx: -15pt, dy: -15pt, marker)
-#place(bottom + right, dx: 15pt, dy: 15pt, marker)
-#rect(width: 100%, height: 100%)

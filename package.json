@@ -35,6 +35,7 @@
     "dev:hub": "vite --config vite.hub.config.js",
     "build:hub": "vite build --config vite.hub.config.js",
     "preview:hub": "vite preview --config vite.hub.config.js",
+    "test:hub:package": "node --test scripts/test-hub-package-policy.mjs",
     "test:hub:smoke": "node scripts/test-hub-smoke.mjs",
     "deploy:hub": "npm run build:hub && wrangler pages deploy dist-hub --project-name typstconichub --commit-dirty=true"
   },

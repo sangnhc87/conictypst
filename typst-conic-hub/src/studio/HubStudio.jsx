@@ -12,6 +12,12 @@ import {
   searchSangMathCatalog,
 } from './sangMathCatalog.js'
 import {
+  SANG_MATH_IMPORT,
+  SANG_MATH_UNIVERSE_URL,
+  inspectSangMathProject,
+  migrateProjectToUniverse,
+} from './packagePolicy.js'
+import {
   bootstrapProject,
   createSnapshot,
   deleteProject,
@@ -1200,6 +1206,35 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
     notify('Đã tạo snapshot an toàn')
   }, [notify, project])
 
+  const packageHealth = useMemo(() => inspectSangMathProject(project?.files), [project?.files])
+
+  const copyOfficialImport = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(SANG_MATH_IMPORT)
+      notify('Đã sao chép import sang-math chính thức')
+    } catch {
+      notify('Trình duyệt không cho phép sao chép tự động', 'error')
+    }
+  }, [notify])
+
+  const upgradePackageImports = useCallback(async () => {
+    if (!project) return
+    const protectedProject = createSnapshot(project, 'Trước khi nâng cấp import sang Universe')
+    const migrated = migrateProjectToUniverse(protectedProject)
+    if (!migrated.changedFiles) {
+      notify('Dự án đã dùng import chính thức hoặc không cần nâng cấp')
+      return
+    }
+
+    const saved = await saveProject(migrated.project)
+    setProject(saved)
+    setLastSavedAt(saved.updatedAt)
+    setIsDirty(false)
+    workerProjectIdRef.current = ''
+    await refreshProjects()
+    notify(`Đã nâng cấp ${migrated.changedFiles} tệp sang Typst Universe`)
+  }, [notify, project, refreshProjects])
+
   const restoreProjectSnapshot = useCallback(async snapshotId => {
     if (!project || !window.confirm('Khôi phục snapshot này? Nội dung hiện tại sẽ được thay thế.')) return
     const next = await saveProject(restoreSnapshot(project, snapshotId))
@@ -1214,6 +1249,7 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
   const commandActions = useMemo(() => [
     { id: 'new-project', icon: '＋', label: 'Tạo dự án mới', description: 'Chọn mẫu đầy đủ, đề thi, sách hoặc BBT.', keywords: 'mẫu template', run: () => setNewProjectOpen(true) },
     { id: 'catalog', icon: 'S', label: 'Mở Trung tâm Sang Math', description: 'Tìm và chèn macro mà không cần nhớ cú pháp.', keywords: 'kho lệnh macro', run: () => setCatalogOpen(true) },
+    { id: 'package-upgrade', icon: 'U', label: 'Chuẩn hóa import sang Typst Universe', description: 'Thay đường dẫn Sang Math cũ, tạo snapshot và dùng @preview/sang-math:1.0.0.', keywords: 'package migrate nâng cấp import official', run: upgradePackageImports },
     { id: 'exam-theme', icon: '✦', label: 'Đổi giao diện đề thi', description: 'Chọn theme Sang Math và biên dịch lại ngay.', keywords: 'màu phong cách designer cam xanh', run: () => setThemeDesignerOpen(true) },
     { id: 'outline', icon: '☷', label: 'Mở mục lục tài liệu', description: 'Đi tới phần thi, câu hỏi hoặc tiêu đề.', keywords: 'outline cấu trúc', run: () => setSidebarMode('outline') },
     { id: 'compile', icon: '▶', label: 'Biên dịch lại preview', description: 'Chạy compiler Typst ngay lập tức.', shortcut: '⌘ ↵', run: () => requestCompile('vector', 'preview') },
@@ -1237,7 +1273,7 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
       keywords: `${item.category} ${item.signature}`,
       run: () => insertSnippet(item),
     })),
-  ], [exportPng, handleExportZip, insertSnippet, makeSnapshot, requestCompile, theme])
+  ], [exportPng, handleExportZip, insertSnippet, makeSnapshot, requestCompile, theme, upgradePackageImports])
 
   if (!project) {
     return <div className="studio-bootstrap"><BrandMark /><span className="spinner" /><p>Đang mở dự án gần nhất…</p></div>
@@ -1313,7 +1349,20 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
                 </>}
                 {sidebarMode === 'search' && <div className="sidebar-tool"><span className="sidebar-heading-simple">TÌM TOÀN DỰ ÁN</span><div className="sidebar-search-input"><span>⌕</span><input value={projectSearch} onChange={event => setProjectSearch(event.target.value)} placeholder="Nhập nội dung cần tìm…" autoFocus /></div>{projectSearch ? <div className="project-search-results"><span>{projectSearchResults.length}{projectSearchResults.length === 100 ? '+' : ''} kết quả</span>{projectSearchResults.map((result, index) => <button type="button" key={`${result.path}-${result.line}-${index}`} onClick={() => goToLocation(result.path, result.line)}><b>{getFileName(result.path)} <i>:{result.line}</i></b><small>{result.text}</small></button>)}{!projectSearchResults.length && <div className="empty-list"><b>Không tìm thấy</b><span>Kiểm tra chính tả hoặc thử một từ khóa ngắn hơn.</span></div>}</div> : <div className="empty-list"><b>Tìm xuyên nhiều tệp</b><span>Kết quả hiển thị theo tệp và dòng; bấm để đi thẳng tới vị trí.</span></div>}</div>}
                 {sidebarMode === 'outline' && <div className="sidebar-tool outline-tool"><span className="sidebar-heading-simple">MỤC LỤC TÀI LIỆU</span><div className="outline-summary"><span><b>{projectOutline.filter(item => ['tn', 'ds', 'tln', 'tl'].includes(item.type)).length}</b> câu hỏi</span><span><b>{projectOutline.filter(item => item.type === 'part').length}</b> phần</span></div><div className="outline-list">{projectOutline.map((item, index) => <button type="button" key={`${item.path}-${item.line}-${index}`} className={`outline-item outline-item--${item.type}`} style={item.type === 'heading' ? { paddingLeft: `${6 + (Math.min(3, item.level || 1) - 1) * 7}px` } : undefined} onClick={() => goToLocation(item.path, item.line)}><span>{item.type === 'part' ? '§' : item.type === 'heading' ? 'H' : item.shortType}</span><span><b>{item.shortType ? `${item.shortType} ${String(item.number).padStart(2, '0')}` : item.label}</b>{item.shortType && <small>{item.label}</small>}<i>{getFileName(item.path)}:{item.line}</i></span></button>)}{!projectOutline.length && <div className="empty-list"><b>Chưa có cấu trúc</b><span>Thêm tiêu đề Typst hoặc câu hỏi Sang Math để mục lục tự xuất hiện.</span></div>}</div></div>}
-                {sidebarMode === 'packages' && <div className="sidebar-tool"><span className="sidebar-heading-simple">SANG MATH CENTER</span><div className="installed-package"><span>✓</span><div><b>sang-math</b><small>1.0.1 · local built-in</small></div></div><div className="sidebar-search-input macro-search"><span>S</span><input value={macroSearch} onChange={event => setMacroSearch(event.target.value)} placeholder="Tìm macro để chèn…" /></div><div className="sidebar-macro-list">{searchSangMathCatalog(macroSearch).slice(0, 9).map(item => <button type="button" key={item.id} onClick={() => insertSnippet(item)}><span><b>{item.name}</b><small>{item.signature}</small></span><i>＋</i></button>)}</div><button type="button" className="sidebar-catalog-button" onClick={() => setCatalogOpen(true)}>Xem toàn bộ {SANG_MATH_CATALOG.length} lệnh <span>→</span></button><p className="sidebar-note">Package được gắn trực tiếp trong Studio. Import qua <code>/packages/sang-math/lib.typ</code>.</p></div>}
+                {sidebarMode === 'packages' && <div className="sidebar-tool package-center">
+                  <span className="sidebar-heading-simple">SANG MATH CENTER</span>
+                  <div className={`installed-package package-${packageHealth.mode}`}><span>{packageHealth.mode === 'legacy' ? '!' : '✓'}</span><div><b>sang-math <em>OFFICIAL</em></b><small>1.0.0 · Typst Universe</small></div><a href={SANG_MATH_UNIVERSE_URL} target="_blank" rel="noreferrer" title="Mở Typst Universe">↗</a></div>
+                  <div className={`package-health package-health--${packageHealth.mode}`}>
+                    <span>{packageHealth.mode === 'legacy' ? 'CẦN NÂNG CẤP' : packageHealth.mode === 'official' ? 'DỰ ÁN CHUẨN PUBLIC' : packageHealth.mode === 'extension' ? 'STUDIO EXTENSION' : 'CHƯA IMPORT'}</span>
+                    <p>{packageHealth.mode === 'legacy' ? `Còn ${packageHealth.legacyImports} đường dẫn nội bộ cũ.` : packageHealth.mode === 'official' ? `Đã nhận ${packageHealth.officialImports} import chính thức.` : packageHealth.mode === 'extension' ? 'Beamer dùng extension riêng; API Toán vẫn từ Universe.' : 'Chèn import chính thức khi bắt đầu dùng Sang Math.'}</p>
+                    {packageHealth.mode === 'legacy' && <button type="button" onClick={upgradePackageImports}>Nâng cấp an toàn →</button>}
+                  </div>
+                  <div className="package-actions"><button type="button" onClick={copyOfficialImport}>Sao chép import</button><a href={SANG_MATH_UNIVERSE_URL} target="_blank" rel="noreferrer">Trang package ↗</a></div>
+                  <div className="sidebar-search-input macro-search"><span>S</span><input value={macroSearch} onChange={event => setMacroSearch(event.target.value)} placeholder="Tìm macro để chèn…" /></div>
+                  <div className="sidebar-macro-list">{searchSangMathCatalog(macroSearch).slice(0, 9).map(item => <button type="button" key={item.id} onClick={() => insertSnippet(item)}><span><b>{item.name}</b><small>{item.signature}</small></span><i>＋</i></button>)}</div>
+                  <button type="button" className="sidebar-catalog-button" onClick={() => setCatalogOpen(true)}>Xem toàn bộ {SANG_MATH_CATALOG.length} lệnh <span>→</span></button>
+                  <p className="sidebar-note">Dự án public dùng <code>{SANG_MATH_IMPORT}</code>. Package được cache sau lần tải đầu tiên.</p>
+                </div>}
               </div>
             </aside>
           </Panel>
@@ -1384,7 +1433,7 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
 
       <footer className="studio-statusbar">
         <div><span className={`runtime-pill ${runtimeStatus}`}><i />{runtimeLabel}</span><button type="button" onClick={() => setProblemsOpen(true)} className={diagnostics.length ? 'has-problems' : ''}>{diagnostics.length ? `⚠ ${diagnostics.length} vấn đề` : '✓ Không có lỗi'}</button><button type="button" className="command-hint" onClick={() => setCommandOpen(true)}>⌘K Bảng lệnh</button></div>
-        <div><span>sang-math 1.0.1 local</span><span>UTF-8</span><span>Typst</span><span>Ln {editorPosition.line}, Col {editorPosition.column}</span></div>
+        <div><a className="status-package" href={SANG_MATH_UNIVERSE_URL} target="_blank" rel="noreferrer">sang-math 1.0.0 · Universe ↗</a><span>UTF-8</span><span>Typst</span><span>Ln {editorPosition.line}, Col {editorPosition.column}</span></div>
       </footer>
 
       <ProjectDialog open={newProjectOpen} onClose={() => setNewProjectOpen(false)} onCreate={createAndOpenProject} />

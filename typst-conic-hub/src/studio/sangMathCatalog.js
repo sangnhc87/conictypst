@@ -1,3 +1,5 @@
+import { SANG_MATH_IMPORT } from './packagePolicy.js'
+
 export const SANG_MATH_CATEGORIES = [
   { id: 'all', label: 'Tất cả' },
   { id: 'exam', label: 'Đề thi' },
@@ -9,9 +11,9 @@ export const SANG_MATH_CATEGORIES = [
 
 export const SANG_MATH_CATALOG = [
   {
-    id: 'import-all', category: 'exam', name: 'Import Sang Math', signature: '#import "/packages/sang-math/lib.typ": *',
-    description: 'Nạp toàn bộ API ổn định của package nội bộ.',
-    snippet: '#import "/packages/sang-math/lib.typ": *\n',
+    id: 'import-all', category: 'exam', name: 'Import Sang Math', signature: SANG_MATH_IMPORT,
+    description: 'Nạp API chính thức sang-math 1.0.0 từ Typst Universe.',
+    snippet: `${SANG_MATH_IMPORT}\n`,
   },
   {
     id: 'exam-preset', category: 'exam', name: 'Cấu hình đề thi', signature: '#let preset = exam-preset(…)',
@@ -109,9 +111,9 @@ export const SANG_MATH_CATALOG = [
     snippet: '#practice-box(theme: theme)[\n  Nội dung bài luyện tập.\n]\n',
   },
   {
-    id: 'beamer-import', category: 'slide', name: 'Khởi tạo Beamer', signature: '#import "/packages/sang-math/sang-beamer.typ": *',
-    description: 'Nạp engine trình chiếu 16:9 và bộ macro câu hỏi dành cho slide.',
-    snippet: '#import "/packages/sang-math/sang-beamer.typ": *\n#import "/packages/sang-math/sang-beamer-themes.typ": get-beamer-theme\n',
+    id: 'beamer-import', category: 'slide', name: 'Khởi tạo Beamer', signature: '#import "/extensions/sang-beamer/sang-beamer.typ": *',
+    description: 'Nạp extension trình chiếu 16:9 của Studio; sang-math vẫn dùng package Universe chính thức.',
+    snippet: `${SANG_MATH_IMPORT}\n#import "/extensions/sang-beamer/sang-beamer.typ": *\n#import "/extensions/sang-beamer/themes.typ": get-beamer-theme\n`,
   },
   {
     id: 'beamer-theme', category: 'slide', name: 'Giao diện Beamer', signature: '#show: sang-beamer-theme.with(…)',

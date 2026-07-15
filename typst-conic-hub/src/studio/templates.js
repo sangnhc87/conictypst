@@ -1,14 +1,15 @@
 import fullExamRaw from '../../../public/hdsd/downloads/examples/05_full_de_thi_mau.typ?raw'
 import fullExamDataRaw from '../../../public/hdsd/downloads/examples/05_data_de_thi_mau.typ?raw'
+import { SANG_MATH_IMPORT } from './packagePolicy.js'
 
 const FULL_EXAM_SOURCE = fullExamRaw
-  .replace('#import "../lib.typ": *', '#import "/packages/sang-math/lib.typ": *')
+  .replace('#import "../lib.typ": *', SANG_MATH_IMPORT)
   .replace('exam-mode(..preset.question, show-hyperlink: true)', 'exam-mode(..preset.question)')
   .replace(/^#let theme = "violet".*$/m, '// #let theme = "violet"         // Tím mộng mơ')
   .replace(/^\/\/ #let theme = "teal-pro".*$/m, '#let theme = "teal-pro"       // Xanh hiện đại, đồng bộ nhận diện ConicTypst')
 
 const FULL_EXAM_DATA_SOURCE = fullExamDataRaw
-  .replace('#import "../lib.typ": *', '#import "/packages/sang-math/lib.typ": *')
+  .replace('#import "../lib.typ": *', SANG_MATH_IMPORT)
 
 const QUICKSTART_SOURCE = `#set page(
   paper: "a4",
@@ -58,10 +59,8 @@ Bạn đang biên dịch hoàn toàn trên trình duyệt bằng WebAssembly. M�
 #align(center)[#text(fill: rgb("#16a36f"), weight: "bold")[Sang Math · ConicTypst · 2026]]
 `
 
-const EXAM_SOURCE = `// sang-math đang được gắn nội bộ trong TypstConicHub.
-// Sau khi package được duyệt, có thể đổi sang @preview/sang-math:1.0.0.
-#import "/packages/sang-math/sang-exam.typ": *
-#import "/packages/sang-math/exam-templates.typ": *
+const EXAM_SOURCE = `// Package chính thức trên Typst Universe.
+${SANG_MATH_IMPORT}
 
 #let preset = exam-preset(theme: "teal-pro", profile: "loigiai")
 #let (tn, ds, tln, tl) = exam-mode(..preset.question)
@@ -108,7 +107,7 @@ const EXAM_SOURCE = `// sang-math đang được gắn nội bộ trong TypstCon
 )
 `
 
-const BOOK_SOURCE = `#import "/packages/sang-math/book-templates.typ": *
+const BOOK_SOURCE = `${SANG_MATH_IMPORT}
 
 #let theme = "sgk-modern"
 
@@ -144,7 +143,7 @@ const BOOK_SOURCE = `#import "/packages/sang-math/book-templates.typ": *
 ]
 `
 
-const SPECIALTY_SOURCE = `#import "/packages/sang-math/lib.typ": *
+const SPECIALTY_SOURCE = `${SANG_MATH_IMPORT}
 
 #let theme = "olympiad-indigo"
 
@@ -189,8 +188,10 @@ const SPECIALTY_SOURCE = `#import "/packages/sang-math/lib.typ": *
 ]
 `
 
-const BEAMER_SOURCE = `#import "/packages/sang-math/sang-beamer.typ": *
-#import "/packages/sang-math/sang-beamer-themes.typ": get-beamer-theme
+const BEAMER_SOURCE = `// sang-math dùng bản chính thức; Beamer là extension riêng của Studio.
+${SANG_MATH_IMPORT}
+#import "/extensions/sang-beamer/sang-beamer.typ": *
+#import "/extensions/sang-beamer/themes.typ": get-beamer-theme
 
 // Đổi số từ 1 đến 30 để chọn theme slide (1–15 tối, 16–30 sáng).
 #let theme-id = 16
@@ -224,7 +225,7 @@ const BEAMER_SOURCE = `#import "/packages/sang-math/sang-beamer.typ": *
 #het
 `
 
-const BBT_SOURCE = `#import "/packages/sang-math/bbt.typ": bbtv2
+const BBT_SOURCE = `#import "@preview/sang-math:1.0.0": bbtv2
 
 #set page(paper: "a4", margin: 2cm)
 #set text(font: "New Computer Modern", size: 11pt)
@@ -272,7 +273,7 @@ export const PROJECT_TEMPLATES = [
     id: 'exam',
     name: 'Đề thi Sang Math',
     label: 'TN · Đ/S · TLN · TL',
-    description: 'Mẫu đề thi dùng package sang-math nội bộ và giao diện teal-pro.',
+    description: 'Mẫu đề thi dùng sang-math 1.0.0 chính thức trên Typst Universe và giao diện teal-pro.',
     color: 'green',
     icon: 'ĐT',
     kind: 'Đề kiểm tra',

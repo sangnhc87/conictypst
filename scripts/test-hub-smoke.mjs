@@ -53,6 +53,7 @@ const defaultCompileState = await page.evaluate(() => ({
   state: document.querySelector('.compile-state')?.textContent?.trim(),
   error: document.querySelector('.preview-error')?.textContent?.replace(/\s+/g, ' ').trim(),
   entry: document.querySelector('.entry-card b')?.textContent?.trim(),
+  editorText: document.querySelector('.view-lines')?.textContent?.replace(/\s+/g, ' ').trim(),
 }))
 if (defaultCompileState.error) {
   await page.screenshot({ path: '/tmp/typst-conic-hub-default-error.png' })
@@ -148,6 +149,14 @@ const outlineResult = await page.evaluate(() => ({
   parts: document.querySelectorAll('.outline-item--part').length,
   questions: document.querySelectorAll('.outline-item--tn, .outline-item--ds, .outline-item--tln, .outline-item--tl').length,
 }))
+await page.click('.activity-rail button:nth-child(4)')
+await page.waitForSelector('.package-center .installed-package')
+const packageCenterResult = await page.evaluate(() => ({
+  badge: document.querySelector('.package-center .installed-package')?.textContent?.replace(/\s+/g, ' ').trim(),
+  health: document.querySelector('.package-health')?.textContent?.replace(/\s+/g, ' ').trim(),
+  note: document.querySelector('.package-center .sidebar-note')?.textContent?.replace(/\s+/g, ' ').trim(),
+  universe: document.querySelector('.package-center .installed-package a')?.href,
+}))
 
 const result = await page.evaluate(() => ({
   title: document.title,
@@ -223,15 +232,15 @@ if (result.project !== 'Đề thi đầy đủ 05' || result.fileCount !== 2) {
   throw new Error(`Mẫu mặc định không phải bộ 05 đầy đủ: ${JSON.stringify(result)}`)
 }
 if (result.defaultCanvasCount !== 6) throw new Error(`Mẫu 05 mặc định phải biên dịch thành 6 trang: ${JSON.stringify(result)}`)
-if (defaultCompileState.entry !== '05_full_de_thi_mau.typ') throw new Error(`Entry mặc định chưa dùng đúng file 05_full: ${JSON.stringify(defaultCompileState)}`)
+if (defaultCompileState.entry !== '05_full_de_thi_mau.typ' || !defaultCompileState.editorText?.includes('@preview/sang-math:1.0.0') || defaultCompileState.editorText?.includes('/packages/sang-math')) throw new Error(`Entry mặc định chưa dùng package Universe chính thức: ${JSON.stringify(defaultCompileState)}`)
 if (sourceNavigation.entry.file !== '05_full_de_thi_mau.typ' || !sourceNavigation.entry.position?.startsWith('Ln 62,') || sourceNavigation.data.file !== '05_data_de_thi_mau.typ' || !sourceNavigation.data.position?.startsWith('Ln 6,')) {
   throw new Error(`Click preview chưa trở về đúng source: ${JSON.stringify(sourceNavigation)}`)
 }
-if (!serviceWorkerSource.includes('typst-conic-hub-v3-security-bridge') || !serviceWorkerSource.includes('networkFirst(event.request')) {
-  throw new Error('Service Worker chưa dùng chiến lược cập nhật v3 security bridge')
+if (!serviceWorkerSource.includes('typst-conic-hub-v4-universe-packages') || !serviceWorkerSource.includes("url.hostname === 'packages.typst.org'") || !serviceWorkerSource.includes('networkFirst(event.request')) {
+  throw new Error('Service Worker chưa cache package Universe và giữ network-first cho navigation')
 }
-if (!completionResult?.suggestion?.includes('Câu trắc nghiệm') || !catalogResult.count || !catalogResult.first?.includes('đúng / sai') || !commandResult?.includes('PDF') || !searchCount || themeCount < 10 || outlineResult.parts < 4 || outlineResult.questions < 20 || templatePicker.count !== 7 || !templatePicker.names.includes('Slide Beamer 16:9')) {
-  throw new Error(`Công cụ trợ giúp chưa hoạt động đúng: ${JSON.stringify({ completionResult, catalogResult, commandResult, searchCount, themeCount, outlineResult, templatePicker, errors })}`)
+if (!completionResult?.suggestion?.includes('Câu trắc nghiệm') || !catalogResult.count || !catalogResult.first?.includes('đúng / sai') || !commandResult?.includes('PDF') || !searchCount || themeCount < 10 || outlineResult.parts < 4 || outlineResult.questions < 20 || templatePicker.count !== 7 || !templatePicker.names.includes('Slide Beamer 16:9') || !packageCenterResult.badge?.includes('1.0.0 · Typst Universe') || !packageCenterResult.health?.includes('DỰ ÁN CHUẨN PUBLIC') || !packageCenterResult.note?.includes('@preview/sang-math:1.0.0') || !packageCenterResult.universe?.includes('/universe/package/sang-math')) {
+  throw new Error(`Công cụ trợ giúp chưa hoạt động đúng: ${JSON.stringify({ completionResult, catalogResult, commandResult, searchCount, themeCount, outlineResult, packageCenterResult, templatePicker, errors })}`)
 }
 if (!examResult.canvasCount || !examResult.problems?.includes('Không có lỗi') || !examResult.semanticText?.includes('ĐỀ KIỂM TRA')) {
   throw new Error(`Mẫu sang-math không biên dịch sạch: ${JSON.stringify(examResult)}`)
@@ -240,4 +249,4 @@ if (beamerResult.error || beamerResult.canvasCount < 20 || !beamerResult.problem
   throw new Error(`Mẫu Beamer không biên dịch sạch: ${JSON.stringify(beamerResult)}`)
 }
 if (errors.length) throw new Error(`Lỗi trình duyệt:\n${errors.join('\n')}`)
-console.log(JSON.stringify({ fullExam: result, helpers: { sourceNavigation, completionResult, catalogResult, commandResult, searchCount, themeCount, outlineResult, templatePicker, serviceWorker: 'v3 security bridge · network-first' }, compactExam: examResult, beamer: beamerResult }, null, 2))
+console.log(JSON.stringify({ fullExam: result, helpers: { sourceNavigation, completionResult, catalogResult, commandResult, searchCount, themeCount, outlineResult, packageCenterResult, templatePicker, serviceWorker: 'v4 Universe package cache · network-first' }, compactExam: examResult, beamer: beamerResult }, null, 2))

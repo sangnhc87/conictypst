@@ -1,4 +1,4 @@
-const CACHE_NAME = 'typst-conic-hub-v3-security-bridge'
+const CACHE_NAME = 'typst-conic-hub-v4-universe-packages'
 const SHELL = ['/', '/conic-mark.svg']
 
 async function cacheResponse(request, response) {
@@ -62,8 +62,11 @@ self.addEventListener('fetch', event => {
   const sameOrigin = url.origin === self.location.origin
   const immutableAsset = sameOrigin && url.pathname.startsWith('/assets/')
   const runtimeWasm = url.hostname === 'cdn.jsdelivr.net'
+  const typstPackage = url.hostname === 'packages.typst.org' && url.pathname.endsWith('.tar.gz')
 
-  if (immutableAsset || runtimeWasm) {
+  // Gói chính thức chỉ tải từ Typst Universe. Sau lần đầu, cache này giúp dự án
+  // tiếp tục biên dịch khi mạng chập chờn mà source vẫn giữ import @preview.
+  if (immutableAsset || runtimeWasm || typstPackage) {
     event.respondWith(cacheFirst(event.request))
     return
   }

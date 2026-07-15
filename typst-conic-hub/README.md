@@ -18,11 +18,13 @@ Các website trên được build và triển khai riêng. TypstConicHub chỉ l
 - Dự án đa tệp, hỗ trợ tệp ảnh/asset nhị phân.
 - Tự lưu toàn bộ dự án bằng IndexedDB, có snapshot cục bộ.
 - Nhập/xuất dự án ZIP.
-- Mẫu khởi động chính giữ nguyên tên entry `05_full_de_thi_mau.typ` cùng `05_data_de_thi_mau.typ`, đã nối sang package nội bộ và chọn theme `teal-pro`.
+- Mẫu khởi động chính giữ nguyên tên entry `05_full_de_thi_mau.typ` cùng `05_data_de_thi_mau.typ`, dùng `#import "@preview/sang-math:1.0.0": *` và chọn theme `teal-pro`.
 - Bảy mẫu dự án theo đúng sản phẩm đầu ra: đề đầy đủ 4 phần, tài liệu tự do, đề thi tinh gọn, sách/giáo trình, chuyên đề, Beamer 16:9 và BBT.
 - Người dùng IndexedDB cũ đang ở “Khởi động nhanh” được chuyển một lần sang mẫu 05; dự án cũ vẫn được giữ nguyên trong danh sách.
 - Beamer tích hợp 30 theme, dùng lại dữ liệu câu hỏi 05 và xuất slide chữa đề 16:9 ngay trong WASM.
-- `sang-math` được gắn trực tiếp từ `typst-pkg-sang-math` dưới `/packages/sang-math/` trong khi chờ package được duyệt.
+- `sang-math:1.0.0` dùng package chính thức trên Typst Universe; Service Worker cache archive sau lần tải đầu tiên.
+- Sang Math Center hiển thị trạng thái import của từng dự án, liên kết trang package và nâng cấp đường dẫn nội bộ cũ bằng một thao tác có snapshot tự động.
+- Alias package cũ chỉ được giữ ẩn trong compiler để dự án IndexedDB trước đây không bị hỏng; mẫu mới không sinh đường dẫn `/packages/sang-math/`.
 - Sang Math Center có tìm kiếm theo nhóm, mô tả cú pháp và chèn macro tại con trỏ.
 - Monaco tự gợi ý macro Sang Math khi gõ `#` hoặc dùng `Ctrl/Cmd + Space`.
 - Command Palette `Ctrl/Cmd + K`, tìm kiếm xuyên toàn dự án và bảng vấn đề có thể đi tới dòng lỗi.
@@ -39,6 +41,7 @@ Các website trên được build và triển khai riêng. TypstConicHub chỉ l
 npm run dev:hub
 npm run build:hub
 npm run preview:hub
+npm run test:hub:package
 npm run test:hub:smoke
 npm run deploy:hub
 ```
@@ -52,7 +55,8 @@ Monaco Editor
   └─ project files / IndexedDB
        └─ compiler.worker.js
             ├─ persistent typst.ts compiler
-            ├─ local sang-math package
+            ├─ Typst Universe package registry
+            ├─ legacy compatibility aliases
             └─ vector/PDF artifact
                  └─ renderer trên UI → canvas/SVG/PNG
 ```

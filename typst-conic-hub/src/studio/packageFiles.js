@@ -13,9 +13,18 @@ import curves3d from '../../../typst-pkg-sang-math/geometry-3d/curves-3d.typ?raw
 import sangBeamer from '../../../typst-pkg-submit/sang-beamer.typ?raw'
 import sangBeamerThemes from '../../../typst-pkg-submit/sang-beamer-themes.typ?raw'
 
-export const SANG_MATH_VERSION = '1.0.0-local'
+export const SANG_MATH_VERSION = '1.0.0'
+
+// Beamer chưa nằm trong archive sang-math 1.0.0 trên Universe. Studio giữ nó
+// như một extension riêng và cho extension import API public chính thức.
+const studioSangBeamer = sangBeamer.replace(
+  '#import "sang-exam.typ": (',
+  '#import "@preview/sang-math:1.0.0": (',
+)
 
 export const SANG_MATH_FILES = {
+  // Alias cũ chỉ để dự án IndexedDB đã lưu trước đây không bị hỏng. Mẫu mới và
+  // catalog không bao giờ sinh các đường dẫn /packages/sang-math/* này nữa.
   '/packages/sang-math/lib.typ': lib,
   '/packages/sang-math/bbt.typ': bbt,
   '/packages/sang-math/sang-exam.typ': sangExam,
@@ -28,6 +37,8 @@ export const SANG_MATH_FILES = {
   '/packages/sang-math/geometry-2d/conics.typ': conics,
   '/packages/sang-math/geometry-3d/revolution.typ': revolution,
   '/packages/sang-math/geometry-3d/curves-3d.typ': curves3d,
-  '/packages/sang-math/sang-beamer.typ': sangBeamer,
+  '/packages/sang-math/sang-beamer.typ': studioSangBeamer,
   '/packages/sang-math/sang-beamer-themes.typ': sangBeamerThemes,
+  '/extensions/sang-beamer/sang-beamer.typ': studioSangBeamer,
+  '/extensions/sang-beamer/themes.typ': sangBeamerThemes,
 }

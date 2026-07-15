@@ -98,11 +98,11 @@ function Landing({ onOpenStudio }) {
                 <div className="mock-file is-active"><span>T</span> main.typ</div>
                 <div className="mock-file"><span>T</span> data.typ</div>
                 <div className="mock-file"><span>▦</span> images</div>
-                <div className="mock-package"><i>✓</i><span><b>sang-math</b><small>1.0.1 local</small></span></div>
+                <div className="mock-package"><i>✓</i><span><b>sang-math</b><small>1.0.0 · Universe</small></span></div>
               </aside>
               <div className="mock-code" aria-hidden="true">
                 <ol>
-                  <li><code><em>#import</em> <q>/packages/sang-math/lib.typ</q>: *</code></li>
+                  <li><code><em>#import</em> <q>@preview/sang-math:1.0.0</q>: *</code></li>
                   <li><code /></li>
                   <li><code><em>#let</em> preset = exam-preset(</code></li>
                   <li><code>  theme: <q>teal-pro</q>,</code></li>
@@ -138,7 +138,7 @@ function Landing({ onOpenStudio }) {
         <section id="features" className="section section--features">
           <div className="section-heading">
             <div><span className="section-kicker">MỘT STUDIO THỰC THỤ</span><h2>Tập trung vào nội dung.<br />Hệ thống lo phần còn lại.</h2></div>
-            <p>Compiler chạy trong Web Worker riêng, dự án được lưu bằng IndexedDB và package nội bộ không phụ thuộc việc chờ publish.</p>
+            <p>Compiler chạy trong Web Worker riêng, dự án được lưu bằng IndexedDB và package chính thức được tải từ Typst Universe rồi lưu đệm cho lần dùng sau.</p>
           </div>
           <div className="feature-grid">
             <article className="feature-card feature-card--wide blue">
@@ -154,10 +154,10 @@ function Landing({ onOpenStudio }) {
               <div className="save-stack"><span>main.typ <i>Đã lưu</i></span><span>Bản trước khi chỉnh đề <i>09:42</i></span><span>Snapshot thủ công <i>Hôm nay</i></span></div>
             </article>
             <article className="feature-card orange">
-              <div className="feature-card__icon">S</div><span className="feature-card__tag">BUILT-IN PACKAGE</span>
-              <h3>sang-math<br />đã gắn nội bộ.</h3>
-              <p>Dùng ngay các macro đề thi, sách, BBT và hình học từ package tích hợp sẵn.</p>
-              <div className="package-chip"><span>✓</span><b>sang-math</b><small>v1.0.1 local</small></div>
+              <div className="feature-card__icon">S</div><span className="feature-card__tag">TYPST UNIVERSE</span>
+              <h3>sang-math<br />bản chính thức.</h3>
+              <p>Mẫu và kho lệnh dùng đúng import công khai; dự án mang sang Typst CLI hoặc Typst.app không cần sửa đường dẫn.</p>
+              <div className="package-chip"><span>✓</span><b>sang-math</b><small>v1.0.0 · @preview</small></div>
             </article>
             <article className="feature-card feature-card--wide violet">
               <div className="feature-card__icon">↗</div><span className="feature-card__tag">OPEN WORKFLOW</span>

@@ -1,0 +1,56 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isSelf(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    // The browser never receives privileged write access. All lifecycle changes
+    // go through authenticated callable functions using the Admin SDK.
+    match /platformAdmins/{uid} {
+      allow get: if isSelf(uid);
+      allow list, create, update, delete: if false;
+    }
+
+    match /users/{uid} {
+      allow get: if isSelf(uid);
+      allow list, create, update, delete: if false;
+    }
+
+    match /products/{productId} {
+      // Product names/defaults are not sensitive and are useful to account UIs.
+      allow read: if signedIn();
+      allow write: if false;
+
+      match /members/{uid} {
+        allow get: if isSelf(uid);
+        allow list, create, update, delete: if false;
+      }
+
+      match /{document=**} {
+        allow read, write: if false;
+      }
+    }
+
+    match /adminAudit/{entryId} {
+      allow read, write: if false;
+    }
+
+    match /adminMutations/{mutationId} {
+      allow read, write: if false;
+    }
+
+    match /deletionJobs/{jobId} {
+      allow read, write: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

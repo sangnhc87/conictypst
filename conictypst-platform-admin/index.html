@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="robots" content="noindex,nofollow,noarchive">
+    <meta name="theme-color" content="#082f49">
+    <title>ConicTypst Admin · Quản trị hệ sinh thái</title>
+    <link rel="stylesheet" href="/admin.css?v=20260714">
+
+    <script id="firebaseConfig" type="application/json">__FIREBASE_CONFIG__</script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-functions-compat.js"></script>
+    <script defer src="/auth-bridge.js?v=20260714"></script>
+    <script defer src="/admin.js?v=20260714"></script>
+</head>
+<body>
+    <a class="skip-link" href="#mainContent">Bỏ qua đến nội dung chính</a>
+    <div class="ambient ambient--one" aria-hidden="true"></div>
+    <div class="ambient ambient--two" aria-hidden="true"></div>
+
+    <section id="authGate" class="auth-gate" aria-labelledby="authTitle">
+        <div class="auth-card">
+            <div class="auth-brand" aria-hidden="true">
+                <span class="brand-glyph">C</span>
+                <span class="brand-pulse"></span>
+            </div>
+            <p class="eyebrow">CONICTYPST CONTROL CENTER</p>
+            <h1 id="authTitle">Một nơi quản trị<br>toàn hệ sinh thái</h1>
+            <p id="authMessage" class="auth-message">
+                Chỉ tài khoản chủ sở hữu <strong>nguyensangnhc@gmail.com</strong> được phép đăng nhập.
+            </p>
+            <button id="signInButton" class="button button--primary button--wide" type="button">
+                <span class="google-mark" aria-hidden="true">G</span>
+                Đăng nhập bằng Google
+            </button>
+            <div id="configNotice" class="config-notice" hidden role="alert">
+                Chưa cấu hình Firebase cho bản triển khai này.
+            </div>
+            <p class="auth-footnote">Tài khoản giáo viên dùng chung một Gmail; quyền và dữ liệu từng sản phẩm vẫn tách biệt.</p>
+        </div>
+    </section>
+
+    <div id="adminApp" class="app-shell" hidden>
+        <aside id="sidebar" class="sidebar" aria-label="Điều hướng quản trị">
+            <div class="sidebar-brand">
+                <span class="brand-glyph brand-glyph--small" aria-hidden="true">C</span>
+                <span>
+                    <strong>ConicTypst</strong>
+                    <small>Platform Admin</small>
+                </span>
+            </div>
+
+            <nav class="nav-list">
+                <a class="nav-link is-active" href="#overview" data-section="overview">
+                    <span aria-hidden="true">⌂</span><span>Tổng quan</span>
+                </a>
+                <a class="nav-link" href="#pending" data-section="pending">
+                    <span aria-hidden="true">◷</span><span>Chờ duyệt OMR</span>
+                    <span id="navPendingBadge" class="nav-badge" hidden>0</span>
+                </a>
+                <a class="nav-link" href="#members" data-section="members">
+                    <span aria-hidden="true">♙</span><span>Giáo viên</span>
+                </a>
+                <a class="nav-link" href="#accounts" data-section="accounts">
+                    <span aria-hidden="true">◎</span><span>Tài khoản chung</span>
+                </a>
+                <a class="nav-link" href="#audit" data-section="audit">
+                    <span aria-hidden="true">≡</span><span>Nhật ký</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-note">
+                <span class="live-dot" aria-hidden="true"></span>
+                <div>
+                    <strong>Kiến trúc tiết kiệm</strong>
+                    <small>Auth dùng chung · dữ liệu tách riêng</small>
+                </div>
+            </div>
+        </aside>
+
+        <div class="workspace">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <button id="menuButton" class="icon-button menu-button" type="button" aria-label="Mở trình đơn" aria-expanded="false">
+                        <span aria-hidden="true">☰</span>
+                    </button>
+                    <div>
+                        <p class="topbar-kicker">TRUNG TÂM ĐIỀU HÀNH</p>
+                        <strong class="topbar-title">Hệ sinh thái ConicTypst</strong>
+                    </div>
+                </div>
+                <div class="topbar-actions">
+                    <a class="button button--soft" href="/account.html">
+                        <span aria-hidden="true">◎</span><span class="desktop-label">Cổng giáo viên</span>
+                    </a>
+                    <button id="refreshButton" class="button button--soft" type="button">
+                        <span aria-hidden="true">↻</span><span class="desktop-label">Làm mới</span>
+                    </button>
+                    <div class="admin-identity">
+                        <img id="adminAvatar" class="avatar" alt="Ảnh tài khoản quản trị">
+                        <span class="admin-copy">
+                            <strong id="adminName">Nguyễn Sang</strong>
+                            <small id="adminEmail">nguyensangnhc@gmail.com</small>
+                        </span>
+                    </div>
+                    <button id="signOutButton" class="icon-button" type="button" aria-label="Đăng xuất" title="Đăng xuất">
+                        <span aria-hidden="true">↗</span>
+                    </button>
+                </div>
+            </header>
+
+            <main id="mainContent" class="page-content">
+                <section id="overview" class="hero section-anchor">
+                    <div>
+                        <p class="eyebrow">HÔM NAY TRONG HỆ THỐNG</p>
+                        <h1>Chào anh Sang, mọi thứ ở một nơi.</h1>
+                        <p>Ba sản phẩm dùng chung danh tính Google, nhưng quyền, quota và dữ liệu vận hành được quản lý độc lập.</p>
+                    </div>
+                    <div class="hero-status">
+                        <span class="live-dot live-dot--large" aria-hidden="true"></span>
+                        <span><small>Trạng thái nền tảng</small><strong id="platformHealth">Đang kết nối</strong></span>
+                    </div>
+                </section>
+
+                <section class="metric-grid" aria-label="Chỉ số hệ thống">
+                    <article class="metric-card">
+                        <span class="metric-icon metric-icon--blue" aria-hidden="true">GV</span>
+                        <div><small>Tổng giáo viên</small><strong id="statMembers">0</strong><span id="statMembersHint">trên 3 sản phẩm</span></div>
+                    </article>
+                    <article class="metric-card">
+                        <span class="metric-icon metric-icon--green" aria-hidden="true">✓</span>
+                        <div><small>Đang hoạt động</small><strong id="statActive">0</strong><span>Tài khoản có quyền dùng</span></div>
+                    </article>
+                    <article class="metric-card">
+                        <span class="metric-icon metric-icon--amber" aria-hidden="true">…</span>
+                        <div><small>Chờ duyệt OMR</small><strong id="statPending">0</strong><span>Cần anh xử lý</span></div>
+                    </article>
+                    <article class="metric-card">
+                        <span class="metric-icon metric-icon--violet" aria-hidden="true">R2</span>
+                        <div><small>Dung lượng OMR</small><strong id="statStorage">0 B</strong><span id="statStorageHint">giới hạn an toàn 5 GiB</span></div>
+                    </article>
+                </section>
+
+                <section class="section-block" aria-labelledby="productsTitle">
+                    <div class="section-heading">
+                        <div>
+                            <p class="eyebrow">TÁCH DỮ LIỆU · CHUNG ĐĂNG NHẬP</p>
+                            <h2 id="productsTitle">Ba sản phẩm trong hệ sinh thái</h2>
+                        </div>
+                        <span class="quiet-chip">3 website · 1 tài khoản</span>
+                    </div>
+                    <div id="productGrid" class="product-grid" aria-live="polite"></div>
+                </section>
+
+                <section id="pending" class="panel section-anchor" aria-labelledby="pendingTitle">
+                    <div class="panel-heading">
+                        <div>
+                            <p class="eyebrow">SANG MATH OMR</p>
+                            <h2 id="pendingTitle">Yêu cầu đang chờ duyệt <span id="pendingBadge" class="count-badge">0</span></h2>
+                            <p>Chỉ cấp quyền sau khi anh kiểm tra đúng Gmail giáo viên.</p>
+                        </div>
+                    </div>
+                    <div id="pendingList" class="pending-list" aria-live="polite"></div>
+                </section>
+
+                <section id="members" class="panel section-anchor" aria-labelledby="membersTitle">
+                    <div class="panel-heading panel-heading--wrap">
+                        <div>
+                            <p class="eyebrow">QUYỀN THEO TỪNG SẢN PHẨM</p>
+                            <h2 id="membersTitle">Giáo viên và thời hạn <span id="memberBadge" class="count-badge">0</span></h2>
+                            <p>Tạm dừng, tiếp tục, gia hạn hoặc điều chỉnh quota mà không ảnh hưởng website khác.</p>
+                        </div>
+                        <div class="filter-bar">
+                            <label class="search-box">
+                                <span aria-hidden="true">⌕</span>
+                                <span class="sr-only">Tìm giáo viên</span>
+                                <input id="memberSearch" type="search" autocomplete="off" placeholder="Tên hoặc Gmail…">
+                            </label>
+                            <label>
+                                <span class="sr-only">Lọc sản phẩm</span>
+                                <select id="productFilter">
+                                    <option value="all">Tất cả sản phẩm</option>
+                                    <option value="hub">ConicTypst Hub</option>
+                                    <option value="hdsd">Kho hướng dẫn</option>
+                                    <option value="omr">Sang Math OMR</option>
+                                </select>
+                            </label>
+                            <label>
+                                <span class="sr-only">Lọc trạng thái</span>
+                                <select id="statusFilter">
+                                    <option value="all">Tất cả trạng thái</option>
+                                    <option value="active">Đang dùng</option>
+                                    <option value="pending">Chờ duyệt</option>
+                                    <option value="suspended">Tạm dừng</option>
+                                    <option value="deletion_scheduled">Chờ xóa</option>
+                                    <option value="expired">Hết hạn</option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="table-scroll">
+                        <table class="member-table">
+                            <thead>
+                                <tr>
+                                    <th>Tài khoản giáo viên</th>
+                                    <th>Sản phẩm</th>
+                                    <th>Trạng thái &amp; thời hạn</th>
+                                    <th>Hạn mức / mức dùng</th>
+                                    <th class="align-right">Quản lý</th>
+                                </tr>
+                            </thead>
+                            <tbody id="memberTableBody"></tbody>
+                        </table>
+                        <div id="memberEmpty" class="empty-state" hidden>
+                            <span aria-hidden="true">⌕</span>
+                            <strong>Không tìm thấy tài khoản phù hợp</strong>
+                            <p>Hãy thử đổi từ khóa hoặc bộ lọc.</p>
+                        </div>
+                    </div>
+                    <div class="pagination-bar">
+                        <span id="memberCountText">0 tài khoản</span>
+                        <button id="loadMoreButton" class="button button--soft" type="button" hidden>Tải thêm</button>
+                    </div>
+                </section>
+
+                <section id="accounts" class="panel section-anchor" aria-labelledby="accountsTitle">
+                    <div class="panel-heading">
+                        <div>
+                            <p class="eyebrow">SHARED IDENTITY</p>
+                            <h2 id="accountsTitle">Một Gmail, nhiều sản phẩm</h2>
+                            <p>Giáo viên chỉ đăng nhập một lần; mỗi ứng dụng tự kiểm tra quyền riêng của mình.</p>
+                        </div>
+                        <span class="security-chip"><span aria-hidden="true">⌾</span> Không chia sẻ dữ liệu nghiệp vụ</span>
+                    </div>
+                    <div class="account-layout">
+                        <div id="sharedAccountList" class="shared-account-list"></div>
+                        <aside class="architecture-note">
+                            <p class="eyebrow">NGUYÊN TẮC AN TOÀN</p>
+                            <h3>Chỉ dùng chung danh tính</h3>
+                            <ul>
+                                <li>Một Firebase Authentication cho ba website.</li>
+                                <li>Quyền truy cập lưu riêng theo từng sản phẩm.</li>
+                                <li>Ảnh OMR ở R2 private, không trộn với dữ liệu Hub.</li>
+                                <li>Tạm dừng OMR không khóa Kho hướng dẫn.</li>
+                            </ul>
+                        </aside>
+                    </div>
+                </section>
+
+                <section id="audit" class="panel section-anchor" aria-labelledby="auditTitle">
+                    <div class="panel-heading">
+                        <div>
+                            <p class="eyebrow">MINH BẠCH QUẢN TRỊ</p>
+                            <h2 id="auditTitle">Nhật ký thao tác</h2>
+                            <p>Mỗi lần duyệt, đổi quota, tạm dừng, tiếp tục hoặc xóa đều gắn mã chống gửi lặp.</p>
+                        </div>
+                    </div>
+                    <div id="auditList" class="audit-list"></div>
+                </section>
+            </main>
+        </div>
+        <button id="sidebarBackdrop" class="sidebar-backdrop" type="button" aria-label="Đóng trình đơn" hidden></button>
+    </div>
+
+    <dialog id="membershipDialog" class="modal">
+        <form id="membershipForm" method="dialog">
+            <div class="modal-heading">
+                <div>
+                    <p id="membershipEyebrow" class="eyebrow">QUẢN LÝ QUYỀN</p>
+                    <h2 id="membershipDialogTitle">Cập nhật giáo viên</h2>
+                    <p id="membershipDialogSubtitle"></p>
+                </div>
+                <button class="icon-button" type="button" data-close-dialog="membershipDialog" aria-label="Đóng">×</button>
+            </div>
+            <input id="membershipUid" type="hidden">
+            <input id="membershipProductId" type="hidden">
+            <input id="membershipRevision" type="hidden">
+            <input id="membershipAction" type="hidden">
+            <div class="modal-fields">
+                <label id="monthsField" class="field">
+                    <span>Số tháng cấp thêm</span>
+                    <input id="membershipMonths" type="number" min="1" max="120" value="12" inputmode="numeric" required>
+                    <small>Gia hạn tính từ ngày hết hạn hiện tại hoặc hôm nay.</small>
+                </label>
+                <label id="accessEndsField" class="field" hidden>
+                    <span>Ngày hết hạn mới</span>
+                    <input id="membershipAccessEndsAt" type="date">
+                    <small>Quyền dừng vào cuối ngày theo múi giờ Việt Nam.</small>
+                </label>
+                <label id="classesField" class="field">
+                    <span>Số lớp tối đa</span>
+                    <input id="membershipMaxClasses" type="number" min="1" max="100" value="10" inputmode="numeric">
+                </label>
+                <label id="studentsField" class="field">
+                    <span>Số học sinh tối đa</span>
+                    <input id="membershipMaxStudents" type="number" min="1" max="10000" value="500" inputmode="numeric">
+                </label>
+                <label id="resultsField" class="field">
+                    <span>Số kết quả tối đa</span>
+                    <input id="membershipMaxResults" type="number" min="12000" max="100000" value="12000" inputmode="numeric">
+                </label>
+                <label id="storageField" class="field">
+                    <span>Dung lượng R2 (GiB)</span>
+                    <input id="membershipStorageGiB" type="number" min="0" max="10" step="0.25" value="0" inputmode="decimal">
+                    <small>0 = miễn phí, ảnh/PDF chỉ ở máy. Nhập lớn hơn 0 để bật cloud trả phí; tệp tự xóa sau tối đa 6 tháng.</small>
+                </label>
+                <label class="field field--wide">
+                    <span>Ghi chú quản trị</span>
+                    <textarea id="membershipNote" maxlength="300" rows="3" placeholder="Ví dụ: Giáo viên thử nghiệm trường THPT…"></textarea>
+                </label>
+            </div>
+            <div class="modal-actions">
+                <button class="button button--ghost" type="button" data-close-dialog="membershipDialog">Hủy</button>
+                <button id="membershipSubmit" class="button button--primary" type="submit">Lưu thay đổi</button>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog id="deleteDialog" class="modal modal--danger">
+        <form id="deleteForm" method="dialog">
+            <div class="modal-heading">
+                <div>
+                    <p class="eyebrow eyebrow--danger">THAO TÁC KHÔNG THỂ HOÀN TÁC</p>
+                    <h2>Xóa quyền thành viên</h2>
+                    <p id="deleteDialogSubtitle"></p>
+                </div>
+                <button class="icon-button" type="button" data-close-dialog="deleteDialog" aria-label="Đóng">×</button>
+            </div>
+            <input id="deleteUid" type="hidden">
+            <input id="deleteProductId" type="hidden">
+            <input id="deleteRevision" type="hidden">
+            <div class="danger-callout">
+                Chỉ xóa quyền của sản phẩm đã chọn. Dữ liệu tuân theo chính sách lưu trữ và job dọn dẹp của sản phẩm đó.
+            </div>
+            <label class="field field--wide">
+                <span>Gõ chính xác <strong>XOA</strong> để xác nhận</span>
+                <input id="deleteConfirmation" type="text" autocomplete="off" spellcheck="false" placeholder="XOA" required>
+            </label>
+            <label class="field field--wide">
+                <span>Lý do xóa</span>
+                <textarea id="deleteNote" maxlength="300" rows="3" placeholder="Ghi lại lý do để tra cứu trong nhật ký…" required></textarea>
+            </label>
+            <div class="modal-actions">
+                <button class="button button--ghost" type="button" data-close-dialog="deleteDialog">Hủy</button>
+                <button id="deleteSubmit" class="button button--danger-solid" type="submit" disabled>Xóa quyền</button>
+            </div>
+        </form>
+    </dialog>
+
+    <div id="loadingOverlay" class="loading-overlay" hidden role="status" aria-live="polite">
+        <div class="spinner" aria-hidden="true"></div>
+        <strong id="loadingText">Đang tải bảng điều khiển…</strong>
+    </div>
+    <div id="toastRegion" class="toast-region" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>

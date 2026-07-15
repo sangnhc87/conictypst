@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="robots" content="noindex,nofollow,noarchive">
+    <meta name="theme-color" content="#082f49">
+    <title>Tài khoản ConicTypst · Một Gmail, mọi sản phẩm</title>
+    <link rel="stylesheet" href="/admin.css?v=20260714">
+
+    <script id="firebaseConfig" type="application/json">__FIREBASE_CONFIG__</script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-functions-compat.js"></script>
+    <script defer src="/auth-bridge.js?v=20260714"></script>
+    <script defer src="/account.js?v=20260714"></script>
+</head>
+<body class="account-body">
+    <div class="ambient ambient--one" aria-hidden="true"></div>
+    <div class="ambient ambient--two" aria-hidden="true"></div>
+
+    <section id="accountAuthGate" class="auth-gate" aria-labelledby="accountAuthTitle">
+        <div class="auth-card account-auth-card">
+            <div class="auth-brand" aria-hidden="true">
+                <span class="brand-glyph">C</span>
+                <span class="brand-pulse"></span>
+            </div>
+            <p class="eyebrow">CONICTYPST ID</p>
+            <h1 id="accountAuthTitle">Một Gmail,<br>mọi sản phẩm</h1>
+            <p id="accountAuthMessage" class="auth-message">Đăng nhập để dùng ngay Kho hướng dẫn, xem quyền OMR và quản lý các sản phẩm ConicTypst.</p>
+            <button id="accountSignInButton" class="button button--primary button--wide" type="button">
+                <span class="google-mark" aria-hidden="true">G</span>
+                Tiếp tục bằng Google
+            </button>
+            <div id="accountConfigNotice" class="config-notice" hidden role="alert">Chưa cấu hình Firebase cho bản triển khai này.</div>
+            <p class="auth-footnote">ConicTypst chỉ dùng email Google để nhận diện tài khoản. Mỗi sản phẩm lưu dữ liệu riêng.</p>
+        </div>
+    </section>
+
+    <div id="accountApp" class="account-shell" hidden>
+        <header class="account-topbar">
+            <a class="account-brand" href="/account.html" aria-label="Trang tài khoản ConicTypst">
+                <span class="brand-glyph brand-glyph--small" aria-hidden="true">C</span>
+                <span><strong>ConicTypst ID</strong><small>Cổng tài khoản giáo viên</small></span>
+            </a>
+            <div class="account-topbar-actions">
+                <a id="adminPortalLink" class="button button--soft button--small" href="/" hidden>Trang quản trị</a>
+                <button id="accountRefreshButton" class="icon-button" type="button" aria-label="Làm mới" title="Làm mới">↻</button>
+                <img id="accountTopAvatar" class="avatar" alt="Ảnh tài khoản Google">
+                <button id="accountSignOutButton" class="button button--ghost button--small" type="button">Đăng xuất</button>
+            </div>
+        </header>
+
+        <main class="account-main">
+            <section class="account-hero">
+                <div class="account-profile-card">
+                    <img id="accountAvatar" class="account-avatar-large" alt="Ảnh tài khoản giáo viên">
+                    <div class="account-profile-copy">
+                        <p class="eyebrow">TÀI KHOẢN ĐANG ĐĂNG NHẬP</p>
+                        <h1 id="accountName">Giáo viên</h1>
+                        <p id="accountEmail">—</p>
+                        <div class="account-security-line"><span aria-hidden="true">✓</span> Danh tính Google đã xác thực</div>
+                    </div>
+                </div>
+                <div class="identity-explainer">
+                    <p class="eyebrow">SHARED IDENTITY</p>
+                    <h2>Đăng nhập một lần, dùng đúng quyền</h2>
+                    <p>Gmail giúp nhận diện cùng một giáo viên trên mọi thiết bị. Hub, Kho hướng dẫn, OMR và Studio vẫn có trạng thái, thời hạn và dữ liệu riêng.</p>
+                    <div class="identity-flow" aria-label="Luồng tài khoản chung">
+                        <span>Google</span><i aria-hidden="true">→</i><span>ConicTypst ID</span><i aria-hidden="true">→</i><span>3 sản phẩm</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="account-products-section" aria-labelledby="accountProductsTitle">
+                <div class="section-heading account-section-heading">
+                    <div>
+                        <p class="eyebrow">QUYỀN CỦA TÔI</p>
+                        <h2 id="accountProductsTitle">Sản phẩm trong hệ sinh thái</h2>
+                        <p>Kho hướng dẫn được mở tự động sau đăng nhập; chỉ sản phẩm có kiểm soát như OMR mới cần gửi yêu cầu.</p>
+                    </div>
+                    <span id="accountSummaryChip" class="quiet-chip">Đang tải quyền…</span>
+                </div>
+                <div id="accountProductGrid" class="account-product-grid" aria-live="polite"></div>
+            </section>
+
+            <section class="account-help-card">
+                <div>
+                    <p class="eyebrow">CẦN HỖ TRỢ?</p>
+                    <h2>Đi thẳng tới nơi anh/chị cần</h2>
+                    <p>Hub là nội dung công khai. Kho hướng dẫn tự cấp quyền theo phiên đăng nhập; OMR và tính năng cloud dùng chính sách riêng.</p>
+                </div>
+                <nav class="account-quick-links" aria-label="Liên kết sản phẩm">
+                    <a href="https://typstconichub.pages.dev/" target="_blank" rel="noopener noreferrer">Mở ConicTypst Hub ↗</a>
+                    <a href="https://hdsd-conictypst.pages.dev/" target="_blank" rel="noopener noreferrer">Mở Kho hướng dẫn ↗</a>
+                    <a href="https://chamthi-conictypst.pages.dev/" target="_blank" rel="noopener noreferrer">Mở Sang Math OMR ↗</a>
+                </nav>
+            </section>
+        </main>
+    </div>
+
+    <dialog id="requestDialog" class="modal request-modal">
+        <form id="requestForm" method="dialog">
+            <div class="modal-heading">
+                <div>
+                    <p class="eyebrow">GỬI YÊU CẦU QUYỀN DÙNG</p>
+                    <h2 id="requestDialogTitle">Yêu cầu sản phẩm</h2>
+                    <p id="requestDialogSubtitle">Quản trị viên sẽ xem Gmail và nhu cầu trước khi duyệt.</p>
+                </div>
+                <button id="requestCloseButton" class="icon-button" type="button" aria-label="Đóng">×</button>
+            </div>
+            <input id="requestProductId" type="hidden">
+            <div class="request-info">
+                <span aria-hidden="true">i</span>
+                <p>Mỗi sản phẩm chỉ có một yêu cầu đang chờ. Gửi lại sẽ không tạo bản trùng.</p>
+            </div>
+            <label class="field field--wide">
+                <span>Nhu cầu sử dụng</span>
+                <textarea id="requestReason" maxlength="500" rows="4" placeholder="Ví dụ: Tôi cần OMR để chấm khoảng 10 lớp trong năm học này…" required></textarea>
+                <small>Không ghi thông tin nhạy cảm của học sinh.</small>
+            </label>
+            <div class="modal-actions">
+                <button id="requestCancelButton" class="button button--ghost" type="button">Hủy</button>
+                <button id="requestSubmitButton" class="button button--primary" type="submit">Gửi yêu cầu</button>
+            </div>
+        </form>
+    </dialog>
+
+    <div id="accountLoadingOverlay" class="loading-overlay" hidden role="status" aria-live="polite">
+        <div class="spinner" aria-hidden="true"></div>
+        <strong id="accountLoadingText">Đang tải tài khoản…</strong>
+    </div>
+    <div id="accountToastRegion" class="toast-region" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>

@@ -1,11 +1,23 @@
-const CACHE_NAME = 'omr-cache-v1';
+const CACHE_NAME = 'omr-cache-v22-security-studio';
 const urlsToCache = [
   './index.html',
+  './js/copyright_guard.js',
   './premium_styles.css',
   './opencv.js',
   './opencv.wasm',
-  './js/omr_engine.js',
-  './template_coords.json'
+  './js/omr_engine.js?v=8.1-report-history',
+  './js/omr_profiles.js',
+  './js/omr_db.js?v=5-account-safe-outbox',
+  './js/omr_cloud_sync.js?v=5-local-images-free-tier',
+  './js/vendor/qrcode.js',
+  './js/vendor/jsQR.js',
+  './js/vendor/xlsx.full.min.js',
+  './js/vendor/pdf.min.mjs',
+  './js/vendor/pdf.worker.min.mjs',
+  './js/gemini_grader.js',
+  './js/tf_grader.js',
+  './tfjs_model/model.json',
+  './tfjs_model/group1-shard1of1.bin'
 ];
 
 self.addEventListener('install', event => {
@@ -14,29 +26,50 @@ self.addEventListener('install', event => {
       .then(cache => {
         return cache.addAll(urlsToCache);
       })
+      .then(() => self.skipWaiting())
+  );
+});
+
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.map(cacheName => {
+          if (cacheName !== CACHE_NAME) {
+            console.log('Deleting old cache:', cacheName);
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    }).then(() => self.clients.claim())
   );
 });
 
 self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        if (response) {
-          return response;
-        }
-        return fetch(event.request).then(
-          function(response) {
-            if(!response || response.status !== 200 || response.type !== 'basic') {
-              return response;
-            }
-            var responseToCache = response.clone();
-            caches.open(CACHE_NAME)
-              .then(function(cache) {
-                cache.put(event.request, responseToCache);
-              });
-            return response;
-          }
-        );
-      })
-  );
+  if (event.request.method !== 'GET') return;
+
+  event.respondWith((async () => {
+    try {
+      const response = await fetch(event.request);
+      if (response && response.status === 200 && response.type === 'basic') {
+        const cache = await caches.open(CACHE_NAME);
+        await cache.put(event.request, response.clone());
+      }
+      return response;
+    } catch (_) {
+      const cached = await caches.match(event.request);
+      if (cached) return cached;
+
+      if (event.request.mode === 'navigate') {
+        const appShell = await caches.match('./index.html');
+        if (appShell) return appShell;
+      }
+
+      return new Response('Tạm thời không thể tải tài nguyên khi ngoại tuyến.', {
+        status: 503,
+        statusText: 'Service Unavailable',
+        headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+      });
+    }
+  })());
 });

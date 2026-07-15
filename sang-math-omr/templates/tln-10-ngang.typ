@@ -84,7 +84,7 @@
   inset: (left: if true { 3pt } else { 2pt }, right: if true { 3pt } else { 2pt }, top: if true { 1pt } else { 2pt }, bottom: if true { 1pt } else { 2pt }),
   [
     #place(top + left, dx: -2pt, dy: -2pt)[#tracking-marker]
-        #align(center)[#text(weight: "bold", size: 8pt)[MÃ ĐỀ THI]]
+        #align(right)[#text(weight: "bold", size: 8pt)[MÃ ĐỀ THI]]
     #v(if true { 1pt } else { 2pt })
     #grid(
       columns: (12pt,) * 4,

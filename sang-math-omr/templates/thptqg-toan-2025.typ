@@ -19,8 +19,8 @@
   )
 }
 
-#align(if false { center + horizon } else { top + center })[
-  #scale(x: if false { 88% } else { 95% }, y: if false { 88% } else { 95% }, origin: if false { center } else { top })[
+#align(top + center)[
+  #scale(x: if false { 88% } else { 95% }, y: if false { 88% } else { 95% }, origin: top)[
     #block(width: 100%, height: 0pt)[
       #place(left, dx: -5mm, dy: -5mm, marker)
       #place(right, dx: 5mm, dy: -5mm, marker)
@@ -31,6 +31,7 @@
     #let sbd-box = block(
       inset: (left: if false { 6pt } else { 4pt }, right: if false { 3pt } else { 2pt }, top: if false { 1pt } else { 2pt }, bottom: if false { 1pt } else { 2pt }),
       [
+        #place(top + left, dx: -2pt, dy: -2pt)[#tracking-marker]
         #align(center)[#text(weight: "bold", size: 8pt)[SBD]]
         #v(if false { 1pt } else { 2pt })
         #grid(
@@ -48,7 +49,8 @@
     #let made-box = block(
       inset: (left: if false { 3pt } else { 2pt }, right: if false { 3pt } else { 2pt }, top: if false { 1pt } else { 2pt }, bottom: if false { 1pt } else { 2pt }),
       [
-        #align(center)[#text(weight: "bold", size: 8pt)[Mã đề]]
+        #place(top + left, dx: -2pt, dy: -2pt)[#tracking-marker]
+        #align(right)[#text(weight: "bold", size: 8pt)[Mã đề]]
         #v(if false { 1pt } else { 2pt })
         #grid(
           columns: (12pt,) * 4,

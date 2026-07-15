@@ -1,0 +1,24 @@
+{
+  "rules": [
+    {
+      "id": "sang-math-omr-production",
+      "allowed": {
+        "origins": [
+          "https://chamthi-conictypst.pages.dev"
+        ],
+        "methods": [
+          "GET",
+          "PUT",
+          "HEAD"
+        ],
+        "headers": [
+          "Content-Type"
+        ]
+      },
+      "exposeHeaders": [
+        "ETag"
+      ],
+      "maxAgeSeconds": 3600
+    }
+  ]
+}

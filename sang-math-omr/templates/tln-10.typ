@@ -32,7 +32,7 @@
       #place(left, dx: -5mm, dy: -5mm, marker)
       #place(right, dx: 5mm, dy: -5mm, marker)
       #place(left, dx: if false { 35mm } else { 43mm }, dy: 15mm)[
-        #grid(columns: 21, spacing: 0pt,
+        #grid(columns: 21, column-gutter: 0pt, row-gutter: 0pt,
   qb, qb, qb, qb, qb, qb, qb, qw, qw, qb, qb, qb, qb, qw, qb, qb, qb, qb, qb, qb, qb,
   qb, qw, qw, qw, qw, qw, qb, qw, qw, qb, qw, qb, qw, qw, qb, qw, qw, qw, qw, qw, qb,
   qb, qw, qb, qb, qb, qw, qb, qw, qw, qb, qw, qw, qw, qw, qb, qw, qb, qb, qb, qw, qb,

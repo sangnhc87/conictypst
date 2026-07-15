@@ -26,13 +26,15 @@
 #let qb = box(width: 1.8pt, height: 1.8pt, fill: black)
 #let qw = box(width: 1.8pt, height: 1.8pt, fill: white)
 
-#align(if false { center + horizon } else { top + center })[
-  #scale(x: if false { 88% } else { 95% }, y: if false { 88% } else { 95% }, origin: if false { center } else { top })[
+#place(top + left, dx: -2mm, dy: -2mm, marker)
+#place(top + right, dx: 2mm, dy: -2mm, marker)
+#place(bottom + left, dx: -2mm, dy: 2mm, marker)
+#place(bottom + right, dx: 2mm, dy: 2mm, marker)
+#align(top + center)[
+  #scale(x: if false { 88% } else { 95% }, y: if false { 88% } else { 95% }, origin: top)[
     #block(width: 100%, height: 0pt)[
-      #place(left, dx: -5mm, dy: -5mm, marker)
-      #place(right, dx: 5mm, dy: -5mm, marker)
       #place(left, dx: if false { 35mm } else { 43mm }, dy: 15mm)[
-        #grid(columns: 21, spacing: 0pt,
+        #grid(columns: 21, column-gutter: 0pt, row-gutter: 0pt,
   qb, qb, qb, qb, qb, qb, qb, qw, qw, qw, qb, qb, qb, qw, qb, qb, qb, qb, qb, qb, qb,
   qb, qw, qw, qw, qw, qw, qb, qw, qb, qb, qb, qw, qb, qw, qb, qw, qw, qw, qw, qw, qb,
   qb, qw, qb, qb, qb, qw, qb, qw, qw, qw, qb, qb, qb, qw, qb, qw, qb, qb, qb, qw, qb,
@@ -63,7 +65,8 @@
 #let sbd-box = block(
   inset: (left: if false { 6pt } else { 4pt }, right: if false { 3pt } else { 2pt }, top: if false { 1pt } else { 2pt }, bottom: if false { 1pt } else { 2pt }),
   [
-    #align(center)[#text(weight: "bold", size: 8pt)[SỐ BÁO DANH]]
+    #place(top + left, dx: -2pt, dy: -2pt)[#tracking-marker]
+        #align(center)[#text(weight: "bold", size: 8pt)[SỐ BÁO DANH]]
     #v(if false { 1pt } else { 2pt })
     #grid(
       columns: (12pt,) * 6, gutter: if false { 1.2pt } else { 1.5pt },
@@ -80,7 +83,8 @@
 #let made-box = block(
   inset: (left: if false { 3pt } else { 2pt }, right: if false { 3pt } else { 2pt }, top: if false { 1pt } else { 2pt }, bottom: if false { 1pt } else { 2pt }),
   [
-    #align(center)[#text(weight: "bold", size: 8pt)[MÃ ĐỀ THI]]
+    #place(top + left, dx: -2pt, dy: -2pt)[#tracking-marker]
+        #align(right)[#text(weight: "bold", size: 8pt)[MÃ ĐỀ THI]]
     #v(if false { 1pt } else { 2pt })
     #grid(
       columns: (12pt,) * 4,
@@ -199,9 +203,5 @@
 // ── TỰ LUẬN VIẾT TAY ────────────────────────────────────────
 
 
-    #block(width: 100%, height: 0pt)[
-      #place(left, dx: -5mm, dy: 5mm, marker)
-      #place(right, dx: 5mm, dy: 5mm, marker)
-    ]
   ]
 ]

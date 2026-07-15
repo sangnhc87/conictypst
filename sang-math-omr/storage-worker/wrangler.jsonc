@@ -1,0 +1,17 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "sang-math-omr-storage",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-07-14",
+  "workers_dev": true,
+  "preview_urls": false,
+  "r2_buckets": [
+    {
+      "binding": "OMR_BUCKET",
+      "bucket_name": "sang-math-omr-private"
+    }
+  ],
+  "vars": {
+    "ALLOWED_ORIGIN": "https://chamthi-conictypst.pages.dev"
+  }
+}

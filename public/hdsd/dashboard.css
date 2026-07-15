@@ -823,6 +823,42 @@ code {
     width: min(100% - 28px, 1500px);
   }
 
+  .dash-topbar-inner {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px;
+    padding: 10px 0 12px;
+  }
+
+  .dash-brand {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .dash-nav {
+    grid-column: 2;
+    grid-row: 1;
+    flex-wrap: nowrap;
+  }
+
+  .dash-nav a[href^="#"] {
+    display: none;
+  }
+
+  .dash-nav a[href="index.html"] {
+    display: none;
+  }
+
+  .dash-nav a {
+    min-height: 36px;
+    padding: 0 10px;
+    font-size: 0.8rem;
+  }
+
+  .dash-search {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
   .dash-main {
     padding-top: 24px;
   }

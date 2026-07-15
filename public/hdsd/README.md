@@ -1,68 +1,43 @@
-# HDSD Typst — Sách hướng dẫn hệ thống
+# HDSD chính thức — `sang-math:1.0.0`
 
-> Website HDSD: mở file `public/hdsd/index.html` trong trình duyệt.
-> Production URL: `https://hdsd-conictypst.pages.dev`
-> Deploy riêng project HDSD: `npm run deploy:hdsd`.
+Website production: <https://hdsd-conictypst.pages.dev/#intro>
 
-## Cấu trúc thư mục
-
-```
-typst/
-├── sang-exam.typ      ← Engine đề thi (tn, ds, tln, tl)
-├── bbt.typ            ← Bảng biến thiên, xét dấu
-├── geometry.typ       ← Hình học phẳng & không gian
-├── template.typ       ← Router tổng (import từ đây)
-├── math-sym.typ       ← Ký hiệu toán bổ sung
-├── book.typ           ← File mẫu sách
-├── sgk.typ            ← File mẫu SGK
-├── chuyende.typ       ← File mẫu chuyên đề
-├── bo-de.typ          ← File mẫu bộ đề
-└── modules/
-    ├── book.typ       ← Engine sách/SGK/chuyên đề
-    ├── exam.typ       ← Wrapper engine thi
-    ├── exam-set.typ   ← Bộ đề nhiều đề
-    └── research.typ   ← Bài nghiên cứu
-
-public/hdsd/
-├── index.html         ← Website HDSD
-├── style.css
-├── script.js
-└── downloads/
-    ├── stexgv-template-full.zip
-    ├── stexgv-exam-only.zip
-    ├── stexgv-book-only.zip
-    └── stexgv-drawing.zip
-```
-
-## Lệnh biên dịch
-
-```bash
-# Đề thi
-typst compile --root typst typst/exams/de-01.typ output/de.pdf
-
-# Sách / chuyên đề  
-typst compile --root typst typst/chuyende.typ output/cd.pdf
-
-# Watch mode
-typst watch --root typst typst/exams/de-01.typ output/de.pdf
-
-# Sách HDSD PDF
-typst compile --root . typst/hdsd-exam.typ typst/hdsd-exam.pdf
-
-# Web HDSD project riêng
-npm run deploy:hdsd
-```
+Tài liệu này mô tả API public của package Typst `sang-math:1.0.0`: đề thi,
+sách/chuyên đề, BBT/BXD, hình học cơ bản và CeTZ nâng cao. Bản PDF thực hành
+gồm 100 trang với hơn 110 khung code và kết quả được Typst render trực tiếp.
 
 ## Import chuẩn
 
 ```typst
-// Tất cả — khuyến nghị
-#import "template.typ": *
+#import "@preview/sang-math:1.0.0": *
+```
 
-// Chỉ đề thi
-#import "sang-exam.typ": *
-#import "@preview/cetz:0.5.2"
+Không sao chép hoặc import trực tiếp `sang-exam.typ`, `bbt.typ`,
+`modules/book.typ` hay các đường dẫn nội bộ của package.
 
-// Chỉ sách
-#import "modules/book.typ": *
+## Cấu trúc tài liệu
+
+```text
+typst/hdsd-exam.typ
+public/hdsd/
+├── index.html
+├── style.css
+├── script.js
+└── downloads/
+    └── hdsd-sang-math-1.0.0.pdf
+```
+
+## Kiểm thử và phát hành
+
+```bash
+# Biên dịch sách HDSD
+typst compile --root . typst/hdsd-exam.typ typst/hdsd-exam.pdf
+
+# Kiểm thử API public và hai demo chính thức
+typst compile --root . typst-pkg-sang-math/tests/test-public-api.typ /tmp/public-api.pdf
+typst compile --root . typst-pkg-sang-math/examples/exam-template-demo.typ /tmp/exam-demo.pdf
+typst compile --root . typst-pkg-sang-math/examples/book-template-demo.typ /tmp/book-demo.pdf
+
+# Deploy riêng website HDSD
+npm run deploy:hdsd
 ```

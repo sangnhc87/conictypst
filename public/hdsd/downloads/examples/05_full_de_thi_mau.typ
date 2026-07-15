@@ -16,7 +16,7 @@
 // #let theme = "royal"          // Hoàng gia (Xanh/Tím): hộp câu hỏi có khung viền đẳng cấp
 // #let theme = "emerald"        // Xanh ngọc lục bảo: sang trọng, tươi mát, êm mắt
 // #let theme = "jade"           // Cẩm thạch: tinh tế, quý phái
-// #let theme = "navy-gold"      // Xanh Navy Vàng: phong cách cực kỳ cao cấp, hút mắt (ĐANG CHỌN)
+// #let theme = "navy-gold"      // Xanh Navy Vàng: phong cách cực kỳ cao cấp, hút mắt
 
 // 3. TONE RỰC RỠ & PHÂN HOÁ TỐT
 // #let theme = "ocean"          // Đại dương xanh: màu nhẹ nhàng, dịu mắt học sinh
@@ -54,7 +54,7 @@
 )
 
 // Khởi tạo các hàm sinh câu hỏi theo preset
-#let (tn, ds, tln, tl) = exam-mode(..preset.question, show-hyperlink: true)
+#let (tn, ds, tln, tl) = exam-mode(..preset.question)
 
 // Kích hoạt giao diện
 #show: exam-theme.with(

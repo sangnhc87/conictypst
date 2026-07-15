@@ -1,10 +1,10 @@
 // ═══════════════════════════════════════════════════════════
-// HƯỚNG DẪN SỬ DỤNG HỆ THỐNG ĐỀ THI  — sang-exam.typ
+// HƯỚNG DẪN SỬ DỤNG sang-math:1.0.0
 // Biên soạn: GV Nguyễn Văn Sang
 // ═══════════════════════════════════════════════════════════
-#import "sang-exam.typ": *
-#import "bbt.typ": *
-#import "math-sym.typ": *
+// Sách trong repository dùng source package để kiểm thử trước phát hành.
+// Người dùng public luôn import: @preview/sang-math:1.0.0
+#import "../typst-pkg-sang-math/lib.typ": *
 #import "@preview/cetz:0.5.2"
 
 // ── Bộ nhận diện HDSD ConicTypst ─────────────────────────
@@ -218,13 +218,13 @@
 #pad(left: 0.1cm, right: 0.1cm)[
   #cover-tag([HƯỚNG DẪN SỬ DỤNG], fill: white.transparentize(10%), ink: c-blue)
   #h(0.35cm)
-  #cover-tag([PHIÊN BẢN ĐẦY ĐỦ], fill: c-amber, ink: white)
+  #cover-tag([PACKAGE 1.0.0 · BẢN ĐẦY ĐỦ], fill: c-amber, ink: white)
   #v(0.85cm)
   #text(fill: white, size: 30pt, weight: "bold")[Sách HDSD]
   #v(0.05cm)
-  #text(fill: white, size: 22pt, weight: "bold")[hệ thống ConicTypst]
+  #text(fill: white, size: 22pt, weight: "bold")[sang-math 1.0.0]
   #v(0.45cm)
-  #text(fill: c-blue, size: 11.5pt, weight: "bold")[`sang-exam.typ` · đề thi · ngân hàng câu hỏi · BBT · web HDSD]
+  #text(fill: c-blue, size: 11.5pt, weight: "bold")[đề thi · sách Toán · BBT/BXD · hình học · CeTZ]
   #v(0.9cm)
   #grid(
     columns: (auto, auto, auto),
@@ -270,7 +270,7 @@
 #line(length: 100%, stroke: 1pt + c-amber)
 #v(0.25cm)
 #align(center)[
-  #text(size: 9.5pt, fill: c-muted)[Tài liệu mở, trình bày thẳng cú pháp thật, tham số thật và lỗi thật khi dùng hệ thống.]
+  #text(size: 9.5pt, fill: c-muted)[Tài liệu mở: mỗi lệnh có cú pháp, ví dụ code và kết quả được Typst render ngay trong sách.]
 ]
 #pagebreak()
 #set page(
@@ -304,28 +304,28 @@
 Mỗi file đề thi cần có đúng thứ tự:
 
 ```typst
-// ① Import hệ thống
-#import "../sang-exam.typ": *      // Hoặc import từ template.typ
-#import "@preview/cetz:0.5.2"      // Nếu dùng hình vẽ cetz
+// ① Một import duy nhất từ Typst Universe
+#import "@preview/sang-math:1.0.0": *
 
-// ② Cấu hình chế độ (thay đổi ở đây khi cần)
-#let mode   = "dethi"        // "dethi" | "loigiai" | "solcolor"
-#let accent = classic.blue   // classic.blue | classic.emerald | classic.crimson
+// ② Theme + profile: dethi | loigiai | compact | draft | beamer
+#let preset = exam-preset(theme: "teal-pro", profile: "dethi")
 
-// ③ Tạo bộ macro câu hỏi
-#let (tn, ds, tln, tl) = exam-mode(mode: mode, accent: accent)
+// ③ Tạo bốn macro câu hỏi đã nhận màu và profile
+#let (tn, ds, tln, tl) = exam-mode(..preset.question)
 
-// ④ Áp show rules (phân số display, màu toán, list spacing)
-#show: sang-setup               // hoặc sang-setup.with(math-color: accent)
+// ④ Áp show rules chung
+#show: sang-setup.with(math-color: preset.accent)
 
-// ⑤ Tiêu đề đề thi (tuỳ chọn)
-#show: thpt-school-exam.with(
+// ⑤ Áp giao diện đề thi
+#show: exam-theme.with(
+  ..preset.template,
+  theme: preset.theme,
   department: "SỞ GIÁO DỤC VÀ ĐÀO TẠO",
-  school: "TỈNH ...",
-  exam-title: "KỲ THI THỬ ...",
-  subject: "TOÁN",
+  school: "TRƯỜNG THPT ...",
+  exam-title: "KỲ THI THỬ TỐT NGHIỆP THPT",
+  subject: "TOÁN 12",
   duration: "90 phút",
-  code: "001",
+  code: "101",
 )
 
 // ⑥ Phần thi
@@ -353,20 +353,84 @@ Mỗi file đề thi cần có đúng thứ tự:
   )
 ]
 
-== Ba chế độ hiển thị
+== Năm profile chính thức
 
 #table(
   columns: (auto, 1fr, 1fr),
   stroke: 0.5pt + luma(180),
   inset: 8pt,
   fill: (_, row) => if row == 0 { luma(225) } else if calc.rem(row, 2) == 0 { luma(248) } else { white },
-  [*`mode`*], [*Hiển thị*], [*Dùng khi*],
-  [`"dethi"`], [Câu hỏi thuần, không đáp án, ô trống trắc nghiệm ngắn], [In đề cho học sinh],
-  [`"loigiai"`], [Câu hỏi + lời giải đầy đủ bên dưới, đáp án đúng tô sáng], [Soạn đáp án / tài liệu ôn],
-  [`"solcolor"`], [Giống loigiai nhưng đáp án đúng tô màu nổi bật hơn], [Đáp án nộp / chiếu trình chiếu],
+  [*`profile`*], [*Hiển thị*], [*Dùng khi*],
+  [`"dethi"`], [Câu hỏi thuần, không đáp án], [In đề cho học sinh],
+  [`"loigiai"`], [Câu hỏi, đáp án và lời giải], [Sách giải / chữa bài],
+  [`"compact"`], [Bố cục gọn, hỗ trợ hai cột], [Đề cần tiết kiệm giấy],
+  [`"draft"`], [Hiện vùng nháp], [Phiếu làm bài],
+  [`"beamer"`], [Cấu hình câu hỏi cho slide], [Trình chiếu],
 )
 
-#caution[Thay `mode = "loigiai"` và biên dịch lại — không cần sửa nội dung câu hỏi.]
+#caution[Chỉ đổi `profile: "dethi"` thành `profile: "loigiai"` rồi biên dịch lại; nội dung câu hỏi giữ nguyên.]
+
+== 18 theme đề — cùng code, khác kết quả
+
+Đoạn sau là mẫu tối thiểu để thử một theme. Sách render đủ 18 theme ngay bên dưới bằng cùng một câu hỏi.
+
+```typst
+#let p = exam-preset(theme: "navy-gold", profile: "dethi")
+#let q = exam-mode(..p.question)
+#(q.tn)(
+  [Nghiệm của $x^2-5x+6=0$ là],
+  ([$x=1,6$], True([$x=2,3$]), [$x=-2,-3$], [$x=0,5$]),
+)
+```
+
+#let demo-exam-theme(name) = {
+  let p = exam-preset(theme: name, profile: "dethi")
+  let q = exam-mode(..p.question)
+  block(width: 100%)[
+    #text(size: 8.5pt, weight: "bold", fill: p.accent)[THEME · #name]
+    #(q.tn)(
+      [Nghiệm của $x^2-5x+6=0$ là],
+      ([$x=1,6$], True([$x=2,3$]), [$x=-2,-3$], [$x=0,5$]),
+    )
+  ]
+}
+
+#demo-out[
+  #demo-exam-theme("classic")
+  #demo-exam-theme("ocean")
+]
+#demo-out[
+  #demo-exam-theme("emerald")
+  #demo-exam-theme("royal")
+]
+#demo-out[
+  #demo-exam-theme("violet")
+  #demo-exam-theme("crimson")
+]
+#demo-out[
+  #demo-exam-theme("graphite")
+  #demo-exam-theme("amber")
+]
+#demo-out[
+  #demo-exam-theme("teal-pro")
+  #demo-exam-theme("sky")
+]
+#demo-out[
+  #demo-exam-theme("indigo-minimal")
+  #demo-exam-theme("print-economy")
+]
+#demo-out[
+  #demo-exam-theme("aurora")
+  #demo-exam-theme("lotus")
+]
+#demo-out[
+  #demo-exam-theme("navy-gold")
+  #demo-exam-theme("jade")
+]
+#demo-out[
+  #demo-exam-theme("coral")
+  #demo-exam-theme("plum")
+]
 
 // ══════════════════════════════════════════════════════════════════
 = Câu trắc nghiệm nhiều phương án — `#tn(...)`
@@ -417,7 +481,7 @@ Mỗi file đề thi cần có đúng thứ tự:
   "loigiai:",
   "content",
   default: "none",
-)[Lời giải đầy đủ. Chỉ hiện khi `mode = "loigiai"` hoặc `"solcolor"`. Có thể dùng `#ppgiai`, `#luuy`, `#meo` bên trong.]
+)[Lời giải đầy đủ. Hiện trong profile `"loigiai"`. Có thể dùng `#ppgiai`, `#luuy`, `#meo` bên trong.]
 #param("fig:", "canvas/content", default: "none")[Hình vẽ. Thường là `cetz.canvas(...)` hoặc nội dung Typst bất kỳ.]
 #param(
   "fig-pos:",
@@ -540,14 +604,14 @@ Mỗi file đề thi cần có đúng thứ tự:
 == Ví dụ 5 — Tùy biến hiển thị phương án (Số cột & Khoanh tròn / Không khoanh tròn)
 
 Hệ thống cung cấp các tham số để tùy biến cách hiển thị 4 phương án lựa chọn của câu hỏi trắc nghiệm `#tn`:
-1. **Số cột phương án (`cols`)**:
+1. *Số cột phương án (`cols`)*:
    - `cols: 0` (Mặc định): Hệ thống tự động tính toán độ dài các phương án để xếp vào 1, 2 hoặc 4 cột tối ưu nhất.
    - `cols: 1`: Ép buộc xếp các phương án thẳng đứng thành 1 cột.
    - `cols: 2`: Ép buộc chia các phương án thành 2 cột đều nhau.
    - `cols: 4`: Ép buộc dàn các phương án thành 4 cột nằm ngang.
-2. **Kiểu nhãn lựa chọn (`opt-style`)**:
-   - `opt-style: "plain"` (Mặc định): Hiển thị nhãn thường kèm dấu chấm dạng **A.**, **B.**, **C.**, **D.**
-   - `opt-style: "circle"` hoặc `"circled"`: Tự động vẽ hình tròn bao quanh nhãn dạng **Ⓐ**, **Ⓑ**, **Ⓒ**, **Ⓓ**.
+2. *Kiểu nhãn lựa chọn (`opt-style`)*:
+   - `opt-style: "plain"` (Mặc định): Hiển thị nhãn thường kèm dấu chấm dạng *A.*, *B.*, *C.*, *D.*
+   - `opt-style: "circle"` hoặc `"circled"`: Tự động vẽ hình tròn bao quanh nhãn dạng *Ⓐ*, *Ⓑ*, *Ⓒ*, *Ⓓ*.
 
 === Mẫu 5.1 — Thiết lập khoanh tròn và ép 4 cột (`opt-style: "circle"`, `cols: 4`)
 ```typst
@@ -1020,7 +1084,7 @@ Hình vẽ trong `#tln` hoạt động *giống hệt* `#tn`:
   "content",
   required: true,
 )[Đáp án đúng. Hiển thị trong ô màu xanh khi `mode ≠ "dethi"`. Thường là biểu thức toán `[$6$]` hoặc văn bản `[Vô số nghiệm]`.]
-#param("loigiai:", "content", default: "none")[Lời giải. Hiện phía dưới đáp án khi mode là loigiai/solcolor.]
+#param("loigiai:", "content", default: "none")[Lời giải. Hiện phía dưới đáp án trong profile `loigiai`.]
 #param("fig:", "canvas/content", default: "none")[Hình vẽ. Vị trí xác định bởi `fig-pos`.]
 #param(
   "show-boxes:",
@@ -1195,7 +1259,7 @@ Hình vẽ trong `#tln` hoạt động *giống hệt* `#tn`:
 
 == Ví dụ 2 — Bài toán tối ưu thực tế có hình vẽ và bảng cực trị (Trích đề thi thực tế)
 
-Ví dụ nâng cao này trích từ cuốn sách Toán của bạn, hướng dẫn cách kết hợp câu hỏi tự luận `#tl` có hình vẽ minh họa bên phải bằng `canvas`, lời giải từng bước `#step`, và bảng biến thiên tối ưu chuyên dụng `#bbt-opt` từ thư viện `bbt.typ`.
+Ví dụ nâng cao này hướng dẫn cách kết hợp câu hỏi tự luận `#tl` có hình vẽ minh họa bên phải bằng `canvas`, lời giải từng bước `#step`, và bảng biến thiên tối ưu `#bbt-opt` đã được export từ package.
 
 ```typst
 #tl(
@@ -1914,8 +1978,7 @@ Chương này hướng dẫn chi tiết cách biên soạn một đề thi trắ
 Để câu hỏi của bạn có thể chuyển đổi tự động sang slide giảng dạy Beamer, file đề thi cần được bao bọc toàn bộ nội dung câu hỏi bên trong một hàm `#let make-questions(...) = [...]`. Dưới đây là mẫu khung sườn đầy đủ cho một đề thi:
 
 ```typst
-#import "../sang-exam.typ": *
-#import "../bbt.typ": *
+#import "@preview/sang-math:1.0.0": *
 #import "@preview/cetz:0.5.2"
 
 // ① Thiết lập chế độ hiển thị mặc định của file đề
@@ -2226,7 +2289,8 @@ npm run sync:bank
 ```
 
 ```typst
-#import "template.typ": *
+#import "@preview/sang-math:1.0.0": *
+#import "modules/question-bank.typ": *
 #import "questions.typ": question-bank
 
 #let bank = load-bank()
@@ -2278,7 +2342,7 @@ Trạng thái import hiện tại: bridge nhập được 1.553 câu STEXGV. Có
 Import lõi:
 
 ```typst
-#import "sang-exam.typ": *
+#import "@preview/sang-math:1.0.0": *
 #import "questions.typ": question-bank
 #import "modules/question-bank.typ": (
   exam-slot,
@@ -2392,7 +2456,7 @@ Phần này gom những tham số có thật trong engine nhưng thường bị 
   inset: 7pt,
   fill: (_, row) => if row == 0 { luma(225) } else if calc.rem(row, 2) == 0 { luma(248) } else { white },
   [*Tham số*], [*Mặc định*], [*Ghi chú*],
-  [`mode:`], [`"dethi"`], [`"dethi"` ẩn lời giải; `"loigiai"` hiện lời giải và đáp án; `"solcolor"` dùng cho đáp án màu nổi. Thường không truyền trực tiếp mà lấy từ `exam-mode`.],
+  [`mode:`], [`"dethi"`], [`"dethi"` ẩn lời giải; `"loigiai"` hiện lời giải và đáp án. Nên lấy cấu hình từ `exam-preset`.],
   [`accent:`], [`palette.accent`], [Màu nhãn câu, header bảng Đ/S, lời giải. Dùng `classic.blue`, `classic.emerald`, `classic.crimson` hoặc `rgb(...)`.],
   [`fig:`], [`none`], [Canvas Cetz, `image(...)`, bảng, hoặc content bất kỳ.],
   [`fig-pos:`], [`"right"`], [`"right"`, `"left"`, `"center"`. Nếu đề dài mà chỉ một đoạn cần hình, nên tự đặt `#grid(...)` trong stem thay vì dùng `fig:`.],
@@ -2465,7 +2529,7 @@ Phần này gom những tham số có thật trong engine nhưng thường bị 
 = Tham số Typst thường gặp trong hệ thống
 // ══════════════════════════════════════════════════════════════════
 
-Đây là bảng tra nhanh cho người mới đọc code Typst trong workspace. Các tham số dưới đây là Typst chuẩn, không phải riêng của `sang-exam.typ`, nhưng xuất hiện rất nhiều trong template.
+Đây là bảng tra nhanh cho người mới đọc code Typst. Các tham số dưới đây là Typst chuẩn, không phải riêng của `sang-math`, nhưng xuất hiện rất nhiều trong tài liệu.
 
 == Layout cơ bản
 
@@ -2524,7 +2588,7 @@ Phần này gom những tham số có thật trong engine nhưng thường bị 
 #caution[`metadata` và `query` rất mạnh nhưng khó với người mới. Nếu chỉ soạn đề thường, chưa cần dùng trực tiếp. Engine đã dùng sẵn bên trong để đếm câu, gom đáp án và reset trạng thái.]
 
 // ══════════════════════════════════════════════════════════════════
-= Bảng biến thiên — `bbt.typ`
+= Bảng biến thiên — API package 1.0.0
 
 Phần này là bản hướng dẫn *cực kỳ chi tiết* cho mọi macro vẽ bảng biến thiên. Từ cấu trúc tối thiểu nhất cho đến các tham số tùy chỉnh nâng cao.
 
@@ -3506,93 +3570,339 @@ Dựng bảng giá trị 2 dòng biểu diễn tọa độ điểm vẽ đồ th
 ]
 
 // ══════════════════════════════════════════════════════════════════
-= Biên soạn Sách / Chuyên đề / SGK (doc-type: "book")
+= Biên soạn Sách / Chuyên đề / SGK — `book-theme`
 // ══════════════════════════════════════════════════════════════════
 
-Khi biên soạn các tài liệu dài như Sách tham khảo, Chuyên đề học tập, hoặc Sách giáo khoa (SGK), hệ thống cung cấp giao diện chuyên dụng bằng cách đặt cấu hình `doc-type: "book"` (hoặc `"sgk"`, `"chuyende"`).
+Package 1.0.0 cung cấp 12 theme sách, ba cấp tiêu đề và 13 hộp nội dung. Phần này luôn trình bày theo cặp *code → kết quả thật*.
 
-== 1. Thiết lập cấu hình chung cho Sách
-Trong tệp chính của tài liệu, bạn gọi cấu hình `stexgv-book` như sau:
+== 1. File sách hoàn chỉnh
+
 ```typst
-#show: stexgv-book.with(
-  title: "CHUYÊN ĐỀ HỌC TẬP TOÁN 12",
-  subtitle: "Chương trình GDPT mới",
-  author: "Tác giả Nguyễn Văn Sang",
-  theme-color: rgb("#1e3a8a"), // Màu chủ đạo
-  doc-type: "book",            // "book" | "sgk" | "chuyende"
-  show-cover: true,            // Hiển thị trang bìa
-  show-outline: true,          // Tự động tạo mục lục
-  outline-depth: 3,            // Độ sâu mục lục
+#import "@preview/sang-math:1.0.0": *
+
+#let theme = "sgk-modern"
+
+#show: book-theme.with(
+  theme: theme,
+  title: "CHUYÊN ĐỀ HÀM SỐ",
+  subtitle: "Lý thuyết · Ví dụ · Luyện tập",
+  author: "Tổ Toán",
+  institution: "Trường THPT Sang-Math",
+  grade: "Lớp 12",
+  subject: "Toán",
+  year: "2026–2027",
+  cover-note: [Tài liệu học tập dùng trong nhà trường.],
+  toc: true,
 )
+
+#book-chapter([Ứng dụng đạo hàm], number: "01", theme: theme)
+#book-lesson([Tính đơn điệu], number: "1", theme: theme)
+#book-section([Lý thuyết trọng tâm], number: "1.1", theme: theme)
 ```
 
-== 2. Bố cục phân cấp của Sách
-Giao diện Sách hỗ trợ các phân cấp nội dung được đánh số tự động hóa:
-- *Phần lớn (`#part` hoặc `#unit`)*: Khung nội dung lớn (ví dụ: Giải tích, Hình học).
-- *Chương (`#chapter`)*: Khởi tạo chương mới, tự động reset bộ đếm các Bài/Ví dụ/Bài tập bên trong.
-- *Bài (`#lesson` hoặc `#bai` / `#topic` / `#dang`)*: Đơn vị bài học hoặc dạng toán.
-- *Mục (`#section` hoặc `#muc`)*: Mục kiến thức lớn trong bài.
-- *Tiểu mục (`#subsection` hoặc `#tieumuc`)*: Các nhánh nhỏ hơn.
-- *Ý (`#microsection` hoặc `#y`)*: Các ý nhỏ dưới tiểu mục.
+== 2. Ba cấp cấu trúc — code và kết quả
 
-Ví dụ cách tổ chức mã nguồn:
 ```typst
-#part("Giải Tích")
-#chapter("Ứng dụng đạo hàm để khảo sát hàm số")
-#lesson("Tính đơn điệu của hàm số")
-#muc("Tính đơn điệu và dấu của đạo hàm")
-#tieumuc("Định lý về tính đơn điệu")
-#y("Điều kiện cần")
+#let theme = "sgk-modern"
+#book-chapter([Ứng dụng đạo hàm], number: "01", theme: theme)
+#book-lesson([Tính đơn điệu], number: "1", theme: theme)
+#book-section([Dấu của đạo hàm], number: "1.1", theme: theme)
 ```
 
-== 3. Các hộp kiến thức và sư phạm chuyên dụng
-Để tăng tính chuyên nghiệp và trực quan cho bài học, giao diện Sách tích hợp sẵn các loại hộp thông tin sư phạm có thiết kế phối màu tinh tế:
-- *Lý thuyết & Khái niệm*:
-  - Định nghĩa: `#dn[Nội dung...]` hoặc `#definition[Nội dung...]`
-  - Định lý: `#dl[Nội dung...]` hoặc `#theorem[Nội dung...]`
-  - Tính chất: `#tc[Nội dung...]`
-  - Bổ đề: `#bode[Nội dung...]`
-- *Hộp ghi chú & Phương pháp*:
-  - Phương pháp giải toán: `#phuongphap[Nội dung...]`
-  - Ghi nhớ: `#ghinho[Nội dung...]`
-  - Nhận xét: `#nhanxet[Nội dung...]`
-  - Lưu ý: `#luuy[Nội dung...]`
-  - Tóm tắt kiến thức: `#tomtat[Nội dung...]`
-  - Vận dụng thực tế: `#vandung[Nội dung...]`
-  - Dự án học tập: `#duan[Nội dung...]`
-  - Luyện tập củng cố: `#luyentap[Nội dung...]`
+#book-chapter([Ứng dụng đạo hàm], number: "01", theme: "sgk-modern")
 
-Ví dụ cách dùng hộp phương pháp:
-```typst
-#phuongphap(title: [Phương pháp tìm cực trị])[
-  1. Tính đạo hàm $f'(x)$.
-  2. Tìm các điểm tại đó đạo hàm bằng 0 hoặc không xác định.
-  3. Lập bảng biến thiên và kết luận.
+#demo-out[
+  #book-lesson([Tính đơn điệu], number: "1", theme: "sgk-modern")
+  #book-section([Dấu của đạo hàm], number: "1.1", theme: "sgk-modern")
 ]
+
+== 3. Mạch bài học: mục tiêu, khởi động, khám phá
+
+```typst
+#goal-box(theme: theme)[
+  - Nhận biết khoảng đồng biến, nghịch biến.
+  - Lập được bảng biến thiên.
+]
+#warmup-box(theme: theme)[Quan sát đồ thị và dự đoán khoảng tăng.]
+#explore-box(theme: theme)[Tính $f'(x)$ rồi xét dấu đạo hàm.]
 ```
 
+#demo-out[
+  #goal-box(theme: "sgk-modern")[
+    - Nhận biết khoảng đồng biến, nghịch biến.
+    - Lập được bảng biến thiên.
+  ]
+  #warmup-box(theme: "sgk-modern")[Quan sát đồ thị và dự đoán khoảng tăng.]
+  #explore-box(theme: "sgk-modern")[Tính $f'(x)$ rồi xét dấu đạo hàm.]
+]
+
+== 4. Lý thuyết, định nghĩa, định lý và phương pháp
+
+```typst
+#theory-box(theme: theme)[Hàm số đồng biến khi $f'(x) > 0$.]
+#definition-box(theme: theme)[Điểm $x_0$ là điểm tới hạn nếu...]
+#theorem-box(theme: theme)[Nếu $f'(x)>0$ trên $I$ thì $f$ đồng biến.]
+#method-box(theme: theme)[Tính đạo hàm, tìm nghiệm, xét dấu.]
+```
+
+#demo-out[
+  #theory-box(theme: "vdc-elite")[Hàm số đồng biến khi $f'(x) > 0$.]
+  #definition-box(theme: "vdc-elite")[Điểm $x_0$ là điểm tới hạn nếu $f'(x_0)=0$ hoặc đạo hàm không tồn tại.]
+]
+
+#demo-out[
+  #theorem-box(theme: "vdc-elite")[Nếu $f'(x)>0$ trên $I$ thì $f$ đồng biến trên $I$.]
+  #method-box(theme: "vdc-elite")[Tính đạo hàm, tìm nghiệm, xét dấu rồi kết luận.]
+]
+
+== 5. Ví dụ, hoạt động, luyện tập và bài tập có dòng
+
+```typst
+#example-box(theme: theme)[Xét tính đơn điệu của $x^3-3x$.]
+#activity-box(theme: theme)[Thảo luận dấu của $3x^2-3$.]
+#practice-box(theme: theme)[Làm bài tương tự với $x^3-12x$.]
+#exercise-box(theme: theme, lines: 4)[Khảo sát $x^3-6x^2+9x$.]
+```
+
+#demo-out[
+  #example-box(theme: "workbook-jade")[Xét tính đơn điệu của $x^3-3x$.]
+  #activity-box(theme: "workbook-jade")[Thảo luận dấu của $3x^2-3$.]
+]
+
+#demo-out[
+  #practice-box(theme: "workbook-jade")[Làm bài tương tự với $x^3-12x$.]
+  #exercise-box(theme: "workbook-jade", lines: 4)[Khảo sát $x^3-6x^2+9x$.]
+]
+
+== 6. Cảnh báo và tổng kết
+
+```typst
+#warning-box(theme: theme)[Không kết luận dấu khi chưa xét tập xác định.]
+#summary-box(theme: theme)[Đạo hàm dương: đồng biến; âm: nghịch biến.]
+```
+
+#demo-out[
+  #warning-box(theme: "solution-crimson")[Không kết luận dấu khi chưa xét tập xác định.]
+  #summary-box(theme: "solution-crimson")[Đạo hàm dương: đồng biến; đạo hàm âm: nghịch biến.]
+]
+
+== 7. So sánh trực tiếp 12 theme sách
+
+Mỗi ví dụ dưới đây dùng đúng cùng một nội dung; chỉ đổi tham số `theme`.
+
+```typst
+#example-box(theme: "sgk-modern")[Ví dụ: giải $x^2-5x+6=0$.]
+#example-box(theme: "vdc-elite")[Ví dụ: giải $x^2-5x+6=0$.]
+#example-box(theme: "workbook-jade")[Ví dụ: giải $x^2-5x+6=0$.]
+```
+
+#demo-out[
+  #example-box(theme: "sgk-modern")[*sgk-modern* · Giải $x^2-5x+6=0$.]
+  #example-box(theme: "vdc-elite")[*vdc-elite* · Giải $x^2-5x+6=0$.]
+  #example-box(theme: "workbook-jade")[*workbook-jade* · Giải $x^2-5x+6=0$.]
+]
+
+#demo-out[
+  #example-box(theme: "solution-crimson")[*solution-crimson* · Giải $x^2-5x+6=0$.]
+  #example-box(theme: "lesson-amber")[*lesson-amber* · Giải $x^2-5x+6=0$.]
+  #example-box(theme: "olympiad-indigo")[*olympiad-indigo* · Giải $x^2-5x+6=0$.]
+]
+
+#demo-out[
+  #example-box(theme: "magazine-coral")[*magazine-coral* · Giải $x^2-5x+6=0$.]
+  #example-box(theme: "blackboard-green")[*blackboard-green* · Giải $x^2-5x+6=0$.]
+  #example-box(theme: "minimal-graphite")[*minimal-graphite* · Giải $x^2-5x+6=0$.]
+]
+
+#demo-out[
+  #example-box(theme: "handout-sky")[*handout-sky* · Giải $x^2-5x+6=0$.]
+  #example-box(theme: "research-slate")[*research-slate* · Giải $x^2-5x+6=0$.]
+  #example-box(theme: "lotus-study")[*lotus-study* · Giải $x^2-5x+6=0$.]
+]
+
 // ══════════════════════════════════════════════════════════════════
-= Khối bao nháp học sinh (`#q-wrap`)
+= Hình học package 1.0.0 — code và kết quả
 // ══════════════════════════════════════════════════════════════════
 
-Trong các cuốn sách bài tập hoặc chuyên đề, ta thường muốn chèn thêm một khoảng trống có dòng kẻ nháp (giấy tập học sinh) kế bên câu hỏi để học sinh có thể ghi lời giải trực tiếp. Khối `#q-wrap` (Question Wrapper) chính là công cụ để làm việc này.
+== 1. Hình cơ bản tự tạo canvas
 
-== 1. Cơ chế hoạt động của `#q-wrap`
-- Khi tài liệu ở chế độ *Hai cột (`two-column-mode: true`)*: `#q-wrap` tự động dựng một lưới bảng gồm:
+Các macro cơ bản dùng trực tiếp trong nội dung hoặc tham số `fig:`; người dùng không cần tự mở `cetz.canvas`.
+
+```typst
+#tri-abc(base: 5, height: 3, labels: ("A", "B", "C"))
+#tri-right(leg1: 3, leg2: 4, labels: ("A", "B", "C"))
+#square(a: 3, labels: ("A", "B", "C", "D"))
+```
+
+#demo-out[
+  #grid(
+    columns: (1fr, 1fr, 1fr), gutter: 10pt, align: center,
+    [#tri-abc(base: 4, height: 2.6, labels: ("A", "B", "C"))],
+    [#tri-right(leg1: 3, leg2: 2.4, labels: ("A", "B", "C"))],
+    [#square(a: 2.5, labels: ("A", "B", "C", "D"))],
+  )
+]
+
+```typst
+#circle-desc(center: (0, 0), radius: 2, label: "O")
+#ellipse-h(center: (0, 0), a: 2.8, b: 1.5)
+#parabola(a: 1, b: -2, c: -3, xmin: -2, xmax: 4)
+```
+
+#demo-out[
+  #grid(
+    columns: (1fr, 1fr, 1fr), gutter: 10pt, align: center,
+    [#circle-desc(center: (0, 0), radius: 1.7, label: "O")],
+    [#ellipse-h(center: (0, 0), a: 2.2, b: 1.25)],
+    [#parabola(a: 1, b: -2, c: -3, xmin: -1.2, xmax: 3.2, ymin: -4.5, ymax: 1.5)],
+  )
+]
+
+== 2. Hình chóp và lăng trụ
+
+```typst
+#chop-sabc(S: (0, 5), A: (-2.5, 0), B: (2.5, 0), C: (0, -1.4))
+#chop-sabcd(S: (0, 5), A: (-2.4, 0), B: (2.4, 0),
+  C: (1.6, -1.4), D: (-1.6, -1.4), hidden: ("AD", "DC"))
+```
+
+#demo-out[
+  #grid(
+    columns: (1fr, 1fr), gutter: 18pt, align: center,
+    [#chop-sabc(S: (0, 5), A: (-2.5, 0), B: (2.5, 0), C: (0, -1.4), hidden: ("AC",))],
+    [#chop-sabcd(S: (0, 5), A: (-2.4, 0), B: (2.4, 0), C: (1.6, -1.4), D: (-1.6, -1.4), hidden: ("AD", "DC"))],
+  )
+]
+
+== 3. Conic nâng cao — bắt buộc nằm trong `cetz.canvas`
+
+```typst
+#import "@preview/cetz:0.5.2"
+#import "@preview/sang-math:1.0.0": \
+  draw-parabola, draw-ellipse, draw-hyperbola
+
+#cetz.canvas(length: 1cm, {
+  draw-ellipse(a: 2.5, b: 1.5, show-axes: true, show-foci: true)
+})
+```
+
+#demo-out[
+  #align(center)[
+    #cetz.canvas(length: 0.85cm, {
+      draw-ellipse(a: 2.5, b: 1.5, show-axes: true, show-foci: true)
+    })
+  ]
+]
+
+```typst
+#cetz.canvas(length: 1cm, {
+  draw-parabola(a: 0.5, h: 0, k: -1,
+    x-range: (-3.0, 3.0), label-vertex: [$I$])
+})
+```
+
+#demo-out[
+  #align(center)[
+    #cetz.canvas(length: 0.8cm, {
+      draw-parabola(a: 0.5, h: 0, k: -1, x-range: (-3.0, 3.0), label-vertex: [$I$])
+    })
+  ]
+]
+
+```typst
+#cetz.canvas(length: 1cm, {
+  draw-hyperbola(a: 1.2, b: 0.8,
+    show-asymptotes: true, show-foci: true)
+})
+```
+
+#demo-out[
+  #align(center)[
+    #cetz.canvas(length: 0.85cm, {
+      draw-hyperbola(a: 1.2, b: 0.8, show-asymptotes: true, show-foci: true)
+    })
+  ]
+]
+
+== 4. Hình trụ, hình nón và mặt cầu
+
+```typst
+#cetz.canvas(length: 1cm, {
+  draw-cylinder(radius: 1.3, height: 3.5, show-hidden: true)
+})
+#cetz.canvas(length: 1cm, {
+  draw-cone(radius: 1.5, height: 3.8,
+    label-apex: [$S$], label-center: [$O$])
+})
+#cetz.canvas(length: 1cm, {
+  draw-sphere(radius: 1.7, show-equator: true, show-meridian: true)
+})
+```
+
+#demo-out[
+  #grid(
+    columns: (1fr, 1fr, 1fr), gutter: 14pt, align: center,
+    [#cetz.canvas(length: 0.65cm, { draw-cylinder(radius: 1.3, height: 3.5, show-hidden: true) })],
+    [#cetz.canvas(length: 0.65cm, { draw-cone(radius: 1.5, height: 3.8, label-apex: [$S$], label-center: [$O$]) })],
+    [#cetz.canvas(length: 0.65cm, { draw-sphere(radius: 1.7, show-equator: true, show-meridian: true) })],
+  )
+]
+
+== 5. Helix và lò xo
+
+```typst
+#cetz.canvas(length: 1cm, {
+  draw-helix(radius: 1, height: 4, loops: 2.5, auto-dashed: true)
+})
+#cetz.canvas(length: 1cm, {
+  draw-spring(radius: 0.4, height: 4, coils: 7)
+})
+```
+
+#demo-out[
+  #grid(
+    columns: (1fr, 1fr), gutter: 22pt, align: center,
+    [#cetz.canvas(length: 0.8cm, { draw-helix(radius: 1, height: 4, loops: 2.5, auto-dashed: true) })],
+    [#cetz.canvas(length: 0.8cm, { draw-spring(radius: 0.4, height: 4, coils: 7) })],
+  )
+]
+
+== 6. Ký hiệu Toán xuất từ package
+
+```typst
+$RR, ZZ, NN, QQ$
+$C_n^k, A_n^k, P_n$
+#vect($A B$)
+```
+
+#demo-out[
+  #align(center)[
+    #text(size: 16pt)[$RR, ZZ, NN, QQ$ #h(1cm) $C_n^k, A_n^k, P_n$ #h(1cm) #vect($A B$)]
+  ]
+]
+
+// ══════════════════════════════════════════════════════════════════
+= Tự xây dựng khối nháp hai cột (mở rộng ngoài package)
+// ══════════════════════════════════════════════════════════════════
+
+`sang-math:1.0.0` đã có tham số `lines:` và macro `draw-lines` cho vùng nháp chuẩn. Phần này minh họa cách giáo viên tự viết wrapper nâng cao khi muốn đặt câu hỏi và giấy nháp cạnh nhau; hàm mẫu trong sách tên là `demo-q-wrap`, không thuộc API package.
+
+== 1. Cơ chế hoạt động của `#demo-q-wrap`
+- Khi `dir: "ngang"`, `#demo-q-wrap` dựng một lưới gồm:
   - Cột bên trái: Nội dung câu hỏi trắc nghiệm/tự luận.
   - Cột bên phải: Khối giấy nháp kẻ dòng đứt đoạn cho học sinh làm bài.
-- Khi tài liệu ở chế độ *Một cột (`two-column-mode: false`)*: `#q-wrap` sẽ ẩn phần dòng kẻ nháp và chỉ hiển thị nội dung câu hỏi một cách bình thường để tiết kiệm không gian.
+- Khi `dir: "doc"`, phần nháp được đặt phía dưới câu hỏi.
 
-== 2. Các tham số cấu hình `#q-wrap`
+== 2. Các tham số cấu hình `#demo-q-wrap`
 - `dir`: Hướng của ô nháp.
   - `"ngang"` (Mặc định): Đặt ô nháp nằm song song bên phải câu hỏi.
   - `"doc"`: Đặt ô nháp nằm ngay dưới câu hỏi.
 - `lines` (Số nguyên): Số lượng dòng kẻ nháp (khoảng cách mỗi dòng là `22pt`). Ví dụ: `lines: 5`.
 - `height` (Độ dài): Ép độ cao cố định cho ô nháp (ví dụ: `height: 120pt`). Nếu không truyền cả `lines` và `height`, hệ thống tự động đo độ cao của câu hỏi để sinh ra số dòng tương ứng.
 
-=== Tuyển tập 10 Ví dụ thực chiến sử dụng `#q-wrap`
+=== Tuyển tập 10 ví dụ thực chiến với wrapper tự xây dựng
 
-Dưới đây là 10 ví dụ thực tế giúp bạn nắm vững mọi trường hợp sử dụng `#q-wrap` trong tài liệu:
+Dưới đây là 10 ví dụ thực tế của wrapper tự xây dựng. Nếu chỉ cần dòng nháp tiêu chuẩn, hãy dùng trực tiếp tham số `lines:` của `tn/ds/tln/tl`.
 
 #let demo-q-wrap(dir: "ngang", lines: auto, height: auto, q) = {
   let line-pattern = tiling(size: (20cm, 22pt))[
@@ -3641,7 +3951,7 @@ Dưới đây là 10 ví dụ thực tế giúp bạn nắm vững mọi trườ
 
 ==== Ví dụ 1 — Hướng ngang, 4 dòng kẻ nháp với trắc nghiệm lựa chọn (Sử dụng `setminus`)
 ```typst
-#q-wrap(dir: "ngang", lines: 4,
+#demo-q-wrap(dir: "ngang", lines: 4,
   tn(
     [Tìm tập xác định $D$ của hàm số $y = log_2 (x - 1)$.],
     ([$D = (0; +oo)$], True([$D = (1; +oo)$]), [$D = R setminus {1}$], [$D = [1; +oo)$]),
@@ -3659,7 +3969,7 @@ Dưới đây là 10 ví dụ thực tế giúp bạn nắm vững mọi trườ
 
 ==== Ví dụ 2 — Hướng ngang, 3 dòng kẻ nháp
 ```typst
-#q-wrap(dir: "ngang", lines: 3,
+#demo-q-wrap(dir: "ngang", lines: 3,
   tn(
     [Tìm giá trị cực tiểu của hàm số $y = x^3 - 3x + 2$.],
     ([$y_(C T) = 4$], [$y_(C T) = 2$], True([$y_(C T) = 0$]), [$y_(C T) = -1$]),
@@ -3677,7 +3987,7 @@ Dưới đây là 10 ví dụ thực tế giúp bạn nắm vững mọi trườ
 
 ==== Ví dụ 3 — Hướng ngang, 5 dòng kẻ nháp
 ```typst
-#q-wrap(dir: "ngang", lines: 5,
+#demo-q-wrap(dir: "ngang", lines: 5,
   tn(
     [Tìm tập hợp tất cả các giá trị thực của tham số $m$ để hàm số $y = ln(x^2 - 2x + m)$ có tập xác định là $R$.],
     ([$m > 0$], [$m >= 1$], True([$m > 1$]), [$m < 1$]),
@@ -3695,7 +4005,7 @@ Dưới đây là 10 ví dụ thực tế giúp bạn nắm vững mọi trườ
 
 ==== Ví dụ 4 — Hướng dọc, 4 dòng kẻ nháp
 ```typst
-#q-wrap(dir: "doc", lines: 4,
+#demo-q-wrap(dir: "doc", lines: 4,
   tn(
     [Đường tiệm cận đứng của đồ thị hàm số $y = (2x - 1)/(x - 1)$ là:],
     ([$y = 2$], [$y = 1$], [$x = 2$], True([$x = 1$])),
@@ -3713,7 +4023,7 @@ Dưới đây là 10 ví dụ thực tế giúp bạn nắm vững mọi trườ
 
 ==== Ví dụ 5 — Hướng ngang, độ cao cố định 100pt với câu trả lời ngắn
 ```typst
-#q-wrap(dir: "ngang", height: 100pt,
+#demo-q-wrap(dir: "ngang", height: 100pt,
   tln(
     [Cho hàm số $y = f(x)$ có đạo hàm $f'(x) = x(x - 1)^2$. Tính số điểm cực trị của hàm số đã cho.],
     [1],
@@ -3731,7 +4041,7 @@ Dưới đây là 10 ví dụ thực tế giúp bạn nắm vững mọi trườ
 
 ==== Ví dụ 6 — Hướng dọc, 3 dòng kẻ nháp với câu trả lời ngắn
 ```typst
-#q-wrap(dir: "doc", lines: 3,
+#demo-q-wrap(dir: "doc", lines: 3,
   tln(
     [Tìm số nghiệm nguyên của bất phương trình $2^(x^2 - x) < 4$.],
     [3],
@@ -3749,7 +4059,7 @@ Dưới đây là 10 ví dụ thực tế giúp bạn nắm vững mọi trườ
 
 ==== Ví dụ 7 — Hướng ngang, tự động đo chiều cao câu hỏi trắc nghiệm Đúng/Sai
 ```typst
-#q-wrap(dir: "ngang",
+#demo-q-wrap(dir: "ngang",
   ds(
     [Cho hàm số $y = f(x) = (a x + b)/(x + c)$ có đồ thị như hình vẽ. Xét tính đúng sai của các khẳng định sau:],
     (
@@ -3777,7 +4087,7 @@ Dưới đây là 10 ví dụ thực tế giúp bạn nắm vững mọi trườ
 
 ==== Ví dụ 8 — Hướng dọc, tự động đo chiều cao câu hỏi trắc nghiệm Đúng/Sai
 ```typst
-#q-wrap(dir: "doc",
+#demo-q-wrap(dir: "doc",
   ds(
     [Cho cấp số cộng $(u_n)$ có $u_1 = 3$ và công sai $d = 2$. Các phát biểu sau đúng hay sai?],
     (
@@ -3805,7 +4115,7 @@ Dưới đây là 10 ví dụ thực tế giúp bạn nắm vững mọi trườ
 
 ==== Ví dụ 9 — Hướng ngang, 6 dòng kẻ nháp với Câu hỏi Tự luận
 ```typst
-#q-wrap(dir: "ngang", lines: 6,
+#demo-q-wrap(dir: "ngang", lines: 6,
   tl([Giải phương trình lượng giác sau trên tập số thực: $sin 2x - cos x = 0$.])
 )
 ```
@@ -3817,7 +4127,7 @@ Dưới đây là 10 ví dụ thực tế giúp bạn nắm vững mọi trườ
 
 ==== Ví dụ 10 — Hướng dọc, 5 dòng kẻ nháp với Câu hỏi Tự luận
 ```typst
-#q-wrap(dir: "doc", lines: 5,
+#demo-q-wrap(dir: "doc", lines: 5,
   tl([Cho hình chóp $S.A B C$ có đáy là tam giác đều cạnh $a$. Cạnh bên $S A$ vuông góc với mặt đáy và $S A = a sqrt(3)$. Tính thể tích khối chóp $S.A B C$.])
 )
 ```
@@ -3869,10 +4179,12 @@ typst compile --root . "typst/De-Cac-So/ten-de.typ"
 ```
 
 // ══════════════════════════════════════════════════════════════════
-= Hệ thống Beamer — Trình chiếu chữa đề
+= Beamer — profile package và mở rộng trình chiếu
 // ══════════════════════════════════════════════════════════════════
 
 Hệ thống Beamer cho phép biên soạn *một file đề thi duy nhất* vừa ra đề in A4 vừa ra slide trình chiếu 16:9, *không cần sửa nội dung câu hỏi*.
+
+#caution[`exam-preset(profile: "beamer")` thuộc package `sang-math:1.0.0`. File `sang-beamer.typ` và theme Touying trình bày trong chương này là mở rộng của repository ConicTypst, không phải API bắt buộc của package Universe.]
 
 == Kiến trúc tổng quan
 
@@ -3892,9 +4204,9 @@ Hệ thống Beamer cho phép biên soạn *một file đề thi duy nhất* v�
 Mỗi file đề trong `De-Cac-So/` cần thêm *đúng 3 chỗ* để hỗ trợ cả hai chế độ:
 
 ```typst
-// ① Phần đầu — KHÔNG thay đổi, dùng sang-exam bình thường
-#import "../sang-exam.typ": *
-#import "@preview/cetz:0.5.0"
+// ① Phần đầu — dùng package sang-math bình thường
+#import "@preview/sang-math:1.0.0": *
+#import "@preview/cetz:0.5.2"
 #let mode = "loigiai"
 #let accent = classic.blue
 #show math.equation: set text(fill: black)
@@ -4101,8 +4413,3 @@ Các hàm `tn`, `ds`, `tln`, `tl` trong beamer nhận *cùng tham số* với sa
 )
 
 #tip[Hộp `#ppgiai`, `#luuy`, `#meo`, `#step` dùng bình thường trong `loigiai:` của beamer — chữ tự chuyển sang màu tối để đọc được trên nền hộp sáng.]
-
-
-
-
-

@@ -6,15 +6,17 @@
   <title>Trộn Đề Typst 2025 — ConicTypst</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-  <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+  <script src="vendor/xlsx.full.min.js"></script>
+  <script src="vendor/qrcode.js"></script>
+  <script src="vendor/jszip.min.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-  <script src="global-nav.js" defer></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Inter', sans-serif; }
+    html { font-size: 16.5px; }
+    body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #f0fdf9 0%, #f8fafc 48%, #fff7ed 100%); }
+    .omr-embed body > header { position: relative !important; top: auto !important; }
     .math-preview { font-family: 'Latin Modern Math', 'STIX Two Math', serif; }
     ::-webkit-scrollbar { width: 8px; height: 8px; }
     ::-webkit-scrollbar-track { background: #f1f5f9; }
@@ -23,7 +25,21 @@
     .fade-in { animation: fadeIn 0.2s ease-in-out; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
     .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .omr-passport { position: relative; overflow: hidden; background: linear-gradient(145deg, #ecfdf5 0%, #fff7ed 100%); box-shadow: 0 18px 40px -30px rgba(4,120,87,.8), 0 14px 34px -28px rgba(249,115,22,.8); }
+    .omr-passport::after { content: ''; position: absolute; width: 130px; height: 130px; right: -70px; top: -78px; border-radius: 999px; background: radial-gradient(circle, rgba(249,115,22,.18), transparent 68%); pointer-events: none; }
+    .omr-passport > * { position: relative; z-index: 1; }
+    .mixer-hero { background: linear-gradient(120deg, #064e3b 0%, #047857 48%, #ea580c 140%); box-shadow: 0 24px 55px -34px rgba(4,120,87,.85); }
+    .mixer-step { background: rgba(255,255,255,.94); border: 1px solid rgba(255,255,255,.7); box-shadow: 0 10px 28px -24px #020617; }
+    .attach-choice input:checked + span { color: #fff; background: linear-gradient(135deg,#059669,#f97316); border-color: transparent; box-shadow: 0 8px 20px -12px #047857; }
+    .tool-card { border-color: #d1fae5 !important; box-shadow: 0 14px 34px -28px rgba(4,120,87,.7); }
+    button { transition: transform .16s ease, box-shadow .16s ease, background-color .16s ease; }
+    button:not(:disabled):active { transform: translateY(1px) scale(.99); }
   </style>
+  <script>
+    if (new URLSearchParams(location.search).get('embed') === 'omr') {
+      document.documentElement.classList.add('omr-embed');
+    }
+  </script>
   <script>
     tailwind.config = {
       theme: {
@@ -57,6 +73,7 @@
           <button data-tab="bank" class="nav-tab px-4 py-2 text-sm font-medium rounded-md text-slate-600 hover:text-slate-900">Ngân hàng <span id="navBankCount" class="ml-1 bg-slate-200 text-slate-700 text-xs px-1.5 py-0.5 rounded-full">0</span></button>
           <button data-tab="cart" class="nav-tab px-4 py-2 text-sm font-medium rounded-md text-slate-600 hover:text-slate-900">Đã chọn <span id="navCartCount" class="ml-1 bg-blue-100 text-blue-700 text-xs px-1.5 py-0.5 rounded-full">0</span></button>
           <button data-tab="results" class="nav-tab px-4 py-2 text-sm font-medium rounded-md text-slate-600 hover:text-slate-900">Kết quả</button>
+          <a href="https://admin-conictypst.pages.dev/account.html" target="_blank" rel="noopener" class="px-3 py-2 text-sm font-semibold rounded-md text-emerald-700 hover:bg-white" title="Tài khoản ConicTypst">👤 <span class="hidden xl:inline">Tài khoản</span></a>
         </nav>
       </div>
     </div>
@@ -64,6 +81,21 @@
 
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
     <section id="tab-mixer" class="tab-pane fade-in">
+      <div class="mixer-hero rounded-2xl p-5 md:p-6 mb-6 text-white">
+        <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-5">
+          <div class="max-w-2xl">
+            <div class="text-xs font-extrabold uppercase tracking-[.18em] text-emerald-100">Quy trình khép kín · làm từ trái sang phải</div>
+            <h2 class="text-2xl font-bold mt-1">Trộn đề và gắn phiếu OMR trong cùng một lần</h2>
+            <p class="mt-2 text-sm leading-relaxed text-emerald-50">Tải câu hỏi → chọn câu → chọn cách gắn phiếu → trộn. Mặc định hệ thống ghép phiếu <b>12–4–6 A5 ngang</b> vào cuối từng đề, không kèm nháp tự luận.</p>
+          </div>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-2 min-w-0 xl:min-w-[570px]">
+            <div class="mixer-step rounded-xl p-3 text-slate-800"><b class="text-emerald-700">1. Tải đề</b><div class="text-xs mt-1 text-slate-500">Chọn file .typ</div></div>
+            <div class="mixer-step rounded-xl p-3 text-slate-800"><b class="text-emerald-700">2. Chọn câu</b><div class="text-xs mt-1 text-slate-500">Kiểm tra cấu trúc</div></div>
+            <div class="mixer-step rounded-xl p-3 text-slate-800"><b class="text-orange-600">3. Gắn phiếu</b><div class="text-xs mt-1 text-slate-500">Ghép hoặc xuất riêng</div></div>
+            <div class="mixer-step rounded-xl p-3 text-slate-800"><b class="text-orange-600">4. Tải ZIP</b><div class="text-xs mt-1 text-slate-500">Đề + đáp án + QR</div></div>
+          </div>
+        </div>
+      </div>
       <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
         <!-- LEFT: Upload + quick preview + bank stats -->
         <div class="lg:col-span-3 space-y-4">
@@ -79,7 +111,7 @@
           </div>
 
           <!-- Upload zone -->
-          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5">
+          <div class="tool-card bg-white rounded-xl border border-slate-200 shadow-sm p-5">
             <h2 class="text-sm font-semibold text-slate-900 mb-3 flex items-center gap-2"><i data-lucide="upload-cloud" class="w-4 h-4 text-blue-600"></i> Bước 1 — Tải file .typ</h2>
             <div id="dropZone" class="border-2 border-dashed border-slate-300 rounded-xl p-7 text-center hover:border-blue-500 hover:bg-blue-50/50 transition-colors cursor-pointer group">
               <div class="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:bg-blue-100 transition-colors">
@@ -92,6 +124,46 @@
             <div id="uploadStats" class="mt-3 hidden">
               <div class="flex flex-wrap gap-2" id="uploadFileList"></div>
             </div>
+          </div>
+
+          <div class="tool-card bg-white rounded-2xl border border-emerald-200 shadow-sm p-5">
+            <div class="flex items-start justify-between gap-3 mb-3">
+              <div>
+                <div class="text-[11px] font-extrabold uppercase tracking-[.14em] text-orange-600">Bước 3 — Gắn phiếu OMR</div>
+                <h3 class="text-base font-bold text-slate-900 mt-1">Phiếu đi cùng từng mã đề như thế nào?</h3>
+              </div>
+              <span class="text-2xl">📎</span>
+            </div>
+            <label class="block text-xs font-bold text-slate-600 mb-1">Mẫu phiếu</label>
+            <select id="omrSheetSelect" onchange="saveOmrOptions(); updateOmrBridge()" class="w-full px-3 py-2.5 text-sm font-bold bg-emerald-50/60 border border-emerald-300 rounded-xl outline-none focus:ring-2 focus:ring-emerald-400">
+              <option value="12-4-6ngang" selected>⭐ 12–4–6 · A5 ngang — dùng nhiều nhất</option>
+              <option value="thptqg-toan">THPTQG Toán 12–4–6 · A4 dọc</option>
+              <option value="tn-40">TN-40 · A4</option>
+              <option value="tn-50">TN-50 · A4</option>
+              <option value="tn-60">TN-60 · A4</option>
+              <option value="ds-12">ĐS-12 · A4</option>
+              <option value="ds-20-ngang">ĐS-20 · A5 ngang</option>
+              <option value="tln-10">TLN-10 · A4</option>
+              <option value="custom">Phiếu tùy chỉnh theo đề hiện tại</option>
+            </select>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-3 attach-choice">
+              <label class="cursor-pointer"><input type="radio" name="omrAttachMode" value="append" checked hidden onchange="saveOmrOptions(); updateOmrBridge()"><span class="block h-full rounded-xl border border-emerald-200 px-3 py-2 text-xs font-bold text-center">✅ Ghép vào cuối đề</span></label>
+              <label class="cursor-pointer"><input type="radio" name="omrAttachMode" value="separate" hidden onchange="saveOmrOptions(); updateOmrBridge()"><span class="block h-full rounded-xl border border-slate-200 px-3 py-2 text-xs font-bold text-center">📄 Phiếu file riêng</span></label>
+              <label class="cursor-pointer"><input type="radio" name="omrAttachMode" value="none" hidden onchange="saveOmrOptions(); updateOmrBridge()"><span class="block h-full rounded-xl border border-slate-200 px-3 py-2 text-xs font-bold text-center">▦ Chỉ QR nhận diện</span></label>
+            </div>
+            <label class="mt-3 flex items-center gap-2 rounded-xl bg-orange-50 border border-orange-100 px-3 py-2.5 text-xs text-slate-700 cursor-pointer">
+              <input id="omrEssayDraft" type="checkbox" onchange="saveOmrOptions(); updateOmrBridge()" class="rounded text-orange-500">
+              <span><b>Kèm nháp Tự luận</b> — mặc định tắt để phiếu gọn và hai mốc dưới sát nội dung.</span>
+            </label>
+            <div id="omrCompatibility" class="mt-3 text-xs rounded-xl bg-white border border-emerald-100 px-3 py-2.5 text-slate-600">Hãy tải và chọn câu để đối chiếu loại phiếu.</div>
+            <details class="mt-3 rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs text-slate-600">
+              <summary class="font-bold text-slate-800 cursor-pointer">Cách dùng — bấm để xem rõ</summary>
+              <ol class="list-decimal pl-5 mt-2 space-y-1.5 leading-relaxed">
+                <li><b>Ghép vào cuối đề:</b> file đề có thêm trang phiếu ngang; in hai mặt hoặc ghim cùng đề.</li>
+                <li><b>Phiếu file riêng:</b> đề không đổi, ZIP kèm mẫu phiếu để in theo lô.</li>
+                <li><b>Chỉ QR:</b> không thêm trang phiếu; QR dưới thông tin thí sinh chỉ nhận diện mã đề, không chứa đáp án.</li>
+              </ol>
+            </details>
           </div>
 
           <!-- Bank summary + quick preview -->
@@ -260,7 +332,7 @@
           <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
             <div class="flex items-center justify-between mb-4">
               <h2 class="text-base font-semibold text-slate-900">Kết quả trộn đề</h2>
-              <button id="downloadAllBtn" class="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700"><i data-lucide="download-cloud" class="w-4 h-4"></i> Tải tất cả</button>
+              <button id="downloadAllBtn" class="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-bold text-white bg-gradient-to-r from-emerald-600 via-green-600 to-orange-500 rounded-xl hover:from-emerald-700 hover:to-orange-600 shadow-lg shadow-emerald-900/10"><i data-lucide="package-check" class="w-4 h-4"></i> Tải bộ đề + OMR (.zip)</button>
             </div>
             <div id="resultsList" class="space-y-4"></div>
             <div id="resultsEmpty" class="hidden text-center py-16">
@@ -270,6 +342,27 @@
           </div>
         </div>
         <div class="space-y-6">
+          <div class="omr-passport rounded-2xl border border-emerald-200 shadow-sm p-5">
+            <div class="flex items-start justify-between gap-3 mb-3">
+              <div>
+                <div class="text-[10px] font-bold uppercase tracking-[.18em] text-emerald-700">OMR Passport</div>
+                <h3 class="text-base font-bold text-slate-900 mt-1">Trộn đề → Phiếu → Chấm</h3>
+                <p class="text-xs text-slate-600 mt-1 leading-relaxed">Mỗi đề có QR nhận diện an toàn; ZIP giáo viên kèm QR đáp án, Excel và JSON để chấm ngay.</p>
+              </div>
+              <span class="text-2xl">🎫</span>
+            </div>
+            <div id="omrCountSummary" class="grid grid-cols-3 gap-2 mb-3 text-center">
+              <div class="rounded-lg bg-white/80 border border-blue-100 p-2"><div class="text-[10px] text-slate-400">TN</div><div class="font-bold text-blue-700">0</div></div>
+              <div class="rounded-lg bg-white/80 border border-emerald-100 p-2"><div class="text-[10px] text-slate-400">Đ/S</div><div class="font-bold text-emerald-700">0</div></div>
+              <div class="rounded-lg bg-white/80 border border-orange-100 p-2"><div class="text-[10px] text-slate-400">TLN</div><div class="font-bold text-orange-700">0</div></div>
+            </div>
+            <div id="omrResultSummary" class="rounded-xl bg-white/80 border border-emerald-100 px-3 py-2.5 text-xs text-slate-600">Mặc định: ghép phiếu 12–4–6 A5 ngang, không nháp tự luận.</div>
+            <div class="grid grid-cols-2 gap-2 mt-3">
+              <button onclick="openOmrHandoff('grade')" class="col-span-2 inline-flex justify-center items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-emerald-600 via-green-600 to-orange-500 hover:from-emerald-700 hover:to-orange-600 shadow-md">🎯 Mở Chấm bài &amp; tự nạp</button>
+              <button onclick="openOmrHandoff('generate')" class="inline-flex justify-center items-center gap-1 px-3 py-2 rounded-lg text-xs font-semibold text-orange-700 bg-white border border-orange-200 hover:bg-orange-50">📋 Sinh phiếu</button>
+              <button onclick="exportAnswerKeyQR()" class="inline-flex justify-center items-center gap-1 px-3 py-2 rounded-lg text-xs font-semibold text-emerald-700 bg-white border border-emerald-200 hover:bg-emerald-50">▦ QR đáp án</button>
+            </div>
+          </div>
           <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 sticky top-24">
             <div class="flex items-center justify-between mb-4">
               <h3 class="text-sm font-semibold text-slate-900">Bảng đáp án</h3>
@@ -291,13 +384,17 @@
                 <h3 class="text-base font-semibold text-slate-900">📱 Gói đáp án — QR / JSON</h3>
                 <button onclick="document.getElementById('qrModal').classList.add('hidden')" class="text-slate-400 hover:text-slate-700 text-xl">&times;</button>
               </div>
-              <p class="text-xs text-slate-500 mb-3">Scan QR bằng điện thoại hoặc copy JSON text, rồi paste vào <strong>Chấm Bài → Nhập Gói Đáp Án</strong>.</p>
+              <p class="text-xs text-slate-500 mb-3">QR nén tương thích trực tiếp với SANG MATH OMR. Có thể scan bằng camera hoặc mở Chấm bài để tự nạp toàn bộ mã đề.</p>
               <div id="qrCanvas" class="flex justify-center mb-3"></div>
               <div class="relative">
                 <textarea id="qrJsonText" readonly class="w-full h-24 text-xs font-mono bg-slate-900 text-green-400 p-3 rounded-lg resize-none outline-none"></textarea>
                 <button onclick="copyQRJson()" class="absolute top-2 right-2 text-xs px-2 py-1 bg-slate-700 text-slate-200 rounded hover:bg-slate-600">Copy</button>
               </div>
               <p class="text-xs text-slate-400 mt-2">Kích thước: <span id="qrJsonSize">-</span></p>
+              <div class="grid grid-cols-2 gap-2 mt-3">
+                <button onclick="downloadAnswerQr()" class="px-3 py-2 text-xs font-semibold rounded-lg border border-slate-200 hover:bg-slate-50">⬇ Tải QR PNG</button>
+                <button onclick="openOmrHandoff('grade')" class="px-3 py-2 text-xs font-semibold rounded-lg text-white bg-emerald-600 hover:bg-emerald-700">🎯 Chấm ngay</button>
+              </div>
             </div>
           </div>
         </div>
@@ -312,6 +409,7 @@
     const STORAGE_CART = 'conictypst.tronde.cart';
     const STORAGE_FORM = 'conictypst.tronde.form';
     const STORAGE_MODES = 'conictypst.tronde.modes';
+    const STORAGE_OMR = 'conictypst.tronde.omr.v2';
     const TYPE_ORDER = ['tn', 'ds', 'tln', 'tl'];
     const TYPE_LABELS = { tn: 'Trắc nghiệm', ds: 'Đúng / Sai', tln: 'Trả lời ngắn', tl: 'Tự luận' };
     const TYPE_SHORT = { tn: 'TN', ds: 'Đ/S', tln: 'TLN', tl: 'TL' };
@@ -327,12 +425,30 @@
       strict: { tn: 'structure', ds: 'structure', tln: 'structure', tl: 'keep' },
       keep: { tn: 'keep', ds: 'keep', tln: 'keep', tl: 'keep' }
     };
+    const OMR_URL = 'https://chamthi-conictypst.pages.dev/';
+    const OMR_SHEETS = {
+      'thptqg-toan': { id:'thptqg-toan', name:'THPTQG Toán 12–4–6 · A4 dọc', mcq:12, tf:4, tln:6, paper:'a4' },
+      '12-4-6ngang': { id:'12-4-6ngang', name:'Toán 12–4–6 · A5 ngang', mcq:12, tf:4, tln:6, paper:'a5' },
+      'tn-40': { id:'tn-40', name:'TN-40 · A4', mcq:40, tf:0, tln:0, paper:'a4' },
+      'tn-50': { id:'tn-50', name:'TN-50 · A4', mcq:50, tf:0, tln:0, paper:'a4' },
+      'tn-60': { id:'tn-60', name:'TN-60 · A4', mcq:60, tf:0, tln:0, paper:'a4' },
+      'ds-12': { id:'ds-12', name:'ĐS-12 · A4', mcq:0, tf:12, tln:0, paper:'a4' },
+      'ds-20-ngang': { id:'ds-20-ngang', name:'ĐS-20 · A5 ngang', mcq:0, tf:20, tln:0, paper:'a5' },
+      'tln-10': { id:'tln-10', name:'TLN-10 · A4', mcq:0, tf:0, tln:10, paper:'a4' }
+    };
+    const OMR_TEMPLATE_FILES = {
+      '12-4-6ngang':'12-4-6ngang.typ',
+      'thptqg-toan':'thptqg-toan-2025.typ',
+      'tn-40':'tn-40.typ', 'tn-50':'tn-50.typ', 'tn-60':'tn-60.typ',
+      'ds-12':'ds-12.typ', 'ds-20-ngang':'ds-20-ngang.typ', 'tln-10':'tln-10.typ'
+    };
 
     let bank = loadBank();
     let cart = loadCart();
     let lastParsed = [];
     let generatedResults = [];
     let currentAnswerKey = [];
+    let generatedOmrTemplate = null;
 
     function loadBank() { try { return JSON.parse(localStorage.getItem(STORAGE_BANK) || '[]'); } catch { return []; } }
     function saveBank() { localStorage.setItem(STORAGE_BANK, JSON.stringify(bank)); updateCounts(); renderBank(); }
@@ -354,6 +470,25 @@
     }
     function loadModes() { try { return JSON.parse(localStorage.getItem(STORAGE_MODES) || 'null'); } catch { return null; } }
     function saveModes(modes) { localStorage.setItem(STORAGE_MODES, JSON.stringify(modes)); }
+    function getOmrOptions() {
+      return {
+        sheet: document.getElementById('omrSheetSelect')?.value || '12-4-6ngang',
+        attach: document.querySelector('input[name="omrAttachMode"]:checked')?.value || 'append',
+        essay: !!document.getElementById('omrEssayDraft')?.checked
+      };
+    }
+    function saveOmrOptions() { localStorage.setItem(STORAGE_OMR, JSON.stringify(getOmrOptions())); }
+    function restoreOmrOptions() {
+      let saved = null;
+      try { saved = JSON.parse(localStorage.getItem(STORAGE_OMR) || 'null'); } catch {}
+      const options = saved || { sheet:'12-4-6ngang', attach:'append', essay:false };
+      const select = document.getElementById('omrSheetSelect');
+      if (select?.querySelector(`option[value="${options.sheet}"]`)) select.value = options.sheet;
+      const radio = document.querySelector(`input[name="omrAttachMode"][value="${options.attach}"]`);
+      if (radio) radio.checked = true;
+      const essay = document.getElementById('omrEssayDraft');
+      if (essay) essay.checked = !!options.essay;
+    }
 
     function parseBalanced(str, start, openChar = '[', closeChar = ']') {
       let depth = 0, inMath = false, inString = false, inLineComment = false;
@@ -616,36 +751,32 @@
       for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rng() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
       return a;
     }
-    function escapeHtml(s) { return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+    function escapeHtml(value) {
+      return String(value ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+    }
     function previewText(raw) {
       return String(raw || '').replace(/#ppgiai\[[\s\S]*?\]/g, '').replace(/#True\[/g, '').replace(/#False\[/g, '').replace(/\$[^$]*\$/g, '…').replace(/[[\]()#]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 120);
     }
-    function refreshIcons() { if (window.lucide) lucide.createIcons(); }
-
-    // ── KaTeX math rendering ──────────────────────────────────────────────
-    function renderMathText(raw) {
-      if (!raw) return '';
-      // Strip Typst macros before rendering
-      let text = String(raw)
-        .replace(/#ppgiai\[[\s\S]*?\]/g, '')
-        .replace(/#True\s*\[([^\]]*?)\]/g, '$1')
-        .replace(/#False\s*\[([^\]]*?)\]/g, '$1')
-        .replace(/#(bold|italic|text|emph|underline|strike)\s*\[([^\]]*?)\]/g, '$2')
-        .replace(/\\([aeiou])/gi, '$1'); // strip simple escape sequences
-      // If KaTeX is not loaded yet, fall back to escaped plain text
-      if (!window.katex) return escapeHtml(text).slice(0, 200);
-      try {
-        // Use KaTeX auto-render via renderToString for inline display math
-        const html = text.replace(/\$\$([\s\S]+?)\$\$/g, (_, math) => {
-          try { return katex.renderToString(math, { throwOnError: false, displayMode: true }); }
-          catch { return `<span class="text-slate-400">[math]</span>`; }
-        }).replace(/\$([^$\n]+?)\$/g, (_, math) => {
-          try { return katex.renderToString(math, { throwOnError: false, displayMode: false }); }
-          catch { return `<span class="text-slate-400">[math]</span>`; }
-        });
-        // Escape any remaining non-math HTML
-        return html;
-      } catch { return escapeHtml(text).slice(0, 200); }
+    function refreshIcons() {
+      if (window.lucide?.createIcons) window.lucide.createIcons();
+    }
+    // ── Structural Summary (replaces KaTeX rendering) ────────────────────────
+    function renderQuestionSummary(q) {
+      if (q.type === 'tn') {
+        const numOpts = (q.options || []).length;
+        const correctIdxs = (q.options || []).map((o, i) => o.correct ? i : -1).filter(i => i !== -1);
+        const correctLabels = correctIdxs.map(i => ['A', 'B', 'C', 'D', 'E', 'F'][i] || '?').join(', ');
+        return `<span class="text-slate-500">(${numOpts} phương án)</span> Đáp án: <strong class="text-blue-600">${correctLabels || 'Trống'}</strong>`;
+      }
+      if (q.type === 'ds') {
+        const numOpts = (q.statements || []).length;
+        const correctLabels = (q.statements || []).map(s => s.correct ? 'Đ' : 'S').join('-');
+        return `<span class="text-slate-500">(${numOpts} ý)</span> Đáp án: <strong class="text-green-600">${correctLabels || 'Trống'}</strong>`;
+      }
+      if (q.type === 'tln') {
+        return `Đáp án: <strong class="text-amber-600">${escapeHtml(q.answer) || 'Trống'}</strong>`;
+      }
+      return `<span class="text-slate-500">Tự luận</span>`;
     }
 
     // ── Question validation ────────────────────────────────────────────────
@@ -733,8 +864,28 @@
     }
 
     function renderQuestionBlock(q) {
-      if (q.syntax === 'paren') return renderParenQuestion(q);
-      return renderBracketQuestion(q);
+      // Luôn xuất cú pháp ngoặc tròn chuẩn sang-exam v6.0. Trình đọc vẫn
+      // nhận cả nguồn ngoặc vuông cũ, nhưng file sinh ra phải biên dịch được.
+      return renderParenQuestion(q);
+    }
+
+    function renderExamBody(questions) {
+      const partTitles = {
+        tn: 'PHẦN I — TRẮC NGHIỆM (Chọn một đáp án)',
+        ds: 'PHẦN II — ĐÚNG / SAI',
+        tln: 'PHẦN III — TRẢ LỜI NGẮN',
+        tl: 'PHẦN IV — TỰ LUẬN'
+      };
+      const chunks = [];
+      let previousType = '';
+      for (const question of questions) {
+        if (question.type !== previousType) {
+          chunks.push(`#exam-part([${partTitles[question.type] || 'PHẦN CÂU HỎI'}])`);
+          previousType = question.type;
+        }
+        chunks.push(renderQuestionBlock(question));
+      }
+      return chunks.join('\n\n');
     }
     function renderBracketQuestion(q) {
       const wrap = (body, correct) => correct ? `#True[${body}]` : `[${body}]`;
@@ -801,13 +952,15 @@
       }
       return next;
     }
-    function shuffleStructure(questions, rng) {
+    function shuffleStructure(questions, rng, modes = {}) {
       const result = [...questions];
       let i = 0;
       while (i < result.length) {
         const type = result[i].type;
         let j = i;
         while (j < result.length && result[j].type === type) j++;
+        const mode = modes[type] || 'keep';
+        if (mode !== 'both' && mode !== 'structure') { i = j; continue; }
         const run = result.slice(i, j);
         const movableIdx = run.map((q, idx) => q.locked ? -1 : idx).filter(idx => idx !== -1);
         const movable = movableIdx.map(idx => run[idx]);
@@ -833,6 +986,7 @@
     }
 
     function buildHeader(form, code) {
+      const duration = /[a-zA-ZÀ-ỹ]/.test(String(form.time || '')) ? form.time : `${form.time || 90} phút`;
       return `// ═══════════════════════════════════════════════════════════
 // Đề thi Typst — Mã đề: ${code}
 // Trường: ${form.school}
@@ -845,42 +999,147 @@
 #import "sang-exam.typ": *
 
 #show: thpt-school-exam.with(
-  school: "${form.school}",
-  teacher: "${form.teacher}",
-  exam-title: "${form.exam}",
-  subject: "${form.subject}",
-  duration: "${form.time}",
+  department: "${escapeTypstString(form.teacher || 'TỔ TOÁN')}",
+  school: "${escapeTypstString(form.school)}",
+  exam-title: "${escapeTypstString(form.exam)}",
+  subject: "${escapeTypstString(form.subject)}",
+  duration: "${escapeTypstString(duration)}",
   code: "${code}",
 )
 
 `;
     }
-    function generateVariants() {
+
+    function escapeTypstString(value) {
+      return String(value ?? '').replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\r?\n/g, ' ');
+    }
+
+    function getQuestionOmrProfile(questions) {
+      const counts = {
+        mcq: questions.filter(q => q.type === 'tn').length,
+        tf: questions.filter(q => q.type === 'ds').length,
+        tln: questions.filter(q => q.type === 'tln').length
+      };
+      const selected = OMR_SHEETS[document.getElementById('omrSheetSelect')?.value];
+      if (selected && selected.mcq === counts.mcq && selected.tf === counts.tf && selected.tln === counts.tln) return selected;
+      return getAutoOmrProfile(counts);
+    }
+
+    function buildStudentExamQrPayload(code, questions, form) {
+      const profile = getQuestionOmrProfile(questions);
+      const data = {
+        x: 1,
+        c: String(code),
+        p: [profile.id, profile.mcq, profile.tf, profile.tln, profile.paper]
+      };
+      return 'SMEXAM:1:' + btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+    }
+
+    function buildStudentExamQrTypst(code, questions, form) {
+      const profile = getQuestionOmrProfile(questions);
+      const qr = window.qrcode(0, 'M');
+      qr.addData(buildStudentExamQrPayload(code, questions, form));
+      qr.make();
+      const svg = qr.createSvgTag({ cellSize: 2, margin: 2, alt: `Mã phiếu ${code}` })
+        .replace(/\r?\n/g, ' ');
+      const safeSvg = escapeTypstString(svg);
+      const safeCode = escapeTypstString(code);
+      const safeProfile = escapeTypstString(profile.name);
+      return `// QR nhận diện đề: chỉ có mã đề + cấu trúc phiếu, KHÔNG chứa đáp án.
+#block(
+  width: 100%,
+  breakable: false,
+  stroke: .55pt + rgb("10b981"),
+  fill: rgb("f0fdf4"),
+  radius: 4pt,
+  inset: (x: 5pt, y: 3pt),
+)[
+  #grid(
+    columns: (1fr, 18mm),
+    gutter: 6pt,
+    [
+      #text(size: 8pt, weight: "bold", fill: rgb("047857"))[MÃ PHIẾU OMR]
+      #linebreak()
+      #text(size: 7pt)[Mã đề: *${safeCode}* · ${safeProfile}]
+      #linebreak()
+      #text(size: 6.5pt, fill: rgb("64748b"))[QR chỉ nhận diện đề và loại phiếu — không chứa đáp án.]
+    ],
+    [#image(bytes("${safeSvg}"), format: "svg", width: 16mm)],
+  )
+]
+#v(3pt)
+
+`;
+    }
+
+    function prepareOmrTemplateSource(source, withEssay) {
+      let prepared = source.replace('#set page(', '#set page(\n  header: none,\n  footer: none,\n  numbering: none,');
+      if (!withEssay) prepared = prepared.replace(/(#if\s+"(?:a4|a5)"\s*==\s*"(?:a4|a5)"\s+and\s+)true(\s*\[)/g, '$1false$2');
+      return prepared;
+    }
+
+    async function loadSelectedOmrTemplate() {
+      const options = getOmrOptions();
+      if (options.attach === 'none') return null;
+      const file = OMR_TEMPLATE_FILES[options.sheet];
+      if (!file) throw new Error('Phiếu tùy chỉnh cần tạo ở tab Sinh Phiếu; hãy chọn “Phiếu file riêng” sau khi sinh hoặc dùng một mẫu chuẩn trong danh sách.');
+      const response = await fetch(new URL(`templates/${file}`, OMR_URL));
+      if (!response.ok) throw new Error(`Không tải được mẫu phiếu ${file}.`);
+      const text = await response.text();
+      const contentType = response.headers.get('content-type') || '';
+      if (contentType.includes('text/html') || /^\s*<!doctype\s+html/i.test(text) || !text.includes('#set page') || !text.includes('tracking-marker')) {
+        throw new Error('Mẫu phiếu chưa được máy chủ cung cấp đúng định dạng. Hãy tải lại trang và thử lại.');
+      }
+      return { file, content:prepareOmrTemplateSource(text, options.essay), options };
+    }
+
+    async function generateVariants() {
+      const button = document.getElementById('generateBtn');
+      const oldButtonHtml = button?.innerHTML;
       const form = getFormState();
       const modes = getShuffleModes();
       const seedText = document.getElementById('metaSeed').value.trim();
       const codes = form.codes.split(',').map(s => s.trim()).filter(Boolean);
       const num = Math.max(1, parseInt(form.numVersions) || 1);
       while (codes.length < num) codes.push(String(100 + codes.length + 1));
-      const results = [];
-      const answerKey = [];
-      for (let idx = 0; idx < num; idx++) {
-        const code = codes[idx];
-        const rng = makeRng(seedText ? seedText + '-' + idx : '');
-        let qs = cart.map(q => ({ ...q }));
-        if (modes.structure === 'both' || modes.structure === 'structure') qs = shuffleStructure(qs, rng);
-        if (modes.options === 'both' || modes.options === 'options') qs = qs.map(q => shuffleOptions(q, rng));
-        const body = qs.map(renderQuestionBlock).join('\n\n');
-        const content = buildHeader(form, code) + body + '\n\n#het\n';
-        results.push({ code, content, qs });
-        answerKey.push({ code, answers: qs.map((q, i) => ({ num: i + 1, type: q.type, answer: computeAnswer(q) })) });
+      try {
+        if (button) { button.disabled = true; button.innerHTML = '⏳ Đang ghép đề và phiếu OMR…'; }
+        const attachment = await loadSelectedOmrTemplate();
+        const counts = countByType(cart);
+        const selected = OMR_SHEETS[getOmrOptions().sheet];
+        if (selected && (selected.mcq !== counts.tn || selected.tf !== counts.ds || selected.tln !== counts.tln)) {
+          throw new Error(`Đề có ${counts.tn} TN, ${counts.ds} Đ/S, ${counts.tln} TLN nhưng phiếu “${selected.name}” không khớp.`);
+        }
+        generatedOmrTemplate = attachment;
+        const results = [];
+        const answerKey = [];
+        for (let idx = 0; idx < num; idx++) {
+          const code = codes[idx];
+          const rng = makeRng(seedText ? seedText + '-' + idx : '');
+          let qs = cart.map(q => ({ ...q }));
+          qs = shuffleStructure(qs, rng, modes);
+          qs = qs.map(q => (modes[q.type] === 'both' || modes[q.type] === 'options') ? shuffleOptions(q, rng) : q);
+          const body = renderExamBody(qs);
+          const examQr = buildStudentExamQrTypst(code, qs, form);
+          const appendedSheet = attachment?.options.attach === 'append'
+            ? `\n\n#pagebreak()\n// Phiếu OMR ghép tự động — ${attachment.file}\n${attachment.content}\n`
+            : '';
+          const content = buildHeader(form, code) + examQr + body + '\n\n#het\n' + appendedSheet;
+          results.push({ code, content, qs, omrAttached:!!appendedSheet });
+          answerKey.push({ code, answers: qs.map((q, i) => ({ num: i + 1, type: q.type, answer: computeAnswer(q) })) });
+        }
+        generatedResults = results;
+        currentAnswerKey = answerKey;
+        renderResults();
+        renderAnswerKey();
+        updateOmrBridge();
+        switchTab('results');
+        toast(`Đã tạo ${results.length} mã đề${attachment?.options.attach === 'append' ? ' và ghép phiếu vào từng đề' : ''}.`);
+      } catch (error) {
+        toast(error.message || String(error), 'error');
+      } finally {
+        if (button) { button.disabled = false; button.innerHTML = oldButtonHtml; refreshIcons(); }
       }
-      generatedResults = results;
-      currentAnswerKey = answerKey;
-      renderResults();
-      renderAnswerKey();
-      switchTab('results');
-      toast(`Đã tạo ${results.length} mã đề.`);
     }
 
     function switchTab(tab) {
@@ -892,7 +1151,7 @@
       });
       if (tab === 'bank') renderBank();
       if (tab === 'cart') renderCart();
-      if (tab === 'results') { renderResults(); renderAnswerKey(); }
+      if (tab === 'results') { renderResults(); renderAnswerKey(); updateOmrBridge(); }
       refreshIcons();
     }
 
@@ -940,7 +1199,7 @@
         const diff = q.meta?.difficulty ? `<span class="text-[10px] px-1.5 py-0.5 bg-${color}-50 text-${color}-700 rounded font-medium">${escapeHtml(q.meta.difficulty)}</span>` : '';
         const src = q.meta?.source ? `<span class="text-[10px] px-1.5 py-0.5 bg-slate-100 text-slate-600 rounded">${escapeHtml(q.meta.source)}</span>` : '';
         const warnBadge = renderWarningBadge(warns);
-        const mathStem = renderMathText(q.stem);
+        const summary = renderQuestionSummary(q);
         return `
         <div class="bg-white rounded-xl border ${warns.length ? 'border-amber-200' : 'border-slate-200'} shadow-sm p-4 hover:shadow-md transition-shadow">
           <div class="flex items-start justify-between gap-3">
@@ -950,7 +1209,7 @@
                 ${q.id ? `<span class="text-xs text-slate-400 font-mono">#${escapeHtml(q.id)}</span>` : ''}
                 ${warnBadge}
               </div>
-              <div class="text-sm text-slate-800 line-clamp-3 katex-preview">${mathStem}</div>
+              <div class="text-sm text-slate-800 mt-1">${summary}</div>
               <div class="flex flex-wrap items-center gap-1.5 mt-2">${tags}${diff}${src}</div>
             </div>
             <div class="flex flex-col gap-1">
@@ -972,7 +1231,7 @@
         const color = TYPE_COLORS[q.type];
         const warns = validateQuestion(q);
         const warnBadge = renderWarningBadge(warns);
-        const mathStem = renderMathText(q.stem);
+        const summary = renderQuestionSummary(q);
         return `
         <div class="flex items-center gap-3 p-3 bg-white border ${warns.length ? 'border-amber-200 bg-amber-50/30' : 'border-slate-200'} rounded-xl">
           <div class="text-xs text-slate-400 font-mono w-5">${i + 1}</div>
@@ -982,7 +1241,7 @@
               ${q.id ? `<span class="text-[10px] text-slate-400 font-mono">#${escapeHtml(q.id)}</span>` : ''}
               ${warnBadge}
             </div>
-            <div class="text-sm text-slate-700 line-clamp-1 katex-preview">${mathStem}</div>
+            <div class="text-sm text-slate-700 line-clamp-1">${summary}</div>
           </div>
           <div class="flex items-center gap-1">
             <button onclick="moveCart(${i}, -1)" class="p-1 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded" ${i === 0 ? 'disabled' : ''}><i data-lucide="chevron-up" class="w-4 h-4"></i></button>
@@ -1043,12 +1302,20 @@
         const counts = { tn: 0, ds: 0, tln: 0, tl: 0 };
         r.qs.forEach(q => counts[q.type]++);
         const countText = Object.entries(counts).filter(([, v]) => v).map(([k, v]) => `${TYPE_SHORT[k]} ${v}`).join(' · ');
+        const attach = getOmrOptions().attach;
+        const sheetBadge = attach === 'append'
+          ? '<span class="text-[10px] font-bold text-orange-700 bg-orange-50 border border-orange-200 rounded-full px-2 py-0.5">📎 Đã ghép phiếu</span>'
+          : attach === 'separate'
+            ? '<span class="text-[10px] font-bold text-blue-700 bg-blue-50 border border-blue-200 rounded-full px-2 py-0.5">📄 Phiếu riêng trong ZIP</span>'
+            : '<span class="text-[10px] font-bold text-slate-600 bg-white border border-slate-200 rounded-full px-2 py-0.5">Không thêm trang phiếu</span>';
         return `
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
           <div class="flex items-center justify-between px-4 py-3 bg-slate-50 border-b border-slate-200">
             <div class="flex items-center gap-3">
               <span class="font-semibold text-slate-800">Mã đề ${escapeHtml(r.code)}</span>
               <span class="text-xs text-slate-500">${countText}</span>
+              <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-full px-2 py-0.5">▦ QR mã phiếu · không đáp án</span>
+              ${sheetBadge}
             </div>
             <div class="flex items-center gap-2">
               <button onclick="copyResult(${i})" class="text-xs px-2.5 py-1.5 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 font-medium">Copy</button>
@@ -1082,8 +1349,10 @@
     function buildMasterAnswerKeys() {
       // Convert currentAnswerKey (array) → masterAnswerKeys object (OMR format)
       // currentAnswerKey = [{code, answers: [{num, type, answer}]}]
-      // output = { '101': { mcq:{}, tf:{}, tln:{} }, '102': {...} }
       const result = {};
+      const tnCount = currentAnswerKey[0]?.answers.filter(a => a.type === 'tn').length || 0;
+      const dsCount = currentAnswerKey[0]?.answers.filter(a => a.type === 'ds').length || 0;
+
       for (const entry of currentAnswerKey) {
         const code = entry.code;
         result[code] = { mcq: {}, tf: {}, tln: {} };
@@ -1093,16 +1362,14 @@
             result[code].mcq[String(tnIdx)] = a.answer;
             tnIdx++;
           } else if (a.type === 'ds') {
-            // a.answer = 'ĐSSĐ' — convert to {a:'Đ', b:'S', c:'S', d:'Đ'}
             const lbls = ['a','b','c','d'];
             const obj = {};
             const chars = a.answer.split('');
             chars.forEach((ch, i) => { if (lbls[i]) obj[lbls[i]] = ch; });
-            result[code].tf[String(12 + dsIdx)] = obj;  // DS starts at q13
+            result[code].tf[String(tnCount + dsIdx)] = obj;
             dsIdx++;
           } else if (a.type === 'tln') {
-            // TLN question numbers — calculate from offset
-            const tlnQNum = 12 + 4 + tlnIdx; // after 12 TN + 4 DS = q17 onwards
+            const tlnQNum = tnCount + dsCount + tlnIdx;
             result[code].tln[String(tlnQNum)] = a.answer;
             tlnIdx++;
           }
@@ -1111,9 +1378,150 @@
       return result;
     }
 
-    function exportAnswerKeyExcel() {
-      if (!currentAnswerKey.length) { toast('Chưa có đáp án để xuất!', 'error'); return; }
-      if (typeof XLSX === 'undefined') { toast('Đang tải thư viện Excel...', 'info'); return; }
+    function getOmrCounts() {
+      const answers = currentAnswerKey[0]?.answers || [];
+      if (!answers.length && cart.length) {
+        const counts = countByType(cart);
+        return { mcq:counts.tn, tf:counts.ds, tln:counts.tln, essay:counts.tl };
+      }
+      return {
+        mcq: answers.filter(a => a.type === 'tn').length,
+        tf: answers.filter(a => a.type === 'ds').length,
+        tln: answers.filter(a => a.type === 'tln').length,
+        essay: answers.filter(a => a.type === 'tl').length
+      };
+    }
+
+    function getAutoOmrProfile(counts = getOmrCounts()) {
+      const exact = Object.values(OMR_SHEETS).find(p => p.mcq === counts.mcq && p.tf === counts.tf && p.tln === counts.tln);
+      return exact || { id:'custom', name:`Tùy chỉnh ${counts.mcq}TN · ${counts.tf}ĐS · ${counts.tln}TLN · A4`, mcq:counts.mcq, tf:counts.tf, tln:counts.tln, paper:'a4', custom:true };
+    }
+
+    function getSelectedOmrProfile(requireCompatible = false) {
+      const counts = getOmrCounts();
+      const selected = document.getElementById('omrSheetSelect')?.value || 'auto';
+      const profile = selected === 'auto' ? getAutoOmrProfile(counts)
+        : selected === 'custom' ? { id:'custom', name:`Tùy chỉnh ${counts.mcq}TN · ${counts.tf}ĐS · ${counts.tln}TLN · A4`, mcq:counts.mcq, tf:counts.tf, tln:counts.tln, paper:'a4', custom:true }
+        : OMR_SHEETS[selected];
+      const compatible = profile && profile.mcq === counts.mcq && profile.tf === counts.tf && profile.tln === counts.tln;
+      if (requireCompatible && !compatible) throw new Error(`Đề hiện có ${counts.mcq} TN, ${counts.tf} Đ/S, ${counts.tln} TLN nhưng phiếu “${profile?.name || selected}” không tương ứng.`);
+      return { profile, compatible, counts };
+    }
+
+    function updateOmrBridge() {
+      const summary = document.getElementById('omrCountSummary');
+      const status = document.getElementById('omrCompatibility');
+      const resultSummary = document.getElementById('omrResultSummary');
+      if (!summary || !status) return;
+      const { profile, compatible, counts } = getSelectedOmrProfile(false);
+      const options = getOmrOptions();
+      const modeText = options.attach === 'append' ? 'Ghép vào cuối từng đề' : options.attach === 'separate' ? 'Xuất phiếu file riêng trong ZIP' : 'Chỉ QR nhận diện, không thêm phiếu';
+      summary.innerHTML = `
+        <div class="rounded-lg bg-white/80 border border-blue-100 p-2"><div class="text-[10px] text-slate-400">TN</div><div class="font-bold text-blue-700">${counts.mcq}</div></div>
+        <div class="rounded-lg bg-white/80 border border-emerald-100 p-2"><div class="text-[10px] text-slate-400">Đ/S</div><div class="font-bold text-emerald-700">${counts.tf}</div></div>
+        <div class="rounded-lg bg-white/80 border border-orange-100 p-2"><div class="text-[10px] text-slate-400">TLN</div><div class="font-bold text-orange-700">${counts.tln}</div></div>`;
+      if (!currentAnswerKey.length && !cart.length) {
+        status.className = 'mt-2 text-xs rounded-lg bg-white/75 border border-white px-3 py-2 text-slate-500';
+        status.textContent = `Đang chọn ${profile?.name || 'phiếu OMR'} · ${modeText} · ${options.essay ? 'có' : 'không'} nháp tự luận.`;
+        if (resultSummary) resultSummary.innerHTML = `<b>${modeText}</b><br>${escapeHtml(profile?.name || '')} · ${options.essay ? 'Có nháp tự luận' : 'Không nháp tự luận'}`;
+        return;
+      }
+      if (compatible) {
+        status.className = 'mt-2 text-xs rounded-lg bg-emerald-50 border border-emerald-200 px-3 py-2 text-emerald-800';
+        status.innerHTML = `✅ Khớp <b>${escapeHtml(profile.name)}</b> · ${modeText} · ${options.essay ? 'có nháp tự luận' : 'phiếu gọn, không nháp'}`;
+      } else {
+        status.className = 'mt-2 text-xs rounded-lg bg-red-50 border border-red-200 px-3 py-2 text-red-700';
+        status.textContent = `⚠️ Phiếu chưa khớp số câu. Hãy chọn đúng mẫu hoặc “Phiếu tùy chỉnh theo đề hiện tại”.`;
+      }
+      if (resultSummary) resultSummary.innerHTML = `<b>${modeText}</b><br>${escapeHtml(profile?.name || '')} · ${options.essay ? 'Có nháp tự luận' : 'Không nháp tự luận'}`;
+    }
+
+    function validateOmrHandoff() {
+      if (!currentAnswerKey.length) throw new Error('Chưa có kết quả trộn đề để chuyển sang OMR.');
+      const { profile, counts } = getSelectedOmrProfile(true);
+      if (counts.mcq > 100 || counts.tf > 20 || counts.tln > 20) throw new Error('Số câu vượt giới hạn phiếu OMR an toàn. Hãy tách thành hai phiếu.');
+      for (const entry of currentAnswerKey) {
+        if (!/^\d{1,4}$/.test(String(entry.code))) throw new Error(`Mã đề “${entry.code}” phải gồm 1–4 chữ số để tô vào 4 cột mã đề.`);
+        for (const answer of entry.answers) {
+          if (answer.type === 'tn' && !/^[ABCD]$/.test(answer.answer)) throw new Error(`Mã ${entry.code}, câu ${answer.num}: đáp án TN phải là đúng một lựa chọn A–D.`);
+          if (answer.type === 'ds' && !/^[ĐS]{4}$/.test(answer.answer)) throw new Error(`Mã ${entry.code}, câu ${answer.num}: đáp án Đ/S phải đủ 4 ý.`);
+          if (answer.type === 'tln' && (!answer.answer || answer.answer === '?')) throw new Error(`Mã ${entry.code}, câu ${answer.num}: thiếu đáp án trả lời ngắn.`);
+        }
+      }
+      return profile;
+    }
+
+    function buildFullOmrPayload() {
+      const profile = validateOmrHandoff();
+      const form = getFormState();
+      return {
+        v:1,
+        meta:{ exam:form.exam || '', subject:form.subject || '', school:form.school || '', source:'ConicTypst Trộn Đề', omr:profile },
+        keys:buildMasterAnswerKeys()
+      };
+    }
+
+    function buildCompactOmrPayload(onlyCodes = null) {
+      const full = buildFullOmrPayload();
+      const compact = { z:1, m:full.meta, k:{} };
+      Object.entries(full.keys).forEach(([code,key]) => {
+        if (onlyCodes && !onlyCodes.map(String).includes(String(code))) return;
+        const mcqNums = Object.keys(key.mcq || {}).map(Number).sort((a,b)=>a-b);
+        const mcqMax = mcqNums.at(-1) || 0;
+        const mcq = Array.from({length:mcqMax},(_,i)=>key.mcq[i+1] || '_').join('');
+        const tfNums = Object.keys(key.tf || {}).map(Number).sort((a,b)=>a-b);
+        const tfStart = tfNums[0] || 0, tfEnd = tfNums.at(-1) || 0;
+        let tf = '';
+        for (let q=tfStart; q<=tfEnd; q++) tf += ['a','b','c','d'].map(lbl=>key.tf[q]?.[lbl] || '_').join('');
+        const tlnNums = Object.keys(key.tln || {}).map(Number).sort((a,b)=>a-b);
+        const tlnStart = tlnNums[0] || 0, tlnEnd = tlnNums.at(-1) || 0;
+        const tln = [];
+        for (let q=tlnStart; q<=tlnEnd; q++) tln.push(key.tln[q] ?? null);
+        compact.k[code] = [mcq, tfStart, tf, tlnStart, tln];
+      });
+      return compact;
+    }
+
+    function encodeOmrPassport(onlyCodes = null) {
+      const json = JSON.stringify(buildCompactOmrPayload(onlyCodes));
+      return 'SMKEY:1:' + btoa(unescape(encodeURIComponent(json)));
+    }
+
+    function buildOmrHandoffUrl(target = 'grade') {
+      const url = new URL(OMR_URL);
+      url.searchParams.set('handoff', encodeOmrPassport());
+      url.searchParams.set('target', target);
+      url.searchParams.set('source', 'tron-de');
+      return url.toString();
+    }
+
+    function openOmrHandoff(target = 'grade') {
+      try {
+        const url = buildOmrHandoffUrl(target);
+        if (url.length > 7500) throw new Error('Gói liên kết quá lớn; hãy dùng QR hoặc JSON và chia ít mã đề hơn.');
+        const embedded = new URLSearchParams(location.search).get('embed') === 'omr' && window.parent !== window;
+        if (embedded) {
+          const parentOrigin = new URL(document.referrer).origin;
+          const trustedParent = parentOrigin === 'https://chamthi-conictypst.pages.dev'
+            || parentOrigin.endsWith('.chamthi-conictypst.pages.dev')
+            || /^http:\/\/(127\.0\.0\.1|localhost)(:\d+)?$/.test(parentOrigin);
+          if (!trustedParent) throw new Error('Không xác minh được cửa sổ SANG MATH OMR nhận đáp án.');
+          window.parent.postMessage({
+            type:'SANG_OMR_PASSPORT',
+            handoff:new URL(url).searchParams.get('handoff'),
+            target
+          }, parentOrigin);
+          toast(target === 'generate' ? 'Đã chuyển cấu trúc đề về tab Sinh Phiếu.' : 'Đã chuyển toàn bộ đáp án về tab Chấm Bài.');
+          return;
+        }
+        window.open(url, '_blank', 'noopener');
+        toast(target === 'generate' ? 'Đang mở Sinh Phiếu với đúng cấu trúc đề.' : 'Đang chuyển toàn bộ đáp án sang Chấm Bài.');
+      } catch (error) { toast(error.message || String(error), 'error'); }
+    }
+
+    function buildAnswerKeyWorkbook() {
+      if (!currentAnswerKey.length) throw new Error('Chưa có đáp án để xuất.');
+      if (typeof XLSX === 'undefined') throw new Error('Bộ tạo Excel chưa sẵn sàng.');
       const wb = XLSX.utils.book_new();
 
       // Sheet 1: Answer Key Table
@@ -1126,13 +1534,13 @@
       for (let i = 1; i <= tnCount; i++) headers.push(`q${i}`);
       const dsCols = []; // track DS column names
       for (let d = 0; d < dsCount; d++) {
-        const q = 13 + d;
+        const q = tnCount + 1 + d;
         ['a','b','c','d'].forEach(lbl => {
           const col = `tf${q}${lbl}`;
           headers.push(col); dsCols.push({q, lbl, col});
         });
       }
-      for (let t = 0; t < tlnCount; t++) headers.push(`tln${17 + t}`);
+      for (let t = 0; t < tlnCount; t++) headers.push(`tln${tnCount + dsCount + 1 + t}`);
 
       const rows = [headers];
       for (const entry of currentAnswerKey) {
@@ -1169,46 +1577,50 @@
       ]);
       XLSX.utils.book_append_sheet(wb, ws2, 'ThongTin');
 
+      return wb;
+    }
+
+    function exportAnswerKeyExcel() {
+      try {
+        const wb = buildAnswerKeyWorkbook();
       const fileName = `dap-an-${new Date().toISOString().slice(0,10)}.xlsx`;
       XLSX.writeFile(wb, fileName);
       toast(`Đã xuất ${fileName}`);
+      } catch (error) { toast(error.message || String(error), 'error'); }
+    }
+
+    function createAnswerQrDataUrl(onlyCodes = null) {
+      const qr = window.qrcode(0, 'M');
+      qr.addData(encodeOmrPassport(onlyCodes));
+      qr.make();
+      return qr.createDataURL(7, 24);
     }
 
     function exportAnswerKeyQR() {
-      if (!currentAnswerKey.length) { toast('Chưa có đáp án để tạo QR!', 'error'); return; }
-      const masterKeys = buildMasterAnswerKeys();
-      const form = getFormState ? getFormState() : {};
-      const totalQ = currentAnswerKey[0]?.answers.length || 0;
-      const payload = {
-        v: 1,
-        meta: { exam: form.exam || '', subject: form.subject || '', n: totalQ, date: new Date().toISOString().slice(0,10) },
-        keys: masterKeys
-      };
-      const jsonStr = JSON.stringify(payload);
-      const sizeKb = (jsonStr.length / 1024).toFixed(1);
-
-      document.getElementById('qrJsonText').value = jsonStr;
-      document.getElementById('qrJsonSize').textContent = `${sizeKb} KB (${jsonStr.length} ký tự)`;
-
-      // Generate QR
-      const qrDiv = document.getElementById('qrCanvas');
-      qrDiv.innerHTML = '';
       try {
-        if (typeof QRCode !== 'undefined' && jsonStr.length <= 2953) {
-          new QRCode(qrDiv, { text: jsonStr, width: 200, height: 200, colorDark: '#0f172a', colorLight: '#ffffff' });
-        } else {
-          qrDiv.innerHTML = '<p class="text-xs text-slate-400 text-center py-4">JSON quá lớn để tạo QR (>2953 ký tự).<br>Vui lòng dùng chức năng Copy JSON.</p>';
-        }
-      } catch(e) {
-        qrDiv.innerHTML = '<p class="text-xs text-red-400">Lỗi tạo QR.</p>';
+        const full = buildFullOmrPayload();
+        const jsonStr = JSON.stringify(full);
+        const qrPayload = encodeOmrPassport();
+        document.getElementById('qrJsonText').value = jsonStr;
+        document.getElementById('qrJsonSize').textContent = `JSON ${(jsonStr.length / 1024).toFixed(1)} KB · QR nén ${qrPayload.length} ký tự`;
+        window.latestAnswerQrUrl = createAnswerQrDataUrl();
+        document.getElementById('qrCanvas').innerHTML = `<img src="${window.latestAnswerQrUrl}" alt="QR đáp án OMR" class="w-64 h-64 max-w-full rounded-xl border border-slate-200 shadow-sm" />`;
+        document.getElementById('qrModal').classList.remove('hidden');
+      } catch(error) {
+        toast((error.message || String(error)) + ' Hãy dùng Excel/JSON nếu gói quá lớn.', 'error');
       }
-
-      document.getElementById('qrModal').classList.remove('hidden');
     }
 
     function copyQRJson() {
       const text = document.getElementById('qrJsonText').value;
       navigator.clipboard.writeText(text).then(() => toast('Đã copy JSON đáp án!'));
+    }
+    function downloadAnswerQr() {
+      if (!window.latestAnswerQrUrl) return toast('Chưa có QR để tải.', 'error');
+      const a = document.createElement('a');
+      a.href = window.latestAnswerQrUrl;
+      a.download = `qr-dap-an-${new Date().toISOString().slice(0,10)}.png`;
+      a.click();
     }
     function copyResult(i) {
       navigator.clipboard.writeText(generatedResults[i].content).then(() => toast('Đã copy mã đề ' + generatedResults[i].code));
@@ -1220,8 +1632,64 @@
       const a = document.createElement('a'); a.href = url; a.download = `de-${r.code}.typ`; a.click();
       URL.revokeObjectURL(url);
     }
-    function downloadAll() {
-      generatedResults.forEach((_, i) => setTimeout(() => downloadResult(i), i * 200));
+    async function downloadAll() {
+      try {
+        if (!generatedResults.length) throw new Error('Chưa có bộ đề để tải.');
+        if (typeof JSZip === 'undefined') throw new Error('Bộ đóng gói ZIP chưa sẵn sàng.');
+        const profile = validateOmrHandoff();
+        const zip = new JSZip();
+        const examFolder = zip.folder('01-de-thi-co-qr-ma-phieu');
+        const examLibrary = await fetch('typst/sang-exam.typ').then(response => {
+          if (!response.ok) throw new Error('Không tải được thư viện sang-exam.typ để đóng gói.');
+          return response.text();
+        });
+        examFolder.file('sang-exam.typ', examLibrary);
+        generatedResults.forEach(result => examFolder.file(`de-${result.code}.typ`, result.content));
+        if (generatedOmrTemplate?.options.attach === 'separate') {
+          examFolder.file(`phieu-omr-${generatedOmrTemplate.file}`, generatedOmrTemplate.content);
+        }
+
+        const teacher = zip.folder('02-giao-vien-dap-an-omr');
+        teacher.file('dap-an-omr.json', JSON.stringify(buildFullOmrPayload(), null, 2));
+        const workbook = buildAnswerKeyWorkbook();
+        teacher.file('dap-an-omr.xlsx', XLSX.write(workbook, { bookType:'xlsx', type:'array' }));
+        const perCodeQr = teacher.folder('qr-dap-an-theo-ma');
+        for (const entry of currentAnswerKey) {
+          const codeQr = createAnswerQrDataUrl([entry.code]);
+          perCodeQr.file(`qr-dap-an-${entry.code}.png`, codeQr.split(',')[1], { base64:true });
+        }
+        let hasMasterQr = true;
+        try {
+          const qrDataUrl = createAnswerQrDataUrl();
+          teacher.file('qr-dap-an-tat-ca-ma.png', qrDataUrl.split(',')[1], { base64:true });
+        } catch (error) {
+          hasMasterQr = false;
+        }
+        teacher.file('HUONG-DAN.txt', [
+          'SANG MATH OMR — GÓI TRỘN ĐỀ KHÉP KÍN',
+          '',
+          `Loại phiếu: ${profile.name}`,
+          `Số mã đề: ${generatedResults.length}`,
+          `Mã đề: ${generatedResults.map(item => item.code).join(', ')}`,
+          `Cách gắn phiếu: ${getOmrOptions().attach === 'append' ? 'Đã ghép vào cuối từng file đề' : getOmrOptions().attach === 'separate' ? 'Phiếu là file riêng trong thư mục 01' : 'Không thêm trang phiếu; chỉ có QR nhận diện'}`,
+          `Nháp tự luận: ${getOmrOptions().essay ? 'Có' : 'Không'}`,
+          '',
+          '1. Thư mục 01 chứa đề Typst. QR trên đề chỉ nhận diện mã đề/loại phiếu, KHÔNG chứa đáp án.',
+          '   Giữ sang-exam.typ cùng thư mục với các file de-xxx.typ để biên dịch ngay.',
+          '2. Thư mục 02 chỉ dành cho giáo viên: Excel, JSON và QR đáp án riêng từng mã.',
+          hasMasterQr ? '   Có thêm qr-dap-an-tat-ca-ma.png để nạp toàn bộ trong một lần.' : '   Gói nhiều mã quá lớn cho một QR tổng; hãy quét từng QR theo mã hoặc dùng Excel/JSON.',
+          '3. Trong SANG MATH OMR → Chấm Bài → Nhập / Xuất nhiều mã, chọn QR ảnh/Camera, Excel hoặc JSON.',
+          '4. Không gửi thư mục 02 cho học sinh.'
+        ].join('\n'));
+
+        const blob = await zip.generateAsync({ type:'blob', compression:'DEFLATE', compressionOptions:{ level:6 } });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `bo-de-omr-${new Date().toISOString().slice(0,10)}.zip`;
+        link.click();
+        setTimeout(() => URL.revokeObjectURL(link.href), 1500);
+        toast(`Đã đóng gói ${generatedResults.length} đề + QR/Excel/JSON OMR.`);
+      } catch (error) { toast(error.message || String(error), 'error'); }
     }
 
     function renderQuickPreview(questions) {
@@ -1230,12 +1698,12 @@
         const color = TYPE_COLORS[q.type];
         const warns = validateQuestion(q);
         const warnBadge = renderWarningBadge(warns);
-        const mathStem = renderMathText(q.stem);
+        const summary = renderQuestionSummary(q);
         return `
         <div class="flex items-center gap-3 p-3 border ${warns.length ? 'border-amber-200 bg-amber-50/20' : 'border-slate-100'} rounded-lg hover:bg-slate-50">
           <span class="text-xs font-bold px-2 py-0.5 rounded bg-${color}-100 text-${color}-700">${TYPE_SHORT[q.type]}</span>
           <span class="text-xs text-slate-400 w-5">${i + 1}</span>
-          <div class="text-sm text-slate-700 line-clamp-1 flex-1 katex-preview">${mathStem}</div>
+          <div class="text-sm text-slate-700 line-clamp-1 flex-1">${summary}</div>
           ${warnBadge}
         </div>`;
       }).join('');
@@ -1280,6 +1748,13 @@
         if (qs.length) { all.push(...qs); total += qs.length; }
       }
       if (!total) { toast('Không tìm thấy câu hỏi #tn/#ds/#tln/#tl nào trong file.', 'error'); return; }
+
+      // Xoá trắng ngân hàng và giỏ hàng cũ mỗi khi thả file mới
+      bank = [];
+      cart = [];
+      saveBank();
+      saveCart();
+
       if (addToBankOnly) {
         const added = addToBank(all);
         toast(`Đã thêm ${added} câu vào ngân hàng.`);
@@ -1381,6 +1856,7 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
+      restoreOmrOptions();
       updateCounts();
       setFormState(loadForm() || {
         school: 'TRƯỜNG THPT NGUYỄN HỮU CẢNH',
@@ -1397,6 +1873,7 @@
       renderCart();
       renderResults();
       renderAnswerKey();
+      updateOmrBridge();
 
       document.querySelectorAll('.nav-tab').forEach(btn => btn.addEventListener('click', () => switchTab(btn.dataset.tab)));
 

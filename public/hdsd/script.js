@@ -42,6 +42,9 @@ function navigateTo(id) {
 
 // Nav link clicks
 navLinks.forEach(link => {
+  // Liên kết sang trang khác (Dashboard, Hệ sinh thái...) không có
+  // data-section và phải giữ hành vi điều hướng mặc định.
+  if (!link.dataset.section) return;
   link.addEventListener('click', e => {
     e.preventDefault();
     const id = link.dataset.section;

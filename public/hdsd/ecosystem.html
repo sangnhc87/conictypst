@@ -4,10 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hệ sinh thái & Tác giả - ConicTypst</title>
+  <meta name="description" content="Hệ sinh thái ConicTypst: soạn và trộn đề, thư viện sang-math, chấm OMR, công cụ AI và nền tảng lớp học số." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script src="global-nav.js" defer></script>
   <style>
     :root {
       --bg: #f8fafc;
@@ -171,6 +173,48 @@
       line-height: 1.6;
     }
 
+    .eco-flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      margin: 0 auto 34px;
+      padding: 14px;
+      border: 1px solid rgba(4, 120, 87, .14);
+      border-radius: 18px;
+      background: linear-gradient(110deg, rgba(236, 253, 245, .9), rgba(255, 247, 237, .88));
+      box-shadow: 0 18px 40px -34px rgba(4, 120, 87, .7);
+    }
+    .eco-flow-step {
+      position: relative;
+      min-height: 78px;
+      display: grid;
+      align-content: center;
+      gap: 5px;
+      padding: 11px 13px;
+      border-radius: 13px;
+      background: rgba(255,255,255,.84);
+      border: 1px solid rgba(226,232,240,.9);
+    }
+    .eco-flow-step:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      z-index: 2;
+      right: -10px;
+      top: 50%;
+      transform: translate(50%, -50%);
+      width: 24px;
+      height: 24px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: white;
+      background: linear-gradient(135deg, #047857, #f97316);
+      font-weight: 800;
+      font-size: 12px;
+    }
+    .eco-flow-step strong { color: #065f46; font-size: .9rem; }
+    .eco-flow-step span { color: var(--muted); font-size: .78rem; line-height: 1.35; }
+
     /* Ecosystem Grid */
     .ecosystem-grid {
       display: grid;
@@ -207,6 +251,9 @@
     }
     .eco-card:hover::before {
       opacity: 1;
+    }
+    .eco-card:nth-child(2n)::before {
+      background: linear-gradient(90deg, #f97316, #f59e0b);
     }
     .eco-icon {
       width: 64px;
@@ -271,6 +318,14 @@
     }
     @media (max-width: 768px) {
       .ecosystem-grid { grid-template-columns: 1fr; }
+      .eco-flow { grid-template-columns: 1fr; }
+      .eco-flow-step:not(:last-child)::after {
+        content: "↓";
+        right: 50%;
+        top: auto;
+        bottom: -11px;
+        transform: translate(50%, 50%);
+      }
       .page-wrapper { margin: 40px auto; padding: 0 16px 40px; }
       .author-section { flex-direction: column; padding: 30px 20px; }
       .author-donate { width: 100%; display: flex; justify-content: center; }
@@ -314,7 +369,15 @@
     <!-- Hệ sinh thái -->
     <div class="eco-header">
       <h2>Hệ Sinh Thái Giáo Dục Số</h2>
-      <p>Một chuỗi các nền tảng và công cụ được thiết kế chuyên biệt, liên kết chặt chẽ nhằm tối ưu hoá 100% quy trình giảng dạy, quản lý và sáng tạo tài liệu Toán học.</p>
+      <p>Một quy trình khép kín cho giáo viên Toán: từ nội dung gốc đến nhiều mã đề, phiếu trả lời, chấm bài và dữ liệu lớp học.</p>
+    </div>
+
+    <div class="eco-flow" aria-label="Quy trình khép kín ConicTypst">
+      <div class="eco-flow-step"><strong>1. Soạn nội dung</strong><span>Typst, LaTeX, ngân hàng câu hỏi</span></div>
+      <div class="eco-flow-step"><strong>2. Trộn nhiều mã</strong><span>Đề, đáp án và QR đồng bộ</span></div>
+      <div class="eco-flow-step"><strong>3. Sinh phiếu</strong><span>Phiếu OMR theo đúng cấu trúc đề</span></div>
+      <div class="eco-flow-step"><strong>4. Chấm bài</strong><span>Ảnh, camera điện thoại, rà soát</span></div>
+      <div class="eco-flow-step"><strong>5. Phân tích lớp</strong><span>Điểm, câu sai và báo cáo chuyên môn</span></div>
     </div>
     
     <div class="ecosystem-grid">
@@ -342,14 +405,31 @@
         <div class="eco-icon"><i data-lucide="pen-tool"></i></div>
         <h3>Sang Math (ConicTypst)</h3>
         <div class="slogan">Kỷ Nguyên Mới Của Tài Liệu</div>
-        <p>Tạm biệt LaTeX nặng nề, Typst chính là tương lai! Cung cấp kho giao diện (Theme) đồ sộ tuyệt đẹp dành cho Chuyên đề, Đề thi, và Beamer. Kết hợp sức mạnh biên dịch hiệu ứng đang biên dịch đẹp đẳng cấp siêu tốc độ, quý thầy cô có thể tạo ra những ấn phẩm Toán học chuẩn quốc tế ngay trên nền tảng web.</p>
+        <p>Thư viện <strong>sang-math</strong>, kho giao diện cho chuyên đề, đề thi và trình chiếu, cùng bộ công cụ CeTZ giúp tạo tài liệu Toán đẹp, nhất quán và biên dịch nhanh.</p>
         <a href="exam-templates.html" class="eco-link">Trải nghiệm Typst <i data-lucide="arrow-right"></i></a>
+      </div>
+
+      <!-- Sang Math OMR -->
+      <div class="eco-card">
+        <div class="eco-icon"><i data-lucide="scan-line"></i></div>
+        <h3>Sang Math OMR</h3>
+        <div class="slogan">Phiếu — Camera — Chấm — Thống kê</div>
+        <p>Hệ thống sinh phiếu, tô đáp án, nhận gói nhiều mã đề bằng Excel/CSV/JSON/QR và chấm trực tiếp từ ảnh hoặc camera điện thoại. Kết quả có thể rà soát, sửa đáp án và cập nhật điểm.</p>
+        <a href="https://chamthi-conictypst.pages.dev/" target="_blank" rel="noopener" class="eco-link">Mở hệ thống OMR <i data-lucide="arrow-right"></i></a>
+      </div>
+
+      <!-- Tool Hub -->
+      <div class="eco-card">
+        <div class="eco-icon"><i data-lucide="layout-dashboard"></i></div>
+        <h3>ConicTypst Tool Hub</h3>
+        <div class="slogan">Một cửa cho toàn bộ công cụ</div>
+        <p>Dashboard tập trung trộn đề, ngân hàng câu hỏi, OCR, kiểm lỗi Typst, chuyển Beamer, bảng biến thiên và các công cụ CeTZ. Mỗi công cụ giữ giao diện riêng nhưng dùng chung điều hướng hệ sinh thái.</p>
+        <a href="dashboard.html" class="eco-link">Mở Dashboard <i data-lucide="arrow-right"></i></a>
       </div>
 
     </div>
   </div>
 
-  <script src="global-nav.js"></script>
-  <script>lucide.createIcons();</script>
+  <script>document.addEventListener('DOMContentLoaded', () => window.lucide?.createIcons());</script>
 </body>
 </html>

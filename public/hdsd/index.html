@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HDSD Typst — Sách hướng dẫn đầy đủ</title>
-  <meta name="description" content="Sách hướng dẫn sử dụng đầy đủ hệ thống Typst: đề thi, sách giáo khoa, chuyên đề, ID, ngân hàng câu hỏi, BBT và hình học." />
+  <title>sang-math 1.0.0 — Hướng dẫn Typst Toán đầy đủ</title>
+  <meta name="description" content="Hướng dẫn chính thức sang-math 1.0.0: đề thi THPT, sách và chuyên đề, 30 theme, BBT, hình học CeTZ và API nâng cao." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
   <!-- Import map: cho phép dynamic import() resolve bare specifiers từ jsDelivr CDN -->
   <script type="importmap">
@@ -47,8 +47,11 @@
       <a href="dashboard.html" class="btn-dashboard">
         Dashboard
       </a>
-      <a href="downloads/stexgv-template-full.zip" class="btn-download" id="mainDownloadBtn" download>
-        ⬇ Tải gói đầy đủ
+      <a href="ecosystem.html" class="btn-dashboard">
+        Hệ sinh thái
+      </a>
+      <a href="downloads/hdsd-sang-math-1.0.0.pdf" class="btn-download" id="mainDownloadBtn" download>
+        ⬇ Sách hướng dẫn PDF
       </a>
     </div>
   </div>
@@ -59,9 +62,11 @@
   <div class="sidebar-section">
     <div class="sidebar-label">Bắt đầu</div>
     <a href="dashboard.html" class="nav-link">⚡ Dashboard</a>
+    <a href="ecosystem.html" class="nav-link">🌿 Hệ sinh thái</a>
     <a href="#intro" class="nav-link active" data-section="intro">🏠 Giới thiệu</a>
-    <a href="#install" class="nav-link" data-section="install">⚙️ Cài đặt & Biên dịch</a>
+    <a href="#install" class="nav-link" data-section="install">⚙️ Cài đặt &amp; Biên dịch</a>
     <a href="#quickstart" class="nav-link" data-section="quickstart">🚀 Khởi động nhanh</a>
+    <a href="#sang-math-package" class="nav-link" data-section="sang-math-package">📦 Gói sang-math 1.0.0</a>
   </div>
   <div class="sidebar-section">
     <div class="sidebar-label">Module 1 — Đề thi</div>
@@ -72,14 +77,14 @@
     <a href="#tl" class="nav-link" data-section="tl">④ #tl — Tự luận</a>
     <a href="#exam-header" class="nav-link" data-section="exam-header">🏷️ Tiêu đề đề thi</a>
     <a href="#exam-mode" class="nav-link" data-section="exam-mode">🔀 Chế độ hiển thị</a>
-    <a href="#ids-bank" class="nav-link" data-section="ids-bank">🆔 ID & ngân hàng</a>
+    <a href="#ids-bank" class="nav-link" data-section="ids-bank">🆔 ID &amp; ngân hàng</a>
     <a href="#exam-mix-typst" class="nav-link" data-section="exam-mix-typst">🧪 Trộn đề Typst</a>
     <a href="#typst-params" class="nav-link" data-section="typst-params">⚙️ Tham số Typst</a>
     <a href="#pedagogy-boxes" class="nav-link" data-section="pedagogy-boxes">📦 Hộp sư phạm</a>
     <a href="#exam-boiler" class="nav-link" data-section="exam-boiler">📄 File mẫu đề thi</a>
   </div>
   <div class="sidebar-section">
-    <div class="sidebar-label">Module 2 — Sách & Chuyên đề</div>
+    <div class="sidebar-label">Module 2 — Sách &amp; Chuyên đề</div>
     <a href="#book-overview" class="nav-link" data-section="book-overview">📚 Tổng quan sách</a>
     <a href="#book-structure" class="nav-link" data-section="book-structure">🗂️ Cấu trúc phân cấp</a>
     <a href="#book-boxes" class="nav-link" data-section="book-boxes">📦 Hộp nội dung SGK</a>
@@ -96,6 +101,7 @@
     <a href="#cetz-basics" class="nav-link" data-section="cetz-basics">✏️ Cetz cơ bản</a>
     <a href="#geo-2d" class="nav-link" data-section="geo-2d">📐 Hình phẳng</a>
     <a href="#geo-3d" class="nav-link" data-section="geo-3d">🗜️ Hình không gian</a>
+    <a href="#geo-advanced" class="nav-link" data-section="geo-advanced">🧭 Hình học nâng cao</a>
     <a href="#graphs" class="nav-link" data-section="graphs">📊 Đồ thị hàm số</a>
     <a href="#figure-gallery" class="nav-link" data-section="figure-gallery">🧩 Kho hình mẫu</a>
   </div>
@@ -116,41 +122,42 @@
 <!-- ═══════════════════════════════════════════ -->
 <section id="intro" class="doc-section">
   <div class="hero">
-    <div class="hero-badge">HDSD Typst v6.0</div>
-    <h1 class="hero-title">Sách HDSD Typst<br/><span class="accent">Dùng Được Từ Đề Thi Đến Sách</span></h1>
-    <p class="hero-desc">Bộ hướng dẫn công khai, chi tiết cho hệ thống soạn thảo tài liệu toán học: đề thi THPT, sách giáo khoa, chuyên đề, ID, ngân hàng câu hỏi, BBT và hình vẽ Cetz.</p>
+    <div class="hero-badge">Tài liệu chính thức · sang-math 1.0.0</div>
+    <h1 class="hero-title">Một package Typst<br/><span class="accent">Từ Đề Thi Đến Sách Toán</span></h1>
+    <p class="hero-desc">Hướng dẫn công khai theo đúng API đã merge của <strong>sang-math:1.0.0</strong>: một import duy nhất cho đề thi THPT, sách/chuyên đề, 18 theme đề, 12 theme sách, BBT/BXD, hình học và CeTZ nâng cao.</p>
     <div class="hero-pills">
       <span class="pill">📋 Đề thi 4 loại câu</span>
       <span class="pill">📚 SGK / Chuyên đề</span>
-      <span class="pill">📈 BBT & Hình học</span>
-      <span class="pill">🎨 Hộp sư phạm đẹp</span>
+      <span class="pill">📈 BBT &amp; Hình học</span>
+      <span class="pill">🎨 30 theme xuất bản</span>
     </div>
   </div>
 
   <div class="card-grid">
     <div class="feature-card" onclick="navigateTo('exam-overview')">
       <div class="feature-icon">📋</div>
-      <div class="feature-title">Module Đề Thi</div>
-      <div class="feature-desc">Soạn đề THPT chuẩn với 4 loại câu: trắc nghiệm, đúng-sai, trả lời ngắn, tự luận. Tự động đánh số, in đáp án, 3 chế độ hiển thị.</div>
-      <div class="feature-tags"><span>sang-exam.typ</span><span>#tn #ds #tln #tl</span></div>
+      <div class="feature-title">Đề thi 4 dạng câu</div>
+      <div class="feature-desc">Trắc nghiệm, đúng-sai, trả lời ngắn và tự luận; tự đánh số, ID/tags, lời giải, bảng đáp án, 5 profile và 18 theme.</div>
+      <div class="feature-tags"><span>sang-math:1.0.0</span><span>#tn #ds #tln #tl</span></div>
     </div>
     <div class="feature-card" onclick="navigateTo('book-overview')">
       <div class="feature-icon">📚</div>
-      <div class="feature-title">Module Sách / SGK</div>
-      <div class="feature-desc">Xây dựng sách giáo khoa, chuyên đề toán với cấu trúc phân cấp, hộp sư phạm đầy màu sắc, bộ đếm thông minh.</div>
-      <div class="feature-tags"><span>modules/book.typ</span><span>#chapter #bai #vd #bt</span></div>
+      <div class="feature-title">Sách / Chuyên đề</div>
+      <div class="feature-desc">Bìa, mục lục, chương-bài-mục, 13 hộp sư phạm và 12 phong cách cho SGK, workbook, handout, sách lời giải.</div>
+      <div class="feature-tags"><span>#book-theme</span><span>#book-chapter #book-lesson</span></div>
     </div>
     <div class="feature-card" onclick="navigateTo('bbt-overview')">
       <div class="feature-icon">📈</div>
       <div class="feature-title">Module Vẽ Hình</div>
-      <div class="feature-desc">Bảng biến thiên, bảng xét dấu chuẩn tkz-tab. Hình học phẳng, không gian, đồ thị hàm số với Cetz.</div>
-      <div class="feature-tags"><span>bbt.typ</span><span>geometry.typ</span></div>
+      <div class="feature-desc">BBT, bảng xét dấu, conic, hình trụ-nón-cầu, helix, lò xo và hình học THPT với CeTZ.</div>
+      <div class="feature-tags"><span>#bbtv2 #bxd</span><span>#draw-ellipse #draw-cylinder</span></div>
     </div>
   </div>
 
   <div class="info-box">
     <div class="info-box-title">ℹ️ Về hệ thống này</div>
-    <p>Hệ thống được thiết kế bởi <strong>GV Nguyễn Văn Sang</strong>, tương thích hoàn toàn với <strong>Typst ≥ 0.12</strong>. Tất cả file template nằm trong thư mục <code>typst/</code>. Lệnh biên dịch chuẩn luôn dùng <code>--root typst</code>.</p>
+    <p>Thiết kế bởi <strong>GV Nguyễn Văn Sang</strong>, yêu cầu <strong>Typst ≥ 0.12</strong> và phát hành theo <strong>MIT License</strong>. Người dùng cộng đồng chỉ import <code>@preview/sang-math:1.0.0</code>; không cần tải hay nhớ đường dẫn các file nội bộ.</p>
+    <p><a href="downloads/hdsd-sang-math-1.0.0.pdf" download>📕 Tải sách PDF 1.0.0</a> · <a href="#sang-math-package" onclick="navigateTo('sang-math-package')">Xem hợp đồng API và hướng dẫn di trú</a></p>
   </div>
 </section>
 
@@ -158,7 +165,7 @@
 <!-- SECTION: INSTALL -->
 <!-- ═══════════════════════════════════════════ -->
 <section id="install" class="doc-section hidden">
-  <h1>⚙️ Cài đặt & Biên dịch</h1>
+  <h1>⚙️ Cài đặt &amp; Biên dịch</h1>
 
   <h2>Yêu cầu hệ thống</h2>
   <div class="req-grid">
@@ -172,54 +179,41 @@
   </div>
 
   <h2>Lệnh biên dịch chuẩn</h2>
-  <div class="callout callout-warning">
-    <strong>⚠️ Quan trọng:</strong> Luôn dùng <code>--root typst</code> để import tương đối hoạt động đúng.
-  </div>
+  <div class="callout callout-tip"><strong>Package public không cần <code>--root</code>.</strong> Typst tự tải <code>sang-math:1.0.0</code> và phụ thuộc CeTZ trong lần biên dịch đầu tiên.</div>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-    <pre><code class="lang-bash"># Biên dịch đề thi
-typst compile --root typst typst/exams/de-01.typ output/de-01.pdf
+    <pre><code class="lang-bash">typst compile main.typ main.pdf
+typst watch main.typ main.pdf
 
-# Biên dịch SGK / chuyên đề
-typst compile --root typst typst/sgk.typ output/sach.pdf
-
-# Chế độ watch (tự động biên dịch khi lưu)
-typst watch --root typst typst/exams/de-01.typ output/de-01.pdf
-
-# Biên dịch bộ đề thi
-typst compile --root typst typst/bo-de.typ output/bo-de.pdf</code></pre>
+# Chọn giao diện và đầu ra từ CLI với exam-input-preset
+typst compile main.typ de-thi.pdf --input theme=teal-pro --input profile=dethi
+typst compile main.typ loi-giai.pdf --input theme=royal --input profile=loigiai --input answer-key=1</code></pre>
   </div>
 
-  <h2>Cấu trúc thư mục</h2>
+  <h2>Cấu trúc dự án tối thiểu</h2>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">text</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-    <pre><code>typst/
-├── template.typ          ← Import cổng chính (dùng cái này)
-├── sang-exam.typ         ← Engine đề thi (tn, ds, tln, tl...)
-├── bbt.typ               ← Bảng biến thiên, xét dấu
-├── geometry.typ          ← Hình học phẳng & không gian
-├── modules/
-│   ├── book.typ          ← Sách, SGK, chuyên đề
-│   ├── exam.typ          ← Wrapper cho engine thi
-│   ├── exam-set.typ      ← Bộ đề nhiều đề
-│   └── research.typ      ← Bài nghiên cứu
-└── exams/                ← Đề thi mẫu
-    └── de-01.typ</code></pre>
+    <pre><code>du-an-toan/
+├── main.typ              ← import package và nội dung
+├── images/               ← hình ảnh riêng (nếu có)
+└── main.pdf              ← kết quả biên dịch
+
+Không sao chép sang-exam.typ, bbt.typ hay modules/book.typ vào dự án.</code></pre>
   </div>
 
   <h2>Import chuẩn</h2>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-    <pre><code class="lang-typst">// Cách 1: Import tất cả (khuyến nghị)
-#import "template.typ": *
+    <pre><code class="lang-typst">// Dùng nhiều nhóm API
+#import "@preview/sang-math:1.0.0": *
 
-// Cách 2: Chỉ dùng engine thi
-#import "sang-exam.typ": *
-#import "@preview/cetz:0.5.2"
+// Hoặc import tường minh để source dễ đọc
+#import "@preview/sang-math:1.0.0": tn, ds, tln, tl, True, exam-mode, sang-setup
 
-// Cách 3: Chỉ dùng module sách
-#import "modules/book.typ": *</code></pre>
+// Chỉ cần import CeTZ trực tiếp khi tự tạo canvas hoặc dùng draw-*
+#import "@preview/cetz:0.5.2"</code></pre>
   </div>
+  <div class="callout callout-warning"><strong>Không dùng trong sách public:</strong> <code>template.typ</code>, <code>sang-exam.typ</code>, <code>modules/book.typ</code> và các đường dẫn con là cấu trúc repository cũ, không phải API của package.</div>
 </section>
 
 <!-- ═══════════════════════════════════════════ -->
@@ -238,28 +232,28 @@ typst compile --root typst typst/bo-de.typ output/bo-de.pdf</code></pre>
     <h2>File đề thi cơ bản (5 phút)</h2>
     <div class="code-block-wrap">
       <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-      <pre><code class="lang-typst">// ① Import
-#import "../sang-exam.typ": *
-#import "@preview/cetz:0.5.2"
+      <pre><code class="lang-typst">// ① Import package public
+#import "@preview/sang-math:1.0.0": *
 
-// ② Chế độ hiển thị
-#let mode   = "dethi"       // "dethi" | "loigiai" | "solcolor"
-#let accent = classic.blue  // classic.blue | .emerald | .crimson
+// ② Chọn theme và profile
+#let preset = exam-preset(theme: "teal-pro", profile: "dethi")
 
-// ③ Tạo macro câu hỏi
-#let (tn, ds, tln, tl) = exam-mode(mode: mode, accent: accent)
+// ③ Tạo bộ câu hỏi đồng nhất
+#let (tn, ds, tln, tl) = exam-mode(..preset.question)
 
 // ④ Show rules chuẩn
-#show: sang-setup
+#show: sang-setup.with(math-color: preset.accent)
 
 // ⑤ Tiêu đề đề thi
-#show: thpt-school-exam.with(
+#show: exam-theme.with(
+  theme: preset.theme,
   department: "SỞ GIÁO DỤC VÀ ĐÀO TẠO",
   school: "TỈNH ĐỒNG THÁP",
   exam-title: "KỲ THI THỬ TỐT NGHIỆP THPT NĂM 2025",
   subject: "TOÁN",
   duration: "90 phút, không kể thời gian phát đề",
   code: "001",
+  ..preset.template,
 )
 
 // ⑥ Phần I — Trắc nghiệm
@@ -303,48 +297,48 @@ typst compile --root typst typst/bo-de.typ output/bo-de.pdf</code></pre>
     <h2>File sách / SGK cơ bản</h2>
     <div class="code-block-wrap">
       <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-      <pre><code class="lang-typst">#import "template.typ": *
+      <pre><code class="lang-typst">#import "@preview/sang-math:1.0.0": *
 
-#show: stexgv-doc.with(
-  doc-type: "sgk",        // "sgk" | "book" | "chuyende"
+#let theme = "sgk-modern"
+#show: book-theme.with(
+  theme: theme,
   title: "CHUYÊN ĐỀ TOÁN 12",
-  subtitle: "Giải tích & Hình học",
+  subtitle: "Giải tích &amp; Hình học",
   author: "GV Nguyễn Văn Sang",
   institution: "Trường THPT...",
   subject: "Toán",
   grade: "Lớp 12",
-  academic-year: "2025–2026",
+  year: "2026–2027",
 )
 
-#chapter([Hàm Số & Đạo Hàm])
+#book-chapter([Hàm Số &amp; Đạo Hàm], number: "01", theme: theme)
 
-#bai([Khảo sát hàm bậc ba])
+#book-lesson([Khảo sát hàm bậc ba], number: "1", theme: theme)
 
-#muctieu[
+#goal-box(theme: theme)[
   - Lập được BBT của hàm bậc ba.
   - Tìm được cực trị và khoảng đơn điệu.
 ]
 
-#khoidong[
+#warmup-box(theme: theme)[
   Quan sát đồ thị sau và trả lời: hàm có bao nhiêu cực trị?
 ]
 
-#khampha[
+#explore-box(theme: theme)[
   Phương pháp: tính $f'(x)$, giải $f'(x) = 0$, lập BBT.
 ]
 
-#vd(
-  [Khảo sát $f(x) = x^3 - 3x^2 + 4$.],
-  loigiai: [
+#example-box(theme: theme)[
+  *Ví dụ.* Khảo sát $f(x) = x^3 - 3x^2 + 4$.
+
+  *Lời giải.*
     $f'(x) = 3x^2 - 6x = 3x(x-2)$.
     Lập BBT: cực đại $f(0) = 4$, cực tiểu $f(2) = 0$.
-  ],
-)
+]
 
-#bt(
-  [Tìm cực trị của $f(x) = -x^3 + 3x - 2$.],
-  lines: 4,
-)</code></pre>
+#exercise-box(theme: theme, lines: 4)[
+  Tìm cực trị của $f(x) = -x^3 + 3x - 2$.
+]</code></pre>
     </div>
   </div>
 
@@ -352,39 +346,35 @@ typst compile --root typst typst/bo-de.typ output/bo-de.pdf</code></pre>
     <h2>Bộ đề nhiều đề trong một file</h2>
     <div class="code-block-wrap">
       <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-      <pre><code class="lang-typst">#import "template.typ": *
+      <pre><code class="lang-typst">
+#import "@preview/sang-math:1.0.0": *
+#let preset = exam-preset(theme: "classic", profile: "dethi")
+#let (tn, ds, tln, tl) = exam-mode(..preset.question)
 
-#show: stexgv-doc.with(
-  doc-type: "bo-de",
-  title: "BỘ ĐỀ THI THỬ TOÁN 12",
-  author: "GV Nguyễn Văn Sang",
-  academic-year: "2025–2026",
+#let render-exam(body, code) = exam-theme(
+  body,
+  theme: preset.theme,
+  exam-title: "BỘ ĐỀ THI THỬ TOÁN 12",
+  subject: "TOÁN 12",
+  duration: "90 phút",
+  code: code,
 )
 
-#let (tn, ds, tln, tl) = exam-mode()
-
 // ──── ĐỀ SỐ 1 ────
-#de(
-  title: [Đề số 1],
-  code: "101",
-  subject: "TOÁN",
-  duration: "90 phút",
-  show-answer-key: true,    // In đáp án ngay sau đề
-)[\
+#render-exam(code: "101")[
   #exam-part([PHẦN I. Trắc nghiệm.], count: 12)
   #tn(
     [Hàm $y = x^2$ có đạo hàm là],
     ([$x$], [$2$], True([$2x$]), [$x^2$]),
   )
   // ... thêm câu hỏi ...
+  #het
 ]
+#pagebreak()
+#resetexamstate()
 
 // ──── ĐỀ SỐ 2 ────
-#de(
-  title: [Đề số 2],
-  code: "102",
-  show-answer-key: true,
-)[\
+#render-exam(code: "102")[
   #exam-part([PHẦN I. Trắc nghiệm.], count: 12)
   // ... câu hỏi đề 2 ...
 ]</code></pre>
@@ -393,17 +383,104 @@ typst compile --root typst typst/bo-de.typ output/bo-de.pdf</code></pre>
 </section>
 
 <!-- ═══════════════════════════════════════════ -->
+<!-- SECTION: SANG-MATH PACKAGE -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="sang-math-package" class="doc-section hidden">
+  <h1>📦 Gói <code>sang-math</code> 1.0.0</h1>
+  <p><code>lib.typ</code> là cổng API công khai duy nhất. Chỉ một lệnh import đã mở được engine đề thi, giao diện đề/sách, BBT và hình học CeTZ nâng cao; không cần nhớ đường dẫn file nội bộ.</p>
+
+  <div class="callout callout-tip">
+    <strong>Khuyên dùng:</strong> import đúng tên cần dùng để mã nguồn dễ đọc; chỉ dùng <code>: *</code> khi cần nhiều nhóm macro trong cùng tài liệu.
+  </div>
+
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">// Toàn bộ API
+#import "@preview/sang-math:1.0.0": *
+
+// Hoặc import tường minh
+#import "@preview/sang-math:1.0.0": tn, ds, tln, tl, True, sang-setup
+#import "@preview/sang-math:1.0.0": exam-preset, exam-theme
+#import "@preview/sang-math:1.0.0": draw-ellipse, draw-cylinder</code></pre>
+  </div>
+
+  <h2>Bản đồ API</h2>
+  <table class="doc-table">
+    <thead><tr><th>Nhóm</th><th>Macro tiêu biểu</th><th>Dùng cho</th></tr></thead>
+    <tbody>
+      <tr><td>Đề thi</td><td><code>tn</code>, <code>ds</code>, <code>tln</code>, <code>tl</code>, <code>exam-mode</code></td><td>Đề 4 dạng câu, lời giải, đáp án</td></tr>
+      <tr><td>Giao diện</td><td><code>exam-preset</code>, <code>exam-theme</code>, <code>book-theme</code></td><td>18 theme đề và 12 theme sách</td></tr>
+      <tr><td>Bảng Toán</td><td><code>bbtv2</code>, <code>bbbt</code>, <code>bxd</code>, <code>auto-bbt</code></td><td>BBT, xét dấu, bảng giá trị</td></tr>
+      <tr><td>Hình học</td><td><code>tri-abc</code>, <code>chop-sabc</code>, <code>axis-xy</code></td><td>Hình THPT và đồ thị cơ bản</td></tr>
+      <tr><td>CeTZ nâng cao</td><td><code>draw-ellipse</code>, <code>draw-cylinder</code>, <code>draw-helix</code></td><td>Conic, khối tròn xoay, đường cong 3D</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Quy ước ổn định</h2>
+  <div class="card-grid">
+    <div class="feature-card"><div class="feature-icon">🔒</div><div class="feature-title">API có hợp đồng</div><div class="feature-desc">Tên public đã xuất từ <code>lib.typ</code> không đổi trong cùng major version.</div></div>
+    <div class="feature-card"><div class="feature-icon">🧪</div><div class="feature-title">Compile trước phát hành</div><div class="feature-desc">Demo đề, demo sách và bài kiểm thử public API phải cùng biên dịch sạch.</div></div>
+    <div class="feature-card"><div class="feature-icon">🧭</div><div class="feature-title">Một nguồn tài liệu</div><div class="feature-desc">README của gói và HDSD dùng cùng tên <code>sang-math</code>, cùng URL và cùng phiên bản.</div></div>
+  </div>
+
+  <h2>Theme và profile chính thức</h2>
+  <table class="doc-table">
+    <thead><tr><th>Nhóm</th><th>Giá trị hỗ trợ</th></tr></thead>
+    <tbody>
+      <tr><td>Profile đề</td><td><code>dethi</code>, <code>loigiai</code>, <code>compact</code>, <code>draft</code>, <code>beamer</code></td></tr>
+      <tr><td>18 theme đề</td><td><code>classic</code>, <code>ocean</code>, <code>emerald</code>, <code>royal</code>, <code>violet</code>, <code>crimson</code>, <code>graphite</code>, <code>amber</code>, <code>teal-pro</code>, <code>sky</code>, <code>indigo-minimal</code>, <code>print-economy</code>, <code>aurora</code>, <code>lotus</code>, <code>navy-gold</code>, <code>jade</code>, <code>coral</code>, <code>plum</code></td></tr>
+      <tr><td>12 theme sách</td><td><code>sgk-modern</code>, <code>vdc-elite</code>, <code>workbook-jade</code>, <code>solution-crimson</code>, <code>lesson-amber</code>, <code>olympiad-indigo</code>, <code>magazine-coral</code>, <code>blackboard-green</code>, <code>minimal-graphite</code>, <code>handout-sky</code>, <code>research-slate</code>, <code>lotus-study</code></td></tr>
+    </tbody>
+  </table>
+
+  <h2>Mẫu package-first chuẩn</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#import "@preview/sang-math:1.0.0": *
+
+#let preset = exam-preset(theme: "teal-pro", profile: "dethi")
+#let (tn, ds, tln, tl) = exam-mode(..preset.question)
+
+#show: sang-setup.with(math-color: preset.accent)
+#show: exam-theme.with(
+  theme: preset.theme,
+  school: "TRƯỜNG THPT SANG-MATH",
+  exam-title: "ĐỀ THI THỬ TỐT NGHIỆP THPT",
+  subject: "TOÁN 12",
+  duration: "90 phút",
+  code: "101",
+  ..preset.template,
+)</code></pre>
+  </div>
+
+  <h2>Di trú từ template cũ</h2>
+  <table class="doc-table">
+    <thead><tr><th>Cú pháp cũ</th><th>API package 1.0.0</th></tr></thead>
+    <tbody>
+      <tr><td><code>#import "sang-exam.typ": *</code></td><td><code>#import "@preview/sang-math:1.0.0": *</code></td></tr>
+      <tr><td><code>#import "bbt.typ": *</code></td><td>Không cần; BBT đã export từ package root.</td></tr>
+      <tr><td><code>stexgv-doc</code></td><td><code>book-theme</code></td></tr>
+      <tr><td><code>chapter / bai / muc</code></td><td><code>book-chapter / book-lesson / book-section</code></td></tr>
+      <tr><td><code>muctieu / phuongphap / vd / bt</code></td><td><code>goal-box / method-box / example-box / exercise-box</code></td></tr>
+      <tr><td>Đường dẫn nội bộ package như <code>geometry-3d/*</code></td><td>Không import trực tiếp; dùng tên đã export từ <code>lib.typ</code>.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-tip"><strong>Sách PDF thực hành đầy đủ:</strong> 100 trang A4 với hơn 110 khung code → kết quả render thật; gồm đề thi, 18 theme đề, 12 theme sách, BBT/BXD, hình cơ bản, conic, trụ–nón–cầu, helix, ký hiệu và xử lý lỗi. <a href="downloads/hdsd-sang-math-1.0.0.pdf" download>Tải tại đây</a>.</div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
 <!-- SECTION: EXAM OVERVIEW -->
 <!-- ═══════════════════════════════════════════ -->
 <section id="exam-overview" class="doc-section hidden">
   <h1>📋 Tổng Quan Module Đề Thi</h1>
-  <p>Module đề thi (<code>sang-exam.typ</code>) cung cấp đầy đủ công cụ soạn đề thi THPT theo cấu trúc Bộ GD&ĐT từ 2025.</p>
+  <p>Nhóm API đề thi của <code>sang-math:1.0.0</code> cung cấp đầy đủ công cụ soạn đề THPT theo cấu trúc Bộ GD&amp;ĐT từ 2025.</p>
 
   <h2>Luồng làm việc</h2>
   <div class="flow-steps">
-    <div class="flow-step"><div class="flow-num">1</div><div><strong>Import</strong><br/>sang-exam.typ + cetz</div></div>
+    <div class="flow-step"><div class="flow-num">1</div><div><strong>Import</strong><br/>sang-math:1.0.0</div></div>
     <div class="flow-arrow">→</div>
-    <div class="flow-step"><div class="flow-num">2</div><div><strong>Chọn mode</strong><br/>dethi / loigiai / solcolor</div></div>
+    <div class="flow-step"><div class="flow-num">2</div><div><strong>Chọn preset</strong><br/>theme + profile</div></div>
     <div class="flow-arrow">→</div>
     <div class="flow-step"><div class="flow-num">3</div><div><strong>exam-mode()</strong><br/>Tạo macro tn/ds/tln/tl</div></div>
     <div class="flow-arrow">→</div>
@@ -412,13 +489,15 @@ typst compile --root typst typst/bo-de.typ output/bo-de.pdf</code></pre>
     <div class="flow-step"><div class="flow-num">5</div><div><strong>Soạn câu</strong><br/>#tn #ds #tln #tl</div></div>
   </div>
 
-  <h2>Ba chế độ hiển thị</h2>
+  <h2>Profile hiển thị</h2>
   <table class="doc-table">
     <thead><tr><th>mode</th><th>Hiển thị</th><th>Dùng khi</th></tr></thead>
     <tbody>
       <tr><td><code>"dethi"</code></td><td>Câu hỏi thuần, không đáp án, ô trống trắng</td><td>In đề cho học sinh</td></tr>
       <tr><td><code>"loigiai"</code></td><td>Câu hỏi + lời giải + đáp án đúng tô màu</td><td>Tài liệu ôn tập, đáp án</td></tr>
-      <tr><td><code>"solcolor"</code></td><td>Như loigiai nhưng đáp án đúng nổi bật hơn</td><td>Đáp án chiếu trình chiếu</td></tr>
+      <tr><td><code>"compact"</code></td><td>Dàn đề hai cột</td><td>Đề ngắn, tiết kiệm giấy</td></tr>
+      <tr><td><code>"draft"</code></td><td>Chừa vùng nháp cạnh câu</td><td>Phiếu luyện tập</td></tr>
+      <tr><td><code>"beamer"</code></td><td>Bỏ dàn trang in</td><td>Chuẩn bị nội dung cho engine slide riêng</td></tr>
     </tbody>
   </table>
 
@@ -790,11 +869,13 @@ classic.crimson // = rgb("#cc2200")  — đỏ đậm</code></pre>
 </section>
 
 <!-- ═══════════════════════════════════════════ -->
-<!-- SECTION: IDS & BANK -->
+<!-- SECTION: IDS AND BANK -->
 <!-- ═══════════════════════════════════════════ -->
 <section id="ids-bank" class="doc-section hidden">
-  <h1>🆔 ID, Tags & Ngân Hàng Câu Hỏi</h1>
+  <h1>🆔 ID, Tags &amp; Ngân Hàng Câu Hỏi</h1>
   <p>Hệ thống dùng ID để quản lý câu hỏi bền vững. ID trong câu hỏi giúp đối soát khi trộn đề; ID trong <code>bank.json</code> là bản đồ phân loại để lọc theo lớp, chương, bài, dạng và mức độ.</p>
+
+  <div class="callout callout-warning"><strong>Phạm vi API:</strong> <code>id:</code> và <code>tags:</code> có sẵn trong <code>sang-math:1.0.0</code>. Các script <code>bank:*</code> và <code>modules/question-bank.typ</code> bên dưới là tiện ích mở rộng của repository ConicTypst, không nằm trong package Typst Universe.</div>
 
   <h2>Quy ước ID khuyến nghị</h2>
   <div class="code-block-wrap">
@@ -880,7 +961,8 @@ classic.crimson // = rgb("#cc2200")  — đỏ đậm</code></pre>
   <h2>Dựng câu theo bộ lọc</h2>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-    <pre><code class="lang-typst">#import "template.typ": *
+    <pre><code class="lang-typst">#import "@preview/sang-math:1.0.0": *
+#import "modules/question-bank.typ": *
 #import "questions.typ": question-bank
 
 #let bank = load-bank()
@@ -907,7 +989,7 @@ classic.crimson // = rgb("#cc2200")  — đỏ đậm</code></pre>
   </div>
 
   <h2>Nhập kho STEXGV sang Typst</h2>
-  <p>Nếu máy có thư mục <code>/Users/admin/stexgv</code>, bridge mới sẽ đọc trực tiếp kho <code>ThptExamBuilder/banks</code>, giữ ID gốc, slot 1-22, topic, source, seed sinh câu, rồi xuất registry Typst để trộn đề.</p>
+  <p>Đây là quy trình dành cho maintainer repository ConicTypst. Bridge đọc kho <code>ThptExamBuilder/banks</code> từ dự án STEXGV đặt cạnh repository, giữ ID gốc, slot 1–22, topic, source và seed, rồi xuất registry Typst để trộn đề.</p>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
     <pre><code class="lang-bash">npm run stexgv:import
@@ -923,14 +1005,12 @@ npm run stexgv:mix -- --compile</code></pre>
       <tr><td><code>output/stexgv-mix-demo.pdf</code></td><td>Đầu ra PDF khi chạy thêm <code>--compile</code>.</td></tr>
     </tbody>
   </table>
-  <div class="callout callout-warning">
-    <strong>Trạng thái import hiện tại:</strong> bridge nhập được 1.553 câu STEXGV. Có 743 câu <code>ready</code>, 810 câu <code>review</code> vì còn TikZ, tkz-tab hoặc lệnh LaTeX đặc thù cần chuyển sâu sang CeTZ/BBT. Tất cả câu vẫn có ID và trộn đề được khi dùng <code>status: none</code>.
-  </div>
+  <div class="callout callout-warning"><strong>Kiểm duyệt sau import:</strong> câu chứa TikZ, <code>tkz-tab</code> hoặc lệnh LaTeX đặc thù được đánh dấu <code>review</code>. Chỉ nên public câu <code>ready</code> sau khi đã kiểm tra PDF; <code>status: none</code> dành cho rà soát nội bộ.</div>
 
   <h2>Import lõi trộn đề</h2>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-    <pre><code class="lang-typst">#import "sang-exam.typ": *
+    <pre><code class="lang-typst">#import "@preview/sang-math:1.0.0": *
 #import "questions.typ": question-bank
 #import "modules/question-bank.typ": (
   exam-slot,
@@ -1194,11 +1274,10 @@ npm run stexgv:mix -- --compile</code></pre>
     <div class="code-header"><span class="code-lang">typst — de-thi-mau.typ</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
     <pre><code class="lang-typst">// ═══════════════════════════════════════════
 // ĐỀ THI MẪU — Chỉnh sửa phần có dấu ◄
-// Biên dịch: typst compile --root typst typst/exams/de-mau.typ output/de.pdf
+// Biên dịch: typst compile de-thi-mau.typ de-thi-mau.pdf
 // ═══════════════════════════════════════════
 
-#import "../sang-exam.typ": *
-#import "@preview/cetz:0.5.2"
+#import "@preview/sang-math:1.0.0": *
 
 // ── Chế độ ◄ ─────────────────────────────
 #let mode   = "dethi"       // ◄ đổi thành "loigiai" để xem đáp án
@@ -1292,40 +1371,42 @@ npm run stexgv:mix -- --compile</code></pre>
 <!-- SECTION: BOOK OVERVIEW -->
 <!-- ═══════════════════════════════════════════ -->
 <section id="book-overview" class="doc-section hidden">
-  <h1>📚 Tổng Quan Module Sách / SGK</h1>
-  <p>Module sách (<code>modules/book.typ</code>) cung cấp hệ thống soạn thảo đầy đủ cho SGK, chuyên đề và bộ đề thi nhiều đề.</p>
+  <h1>📚 Tổng Quan Sách / SGK</h1>
+  <p><code>sang-math:1.0.0</code> cung cấp một API ổn định để soạn SGK, chuyên đề, workbook, sách lời giải, handout và tài liệu nghiên cứu. Không cần sao chép module nội bộ.</p>
 
-  <h2>Các loại tài liệu hỗ trợ</h2>
+  <h2>12 giao diện sách chính thức</h2>
   <table class="doc-table">
-    <thead><tr><th>doc-type</th><th>Mô tả</th><th>File mẫu</th></tr></thead>
+    <thead><tr><th>Nhóm</th><th>Theme</th><th>Phù hợp</th></tr></thead>
     <tbody>
-      <tr><td><code>"book"</code></td><td>Sách / chuyên đề cơ bản</td><td><code>typst/book.typ</code></td></tr>
-      <tr><td><code>"sgk"</code></td><td>Sách giáo khoa đầy đủ mạch dạy học</td><td><code>typst/sgk.typ</code></td></tr>
-      <tr><td><code>"chuyende"</code></td><td>Chuyên đề học tập dài</td><td><code>typst/chuyende.typ</code></td></tr>
-      <tr><td><code>"bo-de"</code></td><td>Bộ đề thi nhiều đề trong một file</td><td><code>typst/bo-de.typ</code></td></tr>
-      <tr><td><code>"research"</code></td><td>Bài nghiên cứu khoa học 2 cột</td><td><code>modules/research.typ</code></td></tr>
+      <tr><td>Sách học</td><td><code>sgk-modern</code>, <code>lotus-study</code>, <code>blackboard-green</code></td><td>SGK, chuyên đề, bài học</td></tr>
+      <tr><td>Luyện tập</td><td><code>workbook-jade</code>, <code>handout-sky</code>, <code>lesson-amber</code></td><td>Workbook, phiếu học tập</td></tr>
+      <tr><td>Nâng cao</td><td><code>vdc-elite</code>, <code>olympiad-indigo</code>, <code>solution-crimson</code></td><td>VDC, Olympic, sách lời giải</td></tr>
+      <tr><td>Xuất bản</td><td><code>magazine-coral</code>, <code>minimal-graphite</code>, <code>research-slate</code></td><td>Tạp chí, tối giản, nghiên cứu</td></tr>
     </tbody>
   </table>
 
-  <h2>Metadata chuẩn</h2>
+  <h2>Khung sách tối thiểu</h2>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-    <pre><code class="lang-typst">#show: stexgv-doc.with(
-  doc-type: "sgk",           // Loại tài liệu
-  title: "TÊN SÁCH",
-  subtitle: "Phụ đề nếu có",
-  author: "GV Nguyễn Văn Sang",
-  institution: "Trường THPT...",
-  subject: "Toán",
+    <pre><code class="lang-typst">#import "@preview/sang-math:1.0.0": *
+
+#let theme = "sgk-modern"
+
+#show: book-theme.with(
+  theme: theme,
+  title: "CHUYÊN ĐỀ HÀM SỐ",
+  subtitle: "Lý thuyết · Ví dụ · Luyện tập",
+  author: "Tổ Toán",
+  institution: "Trường THPT Sang-Math",
   grade: "Lớp 12",
-  series: "Tên bộ tài liệu",
-  academic-year: "2025–2026",
-  publisher: "Đơn vị phát hành",
-  theme-color: classic.blue, // Màu chủ đạo
-  show-cover: true,          // Bật/tắt trang bìa
-  show-outline: true,        // Bật/tắt mục lục
-  outline-depth: 3,          // Độ sâu mục lục
-)</code></pre>
+  subject: "Toán",
+  year: "2026–2027",
+  cover-note: [Tài liệu học tập dùng trong nhà trường.],
+  toc: true,
+)
+
+#book-chapter([Ứng dụng đạo hàm], number: "01", theme: theme)
+#book-lesson([Tính đơn điệu], number: "1", theme: theme)</code></pre>
   </div>
 </section>
 
@@ -1335,67 +1416,55 @@ npm run stexgv:mix -- --compile</code></pre>
 <section id="book-structure" class="doc-section hidden">
   <h1>🗂️ Cấu Trúc Phân Cấp Sách</h1>
 
-  <h2>Các lệnh cấu trúc</h2>
+  <h2>Ba cấp cấu trúc ổn định</h2>
   <div class="hierarchy-tree">
-    <div class="tree-item level-0"><code>#part([Tên phần])</code> <span class="tree-alias">alias: #unit</span></div>
-    <div class="tree-item level-1"><code>#chapter([Tên chương])</code></div>
-    <div class="tree-item level-2"><code>#bai([Tên bài])</code> <span class="tree-alias">alias: #lesson</span></div>
-    <div class="tree-item level-3"><code>#dang([Tên dạng toán])</code> <span class="tree-alias">alias: #topic</span></div>
-    <div class="tree-item level-4"><code>#muc([Tên mục])</code> <span class="tree-alias">alias: #section</span></div>
-    <div class="tree-item level-4"><code>#appendix([Tên phụ lục])</code> <span class="tree-alias">alias: #phuluc</span></div>
+    <div class="tree-item level-0"><code>#book-chapter([Tên chương], number: "01", theme: theme)</code></div>
+    <div class="tree-item level-1"><code>#book-lesson([Tên bài], number: "1", theme: theme)</code></div>
+    <div class="tree-item level-2"><code>#book-section([Tên mục], number: "1.1", theme: theme)</code></div>
   </div>
 
-  <h2>Các lệnh mở đầu tài liệu</h2>
+  <h2>Quy tắc đồng bộ giao diện</h2>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-    <pre><code class="lang-typst">#loinoidau[Lời nói đầu...]        // alias: #preface
-#gioithieu[Giới thiệu...]          // alias: #introduction
-#huongdansudung[Hướng dẫn...]
-#muctieuchung[Mục tiêu chung...]
-#bangthuatngu[...]                 // alias: #glossary
-#tailieuthamkhao[...]              // alias: #references</code></pre>
+    <pre><code class="lang-typst">// Dùng cùng một biến theme cho bìa, tiêu đề và mọi hộp.
+#let theme = "workbook-jade"
+
+#show: book-theme.with(theme: theme, title: "BÀI TẬP TOÁN 12")
+#book-chapter([Nguyên hàm], number: "03", theme: theme)
+#book-lesson([Bảng nguyên hàm], number: "1", theme: theme)
+#book-section([Bài tập cơ bản], number: "3.1", theme: theme)</code></pre>
   </div>
 
   <h2>Ví dụ cấu trúc đầy đủ</h2>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-    <pre><code class="lang-typst">#part([Phần 1: Giải Tích])
+    <pre><code class="lang-typst">#book-chapter([Hàm số và đạo hàm], number: "01", theme: theme)
+#book-lesson([Khảo sát hàm bậc ba], number: "1", theme: theme)
 
-#chapter([Hàm Số Và Đạo Hàm])
-
-#bai([Bài 1: Khảo sát hàm bậc ba])
-
-#muctieu[
+#goal-box(theme: theme)[
   - Lập được BBT của hàm bậc ba.
   - Vẽ đồ thị hàm số.
 ]
 
-#khoidong[
+#warmup-box(theme: theme)[
   Quan sát đồ thị và nhận xét số cực trị.
 ]
 
-#khampha[
+#explore-box(theme: theme)[
   Phương pháp: tính $f'(x)$, giải $f'(x) = 0$, lập BBT.
 ]
 
-#vd(
-  [Khảo sát $f(x) = x^3 - 3x^2 + 4$.],
-  loigiai: [Lời giải...],
-)
+#example-box(theme: theme)[Khảo sát $f(x) = x^3 - 3x^2 + 4$.]
 
-#bt([Tìm cực trị của $f(x) = -x^3 + 3x$], lines: 4)
+#exercise-box(theme: theme, lines: 4)[Tìm cực trị của $f(x) = -x^3 + 3x$.]
 
-#luyentap[
-  #bt([Bài 1.], lines: 3)
-  #bt([Bài 2.], lines: 4)
+#practice-box(theme: theme)[
+  Thực hiện thêm hai bài toán cùng dạng.
 ]
 
-#tomtat[
+#summary-box(theme: theme)[
   Hàm bậc ba $f(x) = ax^3 + bx^2 + cx + d$ ($a \ne 0$) có tối đa 2 cực trị.
-]
-
-#appendix([Phụ lục: Bảng đạo hàm])
-</code></pre>
+]</code></pre>
   </div>
 </section>
 
@@ -1405,57 +1474,47 @@ npm run stexgv:mix -- --compile</code></pre>
 <section id="book-boxes" class="doc-section hidden">
   <h1>📦 Các Hộp Nội Dung SGK</h1>
 
-  <h2>Hộp mạch dạy học SGK</h2>
+  <p>Phiên bản 1.0.0 xuất chính thức 13 hộp nội dung. Mỗi hộp nhận <code>theme:</code>; riêng <code>exercise-box</code> nhận thêm <code>lines:</code>.</p>
+
+  <h2>Mạch tổ chức bài học</h2>
   <div class="box-list">
-    <div class="box-item"><code>#muctieu[...]</code><div>Hộp mục tiêu bài học — đặt đầu bài</div></div>
-    <div class="box-item"><code>#chuanbi[...]</code><div>Chuẩn bị / đồ dùng dạy học</div></div>
-    <div class="box-item"><code>#khoidong[...]</code><div>Hoạt động khởi động</div></div>
-    <div class="box-item"><code>#khampha[...]</code><div>Khám phá / hình thành kiến thức</div></div>
-    <div class="box-item"><code>#hoatdong[...]</code><div>Hoạt động nhóm / thực hành</div></div>
-    <div class="box-item"><code>#luyentap[...]</code><div>Phần luyện tập</div></div>
-    <div class="box-item"><code>#vandung[...]</code><div>Vận dụng / bài toán thực tế</div></div>
-    <div class="box-item"><code>#morang[...]</code><div>Mở rộng / nâng cao</div></div>
-    <div class="box-item"><code>#tomtat[...]</code><div>Tóm tắt lý thuyết</div></div>
-    <div class="box-item"><code>#duan[...]</code><div>Dự án học tập</div></div>
+    <div class="box-item"><code>#goal-box(theme: theme)[...]</code><div>Mục tiêu bài học</div></div>
+    <div class="box-item"><code>#warmup-box(theme: theme)[...]</code><div>Khởi động</div></div>
+    <div class="box-item"><code>#explore-box(theme: theme)[...]</code><div>Khám phá, hình thành kiến thức</div></div>
+    <div class="box-item"><code>#activity-box(theme: theme)[...]</code><div>Hoạt động học tập</div></div>
+    <div class="box-item"><code>#practice-box(theme: theme)[...]</code><div>Luyện tập</div></div>
+    <div class="box-item"><code>#summary-box(theme: theme)[...]</code><div>Tóm tắt cuối bài</div></div>
   </div>
 
-  <h2>Hộp lý thuyết</h2>
+  <h2>Kiến thức và bài tập</h2>
   <div class="box-list">
-    <div class="box-item"><code>#phuongphap[...]</code><div>Khung phương pháp giải</div></div>
-    <div class="box-item"><code>#lythuyet[...]</code><div>Banner lý thuyết xanh dương</div></div>
-    <div class="box-item"><code>#ghinho[...]</code><div>Ô ghi nhớ / ghi chú quan trọng</div></div>
-    <div class="box-item"><code>#nhanxet[...]</code><div>Nhận xét học thuật</div></div>
-    <div class="box-item"><code>#luuy[...]</code><div>Lưu ý / cảnh báo</div></div>
-    <div class="box-item"><code>#note[...]</code><div>Ghi chú bổ sung</div></div>
-    <div class="box-item"><code>#dn[...]</code><div>Định nghĩa</div></div>
-    <div class="box-item"><code>#dl[...]</code><div>Định lý</div></div>
-    <div class="box-item"><code>#tc[...]</code><div>Tính chất</div></div>
-    <div class="box-item"><code>#bode[...]</code><div>Bổ đề</div></div>
+    <div class="box-item"><code>#theory-box(theme: theme)[...]</code><div>Lý thuyết trọng tâm</div></div>
+    <div class="box-item"><code>#definition-box(theme: theme)[...]</code><div>Định nghĩa</div></div>
+    <div class="box-item"><code>#theorem-box(theme: theme)[...]</code><div>Định lý</div></div>
+    <div class="box-item"><code>#method-box(theme: theme)[...]</code><div>Phương pháp giải</div></div>
+    <div class="box-item"><code>#example-box(theme: theme)[...]</code><div>Ví dụ</div></div>
+    <div class="box-item"><code>#warning-box(theme: theme)[...]</code><div>Lưu ý, cảnh báo</div></div>
+    <div class="box-item"><code>#exercise-box(theme: theme, lines: 4)[...]</code><div>Bài tập có dòng làm bài</div></div>
   </div>
 
   <h2>Các khối nội dung đánh số</h2>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-    <pre><code class="lang-typst">// Ví dụ có lời giải
-#vd(
-  [Nội dung ví dụ.],
-  loigiai: [Lời giải chi tiết.],
-)
+    <pre><code class="lang-typst">#theory-box(theme: theme)[
+  Hàm số đồng biến trên $I$ nếu $f'(x) > 0$ với mọi $x in I$.
+]
 
-// Bài tập với dòng trống
-#bt(
-  [Bài tập luyện tập.],
-  lines: 4,        // số dòng kẻ trống
-)
+#method-box(theme: theme)[
+  Tính đạo hàm, tìm điểm tới hạn, xét dấu rồi kết luận.
+]
 
-// Câu hỏi củng cố
-#cauhoi([Câu hỏi kiểm tra kiến thức.])
+#example-box(theme: theme)[
+  Xét tính đơn điệu của $f(x) = x^3 - 3x$.
+]
 
-// Hoạt động nhóm
-#hd([Thực hiện hoạt động sau...])
-
-// Ôn luyện
-#onluyen([Bài ôn luyện chương...])</code></pre>
+#exercise-box(theme: theme, lines: 5)[
+  Xét tính đơn điệu của $g(x) = x^3 - 6x^2 + 9x$.
+]</code></pre>
   </div>
 </section>
 
@@ -1463,35 +1522,25 @@ npm run stexgv:mix -- --compile</code></pre>
 <!-- SECTION: BOOK COUNTERS -->
 <!-- ═══════════════════════════════════════════ -->
 <section id="book-counters" class="doc-section hidden">
-  <h1>🔢 Bộ Đếm Trong Sách</h1>
+  <h1>🔢 Đánh Số Trong Sách</h1>
 
-  <h2>Điều khiển bộ đếm</h2>
+  <p>API sách 1.0.0 chủ động nhận chuỗi <code>number:</code>. Cách này ổn định khi tách chương thành nhiều file, ghép sách hoặc dùng số dạng <code>01</code>, <code>1.2</code>.</p>
+  <h2>Đặt số rõ ràng ở từng cấp</h2>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-    <pre><code class="lang-typst">// Đặt số chương / bài / mục / phụ lục
-#setchuong(3)       // Chương kế tiếp là Chương 3
-#setbai(4)          // Bài kế tiếp là Bài 4
-#setmuc(2)          // Mục kế tiếp là Mục 2
-#setphuluc(2)       // Phụ lục kế tiếp là Phụ lục 2
-
-// Reset về đầu
-#resetchuong()
-#resetbai()
-#resetmuc()
-
-// Ví dụ và bài tập
-#setvd(6)           // Ví dụ kế tiếp là Ví dụ 6
-#setbt(8)           // Bài tập kế tiếp là Bài 8
-#resetvd()
-#resetbt()
-
-// API tổng quát
-#setbookcounter("chapter", 3)   // = setchuong(3)
-#resetbookcounter("vd")</code></pre>
+    <pre><code class="lang-typst">#book-chapter(
+  [Ứng dụng đạo hàm], number: "01", theme: theme,
+)
+#book-lesson(
+  [Tính đơn điệu], number: "1", theme: theme,
+)
+#book-section(
+  [Bài tập vận dụng], number: "1.3", theme: theme,
+)</code></pre>
   </div>
 
   <div class="callout callout-tip">
-    <strong>💡 Lưu ý:</strong> Bộ đếm ví dụ và bài tập tự reset khi sang bài/chương mới. Chỉ dùng <code>setvd/setbt</code> khi ghép nội dung từ nhiều nguồn.
+    <strong>Quy ước nên dùng:</strong> chương <code>01</code>, <code>02</code>; bài <code>1</code>, <code>2</code>; mục <code>1.1</code>, <code>1.2</code>. Hộp ví dụ và bài tập được phân biệt bằng kiểu trình bày, không cần bộ đếm riêng.
   </div>
 </section>
 
@@ -1499,40 +1548,34 @@ npm run stexgv:mix -- --compile</code></pre>
 <!-- SECTION: EXAM SET -->
 <!-- ═══════════════════════════════════════════ -->
 <section id="exam-set" class="doc-section hidden">
-  <h1>📰 Bộ Đề Nhiều Đề — #de</h1>
+  <h1>📰 Ghép Nhiều Đề Trong Một PDF</h1>
 
-  <h2>Cú pháp #de</h2>
+  <p>Phiên bản public không dùng wrapper <code>#de</code>. Mỗi đề là một lần gọi <code>exam-theme</code>; trước đề tiếp theo dùng <code>resetexamstate()</code> và <code>pagebreak()</code>.</p>
+  <h2>Mẫu hai mã đề</h2>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-    <pre><code class="lang-typst">#de(
-  title: [Đề số 1],          // tên trên mục lục bộ đề
-  exam-title: none,          // tên trên đề (nếu khác title)
-  department: "SỞ GD&ĐT",
-  school: "TỈNH...",
-  subject: "TOÁN",
-  duration: "90 phút",
-  code: "101",
-  show-answer-key: true,     // in đáp án sau đề
-  show-end: true,            // in dòng HẾT
-  reset-state: true,         // reset số câu/phần mỗi đề mới
-  question-start: 1,
-)[
-  // Nội dung đề thi ở đây
-  #exam-part([PHẦN I.], count: 12)
-  #tn([...], (...))
-  // ...
+    <pre><code class="lang-typst">#import "@preview/sang-math:1.0.0": *
+
+#let preset = exam-preset(theme: "classic", profile: "dethi")
+#let (tn, ds, tln, tl) = exam-mode(..preset.question)
+
+#exam-theme(..preset.template, code: "101")[
+  #exam-part([PHẦN I. Trắc nghiệm], count: 12)
+  #tn([Câu của mã 101...], (True([$A$]), [$B$], [$C$], [$D$]))
+  #het
+]
+
+#pagebreak()
+#resetexamstate()
+
+#exam-theme(..preset.template, code: "102")[
+  #exam-part([PHẦN I. Trắc nghiệm], count: 12)
+  #tn([Câu của mã 102...], ([$A$], True([$B$]), [$C$], [$D$]))
+  #het
 ]</code></pre>
   </div>
 
-  <h2>Các hộp bổ sung trong bộ đề</h2>
-  <div class="code-block-wrap">
-    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-    <pre><code class="lang-typst">// Đặt trước mỗi đề hoặc trước toàn tuyển tập
-#matran[Ma trận đề thi...]
-#dacta[Đặc tả câu hỏi...]
-#huongdancham[Hướng dẫn chấm điểm...]
-#luuybode[Lưu ý khi chấm...]</code></pre>
-  </div>
+  <div class="callout callout-warning"><strong>Quan trọng:</strong> luôn gọi <code>resetexamstate()</code> giữa hai đề để số câu, số phần và dữ liệu bảng đáp án không bị nối tiếp.</div>
 </section>
 
 <!-- ═══════════════════════════════════════════ -->
@@ -1542,65 +1585,62 @@ npm run stexgv:mix -- --compile</code></pre>
   <h1>📄 File Mẫu Sách / Chuyên Đề</h1>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst — chuyen-de-mau.typ</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-    <pre><code class="lang-typst">// Biên dịch: typst compile --root typst typst/chuyen-de-mau.typ output/cd.pdf
+    <pre><code class="lang-typst">// Biên dịch: typst compile chuyen-de-mau.typ chuyen-de-mau.pdf
 
-#import "template.typ": *
-#import "@preview/cetz:0.5.2"
-#import "bbt.typ": *
+#import "@preview/sang-math:1.0.0": *
 
-#show: stexgv-doc.with(
-  doc-type: "chuyende",          // ◄ đổi thành "sgk" | "book" nếu cần
+#let theme = "sgk-modern" // đổi sang một trong 12 book theme
+
+#show: book-theme.with(
+  theme: theme,
   title: "CHUYÊN ĐỀ TOÁN 12",
   subtitle: "Giải tích — Hình học — Xác suất",
-  author: "GV Nguyễn Văn Sang",
+  author: "Tổ Toán",
   institution: "Trường THPT Nguyễn Du",
   subject: "Toán",
   grade: "Lớp 12",
-  academic-year: "2025–2026",
-  theme-color: classic.blue,
+  year: "2026–2027",
+  cover-note: [Tài liệu học tập dùng trong nhà trường.],
+  toc: true,
 )
 
-// ── Lời nói đầu ──────────────────────────
-#loinoidau[
-  Chuyên đề này được biên soạn nhằm...
-]
-
 // ── Cấu trúc nội dung ────────────────────
-#part([Phần 1: Giải Tích])
+#book-chapter([Hàm Số Đơn Điệu], number: "01", theme: theme)
+#book-lesson([Khảo sát hàm bậc ba], number: "1", theme: theme)
+#book-section([Phương pháp], number: "1.1", theme: theme)
 
-#chapter([Chương 1: Hàm Số Đơn Điệu])
-
-#bai([Bài 1: Khảo sát hàm bậc ba])
-
-#muctieu[
+#goal-box(theme: theme)[
   - Lập được bảng biến thiên.
   - Tìm cực trị và khoảng đơn điệu.
 ]
 
-#phuongphap[
+#method-box(theme: theme)[
   *Phương pháp tổng quát:*
   + Tính $f'(x)$.
   + Giải $f'(x) = 0$, xác định dấu $f'$.
   + Lập BBT và kết luận.
 ]
 
-#vd(
-  [Khảo sát $f(x) = 2x^3 - 3x^2 - 12x + 1$.],
-  loigiai: [
+#example-box(theme: theme)[
+  *Ví dụ.* Khảo sát $f(x) = 2x^3 - 3x^2 - 12x + 1$.
+
+  #ppgiai[
     #step[$f'(x) = 6x^2 - 6x - 12 = 6(x-2)(x+1)$.]
-    #step[$f'(x) = 0 \Leftrightarrow x = -1$ hoặc $x = 2$.]
+    #step[$f'(x) = 0$ khi $x = -1$ hoặc $x = 2$.]
     #step[CT: $f(-1) = 8$; ct: $f(2) = -19$.]
     #reset-step()
-  ],
-)
-
-#bt([Khảo sát $f(x) = x^3 - 6x^2 + 9x - 4$.], lines: 6)
-
-#luyentap[
-  #bt([Tìm cực trị của $f(x) = x^4 - 8x^2 + 3$.], lines: 5)
+  ]
 ]
 
-#tomtat[
+#exercise-box(theme: theme, lines: 6)[
+  Khảo sát $f(x) = x^3 - 6x^2 + 9x - 4$.
+]
+
+#practice-box(theme: theme)[
+  Tìm cực trị của $f(x) = x^4 - 8x^2 + 3$.
+]
+
+#summary-box(theme: theme)[
   Hàm bậc ba $y = ax^3+bx^2+cx+d$ ($a \ne 0$):
   - Có $\Delta' = b^2-3ac$: 2 cực trị khi $\Delta' > 0$.
 ]</code></pre>
@@ -1611,39 +1651,34 @@ npm run stexgv:mix -- --compile</code></pre>
 <!-- SECTION: BBT OVERVIEW -->
 <!-- ═══════════════════════════════════════════ -->
 <section id="bbt-overview" class="doc-section hidden">
-  <h1>📈 Tổng Quan Module Vẽ Hình</h1>
-  <p>Module này gồm hai file: <code>bbt.typ</code> (bảng biến thiên, xét dấu) và <code>geometry.typ</code> (hình học phẳng, không gian, đồ thị).</p>
+  <h1>📈 Bảng Biến Thiên &amp; Hình Học</h1>
+  <p>Tất cả API BBT, BXD, bảng số liệu và hình học đều được xuất từ package gốc. Chỉ cần một lệnh import; <code>cetz</code> được package quản lý như dependency.</p>
 
   <h2>Import</h2>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-    <pre><code class="lang-typst">// Cần import cetz trước
-#import "@preview/cetz:0.5.2"
+    <pre><code class="lang-typst">#import "@preview/sang-math:1.0.0": *
 
-// Bảng biến thiên & xét dấu
-#import "bbt.typ": *
-
-// Hình học
-#import "geometry.typ": *</code></pre>
+// Dùng trực tiếp:
+#bbtv2(...)
+#bxd(...)
+#tri-abc(...)
+#parabola(...)</code></pre>
   </div>
 
   <h2>Tổng hợp các hàm</h2>
   <table class="doc-table">
-    <thead><tr><th>Hàm</th><th>File</th><th>Mô tả</th></tr></thead>
+    <thead><tr><th>Hàm</th><th>Nhóm</th><th>Mô tả</th></tr></thead>
     <tbody>
-      <tr><td><code>bbtv2(...)</code></td><td>bbt.typ</td><td>BBT tiêu chuẩn, tự điều chỉnh chiều cao, hỗ trợ <code>shade</code> vùng gạch chéo</td></tr>
-      <tr><td><code>bbbt(...)</code></td><td>bbt.typ</td><td>BBT đầy đủ, có <code>ranks</code> thủ công để chỉnh cao độ nhãn và mũi tên</td></tr>
-      <tr><td><code>bxd(...)</code></td><td>bbt.typ</td><td>Bảng xét dấu một hoặc nhiều dòng</td></tr>
-      <tr><td><code>bang-gia-tri(...)</code></td><td>bbt.typ</td><td>Bảng giá trị hàm số</td></tr>
-      <tr><td><code>tri-xyz(...)</code></td><td>geometry.typ</td><td>Tam giác từ 3 điểm toạ độ</td></tr>
-      <tr><td><code>tri-abc(...)</code></td><td>geometry.typ</td><td>Tam giác thường (đáy ngang)</td></tr>
-      <tr><td><code>tri-right(...)</code></td><td>geometry.typ</td><td>Tam giác vuông tại A</td></tr>
-      <tr><td><code>chop-sabc(...)</code></td><td>geometry.typ</td><td>Hình chóp S.ABC</td></tr>
-      <tr><td><code>chop-sabcd(...)</code></td><td>geometry.typ</td><td>Hình chóp S.ABCD</td></tr>
-      <tr><td><code>lang-tru-abc(...)</code></td><td>geometry.typ</td><td>Lăng trụ ABC.A'B'C'</td></tr>
-      <tr><td><code>axis-xy(...)</code></td><td>geometry.typ</td><td>Hệ trục Oxy</td></tr>
-      <tr><td><code>parabola(...)</code></td><td>geometry.typ</td><td>Đồ thị parabol y=ax²+bx+c</td></tr>
-      <tr><td><code>circle-desc(...)</code></td><td>geometry.typ</td><td>Đường tròn tâm O bán kính R</td></tr>
+      <tr><td><code>bbtv2(...)</code>, <code>bbbt(...)</code></td><td>Biến thiên</td><td>BBT tự động hoặc điều chỉnh cao độ thủ công</td></tr>
+      <tr><td><code>bxd(...)</code>, <code>bbt-opt(...)</code></td><td>Dấu / tối ưu</td><td>Bảng xét dấu và cấu hình BBT</td></tr>
+      <tr><td><code>bang-gia-tri(...)</code>, <code>bang-phan-phoi(...)</code></td><td>Bảng</td><td>Bảng giá trị và bảng phân phối</td></tr>
+      <tr><td><code>auto-bbt(...)</code></td><td>Tự động</td><td>Sinh BBT từ dữ liệu đầu vào</td></tr>
+      <tr><td><code>tri-xyz(...)</code>, <code>tri-abc(...)</code>, <code>tri-right(...)</code></td><td>2D</td><td>Tam giác tổng quát, chuẩn và vuông</td></tr>
+      <tr><td><code>rect-xyz(...)</code>, <code>rect-abc(...)</code>, <code>square(...)</code></td><td>2D</td><td>Tứ giác và hình vuông</td></tr>
+      <tr><td><code>chop-sabc(...)</code>, <code>chop-sabcd(...)</code>, <code>lang-tru-abc(...)</code></td><td>3D</td><td>Hình chóp và lăng trụ</td></tr>
+      <tr><td><code>axis-xy(...)</code>, <code>plot(...)</code>, <code>parabola(...)</code></td><td>Đồ thị</td><td>Hệ trục và đồ thị hàm số</td></tr>
+      <tr><td><code>circle-desc(...)</code>, <code>ellipse-h(...)</code></td><td>Đường cong</td><td>Đường tròn và ellipse cơ bản</td></tr>
     </tbody>
   </table>
 </section>
@@ -2033,7 +2068,7 @@ ranks: ((0,), (2, -2), (0,))</code></pre>
 #tri-right(leg1: 4, leg2: 3, labels: ("A", "B", "C"))</code></pre>
   </div>
 
-  <h2>Hình chữ nhật & Vuông</h2>
+  <h2>Hình chữ nhật &amp; Vuông</h2>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
     <pre><code class="lang-typst">// Hình chữ nhật ABCD
@@ -2108,6 +2143,66 @@ ranks: ((0,), (2, -2), (0,))</code></pre>
   <div class="callout callout-tip">
     <strong>💡 Mẹo:</strong> Tham số <code>hidden</code> nhận tuple các nhãn cạnh (VD: <code>"SA"</code>, <code>"BC"</code>). Cạnh trong danh sách sẽ vẽ nét đứt thay vì nét liền.
   </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION: ADVANCED GEOMETRY -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="geo-advanced" class="doc-section hidden">
+  <h1>🧭 Hình Học Nâng Cao 1.0.0</h1>
+  <p>Các hàm bắt đầu bằng <code>draw-...</code> dùng trực tiếp ngữ cảnh vẽ, vì vậy phải đặt bên trong <code>cetz.canvas</code>. Đây là điểm khác với các macro cơ bản như <code>tri-abc</code> vốn tự tạo canvas.</p>
+
+  <h2>Conic: parabol, ellipse, hyperbol</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#import "@preview/cetz:0.5.2"
+#import "@preview/sang-math:1.0.0": draw-parabola, draw-ellipse, draw-hyperbola
+
+#cetz.canvas(length: 1cm, {
+  draw-ellipse(a: 2.5, b: 1.5, show-axes: true, show-foci: true)
+})
+
+#cetz.canvas(length: 1cm, {
+  draw-parabola(a: 0.5, h: 0, k: -1,
+    x-range: (-3.0, 3.0), label-vertex: [$I$])
+})
+
+#cetz.canvas(length: 1cm, {
+  draw-hyperbola(a: 1.2, b: 0.8,
+    show-asymptotes: true, show-foci: true)
+})</code></pre>
+  </div>
+  <p>Hàm dữ liệu tương ứng: <code>parabola-points</code>, <code>ellipse-points</code>, <code>hyperbola-branch-points</code>.</p>
+
+  <h2>Khối tròn xoay</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#cetz.canvas(length: 1cm, {
+  draw-cylinder(radius: 1.3, height: 3.5, show-hidden: true)
+})
+
+#cetz.canvas(length: 1cm, {
+  draw-cone(radius: 1.5, height: 3.8,
+    label-apex: [$S$], label-center: [$O$])
+})
+
+#cetz.canvas(length: 1cm, {
+  draw-sphere(radius: 1.7, show-equator: true, show-meridian: true)
+})</code></pre>
+  </div>
+
+  <h2>Helix và lò xo</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#cetz.canvas(length: 1cm, {
+  draw-helix(radius: 1, height: 4, loops: 2.5, auto-dashed: true)
+})
+
+#cetz.canvas(length: 1cm, {
+  draw-spring(radius: 0.4, height: 4, coils: 7)
+})</code></pre>
+  </div>
+  <p>API dữ liệu gồm <code>helix-points</code> và <code>helix-split-visible</code>. Các khối và đường cong hỗ trợ anchor để nối thêm nhãn, kích thước hoặc đoạn thẳng CeTZ.</p>
 </section>
 
 <!-- ═══════════════════════════════════════════ -->
@@ -2653,55 +2748,51 @@ ranks: ((0,), (2, -2), (0,))</code></pre>
 <!-- SECTION: DOWNLOADS -->
 <!-- ═══════════════════════════════════════════ -->
 <section id="downloads" class="doc-section hidden">
-  <h1>⬇️ Tải Về Gói Template</h1>
-  <p>Tải về các gói template để bắt đầu soạn thảo ngay mà không cần cấu hình thêm.</p>
+  <h1>⬇️ Tài Liệu &amp; Cài Package</h1>
+  <p>Cách chính thức là import package từ Typst Universe. Bạn không cần tải và chép các file nguồn vào dự án.</p>
 
   <div class="download-grid">
     <div class="download-card">
-      <div class="dl-icon">📦</div>
-      <div class="dl-title">Gói Đầy Đủ</div>
-      <div class="dl-desc">Tất cả file template: sang-exam, bbt, geometry, book, exam-set. Kèm file mẫu đề thi và sách mẫu.</div>
-      <div class="dl-meta">ZIP · ~150KB · Typst ≥ 0.12</div>
-      <a href="downloads/stexgv-template-full.zip" class="dl-btn" download>⬇ Tải gói đầy đủ</a>
+      <div class="dl-icon">📕</div>
+      <div class="dl-title">Sách Hướng Dẫn 1.0.0</div>
+      <div class="dl-desc">Tài liệu PDF đầy đủ: đề thi, sách, BBT, hình học, CeTZ nâng cao, bảng API và hướng dẫn di trú.</div>
+      <div class="dl-meta">PDF · 100 trang · A4 · 113 kết quả render</div>
+      <a href="downloads/hdsd-sang-math-1.0.0.pdf" class="dl-btn" download>⬇ Tải sách PDF</a>
     </div>
     <div class="download-card">
-      <div class="dl-icon">📋</div>
-      <div class="dl-title">Chỉ Module Đề Thi</div>
-      <div class="dl-desc">sang-exam.typ + file mẫu đề thi THPT 4 phần.</div>
-      <div class="dl-meta">ZIP · ~60KB</div>
-      <a href="downloads/stexgv-exam-only.zip" class="dl-btn" download>⬇ Module đề thi</a>
+      <div class="dl-icon">📦</div>
+      <div class="dl-title">Cài Qua Typst Universe</div>
+      <div class="dl-desc">Thêm đúng một dòng import vào file Typst; dependency được tải và quản lý tự động.</div>
+      <div class="dl-meta">Khuyến nghị · Typst ≥ 0.12</div>
+      <a href="#install" class="dl-btn nav-link" data-section="install">Xem cách cài</a>
+    </div>
+    <div class="download-card">
+      <div class="dl-icon">🧪</div>
+      <div class="dl-title">Mẫu Đề 1.0.0</div>
+      <div class="dl-desc">Mở phần file mẫu, sao chép và đổi theme, profile, thông tin kỳ thi cùng nội dung câu hỏi.</div>
+      <div class="dl-meta">Typst · 4 loại câu</div>
+      <a href="#exam-boiler" class="dl-btn nav-link" data-section="exam-boiler">Mở mẫu đề</a>
     </div>
     <div class="download-card">
       <div class="dl-icon">📚</div>
-      <div class="dl-title">Chỉ Module Sách</div>
-      <div class="dl-desc">modules/book.typ + template.typ + file mẫu SGK và chuyên đề.</div>
-      <div class="dl-meta">ZIP · ~50KB</div>
-      <a href="downloads/stexgv-book-only.zip" class="dl-btn" download>⬇ Module sách</a>
-    </div>
-    <div class="download-card">
-      <div class="dl-icon">📈</div>
-      <div class="dl-title">Chỉ Vẽ Hình</div>
-      <div class="dl-desc">bbt.typ + geometry.typ + file ví dụ BBT và hình học.</div>
-      <div class="dl-meta">ZIP · ~40KB</div>
-      <a href="downloads/stexgv-drawing.zip" class="dl-btn" download>⬇ Module vẽ hình</a>
+      <div class="dl-title">Mẫu Sách 1.0.0</div>
+      <div class="dl-desc">Mẫu chính thức dùng book-theme, ba cấp cấu trúc và đủ nhóm hộp nội dung xuất bản.</div>
+      <div class="dl-meta">Typst · 12 theme sách</div>
+      <a href="#book-boiler" class="dl-btn nav-link" data-section="book-boiler">Mở mẫu sách</a>
     </div>
   </div>
 
-  <h2>Lệnh biên dịch sau khi tải về</h2>
+  <h2>Biên dịch tài liệu của bạn</h2>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-    <pre><code class="lang-bash"># Giải nén vào thư mục dự án
-unzip stexgv-template-full.zip -d my-typst-project/
-cd my-typst-project
+    <pre><code class="lang-bash"># Biên dịch một lần
+typst compile main.typ main.pdf
 
-# Biên dịch đề thi mẫu
-typst compile --root typst typst/exams/de-mau.typ de-mau.pdf
+# Tự biên dịch khi lưu
+typst watch main.typ main.pdf
 
-# Biên dịch sách mẫu
-typst compile --root typst typst/chuyende.typ chuyen-de.pdf
-
-# Chế độ watch (tự biên dịch khi lưu)
-typst watch --root typst typst/exams/de-mau.typ de-mau.pdf</code></pre>
+# Chọn theme/profile từ dòng lệnh nếu dùng exam-input-preset
+typst compile --input theme=navy-gold --input profile=loigiai main.typ dap-an.pdf</code></pre>
   </div>
 
   <div class="callout callout-warning">

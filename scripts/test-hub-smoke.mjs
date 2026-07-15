@@ -13,8 +13,17 @@ page.on('console', message => {
 await page.setViewport({ width: 1440, height: 980, deviceScaleFactor: 1 })
 await page.goto(baseUrl, { waitUntil: 'networkidle2', timeout: 60000 })
 await page.waitForSelector('.hero-product')
+if (new URL(baseUrl).hostname.endsWith('.pages.dev')) {
+  // Lần mở production đầu tiên, Service Worker nhận quyền điều khiển rồi reload
+  // đúng một lần. Chờ quá trình đó ổn định để smoke test không bám execution
+  // context cũ trong lúc controllerchange.
+  await page.waitForFunction(() => Boolean(navigator.serviceWorker?.controller), { timeout: 30000 })
+  await page.waitForSelector('.hero-product')
+}
 await page.screenshot({ path: '/tmp/typst-conic-hub-home.png', fullPage: true })
-const serviceWorkerSource = await page.evaluate(() => fetch(`/sw.js?smoke=${Date.now()}`, { cache: 'no-store' }).then(response => response.text()))
+const serviceWorkerResponse = await fetch(new URL(`/sw.js?smoke=${Date.now()}`, baseUrl))
+if (!serviceWorkerResponse.ok) throw new Error(`Không tải được Service Worker: HTTP ${serviceWorkerResponse.status}`)
+const serviceWorkerSource = await serviceWorkerResponse.text()
 
 // Mỗi smoke run bắt đầu như một giáo viên mới, tránh dự án cũ trong IndexedDB
 // làm sai lệch việc kiểm tra template mặc định.

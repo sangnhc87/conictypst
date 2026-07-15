@@ -8,10 +8,18 @@
 (function () {
   'use strict';
 
+  if (!window.__CONICTYPST_LICENSE__ && !document.querySelector('script[data-conic-copyright]')) {
+    const copyrightGuard = document.createElement('script');
+    copyrightGuard.src = 'copyright-guard.js';
+    copyrightGuard.dataset.conicCopyright = 'true';
+    document.head.append(copyrightGuard);
+  }
+
   const LINKS = [
     {
       title: 'Soạn & trộn đề',
       items: [
+        ['✦', 'TypstConicHub Studio', 'https://typstconichub.pages.dev/#studio'],
         ['🗃️', 'Ngân hàng câu hỏi', 'ngan-hang.html'],
         ['🔀', 'Trộn đề thi', 'tron-de.html'],
         ['✨', 'AI sinh đề', 'ai-tao-de.html?tab=gen'],
@@ -43,6 +51,7 @@
         ['📚', 'Hướng dẫn đầy đủ', 'index.html'],
         ['🌿', 'Hệ sinh thái', 'ecosystem.html'],
         ['🎯', 'Sang Math OMR', 'https://chamthi-conictypst.pages.dev/'],
+        ['✦', 'Studio soạn thảo', 'https://typstconichub.pages.dev/#studio'],
         ['👤', 'Tài khoản của tôi', 'https://admin-conictypst.pages.dev/account.html'],
       ],
     },
@@ -326,6 +335,7 @@
     const actions = header.querySelector('.global-standalone-actions');
     actions.append(
       button,
+      quickLink('Studio', 'https://typstconichub.pages.dev/#studio', '✦'),
       quickLink('Dashboard', 'dashboard.html', '⚡'),
       quickLink('Hướng dẫn', 'index.html', '📚'),
       quickLink('Hệ sinh thái', 'ecosystem.html', '🌿'),
@@ -358,6 +368,9 @@
         if (!actions.querySelector('a[href="ecosystem.html"], a[href="ecosystem"]')) {
           actions.append(quickLink('Hệ sinh thái', 'ecosystem.html', '🌿'));
         }
+        if (!actions.querySelector('a[href="https://typstconichub.pages.dev/#studio"]')) {
+          actions.append(quickLink('Studio', 'https://typstconichub.pages.dev/#studio', '✦'));
+        }
         if (!actions.querySelector('a[href="https://admin-conictypst.pages.dev/account.html"]')) {
           actions.append(quickLink('Tài khoản', 'https://admin-conictypst.pages.dev/account.html', '👤'));
         }
@@ -366,6 +379,7 @@
         controls.className = 'global-standalone-actions';
         controls.append(
           button,
+          quickLink('Studio', 'https://typstconichub.pages.dev/#studio', '✦'),
           quickLink('Hệ sinh thái', 'ecosystem.html', '🌿'),
           quickLink('Tài khoản', 'https://admin-conictypst.pages.dev/account.html', '👤'),
         );

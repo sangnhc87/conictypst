@@ -134,6 +134,18 @@
             cursor: not-allowed;
         }
 
+        .canvas-btn.studio-btn {
+            border-color: #2563eb;
+            background: linear-gradient(135deg, #2563eb, #4f46e5);
+            color: #fff;
+            box-shadow: 0 8px 20px -12px rgba(37, 99, 235, 0.9);
+        }
+
+        .canvas-btn.studio-btn:hover {
+            border-color: #1d4ed8;
+            background: linear-gradient(135deg, #1d4ed8, #4338ca);
+        }
+
         .grid-btn {
             padding: 4px 8px;
             font-size: 0.75rem;
@@ -365,6 +377,10 @@
                 <button class="template-btn" onclick="insertTemplate('oxyz_3d')">◲ Oxyz 3D</button>
                 <button class="template-btn" onclick="insertTemplate('cube_3d')">立方 Lập Phương</button>
                 <button class="template-btn" onclick="insertTemplate('box_3d')">▰ Hộp Chữ Nhật</button>
+                <button class="template-btn" onclick="insertTemplate('pyramid_3d')">△ Hình Chóp</button>
+                <button class="template-btn" onclick="insertTemplate('prism_3d')">◇ Lăng Trụ</button>
+                <button class="template-btn" onclick="insertTemplate('cylinder_3d')">◉ Hình Trụ</button>
+                <button class="template-btn" onclick="insertTemplate('cone_3d')">◭ Hình Nón</button>
             </div>
         </div>
 
@@ -383,8 +399,13 @@
                 <button class="grid-btn" onclick="setSnapGrid(0)" id="grid-0">∅</button>
                 <div style="width:1px;height:18px;background:#e2e8f0;margin:0 4px;"></div>
                 <button class="canvas-btn" onclick="clearCanvas()" style="color:#ef4444;"><i data-lucide="trash-2" style="width:14px;height:14px;"></i> Xóa hết</button>
+                <button class="canvas-btn" onclick="exportDrawing()" title="Lưu toàn bộ đối tượng để chỉnh sửa tiếp"><i data-lucide="save" style="width:14px;height:14px;"></i> Lưu JSON</button>
+                <button class="canvas-btn" onclick="document.getElementById('drawingImport').click()" title="Mở lại bản vẽ JSON"><i data-lucide="upload" style="width:14px;height:14px;"></i> Mở JSON</button>
+                <button class="canvas-btn" onclick="exportSvg()" title="Tải hình SVG sạch"><i data-lucide="image" style="width:14px;height:14px;"></i> SVG</button>
+                <input id="drawingImport" type="file" accept=".json,application/json" hidden onchange="importDrawing(event)" />
                 <div style="flex:1;"></div>
                 <button class="canvas-btn" onclick="resetView()"><i data-lucide="home" style="width:14px;height:14px;"></i> Mặc định</button>
+                <button class="canvas-btn studio-btn" onclick="openInStudio()"><i data-lucide="sparkles" style="width:14px;height:14px;"></i> Mở trong Studio</button>
             </div>
 
             <div class="canvas-container" id="canvasContainer">
@@ -426,6 +447,9 @@
         const DEFAULT_ZOOM = 60;
         const SNAP_GRID = 0.5;
         const SNAP_PT_PX = 16;
+        const DRAWING_STORAGE_KEY = 'conictypst.cetz-board.v2';
+        const STUDIO_ORIGIN = 'https://typstconichub.pages.dev';
+        const MAX_IMPORT_SHAPES = 2500;
         const NAMES = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         const DEG = Math.PI / 180;
         const RAD = 180 / Math.PI;
@@ -471,6 +495,8 @@
             coordText = document.getElementById('coordText');
             codeOutput = document.getElementById('codeOutput');
             propertiesBody = document.getElementById('propertiesBody');
+
+            restoreDrawing();
 
             // Set size dynamically
             const resize = () => {
@@ -556,6 +582,7 @@
             historyStack.push(JSON.parse(JSON.stringify(shapes)));
             historyIndex = historyStack.length - 1;
             updateHistoryButtons();
+            persistDrawing();
         }
 
         function undo() {
@@ -566,6 +593,7 @@
                 ts = null;
                 render();
                 updateHistoryButtons();
+                persistDrawing();
             }
         }
 
@@ -577,6 +605,7 @@
                 ts = null;
                 render();
                 updateHistoryButtons();
+                persistDrawing();
             }
         }
 
@@ -1484,6 +1513,139 @@
             });
         }
 
+        // ── Local-first save, import/export and Studio bridge ───
+        function persistDrawing() {
+            try {
+                localStorage.setItem(DRAWING_STORAGE_KEY, JSON.stringify({
+                    version: 2,
+                    updatedAt: new Date().toISOString(),
+                    shapes,
+                    cam,
+                    snapGrid
+                }));
+            } catch (error) {
+                console.warn('Không thể tự lưu bản vẽ CeTZ:', error);
+            }
+        }
+
+        function restoreDrawing() {
+            try {
+                const saved = JSON.parse(localStorage.getItem(DRAWING_STORAGE_KEY) || 'null');
+                if (!saved || !Array.isArray(saved.shapes) || saved.shapes.length > MAX_IMPORT_SHAPES) return;
+                shapes = saved.shapes;
+                if (saved.cam && Number.isFinite(saved.cam.ox) && Number.isFinite(saved.cam.oy) && Number.isFinite(saved.cam.zoom)) cam = saved.cam;
+                if ([0, 0.25, 0.5, 1].includes(saved.snapGrid)) snapGrid = saved.snapGrid;
+                historyStack = [JSON.parse(JSON.stringify(shapes))];
+                historyIndex = 0;
+            } catch (error) {
+                console.warn('Bỏ qua bản vẽ tự lưu không hợp lệ:', error);
+            }
+        }
+
+        function downloadFile(content, fileName, mime) {
+            const blob = content instanceof Blob ? content : new Blob([content], { type: mime });
+            const anchor = document.createElement('a');
+            anchor.href = URL.createObjectURL(blob);
+            anchor.download = fileName;
+            anchor.click();
+            setTimeout(() => URL.revokeObjectURL(anchor.href), 1200);
+        }
+
+        function exportDrawing() {
+            const payload = JSON.stringify({
+                format: 'conictypst-cetz-board',
+                version: 2,
+                exportedAt: new Date().toISOString(),
+                shapes,
+                cam,
+                snapGrid
+            }, null, 2);
+            downloadFile(payload, `conictypst-cetz-${new Date().toISOString().slice(0, 10)}.json`, 'application/json;charset=utf-8');
+            Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'Đã lưu bản vẽ JSON', showConfirmButton: false, timer: 1500 });
+        }
+
+        async function importDrawing(event) {
+            const input = event.target;
+            const file = input.files?.[0];
+            input.value = '';
+            if (!file) return;
+            try {
+                const payload = JSON.parse(await file.text());
+                if (!Array.isArray(payload.shapes) || payload.shapes.length > MAX_IMPORT_SHAPES) throw new Error('Tệp không đúng định dạng hoặc có quá nhiều đối tượng.');
+                shapes = payload.shapes;
+                selectedId = null;
+                ts = null;
+                if (payload.cam && Number.isFinite(payload.cam.ox) && Number.isFinite(payload.cam.oy) && Number.isFinite(payload.cam.zoom)) cam = payload.cam;
+                if ([0, 0.25, 0.5, 1].includes(payload.snapGrid)) snapGrid = payload.snapGrid;
+                historyStack = [JSON.parse(JSON.stringify(shapes))];
+                historyIndex = 0;
+                persistDrawing();
+                drawGrid();
+                render();
+                updateHistoryButtons();
+                Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: `Đã mở ${shapes.length} đối tượng`, showConfirmButton: false, timer: 1700 });
+            } catch (error) {
+                Swal.fire({ icon: 'error', title: 'Không mở được bản vẽ', text: error.message });
+            }
+        }
+
+        function exportSvg() {
+            if (!svg || shapes.length === 0) return;
+            const clone = svg.cloneNode(true);
+            clone.querySelector('#gridGroup')?.remove();
+            clone.querySelector('#previewGroup')?.remove();
+            clone.querySelector('#snapGroup')?.remove();
+            clone.querySelector('#handlesGroup')?.remove();
+            clone.querySelector('#coordText')?.remove();
+            clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+            clone.setAttribute('viewBox', `0 0 ${svg.clientWidth} ${svg.clientHeight}`);
+            clone.setAttribute('width', String(svg.clientWidth));
+            clone.setAttribute('height', String(svg.clientHeight));
+            const background = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+            background.setAttribute('width', '100%');
+            background.setAttribute('height', '100%');
+            background.setAttribute('fill', '#ffffff');
+            clone.insertBefore(background, clone.firstChild);
+            const source = `<?xml version="1.0" encoding="UTF-8"?>\n${new XMLSerializer().serializeToString(clone)}`;
+            downloadFile(source, `conictypst-cetz-${new Date().toISOString().slice(0, 10)}.svg`, 'image/svg+xml;charset=utf-8');
+        }
+
+        function openInStudio() {
+            if (shapes.length === 0) {
+                Swal.fire({ icon: 'info', title: 'Bản vẽ đang trống', text: 'Hãy vẽ hoặc chèn một hình mẫu trước khi chuyển sang Studio.' });
+                return;
+            }
+
+            const requestId = `cetz-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+            const payload = {
+                requestId,
+                name: `Hình CeTZ ${new Intl.DateTimeFormat('vi-VN', { dateStyle: 'short', timeStyle: 'short' }).format(new Date())}`,
+                content: genCeTZ(shapes)
+            };
+            const bytes = new TextEncoder().encode(JSON.stringify(payload));
+            let binary = '';
+            for (let offset = 0; offset < bytes.length; offset += 8192) {
+                binary += String.fromCharCode(...bytes.subarray(offset, offset + 8192));
+            }
+            const bridge = btoa(binary).replaceAll('+', '-').replaceAll('/', '_').replace(/=+$/g, '');
+
+            if (bridge.length > 180000) {
+                navigator.clipboard?.writeText(payload.content).catch(() => {});
+                window.open(`${STUDIO_ORIGIN}/#studio`, '_blank', 'noopener');
+                Swal.fire({ icon: 'warning', title: 'Bản vẽ quá lớn để chuyển tự động', text: 'Studio đã được mở và mã CeTZ đã được copy để bạn dán vào tệp mới.' });
+                return;
+            }
+
+            const studio = window.open(`${STUDIO_ORIGIN}/#studio?bridge=${encodeURIComponent(bridge)}`, '_blank', 'noopener');
+            if (!studio) {
+                navigator.clipboard?.writeText(payload.content).catch(() => {});
+                Swal.fire({ icon: 'warning', title: 'Trình duyệt đã chặn cửa sổ', text: 'Mã CeTZ đã được copy. Hãy cho phép pop-up rồi thử lại.' });
+                return;
+            }
+
+            Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'Đang tạo dự án CeTZ trong Studio…', showConfirmButton: false, timer: 1900 });
+        }
+
         // ── Properties Panel ────────────────────────────────────
         function updatePropertiesPanel() {
             if (!selectedId) {
@@ -1792,6 +1954,52 @@
                     ];
                     break;
                 }
+                case 'pyramid_3d': {
+                    const pts = { A: [0, 0], B: [4, 0], C: [5, 1.35], D: [1, 1.35], S: [2.45, 4] };
+                    const point = (name, p) => ({ id: freshUid(), type: 'point', x: p[0], y: p[1], name, color: COLORS[0], label: true });
+                    const seg = (a, b, dash = 'solid') => ({ id: freshUid(), type: 'segment', x1: pts[a][0], y1: pts[a][1], x2: pts[b][0], y2: pts[b][1], color: COLORS[0], dash, width: 1.6 });
+                    list = [
+                        seg('A', 'B'), seg('B', 'C'), seg('C', 'D'), seg('D', 'A', 'dashed'),
+                        seg('S', 'A'), seg('S', 'B'), seg('S', 'C'), seg('S', 'D', 'dashed'),
+                        ...Object.entries(pts).map(([name, p]) => point(name, p))
+                    ];
+                    break;
+                }
+                case 'prism_3d': {
+                    const pts = { A: [0, 0], B: [3.6, 0], C: [1.7, 2.5], D: [1.1, 1.1], E: [4.7, 1.1], F: [2.8, 3.6] };
+                    const point = (name, p) => ({ id: freshUid(), type: 'point', x: p[0], y: p[1], name, color: COLORS[0], label: true });
+                    const seg = (a, b, dash = 'solid') => ({ id: freshUid(), type: 'segment', x1: pts[a][0], y1: pts[a][1], x2: pts[b][0], y2: pts[b][1], color: COLORS[0], dash, width: 1.6 });
+                    list = [
+                        seg('A', 'B'), seg('B', 'C'), seg('C', 'A'),
+                        seg('D', 'E', 'dashed'), seg('E', 'F'), seg('F', 'D', 'dashed'),
+                        seg('A', 'D', 'dashed'), seg('B', 'E'), seg('C', 'F'),
+                        ...Object.entries(pts).map(([name, p]) => point(name, p))
+                    ];
+                    break;
+                }
+                case 'cylinder_3d': {
+                    list = [
+                        { id: freshUid(), type: 'ellipse', cx: 0, cy: 0, rx: 2.35, ry: 0.65, color: COLORS[0], fill: '', dash: 'solid', width: 1.6 },
+                        { id: freshUid(), type: 'ellipse', cx: 0, cy: 3.8, rx: 2.35, ry: 0.65, color: COLORS[0], fill: '', dash: 'solid', width: 1.6 },
+                        { id: freshUid(), type: 'segment', x1: -2.35, y1: 0, x2: -2.35, y2: 3.8, color: COLORS[0], dash: 'solid', width: 1.6 },
+                        { id: freshUid(), type: 'segment', x1: 2.35, y1: 0, x2: 2.35, y2: 3.8, color: COLORS[0], dash: 'solid', width: 1.6 },
+                        { id: freshUid(), type: 'segment', x1: 0, y1: 0, x2: 0, y2: 3.8, color: COLORS[1], dash: 'dashed', width: 1.2 },
+                        { id: freshUid(), type: 'point', x: 0, y: 0, name: 'O', color: COLORS[0], label: true },
+                        { id: freshUid(), type: 'point', x: 0, y: 3.8, name: "O'", color: COLORS[0], label: true }
+                    ];
+                    break;
+                }
+                case 'cone_3d': {
+                    list = [
+                        { id: freshUid(), type: 'ellipse', cx: 0, cy: 0, rx: 2.5, ry: 0.7, color: COLORS[0], fill: '', dash: 'solid', width: 1.6 },
+                        { id: freshUid(), type: 'segment', x1: -2.5, y1: 0, x2: 0, y2: 4.2, color: COLORS[0], dash: 'solid', width: 1.6 },
+                        { id: freshUid(), type: 'segment', x1: 2.5, y1: 0, x2: 0, y2: 4.2, color: COLORS[0], dash: 'solid', width: 1.6 },
+                        { id: freshUid(), type: 'segment', x1: 0, y1: 0, x2: 0, y2: 4.2, color: COLORS[1], dash: 'dashed', width: 1.2 },
+                        { id: freshUid(), type: 'point', x: 0, y: 0, name: 'O', color: COLORS[0], label: true },
+                        { id: freshUid(), type: 'point', x: 0, y: 4.2, name: 'S', color: COLORS[0], label: true }
+                    ];
+                    break;
+                }
             }
 
             if (list.length > 0) {
@@ -1831,6 +2039,7 @@
             cam = { ox: rect.width / 2, oy: rect.height / 2, zoom: DEFAULT_ZOOM };
             drawGrid();
             render();
+            persistDrawing();
         }
     </script>
 </body>

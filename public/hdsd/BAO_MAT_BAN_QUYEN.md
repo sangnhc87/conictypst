@@ -1,30 +1,34 @@
-# Hướng Dẫn Hệ Thống Bảo Vệ Bản Quyền (Domain Locking)
+# Bảo mật và bản quyền website ConicTypst
 
-Tài liệu này ghi chú lại hệ thống bảo vệ bản quyền được cài đặt vào các file HTML công cụ (TikZ, CeTZ, v.v.) trong thư mục `public/hdsd/`.
+## Phạm vi
 
-## 1. Cơ chế hoạt động
-Tất cả các file HTML trong thư mục này đều đã được chèn một đoạn mã (Script) ở phần `<head>`. Đoạn mã này có chức năng **Khóa Tên Miền (Domain Locking)**:
-- Công cụ chỉ hoạt động khi được mở trên các tên miền hợp lệ: `hdsd-conictypst.pages.dev`, `conictypst.com`, `localhost`, `127.0.0.1`.
-- Nếu file HTML bị copy và chạy trên một server/tên miền lạ (ví dụ: `themgiaovien.com`), giao diện sẽ bị che đi bởi một màn hình cảnh báo bản quyền màu đen/đỏ và toàn bộ mã nguồn bên dưới sẽ bị dừng hoạt động (`window.stop()`).
+Lớp bảo vệ áp dụng cho ba website frontend công khai:
 
-## 2. Các "Đường Lui" (Backdoor) dành cho Chủ Sở Hữu (Admin)
+- `hdsd-conictypst.pages.dev`
+- `chamthi-conictypst.pages.dev`
+- `typstconichub.pages.dev`
 
-Để tránh trường hợp chính bạn (chủ sở hữu) bị hệ thống chặn khi đổi tên miền hoặc mở file test, hệ thống có 2 đường lách luật:
+Nó bảo vệ **mã website, giao diện và quy trình triển khai**. Nó không đổi giấy phép của các gói mã nguồn mở được công bố riêng, chẳng hạn `sang-math` và các dependency bên thứ ba.
 
-### Lách luật 1: Chạy trực tiếp từ máy tính (Local File)
-Khi bạn nhấp đúp mở file HTML trực tiếp từ thư mục trên máy tính (đường dẫn trên trình duyệt sẽ bắt đầu bằng `file:///Users/...`), hệ thống sẽ nhận diện đây không phải là môi trường web (hostname trống) và sẽ **BỎ QUA** bước kiểm tra chặn. Bạn vẫn dùng bình thường.
+## Giới hạn kỹ thuật cần hiểu đúng
 
-### Lách luật 2: Câu thần chú mở khóa (Bypass URL)
-Nếu bạn lỡ upload lên một tên miền mới chưa có trong danh sách hợp lệ và bị chặn, bạn có thể tự mở khóa vĩnh viễn cho trình duyệt của mình bằng cách thêm tham số `?unlock=conic` vào cuối đường link.
+Mã HTML, CSS và JavaScript chạy ở frontend bắt buộc phải được gửi xuống trình duyệt. Vì vậy không có giải pháp nào cấm tuyệt đối việc xem source hoặc DevTools. Chặn chuột phải, F12 hay tổ hợp phím chỉ gây khó cho người dùng hợp lệ và không ngăn được sao chép.
 
-**Ví dụ:**
-`http://ten-mien-moi.com/hdsd/tikz-geogebra.html?unlock=conic`
+Hệ thống dùng các lớp bảo vệ có thể kiểm chứng:
 
-Khi truy cập bằng link này:
-1. Màn hình chặn sẽ biến mất.
-2. Trình duyệt của bạn sẽ ghi nhớ một "thẻ bài miễn tử" vào bộ nhớ cục bộ (`localStorage`).
-3. Từ các lần truy cập sau (dù không có `?unlock=conic`), bạn vẫn sẽ không bao giờ bị chặn nữa.
-*(Lưu ý: Người khác không biết tham số này nên họ vẫn sẽ bị chặn như thường).*
+1. Production build minify mã và không phát hành source map.
+2. HTML và console hiển thị thông báo bản quyền rõ ràng.
+3. Domain guard khóa bản sao được triển khai trên hostname không được cấp phép.
+4. CSP, COOP/COEP, `X-Frame-Options`, `nosniff`, Referrer Policy và Permissions Policy giảm bề mặt tấn công.
+5. Service Worker được đổi phiên bản khi lớp bảo vệ thay đổi để máy người dùng không giữ shell cũ.
+6. Khóa API, secret và quyền quản trị phải nằm ở backend/Cloudflare/Firebase; không đặt trong frontend.
 
-## 3. Cách gỡ bỏ hệ thống bảo vệ
-Nếu một ngày nào đó bạn muốn tắt hoàn toàn tính năng này để cho phép dùng tự do ở mọi nơi, hãy mở các file `.html` (ví dụ: `tikz-geogebra.html`), tìm ở ngay dưới thẻ `<head>` đoạn `<script>` chứa cụm từ `Cảnh báo bản quyền` hoặc biến `_0x4f2a` và xóa toàn bộ thẻ `<script>` đó đi là xong.
+## Hostname được phép
+
+Mỗi site chỉ chấp nhận domain production của chính nó, các preview subdomain thuộc project Cloudflare Pages, `conictypst.com` và môi trường phát triển cục bộ.
+
+Không còn cơ chế `?unlock=conic` hoặc token mở khóa nằm công khai trong source. Nếu đổi domain chính thức, cần cập nhật allowlist trong source, build lại và triển khai một phiên bản mới.
+
+## Thông điệp bản quyền
+
+Việc xem source không tự động tạo quyền sử dụng. Không được sao chép, tái triển khai hoặc bán lại mã website khi chưa có sự đồng ý bằng văn bản của chủ sở hữu. Nội dung giáo viên tải lên và dữ liệu học sinh vẫn thuộc người dùng tương ứng.

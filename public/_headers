@@ -2,6 +2,13 @@
   Cross-Origin-Opener-Policy: same-origin
   Cross-Origin-Embedder-Policy: require-corp
   Cross-Origin-Resource-Policy: cross-origin
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(self), microphone=(), geolocation=(), payment=(), usb=()
+
+/hdsd/copyright-guard.js
+  Cache-Control: no-cache, max-age=0, must-revalidate
 
 /hdsd/typst/*
   Access-Control-Allow-Origin: *

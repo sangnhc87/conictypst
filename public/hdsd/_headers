@@ -1,0 +1,21 @@
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Cross-Origin-Opener-Policy: same-origin-allow-popups
+  Cross-Origin-Resource-Policy: cross-origin
+  Permissions-Policy: camera=(self), microphone=(), geolocation=(), payment=(), usb=()
+  Content-Security-Policy: frame-ancestors 'self' https://chamthi-conictypst.pages.dev
+
+/*.html
+  Cache-Control: no-cache, max-age=0, must-revalidate
+
+/copyright-guard.js
+  Cache-Control: no-cache, max-age=0, must-revalidate
+
+/typst/*
+  Access-Control-Allow-Origin: *
+  Content-Type: text/plain; charset=utf-8
+
+/downloads/examples/*
+  Access-Control-Allow-Origin: *
+  Content-Type: text/plain; charset=utf-8

@@ -149,8 +149,12 @@ const outlineResult = await page.evaluate(() => ({
   parts: document.querySelectorAll('.outline-item--part').length,
   questions: document.querySelectorAll('.outline-item--tn, .outline-item--ds, .outline-item--tln, .outline-item--tl').length,
 }))
-await page.click('.activity-rail button:nth-child(4)')
-await page.waitForSelector('.package-center .installed-package')
+await page.waitForFunction(() => {
+  const panel = document.querySelector('.package-center .installed-package')
+  if (panel) return true
+  document.querySelector('.activity-rail button[title="Package"]')?.click()
+  return false
+}, { timeout: 30000, polling: 250 })
 const packageCenterResult = await page.evaluate(() => ({
   badge: document.querySelector('.package-center .installed-package')?.textContent?.replace(/\s+/g, ' ').trim(),
   health: document.querySelector('.package-health')?.textContent?.replace(/\s+/g, ' ').trim(),

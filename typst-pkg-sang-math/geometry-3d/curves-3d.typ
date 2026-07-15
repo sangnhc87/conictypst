@@ -11,7 +11,7 @@
 // ───────────────────────────────────────────────────────────────
 // CÁCH DÙNG MẪU (bài kiến bò trên mặt trụ):
 //
-//   #import "@local/sang-math:2.0.0": *
+//   #import "@local/sang-math:1.0.1": *
 //   #cetz.canvas(length: 0.8cm, {
 //     import cetz.draw: *
 //

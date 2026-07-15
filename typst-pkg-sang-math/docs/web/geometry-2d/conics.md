@@ -5,7 +5,7 @@ Module này cung cấp các hàm hỗ trợ vẽ đường Parabol, Elip và Hyp
 ## Sử dụng
 
 ```typst
-#import "sang-math:2.0.0": *
+#import "@preview/sang-math:1.0.1": *
 #import cetz.draw: *
 
 #cetz.canvas({

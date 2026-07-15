@@ -1,21 +1,95 @@
-# conictypst
+# sang-math
 
-Bộ macro Toán THPT Việt Nam — Bảng biến thiên, Bảng xét dấu, Trắc nghiệm, Hình học CeTZ.
+Bộ macro Typst dành cho Toán THPT Việt Nam: đề thi bốn dạng câu hỏi, sách/chuyên đề, bảng biến thiên, bảng xét dấu và hình học CeTZ.
 
-📖 Tài liệu đầy đủ: https://hdsd-conictypst.pages.dev
+- Hướng dẫn trực tuyến: https://hdsd-conictypst.pages.dev
+- Mã nguồn: https://github.com/sangnhc87/conictypst
+- Yêu cầu: Typst 0.14.0 trở lên (do `cetz 0.5.2`)
 
 ## Cài đặt
 
 ```typ
-#import "@preview/conictypst:1.0.0": *
+#import "@preview/sang-math:1.0.1": *
 ```
 
-## Các macro chính
-
-### 1. Bảng biến thiên (`bbtv2`)
+Khi chỉ dùng một nhóm chức năng, nên import đúng tên cần dùng để file dễ đọc và API rõ ràng:
 
 ```typ
-#import "@preview/conictypst:1.0.0": bbtv2
+#import "@preview/sang-math:1.0.1": tn, ds, tln, tl, True, sang-setup
+```
+
+## API chính
+
+| Nhóm | Macro tiêu biểu |
+|---|---|
+| Đề thi | `tn`, `ds`, `tln`, `tl`, `exam-mode`, `exam-part`, `print-answer-key` |
+| Giao diện đề | `exam-theme`, `exam-preset`, `exam-input-preset`, `exam-template-names` |
+| Sách/chuyên đề | `book-theme`, `book-chapter`, `book-lesson`, các hộp sư phạm, `book-template-names` |
+| Bảng Toán | `bbtv2`, `bbbt`, `bxd`, `bang-gia-tri`, `bang-phan-phoi`, `auto-bbt` |
+| Hình học cơ bản | `tri-abc`, `tri-right`, `chop-sabc`, `circle-desc`, `axis-xy`, `plot` |
+| Conic | `draw-parabola`, `draw-ellipse`, `draw-hyperbola` |
+| Khối tròn xoay | `draw-cylinder`, `draw-cone`, `draw-sphere` |
+| Đường cong 3D | `draw-helix`, `draw-spring` |
+| Ký hiệu | `RR`, `ZZ`, `NN`, `QQ`, `Rightarrow`, `Leftrightarrow`, `vect`... |
+
+`lib.typ` là cổng public duy nhất và hiện đã export cả template đề, template sách cùng các module CeTZ nâng cao. Người dùng không cần import đường dẫn nội bộ.
+
+## Ví dụ đề thi
+
+```typ
+#import "@preview/sang-math:1.0.1": *
+
+#let preset = exam-preset(
+  theme: "teal-pro",
+  profile: "dethi", // dethi | loigiai | compact | draft | beamer
+)
+#let (tn, ds, tln, tl) = exam-mode(..preset.question)
+
+#show: sang-setup.with(math-color: preset.accent)
+#show: exam-theme.with(
+  theme: preset.theme,
+  school: "TRƯỜNG THPT SANG-MATH",
+  exam-title: "ĐỀ THI THỬ TỐT NGHIỆP THPT",
+  subject: "TOÁN 12",
+  duration: "90 phút",
+  code: "101",
+  ..preset.template,
+)
+
+#tn(
+  [Đạo hàm của $f(x)=x^3-3x+1$ tại $x=2$ bằng],
+  ([$3$], True([$9$]), [$6$], [$-3$]),
+  loigiai: [$f'(2)=3 dot 2^2-3=9$.],
+)
+```
+
+Các theme đề có thể lấy trực tiếp bằng `exam-template-names`; hiện gồm `classic`, `ocean`, `emerald`, `royal`, `violet`, `crimson`, `graphite`, `amber`, `teal-pro`, `sky`, `indigo-minimal`, `print-economy`, `aurora`, `lotus`, `navy-gold`, `jade`, `coral`, `plum`.
+
+## Ví dụ sách/chuyên đề
+
+```typ
+#import "@preview/sang-math:1.0.1": *
+
+#show: book-theme.with(
+  theme: "sgk-modern",
+  title: "CHUYÊN ĐỀ HÀM SỐ",
+  author: "Tổ Toán",
+)
+
+#book-chapter([Ứng dụng đạo hàm], number: 1)
+#book-lesson([Tính đơn điệu của hàm số], number: 1)
+
+#theory-box[Hàm số đồng biến trên khoảng $K$ khi...]
+#example-box[Khảo sát tính đơn điệu của $f(x)=x^3-3x$.]
+#practice-box[Giải các bài tập tương tự.]
+```
+
+Danh sách giao diện sách có sẵn nằm trong `book-template-names`.
+
+## Bảng biến thiên
+
+```typ
+#import "@preview/sang-math:1.0.1": bbtv2
 
 #bbtv2(
   x-vals: ($-oo$, $-1$, $1$, $+oo$),
@@ -24,108 +98,33 @@ Bộ macro Toán THPT Việt Nam — Bảng biến thiên, Bảng xét dấu, Tr
 )
 ```
 
-### 2. Bảng biến thiên đầy đủ (`bbbt`) — có hàng `f(x)` và `ranks`
+## Hình học CeTZ nâng cao
+
+Các hàm `draw-*` được gọi bên trong `cetz.canvas`:
 
 ```typ
-#import "@preview/conictypst:1.0.0": bbbt
+#import "@preview/cetz:0.5.2"
+#import "@preview/sang-math:1.0.1": draw-ellipse, draw-cylinder
 
-#bbbt(
-  x-vals: ($-oo$, $0$, $+oo$),
-  d-signs: ("-", z, "+"),
-  v-vals: ($+oo$, $0$, $+oo$),
-  ranks: ("CB", none, "CT"),
-)
+#cetz.canvas({
+  draw-ellipse(a: 2, b: 1, show-axes: true, show-foci: true)
+})
+
+#cetz.canvas({
+  draw-cylinder(radius: 1.4, height: 3.5, show-hidden: true)
+})
 ```
 
-### 3. Bảng xét dấu (`bxd`)
+## Phát triển và kiểm thử
 
-```typ
-#import "@preview/conictypst:1.0.0": bxd
-
-#bxd(
-  x-vals: ($-oo$, $-2$, $1$, $+oo$),
-  rows: (
-    ($x + 2$, "-", z, "+", "|", "+"),
-    ($x - 1$, "-", "|", "-", z, "+"),
-    ($f(x)$,  "+", z, "-", z, "+"),
-  ),
-)
+```bash
+typst compile --root . examples/exam-template-demo.typ
+typst compile --root . examples/book-template-demo.typ
+typst compile --root . tests/test-public-api.typ
 ```
 
-### 4. Câu trắc nghiệm (`tn`)
-
-```typ
-#import "@preview/conictypst:1.0.0": tn, sang-setup, True
-
-#show: sang-setup
-
-#tn(
-  [Đạo hàm của hàm số $f(x) = x^3 - 3x + 1$ tại $x = 2$ bằng],
-  ([$3$], True([$9$]), [$6$], [$-3$]),
-  loigiai: [$f'(x) = 3x^2 - 3 Rightarrow f'(2) = 9$],
-)
-```
-
-### 5. Câu tự luận có lời giải (`tl`)
-
-```typ
-#import "@preview/conictypst:1.0.0": tl, sang-setup
-
-#show: sang-setup
-
-#tl(
-  [Giải phương trình $2^x = 8$.],
-  loigiai: [$2^x = 2^3 Rightarrow x = 3$],
-)
-```
-
-### 6. Nhóm câu hỏi (`q-wrap`)
-
-```typ
-#import "@preview/conictypst:1.0.0": tn, q-wrap, True
-
-#q-wrap(dir: "ngang", lines: 4,
-  tn(
-    [Tìm tập xác định của hàm số $y = log_2 (x - 1)$],
-    ([$D = (0; +oo)$], True([$D = (1; +oo)$]), [$D = RR setminus {1}$], [$D = [1; +oo)$]),
-  )
-)
-```
-
-### 7. Ký hiệu toán học tắt (`math-sym`)
-
-```typ
-#import "@preview/conictypst:1.0.0": *
-
-// Các ký hiệu: vô cực, tập hợp, mũi tên...
-$+oo$, $-oo$, $RR$, $ZZ$, $NN$, $QQ$
-$=>$, $<=>$, $forall$, $exists$
-```
-
-### 8. Hình học CeTZ (`geometry`)
-
-```typ
-#import "@preview/conictypst:1.0.0": tri-abc
-
-// Tam giác ABC với đỉnh tùy chỉnh
-#tri-abc()
-```
-
-## Tùy chọn bbt-opt
-
-```typ
-#import "@preview/conictypst:1.0.0": bbt-opt, bbtv2
-
-// Đặt tùy chọn toàn cục
-#bbt-opt(
-  var: $t$,       // Tên biến (mặc định: $x$)
-  der: $f'(t)$,   // Ký hiệu đạo hàm
-  func: $f(t)$,   // Tên hàm số
-  w1: 1.2,        // Chiều rộng cột tên
-  w2: 12,         // Chiều rộng mỗi khoảng
-)
-```
+Các thay đổi phá vỡ tên hoặc chữ ký macro phải dành cho phiên bản major mới. Tính năng mới nên được export từ `lib.typ`, có ví dụ tối thiểu và có bài kiểm thử compile.
 
 ## License
 
-MIT © 2024 Sang Nguyen
+MIT © Nguyễn Văn Sang

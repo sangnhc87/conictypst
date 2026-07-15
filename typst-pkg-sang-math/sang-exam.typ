@@ -41,8 +41,15 @@
 // Dùng: #show: sang-setup
 //       #show: sang-setup.with(math-color: accent)
 #let sang-setup(body, math-color: black) = {
-  show math.equation.where(block: false): math.display
-  show math.frac: math.display
+  // Giữ công thức inline ở cỡ display nhưng vẫn cho Typst tự thu nhỏ phân số
+  // trong số mũ, chỉ thêm khoảng thở cho dòng thực sự chứa phân số.
+  show math.equation.where(block: false): it => {
+    if repr(it).contains("frac") {
+      box(inset: (y: 0.16em))[#math.display(it)]
+    } else {
+      math.display(it)
+    }
+  }
   show math.equation: set text(fill: math-color)
 
   // Tự động chuyển C, A, P (những chữ số gán sub/sup) thành chữ đứng để in đúng C_n^k
@@ -449,6 +456,148 @@
   radius: (right: 4pt),
 )[#reset-step()#text(weight: "bold", fill: a)[Lời giải.] #s]
 
+#let _q-label(prefix, num, accent, style: "plain") = {
+  if style == "pill" {
+    box(
+      fill: accent.lighten(82%),
+      stroke: 0.7pt + accent.lighten(35%),
+      inset: (x: 7pt, y: 2pt),
+      radius: 999pt,
+      text(weight: "bold", fill: accent)[#prefix #num.]
+    )
+    h(4pt)
+  } else if style == "badge" {
+    box(
+      fill: accent,
+      inset: (x: 7pt, y: 2.5pt),
+      radius: 4pt,
+      text(weight: "bold", fill: white)[#prefix #num.]
+    )
+    h(5pt)
+  } else if style == "solid-pill" {
+    box(
+      fill: accent,
+      inset: (x: 8pt, y: 2.3pt),
+      radius: 999pt,
+      text(weight: "bold", fill: white)[#prefix #num]
+    )
+    text(weight: "bold", fill: accent)[. ]
+  } else if style == "underline" {
+    box(
+      stroke: (bottom: 1.1pt + accent),
+      inset: (bottom: 1.5pt),
+      text(weight: "bold", fill: accent)[#prefix #num]
+    )
+    text(weight: "bold", fill: accent)[. ]
+  } else if style == "ribbon" {
+    box(width: 3pt, height: 1.25em, fill: accent, radius: 1pt)
+    h(4pt)
+    text(weight: "bold", fill: accent)[#prefix #num.]
+    h(3pt)
+  } else if style == "flag" {
+    box(
+      fill: accent,
+      inset: (left: 7pt, right: 10pt, y: 2pt),
+      radius: (left: 3pt),
+      text(weight: "bold", fill: white)[#prefix #num]
+    )
+    text(weight: "bold", fill: accent)[. ]
+  } else if style == "spark" {
+    box(
+      stroke: 0.8pt + accent,
+      fill: accent.lighten(88%),
+      inset: (x: 6pt, y: 2pt),
+      radius: 3pt,
+      text(weight: "bold", fill: accent)[#prefix #num]
+    )
+    text(weight: "bold", fill: accent)[. ]
+  } else {
+    text(weight: "bold", fill: accent)[#prefix #num. ]
+  }
+}
+
+#let _option-label(label, col, style: "plain") = {
+  let content = text(size: 0.86em, weight: "bold", fill: col)[#label]
+  let white-content = text(size: 0.86em, weight: "bold", fill: white)[#label]
+  let poly-label(vertices, fill: col.lighten(88%), stroke: 0.75pt + col, label-body: content, angle: 0deg) = box(width: 1.45em, height: 1.45em)[
+    #place(center + horizon)[
+      #rotate(angle)[
+        #polygon.regular(
+          vertices: vertices,
+          size: 1.35em,
+          fill: fill,
+          stroke: stroke,
+        )
+      ]
+    ]
+    #place(center + horizon)[#label-body]
+  ]
+  if style == "circled" or style == "circle" {
+    box(stroke: 0.75pt + col, radius: 50%, width: 1.35em, height: 1.35em, align(center + horizon)[#content])
+  } else if style == "double-circle" {
+    box(stroke: 1.25pt + col, radius: 50%, inset: 1.1pt)[
+      #box(stroke: 0.45pt + col.lighten(35%), radius: 50%, width: 1.2em, height: 1.2em, align(center + horizon)[#content])
+    ]
+  } else if style == "solid-circle" {
+    box(fill: col, radius: 50%, width: 1.35em, height: 1.35em, align(center + horizon)[#text(size: 0.86em, weight: "bold", fill: white)[#label]])
+  } else if style == "square" {
+    box(stroke: 0.75pt + col, width: 1.28em, height: 1.28em, align(center + horizon)[#content])
+  } else if style == "solid-square" {
+    box(fill: col, width: 1.28em, height: 1.28em, align(center + horizon)[#white-content])
+  } else if style == "rounded-square" {
+    box(stroke: 0.75pt + col, fill: col.lighten(90%), radius: 3pt, width: 1.35em, height: 1.35em, align(center + horizon)[#content])
+  } else if style == "diamond" {
+    poly-label(4, angle: 45deg)
+  } else if style == "solid-diamond" {
+    poly-label(4, fill: col, stroke: 0.75pt + col, label-body: white-content, angle: 45deg)
+  } else if style == "triangle" {
+    poly-label(3)
+  } else if style == "solid-triangle" {
+    poly-label(3, fill: col, stroke: 0.75pt + col, label-body: white-content)
+  } else if style == "pentagon" {
+    poly-label(5)
+  } else if style == "solid-pentagon" {
+    poly-label(5, fill: col, stroke: 0.75pt + col, label-body: white-content)
+  } else if style == "hexagon" {
+    poly-label(6)
+  } else if style == "solid-hexagon" {
+    poly-label(6, fill: col, stroke: 0.75pt + col, label-body: white-content)
+  } else if style == "badge" {
+    box(fill: col.lighten(85%), stroke: 0.55pt + col, inset: (x: 5pt, y: 1.2pt), radius: 3pt)[#content]
+  } else {
+    text(weight: "bold", fill: col)[#label.]
+  }
+}
+
+#let _draft-box(lines: 5, title: [Nháp], accent: palette.accent) = block(
+  width: 100%,
+  fill: luma(252),
+  stroke: (paint: accent.lighten(45%), thickness: 0.7pt, dash: "dotted"),
+  inset: (x: 7pt, y: 6pt),
+  radius: 4pt,
+)[
+  #text(size: 8.5pt, weight: "bold", fill: accent)[#title]
+  #v(0.35em)
+  #for _ in range(lines) {
+    line(length: 100%, stroke: 0.35pt + luma(210))
+    v(0.72em)
+  }
+]
+
+#let _maybe-draft(body, draft: false, draft-width: 30%, draft-lines: 5, draft-title: [Nháp], accent: palette.accent) = {
+  if draft {
+    grid(
+      columns: (1fr, draft-width),
+      column-gutter: 10pt,
+      align: (left + top, left + top),
+      body,
+      _draft-box(lines: draft-lines, title: draft-title, accent: accent),
+    )
+  } else {
+    body
+  }
+}
+
 // ─────────────────────────────────────────────────────────
 // MCQ
 // Auto-col: đo text width vs 0.25L / 0.50L (chuẩn ex_test)
@@ -471,10 +620,17 @@
   opt-fig: false,
   opt-fig-cols: 2,
   opt-style: "plain",
+  opt-label-color: auto,
   lines: 0,
   num: auto,
   prefix: "Câu",
+  q-label-style: "plain",
   tags: (),
+  show-tags: true,
+  draft: false,
+  draft-width: 30%,
+  draft-lines: 5,
+  draft-title: [Nháp],
   boxed: false,
   box-fill: white,
   box-stroke: 0.6pt + palette.border,
@@ -488,17 +644,8 @@
   let labels = ("A", "B", "C", "D", "E", "F")
 
   let render-label(i, col) = {
-    if opt-style == "circled" or opt-style == "circle" {
-      box(
-        stroke: 0.7pt + col,
-        radius: 50%,
-        width: 1.3em,
-        height: 1.3em,
-        align(center + horizon)[#text(size: 0.85em, weight: "bold", fill: col)[#labels.at(i)]]
-      )
-    } else {
-      text(weight: "bold", fill: col)[#labels.at(i).]
-    }
+    let label-col = if opt-label-color == auto { col } else { opt-label-color }
+    _option-label(labels.at(i), label-col, style: opt-style)
   }
 
   // Tìm đáp án đúng & lưu state
@@ -613,7 +760,7 @@
         option-leading
       }
       grid(
-        columns: if type(cols) == array { cols } else { nc },
+        columns: if type(cols) == array { cols } else { (1fr,) * nc },
         row-gutter: calc-row-gutter,
         column-gutter: column-gutter,
         align: left + top,
@@ -622,23 +769,25 @@
           .map(((i, t)) => {
             let hi = (mode == "loigiai" or mode == "solcolor") and opt-oks.at(i)
             let col = if hi { rgb("#cc2200") } else { black }
-            grid(
-              columns: (label-width, 1fr),
-              column-gutter: label-gap,
-              align: (left + top, left + top),
-              render-label(i, col),
-              [
-                #set par(justify: false, leading: option-leading)
-                #text(fill: col, weight: if hi { "bold" } else { "regular" })[#t]
-              ],
-            )
+            // Hanging indent giữ nhãn A/B/C/D cùng baseline với phương án,
+            // kể cả khi phương án bắt đầu bằng số mũ hoặc phân số cao.
+            par(
+              justify: false,
+              leading: option-leading,
+              hanging-indent: label-width + label-gap,
+            )[
+              #box(width: label-width)[#render-label(i, col)]#h(label-gap)#text(
+                fill: col,
+                weight: if hi { "bold" } else { "regular" },
+              )[#t]
+            ]
           })
       )
     })
   }
 
   // ── Sinh Tags (Nếu có) ─────────────────────────────────
-  let _render-tags = if tags.len() > 0 {
+  let _render-tags = if show-tags and tags.len() > 0 {
     (
       h(1fr)
         + box[
@@ -655,7 +804,7 @@
   } else { none }
 
   // Stem row: [Câu N.] [stem] [fig?]
-  let q-label = text(weight: "bold", fill: accent)[#prefix #num. ]
+  let q-label = _q-label(prefix, num, accent, style: q-label-style)
   let _stem-w-tags = [#stem #_render-tags]
   let stem-row = if fig != none and (fig-pos == "right" or fig-pos == "left") {
     if fig-pos == "right" {
@@ -696,14 +845,23 @@
     ))
     #_question-frame(
       [
-        #stem-row
-        #v(option-top-gap)
-        #pad(left: option-indent)[#opts-r]
-        #if lines > 0 { draw-lines(lines) }
-        #if mode == "loigiai" and loigiai != none {
-          v(0.7em)
-          _sol(loigiai, accent)
-        }
+        #_maybe-draft(
+          [
+            #stem-row
+            #v(option-top-gap)
+            #pad(left: option-indent)[#opts-r]
+            #if lines > 0 { draw-lines(lines) }
+            #if mode == "loigiai" and loigiai != none {
+              v(0.7em)
+              _sol(loigiai, accent)
+            }
+          ],
+          draft: draft,
+          draft-width: draft-width,
+          draft-lines: draft-lines,
+          draft-title: draft-title,
+          accent: accent,
+        )
       ],
       below: 1.05em,
       boxed: boxed,
@@ -732,7 +890,13 @@
   lines: 0,
   num: auto,
   prefix: "Câu",
+  q-label-style: "plain",
   tags: (),
+  show-tags: true,
+  draft: false,
+  draft-width: 30%,
+  draft-lines: 5,
+  draft-title: [Nháp],
   boxed: false,
   box-fill: white,
   box-stroke: 0.6pt + palette.border,
@@ -785,7 +949,7 @@
   )
 
   // ── Sinh Tags (Nếu có) ─────────────────────────────────
-  let _render-tags = if tags.len() > 0 {
+  let _render-tags = if show-tags and tags.len() > 0 {
     (
       h(1fr)
         + box[
@@ -801,7 +965,7 @@
     )
   } else { none }
 
-  let q-label = text(weight: "bold", fill: accent)[#prefix #num. ]
+  let q-label = _q-label(prefix, num, accent, style: q-label-style)
   let _stem-w-tags = [#stem #_render-tags]
   let stem-row = if fig != none and (fig-pos == "right" or fig-pos == "left") {
     if fig-pos == "right" {
@@ -832,14 +996,23 @@
     #_tf-meta.update(m => m + ((num: num, id: args.named().at("id", default: none), tags: tags, ans: tf-row),))
     #_question-frame(
       [
-        #stem-row
-        #v(0.6em)
-        #pad(left: 1.5em)[#tbl]
-        #if lines > 0 { draw-lines(lines) }
-        #if mode == "loigiai" and loigiai != none {
-          v(0.7em)
-          _sol(loigiai, accent)
-        }
+        #_maybe-draft(
+          [
+            #stem-row
+            #v(0.6em)
+            #pad(left: 1.5em)[#tbl]
+            #if lines > 0 { draw-lines(lines) }
+            #if mode == "loigiai" and loigiai != none {
+              v(0.7em)
+              _sol(loigiai, accent)
+            }
+          ],
+          draft: draft,
+          draft-width: draft-width,
+          draft-lines: draft-lines,
+          draft-title: draft-title,
+          accent: accent,
+        )
       ],
       below: 1.4em,
       boxed: boxed,
@@ -855,7 +1028,7 @@
 // tfrac: phân số cỡ inline — dùng trong math mode: $tfrac(1, 2)$
 #let tfrac(a, b) = {
   show math.frac: f => f
-  math.frac(a, b)
+  scale(x: 72%, y: 72%, origin: center + horizon, reflow: true, math.inline(math.frac(a, b)))
 }
 // ── Hệ thống STEP — tô màu từng bước lời giải ─────────────────
 // Dùng: #step[Bước...] #step[Bước...] #reset-step()
@@ -919,7 +1092,13 @@
   lines: 0,
   num: auto,
   prefix: "Câu",
+  q-label-style: "plain",
   tags: (),
+  show-tags: true,
+  draft: false,
+  draft-width: 30%,
+  draft-lines: 5,
+  draft-title: [Nháp],
   box-count: 4,
   boxed: false,
   box-fill: white,
@@ -941,7 +1120,7 @@
   }
 
   // ── Sinh Tags (Nếu có) ─────────────────────────────────
-  let _render-tags = if tags.len() > 0 {
+  let _render-tags = if show-tags and tags.len() > 0 {
     (
       h(1fr)
         + box[
@@ -957,7 +1136,7 @@
     )
   } else { none }
 
-  let q-label = text(weight: "bold", fill: accent)[#prefix #num. ]
+  let q-label = _q-label(prefix, num, accent, style: q-label-style)
   let _stem-w-tags = [#stem #_render-tags]
   let stem-row = if fig != none and (fig-pos == "right" or fig-pos == "left") {
     if fig-pos == "right" {
@@ -988,18 +1167,27 @@
     #_sh-meta.update(m => m + ((num: num, id: args.named().at("id", default: none), tags: tags, ans: answer),))
     #_question-frame(
       [
-        #stem-row
-        #if show-boxes {
-          v(0.6em)
-          pad(left: 1.5em)[
-            #stack(dir: ltr, spacing: 6pt, text(weight: "bold")[Đáp số:], widget)
-          ]
-        }
-        #if lines > 0 { draw-lines(lines) }
-        #if mode == "loigiai" and loigiai != none {
-          v(0.7em)
-          _sol(loigiai, accent)
-        }
+        #_maybe-draft(
+          [
+            #stem-row
+            #if show-boxes {
+              v(0.6em)
+              pad(left: 1.5em)[
+                #stack(dir: ltr, spacing: 6pt, text(weight: "bold")[Đáp số:], widget)
+              ]
+            }
+            #if lines > 0 { draw-lines(lines) }
+            #if mode == "loigiai" and loigiai != none {
+              v(0.7em)
+              _sol(loigiai, accent)
+            }
+          ],
+          draft: draft,
+          draft-width: draft-width,
+          draft-lines: draft-lines,
+          draft-title: draft-title,
+          accent: accent,
+        )
       ],
       below: 1.4em,
       boxed: boxed,
@@ -1022,6 +1210,11 @@
   lines: 6,
   num: auto,
   prefix: "Câu",
+  q-label-style: "plain",
+  draft: false,
+  draft-width: 30%,
+  draft-lines: 6,
+  draft-title: [Nháp],
   boxed: false,
   box-fill: white,
   box-stroke: 0.6pt + palette.border,
@@ -1033,7 +1226,7 @@
   let q-state = _next-question-num(num: num)
   let num = q-state.num
 
-  let q-label = text(weight: "bold", fill: accent)[#prefix #num. ]
+  let q-label = _q-label(prefix, num, accent, style: q-label-style)
   let stem-row = if fig != none and (fig-pos == "right" or fig-pos == "left") {
     if fig-pos == "right" {
       grid(
@@ -1063,12 +1256,21 @@
     #_tl-meta.update(m => m + ((num: num, id: args.named().at("id", default: none)),))
     #_question-frame(
       [
-        #stem-row
-        #if lines > 0 { draw-lines(lines) }
-        #if mode == "loigiai" and loigiai != none {
-          v(0.7em)
-          _sol(loigiai, accent)
-        }
+        #_maybe-draft(
+          [
+            #stem-row
+            #if lines > 0 { draw-lines(lines) }
+            #if mode == "loigiai" and loigiai != none {
+              v(0.7em)
+              _sol(loigiai, accent)
+            }
+          ],
+          draft: draft,
+          draft-width: draft-width,
+          draft-lines: draft-lines,
+          draft-title: draft-title,
+          accent: accent,
+        )
       ],
       below: 1.4em,
       boxed: boxed,
@@ -1085,14 +1287,27 @@
 #let tln = short
 
 // ── exam-mode ─────────────────────────────────────────────
-#let exam-mode(mode: "dethi", accent: palette.accent) = (
-  tn: tn.with(mode: mode, accent: accent),
-  ds: ds.with(mode: mode, accent: accent),
-  tln: tln.with(mode: mode, accent: accent),
-  tl: tl.with(mode: mode, accent: accent),
-  mcq: mcq.with(mode: mode, accent: accent),
-  tf: tf.with(mode: mode, accent: accent),
-  short: short.with(mode: mode, accent: accent),
+#let exam-mode(
+  mode: "dethi",
+  accent: palette.accent,
+  opt-style: "plain",
+  opt-label-color: auto,
+  q-label-style: "plain",
+  show-tags: true,
+  draft: false,
+  draft-width: 30%,
+  draft-lines: 5,
+  boxed: false,
+  box-fill: white,
+  box-stroke: 0.6pt + palette.border,
+) = (
+  tn: tn.with(mode: mode, accent: accent, opt-style: opt-style, opt-label-color: opt-label-color, q-label-style: q-label-style, show-tags: show-tags, draft: draft, draft-width: draft-width, draft-lines: draft-lines, boxed: boxed, box-fill: box-fill, box-stroke: box-stroke),
+  ds: ds.with(mode: mode, accent: accent, q-label-style: q-label-style, show-tags: show-tags, draft: draft, draft-width: draft-width, draft-lines: draft-lines, boxed: boxed, box-fill: box-fill, box-stroke: box-stroke),
+  tln: tln.with(mode: mode, accent: accent, q-label-style: q-label-style, show-tags: show-tags, draft: draft, draft-width: draft-width, draft-lines: draft-lines, boxed: boxed, box-fill: box-fill, box-stroke: box-stroke),
+  tl: tl.with(mode: mode, accent: accent, q-label-style: q-label-style, draft: draft, draft-width: draft-width, draft-lines: draft-lines, boxed: boxed, box-fill: box-fill, box-stroke: box-stroke),
+  mcq: mcq.with(mode: mode, accent: accent, opt-style: opt-style, opt-label-color: opt-label-color, q-label-style: q-label-style, show-tags: show-tags, draft: draft, draft-width: draft-width, draft-lines: draft-lines, boxed: boxed, box-fill: box-fill, box-stroke: box-stroke),
+  tf: tf.with(mode: mode, accent: accent, q-label-style: q-label-style, show-tags: show-tags, draft: draft, draft-width: draft-width, draft-lines: draft-lines, boxed: boxed, box-fill: box-fill, box-stroke: box-stroke),
+  short: short.with(mode: mode, accent: accent, q-label-style: q-label-style, show-tags: show-tags, draft: draft, draft-width: draft-width, draft-lines: draft-lines, boxed: boxed, box-fill: box-fill, box-stroke: box-stroke),
 )
 
 // ── het (HẾT ĐỀ) ───────────────────────────────────────────
@@ -1220,7 +1435,13 @@
   )
   set text(font: body-font, size: body-size, lang: "vi")
   set par(justify: true, leading: 0.75em)
-  show math.equation.where(block: false): math.display
+  show math.equation.where(block: false): it => {
+    if repr(it).contains("frac") {
+      box(inset: (y: 0.16em))[#math.display(it)]
+    } else {
+      math.display(it)
+    }
+  }
 
   // ── Kích hoạt font viết tay toàn cục ─────────────────────
   // Hàm #hw[...] đã được export ở đầu sang-exam.typ
@@ -1415,4 +1636,3 @@
   let body = args.pos().map(a => if type(a) == str { math.upright(a) } else { a }).join()
   math.accent(body, math.arrow.r)
 }
-

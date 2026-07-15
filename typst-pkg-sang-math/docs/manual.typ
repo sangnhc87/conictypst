@@ -5,11 +5,11 @@
 #set page(
   paper: "a4",
   margin: (x: 2cm, y: 2.5cm),
-  header: align(right)[*Sang-Math v2.0* - Tài liệu Hướng Dẫn],
+  header: align(right)[*Sang-Math v1.0.1* - Tài liệu Hướng Dẫn],
   numbering: "1"
 )
 
-#set text(font: "Linux Libertine", size: 11pt, lang: "vi")
+#set text(font: "Libertinus Serif", size: 11pt, lang: "vi")
 #set heading(numbering: "1.1.")
 
 #show heading.where(level: 1): it => {
@@ -20,7 +20,7 @@
 }
 
 #align(center)[
-  #text(size: 32pt, weight: "bold", fill: rgb("E91E63"))[Sang-Math v2.0] \
+  #text(size: 32pt, weight: "bold", fill: rgb("E91E63"))[Sang-Math v1.0.1] \
   #v(0.5em)
   #text(size: 16pt)[Thư viện Hình Vẽ Toán Học Đa Năng cho Typst] \
   #v(2em)

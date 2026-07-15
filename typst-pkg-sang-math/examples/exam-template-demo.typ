@@ -1,4 +1,4 @@
-// Demo đầy đủ cho sang-math 1.0.0
+// Demo đầy đủ cho sang-math 1.0.1
 // SỬA NHANH NGAY TRONG FILE, KHÔNG CẦN DÒNG LỆNH:
 //
 // 1) Chọn kiểu đầu ra bằng cách sửa profile:
@@ -60,11 +60,11 @@
   let common = (
     department: "SỞ GIÁO DỤC VÀ ĐÀO TẠO",
     school: "TRƯỜNG THPT SANG-MATH",
-    exam-title: "ĐỀ MẪU TEMPLATE SANG-MATH 1.0.0",
+    exam-title: "ĐỀ MẪU TEMPLATE SANG-MATH 1.0.1",
     subject: "TOÁN 12",
     duration: "90 phút",
     code: "101",
-    footer-left: [Sang Math 1.0.0 — Demo đủ 12 TN, 4 Đ/S, 6 TLN, 3 TL],
+    footer-left: [Sang Math 1.0.1 — Demo đủ 12 TN, 4 Đ/S, 6 TLN, 3 TL],
   )
 
   exam-theme(body, theme: preset.theme, ..common, ..preset.template)

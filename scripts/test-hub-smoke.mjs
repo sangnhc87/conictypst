@@ -39,8 +39,8 @@ await page.evaluate(async () => {
 await page.click('.button--hero')
 await page.waitForSelector('.hub-studio', { timeout: 30000 })
 await page.waitForFunction(
-  () => document.querySelector('.runtime-pill')?.textContent?.includes('WASM sẵn sàng'),
-  { timeout: 90000 },
+  () => document.querySelector('.runtime-pill')?.textContent?.includes('Trình biên dịch sẵn sàng'),
+  { timeout: 180000 },
 )
 await page.waitForFunction(
   () => {
@@ -61,7 +61,42 @@ if (defaultCompileState.error) {
 }
 await page.waitForSelector('.preview-mount canvas', { timeout: 60000 })
 const defaultCanvasCount = await page.evaluate(() => document.querySelectorAll('.preview-mount canvas').length)
+const initialFileCount = await page.evaluate(() => document.querySelectorAll('.file-row').length)
+const previewGeometry = await page.evaluate(() => {
+  const scroll = document.querySelector('.preview-scroll')
+  const pageElement = document.querySelector('.preview-scale .typst-page')
+  const canvas = pageElement?.querySelector('canvas')
+  const style = getComputedStyle(scroll)
+  const contentWidth = scroll.clientWidth - Number.parseFloat(style.paddingLeft) - Number.parseFloat(style.paddingRight)
+  const pageRect = pageElement.getBoundingClientRect()
+  const scrollRect = scroll.getBoundingClientRect()
+  return {
+    contentWidth,
+    pageWidth: pageRect.width,
+    centerDelta: Math.abs((pageRect.left + pageRect.width / 2) - (scrollRect.left + scrollRect.width / 2)),
+    canvasDensity: Number(canvas.getAttribute('width')) / canvas.getBoundingClientRect().width,
+  }
+})
 await page.screenshot({ path: '/tmp/typst-conic-hub-studio.png' })
+
+const studioFocus = await page.evaluate(() => ({
+  nav: document.querySelector('.studio-header__nav')?.textContent?.replace(/\s+/g, ' ').trim(),
+  storage: document.querySelector('.local-storage-pill')?.textContent?.replace(/\s+/g, ' ').trim(),
+}))
+
+// Chuyển A4 → Beamer rồi quay về A4 phải là luồng hai chiều, không tạo dự án rời.
+await page.click('.snippet-beamer')
+await page.waitForFunction(() => document.querySelector('.breadcrumbs b')?.textContent?.includes('05_beamer_chua_de.typ'))
+await page.waitForFunction(() => document.querySelector('.snippet-beamer')?.textContent?.includes('Về đề A4'))
+await page.waitForFunction(() => document.querySelector('.view-lines')?.textContent?.replace(/\s+/g, ' ').includes('10 MẪU BEAMER ĐỀ XUẤT'))
+const beamerRoundTrip = await page.evaluate(() => ({
+  guide: document.querySelector('.view-lines')?.textContent?.replace(/\s+/g, ' ').includes('10 MẪU BEAMER ĐỀ XUẤT'),
+  backLabel: document.querySelector('.snippet-beamer')?.textContent?.trim(),
+  entry: document.querySelector('.entry-card b')?.textContent?.trim(),
+}))
+await page.click('.snippet-beamer')
+await page.waitForFunction(() => document.querySelector('.breadcrumbs b')?.textContent?.includes('05_full_de_thi_mau.typ'))
+await page.waitForFunction(() => document.querySelector('.entry-card b')?.textContent?.includes('05_full_de_thi_mau.typ'))
 
 const sourceNavigation = {}
 await page.evaluate(() => [...document.querySelectorAll('.typst-content-text')]
@@ -73,9 +108,9 @@ sourceNavigation.entry = await page.evaluate(() => ({
 }))
 await page.evaluate(() => [...document.querySelectorAll('.typst-content-text')]
   .find(element => element.textContent?.includes('có bảng biến thiên như sau'))?.click())
-await page.waitForFunction(() => document.querySelector('.breadcrumbs b')?.textContent?.includes('05_data_de_thi_mau.typ')
-  && [...document.querySelectorAll('.studio-statusbar span')].at(-1)?.textContent?.startsWith('Ln 6,'))
-sourceNavigation.data = await page.evaluate(() => ({
+await page.waitForFunction(() => document.querySelector('.breadcrumbs b')?.textContent?.includes('05_full_de_thi_mau.typ')
+  && Number([...document.querySelectorAll('.studio-statusbar span')].at(-1)?.textContent?.match(/Ln (\d+)/)?.[1]) > 70)
+sourceNavigation.question = await page.evaluate(() => ({
   file: document.querySelector('.breadcrumbs b')?.textContent?.trim(),
   position: [...document.querySelectorAll('.studio-statusbar span')].at(-1)?.textContent?.trim(),
 }))
@@ -123,22 +158,44 @@ await page.click('.catalog-dialog header .icon-button')
 await page.click('.studio-button--theme')
 await page.waitForSelector('.theme-dialog')
 const themeCount = await page.evaluate(() => document.querySelectorAll('.theme-grid > button').length)
+await page.evaluate(() => {
+  window.__previewBlankedDuringCompile = false
+  const mount = document.querySelector('.preview-mount')
+  window.__previewObserver = new MutationObserver(() => {
+    if (!mount.querySelector('canvas')) window.__previewBlankedDuringCompile = true
+  })
+  window.__previewObserver.observe(mount, { childList: true, subtree: true })
+})
 await page.click('.theme-grid > button:nth-child(2)')
 await page.click('.theme-dialog footer .studio-button--primary')
 await page.waitForFunction(() => document.querySelector('.studio-button--theme')?.textContent?.includes('emerald'))
 await page.waitForFunction(() => document.querySelector('.compile-state')?.classList?.contains('state-compiling'), { timeout: 30000 })
 await page.waitForFunction(() => document.querySelector('.compile-state')?.textContent?.trim()?.endsWith('ms'), { timeout: 120000 })
+const previewStayedVisible = await page.evaluate(() => {
+  window.__previewObserver?.disconnect()
+  return !window.__previewBlankedDuringCompile
+})
+
+await page.click('.theme-toggle')
+await page.waitForFunction(() => document.querySelector('.hub-studio')?.classList.contains('theme-light'))
+await page.hover('.studio-button--accent')
+await new Promise(resolve => setTimeout(resolve, 250))
+const lightModeResult = await page.evaluate(() => ({
+  hoverColor: getComputedStyle(document.querySelector('.studio-button--accent')).color,
+  background: getComputedStyle(document.querySelector('.studio-button--accent')).backgroundColor,
+}))
+await page.screenshot({ path: '/tmp/typst-conic-hub-light.png' })
+await page.click('.theme-toggle')
 
 await page.keyboard.down('Control')
 await page.keyboard.press('KeyK')
 await page.keyboard.up('Control')
 await page.waitForSelector('.command-palette')
-await page.type('.command-search input', 'xuất pdf')
-await page.waitForFunction(() => document.querySelector('.command-results b')?.textContent?.includes('PDF'))
-const commandResult = await page.evaluate(() => document.querySelector('.command-results b')?.textContent?.trim())
+await page.type('.command-search input', 'pdf')
+await page.waitForFunction(() => [...document.querySelectorAll('.command-results b')].some(item => item.textContent?.includes('PDF')))
+const commandResult = await page.evaluate(() => [...document.querySelectorAll('.command-results b')].find(item => item.textContent?.includes('PDF'))?.textContent?.trim())
 await page.keyboard.press('Escape')
 
-const fileCount = await page.evaluate(() => document.querySelectorAll('.file-row').length)
 await page.click('.activity-rail button:nth-child(2)')
 await page.type('.sidebar-search-input input', 'theme')
 await page.waitForFunction(() => document.querySelectorAll('.project-search-results > button').length > 0)
@@ -169,7 +226,7 @@ const result = await page.evaluate(() => ({
   compile: document.querySelector('.compile-state')?.textContent?.trim(),
   project: document.querySelector('.studio-header__project select')?.selectedOptions?.[0]?.textContent,
 }))
-result.fileCount = fileCount
+result.fileCount = initialFileCount
 result.defaultCanvasCount = defaultCanvasCount
 
 await page.setViewport({ width: 390, height: 844, deviceScaleFactor: 1 })
@@ -205,9 +262,29 @@ const examResult = await page.evaluate(() => ({
   semanticText: document.querySelector('.preview-mount')?.textContent?.replace(/\s+/g, ' ').trim().slice(0, 160),
 }))
 
+await page.evaluate(() => { window.location.hash = 'studio?template=workbook' })
+await page.waitForFunction(
+  () => document.querySelector('.studio-header__project select')?.selectedOptions?.[0]?.textContent === 'Sách bài tập & lời giải',
+  { timeout: 30000 },
+)
+await page.waitForFunction(
+  () => {
+    const state = document.querySelector('.compile-state')
+    return state?.classList.contains('state-error') || state?.textContent?.trim()?.endsWith('ms')
+  },
+  { timeout: 120000 },
+)
+const workbookResult = await page.evaluate(() => ({
+  project: document.querySelector('.studio-header__project select')?.selectedOptions?.[0]?.textContent,
+  problems: document.querySelector('.studio-statusbar button')?.textContent?.trim(),
+  canvasCount: document.querySelectorAll('.preview-mount canvas').length,
+  error: document.querySelector('.preview-error')?.textContent?.replace(/\s+/g, ' ').trim() || '',
+  semanticText: document.querySelector('.preview-mount')?.textContent?.replace(/\s+/g, ' ').trim().slice(0, 180),
+}))
+
 await page.evaluate(() => { window.location.hash = 'studio?template=beamer' })
 await page.waitForFunction(
-  () => document.querySelector('.studio-header__project select')?.selectedOptions?.[0]?.textContent === 'Slide Beamer 16:9',
+  () => document.querySelector('.studio-header__project select')?.selectedOptions?.[0]?.textContent === 'Đề 05 → Beamer 16:9',
   { timeout: 30000 },
 )
 await page.waitForFunction(
@@ -232,25 +309,39 @@ const beamerResult = await page.evaluate(() => ({
 await browser.close()
 
 if (!result.canvasCount) throw new Error('Preview không tạo canvas')
-if (result.project !== 'Đề thi đầy đủ 05' || result.fileCount !== 2) {
+if (result.project !== 'Đề 05 · Soạn trực tiếp' || result.fileCount !== 1) {
   throw new Error(`Mẫu mặc định không phải bộ 05 đầy đủ: ${JSON.stringify(result)}`)
 }
 if (result.defaultCanvasCount !== 6) throw new Error(`Mẫu 05 mặc định phải biên dịch thành 6 trang: ${JSON.stringify(result)}`)
-if (defaultCompileState.entry !== '05_full_de_thi_mau.typ' || !defaultCompileState.editorText?.includes('@preview/sang-math:1.0.0') || defaultCompileState.editorText?.includes('/packages/sang-math')) throw new Error(`Entry mặc định chưa dùng package Universe chính thức: ${JSON.stringify(defaultCompileState)}`)
-if (sourceNavigation.entry.file !== '05_full_de_thi_mau.typ' || !sourceNavigation.entry.position?.startsWith('Ln 62,') || sourceNavigation.data.file !== '05_data_de_thi_mau.typ' || !sourceNavigation.data.position?.startsWith('Ln 6,')) {
+if (previewGeometry.pageWidth > previewGeometry.contentWidth + 2 || previewGeometry.centerDelta > 2 || previewGeometry.canvasDensity < 1.5) {
+  throw new Error(`Preview còn to, lệch hoặc bị kéo mờ: ${JSON.stringify(previewGeometry)}`)
+}
+if (defaultCompileState.entry !== '05_full_de_thi_mau.typ' || !defaultCompileState.editorText?.includes('@preview/sang-math:1.0.1') || defaultCompileState.editorText?.includes('/packages/sang-math')) throw new Error(`Entry mặc định chưa dùng package Universe chính thức: ${JSON.stringify(defaultCompileState)}`)
+if (sourceNavigation.entry.file !== '05_full_de_thi_mau.typ' || !sourceNavigation.entry.position?.startsWith('Ln 62,') || sourceNavigation.question.file !== '05_full_de_thi_mau.typ') {
   throw new Error(`Click preview chưa trở về đúng source: ${JSON.stringify(sourceNavigation)}`)
 }
+if (studioFocus.nav?.includes('Vẽ hình') || studioFocus.nav?.includes('Trộn đề') || studioFocus.nav?.includes('OMR') || !studioFocus.storage?.includes('LƯU TRÊN MÁY')) {
+  throw new Error(`Studio chưa tập trung hoàn toàn vào soạn thảo: ${JSON.stringify(studioFocus)}`)
+}
+if (!beamerRoundTrip.guide || !beamerRoundTrip.backLabel?.includes('Về đề A4') || beamerRoundTrip.entry !== '05_beamer_chua_de.typ') {
+  throw new Error(`Luồng A4 ↔ Beamer hoặc hướng dẫn theme chưa đúng: ${JSON.stringify(beamerRoundTrip)}`)
+}
+if (!previewStayedVisible) throw new Error('Preview đã bị xóa trắng trong lúc biên dịch nền')
+if (lightModeResult.hoverColor !== 'rgb(23, 34, 56)') throw new Error(`Hover light mode chưa đủ rõ: ${JSON.stringify(lightModeResult)}`)
 if (!serviceWorkerSource.includes('typst-conic-hub-v4-universe-packages') || !serviceWorkerSource.includes("url.hostname === 'packages.typst.org'") || !serviceWorkerSource.includes('networkFirst(event.request')) {
   throw new Error('Service Worker chưa cache package Universe và giữ network-first cho navigation')
 }
-if (!completionResult?.suggestion?.includes('Câu trắc nghiệm') || !catalogResult.count || !catalogResult.first?.includes('đúng / sai') || !commandResult?.includes('PDF') || !searchCount || themeCount < 10 || outlineResult.parts < 4 || outlineResult.questions < 20 || templatePicker.count !== 7 || !templatePicker.names.includes('Slide Beamer 16:9') || !packageCenterResult.badge?.includes('1.0.0 · Typst Universe') || !packageCenterResult.health?.includes('DỰ ÁN CHUẨN PUBLIC') || !packageCenterResult.note?.includes('@preview/sang-math:1.0.0') || !packageCenterResult.universe?.includes('/universe/package/sang-math')) {
+if (!completionResult?.suggestion?.split(' | ')[0]?.includes('#tn') || !completionResult.suggestion.includes('Câu trắc nghiệm') || !catalogResult.count || !catalogResult.first?.includes('đúng / sai') || !commandResult?.includes('PDF') || !searchCount || themeCount < 10 || outlineResult.parts < 4 || outlineResult.questions < 20 || templatePicker.count !== 9 || !templatePicker.names.includes('Đề mẫu Online 12–4–6') || !templatePicker.names.includes('Đề 05 → Beamer 16:9') || !templatePicker.names.includes('Sách bài tập & lời giải') || !packageCenterResult.badge?.includes('1.0.1 · Typst Universe') || !packageCenterResult.health?.includes('DỰ ÁN CHUẨN PUBLIC') || !packageCenterResult.note?.includes('@preview/sang-math:1.0.1') || !packageCenterResult.universe?.includes('/universe/package/sang-math')) {
   throw new Error(`Công cụ trợ giúp chưa hoạt động đúng: ${JSON.stringify({ completionResult, catalogResult, commandResult, searchCount, themeCount, outlineResult, packageCenterResult, templatePicker, errors })}`)
 }
 if (!examResult.canvasCount || !examResult.problems?.includes('Không có lỗi') || !examResult.semanticText?.includes('ĐỀ KIỂM TRA')) {
   throw new Error(`Mẫu sang-math không biên dịch sạch: ${JSON.stringify(examResult)}`)
 }
+if (workbookResult.error || !workbookResult.canvasCount || !workbookResult.problems?.includes('Không có lỗi') || !workbookResult.semanticText?.includes('BÀI TẬP TOÁN 12')) {
+  throw new Error(`Mẫu sách bài tập không biên dịch sạch: ${JSON.stringify(workbookResult)}`)
+}
 if (beamerResult.error || beamerResult.canvasCount < 20 || !beamerResult.problems?.includes('Không có lỗi')) {
   throw new Error(`Mẫu Beamer không biên dịch sạch: ${JSON.stringify(beamerResult)}`)
 }
 if (errors.length) throw new Error(`Lỗi trình duyệt:\n${errors.join('\n')}`)
-console.log(JSON.stringify({ fullExam: result, helpers: { sourceNavigation, completionResult, catalogResult, commandResult, searchCount, themeCount, outlineResult, packageCenterResult, templatePicker, serviceWorker: 'v4 Universe package cache · network-first' }, compactExam: examResult, beamer: beamerResult }, null, 2))
+console.log(JSON.stringify({ fullExam: result, helpers: { previewGeometry, sourceNavigation, studioFocus, beamerRoundTrip, previewStayedVisible, lightModeResult, completionResult, catalogResult, commandResult, searchCount, themeCount, outlineResult, packageCenterResult, templatePicker, serviceWorker: 'v4 Universe package cache · network-first' }, compactExam: examResult, workbook: workbookResult, beamer: beamerResult }, null, 2))

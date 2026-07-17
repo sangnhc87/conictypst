@@ -49,6 +49,22 @@ service cloud.firestore {
       allow read, write: if false;
     }
 
+    // Exam packages, rosters, attempts, grading keys and audit records are
+    // intentionally callable-only. In particular, even a document named
+    // "publicPackage" is released through an authorization-aware function;
+    // no browser receives direct Firestore access.
+    match /examClassrooms/{document=**} { allow read, write: if false; }
+    match /examJoinCodes/{document=**} { allow read, write: if false; }
+    match /examStudentClassLinks/{document=**} { allow read, write: if false; }
+    match /examReleases/{document=**} { allow read, write: if false; }
+    match /examAnswerKeys/{document=**} { allow read, write: if false; }
+    match /examAssignments/{document=**} { allow read, write: if false; }
+    match /examAttempts/{document=**} { allow read, write: if false; }
+    match /examAttemptCounters/{document=**} { allow read, write: if false; }
+    match /examAttemptMutations/{document=**} { allow read, write: if false; }
+    match /examTeacherUsage/{document=**} { allow read, write: if false; }
+    match /examAudit/{document=**} { allow read, write: if false; }
+
     match /{document=**} {
       allow read, write: if false;
     }

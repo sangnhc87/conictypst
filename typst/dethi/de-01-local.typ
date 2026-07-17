@@ -1,4 +1,4 @@
-#import "@local/sang-math:1.0.0": *
+#import "@preview/sang-math:1.0.1": *
 
 // ═══════════════════════════════════════════════════════════
 // CẤU HÌNH ĐỀ THI — Chỉ thay đổi ở đây
@@ -57,7 +57,7 @@
         - Khi tính tích phân xác định, ta áp dụng công thức Newton--Leibniz: $integral_a^b f(x) dif x = F(b) - F(a)$, trong đó $F'(x) = f(x)$.
       ]
       Ta có:
-      $ I = integral_0^(pi/2) cos x dif x = sin x |_0^(pi/2) = sin(pi/2) - sin(0) = 1 - 0 = 1. $
+      $ I = integral_0^(pi/2) cos x dif x = lr(sin x|)_0^(pi/2) = sin(pi/2) - sin(0) = 1 - 0 = 1. $
       Vậy chọn đáp án *B*.
     ],
   )

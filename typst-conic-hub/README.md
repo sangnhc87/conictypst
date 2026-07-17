@@ -12,28 +12,30 @@ Các website trên được build và triển khai riêng. TypstConicHub chỉ l
 ## Năng lực hiện tại
 
 - Monaco Editor tự host worker, không phụ thuộc Monaco CDN.
-- Typst compiler chạy trong Web Worker bằng `typst.ts` WASM.
+- Typst compiler chạy trong Web Worker bằng `typst.ts` WASM; WASM được chia thành hai asset dưới ngưỡng Pages, tải song song với 17 font nền rồi lưu đệm cho lần sau.
+- Preview mới được render trong vùng staging rồi thay nguyên khối, không xóa trắng trong lúc biên dịch.
 - Compiler tồn tại liên tục và chỉ nhận lại các tệp đã thay đổi.
 - Preview canvas, xuất PDF, SVG và PNG.
 - Dự án đa tệp, hỗ trợ tệp ảnh/asset nhị phân.
 - Tự lưu toàn bộ dự án bằng IndexedDB, có snapshot cục bộ.
 - Nhập/xuất dự án ZIP.
-- Mẫu khởi động chính giữ nguyên tên entry `05_full_de_thi_mau.typ` cùng `05_data_de_thi_mau.typ`, dùng `#import "@preview/sang-math:1.0.0": *` và chọn theme `teal-pro`.
-- Bảy mẫu dự án theo đúng sản phẩm đầu ra: đề đầy đủ 4 phần, tài liệu tự do, đề thi tinh gọn, sách/giáo trình, chuyên đề, Beamer 16:9 và BBT.
+- Mẫu khởi động `05_full_de_thi_mau.typ` dùng `#import "@preview/sang-math:1.0.1": *`, theme `teal-pro` và soạn trực tiếp từng câu bằng `#tn`, `#ds`, `#tln`, `#tl` — không cần `make-questions`.
+- Tám mẫu dự án theo đúng sản phẩm đầu ra: đề 05 đầy đủ, tài liệu tự do, đề thi tinh gọn, sách bài học, sách bài tập có lời giải, chuyên đề, Beamer 16:9 và BBT.
 - Người dùng IndexedDB cũ đang ở “Khởi động nhanh” được chuyển một lần sang mẫu 05; dự án cũ vẫn được giữ nguyên trong danh sách.
-- Beamer tích hợp 30 theme, dùng lại dữ liệu câu hỏi 05 và xuất slide chữa đề 16:9 ngay trong WASM.
-- `sang-math:1.0.0` dùng package chính thức trên Typst Universe; Service Worker cache archive sau lần tải đầu tiên.
+- Nút “Tạo/Cập nhật Beamer” tạo slide 16:9 trong cùng dự án; nút “Về đề A4” chuyển lại bản soạn trực tiếp. Đầu tệp Beamer luôn liệt kê 10 theme đề xuất (thư viện vẫn có đủ 30 theme).
+- `sang-math:1.0.1` dùng API chính thức của Typst Universe; Studio bundle đúng phiên bản này để khóa bản vá tương thích WASM, còn registry mạng vẫn xử lý package khác và dự án cũ.
 - Sang Math Center hiển thị trạng thái import của từng dự án, liên kết trang package và nâng cấp đường dẫn nội bộ cũ bằng một thao tác có snapshot tự động.
 - Alias package cũ chỉ được giữ ẩn trong compiler để dự án IndexedDB trước đây không bị hỏng; mẫu mới không sinh đường dẫn `/packages/sang-math/`.
 - Sang Math Center có tìm kiếm theo nhóm, mô tả cú pháp và chèn macro tại con trỏ.
-- Monaco tự gợi ý macro Sang Math khi gõ `#` hoặc dùng `Ctrl/Cmd + Space`.
+- Monaco ưu tiên đúng `#tn`, `#ds`, `#tln`, `#tl` khi gõ lệnh và chỉ bỏ dấu `#` khi mở một dự án cũ đang ở trong khối hàm Typst.
 - Command Palette `Ctrl/Cmd + K`, tìm kiếm xuyên toàn dự án và bảng vấn đề có thể đi tới dòng lỗi.
 - Outline nhận diện phần thi, heading và câu TN/ĐS/TLN/TL trong mọi tệp; bấm để đi đúng dòng.
 - Exam Designer chọn trực quan 12 theme Sang Math và tự biên dịch lại mà không sửa nội dung câu hỏi.
-- Click trực tiếp chữ/nội dung trong preview để mở đúng file và dòng source trong Monaco; hoạt động với cả entry 05 và file dữ liệu 05.
-- Nhận diện cam–xanh lá thống nhất, trạng thái hover rõ trên desktop và bố cục riêng trên điện thoại.
+- Click trực tiếp chữ/nội dung trong preview để mở đúng file và dòng source trong Monaco.
+- Nhận diện cam–xanh lá thống nhất; light mode có màu chữ/hover tương phản cao và bố cục riêng trên điện thoại.
+- Header Studio chỉ giữ Tài khoản và Hướng dẫn; Vẽ hình, Trộn đề và OMR không chen vào không gian soạn thảo.
 - Giao diện desktop ba panel và chế độ tệp/editor/preview riêng trên điện thoại.
-- Service Worker v2 dùng network-first cho navigation, cache asset bất biến và báo cập nhật mà không làm mất dự án đang soạn.
+- Service Worker v4 dùng network-first cho navigation, cache asset bất biến, package Universe và báo cập nhật mà không làm mất dự án đang soạn.
 
 ## Lệnh phát triển
 
@@ -42,11 +44,12 @@ npm run dev:hub
 npm run build:hub
 npm run preview:hub
 npm run test:hub:package
+npm run test:hub:exam-online
 npm run test:hub:smoke
 npm run deploy:hub
 ```
 
-Smoke test kiểm tra trang chủ, desktop Studio, mobile Studio, tải WASM, entry `05_full...` mặc định, click preview về source, 7 loại dự án, autocomplete, Outline, Exam Designer, đề Sang Math tinh gọn và Beamer 91 trang slide.
+Smoke test kiểm tra trang chủ, desktop/mobile Studio, A4 ↔ Beamer, 10 theme gợi ý, preview không trắng khi biên dịch, hover light mode, 8 loại dự án, autocomplete `#tn`, Outline, sách bài tập và Beamer 86 slide.
 
 ## Kiến trúc
 
@@ -55,7 +58,7 @@ Monaco Editor
   └─ project files / IndexedDB
        └─ compiler.worker.js
             ├─ persistent typst.ts compiler
-            ├─ Typst Universe package registry
+            ├─ bundled sang-math 1.0.1 + Typst Universe fallback
             ├─ legacy compatibility aliases
             └─ vector/PDF artifact
                  └─ renderer trên UI → canvas/SVG/PNG

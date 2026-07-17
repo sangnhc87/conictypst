@@ -1,4 +1,4 @@
-import { SANG_MATH_IMPORT } from './packagePolicy.js'
+import { SANG_MATH_IMPORT, SANG_MATH_VERSION } from './packagePolicy.js'
 
 export const SANG_MATH_CATEGORIES = [
   { id: 'all', label: 'Tất cả' },
@@ -12,7 +12,7 @@ export const SANG_MATH_CATEGORIES = [
 export const SANG_MATH_CATALOG = [
   {
     id: 'import-all', category: 'exam', name: 'Import Sang Math', signature: SANG_MATH_IMPORT,
-    description: 'Nạp API chính thức sang-math 1.0.0 từ Typst Universe.',
+    description: `Nạp API chính thức sang-math ${SANG_MATH_VERSION} từ Typst Universe.`,
     snippet: `${SANG_MATH_IMPORT}\n`,
   },
   {
@@ -37,8 +37,8 @@ export const SANG_MATH_CATALOG = [
   },
   {
     id: 'tln', category: 'exam', name: 'Câu trả lời ngắn', signature: '#tln([câu hỏi], [đáp án])',
-    description: 'Câu điền số/tự luận ngắn có đáp án máy đọc được.',
-    snippet: '#tln(\n  [Nội dung câu hỏi],\n  [$42$],\n  id: "TLN01",\n  loigiai: [Trình bày lời giải.],\n)\n',
+    description: 'Câu điền số có ID bền và đáp án máy đọc được để chấm online.',
+    snippet: '#tln(\n  [Nội dung câu hỏi],\n  [$42$],\n  id: "TLN01",\n  answer-value: "42",\n  accepted-answers: ("42", "42,0"),\n  tolerance: 0,\n  loigiai: [Trình bày lời giải.],\n)\n',
   },
   {
     id: 'tl', category: 'exam', name: 'Câu tự luận', signature: '#tl([câu hỏi], lines: 6)',

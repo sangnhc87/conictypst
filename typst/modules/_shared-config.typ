@@ -14,10 +14,9 @@
 //
 // LƯU Ý: cần đặt #show: doc-setup ở đầu file để hiệu lực.
 
-#let in-tfrac = state("in-tfrac", false)
-
 #let tfrac(num, den) = {
-  in-tfrac.update(true) + math.frac(num, den) + in-tfrac.update(false)
+  show math.frac: f => f
+  scale(x: 72%, y: 72%, origin: center + horizon, reflow: true, math.inline(math.frac(num, den)))
 }
 
 // ─── doc-setup: Cấu hình hiển thị toán thay cho 10 dòng show rules ────────
@@ -36,15 +35,11 @@
   // Màu chữ công thức toán
   show math.equation: set text(fill: math-color)
 
-  // Phân số trong môi trường inline ($...$) sẽ hiện ở dạng display (to, rõ)
-  show math.equation.where(block: false): math.display
-
-  // show rule thông minh cho math.frac:
-  //   - Nếu đang trong tfrac(...) → hiện dạng inline (nhỏ) — dùng cho số mũ, cận tích phân
-  //   - Nếu không → hiện dạng display (to, chuẩn)
-  show math.frac: it => context {
-    if in-tfrac.get() {
-      math.inline(it)
+  // Công thức inline vẫn dùng display style. Typst tự thu nhỏ phân số trong
+  // số mũ/cận; chỉ dòng có phân số mới nhận thêm khoảng thoáng theo baseline.
+  show math.equation.where(block: false): it => {
+    if repr(it).contains("frac") {
+      box(inset: (y: 0.16em))[#math.display(it)]
     } else {
       math.display(it)
     }

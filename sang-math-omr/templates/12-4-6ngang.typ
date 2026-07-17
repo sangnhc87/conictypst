@@ -9,6 +9,8 @@
 
 #let marker = box(fill: black, width: 12pt, height: 12pt)
 #let tracking-marker = box(fill: black, width: 10pt, height: 10pt)
+#let qb = box(width: 1.15pt, height: 1.15pt, fill: black)
+#let qw = box(width: 1.15pt, height: 1.15pt, fill: white)
 
 #let bubble(label) = {
   circle(
@@ -25,9 +27,9 @@
       #place(left, dx: -5mm, dy: -5mm, marker)
       #place(right, dx: 5mm, dy: -5mm, marker)
     ]
-    
+
     #v(if true { 1pt } else { 2pt })
-    
+
     #let sbd-box = block(
       inset: (left: if true { 6pt } else { 4pt }, right: if true { 3pt } else { 2pt }, top: if true { 1pt } else { 2pt }, bottom: if true { 1pt } else { 2pt }),
       [
@@ -45,7 +47,7 @@
         )
       ],
     )
-    
+
     #let made-box = block(
       inset: (left: if true { 3pt } else { 2pt }, right: if true { 3pt } else { 2pt }, top: if true { 1pt } else { 2pt }, bottom: if true { 1pt } else { 2pt }),
       [
@@ -67,7 +69,7 @@
         )
       ],
     )
-    
+
     #let mcq-row(num) = {
       grid(
         columns: (13pt, 12pt, 12pt, 12pt, 12pt),
@@ -78,13 +80,51 @@
         align(center + horizon, bubble("")),
       )
     }
-    
+
     #let info-phan1-box = block(
       [
         #block(
           inset: (left: 4pt, right: 4pt, top: 2pt, bottom: 2pt),
           [
-            #place(top + right, dx: 0pt, dy: -2pt)[#box(width: 1cm, height: 1cm, stroke: 0.5pt)]
+            #place(top + right, dx: 0pt, dy: -2pt)[
+              #box(width: 1.65cm, height: 1.65cm, stroke: 0.6pt, radius: 2pt)[
+                #align(center + horizon)[#grid(columns: 33, column-gutter: 0pt, row-gutter: 0pt,
+  qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qb, qb, qb, qb, qb, qb, qw, qw, qb, qw, qb, qw, qw, qb, qb, qw, qw, qb, qb, qb, qb, qb, qb, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qw, qw, qw, qw, qb, qw, qb, qb, qw, qb, qb, qw, qb, qb, qw, qw, qb, qw, qw, qw, qw, qw, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qb, qb, qb, qw, qb, qw, qw, qb, qw, qb, qb, qw, qw, qb, qw, qw, qb, qw, qb, qb, qb, qw, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qb, qb, qb, qw, qb, qw, qw, qw, qb, qw, qb, qw, qb, qw, qw, qw, qb, qw, qb, qb, qb, qw, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qb, qb, qb, qw, qb, qw, qb, qw, qb, qb, qw, qw, qb, qb, qw, qw, qb, qw, qb, qb, qb, qw, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qw, qw, qw, qw, qb, qw, qw, qb, qw, qw, qw, qb, qw, qb, qw, qw, qb, qw, qw, qw, qw, qw, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qb, qb, qb, qb, qb, qb, qw, qb, qw, qb, qw, qb, qw, qb, qw, qb, qw, qb, qb, qb, qb, qb, qb, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qb, qw, qb, qb, qw, qb, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qb, qw, qb, qw, qb, qw, qw, qw, qb, qb, qw, qb, qw, qw, qw, qw, qw, qw, qb, qw, qw, qb, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qw, qb, qw, qw, qw, qb, qw, qb, qw, qw, qb, qw, qw, qw, qw, qw, qb, qb, qw, qw, qb, qb, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qw, qb, qb, qw, qw, qb, qb, qb, qb, qw, qw, qw, qw, qb, qw, qw, qw, qw, qw, qw, qb, qb, qw, qb, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qb, qw, qb, qw, qw, qw, qb, qw, qw, qb, qb, qb, qw, qb, qb, qb, qb, qb, qw, qw, qw, qw, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qw, qb, qb, qb, qw, qw, qb, qw, qw, qb, qb, qw, qb, qb, qw, qb, qb, qw, qb, qb, qb, qw, qb, qb, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qw, qb, qw, qw, qw, qb, qw, qw, qb, qb, qw, qb, qb, qb, qw, qw, qw, qw, qb, qw, qw, qw, qb, qb, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qw, qb, qw, qb, qb, qw, qw, qb, qw, qb, qb, qb, qw, qw, qb, qw, qb, qw, qw, qb, qb, qb, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qw, qb, qw, qw, qb, qb, qw, qb, qw, qb, qb, qw, qb, qb, qb, qb, qb, qw, qw, qb, qb, qw, qw, qw, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qw, qb, qw, qw, qb, qb, qw, qw, qb, qb, qw, qw, qb, qw, qb, qb, qb, qb, qb, qb, qb, qw, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qb, qw, qb, qb, qw, qw, qw, qw, qb, qw, qw, qw, qb, qb, qw, qw, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qb, qb, qb, qb, qb, qb, qw, qw, qb, qw, qw, qw, qb, qw, qb, qb, qw, qb, qw, qb, qw, qw, qb, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qw, qw, qw, qw, qb, qw, qw, qw, qw, qb, qw, qw, qw, qb, qb, qw, qw, qw, qb, qb, qw, qw, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qb, qb, qb, qw, qb, qw, qb, qw, qb, qw, qb, qw, qw, qw, qb, qb, qb, qb, qb, qb, qw, qb, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qb, qb, qb, qw, qb, qw, qw, qb, qw, qb, qb, qb, qw, qw, qw, qb, qw, qw, qb, qb, qb, qw, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qb, qb, qb, qw, qb, qw, qb, qw, qb, qb, qb, qw, qb, qb, qw, qb, qw, qw, qb, qw, qw, qw, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qw, qw, qw, qw, qb, qw, qw, qw, qw, qw, qb, qb, qb, qb, qb, qb, qw, qw, qb, qb, qw, qb, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qb, qb, qb, qb, qb, qb, qw, qb, qw, qw, qb, qw, qw, qb, qw, qb, qw, qw, qw, qb, qb, qw, qb, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw
+)]
+              ]
+            ]
             #align(left)[#text(size: 10pt, weight: "bold")[PHIẾU TRẢ LỜI TRẮC NGHIỆM]]
             #v(2pt)
             #text(size: 7.5pt)[*SANG MATH OMR*]
@@ -143,7 +183,7 @@
         )
       ]
     )
-    
+
     #let tf-q(num) = {
       grid(
         columns: (12pt, 14pt, 14pt),
@@ -157,7 +197,7 @@
         [d)], bubble(""), bubble(""),
       )
     }
-    
+
     #let phan2-box = block(
       [
         #block(inset: (left: 4pt, top: 2pt, bottom: 2pt), [ *PHẦN II – ĐÚNG / SAI* ])
@@ -181,7 +221,7 @@
         )
       ]
     )
-    
+
     // TOP BLOCK (SBD, Mã đề, Phần I, Phần II)
     #block(
       width: 100%,
@@ -196,10 +236,10 @@
         block(stroke: (left: (paint: rgb("#666666"), thickness: 0.8pt, dash: "dashed")), phan2-box)
       )
     )
-    
+
     #v(if true { -2pt } else { 4pt })
-    
-    // BOTTOM BLOCK (Phần III)
+
+    // BOTTOM BLOCK (Phần III) — keep the calibrated legacy offset.
     #let tln-col(num) = {
       block(
         stroke: (right: if num < 6 { (paint: rgb("#666666"), thickness: 0.5pt, dash: "dashed") } else { 0pt }),
@@ -224,7 +264,7 @@
             align: center + horizon,
             [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
             [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
-            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], [], bubble(""), bubble(""), bubble(""),
+            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], bubble(""), bubble(""), bubble(""), bubble(""),
             ..range(1, 10).map(r => (
               [#text(size: 6.5pt, fill: rgb("#666666"))[#r]],
               bubble(""),
@@ -236,7 +276,7 @@
         ],
       )
     }
-    
+
     #block(
       stroke: (paint: rgb("#666666"), thickness: 0.8pt, dash: "dashed"),
       radius: 4pt,
@@ -273,7 +313,7 @@
   ]
 ]
 
-#if "a5" == "a5" and false [
+#if "a5" == "a5" and true [
   #pagebreak()
   #align(center + horizon)[
     #scale(x: 95%, y: 95%, origin: center)[

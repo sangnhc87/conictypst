@@ -7,7 +7,8 @@ const PROJECT_STORE = 'projects'
 const META_STORE = 'meta'
 const ACTIVE_PROJECT_KEY = 'active-project-id'
 const FALLBACK_KEY = 'typst-conic-hub.project.fallback.v1'
-const MAIN_TEMPLATE_MIGRATION_KEY = 'typst-conic-hub.main-template.full-exam.v2'
+const MAIN_TEMPLATE_MIGRATION_KEY = 'typst-conic-hub.main-template.direct-questions.v3'
+const MAIN_TEMPLATE_VERSION = 3
 const MAX_SNAPSHOTS = 12
 
 function openDatabase() {
@@ -89,6 +90,7 @@ export function normalizeProject(project) {
     entryPath,
     files,
     snapshots: Array.isArray(source.snapshots) ? source.snapshots.slice(0, MAX_SNAPSHOTS) : [],
+    templateVersion: Number.isInteger(source.templateVersion) ? source.templateVersion : 1,
   }
 }
 
@@ -160,7 +162,7 @@ export async function bootstrapProject() {
   // project trước lần đổi mẫu mặc định. Chỉ chuyển một lần, giữ nguyên project
   // cũ và tuyệt đối không ghi đè nội dung họ đã soạn.
   if (!window.localStorage.getItem(MAIN_TEMPLATE_MIGRATION_KEY)) {
-    let fullExam = projects.find(project => project.templateId === 'full-exam')
+    let fullExam = projects.find(project => project.templateId === 'full-exam' && project.templateVersion >= MAIN_TEMPLATE_VERSION)
     if (!fullExam) {
       fullExam = await saveProject(createProjectFromTemplate('full-exam'), { activate: false })
       projects = [fullExam, ...projects]
@@ -169,7 +171,9 @@ export async function bootstrapProject() {
 
     const isLegacyQuickstart = activeProject?.templateId === 'quickstart'
       || activeProject?.name === 'Khởi động nhanh'
-    if (!activeProject || isLegacyQuickstart) return saveProject(fullExam)
+    const isLegacyFullExam = activeProject?.templateId === 'full-exam'
+      && activeProject.templateVersion < MAIN_TEMPLATE_VERSION
+    if (!activeProject || isLegacyQuickstart || isLegacyFullExam) return saveProject(fullExam)
   }
 
   if (activeProject) return activeProject

@@ -1,20 +1,25 @@
 const fs = require('fs');
 const vm = require('vm');
-const qrcode = require('qrcode-generator');
+const qrContext = vm.createContext({});
+vm.runInContext(fs.readFileSync('./js/vendor/qrcode.js', 'utf8'), qrContext);
+const qrcode = qrContext.qrcode;
 function getQRTypst(text) {
-    const qr = qrcode(0, 'L');
-    qr.addData(text);
+    const payload = text.startsWith('SMOMR:') ? text : `SMOMR:3:P:${text}`;
+    const qr = qrcode(0, 'M');
+    qr.addData(payload);
     qr.make();
     const size = qr.getModuleCount();
+    const quiet = 4;
     let rows = [];
-    for (let r = 0; r < size; r++) {
+    for (let r = -quiet; r < size + quiet; r++) {
         let rowCols = [];
-        for (let c = 0; c < size; c++) {
-            rowCols.push(qr.isDark(r, c) ? "qb" : "qw");
+        for (let c = -quiet; c < size + quiet; c++) {
+            const inside = r >= 0 && r < size && c >= 0 && c < size;
+            rowCols.push(inside && qr.isDark(r, c) ? "qb" : "qw");
         }
         rows.push(rowCols.join(', '));
     }
-    return `#grid(columns: ${size}, spacing: 0pt,\n  ${rows.join(',\n  ')}\n)`;
+    return `#grid(columns: ${size + quiet * 2}, column-gutter: 0pt, row-gutter: 0pt,\n  ${rows.join(',\n  ')}\n)`;
 }
 
 
@@ -31,6 +36,9 @@ for (const script of scripts) {
 }
 
 // Mock browser objects
+const templateRegistry = {
+  '12-4-6ngang': { numQ: 12, numTf: 4, numTln: 6 }
+};
 const globalMock = {
   document: {
     getElementById: (id) => ({
@@ -38,6 +46,12 @@ const globalMock = {
       checked: false,
       addEventListener: () => {},
       classList: { add: () => {}, remove: () => {} },
+      style: {},
+      dataset: {},
+      options: [],
+      parentNode: { appendChild: () => {} },
+      querySelector: () => null,
+      querySelectorAll: () => [],
       appendChild: () => {},
       remove: () => {}
     }),
@@ -46,12 +60,14 @@ const globalMock = {
     addEventListener: () => {},
     createElement: () => ({
       style: {},
+      dataset: {},
       classList: { add: () => {}, remove: () => {} },
       appendChild: () => {},
-      addEventListener: () => {}
+      addEventListener: () => {},
+      setAttribute: () => {}
     })
   },
-  window: { addEventListener: () => {} },
+  window: { addEventListener: () => {}, TEMPLATES: templateRegistry },
   localStorage: {
     getItem: () => null,
     setItem: () => {}
@@ -61,9 +77,8 @@ const globalMock = {
       writeText: () => Promise.resolve()
     }
   },
-  TEMPLATES: {
-    '12-4-6ngang': { numQ: 50 }
-  },
+  configureCameraButtonForDevice: () => {},
+  TEMPLATES: templateRegistry,
   AudioContext: class {},
   webkitAudioContext: class {},
   localStorage: {

@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './security.js'
-import './monacoSetup.js'
 import App from './App.jsx'
 import './styles.css'
 

@@ -482,7 +482,8 @@
 ])
 // ── PHẦN TỰ LUẬN NGẮN ──────────────────────────────────────
 #v(if true { -2pt } else { 4pt })
-#block(width:100%, stroke:(paint:rgb("#666666"),thickness:0.8pt,dash:"dashed"), radius:4pt, clip:true, [
+#scale(x: 75%, y: 75%, origin: top + left)[
+#block(width:133.33333333333334%, stroke:(paint:rgb("#666666"),thickness:0.8pt,dash:"dashed"), radius:4pt, clip:true, [
   #rect(width:100%, height:16pt, [#align(center+horizon)[#text(8pt, weight:"bold")[PHẦN III – TỰ LUẬN NGẮN (Câu 1-10)]]])
   #block(
     inset: (left: 10pt, right: 10pt, top: if true { 3pt } else { 0pt }, bottom: if true { 5pt } else { 6pt }),
@@ -509,7 +510,7 @@
             align: center + horizon,
             [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
             [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
-            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], [], bubble(""), bubble(""), bubble(""),
+            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], bubble(""), bubble(""), bubble(""), bubble(""),
             ..range(1, 10).map(r => (
               [#text(size: 6.5pt, fill: rgb("#666666"))[#r]], bubble(""), bubble(""), bubble(""), bubble("")
             )).flatten(),
@@ -535,7 +536,7 @@
             align: center + horizon,
             [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
             [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
-            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], [], bubble(""), bubble(""), bubble(""),
+            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], bubble(""), bubble(""), bubble(""), bubble(""),
             ..range(1, 10).map(r => (
               [#text(size: 6.5pt, fill: rgb("#666666"))[#r]], bubble(""), bubble(""), bubble(""), bubble("")
             )).flatten(),
@@ -561,7 +562,7 @@
             align: center + horizon,
             [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
             [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
-            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], [], bubble(""), bubble(""), bubble(""),
+            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], bubble(""), bubble(""), bubble(""), bubble(""),
             ..range(1, 10).map(r => (
               [#text(size: 6.5pt, fill: rgb("#666666"))[#r]], bubble(""), bubble(""), bubble(""), bubble("")
             )).flatten(),
@@ -587,7 +588,7 @@
             align: center + horizon,
             [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
             [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
-            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], [], bubble(""), bubble(""), bubble(""),
+            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], bubble(""), bubble(""), bubble(""), bubble(""),
             ..range(1, 10).map(r => (
               [#text(size: 6.5pt, fill: rgb("#666666"))[#r]], bubble(""), bubble(""), bubble(""), bubble("")
             )).flatten(),
@@ -613,7 +614,7 @@
             align: center + horizon,
             [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
             [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
-            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], [], bubble(""), bubble(""), bubble(""),
+            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], bubble(""), bubble(""), bubble(""), bubble(""),
             ..range(1, 10).map(r => (
               [#text(size: 6.5pt, fill: rgb("#666666"))[#r]], bubble(""), bubble(""), bubble(""), bubble("")
             )).flatten(),
@@ -639,7 +640,7 @@
             align: center + horizon,
             [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
             [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
-            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], [], bubble(""), bubble(""), bubble(""),
+            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], bubble(""), bubble(""), bubble(""), bubble(""),
             ..range(1, 10).map(r => (
               [#text(size: 6.5pt, fill: rgb("#666666"))[#r]], bubble(""), bubble(""), bubble(""), bubble("")
             )).flatten(),
@@ -665,7 +666,7 @@
             align: center + horizon,
             [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
             [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
-            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], [], bubble(""), bubble(""), bubble(""),
+            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], bubble(""), bubble(""), bubble(""), bubble(""),
             ..range(1, 10).map(r => (
               [#text(size: 6.5pt, fill: rgb("#666666"))[#r]], bubble(""), bubble(""), bubble(""), bubble("")
             )).flatten(),
@@ -691,7 +692,7 @@
             align: center + horizon,
             [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
             [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
-            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], [], bubble(""), bubble(""), bubble(""),
+            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], bubble(""), bubble(""), bubble(""), bubble(""),
             ..range(1, 10).map(r => (
               [#text(size: 6.5pt, fill: rgb("#666666"))[#r]], bubble(""), bubble(""), bubble(""), bubble("")
             )).flatten(),
@@ -717,7 +718,7 @@
             align: center + horizon,
             [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
             [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
-            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], [], bubble(""), bubble(""), bubble(""),
+            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], bubble(""), bubble(""), bubble(""), bubble(""),
             ..range(1, 10).map(r => (
               [#text(size: 6.5pt, fill: rgb("#666666"))[#r]], bubble(""), bubble(""), bubble(""), bubble("")
             )).flatten(),
@@ -743,7 +744,7 @@
             align: center + horizon,
             [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
             [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
-            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], [], bubble(""), bubble(""), bubble(""),
+            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], bubble(""), bubble(""), bubble(""), bubble(""),
             ..range(1, 10).map(r => (
               [#text(size: 6.5pt, fill: rgb("#666666"))[#r]], bubble(""), bubble(""), bubble(""), bubble("")
             )).flatten(),
@@ -752,7 +753,7 @@
       ),     )
   )
 ])
-
+]
 // ── TỰ LUẬN VIẾT TAY ────────────────────────────────────────
 
 

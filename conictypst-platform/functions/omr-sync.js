@@ -7,6 +7,7 @@ const { onSchedule } = require('firebase-functions/v2/scheduler');
 const { logger } = require('firebase-functions');
 const { DEFAULT_OWNER_EMAIL, PRODUCT_DEFINITIONS } = require('./lib/constants');
 const { buildSearchTokens, normalizeProfile } = require('./lib/membership');
+const { EXAM_PRODUCT_ID, purgeExamMemberForDeletion } = require('./lib/examDeletion');
 
 const REGION = 'asia-southeast1';
 const OMR_PRODUCT_ID = 'omr';
@@ -1211,13 +1212,6 @@ async function claimDeletionJob(jobRef) {
         if (!jobDoc.exists) return null;
         const job = jobDoc.data();
         const nowMillis = Date.now();
-        // A PUT ticket may already have been issued immediately before access
-        // was blocked. Drain that short-lived capability before deleting the
-        // metadata, otherwise a slow upload could recreate an orphan in R2.
-        const ready = job.status === 'queued'
-            && timestampMillis(job.deleteAfter) + DELETION_STORAGE_DRAIN_MS <= nowMillis;
-        const abandoned = job.status === 'processing' && timestampMillis(job.leaseExpiresAt) <= nowMillis;
-        if (!ready && !abandoned) return null;
         const productId = String(job.productId || '');
         const uid = String(job.uid || '');
         if (!PRODUCT_DEFINITIONS[productId] || !uid || uid.includes('/') || jobRef.id !== `${productId}__${uid}`) {
@@ -1229,6 +1223,15 @@ async function claimDeletionJob(jobRef) {
             }, { merge: true });
             return null;
         }
+        // A PUT ticket may already have been issued immediately before access
+        // was blocked. Drain that short-lived capability before deleting the
+        // metadata, otherwise a slow upload could recreate an orphan in R2.
+        // Exam has no external blob capability and must not inherit this delay.
+        const drainMillis = productId === OMR_PRODUCT_ID ? DELETION_STORAGE_DRAIN_MS : 0;
+        const ready = job.status === 'queued'
+            && timestampMillis(job.deleteAfter) + drainMillis <= nowMillis;
+        const abandoned = job.status === 'processing' && timestampMillis(job.leaseExpiresAt) <= nowMillis;
+        if (!ready && !abandoned) return null;
         const targetRef = memberRef(uid, database, productId);
         const targetDoc = await transaction.get(targetRef);
         if (targetDoc.exists && targetDoc.data().status !== 'deletion_scheduled') {
@@ -1366,6 +1369,13 @@ async function processDeletionJobs() {
             const targetRef = memberRef(claimed.uid, database, claimed.productId);
             if (claimed.productId === OMR_PRODUCT_ID) {
                 await purgeOmrMemberForDeletion(targetRef, jobRef, claimed.leaseToken);
+            } else if (claimed.productId === EXAM_PRODUCT_ID) {
+                await purgeExamMemberForDeletion({
+                    database,
+                    targetRef,
+                    uid: claimed.uid,
+                    renewLease: () => renewDeletionLease(jobRef, claimed.leaseToken),
+                });
             } else {
                 if (!await renewDeletionLease(jobRef, claimed.leaseToken)) {
                     throw new Error('Deletion lease is no longer active.');

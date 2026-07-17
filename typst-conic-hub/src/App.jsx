@@ -1,5 +1,6 @@
 import React, { Suspense, lazy, useEffect, useState } from 'react'
 import { ECOSYSTEM_LINKS } from './ecosystem.js'
+import { SANG_MATH_PACKAGE, SANG_MATH_VERSION } from './studio/packagePolicy.js'
 import { PROJECT_TEMPLATES } from './studio/templates.js'
 
 const HubStudio = lazy(() => import('./studio/HubStudio.jsx'))
@@ -74,7 +75,7 @@ function Landing({ onOpenStudio }) {
           <div className="hero__copy">
             <div className="eyebrow"><span className="eyebrow__dot" /> Typst WASM · sang-math tích hợp</div>
             <h1>Soạn tài liệu Toán<br /><span>đẹp, nhanh và liền mạch.</span></h1>
-            <p>Không gian Typst chuyên nghiệp dành cho giáo viên Việt Nam. Soạn thảo, xem trước, quản lý dự án và đi thẳng sang trộn đề, QR, phiếu OMR — mỗi module vẫn độc lập và an toàn.</p>
+            <p>Không gian chuyên dụng để soạn Typst: gõ lệnh có gợi ý, thấy ngay bản in, quản lý dự án và chuyển đề A4 sang Beamer mà không rời bàn soạn.</p>
             <div className="hero__actions">
               <button className="button button--hero" type="button" onClick={() => onOpenStudio()}>Bắt đầu soạn thảo <span>→</span></button>
               <a className="button button--outline" href="https://hdsd-conictypst.pages.dev/ecosystem" target="_blank" rel="noreferrer">Khám phá hệ sinh thái</a>
@@ -90,7 +91,7 @@ function Landing({ onOpenStudio }) {
             <div className="hero-product__bar">
               <span className="window-dots"><i /><i /><i /></span>
               <span className="product-tab">main.typ <b>•</b></span>
-              <span className="product-status"><i /> WASM sẵn sàng</span>
+              <span className="product-status"><i /> Trình biên dịch sẵn sàng</span>
             </div>
             <div className="hero-product__body">
               <aside className="mock-files">
@@ -98,11 +99,11 @@ function Landing({ onOpenStudio }) {
                 <div className="mock-file is-active"><span>T</span> main.typ</div>
                 <div className="mock-file"><span>T</span> data.typ</div>
                 <div className="mock-file"><span>▦</span> images</div>
-                <div className="mock-package"><i>✓</i><span><b>sang-math</b><small>1.0.0 · Universe</small></span></div>
+                <div className="mock-package"><i>✓</i><span><b>sang-math</b><small>{SANG_MATH_VERSION} · Universe</small></span></div>
               </aside>
               <div className="mock-code" aria-hidden="true">
                 <ol>
-                  <li><code><em>#import</em> <q>@preview/sang-math:1.0.0</q>: *</code></li>
+                  <li><code><em>#import</em> <q>{SANG_MATH_PACKAGE}</q>: *</code></li>
                   <li><code /></li>
                   <li><code><em>#let</em> preset = exam-preset(</code></li>
                   <li><code>  theme: <q>teal-pro</q>,</code></li>
@@ -132,38 +133,38 @@ function Landing({ onOpenStudio }) {
         </section>
 
         <section className="trust-strip">
-          <span>TYPST</span><i /> <span>WEBASSEMBLY</span><i /> <span>MONACO EDITOR</span><i /> <span>SANG MATH</span><i /> <span>CONIC OMR</span>
+          <span>TYPST</span><i /> <span>WEBASSEMBLY</span><i /> <span>MONACO EDITOR</span><i /> <span>SANG MATH</span><i /> <span>PROJECT ZIP</span>
         </section>
 
         <section id="features" className="section section--features">
           <div className="section-heading">
             <div><span className="section-kicker">MỘT STUDIO THỰC THỤ</span><h2>Tập trung vào nội dung.<br />Hệ thống lo phần còn lại.</h2></div>
-            <p>Compiler chạy trong Web Worker riêng, dự án được lưu bằng IndexedDB và package chính thức được tải từ Typst Universe rồi lưu đệm cho lần dùng sau.</p>
+            <p>Typst chạy ngay bên trong trình duyệt: bạn gõ đến đâu thấy kết quả đến đó, bài được lưu trên máy và không phải gửi lên máy chủ của chúng tôi.</p>
           </div>
           <div className="feature-grid">
             <article className="feature-card feature-card--wide blue">
-              <div className="feature-card__icon">⚡</div><span className="feature-card__tag">WASM WORKER</span>
+              <div className="feature-card__icon">⚡</div><span className="feature-card__tag">BIÊN DỊCH TRONG TRÌNH DUYỆT</span>
               <h3>Preview tức thời,<br />giao diện vẫn mượt.</h3>
               <p>Chỉ đồng bộ tệp vừa thay đổi; compiler sống liên tục trong tiến trình nền và bỏ qua các kết quả biên dịch đã cũ.</p>
               <div className="compile-meter"><span><i /> Đang biên dịch main.typ</span><b>186 ms</b><div><i /></div></div>
             </article>
             <article className="feature-card green">
-              <div className="feature-card__icon">◎</div><span className="feature-card__tag">LOCAL FIRST</span>
-              <h3>Tự lưu thật,<br />không sợ mất bài.</h3>
-              <p>Nội dung toàn bộ dự án, tệp ảnh và snapshot đều nằm trên thiết bị.</p>
+              <div className="feature-card__icon">◎</div><span className="feature-card__tag">LƯU TRÊN MÁY</span>
+              <h3>Tự lưu cục bộ,<br />bạn giữ dữ liệu.</h3>
+              <p>Studio miễn phí, không cần tài khoản. Dự án, ảnh và snapshot nằm trên thiết bị; khi đổi máy, xuất ZIP rồi nhập lại.</p>
               <div className="save-stack"><span>main.typ <i>Đã lưu</i></span><span>Bản trước khi chỉnh đề <i>09:42</i></span><span>Snapshot thủ công <i>Hôm nay</i></span></div>
             </article>
             <article className="feature-card orange">
               <div className="feature-card__icon">S</div><span className="feature-card__tag">TYPST UNIVERSE</span>
               <h3>sang-math<br />bản chính thức.</h3>
               <p>Mẫu và kho lệnh dùng đúng import công khai; dự án mang sang Typst CLI hoặc Typst.app không cần sửa đường dẫn.</p>
-              <div className="package-chip"><span>✓</span><b>sang-math</b><small>v1.0.0 · @preview</small></div>
+              <div className="package-chip"><span>✓</span><b>sang-math</b><small>v{SANG_MATH_VERSION} · @preview</small></div>
             </article>
             <article className="feature-card feature-card--wide violet">
-              <div className="feature-card__icon">↗</div><span className="feature-card__tag">OPEN WORKFLOW</span>
-              <h3>Một cú click sang đúng công cụ.</h3>
-              <p>Bảng vẽ CeTZ chuyển mã trực tiếp vào Studio; HDSD, trộn đề và OMR vẫn chạy độc lập nhưng đi chung một quy trình.</p>
-              <div className="workflow"><span>Vẽ CeTZ</span><i>→</i><span>Studio</span><i>→</i><span>QR Passport</span><i>→</i><span>OMR</span></div>
+              <div className="feature-card__icon">↔</div><span className="feature-card__tag">A4 · BEAMER</span>
+              <h3>Một bộ câu hỏi,<br />hai cách trình bày.</h3>
+              <p>Soạn trực tiếp #tn, #ds, #tln, #tl; chuyển sang slide chữa đề rồi trở về bản A4 bằng một nút.</p>
+              <div className="workflow"><span>Soạn câu hỏi</span><i>→</i><span>Đề A4</span><i>↔</i><span>Beamer 16:9</span><i>→</i><span>PDF</span></div>
             </article>
           </div>
         </section>

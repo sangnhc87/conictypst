@@ -40,9 +40,98 @@
         { "fieldPath": "status", "order": "ASCENDING" },
         { "fieldPath": "leaseExpiresAt", "order": "ASCENDING" }
       ]
+    },
+    {
+      "collectionGroup": "examAttempts",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "assignmentId", "order": "ASCENDING" },
+        { "fieldPath": "submittedAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "examAssignments",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "classId", "order": "ASCENDING" },
+        { "fieldPath": "openAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "examAssignments",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "teacherUid", "order": "ASCENDING" },
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "closeAt", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "examAttempts",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "deadlineAt", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "examAttempts",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "studentUid", "order": "ASCENDING" },
+        { "fieldPath": "startedAt", "order": "DESCENDING" }
+      ]
     }
   ],
   "fieldOverrides": [
+    {
+      "collectionGroup": "classes",
+      "fieldPath": "teacherUid",
+      "indexes": [
+        { "order": "ASCENDING", "queryScope": "COLLECTION_GROUP" }
+      ]
+    },
+    {
+      "collectionGroup": "examReleases",
+      "fieldPath": "publicPackage",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "examAnswerKeys",
+      "fieldPath": "items",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "examAttempts",
+      "fieldPath": "responses",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "examAttempts",
+      "fieldPath": "itemResults",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "examAttempts",
+      "fieldPath": "manualGrades",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "examAttempts",
+      "fieldPath": "expireAt",
+      "ttl": true,
+      "indexes": []
+    },
+    {
+      "collectionGroup": "examAudit",
+      "fieldPath": "details",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "examAttemptMutations",
+      "fieldPath": "result",
+      "indexes": []
+    },
     {
       "collectionGroup": "omrResults",
       "fieldPath": "answers",
@@ -133,6 +222,18 @@
       "indexes": [
         { "order": "ASCENDING", "queryScope": "COLLECTION_GROUP" }
       ]
+    },
+    {
+      "collectionGroup": "examAttemptMutations",
+      "fieldPath": "expireAt",
+      "ttl": true,
+      "indexes": []
+    },
+    {
+      "collectionGroup": "examAudit",
+      "fieldPath": "expireAt",
+      "ttl": true,
+      "indexes": []
     }
   ]
 }

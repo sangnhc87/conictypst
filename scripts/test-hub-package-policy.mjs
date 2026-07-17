@@ -2,6 +2,8 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 import {
   SANG_MATH_IMPORT,
+  SANG_MATH_PACKAGE,
+  SANG_MATH_VERSION,
   inspectSangMathProject,
   migrateProjectToUniverse,
 } from '../typst-conic-hub/src/studio/packagePolicy.js'
@@ -17,7 +19,35 @@ test('mẫu public dùng import chính thức', () => {
   const health = inspectSangMathProject(projectWith(`${SANG_MATH_IMPORT}\n#tn([Câu hỏi], ())`).files)
   assert.equal(health.mode, 'official')
   assert.equal(health.officialImports, 1)
+  assert.equal(health.currentImports, 1)
+  assert.equal(health.outdatedImports, 0)
   assert.equal(health.legacyImports, 0)
+})
+
+test('dự án Universe 1.0.0 vẫn là official nhưng được đánh dấu cần nâng cấp', () => {
+  const health = inspectSangMathProject(projectWith('#import "@preview/sang-math:1.0.0": *').files)
+
+  assert.equal(health.mode, 'official')
+  assert.equal(health.officialImports, 1)
+  assert.equal(health.currentImports, 0)
+  assert.equal(health.outdatedImports, 1)
+  assert.deepEqual(health.officialVersions, ['1.0.0'])
+})
+
+test('chỉ nâng cấp dòng import 1.0.0, không sửa comment, chuỗi hay phiên bản tương lai', () => {
+  const source = `#import "@preview/sang-math:1.0.0": *
+// Nhắc trong tài liệu: @preview/sang-math:1.0.0
+#let package-note = "@preview/sang-math:1.0.0"
+#import "@preview/sang-math:2.0.0": geometry`
+  const migrated = migrateProjectToUniverse(projectWith(source))
+  const content = migrated.project.files['/project/main.typ'].content
+
+  assert.equal(migrated.changedFiles, 1)
+  assert.match(content, new RegExp(`#import "${SANG_MATH_PACKAGE.replaceAll('.', '\\.')}"`))
+  assert.match(content, /\/\/ Nhắc trong tài liệu: @preview\/sang-math:1\.0\.0/)
+  assert.match(content, /#let package-note = "@preview\/sang-math:1\.0\.0"/)
+  assert.match(content, /#import "@preview\/sang-math:2\.0\.0": geometry/)
+  assert.equal(SANG_MATH_VERSION, '1.0.1')
 })
 
 test('nâng cấp nhiều module cũ thành một import Universe', () => {

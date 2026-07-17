@@ -40,10 +40,17 @@
 // ── sang-setup: wrapper đặt show rules ───────────────────
 // Dùng: #show: sang-setup
 //       #show: sang-setup.with(math-color: accent)
+#let _studio-canvas-math = sys.inputs.at(
+  "sang-math-canvas-compat",
+  default: "0",
+) == "1"
+
 #let sang-setup(body, math-color: black) = {
   // Display-style inline math needs a real layout box with vertical clearance.
   show math.equation.where(block: false): it => {
-    if repr(it).contains("frac") {
+    if _studio-canvas-math {
+      math.display(it)
+    } else if repr(it).contains("frac") {
       box(inset: (y: 0.16em))[#math.display(it)]
     } else {
       math.display(it)
@@ -72,7 +79,12 @@
       }
     } else { it }
   }
-  body
+  if _studio-canvas-math {
+    show math.frac: math.display
+    body
+  } else {
+    body
+  }
 }
 
 // ── Helpers ───────────────────────────────────────────────
@@ -414,7 +426,13 @@
 #let configure-step-reveal(before_nonfirst: none) = [
   #_step-reveal-config.update((before_nonfirst: before_nonfirst))
 ]
-#let step(body, color: auto, before_nonfirst: auto) = {
+#let step(
+  body,
+  color: auto,
+  before_nonfirst: auto,
+  above: 0.55em,
+  below: 0.45em,
+) = {
   _step-cnt.step()
   context {
     let n = _step-cnt.get().first()
@@ -432,8 +450,8 @@
       width: 100%,
       stroke: (left: 1.5pt + border-color),
       inset: (left: 8pt, right: 0pt, top: 1.5pt, bottom: 1.5pt),
-      below: 0.3em,
-      above: 0.3em,
+      below: below,
+      above: above,
     )[
       #text(fill: text-color, weight: "bold")[Bước #n.] #h(0.3em) #body
     ]
@@ -878,7 +896,13 @@
 #let configure-step-reveal(before_nonfirst: none) = [
   #_step-reveal-config.update((before_nonfirst: before_nonfirst))
 ]
-#let step(body, color: auto, before_nonfirst: auto) = {
+#let step(
+  body,
+  color: auto,
+  before_nonfirst: auto,
+  above: 0.55em,
+  below: 0.45em,
+) = {
   _step-cnt.step()
   context {
     let n = _step-cnt.get().first()
@@ -896,8 +920,8 @@
       width: 100%,
       stroke: (left: 1.5pt + border-color),
       inset: (left: 8pt, right: 0pt, top: 1.5pt, bottom: 1.5pt),
-      below: 0.3em,
-      above: 0.3em,
+      below: below,
+      above: above,
     )[
       #text(fill: text-color, weight: "bold")[Bước #n.] #h(0.3em) #body
     ]
@@ -1227,7 +1251,9 @@
   set text(font: body-font, size: body-size, lang: "vi")
   set par(justify: true, leading: 0.75em)
   show math.equation.where(block: false): it => {
-    if repr(it).contains("frac") {
+    if _studio-canvas-math {
+      math.display(it)
+    } else if repr(it).contains("frac") {
       box(inset: (y: 0.16em))[#math.display(it)]
     } else {
       math.display(it)

@@ -5,7 +5,6 @@
 // ── Beamer-mode flag (set by sang-beamer.typ to suppress print-only elements) ──
 #let _beamer-mode = state("_beamer-mode", false)
 #let set-beamer-mode() = { _beamer-mode.update(true) }
-#let in-tfrac = state("in-tfrac", false)
 
 // ── Màu ──────────────────────────────────────────────────
 #let palette = (
@@ -28,10 +27,10 @@
 // Dùng: #show: sang-setup
 //       #show: sang-setup.with(math-color: accent)
 #let sang-setup(body, math-color: black) = {
-  show math.equation.where(block: false): math.display
-  show math.frac: it => context {
-    if in-tfrac.get() {
-      math.inline(it)
+  // Display-style inline math needs a real layout box with vertical clearance.
+  show math.equation.where(block: false): it => {
+    if repr(it).contains("frac") {
+      box(inset: (y: 0.16em))[#math.display(it)]
     } else {
       math.display(it)
     }
@@ -542,7 +541,7 @@
         if has-tall-math { 0.9em } else { 0.3em }
       }
       grid(
-        columns: nc,
+        columns: (1fr,) * nc,
         row-gutter: row-gutter,
         column-gutter: column-gutter,
         align: left + top,
@@ -551,16 +550,16 @@
           .map(((i, t)) => {
             let hi = (mode == "loigiai" or mode == "solcolor") and opt-oks.at(i)
             let col = if hi { rgb("#cc2200") } else { black }
-            grid(
-              columns: (label-width, 1fr),
-              column-gutter: label-gap,
-              align: (left + top, left + top),
-              text(weight: "bold", fill: col)[#labels.at(i).],
-              [
-                #set par(justify: false, leading: option-leading)
-                #text(fill: col, weight: if hi { "bold" } else { "regular" })[#t]
-              ],
-            )
+            par(
+              justify: false,
+              leading: option-leading,
+              hanging-indent: label-width + label-gap,
+            )[
+              #box(width: label-width)[#text(weight: "bold", fill: col)[#labels.at(i).]]#h(label-gap)#text(
+                fill: col,
+                weight: if hi { "bold" } else { "regular" },
+              )[#t]
+            ]
           })
       )
     })
@@ -782,7 +781,8 @@
 #let heva(..args) = math.cases(delim: "{", ..args.named(), ..args.pos().map(math.display))
 // tfrac: phân số cỡ inline — dùng trong math mode: $tfrac(1, 2)$
 #let tfrac(a, b) = {
-  in-tfrac.update(true) + math.frac(a, b) + in-tfrac.update(false)
+  show math.frac: f => f
+  scale(x: 72%, y: 72%, origin: center + horizon, reflow: true, math.inline(math.frac(a, b)))
 }
 // ── Hệ thống STEP — tô màu từng bước lời giải ─────────────────
 // Dùng: #step[Bước...] #step[Bước...] #reset-step()
@@ -1137,7 +1137,13 @@
   )
   set text(font: body-font, size: body-size, lang: "vi")
   set par(justify: true, leading: 0.75em)
-  show math.equation.where(block: false): math.display
+  show math.equation.where(block: false): it => {
+    if repr(it).contains("frac") {
+      box(inset: (y: 0.16em))[#math.display(it)]
+    } else {
+      math.display(it)
+    }
+  }
 
   // Thanh màu accent trên đỉnh (tuỳ chọn)
   if show-topbar {
@@ -1345,4 +1351,3 @@
   let body = args.pos().map(a => if type(a) == str { math.upright(a) } else { a }).join()
   math.accent(body, math.arrow.r)
 }
-

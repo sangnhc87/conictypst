@@ -41,8 +41,14 @@
 // Dùng: #show: sang-setup
 //       #show: sang-setup.with(math-color: accent)
 #let sang-setup(body, math-color: black) = {
-  show math.equation.where(block: false): math.display
-  show math.frac: math.display
+  // Display-style inline math needs a real layout box with vertical clearance.
+  show math.equation.where(block: false): it => {
+    if repr(it).contains("frac") {
+      box(inset: (y: 0.16em))[#math.display(it)]
+    } else {
+      math.display(it)
+    }
+  }
   show math.equation: set text(fill: math-color)
 
   // Tự động chuyển C, A, P (những chữ số gán sub/sup) thành chữ đứng để in đúng C_n^k
@@ -647,7 +653,7 @@
         option-leading
       }
       grid(
-        columns: if type(cols) == array { cols } else { nc },
+        columns: if type(cols) == array { cols } else { (1fr,) * nc },
         row-gutter: calc-row-gutter,
         column-gutter: column-gutter,
         align: left + top,
@@ -656,16 +662,16 @@
           .map(((i, t)) => {
             let hi = (mode == "loigiai" or mode == "solcolor") and opt-oks.at(i)
             let col = if hi { rgb("#cc2200") } else { black }
-            grid(
-              columns: (label-width, 1fr),
-              column-gutter: label-gap,
-              align: (left + top, left + top),
-              render-label(i, col),
-              [
-                #set par(justify: false, leading: option-leading)
-                #text(fill: col, weight: if hi { "bold" } else { "regular" })[#t]
-              ],
-            )
+            par(
+              justify: false,
+              leading: option-leading,
+              hanging-indent: label-width + label-gap,
+            )[
+              #box(width: label-width)[#render-label(i, col)]#h(label-gap)#text(
+                fill: col,
+                weight: if hi { "bold" } else { "regular" },
+              )[#t]
+            ]
           })
       )
     })
@@ -920,7 +926,7 @@
 // tfrac: phân số cỡ inline — dùng trong math mode: $tfrac(1, 2)$
 #let tfrac(a, b) = {
   show math.frac: f => f
-  math.frac(a, b)
+  scale(x: 72%, y: 72%, origin: center + horizon, reflow: true, math.inline(math.frac(a, b)))
 }
 // ── Hệ thống STEP — tô màu từng bước lời giải ─────────────────
 // Dùng: #step[Bước...] #step[Bước...] #reset-step()
@@ -1339,7 +1345,13 @@
   )
   set text(font: body-font, size: body-size, lang: "vi")
   set par(justify: true, leading: 0.75em)
-  show math.equation.where(block: false): math.display
+  show math.equation.where(block: false): it => {
+    if repr(it).contains("frac") {
+      box(inset: (y: 0.16em))[#math.display(it)]
+    } else {
+      math.display(it)
+    }
+  }
 
   // ── Kích hoạt font viết tay toàn cục ─────────────────────
   // Hàm #hw[...] đã được export ở đầu sang-exam.typ
@@ -1534,4 +1546,3 @@
   let body = args.pos().map(a => if type(a) == str { math.upright(a) } else { a }).join()
   math.accent(body, math.arrow.r)
 }
-

@@ -32,10 +32,16 @@
     "mix:exam": "node scripts/mix-exam.js",
     "build:mixer": "vite build --config vite.mixer.config.js",
     "deploy:mixer": "npm run build:mixer && wrangler pages deploy dist-mixer --project-name tron-de",
-    "dev:hub": "vite --config vite.hub.config.js",
-    "build:hub": "vite build --config vite.hub.config.js",
+    "prepare:hub:runtime": "node scripts/prepare-hub-runtime.mjs",
+    "dev:hub": "npm run prepare:hub:runtime && vite --config vite.hub.config.js",
+    "build:hub": "npm run prepare:hub:runtime && vite build --config vite.hub.config.js",
     "preview:hub": "vite preview --config vite.hub.config.js",
     "test:hub:package": "node --test scripts/test-hub-package-policy.mjs",
+    "test:hub:registry": "node --test scripts/test-hub-package-registry.mjs",
+    "test:hub:inline-math": "node --test scripts/test-inline-math-contract.mjs",
+    "test:hub:source": "node --test scripts/test-hub-question-source.mjs",
+    "test:hub": "npm run test:hub:package && npm run test:hub:registry && npm run test:hub:inline-math && npm run test:hub:source",
+    "test:hub:exam-online": "node scripts/test-hub-exam-online.mjs",
     "test:hub:smoke": "node scripts/test-hub-smoke.mjs",
     "deploy:hub": "npm run build:hub && wrangler pages deploy dist-hub --project-name typstconichub --commit-dirty=true"
   },
@@ -78,5 +84,6 @@
     "wait-on": "^8.0.5",
     "wrangler": "^4.86.0"
   },
-  "type": "module"
+  "type": "module",
+  "packageManager": "pnpm@10.12.1+sha512.f0dda8580f0ee9481c5c79a1d927b9164f2c478e90992ad268bbb2465a736984391d6333d2c327913578b2804af33474ca554ba29c04a8b13060a717675ae3ac"
 }

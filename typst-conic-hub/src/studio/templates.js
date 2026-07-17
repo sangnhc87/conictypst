@@ -1,6 +1,12 @@
 import fullExamRaw from '../../../public/hdsd/downloads/examples/05_full_de_thi_mau.typ?raw'
 import fullExamDataRaw from '../../../public/hdsd/downloads/examples/05_data_de_thi_mau.typ?raw'
-import { SANG_MATH_IMPORT } from './packagePolicy.js'
+import onlineExamDemoRaw from '../../../typst/dethi/de-mau-tu-do.typ?raw'
+import { SANG_MATH_IMPORT, SANG_MATH_PACKAGE, SANG_MATH_VERSION } from './packagePolicy.js'
+import {
+  extractMarkedQuestionBody,
+  markQuestionBody,
+  toDirectQuestionBody,
+} from './questionSource.js'
 
 const FULL_EXAM_SOURCE = fullExamRaw
   .replace('#import "../lib.typ": *', SANG_MATH_IMPORT)
@@ -10,6 +16,19 @@ const FULL_EXAM_SOURCE = fullExamRaw
 
 const FULL_EXAM_DATA_SOURCE = fullExamDataRaw
   .replace('#import "../lib.typ": *', SANG_MATH_IMPORT)
+
+const DIRECT_05_QUESTION_BODY = toDirectQuestionBody(FULL_EXAM_DATA_SOURCE)
+const MARKED_05_QUESTIONS = markQuestionBody(DIRECT_05_QUESTION_BODY)
+
+const FULL_EXAM_DIRECT_SOURCE = FULL_EXAM_SOURCE.replace(
+  /\/\/ ={10,}\n\/\/ IMPORT DỮ LIỆU CÂU HỎI TỪ FILE DATA[\s\S]*?#make-questions\([^\n]+\)/,
+  `// ========================================================
+// SOẠN TRỰC TIẾP TỪNG CÂU
+// Gõ #tn, #ds, #tln hoặc #tl. Không cần make-questions.
+// Vùng đánh dấu bên dưới còn giúp Studio tạo bản Beamer từ cùng bộ đề.
+// ========================================================
+${MARKED_05_QUESTIONS}`,
+)
 
 const QUICKSTART_SOURCE = `#set page(
   paper: "a4",
@@ -143,6 +162,69 @@ const BOOK_SOURCE = `${SANG_MATH_IMPORT}
 ]
 `
 
+const WORKBOOK_SOURCE = `${SANG_MATH_IMPORT}
+
+// MẪU SÁCH BÀI TẬP: sửa các dòng thông tin và soạn từng câu trực tiếp.
+#let theme = "workbook-jade"
+
+#show: book-theme.with(
+  theme: theme,
+  title: "BÀI TẬP TOÁN 12",
+  subtitle: "Ứng dụng đạo hàm và khảo sát hàm số",
+  author: "Tổ Toán",
+  institution: "TRƯỜNG THPT SANG-MATH",
+  subject: "Toán",
+  grade: "Lớp 12",
+  year: "2026–2027",
+)
+
+#book-chapter([ỨNG DỤNG ĐẠO HÀM], number: "01", theme: theme)
+#book-lesson([Tính đơn điệu và cực trị], number: "1", theme: theme)
+
+#goal-box(theme: theme)[
+  - Đọc dấu đạo hàm và kết luận chiều biến thiên.
+  - Tìm cực trị, giá trị lớn nhất và giá trị nhỏ nhất.
+]
+
+#theory-box(theme: theme)[
+  Nếu $f'(x)>0$ trên khoảng $I$ thì $f$ đồng biến trên $I$.
+  Nếu $f'(x)<0$ trên khoảng $I$ thì $f$ nghịch biến trên $I$.
+]
+
+#example-box(title: [Ví dụ có lời giải], theme: theme)[
+  Xét tính đơn điệu của hàm số $f(x)=x^3-3x+1$.
+
+  *Lời giải.* Ta có $f'(x)=3(x-1)(x+1)$. Từ bảng dấu suy ra hàm số
+  đồng biến trên $(-oo;-1)$ và $(1;+oo)$, nghịch biến trên $(-1;1)$.
+]
+
+#practice-box(theme: theme)[
+  *Bài 1.* Xét tính đơn điệu của $y=x^3-6x^2+9x$.
+
+  *Bài 2.* Tìm giá trị lớn nhất của $f(x)=x+4/x$ trên $[1;4]$.
+]
+
+#book-lesson([Trắc nghiệm củng cố], number: "2", theme: theme)
+
+// Có thể dùng trực tiếp #tn, #ds, #tln, #tl ngay trong sách.
+#tn(
+  [Hàm số $f(x)=x^3-3x$ đạt cực đại tại điểm nào?],
+  (True([$x=-1$]), [$x=0$], [$x=1$], [$x=3$]),
+  id: "TN01",
+  loigiai: [$f'(x)=3(x-1)(x+1)$ đổi dấu từ dương sang âm tại $x=-1$.],
+)
+
+#tln(
+  [Giá trị cực tiểu của $f(x)=x^3-3x$ bằng bao nhiêu?],
+  [$-2$],
+  id: "TLN01",
+  answer-value: "-2",
+  accepted-answers: ("-2", "-2,0"),
+  tolerance: 0,
+  loigiai: [Cực tiểu tại $x=1$ và $f(1)=-2$.],
+)
+`
+
 const SPECIALTY_SOURCE = `${SANG_MATH_IMPORT}
 
 #let theme = "olympiad-indigo"
@@ -188,13 +270,29 @@ const SPECIALTY_SOURCE = `${SANG_MATH_IMPORT}
 ]
 `
 
-const BEAMER_SOURCE = `// sang-math dùng bản chính thức; Beamer là extension riêng của Studio.
+const BEAMER_THEME_GUIDE = `// 10 MẪU BEAMER ĐỀ XUẤT — chỉ đổi số ở dòng theme-id bên dưới:
+//  1 Navy Gold        · nền tối xanh–vàng
+//  2 Midnight Ruby    · nền tối tím–đỏ
+//  5 Aurora Borealis  · nền tối xanh ngọc
+//  7 Deep Purple      · nền tối tím
+//  9 Charcoal Orange  · nền tối than–cam
+// 16 Teal Pro         · nền sáng xanh ngọc
+// 17 Ocean Breeze     · nền sáng xanh biển
+// 19 Forest Minimal   · nền sáng xanh lá
+// 20 Sunset Rose      · nền sáng hồng
+// 24 Lavender Minimal · nền sáng tím
+// Thư viện vẫn hỗ trợ đủ theme 1–30 nếu bạn muốn thử thêm.`
+
+function createBeamerHeader(themeId = 16) {
+  const safeThemeId = Math.min(30, Math.max(1, Number(themeId) || 16))
+  return `// Được tạo từ vùng câu hỏi trực tiếp của đề 05.
+// Tiếp tục soạn bằng #tn, #ds, #tln, #tl như bản A4.
 ${SANG_MATH_IMPORT}
 #import "/extensions/sang-beamer/sang-beamer.typ": *
 #import "/extensions/sang-beamer/themes.typ": get-beamer-theme
 
-// Đổi số từ 1 đến 30 để chọn theme slide (1–15 tối, 16–30 sáng).
-#let theme-id = 16
+${BEAMER_THEME_GUIDE}
+#let theme-id = ${safeThemeId}
 #let slide-theme = get-beamer-theme(theme-id)
 #let theme-name = slide-theme.name
 #let _ = slide-theme.remove("name")
@@ -209,23 +307,28 @@ ${SANG_MATH_IMPORT}
 )
 
 #let mode = exam-mode(mode: "loigiai", accent: slide-theme.accent)
+#let tn = mode.tn
+#let ds = mode.ds
+#let tln = mode.tln
+#let tl = mode.tl
+`
+}
 
-// Cùng một file dữ liệu có thể xuất thành đề A4 hoặc slide 16:9.
-#import "05_data_de_thi_mau.typ": make-questions
-#make-questions(
-  tn: mode.tn,
-  ds: mode.ds,
-  tln: mode.tln,
-  tl: mode.tl,
-  exam-part: exam-part,
-)
+export function createBeamerSourceFromExam(source, themeId = 16) {
+  const questionBody = extractMarkedQuestionBody(source)
+  return `${createBeamerHeader(themeId)}
+
+${markQuestionBody(questionBody)}
 
 #pagebreak()
 #print-answer-key()
 #het
 `
+}
 
-const BBT_SOURCE = `#import "@preview/sang-math:1.0.0": bbtv2
+const BEAMER_SOURCE = createBeamerSourceFromExam(FULL_EXAM_DIRECT_SOURCE)
+
+const BBT_SOURCE = `#import "${SANG_MATH_PACKAGE}": bbtv2
 
 #set page(paper: "a4", margin: 2cm)
 #set text(font: "New Computer Modern", size: 11pt)
@@ -245,18 +348,33 @@ Xét hàm số $f(x)=x^3-3x+1$ có $f'(x)=3(x-1)(x+1)$.
 
 export const PROJECT_TEMPLATES = [
   {
+    id: 'exam-online-demo',
+    version: 3,
+    name: 'Đề mẫu Online 12–4–6',
+    label: '12 TN · 4 Đ/S · 6 TLN',
+    description: 'Đề mẫu hoàn chỉnh để xem, sửa và phát hành sang Conic Exam; có công thức, bảng và hình CeTZ.',
+    color: 'orange',
+    icon: 'ON',
+    kind: 'Thi trực tuyến',
+    featured: true,
+    entryPath: '/project/de-mau-tu-do.typ',
+    files: {
+      '/project/de-mau-tu-do.typ': { kind: 'text', content: onlineExamDemoRaw },
+    },
+  },
+  {
     id: 'full-exam',
-    name: 'Đề thi đầy đủ 05',
-    label: 'MẪU CHÍNH · 4 PHẦN',
-    description: 'Bộ 05_full_de_thi_mau hoàn chỉnh, tách dữ liệu câu hỏi và dùng giao diện teal-pro.',
+    version: 3,
+    name: 'Đề 05 · Soạn trực tiếp',
+    label: '#TN · #DS · #TLN · #TL',
+    description: 'Bộ đề 4 phần viết trực tiếp từng câu; có nút tạo Beamer từ chính vùng câu hỏi.',
     color: 'green',
     icon: '05',
     kind: 'Đề thi đầy đủ',
     featured: true,
     entryPath: '/project/05_full_de_thi_mau.typ',
     files: {
-      '/project/05_full_de_thi_mau.typ': { kind: 'text', content: FULL_EXAM_SOURCE },
-      '/project/05_data_de_thi_mau.typ': { kind: 'text', content: FULL_EXAM_DATA_SOURCE },
+      '/project/05_full_de_thi_mau.typ': { kind: 'text', content: FULL_EXAM_DIRECT_SOURCE },
     },
   },
   {
@@ -273,7 +391,7 @@ export const PROJECT_TEMPLATES = [
     id: 'exam',
     name: 'Đề thi Sang Math',
     label: 'TN · Đ/S · TLN · TL',
-    description: 'Mẫu đề thi dùng sang-math 1.0.0 chính thức trên Typst Universe và giao diện teal-pro.',
+    description: `Mẫu đề thi dùng sang-math ${SANG_MATH_VERSION} chính thức trên Typst Universe và giao diện teal-pro.`,
     color: 'green',
     icon: 'ĐT',
     kind: 'Đề kiểm tra',
@@ -281,13 +399,23 @@ export const PROJECT_TEMPLATES = [
   },
   {
     id: 'book',
-    name: 'Sách và giáo trình',
+    name: 'Sách bài học',
     label: 'SGK Modern',
     description: 'Khung sách nhiều chương, mục lục, bài học và các hộp sư phạm thống nhất.',
     color: 'orange',
     icon: 'S',
     kind: 'Sách',
     files: { '/project/main.typ': { kind: 'text', content: BOOK_SOURCE } },
+  },
+  {
+    id: 'workbook',
+    name: 'Sách bài tập & lời giải',
+    label: 'WORKBOOK JADE · DỄ SỬA',
+    description: 'Mẫu sách thực hành có mục tiêu, lý thuyết, ví dụ, luyện tập và câu hỏi trực tiếp.',
+    color: 'green',
+    icon: 'BT',
+    kind: 'Sách bài tập',
+    files: { '/project/main.typ': { kind: 'text', content: WORKBOOK_SOURCE } },
   },
   {
     id: 'specialty',
@@ -301,16 +429,17 @@ export const PROJECT_TEMPLATES = [
   },
   {
     id: 'beamer',
-    name: 'Slide Beamer 16:9',
-    label: '30 THEME · CHỮA ĐỀ · TRÌNH CHIẾU',
-    description: 'Slide bài giảng dùng lại dữ liệu bộ đề 05, có màn câu hỏi, lời giải và bảng đáp án.',
+    version: 2,
+    name: 'Đề 05 → Beamer 16:9',
+    label: '26 CÂU · 30 THEME · LỜI GIẢI',
+    description: 'Bản trình chiếu tạo sẵn từ trọn bộ đề 05, tiếp tục sửa trực tiếp bằng #tn/#ds/#tln/#tl.',
     color: 'orange',
     icon: '▶',
     kind: 'Trình chiếu',
     files: {
-      '/project/main.typ': { kind: 'text', content: BEAMER_SOURCE },
-      '/project/05_data_de_thi_mau.typ': { kind: 'text', content: FULL_EXAM_DATA_SOURCE },
+      '/project/05_beamer_chua_de.typ': { kind: 'text', content: BEAMER_SOURCE },
     },
+    entryPath: '/project/05_beamer_chua_de.typ',
   },
   {
     id: 'bbt',
@@ -327,9 +456,10 @@ export const PROJECT_TEMPLATES = [
 export const AUTHORING_SNIPPETS = [
   { id: 'heading', label: 'Tiêu đề', text: '= Tiêu đề mới\n\n' },
   { id: 'math', label: 'Công thức', text: '$ integral_a^b f(x) dif x $' },
-  { id: 'tn', label: 'TN', text: '#tn(\n  [Nội dung câu hỏi],\n  ([$A$], True([$B$]), [$C$], [$D$]),\n  loigiai: [Lời giải.],\n)\n' },
-  { id: 'ds', label: 'Đ/S', text: '#ds(\n  [Nội dung câu hỏi],\n  (True([Ý a]), [Ý b], True([Ý c]), [Ý d]),\n  loigiai: [Lời giải.],\n)\n' },
-  { id: 'tln', label: 'TLN', text: '#tln(\n  [Nội dung câu hỏi],\n  [$42$],\n  loigiai: [Lời giải.],\n)\n' },
+  { id: 'tn', label: '#TN', text: '#tn(\n  [Nội dung câu hỏi],\n  ([$A$], True([$B$]), [$C$], [$D$]),\n  id: "TN01",\n  loigiai: [Lời giải.],\n)\n' },
+  { id: 'ds', label: '#Đ/S', text: '#ds(\n  [Nội dung câu hỏi],\n  (True([Ý a]), [Ý b], True([Ý c]), [Ý d]),\n  id: "DS01",\n  loigiai: [Lời giải.],\n)\n' },
+  { id: 'tln', label: '#TLN', text: '#tln(\n  [Nội dung câu hỏi],\n  [$42$],\n  id: "TLN01",\n  answer-value: "42",\n  accepted-answers: ("42", "42,0"),\n  tolerance: 0,\n  loigiai: [Lời giải.],\n)\n' },
+  { id: 'tl', label: '#TL', text: '#tl(\n  [Nội dung câu tự luận],\n  lines: 6,\n  id: "TL01",\n  loigiai: [Lời giải chi tiết.],\n)\n' },
   { id: 'box', label: 'Hộp', text: '#block(fill: rgb("#eef7f1"), inset: 12pt, radius: 7pt)[\n  Nội dung nổi bật\n]\n' },
 ]
 
@@ -349,5 +479,6 @@ export function createProjectFromTemplate(templateId = 'full-exam', customName =
     updatedAt: now,
     snapshots: [],
     templateId: template.id,
+    templateVersion: template.version || 1,
   }
 }

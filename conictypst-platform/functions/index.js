@@ -94,6 +94,7 @@ function publicProduct(product) {
     active: product.active,
     accessMode: product.accessMode,
     defaultMonths: product.defaultMonths,
+    priceVnd: product.priceVnd || null,
     defaultLimits: { ...product.defaultLimits },
   };
 }
@@ -529,10 +530,11 @@ exports.ctAdminApplyMembershipAction = onCall(CALLABLE_OPTIONS, async (request) 
       const reads = [
         transaction.get(mutationRef),
         transaction.get(memberRef),
+        transaction.get(jobRef),
       ];
       const userRef = db.collection('users').doc(uid);
       if (action === 'approve') reads.push(transaction.get(userRef));
-      const [mutationSnapshot, memberSnapshot, userSnapshot] = await Promise.all(reads);
+      const [mutationSnapshot, memberSnapshot, jobSnapshot, userSnapshot] = await Promise.all(reads);
 
       if (mutationSnapshot.exists) {
         const previous = mutationSnapshot.data();
@@ -543,6 +545,12 @@ exports.ctAdminApplyMembershipAction = onCall(CALLABLE_OPTIONS, async (request) 
       }
 
       const current = memberSnapshot.exists ? memberSnapshot.data() : null;
+      if (action === 'cancel_delete' && jobSnapshot.exists && jobSnapshot.data().status === 'processing') {
+        throw new HttpsError(
+          'failed-precondition',
+          'Quá trình xóa dữ liệu đã bắt đầu và không thể hủy để tránh khôi phục một phần dữ liệu.',
+        );
+      }
       const currentRevision = Number.isSafeInteger(current?.revision) ? current.revision : 0;
       if (currentRevision !== expectedRevision) {
         throw new HttpsError(
@@ -656,3 +664,8 @@ exports.ctAdminApplyMembershipAction = onCall(CALLABLE_OPTIONS, async (request) 
 // Keep the OMR data plane in the same isolated Firebase project while exposing
 // its stable public callable names to the existing web client.
 Object.assign(exports, require('./omr-sync'));
+
+// Conic Exam shares the existing identity/product control plane. The data plane
+// remains callable-only; Firestore rules deny browser access to every exam
+// collection, including public packages and private answer keys.
+Object.assign(exports, require('./exam'));

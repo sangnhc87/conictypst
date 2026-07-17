@@ -9,10 +9,15 @@
 - Nested display fraction: $(a/b)/(c/d)$
 - Explicit small fraction: $tfrac(1, 2)$
 
+#box[A] <submit-before> $x^2 + 1$ #box[B] <submit-after>
+
 #context {
   let large = measure(box[$1/2$])
   let explicit-large = measure(box[$dfrac(1, 2)$])
   let small = measure(box[$tfrac(1, 2)$])
+  let before-y = query(<submit-before>).first().location().position().y
+  let after-y = query(<submit-after>).first().location().position().y
   assert(large.height > small.height, message: "Bản submit: phân số mặc định phải lớn hơn tfrac")
   assert(explicit-large.height > small.height, message: "Bản submit: dfrac phải lớn hơn tfrac")
+  assert(calc.abs(before-y - after-y) < 1pt, message: "Bản submit: công thức phải nằm cùng dòng với văn bản")
 }

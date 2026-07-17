@@ -981,15 +981,8 @@ window.OmrEngine = {
                   if (filled > 1) warnings.push(`Câu ${uiQ} tô nhiều ô`);
                   else if (selected && maxCount < THRESH_FILLED) warnings.push(`Câu ${uiQ} tô mờ`);
                   if (selected) {
-                    if (colIdx === 0) {
-                      if (maxIdx === 0) ansStr += "-";
-                      else ansStr += maxIdx.toString();
-                    } else if (colIdx === 1 || colIdx === 2) {
-                      if (maxIdx === 0) ansStr += ",";
-                      else ansStr += (maxIdx - 1).toString();
-                    } else if (colIdx === 3) {
-                      ansStr += maxIdx.toString();
-                    }
+                    const symbol = window.OmrTlnCodec.decodeBubble(maxIdx, colIdx);
+                    if (symbol !== null) ansStr += symbol;
                   }
                 }
               } else {
@@ -1250,82 +1243,13 @@ window.OmrEngine = {
       if (template.tln && geminiAns.tln) {
         const tlnOffset = (template.numQ || 0) + (template.numTf || 0);
 
-        function alignTlnAnswer(value) {
-          const ansStr = String(value || '').trim().replace('.', ',');
-          const cols = [null, null, null, null];
-          if (!ansStr) return cols;
-
-          if (ansStr.startsWith('-')) {
-            cols[0] = '-';
-            const rest = ansStr.substring(1);
-            if (rest.includes(',')) {
-              const parts = rest.split(',');
-              cols[1] = parts[0][0] || '0';
-              cols[2] = ',';
-              cols[3] = parts[1][0] || '0';
-            } else if (rest.length === 1) {
-              cols[3] = rest[0];
-            } else if (rest.length === 2) {
-              cols[2] = rest[0]; cols[3] = rest[1];
-            } else if (rest.length >= 3) {
-              cols[1] = rest[0]; cols[2] = rest[1]; cols[3] = rest[2];
-            }
-            return cols;
-          }
-
-          if (ansStr.includes(',')) {
-            const parts = ansStr.split(',');
-            const integerPart = parts[0];
-            const fractionalPart = parts[1];
-            if (integerPart.length === 1) {
-              cols[1] = integerPart[0];
-              cols[2] = ',';
-              cols[3] = fractionalPart[0] || '0';
-            } else if (integerPart.length >= 2) {
-              cols[0] = integerPart[0];
-              cols[1] = integerPart[1];
-              cols[2] = ',';
-              cols[3] = fractionalPart[0] || '0';
-            }
-            return cols;
-          }
-
-          if (ansStr.length === 1) {
-            cols[3] = ansStr[0];
-          } else if (ansStr.length === 2) {
-            cols[2] = ansStr[0]; cols[3] = ansStr[1];
-          } else if (ansStr.length === 3) {
-            cols[1] = ansStr[0]; cols[2] = ansStr[1]; cols[3] = ansStr[2];
-          } else if (ansStr.length >= 4) {
-            cols[0] = ansStr[0]; cols[1] = ansStr[1]; cols[2] = ansStr[2]; cols[3] = ansStr[3];
-          }
-          return cols;
-        }
-
-        function getTlnBubbleIndex(char, colIdx) {
-          if (!char) return -1;
-          if (colIdx === 0) {
-            if (char === '-') return 0;
-            const d = parseInt(char);
-            if (d >= 1 && d <= 9) return d;
-          } else if (colIdx === 1 || colIdx === 2) {
-            if (char === ',' || char === '.') return 0;
-            const d = parseInt(char);
-            if (d >= 0 && d <= 9) return d + 1;
-          } else if (colIdx === 3) {
-            const d = parseInt(char);
-            if (d >= 0 && d <= 9) return d;
-          }
-          return -1;
-        }
-
         Object.keys(template.tln).forEach(q => {
           if (parseInt(q) > numTln) return;
           const uiQ = (parseInt(q) + tlnOffset).toString();
           const expAns = (expectedTLN[uiQ] || '').toString().trim();
           const stuAns = (geminiAns.tln[uiQ] || '').toString().trim();
-          const expCols = alignTlnAnswer(expAns);
-          const stuCols = alignTlnAnswer(stuAns);
+          const expCols = window.OmrTlnCodec.align(expAns);
+          const stuCols = window.OmrTlnCodec.align(stuAns);
           answerMap[`tln-${uiQ}`] = stuAns;
 
           if (!expAns) return;
@@ -1342,7 +1266,7 @@ window.OmrEngine = {
             if (isWarped && Array.isArray(tinfo)) {
               for (let colIdx = 0; colIdx < tinfo.length; colIdx++) {
                 const char = stuCols[colIdx];
-                const bubbleIdx = getTlnBubbleIndex(char, colIdx);
+                const bubbleIdx = window.OmrTlnCodec.bubbleIndex(char, colIdx);
                 if (bubbleIdx !== -1 && tinfo[colIdx][bubbleIdx]) {
                   const pt = tinfo[colIdx][bubbleIdx];
                   rctx.strokeStyle = '#00cc66'; rctx.lineWidth = 3;
@@ -1358,8 +1282,8 @@ window.OmrEngine = {
                 const sChar = stuCols[colIdx];
                 const eChar = expCols[colIdx];
 
-                const sBubble = getTlnBubbleIndex(sChar, colIdx);
-                const eBubble = getTlnBubbleIndex(eChar, colIdx);
+                const sBubble = window.OmrTlnCodec.bubbleIndex(sChar, colIdx);
+                const eBubble = window.OmrTlnCodec.bubbleIndex(eChar, colIdx);
 
                 if (sBubble !== -1 && sBubble === eBubble) {
                   if (tinfo[colIdx][sBubble]) {

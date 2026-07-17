@@ -217,7 +217,7 @@
             align: center + horizon,
             [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
             [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
-            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], [], bubble(""), bubble(""), bubble(""),
+            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], bubble(""), bubble(""), bubble(""), bubble(""),
             ..range(1, 10).map(r => (
               [#text(size: 6.5pt, fill: rgb("#666666"))[#r]],
               bubble(""),

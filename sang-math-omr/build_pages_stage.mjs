@@ -24,6 +24,7 @@ const runtimeFiles = [
     'js/copyright_guard.js',
     'js/gemini_grader.js',
     'js/tf_grader.js',
+    'js/tln_codec.js',
     'js/omr_engine.js',
     'js/omr_profiles.js',
     'js/omr_db.js',

@@ -18,7 +18,7 @@
       radius: 4.5pt,
       stroke: 0.5pt + rgb("#333333"),
       fill: white,
-      align(center + horizon)[#text(size: 6.5pt, weight: "regular", fill: rgb("#888888"))[#label]],
+      align(center + horizon)[#text(size: 6.5pt, weight: "regular", fill: rgb("#888888"))[#label]]
     )
   ]
 }
@@ -35,102 +35,103 @@
     #block(width: 100%, height: 0pt)[
       #place(left, dx: if true { 35mm } else { 43mm }, dy: 15mm)[
         #grid(columns: 21, column-gutter: 0pt, row-gutter: 0pt,
-  qb, qb, qb, qb, qb, qb, qb, qw, qw, qb, qb, qb, qb, qw, qb, qb, qb, qb, qb, qb, qb,
-  qb, qw, qw, qw, qw, qw, qb, qw, qw, qb, qw, qb, qw, qw, qb, qw, qw, qw, qw, qw, qb,
+  qb, qb, qb, qb, qb, qb, qb, qw, qw, qb, qw, qb, qb, qw, qb, qb, qb, qb, qb, qb, qb,
+  qb, qw, qw, qw, qw, qw, qb, qw, qb, qb, qw, qb, qw, qw, qb, qw, qw, qw, qw, qw, qb,
+  qb, qw, qb, qb, qb, qw, qb, qw, qb, qb, qw, qw, qb, qw, qb, qw, qb, qb, qb, qw, qb,
   qb, qw, qb, qb, qb, qw, qb, qw, qw, qb, qw, qw, qw, qw, qb, qw, qb, qb, qb, qw, qb,
-  qb, qw, qb, qb, qb, qw, qb, qw, qb, qb, qb, qb, qw, qw, qb, qw, qb, qb, qb, qw, qb,
-  qb, qw, qb, qb, qb, qw, qb, qw, qb, qw, qb, qb, qb, qw, qb, qw, qb, qb, qb, qw, qb,
-  qb, qw, qw, qw, qw, qw, qb, qw, qw, qw, qb, qw, qb, qw, qb, qw, qw, qw, qw, qw, qb,
+  qb, qw, qb, qb, qb, qw, qb, qw, qw, qw, qw, qb, qw, qw, qb, qw, qb, qb, qb, qw, qb,
+  qb, qw, qw, qw, qw, qw, qb, qw, qb, qw, qb, qb, qb, qw, qb, qw, qw, qw, qw, qw, qb,
   qb, qb, qb, qb, qb, qb, qb, qw, qb, qw, qb, qw, qb, qw, qb, qb, qb, qb, qb, qb, qb,
-  qw, qw, qw, qw, qw, qw, qw, qw, qw, qb, qb, qb, qb, qw, qw, qw, qw, qw, qw, qw, qw,
-  qb, qb, qw, qw, qw, qb, qb, qb, qw, qb, qw, qw, qb, qw, qw, qw, qb, qb, qw, qw, qw,
-  qw, qw, qb, qw, qw, qb, qw, qb, qw, qb, qb, qw, qb, qb, qw, qw, qw, qb, qw, qw, qw,
-  qw, qb, qw, qb, qb, qw, qb, qb, qb, qb, qw, qb, qw, qw, qb, qw, qw, qw, qb, qb, qw,
-  qw, qb, qw, qw, qw, qb, qw, qb, qw, qb, qb, qw, qw, qb, qw, qb, qw, qb, qb, qw, qw,
-  qw, qw, qb, qb, qb, qw, qb, qw, qw, qw, qw, qw, qw, qb, qw, qw, qw, qb, qw, qw, qb,
-  qw, qw, qw, qw, qw, qw, qw, qw, qb, qb, qb, qw, qb, qb, qw, qw, qb, qb, qw, qb, qb,
-  qb, qb, qb, qb, qb, qb, qb, qw, qb, qw, qw, qw, qb, qb, qb, qb, qw, qw, qw, qb, qw,
-  qb, qw, qw, qw, qw, qw, qb, qw, qb, qb, qw, qb, qw, qb, qb, qw, qb, qw, qb, qw, qb,
-  qb, qw, qb, qb, qb, qw, qb, qw, qw, qb, qw, qb, qb, qw, qb, qb, qw, qw, qw, qb, qb,
-  qb, qw, qb, qb, qb, qw, qb, qw, qw, qb, qb, qw, qw, qw, qw, qb, qb, qb, qw, qw, qw,
-  qb, qw, qb, qb, qb, qw, qb, qw, qw, qb, qw, qw, qb, qw, qb, qb, qb, qw, qb, qb, qb,
-  qb, qw, qw, qw, qw, qw, qb, qw, qb, qb, qw, qw, qw, qb, qw, qb, qw, qw, qb, qw, qw,
-  qb, qb, qb, qb, qb, qb, qb, qw, qb, qb, qw, qb, qw, qw, qb, qb, qw, qb, qw, qb, qw
-)
+  qw, qw, qw, qw, qw, qw, qw, qw, qb, qw, qw, qb, qw, qw, qw, qw, qw, qw, qw, qw, qw,
+  qb, qb, qb, qb, qb, qb, qw, qb, qw, qb, qb, qb, qw, qb, qw, qw, qw, qb, qb, qb, qw,
+  qb, qw, qb, qw, qw, qb, qw, qb, qw, qb, qb, qb, qb, qw, qb, qw, qw, qw, qw, qw, qb,
+  qb, qw, qb, qw, qb, qb, qb, qw, qb, qw, qw, qw, qw, qw, qw, qw, qb, qb, qw, qb, qw,
+  qb, qb, qb, qw, qw, qw, qb, qw, qw, qb, qb, qb, qb, qw, qb, qw, qw, qb, qb, qw, qb,
+  qw, qw, qw, qw, qw, qw, qw, qw, qb, qb, qw, qw, qw, qw, qb, qw, qw, qb, qb, qw, qw,
+  qb, qb, qb, qb, qb, qb, qb, qw, qw, qw, qw, qb, qb, qb, qb, qb, qw, qb, qb, qb, qb,
+  qb, qw, qw, qw, qw, qw, qb, qw, qb, qb, qw, qb, qw, qw, qb, qw, qw, qb, qb, qb, qb,
+  qb, qw, qb, qb, qb, qw, qb, qw, qw, qw, qb, qb, qw, qb, qw, qw, qw, qw, qw, qw, qw,
+  qb, qw, qb, qb, qb, qw, qb, qw, qb, qw, qw, qb, qw, qw, qw, qw, qb, qb, qw, qb, qb,
+  qb, qw, qb, qb, qb, qw, qb, qw, qw, qb, qw, qw, qb, qw, qb, qw, qb, qb, qw, qw, qw,
+  qb, qw, qw, qw, qw, qw, qb, qw, qb, qw, qb, qb, qw, qb, qw, qw, qb, qb, qw, qb, qb,
+  qb, qb, qb, qb, qb, qb, qb, qw, qb, qw, qw, qb, qb, qw, qw, qw, qb, qw, qw, qb, qw,
+        )
       ]
     ]
-    
 
 // ── HEADER ──────────────────────────────────────────────────
-#let sbd-box = block(
-  inset: (left: if true { 6pt } else { 4pt }, right: if true { 3pt } else { 2pt }, top: if true { 1pt } else { 2pt }, bottom: if true { 1pt } else { 2pt }),
-  [
-    #place(top + left, dx: -2pt, dy: -2pt)[#tracking-marker]
-        #align(center)[#text(weight: "bold", size: 8pt)[SỐ BÁO DANH]]
-    #v(if true { 1pt } else { 2pt })
-    #grid(
-      columns: (12pt,) * 6, gutter: if true { 1.2pt } else { 1.5pt },
-      ..range(6).map(i => align(center, empty-box))
-    )
-    #v(if true { 1pt } else { 2pt })
-    #grid(
-      columns: (12pt,) * 6, row-gutter: if true { 0.8pt } else { 1.5pt }, column-gutter: 1.5pt,
-      ..range(10).map(r => range(6).map(c => bubble(str(r)))).flatten()
-    )
+#grid(
+  columns: (1fr, auto, 1fr),
+  align: center + horizon,
+  none,
+  align(center)[
+    #text(size: 14pt, weight: "bold", fill: rgb("#d32f2f"))[PHIẾU TRẢ LỜI TRẮC NGHIỆM]
   ],
+  none
 )
+#v(4pt)
 
-#let made-box = block(
-  inset: (left: if true { 3pt } else { 2pt }, right: if true { 3pt } else { 2pt }, top: if true { 1pt } else { 2pt }, bottom: if true { 1pt } else { 2pt }),
+// Thêm block bao quanh thông tin học sinh
+#block(
+  width: 100%,
+  stroke: (paint: rgb("#666666"), thickness: 0.5pt, dash: "dashed"),
+  radius: 4pt,
+  inset: 5pt,
+  clip: true,
   [
-    #place(top + left, dx: -2pt, dy: -2pt)[#tracking-marker]
-        #align(right)[#text(weight: "bold", size: 8pt)[MÃ ĐỀ THI]]
-    #v(if true { 1pt } else { 2pt })
     #grid(
-      columns: (12pt,) * 4,
-      gutter: if true { 1.2pt } else { 1.5pt },
-      align(center, empty-box), align(center, empty-box), align(center, empty-box), align(center, empty-box),
-    )
-    #v(if true { 1pt } else { 2pt })
-    #grid(
-      columns: (12pt,) * 4, row-gutter: if true { 0.8pt } else { 1.5pt }, column-gutter: 1.5pt,
-      ..range(10).map(r => range(4).map(c => bubble(str(r)))).flatten()
-    )
-  ],
-)
-
-#block(width:100%, stroke:(paint:rgb("#666666"),thickness:0.8pt,dash:"dashed"), radius:4pt, clip:true, [
-  #grid(columns:(82pt, 60pt, 1fr, 28pt), gutter:0pt, stroke:(paint:rgb("#666666"),thickness:0.5pt,dash:"dashed"),
-    grid.cell(stroke:(paint:rgb("#666666"),thickness:0.5pt,dash:"dashed"), sbd-box),
-    grid.cell(stroke:(paint:rgb("#666666"),thickness:0.5pt,dash:"dashed"), made-box),
-    grid.cell(stroke:(paint:rgb("#666666"),thickness:0.5pt,dash:"dashed"), [
-      #pad(x:4pt)[
-        #text(10pt, weight:"bold", fill:rgb("#c0392b"))[PHIẾU TRẢ LỜI TRẮC NGHIỆM]
+      columns: (6fr, 4fr, 4fr),
+      column-gutter: 10pt,
+      align: left + horizon,
+      [
+        #text(size: 9pt, weight: "bold")[Họ và tên học sinh: ] ..............................................................
+        #v(4pt)
+        #text(size: 9pt, weight: "bold")[Lớp: ] ....................................................................................
+      ],
+      [
+        #align(center)[#text(size: 9pt, weight: "bold")[Số Báo Danh]]
         #v(2pt)
-        #text(7pt)[SANG MATH OMR]
-        #v(4pt)
-        #text(7pt)[Họ và tên: .....................................................]
-        #v(4pt)
-        #text(7pt)[Lớp: ............ Môn: ............... Điểm: ...............]
+        #grid(
+          columns: (12pt, 12pt, 12pt, 12pt, 12pt, 12pt),
+          align: center,
+          tracking-marker, empty-box, empty-box, empty-box, empty-box, empty-box,
+        )
+        #v(1pt)
+        #grid(
+          columns: (12pt, 12pt, 12pt, 12pt, 12pt, 12pt),
+          rows: (11pt,) * 10,
+          align: center + horizon,
+          ..range(0, 10).map(r => (
+            [#text(size: 6.5pt, fill: rgb("#666666"))[#r]], bubble("0"), bubble("0"), bubble("0"), bubble("0"), bubble("0")
+          )).flatten(),
+        )
+      ],
+      [
+        #align(center)[#text(size: 9pt, weight: "bold")[Mã đề thi]]
+        #v(2pt)
+        #grid(
+          columns: (12pt, 12pt, 12pt, 12pt),
+          align: center,
+          tracking-marker, empty-box, empty-box, empty-box,
+        )
+        #v(1pt)
+        #grid(
+          columns: (12pt, 12pt, 12pt, 12pt),
+          rows: (11pt,) * 10,
+          align: center + horizon,
+          ..range(0, 10).map(r => (
+            [#text(size: 6.5pt, fill: rgb("#666666"))[#r]], bubble("0"), bubble("0"), bubble("0")
+          )).flatten(),
+        )
       ]
-    ]),
-    grid.cell(stroke:(paint:rgb("#666666"),thickness:0.5pt,dash:"dashed"), [
-      #align(center+horizon)[
-        #rect(width:24pt, height:24pt, stroke:.5pt)[
-          #align(center+horizon)[#text(6pt, fill:gray)[QR]]
-        ]
-      ]
-    ]),
-  )
-])
-
-
-
-#scale(x: 75%, y: 75%, origin: top + left)[
-
+    )
+  ]
+)
+// ── PHẦN TỰ LUẬN NGẮN ──────────────────────────────────────
 #v(if true { -2pt } else { 4pt })
-#block(width:100%, stroke:(paint:rgb("#666666"),thickness:0.8pt,dash:"dashed"), radius:4pt, clip:true, [
-  #rect(width:100%, height:16pt, [#align(center+horizon)[#text(8pt, weight:"bold")[PHẦN III – TỰ LUẬN NGẮN (Câu 1-5)]]])
+#scale(x: 75%, y: 75%, origin: top + left)[
+#block(width:133.33333333333334%, stroke:(paint:rgb("#666666"),thickness:0.8pt,dash:"dashed"), radius:4pt, clip:true, [
+  #rect(width:100%, height:16pt, [#align(center+horizon)[#text(8pt, weight:"bold")[PHẦN III – TỰ LUẬN NGẮN (Câu 1-10)]]])
   #block(
     inset: (left: 10pt, right: 10pt, top: if true { 3pt } else { 0pt }, bottom: if true { 5pt } else { 6pt }),
     grid(
@@ -156,39 +157,13 @@
             align: center + horizon,
             [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
             [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
-            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], [], bubble(""), bubble(""), bubble(""),
+            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], bubble(""), bubble(""), bubble(""), bubble(""),
             ..range(1, 10).map(r => (
               [#text(size: 6.5pt, fill: rgb("#666666"))[#r]], bubble(""), bubble(""), bubble(""), bubble("")
             )).flatten(),
           )
         ]
-      ), block(
-        stroke: (right: 0.5pt),
-        width: 100%,
-        inset: (bottom: if true { 2pt } else { 4pt }),
-        [
-          #align(left)[#text(size:8pt)[*Câu 2*]]
-          #v(if true { 1pt } else { 2pt })
-          #grid(
-            columns: (12pt, 12pt, 12pt, 12pt, 12pt),
-            align: center + horizon,
-            tracking-marker,
-            empty-box, empty-box, empty-box, empty-box,
-          )
-          #v(if true { 1pt } else { 2pt })
-          #grid(
-            columns: (12pt, 12pt, 12pt, 12pt, 12pt),
-            rows: (if true { 9.8pt } else { 12.5pt },) * 13,
-            align: center + horizon,
-            [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
-            [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
-            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], [], bubble(""), bubble(""), bubble(""),
-            ..range(1, 10).map(r => (
-              [#text(size: 6.5pt, fill: rgb("#666666"))[#r]], bubble(""), bubble(""), bubble(""), bubble("")
-            )).flatten(),
-          )
-        ]
-      ), block(
+      ),       block(
         stroke: (right: 0.5pt),
         width: 100%,
         inset: (bottom: if true { 2pt } else { 4pt }),
@@ -208,39 +183,13 @@
             align: center + horizon,
             [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
             [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
-            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], [], bubble(""), bubble(""), bubble(""),
+            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], bubble(""), bubble(""), bubble(""), bubble(""),
             ..range(1, 10).map(r => (
               [#text(size: 6.5pt, fill: rgb("#666666"))[#r]], bubble(""), bubble(""), bubble(""), bubble("")
             )).flatten(),
           )
         ]
-      ), block(
-        stroke: (right: 0.5pt),
-        width: 100%,
-        inset: (bottom: if true { 2pt } else { 4pt }),
-        [
-          #align(left)[#text(size:8pt)[*Câu 4*]]
-          #v(if true { 1pt } else { 2pt })
-          #grid(
-            columns: (12pt, 12pt, 12pt, 12pt, 12pt),
-            align: center + horizon,
-            tracking-marker,
-            empty-box, empty-box, empty-box, empty-box,
-          )
-          #v(if true { 1pt } else { 2pt })
-          #grid(
-            columns: (12pt, 12pt, 12pt, 12pt, 12pt),
-            rows: (if true { 9.8pt } else { 12.5pt },) * 13,
-            align: center + horizon,
-            [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
-            [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
-            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], [], bubble(""), bubble(""), bubble(""),
-            ..range(1, 10).map(r => (
-              [#text(size: 6.5pt, fill: rgb("#666666"))[#r]], bubble(""), bubble(""), bubble(""), bubble("")
-            )).flatten(),
-          )
-        ]
-      ), block(
+      ),       block(
         stroke: (right: 0.5pt),
         width: 100%,
         inset: (bottom: if true { 2pt } else { 4pt }),
@@ -260,52 +209,13 @@
             align: center + horizon,
             [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
             [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
-            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], [], bubble(""), bubble(""), bubble(""),
+            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], bubble(""), bubble(""), bubble(""), bubble(""),
             ..range(1, 10).map(r => (
               [#text(size: 6.5pt, fill: rgb("#666666"))[#r]], bubble(""), bubble(""), bubble(""), bubble("")
             )).flatten(),
           )
         ]
-      )
-    )
-  )
-])
-
-#v(if true { -2pt } else { 4pt })
-#block(width:100%, stroke:(paint:rgb("#666666"),thickness:0.8pt,dash:"dashed"), radius:4pt, clip:true, [
-  #rect(width:100%, height:16pt, [#align(center+horizon)[#text(8pt, weight:"bold")[PHẦN IV – TỰ LUẬN NGẮN (Câu 6-10)]]])
-  #block(
-    inset: (left: 10pt, right: 10pt, top: if true { 3pt } else { 0pt }, bottom: if true { 5pt } else { 6pt }),
-    grid(
-      columns: (1fr,) * 5,
-      row-gutter: 4pt,
-      block(
-        stroke: (right: 0.5pt),
-        width: 100%,
-        inset: (bottom: if true { 2pt } else { 4pt }),
-        [
-          #align(left)[#text(size:8pt)[*Câu 6*]]
-          #v(if true { 1pt } else { 2pt })
-          #grid(
-            columns: (12pt, 12pt, 12pt, 12pt, 12pt),
-            align: center + horizon,
-            tracking-marker,
-            empty-box, empty-box, empty-box, empty-box,
-          )
-          #v(if true { 1pt } else { 2pt })
-          #grid(
-            columns: (12pt, 12pt, 12pt, 12pt, 12pt),
-            rows: (if true { 9.8pt } else { 12.5pt },) * 13,
-            align: center + horizon,
-            [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
-            [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
-            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], [], bubble(""), bubble(""), bubble(""),
-            ..range(1, 10).map(r => (
-              [#text(size: 6.5pt, fill: rgb("#666666"))[#r]], bubble(""), bubble(""), bubble(""), bubble("")
-            )).flatten(),
-          )
-        ]
-      ), block(
+      ),       block(
         stroke: (right: 0.5pt),
         width: 100%,
         inset: (bottom: if true { 2pt } else { 4pt }),
@@ -325,39 +235,13 @@
             align: center + horizon,
             [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
             [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
-            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], [], bubble(""), bubble(""), bubble(""),
+            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], bubble(""), bubble(""), bubble(""), bubble(""),
             ..range(1, 10).map(r => (
               [#text(size: 6.5pt, fill: rgb("#666666"))[#r]], bubble(""), bubble(""), bubble(""), bubble("")
             )).flatten(),
           )
         ]
-      ), block(
-        stroke: (right: 0.5pt),
-        width: 100%,
-        inset: (bottom: if true { 2pt } else { 4pt }),
-        [
-          #align(left)[#text(size:8pt)[*Câu 8*]]
-          #v(if true { 1pt } else { 2pt })
-          #grid(
-            columns: (12pt, 12pt, 12pt, 12pt, 12pt),
-            align: center + horizon,
-            tracking-marker,
-            empty-box, empty-box, empty-box, empty-box,
-          )
-          #v(if true { 1pt } else { 2pt })
-          #grid(
-            columns: (12pt, 12pt, 12pt, 12pt, 12pt),
-            rows: (if true { 9.8pt } else { 12.5pt },) * 13,
-            align: center + horizon,
-            [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
-            [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
-            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], [], bubble(""), bubble(""), bubble(""),
-            ..range(1, 10).map(r => (
-              [#text(size: 6.5pt, fill: rgb("#666666"))[#r]], bubble(""), bubble(""), bubble(""), bubble("")
-            )).flatten(),
-          )
-        ]
-      ), block(
+      ),       block(
         stroke: (right: 0.5pt),
         width: 100%,
         inset: (bottom: if true { 2pt } else { 4pt }),
@@ -377,13 +261,117 @@
             align: center + horizon,
             [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
             [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
-            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], [], bubble(""), bubble(""), bubble(""),
+            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], bubble(""), bubble(""), bubble(""), bubble(""),
             ..range(1, 10).map(r => (
               [#text(size: 6.5pt, fill: rgb("#666666"))[#r]], bubble(""), bubble(""), bubble(""), bubble("")
             )).flatten(),
           )
         ]
-      ), block(
+      ),       block(
+        stroke: (right: 0.5pt),
+        width: 100%,
+        inset: (bottom: if true { 2pt } else { 4pt }),
+        [
+          #align(left)[#text(size:8pt)[*Câu 2*]]
+          #v(if true { 1pt } else { 2pt })
+          #grid(
+            columns: (12pt, 12pt, 12pt, 12pt, 12pt),
+            align: center + horizon,
+            tracking-marker,
+            empty-box, empty-box, empty-box, empty-box,
+          )
+          #v(if true { 1pt } else { 2pt })
+          #grid(
+            columns: (12pt, 12pt, 12pt, 12pt, 12pt),
+            rows: (if true { 9.8pt } else { 12.5pt },) * 13,
+            align: center + horizon,
+            [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
+            [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
+            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], bubble(""), bubble(""), bubble(""), bubble(""),
+            ..range(1, 10).map(r => (
+              [#text(size: 6.5pt, fill: rgb("#666666"))[#r]], bubble(""), bubble(""), bubble(""), bubble("")
+            )).flatten(),
+          )
+        ]
+      ),       block(
+        stroke: (right: 0.5pt),
+        width: 100%,
+        inset: (bottom: if true { 2pt } else { 4pt }),
+        [
+          #align(left)[#text(size:8pt)[*Câu 4*]]
+          #v(if true { 1pt } else { 2pt })
+          #grid(
+            columns: (12pt, 12pt, 12pt, 12pt, 12pt),
+            align: center + horizon,
+            tracking-marker,
+            empty-box, empty-box, empty-box, empty-box,
+          )
+          #v(if true { 1pt } else { 2pt })
+          #grid(
+            columns: (12pt, 12pt, 12pt, 12pt, 12pt),
+            rows: (if true { 9.8pt } else { 12.5pt },) * 13,
+            align: center + horizon,
+            [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
+            [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
+            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], bubble(""), bubble(""), bubble(""), bubble(""),
+            ..range(1, 10).map(r => (
+              [#text(size: 6.5pt, fill: rgb("#666666"))[#r]], bubble(""), bubble(""), bubble(""), bubble("")
+            )).flatten(),
+          )
+        ]
+      ),       block(
+        stroke: (right: 0.5pt),
+        width: 100%,
+        inset: (bottom: if true { 2pt } else { 4pt }),
+        [
+          #align(left)[#text(size:8pt)[*Câu 6*]]
+          #v(if true { 1pt } else { 2pt })
+          #grid(
+            columns: (12pt, 12pt, 12pt, 12pt, 12pt),
+            align: center + horizon,
+            tracking-marker,
+            empty-box, empty-box, empty-box, empty-box,
+          )
+          #v(if true { 1pt } else { 2pt })
+          #grid(
+            columns: (12pt, 12pt, 12pt, 12pt, 12pt),
+            rows: (if true { 9.8pt } else { 12.5pt },) * 13,
+            align: center + horizon,
+            [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
+            [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
+            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], bubble(""), bubble(""), bubble(""), bubble(""),
+            ..range(1, 10).map(r => (
+              [#text(size: 6.5pt, fill: rgb("#666666"))[#r]], bubble(""), bubble(""), bubble(""), bubble("")
+            )).flatten(),
+          )
+        ]
+      ),       block(
+        stroke: (right: 0.5pt),
+        width: 100%,
+        inset: (bottom: if true { 2pt } else { 4pt }),
+        [
+          #align(left)[#text(size:8pt)[*Câu 8*]]
+          #v(if true { 1pt } else { 2pt })
+          #grid(
+            columns: (12pt, 12pt, 12pt, 12pt, 12pt),
+            align: center + horizon,
+            tracking-marker,
+            empty-box, empty-box, empty-box, empty-box,
+          )
+          #v(if true { 1pt } else { 2pt })
+          #grid(
+            columns: (12pt, 12pt, 12pt, 12pt, 12pt),
+            rows: (if true { 9.8pt } else { 12.5pt },) * 13,
+            align: center + horizon,
+            [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
+            [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
+            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], bubble(""), bubble(""), bubble(""), bubble(""),
+            ..range(1, 10).map(r => (
+              [#text(size: 6.5pt, fill: rgb("#666666"))[#r]], bubble(""), bubble(""), bubble(""), bubble("")
+            )).flatten(),
+          )
+        ]
+      ),       block(
         stroke: (right: 0.5pt),
         width: 100%,
         inset: (bottom: if true { 2pt } else { 4pt }),
@@ -403,31 +391,18 @@
             align: center + horizon,
             [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
             [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
-            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], [], bubble(""), bubble(""), bubble(""),
+            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], bubble(""), bubble(""), bubble(""), bubble(""),
             ..range(1, 10).map(r => (
               [#text(size: 6.5pt, fill: rgb("#666666"))[#r]], bubble(""), bubble(""), bubble(""), bubble("")
             )).flatten(),
           )
         ]
-      )
-    )
+      ),     )
   )
 ])
 ]
-
 // ── TỰ LUẬN VIẾT TAY ────────────────────────────────────────
 
-#v(4pt)
-#block(width:100%, stroke:(paint:rgb("#666666"),thickness:0.8pt,dash:"dashed"), radius:4pt, clip:true, [
-  #rect(width:100%, height:16pt, [#align(center+horizon)[#text(8pt, weight:"bold")[✍ PHẦN TỰ LUẬN – Viết bên dưới]]])
-  #v(4pt)
-  #set par(leading: 14pt)
-  #for _ in range(4) [
-    #line(length:100%, stroke:(thickness:.3pt, dash:"dashed", paint:luma(200)))
-    #v(14pt)
-  ]
-  #v(4pt)
-])
 
   ]
 ]

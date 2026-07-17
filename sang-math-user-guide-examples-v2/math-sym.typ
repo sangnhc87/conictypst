@@ -144,11 +144,14 @@ abla)
 
 // ─── Phân số & căn ──────────────────────────────────────────
 // LaTeX: \frac{a}{b} → Typst: $a/b$   hoặc $frac(a, b)$
-// LaTeX: \dfrac      → sang-exam: $tfrac()$ hoặc tự sang-setup
+// LaTeX: \dfrac      → $dfrac(a, b)$ luôn giữ phân số display lớn
 // LaTeX: \sqrt[n]{x} → Typst: $root(n, x)$
 // Alias:
 #let dfrac(a, b) = math.display(math.frac(a, b))      // \dfrac{a}{b} → dfrac(a, b)
-#let tfrac-tex(a, b) = math.frac(a, b)  // \tfrac{a}{b} — dùng tfrac() từ sang-exam
+#let tfrac-tex(a, b) = {
+  show math.frac: f => f
+  scale(x: 72%, y: 72%, origin: center + horizon, reflow: true, math.inline(math.frac(a, b)))
+} // \tfrac{a}{b} — luôn cỡ inline nhỏ
 
 // ─── Tổng kết ký hiệu thường nhầm ───────────────────────────
 //
@@ -185,4 +188,3 @@ otin          in.not          notin
 //  \vec{v}         arrow(v)        vec(v) / overrightarrow(v)
 
 #let boxed(x) = box(stroke: 0.5pt, inset: 3pt, outset: 0pt)[#x]
-

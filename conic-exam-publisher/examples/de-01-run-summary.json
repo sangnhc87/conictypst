@@ -1,0 +1,31 @@
+{
+  "ranAt": "2026-07-16",
+  "source": "typst/dethi/de-01.typ",
+  "typst": "0.14.2",
+  "mode": "legacy",
+  "strict": false,
+  "profile": "thpt-2025",
+  "questionCounts": {
+    "tn": 12,
+    "ds": 4,
+    "tln": 6,
+    "tl": 0
+  },
+  "maximumScore": 10,
+  "reviewMode": "disabled (default)",
+  "candidateSvgBytes": 3836465,
+  "candidateGzipBytes": 584033,
+  "candidateGzipBase64Characters": 778732,
+  "topLevelAssetCount": 0,
+  "combinedEmbeddedJsonBytes": 808402,
+  "backendPublicCompactBytes": 794920,
+  "backendValidation": "pass",
+  "strictResult": "rejected: Câu 1 (tn) thiếu id ổn định.",
+  "warningCounts": {
+    "generatedIds": 22,
+    "derivedShortAnswers": 6
+  },
+  "sourceHash": "798be125230bfd907b0fa9621781969372640b00431d3554c848c5d9046077a1",
+  "buildHash": "d38775ed49f27f0fc822daf5613181318207365d4e4d355f494420c05e8cf99f",
+  "contentHash": "4e82b5991529a87a51e118ca80516af6358ab49fb0611089f7694214126d4f07"
+}

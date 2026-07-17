@@ -23,47 +23,22 @@
   ]
 }
 #let empty-box = box(stroke: 0.8pt + black, width: if false { 10pt } else { 11pt }, height: if false { 10pt } else { 11pt })
-#let qb = box(width: 1.8pt, height: 1.8pt, fill: black)
-#let qw = box(width: 1.8pt, height: 1.8pt, fill: white)
+#let qb = box(width: 1.30pt, height: 1.30pt, fill: black)
+#let qw = box(width: 1.30pt, height: 1.30pt, fill: white)
 
-#align(if false { center + horizon } else { top + center })[
-  #scale(x: if false { 88% } else { 95% }, y: if false { 88% } else { 95% }, origin: if false { center } else { top })[
-    #block(width: 100%, height: 0pt)[
-      #place(left, dx: -5mm, dy: -5mm, marker)
-      #place(right, dx: 5mm, dy: -5mm, marker)
-      #place(left, dx: if false { 35mm } else { 43mm }, dy: 15mm)[
-        #grid(columns: 21, column-gutter: 0pt, row-gutter: 0pt,
-  qb, qb, qb, qb, qb, qb, qb, qw, qw, qb, qb, qb, qb, qw, qb, qb, qb, qb, qb, qb, qb,
-  qb, qw, qw, qw, qw, qw, qb, qw, qw, qb, qw, qb, qw, qw, qb, qw, qw, qw, qw, qw, qb,
-  qb, qw, qb, qb, qb, qw, qb, qw, qw, qb, qw, qw, qw, qw, qb, qw, qb, qb, qb, qw, qb,
-  qb, qw, qb, qb, qb, qw, qb, qw, qb, qb, qb, qb, qw, qw, qb, qw, qb, qb, qb, qw, qb,
-  qb, qw, qb, qb, qb, qw, qb, qw, qb, qw, qb, qb, qb, qw, qb, qw, qb, qb, qb, qw, qb,
-  qb, qw, qw, qw, qw, qw, qb, qw, qw, qw, qb, qw, qb, qw, qb, qw, qw, qw, qw, qw, qb,
-  qb, qb, qb, qb, qb, qb, qb, qw, qb, qw, qb, qw, qb, qw, qb, qb, qb, qb, qb, qb, qb,
-  qw, qw, qw, qw, qw, qw, qw, qw, qw, qb, qb, qb, qb, qw, qw, qw, qw, qw, qw, qw, qw,
-  qb, qb, qw, qw, qw, qb, qb, qb, qw, qb, qw, qw, qb, qw, qw, qw, qb, qb, qw, qw, qw,
-  qb, qw, qb, qw, qb, qb, qw, qw, qb, qb, qb, qw, qb, qw, qb, qw, qb, qb, qw, qw, qw,
-  qw, qb, qw, qb, qb, qw, qb, qb, qb, qw, qb, qb, qw, qb, qw, qw, qb, qw, qb, qb, qw,
-  qb, qb, qb, qw, qb, qw, qw, qb, qb, qb, qw, qw, qw, qw, qw, qw, qb, qb, qb, qw, qw,
-  qw, qb, qb, qb, qw, qb, qb, qb, qw, qb, qw, qw, qw, qw, qb, qw, qw, qb, qw, qw, qb,
-  qw, qw, qw, qw, qw, qw, qw, qw, qb, qb, qb, qb, qb, qb, qb, qw, qw, qb, qw, qb, qb,
-  qb, qb, qb, qb, qb, qb, qb, qw, qb, qb, qw, qw, qb, qw, qb, qb, qw, qw, qw, qb, qw,
-  qb, qw, qw, qw, qw, qw, qb, qw, qb, qw, qw, qb, qb, qb, qw, qw, qb, qw, qb, qw, qw,
-  qb, qw, qb, qb, qb, qw, qb, qw, qw, qb, qb, qw, qb, qw, qw, qb, qw, qw, qw, qb, qw,
-  qb, qw, qb, qb, qb, qw, qb, qw, qw, qw, qw, qw, qb, qw, qw, qb, qb, qb, qw, qw, qw,
-  qb, qw, qb, qb, qb, qw, qb, qw, qw, qb, qw, qw, qw, qw, qb, qb, qb, qw, qb, qb, qb,
-  qb, qw, qw, qw, qw, qw, qb, qw, qb, qw, qb, qw, qw, qw, qw, qb, qw, qw, qb, qw, qw,
-  qb, qb, qb, qb, qb, qb, qb, qw, qb, qb, qw, qb, qw, qb, qw, qb, qw, qb, qw, qb, qw
-)
-      ]
-    ]
-    
-
+#place(top + left, dx: -2mm, dy: -2mm, marker)
+#place(top + right, dx: 2mm, dy: -2mm, marker)
+#place(bottom + left, dx: -2mm, dy: 2mm, marker)
+#place(bottom + right, dx: 2mm, dy: 2mm, marker)
+#align(top + center)[
+  #scale(x: if false { 88% } else { 95% }, y: if false { 88% } else { 95% }, origin: top)[
 // ── HEADER ──────────────────────────────────────────────────
 #let sbd-box = block(
   inset: (left: if false { 6pt } else { 4pt }, right: if false { 3pt } else { 2pt }, top: if false { 1pt } else { 2pt }, bottom: if false { 1pt } else { 2pt }),
   [
-    #align(center)[#text(weight: "bold", size: 8pt)[SỐ BÁO DANH]]
+    #place(top + left, dx: -2pt, dy: -2pt)[#tracking-marker]
+    #v(if false { 2pt } else { 4pt })
+    #align(center)[#text(weight: "bold", size: if false { 7pt } else { 7.5pt })[SỐ BÁO DANH]]
     #v(if false { 1pt } else { 2pt })
     #grid(
       columns: (12pt,) * 6, gutter: if false { 1.2pt } else { 1.5pt },
@@ -71,7 +46,7 @@
     )
     #v(if false { 1pt } else { 2pt })
     #grid(
-      columns: (12pt,) * 6, row-gutter: if false { 0.8pt } else { 1.5pt }, column-gutter: 1.5pt,
+      columns: (12pt,) * 6, row-gutter: if false { 0.8pt } else { 2pt }, column-gutter: 2pt,
       ..range(10).map(r => range(6).map(c => bubble(str(r)))).flatten()
     )
   ],
@@ -80,7 +55,9 @@
 #let made-box = block(
   inset: (left: if false { 3pt } else { 2pt }, right: if false { 3pt } else { 2pt }, top: if false { 1pt } else { 2pt }, bottom: if false { 1pt } else { 2pt }),
   [
-    #align(center)[#text(weight: "bold", size: 8pt)[MÃ ĐỀ THI]]
+    #place(top + left, dx: -2pt, dy: -2pt)[#tracking-marker]
+    #v(if false { 2pt } else { 4pt })
+    #align(right)[#text(weight: "bold", size: if false { 7pt } else { 7.5pt })[MÃ ĐỀ THI]]
     #v(if false { 1pt } else { 2pt })
     #grid(
       columns: (12pt,) * 4,
@@ -89,18 +66,18 @@
     )
     #v(if false { 1pt } else { 2pt })
     #grid(
-      columns: (12pt,) * 4, row-gutter: if false { 0.8pt } else { 1.5pt }, column-gutter: 1.5pt,
+      columns: (12pt,) * 4, row-gutter: if false { 0.8pt } else { 2pt }, column-gutter: 2pt,
       ..range(10).map(r => range(4).map(c => bubble(str(r)))).flatten()
     )
   ],
 )
 
 #block(width:100%, stroke:(paint:rgb("#666666"),thickness:0.8pt,dash:"dashed"), radius:4pt, clip:true, [
-  #grid(columns:(82pt, 60pt, 1fr, 28pt), gutter:0pt, stroke:(paint:rgb("#666666"),thickness:0.5pt,dash:"dashed"),
+  #grid(columns:(82pt, 60pt, 1fr, 56pt), gutter:0pt, stroke:(paint:rgb("#666666"),thickness:0.5pt,dash:"dashed"),
     grid.cell(stroke:(paint:rgb("#666666"),thickness:0.5pt,dash:"dashed"), sbd-box),
     grid.cell(stroke:(paint:rgb("#666666"),thickness:0.5pt,dash:"dashed"), made-box),
     grid.cell(stroke:(paint:rgb("#666666"),thickness:0.5pt,dash:"dashed"), [
-      #pad(x:4pt)[
+      #pad(x:4pt, y:6pt)[
         #text(10pt, weight:"bold", fill:rgb("#c0392b"))[PHIẾU TRẢ LỜI TRẮC NGHIỆM]
         #v(2pt)
         #text(7pt)[SANG MATH OMR]
@@ -112,8 +89,42 @@
     ]),
     grid.cell(stroke:(paint:rgb("#666666"),thickness:0.5pt,dash:"dashed"), [
       #align(center+horizon)[
-        #rect(width:24pt, height:24pt, stroke:.5pt)[
-          #align(center+horizon)[#text(6pt, fill:gray)[QR]]
+        #box(width:54pt, height:54pt, stroke:.6pt, radius:2pt)[
+          #align(center+horizon)[#grid(columns: 33, column-gutter: 0pt, row-gutter: 0pt,
+  qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qb, qb, qb, qb, qb, qb, qw, qb, qb, qb, qb, qw, qw, qw, qb, qb, qw, qb, qb, qb, qb, qb, qb, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qw, qw, qw, qw, qb, qw, qb, qb, qw, qw, qb, qw, qb, qb, qw, qw, qb, qw, qw, qw, qw, qw, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qb, qb, qb, qw, qb, qw, qw, qb, qb, qw, qw, qb, qb, qb, qw, qw, qb, qw, qb, qb, qb, qw, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qb, qb, qb, qw, qb, qw, qb, qb, qw, qw, qb, qw, qw, qw, qw, qw, qb, qw, qb, qb, qb, qw, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qb, qb, qb, qw, qb, qw, qw, qb, qb, qb, qw, qb, qw, qw, qw, qw, qb, qw, qb, qb, qb, qw, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qw, qw, qw, qw, qb, qw, qw, qw, qb, qb, qw, qw, qb, qw, qb, qw, qb, qw, qw, qw, qw, qw, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qb, qb, qb, qb, qb, qb, qw, qb, qw, qb, qw, qb, qw, qb, qw, qb, qw, qb, qb, qb, qb, qb, qb, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qb, qb, qb, qw, qw, qb, qb, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qb, qb, qw, qb, qb, qb, qw, qb, qb, qb, qw, qb, qb, qw, qw, qw, qb, qw, qw, qb, qw, qb, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qb, qw, qb, qw, qw, qw, qb, qw, qw, qb, qb, qw, qw, qw, qw, qw, qb, qw, qw, qw, qw, qb, qw, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qb, qw, qb, qw, qb, qb, qw, qw, qb, qb, qw, qw, qb, qw, qb, qb, qb, qw, qb, qb, qb, qw, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qb, qw, qb, qw, qb, qw, qw, qb, qb, qb, qb, qb, qb, qb, qw, qb, qw, qb, qb, qw, qb, qb, qb, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qw, qb, qw, qw, qb, qb, qb, qb, qb, qw, qb, qw, qw, qw, qw, qb, qb, qb, qb, qb, qw, qb, qw, qb, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qw, qw, qw, qb, qb, qb, qw, qw, qw, qb, qb, qb, qw, qb, qw, qb, qw, qw, qb, qb, qb, qb, qb, qb, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qw, qb, qb, qb, qb, qw, qb, qb, qw, qw, qb, qw, qb, qw, qb, qw, qw, qb, qw, qb, qb, qb, qb, qb, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qb, qw, qw, qb, qw, qw, qb, qw, qw, qw, qb, qb, qw, qb, qb, qw, qb, qw, qb, qw, qw, qb, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qw, qw, qw, qb, qw, qb, qb, qb, qb, qw, qb, qb, qw, qw, qw, qb, qb, qb, qb, qb, qb, qb, qw, qb, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qb, qw, qb, qw, qb, qb, qw, qw, qb, qw, qw, qw, qb, qw, qb, qb, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qb, qb, qb, qb, qb, qb, qw, qb, qw, qb, qb, qb, qw, qw, qw, qb, qw, qb, qw, qb, qb, qb, qb, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qw, qw, qw, qw, qb, qw, qb, qb, qw, qw, qb, qw, qw, qw, qb, qw, qw, qw, qb, qw, qw, qb, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qb, qb, qb, qw, qb, qw, qw, qw, qb, qb, qb, qb, qw, qw, qb, qb, qb, qb, qb, qb, qw, qw, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qb, qb, qb, qw, qb, qw, qb, qb, qw, qw, qb, qb, qb, qb, qb, qb, qb, qb, qb, qb, qb, qb, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qb, qb, qb, qw, qb, qw, qb, qb, qb, qb, qb, qb, qw, qb, qb, qb, qb, qw, qb, qw, qb, qb, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qw, qw, qw, qw, qb, qw, qw, qw, qb, qw, qw, qw, qw, qw, qw, qb, qb, qw, qb, qw, qb, qw, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qb, qb, qb, qb, qb, qb, qw, qb, qb, qw, qw, qb, qw, qb, qw, qw, qw, qb, qw, qw, qw, qb, qb, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw
+)]
         ]
       ]
     ]),
@@ -123,13 +134,14 @@
 
 
 
-#v(if false { -2pt } else { 4pt })
+    #v(if false { 3pt } else { 4pt })
 #block(width:100%, stroke:(paint:rgb("#666666"),thickness:0.8pt,dash:"dashed"), radius:4pt, clip:true, [
   #rect(width:100%, height:16pt, [#align(center+horizon)[#text(8pt, weight:"bold")[PHẦN III – TỰ LUẬN NGẮN (Câu 1-5)]]])
   #block(
     inset: (left: 10pt, right: 10pt, top: if false { 3pt } else { 0pt }, bottom: if false { 5pt } else { 6pt }),
     grid(
       columns: (1fr,) * 5,
+      row-gutter: 12pt,
       block(
         stroke: (right: 0.5pt),
         width: 100%,
@@ -146,11 +158,11 @@
           #v(if false { 1pt } else { 2pt })
           #grid(
             columns: (12pt, 12pt, 12pt, 12pt, 12pt),
-            rows: (if false { 9.8pt } else { 12.5pt },) * 13,
+            rows: (if false { 9.8pt } else { auto },) * 13,
             align: center + horizon,
             [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
             [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
-            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], [], bubble(""), bubble(""), bubble(""),
+            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], bubble(""), bubble(""), bubble(""), bubble(""),
             ..range(1, 10).map(r => (
               [#text(size: 6.5pt, fill: rgb("#666666"))[#r]], bubble(""), bubble(""), bubble(""), bubble("")
             )).flatten(),
@@ -172,11 +184,11 @@
           #v(if false { 1pt } else { 2pt })
           #grid(
             columns: (12pt, 12pt, 12pt, 12pt, 12pt),
-            rows: (if false { 9.8pt } else { 12.5pt },) * 13,
+            rows: (if false { 9.8pt } else { auto },) * 13,
             align: center + horizon,
             [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
             [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
-            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], [], bubble(""), bubble(""), bubble(""),
+            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], bubble(""), bubble(""), bubble(""), bubble(""),
             ..range(1, 10).map(r => (
               [#text(size: 6.5pt, fill: rgb("#666666"))[#r]], bubble(""), bubble(""), bubble(""), bubble("")
             )).flatten(),
@@ -198,11 +210,11 @@
           #v(if false { 1pt } else { 2pt })
           #grid(
             columns: (12pt, 12pt, 12pt, 12pt, 12pt),
-            rows: (if false { 9.8pt } else { 12.5pt },) * 13,
+            rows: (if false { 9.8pt } else { auto },) * 13,
             align: center + horizon,
             [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
             [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
-            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], [], bubble(""), bubble(""), bubble(""),
+            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], bubble(""), bubble(""), bubble(""), bubble(""),
             ..range(1, 10).map(r => (
               [#text(size: 6.5pt, fill: rgb("#666666"))[#r]], bubble(""), bubble(""), bubble(""), bubble("")
             )).flatten(),
@@ -224,11 +236,11 @@
           #v(if false { 1pt } else { 2pt })
           #grid(
             columns: (12pt, 12pt, 12pt, 12pt, 12pt),
-            rows: (if false { 9.8pt } else { 12.5pt },) * 13,
+            rows: (if false { 9.8pt } else { auto },) * 13,
             align: center + horizon,
             [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
             [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
-            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], [], bubble(""), bubble(""), bubble(""),
+            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], bubble(""), bubble(""), bubble(""), bubble(""),
             ..range(1, 10).map(r => (
               [#text(size: 6.5pt, fill: rgb("#666666"))[#r]], bubble(""), bubble(""), bubble(""), bubble("")
             )).flatten(),
@@ -250,11 +262,11 @@
           #v(if false { 1pt } else { 2pt })
           #grid(
             columns: (12pt, 12pt, 12pt, 12pt, 12pt),
-            rows: (if false { 9.8pt } else { 12.5pt },) * 13,
+            rows: (if false { 9.8pt } else { auto },) * 13,
             align: center + horizon,
             [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
             [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
-            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], [], bubble(""), bubble(""), bubble(""),
+            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], bubble(""), bubble(""), bubble(""), bubble(""),
             ..range(1, 10).map(r => (
               [#text(size: 6.5pt, fill: rgb("#666666"))[#r]], bubble(""), bubble(""), bubble(""), bubble("")
             )).flatten(),
@@ -265,13 +277,14 @@
   )
 ])
 
-#v(if false { -2pt } else { 4pt })
+    #v(if false { 3pt } else { 4pt })
 #block(width:100%, stroke:(paint:rgb("#666666"),thickness:0.8pt,dash:"dashed"), radius:4pt, clip:true, [
   #rect(width:100%, height:16pt, [#align(center+horizon)[#text(8pt, weight:"bold")[PHẦN IV – TỰ LUẬN NGẮN (Câu 6-10)]]])
   #block(
     inset: (left: 10pt, right: 10pt, top: if false { 3pt } else { 0pt }, bottom: if false { 5pt } else { 6pt }),
     grid(
       columns: (1fr,) * 5,
+      row-gutter: 12pt,
       block(
         stroke: (right: 0.5pt),
         width: 100%,
@@ -288,11 +301,11 @@
           #v(if false { 1pt } else { 2pt })
           #grid(
             columns: (12pt, 12pt, 12pt, 12pt, 12pt),
-            rows: (if false { 9.8pt } else { 12.5pt },) * 13,
+            rows: (if false { 9.8pt } else { auto },) * 13,
             align: center + horizon,
             [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
             [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
-            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], [], bubble(""), bubble(""), bubble(""),
+            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], bubble(""), bubble(""), bubble(""), bubble(""),
             ..range(1, 10).map(r => (
               [#text(size: 6.5pt, fill: rgb("#666666"))[#r]], bubble(""), bubble(""), bubble(""), bubble("")
             )).flatten(),
@@ -314,11 +327,11 @@
           #v(if false { 1pt } else { 2pt })
           #grid(
             columns: (12pt, 12pt, 12pt, 12pt, 12pt),
-            rows: (if false { 9.8pt } else { 12.5pt },) * 13,
+            rows: (if false { 9.8pt } else { auto },) * 13,
             align: center + horizon,
             [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
             [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
-            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], [], bubble(""), bubble(""), bubble(""),
+            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], bubble(""), bubble(""), bubble(""), bubble(""),
             ..range(1, 10).map(r => (
               [#text(size: 6.5pt, fill: rgb("#666666"))[#r]], bubble(""), bubble(""), bubble(""), bubble("")
             )).flatten(),
@@ -340,11 +353,11 @@
           #v(if false { 1pt } else { 2pt })
           #grid(
             columns: (12pt, 12pt, 12pt, 12pt, 12pt),
-            rows: (if false { 9.8pt } else { 12.5pt },) * 13,
+            rows: (if false { 9.8pt } else { auto },) * 13,
             align: center + horizon,
             [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
             [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
-            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], [], bubble(""), bubble(""), bubble(""),
+            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], bubble(""), bubble(""), bubble(""), bubble(""),
             ..range(1, 10).map(r => (
               [#text(size: 6.5pt, fill: rgb("#666666"))[#r]], bubble(""), bubble(""), bubble(""), bubble("")
             )).flatten(),
@@ -366,11 +379,11 @@
           #v(if false { 1pt } else { 2pt })
           #grid(
             columns: (12pt, 12pt, 12pt, 12pt, 12pt),
-            rows: (if false { 9.8pt } else { 12.5pt },) * 13,
+            rows: (if false { 9.8pt } else { auto },) * 13,
             align: center + horizon,
             [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
             [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
-            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], [], bubble(""), bubble(""), bubble(""),
+            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], bubble(""), bubble(""), bubble(""), bubble(""),
             ..range(1, 10).map(r => (
               [#text(size: 6.5pt, fill: rgb("#666666"))[#r]], bubble(""), bubble(""), bubble(""), bubble("")
             )).flatten(),
@@ -392,11 +405,11 @@
           #v(if false { 1pt } else { 2pt })
           #grid(
             columns: (12pt, 12pt, 12pt, 12pt, 12pt),
-            rows: (if false { 9.8pt } else { 12.5pt },) * 13,
+            rows: (if false { 9.8pt } else { auto },) * 13,
             align: center + horizon,
             [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
             [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
-            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], [], bubble(""), bubble(""), bubble(""),
+            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], bubble(""), bubble(""), bubble(""), bubble(""),
             ..range(1, 10).map(r => (
               [#text(size: 6.5pt, fill: rgb("#666666"))[#r]], bubble(""), bubble(""), bubble(""), bubble("")
             )).flatten(),
@@ -421,9 +434,7 @@
   #v(4pt)
 ])
 
-    #block(width: 100%, height: 0pt)[
-      #place(left, dx: -5mm, dy: 5mm, marker)
-      #place(right, dx: 5mm, dy: 5mm, marker)
-    ]
+
+
   ]
 ]

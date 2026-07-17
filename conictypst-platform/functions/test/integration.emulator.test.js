@@ -39,9 +39,16 @@ async function signIn(email, password) {
 
 async function createVerifiedUser(auth, email, displayName) {
   const password = 'Emulator-only-password-123!';
-  const created = await authRequest('accounts:signUp', { email, password, returnSecureToken: true });
-  await auth.updateUser(created.localId, { emailVerified: true, displayName });
-  return { uid: created.localId, email, password, token: await signIn(email, password) };
+  let uid;
+  try {
+    const created = await authRequest('accounts:signUp', { email, password, returnSecureToken: true });
+    uid = created.localId;
+  } catch (error) {
+    if (!String(error.message).includes('EMAIL_EXISTS')) throw error;
+    uid = (await auth.getUserByEmail(email)).uid;
+  }
+  await auth.updateUser(uid, { emailVerified: true, displayName });
+  return { uid, email, password, token: await signIn(email, password) };
 }
 
 async function callable(name, token, data = {}) {
@@ -87,7 +94,7 @@ test('owner bootstrap and teacher lifecycle are atomic and idempotent', { skip: 
     assert.equal(account.admin.role, 'owner');
 
     const bootstrap = await callable('ctAdminBootstrap', owner.token);
-    assert.deepEqual(bootstrap.products.map((product) => product.id), ['omr', 'hub', 'hdsd', 'studio']);
+    assert.deepEqual(bootstrap.products.map((product) => product.id), ['omr', 'hub', 'hdsd', 'studio', 'exam']);
 
     const request = await callable('ctRequestProductAccess', teacher.token, { productId: 'omr' });
     assert.equal(request.member.status, 'pending');

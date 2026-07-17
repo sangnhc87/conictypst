@@ -278,7 +278,7 @@ function genWasmTypst(mcq, tf, tln, type) {
             align: center + horizon,
             [#text(size: 6.5pt, fill: rgb("#666666"))[-]], bubble(""), [], [], [],
             [#text(size: 6.5pt, fill: rgb("#666666"))[,]], [], bubble(""), bubble(""), [],
-            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], [], bubble(""), bubble(""), bubble(""),
+            [#text(size: 6.5pt, fill: rgb("#666666"))[0]], bubble(""), bubble(""), bubble(""), bubble(""),
             ..range(1, 10).map(r => (
               [#text(size: 6.5pt, fill: rgb("#666666"))[#r]], bubble(""), bubble(""), bubble(""), bubble("")
             )).flatten(),
@@ -296,4 +296,5 @@ function genWasmTypst(mcq, tf, tln, type) {
 // Generate ds20-tln10-ngang
 const src = genWasmTypst(0, 20, 10, 'ds20-tln10-ngang');
 fs.writeFileSync('templates/ds20-tln10-ngang.typ', src);
+fs.writeFileSync('templates/tln-10-ngang.typ', genWasmTypst(0, 0, 10, 'tln-10-ngang'));
 console.log("Done");

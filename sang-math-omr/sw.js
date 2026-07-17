@@ -1,11 +1,15 @@
-const CACHE_NAME = 'omr-cache-v22-security-studio';
+const CACHE_NAME = 'omr-cache-v26-tln-vn-left-to-right';
 const urlsToCache = [
   './index.html',
+  './manifest.json',
+  './icon-192.png',
+  './icon-512.png',
   './js/copyright_guard.js',
   './premium_styles.css',
   './opencv.js',
   './opencv.wasm',
-  './js/omr_engine.js?v=8.1-report-history',
+  './js/tln_codec.js?v=1-vn-left-to-right',
+  './js/omr_engine.js?v=8.2-tln-vn-left-to-right',
   './js/omr_profiles.js',
   './js/omr_db.js?v=5-account-safe-outbox',
   './js/omr_cloud_sync.js?v=5-local-images-free-tier',

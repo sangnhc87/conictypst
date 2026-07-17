@@ -5,6 +5,9 @@ const LIMIT_RULES = Object.freeze({
   maxClasses: Object.freeze({ min: 0, max: 500 }),
   maxStudents: Object.freeze({ min: 0, max: 10000 }),
   maxResults: Object.freeze({ min: 0, max: 1000000 }),
+  maxPublishedExams: Object.freeze({ min: 0, max: 10000 }),
+  maxActiveAssignments: Object.freeze({ min: 0, max: 1000 }),
+  maxAttemptsPerYear: Object.freeze({ min: 0, max: 1000000 }),
   retentionDays: Object.freeze({ min: 1, max: 365 }),
 });
 

@@ -1,0 +1,16 @@
+{
+  "name": "conic-exam-publisher",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "conic-exam-publish": "./bin/conic-exam-publish.mjs"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "publish:sample": "node bin/conic-exam-publish.mjs ../typst/dethi/de-01.typ --root .. --renderer typst/sang-exam.typ --non-strict --title \"Đề mẫu 12-4-6\" --out ./.sample-build"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

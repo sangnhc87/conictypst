@@ -60,6 +60,25 @@ const PRODUCT_DEFINITIONS = Object.freeze({
       retentionDays: 365,
     }),
   }),
+  exam: Object.freeze({
+    id: 'exam',
+    name: 'Conic Exam',
+    description: 'Xuất bản đề Typst và tổ chức thi trực tuyến cho lớp học.',
+    active: true,
+    accessMode: 'approval',
+    defaultMonths: 12,
+    priceVnd: 100000,
+    defaultLimits: Object.freeze({
+      storageBytes: 536870912,
+      maxClasses: 10,
+      maxStudents: 500,
+      maxPublishedExams: 200,
+      maxActiveAssignments: 30,
+      maxAttemptsPerYear: 12000,
+      maxResults: 12000,
+      retentionDays: 365,
+    }),
+  }),
 });
 
 const PRODUCT_IDS = Object.freeze(Object.keys(PRODUCT_DEFINITIONS));

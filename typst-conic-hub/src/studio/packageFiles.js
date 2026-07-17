@@ -10,17 +10,35 @@ import mathUtils from '../../../typst-pkg-sang-math/core/math-utils.typ?raw'
 import conics from '../../../typst-pkg-sang-math/geometry-2d/conics.typ?raw'
 import revolution from '../../../typst-pkg-sang-math/geometry-3d/revolution.typ?raw'
 import curves3d from '../../../typst-pkg-sang-math/geometry-3d/curves-3d.typ?raw'
+import packageManifest from '../../../typst-pkg-sang-math/typst.toml?raw'
 import sangBeamer from '../../../typst-pkg-submit/sang-beamer.typ?raw'
 import sangBeamerThemes from '../../../typst-pkg-submit/sang-beamer-themes.typ?raw'
+import { SANG_MATH_PACKAGE, SANG_MATH_VERSION } from './packagePolicy.js'
 
-export const SANG_MATH_VERSION = '1.0.0'
+export { SANG_MATH_VERSION }
 
-// Beamer chưa nằm trong archive sang-math 1.0.0 trên Universe. Studio giữ nó
+// Beamer chưa nằm trong archive sang-math trên Universe. Studio giữ nó
 // như một extension riêng và cho extension import API public chính thức.
 const studioSangBeamer = sangBeamer.replace(
   '#import "sang-exam.typ": (',
-  '#import "@preview/sang-math:1.0.0": (',
+  `#import "${SANG_MATH_PACKAGE}": (`,
 )
+
+export const SANG_MATH_PACKAGE_FILES = {
+  'typst.toml': packageManifest,
+  'lib.typ': lib,
+  'bbt.typ': bbt,
+  'sang-exam.typ': sangExam,
+  'exam-templates.typ': examTemplates,
+  'book-templates.typ': bookTemplates,
+  'math-sym.typ': mathSym,
+  'geometry.typ': geometry,
+  'core/colors.typ': colors,
+  'core/math-utils.typ': mathUtils,
+  'geometry-2d/conics.typ': conics,
+  'geometry-3d/revolution.typ': revolution,
+  'geometry-3d/curves-3d.typ': curves3d,
+}
 
 export const SANG_MATH_FILES = {
   // Alias cũ chỉ để dự án IndexedDB đã lưu trước đây không bị hỏng. Mẫu mới và

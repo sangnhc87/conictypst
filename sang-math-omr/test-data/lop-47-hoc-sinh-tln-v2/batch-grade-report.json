@@ -1,0 +1,19 @@
+{
+  "generatedAt": "2026-07-16T12:40:18.458Z",
+  "baseUrl": "https://chamthi-conictypst.pages.dev/index.html",
+  "pagesDir": "/private/tmp/omr-tln-v2-pages",
+  "byMode": {
+    "upload": {
+      "passed": 47,
+      "total": 47,
+      "mismatches": [],
+      "warningSheets": []
+    },
+    "camera": {
+      "passed": 47,
+      "total": 47,
+      "mismatches": [],
+      "warningSheets": []
+    }
+  }
+}

@@ -718,6 +718,16 @@ function App() {
               {tab.label}
             </button>
           ))}
+          {!isDesktopRuntime && (
+            <a
+              className="app-tab"
+              href="https://admin-conictypst.pages.dev/account.html"
+              target="_blank"
+              rel="noreferrer"
+            >
+              👤 Tài khoản
+            </a>
+          )}
         </nav>
 
         {!isDesktopRuntime && <div className="hero-actions">

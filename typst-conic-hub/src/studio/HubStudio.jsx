@@ -1,11 +1,17 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Editor from '@monaco-editor/react'
 import { Group as PanelGroup, Panel, Separator as PanelResizeHandle } from 'react-resizable-panels'
+import '../monacoSetup.js'
 import {
   AUTHORING_SNIPPETS,
   PROJECT_TEMPLATES,
+  createBeamerSourceFromExam,
   createProjectFromTemplate,
 } from './templates.js'
+import {
+  QUESTIONS_START,
+  contextualSnippetText,
+} from './questionSource.js'
 import {
   SANG_MATH_CATALOG,
   SANG_MATH_CATEGORIES,
@@ -14,6 +20,7 @@ import {
 import {
   SANG_MATH_IMPORT,
   SANG_MATH_UNIVERSE_URL,
+  SANG_MATH_VERSION,
   inspectSangMathProject,
   migrateProjectToUniverse,
 } from './packagePolicy.js'
@@ -142,8 +149,13 @@ function registerTypstLanguage(monaco) {
       triggerCharacters: ['#'],
       provideCompletionItems(model, position) {
         const word = model.getWordUntilPosition(position)
-        let startColumn = word.startColumn
-        if (startColumn > 1) {
+        const lineBeforeCursor = model.getLineContent(position.lineNumber).slice(0, position.column - 1)
+        const commandMatch = lineBeforeCursor.match(/#([a-zA-Z][\w-]*)$/)
+        const typedCommand = String(commandMatch?.[1] || word.word || '').toLowerCase()
+        const source = model.getValue()
+        const offset = model.getOffsetAt(position)
+        let startColumn = commandMatch ? position.column - commandMatch[0].length : word.startColumn
+        if (!commandMatch && startColumn > 1) {
           const prefix = model.getValueInRange({
             startLineNumber: position.lineNumber,
             startColumn: startColumn - 1,
@@ -160,17 +172,22 @@ function registerTypstLanguage(monaco) {
         }
 
         return {
-          suggestions: SANG_MATH_CATALOG.map((item, index) => ({
-            label: item.name,
-            filterText: `${item.id} ${item.name} ${item.signature}`,
-            kind: monaco.languages.CompletionItemKind.Snippet,
-            detail: `Sang Math · ${item.signature}`,
-            documentation: { value: `**${item.description}**\n\nChèn snippet từ Sang Math Center.` },
-            insertText: item.snippet,
-            insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-            range,
-            sortText: `0-${String(index).padStart(3, '0')}`,
-          })),
+          suggestions: SANG_MATH_CATALOG.map((item, index) => {
+            const directQuestion = ['tn', 'ds', 'tln', 'tl'].includes(item.id)
+            const commonPriority = { tn: '00', ds: '01', tln: '02', tl: '03', 'exam-part': '04' }[item.id]
+            return {
+              label: directQuestion ? { label: `#${item.id}`, description: item.name } : item.name,
+              filterText: `${item.signature} ${item.id} ${item.name}`,
+              kind: monaco.languages.CompletionItemKind.Snippet,
+              detail: `Sang Math · ${item.signature}`,
+              documentation: { value: `**${item.description}**\n\nCú pháp được chèn theo đúng ngữ cảnh của tệp hiện tại.` },
+              insertText: contextualSnippetText(item, source, offset),
+              insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+              range,
+              preselect: item.id === typedCommand,
+              sortText: item.id === typedCommand ? '0-exact' : commonPriority ? `1-${commonPriority}` : `2-${String(index).padStart(3, '0')}`,
+            }
+          }),
         }
       },
     })
@@ -195,9 +212,19 @@ function formatTime(timestamp) {
   return new Intl.DateTimeFormat('vi-VN', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit' }).format(timestamp)
 }
 
+function formatBytes(value = 0) {
+  if (!Number.isFinite(value) || value <= 0) return '0 MB'
+  if (value < 1024 ** 2) return `${Math.max(1, Math.round(value / 1024))} KB`
+  return `${(value / 1024 ** 2).toFixed(value < 10 * 1024 ** 2 ? 1 : 0)} MB`
+}
+
 function formatDiagnostic(item) {
   const hints = item.hints?.length ? ` — ${item.hints.join(' · ')}` : ''
-  return `${item.message || 'Lỗi Typst'}${hints}`
+  const message = item.message || 'Lỗi Typst'
+  const delimiterHelp = /unclosed delimiter|expected closing delimiter/i.test(message)
+    ? ' — Gợi ý: không viết [$]. Hãy dùng [$A$] hoặc [] và kiểm tra đủ cặp (), [] và $...$.'
+    : ''
+  return `${message}${hints}${delimiterHelp}`
 }
 
 function previewTextNeedles(element) {
@@ -421,7 +448,7 @@ function ProjectDialog({ open, onClose, onCreate }) {
     <div className="dialog-backdrop" role="presentation" onMouseDown={event => { if (event.target === event.currentTarget) onClose() }}>
       <section className="dialog project-dialog" role="dialog" aria-modal="true" aria-labelledby="new-project-title">
         <header><div><span className="dialog-kicker">STUDIO ĐA NĂNG</span><h2 id="new-project-title">Bạn muốn soạn gì hôm nay?</h2></div><button type="button" className="icon-button" onClick={onClose} aria-label="Đóng">×</button></header>
-        <div className="project-dialog__hero"><span>05</span><p><b>Bộ 05_full_de_thi_mau là dự án chính</b><small>Giữ nguyên file đề và file dữ liệu; từ cùng nội dung có thể phát triển bản in A4 hoặc trình chiếu.</small></p></div>
+        <div className="project-dialog__hero"><span>05</span><p><b>Soạn trực tiếp #tn · #ds · #tln · #tl</b><small>Mẫu chính không còn make-questions. Từ cùng vùng câu hỏi, Studio có thể tạo ngay bản in A4 hoặc Beamer 16:9.</small></p></div>
         <div className="project-dialog__templates">
           {PROJECT_TEMPLATES.map(template => (
             <button type="button" key={template.id} className={`dialog-template ${template.color} ${selectedId === template.id ? 'is-selected' : ''}`} onClick={() => setSelectedId(template.id)}>
@@ -615,6 +642,7 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
   const [macroSearch, setMacroSearch] = useState('')
   const [toast, setToast] = useState(null)
   const [editorPosition, setEditorPosition] = useState({ line: 1, column: 1 })
+  const [storageInfo, setStorageInfo] = useState({ usage: 0, quota: 0, persisted: false })
 
   const workerRef = useRef(null)
   const previewMountRef = useRef(null)
@@ -629,6 +657,8 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
   const workerProjectIdRef = useRef('')
   const lastArtifactRef = useRef(null)
   const renderQueueRef = useRef(Promise.resolve())
+  const previewResizeTimerRef = useRef(null)
+  const previewWidthRef = useRef(0)
   const importInputRef = useRef(null)
   const bridgeImportRef = useRef('')
 
@@ -697,7 +727,9 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
     ;(async () => {
       let nextProject
       const bridgeKey = initialBridge ? `bridge-consumed:${initialBridge.slice(0, 96)}` : ''
-      const consumeKey = `template-consumed:${window.location.hash}`
+      const requestedTemplate = PROJECT_TEMPLATES.find(template => template.id === initialTemplateId)
+      const requestedTemplateVersion = requestedTemplate?.version || 1
+      const consumeKey = `template-consumed:${initialTemplateId}:v${requestedTemplateVersion}:${window.location.hash}`
       if (initialBridge && !window.sessionStorage.getItem(bridgeKey)) {
         nextProject = await saveBridgeProject(decodeStudioBridge(initialBridge))
         window.sessionStorage.setItem(bridgeKey, '1')
@@ -732,16 +764,71 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
     if (!previewMountRef.current) return
     const renderer = await getRenderer()
     const mount = previewMountRef.current
-    mount.replaceChildren()
+    const scroll = mount.closest('.preview-scroll')
+    const scrollStyle = scroll ? window.getComputedStyle(scroll) : null
+    const horizontalPadding = scrollStyle
+      ? Number.parseFloat(scrollStyle.paddingLeft) + Number.parseFloat(scrollStyle.paddingRight)
+      : 0
+    const measuredWidth = (scroll?.clientWidth || 0) - horizontalPadding
+    const mobileFallback = window.innerWidth - 36
+    const renderWidth = Math.round(measuredWidth > 240
+      ? measuredWidth
+      : Math.max(280, Math.min(720, mobileFallback)))
+
+    // Vẽ hoàn chỉnh ngoài màn hình trước, sau đó thay DOM trong một lần.
+    // Preview cũ luôn còn nguyên trong lúc gõ và biên dịch nên không nhấp nháy.
+    // Renderer lấy offsetWidth của container làm khổ hiển thị. Vì staging nằm
+    // ngoài body, cần một host có đúng bề rộng panel Preview; nếu không nó sẽ
+    // lấy toàn bộ bề rộng cửa sổ, kéo canvas 1.8x lên 1440px và gây to/mờ/lệch.
+    const stagingHost = document.createElement('div')
+    stagingHost.className = 'preview-render-staging-host'
+    stagingHost.style.width = `${renderWidth}px`
+    const staging = document.createElement('div')
+    staging.className = 'preview-mount'
+    staging.setAttribute('aria-hidden', 'true')
+    stagingHost.appendChild(staging)
+    document.body.appendChild(stagingHost)
     const session = await renderer.createModule(artifact.slice(0))
-    await renderer.renderToCanvas({
-      renderSession: session,
-      container: mount,
-      pixelPerPt: Math.min(3, Math.max(1.8, window.devicePixelRatio * 1.35)),
-      backgroundColor: '#ffffff',
-      dataSelection: { body: true, semantics: true },
-    })
+    try {
+      await renderer.renderToCanvas({
+        renderSession: session,
+        container: staging,
+        pixelPerPt: Math.min(3, Math.max(1.8, window.devicePixelRatio * 1.35)),
+        backgroundColor: '#ffffff',
+        dataSelection: { body: true, semantics: true },
+      })
+      mount.replaceChildren(...staging.childNodes)
+      previewWidthRef.current = renderWidth
+    } finally {
+      stagingHost.remove()
+    }
   }, [])
+
+  useEffect(() => {
+    if (!project?.id || !previewMountRef.current || typeof ResizeObserver === 'undefined') return undefined
+    const scroll = previewMountRef.current.closest('.preview-scroll')
+    if (!scroll) return undefined
+
+    const observer = new ResizeObserver(entries => {
+      const width = entries[0]?.contentRect?.width || 0
+      if (width <= 240 || Math.abs(width - previewWidthRef.current) < 2) return
+      if (previewResizeTimerRef.current) window.clearTimeout(previewResizeTimerRef.current)
+      previewResizeTimerRef.current = window.setTimeout(() => {
+        const artifact = lastArtifactRef.current
+        if (!artifact) return
+        const task = renderQueueRef.current
+          .catch(() => undefined)
+          .then(() => renderArtifact(artifact.slice(0)))
+        renderQueueRef.current = task
+      }, 180)
+    })
+
+    observer.observe(scroll)
+    return () => {
+      observer.disconnect()
+      if (previewResizeTimerRef.current) window.clearTimeout(previewResizeTimerRef.current)
+    }
+  }, [project?.id, renderArtifact])
 
   useEffect(() => {
     const worker = new Worker(new URL('./compiler.worker.js', import.meta.url), { type: 'module' })
@@ -828,6 +915,7 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
       format,
       files: cloneFilesForWorker(project.files),
       entryPath: project.entryPath,
+      templateId: project.templateId,
       forceReset,
     })
   }, [project, runtimeStatus])
@@ -871,6 +959,23 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
   useEffect(() => {
     window.localStorage.setItem('typst-conic-hub.theme', theme)
   }, [theme])
+
+  useEffect(() => {
+    let cancelled = false
+    const refreshStorage = async () => {
+      if (!navigator.storage) return
+      try {
+        const persisted = await navigator.storage.persist?.() || await navigator.storage.persisted?.() || false
+        const estimate = await navigator.storage.estimate?.() || {}
+        if (!cancelled) setStorageInfo({ usage: estimate.usage || 0, quota: estimate.quota || 0, persisted })
+      } catch {
+        // IndexedDB vẫn hoạt động nếu trình duyệt không cấp StorageManager.
+      }
+    }
+    refreshStorage()
+    const timer = window.setInterval(refreshStorage, 60_000)
+    return () => { cancelled = true; window.clearInterval(timer) }
+  }, [])
 
   useEffect(() => {
     const handleKeyDown = event => {
@@ -989,7 +1094,9 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
     const editor = editorRef.current
     if (!editor || activeFile?.kind !== 'text') return
     const selection = editor.getSelection()
-    const text = snippet.text ?? snippet.snippet
+    const model = editor.getModel()
+    const offset = model && selection ? model.getOffsetAt(selection.getStartPosition()) : activeFile.content.length
+    const text = contextualSnippetText(snippet, activeFile.content, offset)
     if (!text) return
     editor.executeEdits('sang-math-snippet', [{ range: selection, text, forceMoveMarkers: true }])
     editor.focus()
@@ -1001,6 +1108,81 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
     editor.focus()
     editor.trigger('conic-hub', 'editor.action.triggerSuggest', {})
   }, [activeFile])
+
+  const directExamPath = useMemo(() => Object.entries(project?.files || {}).find(([, file]) => (
+    file?.kind === 'text'
+    && file.content.includes(QUESTIONS_START)
+    && /(exam-preset|exam-theme)/.test(file.content)
+  ))?.[0] || '', [project])
+
+  const isBeamerEntry = useMemo(() => {
+    const entry = project?.files?.[project?.entryPath]
+    return entry?.kind === 'text' && entry.content.includes('/extensions/sang-beamer/sang-beamer.typ')
+  }, [project])
+
+  const setActiveAsEntry = useCallback(() => {
+    if (!project || activeFile?.kind !== 'text' || activeFilePath === project.entryPath) return
+    mutateProject(current => ({ ...current, entryPath: activeFilePath }))
+    workerProjectIdRef.current = ''
+    notify(`Đã chọn ${getFileName(activeFilePath)} làm bản xuất`)
+  }, [activeFile, activeFilePath, mutateProject, notify, project])
+
+  const switchToDirectExam = useCallback(() => {
+    if (!project || !directExamPath) return
+    mutateProject(current => ({ ...current, entryPath: directExamPath }))
+    setActiveFilePath(directExamPath)
+    setOpenTabs(current => [...new Set([...current, directExamPath])])
+    setMobilePane('editor')
+    workerProjectIdRef.current = ''
+    notify('Đã trở về bản đề A4 để tiếp tục soạn trực tiếp')
+  }, [directExamPath, mutateProject, notify, project])
+
+  const createOrUpdateBeamer = useCallback(async () => {
+    if (!project || !directExamPath) {
+      notify('Hãy mở mẫu “Đề 05 · Soạn trực tiếp” để tạo Beamer tự động.', 'error')
+      return
+    }
+    try {
+      const source = project.files[directExamPath].content
+      const outputPath = '/project/05_beamer_chua_de.typ'
+      const currentBeamer = project.files[outputPath]?.content || ''
+      const currentThemeId = Number(currentBeamer.match(/^#let theme-id\s*=\s*(\d+)/m)?.[1]) || 16
+      const withSnapshot = createSnapshot(project, 'Trước khi tạo Beamer từ đề 05')
+      const next = {
+        ...withSnapshot,
+        entryPath: outputPath,
+        files: {
+          ...withSnapshot.files,
+          [outputPath]: { kind: 'text', content: createBeamerSourceFromExam(source, currentThemeId) },
+        },
+      }
+      const saved = await saveProject(next)
+      setProject(saved)
+      setActiveFilePath(outputPath)
+      setOpenTabs(current => [...new Set([...current, outputPath])])
+      setIsDirty(false)
+      setLastSavedAt(saved.updatedAt)
+      setMobilePane('editor')
+      workerProjectIdRef.current = ''
+      await refreshProjects()
+      let revealAttempts = 0
+      const revealThemeGuide = () => {
+        const editor = editorRef.current
+        const model = editor?.getModel()
+        if (model?.getValue()?.includes('10 MẪU BEAMER ĐỀ XUẤT')) {
+          editor.setPosition({ lineNumber: 1, column: 1 })
+          editor.revealLineNearTop(1)
+          return
+        }
+        revealAttempts += 1
+        if (revealAttempts < 12) window.setTimeout(revealThemeGuide, 100)
+      }
+      window.setTimeout(revealThemeGuide, 0)
+      notify('Đã tạo Beamer 16:9 · xem 10 mẫu màu gợi ý ở đầu tệp')
+    } catch (error) {
+      notify(`Không tạo được Beamer: ${error.message}`, 'error')
+    }
+  }, [directExamPath, notify, project, refreshProjects])
 
   const applyExamTheme = useCallback(selectedTheme => {
     if (!examThemeState.path || !selectedTheme) return
@@ -1207,6 +1389,7 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
   }, [notify, project])
 
   const packageHealth = useMemo(() => inspectSangMathProject(project?.files), [project?.files])
+  const packageNeedsUpgrade = packageHealth.legacyImports > 0 || packageHealth.outdatedImports > 0
 
   const copyOfficialImport = useCallback(async () => {
     try {
@@ -1249,8 +1432,11 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
   const commandActions = useMemo(() => [
     { id: 'new-project', icon: '＋', label: 'Tạo dự án mới', description: 'Chọn mẫu đầy đủ, đề thi, sách hoặc BBT.', keywords: 'mẫu template', run: () => setNewProjectOpen(true) },
     { id: 'catalog', icon: 'S', label: 'Mở Trung tâm Sang Math', description: 'Tìm và chèn macro mà không cần nhớ cú pháp.', keywords: 'kho lệnh macro', run: () => setCatalogOpen(true) },
-    { id: 'package-upgrade', icon: 'U', label: 'Chuẩn hóa import sang Typst Universe', description: 'Thay đường dẫn Sang Math cũ, tạo snapshot và dùng @preview/sang-math:1.0.0.', keywords: 'package migrate nâng cấp import official', run: upgradePackageImports },
+    { id: 'package-upgrade', icon: 'U', label: 'Chuẩn hóa import sang Typst Universe', description: `Thay đường dẫn Sang Math cũ, tạo snapshot và dùng @preview/sang-math:${SANG_MATH_VERSION}.`, keywords: 'package migrate nâng cấp import official', run: upgradePackageImports },
     { id: 'exam-theme', icon: '✦', label: 'Đổi giao diện đề thi', description: 'Chọn theme Sang Math và biên dịch lại ngay.', keywords: 'màu phong cách designer cam xanh', run: () => setThemeDesignerOpen(true) },
+    { id: 'exam-to-beamer', icon: '▶', label: 'Tạo/Cập nhật Beamer từ đề 05', description: 'Đồng bộ vùng #tn/#ds/#tln/#tl sang bản trình chiếu 16:9.', keywords: 'slide trình chiếu chữa đề', run: createOrUpdateBeamer },
+    ...(directExamPath && isBeamerEntry ? [{ id: 'back-to-a4', icon: '←', label: 'Trở về đề A4 để soạn', description: 'Đặt lại bản đề trực tiếp làm preview và bản xuất.', keywords: 'tắt beamer quay lại ban đầu', run: switchToDirectExam }] : []),
+    { id: 'set-entry', icon: 'E', label: 'Đặt tệp đang mở làm bản xuất', description: 'Dùng tệp hiện tại để preview và xuất PDF.', keywords: 'entry main biên dịch', run: setActiveAsEntry },
     { id: 'outline', icon: '☷', label: 'Mở mục lục tài liệu', description: 'Đi tới phần thi, câu hỏi hoặc tiêu đề.', keywords: 'outline cấu trúc', run: () => setSidebarMode('outline') },
     { id: 'compile', icon: '▶', label: 'Biên dịch lại preview', description: 'Chạy compiler Typst ngay lập tức.', shortcut: '⌘ ↵', run: () => requestCompile('vector', 'preview') },
     { id: 'pdf', icon: '↓', label: 'Xuất tài liệu PDF', description: 'Biên dịch và tải bản PDF chất lượng in.', keywords: 'download tải', run: () => requestCompile('pdf', 'pdf') },
@@ -1261,10 +1447,7 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
     { id: 'problems', icon: '✓', label: 'Mở bảng kiểm tra lỗi', description: 'Xem mọi lỗi, gợi ý và đi tới dòng.', run: () => setProblemsOpen(true) },
     { id: 'theme', icon: theme === 'dark' ? '☀' : '☾', label: 'Đổi giao diện sáng / tối', description: 'Chuyển theme của không gian soạn thảo.', run: () => setTheme(value => value === 'dark' ? 'light' : 'dark') },
     { id: 'docs', icon: '?', label: 'Mở Hướng dẫn ConicTypst', description: 'Tra cứu tài liệu đầy đủ trong tab mới.', run: () => window.open('https://hdsd-conictypst.pages.dev/', '_blank', 'noopener') },
-    { id: 'drawing', icon: '✎', label: 'Mở Bảng vẽ CeTZ', description: 'Vẽ trực quan rồi chuyển mã trở lại Studio.', run: () => window.open('https://hdsd-conictypst.pages.dev/cetz-ve.html', '_blank', 'noopener') },
     { id: 'account', icon: '👤', label: 'Mở tài khoản ConicTypst', description: 'Xem quyền sử dụng và thời hạn các sản phẩm.', run: () => window.open('https://admin-conictypst.pages.dev/account.html', '_blank', 'noopener') },
-    { id: 'mixer', icon: '↝', label: 'Mở Trộn đề', description: 'Đi tới module trộn nhiều mã đề độc lập.', run: () => window.open('https://hdsd-conictypst.pages.dev/tron-de', '_blank', 'noopener') },
-    { id: 'omr', icon: '◎', label: 'Mở Chấm bài OMR', description: 'Đi tới module tạo phiếu và chấm bài.', run: () => window.open('https://chamthi-conictypst.pages.dev/', '_blank', 'noopener') },
     ...SANG_MATH_CATALOG.map(item => ({
       id: `macro-${item.id}`,
       icon: '#',
@@ -1273,13 +1456,13 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
       keywords: `${item.category} ${item.signature}`,
       run: () => insertSnippet(item),
     })),
-  ], [exportPng, handleExportZip, insertSnippet, makeSnapshot, requestCompile, theme, upgradePackageImports])
+  ], [createOrUpdateBeamer, directExamPath, exportPng, handleExportZip, insertSnippet, isBeamerEntry, makeSnapshot, requestCompile, setActiveAsEntry, switchToDirectExam, theme, upgradePackageImports])
 
   if (!project) {
     return <div className="studio-bootstrap"><BrandMark /><span className="spinner" /><p>Đang mở dự án gần nhất…</p></div>
   }
 
-  const runtimeLabel = runtimeStatus === 'ready' ? 'WASM sẵn sàng' : runtimeStatus === 'error' ? 'WASM lỗi' : 'Đang tải WASM'
+  const runtimeLabel = runtimeStatus === 'ready' ? 'Trình biên dịch sẵn sàng' : runtimeStatus === 'error' ? 'Trình biên dịch gặp lỗi' : 'Đang mở trình biên dịch'
   const compileLabel = compileStatus === 'compiling' ? 'Đang biên dịch…' : compileStatus === 'error' ? `${diagnostics.length || 1} vấn đề` : compileStatus === 'ready' ? `${lastCompileMs} ms` : 'Chờ biên dịch'
 
   return (
@@ -1297,9 +1480,6 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
         <nav className="studio-header__nav">
           <a href="https://admin-conictypst.pages.dev/account.html" target="_blank" rel="noreferrer">Tài khoản</a>
           <a href="https://hdsd-conictypst.pages.dev/" target="_blank" rel="noreferrer">Hướng dẫn</a>
-          <a href="https://hdsd-conictypst.pages.dev/cetz-ve.html" target="_blank" rel="noreferrer">Vẽ hình ↗</a>
-          <a href="https://hdsd-conictypst.pages.dev/tron-de" target="_blank" rel="noreferrer">Trộn đề ↗</a>
-          <a href="https://chamthi-conictypst.pages.dev/" target="_blank" rel="noreferrer">OMR ↗</a>
         </nav>
         <div className="studio-header__actions">
           <button type="button" className="studio-button studio-button--templates" onClick={() => setNewProjectOpen(true)}><span>＋</span> Mẫu soạn</button>
@@ -1351,11 +1531,11 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
                 {sidebarMode === 'outline' && <div className="sidebar-tool outline-tool"><span className="sidebar-heading-simple">MỤC LỤC TÀI LIỆU</span><div className="outline-summary"><span><b>{projectOutline.filter(item => ['tn', 'ds', 'tln', 'tl'].includes(item.type)).length}</b> câu hỏi</span><span><b>{projectOutline.filter(item => item.type === 'part').length}</b> phần</span></div><div className="outline-list">{projectOutline.map((item, index) => <button type="button" key={`${item.path}-${item.line}-${index}`} className={`outline-item outline-item--${item.type}`} style={item.type === 'heading' ? { paddingLeft: `${6 + (Math.min(3, item.level || 1) - 1) * 7}px` } : undefined} onClick={() => goToLocation(item.path, item.line)}><span>{item.type === 'part' ? '§' : item.type === 'heading' ? 'H' : item.shortType}</span><span><b>{item.shortType ? `${item.shortType} ${String(item.number).padStart(2, '0')}` : item.label}</b>{item.shortType && <small>{item.label}</small>}<i>{getFileName(item.path)}:{item.line}</i></span></button>)}{!projectOutline.length && <div className="empty-list"><b>Chưa có cấu trúc</b><span>Thêm tiêu đề Typst hoặc câu hỏi Sang Math để mục lục tự xuất hiện.</span></div>}</div></div>}
                 {sidebarMode === 'packages' && <div className="sidebar-tool package-center">
                   <span className="sidebar-heading-simple">SANG MATH CENTER</span>
-                  <div className={`installed-package package-${packageHealth.mode}`}><span>{packageHealth.mode === 'legacy' ? '!' : '✓'}</span><div><b>sang-math <em>OFFICIAL</em></b><small>1.0.0 · Typst Universe</small></div><a href={SANG_MATH_UNIVERSE_URL} target="_blank" rel="noreferrer" title="Mở Typst Universe">↗</a></div>
-                  <div className={`package-health package-health--${packageHealth.mode}`}>
-                    <span>{packageHealth.mode === 'legacy' ? 'CẦN NÂNG CẤP' : packageHealth.mode === 'official' ? 'DỰ ÁN CHUẨN PUBLIC' : packageHealth.mode === 'extension' ? 'STUDIO EXTENSION' : 'CHƯA IMPORT'}</span>
-                    <p>{packageHealth.mode === 'legacy' ? `Còn ${packageHealth.legacyImports} đường dẫn nội bộ cũ.` : packageHealth.mode === 'official' ? `Đã nhận ${packageHealth.officialImports} import chính thức.` : packageHealth.mode === 'extension' ? 'Beamer dùng extension riêng; API Toán vẫn từ Universe.' : 'Chèn import chính thức khi bắt đầu dùng Sang Math.'}</p>
-                    {packageHealth.mode === 'legacy' && <button type="button" onClick={upgradePackageImports}>Nâng cấp an toàn →</button>}
+                  <div className={`installed-package package-${packageNeedsUpgrade ? 'legacy' : packageHealth.mode}`}><span>{packageNeedsUpgrade ? '!' : '✓'}</span><div><b>sang-math <em>OFFICIAL</em></b><small>{SANG_MATH_VERSION} · Typst Universe</small></div><a href={SANG_MATH_UNIVERSE_URL} target="_blank" rel="noreferrer" title="Mở Typst Universe">↗</a></div>
+                  <div className={`package-health package-health--${packageNeedsUpgrade ? 'legacy' : packageHealth.mode}`}>
+                    <span>{packageNeedsUpgrade ? 'CẦN NÂNG CẤP' : packageHealth.mode === 'official' ? 'DỰ ÁN CHUẨN PUBLIC' : packageHealth.mode === 'extension' ? 'STUDIO EXTENSION' : 'CHƯA IMPORT'}</span>
+                    <p>{packageHealth.legacyImports ? `Còn ${packageHealth.legacyImports} đường dẫn nội bộ cũ.` : packageHealth.outdatedImports ? `Còn ${packageHealth.outdatedImports} import sang-math phiên bản cũ.` : packageHealth.mode === 'official' ? `Đã nhận ${packageHealth.officialImports} import chính thức.` : packageHealth.mode === 'extension' ? 'Beamer dùng extension riêng; API Toán vẫn từ Universe.' : 'Chèn import chính thức khi bắt đầu dùng Sang Math.'}</p>
+                    {packageNeedsUpgrade && <button type="button" onClick={upgradePackageImports}>Nâng cấp an toàn →</button>}
                   </div>
                   <div className="package-actions"><button type="button" onClick={copyOfficialImport}>Sao chép import</button><a href={SANG_MATH_UNIVERSE_URL} target="_blank" rel="noreferrer">Trang package ↗</a></div>
                   <div className="sidebar-search-input macro-search"><span>S</span><input value={macroSearch} onChange={event => setMacroSearch(event.target.value)} placeholder="Tìm macro để chèn…" /></div>
@@ -1375,9 +1555,9 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
                 <div className="editor-tabs__scroll">{openTabs.map(path => <button type="button" key={path} className={activeFilePath === path ? 'is-active' : ''} onClick={() => openFile(path)}><span>{project.files[path]?.kind === 'binary' ? '▧' : 'T'}</span>{getFileName(path)}{isDirty && activeFilePath === path && <i>•</i>}<b onClick={event => closeTab(event, path)}>×</b></button>)}</div>
                 <button type="button" className="run-button" onClick={() => requestCompile('vector', 'preview')} title="Biên dịch (⌘ Enter)">▶</button>
               </div>
-              <div className="breadcrumbs"><span>project</span><i>›</i><b>{activeFilePath.replace(/^\/project\//, '').replaceAll('/', ' › ')}</b></div>
+              <div className="breadcrumbs"><span>project</span><i>›</i><b>{activeFilePath.replace(/^\/project\//, '').replaceAll('/', ' › ')}</b>{activeFilePath === project.entryPath ? <em>ENTRY · ĐANG XUẤT</em> : activeFile?.kind === 'text' && <button type="button" onClick={setActiveAsEntry}>▶ Đặt làm bản xuất</button>}</div>
               {activeFile?.kind === 'text' ? <>
-                <div className="snippet-bar"><span>SANG MATH</span>{AUTHORING_SNIPPETS.map(snippet => <button type="button" key={snippet.id} onClick={() => insertSnippet(snippet)}>{snippet.label}</button>)}<button type="button" className="snippet-suggest" onClick={triggerSuggestions}>✦ Gợi ý</button><button type="button" className="snippet-more" onClick={() => setCatalogOpen(true)}>＋ Kho lệnh</button></div>
+                <div className="snippet-bar"><span>SANG MATH · SOẠN TRỰC TIẾP</span>{AUTHORING_SNIPPETS.map(snippet => <button type="button" key={snippet.id} onClick={() => insertSnippet(snippet)}>{snippet.label}</button>)}{directExamPath && (isBeamerEntry ? <button type="button" className="snippet-beamer snippet-beamer--back" onClick={switchToDirectExam}>← Về đề A4</button> : <button type="button" className="snippet-beamer" onClick={createOrUpdateBeamer}>▶ Tạo/Cập nhật Beamer</button>)}<button type="button" className="snippet-suggest" onClick={triggerSuggestions}>✦ Gợi ý</button><button type="button" className="snippet-more" onClick={() => setCatalogOpen(true)}>＋ Kho lệnh</button></div>
                 <div className="monaco-shell">
                   <Editor
                     path={`file://${activeFilePath}`}
@@ -1422,7 +1602,7 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
             <section className="preview-pane">
               <header className="preview-header"><div><b>Live Preview</b><span className={`compile-state state-${compileStatus}`}><i />{compileLabel}</span><span className="preview-source-hint">↗ Bấm nội dung để mở source</span></div><div><button type="button" onClick={() => setZoom(value => Math.max(.45, +(value - .1).toFixed(2)))}>−</button><span>{Math.round(zoom * 100)}%</span><button type="button" onClick={() => setZoom(value => Math.min(2, +(value + .1).toFixed(2)))}>＋</button></div></header>
               <div className="preview-scroll">
-                {runtimeStatus !== 'ready' && <div className="preview-loading"><span className="spinner" /><b>{runtimeLabel}</b><small>Lần mở đầu cần tải compiler WASM. Các lần sau sẽ dùng bộ nhớ đệm.</small></div>}
+                {runtimeStatus !== 'ready' && <div className="preview-loading"><span className="spinner" /><b>{runtimeLabel}</b><small>Lần mở đầu, trình duyệt cần tải bộ biên dịch Typst. Các lần sau sẽ mở nhanh hơn.</small></div>}
                 {compileStatus === 'error' && <div className="preview-error"><span>!</span><div><b>Typst cần bạn kiểm tra</b><p>{diagnostics[0] ? formatDiagnostic(diagnostics[0]) : 'Có lỗi khi biên dịch tài liệu.'}</p><div><button type="button" onClick={() => setProblemsOpen(true)}>Xem tất cả vấn đề</button><button type="button" onClick={() => requestCompile('vector', 'preview')}>Biên dịch lại</button></div></div></div>}
                 <div className="preview-scale" style={{ transform: `scale(${zoom})` }}><div ref={previewMountRef} className="preview-mount" onClick={handlePreviewSourceClick} /></div>
               </div>
@@ -1433,7 +1613,7 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
 
       <footer className="studio-statusbar">
         <div><span className={`runtime-pill ${runtimeStatus}`}><i />{runtimeLabel}</span><button type="button" onClick={() => setProblemsOpen(true)} className={diagnostics.length ? 'has-problems' : ''}>{diagnostics.length ? `⚠ ${diagnostics.length} vấn đề` : '✓ Không có lỗi'}</button><button type="button" className="command-hint" onClick={() => setCommandOpen(true)}>⌘K Bảng lệnh</button></div>
-        <div><a className="status-package" href={SANG_MATH_UNIVERSE_URL} target="_blank" rel="noreferrer">sang-math 1.0.0 · Universe ↗</a><span>UTF-8</span><span>Typst</span><span>Ln {editorPosition.line}, Col {editorPosition.column}</span></div>
+        <div><span className="local-storage-pill" title={`Bài đang được lưu ngay trong trình duyệt trên máy này, không gửi lên máy chủ${storageInfo.quota ? ` · hạn mức ${formatBytes(storageInfo.quota)}` : ''}`}>◉ LƯU TRÊN MÁY · {formatBytes(storageInfo.usage)}{storageInfo.persisted ? ' · an toàn' : ''}</span><a className="status-package" href={SANG_MATH_UNIVERSE_URL} target="_blank" rel="noreferrer">sang-math {SANG_MATH_VERSION} · Universe ↗</a><span>UTF-8</span><span>Typst</span><span>Ln {editorPosition.line}, Col {editorPosition.column}</span></div>
       </footer>
 
       <ProjectDialog open={newProjectOpen} onClose={() => setNewProjectOpen(false)} onCreate={createAndOpenProject} />

@@ -3,9 +3,18 @@ dist
 .DS_Store
 *.local
 .aider*
+.env
+.env.*
+!.env.example
+firebase-debug*.log
+*-debug.log
+__pycache__/
+*.py[cod]
+.venv/
 
 # Build artifacts - không cần đưa lên Git
 *.pdf
+!public/hdsd/downloads/hdsd-sang-math-1.0.0.pdf
 scratch/
 brain/
 exported_figs/
@@ -15,3 +24,5 @@ exported_figs/
 temp_render/
 typst/exams/scratch/
 dist-mixer/
+dist-hub/
+typst-conic-hub/public/runtime/

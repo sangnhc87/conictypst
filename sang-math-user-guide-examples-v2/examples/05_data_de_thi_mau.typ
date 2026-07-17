@@ -3,7 +3,9 @@
 #let make-questions(tn: none, ds: none, tln: none, tl: none, exam-part: none) = {
   exam-part([PHẦN I. Câu trắc nghiệm nhiều phương án], count: 12)
 
-  tn([Cho hàm số $y=f(x)$ có bảng biến thiên như sau. Hàm số đã cho đồng biến trên khoảng nào dưới đây?], ([$(-1; 1)$], [$(-oo; -1)$], True([$(1; +oo)$]), [$(0; 2)$]), loigiai: [
+  tn([Cho hàm số $y=f(x)$ có bảng biến thiên như sau. Hàm số đã cho đồng biến trên khoảng nào dưới đây?
+  - $a/b$
+  - $a/b$ ], ([$(-1; 1)$], [$(-oo; -1)$], True([$(1; +oo)$]), [$(0; 2)$]), loigiai: [
     - Dựa vào bảng biến thiên, ta thấy đạo hàm $y' > 0$ và đồ thị có hướng đi lên trong khoảng $(1; +oo)$.
     - Suy ra hàm số đồng biến trên khoảng $(1; +oo)$.
   ])

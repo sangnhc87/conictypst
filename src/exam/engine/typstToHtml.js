@@ -80,28 +80,70 @@ function replaceOneArgFn(s, typstName, latexCmd) {
  * Convert Typst frac(num, denom)  →  \dfrac{num}{denom}
  * Also handles display-math  frac  without parens used as infix: a/b handled separately.
  */
-function replaceFrac(s) {
+function replaceFracName(s, name, command) {
     let result = '';
     let i = 0;
-    const prefix = 'frac(';
+    const prefix = name + '(';
     while (i < s.length) {
         const idx = s.indexOf(prefix, i);
         if (idx === -1) { result += s.slice(i); break; }
         // Word boundary check
         if (idx > 0 && /\w/.test(s[idx - 1])) { result += s.slice(i, idx + 1); i = idx + 1; continue; }
         result += s.slice(i, idx);
-        const parenStart = idx + 4; // index of '('
+        const parenStart = idx + name.length; // index of '('
         const parenEnd   = findClose(s, parenStart);
         if (parenEnd === -1) { result += s.slice(idx); i = s.length; break; }
         // Inner: split by top-level comma
         const inner = s.slice(parenStart + 1, parenEnd - 1);
         const parts = splitTopLevel(inner, ',');
         if (parts.length >= 2) {
-            result += `\\dfrac{${parts[0].trim()}}{${parts[1].trim()}}`;
+            result += `${command}{${parts[0].trim()}}{${parts[1].trim()}}`;
         } else {
-            result += `\\dfrac{${inner}}{}`;
+            result += `${command}{${inner}}{}`;
         }
         i = parenEnd;
+    }
+    return result;
+}
+
+function replaceFrac(s) {
+    s = replaceFracName(s, 'dfrac', '\\dfrac');
+    s = replaceFracName(s, 'tfrac', '\\tfrac');
+    return replaceFracName(s, 'frac', '\\dfrac');
+}
+
+function replaceRoot(s) {
+    let result = '';
+    let i = 0;
+    while (i < s.length) {
+        const idx = s.indexOf('root(', i);
+        if (idx === -1) { result += s.slice(i); break; }
+        result += s.slice(i, idx);
+        const end = findClose(s, idx + 4);
+        if (end === -1) { result += s.slice(idx); break; }
+        const parts = splitTopLevel(s.slice(idx + 5, end - 1), ',');
+        result += parts.length >= 2
+            ? `\\sqrt[${parts[0].trim()}]{${parts.slice(1).join(',').trim()}}`
+            : `\\sqrt{${parts[0]?.trim() || ''}}`;
+        i = end;
+    }
+    return result;
+}
+
+function replaceLr(s) {
+    let result = '';
+    let i = 0;
+    while (i < s.length) {
+        const idx = s.indexOf('lr(', i);
+        if (idx === -1) { result += s.slice(i); break; }
+        result += s.slice(i, idx);
+        const end = findClose(s, idx + 2);
+        if (end === -1) { result += s.slice(idx); break; }
+        const inner = s.slice(idx + 3, end - 1).trim();
+        if (inner.endsWith('|')) result += `\\left.${inner.slice(0, -1)}\\right|`;
+        else if (inner.startsWith('|')) result += `\\left|${inner.slice(1)}\\right.`;
+        else result += `\\left(${inner}\\right)`;
+        i = end;
     }
     return result;
 }
@@ -112,8 +154,15 @@ function replaceFrac(s) {
 function splitTopLevel(s, sep) {
     const parts = [];
     let depth = 0, start = 0;
+    let quote = '';
     for (let i = 0; i < s.length; i++) {
         const ch = s[i];
+        if (quote) {
+            if (ch === '\\') i++;
+            else if (ch === quote) quote = '';
+            continue;
+        }
+        if (ch === '"' || ch === "'") { quote = ch; continue; }
         if ('([{'.includes(ch)) depth++;
         else if (')]}'.includes(ch)) depth--;
         else if (ch === sep && depth === 0) {
@@ -123,6 +172,43 @@ function splitTopLevel(s, sep) {
     }
     parts.push(s.slice(start));
     return parts;
+}
+
+function splitCaseRows(inner) {
+    return splitTopLevel(inner, ',')
+        .flatMap(part => splitTopLevel(part, ';'))
+        .map(part => part.trim())
+        .filter(Boolean);
+}
+
+/**
+ * Convert balanced Typst cases/heva/hoac calls. Work from the innermost call
+ * so nested systems and functions in a row stay valid.
+ */
+function replaceCaseFunction(source, name, kind) {
+    const prefix = `${name}(`;
+    let result = source;
+    while (true) {
+        const start = result.lastIndexOf(prefix);
+        if (start < 0) break;
+        if (start > 0 && /[\w.-]/u.test(result[start - 1])) break;
+        const open = start + name.length;
+        const end = findClose(result, open);
+        if (end < 0) break;
+        const rows = splitCaseRows(result.slice(open + 1, end - 1));
+        const body = rows.join(' \\\\ ');
+        const latex = kind === 'or'
+            ? `\\left[\\begin{array}{l} ${body} \\end{array}\\right.`
+            : `\\begin{cases} ${body} \\end{cases}`;
+        result = `${result.slice(0, start)}${latex}${result.slice(end)}`;
+    }
+    return result;
+}
+
+function replaceCaseFunctions(source) {
+    let result = replaceCaseFunction(source, 'cases', 'system');
+    result = replaceCaseFunction(result, 'heva', 'system');
+    return replaceCaseFunction(result, 'hoac', 'or');
 }
 
 /**
@@ -182,7 +268,9 @@ export function typstMathToLatex(s) {
     s = s.replace(/(?<!\\)\bdot\b/g,          '\\cdot');
     s = s.replace(/(?<!\\)\btimes\b/g,        '\\times');
     s = s.replace(/(?<!\\)\bdiv\b/g,          '\\div');
+    s = s.replace(/(?<!\\)\bslash\b/g,        '/');
     s = s.replace(/(?<!\\)\bcirc\b/g,         '\\circ');
+    s = s.replace(/(?<!\\)%/g,                 '\\%');
     s = s.replace(/(?<!\\)\bperp\b/g,         '\\perp');
     s = s.replace(/(?<!\\)\bparallel\b/g,     '\\parallel');
     s = s.replace(/(?<!\\)\bangle\b/g,        '\\angle');
@@ -229,6 +317,8 @@ export function typstMathToLatex(s) {
     // ── 10. Typst math functions → LaTeX commands ─────────────────────────────
     // frac(num, denom) — handle BEFORE other one-arg fns
     s = replaceFrac(s);
+    s = replaceRoot(s);
+    s = replaceLr(s);
 
     // One-argument functions with balanced-parens support
     const oneArgFns = [
@@ -237,6 +327,8 @@ export function typstMathToLatex(s) {
         ['widehat',   '\\widehat'],
         ['widetilde', '\\widetilde'],
         ['vec',       '\\vec'],
+        ['vect',      '\\overrightarrow'],
+        ['arrow',     '\\overrightarrow'],
         ['hat',       '\\hat'],
         ['tilde',     '\\tilde'],
         ['bar',       '\\bar'],
@@ -280,12 +372,9 @@ export function typstMathToLatex(s) {
         return `\\begin{pmatrix} ${rows} \\end{pmatrix}`;
     });
 
-    // cases(a; b) → \begin{cases}...\end{cases}
-    s = s.replace(/\bcases\(([^)]*)\)/g, (_, inner) => {
-        const lines = inner.split(/;\s*/).filter(l => l.trim())
-            .map(l => l.trim()).join(' \\\\ ');
-        return `\\begin{cases} ${lines} \\end{cases}`;
-    });
+    // cases/heva use a left brace; hoac uses a left square bracket. The
+    // balanced parser accepts comma/semicolon rows and nested parentheses.
+    s = replaceCaseFunctions(s);
 
     // ── 11. Typst decimal comma: 8","1 → 8{,}1 (Vietnamese notation) ─────────
     // Must do BEFORE subscript/superscript group conversion

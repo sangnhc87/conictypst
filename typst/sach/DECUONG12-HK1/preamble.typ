@@ -18,9 +18,9 @@
 
 #let two-column-mode = if mode == "loigiai" { false } else { true }
 
-#let in-tfrac = state("in-tfrac", false)
 #let tfrac(num, den) = {
-  in-tfrac.update(true) + math.frac(num, den) + in-tfrac.update(false)
+  show math.frac: f => f
+  scale(x: 72%, y: 72%, origin: center + horizon, reflow: true, math.inline(math.frac(num, den)))
 }
 
 #let nhap(n) = se.draw-lines(n)
@@ -197,10 +197,9 @@
   )
   set text(font: "Libertinus Serif", size: 12pt, lang: "vi")
   set par(justify: true, leading: 0.75em)
-  show math.equation.where(block: false): math.display
-  show math.frac: it => context {
-    if in-tfrac.get() {
-      math.inline(it)
+  show math.equation.where(block: false): it => {
+    if repr(it).contains("frac") {
+      box(inset: (y: 0.16em))[#math.display(it)]
     } else {
       math.display(it)
     }

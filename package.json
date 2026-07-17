@@ -40,7 +40,8 @@
     "test:hub:registry": "node --test scripts/test-hub-package-registry.mjs",
     "test:hub:inline-math": "node --test scripts/test-inline-math-contract.mjs",
     "test:hub:source": "node --test scripts/test-hub-question-source.mjs",
-    "test:hub": "npm run test:hub:package && npm run test:hub:registry && npm run test:hub:inline-math && npm run test:hub:source",
+    "test:hdsd:ai-contract": "node --test scripts/test-ai-sang-math-contract.mjs",
+    "test:hub": "npm run test:hub:package && npm run test:hub:registry && npm run test:hub:inline-math && npm run test:hub:source && npm run test:hdsd:ai-contract",
     "test:hub:exam-online": "node scripts/test-hub-exam-online.mjs",
     "test:hub:smoke": "node scripts/test-hub-smoke.mjs",
     "deploy:hub": "npm run build:hub && wrangler pages deploy dist-hub --project-name typstconichub --commit-dirty=true"

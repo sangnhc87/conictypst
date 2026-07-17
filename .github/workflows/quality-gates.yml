@@ -43,6 +43,11 @@ jobs:
         run: |
           typst compile --root . typst-pkg-sang-math/examples/exam-template-demo.typ /tmp/exam-template-demo.pdf
           typst compile --root . typst-pkg-sang-math/examples/book-template-demo.typ /tmp/book-template-demo.pdf
+          for file in typst-pkg-sang-math/examples/copy-ready/*.typ; do
+            name="$(basename "$file" .typ)"
+            typst compile --root . "$file" "/tmp/${name}.pdf"
+            typst compile --root . --input profile=loigiai "$file" "/tmp/${name}-loigiai.pdf"
+          done
       - name: Compile full HDSD
         if: matrix.typst-version == 'latest'
         run: typst compile --root . typst/hdsd-exam.typ /tmp/hdsd-exam.pdf
@@ -72,3 +77,4 @@ jobs:
         with:
           node-version: 22
       - run: node --test tests/exam-passport.test.mjs
+      - run: npm run test:hdsd:ai-contract

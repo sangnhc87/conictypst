@@ -7,6 +7,7 @@ const allToolsGrid = document.getElementById('allToolsGrid')
 const adminGrid = document.getElementById('adminGrid')
 
 const quickActions = [
+  { title: 'AI sang-math có kiểm định', desc: 'Chọn model, nhập API key, sinh file .typ đúng hợp đồng 1.0.1', icon: 'sparkles', color: 'green', href: 'ai-sang-math.html', keywords: 'ai sang math tạo đề api key model validator tự sửa typst' },
   { title: 'TypstConicHub Studio', desc: 'Soạn Typst, preview trực tiếp, tự lưu và xuất PDF ngay trên trình duyệt', icon: 'sparkles', color: 'green', href: 'https://typstconichub.pages.dev/#studio', keywords: 'studio soạn thảo typst live preview wasm sang math' },
   { title: 'AI tạo đề theo API key của bạn', desc: 'Tự chọn model, tự nhập key, mở cho mọi người dùng', icon: 'zap', color: 'cyan', href: 'ai-tao-de.html?tab=gen', keywords: 'ai tạo đề api key typst model' },
   { title: 'AI tạo đề thi tốt nghiệp hay-lạ-khó', desc: 'Quản lý tạo đề bằng AI Pro', icon: 'cpu', color: 'violet', href: 'ai-tao-de.html?tab=pro', keywords: 'ai tạo đề thi tốt nghiệp hay lạ khó thpt' },
@@ -29,6 +30,7 @@ const exploreSections = [
 ]
 
 const tools = [
+  { title: 'AI sang-math 1.0.1', desc: 'Sinh đề bằng Gemini/GPT/Claude qua API key riêng, kiểm định và tự sửa', icon: 'sparkles', color: 'green', href: 'ai-sang-math.html', status: 'Mới ✓', keywords: 'ai sang math contract validator model api key đề thi typst' },
   { title: 'Sang Math Studio', desc: 'IDE Typst tích hợp preview, dự án và xuất bản', icon: 'sparkles', color: 'green', href: 'https://typstconichub.pages.dev/#studio', status: 'Live ✓', keywords: 'studio typst editor preview wasm project' },
   { title: 'Hỗ trợ vẽ CeTZ', desc: 'Từ TikZ sang hình Typst-native', icon: 'wrench', color: 'mint', href: 'cetz-ve.html', status: 'Live ✓', keywords: 'hỗ trợ vẽ tikz cetz geometry typst drawing' },
   { title: 'Sơ đồ cây', desc: 'Mẫu xác suất, Bayes, nhánh sự kiện', icon: 'git-branch', color: 'blue', href: 'index.html#figure-gallery', status: 'Mẫu', keywords: 'sơ đồ cây tree diagram xác suất bayes cetz' },

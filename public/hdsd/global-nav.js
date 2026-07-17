@@ -22,7 +22,8 @@
         ['✦', 'TypstConicHub Studio', 'https://typstconichub.pages.dev/#studio'],
         ['🗃️', 'Ngân hàng câu hỏi', 'ngan-hang.html'],
         ['🔀', 'Trộn đề thi', 'tron-de.html'],
-        ['✨', 'AI sinh đề', 'ai-tao-de.html?tab=gen'],
+        ['✨', 'AI sang-math có kiểm định', 'ai-sang-math.html'],
+        ['🧠', 'AI Exam Suite cũ', 'ai-tao-de.html?tab=gen'],
         ['🎓', 'Đề THPT nâng cao', 'ai-tao-de.html?tab=pro'],
       ],
     },
@@ -38,6 +39,7 @@
     {
       title: 'AI & kiểm tra',
       items: [
+        ['✨', 'AI sang-math 1.0.1', 'ai-sang-math.html'],
         ['📷', 'OCR ảnh → Typst', 'ocr-typst.html'],
         ['✅', 'Kiểm lỗi Typst', 'typst-linter.html'],
         ['🖥️', 'Chuyển sang Beamer', 'beamer-converter.html'],

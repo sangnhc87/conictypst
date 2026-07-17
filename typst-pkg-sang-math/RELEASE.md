@@ -16,6 +16,9 @@ for file in typst-pkg-sang-math/tests/*.typ; do
 done
 typst compile --root . typst-pkg-sang-math/examples/exam-template-demo.typ
 typst compile --root . typst-pkg-sang-math/examples/book-template-demo.typ
+for file in typst-pkg-sang-math/examples/copy-ready/*.typ; do
+  typst compile --root . "$file" "/tmp/$(basename "$file" .typ).pdf"
+done
 typst compile --root . typst/hdsd-exam.typ
 ```
 

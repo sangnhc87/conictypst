@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AI tạo đề Typst theo hợp đồng sang-math 1.0.1, có kiểm định và tự sửa mã." />
+  <title>AI sang-math — Tạo đề Typst có kiểm định</title>
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="dashboard.css" />
+  <link rel="stylesheet" href="ai-sang-math.css" />
+  <script src="global-nav.js" defer></script>
+  <script type="module" src="ai-sang-math.js"></script>
+</head>
+<body>
+  <header class="dash-topbar">
+    <div class="dash-topbar-inner ai-topbar-inner">
+      <a class="dash-brand" href="dashboard.html" aria-label="ConicTypst Dashboard">
+        <span class="dash-brand-mark ai-brand-mark">AI</span>
+        <span><strong>AI sang-math</strong><small>Hợp đồng API 1.0.1</small></span>
+      </a>
+      <nav class="dash-nav" aria-label="Điều hướng AI sang-math">
+        <a class="active" href="ai-sang-math.html">AI tạo đề</a>
+        <a href="exam-templates.html">Kho mẫu</a>
+        <a href="typst-linter.html">Kiểm lỗi</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="index.html">HDSD</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="ai-shell">
+    <section class="ai-hero">
+      <div>
+        <span class="hero-kicker">CONICTYPST · BYOK · LOCAL-FIRST</span>
+        <h1>Tạo đề bằng AI, nhưng đầu ra phải <em>đúng sang-math</em></h1>
+        <p>Chọn model của bạn, nhập ma trận và nhận file <code>.typ</code> hoàn chỉnh. Mỗi kết quả đều qua hợp đồng API, bộ đếm câu, kiểm tra chữ ký macro, ID và đáp án trước khi được đánh dấu đạt.</p>
+      </div>
+      <div class="hero-contract">
+        <span class="contract-dot"></span>
+        <div><strong id="contractLabel">Đang nạp hợp đồng…</strong><small>Prompt chuẩn + validator + tự sửa</small></div>
+      </div>
+    </section>
+
+    <section class="privacy-banner" aria-label="Thông tin bảo mật API key">
+      <span>🔐</span>
+      <div><strong>API key đi thẳng từ trình duyệt tới nhà cung cấp đã chọn.</strong><small>ConicTypst không có máy chủ nhận key. Mặc định key chỉ tồn tại trong phiên; chỉ lưu trên thiết bị nếu bạn chủ động bật “Ghi nhớ”.</small></div>
+    </section>
+
+    <div class="workflow-grid">
+      <aside class="config-column">
+        <section class="ai-card provider-card">
+          <div class="card-heading"><span class="step-number">1</span><div><h2>Model và API key</h2><p>Dùng tài khoản riêng, tự kiểm soát chi phí.</p></div></div>
+          <div class="form-grid two">
+            <label>Nhà cung cấp
+              <select id="provider">
+                <option value="gemini">Google Gemini</option>
+                <option value="openrouter">OpenRouter — GPT/Claude/Gemini…</option>
+              </select>
+            </label>
+            <label>Model
+              <input id="model" list="modelSuggestions" autocomplete="off" spellcheck="false" />
+              <datalist id="modelSuggestions"></datalist>
+            </label>
+          </div>
+          <label>API key
+            <div class="secret-row">
+              <input id="apiKey" type="password" autocomplete="off" placeholder="Dán key của nhà cung cấp…" />
+              <button id="toggleKey" class="icon-button" type="button" aria-label="Hiện hoặc ẩn API key">Hiện</button>
+            </div>
+          </label>
+          <div class="key-actions">
+            <label class="check-label"><input id="rememberKey" type="checkbox" /> Ghi nhớ key trên thiết bị này</label>
+            <div>
+              <button id="loadModels" class="text-button" type="button">↻ Tải danh sách model</button>
+              <button id="forgetKey" class="text-button danger" type="button">Xóa key</button>
+            </div>
+          </div>
+          <div id="providerHelp" class="provider-help"></div>
+        </section>
+
+        <section class="ai-card">
+          <div class="card-heading"><span class="step-number orange">2</span><div><h2>Kiểu công việc</h2><p>Model nhận quy trình khác nhau cho từng nhu cầu.</p></div></div>
+          <div class="mode-tabs" role="tablist">
+            <button class="mode-tab active" data-mode="new" type="button"><span>✦</span><strong>Tạo đề mới</strong><small>Theo ma trận</small></button>
+            <button class="mode-tab" data-mode="convert" type="button"><span>⇄</span><strong>Chuyển nguồn</strong><small>OCR/văn bản</small></button>
+            <button class="mode-tab" data-mode="vdc" type="button"><span>◆</span><strong>Câu VDC</strong><small>Phân hóa 9–10</small></button>
+          </div>
+        </section>
+
+        <section class="ai-card matrix-card">
+          <div class="card-heading"><span class="step-number green">3</span><div><h2>Ma trận và thông tin đề</h2><p>Số câu ở đây là điều kiện cứng của validator.</p></div></div>
+
+          <div class="form-grid two">
+            <label>Tên đề<input id="examTitle" value="ĐỀ KIỂM TRA" /></label>
+            <label>Trường<input id="school" value="TRƯỜNG THPT ................................" /></label>
+            <label>Khối lớp
+              <select id="grade"><option>10</option><option>11</option><option selected>12</option></select>
+            </label>
+            <label>Thời gian<input id="duration" value="90 phút" /></label>
+            <label>Mã đề<input id="examCode" value="101" /></label>
+            <label>Theme<input id="theme" value="teal-pro" spellcheck="false" /></label>
+          </div>
+
+          <label>Chủ đề/phạm vi kiến thức
+            <textarea id="topic" rows="3" placeholder="Ví dụ: Hàm số, mũ–logarit, nguyên hàm–tích phân, Oxyz…"></textarea>
+          </label>
+
+          <div class="count-grid" aria-label="Số câu từng loại">
+            <label><span>TN</span><small>4 lựa chọn</small><input id="countTn" type="number" min="0" max="50" value="12" /></label>
+            <label><span>Đ/S</span><small>4 mệnh đề</small><input id="countDs" type="number" min="0" max="20" value="4" /></label>
+            <label><span>TLN</span><small>Đáp án ngắn</small><input id="countTln" type="number" min="0" max="30" value="6" /></label>
+            <label><span>TL</span><small>Tự luận</small><input id="countTl" type="number" min="0" max="20" value="0" /></label>
+          </div>
+
+          <label>Phân bố mức độ<input id="difficulty" value="30% NB, 30% TH, 30% VD, 10% VDC" /></label>
+          <label>Yêu cầu riêng<textarea id="notes" rows="3" placeholder="Bối cảnh thực tế, tránh dạng nào, yêu cầu hình vẽ…"></textarea></label>
+          <label>Package bổ sung được phép<input id="extraImports" placeholder='Ví dụ: "@preview/cetz:0.5.2"; để trống nếu không cần' spellcheck="false" /></label>
+
+          <label id="sourceGroup" class="source-group hidden">Nội dung nguồn/OCR
+            <textarea id="sourceText" rows="10" placeholder="Dán đề sưu tầm, văn bản OCR hoặc câu hỏi cần chuyển đổi vào đây…"></textarea>
+          </label>
+
+          <div class="generation-options">
+            <label class="check-label"><input id="autoRepair" type="checkbox" checked /> Tự sửa tối đa 2 vòng nếu validator phát hiện lỗi</label>
+            <span>Nhiệt độ thấp 0.1 · ưu tiên tính ổn định</span>
+          </div>
+          <button id="generateButton" class="generate-button" type="button"><span>✦</span> Sinh và kiểm định đề</button>
+        </section>
+      </aside>
+
+      <section class="output-column">
+        <div class="ai-card output-card">
+          <div class="output-heading">
+            <div><span class="eyebrow">KẾT QUẢ</span><h2>Mã Typst hoàn chỉnh</h2></div>
+            <div id="validationBadge" class="validation-badge idle"><span></span> Chưa kiểm tra</div>
+          </div>
+
+          <div id="progressBox" class="progress-box hidden" aria-live="polite">
+            <div class="progress-orbit"><span></span></div>
+            <div><strong id="progressTitle">Đang gọi model…</strong><small id="progressDetail">Đang gửi hợp đồng sang-math 1.0.1</small></div>
+          </div>
+
+          <textarea id="resultCode" class="code-output" spellcheck="false" placeholder="Mã do AI sinh sẽ xuất hiện tại đây. Bạn cũng có thể dán một file bất kỳ rồi bấm “Kiểm tra lại”."></textarea>
+
+          <div class="output-actions">
+            <button id="validateButton" type="button">✓ Kiểm tra lại</button>
+            <button id="repairButton" type="button">↻ Nhờ AI sửa lỗi</button>
+            <button id="copyButton" type="button">⧉ Sao chép</button>
+            <button id="downloadButton" type="button">↓ Tải .typ</button>
+            <button id="studioButton" class="studio-button" type="button">✦ Mở trong Studio</button>
+          </div>
+        </div>
+
+        <div class="ai-card audit-card">
+          <div class="audit-heading"><div><span class="eyebrow">BỘ KIỂM ĐỊNH CỤC BỘ</span><h2>Hợp đồng đầu ra</h2></div><span id="auditContract"></span></div>
+          <div id="statGrid" class="stat-grid">
+            <div><strong>0</strong><span>TN</span></div><div><strong>0</strong><span>Đ/S</span></div><div><strong>0</strong><span>TLN</span></div><div><strong>0</strong><span>TL</span></div>
+          </div>
+          <div id="issueList" class="issue-list">
+            <div class="empty-audit"><span>◎</span><p>Sinh đề hoặc dán mã Typst để bắt đầu kiểm tra.</p></div>
+          </div>
+          <p class="audit-note"><strong>Lưu ý:</strong> validator chặn lỗi cấu trúc/API phổ biến. Giáo viên vẫn phải đọc PDF, tự kiểm tra nội dung toán và biên dịch lần cuối trong TypstConicHub/Typst.app trước khi phát hành.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div id="toast" class="ai-toast" role="status" aria-live="polite"></div>
+</body>
+</html>

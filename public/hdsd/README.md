@@ -27,6 +27,21 @@ public/hdsd/
     └── hdsd-sang-math-1.0.0.pdf
 ```
 
+## AI sang-math có kiểm định
+
+Trang `ai-sang-math.html` là ứng dụng BYOK riêng cho giáo viên: chọn Gemini hoặc
+OpenRouter, nhập model/API key, tạo đề theo ma trận rồi kiểm định đầu ra bằng hợp
+đồng `sang-math-ai-contract/1.0.1-r1`. Key mặc định chỉ lưu trong phiên trình
+duyệt; website không có backend nhận key.
+
+Bộ kiểm định chặn chữ ký API cũ, LaTeX thô, sai số phương án, thiếu `True`, thiếu
+`id/tags/loigiai`, ID trùng và số câu lệch ma trận. Nếu bật tự sửa, danh sách lỗi
+được gửi lại model tối đa hai vòng trước khi bàn giao mã.
+
+```bash
+npm run test:hdsd:ai-contract
+```
+
 ## Kiểm thử và phát hành
 
 ```bash

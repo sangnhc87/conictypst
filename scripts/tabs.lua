@@ -5,7 +5,7 @@ local LABEL_SET = {
   ["f)"]=true, ["g)"]=true, ["h)"]=true,
 }
 
-local LABEL_COLOR = "2471A3"   -- bright blue for option labels
+local LABEL_COLOR = "0000FF"   -- bright blue for option labels
 local QUESTION_COUNTER = 0
 
 local function label_run(text, underline, color)
@@ -101,6 +101,65 @@ function Para(el)
     return pandoc.Div(new_el, pandoc.Attr("", {}, {{"custom-style", "CenteredImage"}}))
   end
 
+  -- ─── Tiêu đề (Header) ───
+  local full_text = pandoc.utils.stringify(el):gsub("\n", " ")
+  if full_text:find("XYZHEADERZYX") then
+    -- Clean up any leading space before XYZHEADERZYX
+    full_text = full_text:match("XYZHEADERZYX.*") or full_text
+    local parts = {}
+    for match in (full_text .. "|"):gmatch("(.-)|") do table.insert(parts, match) end
+    if #parts >= 5 then
+      local xml = string.format([[
+<w:tbl>
+  <w:tblPr>
+    <w:tblStyle w:val="TableGrid"/>
+    <w:tblW w:w="5000" w:type="pct"/>
+    <w:tblBorders>
+      <w:top w:val="none" w:sz="0" w:space="0" w:color="auto"/>
+      <w:left w:val="none" w:sz="0" w:space="0" w:color="auto"/>
+      <w:bottom w:val="none" w:sz="0" w:space="0" w:color="auto"/>
+      <w:right w:val="none" w:sz="0" w:space="0" w:color="auto"/>
+      <w:insideH w:val="none" w:sz="0" w:space="0" w:color="auto"/>
+      <w:insideV w:val="none" w:sz="0" w:space="0" w:color="auto"/>
+    </w:tblBorders>
+    <w:tblCellMar>
+      <w:top w:w="0" w:type="dxa"/>
+      <w:left w:w="108" w:type="dxa"/>
+      <w:bottom w:w="0" w:type="dxa"/>
+      <w:right w:w="108" w:type="dxa"/>
+    </w:tblCellMar>
+  </w:tblPr>
+  <w:tblGrid>
+    <w:gridCol w:w="4788"/>
+    <w:gridCol w:w="4788"/>
+  </w:tblGrid>
+  <w:tr>
+    <w:tc>
+      <w:tcPr><w:tcW w:w="4788" w:type="dxa"/></w:tcPr>
+      <w:p><w:pPr><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val="24"/></w:rPr><w:t xml:space="preserve">%s</w:t></w:r></w:p>
+    </w:tc>
+    <w:tc>
+      <w:tcPr><w:tcW w:w="4788" w:type="dxa"/></w:tcPr>
+      <w:p><w:pPr><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val="26"/></w:rPr><w:t xml:space="preserve">%s</w:t></w:r></w:p>
+    </w:tc>
+  </w:tr>
+  <w:tr>
+    <w:tc>
+      <w:tcPr><w:tcW w:w="4788" w:type="dxa"/></w:tcPr>
+      <w:p><w:pPr><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:i/><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">%s</w:t></w:r></w:p>
+    </w:tc>
+    <w:tc>
+      <w:tcPr><w:tcW w:w="4788" w:type="dxa"/></w:tcPr>
+      <w:p><w:pPr><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val="24"/></w:rPr><w:t xml:space="preserve">%s</w:t></w:r></w:p>
+    </w:tc>
+  </w:tr>
+</w:tbl>
+<w:p/>
+]], parts[2], parts[4], parts[3], parts[5])
+      return pandoc.RawBlock('openxml', xml)
+    end
+  end
+
   -- ─── Câu heading ───
   if has_cauhoi then
     QUESTION_COUNTER = QUESTION_COUNTER + 1
@@ -116,7 +175,7 @@ function Para(el)
         -- skip space between marker and label
       elseif after_marker and inline.t == "Strong" then
         -- Apply blue+bold only to the "*Câu X.*" label, not the whole paragraph
-        new_inlines:insert(label_run(question_label, false, "1A5276"))
+        new_inlines:insert(label_run(question_label, false, LABEL_COLOR))
         new_inlines:insert(pandoc.RawInline('openxml',
           '<w:r><w:t xml:space="preserve"> </w:t></w:r>'))
         after_marker = false
@@ -138,7 +197,18 @@ function Para(el)
 
     for _, inline in ipairs(el.content) do
       if inline.t == "Str" then
-        if inline.text:find("XYZANSWZYX") then
+        if inline.text:find("XYZOPTSZYX") then
+          local label, rest = consume_option_marker(inline.text, "XYZOPTSZYX")
+          if label then
+            new_inlines:insert(label_run(label, false, LABEL_COLOR))
+            if rest ~= "" then
+              new_inlines:insert(pandoc.Str(rest))
+            end
+          elseif rest ~= "" then
+            new_inlines:insert(pandoc.Str(rest))
+          end
+          underlineNext = false
+        elseif inline.text:find("XYZANSWZYX") then
           local label, rest = consume_option_marker(inline.text, "XYZANSWZYX")
           if label then
             new_inlines:insert(label_run(label, true, LABEL_COLOR))
@@ -170,7 +240,7 @@ function Para(el)
 
           for _, part in ipairs(parts) do
             if part == marker then
-              new_inlines:insert(pandoc.RawInline('openxml', '<w:tab/>'))
+              new_inlines:insert(pandoc.RawInline('openxml', '<w:r><w:tab/></w:r>'))
             else
               if part ~= "" then
                 new_inlines:insert(pandoc.Str(part))

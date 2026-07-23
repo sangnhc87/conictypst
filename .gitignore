@@ -21,8 +21,30 @@ exported_figs/
 
 # Root-level PDFs
 /*.pdf
+# Archive nặng vendored (dùng local, không đưa lên Git)
+/typst.zip
 temp_render/
 typst/exams/scratch/
 dist-mixer/
 dist-hub/
 typst-conic-hub/public/runtime/
+
+# Sinh bởi scripts/prepare-hub-runtime.mjs (vendored từ pandoc-wasm)
+typst-conic-hub/src/studio/pandocCore.generated.js
+typst-conic-hub/src/studio/pandocRuntime.generated.js
+
+# ── Secret / dữ liệu nhạy cảm — KHÔNG BAO GIỜ đưa lên GitHub ──
+payos-backupcode.txt
+*-backupcode.txt
+*.secret
+# Profile trình duyệt Playwright: chứa phiên đăng nhập/cookie sống
+**/playwright_data/
+fsel_learner/playwright_data/
+
+# ── Build cache / rác dev ──
+*.tsbuildinfo
+sang-math-store/tmp/
+*.old
+*.ldb
+pglite-debug.log
+firestore-debug.log

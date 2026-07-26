@@ -1,21 +1,47 @@
 # sang-math
 
-Bộ macro Typst dành cho Toán THPT Việt Nam: đề thi bốn dạng câu hỏi, sách/chuyên đề, bảng biến thiên, bảng xét dấu và hình học CeTZ.
+A comprehensive Typst package for typesetting Vietnamese High School Mathematics documents, exams, and presentations.
 
 - Hướng dẫn trực tuyến: https://hdsd-conictypst.pages.dev
 - Mã nguồn: https://github.com/sangnhc87/conictypst
-- Yêu cầu: Typst 0.14.0 trở lên (do `cetz 0.5.2`)
+- Yêu cầu: Typst 0.14.0 trở lên
 
-## Cài đặt
+## Tính năng nổi bật
+
+- **Đề thi**: Macros tạo câu hỏi trắc nghiệm (MCQ), Đúng/Sai và đáp án.
+- **Ký hiệu Toán**: Phím tắt cho các ký hiệu Toán phổ biến tại Việt Nam.
+- **Bảng biến thiên**: Vẽ bảng xét dấu và bảng biến thiên tuyệt đẹp cho hàm số.
+- **Hình học**: Các wrapper tích hợp sẵn cho CeTZ giúp vẽ hình 2D, 3D dễ dàng.
+- **Trình chiếu (Beamer)**: Tạo slide dạy toán học với hiệu ứng xuất hiện từng bước.
+- **Sách & Chuyên đề**: Macro soạn thảo sách, tài liệu với các hộp định lý, định nghĩa đẹp mắt.
+- **Layout in hai mặt**: `layout-draft` tạo trang 70/30 với lề nháp tự động đổi bên chẵn/lẻ.
+
+## Cài đặt và Sử dụng cơ bản
 
 ```typ
-#import "@preview/sang-math:1.0.1": *
+#import "@preview/sang-math:1.0.3": *
 ```
 
 Khi chỉ dùng một nhóm chức năng, nên import đúng tên cần dùng để file dễ đọc và API rõ ràng:
 
 ```typ
-#import "@preview/sang-math:1.0.1": tn, ds, tln, tl, True, sang-setup
+#import "@preview/sang-math:1.0.3": tn, ds, tln, tl, True, sang-setup
+```
+
+### Sử dụng Sách và Beamer (Mới ở v1.0.3)
+
+Phiên bản 1.0.3 bổ sung các module chuyên sâu cho sách và bài giảng trình chiếu:
+
+```typ
+// Sử dụng module sách
+#import "@preview/sang-math:1.0.3": book
+#show: book.stexgv-book.with(title: "Chuyên đề Toán")
+
+// Sử dụng module trình chiếu
+#import "@preview/sang-math:1.0.3": beamer
+#show: beamer.sang-beamer-theme.with(
+  title: "Bài 1: Hàm số",
+)
 ```
 
 ## API chính
@@ -25,6 +51,7 @@ Khi chỉ dùng một nhóm chức năng, nên import đúng tên cần dùng đ
 | Đề thi | `tn`, `ds`, `tln`, `tl`, `exam-mode`, `exam-part`, `print-answer-key` |
 | Giao diện đề | `exam-theme`, `exam-preset`, `exam-input-preset`, `exam-template-names` |
 | Sách/chuyên đề | `book-theme`, `book-chapter`, `book-lesson`, các hộp sư phạm, `book-template-names` |
+| Layout in hai mặt | `layout-draft`, `layout-2col-draft` — nội dung 70%, nháp 30% đổi bên chẵn/lẻ |
 | Bảng Toán | `bbtv2`, `bbbt`, `bxd`, `bang-gia-tri`, `bang-phan-phoi`, `auto-bbt` |
 | Hình học cơ bản | `tri-abc`, `tri-right`, `chop-sabc`, `circle-desc`, `axis-xy`, `plot` |
 | Conic | `draw-parabola`, `draw-ellipse`, `draw-hyperbola` |
@@ -37,7 +64,7 @@ Khi chỉ dùng một nhóm chức năng, nên import đúng tên cần dùng đ
 ## Ví dụ đề thi
 
 ```typ
-#import "@preview/sang-math:1.0.1": *
+#import "@preview/sang-math:1.0.3": *
 
 #let preset = exam-preset(
   theme: "teal-pro",
@@ -63,59 +90,13 @@ Khi chỉ dùng một nhóm chức năng, nên import đúng tên cần dùng đ
 )
 ```
 
-## Bộ mẫu để copy và sửa
-
-Thư mục [`examples/copy-ready`](./examples/copy-ready) có các mẫu chạy sẵn cho
-đề 15 phút, giữa kỳ hỗn hợp, cấu trúc THPT 12–4–6, đề tự luận có nháp, phiếu học
-tập và câu có bảng biến thiên/CeTZ. Xem bảng chọn mẫu tại
-[`examples/README.md`](./examples/README.md).
-
-Giáo viên dùng AI/OCR để tạo hoặc chuyển đề có thể sao chép bộ hướng dẫn tại
-[`PROMPT_AI_TAO_DE.md`](./PROMPT_AI_TAO_DE.md). Prompt quy định đúng chữ ký
-`tn/ds/tln/tl`, ID ổn định, cú pháp toán Typst và bước tự kiểm tra đáp án.
-
-Các theme đề có thể lấy trực tiếp bằng `exam-template-names`; hiện gồm `classic`, `ocean`, `emerald`, `royal`, `violet`, `crimson`, `graphite`, `amber`, `teal-pro`, `sky`, `indigo-minimal`, `print-economy`, `aurora`, `lotus`, `navy-gold`, `jade`, `coral`, `plum`.
-
-## Ví dụ sách/chuyên đề
-
-```typ
-#import "@preview/sang-math:1.0.1": *
-
-#show: book-theme.with(
-  theme: "sgk-modern",
-  title: "CHUYÊN ĐỀ HÀM SỐ",
-  author: "Tổ Toán",
-)
-
-#book-chapter([Ứng dụng đạo hàm], number: 1)
-#book-lesson([Tính đơn điệu của hàm số], number: 1)
-
-#theory-box[Hàm số đồng biến trên khoảng $K$ khi...]
-#example-box[Khảo sát tính đơn điệu của $f(x)=x^3-3x$.]
-#practice-box[Giải các bài tập tương tự.]
-```
-
-Danh sách giao diện sách có sẵn nằm trong `book-template-names`.
-
-## Bảng biến thiên
-
-```typ
-#import "@preview/sang-math:1.0.1": bbtv2
-
-#bbtv2(
-  x-vals: ($-oo$, $-1$, $1$, $+oo$),
-  d-signs: ("+", 0, "-", 0, "+"),
-  v-vals: ($-oo$, $3$, $-1$, $+oo$),
-)
-```
-
 ## Hình học CeTZ nâng cao
 
 Các hàm `draw-*` được gọi bên trong `cetz.canvas`:
 
 ```typ
 #import "@preview/cetz:0.5.2"
-#import "@preview/sang-math:1.0.1": draw-ellipse, draw-cylinder
+#import "@preview/sang-math:1.0.3": draw-ellipse, draw-cylinder
 
 #cetz.canvas({
   draw-ellipse(a: 2, b: 1, show-axes: true, show-foci: true)
@@ -126,15 +107,17 @@ Các hàm `draw-*` được gọi bên trong `cetz.canvas`:
 })
 ```
 
-## Phát triển và kiểm thử
+## Tác giả (Author)
+- **Tên:** Nguyễn Văn Sang
+- **Công việc:** Giáo viên Toán tại Trường THPT Nguyễn Hữu Cảnh - TP. HCM
+- **Email:** nguyensangnhc@gmail.com
+- **Facebook:** [Nguyễn Văn Sang](https://www.facebook.com/nguyenvan.sang.92798072/)
 
-```bash
-typst compile --root . examples/exam-template-demo.typ
-typst compile --root . examples/book-template-demo.typ
-typst compile --root . tests/test-public-api.typ
-```
+## Ủng hộ dự án (Donate)
+Nếu bạn thấy thư viện này hữu ích cho công việc giảng dạy và soạn thảo tài liệu Toán học, bạn có thể ủng hộ tác giả qua:
 
-Các thay đổi phá vỡ tên hoặc chữ ký macro phải dành cho phiên bản major mới. Tính năng mới nên được export từ `lib.typ`, có ví dụ tối thiểu và có bài kiểm thử compile.
+- **Ngân hàng VPBank:** Số tài khoản `10389821115` - Chủ tài khoản: NGUYEN VAN SANG
+<img src="https://img.vietqr.io/image/vpbank-10389821115-compact.jpg" width="300" alt="VPBank QR Code">
 
 ## License
 

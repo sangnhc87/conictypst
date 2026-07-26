@@ -13,7 +13,7 @@
 //
 //   Trụ (draw-cylinder name: "C"):
 //     C.top         Tâm mặt trên
-//     C.bottom      Tâm mặt dưới  
+//     C.bottom      Tâm mặt dưới
 //     C.top-left    Điểm trái mặt trên (điểm tiếp xúc đường sinh)
 //     C.top-right   Điểm phải mặt trên
 //     C.bot-left    Điểm trái mặt dưới

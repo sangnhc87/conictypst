@@ -1,5 +1,5 @@
 // ================================================================
-// SANG-MATH BOOK TEMPLATES v1.0.1
+// SANG-MATH BOOK TEMPLATES v1.0.2
 // Bộ giao diện sách / SGK / chuyên đề / workbook dùng chung.
 // ================================================================
 
@@ -650,7 +650,7 @@
 ) = {
   let real-fill = if fill == auto { accent.lighten(95%) } else { fill }
   let real-stroke = if stroke == auto { 0.75pt + accent.lighten(45%) } else { stroke }
-  
+
   if style == "dark" {
     block(width: 100%, breakable: true, fill: accent.darken(50%), stroke: 1pt + accent.lighten(20%), inset: 0pt, radius: 6pt, clip: true)[
       #block(width: 100%, fill: accent.darken(20%), inset: (x: 12pt, y: 8pt))[

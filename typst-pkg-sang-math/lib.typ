@@ -1,13 +1,14 @@
 // ================================================================
-// SANG-MATH 1.0.1 — Bộ macro Toán THPT Việt Nam
-// Entry point: #import "@preview/sang-math:1.0.1": *
+// SANG-MATH 1.0.3 — Bộ macro Toán THPT Việt Nam
+// Entry point: #import "@preview/sang-math:1.0.3": *
 // ================================================================
 
 // ── Stable public API ────────────────────────────────────────────
 #import "bbt.typ": *            // BBT, Bảng biến thiên, Bảng xét dấu
 #import "sang-exam.typ": *      // Trắc nghiệm, Tự luận, q-wrap...
 #import "exam-templates.typ": * // Preset giao diện đề thi đẹp
-#import "book-templates.typ": * // Preset giao diện sách, SGK, chuyên đề
+#import "book-templates.typ": * // Preset giao diện sách, SGK, chuyên đề (legacy)
+#import "print-layouts.typ": *  // Layout 70/30, nháp đảo bên khi in hai mặt
 #import "math-sym.typ": *       // Ký hiệu toán tắt (vô cùng, tập hợp...)
 #import "geometry.typ": *       // Hình học phẳng/không gian CeTZ (legacy v1)
 
@@ -21,3 +22,7 @@
 // ── Geometry 3D ──────────────────────────────────────────────────
 #import "geometry-3d/curves-3d.typ": *   // draw-helix, draw-spring, helix-points
 #import "geometry-3d/revolution.typ": *  // draw-cylinder, draw-cone, draw-sphere
+
+// ── Additional modules (v1.0.3) ──────────────────────────────────
+#import "sang-book.typ" as book     // Chuyên đề, Sách (smartbox, theorem...)
+#import "sang-beamer.typ" as beamer // Beamer presentation (slide, make-questions)

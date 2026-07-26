@@ -19,13 +19,13 @@ A comprehensive Typst package for typesetting Vietnamese High School Mathematics
 ## Cài đặt và Sử dụng cơ bản
 
 ```typ
-#import "@preview/sang-math:1.0.3": *
+#import "@preview/sang-math:1.0.4": *
 ```
 
 Khi chỉ dùng một nhóm chức năng, nên import đúng tên cần dùng để file dễ đọc và API rõ ràng:
 
 ```typ
-#import "@preview/sang-math:1.0.3": tn, ds, tln, tl, True, sang-setup
+#import "@preview/sang-math:1.0.4": tn, ds, tln, tl, True, sang-setup
 ```
 
 ### Sử dụng Sách và Beamer (Mới ở v1.0.3)
@@ -34,11 +34,11 @@ Phiên bản 1.0.3 bổ sung các module chuyên sâu cho sách và bài giảng
 
 ```typ
 // Sử dụng module sách
-#import "@preview/sang-math:1.0.3": book
+#import "@preview/sang-math:1.0.4": book
 #show: book.stexgv-book.with(title: "Chuyên đề Toán")
 
 // Sử dụng module trình chiếu
-#import "@preview/sang-math:1.0.3": beamer
+#import "@preview/sang-math:1.0.4": beamer
 #show: beamer.sang-beamer-theme.with(
   title: "Bài 1: Hàm số",
 )
@@ -61,10 +61,60 @@ Phiên bản 1.0.3 bổ sung các module chuyên sâu cho sách và bài giảng
 
 `lib.typ` là cổng public duy nhất và hiện đã export cả template đề, template sách cùng các module CeTZ nâng cao. Người dùng không cần import đường dẫn nội bộ.
 
+## Câu Đúng/Sai: bảng và các kiểu danh sách
+
+`#ds` tiếp tục dùng bảng Đ/S theo mặc định, nên tài liệu từ `1.0.3` giữ nguyên
+bố cục khi nâng cấp. Từ `1.0.4`, có thể chuyển nhanh sang danh sách a), b), c),
+d) bằng `use-table: false`:
+
+```typ
+#ds(
+  [Xét các phát biểu sau.],
+  (True([Mệnh đề đúng.]), [Mệnh đề sai.]),
+  use-table: false,
+)
+```
+
+Tham số `ds-style` hỗ trợ `"table"`, `"list"`, `"pill"`, `"modern"`,
+`"minimal"`, `"bookmark"`, `"folder"`, `"diamond"`, `"gradient"` và
+`"checklist"`:
+
+```typ
+#ds(
+  [Xét các phát biểu sau.],
+  (True([Mệnh đề đúng.]), [Mệnh đề sai.]),
+  ds-style: "bookmark",
+)
+```
+
+Cú pháp cũ `table: false` vẫn được chấp nhận để các tài liệu và ví dụ đã lưu
+không bị hỏng.
+
+## Câu trả lời ngắn: hiện hoặc ẩn ô điền
+
+Trong chế độ đề thi, `#tln` mặc định hiện bốn ô điền đáp án. Dùng
+`box-count` để đổi số ô, hoặc `show-boxes: false` để ẩn toàn bộ cụm ô:
+
+```typ
+// Mặc định: hiện 4 ô
+#tln([Tính $2+3$.], [$5$])
+
+// Ẩn cụm ô, phù hợp khi muốn học sinh viết đáp án trên dòng
+#tln(
+  [Tính $2+3$.],
+  [$5$],
+  show-boxes: false,
+  lines: 2,
+)
+
+// Tuỳ chỉnh số ô
+#tln([Ghi kết quả dưới dạng sáu ký tự.], [123456], box-count: 6)
+```
+
 ## Ví dụ đề thi
 
 ```typ
-#import "@preview/sang-math:1.0.3": *
+#import "@preview/sang-math:1.0.4": *
 
 #let preset = exam-preset(
   theme: "teal-pro",
@@ -96,7 +146,7 @@ Các hàm `draw-*` được gọi bên trong `cetz.canvas`:
 
 ```typ
 #import "@preview/cetz:0.5.2"
-#import "@preview/sang-math:1.0.3": draw-ellipse, draw-cylinder
+#import "@preview/sang-math:1.0.4": draw-ellipse, draw-cylinder
 
 #cetz.canvas({
   draw-ellipse(a: 2, b: 1, show-axes: true, show-foci: true)

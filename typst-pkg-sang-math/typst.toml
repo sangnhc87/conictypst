@@ -1,6 +1,6 @@
 [package]
 name = "sang-math"
-version = "1.0.3"
+version = "1.0.4"
 entrypoint = "lib.typ"
 authors = ["Sang Nguyen <nguyensangnhc@gmail.com>"]
 compiler = "0.14.0"

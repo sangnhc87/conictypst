@@ -14,7 +14,7 @@ import {
 } from './packageFiles.js'
 import { StudioPackageRegistry } from './packageRegistry.js'
 
-const TYPST_TS_VERSION = '0.7.0-rc2'
+const TYPST_TS_VERSION = '0.8.0-rc3'
 const COMPILER_WASM_PARTS = [
   `/runtime/typst-compiler-${TYPST_TS_VERSION}.part0.bin`,
   `/runtime/typst-compiler-${TYPST_TS_VERSION}.part1.bin`,

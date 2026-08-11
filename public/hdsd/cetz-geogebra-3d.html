@@ -11,6 +11,15 @@
   <script defer src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
   <script src="global-nav.js" defer></script>
   <script type="module" src="playground.js"></script>
+  <script>
+    (() => {
+      const nativeAddEventListener = window.addEventListener.bind(window);
+      window.addEventListener = function safeAddEventListener(type, listener, options) {
+        if (String(type).toLowerCase() === 'unload') return;
+        return nativeAddEventListener(type, listener, options);
+      };
+    })();
+  </script>
   <!-- GeoGebra API Primary Loader -->
   <script src="https://cdn.geogebra.org/apps/deployggb.js"></script>
   <style>
@@ -147,11 +156,35 @@
       font-size: 0.9rem;
       z-index: 2;
     }
+
+    @media (max-width: 1050px) {
+      body { overflow: auto; }
+      .generator-layout {
+        flex-direction: column;
+        height: auto;
+        min-height: calc(100vh - 60px);
+        padding: 12px;
+      }
+      .panel-left {
+        min-width: 0;
+        width: 100%;
+        min-height: 620px;
+      }
+      .panel-right {
+        width: 100%;
+        min-height: 720px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .generator-layout { gap: 12px; padding: 8px; }
+      .panel-left { min-height: 540px; }
+      .panel-title { padding: 12px; }
+      #codeOutput { min-height: 320px; font-size: .78rem; }
+    }
   </style>
 
   <!-- 1-Click Templates -->
-  <script src="ggb-templates.js" defer></script>
-  <script src="ggb-template-ui.js" defer></script>
 </head>
 <body>
   <!-- Header injected from global-nav.js -->
@@ -439,6 +472,16 @@
         const alphaHex = toHex((aInt / 100) * 255);
         return `rgb("#${toHex(r)}${toHex(g)}${toHex(b)}${alphaHex}")`;
       };
+      const numericInput = (value, fallback = NaN) => {
+        const direct = Number(value);
+        if (Number.isFinite(direct)) return direct;
+        try {
+          const evaluated = Number(window.ggbApplet?.getValue?.(value));
+          return Number.isFinite(evaluated) ? evaluated : fallback;
+        } catch (_) {
+          return fallback;
+        }
+      };
       const norm3 = (v) => Math.hypot(v.x, v.y, v.z);
       const normalize3 = (v) => {
         const len = norm3(v);
@@ -462,6 +505,12 @@
         const u = normalize3(cross3(axis, ref));
         const v = normalize3(cross3(axis, u));
         return { u, v };
+      };
+      const axisVector = name => {
+        const key = String(name || '').toLowerCase();
+        if (key.includes('xaxis')) return { x: 1, y: 0, z: 0 };
+        if (key.includes('yaxis')) return { x: 0, y: 1, z: 0 };
+        return { x: 0, y: 0, z: 1 };
       };
       const projectedCircle = (center, u, v, radius, samples = 48) => {
         const pts = [];
@@ -519,7 +568,11 @@
       // Projection math based on angles (theta: rotation around Z, phi: tilt around X)
       let theta = zAngle * Math.PI / 180;
       let phi = xAngle * Math.PI / 180;
-      const camera_w = { x: Math.sin(theta)*Math.sin(phi), y: Math.cos(theta)*Math.sin(phi), z: Math.cos(phi) };
+      const camera_w = {
+        x: Math.cos(theta) * Math.cos(phi),
+        y: Math.sin(theta) * Math.cos(phi),
+        z: Math.sin(phi),
+      };
 
       let project = (x, y, z) => {
         // Orthographic projection formula mapping 3D space to 2D view plane
@@ -527,7 +580,8 @@
         let v = -x * Math.cos(theta) * Math.sin(phi) - y * Math.sin(theta) * Math.sin(phi) + z * Math.cos(phi);
         return {
           x: Math.round(u * 100) / 100,
-          y: Math.round(v * 100) / 100
+          y: Math.round(v * 100) / 100,
+          depth: x * camera_w.x + y * camera_w.y + z * camera_w.z,
         };
       };
 
@@ -582,6 +636,18 @@
            let z = window.ggbApplet.getValue(`z(Vertex[${objName}, ${j}])`);
            let proj = project(x, y, z);
            verts.push(pt2(proj));
+        }
+        return verts;
+      };
+
+      let extractVertexPoints = (objName) => {
+        let verts = [];
+        for (let j = 1; j <= 40; j++) {
+          const x = numericInput(window.ggbApplet?.getValue?.(`x(Vertex[${objName}, ${j}])`));
+          const y = numericInput(window.ggbApplet?.getValue?.(`y(Vertex[${objName}, ${j}])`));
+          const z = numericInput(window.ggbApplet?.getValue?.(`z(Vertex[${objName}, ${j}])`));
+          if (![x, y, z].every(Number.isFinite)) break;
+          verts.push({ x, y, z });
         }
         return verts;
       };
@@ -832,7 +898,7 @@
               }
               
               let avgX = (pA.x + pB.x)/2, avgY = (pA.y + pB.y)/2, avgZ = (pA.z + pB.z)/2;
-              let depth = avgX * Math.sin(theta) * Math.sin(phi) + avgY * Math.cos(theta) * Math.sin(phi) + avgZ * Math.cos(phi);
+              let depth = avgX * camera_w.x + avgY * camera_w.y + avgZ * camera_w.z;
               
               drawSegments.push({ depth, code: `    line(${pStrA}, ${pStrB}${strokeStr})\n` });
           } else {
@@ -857,6 +923,26 @@
                polyPts = [...cmdInfo.inputs];
             }
           }
+
+          if (!polyPts || polyPts.filter(p => points[p]).length < 3) {
+            const generated = extractVertexPoints(label);
+            if (generated.length >= 3) {
+              const sum = generated.reduce((acc, p) => ({
+                x: acc.x + p.x,
+                y: acc.y + p.y,
+                z: acc.z + p.z,
+              }), { x: 0, y: 0, z: 0 });
+              const depth = (sum.x / generated.length) * camera_w.x
+                + (sum.y / generated.length) * camera_w.y
+                + (sum.z / generated.length) * camera_w.z;
+              const coords = generated.map(p => pt2(project(p.x, p.y, p.z)));
+              drawPolygons.push({
+                depth,
+                code: `    line(${coords.join(', ')}, close: true, stroke: none${polyFillStr})\n`,
+              });
+              continue;
+            }
+          }
           
           if (polyPts && polyPts.length > 0) {
             // Calculate depth of centroid for Painter's Algorithm
@@ -874,7 +960,7 @@
             let avgZ = count > 0 ? sumZ / count : 0;
             
             // Rotated Z coordinate in camera space represents depth (larger zv is closer to camera)
-            let depth = avgX * Math.sin(theta) * Math.sin(phi) + avgY * Math.cos(theta) * Math.sin(phi) + avgZ * Math.cos(phi);
+            let depth = avgX * camera_w.x + avgY * camera_w.y + avgZ * camera_w.z;
             
             let coordsList = polyPts.map(p => getCoord(p));
             let polyCode = `    line(${coordsList.join(', ')}, close: true, stroke: none${polyFillStr})\n`;
@@ -889,7 +975,7 @@
              if (p1 && p2) {
                  const c1 = project(p1.x, p1.y, p1.z);
                  const c2 = project(p2.x, p2.y, p2.z);
-                 let depth = (p1.x + p2.x)/2 * Math.sin(theta) * Math.sin(phi) + (p1.y + p2.y)/2 * Math.cos(theta) * Math.sin(phi) + (p1.z + p2.z)/2 * Math.cos(phi);
+                 let depth = ((p1.x + p2.x) / 2) * camera_w.x + ((p1.y + p2.y) / 2) * camera_w.y + ((p1.z + p2.z) / 2) * camera_w.z;
                  let sCode = `    line(${pt2(c1)}, ${pt2(c2)}${strokeStr})\n`;
                  
                  let dec = el.getElementsByTagName("decoration")[0];
@@ -927,13 +1013,13 @@
         }
         else if (type === "vector3d") {
           if (cmdInfo && cmdInfo.name === "Vector") {
-             let p1 = points[cmdInfo.inputs[0]];
-             let p2 = points[cmdInfo.inputs[1]];
+             let p1 = cmdInfo.inputs.length > 1 ? points[cmdInfo.inputs[0]] : { x: 0, y: 0, z: 0 };
+             let p2 = points[cmdInfo.inputs[cmdInfo.inputs.length - 1]];
              if (p1 && p2) {
                  const c1 = project(p1.x, p1.y, p1.z);
                  const c2 = project(p2.x, p2.y, p2.z);
                  let strokeV = strokeStr === "" ? ", stroke: (paint: black)" : strokeStr;
-                 let depth = (p1.x + p2.x)/2 * Math.sin(theta) * Math.sin(phi) + (p1.y + p2.y)/2 * Math.cos(theta) * Math.sin(phi) + (p1.z + p2.z)/2 * Math.cos(phi);
+                 let depth = ((p1.x + p2.x) / 2) * camera_w.x + ((p1.y + p2.y) / 2) * camera_w.y + ((p1.z + p2.z) / 2) * camera_w.z;
                  let vCode = `    line(${pt2(c1)}, ${pt2(c2)}, mark: (end: ">", fill: ${rgbStr})${strokeV})\n`;
                  drawSegments.push({ depth, code: vCode });
              }
@@ -949,7 +1035,7 @@
                  let ext2 = { x: p2.x + dx*5, y: p2.y + dy*5, z: p2.z + dz*5 };
                  const c1 = project(ext1.x, ext1.y, ext1.z);
                  const c2 = project(ext2.x, ext2.y, ext2.z);
-                 let depth = (p1.x + p2.x)/2 * Math.sin(theta) * Math.sin(phi) + (p1.y + p2.y)/2 * Math.cos(theta) * Math.sin(phi) + (p1.z + p2.z)/2 * Math.cos(phi);
+                 let depth = ((p1.x + p2.x) / 2) * camera_w.x + ((p1.y + p2.y) / 2) * camera_w.y + ((p1.z + p2.z) / 2) * camera_w.z;
                  let lCode = `    line(${pt2(c1)}, ${pt2(c2)}${strokeStr})\n`;
                  drawSegments.push({ depth, code: lCode });
              }
@@ -964,7 +1050,7 @@
                  let ext2 = { x: p2.x + dx*5, y: p2.y + dy*5, z: p2.z + dz*5 };
                  const c1 = project(p1.x, p1.y, p1.z);
                  const c2 = project(ext2.x, ext2.y, ext2.z);
-                 let depth = (p1.x + p2.x)/2 * Math.sin(theta) * Math.sin(phi) + (p1.y + p2.y)/2 * Math.cos(theta) * Math.sin(phi) + (p1.z + p2.z)/2 * Math.cos(phi);
+                 let depth = ((p1.x + p2.x) / 2) * camera_w.x + ((p1.y + p2.y) / 2) * camera_w.y + ((p1.z + p2.z) / 2) * camera_w.z;
                  let lCode = `    line(${pt2(c1)}, ${pt2(c2)}${strokeStr})\n`;
                  drawSegments.push({ depth, code: lCode });
              }
@@ -980,7 +1066,7 @@
                      sumX += points[p].x; sumY += points[p].y; sumZ += points[p].z; count++;
                  });
                  let avgX = sumX/count, avgY = sumY/count, avgZ = sumZ/count;
-                 let depth = avgX * Math.sin(theta) * Math.sin(phi) + avgY * Math.cos(theta) * Math.sin(phi) + avgZ * Math.cos(phi);
+                 let depth = avgX * camera_w.x + avgY * camera_w.y + avgZ * camera_w.z;
                  let coordsList = validPts.map(p => {
                      let c = project(points[p].x, points[p].y, points[p].z);
                      return pt2(c);
@@ -988,6 +1074,22 @@
                  let pCode = `    line(${coordsList.join(', ')}${strokeStr})\n`;
                  drawSegments.push({ depth, code: pCode });
              }
+          }
+        }
+        else if (type === "conic" && cmdInfo && /^(Circle|Circle3D)$/i.test(cmdInfo.name)) {
+          const center = points[cmdInfo.inputs[0]];
+          const radius = numericInput(cmdInfo.inputs[1], 1);
+          if (center && Number.isFinite(radius) && radius > 0) {
+            const normal = points[cmdInfo.inputs[2]]
+              ? sub3(points[cmdInfo.inputs[2]], center)
+              : axisVector(cmdInfo.inputs[2]);
+            const axisTip = addScaled3(center, normalize3(normal), 1, { x: 0, y: 0, z: 0 }, 0);
+            const basis = basisFromAxis(center, axisTip);
+            const ring = projectedCircle(center, basis.u, basis.v, radius, 64);
+            drawPolygons.push({
+              depth: center.x * camera_w.x + center.y * camera_w.y + center.z * camera_w.z,
+              code: `    line(${ring.join(', ')}, close: true${strokeStr}${polyFillStr})\n`,
+            });
           }
         }
         else if (type === "quadric") {
@@ -999,7 +1101,7 @@
                 let p2 = points[cmdInfo.inputs[1]];
                 rVal = Math.hypot(p2.x - pCenter.x, p2.y - pCenter.y, p2.z - pCenter.z);
              } else {
-                rVal = parseFloat(cmdInfo.inputs[1]) || 1;
+                rVal = numericInput(cmdInfo.inputs[1], 1);
              }
              let qCode = `    // Sphere ${label} projected to 2D\n`;
              const c2d = project(pCenter.x, pCenter.y, pCenter.z);
@@ -1030,7 +1132,7 @@
           } else if (cmdInfo && cmdInfo.name === "Cylinder") {
              let p1 = points[cmdInfo.inputs[0]];
              let p2 = points[cmdInfo.inputs[1]];
-             let rVal = parseFloat(cmdInfo.inputs[2]) || 1;
+             let rVal = numericInput(cmdInfo.inputs[2], 1);
              if (p1 && p2) {
                  const c1 = { x: p1.x, y: p1.y, z: p1.z };
                  const c2 = { x: p2.x, y: p2.y, z: p2.z };
@@ -1074,7 +1176,7 @@
           } else if (cmdInfo && cmdInfo.name === "Cone") {
              let pCenter = points[cmdInfo.inputs[0]];
              let pApex = points[cmdInfo.inputs[1]];
-             let rVal = parseFloat(cmdInfo.inputs[2]) || 1;
+             let rVal = numericInput(cmdInfo.inputs[2], 1);
              if (pCenter && pApex) {
                  const c = { x: pCenter.x, y: pCenter.y, z: pCenter.z };
                  const apex = { x: pApex.x, y: pApex.y, z: pApex.z };
@@ -1131,9 +1233,9 @@
                  if (isRightAngle) { 
                      const w_orth = normalize3(sub3(w_v, { x: u_v.x*dot, y: u_v.y*dot, z: u_v.z*dot }));
                      const pt1 = addScaled3(pB, u_v, angleRadius, w_orth, 0);
-                     const pt2 = addScaled3(pB, u_v, angleRadius, w_orth, angleRadius);
+                     const pCorner = addScaled3(pB, u_v, angleRadius, w_orth, angleRadius);
                      const pt3 = addScaled3(pB, u_v, 0, w_orth, angleRadius);
-                     arcCode += `    line(${pt2(project(pB.x, pB.y, pB.z))}, ${pt2(project(pt1.x, pt1.y, pt1.z))}, ${pt2(project(pt2.x, pt2.y, pt2.z))}, ${pt2(project(pt3.x, pt3.y, pt3.z))}, close: true${strokeStr}${polyFillStr})\n`;
+                     arcCode += `    line(${pt2(project(pB.x, pB.y, pB.z))}, ${pt2(project(pt1.x, pt1.y, pt1.z))}, ${pt2(project(pCorner.x, pCorner.y, pCorner.z))}, ${pt2(project(pt3.x, pt3.y, pt3.z))}, close: true${strokeStr}${polyFillStr})\n`;
                  } else { 
                      const normal = normalize3(cross3(u_v, w_v));
                      const v_orth = normalize3(cross3(normal, u_v));
@@ -1318,6 +1420,12 @@
          document.getElementById('btnTriggerCompile').addEventListener('click', () => {
             triggerTypstCompile(false);
          });
+      }
+    });
+
+    document.addEventListener('typst-playground-ready', () => {
+      if (document.getElementById('codeOutput')?.value.trim()) {
+        triggerTypstCompile(true);
       }
     });
 

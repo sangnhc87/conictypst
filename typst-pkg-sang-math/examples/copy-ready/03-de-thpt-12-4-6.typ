@@ -1,7 +1,7 @@
 // MẪU 03 — KHUNG ĐỀ THPT 12–4–6
 // 12 câu TN + 4 câu Đ/S + 6 câu TLN. Mọi câu có ID ổn định để dùng online.
 
-#import "@preview/sang-math:1.0.1": *
+#import "@preview/sang-math:1.0.2": *
 
 #let profile = sys.inputs.at("profile", default: "dethi")
 #let preset = exam-preset(theme: "lotus", profile: profile)

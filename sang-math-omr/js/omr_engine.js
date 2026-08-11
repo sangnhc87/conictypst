@@ -495,6 +495,93 @@ window.OmrEngine = {
     return results;
   },
 
+  /**
+   * Classify one OMR column by combining absolute ink with separation from the
+   * runner-up. Printed bubble rings can become dark after a phone resize or a
+   * perspective warp, so "darkest > threshold" alone is not enough.
+   *
+   * This helper is intentionally pure so the same decision contract is used
+   * for upload, PDF scan and live camera paths.
+   */
+  analyzeBubbleColumn(counts, innerCounts = counts, options = {}) {
+    const values = Array.isArray(counts)
+      ? counts.map(value => Math.max(0, Number(value) || 0))
+      : [];
+    if (!values.length) {
+      return {
+        selected: false,
+        ambiguous: false,
+        weak: false,
+        maxCount: 0,
+        maxIdx: -1,
+        runnerUp: 0,
+        strongCount: 0,
+        confidence: 0
+      };
+    }
+
+    const inner = Array.isArray(innerCounts) && innerCounts.length === values.length
+      ? innerCounts.map(value => Math.max(0, Number(value) || 0))
+      : values;
+    const emptyThreshold = Number.isFinite(Number(options.emptyThreshold))
+      ? Number(options.emptyThreshold)
+      : 60;
+    const filledThreshold = Number.isFinite(Number(options.filledThreshold))
+      ? Number(options.filledThreshold)
+      : 110;
+
+    const ranked = values
+      .map((value, index) => ({ value, index }))
+      .sort((a, b) => b.value - a.value);
+    const maxCount = ranked[0].value;
+    const maxIdx = ranked[0].index;
+    const runnerUp = ranked[1]?.value || 0;
+    const innerMax = inner[maxIdx] || 0;
+    const innerRunnerUp = Math.max(0, ...inner.filter((_, index) => index !== maxIdx));
+    const strongCount = values.filter(value => value > filledThreshold).length;
+
+    const outerDistinct =
+      maxCount - runnerUp >= 14 &&
+      (runnerUp === 0 || maxCount / runnerUp >= 1.22);
+    const innerDistinct =
+      innerMax >= 8 &&
+      innerMax - innerRunnerUp >= 6 &&
+      (innerRunnerUp === 0 || innerMax / innerRunnerUp >= 1.4);
+    const selected =
+      maxCount > emptyThreshold &&
+      (maxCount >= filledThreshold || outerDistinct || innerDistinct);
+    const comparableRunner =
+      runnerUp > emptyThreshold &&
+      maxCount - runnerUp < 18 &&
+      (maxCount === 0 || runnerUp / maxCount >= 0.80);
+    const ambiguous =
+      strongCount > 1 ||
+      (
+        maxCount > emptyThreshold &&
+        comparableRunner &&
+        innerMax >= 8 &&
+        innerRunnerUp >= 8
+      );
+    const weak = selected && maxCount < filledThreshold;
+
+    const separation = maxCount > 0 ? (maxCount - runnerUp) / maxCount : 0;
+    const ink = Math.min(1, maxCount / Math.max(1, filledThreshold));
+    const confidence = ambiguous || !selected
+      ? 0
+      : Math.max(0, Math.min(1, ink * 0.58 + separation * 0.42));
+
+    return {
+      selected,
+      ambiguous,
+      weak,
+      maxCount,
+      maxIdx,
+      runnerUp,
+      strongCount,
+      confidence
+    };
+  },
+
   rescoreAnswers(answerMap, template, fullAnswers, madeCode = '', scoringOverride = null) {
     const answers = answerMap || {};
     const numQ = template?.numQ || 0;
@@ -680,6 +767,13 @@ window.OmrEngine = {
 
       let geminiAns = { mcq: {}, tf: {}, tln: {}, sbd: '?', made: '?' };
       let warnings = [];
+      const scanQuality = {
+        identityAmbiguous: 0,
+        identityMissing: 0,
+        answerAmbiguous: 0,
+        faintMarks: 0,
+        invalidShortAnswers: 0
+      };
       if (engine === 'gemini') {
         const tmpCanvas = document.createElement('canvas');
         cv.imshow(tmpCanvas, drawMat);
@@ -764,36 +858,18 @@ window.OmrEngine = {
         const THRESH_EMPTY = 60;
         const THRESH_FILLED = 110;
 
-        // A camera frame is commonly downscaled once by the video pipeline and
-        // enlarged again by the perspective warp. On a blank TLN column that
-        // can thicken one side of an empty circle just enough to cross the old
-        // absolute threshold (60), even though all circles in that column are
-        // almost equally dark. A real mark remains clearly stronger than the
-        // runner-up. Keep the established upload/scan rule unchanged and add
-        // this distinction test only for live-camera TLN columns.
+        // Phone frames and scanned PDFs can both thicken an empty bubble ring.
+        // Use the same relative separation test in every path so upload and
+        // camera cannot disagree on an otherwise identical page.
         const decideTlnColumn = (counts, innerCounts = counts) => {
-          const maxCount = Math.max(...counts);
-          const maxIdx = counts.indexOf(maxCount);
-          const sorted = [...counts].sort((a, b) => b - a);
-          const runnerUp = sorted[1] || 0;
-          const innerMax = innerCounts[maxIdx] || 0;
-          const innerRunnerUp = Math.max(0, ...innerCounts.filter((_, idx) => idx !== maxIdx));
-          const filled = counts.filter(count => count > THRESH_FILLED).length;
-          const outerDistinct =
-            maxCount - runnerUp >= 14 &&
-            (runnerUp === 0 || maxCount / runnerUp >= 1.22);
-          const innerDistinct =
-            innerMax >= 8 &&
-            innerMax - innerRunnerUp >= 6 &&
-            (innerRunnerUp === 0 || innerMax / innerRunnerUp >= 1.4);
-          // A faint but real pencil mark may have little ink in the 6 px core,
-          // so the core is a bonus signal, never a mandatory gate. Conversely,
-          // an empty outline artifact usually peaks near 60–70 and has no core.
-          const cameraDistinct = filled > 1 || (
-            outerDistinct && (maxCount >= 75 || innerDistinct)
-          );
-          const selected = maxCount > THRESH_EMPTY && (!gradeOptions.camera || cameraDistinct);
-          return { maxCount, maxIdx, filled, selected };
+          const analysis = window.OmrEngine.analyzeBubbleColumn(counts, innerCounts, {
+            emptyThreshold: THRESH_EMPTY,
+            filledThreshold: THRESH_FILLED
+          });
+          return {
+            ...analysis,
+            filled: analysis.strongCount
+          };
         };
 
         // SBD
@@ -808,12 +884,25 @@ window.OmrEngine = {
             if (window._sbdOff) pts = pts.map(p => [p[0] + window._sbdOff.dx, p[1] + window._sbdOff.dy]);
 
             const counts = window.OmrEngine.readBubbleCol(threshWarped, pts, 9);
-
-            const maxCount = Math.max(...counts);
-            const filled = counts.filter(c => c > THRESH_FILLED).length;
-            if (filled > 1) warnings.push(`SBD cột ${col + 1} tô nhiều ô`);
-            else if (maxCount > THRESH_EMPTY && maxCount < THRESH_FILLED) warnings.push(`SBD cột ${col + 1} tô mờ/tẩy xóa`);
-            str += maxCount > THRESH_EMPTY ? counts.indexOf(maxCount).toString() : "?";
+            const innerCounts = window.OmrEngine.readBubbleCol(threshWarped, pts, 6);
+            const decision = window.OmrEngine.analyzeBubbleColumn(counts, innerCounts, {
+              emptyThreshold: THRESH_EMPTY,
+              filledThreshold: THRESH_FILLED
+            });
+            if (decision.ambiguous) {
+              warnings.push(`SBD cột ${col + 1} tô nhiều ô`);
+              scanQuality.identityAmbiguous++;
+              str += "?";
+            } else if (!decision.selected) {
+              scanQuality.identityMissing++;
+              str += "?";
+            } else {
+              if (decision.weak) {
+                warnings.push(`SBD cột ${col + 1} tô mờ/tẩy xóa`);
+                scanQuality.faintMarks++;
+              }
+              str += decision.maxIdx.toString();
+            }
           }
           geminiAns.sbd = str;
         }
@@ -830,12 +919,25 @@ window.OmrEngine = {
             if (window._madeOff) pts = pts.map(p => [p[0] + window._madeOff.dx, p[1] + window._madeOff.dy]);
 
             const counts = window.OmrEngine.readBubbleCol(threshWarped, pts, 9);
-
-            const maxCount = Math.max(...counts);
-            const filled = counts.filter(c => c > THRESH_FILLED).length;
-            if (filled > 1) warnings.push(`Mã đề cột ${col + 1} tô nhiều ô`);
-            else if (maxCount > THRESH_EMPTY && maxCount < THRESH_FILLED) warnings.push(`Mã đề cột ${col + 1} tô mờ/tẩy xóa`);
-            str += maxCount > THRESH_EMPTY ? counts.indexOf(maxCount).toString() : "?";
+            const innerCounts = window.OmrEngine.readBubbleCol(threshWarped, pts, 6);
+            const decision = window.OmrEngine.analyzeBubbleColumn(counts, innerCounts, {
+              emptyThreshold: THRESH_EMPTY,
+              filledThreshold: THRESH_FILLED
+            });
+            if (decision.ambiguous) {
+              warnings.push(`Mã đề cột ${col + 1} tô nhiều ô`);
+              scanQuality.identityAmbiguous++;
+              str += "?";
+            } else if (!decision.selected) {
+              scanQuality.identityMissing++;
+              str += "?";
+            } else {
+              if (decision.weak) {
+                warnings.push(`Mã đề cột ${col + 1} tô mờ/tẩy xóa`);
+                scanQuality.faintMarks++;
+              }
+              str += decision.maxIdx.toString();
+            }
           }
           geminiAns.made = str;
         }
@@ -856,20 +958,24 @@ window.OmrEngine = {
             }
             if (window._mcqOff) currentPts = currentPts.map(p => [p[0] + window._mcqOff.dx, p[1] + window._mcqOff.dy]);
             const counts = window.OmrEngine.readBubbleCol(threshWarped, currentPts, 9);
+            const innerCounts = window.OmrEngine.readBubbleCol(threshWarped, currentPts, 6);
             // Replace pts with currentPts for AI fallback
-            const originalPts = pts;
             pts = currentPts;
 
-            const maxCount = Math.max(...counts);
-            const filled = counts.filter(c => c > THRESH_FILLED).length;
+            const decision = window.OmrEngine.analyzeBubbleColumn(counts, innerCounts, {
+              emptyThreshold: THRESH_EMPTY,
+              filledThreshold: THRESH_FILLED
+            });
+            const maxCount = decision.maxCount;
 
             let finalIdx = -1;
 
-            if (filled > 1) {
+            if (decision.ambiguous) {
                 warnings.push(`Câu ${q} tô nhiều ô`);
-            } else if (maxCount > THRESH_EMPTY && maxCount < THRESH_FILLED && window.TFGraderInstance && window.TFGraderInstance.model) {
+                scanQuality.answerAmbiguous++;
+            } else if (decision.weak && window.TFGraderInstance && window.TFGraderInstance.model) {
                 // AI Verification for suspicious bubbles
-                const idx = counts.indexOf(maxCount);
+                const idx = decision.maxIdx;
                 const [cx, cy] = pts[idx];
 
                 // Crop 32x32 around cx, cy from original warped image
@@ -891,18 +997,24 @@ window.OmrEngine = {
 
                     if (pred === 1) {
                         finalIdx = idx; // Confirmed as filled
+                        warnings.push(`Câu ${q} tô mờ/tẩy xóa`);
+                        scanQuality.faintMarks++;
                     } else {
                         warnings.push(`Câu ${q} AI xác nhận nét vẽ lỗi (gạch xóa/chưa tô kín)`);
+                        scanQuality.answerAmbiguous++;
                     }
                 } else {
                     finalIdx = idx;
+                    warnings.push(`Câu ${q} tô mờ/tẩy xóa`);
+                    scanQuality.faintMarks++;
                 }
-            } else if (maxCount >= THRESH_FILLED) {
-                finalIdx = counts.indexOf(maxCount);
-            } else if (maxCount > THRESH_EMPTY && maxCount < THRESH_FILLED) {
+            } else if (decision.selected && !decision.weak) {
+                finalIdx = decision.maxIdx;
+            } else if (decision.weak) {
                 // Suspicious but no AI model loaded, accept it but warning
                 warnings.push(`Câu ${q} tô mờ/tẩy xóa`);
-                finalIdx = counts.indexOf(maxCount);
+                scanQuality.faintMarks++;
+                finalIdx = decision.maxIdx;
             }
 
             if (finalIdx !== -1) {
@@ -935,10 +1047,21 @@ window.OmrEngine = {
                 }
                 const cD = window.OmrEngine.readBubbleCol(threshWarped, [pair[0]], 9)[0];
                 const cS = window.OmrEngine.readBubbleCol(threshWarped, [pair[1]], 9)[0];
-                if (cD > THRESH_FILLED && cS > THRESH_FILLED) warnings.push(`Câu ${uiQ} ý ${lbl} tô nhiều ô`);
-                else if (Math.max(cD, cS) > THRESH_EMPTY && Math.max(cD, cS) < THRESH_FILLED) warnings.push(`Câu ${uiQ} ý ${lbl} tô mờ/tẩy xóa`);
-                if (cD > THRESH_EMPTY || cS > THRESH_EMPTY) {
-                  geminiAns.tf[uiQ][lbl] = cD > cS ? 'Đ' : 'S';
+                const innerD = window.OmrEngine.readBubbleCol(threshWarped, [pair[0]], 6)[0];
+                const innerS = window.OmrEngine.readBubbleCol(threshWarped, [pair[1]], 6)[0];
+                const decision = window.OmrEngine.analyzeBubbleColumn([cD, cS], [innerD, innerS], {
+                  emptyThreshold: THRESH_EMPTY,
+                  filledThreshold: THRESH_FILLED
+                });
+                if (decision.ambiguous) {
+                  warnings.push(`Câu ${uiQ} ý ${lbl} tô nhiều ô`);
+                  scanQuality.answerAmbiguous++;
+                } else if (decision.selected) {
+                  if (decision.weak) {
+                    warnings.push(`Câu ${uiQ} ý ${lbl} tô mờ/tẩy xóa`);
+                    scanQuality.faintMarks++;
+                  }
+                  geminiAns.tf[uiQ][lbl] = decision.maxIdx === 0 ? 'Đ' : 'S';
                 }
               });
             }
@@ -955,55 +1078,97 @@ window.OmrEngine = {
               let ansStr = "";
               const DIGITS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
-              // Calibrate local offset
+              // The four corner markers already put TLN into calibrated space.
+              // Do not derive a second offset from a TLN bubble: when that
+              // bubble is filled off-centre, its ink contour can drag every
+              // following column away from the printed rings.
               let qOff = null;
-              let firstPt = null;
-              if (Array.isArray(tinfo) && tinfo.length > 0 && tinfo[0].length > 0) {
-                firstPt = tinfo[0][0];
-              } else if (tinfo.sign && tinfo.sign.length > 0) {
-                firstPt = tinfo.sign[0];
-              } else if (tinfo.int && tinfo.int.length > 0 && tinfo.int[0].length > 0) {
-                firstPt = tinfo.int[0][0];
-              }
-              if (firstPt) {
-                qOff = getLocalOffset(firstPt[0], firstPt[1]);
-              }
 
               if (Array.isArray(tinfo)) {
+                const decodedColumns = [];
+                let invalidColumns = false;
                 for (let colIdx = 0; colIdx < tinfo.length; colIdx++) {
                   let colPts = tinfo[colIdx].map(p => [...p]);
                   if (qOff) colPts = colPts.map(p => [p[0] + qOff.dx, p[1] + qOff.dy]);
                   const counts = window.OmrEngine.readBubbleCol(threshWarped, colPts, 9);
-                  const innerCounts = gradeOptions.camera
-                    ? window.OmrEngine.readBubbleCol(threshWarped, colPts, 6)
-                    : counts;
-                  const { maxCount, maxIdx, filled, selected } = decideTlnColumn(counts, innerCounts);
-                  if (filled > 1) warnings.push(`Câu ${uiQ} tô nhiều ô`);
-                  else if (selected && maxCount < THRESH_FILLED) warnings.push(`Câu ${uiQ} tô mờ`);
-                  if (selected) {
-                    const symbol = window.OmrTlnCodec.decodeBubble(maxIdx, colIdx);
-                    if (symbol !== null) ansStr += symbol;
+                  const innerCounts = window.OmrEngine.readBubbleCol(threshWarped, colPts, 6);
+                  const decision = decideTlnColumn(counts, innerCounts);
+                  if (decision.ambiguous) {
+                    warnings.push(`Câu ${uiQ} cột ${colIdx + 1} tô nhiều ô`);
+                    scanQuality.answerAmbiguous++;
+                    invalidColumns = true;
+                    decodedColumns.push(null);
+                  } else if (decision.selected) {
+                    if (decision.weak) {
+                      warnings.push(`Câu ${uiQ} cột ${colIdx + 1} tô mờ`);
+                      scanQuality.faintMarks++;
+                    }
+                    const symbol = window.OmrTlnCodec.decodeBubble(decision.maxIdx, colIdx);
+                    if (symbol === null) {
+                      invalidColumns = true;
+                      decodedColumns.push(null);
+                    } else {
+                      decodedColumns.push(symbol);
+                    }
+                  } else {
+                    decodedColumns.push(null);
                   }
                 }
+                const lastSelected = decodedColumns.reduce(
+                  (last, symbol, index) => symbol === null ? last : index,
+                  -1
+                );
+                if (lastSelected >= 0) {
+                  const hasGap = decodedColumns
+                    .slice(0, lastSelected + 1)
+                    .some(symbol => symbol === null);
+                  if (hasGap) {
+                    warnings.push(`Câu ${uiQ} bỏ trống giữa các cột`);
+                    invalidColumns = true;
+                  }
+                  if (!invalidColumns) {
+                    ansStr = decodedColumns.slice(0, lastSelected + 1).join('');
+                  }
+                }
+                if (invalidColumns) scanQuality.invalidShortAnswers++;
               } else {
+                let legacyInvalid = false;
                 if (tinfo.sign) {
                   let signPts = tinfo.sign.map(p => [...p]);
                   if (qOff) signPts = signPts.map(p => [p[0] + qOff.dx, p[1] + qOff.dy]);
                   const counts = window.OmrEngine.readBubbleCol(threshWarped, signPts, 9);
-                  if (counts[0] > THRESH_EMPTY) ansStr += "-";
+                  const innerCounts = window.OmrEngine.readBubbleCol(threshWarped, signPts, 6);
+                  const decision = decideTlnColumn(counts, innerCounts);
+                  if (decision.ambiguous) {
+                    warnings.push(`Câu ${uiQ} phần dấu tô nhiều ô`);
+                    scanQuality.answerAmbiguous++;
+                    legacyInvalid = true;
+                  } else if (decision.selected) {
+                    if (decision.weak) {
+                      warnings.push(`Câu ${uiQ} phần dấu tô mờ`);
+                      scanQuality.faintMarks++;
+                    }
+                    ansStr += "-";
+                  }
                 }
                 if (tinfo.int) {
                   tinfo.int.forEach(col => {
                     let colPts = col.map(p => [...p]);
                     if (qOff) colPts = colPts.map(p => [p[0] + qOff.dx, p[1] + qOff.dy]);
                     const counts = window.OmrEngine.readBubbleCol(threshWarped, colPts, 9);
-                    const innerCounts = gradeOptions.camera
-                      ? window.OmrEngine.readBubbleCol(threshWarped, colPts, 6)
-                      : counts;
-                    const { maxCount, maxIdx, filled, selected } = decideTlnColumn(counts, innerCounts);
-                    if (filled > 1) warnings.push(`Câu ${uiQ} tô nhiều ô`);
-                    else if (selected && maxCount < THRESH_FILLED) warnings.push(`Câu ${uiQ} tô mờ`);
-                    if (selected) ansStr += DIGITS[maxIdx];
+                    const innerCounts = window.OmrEngine.readBubbleCol(threshWarped, colPts, 6);
+                    const decision = decideTlnColumn(counts, innerCounts);
+                    if (decision.ambiguous) {
+                      warnings.push(`Câu ${uiQ} tô nhiều ô`);
+                      scanQuality.answerAmbiguous++;
+                      legacyInvalid = true;
+                    } else if (decision.selected) {
+                      if (decision.weak) {
+                        warnings.push(`Câu ${uiQ} tô mờ`);
+                        scanQuality.faintMarks++;
+                      }
+                      ansStr += DIGITS[decision.maxIdx];
+                    }
                   });
                 }
                 if (tinfo.frac) {
@@ -1012,15 +1177,25 @@ window.OmrEngine = {
                     let colPts = col.map(p => [...p]);
                     if (qOff) colPts = colPts.map(p => [p[0] + qOff.dx, p[1] + qOff.dy]);
                     const counts = window.OmrEngine.readBubbleCol(threshWarped, colPts, 9);
-                    const innerCounts = gradeOptions.camera
-                      ? window.OmrEngine.readBubbleCol(threshWarped, colPts, 6)
-                      : counts;
-                    const { maxCount, maxIdx, filled, selected } = decideTlnColumn(counts, innerCounts);
-                    if (filled > 1) warnings.push(`Câu ${uiQ} tô nhiều ô`);
-                    else if (selected && maxCount < THRESH_FILLED) warnings.push(`Câu ${uiQ} tô mờ`);
-                    if (selected) fracStr += DIGITS[maxIdx];
+                    const innerCounts = window.OmrEngine.readBubbleCol(threshWarped, colPts, 6);
+                    const decision = decideTlnColumn(counts, innerCounts);
+                    if (decision.ambiguous) {
+                      warnings.push(`Câu ${uiQ} tô nhiều ô`);
+                      scanQuality.answerAmbiguous++;
+                      legacyInvalid = true;
+                    } else if (decision.selected) {
+                      if (decision.weak) {
+                        warnings.push(`Câu ${uiQ} tô mờ`);
+                        scanQuality.faintMarks++;
+                      }
+                      fracStr += DIGITS[decision.maxIdx];
+                    }
                   });
                   if (fracStr.length > 0) ansStr += "," + fracStr;
+                }
+                if (legacyInvalid) {
+                  ansStr = "";
+                  scanQuality.invalidShortAnswers++;
                 }
               }
               if (ansStr !== "" && ansStr !== "-") {
@@ -1032,6 +1207,41 @@ window.OmrEngine = {
 
         threshWarped.delete();
         grayWarped.delete();
+      }
+
+      if (engine !== 'gemini') {
+        const identityProblems = [];
+        if (template.sbd && String(geminiAns.sbd || '').includes('?')) {
+          identityProblems.push('số báo danh');
+        }
+        if (template.made && String(geminiAns.made || '').includes('?')) {
+          identityProblems.push('mã đề');
+        }
+
+        const answerUnits =
+          Number(template.numQ || 0) +
+          Number(template.numTf || (template.tf ? Object.keys(template.tf).length : 0)) * 4 +
+          Number(template.numTln || (template.tln ? Object.keys(template.tln).length : 0)) * 4;
+        const severeAnswerIssues =
+          scanQuality.answerAmbiguous +
+          scanQuality.invalidShortAnswers;
+        const severeLimit = Math.max(4, Math.ceil(answerUnits * 0.12));
+
+        // Fail closed when the perspective warp has clearly locked onto the
+        // wrong dark shapes. A cropped sheet used to produce many plausible but
+        // false answers; it is safer to ask for a new photo than return a score.
+        if (identityProblems.length > 0) {
+          throw new Error(
+            `Ảnh chưa đủ tin cậy để đọc ${identityProblems.join(' và ')}. ` +
+            'Hãy chụp lại đủ 4 marker, không cắt mép giấy và giữ phiếu phẳng.'
+          );
+        }
+        if (severeAnswerIssues >= severeLimit) {
+          throw new Error(
+            'Ảnh có quá nhiều vùng tô không rõ hoặc bị lệch sau khi căn chỉnh. ' +
+            'Hãy chụp gần hơn, đủ sáng và giữ trọn 4 marker trong khung.'
+          );
+        }
       }
 
 
@@ -1356,6 +1566,20 @@ window.OmrEngine = {
         autoComment: autoComment,
         wrongDetails: wrongDetails,
         answers: answerMap,
+        quality: {
+          needsReview: warnings.length > 0,
+          confidence: Number(Math.max(
+            0,
+            Math.min(
+              1,
+              1 -
+              scanQuality.faintMarks * 0.025 -
+              scanQuality.answerAmbiguous * 0.12 -
+              scanQuality.invalidShortAnswers * 0.18
+            )
+          ).toFixed(3)),
+          ...scanQuality
+        },
         // JPEG keeps a whole-class batch small enough to review/export on
         // phones. It only affects the annotated result image, never OMR input.
         imageDataURL: resultCanvas.toDataURL('image/jpeg', 0.88)

@@ -1,0 +1,1 @@
+#metadata(type(emoji)) <test>

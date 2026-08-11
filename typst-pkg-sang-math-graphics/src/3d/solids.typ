@@ -7,15 +7,12 @@
 #import "../core/utils.typ": deg-to-rad, range
 #import "../core/projections.typ": project-isometric
 
-/// Vẽ hình nón 3D với các anchor để người dùng móc nối thêm.
-/// - name (string): Tên nhóm để tham chiếu anchor.
-/// - radius (float): Bán kính đáy.
-/// - height (float): Chiều cao hình nón.
-/// - center (array): Tâm đáy (x, y, z).
-/// - samples (int): Số điểm trên đường tròn đáy.
-/// - stroke (stroke): Kiểu nét vẽ.
-/// - fill (color): Màu tô mặt bên.
-/// -> group
+/// Vẽ hình nón 3D với các anchor.
+/// - name: Tên namespace anchor.
+/// - radius: Bán kính đáy; `height`: chiều cao.
+/// - center: Tâm đáy `(x, y, z)`.
+/// - stroke: Kiểu nét; `fill`: màu tô thân nón hoặc `none`.
+/// - show-hidden: Có vẽ nửa sau của đáy bằng nét đứt hay không.
 #let draw-cone(
   name: "cone",
   radius: 2,
@@ -24,57 +21,50 @@
   samples: 64,
   stroke: black,
   fill: none,
+  show-hidden: true,
 ) = {
-  let (cx, cy, cz) = center
-  let top = (cx, cy, cz + height)
-
-  // Tạo các điểm trên đường tròn đáy
-  let base-pts = range(0, samples).map(i => {
-    let theta = 2 * calc.pi * i / (samples - 1)
-    let x = cx + radius * calc.cos(theta)
-    let y = cy + radius * calc.sin(theta)
-    (x, y, cz)
-  })
-
-  // Chiếu xuống 2D
-  let base-2d = base-pts.map(project-isometric)
-  let top-2d = project-isometric(top)
-  let center-2d = project-isometric(center)
+  let cx-cy = project-isometric(center)
+  let top-2d = project-isometric((center.at(0), center.at(1), center.at(2) + height))
+  // Tỉ lệ trục phối cảnh chuẩn SGK
+  let rx = radius
+  let ry = radius * 0.35
+  let left = (cx-cy.at(0) - rx, cx-cy.at(1))
+  let right = (cx-cy.at(0) + rx, cx-cy.at(1))
 
   draw.group(name: name, {
-    // Vẽ đáy (nét đứt phía sau, nét liền phía trước)
-    let half = int(samples / 2)
-    draw.line(..base-2d.slice(half, samples - 1), stroke: (paint: stroke, dash: "dashed"))
-    draw.line(..base-2d.slice(0, half + 1), stroke: stroke)
-
-    // Vẽ các đường sinh
-    draw.line(top-2d, base-2d.at(0), stroke: stroke)
-    draw.line(top-2d, base-2d.at(half), stroke: stroke)
-
-    // Tô mặt bên (tùy chọn)
     if fill != none {
-      draw.line(..base-2d, close: true, fill: fill, stroke: none)
-      draw.line(top-2d, ..base-2d, close: true, fill: fill, stroke: none)
+      draw.line(top-2d, right, left, close: true, fill: fill, stroke: none)
     }
 
-    // Định nghĩa anchor
+    // Vẽ đáy: nửa sau đứt, nửa trước liền
+    if show-hidden {
+      draw.arc(cx-cy, start: 0deg, stop: 180deg, radius: (rx, ry), stroke: (paint: stroke, dash: "dashed"))
+    }
+    draw.arc(cx-cy, start: 180deg, stop: 360deg, radius: (rx, ry), stroke: stroke)
+
+    // Hai đường sinh
+    draw.line(top-2d, left, stroke: stroke)
+    draw.line(top-2d, right, stroke: stroke)
+
+    draw.anchor("center", cx-cy)
+    draw.anchor("base-center", cx-cy)
+    draw.anchor("bottom-center", cx-cy)
     draw.anchor("top", top-2d)
-    draw.anchor("center", center-2d)
-    draw.anchor("front", base-2d.at(0))
-    draw.anchor("back", base-2d.at(half))
-    draw.anchor("left", base-2d.at(int(samples / 4)))
-    draw.anchor("right", base-2d.at(int(3 * samples / 4)))
+    draw.anchor("apex", top-2d)
+    draw.anchor("left", left)
+    draw.anchor("right", right)
+    // front/back là tên anchor cũ của package; giữ lại để không hỏng tài liệu.
+    draw.anchor("front", right)
+    draw.anchor("back", left)
   })
 }
 
-/// Vẽ hình trụ 3D với anchor.
-/// - name (string): Tên nhóm.
-/// - radius (float): Bán kính.
-/// - height (float): Chiều cao.
-/// - center (array): Tâm đáy.
-/// - samples (int): Số điểm trên đường tròn.
-/// - stroke (stroke): Kiểu nét vẽ.
-/// -> group
+/// Vẽ hình trụ 3D.
+/// - name: Tên namespace anchor.
+/// - radius: Bán kính đáy; `height`: chiều cao.
+/// - center: Tâm đáy `(x, y, z)`.
+/// - stroke: Kiểu nét; `fill`: màu tô thân trụ hoặc `none`.
+/// - show-hidden: Có vẽ nửa sau của đáy dưới bằng nét đứt hay không.
 #let draw-cylinder(
   name: "cylinder",
   radius: 2,
@@ -82,71 +72,97 @@
   center: (0, 0, 0),
   samples: 64,
   stroke: black,
+  fill: none,
+  show-hidden: true,
 ) = {
-  let (cx, cy, cz) = center
-  let top-center = (cx, cy, cz + height)
-
-  let base-pts = range(0, samples).map(i => {
-    let theta = 2 * calc.pi * i / (samples - 1)
-    (cx + radius * calc.cos(theta), cy + radius * calc.sin(theta), cz)
-  })
-  let top-pts = base-pts.map(pt => (pt.at(0), pt.at(1), cz + height))
-
-  let base-2d = base-pts.map(project-isometric)
-  let top-2d = top-pts.map(project-isometric)
-  let center-2d = project-isometric(center)
-  let top-center-2d = project-isometric(top-center)
+  let cx-cy = project-isometric(center)
+  let top-2d = project-isometric((center.at(0), center.at(1), center.at(2) + height))
+  let rx = radius
+  let ry = radius * 0.35
+  let left = (cx-cy.at(0) - rx, cx-cy.at(1))
+  let right = (cx-cy.at(0) + rx, cx-cy.at(1))
+  let top-left = (top-2d.at(0) - rx, top-2d.at(1))
+  let top-right = (top-2d.at(0) + rx, top-2d.at(1))
 
   draw.group(name: name, {
-    let half = int(samples / 2)
-    // Đáy
-    draw.line(..base-2d.slice(half, samples - 1), stroke: (paint: stroke, dash: "dashed"))
-    draw.line(..base-2d.slice(0, half + 1), stroke: stroke)
-    // Mặt trên
-    draw.line(..top-2d, stroke: stroke)
-    // Đường sinh
-    draw.line(base-2d.at(0), top-2d.at(0), stroke: stroke)
-    draw.line(base-2d.at(half), top-2d.at(half), stroke: stroke)
+    if fill != none {
+      draw.line((cx-cy.at(0) - rx, cx-cy.at(1)), (cx-cy.at(0) - rx, top-2d.at(1)), (cx-cy.at(0) + rx, top-2d.at(1)), (cx-cy.at(0) + rx, cx-cy.at(1)), close: true, fill: fill, stroke: none)
+      draw.arc(top-2d, start: 0deg, stop: 360deg, radius: (rx, ry), fill: fill, stroke: none)
+    }
 
-    // Anchor
-    draw.anchor("bottom-center", center-2d)
-    draw.anchor("top-center", top-center-2d)
-    draw.anchor("front", base-2d.at(0))
-    draw.anchor("back", base-2d.at(half))
+    // Đáy dưới
+    if show-hidden {
+      draw.arc(cx-cy, start: 0deg, stop: 180deg, radius: (rx, ry), stroke: (paint: stroke, dash: "dashed"))
+    }
+    draw.arc(cx-cy, start: 180deg, stop: 360deg, radius: (rx, ry), stroke: stroke)
+
+    // Đáy trên
+    draw.arc(top-2d, start: 0deg, stop: 360deg, radius: (rx, ry), stroke: stroke)
+
+    // Hai đường sinh hai bên
+    draw.line(left, top-left, stroke: stroke)
+    draw.line(right, top-right, stroke: stroke)
+
+    draw.anchor("bottom-center", cx-cy)
+    draw.anchor("bottom", cx-cy)
+    draw.anchor("center", ((cx-cy.at(0) + top-2d.at(0)) / 2, (cx-cy.at(1) + top-2d.at(1)) / 2))
+    draw.anchor("top-center", top-2d)
+    draw.anchor("top", top-2d)
+    draw.anchor("left", left)
+    draw.anchor("right", right)
+    // front/back là tên anchor cũ của package; giữ lại để không hỏng tài liệu.
+    draw.anchor("front", right)
+    draw.anchor("back", left)
   })
 }
 
-/// Vẽ hình cầu 3D dạng lưới.
-/// - name (string): Tên nhóm.
-/// - radius (float): Bán kính.
-/// - center (array): Tâm cầu.
-/// - samples (int): Số điểm trên mỗi vòng.
-/// - stroke (stroke): Kiểu nét vẽ.
-/// -> group
+/// Vẽ hình cầu 3D.
+/// - name: Tên namespace anchor.
+/// - radius: Bán kính; `center`: Tâm `(x, y, z)`.
+/// - fill: Màu tô mặt cầu hoặc `none`.
+/// - show-equator: Vẽ xích đạo; `show-meridian`: Vẽ kinh tuyến đứng.
+/// - show-hidden: Nửa khuất dùng nét đứt.
 #let draw-sphere(
   name: "sphere",
   radius: 2,
   center: (0, 0, 0),
-  samples: 32,
+  samples: 64,
   stroke: black,
+  fill: none,
+  show-equator: true,
+  show-meridian: false,
+  show-hidden: true,
 ) = {
+  let cx-cy = project-isometric(center)
+  let rx = radius
+  let ry = radius * 0.35
+
   draw.group(name: name, {
-    // Vòng ngang
-    let pts-h = range(0, samples).map(i => {
-      let theta = 2 * calc.pi * i / (samples - 1)
-      let pt = (center.at(0) + radius * calc.cos(theta), center.at(1) + radius * calc.sin(theta), center.at(2))
-      project-isometric(pt)
-    })
-    draw.line(..pts-h, close: true, stroke: stroke)
+    // Vòng tròn ngoài
+    draw.circle(cx-cy, radius: radius, fill: fill, stroke: stroke)
 
-    // Vòng đứng
-    let pts-v = range(0, samples).map(i => {
-      let theta = 2 * calc.pi * i / (samples - 1)
-      let pt = (center.at(0) + radius * calc.cos(theta), center.at(1), center.at(2) + radius * calc.sin(theta))
-      project-isometric(pt)
-    })
-    draw.line(..pts-v, close: true, stroke: stroke)
+    // Vòng xích đạo
+    if show-equator {
+      if show-hidden {
+        draw.arc(cx-cy, start: 0deg, stop: 180deg, radius: (rx, ry), stroke: (paint: stroke, dash: "dashed"))
+      }
+      draw.arc(cx-cy, start: 180deg, stop: 360deg, radius: (rx, ry), stroke: stroke)
+    }
 
-    draw.anchor("center", project-isometric(center))
+    // Kinh tuyến đứng tùy chọn.
+    if show-meridian {
+      if show-hidden {
+        draw.arc(cx-cy, start: 0deg, stop: 180deg, radius: (ry, rx), stroke: (paint: stroke, dash: "dashed"))
+      }
+      draw.arc(cx-cy, start: 180deg, stop: 360deg, radius: (ry, rx), stroke: stroke)
+    }
+
+    draw.circle(cx-cy, radius: 2.5pt, fill: black)
+
+    draw.anchor("center", cx-cy)
+    draw.anchor("top", (cx-cy.at(0), cx-cy.at(1) + radius))
+    draw.anchor("bottom", (cx-cy.at(0), cx-cy.at(1) - radius))
+    draw.anchor("left", (cx-cy.at(0) - radius, cx-cy.at(1)))
+    draw.anchor("right", (cx-cy.at(0) + radius, cx-cy.at(1)))
   })
 }

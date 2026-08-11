@@ -10,13 +10,22 @@ A comprehensive Typst package for typesetting Vietnamese High School Mathematics
 - **Geometry**: Built-in wrappers for CeTZ to easily draw 2D and 3D geometric figures.
 - **Presentations (Beamer)**: Create slides for teaching math with step-by-step reveals.
 - **Books & Workbooks**: Macros for typesetting books and workbooks with beautiful theorem and definition boxes.
+- **Duplex Draft Layout**: `layout-draft` creates a 70/30 exam page whose scratch margin alternates right/left on odd/even pages for double-sided printing.
 
 ## Usage
 
 ```typst
-#import "@preview/sang-math:1.0.0": *
+#import "@preview/sang-math:1.0.3": *
 
 // Your awesome math document
+```
+
+```typst
+#import "@preview/sang-math:1.0.3": layout-draft
+#show: layout-draft.with(nháp-pct: 30%)
+
+// Odd pages: scratch area on the right.
+// Even pages: scratch area on the left.
 ```
 
 ## Tác giả (Author)

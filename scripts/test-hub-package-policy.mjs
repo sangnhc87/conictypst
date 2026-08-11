@@ -24,17 +24,17 @@ test('mẫu public dùng import chính thức', () => {
   assert.equal(health.legacyImports, 0)
 })
 
-test('dự án Universe 1.0.0 vẫn là official nhưng được đánh dấu cần nâng cấp', () => {
-  const health = inspectSangMathProject(projectWith('#import "@preview/sang-math:1.0.0": *').files)
+test('dự án Universe 1.0.0 và 1.0.1 vẫn là official nhưng được đánh dấu cần nâng cấp', () => {
+  const health = inspectSangMathProject(projectWith('#import "@preview/sang-math:1.0.0": *\n#import "@preview/sang-math:1.0.1": *').files)
 
   assert.equal(health.mode, 'official')
-  assert.equal(health.officialImports, 1)
+  assert.equal(health.officialImports, 2)
   assert.equal(health.currentImports, 0)
-  assert.equal(health.outdatedImports, 1)
-  assert.deepEqual(health.officialVersions, ['1.0.0'])
+  assert.equal(health.outdatedImports, 2)
+  assert.deepEqual(health.officialVersions, ['1.0.0', '1.0.1'])
 })
 
-test('chỉ nâng cấp dòng import 1.0.0, không sửa comment, chuỗi hay phiên bản tương lai', () => {
+test('chỉ nâng cấp dòng import cũ, không sửa comment, chuỗi hay phiên bản tương lai', () => {
   const source = `#import "@preview/sang-math:1.0.0": *
 // Nhắc trong tài liệu: @preview/sang-math:1.0.0
 #let package-note = "@preview/sang-math:1.0.0"
@@ -47,7 +47,7 @@ test('chỉ nâng cấp dòng import 1.0.0, không sửa comment, chuỗi hay ph
   assert.match(content, /\/\/ Nhắc trong tài liệu: @preview\/sang-math:1\.0\.0/)
   assert.match(content, /#let package-note = "@preview\/sang-math:1\.0\.0"/)
   assert.match(content, /#import "@preview\/sang-math:2\.0\.0": geometry/)
-  assert.equal(SANG_MATH_VERSION, '1.0.1')
+  assert.equal(SANG_MATH_VERSION, '1.0.2')
 })
 
 test('nâng cấp nhiều module cũ thành một import Universe', () => {

@@ -1,7 +1,7 @@
 #import "../preamble.typ": *
 #import "../../../math-sym.typ": *
-
 #show math.frac: math.display
+
 
 #muc([Đề Luyện Tập Số 03])
 
@@ -653,5 +653,3 @@
     #step[Trung điểm của $A B$ thuộc trục $O y => x_I = (x_1 + x_2)/2 = 0 => (m - 1)/6 = 0 => m = 1$.]
   ]
 )
-
-

@@ -65,6 +65,14 @@ service cloud.firestore {
     match /examTeacherUsage/{document=**} { allow read, write: if false; }
     match /examAudit/{document=**} { allow read, write: if false; }
 
+    // Thống kê tổng hợp Studio (chỉ số đếm, KHÔNG chứa PII): cho đọc công khai
+    // để hiển thị "X giáo viên · Y tài liệu" trên web. Chỉ Cloud Function
+    // (Admin SDK, bỏ qua rules) được ghi; client không bao giờ ghi được.
+    match /stats/studio {
+      allow get: if true;
+      allow list, write: if false;
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }

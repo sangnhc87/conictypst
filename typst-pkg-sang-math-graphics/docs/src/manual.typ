@@ -1,5 +1,5 @@
 // Manual PDF cho Sang Math Graphics
-#import "@preview/cetz:0.5.2" as cetz
+#import "/lib.typ": smg-canvas, smg-draw, draw-cone, draw-truncated-pyramid, draw-saddle, draw-conical-helix, draw-square-cross-section, draw-half-elliptical-tunnel
 #set page(paper: "a4", margin: 2cm)
 #set text(font: "New Computer Modern", size: 11pt, lang: "vi")
 #set heading(numbering: "1.1")
@@ -17,6 +17,10 @@
 = Giới thiệu
 
 *Sang Math Graphics* là package Typst giúp vẽ các hình Toán phức tạp như hình nón, trụ, cầu, đường xoắn ốc, parabol, elip, hyperbol... Package được xây dựng trên nền CeTZ và hỗ trợ anchor để người dùng dễ dàng thêm nhãn, nét vẽ phụ.
+
+Quy tắc dùng: hàm `draw-*` đặt trong `smg-canvas`; các helper như `tri-abc`
+hoặc `phanghoa-tru` tự tạo canvas. `smg-draw` là namespace CeTZ dùng để thêm
+`line`, `circle`, `content` và các nét phụ.
 
 = Cài đặt
 
@@ -44,15 +48,17 @@ Vẽ parabol `y = a*x^2 + b*x + c`.
 
 === #raw("draw-cone")
 
-Vẽ hình nón 3D. *Anchor:* `top`, `center`, `front`, `back`, `left`, `right`.
+Vẽ hình nón 3D. *Anchor:* `top`/`apex`, `center`, `front`, `back`, `left`, `right`.
 
 === #raw("draw-cylinder")
 
-Vẽ hình trụ 3D. *Anchor:* `bottom-center`, `top-center`, `front`, `back`.
+Vẽ hình trụ 3D. *Anchor:* `bottom`/`bottom-center`, `top`/`top-center`,
+`center`, `front`, `back`, `left`, `right`.
 
 === #raw("draw-sphere")
 
-Vẽ hình cầu dạng lưới. *Anchor:* `center`.
+Vẽ hình cầu có xích đạo và kinh tuyến tùy chọn. *Anchor:* `center`, `top`,
+`bottom`, `left`, `right`.
 
 == 3D Polyhedra
 
@@ -102,52 +108,40 @@ Vật thể có mặt cắt vuông theo trục `Oy`.
 
 == Hình nón với anchor
 
-#cetz.canvas(length: 1cm, {
-  import cetz.draw: *
-  import "/lib.typ": draw-cone
+#smg-canvas(length: 1cm, {
   draw-cone(name: "N", radius: 2.5, height: 4, center: (0, 0, 0))
-  circle("N.top", radius: 0.06, fill: red)
-  content("N.top", [$S$], anchor: "south")
-  content("N.center", [$O$], anchor: "north")
+  smg-draw.circle("N.top", radius: 0.06, fill: red)
+  smg-draw.content("N.top", [$S$], anchor: "south")
+  smg-draw.content("N.center", [$O$], anchor: "north")
 })
 
 == Khối chóp cụt
 
-#cetz.canvas(length: 1cm, {
-  import cetz.draw: *
-  import "/lib.typ": draw-truncated-pyramid
+#smg-canvas(length: 1cm, {
   draw-truncated-pyramid(base-size: 4, top-size: 2, height: 3, center: (0, 0, 0))
 })
 
 == Mặt yên ngựa
 
-#cetz.canvas(length: 1.5cm, {
-  import cetz.draw: *
-  import "/lib.typ": draw-saddle
+#smg-canvas(length: 1.5cm, {
   draw-saddle(x-range: (-2, 2), y-range: (-2, 2), samples: 16, stroke: rgb("1A5276") + 0.6pt)
 })
 
 == Đường xoắn ốc trên nón
 
-#cetz.canvas(length: 1.2cm, {
-  import cetz.draw: *
-  import "/lib.typ": draw-cone, draw-conical-helix
+#smg-canvas(length: 1.2cm, {
   draw-cone(radius: 3, height: 5, center: (0, 0, 0), stroke: rgb("888"))
   draw-conical-helix(center: (0, 0, 0), base-radius: 3, height: 5, loops: 3, stroke: red + 1.5pt)
 })
 
 == Thể tích theo mặt cắt
 
-#cetz.canvas(length: 1cm, {
-  import cetz.draw: *
-  import "/lib.typ": draw-square-cross-section
+#smg-canvas(length: 1cm, {
   draw-square-cross-section(x => calc.pow(2, x), x-range: (0, 2), samples: 5)
 })
 
 == Đường hầm nửa elip
 
-#cetz.canvas(length: 0.5cm, {
-  import cetz.draw: *
-  import "/lib.typ": draw-half-elliptical-tunnel
+#smg-canvas(length: 0.5cm, {
   draw-half-elliptical-tunnel(length: 6, h-start: 4, h-end: 1, ratio: 3)
 })

@@ -1,0 +1,12 @@
+# PayOS — đặt secret thật trong Cloudflare Pages → Settings → Variables and Secrets.
+PAYOS_CLIENT_ID=
+PAYOS_API_KEY=
+PAYOS_CHECKSUM_KEY=
+
+# Firebase project stexgv. Dùng service account có quyền Firestore, không commit file JSON.
+FIREBASE_PROJECT_ID=stexgv
+FIREBASE_WEB_API_KEY=
+FIREBASE_SERVICE_ACCOUNT_JSON={}
+
+# URL production nhận kết quả PayOS. Local có thể bỏ trống để dùng origin hiện tại.
+PUBLIC_APP_ORIGIN=http://127.0.0.1:5173

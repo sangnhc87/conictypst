@@ -125,7 +125,7 @@ export function AuthProvider({ children }) {
     try {
       await signInWithPopup(identityAuth, provider);
     } catch (cause) {
-      if (['auth/popup-blocked', 'auth/operation-not-supported-in-this-environment'].includes(cause?.code)) {
+      if (['auth/popup-blocked', 'auth/operation-not-supported-in-this-environment', 'auth/popup-closed-by-user'].includes(cause?.code)) {
         await signInWithRedirect(identityAuth, provider);
         return;
       }

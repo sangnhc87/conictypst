@@ -49,7 +49,7 @@ export default defineConfig({
             ],
         },
         socialLinks: [
-            { icon: 'github', link: 'https://github.com/yourname/sang-math-graphics' },
+            { icon: 'github', link: 'https://github.com/sangnhc87/conictypst/tree/main/typst-pkg-sang-math-graphics' },
         ],
     },
 })

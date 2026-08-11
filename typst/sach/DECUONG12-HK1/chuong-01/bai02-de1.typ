@@ -1,7 +1,7 @@
 #import "../preamble.typ": *
 #import "../../../math-sym.typ": *
-
 #show math.frac: math.display
+
 
 #muc([Đề Luyện Tập Số 01])
 
@@ -1061,4 +1061,3 @@
     #step[*Bước 4:* Đề hỏi "sau bao nhiêu giây", ta đổi $20$ phút $= 20 times 60 = 1200$ giây.]
   ]
 )
-

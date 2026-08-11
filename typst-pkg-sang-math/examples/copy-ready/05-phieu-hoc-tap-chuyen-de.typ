@@ -1,6 +1,6 @@
 // MẪU 05 — PHIẾU HỌC TẬP / CHUYÊN ĐỀ
 
-#import "@preview/sang-math:1.0.1": *
+#import "@preview/sang-math:1.0.2": *
 
 #let theme = "workbook-jade"
 
@@ -60,4 +60,3 @@
 #summary-box(theme: theme)[
   Dấu của đạo hàm quyết định chiều biến thiên, nhưng kết luận luôn phải tôn trọng tập xác định.
 ]
-

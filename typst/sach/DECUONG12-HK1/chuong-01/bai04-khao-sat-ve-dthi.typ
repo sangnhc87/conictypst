@@ -19,4 +19,3 @@
 #dang("Mô hình hóa thực tiễn với đồ thị hàm số", mau: C1)
 #include "bai04-de-thucte.typ"
  
-

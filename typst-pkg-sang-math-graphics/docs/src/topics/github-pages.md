@@ -10,10 +10,10 @@ Package `sang-math-graphics` có workflow deploy riêng, **không ảnh hưởng
 
 ## URL
 
-Nếu repo của bạn là `https://github.com/yourname/conictypst`, thì package sẽ deploy tại:
+Với repository hiện tại `sangnhc87/conictypst`, package sẽ deploy tại:
 
 ```
-https://yourname.github.io/conictypst/sang-math-graphics/
+https://sangnhc87.github.io/conictypst/sang-math-graphics/
 ```
 
 Nhờ `base: '/sang-math-graphics/'` trong `docs/.vitepress/config.mjs`.

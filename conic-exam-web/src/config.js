@@ -2,7 +2,7 @@ export const APP_CONFIG = Object.freeze({
   region: import.meta.env.VITE_FIREBASE_REGION || 'asia-southeast1',
   ownerEmail: 'nguyensangnhc@gmail.com',
   productId: 'exam',
-  priceLabel: '100.000đ / 12 tháng',
+  priceLabel: '299.000đ / 12 tháng',
   identityFirebase: Object.freeze({
     apiKey: 'AIzaSyDwbd6q4EHUp_JouOD5K1a96yNxq_RTTfc',
     authDomain: 'conicgv.firebaseapp.com',

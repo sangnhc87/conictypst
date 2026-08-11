@@ -2,7 +2,7 @@
 layout: home
 
 hero:
-  name: "Sang-Math v1.0.1"
+  name: "Sang-Math v1.0.2"
   text: "Thư viện Hình Vẽ Toán Học"
   tagline: "Vẽ hình học Không Gian, Giải Tích, và Thống Kê chuẩn mực với Typst & CeTZ."
   actions:

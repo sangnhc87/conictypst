@@ -1,4 +1,4 @@
-const CACHE_NAME = 'omr-cache-v26-tln-vn-left-to-right';
+const CACHE_NAME = 'omr-cache-v37-scanner';
 const urlsToCache = [
   './index.html',
   './manifest.json',
@@ -9,12 +9,13 @@ const urlsToCache = [
   './opencv.js',
   './opencv.wasm',
   './js/tln_codec.js?v=1-vn-left-to-right',
-  './js/omr_engine.js?v=8.2-tln-vn-left-to-right',
+  './js/omr_engine.js?v=8.3-mobile-scan-quality',
   './js/omr_profiles.js',
   './js/omr_db.js?v=5-account-safe-outbox',
   './js/omr_cloud_sync.js?v=5-local-images-free-tier',
   './js/vendor/qrcode.js',
   './js/vendor/jsQR.js',
+  './js/vendor/jspdf.umd.min.js?v=2.5.1-local',
   './js/vendor/xlsx.full.min.js',
   './js/vendor/pdf.min.mjs',
   './js/vendor/pdf.worker.min.mjs',
@@ -51,6 +52,8 @@ self.addEventListener('activate', event => {
 
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
+  const requestUrl = new URL(event.request.url);
+  if (requestUrl.origin !== self.location.origin) return;
 
   event.respondWith((async () => {
     try {

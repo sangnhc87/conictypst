@@ -1,4 +1,4 @@
-# Bộ mẫu copy-ready cho sang-math 1.0.1
+# Bộ mẫu copy-ready cho sang-math 1.0.2
 
 Các file trong `copy-ready/` dùng import chính thức từ Typst Universe. Giáo viên
 có thể tải một file, đổi phần **CẤU HÌNH NHANH**, thay nội dung câu hỏi và biên
@@ -12,6 +12,7 @@ dịch ngay trên Typst.app, VS Code hoặc TypstConicHub.
 | `04-de-tu-luan-co-nhap.typ` | Đề tự luận có dòng trống/vùng nháp |
 | `05-phieu-hoc-tap-chuyen-de.typ` | Chuyên đề, lý thuyết, ví dụ và bài tập |
 | `06-de-co-bbt-va-hinh-cetz.typ` | Câu có bảng biến thiên và hình vector CeTZ |
+| `07-de-70-30-nhap-in-hai-mat.typ` | Đề in hai mặt: 70% nội dung, 30% nháp đổi bên chẵn/lẻ |
 
 ## Đổi đề học sinh sang bản lời giải
 
@@ -39,4 +40,3 @@ Sao chép prompt tại
 [`../PROMPT_AI_TAO_DE.md`](../PROMPT_AI_TAO_DE.md), điền chủ đề, mức độ và cấu
 trúc mong muốn. Yêu cầu AI chỉ thay vùng câu hỏi, giữ nguyên khối cấu hình đã
 biên dịch tốt.
-

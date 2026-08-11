@@ -261,6 +261,7 @@
       color: #3730a3;
     }
     .badge.cd { background: #ecfdf5; color: #047857; }
+    .badge.lesson-plan { background: #fef3c7; color: #92400e; }
     .badge.beamer { background: #eff6ff; color: #1d4ed8; }
     .badge.warn { background: #fff7ed; color: #c2410c; }
     .actions {
@@ -308,7 +309,7 @@
         <span class="brand-mark">A</span>
         <span>
           <strong>Sang Math Atlas</strong>
-          <small>Chuyên đề - Beamer - kế hoạch năm</small>
+          <small>Giáo án - chuyên đề - Beamer</small>
         </span>
       </a>
       <label class="search">
@@ -327,7 +328,7 @@
       <div>
         <p class="eyebrow">Kho học liệu sống</p>
         <h1>Atlas cho chuyên đề và bài giảng hằng năm</h1>
-        <p>Trang này đọc manifest sinh từ repo: chuyên đề <code>typst/exams/CD-*.typ</code> và bài giảng <code>typst/beamer/**/*.typ</code>. Mỗi năm chỉ cần thêm file, cập nhật metadata, chạy inventory lại.</p>
+        <p>Kho dùng ngay gồm giáo án lớp 10/12, chuyên đề nâng cao và slide Beamer. PDF được kiểm tra và đóng gói tự động từ nguồn Typst để không còn thẻ “Chưa có PDF” giả do sai pipeline.</p>
       </div>
       <div class="stats" id="stats"></div>
     </section>
@@ -335,6 +336,7 @@
     <section class="toolbar">
       <div class="segmented" id="kindTabs">
         <button type="button" data-kind="all" class="active">Tất cả</button>
+        <button type="button" data-kind="lesson-plan">Giáo án</button>
         <button type="button" data-kind="cd">Chuyên đề CD</button>
         <button type="button" data-kind="beamer">Beamer</button>
       </div>

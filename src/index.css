@@ -564,6 +564,46 @@ button {
 	font-size: 13px;
 }
 
+.pack-save-row {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 6px;
+	margin-bottom: 8px;
+}
+
+.saved-pack-list {
+	display: grid;
+	gap: 6px;
+}
+
+.saved-pack-row {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 6px;
+	align-items: stretch;
+}
+
+.saved-pack-row__load {
+	display: grid;
+	gap: 1px;
+	text-align: left;
+	padding: 8px 10px;
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
+	background: var(--surface-2);
+	color: var(--ink);
+}
+
+.saved-pack-row__load span {
+	font-size: 11px;
+	color: var(--muted);
+}
+
+.mini-btn--danger {
+	color: var(--danger);
+	padding-inline: 10px;
+}
+
 /* ── Taxonomy card ────────────────────────────────────────── */
 .taxonomy-card {
 	display: grid;
@@ -605,7 +645,14 @@ button {
 
 .radio-pill input,
 .toggle-pill input {
-	accent-color: var(--accent);
+	 accent-color: var(--accent);
+}
+
+.editor-checks {
+	display: flex;
+	gap: 8px;
+	flex-wrap: wrap;
+	margin: 2px 0 12px;
 }
 
 .visually-hidden {
@@ -684,4 +731,151 @@ button {
 	.catalog-row__actions {
 		padding: 0 12px 12px;
 	}
+}
+
+/* ── Smart Tree View (Bank UI) ───────────────────────────── */
+.view-mode-tabs {
+	display: flex;
+	gap: 4px;
+	background: var(--surface-2);
+	padding: 4px;
+	border-radius: var(--radius);
+	border: 1px solid var(--line);
+}
+
+.view-mode-tabs .action-btn {
+	padding: 4px 10px;
+	border: none;
+	background: transparent;
+	font-size: 12px;
+	color: var(--muted);
+	border-radius: 6px;
+	transition: all 0.2s ease;
+}
+
+.view-mode-tabs .action-btn:hover {
+	background: rgba(0,0,0,0.04);
+	color: var(--ink);
+}
+
+.view-mode-tabs .action-btn--accent {
+	background: var(--surface);
+	color: var(--ink);
+	font-weight: 600;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.catalog-list--tree,
+.catalog-list--grouped {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.smart-tree-node {
+	background: transparent;
+}
+
+.smart-tree-summary {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 8px 10px;
+	cursor: pointer;
+	list-style: none; /* Hide default arrow in some browsers */
+	user-select: none;
+	border-radius: var(--radius);
+	transition: background 0.15s ease;
+}
+
+.smart-tree-summary::-webkit-details-marker {
+	display: none; /* Hide default arrow in Safari/Chrome */
+}
+
+.smart-tree-summary:hover {
+	background: var(--surface-2);
+}
+
+.smart-tree-summary::before {
+	content: '▶';
+	font-size: 10px;
+	color: var(--muted);
+	transition: transform 0.2s ease;
+	display: inline-block;
+}
+
+.smart-tree-node[open] > .smart-tree-summary::before {
+	transform: rotate(90deg);
+}
+
+.smart-tree-summary strong {
+	font-size: 13px;
+	color: var(--ink);
+	font-weight: 600;
+}
+
+.smart-tree-summary .node-count {
+	margin-left: auto;
+	font-size: 11px;
+	color: var(--muted);
+	background: var(--surface);
+	padding: 2px 8px;
+	border-radius: 999px;
+	border: 1px solid var(--line);
+	font-weight: 500;
+}
+
+.folder-icon {
+	font-size: 15px;
+	opacity: 0.9;
+}
+
+/* Level Indentation & Aesthetics */
+.smart-tree-children {
+	padding-left: 20px;
+	margin-left: 12px;
+	border-left: 1px solid var(--line);
+	margin-top: 4px;
+	margin-bottom: 8px;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	animation: slideDown 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideDown {
+	from { opacity: 0; transform: translateY(-4px); }
+	to { opacity: 1; transform: translateY(0); }
+}
+
+.level-grade > .smart-tree-summary strong { font-size: 14px; }
+.level-branch > .smart-tree-summary strong { color: var(--accent); }
+.level-chapter > .smart-tree-summary strong { font-weight: 500; }
+.level-lesson > .smart-tree-summary strong { font-weight: 500; font-size: 12px; }
+
+.exam-group-node {
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
+	background: var(--surface);
+	margin-bottom: 4px;
+}
+
+.exam-group-node > .smart-tree-summary {
+	background: var(--surface-2);
+	border-radius: var(--radius);
+}
+
+.exam-group-node[open] > .smart-tree-summary {
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+	border-bottom: 1px solid var(--line);
+}
+
+/* Grid for the actual items inside the tree/groups */
+.catalog-grid {
+	display: grid;
+	gap: 8px;
+	padding: 8px;
+	border-left: none;
+	margin-left: 0;
 }

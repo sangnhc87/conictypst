@@ -1,7 +1,7 @@
 #import "../preamble.typ": *
 #import "../../../math-sym.typ": *
-
 #show math.frac: math.display
+
 
 #let draw-ellipse(cx, cy, rx, ry, stroke: 1pt, style: "solid") = {
   let stroke-val = stroke

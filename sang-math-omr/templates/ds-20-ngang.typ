@@ -129,24 +129,25 @@
 #v(4pt)
 #block(width:100%, stroke:(paint:rgb("#666666"),thickness:0.8pt,dash:"dashed"), radius:4pt, clip:true, [
   #rect(width:100%, height:16pt, [#align(center+horizon)[#text(8pt, weight:"bold")[PHẦN II – ĐÚNG / SAI (20 câu, mỗi câu 4 ý a/b/c/d)]]])
-  #scale(x: 88%, y: 88%, origin: top)[\n  #block(
-    inset: (top: 8pt, bottom: 8pt, left: 10pt, right: 10pt),
+  #scale(x: 88%, y: 88%, origin: top)[
+  #block(
+    inset: (top: 3pt, bottom: 3pt, left: 8pt, right: 8pt),
     grid(
       columns: (1fr,) * 5,
-      row-gutter: 4pt,
-      column-gutter: 8pt,
+      row-gutter: 1pt,
+      column-gutter: 5pt,
       grid(
         columns: (15pt, 16pt, 16pt),
-        row-gutter: 2.5pt,
-        column-gutter: 3pt,
+        row-gutter: 1pt,
+        column-gutter: 2pt,
         align: center + horizon,
         grid.cell(colspan: 3, align: left + horizon)[
-          #stack(dir: ltr, spacing: 4pt,
-            tracking-marker,
-            text(size: 8pt, weight: "bold")[Câu 1]
+          #stack(dir: ltr, spacing: 1pt,
+            box(fill: black, width: 7pt, height: 7pt),
+            text(size: 7pt, weight: "bold")[Câu 1]
           )
         ],
-        none, text(size: 7.5pt, weight: "bold")[Đ], text(size: 7.5pt, weight: "bold")[S],
+        none, text(size: 7pt, weight: "bold")[Đ], text(size: 7pt, weight: "bold")[S],
         [a)], bubble(""), bubble(""),
         [b)], bubble(""), bubble(""),
         [c)], bubble(""), bubble(""),
@@ -154,16 +155,16 @@
       ),
       grid(
         columns: (15pt, 16pt, 16pt),
-        row-gutter: 2.5pt,
-        column-gutter: 3pt,
+        row-gutter: 1pt,
+        column-gutter: 2pt,
         align: center + horizon,
         grid.cell(colspan: 3, align: left + horizon)[
-          #stack(dir: ltr, spacing: 4pt,
-            tracking-marker,
-            text(size: 8pt, weight: "bold")[Câu 6]
+          #stack(dir: ltr, spacing: 1pt,
+            box(fill: black, width: 7pt, height: 7pt),
+            text(size: 7pt, weight: "bold")[Câu 2]
           )
         ],
-        none, text(size: 7.5pt, weight: "bold")[Đ], text(size: 7.5pt, weight: "bold")[S],
+        none, text(size: 7pt, weight: "bold")[Đ], text(size: 7pt, weight: "bold")[S],
         [a)], bubble(""), bubble(""),
         [b)], bubble(""), bubble(""),
         [c)], bubble(""), bubble(""),
@@ -171,16 +172,16 @@
       ),
       grid(
         columns: (15pt, 16pt, 16pt),
-        row-gutter: 2.5pt,
-        column-gutter: 3pt,
+        row-gutter: 1pt,
+        column-gutter: 2pt,
         align: center + horizon,
         grid.cell(colspan: 3, align: left + horizon)[
-          #stack(dir: ltr, spacing: 4pt,
-            tracking-marker,
-            text(size: 8pt, weight: "bold")[Câu 11]
+          #stack(dir: ltr, spacing: 1pt,
+            box(fill: black, width: 7pt, height: 7pt),
+            text(size: 7pt, weight: "bold")[Câu 3]
           )
         ],
-        none, text(size: 7.5pt, weight: "bold")[Đ], text(size: 7.5pt, weight: "bold")[S],
+        none, text(size: 7pt, weight: "bold")[Đ], text(size: 7pt, weight: "bold")[S],
         [a)], bubble(""), bubble(""),
         [b)], bubble(""), bubble(""),
         [c)], bubble(""), bubble(""),
@@ -188,16 +189,16 @@
       ),
       grid(
         columns: (15pt, 16pt, 16pt),
-        row-gutter: 2.5pt,
-        column-gutter: 3pt,
+        row-gutter: 1pt,
+        column-gutter: 2pt,
         align: center + horizon,
         grid.cell(colspan: 3, align: left + horizon)[
-          #stack(dir: ltr, spacing: 4pt,
-            tracking-marker,
-            text(size: 8pt, weight: "bold")[Câu 16]
+          #stack(dir: ltr, spacing: 1pt,
+            box(fill: black, width: 7pt, height: 7pt),
+            text(size: 7pt, weight: "bold")[Câu 4]
           )
         ],
-        none, text(size: 7.5pt, weight: "bold")[Đ], text(size: 7.5pt, weight: "bold")[S],
+        none, text(size: 7pt, weight: "bold")[Đ], text(size: 7pt, weight: "bold")[S],
         [a)], bubble(""), bubble(""),
         [b)], bubble(""), bubble(""),
         [c)], bubble(""), bubble(""),
@@ -205,16 +206,16 @@
       ),
       grid(
         columns: (15pt, 16pt, 16pt),
-        row-gutter: 2.5pt,
-        column-gutter: 3pt,
+        row-gutter: 1pt,
+        column-gutter: 2pt,
         align: center + horizon,
         grid.cell(colspan: 3, align: left + horizon)[
-          #stack(dir: ltr, spacing: 4pt,
-            tracking-marker,
-            text(size: 8pt, weight: "bold")[Câu 2]
+          #stack(dir: ltr, spacing: 1pt,
+            box(fill: black, width: 7pt, height: 7pt),
+            text(size: 7pt, weight: "bold")[Câu 5]
           )
         ],
-        none, text(size: 7.5pt, weight: "bold")[Đ], text(size: 7.5pt, weight: "bold")[S],
+        none, text(size: 7pt, weight: "bold")[Đ], text(size: 7pt, weight: "bold")[S],
         [a)], bubble(""), bubble(""),
         [b)], bubble(""), bubble(""),
         [c)], bubble(""), bubble(""),
@@ -222,16 +223,16 @@
       ),
       grid(
         columns: (15pt, 16pt, 16pt),
-        row-gutter: 2.5pt,
-        column-gutter: 3pt,
+        row-gutter: 1pt,
+        column-gutter: 2pt,
         align: center + horizon,
         grid.cell(colspan: 3, align: left + horizon)[
-          #stack(dir: ltr, spacing: 4pt,
-            tracking-marker,
-            text(size: 8pt, weight: "bold")[Câu 7]
+          #stack(dir: ltr, spacing: 1pt,
+            box(fill: black, width: 7pt, height: 7pt),
+            text(size: 7pt, weight: "bold")[Câu 6]
           )
         ],
-        none, text(size: 7.5pt, weight: "bold")[Đ], text(size: 7.5pt, weight: "bold")[S],
+        none, text(size: 7pt, weight: "bold")[Đ], text(size: 7pt, weight: "bold")[S],
         [a)], bubble(""), bubble(""),
         [b)], bubble(""), bubble(""),
         [c)], bubble(""), bubble(""),
@@ -239,16 +240,16 @@
       ),
       grid(
         columns: (15pt, 16pt, 16pt),
-        row-gutter: 2.5pt,
-        column-gutter: 3pt,
+        row-gutter: 1pt,
+        column-gutter: 2pt,
         align: center + horizon,
         grid.cell(colspan: 3, align: left + horizon)[
-          #stack(dir: ltr, spacing: 4pt,
-            tracking-marker,
-            text(size: 8pt, weight: "bold")[Câu 12]
+          #stack(dir: ltr, spacing: 1pt,
+            box(fill: black, width: 7pt, height: 7pt),
+            text(size: 7pt, weight: "bold")[Câu 7]
           )
         ],
-        none, text(size: 7.5pt, weight: "bold")[Đ], text(size: 7.5pt, weight: "bold")[S],
+        none, text(size: 7pt, weight: "bold")[Đ], text(size: 7pt, weight: "bold")[S],
         [a)], bubble(""), bubble(""),
         [b)], bubble(""), bubble(""),
         [c)], bubble(""), bubble(""),
@@ -256,16 +257,16 @@
       ),
       grid(
         columns: (15pt, 16pt, 16pt),
-        row-gutter: 2.5pt,
-        column-gutter: 3pt,
+        row-gutter: 1pt,
+        column-gutter: 2pt,
         align: center + horizon,
         grid.cell(colspan: 3, align: left + horizon)[
-          #stack(dir: ltr, spacing: 4pt,
-            tracking-marker,
-            text(size: 8pt, weight: "bold")[Câu 17]
+          #stack(dir: ltr, spacing: 1pt,
+            box(fill: black, width: 7pt, height: 7pt),
+            text(size: 7pt, weight: "bold")[Câu 8]
           )
         ],
-        none, text(size: 7.5pt, weight: "bold")[Đ], text(size: 7.5pt, weight: "bold")[S],
+        none, text(size: 7pt, weight: "bold")[Đ], text(size: 7pt, weight: "bold")[S],
         [a)], bubble(""), bubble(""),
         [b)], bubble(""), bubble(""),
         [c)], bubble(""), bubble(""),
@@ -273,16 +274,16 @@
       ),
       grid(
         columns: (15pt, 16pt, 16pt),
-        row-gutter: 2.5pt,
-        column-gutter: 3pt,
+        row-gutter: 1pt,
+        column-gutter: 2pt,
         align: center + horizon,
         grid.cell(colspan: 3, align: left + horizon)[
-          #stack(dir: ltr, spacing: 4pt,
-            tracking-marker,
-            text(size: 8pt, weight: "bold")[Câu 3]
+          #stack(dir: ltr, spacing: 1pt,
+            box(fill: black, width: 7pt, height: 7pt),
+            text(size: 7pt, weight: "bold")[Câu 9]
           )
         ],
-        none, text(size: 7.5pt, weight: "bold")[Đ], text(size: 7.5pt, weight: "bold")[S],
+        none, text(size: 7pt, weight: "bold")[Đ], text(size: 7pt, weight: "bold")[S],
         [a)], bubble(""), bubble(""),
         [b)], bubble(""), bubble(""),
         [c)], bubble(""), bubble(""),
@@ -290,16 +291,16 @@
       ),
       grid(
         columns: (15pt, 16pt, 16pt),
-        row-gutter: 2.5pt,
-        column-gutter: 3pt,
+        row-gutter: 1pt,
+        column-gutter: 2pt,
         align: center + horizon,
         grid.cell(colspan: 3, align: left + horizon)[
-          #stack(dir: ltr, spacing: 4pt,
-            tracking-marker,
-            text(size: 8pt, weight: "bold")[Câu 8]
+          #stack(dir: ltr, spacing: 1pt,
+            box(fill: black, width: 7pt, height: 7pt),
+            text(size: 7pt, weight: "bold")[Câu 10]
           )
         ],
-        none, text(size: 7.5pt, weight: "bold")[Đ], text(size: 7.5pt, weight: "bold")[S],
+        none, text(size: 7pt, weight: "bold")[Đ], text(size: 7pt, weight: "bold")[S],
         [a)], bubble(""), bubble(""),
         [b)], bubble(""), bubble(""),
         [c)], bubble(""), bubble(""),
@@ -307,16 +308,16 @@
       ),
       grid(
         columns: (15pt, 16pt, 16pt),
-        row-gutter: 2.5pt,
-        column-gutter: 3pt,
+        row-gutter: 1pt,
+        column-gutter: 2pt,
         align: center + horizon,
         grid.cell(colspan: 3, align: left + horizon)[
-          #stack(dir: ltr, spacing: 4pt,
-            tracking-marker,
-            text(size: 8pt, weight: "bold")[Câu 13]
+          #stack(dir: ltr, spacing: 1pt,
+            box(fill: black, width: 7pt, height: 7pt),
+            text(size: 7pt, weight: "bold")[Câu 11]
           )
         ],
-        none, text(size: 7.5pt, weight: "bold")[Đ], text(size: 7.5pt, weight: "bold")[S],
+        none, text(size: 7pt, weight: "bold")[Đ], text(size: 7pt, weight: "bold")[S],
         [a)], bubble(""), bubble(""),
         [b)], bubble(""), bubble(""),
         [c)], bubble(""), bubble(""),
@@ -324,16 +325,16 @@
       ),
       grid(
         columns: (15pt, 16pt, 16pt),
-        row-gutter: 2.5pt,
-        column-gutter: 3pt,
+        row-gutter: 1pt,
+        column-gutter: 2pt,
         align: center + horizon,
         grid.cell(colspan: 3, align: left + horizon)[
-          #stack(dir: ltr, spacing: 4pt,
-            tracking-marker,
-            text(size: 8pt, weight: "bold")[Câu 18]
+          #stack(dir: ltr, spacing: 1pt,
+            box(fill: black, width: 7pt, height: 7pt),
+            text(size: 7pt, weight: "bold")[Câu 12]
           )
         ],
-        none, text(size: 7.5pt, weight: "bold")[Đ], text(size: 7.5pt, weight: "bold")[S],
+        none, text(size: 7pt, weight: "bold")[Đ], text(size: 7pt, weight: "bold")[S],
         [a)], bubble(""), bubble(""),
         [b)], bubble(""), bubble(""),
         [c)], bubble(""), bubble(""),
@@ -341,16 +342,16 @@
       ),
       grid(
         columns: (15pt, 16pt, 16pt),
-        row-gutter: 2.5pt,
-        column-gutter: 3pt,
+        row-gutter: 1pt,
+        column-gutter: 2pt,
         align: center + horizon,
         grid.cell(colspan: 3, align: left + horizon)[
-          #stack(dir: ltr, spacing: 4pt,
-            tracking-marker,
-            text(size: 8pt, weight: "bold")[Câu 4]
+          #stack(dir: ltr, spacing: 1pt,
+            box(fill: black, width: 7pt, height: 7pt),
+            text(size: 7pt, weight: "bold")[Câu 13]
           )
         ],
-        none, text(size: 7.5pt, weight: "bold")[Đ], text(size: 7.5pt, weight: "bold")[S],
+        none, text(size: 7pt, weight: "bold")[Đ], text(size: 7pt, weight: "bold")[S],
         [a)], bubble(""), bubble(""),
         [b)], bubble(""), bubble(""),
         [c)], bubble(""), bubble(""),
@@ -358,16 +359,16 @@
       ),
       grid(
         columns: (15pt, 16pt, 16pt),
-        row-gutter: 2.5pt,
-        column-gutter: 3pt,
+        row-gutter: 1pt,
+        column-gutter: 2pt,
         align: center + horizon,
         grid.cell(colspan: 3, align: left + horizon)[
-          #stack(dir: ltr, spacing: 4pt,
-            tracking-marker,
-            text(size: 8pt, weight: "bold")[Câu 9]
+          #stack(dir: ltr, spacing: 1pt,
+            box(fill: black, width: 7pt, height: 7pt),
+            text(size: 7pt, weight: "bold")[Câu 14]
           )
         ],
-        none, text(size: 7.5pt, weight: "bold")[Đ], text(size: 7.5pt, weight: "bold")[S],
+        none, text(size: 7pt, weight: "bold")[Đ], text(size: 7pt, weight: "bold")[S],
         [a)], bubble(""), bubble(""),
         [b)], bubble(""), bubble(""),
         [c)], bubble(""), bubble(""),
@@ -375,16 +376,16 @@
       ),
       grid(
         columns: (15pt, 16pt, 16pt),
-        row-gutter: 2.5pt,
-        column-gutter: 3pt,
+        row-gutter: 1pt,
+        column-gutter: 2pt,
         align: center + horizon,
         grid.cell(colspan: 3, align: left + horizon)[
-          #stack(dir: ltr, spacing: 4pt,
-            tracking-marker,
-            text(size: 8pt, weight: "bold")[Câu 14]
+          #stack(dir: ltr, spacing: 1pt,
+            box(fill: black, width: 7pt, height: 7pt),
+            text(size: 7pt, weight: "bold")[Câu 15]
           )
         ],
-        none, text(size: 7.5pt, weight: "bold")[Đ], text(size: 7.5pt, weight: "bold")[S],
+        none, text(size: 7pt, weight: "bold")[Đ], text(size: 7pt, weight: "bold")[S],
         [a)], bubble(""), bubble(""),
         [b)], bubble(""), bubble(""),
         [c)], bubble(""), bubble(""),
@@ -392,16 +393,16 @@
       ),
       grid(
         columns: (15pt, 16pt, 16pt),
-        row-gutter: 2.5pt,
-        column-gutter: 3pt,
+        row-gutter: 1pt,
+        column-gutter: 2pt,
         align: center + horizon,
         grid.cell(colspan: 3, align: left + horizon)[
-          #stack(dir: ltr, spacing: 4pt,
-            tracking-marker,
-            text(size: 8pt, weight: "bold")[Câu 19]
+          #stack(dir: ltr, spacing: 1pt,
+            box(fill: black, width: 7pt, height: 7pt),
+            text(size: 7pt, weight: "bold")[Câu 16]
           )
         ],
-        none, text(size: 7.5pt, weight: "bold")[Đ], text(size: 7.5pt, weight: "bold")[S],
+        none, text(size: 7pt, weight: "bold")[Đ], text(size: 7pt, weight: "bold")[S],
         [a)], bubble(""), bubble(""),
         [b)], bubble(""), bubble(""),
         [c)], bubble(""), bubble(""),
@@ -409,16 +410,16 @@
       ),
       grid(
         columns: (15pt, 16pt, 16pt),
-        row-gutter: 2.5pt,
-        column-gutter: 3pt,
+        row-gutter: 1pt,
+        column-gutter: 2pt,
         align: center + horizon,
         grid.cell(colspan: 3, align: left + horizon)[
-          #stack(dir: ltr, spacing: 4pt,
-            tracking-marker,
-            text(size: 8pt, weight: "bold")[Câu 5]
+          #stack(dir: ltr, spacing: 1pt,
+            box(fill: black, width: 7pt, height: 7pt),
+            text(size: 7pt, weight: "bold")[Câu 17]
           )
         ],
-        none, text(size: 7.5pt, weight: "bold")[Đ], text(size: 7.5pt, weight: "bold")[S],
+        none, text(size: 7pt, weight: "bold")[Đ], text(size: 7pt, weight: "bold")[S],
         [a)], bubble(""), bubble(""),
         [b)], bubble(""), bubble(""),
         [c)], bubble(""), bubble(""),
@@ -426,16 +427,16 @@
       ),
       grid(
         columns: (15pt, 16pt, 16pt),
-        row-gutter: 2.5pt,
-        column-gutter: 3pt,
+        row-gutter: 1pt,
+        column-gutter: 2pt,
         align: center + horizon,
         grid.cell(colspan: 3, align: left + horizon)[
-          #stack(dir: ltr, spacing: 4pt,
-            tracking-marker,
-            text(size: 8pt, weight: "bold")[Câu 10]
+          #stack(dir: ltr, spacing: 1pt,
+            box(fill: black, width: 7pt, height: 7pt),
+            text(size: 7pt, weight: "bold")[Câu 18]
           )
         ],
-        none, text(size: 7.5pt, weight: "bold")[Đ], text(size: 7.5pt, weight: "bold")[S],
+        none, text(size: 7pt, weight: "bold")[Đ], text(size: 7pt, weight: "bold")[S],
         [a)], bubble(""), bubble(""),
         [b)], bubble(""), bubble(""),
         [c)], bubble(""), bubble(""),
@@ -443,16 +444,16 @@
       ),
       grid(
         columns: (15pt, 16pt, 16pt),
-        row-gutter: 2.5pt,
-        column-gutter: 3pt,
+        row-gutter: 1pt,
+        column-gutter: 2pt,
         align: center + horizon,
         grid.cell(colspan: 3, align: left + horizon)[
-          #stack(dir: ltr, spacing: 4pt,
-            tracking-marker,
-            text(size: 8pt, weight: "bold")[Câu 15]
+          #stack(dir: ltr, spacing: 1pt,
+            box(fill: black, width: 7pt, height: 7pt),
+            text(size: 7pt, weight: "bold")[Câu 19]
           )
         ],
-        none, text(size: 7.5pt, weight: "bold")[Đ], text(size: 7.5pt, weight: "bold")[S],
+        none, text(size: 7pt, weight: "bold")[Đ], text(size: 7pt, weight: "bold")[S],
         [a)], bubble(""), bubble(""),
         [b)], bubble(""), bubble(""),
         [c)], bubble(""), bubble(""),
@@ -460,16 +461,16 @@
       ),
       grid(
         columns: (15pt, 16pt, 16pt),
-        row-gutter: 2.5pt,
-        column-gutter: 3pt,
+        row-gutter: 1pt,
+        column-gutter: 2pt,
         align: center + horizon,
         grid.cell(colspan: 3, align: left + horizon)[
-          #stack(dir: ltr, spacing: 4pt,
-            tracking-marker,
-            text(size: 8pt, weight: "bold")[Câu 20]
+          #stack(dir: ltr, spacing: 1pt,
+            box(fill: black, width: 7pt, height: 7pt),
+            text(size: 7pt, weight: "bold")[Câu 20]
           )
         ],
-        none, text(size: 7.5pt, weight: "bold")[Đ], text(size: 7.5pt, weight: "bold")[S],
+        none, text(size: 7pt, weight: "bold")[Đ], text(size: 7pt, weight: "bold")[S],
         [a)], bubble(""), bubble(""),
         [b)], bubble(""), bubble(""),
         [c)], bubble(""), bubble(""),
@@ -477,7 +478,8 @@
       )
     )
   )
-  ]\n])
+  ]
+])
 
 
 // ── TỰ LUẬN VIẾT TAY ────────────────────────────────────────

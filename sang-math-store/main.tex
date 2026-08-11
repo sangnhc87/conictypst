@@ -1,0 +1,73 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{vietnam}
+\usepackage{lmodern} % Font New Computer Modern chuẩn, thanh lịch
+\usepackage{amsmath,amssymb}
+\usepackage[margin=1.5cm]{geometry}
+\usepackage{lastpage}
+
+% ======================================================================
+% CẤU HÌNH GÓI EX_TEST (BẬT/TẮT LỜI GIẢI DỄ DÀNG)
+% ======================================================================
+% [dethi]    : Dành cho học sinh (Chỉ in đề, ẩn đáp án)
+% [loigiai]  : Dành cho giáo viên (In đề & lời giải chữ đen)
+% [solcolor] : Dành cho giáo viên (In đề & lời giải chữ xanh)
+% ======================================================================
+\usepackage[dethi]{ex_test}  
+
+% Gọi giao diện cao cấp Sang Math (Ẩn toàn bộ các lệnh cấu hình phức tạp)
+\usepackage{sangmath-theme}
+
+\begin{document}
+
+% ======================================================================
+% HEADER ĐỀ THI TỐI GIẢN (KHÔNG DƯ THỪA - RẤT CHUYÊN NGHIỆP)
+% ======================================================================
+\begin{center}
+    \textbf{\textcolor{AccentColor}{\small TRƯỜNG THPT SANG MATH}}\\[5pt]
+    \textbf{\Large ĐỀ KIỂM TRA TOÁN 12}\\[3pt]
+    \textit{\small Thời gian làm bài: 45 phút \quad $\bullet$ \quad Trang 1/\pageref{LastPage}}
+\end{center}
+\vspace{2pt}
+\noindent\textcolor{AccentColor}{\rule{\textwidth}{1pt}}
+\vspace{10pt}
+
+% ======================================================================
+% NỘI DUNG CÂU HỎI
+% ======================================================================
+\begin{ex}
+Tập xác định của hàm số $y = \frac{1}{x-1}$ là
+\choice{$\mathbb{R}$}{\True $\mathbb{R} \setminus \{1\}$}{$(1; +\infty)$}{$\mathbb{R} \setminus \{0\}$}
+\loigiai{
+    Hàm số xác định khi $x - 1 \neq 0 \Leftrightarrow x \neq 1$. \\
+    Vậy tập xác định là $D = \mathbb{R} \setminus \{1\}$.
+}
+\end{ex}
+
+\begin{ex}
+Nghiệm của phương trình $2^x=8$ là
+\choice{$x = 1$}{$x = 2$}{\True $x = 3$}{$x = 4$}
+\loigiai{
+    Ta có $2^x = 8 \Leftrightarrow 2^x = 2^3 \Leftrightarrow x = 3$.
+}
+\end{ex}
+
+\begin{ex}
+Giá trị lớn nhất của hàm số $y=-x^2+4x$ bằng
+\choice{$2$}{\True $4$}{$0$}{$-4$}
+\loigiai{
+    Hàm số bậc hai có hệ số $a=-1 < 0$ nên đạt giá trị lớn nhất tại đỉnh parabol. \\
+    Hoành độ đỉnh $x = -\frac{b}{2a} = 2$. \\
+    Suy ra $\max y = y(2) = -(2)^2 + 4(2) = 4$.
+}
+\end{ex}
+
+\begin{ex}
+Tính tích phân $\int_0^1 2x \, \mathrm{d}x$.
+\choice{$0$}{\True $1$}{$2$}{$-1$}
+\loigiai{
+    Áp dụng công thức cơ bản:
+    \[ \int_0^1 2x \, \mathrm{d}x = x^2 \Big|_0^1 = 1^2 - 0^2 = 1. \]
+}
+\end{ex}
+
+\end{document}

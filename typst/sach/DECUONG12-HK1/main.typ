@@ -24,8 +24,8 @@
 // ═══════════════════════════════════════════════════════════════════
 
 #import "preamble.typ": *
-
 #show math.frac: math.display
+
 
 // ─── CẤU HÌNH CHUNG (chỉnh sửa tại đây) ─────────────────────────
 #show: de-cuong.with(

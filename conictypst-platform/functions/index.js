@@ -76,6 +76,10 @@ const db = getFirestore(targetApp);
 db.settings({ ignoreUndefinedProperties: true });
 const targetAuth = getAuth(targetApp);
 const conicgvAuth = getAuth(conicgvVerifierApp);
+const {
+  claimPendingStudioStoreGrants,
+  studioStoreGrant,
+} = require('./store-grant');
 
 const CALLABLE_OPTIONS = Object.freeze({
   cors: true,
@@ -276,6 +280,7 @@ exports.ctGetAccount = onCall(CALLABLE_OPTIONS, async (request) => {
     }
     const ownerByAllowlist = isVerifiedBootstrapOwner(authContext);
     if (ownerByAllowlist) await ensureBootstrapOwner(authContext);
+    await claimPendingStudioStoreGrants(authContext);
 
     const [profile, admin, ...membershipSnapshots] = await Promise.all([
       upsertUserProfile(authContext),
@@ -669,3 +674,11 @@ Object.assign(exports, require('./omr-sync'));
 // remains callable-only; Firestore rules deny browser access to every exam
 // collection, including public packages and private answer keys.
 Object.assign(exports, require('./exam'));
+Object.assign(exports, require('./studio-sync'));
+exports.studioStoreGrant = studioStoreGrant;
+
+// ========== PAYOS (EXAM) ==========
+const examPayos = require('./examPayos');
+exports.examCreatePayment = examPayos.examCreatePayment;
+exports.examPayosWebhook = examPayos.examPayosWebhook;
+exports.examGetPaymentStatus = examPayos.examGetPaymentStatus;

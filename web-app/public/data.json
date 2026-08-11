@@ -376,5 +376,14 @@
     "chapterTitle": "Chương 3: Thống kê",
     "lesson_num": 11,
     "file": "/pdfs/beamer-12-bai-11-phuong-sai-do-lech-chuan.pdf"
+  },
+  {
+    "id": "12-4-999-45",
+    "title": "Bộ bài giảng HKII: Nguyên hàm, Tọa độ, Xác suất",
+    "grade": 12,
+    "chapter": 4,
+    "chapterTitle": "Học kỳ II · Chương IV–VI",
+    "lesson_num": 999,
+    "file": "/pdfs/beamer-12-hkii-bo-day-du.pdf"
   }
 ]

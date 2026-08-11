@@ -1,7 +1,7 @@
 #import "../preamble.typ": *
 #import "../../../math-sym.typ": *
-
 #show math.frac: math.display
+
 
 #muc([Đề Luyện Tập Số 02])
 
@@ -467,4 +467,3 @@
     #step[*Bước 5:* Dấu bằng xảy ra khi $t = -1 <=> sin x = -1 <=> x = -pi / 2 + k 2pi$. Giá trị lớn nhất là $10$.]
   ]
 )
-

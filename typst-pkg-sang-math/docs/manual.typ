@@ -5,7 +5,7 @@
 #set page(
   paper: "a4",
   margin: (x: 2cm, y: 2.5cm),
-  header: align(right)[*Sang-Math v1.0.1* - Tài liệu Hướng Dẫn],
+  header: align(right)[*Sang-Math v1.0.2* - Tài liệu Hướng Dẫn],
   numbering: "1"
 )
 
@@ -20,7 +20,7 @@
 }
 
 #align(center)[
-  #text(size: 32pt, weight: "bold", fill: rgb("E91E63"))[Sang-Math v1.0.1] \
+  #text(size: 32pt, weight: "bold", fill: rgb("E91E63"))[Sang-Math v1.0.2] \
   #v(0.5em)
   #text(size: 16pt)[Thư viện Hình Vẽ Toán Học Đa Năng cho Typst] \
   #v(2em)

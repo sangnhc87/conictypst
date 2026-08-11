@@ -635,7 +635,11 @@ Không sao chép sang-exam.typ, bbt.typ hay modules/book.typ vào dự án.</cod
 <!-- ═══════════════════════════════════════════ -->
 <section id="ds" class="doc-section hidden">
   <h1>② #ds — Câu Đúng / Sai</h1>
-  <p>Câu hỏi gồm một thân chung và 4 phát biểu a/b/c/d, học sinh chọn Đúng/Sai cho từng ý. Tự động sinh bảng Đ/S có header màu.</p>
+  <p>Câu hỏi gồm một thân chung và các phát biểu a/b/c/d, học sinh chọn Đúng/Sai cho từng ý. Mặc định gói sinh bảng Đ/S có header màu; từ <code>sang-math:1.0.4</code> có thể đổi sang danh sách hoặc chín giao diện tuỳ biến.</p>
+
+  <div class="callout callout-tip">
+    <strong>✨ Mới trong 1.0.4:</strong> <code>use-table: false</code> nay hoạt động thật. Tham số từng có trong HDSD cũ nhưng chưa được engine 1.0.3 xử lý.
+  </div>
 
   <h2>Cú pháp đầy đủ</h2>
   <div class="code-block-wrap">
@@ -657,6 +661,8 @@ Không sao chép sang-exam.typ, bbt.typ hay modules/book.typ vào dự án.</cod
   lines: 0,
   num: auto,
   prefix: "Câu",
+  ds-style: "table", // table | list | pill | modern | minimal | ...
+  use-table: auto,   // false = danh sách; true = bảng
 )</code></pre>
   </div>
 
@@ -683,6 +689,60 @@ Không sao chép sang-exam.typ, bbt.typ hay modules/book.typ vào dự án.</cod
   <div class="callout callout-warning">
     <strong>⚠️ Lưu ý:</strong> Phát biểu <em>đúng</em> bọc bằng <code>True([...])</code>, phát biểu sai để nguyên <code>[...]</code>. Trong chế độ <code>loigiai</code>, hệ thống tự tô màu ô Đ/S.
   </div>
+
+  <h2>Không kẻ bảng với <code>use-table: false</code></h2>
+  <p>Cú pháp ngắn nhất để in dạng danh sách a), b), c), d). Mặc định tài liệu vẫn dùng bảng, nên nâng từ 1.0.3 lên 1.0.4 không tự đổi bố cục cũ.</p>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst · sang-math 1.0.4+</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#import "@preview/sang-math:1.0.4": *
+
+#let (tn, ds, tln, tl) = exam-mode()
+
+#ds(
+  [Xét các phát biểu sau.],
+  (
+    True([Mệnh đề a đúng.]),
+    [Mệnh đề b sai.],
+    True([Mệnh đề c đúng.]),
+    [Mệnh đề d sai.],
+  ),
+  use-table: false,
+)</code></pre>
+  </div>
+
+  <h2>Các kiểu <code>ds-style</code> trong 1.0.4</h2>
+  <div class="param-table">
+    <div class="param-row"><span class="param-name">"table"</span><span class="param-badge required">mặc định</span><span class="param-type">chuẩn THPT</span><span class="param-desc">Bảng Phát biểu / Đ / S, giữ nguyên hành vi của 1.0.3.</span></div>
+    <div class="param-row"><span class="param-name">"list"</span><span class="param-badge optional">gọn</span><span class="param-type">danh sách</span><span class="param-desc">Danh sách a), b), c), d); tương đương <code>use-table: false</code>.</span></div>
+    <div class="param-row"><span class="param-name">"pill"</span><span class="param-badge optional">bo tròn</span><span class="param-type">thẻ</span><span class="param-desc">Mỗi phát biểu là một thẻ viên thuốc mềm.</span></div>
+    <div class="param-row"><span class="param-name">"modern"</span><span class="param-badge optional">hiện đại</span><span class="param-type">thẻ</span><span class="param-desc">Thẻ có viền nhấn màu ở cạnh trái.</span></div>
+    <div class="param-row"><span class="param-name">"minimal"</span><span class="param-badge optional">tối giản</span><span class="param-type">dòng</span><span class="param-desc">Dòng mảnh, tiết kiệm diện tích in.</span></div>
+    <div class="param-row"><span class="param-name">"bookmark"</span><span class="param-badge optional">đánh dấu</span><span class="param-type">thẻ</span><span class="param-desc">Nhãn a/b/c/d dạng dải đánh dấu ở đầu thẻ.</span></div>
+    <div class="param-row"><span class="param-name">"folder"</span><span class="param-badge optional">thư mục</span><span class="param-type">thẻ</span><span class="param-desc">Nhãn “Ý a” dạng tab thư mục.</span></div>
+    <div class="param-row"><span class="param-name">"diamond"</span><span class="param-badge optional">hình thoi</span><span class="param-type">thẻ</span><span class="param-desc">Dấu hình thoi nhấn trước từng phát biểu.</span></div>
+    <div class="param-row"><span class="param-name">"gradient"</span><span class="param-badge optional">chuyển màu</span><span class="param-type">thẻ</span><span class="param-desc">Nền chuyển màu nhẹ, phù hợp tài liệu màu.</span></div>
+    <div class="param-row"><span class="param-name">"checklist"</span><span class="param-badge optional">kiểm tra</span><span class="param-type">dòng</span><span class="param-desc">Ô vuông checklist; chỉ hiện ✓/✗ ở chế độ lời giải.</span></div>
+  </div>
+
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst · sang-math 1.0.4+</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#ds(
+  [Xét các phát biểu sau.],
+  (
+    True([Mệnh đề a đúng.]),
+    [Mệnh đề b sai.],
+  ),
+  ds-style: "bookmark",
+)
+
+// Các giá trị khác:
+// "pill", "modern", "minimal", "folder",
+// "diamond", "gradient", "checklist"</code></pre>
+  </div>
+
+  <div class="callout callout-warning">
+    <strong>Phạm vi phiên bản:</strong> Không dùng các tham số trên với <code>sang-math:1.0.3</code>. Hãy đổi dòng import sang <code>@preview/sang-math:1.0.4</code> sau khi phiên bản này được phát hành. Cú pháp cũ <code>table: false</code> vẫn được 1.0.4 nhận để không làm hỏng file ví dụ đã lưu.
+  </div>
 </section>
 
 <!-- ═══════════════════════════════════════════ -->
@@ -691,6 +751,10 @@ Không sao chép sang-exam.typ, bbt.typ hay modules/book.typ vào dự án.</cod
 <section id="tln" class="doc-section hidden">
   <h1>③ #tln — Câu Trả Lời Ngắn</h1>
   <p>Học sinh điền vào 4 ô trống (chế độ đề thi). Đáp án hiển thị trong ô màu xanh (chế độ lời giải).</p>
+
+  <div class="callout callout-tip">
+    <strong>Điều khiển cụm ô đáp án:</strong> mặc định <code>show-boxes: true</code> và <code>box-count: 4</code>. Đặt <code>show-boxes: false</code> để ẩn toàn bộ cụm ô; dùng <code>box-count</code> khi cần số ô khác.
+  </div>
 
   <h2>Cú pháp đầy đủ</h2>
   <div class="code-block-wrap">
@@ -709,6 +773,28 @@ Không sao chép sang-exam.typ, bbt.typ hay modules/book.typ vào dự án.</cod
   lines: 0,
   num: auto,
   prefix: "Câu",
+)</code></pre>
+  </div>
+
+  <h2>Hiện 4 ô hoặc ẩn cụm ô</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">// Mặc định: hiện 4 ô điền
+#tln([Tính $2+3$.], [$5$])
+
+// Ẩn cụm ô và dành dòng để học sinh tự viết
+#tln(
+  [Tính $2+3$.],
+  [$5$],
+  show-boxes: false,
+  lines: 2,
+)
+
+// Đổi thành 6 ô
+#tln(
+  [Ghi kết quả dưới dạng sáu ký tự.],
+  [123456],
+  box-count: 6,
 )</code></pre>
   </div>
 

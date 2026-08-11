@@ -9,6 +9,9 @@ import TeacherPortal, { PackageEditor } from './pages/TeacherPortal';
 import StudentPortal from './pages/StudentPortal';
 import ExamPlayer from './pages/ExamPlayer';
 import ResultPage from './pages/ResultPage';
+import PricingPage from './pages/PricingPage';
+import PaymentResultPage from './pages/PaymentResultPage';
+import DemoExam from './pages/DemoExam';
 
 function RequireSignedIn({ children }) {
   const { user, status, error, signIn } = useAuth();
@@ -67,7 +70,11 @@ export default function App() {
       <Route path="/attempt/:attemptId" element={<RequireSignedIn><ExamPlayer /></RequireSignedIn>} />
       <Route path="/result/:attemptId" element={<RequireSignedIn><ResultPage /></RequireSignedIn>} />
       <Route path="/teacher" element={<RequireSignedIn><RequireTeacher><TeacherPortal /></RequireTeacher></RequireSignedIn>} />
+      <Route path="/teacher/pricing" element={<RequireSignedIn><PricingPage /></RequireSignedIn>} />
+      <Route path="/teacher/payment/success" element={<RequireSignedIn><PaymentResultPage isSuccess={true} /></RequireSignedIn>} />
+      <Route path="/teacher/payment/cancel" element={<RequireSignedIn><PaymentResultPage isSuccess={false} /></RequireSignedIn>} />
       <Route path="/admin" element={<RequireSignedIn><RequireAdmin><AdminPortal /></RequireAdmin></RequireSignedIn>} />
+      <Route path="/demo" element={<DemoExam />} />
       {import.meta.env.DEV && <Route path="/__publisher-preview" element={<PublisherPreviewDev />} />}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

@@ -9,7 +9,7 @@ Cung cấp các hàm vẽ đường cong đặc biệt trong không gian như l�
 ## Ví dụ: Dây quấn quanh ống trụ
 
 ```typst
-#import "@preview/sang-math:1.0.1": *
+#import "@preview/sang-math:1.0.2": *
 #import cetz.draw: *
 
 #cetz.canvas({

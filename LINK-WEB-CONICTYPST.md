@@ -20,6 +20,7 @@ https://hdsd-conictypst.pages.dev/links
 
 - GeoGebra -> CeTZ: https://hdsd-conictypst.pages.dev/cetz-geogebra
 - GeoGebra 3D -> CeTZ: https://hdsd-conictypst.pages.dev/cetz-geogebra-3d
+- GeoGebra -> TikZ thuần: https://hdsd-conictypst.pages.dev/tikz-geogebra
 - Live BBT: https://hdsd-conictypst.pages.dev/bbt-live
 - Exam Templates: https://hdsd-conictypst.pages.dev/exam-templates
 - Ngân hàng câu hỏi: https://hdsd-conictypst.pages.dev/ngan-hang

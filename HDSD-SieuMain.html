@@ -546,7 +546,7 @@
     False([Đồ thị hàm số không có tâm đối xứng.]),
     True([Đạo hàm có hai nghiệm phân biệt.])
   ),
-  use-table: false, // In dạng list a) b) c) thay vì kẻ bảng
+  use-table: false, // Có hiệu lực từ sang-math 1.0.4
   loigiai: [Mệnh đề a và c đúng. Mệnh đề b sai vì đồ thị bậc ba luôn đối xứng qua điểm uốn.]
 )</code></pre>
 
@@ -909,7 +909,8 @@ Dựa vào hình trên, ta suy ra...</code></pre>
         <h3>13.2. Tham số <code>#ds</code> (True/False)</h3>
         <table>
           <tr><th width="32%">Tham số</th><th>Mặc định</th><th>Mô tả</th></tr>
-          <tr><td><code>use-table</code></td><td><code>true</code></td><td><code>true</code> = kẻ bảng đúng/sai chuẩn THPT, <code>false</code> = in dạng list a) b) c)</td></tr>
+          <tr><td><code>use-table</code></td><td><code>auto</code></td><td>Từ <code>sang-math:1.0.4</code>: <code>true</code> = kẻ bảng đúng/sai chuẩn THPT, <code>false</code> = in dạng list a) b) c). Mặc định <code>auto</code> giữ bảng như 1.0.3.</td></tr>
+          <tr><td><code>ds-style</code></td><td><code>"table"</code></td><td>Từ <code>sang-math:1.0.4</code>: <code>"table"</code>, <code>"list"</code>, <code>"pill"</code>, <code>"modern"</code>, <code>"minimal"</code>, <code>"bookmark"</code>, <code>"folder"</code>, <code>"diamond"</code>, <code>"gradient"</code>, <code>"checklist"</code>.</td></tr>
           <tr><td><code>loigiai</code></td><td><code>none</code></td><td>Lời giải điều kiện hiển thị như <code>#tn</code></td></tr>
           <tr><td><code>fig</code>, <code>fig-pos</code>, <code>fig-width</code></td><td>—</td><td>Hoạt động giống <code>#tn</code></td></tr>
           <tr><td><code>lines</code>, <code>tags</code>, <code>boxed</code></td><td>—</td><td>Hoạt động giống <code>#tn</code></td></tr>

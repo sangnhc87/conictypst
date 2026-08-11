@@ -1,7 +1,7 @@
 #import "../preamble.typ": *
 #import "../../../math-sym.typ": *
-
 #show math.frac: math.display
+
 
 #muc([Đề Luyện Tập Số 01 — Khoảng Biến Thiên & Khoảng Tứ Phân Vị])
 
@@ -10,7 +10,7 @@
 
 // ─── CÂU 1 ───
 #tn(
-  dir: "doc",lines: 2,
+  dir: "doc",lines: 0,
   [Cô Hà thống kê lại đường kính thân gỗ của một số cây xoan đào 6 năm tuổi được trồng ở một lâm trường ở bảng sau:
     #align(center)[
       #table(
@@ -37,7 +37,7 @@
 
 // ─── CÂU 2 ───
 #tn(
-  dir: "doc",lines: 2,
+  dir: "doc",lines: 0,
   [Bảng dưới biểu diễn mẫu số liệu ghép nhóm về số tiền (đơn vị: nghìn đồng) mà 60 khách hàng mua sách ở một cửa hàng trong một ngày.
     #align(center)[
       #table(
@@ -69,7 +69,7 @@
 
 // ─── CÂU 3 ───
 #tn(
-  dir: "doc",lines: 2,
+  dir: "doc",lines: 0,
   [Mỗi ngày bác Hương đều đi bộ để rèn luyện sức khoẻ. Quãng đường đi bộ mỗi ngày (đơn vị: km) của bác Hương trong 20 ngày được thống kê lại ở bảng sau:
     #align(center)[
       #table(
@@ -96,7 +96,7 @@
 
 // ─── CÂU 4 ───
 #tn(
-  dir: "doc",lines: 2,
+  dir: "doc",lines: 0,
   [Bạn Chi rất thích nhảy hiện đại. Thời gian tập nhảy mỗi ngày trong thời gian gần đây của bạn Chi được thống kê lại ở bảng sau:
     #align(center)[
       #table(
@@ -123,7 +123,7 @@
 
 // ─── CÂU 5 ───
 #tn(
-  dir: "doc",lines: 2,
+  dir: "doc",lines: 0,
   [Cho mẫu số liệu ghép nhóm về tuổi thọ (năm) của một số bóng đèn LED như sau:
     #align(center)[
       #table(
@@ -467,7 +467,7 @@
 
 // ─── CÂU 1 ───
 #tln(
-  dir: "doc",lines: 2,
+  dir: "doc",lines: 0,
   [Khảo sát thời gian truy cập internet (giờ/ngày) của 50 học sinh, ta thu được bảng số liệu ghép nhóm sau:
     #align(center)[
       #table(

@@ -1,0 +1,41 @@
+{
+  "name": "sang-docx-quiz-presenter",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "test": "vitest run src/tests",
+    "test:e2e": "playwright test",
+    "test:watch": "vitest",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@excalidraw/excalidraw": "^0.18.1",
+    "dompurify": "^3.2.6",
+    "emf-converter": "^1.5.0",
+    "file-saver": "^2.0.5",
+    "firebase": "^12.17.0",
+    "jszip": "^3.10.1",
+    "katex": "^0.16.22",
+    "mammoth": "^1.9.1",
+    "pandoc-wasm": "^1.1.0",
+    "pdfjs-dist": "^4.10.38",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "reveal.js": "^5.2.1",
+    "tesseract.js": "^7.0.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.61.1",
+    "@types/file-saver": "^2.0.7",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-react": "^4.5.2",
+    "jsdom": "^26.1.0",
+    "typescript": "~5.8.3",
+    "vite": "^6.3.5",
+    "vitest": "^3.2.4"
+  }
+}

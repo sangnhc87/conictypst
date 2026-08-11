@@ -17,6 +17,8 @@ export function createApi(functions) {
     call,
     getAccount: () => call('ctGetAccount'),
     requestTeacherAccess: (note = '') => call('ctRequestProductAccess', { productId: 'exam', note }),
+    createPayment: (planId) => call('examCreatePayment', { planId }),
+    getPaymentStatus: (orderCode) => call('examGetPaymentStatus', { orderCode }),
     adminBootstrap: () => call('ctAdminBootstrap'),
     adminListMembers: (filter = {}) => call('ctAdminListMembers', { productId: 'exam', pageSize: 100, ...filter }),
     adminListAudit: () => call('ctAdminListAudit'),

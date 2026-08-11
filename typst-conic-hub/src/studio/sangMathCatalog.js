@@ -140,6 +140,71 @@ export const SANG_MATH_CATALOG = [
     description: 'Bảng biến thiên khai báo bằng các mốc, dấu và giá trị.',
     snippet: '#bbtv2(\n  x-vals: ($-oo$, $-1$, $1$, $+oo$),\n  d-signs: ("+", 0, "-", 0, "+"),\n  v-vals: ($-oo$, $3$, $-1$, $+oo$),\n)\n',
   },
+  {
+    id: 'fraction', category: 'math', name: 'Phân số (dfrac)', signature: 'dfrac(a, b)',
+    description: 'Phân số hiển thị kích thước lớn (tránh bị thu nhỏ).',
+    snippet: 'dfrac(a, b)',
+  },
+  {
+    id: 'vector', category: 'math', name: 'Vector', signature: 'vec(v) hoặc overrightarrow(A B)',
+    description: 'Ký hiệu vector có dấu mũi tên trên đầu.',
+    snippet: 'overrightarrow(A B)',
+  },
+  {
+    id: 'angle-math', category: 'math', name: 'Góc', signature: 'angle A B C',
+    description: 'Ký hiệu góc (dùng trong math mode).',
+    snippet: 'angle A B C',
+  },
+  {
+    id: 'geometry-triangle', category: 'math', name: 'Vẽ tam giác (CeTZ)', signature: '#tri-xyz(…)',
+    description: 'Hàm vẽ nhanh tam giác với tọa độ 3 đỉnh.',
+    snippet: '#tri-xyz((0,0), (2,3), (4,0), labels: ("A", "B", "C"))\n',
+  },
+  {
+    id: 'geometry-axis', category: 'math', name: 'Trục tọa độ Oxy', signature: '#axis-xy(…)',
+    description: 'Vẽ hệ trục tọa độ vuông góc Oxy.',
+    snippet: '#axis-xy(-2, 5, -2, 4)\n',
+  },
+  {
+    id: 'core-image', category: 'all', name: 'Chèn hình ảnh', signature: '#image("...", width: 100%)',
+    description: 'Chèn hình ảnh vào tài liệu.',
+    snippet: '#image(${1:"path/to/image.png"}, width: ${2:80%})\n',
+  },
+  {
+    id: 'core-table', category: 'all', name: 'Bảng (Table)', signature: '#table(columns: 2, ...)',
+    description: 'Tạo bảng với số cột chỉ định.',
+    snippet: '#table(\n  columns: ${1:2},\n  [Cột 1], [Cột 2],\n  [Dữ liệu 1], [Dữ liệu 2],\n)\n',
+  },
+  {
+    id: 'core-grid', category: 'all', name: 'Lưới (Grid)', signature: '#grid(columns: 2, ...)',
+    description: 'Tạo lưới để sắp xếp nội dung song song.',
+    snippet: '#grid(\n  columns: ${1:(1fr, 1fr)},\n  gutter: ${2:1em},\n  [Nội dung bên trái],\n  [Nội dung bên phải],\n)\n',
+  },
+  {
+    id: 'core-align', category: 'all', name: 'Căn lề', signature: '#align(center)[...]',
+    description: 'Căn chỉnh nội dung (left, center, right).',
+    snippet: '#align(${1:center})[\n  ${2:Nội dung}\n]\n',
+  },
+  {
+    id: 'core-text', category: 'all', name: 'Định dạng chữ', signature: '#text(red)[...]',
+    description: 'Đổi màu chữ, cỡ chữ, phông chữ.',
+    snippet: '#text(fill: ${1:red}, size: ${2:12pt})[${3:Nội dung}]\n',
+  },
+  {
+    id: 'core-enum', category: 'all', name: 'Danh sách số', signature: '+ Mục 1',
+    description: 'Tạo danh sách đánh số tự động.',
+    snippet: '+ ${1:Mục 1}\n+ ${2:Mục 2}\n',
+  },
+  {
+    id: 'core-list', category: 'all', name: 'Danh sách chấm', signature: '- Mục 1',
+    description: 'Tạo danh sách chấm đầu dòng.',
+    snippet: '- ${1:Mục 1}\n- ${2:Mục 2}\n',
+  },
+  {
+    id: 'core-icon-size', category: 'all', name: 'Chèn và chỉnh cỡ Icon/Emoji', signature: '#text(size: ...)[icon]',
+    description: 'Tăng giảm kích thước riêng cho một icon hoặc emoji bất kỳ (ví dụ: dùng cỡ 20pt).',
+    snippet: '#text(size: ${1:20pt})[${2:🍎}]\n',
+  },
 ]
 
 function normalizeSearch(value) {

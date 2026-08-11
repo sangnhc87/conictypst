@@ -9,7 +9,7 @@ const ACTIVE_PROJECT_KEY = 'active-project-id'
 const FALLBACK_KEY = 'typst-conic-hub.project.fallback.v1'
 const MAIN_TEMPLATE_MIGRATION_KEY = 'typst-conic-hub.main-template.direct-questions.v3'
 const MAIN_TEMPLATE_VERSION = 3
-const MAX_SNAPSHOTS = 12
+const MAX_SNAPSHOTS = 6
 
 function openDatabase() {
   return new Promise((resolve, reject) => {
@@ -215,15 +215,18 @@ export async function exportProjectZip(project) {
     zip.file(relativePath, file.kind === 'binary' ? file.content : file.content)
   }
   zip.file('.conic-project.json', JSON.stringify({
-    version: 1,
+    version: 2,
+    id: project.id,
     name: project.name,
     entryPath: project.entryPath.replace(/^\/project\//, ''),
+    templateId: project.templateId,
+    templateVersion: project.templateVersion,
     exportedAt: new Date().toISOString(),
   }, null, 2))
   return zip.generateAsync({ type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 } })
 }
 
-export async function importProjectZip(file) {
+export async function importProjectZip(file, options = {}) {
   const zip = await JSZip.loadAsync(file)
   let manifest = null
   const manifestEntry = zip.file('.conic-project.json')
@@ -246,8 +249,11 @@ export async function importProjectZip(file) {
   const firstTyp = Object.keys(files).find(path => path.endsWith('.typ'))
   const requestedEntry = manifest?.entryPath ? `/project/${manifest.entryPath.replace(/^\/+/, '')}` : ''
   const project = createProjectFromTemplate('quickstart', manifest?.name || file.name.replace(/\.zip$/i, ''))
+  if (options.preserveId && typeof manifest?.id === 'string' && manifest.id.trim()) project.id = manifest.id.trim()
   project.files = files
   project.entryPath = files[requestedEntry]?.kind === 'text' ? requestedEntry : firstTyp || Object.keys(files)[0]
+  if (typeof manifest?.templateId === 'string') project.templateId = manifest.templateId
+  if (Number.isInteger(manifest?.templateVersion)) project.templateVersion = manifest.templateVersion
   return normalizeProject(project)
 }
 
@@ -255,6 +261,9 @@ export function downloadBlob(blob, fileName) {
   const anchor = document.createElement('a')
   anchor.href = URL.createObjectURL(blob)
   anchor.download = fileName
+  anchor.style.display = 'none'
+  document.body.appendChild(anchor)
   anchor.click()
+  anchor.remove()
   window.setTimeout(() => URL.revokeObjectURL(anchor.href), 1000)
 }

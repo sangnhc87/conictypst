@@ -1,4 +1,4 @@
-# Prompt hướng dẫn AI tạo đề bằng sang-math 1.0.1
+# Prompt hướng dẫn AI tạo đề bằng sang-math 1.0.2
 
 File này dành cho giáo viên sưu tầm câu hỏi, dùng OCR/app/AI tạo phần phổ biến và
 chỉ tự biên soạn các câu khó. Có thể sao chép nguyên prompt tổng bên dưới vào
@@ -6,7 +6,7 @@ ChatGPT, Gemini, Claude hoặc một AI viết mã khác.
 
 Nếu không muốn tự sao chép prompt, dùng trang **AI sang-math có kiểm định** tại
 `https://hdsd-conictypst.pages.dev/ai-sang-math.html`. Trang này tự gắn hợp đồng
-API 1.0.1, kiểm tra cấu trúc đầu ra và gửi lỗi lại model để sửa.
+API 1.0.2, kiểm tra cấu trúc đầu ra và gửi lỗi lại model để sửa.
 
 ## 1. Prompt tổng — tạo một đề mới
 
@@ -16,7 +16,7 @@ Sao chép toàn bộ khối sau và thay các phần trong `{{...}}`:
 Bạn là chuyên gia Toán THPT Việt Nam và chuyên gia Typst. Hãy tạo một file Typst
 hoàn chỉnh, biên dịch được, dùng đúng package:
 
-#import "@preview/sang-math:1.0.1": *
+#import "@preview/sang-math:1.0.2": *
 
 YÊU CẦU ĐỀ:
 - Lớp: {{10/11/12}}.
@@ -65,7 +65,7 @@ QUY TẮC API BẮT BUỘC:
     được vì sao đáp án đúng, không chỉ viết "chọn A/B/C/D".
 
 KHUNG ĐẦU FILE PHẢI GIỮ:
-#import "@preview/sang-math:1.0.1": *
+#import "@preview/sang-math:1.0.2": *
 #let profile = sys.inputs.at("profile", default: "dethi")
 #let preset = exam-preset(theme: "{{theme}}", profile: profile)
 #let (tn, ds, tln, tl) = exam-mode(..preset.question)
@@ -91,7 +91,7 @@ KẾT QUẢ TRẢ VỀ:
 
 ```text
 Hãy chuyển nội dung đề tôi gửi bên dưới thành một file Typst hoàn chỉnh dùng
-"@preview/sang-math:1.0.1".
+"@preview/sang-math:1.0.2".
 
 Nguyên tắc:
 - Giữ nguyên ý nghĩa toán học, số liệu, thứ tự câu và đáp án gốc.
@@ -119,7 +119,7 @@ NỘI DUNG NGUỒN:
 
 ```text
 Hãy viết {{số lượng}} câu Toán lớp {{lớp}} mức VDC thuộc chủ đề {{chủ đề}}, dùng
-đúng sang-math:1.0.1. Mục tiêu là phân hóa nhóm 9–10 điểm nhưng dữ kiện phải gọn,
+đúng sang-math:1.0.2. Mục tiêu là phân hóa nhóm 9–10 điểm nhưng dữ kiện phải gọn,
 đáp án kiểm chứng được và không đánh đố bằng ngôn ngữ.
 
 Mỗi câu phải có:
@@ -137,7 +137,7 @@ Nếu không chắc đáp án, không được bịa; ghi TODO-CAN-GV-KIEM-TRA.
 ## 4. Prompt kiểm định một file AI đã tạo
 
 ```text
-Hãy audit file Typst sang-math:1.0.1 dưới đây như một người phản biện đề thi.
+Hãy audit file Typst sang-math:1.0.2 dưới đây như một người phản biện đề thi.
 Không viết lại ngay. Trước hết lập bảng lỗi theo 4 nhóm:
 1) lỗi cú pháp/API Typst;
 2) lỗi cấu trúc: số câu, ID trùng, thiếu True, sai chữ ký #tn/#ds/#tln/#tl;

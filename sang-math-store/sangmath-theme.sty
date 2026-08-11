@@ -1,0 +1,46 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{sangmath-theme}[2026/07/21 Sang Math Premium Theme]
+
+% ======================================================================
+% MÀU SẮC CHỦ ĐẠO
+% ======================================================================
+\RequirePackage{xcolor}
+\definecolor{AccentColor}{HTML}{117a65}
+\definecolor{BgOdd}{HTML}{f4faf7}
+\definecolor{BgEven}{HTML}{ffffff}
+\definecolor{LineColor}{HTML}{b8d8cc}
+
+% ======================================================================
+% KHỬ CẢNH BÁO OVERFULL/UNDERFULL (GIÚP TEMPLATE SẠCH 100% TRÊN OVERLEAF)
+% ======================================================================
+\hfuzz=100pt 
+\hbadness=10000
+\vbadness=10000
+
+% ======================================================================
+% ĐỒNG BỘ MÀU SẮC VỚI EX_TEST
+% ======================================================================
+\def\colorEX{\color{AccentColor}}
+
+% ======================================================================
+% REDEFINE MÔI TRƯỜNG EX THÀNH TCOLORBOX XEN KẼ MÀU CAO CẤP
+% ======================================================================
+\RequirePackage[most]{tcolorbox}
+\newcounter{excount}
+\tcbset{
+    exboxstyle/.style={
+        enhanced,
+        breakable,
+        frame hidden,
+        boxrule=0.5pt,
+        colframe=LineColor,
+        arc=4pt,
+        top=8pt, bottom=8pt, left=8pt, right=8pt,
+        before skip=8pt, after skip=8pt,
+        borderline={0.5pt}{0pt}{LineColor},
+        colback=BgOdd
+    }
+}
+\tcolorboxenvironment{ex}{exboxstyle}
+
+\endinput

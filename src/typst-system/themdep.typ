@@ -76,12 +76,17 @@
 
   set page(
     paper: "a4",
-    margin: (top: top-margin, bottom: bottom-margin, left: content-margin, right: content-margin + nw),
+    binding: left,
+    margin: (
+      top: top-margin,
+      bottom: bottom-margin,
+      inside: content-margin,
+      outside: content-margin + nw,
+    ),
     background: context {
       let pg = counter(page).get().first()
       let odd = calc.odd(pg)
-      // Khi trang chẵn, dịch nội dung sang phải (flip margins)
-      // (Typst không support margin per-page trực tiếp, ta fake bằng background)
+      // Lề inside/outside tự đảo theo trang chẵn/lẻ để nội dung không đè vùng nháp.
 
       // ── Vùng nháp ──────────────────────────────────────
       let dx = if odd { _a4-w - nw } else { 0pt }

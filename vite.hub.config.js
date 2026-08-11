@@ -20,11 +20,16 @@ export default defineConfig({
   server: {
     fs: { allow: [fileURLToPath(new URL('.', import.meta.url))] },
     headers: {
-      'Cross-Origin-Opener-Policy': 'same-origin',
-      'Cross-Origin-Embedder-Policy': 'require-corp',
+      'Cross-Origin-Opener-Policy': 'same-origin-allow-popups',
     },
   },
-  worker: { format: 'es' },
+  worker: { 
+    format: 'es',
+    plugins: () => [wasm(), topLevelAwait()],
+    rollupOptions: {
+      external: ['wasi_snapshot_preview1']
+    }
+  },
   build: {
     target: 'esnext',
     sourcemap: false,

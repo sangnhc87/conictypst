@@ -1,7 +1,7 @@
 #import "../preamble.typ": *
 #import "../../../math-sym.typ": *
-
 #show math.frac: math.display
+
 
 #muc([Đề Luyện Tập Số 02 — Khoảng Biến Thiên & Khoảng Tứ Phân Vị])
 
@@ -533,7 +533,7 @@
 
 // ─── CÂU 17 ───
 #tn(
-  dir: "doc",lines: 2,
+  dir: "doc",lines: 0,
   [Một vườn thú ghi lại tuổi thọ (đơn vị: năm) của 20 con hổ và thu được kết quả như sau:
     #align(center)[
       #table(
@@ -559,7 +559,7 @@
 
 // ─── CÂU 18 ───
 #tn(
-  dir: "doc",lines: 2,
+  dir: "doc",lines: 0,
   [Khảo sát thời gian tập thể dục của một số học sinh khối 11 thu được mẫu số liệu ghép nhóm sau:
     #align(center)[
       #table(
@@ -584,7 +584,7 @@
 
 // ─── CÂU 19 ───
 #tn(
-  dir: "doc",lines: 2,
+  dir: "doc",lines: 0,
   [Mức thưởng tết (triệu đồng) cho các nhân viên của một công ty được thống kê trong bảng sau:
     #align(center)[
       #table(
@@ -1024,7 +1024,7 @@
 
 // ─── CÂU 1 ───
 #tln(
-  dir: "doc",lines: 2,
+  dir: "doc",lines: 0,
   [Bảng dưới biểu diễn mẫu số liệu ghép nhóm về chiều cao (đơn vị: $c m$) của $36$ học sinh nam lớp 12 ở một trường trung học phổ thông:
     #align(center)[
       #table(

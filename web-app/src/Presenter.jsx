@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import * as pdfjsLib from 'pdfjs-dist';
-import { Maximize, Minimize, X, ChevronLeft, ChevronRight, ArrowLeft } from 'lucide-react';
+import { Maximize, Minimize, ChevronLeft, ChevronRight, ArrowLeft } from 'lucide-react';
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
 
 export default function Presenter({ url, onClose }) {
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
+  const renderTaskRef = useRef(null);
   
   const [pdfDoc, setPdfDoc] = useState(null);
   const [pageNum, setPageNum] = useState(1);
@@ -33,6 +34,11 @@ export default function Presenter({ url, onClose }) {
   // Render trang
   const renderPage = useCallback((num, doc) => {
     if (!doc) return;
+
+    // Khi giáo viên bấm chuyển slide liên tục, hủy lượt PDF.js cũ trước
+    // khi dùng lại canvas; nếu không PDF.js sẽ ném lỗi concurrent render.
+    renderTaskRef.current?.cancel();
+    renderTaskRef.current = null;
     
     doc.getPage(num).then((page) => {
       const canvas = canvasRef.current;
@@ -66,7 +72,17 @@ export default function Presenter({ url, onClose }) {
 
       // PDF.js tự xử lý đúng tọa độ qua viewport - không cần flip thủ công
       const renderContext = { canvasContext: ctx, viewport };
-      page.render(renderContext);
+      const renderTask = page.render(renderContext);
+      renderTaskRef.current = renderTask;
+      renderTask.promise
+        .catch(error => {
+          if (error?.name !== 'RenderingCancelledException') {
+            console.error("Lỗi vẽ slide:", error);
+          }
+        })
+        .finally(() => {
+          if (renderTaskRef.current === renderTask) renderTaskRef.current = null;
+        });
       
       // Trích xuất Hyperlinks với scale tương ứng
       page.getAnnotations().then(annotations => {
@@ -74,6 +90,10 @@ export default function Presenter({ url, onClose }) {
         setLinks(linkAnnos);
       });
     });
+  }, []);
+
+  useEffect(() => () => {
+    renderTaskRef.current?.cancel();
   }, []);
 
   useEffect(() => {

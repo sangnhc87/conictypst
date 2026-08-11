@@ -27,14 +27,8 @@
 // Dùng: #show: sang-setup
 //       #show: sang-setup.with(math-color: accent)
 #let sang-setup(body, math-color: black) = {
-  // Display-style inline math needs a real layout box with vertical clearance.
-  show math.equation.where(block: false): it => {
-    if repr(it).contains("frac") {
-      box(inset: (y: 0.16em))[#math.display(it)]
-    } else {
-      math.display(it)
-    }
-  }
+  // Phân số lớn nhưng phương trình inline vẫn giữ baseline tự nhiên của Typst.
+  show math.frac: math.display
   show math.equation: set text(fill: math-color)
 
   // Tự động chuyển C, A, P (những chữ số gán sub/sup) thành chữ đứng để in đúng C_n^k
@@ -1137,14 +1131,7 @@
   )
   set text(font: body-font, size: body-size, lang: "vi")
   set par(justify: true, leading: 0.75em)
-  show math.equation.where(block: false): it => {
-    if repr(it).contains("frac") {
-      box(inset: (y: 0.16em))[#math.display(it)]
-    } else {
-      math.display(it)
-    }
-  }
-
+  show math.frac: math.display
   // Thanh màu accent trên đỉnh (tuỳ chọn)
   if show-topbar {
     place(top + left, dx: -1.5cm, dy: -2cm, rect(width: 21cm, height: 5pt, fill: accent))

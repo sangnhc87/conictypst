@@ -1,0 +1,26 @@
+<svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="mountain" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0369a1" />
+    </linearGradient>
+    <linearGradient id="star" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fde047" />
+      <stop offset="100%" stop-color="#eab308" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="15" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg)" />
+  <path d="M400 200 L600 500 L200 500 Z" fill="url(#mountain)" />
+  <path d="M400 200 L500 500 L300 500 Z" fill="#0ea5e9" opacity="0.5" />
+  <g filter="url(#glow)">
+    <path d="M400 120 L425 180 L490 180 L435 220 L455 285 L400 245 L345 285 L365 220 L310 180 L375 180 Z" fill="url(#star)" />
+  </g>
+</svg>

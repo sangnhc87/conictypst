@@ -1,0 +1,38 @@
+.pay-button.active{background:var(--green)}
+.pay-button:disabled{cursor:not-allowed;opacity:.55}
+.checkout-error{background:#fff0ec;color:#a84022;border-left:3px solid var(--orange);padding:10px 12px;font-size:11px;line-height:1.5}
+.payment-panel,.paid-panel,.expired-panel{text-align:center}
+.payment-panel h2,.paid-panel h2,.expired-panel h2{margin-top:12px}
+.payment-qr{display:block;width:min(290px,100%);aspect-ratio:1;object-fit:contain;margin:0 auto 20px;background:white;border:1px solid var(--line)}
+.payment-field{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);text-align:left}
+.payment-field>span{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#6e7973}
+.payment-field strong{font:700 18px Georgia,serif}
+.payment-field button{border:1px solid var(--line);background:white;padding:7px 9px;font-size:9px;font-weight:800}
+.bank-line{font-size:10px;color:#69756f;line-height:1.5}
+.waiting{display:flex;align-items:center;gap:12px;text-align:left;background:#edf8f3;padding:14px;margin:18px 0}
+.waiting i{width:11px;height:11px;border-radius:50%;background:#21a477;box-shadow:0 0 0 0 rgba(33,164,119,.45);animation:pulse 1.6s infinite}
+.waiting b,.waiting small{display:block}.waiting b{font-size:12px}.waiting small{font-size:9px;color:#65736d;margin-top:4px}
+.paid-check{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;margin:0 auto 17px;background:#ddf5e9;color:var(--green);font-size:31px}
+.paid-panel>p,.expired-panel>p{color:#64706a;line-height:1.6}
+.download-list{display:grid;gap:9px;margin:24px 0}.download-list a{display:flex;align-items:center;justify-content:space-between;background:var(--green);color:white;padding:14px 16px;text-align:left;font-size:12px;font-weight:800}.download-list a span{font-size:20px}
+.new-order{border:1px solid var(--ink);background:transparent;padding:11px 15px;font-size:10px;font-weight:800}.expired-panel .pay-button{margin-top:20px}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(33,164,119,.45)}70%{box-shadow:0 0 0 9px rgba(33,164,119,0)}100%{box-shadow:0 0 0 0 rgba(33,164,119,0)}}
+.checkout ul li {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.remove-item {
+  margin-left: auto;
+  padding: 10px;
+  background: #fdf2f2;
+  color: #c93434;
+  border-radius: 6px;
+  border: 1px solid #f8cdcd;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+}
+.remove-item:hover {
+  background: #fce4e4;
+}

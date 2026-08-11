@@ -1,7 +1,7 @@
 #import "../preamble.typ": *
 #import "../../../math-sym.typ": *
-
 #show math.frac: math.display
+
 
 #muc([Chuyên Đề: Tiếp Tuyến, Tương Giao Và Các Điểm Đặc Biệt])
 

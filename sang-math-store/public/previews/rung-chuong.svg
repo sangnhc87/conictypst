@@ -1,0 +1,22 @@
+<svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg6" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4c1d95" />
+      <stop offset="100%" stop-color="#2e1065" />
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fde047" />
+      <stop offset="100%" stop-color="#ca8a04" />
+    </linearGradient>
+    <filter id="glow2" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="20" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg6)" />
+  <g filter="url(#glow2)">
+    <path d="M400 180 C480 180 500 280 520 380 L280 380 C300 280 320 180 400 180 Z" fill="url(#gold)" />
+    <path d="M400 150 C380 150 380 180 400 180 C420 180 420 150 400 150 Z" fill="url(#gold)" />
+    <path d="M370 380 Q400 420 430 380 Z" fill="#854d0e" />
+  </g>
+</svg>

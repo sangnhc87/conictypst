@@ -27,6 +27,7 @@ temp_render/
 typst/exams/scratch/
 dist-mixer/
 dist-hub/
+dist-graphics-studio/
 typst-conic-hub/public/runtime/
 
 # Sinh bởi scripts/prepare-hub-runtime.mjs (vendored từ pandoc-wasm)

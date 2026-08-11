@@ -20,19 +20,54 @@ Package Typst chuyên vẽ các hình Toán phức tạp: hình không gian, con
 #import "@preview/sang-math-graphics:0.1.0": *
 ```
 
+## Quy tắc nhớ nhanh
+
+Package có hai loại hàm, nhưng chỉ cần nhớ một quy tắc:
+
+- Hàm tên `draw-*` là các mảnh vẽ CeTZ, luôn đặt bên trong một canvas.
+- Helper hình cơ bản như `tri-abc`, `tri-right`, `rect-abc`, `phanghoa-*` và
+  `*-unfold-2d` tự tạo canvas, gọi trực tiếp là được.
+
+Nếu không muốn import CeTZ ở mỗi file, dùng `smg-canvas` và `smg-draw`:
+
+```typst
+#import "@preview/sang-math-graphics:0.1.0": *
+
+#smg-canvas(length: 1cm, {
+  draw-cone(name: "N", radius: 2.5, height: 4)
+  smg-draw.content("N.top", [$S$], anchor: "south")
+})
+```
+
+`smg-draw` là namespace CeTZ để thêm `line`, `circle`, `content`, `arc`, …
+vào cùng canvas. Nếu đã quen CeTZ, cú pháp cũ với
+`#import "@preview/cetz:0.5.2"` vẫn dùng nguyên vẹn.
+
 ## Ví dụ nhanh
 
 ```typst
-#import "@preview/cetz:0.3.2"
-#import "@preview/sang-math-graphics:0.1.0": draw-cone
+#import "@preview/sang-math-graphics:0.1.0": smg-canvas, smg-draw, draw-cone
 
-#cetz.canvas(length: 1.2cm, {
-  import cetz.draw: *
+#smg-canvas(length: 1.2cm, {
   draw-cone(name: "N1", radius: 3, height: 5, center: (0, 0, 0))
-  circle("N1.top", radius: 0.08, fill: red)
-  content("N1.top", [$S$], anchor: "south")
+  smg-draw.circle("N1.top", radius: 0.08, fill: red)
+  smg-draw.content("N1.top", [$S$], anchor: "south")
 })
 ```
+
+Bản đầy đủ có thể copy tại [`examples/quickstart.typ`](./examples/quickstart.typ).
+
+## Tọa độ và anchor
+
+- Hình 2D dùng điểm `(x, y)`.
+- Hình 3D dùng điểm `(x, y, z)` và được chiếu isometric xuống canvas 2D.
+- Các số là đơn vị canvas; `length: 1cm` thường phù hợp cho hình trong đề thi.
+- `name` tạo namespace anchor. Ví dụ `name: "N"` cho phép gọi
+  `"N.top"`, `"N.center"`, `"N.front"`.
+
+Các anchor phổ biến của khối 3D là `top`/`apex`, `center`, `bottom`, `front`,
+`back`, `left`, `right`. Anchor cũ như `front` và `back` được giữ để các file
+đã viết trước đây không bị hỏng.
 
 ## Cấu trúc thư mục
 
@@ -44,8 +79,7 @@ sang-math-graphics/
 │   ├── core/
 │   │   ├── utils.typ       # Hàm tính toán tọa độ
 │   │   └── projections.typ # Phép chiếu 3D
-│   ├── 2d/
-│   │   └── conics.typ      # Parabol, elip, hyperbol
+│   ├── 2d/                  # Conic, hình cơ bản, đồ thị
 │   ├── 3d/
 │   │   ├── solids.typ      # Nón, trụ, cầu
 │   │   ├── polyhedra.typ   # Chóp, chóp cụt
@@ -83,6 +117,14 @@ npm run build:all
 3. Thêm ví dụ vào `examples/`
 4. Cập nhật trang chuyên đề trong `docs/src/topics/`
 5. Chạy `npm run build:all` để cập nhật PDF + web
+
+Kiểm tra nhanh trước khi gửi thay đổi:
+
+```bash
+bash scripts/test-compile.sh
+typst compile --root . examples/quickstart.typ /tmp/sang-math-graphics-quickstart.pdf
+typst compile --root . tests/test-api.typ /tmp/sang-math-graphics-api.pdf
+```
 
 ## Giấy phép
 

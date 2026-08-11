@@ -14,6 +14,7 @@
   const STORAGE_KEY = 'smomr_profile_templates_v2';
 
   const BUILT_INS = {
+    'a3-cat-phach': { id: 'a3-cat-phach', name: 'A3 Cắt Phách', mcq: 12, tf: 2, tln: 4, paper: 'a3', version: 2 },
     '12-4-6ngang': { id: '12-4-6ngang', name: 'Toán 12-4-6 · A4 ngang', mcq: 12, tf: 4, tln: 6, paper: 'a5', version: 2 },
     'thptqg-toan': { id: 'thptqg-toan', name: 'THPTQG Toán · A4 dọc', mcq: 12, tf: 4, tln: 6, paper: 'a4', version: 2 },
     'tn-40': { id: 'tn-40', name: 'TN-40', mcq: 40, tf: 0, tln: 0, paper: 'a4', version: 2 },

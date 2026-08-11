@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kho Mẫu Hình Học & Live Playground — ConicTypst</title>
+    <link rel="stylesheet" href="dashboard.css" />
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+    <script src="global-nav.js" defer></script>
+    <!-- Import map: cho phép playground.js resolve bare specifier typst.ts từ jsDelivr CDN -->
+    <script type="importmap">
+    {
+      "imports": {
+        "@myriaddreamin/typst.ts/dist/esm/main.mjs":          "https://cdn.jsdelivr.net/npm/@myriaddreamin/typst.ts@0.7.0-rc2/dist/esm/main.mjs",
+        "@myriaddreamin/typst.ts/dist/esm/options.init.mjs":   "https://cdn.jsdelivr.net/npm/@myriaddreamin/typst.ts@0.7.0-rc2/dist/esm/options.init.mjs",
+        "@myriaddreamin/typst.ts/dist/esm/fs/memory.mjs":      "https://cdn.jsdelivr.net/npm/@myriaddreamin/typst.ts@0.7.0-rc2/dist/esm/fs/memory.mjs",
+        "@myriaddreamin/typst.ts/dist/esm/fs/index.mjs":       "https://cdn.jsdelivr.net/npm/@myriaddreamin/typst.ts@0.7.0-rc2/dist/esm/fs/index.mjs",
+        "@myriaddreamin/typst-ts-web-compiler":                "https://cdn.jsdelivr.net/npm/@myriaddreamin/typst-ts-web-compiler@0.7.0-rc2/pkg/typst_ts_web_compiler.mjs",
+        "@myriaddreamin/typst-ts-renderer":                    "https://cdn.jsdelivr.net/npm/@myriaddreamin/typst-ts-renderer@0.7.0-rc2/pkg/typst_ts_renderer.mjs"
+      }
+    }
+    </script>
+    <!-- Engine compile Typst WASM dùng chung (expose window.compileTypstToSvg) -->
+    <script type="module" src="playground.js"></script>
+    <style>
+        .tool-page {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .hero-banner {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: #ffffff;
+            border-radius: 12px;
+            padding: 24px 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+        }
+
+        .hero-banner h1 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin: 0 0 6px;
+            color: #38bdf8;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hero-banner p {
+            color: #94a3b8;
+            margin: 0;
+            font-size: 0.95rem;
+            max-width: 900px;
+            line-height: 1.5;
+        }
+
+        /* Gallery Tabs */
+        .tab-nav {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--line, #e2e8f0);
+            padding-bottom: 8px;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 10px 16px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--muted, #64748b);
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.16s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .tab-btn.active {
+            background: #0ea5e9;
+            color: #ffffff;
+        }
+
+        .tab-btn:hover:not(.active) {
+            background: rgba(14, 165, 233, 0.1);
+            color: #0ea5e9;
+        }
+
+        /* Cards Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 20px;
+            margin-bottom: 36px;
+        }
+
+        .card-item {
+            background: #ffffff;
+            border: 1.5px solid var(--line, #e2e8f0);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.16s, box-shadow 0.16s;
+        }
+
+        .card-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(0,0,0,0.08);
+            border-color: #38bdf8;
+        }
+
+        .card-head {
+            padding: 12px 16px;
+            background: #f8fafc;
+            border-bottom: 1px solid var(--line, #e2e8f0);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-head h3 {
+            margin: 0;
+            font-size: 0.94rem;
+            font-weight: 700;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .bbt-live-kicker {
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 20px;
+            background: #e0f2fe;
+            color: #0284c7;
+            white-space: nowrap;
+        }
+
+        .card-preview {
+            padding: 16px;
+            min-height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+            overflow-x: auto;
+            border-bottom: 1px dashed var(--line, #e2e8f0);
+        }
+
+        .card-preview svg {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .card-code {
+            background: #0f172a;
+            color: #38bdf8;
+            padding: 10px 14px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            margin: 0;
+            overflow-x: auto;
+            max-height: 140px;
+            border-top: 1px solid #1e293b;
+        }
+
+        .card-foot {
+            padding: 8px 14px;
+            background: #f1f5f9;
+            border-top: 1px solid var(--line, #e2e8f0);
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+            margin-top: auto;
+        }
+
+        .copy-card-btn {
+            background: #0ea5e9;
+            color: #ffffff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: background 0.15s;
+        }
+
+        .copy-card-btn:hover {
+            background: #0284c7;
+        }
+
+        .load-card-btn {
+            background: #ffffff;
+            color: #0f172a;
+            border: 1px solid var(--line, #cbd5e1);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.15s;
+        }
+
+        .load-card-btn:hover {
+            background: #0ea5e9;
+            color: #ffffff;
+            border-color: #0ea5e9;
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* Workbench Section */
+        .workbench-section {
+            background: #ffffff;
+            border: 1.5px solid var(--line, #e2e8f0);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 32px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+        }
+
+        .workbench-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            margin: 0 0 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #0f172a;
+        }
+
+        .workbench-mode-switch {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            background: #f1f5f9;
+            padding: 4px;
+            border-radius: 8px;
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 10px 16px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            border: none;
+            background: transparent;
+            color: #64748b;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.16s;
+        }
+
+        .mode-btn.active {
+            background: #ffffff;
+            color: #0ea5e9;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .bbt-live-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 900px) {
+            .bbt-live-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .bbt-control-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .bbt-control-panel label {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #334155;
+        }
+
+        .bbt-control-panel input,
+        .bbt-control-panel select,
+        .bbt-control-panel textarea {
+            padding: 9px 12px;
+            border: 1px solid var(--line, #cbd5e1);
+            border-radius: 6px;
+            font-size: 0.88rem;
+            outline: none;
+            transition: border-color 0.15s;
+        }
+
+        .bbt-control-panel input:focus,
+        .bbt-control-panel select:focus,
+        .bbt-control-panel textarea:focus {
+            border-color: #0ea5e9;
+        }
+
+        .bbt-inline-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .bbt-inline-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+
+        .field-hint {
+            font-size: 0.76rem;
+            color: var(--muted, #64748b);
+            margin-top: 3px;
+            display: block;
+            font-weight: normal;
+        }
+
+        .live-code-textarea {
+            width: 100%;
+            height: 320px;
+            background: #0f172a;
+            color: #38bdf8;
+            font-family: monospace;
+            font-size: 0.9rem;
+            padding: 16px;
+            border: 1.5px solid #1e293b;
+            border-radius: 8px;
+            resize: vertical;
+            line-height: 1.5;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .live-code-textarea:focus {
+            border-color: #38bdf8;
+        }
+
+        .bbt-action-btn {
+            padding: 9px 16px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #0ea5e9;
+            color: #ffffff;
+            transition: background 0.15s;
+        }
+
+        .bbt-action-btn:hover {
+            background: #0284c7;
+        }
+
+        .bbt-action-btn.ghost {
+            background: #f1f5f9;
+            color: #334155;
+            border: 1px solid var(--line, #cbd5e1);
+        }
+
+        .bbt-action-btn.ghost:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+        }
+
+        .bbt-preview-panel {
+            background: #f8fafc;
+            border: 1px solid var(--line, #e2e8f0);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .bbt-preview-scroll svg {
+            max-width: 100%;
+            height: auto;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.06));
+        }
+    </style>
+</head>
+
+<body>
+    <header class="dash-topbar">
+        <div class="dash-topbar-inner">
+            <a class="dash-brand" href="dashboard.html">
+                <span class="dash-brand-mark">📐</span>
+                <span><strong>ConicTypst</strong><small>Kho Mẫu Hình Học Live Playground</small></span>
+            </a>
+            <div></div>
+            <nav class="dash-nav">
+                <a href="dashboard.html">Dashboard</a>
+                <a href="bbt-live.html">BBT Live</a>
+                <a href="hh-live.html" class="active">Hình Học Live</a>
+                <a href="index.html">HDSD Main</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="tool-page">
+        <div class="hero-banner">
+            <h1><i data-lucide="shapes"></i> Kho Hình Học Live — sang-math-graphics</h1>
+            <p>Showcase toàn bộ thư viện <strong>typst-pkg-sang-math-graphics</strong>: Hình 2D, Hình Khối 3D, Phẳng Hoá, Geodesic, Xác Suất, Tích Phân. Bấm <strong>⚡ Sửa &amp; Render Live</strong> ở bất kỳ mẫu để chỉnh sửa ngay tức thì!</p>
+        </div>
+
+        <div class="tab-nav">
+            <button class="tab-btn active" onclick="switchTab('tab-2d')"><i data-lucide="triangle"></i> 1. Hình Phẳng 2D</button>
+            <button class="tab-btn" onclick="switchTab('tab-3d-poly')"><i data-lucide="box"></i> 2. Hình Khối &amp; Lăng Trụ</button>
+            <button class="tab-btn" onclick="switchTab('tab-solids')"><i data-lucide="cylinder"></i> 3. Khối Tròn Xoay</button>
+            <button class="tab-btn" onclick="switchTab('tab-conics')"><i data-lucide="orbit"></i> 4. Đường Conic 2D</button>
+            <button class="tab-btn" onclick="switchTab('tab-phanghoa')"><i data-lucide="layers"></i> 5. Phẳng Hoá &amp; Geodesic</button>
+            <button class="tab-btn" onclick="switchTab('tab-special')"><i data-lucide="git-branch"></i> 6. Xác Suất &amp; Tích Phân</button>
+        </div>
+
+        <!-- TAB 1: HÌNH PHẲNG 2D -->
+        <div id="tab-2d" class="tab-content active">
+            <div class="gallery-grid">
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="triangle" style="color:#0ea5e9;"></i> Tam Giác ABC (Tọa Độ)</h3><span class="bbt-live-kicker">tri-xyz</span></div>
+                    <div class="card-preview" id="prev-tri-xyz">⏳</div>
+                    <pre class="card-code"><code id="code-tri-xyz">#tri-xyz((0,0), (5,0), (2, 3.5), labels: ("A", "B", "C"), scale: 0.8cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-tri-xyz')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-tri-xyz')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="triangle" style="color:#10b981;"></i> Tam Giác Vuông Tại A</h3><span class="bbt-live-kicker">tri-right</span></div>
+                    <div class="card-preview" id="prev-tri-right">⏳</div>
+                    <pre class="card-code"><code id="code-tri-right">#tri-right(leg1: 4, leg2: 3, labels: ("A", "B", "C"), right-angle-vertex: "A", scale: 0.8cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-tri-right')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-tri-right')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="rectangle-horizontal" style="color:#8b5cf6;"></i> Hình Chữ Nhật ABCD</h3><span class="bbt-live-kicker">rect-abc</span></div>
+                    <div class="card-preview" id="prev-rect-abc">⏳</div>
+                    <pre class="card-code"><code id="code-rect-abc">#rect-abc(width: 5, height: 3, labels: ("A", "B", "C", "D"), scale: 0.8cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-rect-abc')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-rect-abc')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="square" style="color:#dc2626;"></i> Hình Vuông ABCD</h3><span class="bbt-live-kicker">square</span></div>
+                    <div class="card-preview" id="prev-square">⏳</div>
+                    <pre class="card-code"><code id="code-square">#square(a: 4, labels: ("A", "B", "C", "D"), scale: 0.8cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-square')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-square')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="circle" style="color:#0ea5e9;"></i> Đường Tròn Ngoại Tiếp</h3><span class="bbt-live-kicker">circle-circumcircle</span></div>
+                    <div class="card-preview" id="prev-circumcircle">⏳</div>
+                    <pre class="card-code"><code id="code-circumcircle">#circle-circumcircle((-2.5, 0), (2.5, 0), (0, 3.5), label: "O", scale: 0.8cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-circumcircle')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-circumcircle')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="circle-dot" style="color:#10b981;"></i> Đường Tròn Nội Tiếp</h3><span class="bbt-live-kicker">circle-incircle</span></div>
+                    <div class="card-preview" id="prev-incircle">⏳</div>
+                    <pre class="card-code"><code id="code-incircle">#circle-incircle((-2.5, 0), (2.5, 0), (0, 3.5), label: "I", scale: 0.8cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-incircle')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-incircle')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="circle" style="color:#f59e0b;"></i> Đường Tròn Tâm O</h3><span class="bbt-live-kicker">circle-desc</span></div>
+                    <div class="card-preview" id="prev-circle-desc">⏳</div>
+                    <pre class="card-code"><code id="code-circle-desc">#circle-desc(center: (0, 0), radius: 2.5, label: "O", scale: 0.8cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-circle-desc')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-circle-desc')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="move-diagonal" style="color:#8b5cf6;"></i> Đoạn Thẳng Có Nhãn</h3><span class="bbt-live-kicker">dashed-seg</span></div>
+                    <div class="card-preview" id="prev-dashed-seg">⏳</div>
+                    <pre class="card-code"><code id="code-dashed-seg">#dashed-seg((0,0), (5,0), scale: 0.8cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-dashed-seg')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-dashed-seg')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: HÌNH KHỐI 3D -->
+        <div id="tab-3d-poly" class="tab-content">
+            <div class="gallery-grid">
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="pyramid" style="color:#0ea5e9;"></i> Hình Chóp S.ABC</h3><span class="bbt-live-kicker">chop-sabc</span></div>
+                    <div class="card-preview" id="prev-chop-sabc">⏳</div>
+                    <pre class="card-code"><code id="code-chop-sabc">#chop-sabc(labels: ("S", "A", "B", "C"), hidden: ("AC",), scale: 0.8cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-chop-sabc')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-chop-sabc')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="pyramid" style="color:#dc2626;"></i> Hình Chóp S.ABCD</h3><span class="bbt-live-kicker">chop-sabcd</span></div>
+                    <div class="card-preview" id="prev-chop-sabcd">⏳</div>
+                    <pre class="card-code"><code id="code-chop-sabcd">#chop-sabcd(labels: ("S", "A", "B", "C", "D"), hidden: ("AB", "AD", "AC"), scale: 0.8cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-chop-sabcd')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-chop-sabcd')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="pyramid" style="color:#8b5cf6;"></i> Chóp Đều S.ABC (Đường Cao)</h3><span class="bbt-live-kicker">chop-sabc-deu</span></div>
+                    <div class="card-preview" id="prev-chop-sabc-deu">⏳</div>
+                    <pre class="card-code"><code id="code-chop-sabc-deu">#chop-sabc-deu(S-height: 6, labels: ("S", "A", "B", "C", "O"), scale: 0.8cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-chop-sabc-deu')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-chop-sabc-deu')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="pyramid" style="color:#f59e0b;"></i> Chóp Đều S.ABCD (Đường Cao)</h3><span class="bbt-live-kicker">chop-sabcd-deu</span></div>
+                    <div class="card-preview" id="prev-chop-sabcd-deu">⏳</div>
+                    <pre class="card-code"><code id="code-chop-sabcd-deu">#chop-sabcd-deu(S-height: 7, labels: ("S", "A", "B", "C", "D", "O"), scale: 0.8cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-chop-sabcd-deu')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-chop-sabcd-deu')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="box" style="color:#10b981;"></i> Lăng Trụ ABC.A'B'C'</h3><span class="bbt-live-kicker">lang-tru-abc</span></div>
+                    <div class="card-preview" id="prev-lang-tru">⏳</div>
+                    <pre class="card-code"><code id="code-lang-tru">#lang-tru-abc(labels: ("A", "B", "C", "A'", "B'", "C'"), hidden: ("AA'", "AB"), scale: 0.8cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-lang-tru')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-lang-tru')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="layers" style="color:#0ea5e9;"></i> Trục Tọa Độ Oxyz</h3><span class="bbt-live-kicker">axis-xyz</span></div>
+                    <div class="card-preview" id="prev-axis-xyz">⏳</div>
+                    <pre class="card-code"><code id="code-axis-xyz">#axis-xyz(x-len: 3, y-len: 4, z-len: 4, labels: ("x", "y", "z", "O"), scale: 0.8cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-axis-xyz')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-axis-xyz')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="move-3d" style="color:#dc2626;"></i> Nón Pseudo 3D</h3><span class="bbt-live-kicker">pseudo-cone</span></div>
+                    <div class="card-preview" id="prev-pseudo-cone">⏳</div>
+                    <pre class="card-code"><code id="code-pseudo-cone">#pseudo-cone(radius-x: 3, radius-y: 1, height: 6, label-S: "S", label-O: "O", scale: 0.8cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-pseudo-cone')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-pseudo-cone')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="move-3d" style="color:#8b5cf6;"></i> Trụ Pseudo 3D</h3><span class="bbt-live-kicker">pseudo-cylinder</span></div>
+                    <div class="card-preview" id="prev-pseudo-cyl">⏳</div>
+                    <pre class="card-code"><code id="code-pseudo-cyl">#pseudo-cylinder(O1: (0,0), O2: (0,6), radius-x: 3, radius-y: 1, label-O1: "O", label-O2: "O'", scale: 0.8cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-pseudo-cyl')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-pseudo-cyl')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: KHỐI TRÒN XOAY -->
+        <div id="tab-solids" class="tab-content">
+            <div class="gallery-grid">
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="cylinder" style="color:#0ea5e9;"></i> Hình Trụ 3D (Anchor C.top/bottom)</h3><span class="bbt-live-kicker">draw-cylinder</span></div>
+                    <div class="card-preview" id="prev-cylinder">⏳</div>
+                    <pre class="card-code"><code id="code-cylinder">#cetz.canvas(length: 0.8cm, {
+  import cetz.draw: *
+  draw-cylinder(name: "C", radius: 2, height: 4, center: (0,0,0), stroke: rgb("0057b8"))
+  content("C.top-center", [$O'$], anchor: "south")
+  content("C.bottom-center", [$O$], anchor: "north")
+})</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-cylinder')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-cylinder')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="triangle" style="color:#e91e63;"></i> Hình Nón 3D (Anchor N.top/center)</h3><span class="bbt-live-kicker">draw-cone</span></div>
+                    <div class="card-preview" id="prev-cone">⏳</div>
+                    <pre class="card-code"><code id="code-cone">#cetz.canvas(length: 0.8cm, {
+  import cetz.draw: *
+  draw-cone(name: "N", radius: 2.5, height: 4, center: (0,0,0), stroke: rgb("cc2200"))
+  circle("N.top", radius: 0.06, fill: red)
+  content("N.top", [$S$], anchor: "south")
+  content("N.center", [$O$], anchor: "north")
+})</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-cone')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-cone')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="globe-2" style="color:#10b981;"></i> Hình Cầu 3D (Xích Đạo+Kinh Tuyến)</h3><span class="bbt-live-kicker">draw-sphere</span></div>
+                    <div class="card-preview" id="prev-sphere">⏳</div>
+                    <pre class="card-code"><code id="code-sphere">#cetz.canvas(length: 0.8cm, {
+  import cetz.draw: *
+  draw-sphere(name: "S", radius: 2.5, center: (0,0,0), stroke: rgb("1a7a2e"))
+  content("S.center", [$O$], anchor: "north")
+})</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-sphere')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-sphere')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="rotate-3d" style="color:#e91e63;"></i> Xoắn Ốc Trên Trụ (Kiến Bò)</h3><span class="bbt-live-kicker">draw-helix</span></div>
+                    <div class="card-preview" id="prev-helix">⏳</div>
+                    <pre class="card-code"><code id="code-helix">#cetz.canvas(length: 0.8cm, {
+  import cetz.draw: *
+  draw-cylinder(name: "C", radius: 1.8, height: 4, center: (0,0,0), stroke: rgb("888"))
+  draw-helix(center: (0,0,0), radius: 1.8, height: 4, loops: 2, stroke: rgb("cc2200") + 1.2pt)
+})</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-helix')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-helix')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="zap" style="color:#0ea5e9;"></i> Xoắn Ốc Trên Nón (Conical Helix)</h3><span class="bbt-live-kicker">draw-conical-helix</span></div>
+                    <div class="card-preview" id="prev-conical-helix">⏳</div>
+                    <pre class="card-code"><code id="code-conical-helix">#cetz.canvas(length: 0.8cm, {
+  import cetz.draw: *
+  draw-cone(radius: 3, height: 5, center: (0,0,0), stroke: rgb("888"))
+  draw-conical-helix(center: (0,0,0), base-radius: 3, height: 5, loops: 3, stroke: rgb("cc2200") + 1.2pt)
+})</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-conical-helix')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-conical-helix')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- TAB 4: ĐƯỜNG CONIC 2D -->
+        <div id="tab-conics" class="tab-content">
+            <div class="gallery-grid">
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="orbit" style="color:#0ea5e9;"></i> Parabol 2D</h3><span class="bbt-live-kicker">draw-parabola</span></div>
+                    <div class="card-preview" id="prev-parabola">⏳</div>
+                    <pre class="card-code"><code id="code-parabola">#cetz.canvas(length: 0.8cm, {
+  import cetz.draw: *
+  line((-3.5,0),(3.5,0), mark: (end: ">"), stroke: 0.7pt)
+  line((0,-1.5),(0,3.5), mark: (end: ">"), stroke: 0.7pt)
+  draw-parabola(a: 0.5, b: 0, c: -1, x-range: (-2.8, 2.8), stroke: rgb("1565C0"))
+})</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-parabola')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-parabola')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="disc" style="color:#10b981;"></i> Elip 2D (Tiêu Điểm)</h3><span class="bbt-live-kicker">draw-ellipse</span></div>
+                    <div class="card-preview" id="prev-ellipse">⏳</div>
+                    <pre class="card-code"><code id="code-ellipse">#cetz.canvas(length: 0.8cm, {
+  import cetz.draw: *
+  line((-3.5,0),(3.5,0), mark: (end: ">"), stroke: 0.7pt)
+  line((0,-2.5),(0,2.5), mark: (end: ">"), stroke: 0.7pt)
+  draw-ellipse(a: 3, b: 2, stroke: rgb("6a1b9a") + 1.2pt)
+})</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-ellipse')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-ellipse')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="activity" style="color:#e91e63;"></i> Hyperbol 2D (Tiệm Cận)</h3><span class="bbt-live-kicker">draw-hyperbola</span></div>
+                    <div class="card-preview" id="prev-hyperbola">⏳</div>
+                    <pre class="card-code"><code id="code-hyperbola">#cetz.canvas(length: 0.8cm, {
+  import cetz.draw: *
+  line((-4,0),(4,0), mark: (end: ">"), stroke: 0.7pt)
+  line((0,-3),(0,3), mark: (end: ">"), stroke: 0.7pt)
+  draw-hyperbola(a: 1.5, b: 1, x-range: (1.6, 4), stroke: rgb("cc2200") + 1.2pt)
+})</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-hyperbola')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-hyperbola')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="trending-up" style="color:#f59e0b;"></i> Đồ Thị Hàm Bậc 3</h3><span class="bbt-live-kicker">plot-cubic</span></div>
+                    <div class="card-preview" id="prev-plot-cubic">⏳</div>
+                    <pre class="card-code"><code id="code-plot-cubic">#plot-cubic(scale: 0.8cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-plot-cubic')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-plot-cubic')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="trending-up" style="color:#8b5cf6;"></i> Đồ Thị Hàm Phân Thức</h3><span class="bbt-live-kicker">plot-rational</span></div>
+                    <div class="card-preview" id="prev-plot-rational">⏳</div>
+                    <pre class="card-code"><code id="code-plot-rational">#plot-rational(scale: 0.8cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-plot-rational')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-plot-rational')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="mountain-snow" style="color:#0ea5e9;"></i> Mặt Yên Ngựa (Saddle)</h3><span class="bbt-live-kicker">draw-saddle</span></div>
+                    <div class="card-preview" id="prev-saddle">⏳</div>
+                    <pre class="card-code"><code id="code-saddle">#cetz.canvas(length: 1.2cm, {
+  import cetz.draw: *
+  draw-saddle(x-range: (-2, 2), y-range: (-2, 2), samples: 12, stroke: rgb("1A5276") + 0.6pt)
+})</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-saddle')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-saddle')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: PHẲNG HOÁ & GEODESIC -->
+        <div id="tab-phanghoa" class="tab-content">
+            <div class="gallery-grid">
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="layers" style="color:#0ea5e9;"></i> Khai Triển Hình Nón</h3><span class="bbt-live-kicker">phanghoa-non</span></div>
+                    <div class="card-preview" id="prev-phanghoa-non">⏳</div>
+                    <pre class="card-code"><code id="code-phanghoa-non">#phanghoa-non(r: 3, h: 4, labels: ("S", "A", "A'"), draw-base: true, scale: 0.7cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-phanghoa-non')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-phanghoa-non')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="layers" style="color:#10b981;"></i> Khai Triển Hình Trụ</h3><span class="bbt-live-kicker">phanghoa-tru</span></div>
+                    <div class="card-preview" id="prev-phanghoa-tru">⏳</div>
+                    <pre class="card-code"><code id="code-phanghoa-tru">#phanghoa-tru(r: 2, h: 5, labels: ("A", "B", "B'", "A'"), draw-bases: true, scale: 0.6cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-phanghoa-tru')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-phanghoa-tru')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="layers" style="color:#8b5cf6;"></i> Khai Triển Chóp S.ABC</h3><span class="bbt-live-kicker">phanghoa-sabc</span></div>
+                    <div class="card-preview" id="prev-phanghoa-sabc">⏳</div>
+                    <pre class="card-code"><code id="code-phanghoa-sabc">#phanghoa-sabc(SA: 5, SB: 6, SC: 5.5, AB: 4, BC: 4.5, CA: 3.5, scale: 0.7cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-phanghoa-sabc')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-phanghoa-sabc')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="navigation" style="color:#f59e0b;"></i> Geodesic Xoắn Ốc Trên Nón</h3><span class="bbt-live-kicker">cone-geodesic-3d</span></div>
+                    <div class="card-preview" id="prev-cone-geo">⏳</div>
+                    <pre class="card-code"><code id="code-cone-geo">#cone-geodesic-3d(r: 3, h: 8, loops: 3, end-distance: 5, scale: 0.6cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-cone-geo')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-cone-geo')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="map" style="color:#dc2626;"></i> Geodesic Nón — Trải Phẳng 2D</h3><span class="bbt-live-kicker">cone-unfold-2d</span></div>
+                    <div class="card-preview" id="prev-cone-unfold">⏳</div>
+                    <pre class="card-code"><code id="code-cone-unfold">#cone-unfold-2d(r: 3, h: 8, loops: 3, end-distance: 5, scale: 0.6cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-cone-unfold')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-cone-unfold')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="navigation-2" style="color:#10b981;"></i> Geodesic Xoắn Ốc Trên Trụ</h3><span class="bbt-live-kicker">cylinder-geodesic-3d</span></div>
+                    <div class="card-preview" id="prev-cyl-geo">⏳</div>
+                    <pre class="card-code"><code id="code-cyl-geo">#cylinder-geodesic-3d(r: 2, h: 5, loops: 2, scale: 0.7cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-cyl-geo')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-cyl-geo')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="map-pin" style="color:#0ea5e9;"></i> Geodesic Trụ — Trải Phẳng 2D</h3><span class="bbt-live-kicker">cylinder-unfold-2d</span></div>
+                    <div class="card-preview" id="prev-cyl-unfold">⏳</div>
+                    <pre class="card-code"><code id="code-cyl-unfold">#cylinder-unfold-2d(r: 2, h: 5, loops: 2, scale: 0.7cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-cyl-unfold')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-cyl-unfold')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="layers" style="color:#8b5cf6;"></i> Geodesic Nón Cụt 3D</h3><span class="bbt-live-kicker">truncated-cone-geodesic-3d</span></div>
+                    <div class="card-preview" id="prev-trcone-geo">⏳</div>
+                    <pre class="card-code"><code id="code-trcone-geo">#truncated-cone-geodesic-3d(R: 3, r: 1, h: 4, loops: 1.5, scale: 0.7cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-trcone-geo')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-trcone-geo')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 6: XÁC SUẤT & TÍCH PHÂN -->
+        <div id="tab-special" class="tab-content">
+            <div class="gallery-grid">
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="git-branch" style="color:#0ea5e9;"></i> Sơ Đồ Cây 2x2</h3><span class="bbt-live-kicker">draw-tree-2x2</span></div>
+                    <div class="card-preview" id="prev-tree-2x2">⏳</div>
+                    <pre class="card-code"><code id="code-tree-2x2">#draw-tree-2x2()</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-tree-2x2')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-tree-2x2')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="git-merge" style="color:#10b981;"></i> Sơ Đồ Cây 3x2</h3><span class="bbt-live-kicker">draw-tree-3x2</span></div>
+                    <div class="card-preview" id="prev-tree-3x2">⏳</div>
+                    <pre class="card-code"><code id="code-tree-3x2">#draw-tree-3x2()</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-tree-3x2')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-tree-3x2')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="bar-chart-3" style="color:#8b5cf6;"></i> Biểu Đồ Đóng Góp Bayes</h3><span class="bbt-live-kicker">draw-bayes-contribution-bar</span></div>
+                    <div class="card-preview" id="prev-bayes-bar">⏳</div>
+                    <pre class="card-code"><code id="code-bayes-bar">#draw-bayes-contribution-bar(terms: (([B1], 0.4, blue), ([B2], 0.6, red)))</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-bayes-bar')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-bayes-bar')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="box-select" style="color:#f59e0b;"></i> Thể Tích Mặt Cắt Vuông</h3><span class="bbt-live-kicker">draw-square-cross-section</span></div>
+                    <div class="card-preview" id="prev-vol-cross">⏳</div>
+                    <pre class="card-code"><code id="code-vol-cross">#cetz.canvas(length: 0.9cm, {
+  import cetz.draw: *
+  draw-square-cross-section(x => calc.pow(2, x), x-range: (0, 2), samples: 5)
+})</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-vol-cross')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-vol-cross')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="mountain" style="color:#10b981;"></i> Paraboloid 3D</h3><span class="bbt-live-kicker">draw-paraboloid</span></div>
+                    <div class="card-preview" id="prev-paraboloid">⏳</div>
+                    <pre class="card-code"><code id="code-paraboloid">#cetz.canvas(length: 1.0cm, {
+  import cetz.draw: *
+  draw-paraboloid(a: 2, b: 2, z-max: 4, samples: 12, stroke: rgb("2e7d32"))
+})</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-paraboloid')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-paraboloid')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="box" style="color:#dc2626;"></i> Đường Hầm Nửa Elip</h3><span class="bbt-live-kicker">draw-half-elliptical-tunnel</span></div>
+                    <div class="card-preview" id="prev-tunnel">⏳</div>
+                    <pre class="card-code"><code id="code-tunnel">#cetz.canvas(length: 0.5cm, {
+  import cetz.draw: *
+  draw-half-elliptical-tunnel(length: 6, h-start: 4, h-end: 1, ratio: 3)
+})</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-tunnel')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-tunnel')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- WORKBENCH -->
+        <div class="workbench-section">
+            <div class="workbench-title">
+                <span style="display:flex;align-items:center;gap:8px;"><i data-lucide="sliders" style="color:#0ea5e9;"></i> Trình Biên Tập Live — sang-math-graphics Workbench</span>
+                <span id="hhCheckBadge" class="bbt-live-kicker" style="font-size:11px;">Sẵn sàng</span>
+            </div>
+            <div class="workbench-mode-switch">
+                <button type="button" id="modeCodeBtn" class="mode-btn active" onclick="setWorkbenchMode('code')"><i data-lucide="code"></i> 1. Soạn Thảo Code Live</button>
+                <button type="button" id="modeFormBtn" class="mode-btn" onclick="setWorkbenchMode('form')"><i data-lucide="sliders"></i> 2. Form Tham Số Nhanh</button>
+            </div>
+            <div class="bbt-live" id="hhLive" style="margin:0;">
+                <div class="bbt-live-grid">
+                    <div id="workbenchCodePanel" class="bbt-control-panel" style="display:block;">
+                        <label>
+                            <span style="display:flex;justify-content:space-between;align-items:center;">
+                                <span>Nhập/Sửa Mã Typst Trực Tiếp:</span>
+                                <small style="color:#0ea5e9;font-weight:normal;">Auto render 50ms</small>
+                            </span>
+                            <textarea id="hhLiveTextarea" class="live-code-textarea" spellcheck="false">#chop-sabc(labels: ("S", "A", "B", "C"), hidden: ("AC",), scale: 0.8cm)</textarea>
+                        </label>
+                        <div style="display:flex;gap:8px;margin-top:10px;">
+                            <button type="button" class="bbt-action-btn" id="hhCopyBtn"><i data-lucide="copy"></i> Copy Code</button>
+                            <button type="button" class="bbt-action-btn ghost" id="hhCopyFullBtn"><i data-lucide="file-code"></i> Copy File .typ</button>
+                        </div>
+                    </div>
+                    <div id="workbenchFormPanel" class="bbt-control-panel" style="display:none;">
+                        <label>
+                            <span>Loại Hình (Shape)</span>
+                            <select id="hhShapeSelect">
+                                <optgroup label="── Hình Phẳng 2D ──">
+                                    <option value="tri-xyz">Tam Giác ABC (tri-xyz)</option>
+                                    <option value="tri-right">Tam Giác Vuông (tri-right)</option>
+                                    <option value="rect-abc">Hình Chữ Nhật (rect-abc)</option>
+                                    <option value="circle-desc">Đường Tròn (circle-desc)</option>
+                                </optgroup>
+                                <optgroup label="── Hình Khối 3D ──">
+                                    <option value="chop-sabc">Chóp S.ABC</option>
+                                    <option value="chop-sabcd">Chóp S.ABCD</option>
+                                    <option value="chop-sabc-deu">Chóp Đều S.ABC</option>
+                                    <option value="chop-sabcd-deu">Chóp Đều S.ABCD</option>
+                                    <option value="lang-tru-abc">Lăng Trụ ABC.A'B'C'</option>
+                                    <option value="pseudo-cone">Nón Pseudo</option>
+                                    <option value="pseudo-cylinder">Trụ Pseudo</option>
+                                </optgroup>
+                                <optgroup label="── Khối Tròn Xoay ──">
+                                    <option value="draw-cylinder">Hình Trụ 3D</option>
+                                    <option value="draw-cone">Hình Nón 3D</option>
+                                    <option value="draw-sphere">Hình Cầu 3D</option>
+                                    <option value="draw-helix">Xoắn Ốc Trên Trụ</option>
+                                </optgroup>
+                                <optgroup label="── Đường Conic ──">
+                                    <option value="draw-parabola">Parabol 2D</option>
+                                    <option value="draw-ellipse">Elip 2D</option>
+                                    <option value="draw-hyperbola">Hyperbol 2D</option>
+                                </optgroup>
+                                <optgroup label="── Phẳng Hoá ──">
+                                    <option value="phanghoa-non">Khai Triển Nón</option>
+                                    <option value="phanghoa-tru">Khai Triển Trụ</option>
+                                    <option value="phanghoa-sabc">Khai Triển Chóp S.ABC</option>
+                                </optgroup>
+                            </select>
+                        </label>
+                        <div class="bbt-inline-3">
+                            <label><span>Tham số a / bán kính</span><input id="hhParamA" type="number" step="0.5" value="3" /><span class="field-hint">VD: 3, 2.5</span></label>
+                            <label><span>Tham số b / bán trục</span><input id="hhParamB" type="number" step="0.5" value="2" /><span class="field-hint">VD: 2, 1.5</span></label>
+                            <label><span>Chiều cao (h)</span><input id="hhParamH" type="number" step="0.5" value="4" /><span class="field-hint">VD: 4, 5, 6</span></label>
+                        </div>
+                        <div class="bbt-inline-2">
+                            <label><span>Tỷ lệ (Scale)</span><input id="hhScale" value="0.8cm" /><span class="field-hint">VD: 0.7cm, 1cm</span></label>
+                            <label><span>Nhãn Đỉnh (Labels)</span><input id="hhLabels" value="S, A, B, C" /><span class="field-hint">Phân cách dấu phẩy</span></label>
+                        </div>
+                    </div>
+                    <div class="bbt-preview-panel">
+                        <div class="bbt-preview-toolbar" style="padding:14px 18px;border-bottom:1px solid var(--line, #e2e8f0);display:flex;justify-content:space-between;align-items:center;">
+                            <strong style="font-size:0.9rem;">Kết quả Render Typst (WASM)</strong>
+                            <span style="font-size:0.75rem;color:#10b981;font-weight:700;"><i data-lucide="check-circle"></i> Live SVG</span>
+                        </div>
+                        <div class="bbt-preview-scroll" style="padding:20px;display:flex;justify-content:center;align-items:center;min-height:320px;overflow:auto;">
+                            <div id="hhPreview" class="bbt-official-preview" style="text-align:center;width:100%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function el(id) { return document.getElementById(id); }
+        let currentWorkbenchMode = 'code';
+
+        function setWorkbenchMode(mode) {
+            currentWorkbenchMode = mode;
+            const show = mode === 'code';
+            el('workbenchCodePanel').style.display = show ? 'block' : 'none';
+            el('workbenchFormPanel').style.display = show ? 'none' : 'block';
+            el('modeCodeBtn').classList.toggle('active', show);
+            el('modeFormBtn').classList.toggle('active', !show);
+            if (!show) renderHhFromForm();
+            scheduleHhOfficialRender(50);
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+            const btn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick')?.includes(tabId));
+            if (btn) btn.classList.add('active');
+            const t = el(tabId); if (t) t.style.display = 'block';
+        }
+
+        async function copySnippet(id) {
+            await navigator.clipboard.writeText(el(id)?.textContent || '');
+            alert('Copied!');
+        }
+
+        function editSnippetLive(id) {
+            const code = el(id)?.textContent || '';
+            if (!code) return;
+            setWorkbenchMode('code');
+            el('hhLiveTextarea').value = code;
+            el('hhLive')?.scrollIntoView({ behavior: 'smooth' });
+            scheduleHhOfficialRender(50);
+        }
+
+        const GALLERY_CODES = {
+            'prev-tri-xyz': '#tri-xyz((0,0), (5,0), (2, 3.5), labels: ("A", "B", "C"), scale: 0.8cm)',
+            'prev-tri-right': '#tri-right(leg1: 4, leg2: 3, labels: ("A", "B", "C"), right-angle-vertex: "A", scale: 0.8cm)',
+            'prev-rect-abc': '#rect-abc(width: 5, height: 3, labels: ("A", "B", "C", "D"), scale: 0.8cm)',
+            'prev-square': '#square(a: 4, labels: ("A", "B", "C", "D"), scale: 0.8cm)',
+            'prev-circumcircle': '#circle-circumcircle((-2.5, 0), (2.5, 0), (0, 3.5), label: "O", scale: 0.8cm)',
+            'prev-incircle': '#circle-incircle((-2.5, 0), (2.5, 0), (0, 3.5), label: "I", scale: 0.8cm)',
+            'prev-circle-desc': '#circle-desc(center: (0, 0), radius: 2.5, label: "O", scale: 0.8cm)',
+            'prev-dashed-seg': '#dashed-seg((0,0), (5,0), scale: 0.8cm)',
+            'prev-chop-sabc': '#chop-sabc(labels: ("S", "A", "B", "C"), hidden: ("AC",), scale: 0.8cm)',
+            'prev-chop-sabcd': '#chop-sabcd(labels: ("S", "A", "B", "C", "D"), hidden: ("AB", "AD", "AC"), scale: 0.8cm)',
+            'prev-chop-sabc-deu': '#chop-sabc-deu(S-height: 6, labels: ("S", "A", "B", "C", "O"), scale: 0.8cm)',
+            'prev-chop-sabcd-deu': '#chop-sabcd-deu(S-height: 7, labels: ("S", "A", "B", "C", "D", "O"), scale: 0.8cm)',
+            'prev-lang-tru': '#lang-tru-abc(labels: ("A", "B", "C", "A\'", "B\'", "C\'"), hidden: ("AA\'", "AB"), scale: 0.8cm)',
+            'prev-axis-xyz': '#axis-xyz(x-len: 3, y-len: 4, z-len: 4, labels: ("x", "y", "z", "O"), scale: 0.8cm)',
+            'prev-pseudo-cone': '#pseudo-cone(radius-x: 3, radius-y: 1, height: 6, label-S: "S", label-O: "O", scale: 0.8cm)',
+            'prev-pseudo-cyl': '#pseudo-cylinder(O1: (0,0), O2: (0,6), radius-x: 3, radius-y: 1, label-O1: "O", label-O2: "O\'", scale: 0.8cm)',
+            'prev-cylinder': '#cetz.canvas(length: 0.8cm, {\n  import cetz.draw: *\n  draw-cylinder(name: "C", radius: 2, height: 4, center: (0,0,0), stroke: rgb("0057b8"))\n  content("C.top-center", [$O\'$], anchor: "south")\n  content("C.bottom-center", [$O$], anchor: "north")\n})',
+            'prev-cone': '#cetz.canvas(length: 0.8cm, {\n  import cetz.draw: *\n  draw-cone(name: "N", radius: 2.5, height: 4, center: (0,0,0), stroke: rgb("cc2200"))\n  content("N.top", [$S$], anchor: "south")\n  content("N.center", [$O$], anchor: "north")\n})',
+            'prev-sphere': '#cetz.canvas(length: 0.8cm, {\n  import cetz.draw: *\n  draw-sphere(name: "S", radius: 2.5, center: (0,0,0), stroke: rgb("1a7a2e"))\n  content("S.center", [$O$], anchor: "north")\n})',
+            'prev-helix': '#cetz.canvas(length: 0.8cm, {\n  import cetz.draw: *\n  draw-cylinder(name: "C", radius: 1.8, height: 4, center: (0,0,0), stroke: rgb("888"))\n  draw-helix(center: (0,0,0), radius: 1.8, height: 4, loops: 2, stroke: rgb("cc2200") + 1.2pt)\n})',
+            'prev-conical-helix': '#cetz.canvas(length: 0.8cm, {\n  import cetz.draw: *\n  draw-cone(radius: 3, height: 5, center: (0,0,0), stroke: rgb("888"))\n  draw-conical-helix(center: (0,0,0), base-radius: 3, height: 5, loops: 3, stroke: rgb("cc2200") + 1.2pt)\n})',
+
+            'prev-parabola': '#cetz.canvas(length: 0.8cm, {\n  import cetz.draw: *\n  line((-3.5,0),(3.5,0), mark: (end: ">"), stroke: 0.7pt)\n  line((0,-1.5),(0,3.5), mark: (end: ">"), stroke: 0.7pt)\n  draw-parabola(a: 0.5, b: 0, c: -1, x-range: (-2.8, 2.8), stroke: rgb("1565C0"))\n})',
+            'prev-ellipse': '#cetz.canvas(length: 0.8cm, {\n  import cetz.draw: *\n  line((-3.5,0),(3.5,0), mark: (end: ">"), stroke: 0.7pt)\n  line((0,-2.5),(0,2.5), mark: (end: ">"), stroke: 0.7pt)\n  draw-ellipse(a: 3, b: 2, stroke: rgb("6a1b9a") + 1.2pt)\n})',
+            'prev-hyperbola': '#cetz.canvas(length: 0.8cm, {\n  import cetz.draw: *\n  line((-4,0),(4,0), mark: (end: ">"), stroke: 0.7pt)\n  line((0,-3),(0,3), mark: (end: ">"), stroke: 0.7pt)\n  draw-hyperbola(a: 1.5, b: 1, x-range: (1.6, 4), stroke: rgb("cc2200") + 1.2pt)\n})',
+            'prev-plot-cubic': '#plot-cubic(scale: 0.8cm)',
+            'prev-plot-rational': '#plot-rational(scale: 0.8cm)',
+            'prev-saddle': '#cetz.canvas(length: 1.2cm, {\n  import cetz.draw: *\n  draw-saddle(x-range: (-2, 2), y-range: (-2, 2), samples: 12, stroke: rgb("1A5276") + 0.6pt)\n})',
+            'prev-phanghoa-non': '#cone(r: 2, l: 6, to: 3, display: "both", scale: 0.8cm, gap: 1.5cm)',
+            'prev-phanghoa-tru': '#cylinder(r: 2, h: 5, wrap: 2, display: "both", scale: 0.7cm, gap: 1.5cm)',
+            'prev-phanghoa-sabc': '#pyramid(n: 4, a: 2, e: 4, sm: 2, display: "both", scale: 0.7cm, gap: 1.5cm)',
+            'prev-cone-geo': '#cone(r: 2, l: 6, to: 3, wrap: 2, display: "solid", scale: 0.8cm)',
+            'prev-cone-unfold': '#cone(r: 2, l: 6, to: 3, wrap: 2, display: "net", scale: 0.8cm)',
+            'prev-cyl-geo': '#cylinder(r: 2, h: 5, wrap: 2, display: "solid", scale: 0.8cm)',
+            'prev-cyl-unfold': '#cylinder(r: 2, h: 5, wrap: 2, display: "net", scale: 0.8cm)',
+            'prev-trcone-geo': '#frustum(r1: 3, r2: 1.5, l: 5, wrap: 1.5, display: "solid", scale: 0.8cm)',
+            'prev-tree-2x2': '#draw-tree-nodes((name: "O", p: 1, children: (\n  (name: "A", p: 0.6, children: (\n    (name: "A1", p: 0.7),\n    (name: "A2", p: 0.3)\n  )),\n  (name: "B", p: 0.4, children: (\n    (name: "B1", p: 0.2),\n    (name: "B2", p: 0.8)\n  ))\n)), theme-colors: (fill: rgb("E3F2FD"), stroke: rgb("1A5276")), prob-pos: 0.4, path-type: "orthogonal")',
+            'prev-tree-3x2': '#draw-tree-nodes((name: "Start", p: 1, children: (\n  (name: "X", p: 0.3, children: ((name: "X1", p: 0.5), (name: "X2", p: 0.5))),\n  (name: "Y", p: 0.5, children: ((name: "Y1", p: 0.8), (name: "Y2", p: 0.2))),\n  (name: "Z", p: 0.2, children: ((name: "Z1", p: 0.1), (name: "Z2", p: 0.9)))\n)), theme-colors: (fill: rgb("FCE4EC"), stroke: rgb("E91E63")), prob-pos: 0.5, path-type: "straight")',
+            'prev-bayes-bar': '#draw-bayes-contribution-bar(terms: (([B1], 0.4, blue), ([B2], 0.6, red)))',
+            'prev-vol-cross': '#draw-solid-section(type: "square", axis: "x", f: x => calc.pow(2, x), domain: (0, 2), slices: (0.5, 1, 1.5), size-scale: 1.5)',
+            'prev-paraboloid': '#draw-solid-section(type: "circle", axis: "y", f: y => calc.sqrt(y), domain: (0, 4), slices: (1, 2, 3), size-scale: 1.2)',
+            'prev-tunnel': '#draw-solid-section(type: "semi-circle", axis: "x", f: x => 3, domain: (0, 6), slices: (1, 3, 5), size-scale: 1.0)',
+        };
+
+        async function renderGalleryPreviews() {
+            if (window.initTypstCompiler) try { await window.initTypstCompiler(); } catch(e){}
+            if (!window.compileTypstToSvg) { setTimeout(renderGalleryPreviews, 600); return; }
+            for (const [id, code] of Object.entries(GALLERY_CODES)) {
+                const t = el(id); if (!t) continue;
+                try {
+                    const svg = await window.compileTypstToSvg(code);
+                    t.innerHTML = svg;
+                    const s = t.querySelector('svg'); if (s) { s.style.maxWidth='100%'; s.style.height='auto'; }
+                } catch(e) {
+                    console.error('[Gallery]', id, String(e.message||e).slice(0,200));
+                    t.innerHTML = '<span style="color:#dc2626;font-size:0.72rem;">⚠ Lỗi render</span>';
+                }
+            }
+        }
+
+        function formatLabels(str) {
+            return '(' + str.split(',').map(s => `"${s.trim()}"`).filter(Boolean).join(', ') + ')';
+        }
+
+        function buildHhCodeFromForm() {
+            const shape = el('hhShapeSelect')?.value || 'chop-sabc';
+            const a = parseFloat(el('hhParamA')?.value||'3'), b = parseFloat(el('hhParamB')?.value||'2'), h = parseFloat(el('hhParamH')?.value||'4');
+            const scale = el('hhScale')?.value||'0.8cm', labels = formatLabels(el('hhLabels')?.value||'S, A, B, C');
+            switch(shape) {
+                case 'tri-xyz': return `#tri-xyz((0,0),(${a},0),(1.5,${h}),labels:${labels},scale:${scale})`;
+                case 'tri-right': return `#tri-right(leg1:${a},leg2:${b},labels:${labels},right-angle-vertex:"A",scale:${scale})`;
+                case 'rect-abc': return `#rect-abc(width:${a},height:${b},labels:${labels},scale:${scale})`;
+                case 'circle-desc': return `#circle-desc(center:(0,0),radius:${a},label:"O",scale:${scale})`;
+                case 'chop-sabc': return `#chop-sabc(labels:${labels},hidden:("AC",),scale:${scale})`;
+                case 'chop-sabcd': return `#chop-sabcd(labels:${labels},hidden:("AB","AD","AC"),scale:${scale})`;
+                case 'chop-sabc-deu': return `#chop-sabc-deu(S-height:${h},labels:${labels},scale:${scale})`;
+                case 'chop-sabcd-deu': return `#chop-sabcd-deu(S-height:${h},labels:${labels},scale:${scale})`;
+                case 'lang-tru-abc': return `#lang-tru-abc(labels:${labels},hidden:("AA'","AB"),scale:${scale})`;
+                case 'pseudo-cone': return `#pseudo-cone(radius-x:${a},radius-y:1,height:${h},label-S:"S",label-O:"O",scale:${scale})`;
+                case 'pseudo-cylinder': return `#pseudo-cylinder(O1:(0,0),O2:(0,${h}),radius-x:${a},radius-y:1,scale:${scale})`;
+                case 'draw-cylinder': return `#cetz.canvas(length:${scale},{\n  import cetz.draw: *\n  draw-cylinder(name:"C",radius:${a},height:${h},center:(0,0,0),stroke:rgb("0057b8"))\n  content("C.top-center",[$O'$],anchor:"south")\n  content("C.bottom-center",[$O$],anchor:"north")\n})`;
+                case 'draw-cone': return `#cetz.canvas(length:${scale},{\n  import cetz.draw: *\n  draw-cone(name:"N",radius:${a},height:${h},center:(0,0,0),stroke:rgb("cc2200"))\n  content("N.top",[$S$],anchor:"south")\n  content("N.center",[$O$],anchor:"north")\n})`;
+                case 'draw-sphere': return `#cetz.canvas(length:${scale},{\n  import cetz.draw: *\n  draw-sphere(name:"S",radius:${a},center:(0,0,0),stroke:rgb("1a7a2e"))\n  content("S.center",[$O$],anchor:"north")\n})`;
+                case 'draw-helix': return `#cetz.canvas(length:${scale},{\n  import cetz.draw: *\n  draw-cylinder(name:"C",radius:${a},height:${h},center:(0,0,0),stroke:rgb("888"))\n  draw-helix(center:(0,0,0),radius:${a},height:${h},loops:2,stroke:rgb("cc2200")+1.2pt)\n})`;
+                case 'draw-parabola': return `#cetz.canvas(length:${scale},{\n  import cetz.draw: *\n  line((-4,0),(4,0),mark:(end:">"),stroke:0.7pt)\n  line((0,-2),(0,4),mark:(end:">"),stroke:0.7pt)\n  draw-parabola(a:0.4,b:0,c:-1,x-range:(-3,3),stroke:rgb("1565C0"))\n})`;
+                case 'draw-ellipse': return `#cetz.canvas(length:${scale},{\n  import cetz.draw: *\n  line((-4,0),(4,0),mark:(end:">"),stroke:0.7pt)\n  line((0,-${b+0.5}),(0,${b+0.5}),mark:(end:">"),stroke:0.7pt)\n  draw-ellipse(a:${a},b:${b},stroke:rgb("6a1b9a")+1.2pt)\n})`;
+                case 'draw-hyperbola': return `#cetz.canvas(length:${scale},{\n  import cetz.draw: *\n  line((-4,0),(4,0),mark:(end:">"),stroke:0.7pt)\n  line((0,-3),(0,3),mark:(end:">"),stroke:0.7pt)\n  draw-hyperbola(a:${a},b:${b},x-range:(1.6,4),stroke:rgb("cc2200")+1.2pt)\n})`;
+                case 'phanghoa-non': return `#phanghoa-non(r:${a},h:${h},labels:("S","A","A'"),draw-base:true,scale:${scale})`;
+                case 'phanghoa-tru': return `#phanghoa-tru(r:${a},h:${h},labels:("A","B","B'","A'"),draw-bases:true,scale:${scale})`;
+                case 'phanghoa-sabc': return `#phanghoa-sabc(SA:5,SB:${h},SC:5.5,AB:4,BC:4.5,CA:${a},scale:${scale})`;
+                default: return `#chop-sabc(labels:("S","A","B","C"),hidden:("AC",),scale:0.8cm)`;
+            }
+        }
+
+        function renderHhFromForm() {
+            if (currentWorkbenchMode !== 'form') return;
+            const ta = el('hhLiveTextarea'); if (ta) ta.value = buildHhCodeFromForm();
+            scheduleHhOfficialRender(50);
+        }
+
+        let hhTimer = 0, hhLastCode = '';
+        function setHhBadge(k, t) {
+            const b = el('hhCheckBadge'); if (!b) return; b.textContent = t;
+            b.style.background = k==='loading'?'#e0f2fe':k==='error'?'#fee2e2':'#dcfce7';
+            b.style.color = k==='loading'?'#0284c7':k==='error'?'#dc2626':'#15803d';
+        }
+        function scheduleHhOfficialRender(d=100) { clearTimeout(hhTimer); hhTimer=setTimeout(renderHhOfficial,d); }
+        async function renderHhOfficial() {
+            const code = el('hhLiveTextarea')?.value||''; if (!code.trim()) return;
+            const preview = el('hhPreview');
+            if (!window.compileTypstToSvg) {
+                setHhBadge('loading','Đang nạp WASM…');
+                if (preview) preview.innerHTML='<div style="padding:20px;color:#64748b;">⏳ Đang nạp engine…</div>';
+                setTimeout(renderHhOfficial,500); return;
+            }
+            if (code===hhLastCode && preview?.querySelector('svg')) { setHhBadge('ok','OK ✓'); return; }
+            try {
+                setHhBadge('loading','Rendering…');
+                const svg = await window.compileTypstToSvg(code);
+                if (preview) { preview.innerHTML=svg; const s=preview.querySelector('svg'); if(s){s.style.maxWidth='100%';s.style.height='auto';} }
+                hhLastCode=code; setHhBadge('ok','Render ✓');
+            } catch(err) {
+                setHhBadge('error','Lỗi');
+                if (preview) preview.innerHTML=`<pre style="color:#dc2626;font-size:0.78rem;text-align:left;white-space:pre-wrap;">${String(err.message||err)}</pre>`;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            window.lucide?.createIcons();
+            el('hhLiveTextarea')?.addEventListener('input', () => scheduleHhOfficialRender(50));
+            el('hhShapeSelect')?.addEventListener('change', () => {
+                const m = { 'chop-sabc':'S, A, B, C', 'chop-sabcd':'S, A, B, C, D', 'chop-sabc-deu':'S, A, B, C, O', 'chop-sabcd-deu':'S, A, B, C, D, O', 'lang-tru-abc':"A, B, C, A', B', C'", 'tri-xyz':'A, B, C', 'tri-right':'A, B, C', 'rect-abc':'A, B, C, D' };
+                const v = el('hhShapeSelect')?.value; const li = el('hhLabels'); if (li && m[v]) li.value = m[v];
+                renderHhFromForm();
+            });
+            ['hhParamA','hhParamB','hhParamH','hhScale','hhLabels'].forEach(id => {
+                el(id)?.addEventListener('input', renderHhFromForm);
+                el(id)?.addEventListener('change', renderHhFromForm);
+            });
+            el('hhCopyBtn')?.addEventListener('click', async () => { await navigator.clipboard.writeText(el('hhLiveTextarea')?.value||''); alert('Copied!'); });
+            el('hhCopyFullBtn')?.addEventListener('click', async () => {
+                const full = `#import "@preview/cetz:0.5.2": *\n#import "/smg/lib.typ": *\n\n${el('hhLiveTextarea')?.value||''}`;
+                await navigator.clipboard.writeText(full); alert('Copied full .typ!');
+            });
+            setTimeout(renderGalleryPreviews, 800);
+            scheduleHhOfficialRender(100);
+        });
+    </script>
+</body>
+</html>

@@ -135,33 +135,46 @@
         #lt-note[Định lý mở rộng: Dấu "=" có thể xảy ra tại *hữu hạn điểm* trên $K$.]
     ],
     align(center)[
-      #cetz.canvas(length: 1.2cm, {
-        import cetz.draw: *
-        // Hệ trục toạ độ
-        line((-1, 0), (4.5, 0), mark: (end: ">"), name: "x")
-        line((0, -1), (0, 4.5), mark: (end: ">"), name: "y")
-        content((4.5, -0.3), $x$, anchor: "north")
-        content((-0.3, 4.5), $y$, anchor: "east")
-        content((-0.2, -0.2), $O$, anchor: "north-east")
-        
-        // Đồ thị hàm số f(x)
-        bezier((0.5, 0.5), (3.5, 3.5), (2, 0.5), (2, 3.5), stroke: 1.5pt + blue)
-        content((3.6, 3.5), $y = f(x)$, anchor: "west")
-        
-        // Điểm tiếp xúc và tiếp tuyến
-        let p0 = (1.5, 1.1)
-        line((0.5, 0.0), (2.5, 2.2), stroke: 1.2pt + red)
-        circle(p0, radius: 0.05, fill: black)
-        
-        // Đường gióng
-        line((1.5, 1.1), (1.5, 0), stroke: (paint: gray, dash: "dashed"))
-        line((1.5, 1.1), (0, 1.1), stroke: (paint: gray, dash: "dashed"))
-        content((1.5, -0.3), $x_0$, anchor: "north")
-        content((-0.3, 1.1), $f(x_0)$, anchor: "east")
-        
-        // Nhãn giải thích
-        content((2.7, 1.0), text(fill: red)[Tiếp tuyến hướng lên\ $f'(x_0) > 0$], anchor: "west")
-      })
+      #stack(spacing: 5pt,
+        align(center)[
+          #cetz.canvas(length: 1.45cm, {
+            import cetz.draw: *
+            // Hệ trục toạ độ
+            line((-1, 0), (4.5, 0), mark: (end: ">"), name: "x")
+            line((0, -1), (0, 4.5), mark: (end: ">"), name: "y")
+            content((4.5, -0.3), $x$, anchor: "north")
+            content((-0.3, 4.5), $y$, anchor: "east")
+            content((-0.2, -0.2), $O$, anchor: "north-east")
+
+            // Đồ thị hàm số f(x)
+            bezier((0.5, 0.5), (3.5, 3.5), (2, 0.5), (2, 3.5), stroke: 1.5pt + blue)
+            content((3.6, 3.5), $y = f(x)$, anchor: "west")
+
+            // Điểm tiếp xúc và tiếp tuyến
+            let p0 = (1.5, 1.1)
+            line((0.5, 0.0), (2.5, 2.2), stroke: 1.2pt + red)
+            circle(p0, radius: 0.05, fill: black)
+
+            // Đường gióng
+            line((1.5, 1.1), (1.5, 0), stroke: (paint: gray, dash: "dashed"))
+            line((1.5, 1.1), (0, 1.1), stroke: (paint: gray, dash: "dashed"))
+            content((1.5, -0.3), $x_0$, anchor: "north")
+            content((-0.3, 1.1), $f(x_0)$, anchor: "east")
+          })
+        ],
+        box(
+          width: 100%,
+          inset: (x: 6pt, y: 3pt),
+          radius: 4pt,
+          fill: rgb("#fff1f2"),
+          stroke: 0.6pt + rgb("#fecdd3"),
+          align(center)[
+            #text(size: 11pt, weight: "bold", fill: rgb("#be123c"))[
+              Tiếp tuyến hướng lên: $f'(x_0) > 0$
+            ]
+          ]
+        )
+      )
     ]
   )
 ]

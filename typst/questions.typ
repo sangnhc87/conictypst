@@ -25,6 +25,8 @@
 #import "questions/lop12-giai-tich.typ": q-lop12-giai-tich
 #import "questions/lop12-hinh-hoc.typ": q-lop12-hinh-hoc
 #import "questions/lop12-xac-suat.typ": q-lop12-xac-suat
+#import "questions/ngo-duc-tai-hk1-de-01.typ": imported-question-bank as q-ngo-duc-tai-hk1-de-01
+#import "questions/ngo-duc-tai-hk1-bundle.registry.typ": imported-question-bank as q-ngo-duc-tai-hk1-bundle
 // Thêm file mới:
 // #import "questions/lop11-xac-suat.typ": q-lop11-xac-suat
 // #import "questions/lop10-dai-so.typ": q-lop10-dai-so
@@ -91,6 +93,8 @@
   ..q-lop12-giai-tich,
   ..q-lop12-hinh-hoc,
   ..q-lop12-xac-suat,
+  ..q-ngo-duc-tai-hk1-de-01,
+  ..q-ngo-duc-tai-hk1-bundle,
   // Thêm ở đây khi có file mới
 )
 

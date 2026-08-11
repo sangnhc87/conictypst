@@ -1,10 +1,10 @@
-export const SANG_MATH_VERSION = '1.0.1'
+export const SANG_MATH_VERSION = '1.0.2'
 export const SANG_MATH_PACKAGE = `@preview/sang-math:${SANG_MATH_VERSION}`
 export const SANG_MATH_IMPORT = `#import "${SANG_MATH_PACKAGE}": *`
 export const SANG_MATH_UNIVERSE_URL = 'https://typst.app/universe/package/sang-math'
 
 const LEGACY_PREFIX = '/packages/sang-math/'
-const OUTDATED_PUBLIC_VERSIONS = new Set(['1.0.0'])
+const OUTDATED_PUBLIC_VERSIONS = new Set(['1.0.0', '1.0.1'])
 const LEGACY_BEAMER_IMPORTS = new Map([
   ['/packages/sang-math/sang-beamer.typ', '/extensions/sang-beamer/sang-beamer.typ'],
   ['/packages/sang-math/sang-beamer-themes.typ', '/extensions/sang-beamer/themes.typ'],

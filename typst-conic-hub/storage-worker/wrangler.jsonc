@@ -1,0 +1,17 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "sang-math-studio-storage",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-07-19",
+  "workers_dev": true,
+  "preview_urls": false,
+  "r2_buckets": [
+    {
+      "binding": "STUDIO_BUCKET",
+      "bucket_name": "sang-math-studio-private"
+    }
+  ],
+  "vars": {
+    "ALLOWED_ORIGIN": "https://typstconichub.pages.dev"
+  }
+}

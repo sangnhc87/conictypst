@@ -1,7 +1,7 @@
 #import "../preamble.typ": *
 #import "../../../math-sym.typ": *
-
 #show math.frac: math.display
+
 
 #muc([Đề Luyện Tập Thực Tế và Mô Hình Hóa])
 
@@ -572,4 +572,3 @@
     #step[Đáp số: $6$.]
   ]
 )
-

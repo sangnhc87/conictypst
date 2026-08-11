@@ -22,9 +22,12 @@ test('Vietnam school-year boundary starts in July', () => {
   assert.equal(__test.academicYearId(new Date('2026-07-01T00:00:00Z')), '2026-2027');
 });
 
-test('only the verified bootstrap owner email receives owner privileges', () => {
+test('only verified bootstrap owner emails receive owner privileges', () => {
   assert.equal(__test.isVerifiedOwner({
     token: { email: ' NguyenSangNHC@gmail.com ', email_verified: true },
+  }), true);
+  assert.equal(__test.isVerifiedOwner({
+    token: { email: 'sangbeau@gmail.com', email_verified: true },
   }), true);
   assert.equal(__test.isVerifiedOwner({
     token: { email: 'nguyensangnhc@gmail.com', email_verified: false },

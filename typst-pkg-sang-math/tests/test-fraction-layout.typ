@@ -13,7 +13,7 @@ Không có dòng trống giữa các dòng sau:
 - Hai tầng: $(a/b)/(c/d)$
 - Lệnh dfrac: $dfrac(x + 1, x - 1)$
 - Lệnh tfrac nhỏ có chủ ý: $tfrac(1, 2)$
-- Phân số trong số mũ tự thu nhỏ: $x^(a/b)$ (đối chiếu $x^tfrac(a, b)$)
+- Phân số trong số mũ dùng `tfrac` để thu nhỏ: $x^(a/b)$ (đối chiếu $x^tfrac(a, b)$)
 - Dòng chữ bình thường ngay sau phân số.
 
 Đoạn sát dòng một có $a/b$ ở giữa câu.
@@ -27,8 +27,15 @@ Dòng sau phân số lồng vẫn phải tách rõ ràng.
 #box[A] <plain-before> $x^2 + 1$ #box[B] <plain-after>
 #box[A] <frac-before> $x/2$ #box[B] <frac-after>
 
+#grid(
+  columns: (8cm,),
+  stroke: 0.6pt,
+  inset: 6pt,
+  [#box[A] <narrow-before> $y = (x^2 - 2x + 5)/(x - 1)$ #box[B] <narrow-after>],
+  [#box[A] <plain-narrow-before> $f(x)=x^2+1$ #box[B] <plain-narrow-after>],
+)
+
 #context {
-  let canvas-compat = sys.inputs.at("sang-math-canvas-compat", default: "0") == "1"
   let large = measure(box[$1/2$])
   let explicit-large = measure(box[$dfrac(1, 2)$])
   let small = measure(box[$tfrac(1, 2)$])
@@ -37,10 +44,7 @@ Dòng sau phân số lồng vẫn phải tách rõ ràng.
   let marker-y(label) = query(label).first().location().position().y
   assert(large.height > small.height, message: "Phân số mặc định phải lớn hơn tfrac")
   assert(explicit-large.height > small.height, message: "dfrac phải lớn hơn tfrac")
-  if not canvas-compat {
-    assert(exponent.height < large.height, message: "Phân số trong số mũ phải tự chuyển sang script style")
-    assert(calc.abs(exponent.height - explicit-small-exponent.height) < 2pt, message: "Số mũ a/b phải gần kích thước tfrac")
-  }
+  assert(explicit-small-exponent.height < exponent.height, message: "Dùng tfrac trong số mũ phải nhỏ hơn frac display mặc định")
   assert(calc.abs(marker-y(<plain-before>) - marker-y(<plain-after>)) < 1pt, message: "Công thức thường phải nằm cùng dòng với văn bản")
   assert(calc.abs(marker-y(<frac-before>) - marker-y(<frac-after>)) < 1pt, message: "Phân số phải nằm cùng dòng với văn bản")
 }

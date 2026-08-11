@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Vẽ bằng GeoGebra và xuất mã TikZ thuần, sạch, có thể biên dịch ngay trong LaTeX." />
+  <meta name="theme-color" content="#071a15" />
+  <meta property="og:title" content="GeoGebra → TikZ thuần · ConicTypst" />
+  <meta property="og:description" content="Bộ chuyển đổi hình học 2D sang mã TikZ sạch, miễn phí cho cộng đồng giáo viên Toán." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://geo-conictypst.pages.dev/tikz-geogebra" />
+  <title>GeoGebra → TikZ thuần · ConicTypst</title>
+
+  <script src="copyright-guard.js"></script>
+  <link rel="stylesheet" href="tikz-geogebra.css" />
+  <script defer src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script defer src="community-nav.js"></script>
+  <script defer src="tikz-geogebra-exporter.js"></script>
+  <script defer src="tikz-geogebra.js"></script>
+</head>
+<body>
+  <main class="tikz-page">
+    <section class="hero" aria-labelledby="pageTitle">
+      <div class="hero-copy">
+        <p class="eyebrow"><span></span>Công cụ miễn phí cho cộng đồng giáo viên Toán</p>
+        <h1 id="pageTitle">GeoGebra <b>→</b> TikZ thuần</h1>
+        <p class="hero-lead">
+          Dựng hình trực quan, nhận mã TikZ gọn và có thể biên dịch ngay.
+          Không ảnh chụp, không mã phụ thuộc GeoGebra.
+        </p>
+      </div>
+    </section>
+
+    <section class="workflow" aria-label="Quy trình sử dụng">
+      <span><b>1</b> Dựng hình</span>
+      <i data-lucide="chevron-right" aria-hidden="true"></i>
+      <span><b>2</b> Tinh chỉnh xuất mã</span>
+      <i data-lucide="chevron-right" aria-hidden="true"></i>
+      <span><b>3</b> Sao chép vào LaTeX</span>
+    </section>
+
+    <section class="studio" aria-label="Bộ chuyển đổi GeoGebra sang TikZ">
+      <article class="panel drawing-panel">
+        <header class="panel-header">
+          <div>
+            <span class="panel-kicker">Bảng dựng hình</span>
+            <h2>GeoGebra 2D</h2>
+          </div>
+          <div class="panel-actions">
+            <span class="live-pill" id="liveStatus"><i></i>Đang kết nối</span>
+            <button class="icon-button" id="btnReset" type="button" title="Xóa hình và làm lại" aria-label="Xóa hình và làm lại">
+              <i data-lucide="rotate-ccw"></i>
+            </button>
+          </div>
+        </header>
+        <div class="ggb-host" id="ggb-element">
+          <div class="ggb-status" id="ggbStatus" role="status">
+            <span class="loader-ring" aria-hidden="true"></span>
+            <strong>Đang mở GeoGebra…</strong>
+            <small>Lần tải đầu có thể mất vài giây.</small>
+          </div>
+        </div>
+      </article>
+
+      <aside class="panel export-panel">
+        <header class="panel-header">
+          <div>
+            <span class="panel-kicker">Bản xuất</span>
+            <h2>TikZ thuần</h2>
+          </div>
+          <span class="quality-pill"><i data-lucide="shield-check"></i>Clean output</span>
+        </header>
+
+        <div class="export-settings">
+          <div class="setting-row setting-row-main">
+            <label class="switch-label" for="chkSimpleStyles">
+              <span><strong>Chuẩn hóa nét đen</strong><small>Phù hợp đề thi, giáo án in trắng đen</small></span>
+              <input type="checkbox" id="chkSimpleStyles" checked />
+              <i class="switch" aria-hidden="true"></i>
+            </label>
+          </div>
+
+          <div class="setting-grid">
+            <label class="check-card" for="chkLabels">
+              <input type="checkbox" id="chkLabels" checked />
+              <i data-lucide="tag"></i><span>Nhãn điểm</span>
+            </label>
+            <label class="check-card" for="chkClip">
+              <input type="checkbox" id="chkClip" checked />
+              <i data-lucide="crop"></i><span>Cắt theo khung</span>
+            </label>
+            <label class="check-card" for="chkAxes">
+              <input type="checkbox" id="chkAxes" />
+              <i data-lucide="axis-3d"></i><span>Hệ trục Oxy</span>
+            </label>
+            <label class="check-card" for="chkGrid">
+              <input type="checkbox" id="chkGrid" />
+              <i data-lucide="grid-3x3"></i><span>Lưới tọa độ</span>
+            </label>
+          </div>
+
+          <label class="select-row" for="precision">
+            <span><strong>Độ chính xác tọa độ</strong><small>Cân bằng giữa gọn và sát hình</small></span>
+            <select id="precision">
+              <option value="2">2 chữ số</option>
+              <option value="3" selected>3 chữ số</option>
+              <option value="4">4 chữ số</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="output-tabs" role="tablist" aria-label="Mã và bản xem trước">
+          <button class="tab-button is-active" id="tabCode" type="button" role="tab" aria-selected="true" aria-controls="codePane">
+            <i data-lucide="code-2"></i>Mã TikZ
+          </button>
+          <button class="tab-button" id="tabPreview" type="button" role="tab" aria-selected="false" aria-controls="previewPane">
+            <i data-lucide="image"></i>Xem trước
+          </button>
+          <span class="object-count" id="objectCount">0 đối tượng</span>
+        </div>
+
+        <div class="tab-pane code-pane is-active" id="codePane" role="tabpanel" aria-labelledby="tabCode">
+          <textarea id="codeOutput" aria-label="Mã TikZ đã tạo" spellcheck="false" readonly></textarea>
+        </div>
+        <div class="tab-pane preview-pane" id="previewPane" role="tabpanel" aria-labelledby="tabPreview" hidden>
+          <div class="preview-empty" id="previewEmpty">
+            <i data-lucide="scan-search"></i>
+            <strong>Chưa có hình để xem trước</strong>
+            <span>Bản xem trước sẽ tự cập nhật khi thầy cô dựng hình.</span>
+          </div>
+          <iframe id="previewFrame" title="Bản xem trước TikZ" sandbox="allow-scripts" hidden></iframe>
+        </div>
+
+        <div class="export-footer">
+          <p id="exportMessage" role="status"><i data-lucide="circle-check"></i>Mã sẽ tự cập nhật theo hình vẽ.</p>
+          <div>
+            <button class="button button-ghost compact" id="btnPreview" type="button">
+              <i data-lucide="refresh-cw"></i>Làm mới xem trước
+            </button>
+            <button class="button button-primary compact" id="btnCopy" type="button">
+              <i data-lucide="copy"></i>Sao chép TikZ
+            </button>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="support-grid">
+      <article class="support-card support-card-wide">
+        <span class="support-icon"><i data-lucide="shapes"></i></span>
+        <div>
+          <p class="panel-kicker">Đã hỗ trợ</p>
+          <h2>Từ hình học cơ bản đến đồ thị hàm số</h2>
+          <div class="feature-list">
+            <span>Điểm &amp; nhãn</span><span>Đoạn · tia · vector</span><span>Đa giác &amp; miền tô</span>
+            <span>Đường tròn · cung · quạt</span><span>Góc &amp; góc vuông</span><span>Ellipse · hyperbola</span>
+            <span>Hàm số &amp; tích phân</span><span>Màu · nét đứt · độ mờ</span>
+          </div>
+        </div>
+      </article>
+      <article class="support-card">
+        <span class="support-icon amber"><i data-lucide="file-code-2"></i></span>
+        <div>
+          <p class="panel-kicker">Dùng trong LaTeX</p>
+          <h2>Chỉ cần hai dòng ở preamble</h2>
+          <code>\usepackage{tikz}<br />\usetikzlibrary{arrows.meta,calc}</code>
+        </div>
+      </article>
+      <article class="support-card">
+        <span class="support-icon blue"><i data-lucide="lightbulb"></i></span>
+        <div>
+          <p class="panel-kicker">Mẹo chất lượng</p>
+          <h2>Đặt tên điểm ngắn và kéo nhãn ngay trong GeoGebra</h2>
+          <p>Vị trí nhãn, màu, độ dày và kiểu nét sẽ được giữ lại trong mã xuất.</p>
+        </div>
+      </article>
+    </section>
+
+    <details class="technical-notes">
+      <summary><span><i data-lucide="info"></i>Phạm vi chuyển đổi và lưu ý kỹ thuật</span><i data-lucide="chevron-down"></i></summary>
+      <div>
+        <p>
+          Công cụ ưu tiên mã TikZ dễ đọc và độc lập. Các đối tượng động quá đặc thù của GeoGebra
+          có thể được xấp xỉ bằng chuỗi tọa độ. Hãy dùng “Biên dịch thử” trước khi đưa hình vào tài liệu chính thức.
+        </p>
+        <p>
+          Đường thẳng và đồ thị được cắt theo khung nhìn hiện tại; vì vậy hãy phóng to hoặc thu nhỏ
+          GeoGebra tới đúng bố cục bạn muốn trước khi sao chép.
+        </p>
+      </div>
+    </details>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

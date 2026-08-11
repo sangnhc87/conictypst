@@ -18,6 +18,9 @@ OUTPUT_DIR.mkdir(exist_ok=True)
 
 # Ghi đè OUTPUT_DIR của build_scorm
 build_scorm.OUTPUT_DIR = OUTPUT_DIR
+# Bộ dựng dùng chung mặc định cho tài liệu lớp 12. Phải ghi đè nhãn môn
+# trước khi sinh HTML để phần đầu/cuối của gói SCORM lớp 11 không ghi sai.
+build_scorm.MON = "TOÁN 11"
 
 # Tìm tất cả các file de*.typ trong các thư mục chuong*
 typ_files = sorted(glob.glob(str(ROOT_DIR / "chuong*" / "de*.typ")))

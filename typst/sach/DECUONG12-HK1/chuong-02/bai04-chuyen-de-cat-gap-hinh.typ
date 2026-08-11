@@ -4,8 +4,8 @@
 // ─────────────────────────────────────────────────────────────────
 #import "../preamble.typ": *
 #import "../../../math-sym.typ": *
-
 #show math.frac: math.display
+
 
 #bai("Chuyên đề: Ứng dụng tối ưu & Cắt gấp khối tròn xoay", mau: C2)
 

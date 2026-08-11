@@ -31,15 +31,19 @@ function textOf(asset) {
 }
 
 function normalize(value) {
-  return String(value || '').toLowerCase()
+  return String(value || '')
+    .toLocaleLowerCase('vi')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
 }
 
 function renderStats() {
-  const counts = state.data?.counts || { total: 0, cd: 0, beamer: 0 }
+  const counts = state.data?.counts || { total: 0, cd: 0, lesson_plan: 0, beamer: 0 }
   const ready = state.data.assets.filter(a => a.status === 'ready').length
   els.stats.innerHTML = [
     ['Tổng học liệu', counts.total],
     ['Chuyên đề CD', counts.cd],
+    ['Giáo án', counts.lesson_plan],
     ['Beamer', counts.beamer],
     ['Ready', ready],
   ].map(([label, value]) => `
@@ -88,12 +92,17 @@ function renderList() {
     return
   }
   els.list.innerHTML = assets.map(asset => {
-    const kindLabel = asset.kind === 'cd' ? 'CD' : 'Beamer'
-    const kindClass = asset.kind === 'cd' ? 'cd' : 'beamer'
+    const kindLabel = asset.kind === 'cd'
+      ? 'CD'
+      : asset.kind === 'lesson-plan' ? 'Giáo án' : 'Beamer'
+    const kindClass = asset.kind === 'cd'
+      ? 'cd'
+      : asset.kind === 'lesson-plan' ? 'lesson-plan' : 'beamer'
     const cluster = asset.cluster || asset.chapter || 'Khác'
     const tags = [
       `<span class="badge ${kindClass}">${kindLabel}</span>`,
       asset.grade ? `<span class="badge">Khối ${asset.grade}</span>` : '',
+      asset.semester ? `<span class="badge">${asset.semester}</span>` : '',
       cluster ? `<span class="badge">${cluster}</span>` : '',
       asset.status ? `<span class="badge ${asset.status === 'draft' ? 'warn' : ''}">${asset.status}</span>` : '',
       ...(asset.tags || []).slice(0, 3).map(tag => `<span class="badge">${tag}</span>`),

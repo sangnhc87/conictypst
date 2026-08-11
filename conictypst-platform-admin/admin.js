@@ -1,6 +1,7 @@
 (() => {
     'use strict';
 
+    const OWNER_EMAILS = new Set(['nguyensangnhc@gmail.com', 'sangbeau@gmail.com']);
     const OWNER_EMAIL = 'nguyensangnhc@gmail.com';
     const FUNCTIONS_REGION = 'asia-southeast1';
     const PAGE_SIZE = 100;
@@ -179,7 +180,7 @@
             showAuthGate('Chỉ tài khoản chủ sở hữu nguyensangnhc@gmail.com được phép đăng nhập.');
             return;
         }
-        if (email !== OWNER_EMAIL) {
+        if (!OWNER_EMAILS.has(email)) {
             await state.bridge?.signOut().catch(() => undefined);
             showAuthError(`Tài khoản ${email || 'này'} không có quyền quản trị nền tảng.`);
             return;

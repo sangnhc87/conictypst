@@ -12,6 +12,7 @@
     "test:emulator": "node --test --test-concurrency=1 test/integration.emulator.test.js test/exam-integration.emulator.test.js"
   },
   "dependencies": {
+    "@payos/node": "^2.0.5",
     "firebase-admin": "^13.10.0",
     "firebase-functions": "^6.6.0"
   }

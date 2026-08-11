@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Editor from '@monaco-editor/react'
 import { Group as PanelGroup, Panel, Separator as PanelResizeHandle } from 'react-resizable-panels'
 import '../monacoSetup.js'
+import 'monaco-editor/esm/vs/editor/contrib/comment/browser/comment.js'
 import {
   AUTHORING_SNIPPETS,
   PROJECT_TEMPLATES,
@@ -11,12 +12,15 @@ import {
 import {
   QUESTIONS_START,
   contextualSnippetText,
+  reduceForDocxExport,
 } from './questionSource.js'
 import {
   SANG_MATH_CATALOG,
   SANG_MATH_CATEGORIES,
   searchSangMathCatalog,
 } from './sangMathCatalog.js'
+import { MATH_SYMBOL_CATEGORIES } from './mathSymbols.js'
+import { EMOJI_CATEGORIES } from './typstEmojis.js'
 import {
   SANG_MATH_IMPORT,
   SANG_MATH_UNIVERSE_URL,
@@ -36,12 +40,24 @@ import {
   restoreSnapshot,
   saveProject,
 } from './projectStore.js'
+import {
+  signInWithGoogle,
+  signOut as firebaseSignOut,
+  listenAuthState,
+  fetchCloudProjects,
+  syncCloudProject,
+  downloadCloudProject,
+  deleteCloudProject,
+  fetchStudioStats,
+  identityAuth
+} from './firebaseSync.js'
 
-const TYPST_TS_VERSION = '0.7.0-rc2'
+const TYPST_TS_VERSION = '0.8.0-rc3'
 const RENDERER_WASM_URL = `https://cdn.jsdelivr.net/npm/@myriaddreamin/typst-ts-renderer@${TYPST_TS_VERSION}/pkg/typst_ts_renderer_bg.wasm`
 const COMPILE_DELAY = 220
 const SAVE_DELAY = 700
 const MAX_BRIDGE_SOURCE_LENGTH = 500_000
+const DEFAULT_CLOUD_LIMIT_BYTES = 50 * 1024 * 1024
 
 function isTrustedConicOrigin(origin) {
   try {
@@ -99,6 +115,7 @@ const EXAM_THEMES = [
 
 let rendererPromise = null
 const initialTemplateLoads = new Map()
+const typstCompletionRegistrations = new WeakSet()
 
 async function getRenderer() {
   if (rendererPromise) return rendererPromise
@@ -133,18 +150,21 @@ function registerTypstLanguage(monaco) {
         comment: [[/[^/*]+/, 'comment'], [/\*\//, 'comment', '@pop'], [/[/*]/, 'comment']],
       },
     })
-    monaco.languages.setLanguageConfiguration('typst', {
-      comments: { lineComment: '//', blockComment: ['/*', '*/'] },
-      brackets: [['{', '}'], ['[', ']'], ['(', ')']],
-      autoClosingPairs: [
-        { open: '{', close: '}' }, { open: '[', close: ']' }, { open: '(', close: ')' },
-        { open: '"', close: '"' }, { open: '$', close: '$' },
-      ],
-    })
   }
 
-  if (!monaco.__conicTypstCompletionRegistered) {
-    monaco.__conicTypstCompletionRegistered = true
+  // Luôn gắn lại cấu hình: HMR hoặc một module khác có thể đã đăng ký `typst`
+  // trước Studio, khiến nhánh khởi tạo ở trên bị bỏ qua và Monaco mất lệnh comment.
+  monaco.languages.setLanguageConfiguration('typst', {
+    comments: { lineComment: '//', blockComment: ['/*', '*/'] },
+    brackets: [['{', '}'], ['[', ']'], ['(', ')']],
+    autoClosingPairs: [
+      { open: '{', close: '}' }, { open: '[', close: ']' }, { open: '(', close: ')' },
+      { open: '"', close: '"' }, { open: '$', close: '$' },
+    ],
+  })
+
+  if (!typstCompletionRegistrations.has(monaco)) {
+    typstCompletionRegistrations.add(monaco)
     monaco.languages.registerCompletionItemProvider('typst', {
       triggerCharacters: ['#'],
       provideCompletionItems(model, position) {
@@ -206,6 +226,14 @@ function getFileName(path) {
 
 function safeFileName(value) {
   return String(value || 'typst-project').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9_-]+/g, '-').replace(/^-+|-+$/g, '').toLowerCase() || 'typst-project'
+}
+
+function withTimeout(promise, timeoutMs, message) {
+  let timeoutId
+  const timeout = new Promise((_, reject) => {
+    timeoutId = window.setTimeout(() => reject(new Error(message)), timeoutMs)
+  })
+  return Promise.race([promise, timeout]).finally(() => window.clearTimeout(timeoutId))
 }
 
 function formatTime(timestamp) {
@@ -603,21 +631,420 @@ function CommandPalette({ open, onClose, actions }) {
   )
 }
 
-function ProblemsDialog({ open, diagnostics, onClose, onSelect }) {
+function ProblemsDialog({ open, diagnostics, onClose, onSelect, onAiFix }) {
   if (!open) return null
   return (
     <div className="dialog-backdrop" role="presentation" onMouseDown={event => { if (event.target === event.currentTarget) onClose() }}>
       <section className="dialog problems-dialog" role="dialog" aria-modal="true" aria-label="Danh sách vấn đề">
         <header><div><span className="dialog-kicker">KIỂM TRA TÀI LIỆU</span><h2>{diagnostics.length ? `${diagnostics.length} vấn đề cần xử lý` : 'Tài liệu đang sạch lỗi'}</h2></div><button type="button" className="icon-button" onClick={onClose}>×</button></header>
         <div className="problems-list">
-          {diagnostics.length ? diagnostics.map((item, index) => <button type="button" key={`${item.message}-${index}`} onClick={() => onSelect(item)}><span className={item.severity === 'warning' ? 'warning' : 'error'}>{item.severity === 'warning' ? '!' : '×'}</span><span><b>{item.message || 'Lỗi Typst'}</b><small>{item.file || 'main.typ'} · dòng {item.start?.line || item.startLine || 1}</small>{item.hints?.map((hint, hintIndex) => <i key={hintIndex}>{hint}</i>)}</span><em>Đi tới →</em></button>) : <div className="problems-success"><span>✓</span><b>Không phát hiện lỗi</b><small>Tài liệu đã biên dịch thành công và sẵn sàng xuất bản.</small></div>}
+          {diagnostics.length ? diagnostics.map((item, index) => (
+            <button type="button" key={`${item.message}-${index}`} onClick={() => onSelect(item)}>
+              <span className={item.severity === 'warning' ? 'warning' : 'error'}>{item.severity === 'warning' ? '!' : '×'}</span>
+              <span>
+                <b>{item.message || 'Lỗi Typst'}</b>
+                <small>{item.file || 'main.typ'} · dòng {item.start?.line || item.startLine || 1}</small>
+                {item.hints?.map((hint, hintIndex) => <i key={hintIndex}>{hint}</i>)}
+                <span style={{ display: 'block', marginTop: '6px' }} onClick={(e) => { e.stopPropagation(); onAiFix(item); }}>
+                  <span style={{ background: '#3b82f6', color: '#fff', padding: '3px 8px', borderRadius: '4px', fontSize: '9.5px', fontWeight: 'bold', display: 'inline-block' }}>
+                    ✦ Sửa bằng AI
+                  </span>
+                </span>
+              </span>
+              <em>Đi tới →</em>
+            </button>
+          )) : <div className="problems-success"><span>✓</span><b>Không phát hiện lỗi</b><small>Tài liệu đã biên dịch thành công và sẵn sàng xuất bản.</small></div>}
         </div>
       </section>
     </div>
   )
 }
 
-export default function HubStudio({ initialTemplateId, initialBridge, onExit }) {
+function AiQuickFixDialog({ open, diagnostic, project, activeFilePath, onClose, onApply }) {
+  const [apiKey, setApiKey] = useState(() => window.localStorage.getItem('gemini_api_key') || '')
+  const [status, setStatus] = useState('idle')
+  const [explanation, setExplanation] = useState('')
+  const [fixedLine, setFixedLine] = useState('')
+  const [originalLine, setOriginalLine] = useState('')
+  const [errorMsg, setErrorMsg] = useState('')
+  const [lineNum, setLineNum] = useState(1)
+  const [fixedLineNum, setFixedLineNum] = useState(1)
+
+  const runFix = useCallback(async (keyToUse) => {
+    if (!keyToUse || !keyToUse.trim()) return
+    setStatus('loading')
+    setErrorMsg('')
+
+    try {
+      const path = diagnostic.file || activeFilePath
+      const file = project.files[path]
+      const line = Number(diagnostic.start?.line || diagnostic.startLine || 1)
+
+      let fullFileContent = ''
+      if (file && file.kind === 'text') {
+        const lines = file.content.split('\n')
+        fullFileContent = lines.map((text, i) => `${i + 1}: ${text}`).join('\n')
+      }
+
+      const prompt = `Bạn là chuyên gia về cú pháp Typst và package 'sang-math' (phục vụ soạn đề thi Toán). Bạn có nhiệm vụ phân tích và sửa lỗi biên dịch Typst cho giáo viên.
+Dưới đây là thông tin lỗi:
+- Tệp tin: ${path}
+- Dòng báo lỗi của trình biên dịch: Dòng ${line}
+- Lỗi từ Typst: ${diagnostic.message}
+- Gợi ý của Typst: ${diagnostic.hints?.join(', ') || 'Không có'}
+
+Mã nguồn đầy đủ của tệp tin (có kèm số dòng):
+\`\`\`typst
+${fullFileContent}
+\`\`\`
+
+LƯU Ý QUAN TRỌNG VỀ TYPST VÀ SANG-MATH:
+1. Môi trường toán: Công thức toán luôn nằm trong cặp '$ ... $'. Việc quên đóng '$' hoặc dư thừa '$' sẽ làm Typst hiểu nhầm phần văn bản phía sau là toán học. Nếu thấy lỗi "expected ...", khả năng cao là thiếu dấu '$' ở đoạn trước đó.
+2. Hàm của sang-math: Các hàm cấu trúc như '#tn[...]', '#ds[...]', '#tln[...]', '#bai[...]', '#loigiai[...]' bắt buộc phải đóng mở ngoặc vuông '[' và ']' hợp lệ. Tuyệt đối không xóa dấu ngoặc vuông chứa nội dung câu hỏi.
+3. Nguyên tắc sửa lỗi: KHÔNG TỰ Ý viết lại nội dung, không đổi cấu trúc hàm gốc. Chỉ tập trung thêm/bớt dấu '$', '[', ']', '{', '}' bị thiếu hoặc dư thừa để cú pháp không bị lỗi biên dịch.
+4. Vị trí lỗi: Dòng mà Typst báo lỗi (dòng ${line}) có thể CHỈ LÀ HỆ QUẢ của việc thiếu đóng ngoặc hoặc đóng '$' ở các dòng bên trên. Hãy đếm thật kỹ số lượng mở/đóng ngoặc/dấu '$' và trả về ĐÚNG dòng gốc gây ra lỗi.
+
+Yêu cầu: Trả về câu trả lời duy nhất dưới dạng JSON hợp lệ (không có khối \`\`\`json) với cấu trúc sau:
+{
+  "fixedLineNumber": <Số dòng gốc chứa lỗi, ví dụ: 10>,
+  "explanation": "Giải thích lỗi (1 câu)",
+  "fixedLineContent": "Nội dung của dòng trên sau khi sửa đúng dấu/cú pháp"
+}`
+
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${keyToUse.trim()}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+      })
+
+      if (!res.ok) {
+        throw new Error(`Google API trả về lỗi HTTP ${res.status}`)
+      }
+
+      const data = await res.json()
+      if (data.error) throw new Error(data.error.message)
+
+      const textOutput = data.candidates?.[0]?.content?.parts?.[0]?.text || ''
+      const cleaned = textOutput.replace(/^```json\s*/i, '').replace(/```\s*$/i, '').trim()
+      
+      const parsed = JSON.parse(cleaned)
+      const targetLineNum = Number(parsed.fixedLineNumber || line)
+      if (parsed.fixedLineContent === undefined) throw new Error('Không nhận được mã sửa lỗi từ AI')
+
+      setFixedLineNum(targetLineNum)
+      setExplanation(parsed.explanation || 'Đã sửa lỗi cú pháp Typst.')
+      setFixedLine(parsed.fixedLineContent)
+      
+      if (file && file.kind === 'text') {
+        const lines = file.content.split('\n')
+        setOriginalLine(lines[targetLineNum - 1] || '')
+      }
+      
+      setStatus('success')
+    } catch (e) {
+      console.error(e)
+      setStatus('error')
+      setErrorMsg(`Lỗi sửa bài: ${e.message}. Hãy kiểm tra lại API Key hoặc cấu trúc code.`)
+    }
+  }, [diagnostic, project, activeFilePath])
+
+  useEffect(() => {
+    if (!open || !diagnostic || !project) {
+      setStatus('idle')
+      setErrorMsg('')
+      setExplanation('')
+      setFixedLine('')
+      return
+    }
+
+    const path = diagnostic.file || activeFilePath
+    const file = project.files[path]
+    const line = Number(diagnostic.start?.line || diagnostic.startLine || 1)
+    setLineNum(line)
+    setFixedLineNum(line)
+
+    if (file && file.kind === 'text') {
+      const lines = file.content.split('\n')
+      setOriginalLine(lines[line - 1] || '')
+    } else {
+      setOriginalLine('')
+    }
+    setStatus('idle')
+    setErrorMsg('')
+
+    const savedKey = window.localStorage.getItem('gemini_api_key') || ''
+    if (savedKey.trim()) {
+      runFix(savedKey)
+    }
+  }, [open, diagnostic, project, activeFilePath, runFix])
+
+  const handleStartFix = () => {
+    if (!apiKey.trim()) return setErrorMsg('Vui lòng nhập Gemini API Key')
+    window.localStorage.setItem('gemini_api_key', apiKey.trim())
+    runFix(apiKey)
+  }
+
+  if (!open) return null
+  return (
+    <div className="dialog-backdrop" role="presentation" onMouseDown={event => { if (event.target === event.currentTarget) onClose() }}>
+      <section className="dialog ai-quickfix-dialog" role="dialog" aria-modal="true" style={{ maxWidth: '560px' }}>
+        <header>
+          <div>
+            <span className="dialog-kicker">✦ TRỢ LÝ AI SỬA LỖI (LITE)</span>
+            <h2>Sửa lỗi nhanh {fixedLineNum !== lineNum ? `dòng ${fixedLineNum} (phát hiện lỗi gốc)` : `dòng ${lineNum}`}</h2>
+          </div>
+          <button type="button" className="icon-button" onClick={onClose}>×</button>
+        </header>
+        
+        <div className="ai-dialog-body" style={{ padding: '0 24px 20px', fontSize: '13.5px' }}>
+          <div className="diagnostic-summary" style={{ background: '#fff5f5', color: '#c53030', padding: '10px 14px', borderRadius: '6px', marginBottom: '14px', borderLeft: '4px solid #f56565' }}>
+            <strong>Thông báo lỗi:</strong> {diagnostic?.message || 'Có lỗi khi biên dịch tài liệu.'}
+          </div>
+
+          <label className="dialog-field" style={{ marginBottom: '16px' }}>
+            <span style={{ fontWeight: 'bold' }}>Gemini API Key</span>
+            <input type="password" value={apiKey} onChange={e => setApiKey(e.target.value)} placeholder="AIzaSy..." disabled={status === 'loading'} />
+          </label>
+
+          {status === 'idle' && (
+            <p style={{ color: '#666' }}>Trợ lý AI sẽ đọc và phân tích toàn bộ mã nguồn tệp tin để đề xuất bản vá tối ưu nhất cho bạn.</p>
+          )}
+
+          {status === 'loading' && (
+            <div style={{ textAlign: 'center', padding: '20px 0' }}>
+              <div className="spinner" style={{ margin: '0 auto 10px' }} />
+              <p style={{ marginTop: '8px', color: '#666' }}>AI đang rà soát toàn bộ tệp tin và phân tích cấu trúc để tìm lỗi...</p>
+            </div>
+          )}
+
+          {status === 'error' && (
+            <div className="preview-error" style={{ padding: '12px', marginBottom: '0' }}>{errorMsg}</div>
+          )}
+
+          {status === 'success' && (
+            <div className="quickfix-comparison" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <div style={{ background: '#f0fdf4', color: '#15803d', padding: '10px 12px', borderRadius: '6px', borderLeft: '4px solid #22c55e' }}>
+                <strong>Giải thích từ AI:</strong> {explanation}
+              </div>
+              
+              <div className="diff-view" style={{ fontFamily: 'monospace', fontSize: '12.5px', background: '#1e1e1e', color: '#fff', borderRadius: '6px', overflow: 'hidden' }}>
+                <div style={{ padding: '4px 10px', background: '#333', fontSize: '11px', color: '#aaa', textTransform: 'uppercase' }}>So sánh thay đổi dòng {fixedLineNum}</div>
+                <div style={{ padding: '10px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  <div style={{ color: '#ef4444', textDecoration: 'line-through', whiteSpace: 'pre-wrap' }}>
+                    - {originalLine || '(dòng trống)'}
+                  </div>
+                  <div style={{ color: '#22c55e', whiteSpace: 'pre-wrap' }}>
+                    + {fixedLine}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <footer>
+          <button type="button" className="studio-button studio-button--quiet" onClick={onClose} disabled={status === 'loading'}>Hủy</button>
+          
+          {status !== 'success' ? (
+            <button type="button" className="studio-button studio-button--primary" onClick={handleStartFix} disabled={status === 'loading'}>
+              Bắt đầu phân tích lỗi
+            </button>
+          ) : (
+            <button type="button" className="studio-button studio-button--primary" onClick={() => { onApply(fixedLineNum, fixedLine); onClose() }}>
+              Áp dụng sửa lỗi
+            </button>
+          )}
+        </footer>
+      </section>
+    </div>
+  )
+}
+
+function UpgradeDialog({ open, onClose, onUpgrade, onLogin, currentUser, authLoading, isPro }) {
+  const [stats, setStats] = useState(null);
+  useEffect(() => {
+    // Chỉ lấy số liệu THẬT khi hộp mở; lỗi thì ẩn (fetchStudioStats trả null).
+    if (!open) return;
+    let alive = true;
+    fetchStudioStats().then(s => { if (alive) setStats(s); });
+    return () => { alive = false; };
+  }, [open]);
+  if (!open) return null;
+  const needsLogin = !currentUser;
+  return (
+    <div className="dialog-backdrop" role="presentation" onMouseDown={event => { if (event.target === event.currentTarget) onClose() }}>
+      <section className="dialog upgrade-dialog" role="dialog" aria-modal="true" style={{ maxWidth: '460px' }}>
+        <header>
+          <div>
+            <span className="dialog-kicker">{needsLogin ? 'G · TÀI KHOẢN TYPSTCONICHUB' : '✦ NÂNG CẤP TYPSTCONICHUB PRO'}</span>
+            <h2>{needsLogin ? 'Đăng nhập để kiểm tra quyền' : isPro ? 'Tài khoản đã có quyền Pro' : 'Mở khóa TypstConicHub Pro'}</h2>
+          </div>
+          <button type="button" className="icon-button" onClick={onClose}>×</button>
+        </header>
+        
+        <div style={{ padding: '20px 24px', fontSize: '13px', lineHeight: '1.6', color: 'var(--studio-text)' }}>
+          {needsLogin ? <>
+            <p style={{ margin: '0 0 14px 0', opacity: 0.9 }}>Đăng nhập Google một lần để hệ thống nhận đúng quyền đã mua và mở tính năng Xuất Word. Việc đăng nhập không tự đưa tài liệu local của bạn lên Cloud.</p>
+            <div style={{ background: 'rgba(16,185,129,0.08)', border: '1px solid rgba(16,185,129,0.22)', borderRadius: '8px', padding: '12px 16px', marginBottom: '12px' }}>
+              <b style={{ color: 'var(--studio-green)' }}>Tài khoản quản trị được mở toàn bộ miễn phí.</b>
+              <p style={{ margin: '7px 0 0', fontSize: '12px', opacity: 0.8 }}>Hệ thống tự nhận diện quyền quản trị sau khi bạn đăng nhập đúng tài khoản Google.</p>
+            </div>
+          </> : <>
+          <p style={{ margin: '0 0 14px 0', opacity: 0.9 }}>{isPro ? `Đã xác nhận quyền Pro cho ${currentUser.email || 'tài khoản này'}. Bạn có thể đóng hộp và xuất Word ngay.` : 'Studio Free vẫn soạn, biên dịch và lưu dự án ngay trên thiết bị. Pro dành cho giáo viên muốn bớt thao tác kỹ thuật: xuất Word thật ngay trên web và tiếp tục công việc trên nhiều máy.'}</p>
+          
+          <div style={{ background: 'rgba(249,115,22,0.06)', border: '1px solid rgba(249,115,22,0.15)', borderRadius: '8px', padding: '12px 16px', marginBottom: '20px' }}>
+            <h4 style={{ margin: '0 0 8px 0', color: 'var(--studio-orange)', fontSize: '13.5px' }}>Quyền lợi gói TypstConicHub PRO:</h4>
+            <ul style={{ margin: 0, paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '12px', opacity: 0.95 }}>
+              <li><b>Word thật, không phải ảnh chụp trang:</b> Văn bản sửa được, công thức thành Word Equation; chỉ riêng CeTZ/BBT được kết xuất thành ảnh sắc nét.</li>
+              <li><b>Soạn thảo đa thiết bị:</b> Soạn bài ở trường trên máy tính, về nhà mở laptop tiếp tục soạn dở tức thì.</li>
+              <li><b>Gắn theo Gmail:</b> Đúng tài khoản, đúng thời hạn; tài khoản quản trị được miễn phí toàn bộ.</li>
+            </ul>
+          </div>
+          
+          {!isPro && stats && stats.teachers >= 5 && (
+            <div style={{ display: 'flex', gap: '18px', flexWrap: 'wrap', margin: '0 0 16px 0', padding: '12px 16px', background: 'rgba(16,185,129,0.06)', border: '1px solid rgba(16,185,129,0.18)', borderRadius: '8px' }}>
+              <div><b style={{ color: 'var(--studio-green)', fontSize: '17px' }}>{stats.teachers.toLocaleString('vi-VN')}</b><span style={{ fontSize: '11.5px', opacity: 0.8, marginLeft: '5px' }}>giáo viên đang dùng</span></div>
+              {stats.projects >= 10 && <div><b style={{ color: 'var(--studio-green)', fontSize: '17px' }}>{stats.projects.toLocaleString('vi-VN')}</b><span style={{ fontSize: '11.5px', opacity: 0.8, marginLeft: '5px' }}>tài liệu đã soạn</span></div>}
+            </div>
+          )}
+          {!isPro && <p style={{ margin: 0, fontSize: '12.5px', opacity: 0.85 }}>Chọn gói 1, 2 hoặc 5 năm; SePay xác nhận chuyển khoản và cấp quyền tự động theo đúng Gmail. Bạn vẫn có thể dùng bản local miễn phí trước khi quyết định.</p>}
+          </>}
+        </div>
+
+        <footer>
+          <button type="button" className="studio-button studio-button--quiet" onClick={onClose}>Đóng</button>
+          {needsLogin ? <button
+            type="button"
+            className="studio-button studio-button--primary studio-google-login"
+            onClick={onLogin}
+            disabled={authLoading}
+          >
+            <span>G</span> {authLoading ? 'Đang kiểm tra tài khoản…' : 'Đăng nhập bằng Google'}
+          </button> : isPro ? <button type="button" className="studio-button studio-button--primary" onClick={onClose}>Xuất Word ngay</button> : <button
+            type="button"
+            className="studio-button studio-button--primary"
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', height: '32px', boxSizing: 'border-box' }}
+            onClick={() => { onClose(); onUpgrade?.() }}
+          >
+            Chọn gói & thanh toán tự động ➔
+          </button>}
+        </footer>
+      </section>
+    </div>
+  );
+}
+
+function ProHonorDialog({ open, onClose, onCloud }) {
+  if (!open) return null
+  return (
+    <div className="dialog-backdrop pro-honor-backdrop" role="presentation" onMouseDown={event => { if (event.target === event.currentTarget) onClose() }}>
+      <section className="pro-honor-dialog" role="dialog" aria-modal="true" aria-labelledby="pro-honor-title">
+        <button type="button" className="pro-honor-close" onClick={onClose} aria-label="Đóng">×</button>
+        <div className="pro-honor-ribbon">♛ STUDIO PRO</div>
+        <div className="pro-honor-medallion" aria-hidden="true">✦</div>
+        <p className="pro-honor-kicker">KHÔNG GIAN ĐÃ ĐƯỢC MỞ KHÓA</p>
+        <h2 id="pro-honor-title">Cảm ơn bạn đã đồng hành cùng TypstConicHub</h2>
+        <p className="pro-honor-lead">Bạn đang dùng bộ công cụ dành cho giáo viên muốn làm nhanh hơn, đẹp hơn và giữ trọn quyền kiểm soát tài liệu.</p>
+        <div className="pro-honor-benefits">
+          <div><span>W</span><b>Word thật</b><small>Văn bản sửa được, công thức thành Equation.</small></div>
+          <div><span>☁</span><b>Kho Cloud riêng</b><small>Lưu dự án chọn lọc; Cloud chỉ ghi khi bạn chủ động bấm lưu.</small></div>
+          <div><span>⌘</span><b>Làm việc nhẹ nhàng</b><small>IndexedDB trên máy, đồng bộ Cloud khi bạn chủ động.</small></div>
+        </div>
+        <div className="pro-honor-footer"><span>Quyền Pro đã sẵn sàng trên tài khoản này.</span><button type="button" className="studio-button studio-button--primary" onClick={() => { onCloud(); onClose() }}>Mở khu Cloud</button></div>
+      </section>
+    </div>
+  )
+}
+
+function ProjectSwitcher({ project, projects, onSwitch, onCreate }) {
+  const [open, setOpen] = useState(false)
+  const [query, setQuery] = useState('')
+  const rootRef = useRef(null)
+
+  useEffect(() => {
+    if (!open) return undefined
+    const closeOnOutsideClick = event => {
+      if (!rootRef.current?.contains(event.target)) setOpen(false)
+    }
+    const closeOnEscape = event => {
+      if (event.key === 'Escape') setOpen(false)
+    }
+    document.addEventListener('pointerdown', closeOnOutsideClick)
+    document.addEventListener('keydown', closeOnEscape)
+    return () => {
+      document.removeEventListener('pointerdown', closeOnOutsideClick)
+      document.removeEventListener('keydown', closeOnEscape)
+    }
+  }, [open])
+
+  const filteredProjects = useMemo(() => {
+    const normalizedQuery = query.trim().toLocaleLowerCase('vi')
+    return [...projects]
+      .sort((left, right) => {
+        if (left.id === project.id) return -1
+        if (right.id === project.id) return 1
+        return (right.updatedAt || 0) - (left.updatedAt || 0)
+      })
+      .filter(item => !normalizedQuery || `${item.name} ${item.entryPath} ${item.templateId}`.toLocaleLowerCase('vi').includes(normalizedQuery))
+  }, [project.id, projects, query])
+
+  const openProject = projectId => {
+    setOpen(false)
+    setQuery('')
+    onSwitch(projectId)
+  }
+
+  return (
+    <div className={`project-switcher ${open ? 'is-open' : ''}`} ref={rootRef}>
+      <button
+        type="button"
+        className="project-switcher__trigger"
+        aria-haspopup="dialog"
+        aria-expanded={open}
+        onClick={() => setOpen(value => !value)}
+        title="Chuyển dự án"
+      >
+        <span className="project-switcher__mark">{String(project.name || 'T').trim().charAt(0).toLocaleUpperCase('vi')}</span>
+        <span className="project-switcher__current"><small>DỰ ÁN ĐANG MỞ</small><b>{project.name}</b></span>
+        <span className="project-switcher__chevron">⌄</span>
+      </button>
+
+      {open && <div className="project-switcher__popover" role="dialog" aria-label="Chuyển dự án">
+        <header>
+          <div><span>KHÔNG GIAN LÀM VIỆC</span><b>Chuyển dự án</b></div>
+          <em>{projects.length} dự án</em>
+        </header>
+        <label className="project-switcher__search">
+          <span>⌕</span>
+          <input autoFocus value={query} onChange={event => setQuery(event.target.value)} placeholder="Tìm theo tên hoặc tệp chính…" />
+          <kbd>ESC</kbd>
+        </label>
+        <div className="project-switcher__list">
+          {filteredProjects.map(item => {
+            const template = PROJECT_TEMPLATES.find(candidate => candidate.id === item.templateId)
+            const textFiles = Object.values(item.files || {}).filter(file => file.kind === 'text').length
+            const active = item.id === project.id
+            return <button type="button" key={item.id} className={active ? 'is-active' : ''} onClick={() => openProject(item.id)}>
+              <span className="project-switcher__item-mark">{String(item.name || 'T').trim().charAt(0).toLocaleUpperCase('vi')}</span>
+              <span className="project-switcher__item-copy">
+                <b>{item.name}</b>
+                <small>{template?.name || 'Dự án Typst'} · {textFiles} tệp · {getFileName(item.entryPath)}</small>
+              </span>
+              <span className="project-switcher__item-time">{active ? <strong>ĐANG MỞ</strong> : formatTime(item.updatedAt || Date.now())}<i>{active ? '✓' : '›'}</i></span>
+            </button>
+          })}
+          {!filteredProjects.length && <div className="project-switcher__empty"><span>⌕</span><b>Không tìm thấy dự án</b><small>Thử một tên hoặc tệp khác.</small></div>}
+        </div>
+        <footer>
+          <span>Dự án gần nhất được đưa lên đầu</span>
+          <button type="button" onClick={() => { setOpen(false); onCreate() }}>＋ Dự án mới</button>
+        </footer>
+      </div>}
+    </div>
+  )
+}
+
+export default function HubStudio({ initialTemplateId, initialBridge, onExit, onUpgrade }) {
   const [project, setProject] = useState(null)
   const [projects, setProjects] = useState([])
   const [activeFilePath, setActiveFilePath] = useState('/project/main.typ')
@@ -631,6 +1058,20 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
   const [zoom, setZoom] = useState(1)
   const [theme, setTheme] = useState(() => window.localStorage.getItem('typst-conic-hub.theme') || 'dark')
   const [sidebarMode, setSidebarMode] = useState('files')
+  const [currentUser, setCurrentUser] = useState(null)
+  const [authLoading, setAuthLoading] = useState(true)
+  const [authError, setAuthError] = useState('')
+  const [authStatusText, setAuthStatusText] = useState('')
+  const [cloudProjects, setCloudProjects] = useState([])
+  const [isCloudPro, setIsCloudPro] = useState(false)
+  const [cloudLimitBytes, setCloudLimitBytes] = useState(0)
+  const [syncingProjectId, setSyncingProjectId] = useState(null)
+  const [aiQuickFixOpen, setAiQuickFixOpen] = useState(false)
+  const [aiQuickFixDiagnostic, setAiQuickFixDiagnostic] = useState(null)
+  const [upgradeDialogOpen, setUpgradeDialogOpen] = useState(false)
+  const [proHonorOpen, setProHonorOpen] = useState(false)
+  const [docxExporting, setDocxExporting] = useState(false)
+  const [readyDocx, setReadyDocx] = useState(null)
   const [mobilePane, setMobilePane] = useState('editor')
   const [newProjectOpen, setNewProjectOpen] = useState(false)
   const [snapshotOpen, setSnapshotOpen] = useState(false)
@@ -643,6 +1084,7 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
   const [toast, setToast] = useState(null)
   const [editorPosition, setEditorPosition] = useState({ line: 1, column: 1 })
   const [storageInfo, setStorageInfo] = useState({ usage: 0, quota: 0, persisted: false })
+  const [mathToolbarTab, setMathToolbarTab] = useState('math-operators')
 
   const workerRef = useRef(null)
   const previewMountRef = useRef(null)
@@ -661,13 +1103,212 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
   const previewWidthRef = useRef(0)
   const importInputRef = useRef(null)
   const bridgeImportRef = useRef('')
+  const pandocWorkerRef = useRef(null)
+  const pandocPendingRef = useRef(new Map())
+  const pandocSequenceRef = useRef(0)
 
   const notify = useCallback((message, tone = 'success') => {
     setToast({ message, tone })
     window.setTimeout(() => setToast(current => current?.message === message ? null : current), 3200)
   }, [])
 
+  const getPandocWorker = useCallback(() => {
+    if (pandocWorkerRef.current) return pandocWorkerRef.current
+    const worker = new Worker(new URL('./pandocWorker.js', import.meta.url), { type: 'module' })
+    worker.onmessage = event => {
+      const requestId = event.data?.requestId
+      const pending = requestId ? pandocPendingRef.current.get(requestId) : null
+      if (!pending) return
+      pandocPendingRef.current.delete(requestId)
+      if (event.data.success) pending.resolve(event.data)
+      else pending.reject(new Error(event.data.error || 'Pandoc WASM không phản hồi'))
+    }
+    worker.onerror = error => {
+      for (const pending of pandocPendingRef.current.values()) pending.reject(error)
+      pandocPendingRef.current.clear()
+    }
+    pandocWorkerRef.current = worker
+    return worker
+  }, [])
+
+  const runPandocRequest = useCallback((payload, timeoutMs = 120000) => {
+    const worker = getPandocWorker()
+    const requestId = `pandoc-${Date.now()}-${pandocSequenceRef.current++}`
+    return withTimeout(new Promise((resolve, reject) => {
+      pandocPendingRef.current.set(requestId, { resolve, reject })
+      worker.postMessage({ ...payload, requestId })
+    }), timeoutMs, 'Quá thời gian chuyển đổi Word; hãy thử với tài liệu nhỏ hơn')
+  }, [getPandocWorker])
+
+  useEffect(() => {
+    if (!currentUser || !isCloudPro) return undefined
+    // Tải nền bộ Pandoc 56 MB khi giáo viên vừa mở Studio. Không hiện toast,
+    // không tải cho tài khoản Free; đến lúc bấm DOCX chỉ còn bước dựng file.
+    const warm = () => { void runPandocRequest({ type: 'prewarm' }, 180000).catch(error => console.debug('Pandoc prewarm:', error?.message || error)) }
+    if ('requestIdleCallback' in window) {
+      const idleId = window.requestIdleCallback(warm, { timeout: 4500 })
+      return () => window.cancelIdleCallback(idleId)
+    }
+    const timer = window.setTimeout(warm, 1800)
+    return () => window.clearTimeout(timer)
+  }, [currentUser, isCloudPro, runPandocRequest])
+
+  useEffect(() => () => {
+    for (const pending of pandocPendingRef.current.values()) pending.reject(new Error('Đã đóng Studio'))
+    pandocPendingRef.current.clear()
+    pandocWorkerRef.current?.terminate()
+    pandocWorkerRef.current = null
+  }, [])
+
+  const handleGoogleSignIn = useCallback(async () => {
+    try {
+      notify('Đang mở cửa sổ đăng nhập Google…')
+      await signInWithGoogle()
+    } catch (error) {
+      notify(`Không đăng nhập được: ${error?.message || 'Vui lòng thử lại.'}`, 'error')
+    }
+  }, [notify])
+
   const refreshProjects = useCallback(async () => setProjects(await listProjects()), [])
+
+  const loadCloudData = useCallback(async () => {
+    try {
+      const data = await fetchCloudProjects()
+      if (data && data.ok) {
+        setCloudProjects(data.projects || [])
+        const cloudEnabled = data.cloudEnabled === true && data.isPro === true
+        setIsCloudPro(cloudEnabled)
+        setCloudLimitBytes(cloudEnabled ? Number(data.storageBytesLimit) || DEFAULT_CLOUD_LIMIT_BYTES : 0)
+      }
+    } catch (error) {
+      console.error('Không tải được dữ liệu cloud:', error)
+    }
+  }, [])
+
+  useEffect(() => {
+    const refreshProAccess = () => { void loadCloudData() }
+    window.addEventListener('conic-pro-activated', refreshProAccess)
+    return () => window.removeEventListener('conic-pro-activated', refreshProAccess)
+  }, [loadCloudData])
+
+  useEffect(() => {
+    if (isCloudPro) setUpgradeDialogOpen(false)
+  }, [isCloudPro])
+
+  const saveCurrentProjectToCloud = useCallback(async () => {
+    if (!isCloudPro || !identityAuth.currentUser || !project) return
+    setSyncingProjectId(project.id)
+    try {
+      const saved = await saveProject(project)
+      setProject(saved)
+      setLastSavedAt(saved.updatedAt)
+      setIsDirty(false)
+      await refreshProjects()
+      await syncCloudProject(saved)
+      await loadCloudData()
+      notify('Đã lưu dự án hiện tại lên Cloud')
+    } catch (error) {
+      notify(error.message, 'error')
+    } finally {
+      setSyncingProjectId(null)
+    }
+  }, [isCloudPro, loadCloudData, notify, project, refreshProjects])
+
+  const handleCloudDelete = useCallback(async (projectId) => {
+    if (!window.confirm('Bạn có chắc chắn muốn xóa dự án này khỏi đám mây?')) return
+    try {
+      await deleteCloudProject(projectId)
+      notify('Đã xóa dự án trên đám mây.')
+      await loadCloudData()
+    } catch (error) {
+      notify(error.message, 'error')
+    }
+  }, [loadCloudData, notify])
+
+  const calculateTotalUsedBytes = useCallback(() => {
+    return cloudProjects.reduce((sum, cp) => sum + (cp.estimatedSizeBytes || 0), 0)
+  }, [cloudProjects])
+
+  const formatBytes = useCallback(bytes => {
+    if (bytes === 0) return '0 Bytes'
+    const k = 1024
+    const sizes = ['Bytes', 'KB', 'MB', 'GB']
+    const i = Math.floor(Math.log(bytes) / Math.log(k))
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
+  }, [])
+
+  const loadCloudProjectToLocal = useCallback(async (cloudProj) => {
+    if (project?.id === cloudProj.id) {
+      notify('Dự án này đã được mở sẵn')
+      return
+    }
+    if (!window.confirm(`Bạn có muốn tải dự án "${cloudProj.name}" về trình duyệt này không? Lịch sử cục bộ (nếu có) sẽ bị ghi đè bằng bản đám mây mới nhất.`)) return
+    try {
+      const downloaded = await downloadCloudProject(cloudProj.id)
+      const saved = await saveProject(downloaded)
+      setProject(saved)
+      setActiveFilePath(saved.entryPath)
+      setOpenTabs([saved.entryPath])
+      setLastSavedAt(saved.updatedAt)
+      setCompileStatus('waiting')
+      setDiagnostics([])
+      previewMountRef.current?.replaceChildren()
+      lastArtifactRef.current = null
+      await refreshProjects()
+      notify(`Đã tải xuống và mở dự án "${cloudProj.name}"`)
+    } catch (error) {
+      notify(`Không thể tải dự án: ${error.message}`, 'error')
+    }
+  }, [notify, project, refreshProjects])
+
+  const requestAiQuickFix = useCallback(diagnostic => {
+    setAiQuickFixDiagnostic(diagnostic)
+    setAiQuickFixOpen(true)
+  }, [])
+
+  const applyQuickFix = useCallback((lineNum, fixedLine) => {
+    const editor = editorRef.current
+    if (!editor) return
+    const model = editor.getModel()
+    if (!model) return
+    const lineMaxColumn = model.getLineMaxColumn(lineNum)
+    editor.executeEdits('ai-quick-fix', [{
+      range: new monacoRef.current.Range(lineNum, 1, lineNum, lineMaxColumn),
+      text: fixedLine,
+      forceMoveMarkers: true
+    }])
+    notify('Đã áp dụng bản sửa lỗi của AI')
+  }, [notify])
+
+  useEffect(() => {
+    const unsubscribe = listenAuthState(({ user, loading, error, statusText }) => {
+      setCurrentUser(user)
+      setAuthLoading(loading)
+      setAuthStatusText(statusText || '')
+      if (error) {
+        setAuthError(error)
+        notify(error, 'error')
+      } else {
+        setAuthError('')
+      }
+
+      if (user) {
+        fetchCloudProjects().then(data => {
+          if (data && data.ok) {
+            setCloudProjects(data.projects || [])
+            const cloudEnabled = data.cloudEnabled === true && data.isPro === true
+            setIsCloudPro(cloudEnabled)
+            setCloudLimitBytes(cloudEnabled ? Number(data.storageBytesLimit) || DEFAULT_CLOUD_LIMIT_BYTES : 0)
+          }
+        }).catch(err => console.error(err))
+      } else {
+        setCloudProjects([])
+        setIsCloudPro(false)
+        setCloudLimitBytes(0)
+      }
+    })
+    return unsubscribe
+  }, [notify])
 
   useEffect(() => {
     const acknowledge = (event, requestId, ok, message = '') => {
@@ -842,6 +1483,10 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
       if (message.type === 'worker-error') {
         const action = requestActionsRef.current.get(message.requestId)
         requestActionsRef.current.delete(message.requestId)
+        if (action?.kind === 'temp_compile') {
+          action.reject?.(new Error(message.error?.message || 'Không biên dịch được hình cho Word'))
+          return
+        }
         if (action?.kind === 'preview' && message.requestId !== latestPreviewRequestRef.current) return
         setCompileStatus('error')
         setDiagnostics([{ severity: 'error', message: message.error?.message || 'Worker Typst gặp lỗi', hints: [] }])
@@ -854,6 +1499,11 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
       if (!action) return
 
       if (!message.artifact) {
+        if (action.kind === 'temp_compile') {
+          const diagnostic = message.diagnostics?.[0]
+          action.reject?.(new Error(diagnostic?.message || 'Không tạo được hình cho tài liệu Word'))
+          return
+        }
         if (action.kind === 'preview' && message.requestId !== latestPreviewRequestRef.current) return
         setCompileStatus('error')
         setDiagnostics(message.diagnostics?.length ? message.diagnostics : [{ severity: 'error', message: 'Không tạo được tài liệu', hints: [] }])
@@ -864,6 +1514,11 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
         downloadBlob(new Blob([message.artifact], { type: 'application/pdf' }), `${safeFileName(action.projectName)}.pdf`)
         setCompileStatus('ready')
         notify('Đã xuất PDF thành công')
+        return
+      }
+
+      if (action.kind === 'temp_compile') {
+        if (action.resolve) action.resolve(message.artifact)
         return
       }
 
@@ -982,7 +1637,7 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
       const modifier = event.metaKey || event.ctrlKey
       if (modifier && event.key.toLowerCase() === 's') {
         event.preventDefault()
-        if (project) saveProject(project).then(saved => { setLastSavedAt(saved.updatedAt); setIsDirty(false); notify('Đã lưu dự án') })
+        if (project) saveProject(project).then(saved => { setLastSavedAt(saved.updatedAt); setIsDirty(false); notify('Đã lưu trên máy') })
       }
       if (modifier && event.key === 'Enter') {
         event.preventDefault()
@@ -1020,6 +1675,24 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
   const allFilePaths = useMemo(() => project ? Object.keys(project.files).sort() : [], [project])
   const projectOutline = useMemo(() => buildProjectOutline(project), [project])
   const examThemeState = useMemo(() => getExamThemeState(project), [project])
+
+  // Đồng bộ nội dung từ React state vào Monaco Editor khi thay đổi từ bên ngoài (AI, template...)
+  // Không đồng bộ khi người dùng đang trực tiếp gõ (editor có focus) để tránh lỗi nhảy con trỏ
+  useEffect(() => {
+    const editor = editorRef.current
+    if (!editor || !activeFile || activeFile.kind !== 'text') return
+    const model = editor.getModel()
+    if (!model) return
+
+    const currentValue = model.getValue()
+    if (activeFile.content !== currentValue) {
+      if (!editor.hasTextFocus()) {
+        const position = editor.getPosition()
+        model.setValue(activeFile.content)
+        if (position) editor.setPosition(position)
+      }
+    }
+  }, [activeFile?.content, activeFilePath])
 
   const mutateProject = useCallback(updater => {
     setProject(current => {
@@ -1333,10 +2006,17 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
           ? { kind: 'text', content: await file.text() }
           : { kind: 'binary', content: new Uint8Array(await file.arrayBuffer()), mime: file.type || 'application/octet-stream' }
       }
-      mutateProject(current => ({ ...current, files: { ...current.files, ...additions } }))
-      const firstText = Object.keys(additions).find(path => additions[path].kind === 'text')
+      const firstTyp = Object.keys(additions).find(path => /\.typ$/i.test(path))
+      mutateProject(current => ({
+        ...current,
+        files: { ...current.files, ...additions },
+        // Nhập một tệp .typ từ máy thì đặt luôn làm bản xuất (entry) để preview
+        // và Xuất Word bám đúng tệp vừa nhập, không dính tệp mẫu cũ.
+        ...(firstTyp ? { entryPath: firstTyp } : {}),
+      }))
+      const firstText = firstTyp || Object.keys(additions).find(path => additions[path].kind === 'text')
       if (firstText) openFile(firstText)
-      notify(`Đã thêm ${selectedFiles.length} tệp`)
+      notify(firstTyp ? `Đã nhập ${getFileName(firstTyp)} và đặt làm bản xuất` : `Đã thêm ${selectedFiles.length} tệp`)
     } catch (error) {
       notify(`Không thể nhập: ${error.message}`, 'error')
     }
@@ -1377,6 +2057,268 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
       notify(`Đã xuất ${canvases.length} trang PNG`)
     } catch (error) { notify(error.message, 'error') }
   }, [notify, project])
+
+  const exportWord = useCallback(async () => {
+    if (!project) return
+    if (docxExporting) return
+    if (!currentUser || !isCloudPro) {
+      setUpgradeDialogOpen(true)
+      notify(currentUser
+        ? 'Xuất Word thật là quyền lợi Pro. Studio Free vẫn dùng đầy đủ chức năng soạn và xuất PDF.'
+        : 'Đăng nhập Google để kiểm tra quyền xuất Word hoặc chọn gói TypstConicHub Pro.', 'error')
+      return
+    }
+    // Xuất ĐÚNG tệp đang mở, không phải tệp entry cố định. Nếu tệp đang mở là
+    // ảnh/binary thì lùi về tệp entry. Nhờ vậy "chọn file khác" → xuất file đó.
+    const exportPath = (activeFile?.kind === 'text' ? activeFilePath : null) || project.entryPath
+    const exportFile = project.files[exportPath]
+    if (!exportFile || exportFile.kind !== 'text') {
+      notify('Tệp đang mở phải là mã Typst để xuất Word', 'error')
+      return
+    }
+    const exportBaseName = safeFileName(getFileName(exportPath).replace(/\.typ$/i, '') || project?.name || 'Tai-lieu')
+
+    // ConicTypst Desktop can use the native Pandoc + Python pipeline already
+    // installed on the machine. A normal website cannot execute local programs,
+    // so browser users continue with the private Pandoc WASM path below.
+    if (window.desktopApi?.exportTypstDocxBundle) {
+      try {
+        notify('Đang xuất Word bằng Pandoc và Python trên máy…')
+        const nativeResult = await window.desktopApi.exportTypstDocxBundle({
+          content: exportFile.content,
+          sourceName: exportPath.split('/').pop() || 'Tai-lieu.typ',
+          examTitle: project.name || 'Tài liệu Typst',
+          schoolName: '',
+          examCode: '',
+          examSubject: 'TOÁN',
+          addFooter: true,
+        })
+        if (nativeResult?.cancelled) {
+          notify('Đã hủy lưu Word trên máy')
+          return
+        }
+        notify(`Đã xuất Word bằng bộ xử lý trên máy${nativeResult?.filePath ? `: ${nativeResult.filePath}` : ''}`)
+        return
+      } catch (error) {
+        console.warn('Native DOCX export failed; falling back to browser WASM:', error)
+        notify('Bộ xử lý trên máy chưa sẵn sàng; đang chuyển sang Pandoc WASM…')
+      }
+    }
+    const { extractBlocksForDocx, buildFigurePrelude, injectLayouts, getMockMacros, buildHeaderBlock, prepareEditableTypstForDocx, stripResidualGraphics, extractExamMeta } = await import('./docxBundle.js')
+    const { postprocessDocxBlob } = await import('./docxPostprocess.js')
+    setDocxExporting(true)
+    setReadyDocx(null)
+    
+    notify('Đang tạo tài liệu Word (vui lòng không đóng trang)...')
+
+    try {
+      const content = exportFile.content
+
+      // Rút gọn về vùng câu hỏi mà Pandoc hiểu được: ưu tiên marker
+      // CONICTYPST:QUESTIONS, kế đến gỡ factory make-questions ([ ] hoặc { }),
+      // còn lại giữ nguyên tài liệu tự do. Hàm này không ném lỗi.
+      let strippedContent = reduceForDocxExport(content)
+      // Tiêu đề thật nằm trong #show: thpt-school-exam.with(...) — trích ra vì
+      // show rule bị bỏ khi sang Pandoc. Không có thì lùi về tên dự án.
+      const examMeta = extractExamMeta(content)
+      const headerBlock = buildHeaderBlock({
+        examTitle: examMeta.examTitle || project?.name || 'ĐỀ KIỂM TRA',
+        schoolName: examMeta.schoolName || '',
+        examCode: examMeta.examCode || '',
+        examSubject: examMeta.examSubject || ''
+      })
+      if (headerBlock) strippedContent = headerBlock + strippedContent
+
+      // QUAN TRỌNG: trích khối hình TỪ strippedContent (bản sắp đưa vào Pandoc),
+      // không phải từ content gốc — để mỗi khối tìm được chắc chắn tồn tại
+      // verbatim trong chuỗi cần thay, xóa hẳn lớp lỗi "thay ảnh không khớp".
+      // Bắt cả `canvas(` trần (không tiền tố cetz.) ngang bằng công cụ Desktop.
+      const cetzBlocks = extractBlocksForDocx(strippedContent, 'cetz.canvas')
+      const canvasBlocks = extractBlocksForDocx(strippedContent, 'canvas', { skipDotPrefix: true })
+      const bbtBlocks = extractBlocksForDocx(strippedContent, 'bbt')
+      const allBlocks = [...cetzBlocks, ...canvasBlocks, ...bbtBlocks]
+
+      const images = {}
+      for (const [path, file] of Object.entries(project.files)) {
+        if (file?.kind !== 'binary') continue
+        const bytes = file.content instanceof Uint8Array
+          ? file.content
+          : new Uint8Array(file.content || [])
+        const blob = new Blob([bytes], { type: file.mime || 'application/octet-stream' })
+        const normalizedPath = path.replace(/^\/+/, '')
+        const fileName = normalizedPath.split('/').pop()
+        images[normalizedPath] = blob
+        if (fileName && !images[fileName]) images[fileName] = blob
+      }
+
+      if (allBlocks.length > 0) {
+        notify(`Đang biên dịch ${allBlocks.length} hình vẽ...`)
+        
+        const tempContent = `${buildFigurePrelude(content)}
+#set page(width: auto, height: auto, margin: 10pt)
+#show math.equation: set text(fill: black)
+
+${allBlocks.map(block => (block.hasHash ? block.text : `#${block.text}`)).join('\n#pagebreak()\n')}`
+
+        const reqId = `export-docx-${Date.now()}`
+        const tempCompilePromise = new Promise((resolve, reject) => {
+          requestActionsRef.current.set(reqId, { kind: 'temp_compile', resolve, reject })
+          workerRef.current.postMessage({
+            type: 'compile',
+            requestId: reqId,
+            entryPath: '/export.typ',
+            files: { ...project.files, '/export.typ': { kind: 'text', content: tempContent } },
+            format: 'vector'
+          })
+        })
+        let vectorArtifact
+        try {
+          vectorArtifact = await withTimeout(tempCompilePromise, 60000, 'Quá thời gian biên dịch hình cho Word')
+        } catch (error) {
+          requestActionsRef.current.delete(reqId)
+          throw error
+        }
+
+        const renderer = await getRenderer()
+        const session = await renderer.createModule(vectorArtifact.slice(0))
+        const pagesCount = session.pages
+
+        // QUAN TRỌNG: renderToCanvas lấy offsetWidth của container làm khổ vẽ.
+        // Nếu host bị visibility:hidden / không có bề rộng thì canvas có thể rỗng
+        // hoặc không được tạo → mọi hình bị mất. Dùng host CÓ bề rộng thật và đẩy
+        // ra ngoài màn hình bằng tọa độ (vẫn có layout box) thay vì ẩn hẳn.
+        const stagingHost = document.createElement('div')
+        stagingHost.style.position = 'fixed'
+        stagingHost.style.left = '-10000px'
+        stagingHost.style.top = '0'
+        stagingHost.style.width = '760px'
+        stagingHost.style.pointerEvents = 'none'
+        stagingHost.style.opacity = '0'
+        document.body.appendChild(stagingHost)
+
+        await renderer.renderToCanvas({
+          renderSession: session,
+          container: stagingHost,
+          pixelPerPt: 3,
+          backgroundColor: '#ffffff',
+        })
+
+        const canvases = Array.from(stagingHost.querySelectorAll('canvas'))
+        let renderedFigures = 0
+
+        for (let i = 0; i < canvases.length && i < allBlocks.length; i++) {
+          const canvas = canvases[i]
+          if (canvas && canvas.width > 0 && canvas.height > 0) {
+            const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'))
+            if (blob && blob.size > 0) {
+              // Tên PHẲNG, không thư mục con: pandoc-wasm chỉ nhúng ảnh có tên đơn
+              images[`fig-${i + 1}.png`] = blob
+              renderedFigures += 1
+            }
+          }
+        }
+        stagingHost.remove()
+        console.debug(`DOCX figures: ${renderedFigures}/${allBlocks.length} rendered (pages=${pagesCount})`)
+        if (renderedFigures === 0 && allBlocks.length > 0) {
+          notify('Cảnh báo: không kết xuất được hình nào cho Word. Kiểm tra Console.', 'error')
+        }
+
+        allBlocks.forEach((block, index) => {
+          const figName = `fig-${index + 1}.png`
+          const replacement = block.hasHash
+            ? `#image("${figName}", width: 42%)`
+            : `image("${figName}", width: 42%)`
+          strippedContent = strippedContent.replace(block.text, replacement)
+        })
+      }
+
+      // Lớp an toàn: Pandoc TUYỆT ĐỐI không được thấy cetz/canvas/bbt. Nếu còn
+      // sót khối vẽ nào (cú pháp lạ, lệch chuỗi), thay bằng ghi chú trung tính
+      // thay vì để nguyên và làm hỏng cả lần xuất.
+      strippedContent = stripResidualGraphics(strippedContent)
+
+      // Phần thân đã rút gọn + bỏ #show/#import/#let preset và ảnh cetz đã thay.
+      // Giữ lại bản này để retry: nó đã sạch factory/preset, khác hẳn việc
+      // re-dump nguyên tài liệu (vốn lại vấp đúng lỗi cũ).
+      const preLayout = prepareEditableTypstForDocx(strippedContent)
+      // Tài liệu tự do có thể chứa macro chưa đóng mà trình parser bố cục
+      // không biết. Khi đó vẫn xuất phần văn bản/toán chỉnh sửa được, không
+      // biến toàn bộ lần xuất thành lỗi “unclosed delimiter”.
+      let withLayout = preLayout
+      try {
+        withLayout = injectLayouts(preLayout)
+      } catch (layoutError) {
+        console.debug('Bỏ qua tối ưu layout DOCX:', layoutError?.message || layoutError)
+      }
+
+      // Dựng 1 bản DOCX cho một chế độ. Hình đã biên dịch dùng chung cho cả 3
+      // chế độ nên chỉ phần macro + Pandoc + trang trí lặp lại.
+      const buildDocxForMode = async mode => {
+        const finalTypst = getMockMacros(mode) + withLayout
+        let rawDocxBlob
+        try {
+          rawDocxBlob = (await runPandocRequest({ type: 'convert', typstCode: finalTypst, images })).blob
+        } catch (firstError) {
+          // Pandoc's Typst reader is intentionally conservative. Retry once with
+          // the reduced body WITHOUT layout injection if it upset the delimiter scan.
+          if (!/delimiter|parse|unexpected/i.test(firstError?.message || '')) throw firstError
+          const conservative = getMockMacros(mode) + preLayout
+          rawDocxBlob = (await runPandocRequest({ type: 'convert', typstCode: conservative, images })).blob
+        }
+        // Postprocess chỉ trang trí. Nếu nó làm file teo bất thường (dấu hiệu
+        // hỏng cây XML), giữ file RAW từ Pandoc để không mất nội dung.
+        let finalDocx = await postprocessDocxBlob(rawDocxBlob)
+        if (!finalDocx || finalDocx.size < rawDocxBlob.size * 0.6) {
+          console.warn(`DOCX (${mode}) sau trang trí nhỏ bất thường (${finalDocx?.size}/${rawDocxBlob.size}) — dùng bản gốc từ Pandoc.`)
+          finalDocx = rawDocxBlob
+        }
+        return finalDocx
+      }
+
+      // Xuất đủ 3 bản như bản Desktop: đề học sinh, đề + lời giải, đề + đáp án.
+      const modes = [
+        { mode: 'hocsinh', suffix: 'de-hoc-sinh', label: 'đề học sinh' },
+        { mode: 'loigiai', suffix: 'de-loi-giai', label: 'đề + lời giải' },
+        { mode: 'dapan', suffix: 'de-dap-an', label: 'đề + đáp án' },
+      ]
+      const built = []
+      for (const { mode, suffix, label } of modes) {
+        notify(`Đang dựng Word: ${label}…`)
+        built.push({ suffix, blob: await buildDocxForMode(mode) })
+      }
+
+      const { default: JSZip } = await import('jszip')
+      const zip = new JSZip()
+      for (const { suffix, blob } of built) {
+        zip.file(`${exportBaseName}-${suffix}.docx`, blob)
+      }
+      const zipBlob = await zip.generateAsync({ type: 'blob', mimeType: 'application/zip' })
+      const fileName = `${exportBaseName}-word.zip`
+      setReadyDocx({
+        blob: zipBlob,
+        fileName,
+        url: URL.createObjectURL(zipBlob),
+      })
+      // Thử tải ngay; nút “Tải Word” vẫn được giữ lại để trình duyệt nhúng
+      // không chặn download sau khi WASM vừa xử lý xong.
+      downloadBlob(zipBlob, fileName)
+      notify('Đã dựng ZIP 3 bản Word (đề · lời giải · đáp án). Nếu trình duyệt chưa tải, bấm “Tải Word”.')
+
+    } catch (error) {
+      console.error(error)
+      const isParseError = /delimiter|parse|unexpected|not found|not a string/i.test(error?.message || '')
+      const hint = isParseError
+        ? ' Tài liệu dùng hàm tùy biến, #show hoặc hình cetz vượt khả năng đọc Typst của Pandoc. Hãy đánh dấu vùng câu hỏi (nút chèn vùng CONICTYPST:QUESTIONS) hoặc dùng bản Desktop để xuất đầy đủ.'
+        : ''
+      notify(`Chưa thể tạo Word chỉnh sửa được: ${error.message}.${hint}`, 'error')
+    } finally {
+      setDocxExporting(false)
+    }
+  }, [currentUser, docxExporting, isCloudPro, notify, project, runPandocRequest])
+
+  useEffect(() => () => {
+    if (readyDocx?.url) URL.revokeObjectURL(readyDocx.url)
+  }, [readyDocx])
 
   const makeSnapshot = useCallback(async () => {
     if (!project) return
@@ -1440,6 +2382,7 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
     { id: 'outline', icon: '☷', label: 'Mở mục lục tài liệu', description: 'Đi tới phần thi, câu hỏi hoặc tiêu đề.', keywords: 'outline cấu trúc', run: () => setSidebarMode('outline') },
     { id: 'compile', icon: '▶', label: 'Biên dịch lại preview', description: 'Chạy compiler Typst ngay lập tức.', shortcut: '⌘ ↵', run: () => requestCompile('vector', 'preview') },
     { id: 'pdf', icon: '↓', label: 'Xuất tài liệu PDF', description: 'Biên dịch và tải bản PDF chất lượng in.', keywords: 'download tải', run: () => requestCompile('pdf', 'pdf') },
+    { id: 'docx', icon: 'W', label: 'Xuất tài liệu Word (DOCX)', description: 'Tải bộ đề Word định dạng chuẩn.', keywords: 'download tải word docx', run: exportWord },
     { id: 'png', icon: '▧', label: 'Xuất các trang PNG', description: 'Xuất một ảnh hoặc ZIP nhiều trang.', run: exportPng },
     { id: 'zip', icon: 'ZIP', label: 'Đóng gói dự án ZIP', description: 'Tải mã nguồn và toàn bộ asset.', run: handleExportZip },
     { id: 'snapshot', icon: '◷', label: 'Tạo snapshot an toàn', description: 'Lưu mốc để có thể quay lại sau.', run: makeSnapshot },
@@ -1456,7 +2399,7 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
       keywords: `${item.category} ${item.signature}`,
       run: () => insertSnippet(item),
     })),
-  ], [createOrUpdateBeamer, directExamPath, exportPng, handleExportZip, insertSnippet, isBeamerEntry, makeSnapshot, requestCompile, setActiveAsEntry, switchToDirectExam, theme, upgradePackageImports])
+  ], [createOrUpdateBeamer, directExamPath, exportPng, exportWord, handleExportZip, insertSnippet, isBeamerEntry, makeSnapshot, requestCompile, setActiveAsEntry, switchToDirectExam, theme, upgradePackageImports])
 
   if (!project) {
     return <div className="studio-bootstrap"><BrandMark /><span className="spinner" /><p>Đang mở dự án gần nhất…</p></div>
@@ -1471,27 +2414,69 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
       <header className="studio-header">
         <button type="button" className="studio-header__brand" onClick={onExit} title="Về trang chủ"><BrandMark /></button>
         <div className="studio-header__project">
-          <select value={project.id} onChange={event => switchProject(event.target.value)} aria-label="Dự án đang mở">
-            {projects.map(item => <option key={item.id} value={item.id}>{item.name}</option>)}
-          </select>
+          <ProjectSwitcher project={project} projects={projects} onSwitch={switchProject} onCreate={() => setNewProjectOpen(true)} />
           <button type="button" className="icon-button" onClick={renameProject} title="Đổi tên dự án">✎</button>
           <span className={`save-state ${isDirty ? 'is-dirty' : ''}`}><i />{isDirty ? 'Đang tự lưu' : `Đã lưu ${lastSavedAt ? new Intl.DateTimeFormat('vi-VN', { hour: '2-digit', minute: '2-digit' }).format(lastSavedAt) : ''}`}</span>
+          
+          {/* Cloud Indicator always visible here */}
+          {currentUser ? (
+            isCloudPro ? (
+              <button 
+                type="button" 
+                onClick={() => { setSidebarMode('cloud'); setProHonorOpen(true) }} 
+                style={{ background: 'rgba(16,185,129,0.1)', color: '#10b981', border: 'none', padding: '3px 8px', borderRadius: '4px', fontSize: '10px', fontWeight: 'bold', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '3px', whiteSpace: 'nowrap', marginLeft: '6px' }}
+                title="Gói PRO - Nhấn để quản lý Cloud"
+              >
+                <span aria-hidden="true">♛</span> Pro
+              </button>
+            ) : (
+              <button 
+                type="button" 
+                onClick={() => setUpgradeDialogOpen(true)} 
+                style={{ background: 'rgba(249,115,22,0.1)', color: 'var(--studio-orange)', border: 'none', padding: '3px 8px', borderRadius: '4px', fontSize: '10px', fontWeight: 'bold', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '3px', whiteSpace: 'nowrap', marginLeft: '6px' }}
+                title="Studio Free lưu trên máy · Nhấn để xem Studio Cloud"
+              >
+                ◉ Free
+              </button>
+            )
+          ) : (
+            <button 
+              type="button" 
+              onClick={handleGoogleSignIn} 
+              className="studio-auth-button"
+              title="Đăng nhập Google để kiểm tra quyền Pro và xuất Word"
+            >
+              <span>G</span> Đăng nhập Google
+            </button>
+          )}
         </div>
         <nav className="studio-header__nav">
-          <a href="https://admin-conictypst.pages.dev/account.html" target="_blank" rel="noreferrer">Tài khoản</a>
+          {currentUser && (
+            <a href="https://admin-conictypst.pages.dev/account.html" target="_blank" rel="noreferrer">Quyền Typst</a>
+          )}
           <a href="https://hdsd-conictypst.pages.dev/" target="_blank" rel="noreferrer">Hướng dẫn</a>
         </nav>
         <div className="studio-header__actions">
           <button type="button" className="studio-button studio-button--templates" onClick={() => setNewProjectOpen(true)}><span>＋</span> Mẫu soạn</button>
-          <button type="button" className="studio-button studio-button--accent" onClick={() => setCatalogOpen(true)}><span>S</span> Kho lệnh</button>
-          <button type="button" className="studio-button studio-button--theme" onClick={() => setThemeDesignerOpen(true)}><span>✦</span> {examThemeState.id || 'Giao diện'}</button>
-          <button type="button" className="studio-button studio-button--quiet" onClick={() => setSnapshotOpen(true)}>Lịch sử</button>
-          <button type="button" className="studio-button studio-button--quiet" onClick={handleExportZip}>ZIP</button>
+          {readyDocx ? (
+            <a className="studio-button studio-button--word" href={readyDocx.url} download={readyDocx.fileName} onClick={() => notify('Đang tải ZIP 3 bản Word về máy')} title="Tải ZIP 3 bản Word (đề · lời giải · đáp án)"><span>W</span> Tải Word</a>
+          ) : (
+            <button type="button" className="studio-button studio-button--word" onClick={exportWord} disabled={docxExporting} title="Pro · Xuất 3 bản Word (đề học sinh · đề+lời giải · đề+đáp án) trong 1 ZIP. Văn bản sửa được, toán là Equation, CeTZ là ảnh"><span>W</span> {docxExporting ? 'Đang tạo Word…' : 'Xuất Word (3 bản)'}</button>
+          )}
           <div className="export-menu">
             <button type="button" className="studio-button studio-button--primary" onClick={() => requestCompile('pdf', 'pdf')} disabled={compileStatus === 'compiling'}>Xuất PDF <span>↓</span></button>
             <div><button type="button" onClick={exportSvg}>Xuất SVG</button><button type="button" onClick={exportPng}>Xuất PNG</button></div>
           </div>
-          <button type="button" className="icon-button theme-toggle" onClick={() => setTheme(value => value === 'dark' ? 'light' : 'dark')} title="Đổi giao diện">{theme === 'dark' ? '☀' : '☾'}</button>
+          <details className="studio-more-menu">
+            <summary className="studio-button" title="Mở các công cụ ít dùng hơn">Thêm <span>⌄</span></summary>
+            <div>
+              <button type="button" onClick={() => setCatalogOpen(true)}><span>S</span><b>Kho lệnh</b><small>Chèn nhanh công thức và thành phần</small></button>
+              <button type="button" onClick={() => setThemeDesignerOpen(true)}><span>✦</span><b>Giao diện đề</b><small>{examThemeState.id || 'Chọn màu và phong cách'}</small></button>
+              <button type="button" onClick={() => setSnapshotOpen(true)}><span>↶</span><b>Lịch sử</b><small>Mở các bản lưu trước đó</small></button>
+              <button type="button" onClick={handleExportZip}><span>ZIP</span><b>Sao lưu dự án</b><small>Tải toàn bộ tệp về máy</small></button>
+              <button type="button" onClick={() => setTheme(value => value === 'dark' ? 'light' : 'dark')}><span>{theme === 'dark' ? '☀' : '☾'}</span><b>Giao diện Studio</b><small>Đổi sang nền {theme === 'dark' ? 'sáng' : 'tối'}</small></button>
+            </div>
+          </details>
         </div>
       </header>
 
@@ -1510,6 +2495,7 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
                 <button type="button" className={sidebarMode === 'search' ? 'is-active' : ''} onClick={() => setSidebarMode('search')} title="Tìm kiếm">⌕</button>
                 <button type="button" className={sidebarMode === 'outline' ? 'is-active' : ''} onClick={() => setSidebarMode('outline')} title="Mục lục tài liệu">☷</button>
                 <button type="button" className={sidebarMode === 'packages' ? 'is-active' : ''} onClick={() => setSidebarMode('packages')} title="Package">◇</button>
+                <button type="button" className={sidebarMode === 'math' ? 'is-active' : ''} onClick={() => setSidebarMode('math')} title="Ký hiệu & Emoji">🧮</button>
                 <span />
                 <button type="button" onClick={() => setNewProjectOpen(true)} title="Dự án mới">＋</button>
               </div>
@@ -1543,6 +2529,130 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
                   <button type="button" className="sidebar-catalog-button" onClick={() => setCatalogOpen(true)}>Xem toàn bộ {SANG_MATH_CATALOG.length} lệnh <span>→</span></button>
                   <p className="sidebar-note">Dự án public dùng <code>{SANG_MATH_IMPORT}</code>. Package được cache sau lần tải đầu tiên.</p>
                 </div>}
+                {sidebarMode === 'math' && <div className="sidebar-tool math-tool">
+                  <span className="sidebar-heading-simple">KÝ HIỆU & EMOJI</span>
+                  <div className="math-sidebar-select-wrapper">
+                    <select className="math-sidebar-select" value={mathToolbarTab} onChange={e => setMathToolbarTab(e.target.value)}>
+                      <optgroup label="Ký hiệu Toán">
+                        {MATH_SYMBOL_CATEGORIES.map(cat => <option key={cat.id} value={cat.id}>{cat.label}</option>)}
+                      </optgroup>
+                      <optgroup label="Emoji">
+                        {EMOJI_CATEGORIES.map(cat => <option key={cat.id} value={cat.id}>{cat.label}</option>)}
+                      </optgroup>
+                    </select>
+                  </div>
+                  <div className="math-sidebar-content">
+                    {MATH_SYMBOL_CATEGORIES.concat(EMOJI_CATEGORIES).find(c => c.id === mathToolbarTab)?.symbols.map((sym, idx) => (
+                      <button type="button" key={idx} onClick={() => insertSnippet({ ...sym, isMathSymbol: true })} title={sym.label}>
+                        {sym.icon}
+                      </button>
+                    ))}
+                  </div>
+                </div>}
+                {sidebarMode === 'cloud' && <div className="sidebar-tool cloud-sync-tool">
+                  <span className="sidebar-heading-simple">ĐỒNG BỘ ĐÁM MÂY</span>
+                  {authLoading ? (
+                    <div className="cloud-loading" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '180px', gap: '12px', color: 'var(--text-secondary)' }}>
+                      <span className="spinner" style={{ border: '2px solid rgba(255,255,255,0.1)', borderTop: '2px solid var(--studio-orange)', borderRadius: '50%', width: '24px', height: '24px', animation: 'spin 0.8s linear infinite' }} />
+                      <b style={{ fontSize: '12.5px' }}>{authStatusText || 'Đang kết nối...'}</b>
+                    </div>
+                  ) : currentUser ? (
+                    <div className="cloud-panel">
+                      <div className="cloud-user">
+                        <div className="cloud-user__avatar">
+                          <img src={currentUser.photoURL || 'https://www.gravatar.com/avatar/?d=mp'} alt="avatar" />
+                        </div>
+                        <div className="cloud-user__info">
+                          <span className="cloud-user__name">{currentUser.displayName || 'Giáo viên'}</span>
+                          <span className="cloud-user__email">{currentUser.email}</span>
+                          <span className={`cloud-chip ${isCloudPro ? 'cloud-chip--pro' : 'cloud-chip--free'}`}>{isCloudPro ? '♛ STUDIO PRO · CLOUD' : 'FREE · LƯU TRÊN MÁY'}</span>
+                        </div>
+                      </div>
+
+                      {!isCloudPro && (
+                        <div className="cloud-store" style={{ background: 'var(--bg-card)', borderColor: 'var(--studio-line)' }}>
+                          <div className="cloud-store__body">
+                            <b>Studio Free vẫn dùng đầy đủ trên máy này</b>
+                            <small>Dự án tự lưu bằng IndexedDB, nhập tệp và xuất ZIP/PDF về máy. Không nội dung nào gửi lên Cloud.</small>
+                            <button type="button" className="cloud-save__btn" style={{ marginTop: '8px' }} onClick={() => setUpgradeDialogOpen(true)}>Nâng cấp Studio Pro</button>
+                          </div>
+                        </div>
+                      )}
+
+                      {isCloudPro && (
+                        <>
+                          <div className="cloud-store">
+                            <div className="cloud-store__num">{cloudProjects.length}</div>
+                            <div className="cloud-store__body">
+                              <b>{cloudProjects.length ? 'dự án trong kho Cloud riêng' : 'Kho Cloud riêng đang trống'}</b>
+                              <small>Lưu dự án để mở lại trên thiết bị khác. Studio vẫn tự lưu cục bộ; Cloud chỉ ghi khi bạn bấm nút.</small>
+                            </div>
+                          </div>
+
+                          <div className="cloud-save">
+                            <button
+                              type="button"
+                              className="cloud-save__btn"
+                              disabled={!project || syncingProjectId === project.id}
+                              onClick={saveCurrentProjectToCloud}
+                            >
+                              {syncingProjectId === project?.id ? 'Đang lưu lên Cloud…' : '☁ Lưu dự án hiện tại lên Cloud'}
+                            </button>
+                            <span className="cloud-save__note">Cloud không tự ghi. Chỉ nút này mới tạo hoặc cập nhật bản Cloud.</span>
+                          </div>
+
+                          <div className="cloud-projects">
+                            <div className="cloud-projects__head">
+                              <span>DỰ ÁN TRÊN ĐÁM MÂY</span>
+                              <span className="cloud-projects__count">{cloudProjects.length}</span>
+                            </div>
+                            <div className="cloud-projects__list">
+                              {cloudProjects.map(cp => {
+                                const isSyncing = syncingProjectId === cp.id
+                                const isLocalSame = project?.id === cp.id
+                                return (
+                                  <div key={cp.id} className="cloud-proj">
+                                    <div className="cloud-proj__info">
+                                      <span className="cloud-proj__name">{cp.name}</span>
+                                      <span className="cloud-proj__meta">{new Date(cp.updatedAt).toLocaleDateString('vi-VN')} {new Date(cp.updatedAt).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })} · {formatBytes(cp.estimatedSizeBytes || 0)}</span>
+                                    </div>
+                                    <div className="cloud-proj__actions">
+                                      <button type="button" className={`cloud-proj__btn ${isLocalSame ? 'cloud-proj__btn--open' : 'cloud-proj__btn--load'}`} disabled={isSyncing || isLocalSame} onClick={() => loadCloudProjectToLocal(cp)}>
+                                        {isLocalSame ? 'Đang mở' : 'Tải về'}
+                                      </button>
+                                      <button type="button" className="cloud-proj__btn cloud-proj__btn--del" onClick={() => handleCloudDelete(cp.id)}>
+                                        Xóa
+                                      </button>
+                                    </div>
+                                  </div>
+                                )
+                              })}
+                              {!cloudProjects.length && (
+                                <div className="cloud-empty">
+                                  <b>Chưa có dự án nào</b>
+                                  <span>Bấm “Lưu dự án hiện tại lên Cloud” để tạo bản đầu tiên.</span>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </>
+                      )}
+
+                      <button type="button" className="cloud-signout" onClick={firebaseSignOut}>Đăng xuất tài khoản</button>
+                    </div>
+                  ) : (
+                    <div className="cloud-login-prompt" style={{ display: 'flex', flexDirection: 'column', gap: '14px', padding: '10px 4px', textAlign: 'center' }}>
+                      <p style={{ fontSize: '12px', lineHeight: '1.5', color: 'var(--text-secondary)', textAlign: 'left', margin: 0 }}>Đăng nhập để kiểm tra quyền Studio Pro. Tài khoản chưa nâng cấp vẫn sử dụng Studio Free và lưu dự án cục bộ bằng IndexedDB.</p>
+                      {authError && <div className="auth-error-msg" style={{ background: 'rgba(239,68,68,0.1)', color: '#ef4444', padding: '8px', borderRadius: '5px', fontSize: '11px', textAlign: 'left' }}>{authError}</div>}
+                      <button type="button" className="cloud-signin-btn" onClick={handleGoogleSignIn} style={{ width: '100%', background: 'var(--studio-orange)', color: '#fff', border: 'none', padding: '10px', borderRadius: '6px', fontSize: '12.5px', cursor: 'pointer', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', boxShadow: '0 2px 8px rgba(249,115,22,0.25)' }}>
+                        ✦ Đăng nhập bằng Google
+                      </button>
+                      <small className="cloud-hint-free" style={{ fontSize: '10px', lineHeight: '1.4', color: 'var(--text-secondary)', textAlign: 'left', display: 'block', marginTop: '4px' }}>
+                        Sau khi SePay xác nhận, quyền Pro được kích hoạt tự động theo đúng Gmail thanh toán. Cloud chỉ ghi khi bạn bấm nút lưu.
+                      </small>
+                    </div>
+                  )}
+                </div>}
               </div>
             </aside>
           </Panel>
@@ -1562,13 +2672,22 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
                   <Editor
                     path={`file://${activeFilePath}`}
                     language="typst"
-                    value={activeFile.content}
+                    defaultValue={activeFile.content}
                     onChange={updateActiveFile}
                     beforeMount={registerTypstLanguage}
                     onMount={(editor, monaco) => {
                       editorRef.current = editor
                       monacoRef.current = monaco
                       editor.onDidChangeCursorPosition(event => setEditorPosition({ line: event.position.lineNumber, column: event.position.column }))
+                      editor.onKeyDown(event => {
+                        const keyboardEvent = event.browserEvent
+                        const commandOrControl = keyboardEvent.metaKey || keyboardEvent.ctrlKey
+                        const slashKey = keyboardEvent.code === 'Slash' || keyboardEvent.key === '/'
+                        if (!commandOrControl || keyboardEvent.shiftKey || !slashKey) return
+                        event.preventDefault()
+                        event.stopPropagation()
+                        editor.trigger('conictypst.keyboard', 'editor.action.commentLine', null)
+                      })
                     }}
                     theme={theme === 'dark' ? 'vs-dark' : 'vs'}
                     options={{
@@ -1603,7 +2722,7 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
               <header className="preview-header"><div><b>Live Preview</b><span className={`compile-state state-${compileStatus}`}><i />{compileLabel}</span><span className="preview-source-hint">↗ Bấm nội dung để mở source</span></div><div><button type="button" onClick={() => setZoom(value => Math.max(.45, +(value - .1).toFixed(2)))}>−</button><span>{Math.round(zoom * 100)}%</span><button type="button" onClick={() => setZoom(value => Math.min(2, +(value + .1).toFixed(2)))}>＋</button></div></header>
               <div className="preview-scroll">
                 {runtimeStatus !== 'ready' && <div className="preview-loading"><span className="spinner" /><b>{runtimeLabel}</b><small>Lần mở đầu, trình duyệt cần tải bộ biên dịch Typst. Các lần sau sẽ mở nhanh hơn.</small></div>}
-                {compileStatus === 'error' && <div className="preview-error"><span>!</span><div><b>Typst cần bạn kiểm tra</b><p>{diagnostics[0] ? formatDiagnostic(diagnostics[0]) : 'Có lỗi khi biên dịch tài liệu.'}</p><div><button type="button" onClick={() => setProblemsOpen(true)}>Xem tất cả vấn đề</button><button type="button" onClick={() => requestCompile('vector', 'preview')}>Biên dịch lại</button></div></div></div>}
+                {compileStatus === 'error' && <div className="preview-error"><span>!</span><div><b>Typst cần bạn kiểm tra</b><p>{diagnostics[0] ? formatDiagnostic(diagnostics[0]) : 'Có lỗi khi biên dịch tài liệu.'}</p><div><button type="button" onClick={() => setProblemsOpen(true)}>Xem tất cả vấn đề</button>{diagnostics[0] && <button type="button" className="preview-error-ai-btn" onClick={() => requestAiQuickFix(diagnostics[0])}>✦ Sửa bằng AI (Lite)</button>}<button type="button" onClick={() => requestCompile('vector', 'preview')}>Biên dịch lại</button></div></div></div>}
                 <div className="preview-scale" style={{ transform: `scale(${zoom})` }}><div ref={previewMountRef} className="preview-mount" onClick={handlePreviewSourceClick} /></div>
               </div>
             </section>
@@ -1621,7 +2740,10 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit }) 
       <CatalogDialog open={catalogOpen} onClose={() => setCatalogOpen(false)} onInsert={insertSnippet} />
       <ThemeDialog open={themeDesignerOpen} currentTheme={examThemeState.id} available={Boolean(examThemeState.path)} onClose={() => setThemeDesignerOpen(false)} onApply={applyExamTheme} />
       <CommandPalette open={commandOpen} onClose={() => setCommandOpen(false)} actions={commandActions} />
-      <ProblemsDialog open={problemsOpen} diagnostics={diagnostics} onClose={() => setProblemsOpen(false)} onSelect={item => { setProblemsOpen(false); goToLocation(item.file, item.start?.line || item.startLine, item.start?.column || item.startColumn) }} />
+      <ProblemsDialog open={problemsOpen} diagnostics={diagnostics} onClose={() => setProblemsOpen(false)} onSelect={item => { setProblemsOpen(false); goToLocation(item.file, item.start?.line || item.startLine, item.start?.column || item.startColumn) }} onAiFix={item => { setProblemsOpen(false); requestAiQuickFix(item); }} />
+      <AiQuickFixDialog open={aiQuickFixOpen} diagnostic={aiQuickFixDiagnostic} project={project} activeFilePath={activeFilePath} onClose={() => setAiQuickFixOpen(false)} onApply={applyQuickFix} />
+      <UpgradeDialog open={upgradeDialogOpen} onClose={() => setUpgradeDialogOpen(false)} onUpgrade={onUpgrade} onLogin={handleGoogleSignIn} currentUser={currentUser} authLoading={authLoading} isPro={isCloudPro} />
+      <ProHonorDialog open={proHonorOpen} onClose={() => setProHonorOpen(false)} onCloud={() => setSidebarMode('cloud')} />
       {toast && <div className={`studio-toast ${toast.tone}`}><span>{toast.tone === 'error' ? '!' : '✓'}</span>{toast.message}</div>}
       <button type="button" className="danger-project-delete" onClick={removeCurrentProject} title="Xóa dự án hiện tại">Xóa dự án</button>
     </div>

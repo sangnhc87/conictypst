@@ -124,6 +124,7 @@
 
 // ── Đánh dấu góc ────────────────────────────────────────
 #let angle-mark(A, O, B, radius: 0.5, label: none, fill: rgb("#FFE0B2"), scale: _ge-scale) = {
+  let fill-color = fill
   cetz.canvas(length: scale, {
     import cetz.draw: *
     let (ax, ay) = A
@@ -132,12 +133,32 @@
     let angleA = calc.atan2(ay - oy, ax - ox)
     let angleB = calc.atan2(by - oy, bx - ox)
     let r = radius
-    arc(O, r, angleA, angleB, stroke: 0.7pt + _ge-red, fill: fill)
+    line(O, A, stroke: 0.9pt + _ge-gray)
+    line(O, B, stroke: 0.9pt + _ge-gray)
+    arc(O, start: angleA, stop: angleB, radius: r, stroke: 0.7pt + _ge-red, fill: fill-color)
     if label != none {
       let mx = ox + r * 1.5 * calc.cos((angleA + angleB) / 2)
       let my = oy + r * 1.5 * calc.sin((angleA + angleB) / 2)
       content((mx, my), text(size: 8pt, fill: _ge-red)[#label])
     }
+  })
+}
+
+// ── Cung tròn từ 3 điểm — API thân thiện hơn CeTZ arc ───
+// Typst/CeTZ nhận cung theo tâm + góc start/stop, trong khi người dùng
+// hình học thường nghĩ theo điểm đầu A, tâm O và điểm cuối B. Helper này
+// tự đổi A/O/B thành hai góc và giữ nguyên hướng từ A đến B.
+#let arc-by-points(A, O, B, radius: 0.8, stroke: 0.9pt + _ge-blue, fill: none, scale: _ge-scale) = {
+  let stroke-style = stroke
+  let fill-color = fill
+  cetz.canvas(length: scale, {
+    import cetz.draw: *
+    let (ax, ay) = A
+    let (ox, oy) = O
+    let (bx, by) = B
+    let start-angle = calc.atan2(ay - oy, ax - ox)
+    let stop-angle = calc.atan2(by - oy, bx - ox)
+    arc(O, start: start-angle, stop: stop-angle, radius: radius, stroke: stroke-style, fill: fill-color)
   })
 }
 

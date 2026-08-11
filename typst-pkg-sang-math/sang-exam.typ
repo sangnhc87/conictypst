@@ -40,23 +40,10 @@
 // ── sang-setup: wrapper đặt show rules ───────────────────
 // Dùng: #show: sang-setup
 //       #show: sang-setup.with(math-color: accent)
-#let _studio-canvas-math = sys.inputs.at(
-  "sang-math-canvas-compat",
-  default: "0",
-) == "1"
-
 #let sang-setup(body, math-color: black) = {
-  // Giữ công thức inline ở cỡ display nhưng vẫn cho Typst tự thu nhỏ phân số
-  // trong số mũ, chỉ thêm khoảng thở cho dòng thực sự chứa phân số.
-  show math.equation.where(block: false): it => {
-    if _studio-canvas-math {
-      math.display(it)
-    } else if repr(it).contains("frac") {
-      box(inset: (y: 0.16em))[#math.display(it)]
-    } else {
-      math.display(it)
-    }
-  }
+  // Chỉ phóng riêng phân số. Không biến cả phương trình inline thành display:
+  // làm vậy sẽ phá baseline và chiều cao dòng trong bảng/cột hẹp.
+  show math.frac: math.display
   show math.equation: set text(fill: math-color)
 
   // Tự động chuyển C, A, P (những chữ số gán sub/sup) thành chữ đứng để in đúng C_n^k
@@ -80,12 +67,7 @@
       }
     } else { it }
   }
-  if _studio-canvas-math {
-    show math.frac: math.display
-    body
-  } else {
-    body
-  }
+  body
 }
 
 // ── Helpers ───────────────────────────────────────────────
@@ -905,6 +887,7 @@
   fig-pos: "right",
   fig-width: 30%,
   ds-style: "table",
+  use-table: auto,
   lines: 0,
   num: auto,
   prefix: "Câu",
@@ -927,12 +910,36 @@
   let num = q-state.num
   let vis-ans = mode != "dethi"
   let alpha = ("a", "b", "c", "d", "e", "f")
+  let legacy-table = args.named().at("table", default: auto)
+  let style = if use-table == false or legacy-table == false {
+    if ds-style == "table" { "list" } else { ds-style }
+  } else if use-table == true or legacy-table == true {
+    "table"
+  } else {
+    ds-style
+  }
+  let valid-styles = (
+    "table",
+    "list",
+    "pill",
+    "modern",
+    "minimal",
+    "bookmark",
+    "folder",
+    "diamond",
+    "gradient",
+    "checklist",
+  )
+  assert(
+    valid-styles.contains(style),
+    message: "ds-style không hợp lệ. Dùng: " + valid-styles.join(", "),
+  )
 
   // Lưu state TF: mảng Đ/S cho từng phát biểu
   let tf-row = statements.map(s => if type(s) == dictionary and s.at("correct", default: false) { "Đ" } else { "S" })
 
-  // Xây dựng bảng
-  let rows = statements
+  // Xây dựng các hàng của bảng Đ/S chuẩn.
+  let table-rows = statements
     .enumerate()
     .map(((i, s)) => {
       let ok = if type(s) == dictionary { s.at("correct", default: false) } else { false }
@@ -963,8 +970,223 @@
     )[Phát biểu]]),
     table.cell(fill: accent, align: center + horizon, pad(x: 8pt, y: 5pt)[#text(fill: white, weight: "bold")[Đ]]),
     table.cell(fill: accent, align: center + horizon, pad(x: 8pt, y: 5pt)[#text(fill: white, weight: "bold")[S]]),
-    ..rows,
+    ..table-rows,
   )
+
+  // Các kiểu danh sách gọn. Ở mode "dethi" không để lộ đáp án;
+  // ở mode "loigiai"/"solcolor" mới hiện dấu và màu Đúng/Sai.
+  let list-rows = statements
+    .enumerate()
+    .map(((i, s)) => {
+      let ok = if type(s) == dictionary { s.at("correct", default: false) } else { false }
+      let txt = if type(s) == dictionary { s.body } else { s }
+      let answer-color = if ok { palette.correct } else { palette.wrong }
+      let answer-text = if ok { [✓ ĐÚNG] } else { [✗ SAI] }
+      let marker = if vis-ans {
+        text(fill: answer-color, weight: "bold", size: 0.82em)[#answer-text]
+      } else {
+        none
+      }
+      let label = alpha.at(i)
+      let row-fill = if vis-ans {
+        if ok { palette.correct.lighten(94%) } else { palette.wrong.lighten(95%) }
+      } else {
+        white
+      }
+      let row-border = if vis-ans { answer-color.lighten(45%) } else { palette.border }
+
+      if style == "list" {
+        grid(
+          columns: (auto, 1fr, auto),
+          column-gutter: 6pt,
+          align: (left + top, left + top, right + top),
+          text(weight: "bold", fill: accent)[#label)],
+          txt,
+          marker,
+        )
+      } else if style == "pill" {
+        block(
+          width: 100%,
+          fill: row-fill,
+          stroke: 0.7pt + row-border,
+          radius: 999pt,
+          inset: (x: 11pt, y: 6pt),
+        )[
+          #grid(
+            columns: (auto, 1fr, auto),
+            column-gutter: 8pt,
+            align: (center + horizon, left + horizon, right + horizon),
+            box(
+              width: 1.65em,
+              height: 1.65em,
+              fill: accent,
+              radius: 999pt,
+              align(center + horizon)[#text(fill: white, weight: "bold")[#label]],
+            ),
+            txt,
+            marker,
+          )
+        ]
+      } else if style == "modern" {
+        block(
+          width: 100%,
+          fill: row-fill,
+          stroke: (left: 3pt + accent, rest: 0.5pt + row-border),
+          radius: (right: 5pt),
+          inset: (x: 10pt, y: 7pt),
+        )[
+          #grid(
+            columns: (auto, 1fr, auto),
+            column-gutter: 8pt,
+            align: (left + top, left + top, right + top),
+            text(weight: "bold", fill: accent)[#label.],
+            txt,
+            marker,
+          )
+        ]
+      } else if style == "minimal" {
+        block(
+          width: 100%,
+          stroke: (bottom: 0.5pt + row-border),
+          inset: (x: 2pt, y: 6pt),
+        )[
+          #grid(
+            columns: (auto, 1fr, auto),
+            column-gutter: 7pt,
+            align: (left + top, left + top, right + top),
+            text(weight: "bold", fill: accent)[#label)],
+            txt,
+            marker,
+          )
+        ]
+      } else if style == "bookmark" {
+        block(
+          width: 100%,
+          fill: row-fill,
+          stroke: 0.6pt + row-border,
+          radius: 4pt,
+          inset: (left: 0pt, right: 9pt, y: 0pt),
+        )[
+          #grid(
+            columns: (auto, 1fr, auto),
+            column-gutter: 9pt,
+            align: (center + horizon, left + horizon, right + horizon),
+            box(
+              fill: accent,
+              inset: (x: 9pt, y: 8pt),
+              radius: (left: 4pt),
+            )[#text(fill: white, weight: "bold")[#label]],
+            txt,
+            marker,
+          )
+        ]
+      } else if style == "folder" {
+        block(width: 100%)[
+          #box(
+            fill: accent,
+            radius: (top: 5pt),
+            inset: (x: 10pt, y: 3pt),
+          )[#text(fill: white, weight: "bold", size: 0.85em)[Ý #label]]
+          #block(
+            width: 100%,
+            fill: row-fill,
+            stroke: 0.7pt + row-border,
+            radius: (top-right: 5pt, bottom: 5pt),
+            inset: (x: 10pt, y: 7pt),
+          )[
+            #grid(
+              columns: (1fr, auto),
+              column-gutter: 8pt,
+              align: (left + top, right + top),
+              txt,
+              marker,
+            )
+          ]
+        ]
+      } else if style == "diamond" {
+        block(
+          width: 100%,
+          fill: row-fill,
+          stroke: 0.6pt + row-border,
+          radius: 4pt,
+          inset: (x: 9pt, y: 7pt),
+        )[
+          #grid(
+            columns: (auto, 1fr, auto),
+            column-gutter: 8pt,
+            align: (center + horizon, left + horizon, right + horizon),
+            text(fill: accent, weight: "bold", size: 1.25em)[◆],
+            [#text(weight: "bold", fill: accent)[#label)] #txt],
+            marker,
+          )
+        ]
+      } else if style == "gradient" {
+        let grad = gradient.linear(
+          if vis-ans { answer-color.lighten(88%) } else { accent.lighten(88%) },
+          white,
+          angle: 0deg,
+        )
+        block(
+          width: 100%,
+          fill: grad,
+          radius: 7pt,
+          inset: (x: 9pt, y: 7pt),
+        )[
+          #grid(
+            columns: (auto, 1fr, auto),
+            column-gutter: 8pt,
+            align: (center + horizon, left + horizon, right + horizon),
+            box(
+              width: 1.6em,
+              height: 1.6em,
+              fill: gradient.linear(accent, accent.lighten(35%), angle: 0deg),
+              radius: 999pt,
+              align(center + horizon)[#text(fill: white, weight: "bold")[#label]],
+            ),
+            txt,
+            marker,
+          )
+        ]
+      } else {
+        // checklist
+        let mark-icon = if vis-ans {
+          text(fill: white, weight: "bold", size: 0.8em)[#if ok { [✓] } else { [✗] }]
+        } else {
+          none
+        }
+        let check-box = box(
+          width: 1.3em,
+          height: 1.3em,
+          fill: if vis-ans { answer-color } else { white },
+          stroke: if vis-ans { none } else { 0.8pt + palette.border },
+          radius: 3pt,
+          align(center + horizon)[#mark-icon],
+        )
+        block(
+          width: 100%,
+          stroke: (bottom: 0.5pt + luma(225)),
+          inset: (x: 3pt, y: 6pt),
+        )[
+          #grid(
+            columns: (auto, auto, 1fr),
+            column-gutter: 8pt,
+            align: (center + horizon, left + horizon, left + horizon),
+            check-box,
+            text(weight: "bold", fill: accent)[#label)],
+            txt,
+          )
+        ]
+      }
+    })
+  let statement-render = if style == "table" {
+    tbl
+  } else {
+    stack(
+      dir: ttb,
+      spacing: if style == "folder" { 10pt } else { 7pt },
+      ..list-rows,
+    )
+  }
 
   // ── Sinh Tags (Nếu có) ─────────────────────────────────
   let _render-tags = if show-tags and tags.len() > 0 {
@@ -1018,7 +1240,7 @@
           [
             #stem-row
             #v(0.6em)
-            #pad(left: 1.5em)[#tbl]
+            #pad(left: if style == "table" { 1.5em } else { 1em })[#statement-render]
             #if lines > 0 { draw-lines(lines) }
             #if mode == "loigiai" and loigiai != none {
               v(0.7em)
@@ -1324,15 +1546,34 @@
   boxed: false,
   box-fill: white,
   box-stroke: 0.6pt + palette.border,
-) = (
-  tn: tn.with(mode: mode, accent: accent, opt-style: opt-style, opt-label-color: opt-label-color, q-label-style: q-label-style, show-tags: show-tags, draft: draft, draft-width: draft-width, draft-lines: draft-lines, boxed: boxed, box-fill: box-fill, box-stroke: box-stroke),
-  ds: ds.with(mode: mode, accent: accent, q-label-style: q-label-style, show-tags: show-tags, draft: draft, draft-width: draft-width, draft-lines: draft-lines, boxed: boxed, box-fill: box-fill, box-stroke: box-stroke),
-  tln: tln.with(mode: mode, accent: accent, q-label-style: q-label-style, show-tags: show-tags, draft: draft, draft-width: draft-width, draft-lines: draft-lines, boxed: boxed, box-fill: box-fill, box-stroke: box-stroke),
-  tl: tl.with(mode: mode, accent: accent, q-label-style: q-label-style, draft: draft, draft-width: draft-width, draft-lines: draft-lines, boxed: boxed, box-fill: box-fill, box-stroke: box-stroke),
-  mcq: mcq.with(mode: mode, accent: accent, opt-style: opt-style, opt-label-color: opt-label-color, q-label-style: q-label-style, show-tags: show-tags, draft: draft, draft-width: draft-width, draft-lines: draft-lines, boxed: boxed, box-fill: box-fill, box-stroke: box-stroke),
-  tf: tf.with(mode: mode, accent: accent, q-label-style: q-label-style, show-tags: show-tags, draft: draft, draft-width: draft-width, draft-lines: draft-lines, boxed: boxed, box-fill: box-fill, box-stroke: box-stroke),
-  short: short.with(mode: mode, accent: accent, q-label-style: q-label-style, show-tags: show-tags, draft: draft, draft-width: draft-width, draft-lines: draft-lines, boxed: boxed, box-fill: box-fill, box-stroke: box-stroke),
-)
+  ..args
+) = {
+  let params = (
+    mode: mode,
+    accent: accent,
+    opt-style: opt-style,
+    opt-label-color: opt-label-color,
+    q-label-style: q-label-style,
+    show-tags: show-tags,
+    draft: draft,
+    draft-width: draft-width,
+    draft-lines: draft-lines,
+    boxed: boxed,
+    box-fill: box-fill,
+    box-stroke: box-stroke,
+    ..args.named()
+  )
+  
+  (
+    tn: tn.with(..params),
+    ds: ds.with(..params),
+    tln: tln.with(..params),
+    tl: tl.with(..params),
+    mcq: mcq.with(..params),
+    tf: tf.with(..params),
+    short: short.with(..params),
+  )
+}
 
 // ── het (HẾT ĐỀ) ───────────────────────────────────────────
 #let het = align(center)[
@@ -1459,15 +1700,7 @@
   )
   set text(font: body-font, size: body-size, lang: "vi")
   set par(justify: true, leading: 0.75em)
-  show math.equation.where(block: false): it => {
-    if _studio-canvas-math {
-      math.display(it)
-    } else if repr(it).contains("frac") {
-      box(inset: (y: 0.16em))[#math.display(it)]
-    } else {
-      math.display(it)
-    }
-  }
+  show math.frac: math.display
 
   // ── Kích hoạt font viết tay toàn cục ─────────────────────
   // Hàm #hw[...] đã được export ở đầu sang-exam.typ

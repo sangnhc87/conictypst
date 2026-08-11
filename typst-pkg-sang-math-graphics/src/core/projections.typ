@@ -5,17 +5,16 @@
 
 #import "utils.typ": deg-to-rad
 
-/// Chiếu trực giao isometric.
-/// Góc nhìn mặc định: 35.264° trên trục X, 45° quanh trục Z.
+/// Chiếu trực giao isometric, giữ trục Z theo phương đứng trên trang.
+/// Hai trục đáy đối xứng ở góc 30° để hợp với hình minh họa SGK.
 /// - pt (array): Điểm 3D (x, y, z).
 /// -> array
 #let project-isometric(pt) = {
   let (x, y, z) = pt
-  // Góc isometric chuẩn
-  let alpha = deg-to-rad(35.264)
-  let beta = deg-to-rad(45)
-  let x2 = x * calc.cos(beta) + z * calc.sin(beta)
-  let y2 = y * calc.cos(alpha) - x * calc.sin(beta) * calc.sin(alpha) + z * calc.cos(beta) * calc.sin(alpha)
+  // Isometric chuẩn với Z hướng thẳng đứng (Up)
+  let alpha = deg-to-rad(30)
+  let x2 = (y - x) * calc.cos(alpha)
+  let y2 = z - (x + y) * calc.sin(alpha)
   (x2, y2)
 }
 

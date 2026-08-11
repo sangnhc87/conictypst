@@ -1,5 +1,14 @@
 # API Reference
 
+## Quy ước chung
+
+- `draw-*` trả về một CeTZ group và phải được gọi bên trong `smg-canvas` hoặc
+  `cetz.canvas`.
+- `tri-*`, `rect-*`, `square`, `circle-*`, `angle-mark`, `phanghoa-*` và các
+  hàm `*-unfold-2d` tự tạo canvas.
+- Tham số `name` tạo namespace anchor, ví dụ `name: "N"` và
+  `smg-draw.content("N.top", ...)`.
+
 ## 2D Conics
 
 ### `draw-parabola(a, b, c, x-range, samples, stroke)`
@@ -16,23 +25,23 @@ Vẽ hyperbol `x^2/a^2 - y^2/b^2 = 1`.
 
 ## 3D Solids
 
-### `draw-cone(name, radius, height, center, samples, stroke, fill)`
+### `draw-cone(name, radius, height, center, samples, stroke, fill, show-hidden)`
 
 Vẽ hình nón 3D.
 
-**Anchor:** `top`, `center`, `front`, `back`, `left`, `right`
+**Anchor:** `top`/`apex`, `center`/`base-center`, `front`, `back`, `left`, `right`
 
-### `draw-cylinder(name, radius, height, center, samples, stroke)`
+### `draw-cylinder(name, radius, height, center, samples, stroke, fill, show-hidden)`
 
 Vẽ hình trụ 3D.
 
-**Anchor:** `bottom-center`, `top-center`, `front`, `back`
+**Anchor:** `bottom`/`bottom-center`, `top`/`top-center`, `center`, `front`, `back`, `left`, `right`
 
-### `draw-sphere(name, radius, center, samples, stroke)`
+### `draw-sphere(name, radius, center, samples, stroke, fill, show-equator, show-meridian)`
 
-Vẽ hình cầu dạng lưới.
+Vẽ hình cầu với đường tròn ngoài, xích đạo và kinh tuyến tùy chọn.
 
-**Anchor:** `center`
+**Anchor:** `center`, `top`, `bottom`, `left`, `right`
 
 ## 3D Polyhedra
 

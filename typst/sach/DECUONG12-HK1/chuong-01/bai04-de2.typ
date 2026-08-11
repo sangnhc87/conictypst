@@ -1,7 +1,7 @@
 #import "../preamble.typ": *
 #import "../../../math-sym.typ": *
-
 #show math.frac: math.display
+
 
 #muc([Đề Luyện Tập Số 02])
 
@@ -848,5 +848,3 @@
     #step[Cả hai nghiệm của phương trình đều thỏa điều kiện. Tổng bình phương $m_1^2 + m_2^2 = (m_1 + m_2)^2 - 2m_1 m_2 = (-1)^2 - 2(-1) = 3$.]
   ]
 )
-
-

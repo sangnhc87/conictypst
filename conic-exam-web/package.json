@@ -9,7 +9,7 @@
     "build": "npm run prepare:runtime && vite build",
     "preview": "vite preview",
     "test": "node --test test/*.test.mjs",
-    "deploy": "npm run build && wrangler pages deploy dist --project-name thi-conictypst --commit-dirty=true"
+    "deploy": "npm run build && wrangler pages deploy dist --project-name thi-conictypst --commit-dirty=true && node ../scripts/prune-cloudflare-pages-deployments.mjs thi-conictypst"
   },
   "dependencies": {
     "@myriaddreamin/typst-ts-renderer": "0.7.0",

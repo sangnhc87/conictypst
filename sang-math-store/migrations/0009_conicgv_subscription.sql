@@ -1,0 +1,30 @@
+INSERT OR IGNORE INTO products (
+  id,name,eyebrow,description,image,image2,color,price_vnd,active,starter,
+  sort_order,file_key,file_name,file_size,updated_at,product_type,
+  fulfillment_type,access_model,access_days,delivery_url,badge,featured,
+  entitlement_key
+) VALUES (
+  'conicgv-suite-1y',
+  'Bộ đôi hệ thống giáo viên · 1 năm',
+  'Thế giới đề thi + Cây học liệu',
+  'Kích hoạt 365 ngày cho Gmail giáo viên: quản lý đề, lớp, lịch thi, kết quả và không gian cây học liệu chuyên biệt.',
+  '/previews/game-lab.png',
+  NULL,
+  '#3157d5',
+  300000,
+  1,
+  0,
+  90,
+  NULL,
+  NULL,
+  NULL,
+  datetime('now'),
+  'account',
+  'web_access',
+  'subscription',
+  365,
+  'https://mo-lop-gv.web.app/',
+  'Kích hoạt tự động',
+  1,
+  'conicgv-suite'
+);

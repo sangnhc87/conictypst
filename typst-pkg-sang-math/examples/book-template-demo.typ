@@ -1,4 +1,4 @@
-// Demo thật cho bộ mẫu sách sang-math 1.0.1
+// Demo thật cho bộ mẫu sách sang-math 1.0.2
 // Sửa nhanh:
 //   #let theme = "sgk-modern"
 //   #let theme = "vdc-elite"

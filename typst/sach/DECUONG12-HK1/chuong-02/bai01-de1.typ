@@ -1,7 +1,7 @@
 #import "../preamble.typ": *
 #import "../../../math-sym.typ": *
-
 #show math.frac: math.display
+
 
 #muc([Đề Luyện Tập Số 01 — Vectơ trong không gian])
 
@@ -1280,5 +1280,3 @@ eq a sqrt(2)$. (Sai)]
     Do đó $S P / S C = 0.75$.]
   ]
 )
-
-

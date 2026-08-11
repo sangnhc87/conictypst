@@ -35,6 +35,7 @@ const tools = [
   { title: 'Hỗ trợ vẽ CeTZ', desc: 'Từ TikZ sang hình Typst-native', icon: 'wrench', color: 'mint', href: 'cetz-ve.html', status: 'Live ✓', keywords: 'hỗ trợ vẽ tikz cetz geometry typst drawing' },
   { title: 'Sơ đồ cây', desc: 'Mẫu xác suất, Bayes, nhánh sự kiện', icon: 'git-branch', color: 'blue', href: 'index.html#figure-gallery', status: 'Mẫu', keywords: 'sơ đồ cây tree diagram xác suất bayes cetz' },
   { title: 'Bảng biến thiên', desc: 'Live BBT nhập là sinh #bbtv2() ngay', icon: 'layout-grid', color: 'violet', href: 'bbt-live.html', status: 'Live ✓', keywords: 'bbt bbtv2 bảng biến thiên live typst cetz' },
+  { title: 'Hình học Live 2D/3D', desc: 'Live Geometry, Conic, Trụ/Nón/Cầu, Xoắn 3D', icon: 'shapes', color: 'sky', href: 'hh-live.html', status: 'Live ✓', keywords: 'hh hh-live hình học geometry cetz 2d 3d conic tròn xoay live typst' },
   { title: 'Thư viện CeTZ', desc: 'Kho hình thay thế thư viện TikZ', icon: 'archive', color: 'purple', href: 'index.html#figure-gallery', status: 'Đã có', keywords: 'thư viện tikz cetz kho hình mẫu gallery' },
   { title: 'Cộng đồng Typst', desc: 'Quy ước đóng góp ID và mẫu', icon: 'users', color: 'pink', href: 'index.html#ids-bank', status: 'Mở', keywords: 'cộng đồng typst đóng góp bank id' },
   { title: 'Soạn bảng', desc: 'Bảng dữ liệu, bảng đáp án, matrix', icon: 'table-2', color: 'amber', href: 'index.html#typst-params', status: 'Đã có', keywords: 'soạn bảng table typst matrix đáp án' },

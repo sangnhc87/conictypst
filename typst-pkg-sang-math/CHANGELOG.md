@@ -2,6 +2,23 @@
 
 Các thay đổi đáng chú ý của `sang-math` được ghi tại đây. Gói tuân theo Semantic Versioning; nhánh `1.0.x` không được xóa hoặc đổi chữ ký API public đã phát hành.
 
+## 1.0.4 — 2026-07-26
+
+### Câu đúng/sai
+
+- Sửa `use-table: false` để `#ds`/`#tf` thực sự hiển thị dạng danh sách thay vì
+  luôn render bảng.
+- Kích hoạt `ds-style` với các kiểu `"list"`, `"pill"`, `"modern"`,
+  `"minimal"`, `"bookmark"`, `"folder"`, `"diamond"`, `"gradient"` và
+  `"checklist"`.
+- Giữ mặc định `"table"` để tài liệu dùng `1.0.3` không đổi bố cục khi nâng cấp.
+- Giữ tương thích với cú pháp cũ `table: false`.
+
+### Kiểm thử
+
+- Thêm bài compile bao phủ bảng mặc định, hai alias không bảng và toàn bộ chín
+  kiểu danh sách ở chế độ lời giải.
+
 ## 1.0.3 — 2026-07-23
 
 ### Tính năng mới — `bbt.typ`

@@ -1,7 +1,7 @@
 #import "../preamble.typ": *
 #import "../../../math-sym.typ": *
-
 #show math.frac: math.display
+
 
 #muc([Đề Luyện Tập — GTLN/GTNN Ứng Dụng Thực Tế (Bản Nâng Cao)])
 

@@ -111,7 +111,7 @@ Nhóm này tập trung vào các bài toán đếm nâng cao, phương pháp hà
   Một đấu sĩ lần lượt đấu với 3 quái thú. Xác suất thắng trận 1 là $0.7$. Thắng một trận thì trận sau xác suất thắng giảm $0.1$ do mệt. Thua một trận được dùng quyền hồi sinh duy nhất đấu trận phụ với xác suất thắng luôn là $0.5$.
   - *Mô hình toán:* Phân tích 4 kịch bản thắng chung cuộc trên sơ đồ cây:
     $ P("Thành công") = P(T_1 T_2 T_3) + P(H_1 T_2 T_3) + P(T_1 H_2 T_3) + P(T_1 T_2 H_3) $
-    $ P("Thành công") = 0.7 dot.c 0.6 dot.c 0.5 + (0.3 dot.c 0.5) dot.c 0.5 dot.c 0.4 + 0.7 dot.c (0.4 dot.c 0.5) dot.c 0.5 + 0.7 dot.c 0.6 dot.c (0.5 dot.c 0.5) = 41.5\%. $
+    $ P("Thành công") = 0.7 dot.c 0.6 dot.c 0.5 + (0.3 dot.c 0.5) dot.c 0.5 dot.c 0.4 + 0.7 dot.c (0.4 dot.c 0.5) dot.c 0.5 + 0.7 dot.c 0.6 dot.c (0.5 dot.c 0.5) = 41.5%. $
 ]
 
 == 2. Phân phối vật vào hộp & Hàm sinh (CD-PhanPhoi-4TruongHop / CD-HamSinh-GeneratingFunction)
@@ -134,7 +134,7 @@ Nhóm này tập trung vào các bài toán đếm nâng cao, phương pháp hà
 #eg-box(title: "🎯 Ví dụ mẫu (Trò chơi xúc xắc sinh tử)")[
   Hai người luân phiên gieo xúc xắc, ai gieo được mặt 6 trước thì thắng. Nếu gieo phải mặt 1, đối thủ được gieo liên tiếp 2 lần ở lượt sau. Tính xác suất thắng của người gieo trước.
   - *Mô hình toán:* Đặt $P$ là xác suất thắng từ trạng thái thường, $Q$ là xác suất thắng từ trạng thái được gieo 2 lần. Thiết lập hệ phương trình:
-    $ 10P + Q = 6; \ -4P + 7Q = 2 \implies P = 20/37 \approx 54.05\%. $
+    $ 10P + Q = 6; quad -4P + 7Q = 2 => P = 20/37 approx 54.05%. $
 ]
 
 #pagebreak()
@@ -147,9 +147,9 @@ Nhóm này ứng dụng đạo hàm, tích phân và cực trị để tối ưu
 - *Ý tưởng chính:* Sử dụng tích phân xác định để tính tổng tích lũy của doanh thu, chi phí, hoặc thặng dư tiêu dùng/sản xuất khi biết tốc độ thay đổi liên tục.
 #eg-box(title: "🎯 Ví dụ mẫu (Thặng dư tiêu dùng CS)")[
   Cho hàm cầu của một sản phẩm là $p(x) = 100 - 0.2 x^2$. Tìm thặng dư tiêu dùng tại mức giá cân bằng $p_0 = 80$.
-  - *Mô hình toán:* Tìm lượng cân bằng $x_0$: $100 - 0.2 x_0^2 = 80 \implies x_0 = 10$.
+  - *Mô hình toán:* Tìm lượng cân bằng $x_0$: $100 - 0.2 x_0^2 = 80 => x_0 = 10$.
     Thặng dư tiêu dùng (Consumer Surplus) được tính bằng công thức:
-    $ C S = integral_0^(x_0) [p(x) - p_0] d x = integral_0^(10) (20 - 0.2 x^2) d x = [20x - frac(0.2 x^3, 3)]_0^(10) \approx 133.33. $
+    $ C S = integral_0^(x_0) [p(x) - p_0] d x = integral_0^(10) (20 - 0.2 x^2) d x = [20x - frac(0.2 x^3, 3)]_0^(10) approx 133.33. $
 ]
 
 == 2. Cực trị và tối ưu hóa đa điều kiện (CD-ToiUu-KinhTe-DaDieuKien / CD-NangSuat-NhaMay-ToiUu)
@@ -158,7 +158,7 @@ Nhóm này ứng dụng đạo hàm, tích phân và cực trị để tối ưu
   Một nhà máy sản xuất hai loại sản phẩm với chi phí kết hợp là $C(x,y) = 2x^2 + x y + y^2$. Tổng sản lượng yêu cầu là $x + y = 100$. Tìm sản lượng mỗi loại để chi phí tối thiểu.
   - *Mô hình toán:* Thế $y = 100 - x$ vào hàm chi phí:
     $ f(x) = 2x^2 + x(100 - x) + (100 - x)^2 = 2x^2 - 100x + 10000. $
-    Đạo hàm $f'(x) = 4x - 100 = 0 \implies x = 25 \implies y = 75$. Chi phí tối thiểu đạt được khi sản xuất 25 sản phẩm loại 1 và 75 sản phẩm loại 2.
+    Đạo hàm $f'(x) = 4x - 100 = 0 => x = 25 => y = 75$. Chi phí tối thiểu đạt được khi sản xuất 25 sản phẩm loại 1 và 75 sản phẩm loại 2.
 ]
 
 == 3. Tối ưu chi phí ẩn & Vận tốc trượt (CD-ChiPhi-An-VanToc / CD-Tang-Giam-LienTuc)
@@ -180,7 +180,7 @@ Nhóm này ứng dụng phương pháp tọa độ Oxyz để giải quyết cá
   Một máy bay chiến đấu bay theo đường thẳng $d: x = 1 + 2t, y = 2 - t, z = t$. Một trạm radar quét cảm biến phát hiện vật thể trong bán kính $R = 5$ km quanh điểm $I(1, 1, 2)$. Tìm khoảng thời gian máy bay nằm trong tầm quét của radar.
   - *Mô hình toán:* Khoảng cách từ máy bay đến radar tại thời điểm $t$ là:
     $ d(t) = sqrt((1+2t - 1)^2 + (2-t - 1)^2 + (t - 2)^2) = sqrt(6t^2 - 6t + 5). $
-    Máy bay nằm trong tầm quét khi $d(t) <= 5 \implies 6t^2 - 6t + 5 <= 25 \implies 6t^2 - 6t - 20 <= 0$. Giải bất phương trình để tìm khoảng thời gian $t$.
+    Máy bay nằm trong tầm quét khi $d(t) <= 5 => 6t^2 - 6t + 5 <= 25 => 6t^2 - 6t - 20 <= 0$. Giải bất phương trình để tìm khoảng thời gian $t$.
 ]
 
 == 2. Quỹ đạo tròn & Cực trị khoảng cách (CD-QuyDaoTron-KhoangCach / CD-min-max-DT-DuongTron)
@@ -202,7 +202,7 @@ Nhóm này nghiên cứu các tính chất hình học phẳng và không gian c
 - *Ý tưởng chính:* Khảo sát các bài toán thực tế và hình học liên quan đến ba đường Conic, tính thể tích vật thể tròn xoay tạo ra khi quay các đường này.
 #eg-box(title: "🎯 Ví dụ mẫu (Gương phản xạ hình Parabol)")[
   Một đèn pha có chóa gương hình paraboloid xoay tròn. Mặt cắt dọc của chóa là một parabol có phương trình $y^2 = 4p x$. Bóng đèn được đặt tại tiêu điểm của parabol để tạo luồng sáng song song. Biết chóa đèn có đường kính miệng là 20 cm và chiều sâu là 10 cm. Tìm vị trí đặt bóng đèn.
-  - *Mô hình toán:* Điểm trên parabol có tọa độ $(10, 10)$ nằm trên $y^2 = 4p x \implies 10^2 = 4p dot.c 10 \implies p = 2.5$.
+  - *Mô hình toán:* Điểm trên parabol có tọa độ $(10, 10)$ nằm trên $y^2 = 4p x => 10^2 = 4p dot.c 10 => p = 2.5$.
     Tiêu điểm $F(p, 0) = (2.5, 0)$. Vậy bóng đèn cách đỉnh chóa 2.5 cm.
 ]
 
@@ -219,7 +219,7 @@ Nhóm này nghiên cứu các tính chất hình học phẳng và không gian c
 #eg-box(title: "🎯 Ví dụ mẫu (Hai đường cong tiếp xúc)")[
   Tìm giá trị của tham số $m$ để parabol $(P): y = x^2 + m$ tiếp xúc với đường thẳng $d: y = 2x + 1$.
   - *Mô hình toán:* Hệ điều kiện tiếp xúc tại hoành độ tiếp điểm $x_0$:
-    $ heva(x_0^2 + m = 2x_0 + 1, 2x_0 = 2) \implies x_0 = 1 \implies 1^2 + m = 2(1) + 1 \implies m = 2. $
+    $ heva(x_0^2 + m = 2x_0 + 1, 2x_0 = 2) => x_0 = 1 => 1^2 + m = 2(1) + 1 => m = 2. $
 ]
 
 #pagebreak()
@@ -233,7 +233,7 @@ Nhóm này ứng dụng toán học để mô phỏng các hiện tượng vật
 #eg-box(title: "🎯 Ví dụ mẫu (Đường bay chim săn mồi)")[
   Một con chim ưng bay sà xuống săn mồi trên mặt đất theo quỹ đạo parabol $y = a x^2 + b x + c$. Nó xuất phát từ cành cây cao 10m và bắt được con mồi tại điểm cách gốc cây 20m. Tìm độ cao thấp nhất trong quỹ đạo bay nếu biết chim chạm đất tại đúng điểm bắt mồi.
   - *Mô hình toán:* Đỉnh của parabol nằm tại điểm bắt mồi $(20, 0)$ trên mặt đất. Phương trình quỹ đạo có dạng $y = a(x - 20)^2$.
-    Vì xuất phát từ độ cao 10m tại gốc cây ($x=0$): $10 = a(0 - 20)^2 \implies a = frac(10, 400) = 0.025$.
+    Vì xuất phát từ độ cao 10m tại gốc cây ($x=0$): $10 = a(0 - 20)^2 => a = frac(10, 400) = 0.025$.
     Quỹ đạo là $y = 0.025(x - 20)^2$. Độ cao thấp nhất chính là $y = 0$ tại $x = 20$.
 ]
 
@@ -242,8 +242,8 @@ Nhóm này ứng dụng toán học để mô phỏng các hiện tượng vật
 #eg-box(title: "🎯 Ví dụ mẫu (Tối thiểu hóa lực căng dây)")[
   Một bức tranh nặng $P = 10$ N được treo bằng hai sợi dây đối xứng tạo với trần nhà một góc $theta$. Tìm góc $theta$ để lực căng dây $T$ nhỏ nhất.
   - *Mô hình toán:* Điều kiện cân bằng lực theo phương thẳng đứng:
-    $ 2 T sin theta = P \implies T(theta) = frac(P, 2 sin theta). $
-    Lực căng $T$ nhỏ nhất khi $sin theta$ lớn nhất $\implies theta = 90^circ$ (dây treo thẳng đứng).
+    $ 2 T sin theta = P => T(theta) = frac(P, 2 sin theta). $
+    Lực căng $T$ nhỏ nhất khi $sin theta$ lớn nhất $=> theta = 90 degree$ (dây treo thẳng đứng).
 ]
 
 == 3. Góc nhìn tối ưu & Vật chắn tầm nhìn (CD-Vật-Chắn-Tầm-Nhìn)
@@ -253,5 +253,5 @@ Nhóm này ứng dụng toán học để mô phỏng các hiện tượng vật
   - *Mô hình toán:* Sử dụng công thức hiệu của hai góc tang:
     $ tan theta(x) = tan(alpha - beta) = frac(frac(5, x) - frac(2, x), 1 + frac(5, x) dot.c frac(2, x)) = frac(3x, x^2 + 10). $
     Để góc nhìn $theta$ lớn nhất, ta cần tìm giá trị lớn nhất của hàm số $g(x) = frac(3x, x^2 + 10)$.
-    Theo bất đẳng thức Cauchy: $x^2 + 10 >= 2 sqrt(10) x \implies g(x) <= frac(3, 2 sqrt(10))$. Dấu bằng xảy ra khi $x = sqrt(10) \approx 3.16$ m.
+    Theo bất đẳng thức Cauchy: $x^2 + 10 >= 2 sqrt(10) x => g(x) <= frac(3, 2 sqrt(10))$. Dấu bằng xảy ra khi $x = sqrt(10) approx 3.16$ m.
 ]

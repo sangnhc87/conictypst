@@ -83,5 +83,3 @@
 // // ── III. BÀI TẬP TỰ LUYỆN ────────────────────────────────────────
 #include "bai01-de1.typ"
 #include "bai01-de2.typ"
-
-

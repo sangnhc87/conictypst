@@ -1,9 +1,10 @@
 {
-  "generated_at": "2026-07-05T04:30:22.652Z",
+  "generated_at": "2026-07-30T03:54:28.759Z",
   "counts": {
-    "total": 116,
-    "cd": 73,
-    "beamer": 43
+    "total": 199,
+    "cd": 80,
+    "lesson_plan": 75,
+    "beamer": 44
   },
   "assets": [
     {
@@ -12,7 +13,7 @@
       "title": "ChiPhi An VanToc",
       "grade": 12,
       "cluster": "Kinh tế - tối ưu",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Kinh tế - tối ưu",
@@ -21,7 +22,7 @@
       "source_typ": "typst/exams/CD-ChiPhi-An-VanToc.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-ChiPhi-An-VanToc.typ",
       "pdf": "typst/exams/CD-ChiPhi-An-VanToc.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-ChiPhi-An-VanToc.pdf",
       "base_id": "CD-ChiPhi-An-VanToc"
     },
     {
@@ -30,7 +31,7 @@
       "title": "Chia Keo Euler",
       "grade": 12,
       "cluster": "Tổ hợp - xác suất",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Tổ hợp - xác suất",
@@ -39,7 +40,7 @@
       "source_typ": "typst/exams/CD-Chia-Keo-Euler.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Chia-Keo-Euler.typ",
       "pdf": "typst/exams/CD-Chia-Keo-Euler.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-Chia-Keo-Euler.pdf",
       "base_id": "CD-Chia-Keo-Euler"
     },
     {
@@ -48,15 +49,15 @@
       "title": "Chim Săn Mồi",
       "grade": 12,
       "cluster": "Chuyên đề tổng hợp",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Chuyên đề tổng hợp"
       ],
       "source_typ": "typst/exams/CD-Chim-Săn-Mồi.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Chim-S%C4%83n-M%E1%BB%93i.typ",
-      "pdf": null,
-      "pdf_url": null,
+      "pdf": "typst/exams/CD-Chim-Săn-Mồi.pdf",
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-Chim-S%C4%83n-M%E1%BB%93i.pdf",
       "base_id": "CD-Chim-Săn-Mồi"
     },
     {
@@ -65,7 +66,7 @@
       "title": "ChuoiTrangThai Markov",
       "grade": 12,
       "cluster": "Tổ hợp - xác suất",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Tổ hợp - xác suất",
@@ -74,7 +75,7 @@
       "source_typ": "typst/exams/CD-ChuoiTrangThai-Markov.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-ChuoiTrangThai-Markov.typ",
       "pdf": "typst/exams/CD-ChuoiTrangThai-Markov.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-ChuoiTrangThai-Markov.pdf",
       "base_id": "CD-ChuoiTrangThai-Markov"
     },
     {
@@ -83,7 +84,7 @@
       "title": "Conic DayDu",
       "grade": 12,
       "cluster": "Hình học khó",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Hình học khó"
@@ -91,7 +92,7 @@
       "source_typ": "typst/exams/CD-Conic-DayDu.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Conic-DayDu.typ",
       "pdf": "typst/exams/CD-Conic-DayDu.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-Conic-DayDu.pdf",
       "base_id": "CD-Conic-DayDu"
     },
     {
@@ -100,7 +101,7 @@
       "title": "Conic KhoiQuay",
       "grade": 12,
       "cluster": "Hình học khó",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Hình học khó"
@@ -108,7 +109,7 @@
       "source_typ": "typst/exams/CD-Conic-KhoiQuay.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Conic-KhoiQuay.typ",
       "pdf": "typst/exams/CD-Conic-KhoiQuay.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-Conic-KhoiQuay.pdf",
       "base_id": "CD-Conic-KhoiQuay"
     },
     {
@@ -117,7 +118,7 @@
       "title": "DaiBacVanNang MoRong",
       "grade": 12,
       "cluster": "Chuyên đề tổng hợp",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Chuyên đề tổng hợp",
@@ -126,7 +127,7 @@
       "source_typ": "typst/exams/CD-DaiBacVanNang-MoRong.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-DaiBacVanNang-MoRong.typ",
       "pdf": "typst/exams/CD-DaiBacVanNang-MoRong.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-DaiBacVanNang-MoRong.pdf",
       "base_id": "CD-DaiBacVanNang-MoRong"
     },
     {
@@ -135,7 +136,7 @@
       "title": "DaiSo ToHop content",
       "grade": 12,
       "cluster": "Tổ hợp - xác suất",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Tổ hợp - xác suất",
@@ -143,8 +144,8 @@
       ],
       "source_typ": "typst/exams/CD-DaiSo-ToHop-content.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-DaiSo-ToHop-content.typ",
-      "pdf": null,
-      "pdf_url": null,
+      "pdf": "typst/exams/CD-DaiSo-ToHop-content.pdf",
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-DaiSo-ToHop-content.pdf",
       "base_id": "CD-DaiSo-ToHop-content"
     },
     {
@@ -153,7 +154,7 @@
       "title": "DaiSo ToHop",
       "grade": 12,
       "cluster": "Tổ hợp - xác suất",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Tổ hợp - xác suất",
@@ -162,7 +163,7 @@
       "source_typ": "typst/exams/CD-DaiSo-ToHop.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-DaiSo-ToHop.typ",
       "pdf": "typst/exams/CD-DaiSo-ToHop.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-DaiSo-ToHop.pdf",
       "base_id": "CD-DaiSo-ToHop"
     },
     {
@@ -171,7 +172,7 @@
       "title": "DoanhThu ChiPhi Thue",
       "grade": 12,
       "cluster": "Kinh tế - tối ưu",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Kinh tế - tối ưu",
@@ -180,7 +181,7 @@
       "source_typ": "typst/exams/CD-DoanhThu-ChiPhi-Thue.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-DoanhThu-ChiPhi-Thue.typ",
       "pdf": "typst/exams/CD-DoanhThu-ChiPhi-Thue.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-DoanhThu-ChiPhi-Thue.pdf",
       "base_id": "CD-DoanhThu-ChiPhi-Thue"
     },
     {
@@ -189,7 +190,7 @@
       "title": "DuongThang Oxyz",
       "grade": 12,
       "cluster": "Oxyz - hình học không gian",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Oxyz - hình học không gian",
@@ -197,8 +198,8 @@
       ],
       "source_typ": "typst/exams/CD-DuongThang-Oxyz.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-DuongThang-Oxyz.typ",
-      "pdf": null,
-      "pdf_url": null,
+      "pdf": "typst/exams/CD-DuongThang-Oxyz.pdf",
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-DuongThang-Oxyz.pdf",
       "base_id": "CD-DuongThang-Oxyz"
     },
     {
@@ -207,7 +208,7 @@
       "title": "FSM Dem To Hop",
       "grade": 12,
       "cluster": "Tổ hợp - xác suất",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Tổ hợp - xác suất",
@@ -216,8 +217,26 @@
       "source_typ": "typst/exams/CD-FSM-Dem-To-Hop.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-FSM-Dem-To-Hop.typ",
       "pdf": "typst/exams/CD-FSM-Dem-To-Hop.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-FSM-Dem-To-Hop.pdf",
       "base_id": "CD-FSM-Dem-To-Hop"
+    },
+    {
+      "id": "CD-GapGiay-ToiUu-TheTich",
+      "kind": "cd",
+      "title": "GapGiay ToiUu TheTich",
+      "grade": 12,
+      "cluster": "Chuyên đề tổng hợp",
+      "status": "ready",
+      "difficulty": null,
+      "tags": [
+        "Chuyên đề tổng hợp",
+        "đạo hàm"
+      ],
+      "source_typ": "typst/exams/CD-GapGiay-ToiUu-TheTich.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-GapGiay-ToiUu-TheTich.typ",
+      "pdf": "typst/exams/CD-GapGiay-ToiUu-TheTich.pdf",
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-GapGiay-ToiUu-TheTich.pdf",
+      "base_id": "CD-GapGiay-ToiUu-TheTich"
     },
     {
       "id": "CD-Goc-Khoang-Cach",
@@ -225,7 +244,7 @@
       "title": "Goc Khoang Cach",
       "grade": 12,
       "cluster": "Oxyz - hình học không gian",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Oxyz - hình học không gian"
@@ -233,7 +252,7 @@
       "source_typ": "typst/exams/CD-Goc-Khoang-Cach.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Goc-Khoang-Cach.typ",
       "pdf": "typst/exams/CD-Goc-Khoang-Cach.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-Goc-Khoang-Cach.pdf",
       "base_id": "CD-Goc-Khoang-Cach"
     },
     {
@@ -242,7 +261,7 @@
       "title": "HHKG",
       "grade": 12,
       "cluster": "Chuyên đề tổng hợp",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Chuyên đề tổng hợp"
@@ -250,7 +269,7 @@
       "source_typ": "typst/exams/CD-HHKG.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-HHKG.typ",
       "pdf": "typst/exams/CD-HHKG.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-HHKG.pdf",
       "base_id": "CD-HHKG"
     },
     {
@@ -259,7 +278,7 @@
       "title": "Hai con bo",
       "grade": 12,
       "cluster": "Chuyên đề tổng hợp",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Chuyên đề tổng hợp"
@@ -267,7 +286,7 @@
       "source_typ": "typst/exams/CD-Hai-con-bo.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Hai-con-bo.typ",
       "pdf": "typst/exams/CD-Hai-con-bo.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-Hai-con-bo.pdf",
       "base_id": "CD-Hai-con-bo"
     },
     {
@@ -276,7 +295,7 @@
       "title": "HamSinh GeneratingFunction content",
       "grade": 12,
       "cluster": "Chuyên đề tổng hợp",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Chuyên đề tổng hợp"
@@ -284,7 +303,7 @@
       "source_typ": "typst/exams/CD-HamSinh-GeneratingFunction-content.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-HamSinh-GeneratingFunction-content.typ",
       "pdf": "typst/exams/CD-HamSinh-GeneratingFunction-content.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-HamSinh-GeneratingFunction-content.pdf",
       "base_id": "CD-HamSinh-GeneratingFunction-content"
     },
     {
@@ -293,7 +312,7 @@
       "title": "HamSinh GeneratingFunction",
       "grade": 12,
       "cluster": "Chuyên đề tổng hợp",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Chuyên đề tổng hợp"
@@ -301,7 +320,7 @@
       "source_typ": "typst/exams/CD-HamSinh-GeneratingFunction.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-HamSinh-GeneratingFunction.typ",
       "pdf": "typst/exams/CD-HamSinh-GeneratingFunction.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-HamSinh-GeneratingFunction.pdf",
       "base_id": "CD-HamSinh-GeneratingFunction"
     },
     {
@@ -310,15 +329,15 @@
       "title": "HamSinh LoiBai NangCao content",
       "grade": 12,
       "cluster": "Chuyên đề tổng hợp",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Chuyên đề tổng hợp"
       ],
       "source_typ": "typst/exams/CD-HamSinh-LoiBai-NangCao-content.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-HamSinh-LoiBai-NangCao-content.typ",
-      "pdf": null,
-      "pdf_url": null,
+      "pdf": "typst/exams/CD-HamSinh-LoiBai-NangCao-content.pdf",
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-HamSinh-LoiBai-NangCao-content.pdf",
       "base_id": "CD-HamSinh-LoiBai-NangCao-content"
     },
     {
@@ -327,7 +346,7 @@
       "title": "HamSinh LoiBai NangCao",
       "grade": 12,
       "cluster": "Chuyên đề tổng hợp",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Chuyên đề tổng hợp"
@@ -335,7 +354,7 @@
       "source_typ": "typst/exams/CD-HamSinh-LoiBai-NangCao.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-HamSinh-LoiBai-NangCao.typ",
       "pdf": "typst/exams/CD-HamSinh-LoiBai-NangCao.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-HamSinh-LoiBai-NangCao.pdf",
       "base_id": "CD-HamSinh-LoiBai-NangCao"
     },
     {
@@ -344,7 +363,7 @@
       "title": "HamSinh TronBo",
       "grade": 12,
       "cluster": "Chuyên đề tổng hợp",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Chuyên đề tổng hợp"
@@ -352,7 +371,7 @@
       "source_typ": "typst/exams/CD-HamSinh-TronBo.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-HamSinh-TronBo.typ",
       "pdf": "typst/exams/CD-HamSinh-TronBo.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-HamSinh-TronBo.pdf",
       "base_id": "CD-HamSinh-TronBo"
     },
     {
@@ -361,7 +380,7 @@
       "title": "KhaoSat HamSo ThucTe",
       "grade": 12,
       "cluster": "Giải tích thực tế",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Giải tích thực tế",
@@ -370,7 +389,7 @@
       "source_typ": "typst/exams/CD-KhaoSat-HamSo-ThucTe.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-KhaoSat-HamSo-ThucTe.typ",
       "pdf": "typst/exams/CD-KhaoSat-HamSo-ThucTe.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-KhaoSat-HamSo-ThucTe.pdf",
       "base_id": "CD-KhaoSat-HamSo-ThucTe"
     },
     {
@@ -379,7 +398,7 @@
       "title": "KhoangCach 2DuongCong",
       "grade": 12,
       "cluster": "Hình học khó",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Hình học khó"
@@ -387,7 +406,7 @@
       "source_typ": "typst/exams/CD-KhoangCach-2DuongCong.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-KhoangCach-2DuongCong.typ",
       "pdf": "typst/exams/CD-KhoangCach-2DuongCong.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-KhoangCach-2DuongCong.pdf",
       "base_id": "CD-KhoangCach-2DuongCong"
     },
     {
@@ -396,7 +415,7 @@
       "title": "Kinh Te Tich Phan",
       "grade": 12,
       "cluster": "Kinh tế - tối ưu",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Kinh tế - tối ưu",
@@ -405,8 +424,25 @@
       "source_typ": "typst/exams/CD-Kinh-Te-Tich-Phan.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Kinh-Te-Tich-Phan.typ",
       "pdf": "typst/exams/CD-Kinh-Te-Tich-Phan.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-Kinh-Te-Tich-Phan.pdf",
       "base_id": "CD-Kinh-Te-Tich-Phan"
+    },
+    {
+      "id": "CD-KyVong-TruyNguonGoc-BiCuoi",
+      "kind": "cd",
+      "title": "KyVong TruyNguonGoc BiCuoi",
+      "grade": 12,
+      "cluster": "Oxyz - hình học không gian",
+      "status": "ready",
+      "difficulty": null,
+      "tags": [
+        "Oxyz - hình học không gian"
+      ],
+      "source_typ": "typst/exams/CD-KyVong-TruyNguonGoc-BiCuoi.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-KyVong-TruyNguonGoc-BiCuoi.typ",
+      "pdf": "typst/exams/CD-KyVong-TruyNguonGoc-BiCuoi.pdf",
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-KyVong-TruyNguonGoc-BiCuoi.pdf",
+      "base_id": "CD-KyVong-TruyNguonGoc-BiCuoi"
     },
     {
       "id": "CD-LaiSuat",
@@ -414,7 +450,7 @@
       "title": "LaiSuat",
       "grade": 12,
       "cluster": "Kinh tế - tối ưu",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Kinh tế - tối ưu",
@@ -423,7 +459,7 @@
       "source_typ": "typst/exams/CD-LaiSuat.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-LaiSuat.typ",
       "pdf": "typst/exams/CD-LaiSuat.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-LaiSuat.pdf",
       "base_id": "CD-LaiSuat"
     },
     {
@@ -432,7 +468,7 @@
       "title": "Lorenz Gini",
       "grade": 12,
       "cluster": "Kinh tế - tối ưu",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Kinh tế - tối ưu",
@@ -441,7 +477,7 @@
       "source_typ": "typst/exams/CD-Lorenz-Gini.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Lorenz-Gini.typ",
       "pdf": "typst/exams/CD-Lorenz-Gini.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-Lorenz-Gini.pdf",
       "base_id": "CD-Lorenz-Gini"
     },
     {
@@ -450,7 +486,7 @@
       "title": "MatCau",
       "grade": 12,
       "cluster": "Oxyz - hình học không gian",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Oxyz - hình học không gian",
@@ -459,7 +495,7 @@
       "source_typ": "typst/exams/CD-MatCau.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-MatCau.typ",
       "pdf": "typst/exams/CD-MatCau.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-MatCau.pdf",
       "base_id": "CD-MatCau"
     },
     {
@@ -468,7 +504,7 @@
       "title": "MatPhong Oxyz ThucTe",
       "grade": 12,
       "cluster": "Oxyz - hình học không gian",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Oxyz - hình học không gian",
@@ -477,7 +513,7 @@
       "source_typ": "typst/exams/CD-MatPhong-Oxyz-ThucTe.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-MatPhong-Oxyz-ThucTe.typ",
       "pdf": "typst/exams/CD-MatPhong-Oxyz-ThucTe.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-MatPhong-Oxyz-ThucTe.pdf",
       "base_id": "CD-MatPhong-Oxyz-ThucTe"
     },
     {
@@ -486,7 +522,7 @@
       "title": "NangSuat NhaMay ToiUu",
       "grade": 12,
       "cluster": "Kinh tế - tối ưu",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Kinh tế - tối ưu",
@@ -496,7 +532,7 @@
       "source_typ": "typst/exams/CD-NangSuat-NhaMay-ToiUu.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-NangSuat-NhaMay-ToiUu.typ",
       "pdf": "typst/exams/CD-NangSuat-NhaMay-ToiUu.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-NangSuat-NhaMay-ToiUu.pdf",
       "base_id": "CD-NangSuat-NhaMay-ToiUu"
     },
     {
@@ -505,7 +541,7 @@
       "title": "NguyenHam ThucTe",
       "grade": 12,
       "cluster": "Giải tích thực tế",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Giải tích thực tế",
@@ -514,7 +550,7 @@
       "source_typ": "typst/exams/CD-NguyenHam-ThucTe.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-NguyenHam-ThucTe.typ",
       "pdf": "typst/exams/CD-NguyenHam-ThucTe.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-NguyenHam-ThucTe.pdf",
       "base_id": "CD-NguyenHam-ThucTe"
     },
     {
@@ -523,7 +559,7 @@
       "title": "Oxyz ChuyenDong CamBien",
       "grade": 12,
       "cluster": "Oxyz - hình học không gian",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Oxyz - hình học không gian",
@@ -532,7 +568,7 @@
       "source_typ": "typst/exams/CD-Oxyz-ChuyenDong-CamBien.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Oxyz-ChuyenDong-CamBien.typ",
       "pdf": "typst/exams/CD-Oxyz-ChuyenDong-CamBien.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-Oxyz-ChuyenDong-CamBien.pdf",
       "base_id": "CD-Oxyz-ChuyenDong-CamBien"
     },
     {
@@ -541,7 +577,7 @@
       "title": "Oxyz Min Max 20 Mo Hinh",
       "grade": 12,
       "cluster": "Oxyz - hình học không gian",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Oxyz - hình học không gian",
@@ -550,8 +586,8 @@
       ],
       "source_typ": "typst/exams/CD-Oxyz-Min-Max-20-Mo-Hinh.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Oxyz-Min-Max-20-Mo-Hinh.typ",
-      "pdf": null,
-      "pdf_url": null,
+      "pdf": "typst/exams/CD-Oxyz-Min-Max-20-Mo-Hinh.pdf",
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-Oxyz-Min-Max-20-Mo-Hinh.pdf",
       "base_id": "CD-Oxyz-Min-Max-20-Mo-Hinh"
     },
     {
@@ -560,7 +596,7 @@
       "title": "Oxyz VectoHuong DiChuyen",
       "grade": 12,
       "cluster": "Oxyz - hình học không gian",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Oxyz - hình học không gian",
@@ -569,7 +605,7 @@
       "source_typ": "typst/exams/CD-Oxyz-VectoHuong-DiChuyen.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Oxyz-VectoHuong-DiChuyen.typ",
       "pdf": "typst/exams/CD-Oxyz-VectoHuong-DiChuyen.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-Oxyz-VectoHuong-DiChuyen.pdf",
       "base_id": "CD-Oxyz-VectoHuong-DiChuyen"
     },
     {
@@ -578,7 +614,7 @@
       "title": "Parabol",
       "grade": 12,
       "cluster": "Giải tích thực tế",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Giải tích thực tế"
@@ -586,7 +622,7 @@
       "source_typ": "typst/exams/CD-Parabol.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Parabol.typ",
       "pdf": "typst/exams/CD-Parabol.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-Parabol.pdf",
       "base_id": "CD-Parabol"
     },
     {
@@ -595,7 +631,7 @@
       "title": "PhanPhoi 4TruongHop DeLuyen",
       "grade": 12,
       "cluster": "Tổ hợp - xác suất",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Tổ hợp - xác suất",
@@ -604,7 +640,7 @@
       "source_typ": "typst/exams/CD-PhanPhoi-4TruongHop-DeLuyen.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-PhanPhoi-4TruongHop-DeLuyen.typ",
       "pdf": "typst/exams/CD-PhanPhoi-4TruongHop-DeLuyen.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-PhanPhoi-4TruongHop-DeLuyen.pdf",
       "base_id": "CD-PhanPhoi-4TruongHop-DeLuyen"
     },
     {
@@ -613,7 +649,7 @@
       "title": "PhanPhoi 4TruongHop OnNhanh",
       "grade": 12,
       "cluster": "Tổ hợp - xác suất",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Tổ hợp - xác suất",
@@ -622,7 +658,7 @@
       "source_typ": "typst/exams/CD-PhanPhoi-4TruongHop-OnNhanh.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-PhanPhoi-4TruongHop-OnNhanh.typ",
       "pdf": "typst/exams/CD-PhanPhoi-4TruongHop-OnNhanh.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-PhanPhoi-4TruongHop-OnNhanh.pdf",
       "base_id": "CD-PhanPhoi-4TruongHop-OnNhanh"
     },
     {
@@ -631,7 +667,7 @@
       "title": "PhanPhoi 4TruongHop",
       "grade": 12,
       "cluster": "Tổ hợp - xác suất",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Tổ hợp - xác suất",
@@ -640,8 +676,25 @@
       "source_typ": "typst/exams/CD-PhanPhoi-4TruongHop.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-PhanPhoi-4TruongHop.typ",
       "pdf": "typst/exams/CD-PhanPhoi-4TruongHop.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-PhanPhoi-4TruongHop.pdf",
       "base_id": "CD-PhanPhoi-4TruongHop"
+    },
+    {
+      "id": "CD-PhangHoa-HinhKhongGian-TraiHinh",
+      "kind": "cd",
+      "title": "PhangHoa HinhKhongGian TraiHinh",
+      "grade": 12,
+      "cluster": "Hình học khó",
+      "status": "ready",
+      "difficulty": null,
+      "tags": [
+        "Hình học khó"
+      ],
+      "source_typ": "typst/exams/CD-PhangHoa-HinhKhongGian-TraiHinh.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-PhangHoa-HinhKhongGian-TraiHinh.typ",
+      "pdf": "typst/exams/CD-PhangHoa-HinhKhongGian-TraiHinh.pdf",
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-PhangHoa-HinhKhongGian-TraiHinh.pdf",
+      "base_id": "CD-PhangHoa-HinhKhongGian-TraiHinh"
     },
     {
       "id": "CD-QuyDaoTron-KhoangCach",
@@ -649,7 +702,7 @@
       "title": "QuyDaoTron KhoangCach",
       "grade": 12,
       "cluster": "Chuyên đề tổng hợp",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Chuyên đề tổng hợp"
@@ -657,8 +710,26 @@
       "source_typ": "typst/exams/CD-QuyDaoTron-KhoangCach.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-QuyDaoTron-KhoangCach.typ",
       "pdf": "typst/exams/CD-QuyDaoTron-KhoangCach.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-QuyDaoTron-KhoangCach.pdf",
       "base_id": "CD-QuyDaoTron-KhoangCach"
+    },
+    {
+      "id": "CD-QuyHoachDong-DemDuongDi-TronBo",
+      "kind": "cd",
+      "title": "QuyHoachDong DemDuongDi TronBo",
+      "grade": 12,
+      "cluster": "Kinh tế - tối ưu",
+      "status": "ready",
+      "difficulty": null,
+      "tags": [
+        "Kinh tế - tối ưu",
+        "tổ hợp"
+      ],
+      "source_typ": "typst/exams/CD-QuyHoachDong-DemDuongDi-TronBo.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-QuyHoachDong-DemDuongDi-TronBo.typ",
+      "pdf": "typst/exams/CD-QuyHoachDong-DemDuongDi-TronBo.pdf",
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-QuyHoachDong-DemDuongDi-TronBo.pdf",
+      "base_id": "CD-QuyHoachDong-DemDuongDi-TronBo"
     },
     {
       "id": "CD-QuyHoachDong-DemDuongDi",
@@ -666,7 +737,7 @@
       "title": "QuyHoachDong DemDuongDi",
       "grade": 12,
       "cluster": "Kinh tế - tối ưu",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Kinh tế - tối ưu",
@@ -674,8 +745,8 @@
       ],
       "source_typ": "typst/exams/CD-QuyHoachDong-DemDuongDi.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-QuyHoachDong-DemDuongDi.typ",
-      "pdf": null,
-      "pdf_url": null,
+      "pdf": "typst/exams/CD-QuyHoachDong-DemDuongDi.pdf",
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-QuyHoachDong-DemDuongDi.pdf",
       "base_id": "CD-QuyHoachDong-DemDuongDi"
     },
     {
@@ -684,7 +755,7 @@
       "title": "QuyHoachTuyenTinh",
       "grade": 12,
       "cluster": "Kinh tế - tối ưu",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Kinh tế - tối ưu"
@@ -692,7 +763,7 @@
       "source_typ": "typst/exams/CD-QuyHoachTuyenTinh.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-QuyHoachTuyenTinh.typ",
       "pdf": "typst/exams/CD-QuyHoachTuyenTinh.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-QuyHoachTuyenTinh.pdf",
       "base_id": "CD-QuyHoachTuyenTinh"
     },
     {
@@ -701,7 +772,7 @@
       "title": "SoDoCay XacSuat TroChoi",
       "grade": 12,
       "cluster": "Tổ hợp - xác suất",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Tổ hợp - xác suất",
@@ -710,7 +781,7 @@
       "source_typ": "typst/exams/CD-SoDoCay-XacSuat-TroChoi.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-SoDoCay-XacSuat-TroChoi.typ",
       "pdf": "typst/exams/CD-SoDoCay-XacSuat-TroChoi.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-SoDoCay-XacSuat-TroChoi.pdf",
       "base_id": "CD-SoDoCay-XacSuat-TroChoi"
     },
     {
@@ -719,7 +790,7 @@
       "title": "SuTiepXuc",
       "grade": 12,
       "cluster": "Hình học khó",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Hình học khó"
@@ -727,7 +798,7 @@
       "source_typ": "typst/exams/CD-SuTiepXuc.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-SuTiepXuc.typ",
       "pdf": "typst/exams/CD-SuTiepXuc.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-SuTiepXuc.pdf",
       "base_id": "CD-SuTiepXuc"
     },
     {
@@ -736,7 +807,7 @@
       "title": "Sự Tiếp Xúc 2 Đường Cong",
       "grade": 12,
       "cluster": "Hình học khó",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Hình học khó"
@@ -744,7 +815,7 @@
       "source_typ": "typst/exams/CD-Sự-Tiếp-Xúc-2-Đường-Cong.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-S%E1%BB%B1-Ti%E1%BA%BFp-X%C3%BAc-2-%C4%90%C6%B0%E1%BB%9Dng-Cong.typ",
       "pdf": "typst/exams/CD-Sự-Tiếp-Xúc-2-Đường-Cong.pdf",
-      "pdf_url": "https://raw.githubusercontent.com/sangnhc87/conictypst/main/typst/exams/CD-S%E1%BB%B1-Ti%E1%BA%BFp-X%C3%BAc-2-%C4%90%C6%B0%E1%BB%9Dng-Cong.pdf",
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-S%E1%BB%B1-Ti%E1%BA%BFp-X%C3%BAc-2-%C4%90%C6%B0%E1%BB%9Dng-Cong.pdf",
       "base_id": "CD-Sự-Tiếp-Xúc-2-Đường-Cong"
     },
     {
@@ -753,7 +824,7 @@
       "title": "Tang Giam LienTuc DeLuyen",
       "grade": 12,
       "cluster": "Giải tích thực tế",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Giải tích thực tế",
@@ -762,7 +833,7 @@
       "source_typ": "typst/exams/CD-Tang-Giam-LienTuc-DeLuyen.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Tang-Giam-LienTuc-DeLuyen.typ",
       "pdf": "typst/exams/CD-Tang-Giam-LienTuc-DeLuyen.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-Tang-Giam-LienTuc-DeLuyen.pdf",
       "base_id": "CD-Tang-Giam-LienTuc-DeLuyen"
     },
     {
@@ -771,7 +842,7 @@
       "title": "Tang Giam LienTuc OnNhanh",
       "grade": 12,
       "cluster": "Giải tích thực tế",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Giải tích thực tế",
@@ -780,7 +851,7 @@
       "source_typ": "typst/exams/CD-Tang-Giam-LienTuc-OnNhanh.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Tang-Giam-LienTuc-OnNhanh.typ",
       "pdf": "typst/exams/CD-Tang-Giam-LienTuc-OnNhanh.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-Tang-Giam-LienTuc-OnNhanh.pdf",
       "base_id": "CD-Tang-Giam-LienTuc-OnNhanh"
     },
     {
@@ -789,7 +860,7 @@
       "title": "Tang Giam LienTuc",
       "grade": 12,
       "cluster": "Giải tích thực tế",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Giải tích thực tế",
@@ -798,7 +869,7 @@
       "source_typ": "typst/exams/CD-Tang-Giam-LienTuc.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Tang-Giam-LienTuc.typ",
       "pdf": "typst/exams/CD-Tang-Giam-LienTuc.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-Tang-Giam-LienTuc.pdf",
       "base_id": "CD-Tang-Giam-LienTuc"
     },
     {
@@ -807,7 +878,7 @@
       "title": "Thiet Dien Parabol Hinh Non",
       "grade": 12,
       "cluster": "Giải tích thực tế",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Giải tích thực tế"
@@ -815,7 +886,7 @@
       "source_typ": "typst/exams/CD-Thiet-Dien-Parabol-Hinh-Non.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Thiet-Dien-Parabol-Hinh-Non.typ",
       "pdf": "typst/exams/CD-Thiet-Dien-Parabol-Hinh-Non.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-Thiet-Dien-Parabol-Hinh-Non.pdf",
       "base_id": "CD-Thiet-Dien-Parabol-Hinh-Non"
     },
     {
@@ -824,7 +895,7 @@
       "title": "ThongKe Chan9 10",
       "grade": 12,
       "cluster": "Chuyên đề tổng hợp",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Chuyên đề tổng hợp"
@@ -832,8 +903,25 @@
       "source_typ": "typst/exams/CD-ThongKe-Chan9-10.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-ThongKe-Chan9-10.typ",
       "pdf": "typst/exams/CD-ThongKe-Chan9-10.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-ThongKe-Chan9-10.pdf",
       "base_id": "CD-ThongKe-Chan9-10"
+    },
+    {
+      "id": "CD-ThongKe-MauGhepNhom-ThucTe",
+      "kind": "cd",
+      "title": "ThongKe MauGhepNhom ThucTe",
+      "grade": 12,
+      "cluster": "Chuyên đề tổng hợp",
+      "status": "ready",
+      "difficulty": null,
+      "tags": [
+        "Chuyên đề tổng hợp"
+      ],
+      "source_typ": "typst/exams/CD-ThongKe-MauGhepNhom-ThucTe.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-ThongKe-MauGhepNhom-ThucTe.typ",
+      "pdf": "typst/exams/CD-ThongKe-MauGhepNhom-ThucTe.pdf",
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-ThongKe-MauGhepNhom-ThucTe.pdf",
+      "base_id": "CD-ThongKe-MauGhepNhom-ThucTe"
     },
     {
       "id": "CD-TichPhan-TocDo-DoanhThu",
@@ -841,7 +929,7 @@
       "title": "TichPhan TocDo DoanhThu",
       "grade": 12,
       "cluster": "Kinh tế - tối ưu",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Kinh tế - tối ưu",
@@ -851,7 +939,7 @@
       "source_typ": "typst/exams/CD-TichPhan-TocDo-DoanhThu.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-TichPhan-TocDo-DoanhThu.typ",
       "pdf": "typst/exams/CD-TichPhan-TocDo-DoanhThu.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-TichPhan-TocDo-DoanhThu.pdf",
       "base_id": "CD-TichPhan-TocDo-DoanhThu"
     },
     {
@@ -860,7 +948,7 @@
       "title": "TichPhan UngDung Chan9 10",
       "grade": 12,
       "cluster": "Giải tích thực tế",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Giải tích thực tế",
@@ -869,7 +957,7 @@
       "source_typ": "typst/exams/CD-TichPhan-UngDung-Chan9-10.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-TichPhan-UngDung-Chan9-10.typ",
       "pdf": "typst/exams/CD-TichPhan-UngDung-Chan9-10.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-TichPhan-UngDung-Chan9-10.pdf",
       "base_id": "CD-TichPhan-UngDung-Chan9-10"
     },
     {
@@ -878,7 +966,7 @@
       "title": "TiemCan ThucTe",
       "grade": 12,
       "cluster": "Giải tích thực tế",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Giải tích thực tế",
@@ -887,7 +975,7 @@
       "source_typ": "typst/exams/CD-TiemCan-ThucTe.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-TiemCan-ThucTe.typ",
       "pdf": "typst/exams/CD-TiemCan-ThucTe.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-TiemCan-ThucTe.pdf",
       "base_id": "CD-TiemCan-ThucTe"
     },
     {
@@ -896,7 +984,7 @@
       "title": "ToHop XacSuat ChiaPhong",
       "grade": 12,
       "cluster": "Tổ hợp - xác suất",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Tổ hợp - xác suất",
@@ -906,7 +994,7 @@
       "source_typ": "typst/exams/CD-ToHop-XacSuat-ChiaPhong.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-ToHop-XacSuat-ChiaPhong.typ",
       "pdf": "typst/exams/CD-ToHop-XacSuat-ChiaPhong.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-ToHop-XacSuat-ChiaPhong.pdf",
       "base_id": "CD-ToHop-XacSuat-ChiaPhong"
     },
     {
@@ -915,7 +1003,7 @@
       "title": "ToHop XacSuat GheNgoi",
       "grade": 12,
       "cluster": "Tổ hợp - xác suất",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Tổ hợp - xác suất",
@@ -925,7 +1013,7 @@
       "source_typ": "typst/exams/CD-ToHop-XacSuat-GheNgoi.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-ToHop-XacSuat-GheNgoi.typ",
       "pdf": "typst/exams/CD-ToHop-XacSuat-GheNgoi.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-ToHop-XacSuat-GheNgoi.pdf",
       "base_id": "CD-ToHop-XacSuat-GheNgoi"
     },
     {
@@ -934,7 +1022,7 @@
       "title": "ToMau",
       "grade": 12,
       "cluster": "Tổ hợp - xác suất",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Tổ hợp - xác suất",
@@ -943,8 +1031,25 @@
       "source_typ": "typst/exams/CD-ToMau.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-ToMau.typ",
       "pdf": "typst/exams/CD-ToMau.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-ToMau.pdf",
       "base_id": "CD-ToMau"
+    },
+    {
+      "id": "CD-ToanTaiChinh-VayTraGop",
+      "kind": "cd",
+      "title": "ToanTaiChinh VayTraGop",
+      "grade": 12,
+      "cluster": "Hình học khó",
+      "status": "ready",
+      "difficulty": null,
+      "tags": [
+        "Hình học khó"
+      ],
+      "source_typ": "typst/exams/CD-ToanTaiChinh-VayTraGop.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-ToanTaiChinh-VayTraGop.typ",
+      "pdf": "typst/exams/CD-ToanTaiChinh-VayTraGop.pdf",
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-ToanTaiChinh-VayTraGop.pdf",
+      "base_id": "CD-ToanTaiChinh-VayTraGop"
     },
     {
       "id": "CD-ToiUu-KinhTe-DaDieuKien-DeLuyen",
@@ -952,7 +1057,7 @@
       "title": "ToiUu KinhTe DaDieuKien DeLuyen",
       "grade": 12,
       "cluster": "Chuyên đề tổng hợp",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Chuyên đề tổng hợp",
@@ -961,7 +1066,7 @@
       "source_typ": "typst/exams/CD-ToiUu-KinhTe-DaDieuKien-DeLuyen.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-ToiUu-KinhTe-DaDieuKien-DeLuyen.typ",
       "pdf": "typst/exams/CD-ToiUu-KinhTe-DaDieuKien-DeLuyen.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-ToiUu-KinhTe-DaDieuKien-DeLuyen.pdf",
       "base_id": "CD-ToiUu-KinhTe-DaDieuKien-DeLuyen"
     },
     {
@@ -970,7 +1075,7 @@
       "title": "ToiUu KinhTe DaDieuKien",
       "grade": 12,
       "cluster": "Chuyên đề tổng hợp",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Chuyên đề tổng hợp",
@@ -979,7 +1084,7 @@
       "source_typ": "typst/exams/CD-ToiUu-KinhTe-DaDieuKien.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-ToiUu-KinhTe-DaDieuKien.typ",
       "pdf": "typst/exams/CD-ToiUu-KinhTe-DaDieuKien.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-ToiUu-KinhTe-DaDieuKien.pdf",
       "base_id": "CD-ToiUu-KinhTe-DaDieuKien"
     },
     {
@@ -1005,15 +1110,15 @@
       "title": "TongHop YTuong DeThi",
       "grade": 12,
       "cluster": "Chuyên đề tổng hợp",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Chuyên đề tổng hợp"
       ],
       "source_typ": "typst/exams/CD-TongHop-YTuong-DeThi.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-TongHop-YTuong-DeThi.typ",
-      "pdf": null,
-      "pdf_url": null,
+      "pdf": "typst/exams/CD-TongHop-YTuong-DeThi.pdf",
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-TongHop-YTuong-DeThi.pdf",
       "base_id": "CD-TongHop-YTuong-DeThi"
     },
     {
@@ -1022,7 +1127,7 @@
       "title": "TrangThai ToHop XacSuat",
       "grade": 12,
       "cluster": "Tổ hợp - xác suất",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Tổ hợp - xác suất",
@@ -1032,7 +1137,7 @@
       "source_typ": "typst/exams/CD-TrangThai-ToHop-XacSuat.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-TrangThai-ToHop-XacSuat.typ",
       "pdf": "typst/exams/CD-TrangThai-ToHop-XacSuat.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-TrangThai-ToHop-XacSuat.pdf",
       "base_id": "CD-TrangThai-ToHop-XacSuat"
     },
     {
@@ -1041,7 +1146,7 @@
       "title": "Treo Vật",
       "grade": 12,
       "cluster": "Chuyên đề tổng hợp",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Chuyên đề tổng hợp"
@@ -1049,7 +1154,7 @@
       "source_typ": "typst/exams/CD-Treo-Vật.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Treo-V%E1%BA%ADt.typ",
       "pdf": "typst/exams/CD-Treo-Vật.pdf",
-      "pdf_url": "https://raw.githubusercontent.com/sangnhc87/conictypst/main/typst/exams/CD-Treo-V%E1%BA%ADt.pdf",
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-Treo-V%E1%BA%ADt.pdf",
       "base_id": "CD-Treo-Vật"
     },
     {
@@ -1058,16 +1163,34 @@
       "title": "Vật Chắn Tầm Nhìn",
       "grade": 12,
       "cluster": "Chuyên đề tổng hợp",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Chuyên đề tổng hợp"
       ],
       "source_typ": "typst/exams/CD-Vật-Chắn-Tầm-Nhìn.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-V%E1%BA%ADt-Ch%E1%BA%AFn-T%E1%BA%A7m-Nh%C3%ACn.typ",
-      "pdf": null,
-      "pdf_url": null,
+      "pdf": "typst/exams/CD-Vật-Chắn-Tầm-Nhìn.pdf",
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-V%E1%BA%ADt-Ch%E1%BA%AFn-T%E1%BA%A7m-Nh%C3%ACn.pdf",
       "base_id": "CD-Vật-Chắn-Tầm-Nhìn"
+    },
+    {
+      "id": "CD-Xac-Suất-Bayes-Tim-x-TruyNguonGoc",
+      "kind": "cd",
+      "title": "Xac Suất Bayes Tim x TruyNguonGoc",
+      "grade": 12,
+      "cluster": "Oxyz - hình học không gian",
+      "status": "ready",
+      "difficulty": null,
+      "tags": [
+        "Oxyz - hình học không gian",
+        "xác suất"
+      ],
+      "source_typ": "typst/exams/CD-Xac-Suất-Bayes-Tim-x-TruyNguonGoc.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Xac-Su%E1%BA%A5t-Bayes-Tim-x-TruyNguonGoc.typ",
+      "pdf": "typst/exams/CD-Xac-Suất-Bayes-Tim-x-TruyNguonGoc.pdf",
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-Xac-Su%E1%BA%A5t-Bayes-Tim-x-TruyNguonGoc.pdf",
+      "base_id": "CD-Xac-Suất-Bayes-Tim-x-TruyNguonGoc"
     },
     {
       "id": "CD-Xac-Suất-Bayes-Tim-x",
@@ -1075,7 +1198,7 @@
       "title": "Xac Suất Bayes Tim x",
       "grade": 12,
       "cluster": "Tổ hợp - xác suất",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Tổ hợp - xác suất",
@@ -1084,7 +1207,7 @@
       "source_typ": "typst/exams/CD-Xac-Suất-Bayes-Tim-x.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Xac-Su%E1%BA%A5t-Bayes-Tim-x.typ",
       "pdf": "typst/exams/CD-Xac-Suất-Bayes-Tim-x.pdf",
-      "pdf_url": "https://raw.githubusercontent.com/sangnhc87/conictypst/main/typst/exams/CD-Xac-Su%E1%BA%A5t-Bayes-Tim-x.pdf",
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-Xac-Su%E1%BA%A5t-Bayes-Tim-x.pdf",
       "base_id": "CD-Xac-Suất-Bayes-Tim-x"
     },
     {
@@ -1093,7 +1216,7 @@
       "title": "XacSuat DieuKien Gia",
       "grade": 12,
       "cluster": "Tổ hợp - xác suất",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Tổ hợp - xác suất",
@@ -1102,7 +1225,7 @@
       "source_typ": "typst/exams/CD-XacSuat-DieuKien-Gia.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-XacSuat-DieuKien-Gia.typ",
       "pdf": "typst/exams/CD-XacSuat-DieuKien-Gia.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-XacSuat-DieuKien-Gia.pdf",
       "base_id": "CD-XacSuat-DieuKien-Gia"
     },
     {
@@ -1111,7 +1234,7 @@
       "title": "XacSuat DieuKien PhanPhoi",
       "grade": 12,
       "cluster": "Tổ hợp - xác suất",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Tổ hợp - xác suất",
@@ -1120,7 +1243,7 @@
       "source_typ": "typst/exams/CD-XacSuat-DieuKien-PhanPhoi.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-XacSuat-DieuKien-PhanPhoi.typ",
       "pdf": "typst/exams/CD-XacSuat-DieuKien-PhanPhoi.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-XacSuat-DieuKien-PhanPhoi.pdf",
       "base_id": "CD-XacSuat-DieuKien-PhanPhoi"
     },
     {
@@ -1129,7 +1252,7 @@
       "title": "XepGhe 3Cot",
       "grade": 12,
       "cluster": "Tổ hợp - xác suất",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Tổ hợp - xác suất",
@@ -1138,7 +1261,7 @@
       "source_typ": "typst/exams/CD-XepGhe-3Cot.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-XepGhe-3Cot.typ",
       "pdf": "typst/exams/CD-XepGhe-3Cot.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-XepGhe-3Cot.pdf",
       "base_id": "CD-XepGhe-3Cot"
     },
     {
@@ -1147,7 +1270,7 @@
       "title": "XepGhe KhongKe",
       "grade": 12,
       "cluster": "Tổ hợp - xác suất",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Tổ hợp - xác suất",
@@ -1156,7 +1279,7 @@
       "source_typ": "typst/exams/CD-XepGhe-KhongKe.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-XepGhe-KhongKe.typ",
       "pdf": "typst/exams/CD-XepGhe-KhongKe.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-XepGhe-KhongKe.pdf",
       "base_id": "CD-XepGhe-KhongKe"
     },
     {
@@ -1165,7 +1288,7 @@
       "title": "XepGhe Nang Cao",
       "grade": 12,
       "cluster": "Tổ hợp - xác suất",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Tổ hợp - xác suất",
@@ -1175,7 +1298,7 @@
       "source_typ": "typst/exams/CD-XepGhe-Nang-Cao.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-XepGhe-Nang-Cao.typ",
       "pdf": "typst/exams/CD-XepGhe-Nang-Cao.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-XepGhe-Nang-Cao.pdf",
       "base_id": "CD-XepGhe-Nang-Cao"
     },
     {
@@ -1184,7 +1307,7 @@
       "title": "min 2 DuongTron 3D",
       "grade": 12,
       "cluster": "Hình học khó",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Hình học khó",
@@ -1193,7 +1316,7 @@
       "source_typ": "typst/exams/CD-min-2-DuongTron-3D.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-min-2-DuongTron-3D.typ",
       "pdf": "typst/exams/CD-min-2-DuongTron-3D.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-min-2-DuongTron-3D.pdf",
       "base_id": "CD-min-2-DuongTron-3D"
     },
     {
@@ -1202,7 +1325,7 @@
       "title": "min 2 DuongTron ChuyenSau",
       "grade": 12,
       "cluster": "Hình học khó",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Hình học khó",
@@ -1211,7 +1334,7 @@
       "source_typ": "typst/exams/CD-min-2-DuongTron-ChuyenSau.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-min-2-DuongTron-ChuyenSau.typ",
       "pdf": "typst/exams/CD-min-2-DuongTron-ChuyenSau.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-min-2-DuongTron-ChuyenSau.pdf",
       "base_id": "CD-min-2-DuongTron-ChuyenSau"
     },
     {
@@ -1220,7 +1343,7 @@
       "title": "min MatCau DuongTron 3D",
       "grade": 12,
       "cluster": "Oxyz - hình học không gian",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Oxyz - hình học không gian",
@@ -1230,7 +1353,7 @@
       "source_typ": "typst/exams/CD-min-MatCau-DuongTron-3D.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-min-MatCau-DuongTron-3D.typ",
       "pdf": "typst/exams/CD-min-MatCau-DuongTron-3D.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-min-MatCau-DuongTron-3D.pdf",
       "base_id": "CD-min-MatCau-DuongTron-3D"
     },
     {
@@ -1239,7 +1362,7 @@
       "title": "min dt dtron 3D",
       "grade": 12,
       "cluster": "Hình học khó",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Hình học khó",
@@ -1248,7 +1371,7 @@
       "source_typ": "typst/exams/CD-min-dt-dtron-3D.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-min-dt-dtron-3D.typ",
       "pdf": "typst/exams/CD-min-dt-dtron-3D.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-min-dt-dtron-3D.pdf",
       "base_id": "CD-min-dt-dtron-3D"
     },
     {
@@ -1257,7 +1380,7 @@
       "title": "min max DT DuongTron",
       "grade": 12,
       "cluster": "Hình học khó",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Hình học khó",
@@ -1266,7 +1389,7 @@
       "source_typ": "typst/exams/CD-min-max-DT-DuongTron.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-min-max-DT-DuongTron.typ",
       "pdf": "typst/exams/CD-min-max-DT-DuongTron.pdf",
-      "pdf_url": null,
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-min-max-DT-DuongTron.pdf",
       "base_id": "CD-min-max-DT-DuongTron"
     },
     {
@@ -1275,7 +1398,7 @@
       "title": "tich Phan đọc lạ",
       "grade": 12,
       "cluster": "Chuyên đề tổng hợp",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Chuyên đề tổng hợp"
@@ -1283,7 +1406,7 @@
       "source_typ": "typst/exams/CD-tich-Phan-đọc lạ.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-tich-Phan-%C4%91%E1%BB%8Dc%20l%E1%BA%A1.typ",
       "pdf": "typst/exams/CD-tich-Phan-đọc lạ.pdf",
-      "pdf_url": "https://raw.githubusercontent.com/sangnhc87/conictypst/main/typst/exams/CD-tich-Phan-%C4%91%E1%BB%8Dc%20l%E1%BA%A1.pdf",
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-tich-Phan-%C4%91%E1%BB%8Dc%20l%E1%BA%A1.pdf",
       "base_id": "CD-tich-Phan-đọc lạ"
     },
     {
@@ -1292,7 +1415,7 @@
       "title": "Đếm Nâng Cao",
       "grade": 12,
       "cluster": "Tổ hợp - xác suất",
-      "status": "draft",
+      "status": "ready",
       "difficulty": null,
       "tags": [
         "Tổ hợp - xác suất",
@@ -1300,9 +1423,1466 @@
       ],
       "source_typ": "typst/exams/CD-Đếm Nâng Cao.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-%C4%90%E1%BA%BFm%20N%C3%A2ng%20Cao.typ",
-      "pdf": null,
-      "pdf_url": null,
+      "pdf": "typst/exams/CD-Đếm Nâng Cao.pdf",
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-%C4%90%E1%BA%BFm%20N%C3%A2ng%20Cao.pdf",
       "base_id": "CD-Đếm Nâng Cao"
+    },
+    {
+      "id": "giao-an-10-bai-1-menh-e",
+      "kind": "lesson-plan",
+      "title": "Bài 1 Mệnh đề",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 1,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-bai-1-menh-e.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-bai-1-menh-e.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-bai-1-menh-e.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-bai-1-menh-e.pdf",
+      "base_id": "giao-an-10-bai-1-menh-e"
+    },
+    {
+      "id": "giao-an-10-bai-10-vecto-trong-mat-phang-toa-o",
+      "kind": "lesson-plan",
+      "title": "Bài 10 Vectơ trong mặt phẳng toạ độ",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 10,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-bai-10-vecto-trong-mat-phang-toa-o.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-bai-10-vecto-trong-mat-phang-toa-o.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-bai-10-vecto-trong-mat-phang-toa-o.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-bai-10-vecto-trong-mat-phang-toa-o.pdf",
+      "base_id": "giao-an-10-bai-10-vecto-trong-mat-phang-toa-o"
+    },
+    {
+      "id": "giao-an-10-bai-11-tich-vo-huong-cua-hai-vt",
+      "kind": "lesson-plan",
+      "title": "Bài 11 Tích vô hướng của hai VT",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 11,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-bai-11-tich-vo-huong-cua-hai-vt.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-bai-11-tich-vo-huong-cua-hai-vt.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-bai-11-tich-vo-huong-cua-hai-vt.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-bai-11-tich-vo-huong-cua-hai-vt.pdf",
+      "base_id": "giao-an-10-bai-11-tich-vo-huong-cua-hai-vt"
+    },
+    {
+      "id": "giao-an-10-bai-12-so-gan-ung-va-sai-so",
+      "kind": "lesson-plan",
+      "title": "Bài 12 Số gần đúng và sai số",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 12,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-bai-12-so-gan-ung-va-sai-so.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-bai-12-so-gan-ung-va-sai-so.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-bai-12-so-gan-ung-va-sai-so.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-bai-12-so-gan-ung-va-sai-so.pdf",
+      "base_id": "giao-an-10-bai-12-so-gan-ung-va-sai-so"
+    },
+    {
+      "id": "giao-an-10-bai-13-cac-so-ac-trung-o-xu-the-trung-tam",
+      "kind": "lesson-plan",
+      "title": "Bài 13 Các số đặc trưng đo xu thế trung tâm",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 13,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-bai-13-cac-so-ac-trung-o-xu-the-trung-tam.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-bai-13-cac-so-ac-trung-o-xu-the-trung-tam.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-bai-13-cac-so-ac-trung-o-xu-the-trung-tam.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-bai-13-cac-so-ac-trung-o-xu-the-trung-tam.pdf",
+      "base_id": "giao-an-10-bai-13-cac-so-ac-trung-o-xu-the-trung-tam"
+    },
+    {
+      "id": "giao-an-10-bai-14-cac-so-ac-trung-o-o-phan-tan",
+      "kind": "lesson-plan",
+      "title": "Bài 14 Các số đặc trưng đo độ phân tán",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 14,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-bai-14-cac-so-ac-trung-o-o-phan-tan.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-bai-14-cac-so-ac-trung-o-o-phan-tan.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-bai-14-cac-so-ac-trung-o-o-phan-tan.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-bai-14-cac-so-ac-trung-o-o-phan-tan.pdf",
+      "base_id": "giao-an-10-bai-14-cac-so-ac-trung-o-o-phan-tan"
+    },
+    {
+      "id": "giao-an-10-bai-15-ham-so",
+      "kind": "lesson-plan",
+      "title": "Bài 15 Hàm số",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 15,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-bai-15-ham-so.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-bai-15-ham-so.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-bai-15-ham-so.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-bai-15-ham-so.pdf",
+      "base_id": "giao-an-10-bai-15-ham-so"
+    },
+    {
+      "id": "giao-an-10-bai-16-ham-so-bac-hai",
+      "kind": "lesson-plan",
+      "title": "Bài 16 Hàm số bậc hai",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 16,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-bai-16-ham-so-bac-hai.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-bai-16-ham-so-bac-hai.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-bai-16-ham-so-bac-hai.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-bai-16-ham-so-bac-hai.pdf",
+      "base_id": "giao-an-10-bai-16-ham-so-bac-hai"
+    },
+    {
+      "id": "giao-an-10-bai-17-dau-cua-tam-thuc-bac-hai",
+      "kind": "lesson-plan",
+      "title": "Bài 17 Dấu của tam thức bậc hai",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 17,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-bai-17-dau-cua-tam-thuc-bac-hai.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-bai-17-dau-cua-tam-thuc-bac-hai.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-bai-17-dau-cua-tam-thuc-bac-hai.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-bai-17-dau-cua-tam-thuc-bac-hai.pdf",
+      "base_id": "giao-an-10-bai-17-dau-cua-tam-thuc-bac-hai"
+    },
+    {
+      "id": "giao-an-10-bai-18-pt-quy-ve-pt-bac-hai",
+      "kind": "lesson-plan",
+      "title": "Bài 18 PT quy về PT bậc hai",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 18,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-bai-18-pt-quy-ve-pt-bac-hai.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-bai-18-pt-quy-ve-pt-bac-hai.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-bai-18-pt-quy-ve-pt-bac-hai.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-bai-18-pt-quy-ve-pt-bac-hai.pdf",
+      "base_id": "giao-an-10-bai-18-pt-quy-ve-pt-bac-hai"
+    },
+    {
+      "id": "giao-an-10-bai-19-phuong-trinh-uong-thang",
+      "kind": "lesson-plan",
+      "title": "Bài 19 Phương trình đường thẳng",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 19,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-bai-19-phuong-trinh-uong-thang.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-bai-19-phuong-trinh-uong-thang.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-bai-19-phuong-trinh-uong-thang.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-bai-19-phuong-trinh-uong-thang.pdf",
+      "base_id": "giao-an-10-bai-19-phuong-trinh-uong-thang"
+    },
+    {
+      "id": "giao-an-10-bai-2-tap-hop",
+      "kind": "lesson-plan",
+      "title": "Bài 2 Tập hợp",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 2,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-bai-2-tap-hop.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-bai-2-tap-hop.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-bai-2-tap-hop.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-bai-2-tap-hop.pdf",
+      "base_id": "giao-an-10-bai-2-tap-hop"
+    },
+    {
+      "id": "giao-an-10-bai-20-vi-tri-tuong-oi",
+      "kind": "lesson-plan",
+      "title": "Bài 20 Vị trí tương đối",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 20,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-bai-20-vi-tri-tuong-oi.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-bai-20-vi-tri-tuong-oi.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-bai-20-vi-tri-tuong-oi.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-bai-20-vi-tri-tuong-oi.pdf",
+      "base_id": "giao-an-10-bai-20-vi-tri-tuong-oi"
+    },
+    {
+      "id": "giao-an-10-bai-21-uong-tron-trong-mp-toa-o",
+      "kind": "lesson-plan",
+      "title": "Bài 21 Đường tròn trong MP toạ độ",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 21,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-bai-21-uong-tron-trong-mp-toa-o.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-bai-21-uong-tron-trong-mp-toa-o.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-bai-21-uong-tron-trong-mp-toa-o.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-bai-21-uong-tron-trong-mp-toa-o.pdf",
+      "base_id": "giao-an-10-bai-21-uong-tron-trong-mp-toa-o"
+    },
+    {
+      "id": "giao-an-10-bai-22-ba-uong-conic",
+      "kind": "lesson-plan",
+      "title": "Bài 22 Ba đường Conic",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 22,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-bai-22-ba-uong-conic.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-bai-22-ba-uong-conic.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-bai-22-ba-uong-conic.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-bai-22-ba-uong-conic.pdf",
+      "base_id": "giao-an-10-bai-22-ba-uong-conic"
+    },
+    {
+      "id": "giao-an-10-bai-23-quy-tac-em",
+      "kind": "lesson-plan",
+      "title": "Bài 23 Quy tắc đếm",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 23,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-bai-23-quy-tac-em.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-bai-23-quy-tac-em.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-bai-23-quy-tac-em.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-bai-23-quy-tac-em.pdf",
+      "base_id": "giao-an-10-bai-23-quy-tac-em"
+    },
+    {
+      "id": "giao-an-10-bai-24-hv-ch-th",
+      "kind": "lesson-plan",
+      "title": "Bài 24 HV CH TH",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 24,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-bai-24-hv-ch-th.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-bai-24-hv-ch-th.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-bai-24-hv-ch-th.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-bai-24-hv-ch-th.pdf",
+      "base_id": "giao-an-10-bai-24-hv-ch-th"
+    },
+    {
+      "id": "giao-an-10-bai-25-nhi-thuc-newton",
+      "kind": "lesson-plan",
+      "title": "Bài 25 Nhị thức Newton",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 25,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-bai-25-nhi-thuc-newton.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-bai-25-nhi-thuc-newton.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-bai-25-nhi-thuc-newton.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-bai-25-nhi-thuc-newton.pdf",
+      "base_id": "giao-an-10-bai-25-nhi-thuc-newton"
+    },
+    {
+      "id": "giao-an-10-bai-26-bien-co-va-n-xs",
+      "kind": "lesson-plan",
+      "title": "Bài 26 Biến cố và ĐN XS",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 26,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-bai-26-bien-co-va-n-xs.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-bai-26-bien-co-va-n-xs.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-bai-26-bien-co-va-n-xs.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-bai-26-bien-co-va-n-xs.pdf",
+      "base_id": "giao-an-10-bai-26-bien-co-va-n-xs"
+    },
+    {
+      "id": "giao-an-10-bai-27-thuc-hanh-tinh-xs",
+      "kind": "lesson-plan",
+      "title": "Bài 27 Thực hành tính XS",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 27,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-bai-27-thuc-hanh-tinh-xs.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-bai-27-thuc-hanh-tinh-xs.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-bai-27-thuc-hanh-tinh-xs.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-bai-27-thuc-hanh-tinh-xs.pdf",
+      "base_id": "giao-an-10-bai-27-thuc-hanh-tinh-xs"
+    },
+    {
+      "id": "giao-an-10-bai-3-bpt-bac-nhat-2-an",
+      "kind": "lesson-plan",
+      "title": "Bài 3 BPT bậc nhất 2 ẩn",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 3,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-bai-3-bpt-bac-nhat-2-an.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-bai-3-bpt-bac-nhat-2-an.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-bai-3-bpt-bac-nhat-2-an.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-bai-3-bpt-bac-nhat-2-an.pdf",
+      "base_id": "giao-an-10-bai-3-bpt-bac-nhat-2-an"
+    },
+    {
+      "id": "giao-an-10-bai-4-h-bpt-bac-nhat-hai-an",
+      "kind": "lesson-plan",
+      "title": "Bài 4 H BPT bậc nhất hai ẩn",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 4,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-bai-4-h-bpt-bac-nhat-hai-an.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-bai-4-h-bpt-bac-nhat-hai-an.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-bai-4-h-bpt-bac-nhat-hai-an.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-bai-4-h-bpt-bac-nhat-hai-an.pdf",
+      "base_id": "giao-an-10-bai-4-h-bpt-bac-nhat-hai-an"
+    },
+    {
+      "id": "giao-an-10-bai-5-gia-tri-lg-cua-goc-tu-0-en-180",
+      "kind": "lesson-plan",
+      "title": "Bài 5 Giá trị LG của góc từ 0 đến 180",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 5,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-bai-5-gia-tri-lg-cua-goc-tu-0-en-180.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-bai-5-gia-tri-lg-cua-goc-tu-0-en-180.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-bai-5-gia-tri-lg-cua-goc-tu-0-en-180.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-bai-5-gia-tri-lg-cua-goc-tu-0-en-180.pdf",
+      "base_id": "giao-an-10-bai-5-gia-tri-lg-cua-goc-tu-0-en-180"
+    },
+    {
+      "id": "giao-an-10-bai-6-he-thuc-luong-trong-tan-giac",
+      "kind": "lesson-plan",
+      "title": "Bài 6 Hệ thức lượng trong tan giác",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 6,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-bai-6-he-thuc-luong-trong-tan-giac.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-bai-6-he-thuc-luong-trong-tan-giac.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-bai-6-he-thuc-luong-trong-tan-giac.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-bai-6-he-thuc-luong-trong-tan-giac.pdf",
+      "base_id": "giao-an-10-bai-6-he-thuc-luong-trong-tan-giac"
+    },
+    {
+      "id": "giao-an-10-bai-6-he-thuc-luong",
+      "kind": "lesson-plan",
+      "title": "BÀI 6. HỆ THỨC LƯỢNG TRONG TAM GIÁC (ACTIVE LEARNING & CETZ)",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 6,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-bai-6-he-thuc-luong.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-bai-6-he-thuc-luong.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-bai-6-he-thuc-luong.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-bai-6-he-thuc-luong.pdf",
+      "base_id": "giao-an-10-bai-6-he-thuc-luong"
+    },
+    {
+      "id": "giao-an-10-bai-7-cac-khai-niem-mo-au",
+      "kind": "lesson-plan",
+      "title": "Bài 7 Các khái niệm mở đầu",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 7,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-bai-7-cac-khai-niem-mo-au.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-bai-7-cac-khai-niem-mo-au.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-bai-7-cac-khai-niem-mo-au.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-bai-7-cac-khai-niem-mo-au.pdf",
+      "base_id": "giao-an-10-bai-7-cac-khai-niem-mo-au"
+    },
+    {
+      "id": "giao-an-10-bai-8-tong-va-hieu-cua-hai-vecto",
+      "kind": "lesson-plan",
+      "title": "Bài 8 Tổng và Hiệu của hai vectơ",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 8,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-bai-8-tong-va-hieu-cua-hai-vecto.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-bai-8-tong-va-hieu-cua-hai-vecto.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-bai-8-tong-va-hieu-cua-hai-vecto.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-bai-8-tong-va-hieu-cua-hai-vecto.pdf",
+      "base_id": "giao-an-10-bai-8-tong-va-hieu-cua-hai-vecto"
+    },
+    {
+      "id": "giao-an-10-bai-9-tich-cua-mot-vt-voi-mot-so",
+      "kind": "lesson-plan",
+      "title": "Bài 9 Tích của một VT với một số",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 9,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-bai-9-tich-cua-mot-vt-voi-mot-so.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-bai-9-tich-cua-mot-vt-voi-mot-so.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-bai-9-tich-cua-mot-vt-voi-mot-so.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-bai-9-tich-cua-mot-vt-voi-mot-so.pdf",
+      "base_id": "giao-an-10-bai-9-tich-cua-mot-vt-voi-mot-so"
+    },
+    {
+      "id": "giao-an-10-bai-9-tich-vecto-voi-mot-so",
+      "kind": "lesson-plan",
+      "title": "BÀI 9. TÍCH CỦA MỘT VECTƠ VỚI MỘT SỐ (PHIÊN BẢN TRẢI NGHIỆM)",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 9,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-bai-9-tich-vecto-voi-mot-so.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-bai-9-tich-vecto-voi-mot-so.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-bai-9-tich-vecto-voi-mot-so.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-bai-9-tich-vecto-voi-mot-so.pdf",
+      "base_id": "giao-an-10-bai-9-tich-vecto-voi-mot-so"
+    },
+    {
+      "id": "giao-an-10-hthtn-1-tim-hieu-mot-so-kien-thuc-ve-tai-chinh",
+      "kind": "lesson-plan",
+      "title": "HĐTHTN 1 Tìm hiểu một số kiến thức về tài chính",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 0,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-hthtn-1-tim-hieu-mot-so-kien-thuc-ve-tai-chinh.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-hthtn-1-tim-hieu-mot-so-kien-thuc-ve-tai-chinh.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-hthtn-1-tim-hieu-mot-so-kien-thuc-ve-tai-chinh.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-hthtn-1-tim-hieu-mot-so-kien-thuc-ve-tai-chinh.pdf",
+      "base_id": "giao-an-10-hthtn-1-tim-hieu-mot-so-kien-thuc-ve-tai-chinh"
+    },
+    {
+      "id": "giao-an-10-hthtn-2-mang-xa-hoi-loi-va-hai",
+      "kind": "lesson-plan",
+      "title": "HĐTHTN 2 Mạng xã hôi Lợi và hại",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 0,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-hthtn-2-mang-xa-hoi-loi-va-hai.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-hthtn-2-mang-xa-hoi-loi-va-hai.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-hthtn-2-mang-xa-hoi-loi-va-hai.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-hthtn-2-mang-xa-hoi-loi-va-hai.pdf",
+      "base_id": "giao-an-10-hthtn-2-mang-xa-hoi-loi-va-hai"
+    },
+    {
+      "id": "giao-an-10-hthtn-3-mot-so-noi-dung-cho-htn-hinh-hoc",
+      "kind": "lesson-plan",
+      "title": "HĐTHTN 3 Một số nội dung cho HĐTN Hình học",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 0,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-hthtn-3-mot-so-noi-dung-cho-htn-hinh-hoc.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-hthtn-3-mot-so-noi-dung-cho-htn-hinh-hoc.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-hthtn-3-mot-so-noi-dung-cho-htn-hinh-hoc.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-hthtn-3-mot-so-noi-dung-cho-htn-hinh-hoc.pdf",
+      "base_id": "giao-an-10-hthtn-3-mot-so-noi-dung-cho-htn-hinh-hoc"
+    },
+    {
+      "id": "giao-an-10-hthtn-4-uoc-tinh-so-ca-the-trong-quan-the",
+      "kind": "lesson-plan",
+      "title": "HĐTHTN 4 Ước tính số cá thể trong quần thể",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 0,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-hthtn-4-uoc-tinh-so-ca-the-trong-quan-the.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-hthtn-4-uoc-tinh-so-ca-the-trong-quan-the.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-hthtn-4-uoc-tinh-so-ca-the-trong-quan-the.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-hthtn-4-uoc-tinh-so-ca-the-trong-quan-the.pdf",
+      "base_id": "giao-an-10-hthtn-4-uoc-tinh-so-ca-the-trong-quan-the"
+    },
+    {
+      "id": "giao-an-10-on-tap-chuong-1",
+      "kind": "lesson-plan",
+      "title": "Ôn tập chương 1",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 0,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-on-tap-chuong-1.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-on-tap-chuong-1.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-on-tap-chuong-1.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-on-tap-chuong-1.pdf",
+      "base_id": "giao-an-10-on-tap-chuong-1"
+    },
+    {
+      "id": "giao-an-10-on-tap-chuong-2",
+      "kind": "lesson-plan",
+      "title": "Ôn tập chương 2",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 0,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-on-tap-chuong-2.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-on-tap-chuong-2.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-on-tap-chuong-2.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-on-tap-chuong-2.pdf",
+      "base_id": "giao-an-10-on-tap-chuong-2"
+    },
+    {
+      "id": "giao-an-10-on-tap-chuong-3",
+      "kind": "lesson-plan",
+      "title": "Ôn tập chương 3",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 0,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-on-tap-chuong-3.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-on-tap-chuong-3.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-on-tap-chuong-3.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-on-tap-chuong-3.pdf",
+      "base_id": "giao-an-10-on-tap-chuong-3"
+    },
+    {
+      "id": "giao-an-10-on-tap-chuong-4",
+      "kind": "lesson-plan",
+      "title": "Ôn tập chương 4",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 0,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-on-tap-chuong-4.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-on-tap-chuong-4.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-on-tap-chuong-4.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-on-tap-chuong-4.pdf",
+      "base_id": "giao-an-10-on-tap-chuong-4"
+    },
+    {
+      "id": "giao-an-10-on-tap-chuong-5",
+      "kind": "lesson-plan",
+      "title": "Ôn tập chương 5",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 0,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-on-tap-chuong-5.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-on-tap-chuong-5.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-on-tap-chuong-5.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-on-tap-chuong-5.pdf",
+      "base_id": "giao-an-10-on-tap-chuong-5"
+    },
+    {
+      "id": "giao-an-10-on-tap-chuong-6",
+      "kind": "lesson-plan",
+      "title": "Ôn tập chương 6",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 0,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-on-tap-chuong-6.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-on-tap-chuong-6.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-on-tap-chuong-6.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-on-tap-chuong-6.pdf",
+      "base_id": "giao-an-10-on-tap-chuong-6"
+    },
+    {
+      "id": "giao-an-10-on-tap-chuong-7",
+      "kind": "lesson-plan",
+      "title": "Ôn tập chương 7",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 0,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-on-tap-chuong-7.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-on-tap-chuong-7.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-on-tap-chuong-7.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-on-tap-chuong-7.pdf",
+      "base_id": "giao-an-10-on-tap-chuong-7"
+    },
+    {
+      "id": "giao-an-10-on-tap-chuong-8",
+      "kind": "lesson-plan",
+      "title": "Ôn tập chương 8",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 0,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-on-tap-chuong-8.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-on-tap-chuong-8.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-on-tap-chuong-8.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-on-tap-chuong-8.pdf",
+      "base_id": "giao-an-10-on-tap-chuong-8"
+    },
+    {
+      "id": "giao-an-10-on-tap-chuong-9",
+      "kind": "lesson-plan",
+      "title": "Ôn tập chương 9",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 0,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-on-tap-chuong-9.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-on-tap-chuong-9.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-on-tap-chuong-9.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-on-tap-chuong-9.pdf",
+      "base_id": "giao-an-10-on-tap-chuong-9"
+    },
+    {
+      "id": "giao-an-10-on-tap-cuoi-ky-1",
+      "kind": "lesson-plan",
+      "title": "Ôn tập cuối kỳ 1",
+      "grade": 10,
+      "chapter": "Giáo án",
+      "lesson": 0,
+      "semester": null,
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 10"
+      ],
+      "source_typ": "typst/giao-an/khoi-10/giao-an-10-on-tap-cuoi-ky-1.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-10/giao-an-10-on-tap-cuoi-ky-1.typ",
+      "pdf": "typst/giao-an/khoi-10/giao-an-10-on-tap-cuoi-ky-1.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-10/giao-an-10-on-tap-cuoi-ky-1.pdf",
+      "base_id": "giao-an-10-on-tap-cuoi-ky-1"
+    },
+    {
+      "id": "giao-an-12-bai-1-tinh-on-ieu-va-cuc-tri",
+      "kind": "lesson-plan",
+      "title": "Bài 1 Tính đơn điệu và cực trị",
+      "grade": 12,
+      "chapter": "Giáo án HKI",
+      "lesson": 1,
+      "semester": "HKI",
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 12",
+        "HKI"
+      ],
+      "source_typ": "typst/giao-an/khoi-12/giao-an-12-bai-1-tinh-on-ieu-va-cuc-tri.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-12/giao-an-12-bai-1-tinh-on-ieu-va-cuc-tri.typ",
+      "pdf": "typst/giao-an/khoi-12/giao-an-12-bai-1-tinh-on-ieu-va-cuc-tri.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-12/giao-an-12-bai-1-tinh-on-ieu-va-cuc-tri.pdf",
+      "base_id": "giao-an-12-bai-1-tinh-on-ieu-va-cuc-tri"
+    },
+    {
+      "id": "giao-an-12-bai-10-phuong-sai.-o-lech-chuan",
+      "kind": "lesson-plan",
+      "title": "Bài 10 Phương sai. Độ lệch chuẩn",
+      "grade": 12,
+      "chapter": "Giáo án HKI",
+      "lesson": 10,
+      "semester": "HKI",
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 12",
+        "HKI"
+      ],
+      "source_typ": "typst/giao-an/khoi-12/giao-an-12-bai-10-phuong-sai.-o-lech-chuan.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-12/giao-an-12-bai-10-phuong-sai.-o-lech-chuan.typ",
+      "pdf": "typst/giao-an/khoi-12/giao-an-12-bai-10-phuong-sai.-o-lech-chuan.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-12/giao-an-12-bai-10-phuong-sai.-o-lech-chuan.pdf",
+      "base_id": "giao-an-12-bai-10-phuong-sai.-o-lech-chuan"
+    },
+    {
+      "id": "giao-an-12-bai-11-nguyen-ham",
+      "kind": "lesson-plan",
+      "title": "Bài 11 Nguyên hàm",
+      "grade": 12,
+      "chapter": "Chương IV · Nguyên hàm và tích phân",
+      "lesson": 11,
+      "semester": "HKII",
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 12",
+        "HKII"
+      ],
+      "source_typ": "typst/giao-an/khoi-12/giao-an-12-bai-11-nguyen-ham.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-12/giao-an-12-bai-11-nguyen-ham.typ",
+      "pdf": "typst/giao-an/khoi-12/giao-an-12-bai-11-nguyen-ham.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-12/giao-an-12-bai-11-nguyen-ham.pdf",
+      "base_id": "giao-an-12-bai-11-nguyen-ham"
+    },
+    {
+      "id": "giao-an-12-bai-12-tich-phan",
+      "kind": "lesson-plan",
+      "title": "Bài 12 Tích phân",
+      "grade": 12,
+      "chapter": "Chương IV · Nguyên hàm và tích phân",
+      "lesson": 12,
+      "semester": "HKII",
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 12",
+        "HKII"
+      ],
+      "source_typ": "typst/giao-an/khoi-12/giao-an-12-bai-12-tich-phan.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-12/giao-an-12-bai-12-tich-phan.typ",
+      "pdf": "typst/giao-an/khoi-12/giao-an-12-bai-12-tich-phan.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-12/giao-an-12-bai-12-tich-phan.pdf",
+      "base_id": "giao-an-12-bai-12-tich-phan"
+    },
+    {
+      "id": "giao-an-12-bai-13-ung-dung-hh-cua-tp",
+      "kind": "lesson-plan",
+      "title": "Bài 13 Ứng dụng HH của TP",
+      "grade": 12,
+      "chapter": "Chương IV · Nguyên hàm và tích phân",
+      "lesson": 13,
+      "semester": "HKII",
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 12",
+        "HKII"
+      ],
+      "source_typ": "typst/giao-an/khoi-12/giao-an-12-bai-13-ung-dung-hh-cua-tp.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-12/giao-an-12-bai-13-ung-dung-hh-cua-tp.typ",
+      "pdf": "typst/giao-an/khoi-12/giao-an-12-bai-13-ung-dung-hh-cua-tp.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-12/giao-an-12-bai-13-ung-dung-hh-cua-tp.pdf",
+      "base_id": "giao-an-12-bai-13-ung-dung-hh-cua-tp"
+    },
+    {
+      "id": "giao-an-12-bai-14-pt-mat-phang",
+      "kind": "lesson-plan",
+      "title": "Bài 14 PT Mặt phẳng",
+      "grade": 12,
+      "chapter": "Chương V · Tọa độ trong không gian",
+      "lesson": 14,
+      "semester": "HKII",
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 12",
+        "HKII"
+      ],
+      "source_typ": "typst/giao-an/khoi-12/giao-an-12-bai-14-pt-mat-phang.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-12/giao-an-12-bai-14-pt-mat-phang.typ",
+      "pdf": "typst/giao-an/khoi-12/giao-an-12-bai-14-pt-mat-phang.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-12/giao-an-12-bai-14-pt-mat-phang.pdf",
+      "base_id": "giao-an-12-bai-14-pt-mat-phang"
+    },
+    {
+      "id": "giao-an-12-bai-15-pt-t-trong-kg",
+      "kind": "lesson-plan",
+      "title": "Bài 15 PT ĐT trong KG",
+      "grade": 12,
+      "chapter": "Chương V · Tọa độ trong không gian",
+      "lesson": 15,
+      "semester": "HKII",
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 12",
+        "HKII"
+      ],
+      "source_typ": "typst/giao-an/khoi-12/giao-an-12-bai-15-pt-t-trong-kg.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-12/giao-an-12-bai-15-pt-t-trong-kg.typ",
+      "pdf": "typst/giao-an/khoi-12/giao-an-12-bai-15-pt-t-trong-kg.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-12/giao-an-12-bai-15-pt-t-trong-kg.pdf",
+      "base_id": "giao-an-12-bai-15-pt-t-trong-kg"
+    },
+    {
+      "id": "giao-an-12-bai-16-cong-thuc-tinh-goc-trong-kg",
+      "kind": "lesson-plan",
+      "title": "Bài 16 Công thức tính góc trong KG",
+      "grade": 12,
+      "chapter": "Chương V · Tọa độ trong không gian",
+      "lesson": 16,
+      "semester": "HKII",
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 12",
+        "HKII"
+      ],
+      "source_typ": "typst/giao-an/khoi-12/giao-an-12-bai-16-cong-thuc-tinh-goc-trong-kg.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-12/giao-an-12-bai-16-cong-thuc-tinh-goc-trong-kg.typ",
+      "pdf": "typst/giao-an/khoi-12/giao-an-12-bai-16-cong-thuc-tinh-goc-trong-kg.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-12/giao-an-12-bai-16-cong-thuc-tinh-goc-trong-kg.pdf",
+      "base_id": "giao-an-12-bai-16-cong-thuc-tinh-goc-trong-kg"
+    },
+    {
+      "id": "giao-an-12-bai-17-pt-mat-cau",
+      "kind": "lesson-plan",
+      "title": "Bài 17 PT Mặt cầu",
+      "grade": 12,
+      "chapter": "Chương V · Tọa độ trong không gian",
+      "lesson": 17,
+      "semester": "HKII",
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 12",
+        "HKII"
+      ],
+      "source_typ": "typst/giao-an/khoi-12/giao-an-12-bai-17-pt-mat-cau.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-12/giao-an-12-bai-17-pt-mat-cau.typ",
+      "pdf": "typst/giao-an/khoi-12/giao-an-12-bai-17-pt-mat-cau.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-12/giao-an-12-bai-17-pt-mat-cau.pdf",
+      "base_id": "giao-an-12-bai-17-pt-mat-cau"
+    },
+    {
+      "id": "giao-an-12-bai-18-xs-co-k",
+      "kind": "lesson-plan",
+      "title": "Bài 18 XS có ĐK",
+      "grade": 12,
+      "chapter": "Chương VI · Xác suất có điều kiện",
+      "lesson": 18,
+      "semester": "HKII",
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 12",
+        "HKII"
+      ],
+      "source_typ": "typst/giao-an/khoi-12/giao-an-12-bai-18-xs-co-k.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-12/giao-an-12-bai-18-xs-co-k.typ",
+      "pdf": "typst/giao-an/khoi-12/giao-an-12-bai-18-xs-co-k.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-12/giao-an-12-bai-18-xs-co-k.pdf",
+      "base_id": "giao-an-12-bai-18-xs-co-k"
+    },
+    {
+      "id": "giao-an-12-bai-19-cong-thuc-xs",
+      "kind": "lesson-plan",
+      "title": "Bài 19 Công thức XS",
+      "grade": 12,
+      "chapter": "Chương VI · Xác suất có điều kiện",
+      "lesson": 19,
+      "semester": "HKII",
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 12",
+        "HKII"
+      ],
+      "source_typ": "typst/giao-an/khoi-12/giao-an-12-bai-19-cong-thuc-xs.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-12/giao-an-12-bai-19-cong-thuc-xs.typ",
+      "pdf": "typst/giao-an/khoi-12/giao-an-12-bai-19-cong-thuc-xs.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-12/giao-an-12-bai-19-cong-thuc-xs.pdf",
+      "base_id": "giao-an-12-bai-19-cong-thuc-xs"
+    },
+    {
+      "id": "giao-an-12-bai-2-gtln-gtnn-cua-ham-so",
+      "kind": "lesson-plan",
+      "title": "Bài 2 GTLN GTNN của hàm số",
+      "grade": 12,
+      "chapter": "Giáo án HKI",
+      "lesson": 2,
+      "semester": "HKI",
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 12",
+        "HKI"
+      ],
+      "source_typ": "typst/giao-an/khoi-12/giao-an-12-bai-2-gtln-gtnn-cua-ham-so.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-12/giao-an-12-bai-2-gtln-gtnn-cua-ham-so.typ",
+      "pdf": "typst/giao-an/khoi-12/giao-an-12-bai-2-gtln-gtnn-cua-ham-so.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-12/giao-an-12-bai-2-gtln-gtnn-cua-ham-so.pdf",
+      "base_id": "giao-an-12-bai-2-gtln-gtnn-cua-ham-so"
+    },
+    {
+      "id": "giao-an-12-bai-3-uong-tiem-can",
+      "kind": "lesson-plan",
+      "title": "Bài 3 Đường tiệm cận",
+      "grade": 12,
+      "chapter": "Giáo án HKI",
+      "lesson": 3,
+      "semester": "HKI",
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 12",
+        "HKI"
+      ],
+      "source_typ": "typst/giao-an/khoi-12/giao-an-12-bai-3-uong-tiem-can.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-12/giao-an-12-bai-3-uong-tiem-can.typ",
+      "pdf": "typst/giao-an/khoi-12/giao-an-12-bai-3-uong-tiem-can.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-12/giao-an-12-bai-3-uong-tiem-can.pdf",
+      "base_id": "giao-an-12-bai-3-uong-tiem-can"
+    },
+    {
+      "id": "giao-an-12-bai-4-ks-va-ve-t-ham-so",
+      "kind": "lesson-plan",
+      "title": "Bài 4 KS và vẽ ĐT hàm số",
+      "grade": 12,
+      "chapter": "Giáo án HKI",
+      "lesson": 4,
+      "semester": "HKI",
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 12",
+        "HKI"
+      ],
+      "source_typ": "typst/giao-an/khoi-12/giao-an-12-bai-4-ks-va-ve-t-ham-so.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-12/giao-an-12-bai-4-ks-va-ve-t-ham-so.typ",
+      "pdf": "typst/giao-an/khoi-12/giao-an-12-bai-4-ks-va-ve-t-ham-so.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-12/giao-an-12-bai-4-ks-va-ve-t-ham-so.pdf",
+      "base_id": "giao-an-12-bai-4-ks-va-ve-t-ham-so"
+    },
+    {
+      "id": "giao-an-12-bai-5-ung-dung-cua-h-vao-thuc-tien",
+      "kind": "lesson-plan",
+      "title": "Bài 5 Ứng dụng của ĐH vào thực tiễn",
+      "grade": 12,
+      "chapter": "Giáo án HKI",
+      "lesson": 5,
+      "semester": "HKI",
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 12",
+        "HKI"
+      ],
+      "source_typ": "typst/giao-an/khoi-12/giao-an-12-bai-5-ung-dung-cua-h-vao-thuc-tien.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-12/giao-an-12-bai-5-ung-dung-cua-h-vao-thuc-tien.typ",
+      "pdf": "typst/giao-an/khoi-12/giao-an-12-bai-5-ung-dung-cua-h-vao-thuc-tien.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-12/giao-an-12-bai-5-ung-dung-cua-h-vao-thuc-tien.pdf",
+      "base_id": "giao-an-12-bai-5-ung-dung-cua-h-vao-thuc-tien"
+    },
+    {
+      "id": "giao-an-12-bai-6-vecto-trong-kg",
+      "kind": "lesson-plan",
+      "title": "Bài 6 Vecto trong KG",
+      "grade": 12,
+      "chapter": "Giáo án HKI",
+      "lesson": 6,
+      "semester": "HKI",
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 12",
+        "HKI"
+      ],
+      "source_typ": "typst/giao-an/khoi-12/giao-an-12-bai-6-vecto-trong-kg.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-12/giao-an-12-bai-6-vecto-trong-kg.typ",
+      "pdf": "typst/giao-an/khoi-12/giao-an-12-bai-6-vecto-trong-kg.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-12/giao-an-12-bai-6-vecto-trong-kg.pdf",
+      "base_id": "giao-an-12-bai-6-vecto-trong-kg"
+    },
+    {
+      "id": "giao-an-12-bai-7-he-truc-toa-o-trong-kg",
+      "kind": "lesson-plan",
+      "title": "Bài 7 Hệ trục toạ độ trong KG",
+      "grade": 12,
+      "chapter": "Giáo án HKI",
+      "lesson": 7,
+      "semester": "HKI",
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 12",
+        "HKI"
+      ],
+      "source_typ": "typst/giao-an/khoi-12/giao-an-12-bai-7-he-truc-toa-o-trong-kg.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-12/giao-an-12-bai-7-he-truc-toa-o-trong-kg.typ",
+      "pdf": "typst/giao-an/khoi-12/giao-an-12-bai-7-he-truc-toa-o-trong-kg.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-12/giao-an-12-bai-7-he-truc-toa-o-trong-kg.pdf",
+      "base_id": "giao-an-12-bai-7-he-truc-toa-o-trong-kg"
+    },
+    {
+      "id": "giao-an-12-bai-8-bieu-thuc-toa-o",
+      "kind": "lesson-plan",
+      "title": "Bài 8 Biểu thức toạ độ",
+      "grade": 12,
+      "chapter": "Giáo án HKI",
+      "lesson": 8,
+      "semester": "HKI",
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 12",
+        "HKI"
+      ],
+      "source_typ": "typst/giao-an/khoi-12/giao-an-12-bai-8-bieu-thuc-toa-o.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-12/giao-an-12-bai-8-bieu-thuc-toa-o.typ",
+      "pdf": "typst/giao-an/khoi-12/giao-an-12-bai-8-bieu-thuc-toa-o.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-12/giao-an-12-bai-8-bieu-thuc-toa-o.pdf",
+      "base_id": "giao-an-12-bai-8-bieu-thuc-toa-o"
+    },
+    {
+      "id": "giao-an-12-bai-9-khoang-bien-thien",
+      "kind": "lesson-plan",
+      "title": "BÀI 9. KHOẢNG BIẾN THIÊN VÀ KHOẢNG TỨ PHÂN VỊ (PHIÊN BẢN TRẢI NGHIỆM)",
+      "grade": 12,
+      "chapter": "Giáo án HKI",
+      "lesson": 9,
+      "semester": "HKI",
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 12",
+        "HKI"
+      ],
+      "source_typ": "typst/giao-an/khoi-12/giao-an-12-bai-9-khoang-bien-thien.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-12/giao-an-12-bai-9-khoang-bien-thien.typ",
+      "pdf": "typst/giao-an/khoi-12/giao-an-12-bai-9-khoang-bien-thien.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-12/giao-an-12-bai-9-khoang-bien-thien.pdf",
+      "base_id": "giao-an-12-bai-9-khoang-bien-thien"
+    },
+    {
+      "id": "giao-an-12-bai-9-khoang-bt-va-khoang-tu-phan-vi",
+      "kind": "lesson-plan",
+      "title": "Bài 9 Khoảng BT và khoảng tứ phân vị",
+      "grade": 12,
+      "chapter": "Giáo án HKI",
+      "lesson": 9,
+      "semester": "HKI",
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 12",
+        "HKI"
+      ],
+      "source_typ": "typst/giao-an/khoi-12/giao-an-12-bai-9-khoang-bt-va-khoang-tu-phan-vi.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-12/giao-an-12-bai-9-khoang-bt-va-khoang-tu-phan-vi.typ",
+      "pdf": "typst/giao-an/khoi-12/giao-an-12-bai-9-khoang-bt-va-khoang-tu-phan-vi.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-12/giao-an-12-bai-9-khoang-bt-va-khoang-tu-phan-vi.pdf",
+      "base_id": "giao-an-12-bai-9-khoang-bt-va-khoang-tu-phan-vi"
+    },
+    {
+      "id": "giao-an-12-hthtn-1-ks-va-vt-voi-phan-men-geogebra",
+      "kind": "lesson-plan",
+      "title": "HĐTHTN 1 KS và VĐT với phần mền Geogebra",
+      "grade": 12,
+      "chapter": "Giáo án HKI",
+      "lesson": 0,
+      "semester": "HKI",
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 12",
+        "HKI"
+      ],
+      "source_typ": "typst/giao-an/khoi-12/giao-an-12-hthtn-1-ks-va-vt-voi-phan-men-geogebra.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-12/giao-an-12-hthtn-1-ks-va-vt-voi-phan-men-geogebra.typ",
+      "pdf": "typst/giao-an/khoi-12/giao-an-12-hthtn-1-ks-va-vt-voi-phan-men-geogebra.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-12/giao-an-12-hthtn-1-ks-va-vt-voi-phan-men-geogebra.pdf",
+      "base_id": "giao-an-12-hthtn-1-ks-va-vt-voi-phan-men-geogebra"
+    },
+    {
+      "id": "giao-an-12-hthtn-2-ve-vecto-tong-cua-3-vt",
+      "kind": "lesson-plan",
+      "title": "HĐTHTN 2 Vẽ vectơ tổng của 3 VT",
+      "grade": 12,
+      "chapter": "Giáo án HKI",
+      "lesson": 0,
+      "semester": "HKI",
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 12",
+        "HKI"
+      ],
+      "source_typ": "typst/giao-an/khoi-12/giao-an-12-hthtn-2-ve-vecto-tong-cua-3-vt.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-12/giao-an-12-hthtn-2-ve-vecto-tong-cua-3-vt.typ",
+      "pdf": "typst/giao-an/khoi-12/giao-an-12-hthtn-2-ve-vecto-tong-cua-3-vt.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-12/giao-an-12-hthtn-2-ve-vecto-tong-cua-3-vt.pdf",
+      "base_id": "giao-an-12-hthtn-2-ve-vecto-tong-cua-3-vt"
+    },
+    {
+      "id": "giao-an-12-hthtn-3-o-dai-gang-tay",
+      "kind": "lesson-plan",
+      "title": "HĐTHTN 3 Độ dài găng tay",
+      "grade": 12,
+      "chapter": "Giáo án HKI",
+      "lesson": 0,
+      "semester": "HKI",
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 12",
+        "HKI"
+      ],
+      "source_typ": "typst/giao-an/khoi-12/giao-an-12-hthtn-3-o-dai-gang-tay.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-12/giao-an-12-hthtn-3-o-dai-gang-tay.typ",
+      "pdf": "typst/giao-an/khoi-12/giao-an-12-hthtn-3-o-dai-gang-tay.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-12/giao-an-12-hthtn-3-o-dai-gang-tay.pdf",
+      "base_id": "giao-an-12-hthtn-3-o-dai-gang-tay"
+    },
+    {
+      "id": "giao-an-12-hthtn-4-tinh-ng-va-tp-bang-geogebra",
+      "kind": "lesson-plan",
+      "title": "HĐTHTN 4 Tính NG và TP bằng Geogebra",
+      "grade": 12,
+      "chapter": "Thực hành trải nghiệm HKII",
+      "lesson": 0,
+      "semester": "HKII",
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 12",
+        "HKII"
+      ],
+      "source_typ": "typst/giao-an/khoi-12/giao-an-12-hthtn-4-tinh-ng-va-tp-bang-geogebra.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-12/giao-an-12-hthtn-4-tinh-ng-va-tp-bang-geogebra.typ",
+      "pdf": "typst/giao-an/khoi-12/giao-an-12-hthtn-4-tinh-ng-va-tp-bang-geogebra.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-12/giao-an-12-hthtn-4-tinh-ng-va-tp-bang-geogebra.pdf",
+      "base_id": "giao-an-12-hthtn-4-tinh-ng-va-tp-bang-geogebra"
+    },
+    {
+      "id": "giao-an-12-hthtn-5-ve-o-hoa-3d-voi-geogebra",
+      "kind": "lesson-plan",
+      "title": "HĐTHTN 5 Vẽ đồ hoạ 3D với Geogebra",
+      "grade": 12,
+      "chapter": "Thực hành trải nghiệm HKII",
+      "lesson": 0,
+      "semester": "HKII",
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 12",
+        "HKII"
+      ],
+      "source_typ": "typst/giao-an/khoi-12/giao-an-12-hthtn-5-ve-o-hoa-3d-voi-geogebra.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-12/giao-an-12-hthtn-5-ve-o-hoa-3d-voi-geogebra.typ",
+      "pdf": "typst/giao-an/khoi-12/giao-an-12-hthtn-5-ve-o-hoa-3d-voi-geogebra.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-12/giao-an-12-hthtn-5-ve-o-hoa-3d-voi-geogebra.pdf",
+      "base_id": "giao-an-12-hthtn-5-ve-o-hoa-3d-voi-geogebra"
+    },
+    {
+      "id": "giao-an-12-on-tap-chuong-1",
+      "kind": "lesson-plan",
+      "title": "Ôn tập chương 1",
+      "grade": 12,
+      "chapter": "Giáo án HKI",
+      "lesson": 0,
+      "semester": "HKI",
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 12",
+        "HKI"
+      ],
+      "source_typ": "typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-1.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-1.typ",
+      "pdf": "typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-1.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-12/giao-an-12-on-tap-chuong-1.pdf",
+      "base_id": "giao-an-12-on-tap-chuong-1"
+    },
+    {
+      "id": "giao-an-12-on-tap-chuong-2",
+      "kind": "lesson-plan",
+      "title": "Ôn tập chương 2",
+      "grade": 12,
+      "chapter": "Giáo án HKI",
+      "lesson": 0,
+      "semester": "HKI",
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 12",
+        "HKI"
+      ],
+      "source_typ": "typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-2.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-2.typ",
+      "pdf": "typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-2.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-12/giao-an-12-on-tap-chuong-2.pdf",
+      "base_id": "giao-an-12-on-tap-chuong-2"
+    },
+    {
+      "id": "giao-an-12-on-tap-chuong-3",
+      "kind": "lesson-plan",
+      "title": "Ôn tập chương 3",
+      "grade": 12,
+      "chapter": "Giáo án HKI",
+      "lesson": 0,
+      "semester": "HKI",
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 12",
+        "HKI"
+      ],
+      "source_typ": "typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-3.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-3.typ",
+      "pdf": "typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-3.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-12/giao-an-12-on-tap-chuong-3.pdf",
+      "base_id": "giao-an-12-on-tap-chuong-3"
+    },
+    {
+      "id": "giao-an-12-on-tap-chuong-4",
+      "kind": "lesson-plan",
+      "title": "Ôn tập chương 4",
+      "grade": 12,
+      "chapter": "Ôn tập chương 4",
+      "lesson": 0,
+      "semester": "HKII",
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 12",
+        "HKII"
+      ],
+      "source_typ": "typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-4.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-4.typ",
+      "pdf": "typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-4.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-12/giao-an-12-on-tap-chuong-4.pdf",
+      "base_id": "giao-an-12-on-tap-chuong-4"
+    },
+    {
+      "id": "giao-an-12-on-tap-chuong-5",
+      "kind": "lesson-plan",
+      "title": "Ôn tập chương 5",
+      "grade": 12,
+      "chapter": "Ôn tập chương 5",
+      "lesson": 0,
+      "semester": "HKII",
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 12",
+        "HKII"
+      ],
+      "source_typ": "typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-5.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-5.typ",
+      "pdf": "typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-5.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-12/giao-an-12-on-tap-chuong-5.pdf",
+      "base_id": "giao-an-12-on-tap-chuong-5"
+    },
+    {
+      "id": "giao-an-12-on-tap-chuong-6",
+      "kind": "lesson-plan",
+      "title": "Ôn tập chương 6",
+      "grade": 12,
+      "chapter": "Ôn tập chương 6",
+      "lesson": 0,
+      "semester": "HKII",
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 12",
+        "HKII"
+      ],
+      "source_typ": "typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-6.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-6.typ",
+      "pdf": "typst/giao-an/khoi-12/giao-an-12-on-tap-chuong-6.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-12/giao-an-12-on-tap-chuong-6.pdf",
+      "base_id": "giao-an-12-on-tap-chuong-6"
+    },
+    {
+      "id": "giao-an-12-on-tap-cuoi-ky-1",
+      "kind": "lesson-plan",
+      "title": "Ôn tập cuối kỳ 1",
+      "grade": 12,
+      "chapter": "Giáo án HKI",
+      "lesson": 0,
+      "semester": "HKI",
+      "status": "ready",
+      "tags": [
+        "giáo án",
+        "Khối 12",
+        "HKI"
+      ],
+      "source_typ": "typst/giao-an/khoi-12/giao-an-12-on-tap-cuoi-ky-1.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/giao-an/khoi-12/giao-an-12-on-tap-cuoi-ky-1.typ",
+      "pdf": "typst/giao-an/khoi-12/giao-an-12-on-tap-cuoi-ky-1.pdf",
+      "pdf_url": "atlas-pdfs/giao-an-12/giao-an-12-on-tap-cuoi-ky-1.pdf",
+      "base_id": "giao-an-12-on-tap-cuoi-ky-1"
     },
     {
       "id": "beamer-12-bai-1-tinh-on-dieu-cuc-tri",
@@ -1729,7 +3309,7 @@
       "grade": 12,
       "chapter": "Bài giảng",
       "lesson": 1,
-      "status": "ready",
+      "status": "draft",
       "tags": [
         "beamer",
         "Bài giảng",
@@ -1738,7 +3318,7 @@
       "source_typ": "typst/beamer/khoi-12/beamer-12-bai-1-premium-test.typ",
       "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/khoi-12/beamer-12-bai-1-premium-test.typ",
       "pdf": "typst/beamer/khoi-12/beamer-12-bai-1-premium-test.pdf",
-      "pdf_url": "https://raw.githubusercontent.com/sangnhc87/conictypst/main/typst/beamer/khoi-12/beamer-12-bai-1-premium-test.pdf",
+      "pdf_url": null,
       "base_id": "beamer-12-bai-1-premium-test"
     },
     {
@@ -1778,6 +3358,25 @@
       "pdf": "typst/beamer/khoi-12/beamer-12-bai-1-tinh-on-dieu-cuc-tri.pdf",
       "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-12-bai-1-tinh-on-dieu-cuc-tri.pdf",
       "base_id": "beamer-12-bai-1-tinh-on-dieu-cuc-tri"
+    },
+    {
+      "id": "beamer-12-hkii-bo-day-du",
+      "kind": "beamer",
+      "title": "Bộ bài giảng HKII: Nguyên hàm, Tọa độ, Xác suất",
+      "grade": 12,
+      "chapter": "Học kỳ II · Chương IV–VI",
+      "lesson": null,
+      "status": "ready",
+      "tags": [
+        "beamer",
+        "Học kỳ II · Chương IV–VI",
+        "Khối 12"
+      ],
+      "source_typ": "typst/beamer/khoi-12/beamer-12-hkii-bo-day-du.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/beamer/khoi-12/beamer-12-hkii-bo-day-du.typ",
+      "pdf": "web-app/public/pdfs/beamer-12-hkii-bo-day-du.pdf",
+      "pdf_url": "https://beamer-gjv.pages.dev/pdfs/beamer-12-hkii-bo-day-du.pdf",
+      "base_id": "beamer-12-hkii-bo-day-du"
     },
     {
       "id": "beamer-11-mu-bai-1-luy-thua",
@@ -1937,7 +3536,7 @@
       "title": "udh phan1 c1",
       "grade": 12,
       "chapter": "Ứng dụng đạo hàm",
-      "lesson": 0,
+      "lesson": null,
       "status": "ready",
       "tags": [
         "beamer",
@@ -1956,7 +3555,7 @@
       "title": "udh phan1 c2",
       "grade": 12,
       "chapter": "Ứng dụng đạo hàm",
-      "lesson": 0,
+      "lesson": null,
       "status": "ready",
       "tags": [
         "beamer",
@@ -1975,7 +3574,7 @@
       "title": "udh phan1 c3",
       "grade": 12,
       "chapter": "Dãy số",
-      "lesson": 0,
+      "lesson": null,
       "status": "ready",
       "tags": [
         "beamer",
@@ -1994,7 +3593,7 @@
       "title": "udh phan2 c1",
       "grade": 12,
       "chapter": "Ứng dụng đạo hàm",
-      "lesson": 0,
+      "lesson": null,
       "status": "ready",
       "tags": [
         "beamer",
@@ -2013,7 +3612,7 @@
       "title": "udh phan2 c2",
       "grade": 12,
       "chapter": "Ứng dụng đạo hàm",
-      "lesson": 0,
+      "lesson": null,
       "status": "ready",
       "tags": [
         "beamer",
@@ -2032,7 +3631,7 @@
       "title": "udh phan2 c3",
       "grade": 12,
       "chapter": "Dãy số",
-      "lesson": 0,
+      "lesson": null,
       "status": "ready",
       "tags": [
         "beamer",
@@ -2051,7 +3650,7 @@
       "title": "udh phan2 review",
       "grade": 12,
       "chapter": "Ứng dụng đạo hàm",
-      "lesson": 0,
+      "lesson": null,
       "status": "ready",
       "tags": [
         "beamer",
@@ -2070,7 +3669,7 @@
       "title": "udh phan3 c1",
       "grade": 12,
       "chapter": "Ứng dụng đạo hàm",
-      "lesson": 0,
+      "lesson": null,
       "status": "ready",
       "tags": [
         "beamer",
@@ -2089,7 +3688,7 @@
       "title": "udh phan3 c2",
       "grade": 12,
       "chapter": "Ứng dụng đạo hàm",
-      "lesson": 0,
+      "lesson": null,
       "status": "ready",
       "tags": [
         "beamer",
@@ -2108,7 +3707,7 @@
       "title": "udh phan3 c3",
       "grade": 12,
       "chapter": "Dãy số",
-      "lesson": 0,
+      "lesson": null,
       "status": "ready",
       "tags": [
         "beamer",

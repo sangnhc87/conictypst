@@ -1,6 +1,7 @@
 (() => {
     'use strict';
 
+    const OWNER_EMAILS = new Set(['nguyensangnhc@gmail.com', 'sangbeau@gmail.com']);
     const OWNER_EMAIL = 'nguyensangnhc@gmail.com';
     const FUNCTIONS_REGION = 'asia-southeast1';
     const PRODUCT_ORDER = ['hub', 'hdsd', 'omr'];
@@ -146,7 +147,7 @@
         el.accountEmail.textContent = user.email || '—';
         setAvatar(el.accountAvatar, user.photoURL, user.displayName || user.email || 'GV');
         setAvatar(el.accountTopAvatar, user.photoURL, user.displayName || user.email || 'GV');
-        el.adminPortalLink.hidden = normalizeEmail(user.email) !== OWNER_EMAIL;
+        el.adminPortalLink.hidden = !OWNER_EMAILS.has(normalizeEmail(user.email));
         if (state.loadedUid !== user.uid) {
             state.loadedUid = user.uid;
             await loadAccount();
@@ -162,7 +163,7 @@
             state.account = data.profile || data.account || data.user || {};
             state.memberships = normalizeMemberships(data);
             mergeProducts(data.products);
-            el.adminPortalLink.hidden = !Boolean(data.isAdmin || data.admin?.isOwner || normalizeEmail(state.user.email) === OWNER_EMAIL);
+            el.adminPortalLink.hidden = !Boolean(data.isAdmin || data.admin?.isOwner || OWNER_EMAILS.has(normalizeEmail(state.user.email)));
             if (state.account.displayName) el.accountName.textContent = state.account.displayName;
             if (state.account.email) el.accountEmail.textContent = state.account.email;
             renderProducts();

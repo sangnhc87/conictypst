@@ -10,6 +10,19 @@
   <link rel="stylesheet" href="dashboard.css" />
   <script defer src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
   <script src="global-nav.js" defer></script>
+  <script>
+    // GeoGebra 3D's legacy web3d bundle tries to register `unload`.
+    // Chromium now rejects that listener under Permissions Policy and logs a
+    // noisy violation. It is only a cleanup hook, so ignore that one legacy
+    // registration while preserving every other event listener.
+    (() => {
+      const nativeAddEventListener = window.addEventListener.bind(window);
+      window.addEventListener = function safeAddEventListener(type, listener, options) {
+        if (String(type).toLowerCase() === 'unload') return;
+        return nativeAddEventListener(type, listener, options);
+      };
+    })();
+  </script>
   <!-- TikZJax for rendering -->
   <!-- GeoGebra API Primary Loader -->
   <script src="https://cdn.geogebra.org/apps/deployggb.js"></script>
@@ -151,8 +164,6 @@
   </style>
 
   <!-- 1-Click Templates -->
-  <script src="ggb-templates.js" defer></script>
-  <script src="ggb-template-ui.js" defer></script>
 </head>
 <body>
   <!-- Header injected from global-nav.js -->
@@ -188,7 +199,6 @@
         <div style="font-size: 0.74rem; line-height: 1.35; color: #94a3b8;">
           Vẽ trong GeoGebra 3D, hệ thống chiếu giả 3D về TikZ 2D để chèn vào LaTeX/PDF ổn định.
         </div>
-        
         <!-- Controls panel for rotation sliders & options -->
         <div style="display: flex; flex-direction: column; gap: 8px; background: #0f172a; padding: 12px; border-radius: 8px; border: 1px solid #334155; margin-top: 4px;">
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
@@ -473,6 +483,12 @@
         const v = normalize3(cross3(axis, u));
         return { u, v };
       };
+      const axisVector = name => {
+        const key = String(name || '').toLowerCase();
+        if (key.includes('xaxis')) return { x: 1, y: 0, z: 0 };
+        if (key.includes('yaxis')) return { x: 0, y: 1, z: 0 };
+        return { x: 0, y: 0, z: 1 };
+      };
       const projectedCircle = (center, u, v, radius, samples = 48) => {
         const pts = [];
         for (let i = 0; i < samples; i++) {
@@ -531,10 +547,23 @@
         // Orthographic projection formula mapping 3D space to 2D view plane
         let u = -x * Math.sin(theta) + y * Math.cos(theta);
         let v = -x * Math.cos(theta) * Math.sin(phi) - y * Math.sin(theta) * Math.sin(phi) + z * Math.cos(phi);
+        let depth = x * camera_w.x + y * camera_w.y + z * camera_w.z;
         return {
           x: Math.round(u * 100) / 100,
-          y: Math.round(v * 100) / 100
+          y: Math.round(v * 100) / 100,
+          depth,
         };
+      };
+
+      const numericInput = (value, fallback = NaN) => {
+        const direct = Number(value);
+        if (Number.isFinite(direct)) return direct;
+        try {
+          const evaluated = Number(window.ggbApplet?.getValue?.(value));
+          return Number.isFinite(evaluated) ? evaluated : fallback;
+        } catch (_) {
+          return fallback;
+        }
       };
 
       const intersectRayTriangle = (orig, dir, v0, v1, v2) => {
@@ -589,6 +618,18 @@
            let z = window.ggbApplet.getValue(`z(Vertex[${objName}, ${j}])`);
            let proj = project(x, y, z);
            verts.push(pt2(proj));
+        }
+        return verts;
+      };
+
+      let extractVertexPoints = (objName) => {
+        let verts = [];
+        for (let j = 1; j <= 40; j++) {
+          let x = numericInput(window.ggbApplet?.getValue?.(`x(Vertex[${objName}, ${j}])`));
+          let y = numericInput(window.ggbApplet?.getValue?.(`y(Vertex[${objName}, ${j}])`));
+          let z = numericInput(window.ggbApplet?.getValue?.(`z(Vertex[${objName}, ${j}])`));
+          if (![x, y, z].every(Number.isFinite)) break;
+          verts.push({ x, y, z });
         }
         return verts;
       };
@@ -818,37 +859,7 @@
               
               drawSegments.push({ depth, code: `    \\draw${strokeStr} ${pStrA} -- ${pStrB};\n` });
           }
-        } else if (cmdInfo && cmdInfo.name === "Polygon") {
-            let polyPts = [];
-            let isRegular = cmdInfo.inputs.length === 3 && !isNaN(parseInt(cmdInfo.inputs[2]));
-            if (isRegular) {
-               polyPts = [cmdInfo.inputs[0], cmdInfo.inputs[1]];
-               for (let j = 0; j < cmdInfo.outputs.length; j++) {
-                  let outLabel = cmdInfo.outputs[j];
-                  if (points[outLabel]) polyPts.push(outLabel);
-               }
-            } else {
-               polyPts = [...cmdInfo.inputs];
-            }
-            let edges = [];
-            for (let j = 1; j < cmdInfo.outputs.length; j++) {
-               let outLabel = cmdInfo.outputs[j];
-               if (!points[outLabel]) edges.push(outLabel);
-            }
-            let edgeIdx = edges.indexOf(label);
-            if (edgeIdx !== -1) {
-               let p1Name = polyPts[edgeIdx];
-               let p2Name = polyPts[(edgeIdx + 1) % polyPts.length];
-               drawSegments.push(`    \\draw${strokeStr} ${getCoord(p1Name)} -- ${getCoord(p2Name)};\n`);
-            }
-          } else {
-            let rawPts = extractVertices(label);
-            if (rawPts.length >= 2) {
-               drawSegments.push(`    \\draw${strokeStr} ${rawPts[0]} -- ${rawPts[1]};\n`);
-            }
-          }
-        } 
-        else if (type && type.startsWith("polygon")) {
+        } else if (type && type.startsWith("polygon")) {
           let polyPts = getPointsFromDefinition(label, type);
           if (!polyPts && cmdInfo && cmdInfo.name === "Polygon") {
             let isRegular = cmdInfo.inputs.length === 3 && !isNaN(parseInt(cmdInfo.inputs[2]));
@@ -860,6 +871,32 @@
                }
             } else {
                polyPts = [...cmdInfo.inputs];
+            }
+          }
+
+          // Objects created by Rotate/Translate/Reflect and polyhedra often
+          // have no Polygon command of their own.  GeoGebra still exposes
+          // their generated face vertices through Vertex[], so use that as a
+          // language-independent fallback instead of silently dropping them.
+          if (!polyPts || polyPts.filter(p => points[p]).length < 3) {
+            const generated = extractVertexPoints(label);
+            if (generated.length >= 3) {
+              const sum = generated.reduce((acc, p) => ({
+                x: acc.x + p.x,
+                y: acc.y + p.y,
+                z: acc.z + p.z,
+              }), { x: 0, y: 0, z: 0 });
+              const avg = {
+                x: sum.x / generated.length,
+                y: sum.y / generated.length,
+                z: sum.z / generated.length,
+              };
+              const depth = avg.x * camera_w.x + avg.y * camera_w.y + avg.z * camera_w.z;
+              const generatedCoords = generated.map(p => pt2(project(p.x, p.y, p.z)));
+              const generatedCode = `    \\path${polyFillStr} ${generatedCoords.join(' -- ')} -- cycle;\n`
+                + `    \\draw${strokeStr} ${generatedCoords.join(' -- ')} -- cycle;\n`;
+              drawPolygons.push({ depth, code: generatedCode });
+              continue;
             }
           }
           
@@ -996,6 +1033,22 @@
              }
           }
         }
+        else if (type === "conic" && cmdInfo && /^(Circle|Circle3D)$/i.test(cmdInfo.name)) {
+          const center = points[cmdInfo.inputs[0]];
+          const radius = numericInput(cmdInfo.inputs[1], 1);
+          if (center && Number.isFinite(radius) && radius > 0) {
+            const normal = points[cmdInfo.inputs[2]]
+              ? sub3(points[cmdInfo.inputs[2]], center)
+              : axisVector(cmdInfo.inputs[2]);
+            const axisTip = addScaled3(center, normalize3(normal), 1, { x: 0, y: 0, z: 0 }, 0);
+            const basis = basisFromAxis(center, axisTip);
+            const ring = projectedCircle(center, basis.u, basis.v, radius, 64);
+            const depth = center.x * camera_w.x + center.y * camera_w.y + center.z * camera_w.z;
+            const circleCode = `    \\path${polyFillStr} ${ring.join(' -- ')} -- cycle;\n`
+              + `    \\draw${strokeStr} ${ring.join(' -- ')} -- cycle;\n`;
+            drawPolygons.push({ depth, code: circleCode });
+          }
+        }
         else if (type === "quadric") {
           if (cmdInfo && cmdInfo.name === "Sphere") {
          let pCenter = points[cmdInfo.inputs[0]];
@@ -1005,7 +1058,7 @@
                 let p2 = points[cmdInfo.inputs[1]];
                 rVal = Math.hypot(p2.x - pCenter.x, p2.y - pCenter.y, p2.z - pCenter.z);
              } else {
-                rVal = parseFloat(cmdInfo.inputs[1]) || 1;
+                rVal = numericInput(cmdInfo.inputs[1], 1);
              }
              let qCode = `    % Sphere ${label} projected to 2D\n`;
              const c2d = project(pCenter.x, pCenter.y, pCenter.z);
@@ -1037,7 +1090,7 @@
           } else if (cmdInfo && cmdInfo.name === "Cylinder") {
              let p1 = points[cmdInfo.inputs[0]];
              let p2 = points[cmdInfo.inputs[1]];
-             let rVal = parseFloat(cmdInfo.inputs[2]) || 1;
+             let rVal = numericInput(cmdInfo.inputs[2], 1);
              if (p1 && p2) {
                  const c1 = { x: p1.x, y: p1.y, z: p1.z };
                  const c2 = { x: p2.x, y: p2.y, z: p2.z };
@@ -1082,7 +1135,7 @@
           } else if (cmdInfo && cmdInfo.name === "Cone") {
              let pCenter = points[cmdInfo.inputs[0]];
              let pApex = points[cmdInfo.inputs[1]];
-             let rVal = parseFloat(cmdInfo.inputs[2]) || 1;
+             let rVal = numericInput(cmdInfo.inputs[2], 1);
              if (pCenter && pApex) {
                  const c = { x: pCenter.x, y: pCenter.y, z: pCenter.z };
                  const apex = { x: pApex.x, y: pApex.y, z: pApex.z };
@@ -1140,9 +1193,9 @@
                  if (isRightAngle) { 
                      const w_orth = normalize3(sub3(w_v, { x: u_v.x*dot, y: u_v.y*dot, z: u_v.z*dot }));
                      const pt1 = addScaled3(pB, u_v, angleRadius, w_orth, 0);
-                     const pt2 = addScaled3(pB, u_v, angleRadius, w_orth, angleRadius);
-                     const pt3 = addScaled3(pB, u_v, 0, w_orth, angleRadius);
-                     let pathCmd = `${pt2(project(pB.x, pB.y, pB.z))} -- ${pt2(project(pt1.x, pt1.y, pt1.z))} -- ${pt2(project(pt2.x, pt2.y, pt2.z))} -- ${pt2(project(pt3.x, pt3.y, pt3.z))} -- cycle`;
+                     const pCorner = addScaled3(pB, u_v, angleRadius, w_orth, angleRadius);
+                     const p3 = addScaled3(pB, u_v, 0, w_orth, angleRadius);
+                     let pathCmd = `${pt2(project(pB.x, pB.y, pB.z))} -- ${pt2(project(pt1.x, pt1.y, pt1.z))} -- ${pt2(project(pCorner.x, pCorner.y, pCorner.z))} -- ${pt2(project(p3.x, p3.y, p3.z))} -- cycle`;
                      arcCode += `    \\path${polyFillStr} ${pathCmd};\n`;
                      arcCode += `    \\draw${strokeStr} ${pathCmd};\n`;
                  } else { 

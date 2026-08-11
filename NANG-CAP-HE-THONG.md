@@ -223,6 +223,33 @@ Nguyên tắc: **type-check/compile qua ≠ tính năng đúng.** Luôn mở th�
   - ⚠️ **CẦN LÀM KHI DEPLOY:** apply migration mới thì rate-limit mới bật:
     `cd sang-math-store && npx wrangler d1 migrations apply sang-math-store-orders --remote`
     (chưa apply cũng KHÔNG sao — code tự fallback về hành vi cũ, không vỡ).
+- **2026-07-23** — ✅ **NÂNG CẤP BBT + bbt-live XONG.**
+  - Thêm macro mới `bxd-tich` (bảng xét dấu TÍCH/THƯƠNG tự tính dòng kết quả) vào
+    `bbt.typ`, đồng bộ 4 bản: `typst-pkg-sang-math/`, `src/typst-system/`,
+    `public/hdsd/typst/`, `typst/`. Cả 4 compile OK (Typst 0.15). Thuần thêm,
+    không đụng 8 macro cũ.
+  - **bbt-live.html: sửa gốc rễ "như rác".** Trước đây preview là bảng HTML giả
+    lập (mũi tên ↗↘ trong ô), khác hẳn output Typst. Giờ render **Typst WASM thật**
+    (tái dùng engine `playground.js` + import map jsDelivr như `index.html`), preview
+    = output PDF chính xác. Cập nhật regex trong `playground.js` để nhận `bxd-tich`,
+    `bang-gia-tri`, `bang-phan-phoi`, `auto-bbt`.
+  - Đã TEST trình duyệt thật (playwright headless): status "✓ Render Typst thật",
+    SVG 358px/6 phần tử render vào `#typstReal`, không lỗi console. PASS.
+  - LƯU Ý người sau: bbt-live giữ thêm "preview HTML nhanh" (trong `<details>`) làm
+    phản hồi tức thì lúc WASM đang tải lần đầu. WASM tải từ CDN ~vài MB, lần đầu chậm.
+- **2026-07-23** — ✅ **THỐNG KÊ NGƯỜI DÙNG HUB (số THẬT) XONG.**
+  - Backend `conictypst-platform/functions/studio-sync.js`: thêm `studioRefreshStats`
+    (scheduled mỗi 6h, đếm bằng `count()` aggregation → rẻ) ghi `stats/studio`;
+    `studioGetStats` (callable, đọc cache, chỉ tính lại nếu >1h). Chỉ số tổng
+    (giáo viên / tài liệu / bản Pro), KHÔNG PII.
+  - `firestore.rules`: cho đọc công khai ĐÚNG `stats/studio` (`allow get: if true`),
+    ghi chỉ Cloud Function. Các rule khác giữ deny-by-default.
+  - Frontend `firebaseSync.js` (`fetchStudioStats`, lỗi→null) + `HubStudio.jsx`
+    (UpgradeDialog hiện "X giáo viên · Y tài liệu" — CHỈ khi teachers≥5 để số nhỏ
+    lúc đầu không phản tác dụng). Build hub PASS (`✓ built in 13s`).
+  - ⚠️ **CẦN LÀM KHI DEPLOY:** deploy Cloud Functions (`studioRefreshStats`,
+    `studioGetStats`) + deploy `firestore.rules` mới. Chưa deploy thì UI tự ẩn
+    thống kê (fetchStudioStats trả null) — KHÔNG vỡ gì.
 - Bước kế đề xuất: PHASE 2 tách monolith, hoặc siết CORS orders (rủi ro thấp).
 - _(mục tiếp theo…)_
 

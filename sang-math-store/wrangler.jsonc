@@ -1,0 +1,19 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "sang-math-store",
+  "pages_build_output_dir": "./dist",
+  "compatibility_date": "2026-07-20",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "sang-math-store-orders",
+      "database_id": "c1ec8cc8-d49b-40b9-9bdf-af00a7d9fcc7"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "DOWNLOADS",
+      "bucket_name": "sang-math-store-downloads"
+    }
+  ]
+}

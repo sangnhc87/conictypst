@@ -1,6 +1,6 @@
 // ================================================================
-// SANG-MATH 1.0.1 — Bộ macro Toán THPT Việt Nam
-// Entry point: #import "@preview/sang-math:1.0.1": *
+// SANG-MATH 1.0.4 — Bộ macro Toán THPT Việt Nam
+// Entry point: #import "@preview/sang-math:1.0.4": *
 // ================================================================
 
 // ── Stable public API ────────────────────────────────────────────
@@ -8,6 +8,7 @@
 #import "sang-exam.typ": *      // Trắc nghiệm, Tự luận, q-wrap...
 #import "exam-templates.typ": * // Preset giao diện đề thi đẹp
 #import "book-templates.typ": * // Preset giao diện sách, SGK, chuyên đề
+#import "print-layouts.typ": *  // Layout đề 70/30 có vùng nháp đổi bên chẵn/lẻ
 #import "math-sym.typ": *       // Ký hiệu toán tắt (vô cùng, tập hợp...)
 #import "geometry.typ": *       // Hình học phẳng/không gian CeTZ (legacy v1)
 

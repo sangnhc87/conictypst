@@ -1,6 +1,7 @@
 export const QUESTIONS_START = '// === CONICTYPST:QUESTIONS:START ==='
 export const QUESTIONS_END = '// === CONICTYPST:QUESTIONS:END ==='
 
+const RUNTIME_PACKAGE_VERSION = '1.0.3'
 const BUNDLED_MODULE_PATTERN = String.raw`(?:sang-exam|bbt|math-sym|lib)\.typ`
 
 // Các đề cũ thường import ba file runtime nằm ở thư mục cha. Khi giáo viên

@@ -17,6 +17,7 @@
 #let resetstep = se.reset-step
 
 #let two-column-mode = if mode == "loigiai" { false } else { true }
+#let compact-layout = sys.inputs.at("layout", default: "legacy") == "compact"
 
 #let tfrac(num, den) = {
   show math.frac: f => f
@@ -38,23 +39,56 @@
 )
 
 
-#let line-pattern = tiling(size: (20cm, 22pt))[
+#let line-pattern = tiling(size: (20cm, if compact-layout { 16pt } else { 22pt }))[
   #place(bottom, line(length: 20cm, stroke: (paint: gray.darken(90%), thickness: 0.25pt, dash: "dashed")))
 ]
 
-#let q-wrap(q-content, height: auto, dir: "doc", lines: auto) = context {
+#let q-wrap(q-content, height: auto, dir: "doc", lines: auto, kind: "short") = context {
   if two-column-mode {
+    // Bản in compact: giữ chỗ làm bài theo từng dạng câu.
+    // Các câu hình/bảng đã khai báo lines: 0 sẽ không sinh vùng nháp thừa.
+    let effective-lines = if compact-layout {
+      if lines == 0 { 0 }
+      else if kind == "mcq" {
+        if type(lines) == int { calc.min(lines, 1) } else { 1 }
+      } else if kind == "tf" {
+        if type(lines) == int { calc.min(lines, 2) } else { 2 }
+      } else {
+        if type(lines) == int { calc.min(lines, 3) } else { 2 }
+      }
+    } else {
+      lines
+    }
+
+    if effective-lines == 0 {
+      block(breakable: true, width: 100%)[
+        #table(
+          columns: (1fr,),
+          align: (left + top,),
+          stroke: .8pt + blue,
+          inset: (x: 8pt, y: if compact-layout { 6pt } else { 8pt }),
+          [
+            #q-content
+          ]
+        )
+      ]
+      v(if compact-layout { -0.28em } else { 0.3em })
+      return
+    }
+
     let measure-width = if dir == "ngang" { 8.1cm } else { 17.5cm }
     let size = measure(block(width: measure-width)[#q-content])
     let q-height = size.height
     
-    let rect-h = if height != auto {
+    let requested-h = if height != auto {
       height
-    } else if type(lines) == int {
-      lines * 22pt
+    } else if type(effective-lines) == int {
+      effective-lines * (if compact-layout { 16pt } else { 22pt })
     } else {
-      calc.max(88pt, q-height - 12pt)
+      if compact-layout { 48pt } else { calc.max(88pt, q-height - 12pt) }
     }
+
+    let rect-h = requested-h
     
     if dir == "ngang" {
       block(breakable: true, width: 100%)[
@@ -62,14 +96,21 @@
           columns: (1fr, 1.15fr),
           align: (left + top, left + top),
           stroke: .8pt + blue,
-          inset: 8pt,
+          inset: (x: 8pt, y: if compact-layout { 6pt } else { 8pt }),
           [
             #q-content
           ],
-          [
-            #text(size: 8pt, fill: gray.lighten(10%))[_Bài làm / Nháp:_]
+          table.cell(fill: if compact-layout { line-pattern } else { none })[
+            #box(fill: white, inset: (right: 4pt, bottom: 2pt))[
+              #text(size: 8pt, fill: gray.lighten(10%))[_Bài làm / Nháp:_]
+            ]
             #v(0.3em)
-            #rect(width: 100%, height: rect-h, stroke: none, fill: line-pattern)
+            #rect(
+              width: 100%,
+              height: rect-h,
+              stroke: none,
+              fill: if compact-layout { none } else { line-pattern },
+            )
           ]
         )
       ]
@@ -79,7 +120,7 @@
           columns: (1fr,),
           align: (left + top,), 
           stroke: .8pt + blue,
-          inset: 8pt,
+          inset: (x: 8pt, y: if compact-layout { 6pt } else { 8pt }),
           [
             #q-content
           ],
@@ -91,15 +132,17 @@
         )
       ]
     }
-    v(0.3em)
+    // Khung câu hỏi của sang-exam đã có khoảng dưới riêng; bản compact
+    // kéo các khung sát lại để tránh cộng spacing hai lần.
+    v(if compact-layout { -0.28em } else { 0.3em })
   } else {
     q-content
   }
 }
 
-#let tn(dir: "ngang", lines: auto, ..args) = q-wrap(dir: dir, lines: lines, mcq(..args, lines: 0))
-#let ds(dir: "doc", lines: auto, ..args) = q-wrap(dir: dir, lines: lines, tf(..args, lines: 0))
-#let tln(dir: "ngang", lines: auto, ..args) = q-wrap(dir: dir, lines: lines, short(..args, lines: 0))
+#let tn(dir: "ngang", lines: auto, ..args) = q-wrap(dir: dir, lines: lines, kind: "mcq", mcq(..args, lines: 0))
+#let ds(dir: "doc", lines: auto, ..args) = q-wrap(dir: dir, lines: lines, kind: "tf", tf(..args, lines: 0))
+#let tln(dir: "ngang", lines: auto, ..args) = q-wrap(dir: dir, lines: lines, kind: "short", short(..args, lines: 0))
 
 
 #let my-bxd(..args) = {
@@ -175,7 +218,7 @@
   set page(
     paper: "a4",
     flipped: landscape,
-    margin: (top: 1.2cm, bottom: 1.2cm, x: 1cm),
+    margin: if compact-layout { (top: 1.0cm, bottom: 1.0cm, x: 0.8cm) } else { (top: 1.2cm, bottom: 1.2cm, x: 1cm) },
     header: context {
       if counter(page).get().first() <= 2 { return none }
       set text(size: 8.5pt, fill: rgb("#666"))
@@ -195,15 +238,8 @@
       ])
     }
   )
-  set text(font: "Libertinus Serif", size: 12pt, lang: "vi")
+  set text(font: "Libertinus Serif", size: if compact-layout { 11pt } else { 12pt }, lang: "vi")
   set par(justify: true, leading: 0.75em)
-  show math.equation.where(block: false): it => {
-    if repr(it).contains("frac") {
-      box(inset: (y: 0.16em))[#math.display(it)]
-    } else {
-      math.display(it)
-    }
-  }
   set enum(numbering: "1.")
   set list(marker: [–])
 
@@ -224,7 +260,7 @@
   show heading.where(level: 2): it => {
     let chap = counter(heading).at(it.location()).first()
     let mau = if chap == 1 { C1 } else if chap == 2 { C2 } else if chap == 3 { C3 } else { theme-color }
-    v(1.5em)
+    v(if compact-layout { 0.8em } else { 1.5em })
     block(width: 100%, breakable: false)[
       #grid(
         columns: (auto, 1fr),
@@ -251,7 +287,7 @@
       #v(0.3em)
       #rect(width: 100%, height: 1.5pt, fill: mau.lighten(50%), stroke: none)
     ]
-    v(0.8em)
+    v(if compact-layout { 0.4em } else { 0.8em })
   }
   show heading.where(level: 3): it => block(above: 1.2em, below: 0.5em)[
     #text(size: 12pt, weight: "bold", fill: rgb("#2c3e50"))[#it.body]

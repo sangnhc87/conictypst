@@ -5,10 +5,8 @@ entrypoint = "lib.typ"
 authors = ["Sang Math"]
 license = "MIT"
 description = "Package vẽ các hình Toán phức tạp: không gian, conic, đường xoắn ốc, mặt cong..."
-repository = "https://github.com/yourname/sang-math-graphics"
+repository = "https://github.com/sangnhc87/conictypst"
+homepage = "https://hdsd-conictypst.pages.dev"
 keywords = ["cetz", "geometry", "3d", "conic", "math", "typst"]
 categories = ["visualization"]
 compiler = "0.14.0"
-
-[tool]
-entrypoint = "lib.typ"

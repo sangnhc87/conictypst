@@ -16,8 +16,9 @@ ConicTypst nằm trong project `conictypst-platform`.
   viên ở `/account`.
 - Trang admin chỉ thao tác qua callable Functions; trình duyệt không có quyền
   ghi trực tiếp dữ liệu quản trị.
-- Owner khởi tạo duy nhất qua email Google đã xác minh
-  `nguyensangnhc@gmail.com`. Production hiện không cấu hình thêm owner nào.
+- Hai owner/super admin khởi tạo qua email Google đã xác minh là
+  `nguyensangnhc@gmail.com` và `sangbeau@gmail.com`; cả hai luôn được dùng đầy
+  đủ tính năng mà không cần mua gói.
 - `platformAdmins/{uid}` đang active là nguồn quyền quản trị chính thức; custom
   claim chỉ là cache cho giao diện và không thể vượt qua bản ghi bị tạm dừng.
 
@@ -37,6 +38,9 @@ ConicTypst nằm trong project `conictypst-platform`.
 - `ctAdminListAudit`: trả 50 thao tác quản trị gần nhất cho owner.
 - `ctAdminApplyMembershipAction`: transaction có `mutationId`,
   `expectedRevision`, audit nguyên tử và chống gửi lặp.
+- `studioStoreGrant`: endpoint HMAC riêng cho Store. SePay gọi endpoint này sau
+  khi khớp tiền để cấp/cộng dồn gói Studio 1/2/5 năm. Nếu Gmail chưa từng đăng
+  nhập, quyền chờ an toàn và `ctGetAccount` tự nhận ở lần đăng nhập đầu tiên.
 
 Các action: `approve`, `suspend`, `resume`, `extend`, `set_expiry`,
 `update_limits`, `schedule_delete`, `cancel_delete`. `update_limits` không thay
@@ -85,8 +89,10 @@ quả, xóa kết quả, tạo/commit upload và download). Metadata ở Firesto
    `enforceAppCheck`; không bật trước để tránh khóa người dùng thật.
 
 Không đặt secret R2 hay khóa dịch vụ trong mã nguồn hoặc biến môi trường công
-khai. `OMR_STORAGE_HMAC_SECRET` nằm trong Secret Manager và chỉ được bind vào
-các Functions thực sự cần thao tác blob.
+khai. `OMR_STORAGE_HMAC_SECRET` và `STUDIO_STORE_WEBHOOK_SECRET` nằm trong
+Secret Manager và chỉ được bind vào các Functions cần dùng. Store giữ cùng giá
+trị `STUDIO_STORE_WEBHOOK_SECRET` dưới dạng Pages secret, đồng thời cấu hình
+`STUDIO_GRANT_URL` trỏ tới HTTPS Function `studioStoreGrant`.
 
 Kiểm thử tích hợp cục bộ (Auth + Firestore + Functions emulator):
 

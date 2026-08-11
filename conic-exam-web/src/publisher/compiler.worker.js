@@ -13,6 +13,7 @@ import mathUtils from '../../../typst-pkg-sang-math/core/math-utils.typ?raw'
 import conics from '../../../typst-pkg-sang-math/geometry-2d/conics.typ?raw'
 import revolution from '../../../typst-pkg-sang-math/geometry-3d/revolution.typ?raw'
 import curves3d from '../../../typst-pkg-sang-math/geometry-3d/curves-3d.typ?raw'
+import printLayouts from '../../../typst-pkg-sang-math/print-layouts.typ?raw'
 import packageManifest from '../../../typst-pkg-sang-math/typst.toml?raw'
 import legacyTemplate from '../../../typst/template.typ?raw'
 import legacySangExam from '../../../typst/sang-exam.typ?raw'
@@ -29,11 +30,11 @@ import legacyResearch from '../../../typst/modules/research.typ?raw'
 import { createCollectorSource, prepareEntrySource, rewriteBundledRuntimeImports } from './collector.js'
 
 const VERSION = '0.7.0'
-const PACKAGE_VERSION = '1.0.1'
+const PACKAGE_VERSION = '1.0.3'
 const PACKAGE_ROOT = `/@memory/conic-exam/packages/preview/sang-math/${PACKAGE_VERSION}`
 const LEGACY_PACKAGE_VERSION = '1.0.0'
 const LEGACY_PACKAGE_ROOT = `/@memory/conic-exam/packages/preview/conic-runtime/${LEGACY_PACKAGE_VERSION}`
-const WRAPPER_PATH = '/__conic_exam__/publisher.typ'
+const WRAPPER_PATH = '/publisher.typ'
 const PACKAGE_FILES = {
   'typst.toml': packageManifest,
   'lib.typ': lib,
@@ -41,6 +42,7 @@ const PACKAGE_FILES = {
   'sang-exam.typ': sangExam,
   'exam-templates.typ': examTemplates,
   'book-templates.typ': bookTemplates,
+  'print-layouts.typ': printLayouts,
   'math-sym.typ': mathSym,
   'geometry.typ': geometry,
   'core/colors.typ': colors,
@@ -155,7 +157,7 @@ function diagnostics(items = []) {
     severity: item?.severity || 'error',
     message: item?.message || 'Lỗi Typst không xác định',
     hints: Array.isArray(item?.hints) ? item.hints.map(String) : [],
-    file: item?.span?.file || item?.file || '',
+    file: item?.span?.file || item?.file || item?.path || '',
   }))
 }
 
@@ -188,11 +190,12 @@ async function publish(request) {
   self.postMessage({ type: 'publisher-progress', requestId: request.requestId, phase: 'analyzing', completed: 0, total: 1 })
   const inputs = { 'conic-output': 'metadata', 'conic-publisher': '1', beamer: '1' }
   const metadata = await instance.runWithWorld(
-    { mainFilePath: WRAPPER_PATH, inputs },
+    { mainFilePath: WRAPPER_PATH, inputs, root: '/' },
     async world => {
       const compiled = await world.compile({ diagnostics: 'full' })
       if (compiled?.diagnostics?.some(item => item?.severity === 'error')) {
-        throw new Error(diagnostics(compiled.diagnostics).map(item => item.message).join('\n'))
+        const detail = diagnostics(compiled.diagnostics)
+        throw new Error(detail.map(item => `[${item.file}] ${item.message} (${item.hints.join(', ')})`).join('\n'))
       }
       return world.query({ selector: '<conic-export-node>', field: 'value' })
     },
@@ -211,23 +214,26 @@ async function publish(request) {
       type: 'publisher-progress', requestId: request.requestId, phase: 'rendering-assets',
       completed: index, total: prepared.assets.length,
     })
-    const result = await instance.compile({
-      mainFilePath: WRAPPER_PATH,
-      inputs: {
+    try {
+      const inputs = {
         'conic-output': 'asset',
         'conic-publisher': '1',
         'conic-question-index': String(index),
         beamer: '1',
-      },
-      format: 0,
-      diagnostics: 'full',
-    })
-    if (!result?.result) {
-      const detail = diagnostics(result?.diagnostics)
-      throw new Error(detail.map(item => item.message).join('\n') || `Không render được hình minh họa ${index + 1}.`)
+      }
+      const compiled = await instance.runWithWorld(
+        { mainFilePath: WRAPPER_PATH, inputs, root: '/' },
+        async world => world.compile({ diagnostics: 'full' })
+      )
+      if (!compiled?.result) {
+        const detail = diagnostics(compiled?.diagnostics)
+        throw new Error(detail.map(item => item.message).join('\n') || `Không render được hình minh họa ${index + 1}.`)
+      }
+      const bytes = compiled.result instanceof Uint8Array ? compiled.result : new Uint8Array(compiled.result)
+      assetArtifacts.push(bytes)
+    } catch (e) {
+      throw new Error(`Asset ${index} failed: ${e.message}`)
     }
-    const bytes = result.result instanceof Uint8Array ? result.result : new Uint8Array(result.result)
-    assetArtifacts.push(bytes)
   }
   self.postMessage({
     type: 'publisher-compiled',
@@ -244,6 +250,7 @@ self.onmessage = event => {
   const request = event.data || {}
   if (request.type !== 'publish-typst') return
   publish(request).catch(error => {
+    console.error('[Worker Error]', error)
     self.postMessage({
       type: 'publisher-error', requestId: request.requestId,
       error: { message: error?.message || String(error), stack: error?.stack || '' },

@@ -24,5 +24,3 @@
 // #dang("Bài toán tối ưu hóa thực tế (Bản nâng cao)", mau: C1)
 // #include "bai02-de-thucte.typ"
 
-
-

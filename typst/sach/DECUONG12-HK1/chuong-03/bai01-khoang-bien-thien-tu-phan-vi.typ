@@ -5,8 +5,8 @@
 // ─────────────────────────────────────────────────────────────────
 #import "../preamble.typ": *
 #import "../../../math-sym.typ": *
-
 #show math.frac: math.display
+
 
 #bai("Khoảng biến thiên và khoảng tứ phân vị của mẫu số liệu ghép nhóm", mau: C3)
 

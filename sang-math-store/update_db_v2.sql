@@ -1,0 +1,9 @@
+-- Insert new games and utilities
+INSERT OR REPLACE INTO products (id, name, eyebrow, description, image, color, price_vnd, active, sort_order, updated_at, entitlement_key, product_type, fulfillment_type, access_model, access_days) VALUES 
+('olympia-3m', 'Đường lên đỉnh Olympia (3 Tháng)', 'Leo núi trí tuệ', 'Tổ chức lớp thành 4 đội chơi, với giao diện thi đấu quen thuộc của Olympia.', '/previews/olympia.png', '#b91c1c', 30000, 1, 30, CURRENT_TIMESTAMP, 'olympia', 'game', 'web_access', 'subscription', 90),
+('olympia-6m', 'Đường lên đỉnh Olympia (6 Tháng)', 'Leo núi trí tuệ', 'Tổ chức lớp thành 4 đội chơi, với giao diện thi đấu quen thuộc của Olympia.', '/previews/olympia.png', '#b91c1c', 50000, 1, 31, CURRENT_TIMESTAMP, 'olympia', 'game', 'web_access', 'subscription', 180),
+('olympia-12m', 'Đường lên đỉnh Olympia (12 Tháng)', 'Leo núi trí tuệ', 'Tổ chức lớp thành 4 đội chơi, với giao diện thi đấu quen thuộc của Olympia.', '/previews/olympia.png', '#b91c1c', 100000, 1, 32, CURRENT_TIMESTAMP, 'olympia', 'game', 'web_access', 'subscription', 365),
+
+('vong-quay', 'Vòng quay gọi tên', 'Công cụ tiện ích', 'Chỉ cần dán danh sách lớp vào, vòng quay sẽ chọn ngẫu nhiên học sinh trả lời bài cũ.', '/previews/vong-quay.png', '#0ea5e9', 19000, 1, 40, CURRENT_TIMESTAMP, 'vong-quay', 'utility', 'web_access', 'lifetime', NULL),
+('bang-diem', 'Bảng điểm thi đua', 'Công cụ tiện ích', 'Bảng điểm cộng/trừ trực tiếp trên màn hình máy chiếu, tạo không khí hào hứng cho lớp học.', '/previews/bang-diem.png', '#16a34a', 19000, 1, 41, CURRENT_TIMESTAMP, 'bang-diem', 'utility', 'web_access', 'lifetime', NULL),
+('dong-ho', 'Bộ đếm thời gian', 'Công cụ tiện ích', 'Đồng hồ đếm ngược với giao diện thân thiện, dùng cho các bài kiểm tra hoặc làm việc nhóm.', '/previews/dong-ho.png', '#d97706', 19000, 1, 42, CURRENT_TIMESTAMP, 'dong-ho', 'utility', 'web_access', 'lifetime', NULL);

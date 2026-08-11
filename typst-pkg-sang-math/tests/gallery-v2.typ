@@ -14,7 +14,7 @@
 #set text(font: "New Computer Modern", size: 11pt)
 
 #align(center)[
-  #text(size: 18pt, weight: "bold")[SANG-MATH v1.0.1 — Gallery Test]
+  #text(size: 18pt, weight: "bold")[SANG-MATH v1.0.2 — Gallery Test]
   #v(0.3em)
   #text(size: 11pt, fill: gray)[Kiểm tra tất cả hàm hình học mới]
 ]
@@ -186,6 +186,6 @@
 #v(1em)
 #align(center)[
   #text(size: 9pt, fill: gray)[
-    sang-math v1.0.1 — #datetime.today().display("[year]/[month]/[day]")
+    sang-math v1.0.2 — #datetime.today().display("[year]/[month]/[day]")
   ]
 ]

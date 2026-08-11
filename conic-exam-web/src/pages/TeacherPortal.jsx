@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Shell } from '../components/Shell';
 import { useAuth } from '../auth/AuthContext';
 import { Button, Card, EmptyState, Field, Metric, Modal, Notice, Pill, formatDate, statusTone } from '../components/UI';
@@ -24,6 +25,7 @@ const TABS = [
 
 export default function TeacherPortal() {
   const { api, account, user } = useAuth();
+  const navigate = useNavigate();
   const [data, setData] = useState(null);
   const [tab, setTab] = useState(() => {
     const requested = new URLSearchParams(window.location.search).get('tab');
@@ -203,7 +205,11 @@ export default function TeacherPortal() {
     <Shell section="teacher">
       <section className="dashboard-hero dashboard-hero--teacher">
         <div><p className="eyebrow">KHÔNG GIAN GIÁO VIÊN</p><h1>{account?.profile?.displayName || 'Giáo viên'}</h1><p>Soạn một lần trong Typst, phát hành và theo dõi toàn bộ lớp học ở đây.</p></div>
-        <div className="hero-actions"><Button variant="secondary" onClick={() => setModal('class')}>+ Tạo lớp</Button><Button onClick={openNewPublish}>↑ Xuất bản đề</Button></div>
+        <div className="hero-actions">
+          <Button style={{ background: '#caa655', color: '#fff', border: 'none' }} onClick={() => navigate('/teacher/pricing')}>✨ Nâng cấp gói</Button>
+          <Button variant="secondary" onClick={() => setModal('class')}>+ Tạo lớp</Button>
+          <Button onClick={openNewPublish}>↑ Xuất bản đề</Button>
+        </div>
       </section>
       {notice && <Notice tone={notice.tone} onClose={() => setNotice(null)}>{notice.text}</Notice>}
       <nav className="tabbar">{TABS.map(([value, label]) => <button key={value} type="button" className={tab === value ? 'is-active' : ''} onClick={() => setTab(value)}>{label}{value === 'classes' && pendingStudents.length > 0 && <b>{pendingStudents.length}</b>}</button>)}</nav>

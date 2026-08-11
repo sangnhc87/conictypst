@@ -16,7 +16,7 @@ import puppeteer from 'puppeteer';
   await page.evaluate(() => {
     const textarea = document.querySelector('textarea');
     if (textarea) {
-        textarea.value = `#import "@preview/cetz:0.3.2": *
+        textarea.value = `#import "@preview/cetz:0.5.2": *
 #canvas({ draw.circle((0,0)) })`;
         textarea.dispatchEvent(new Event('input', { bubbles: true }));
     }

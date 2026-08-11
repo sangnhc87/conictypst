@@ -1,7 +1,7 @@
 #import "../preamble.typ": *
 #import "../../../math-sym.typ": *
-
 #show math.frac: math.display
+
 
 #muc([Đề Thực Tế — Ứng dụng thực tiễn của vectơ trong không gian])
 

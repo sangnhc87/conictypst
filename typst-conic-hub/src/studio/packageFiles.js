@@ -10,6 +10,7 @@ import mathUtils from '../../../typst-pkg-sang-math/core/math-utils.typ?raw'
 import conics from '../../../typst-pkg-sang-math/geometry-2d/conics.typ?raw'
 import revolution from '../../../typst-pkg-sang-math/geometry-3d/revolution.typ?raw'
 import curves3d from '../../../typst-pkg-sang-math/geometry-3d/curves-3d.typ?raw'
+import printLayouts from '../../../typst-pkg-sang-math/print-layouts.typ?raw'
 import packageManifest from '../../../typst-pkg-sang-math/typst.toml?raw'
 import sangBeamer from '../../../typst-pkg-submit/sang-beamer.typ?raw'
 import sangBeamerThemes from '../../../typst-pkg-submit/sang-beamer-themes.typ?raw'
@@ -38,6 +39,7 @@ export const SANG_MATH_PACKAGE_FILES = {
   'geometry-2d/conics.typ': conics,
   'geometry-3d/revolution.typ': revolution,
   'geometry-3d/curves-3d.typ': curves3d,
+  'print-layouts.typ': printLayouts,
 }
 
 export const SANG_MATH_FILES = {
@@ -55,6 +57,7 @@ export const SANG_MATH_FILES = {
   '/packages/sang-math/geometry-2d/conics.typ': conics,
   '/packages/sang-math/geometry-3d/revolution.typ': revolution,
   '/packages/sang-math/geometry-3d/curves-3d.typ': curves3d,
+  '/packages/sang-math/print-layouts.typ': printLayouts,
   '/packages/sang-math/sang-beamer.typ': studioSangBeamer,
   '/packages/sang-math/sang-beamer-themes.typ': sangBeamerThemes,
   '/extensions/sang-beamer/sang-beamer.typ': studioSangBeamer,

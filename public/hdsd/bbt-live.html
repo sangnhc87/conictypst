@@ -4,386 +4,286 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BBT Live — ConicTypst</title>
+    <title>Kho Mẫu BBT & Bảng Toán THPT Live Playground — ConicTypst</title>
     <link rel="stylesheet" href="dashboard.css" />
+    <link rel="stylesheet" href="style.css" />
     <script defer src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
     <script src="global-nav.js" defer></script>
+    <!-- Import map: cho phép playground.js resolve bare specifier typst.ts từ jsDelivr CDN -->
+    <script type="importmap">
+    {
+      "imports": {
+        "@myriaddreamin/typst.ts/dist/esm/main.mjs":          "https://cdn.jsdelivr.net/npm/@myriaddreamin/typst.ts@0.7.0-rc2/dist/esm/main.mjs",
+        "@myriaddreamin/typst.ts/dist/esm/options.init.mjs":   "https://cdn.jsdelivr.net/npm/@myriaddreamin/typst.ts@0.7.0-rc2/dist/esm/options.init.mjs",
+        "@myriaddreamin/typst.ts/dist/esm/fs/memory.mjs":      "https://cdn.jsdelivr.net/npm/@myriaddreamin/typst.ts@0.7.0-rc2/dist/esm/fs/memory.mjs",
+        "@myriaddreamin/typst.ts/dist/esm/fs/index.mjs":       "https://cdn.jsdelivr.net/npm/@myriaddreamin/typst.ts@0.7.0-rc2/dist/esm/fs/index.mjs",
+        "@myriaddreamin/typst-ts-web-compiler":                "https://cdn.jsdelivr.net/npm/@myriaddreamin/typst-ts-web-compiler@0.7.0-rc2/pkg/typst_ts_web_compiler.mjs",
+        "@myriaddreamin/typst-ts-renderer":                    "https://cdn.jsdelivr.net/npm/@myriaddreamin/typst-ts-renderer@0.7.0-rc2/pkg/typst_ts_renderer.mjs"
+      }
+    }
+    </script>
+    <!-- Engine compile Typst WASM dùng chung (expose window.compileTypstToSvg) -->
+    <script type="module" src="playground.js"></script>
     <style>
         .tool-page {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 28px 24px;
+            padding: 24px;
         }
 
-        .tool-header {
+        .hero-banner {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: #ffffff;
+            border-radius: 12px;
+            padding: 24px 28px;
             margin-bottom: 24px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
         }
 
-        .tool-header h1 {
-            font-size: 1.6rem;
+        .hero-banner h1 {
+            font-size: 1.75rem;
             font-weight: 800;
             margin: 0 0 6px;
-        }
-
-        .tool-header p {
-            color: var(--muted);
-            margin: 0;
-            font-size: 0.93rem;
-        }
-
-        .tool-layout {
-            display: grid;
-            grid-template-columns: 1fr 500px;
-            gap: 20px;
-        }
-
-        @media (max-width: 1000px) {
-            .tool-layout {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .panel {
-            background: var(--surface);
-            border: 1px solid var(--line);
-            border-radius: var(--radius);
-            overflow: hidden;
-        }
-
-        .panel-head {
-            padding: 14px 18px;
-            border-bottom: 1px solid var(--line);
+            color: #38bdf8;
             display: flex;
             align-items: center;
             gap: 10px;
-            font-weight: 600;
-            font-size: 0.9rem;
         }
 
-        .panel-body {
-            padding: 16px;
+        .hero-banner p {
+            color: #94a3b8;
+            margin: 0;
+            font-size: 0.95rem;
+            max-width: 850px;
+            line-height: 1.5;
         }
 
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 16px;
-            border-radius: var(--radius);
-            font-size: 0.88rem;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            transition: all .18s;
-        }
-
-        .btn-primary {
-            background: #0ea5e9;
-            color: #fff;
-        }
-
-        .btn-primary:hover {
-            background: #0284c7;
-        }
-
-        .btn-secondary {
-            background: var(--bg);
-            border: 1px solid var(--line);
-            color: var(--text);
-        }
-
-        .btn-secondary:hover {
-            background: var(--line);
-        }
-
-        .btn-danger {
-            background: #fef2f2;
-            border: 1px solid #fecaca;
-            color: #dc2626;
-        }
-
-        .btn-danger:hover {
-            background: #fee2e2;
-        }
-
-        .btn-sm {
-            padding: 4px 10px;
-            font-size: 0.8rem;
-        }
-
-        /* BBT Visual Table */
-        .bbt-visual {
-            font-family: var(--font);
+        /* Gallery Tabs */
+        .tab-nav {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--line);
+            padding-bottom: 8px;
             overflow-x: auto;
         }
 
-        .bbt-table {
-            border-collapse: collapse;
-            min-width: 600px;
-        }
-
-        .bbt-table td,
-        .bbt-table th {
-            border: 1.5px solid #334155;
-            padding: 0;
-            text-align: center;
-            vertical-align: middle;
-            font-size: 0.88rem;
-        }
-
-        .bbt-table .row-label {
-            background: #f8fafc;
-            font-weight: 600;
-            padding: 6px 12px;
-            white-space: nowrap;
-            min-width: 60px;
-            border-right: 2px solid #334155;
-        }
-
-        .bbt-table .x-cell {
-            min-width: 70px;
-            height: 40px;
-        }
-
-        .bbt-table .interval-cell {
-            min-width: 60px;
-            height: 40px;
-        }
-
-        .bbt-table .y-cell {
-            min-width: 80px;
-            height: 60px;
-        }
-
-        .bbt-table input {
+        .tab-btn {
+            background: none;
             border: none;
-            outline: none;
-            background: transparent;
-            text-align: center;
-            width: 100%;
-            padding: 4px;
-            font-size: 0.88rem;
-            font-family: 'Georgia', serif;
-        }
-
-        .bbt-table select {
-            border: none;
-            outline: none;
-            background: transparent;
-            text-align: center;
-            width: 90%;
-            font-size: 1rem;
-            cursor: pointer;
-        }
-
-        .sign-plus {
-            color: #16a34a;
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        .sign-minus {
-            color: #dc2626;
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        .sign-zero {
-            color: #7c3aed;
-            font-weight: 700;
-        }
-
-        .arrow-up {
-            color: #16a34a;
-            font-size: 1.3rem;
-        }
-
-        .arrow-down {
-            color: #dc2626;
-            font-size: 1.3rem;
-        }
-
-        /* Y-value with up/down arrows */
-        .y-cell-inner {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            padding: 4px;
-        }
-
-        .y-tip {
-            font-size: 0.82rem;
-            color: var(--muted);
-        }
-
-        .y-main {
+            padding: 10px 16px;
             font-size: 0.9rem;
-        }
-
-        /* Form controls */
-        .form-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 12px;
-            flex-wrap: wrap;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .form-group label {
-            font-size: 0.83rem;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--muted);
-        }
-
-        .form-input {
-            padding: 7px 10px;
-            border: 1px solid var(--line);
-            border-radius: var(--radius);
-            font-size: 0.88rem;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: #0ea5e9;
-        }
-
-        select.form-input {
             cursor: pointer;
-        }
-
-        /* Output */
-        #codeOutput {
-            width: 100%;
-            height: 320px;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 13px;
-            line-height: 1.6;
-            padding: 14px;
-            resize: vertical;
-            border: 1px solid var(--line);
-            border-radius: var(--radius);
-            background: #0f172a;
-            color: #e2e8f0;
-            outline: none;
-        }
-
-        .btn-row {
+            border-radius: 6px;
+            transition: all 0.16s;
             display: flex;
-            gap: 8px;
-            margin-top: 10px;
-            flex-wrap: wrap;
-        }
-
-        .back-link {
-            display: inline-flex;
             align-items: center;
             gap: 6px;
-            color: var(--muted);
-            font-size: 0.88rem;
-            margin-bottom: 18px;
+            white-space: nowrap;
         }
 
-        .back-link:hover {
-            color: var(--text);
+        .tab-btn.active {
+            background: #0ea5e9;
+            color: #ffffff;
         }
 
-        .help-tip {
-            font-size: 0.8rem;
-            color: var(--muted);
-            background: #f8fafc;
-            padding: 6px 12px;
-            border-radius: 6px;
-            margin-bottom: 12px;
-        }
-
-        .x-point-row {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 8px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .x-point-label {
-            font-size: 0.83rem;
-            font-weight: 600;
-            min-width: 80px;
-        }
-
-        .section-divider {
-            border: none;
-            border-top: 1px solid var(--line);
-            margin: 16px 0;
-        }
-
-        .shade-row {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .shade-item {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            background: #fef9c3;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.82rem;
-        }
-
-        /* Examples strip */
-        .example-strip {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 16px;
-        }
-
-        .example-btn {
-            padding: 5px 12px;
-            border-radius: 20px;
-            border: 1px solid var(--line);
-            font-size: 0.82rem;
-            cursor: pointer;
-            background: var(--surface);
-        }
-
-        .example-btn:hover {
-            background: #eff6ff;
-            border-color: #0ea5e9;
+        .tab-btn:hover:not(.active) {
+            background: rgba(14, 165, 233, 0.1);
             color: #0ea5e9;
         }
 
-        .live-indicator {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #22c55e;
-            margin-right: 6px;
-            animation: blink 1.5s infinite;
+        /* Cards Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 20px;
+            margin-bottom: 36px;
         }
 
-        @keyframes blink {
+        .card-item {
+            background: #ffffff;
+            border: 1.5px solid var(--line);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.16s, box-shadow 0.16s;
+        }
 
-            0%,
-            100% {
-                opacity: 1
-            }
+        .card-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(0,0,0,0.08);
+            border-color: #38bdf8;
+        }
 
-            50% {
-                opacity: .3
-            }
+        .card-head {
+            padding: 12px 16px;
+            background: #f8fafc;
+            border-bottom: 1px solid var(--line);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-head h3 {
+            margin: 0;
+            font-size: 0.94rem;
+            font-weight: 700;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .card-preview {
+            padding: 16px;
+            min-height: 170px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+            overflow-x: auto;
+        }
+
+        .card-code {
+            background: #0f172a;
+            color: #38bdf8;
+            padding: 10px 14px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            margin: 0;
+            overflow-x: auto;
+            max-height: 130px;
+            border-top: 1px solid #1e293b;
+        }
+
+        .card-foot {
+            padding: 8px 14px;
+            background: #f1f5f9;
+            border-top: 1px solid var(--line);
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+
+        .copy-card-btn {
+            background: #0ea5e9;
+            color: #ffffff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: background 0.15s;
+        }
+
+        .copy-card-btn:hover {
+            background: #0284c7;
+        }
+
+        .load-card-btn {
+            background: #ffffff;
+            color: #0f172a;
+            border: 1px solid var(--line);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.15s;
+        }
+
+        .load-card-btn:hover {
+            background: #0ea5e9;
+            color: #ffffff;
+            border-color: #0ea5e9;
+        }
+
+        /* Workbench Section */
+        .workbench-section {
+            background: #ffffff;
+            border: 1.5px solid var(--line);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 32px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+        }
+
+        .workbench-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            margin: 0 0 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #0f172a;
+        }
+
+        .workbench-mode-switch {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            background: #f1f5f9;
+            padding: 4px;
+            border-radius: 8px;
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 10px 16px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            border: none;
+            background: transparent;
+            color: #64748b;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.16s;
+        }
+
+        .mode-btn.active {
+            background: #ffffff;
+            color: #0ea5e9;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .field-hint {
+            font-size: 0.76rem;
+            color: var(--muted);
+            margin-top: 3px;
+            display: block;
+        }
+
+        .live-code-textarea {
+            width: 100%;
+            height: 280px;
+            background: #0f172a;
+            color: #38bdf8;
+            font-family: monospace;
+            font-size: 0.9rem;
+            padding: 16px;
+            border: 1.5px solid #1e293b;
+            border-radius: 8px;
+            resize: vertical;
+            line-height: 1.5;
+            outline: none;
+        }
+        .live-code-textarea:focus {
+            border-color: #38bdf8;
         }
     </style>
 </head>
@@ -393,147 +293,826 @@
         <div class="dash-topbar-inner">
             <a class="dash-brand" href="dashboard.html">
                 <span class="dash-brand-mark">C</span>
-                <span><strong>ConicTypst</strong><small>BBT Live</small></span>
+                <span><strong>ConicTypst</strong><small>Kho Bảng Toán THPT Live</small></span>
             </a>
             <div></div>
             <nav class="dash-nav">
                 <a href="dashboard.html">Dashboard</a>
-                <a href="index.html#bbtv2">HDSD BBT</a>
-                <a href="index.html">HDSD</a>
+                <a href="bbt-live.html" class="active">BBT Live</a>
+                <a href="hh-live.html">Hình Học Live</a>
+                <a href="index.html">HDSD Main</a>
             </nav>
         </div>
     </header>
 
     <main class="tool-page">
-        <a class="back-link" href="dashboard.html"><i data-lucide="arrow-left"></i> Về Dashboard</a>
-
-        <div class="tool-header">
-            <h1><i data-lucide="layout-grid"
-                    style="width:1.2em;height:1.2em;vertical-align:middle;margin-right:6px;"></i>Bảng Biến Thiên Live
-            </h1>
-            <p>Nhập dấu và giá trị → sinh mã <code>#bbtv2(...)</code> Typst ngay lập tức. Tương đương TikZTableGenerator
-                của STEXGV nhưng dùng CeTZ Typst-native.</p>
+        <div class="hero-banner">
+            <h1><i data-lucide="library"></i> Kho Mẫu Bảng Biến Thiên & Bảng Toán THPT Live Playground</h1>
+            <p>Bấm nút <strong>"⚡ Sửa & Render Live"</strong> ở bất kỳ mẫu nào bên dưới để nạp mã vào Trình Biên Tập Trực Tiếp, chỉnh sửa tham số hay mã Typst tùy ý và xem kết quả SVG cập nhật tức thì 50ms!</p>
         </div>
 
-        <!-- Examples -->
-        <div class="example-strip">
-            <span style="font-size:0.83rem;font-weight:600;color:var(--muted);align-self:center;">Ví dụ nhanh:</span>
-            <button class="example-btn" onclick="loadExample('bac3')">Bậc 3 (1 cực trị)</button>
-            <button class="example-btn" onclick="loadExample('bac4')">Bậc 4 (2 cực trị)</button>
-            <button class="example-btn" onclick="loadExample('hyperbola')">Hyperbola (tiệm cận)</button>
-            <button class="example-btn" onclick="loadExample('sqrt')">Căn bậc 2</button>
-            <button class="example-btn" onclick="loadExample('tang')">Đơn điệu tăng</button>
+        <!-- GALLERY TAB NAVIGATION -->
+        <div class="tab-nav">
+            <button class="tab-btn active" onclick="switchTab('tab-bac3')"><i data-lucide="trending-up"></i> 1. Hàm Bậc Ba</button>
+            <button class="tab-btn" onclick="switchTab('tab-bac4')"><i data-lucide="activity"></i> 2. Bậc Bốn Trùng Phương</button>
+            <button class="tab-btn" onclick="switchTab('tab-nhatbien')"><i data-lucide="split"></i> 3. Nhất Biến & Bậc 2/1</button>
+            <button class="tab-btn" onclick="switchTab('tab-khac')"><i data-lucide="chart-pie"></i> 4. Parabol, Căn & Mũ/Log</button>
+            <button class="tab-btn" onclick="switchTab('tab-table')"><i data-lucide="grid"></i> 5. Ô Chéo & Nối Ô Table</button>
+            <button class="tab-btn" onclick="switchTab('tab-bxd')"><i data-lucide="calculator"></i> 6. Xét Dấu Tích / Thương</button>
+            <button class="tab-btn" onclick="switchTab('tab-cetz-pure')"><i data-lucide="shapes" style="color:#eab308;"></i> 7. Thuần CeTZ Canvas (Khuyên Dùng)</button>
         </div>
 
-        <div class="tool-layout">
-            <!-- LEFT: Form -->
-            <div style="display:flex;flex-direction:column;gap:16px;">
-                <div class="panel">
-                    <div class="panel-head"><i data-lucide="sliders"></i> Cấu hình BBT</div>
-                    <div class="panel-body">
-                        <!-- Basic settings -->
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Biến (var)</label>
-                                <input class="form-input" id="varName" value="x" style="width:80px" placeholder="x"
-                                    oninput="generate()" />
-                            </div>
-                            <div class="form-group">
-                                <label>Nhãn y′ (der)</label>
-                                <input class="form-input" id="derName" value="y'" style="width:80px" placeholder="y'"
-                                    oninput="generate()" />
-                            </div>
-                            <div class="form-group">
-                                <label>Nhãn hàm (func)</label>
-                                <input class="form-input" id="funcName" value="y" style="width:80px" placeholder="y"
-                                    oninput="generate()" />
-                            </div>
-                            <div class="form-group">
-                                <label>Số cực trị</label>
-                                <input class="form-input" type="number" id="numPoints" value="1" min="0" max="8"
-                                    style="width:80px" onchange="rebuildTable()" />
-                            </div>
-                        </div>
-
-                        <hr class="section-divider" />
-
-                        <!-- BBT Visual table -->
-                        <div class="help-tip">
-                            Điền <strong>x</strong>, <strong>dấu y′</strong>, và <strong>giá trị y</strong>. Dùng:
-                            <code>+oo</code> = +∞, <code>-oo</code> = -∞, <code>0</code> = 0.
-                            <br>Ký hiệu đặc biệt: <code>||</code> = bất liên tục/gián đoạn, <code>0</code> = điểm cực
-                            trị.
-                        </div>
-                        <div id="bbtFormContainer"></div>
-
-                        <hr class="section-divider" />
-
-                        <!-- Shade options -->
-                        <div class="form-group" style="margin-bottom:8px;">
-                            <label>Vùng gạch chéo (tiệm cận / không xác định)</label>
-                            <div class="help-tip" style="margin-top:4px;">
-                                Nhập cặp index cột (từ 0), vd: <code>1,2</code> để gạch từ cột 1 đến cột 2.
-                                Cột 0 = x[0] (-∞), cột 1 = x[1], v.v.
-                            </div>
-                            <div id="shadeItems" class="shade-row" style="margin-bottom:8px;"></div>
-                            <div style="display:flex;gap:6px;align-items:center;">
-                                <input class="form-input" type="text" id="shadeInput" placeholder="vd: 1,2"
-                                    style="width:120px" />
-                                <button class="btn btn-secondary btn-sm" onclick="addShade()"><i data-lucide="plus"></i>
-                                    Thêm vùng</button>
-                            </div>
-                        </div>
+        <!-- TAB 1: HÀM BẬC BA -->
+        <div id="tab-bac3" class="tab-content">
+            <div class="gallery-grid">
+                <!-- CARD 1 -->
+                <div class="card-item">
+                    <div class="card-head">
+                        <h3><i data-lucide="chart-spline" style="color:#0ea5e9;"></i> Bậc 3: a > 0 (2 Cực Trị)</h3>
+                        <span class="bbt-live-kicker">Cực đại / cực tiểu</span>
+                    </div>
+                    <div class="card-preview" id="prev-bbt-bac3-a1">⏳ Đang render…</div>
+                    <pre class="card-code"><code id="code-bbt-bac3-a1">#bbtv2(
+  var: $x$, der: $y'$, func: $y$,
+  x-vals: ($-oo$, $-1$, $1$, $+oo$),
+  d-signs: ($+$, $0$, $-$, $0$, $+$),
+  v-vals: ($-oo$, $3$, $-1$, $+oo$),
+)</code></pre>
+                    <div class="card-foot">
+                        <button class="copy-card-btn" onclick="copySnippet('code-bbt-bac3-a1')"><i data-lucide="copy"></i> Copy Code</button>
+                        <button class="load-card-btn" onclick="editSnippetLive('code-bbt-bac3-a1')"><i data-lucide="zap"></i> Sửa & Render Live</button>
                     </div>
                 </div>
 
-                <!-- Preview table -->
-                <div class="panel">
-                    <div class="panel-head">
-                        <span class="live-indicator"></span> Preview BBT
+                <!-- CARD 2 -->
+                <div class="card-item">
+                    <div class="card-head">
+                        <h3><i data-lucide="chart-spline" style="color:#dc2626;"></i> Bậc 3: a < 0 (2 Cực Trị)</h3>
+                        <span class="bbt-live-kicker">Cực tiểu / cực đại</span>
                     </div>
-                    <div class="panel-body">
-                        <div id="bbtPreview" class="bbt-visual">
-                            <p style="color:var(--muted);font-size:0.88rem;">BBT sẽ hiển thị ở đây...</p>
-                        </div>
+                    <div class="card-preview" id="prev-bbt-bac3-a0">⏳ Đang render…</div>
+                    <pre class="card-code"><code id="code-bbt-bac3-a0">#bbtv2(
+  var: $x$, der: $y'$, func: $y$,
+  x-vals: ($-oo$, $-2$, $2$, $+oo$),
+  d-signs: ($-$, $0$, $+$, $0$, $-$),
+  v-vals: ($+oo$, $-4$, $4$, $-oo$),
+)</code></pre>
+                    <div class="card-foot">
+                        <button class="copy-card-btn" onclick="copySnippet('code-bbt-bac3-a0')"><i data-lucide="copy"></i> Copy Code</button>
+                        <button class="load-card-btn" onclick="editSnippetLive('code-bbt-bac3-a0')"><i data-lucide="zap"></i> Sửa & Render Live</button>
+                    </div>
+                </div>
+
+                <!-- CARD 3 -->
+                <div class="card-item">
+                    <div class="card-head">
+                        <h3><i data-lucide="trending-up" style="color:#10b981;"></i> Bậc 3: a > 0 (Đơn Điệu Tăng)</h3>
+                        <span class="bbt-live-kicker">0 cực trị</span>
+                    </div>
+                    <div class="card-preview" id="prev-bbt-don-dieu">⏳ Đang render…</div>
+                    <pre class="card-code"><code id="code-bbt-don-dieu">#bbtv2(
+  var: $x$, der: $y'$, func: $y$,
+  x-vals: ($-oo$, $+oo$),
+  d-signs: ($+$,),
+  v-vals: ($-oo$, $+oo$),
+)</code></pre>
+                    <div class="card-foot">
+                        <button class="copy-card-btn" onclick="copySnippet('code-bbt-don-dieu')"><i data-lucide="copy"></i> Copy Code</button>
+                        <button class="load-card-btn" onclick="editSnippetLive('code-bbt-don-dieu')"><i data-lucide="zap"></i> Sửa & Render Live</button>
+                    </div>
+                </div>
+
+                <!-- CARD 4 -->
+                <div class="card-item">
+                    <div class="card-head">
+                        <h3><i data-lucide="trending-down" style="color:#f59e0b;"></i> Bậc 3: a < 0 (Đơn Điệu Giảm)</h3>
+                        <span class="bbt-live-kicker">0 cực trị</span>
+                    </div>
+                    <div class="card-preview" id="prev-bbt-don-giam">⏳ Đang render…</div>
+                    <pre class="card-code"><code id="code-bbt-don-giam">#bbtv2(
+  var: $x$, der: $y'$, func: $y$,
+  x-vals: ($-oo$, $+oo$),
+  d-signs: ($-$,),
+  v-vals: ($+oo$, $-oo$),
+)</code></pre>
+                    <div class="card-foot">
+                        <button class="copy-card-btn" onclick="copySnippet('code-bbt-don-giam')"><i data-lucide="copy"></i> Copy Code</button>
+                        <button class="load-card-btn" onclick="editSnippetLive('code-bbt-don-giam')"><i data-lucide="zap"></i> Sửa & Render Live</button>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- RIGHT: Output code -->
-            <div style="display:flex;flex-direction:column;gap:16px;">
-                <div class="panel">
-                    <div class="panel-head"><i data-lucide="code-2"></i> Mã Typst sinh ra</div>
-                    <div class="panel-body">
-                        <textarea id="codeOutput" readonly></textarea>
-                        <div class="btn-row">
-                            <button class="btn btn-primary" onclick="copyCode()"><i data-lucide="copy"></i> Copy
-                                code</button>
-                            <button class="btn btn-secondary" onclick="copyFull()"><i data-lucide="file-code"></i> Copy
-                                file đầy đủ</button>
-                        </div>
+        <!-- TAB 2: BẬC BỐN TRÙNG PHƯƠNG -->
+        <div id="tab-bac4" class="tab-content" style="display:none;">
+            <div class="gallery-grid">
+                <!-- CARD 5 -->
+                <div class="card-item">
+                    <div class="card-head">
+                        <h3><i data-lucide="activity" style="color:#8b5cf6;"></i> Bậc 4: a > 0 (3 Cực Trị)</h3>
+                        <span class="bbt-live-kicker">2 Cực tiểu, 1 cực đại</span>
+                    </div>
+                    <div class="card-preview" id="prev-bbt-bac4-3ct">⏳ Đang render…</div>
+                    <pre class="card-code"><code id="code-bbt-bac4-3ct">#bbtv2(
+  var: $x$, der: $y'$, func: $y$,
+  x-vals: ($-oo$, $-2$, $0$, $2$, $+oo$),
+  d-signs: ($-$, $0$, $+$, $0$, $-$, $0$, $+$),
+  v-vals: ($+oo$, $-3$, $1$, $-3$, $+oo$),
+)</code></pre>
+                    <div class="card-foot">
+                        <button class="copy-card-btn" onclick="copySnippet('code-bbt-bac4-3ct')"><i data-lucide="copy"></i> Copy Code</button>
+                        <button class="load-card-btn" onclick="editSnippetLive('code-bbt-bac4-3ct')"><i data-lucide="zap"></i> Sửa & Render Live</button>
                     </div>
                 </div>
 
-                <div class="panel">
-                    <div class="panel-head"><i data-lucide="book-open"></i> Tham chiếu macro bbtv2</div>
-                    <div class="panel-body" style="font-size:0.83rem;line-height:1.8;">
-                        <strong>Signature:</strong>
-                        <pre
-                            style="background:#f1f5f9;padding:10px;border-radius:6px;font-size:0.78rem;overflow-x:auto;margin:6px 0;">#bbtv2(
-  var: $x$,         // biến số
-  der: $y'$,        // nhãn đạo hàm
-  func: $y$,        // nhãn hàm số
-  x-vals: (),       // mảng x (gồm cả -∞, +∞)
-  d-signs: (),      // dấu: 2n-3 phần tử
-  v-vals: (),       // giá trị y tại mỗi x-val
-  shade: (),        // vùng gạch chéo: ((i,j),)
-)</pre>
-                        <strong>d-signs — quy tắc dài 2n-3:</strong><br>
-                        Với n x-vals: [khoảng₀, tại_x₁, khoảng₁, tại_x₂, ..., khoảng_{n-2}]<br><br>
-                        <strong>v-vals — giá trị tại mỗi x-val:</strong><br>
-                        • Đơn: <code>$3$</code> hoặc <code>$+oo$</code><br>
-                        • Nhảy (tiệm cận): <code>($+oo$, $-oo$)</code> — giá trị trái, phải<br><br>
-                        <strong>shade:</strong> <code>((1, 2),)</code> — gạch chéo từ cột 1 đến cột 2
+                <!-- CARD 6 -->
+                <div class="card-item">
+                    <div class="card-head">
+                        <h3><i data-lucide="activity" style="color:#dc2626;"></i> Bậc 4: a < 0 (3 Cực Trị)</h3>
+                        <span class="bbt-live-kicker">2 Cực đại, 1 cực tiểu</span>
+                    </div>
+                    <div class="card-preview" id="prev-bbt-bac4-3ct-a0">⏳ Đang render…</div>
+                    <pre class="card-code"><code id="code-bbt-bac4-3ct-a0">#bbtv2(
+  var: $x$, der: $y'$, func: $y$,
+  x-vals: ($-oo$, $-1$, $0$, $1$, $+oo$),
+  d-signs: ($+$, $0$, $-$, $0$, $+$, $0$, $-$),
+  v-vals: ($-oo$, $2$, $-1$, $2$, $-oo$),
+)</code></pre>
+                    <div class="card-foot">
+                        <button class="copy-card-btn" onclick="copySnippet('code-bbt-bac4-3ct-a0')"><i data-lucide="copy"></i> Copy Code</button>
+                        <button class="load-card-btn" onclick="editSnippetLive('code-bbt-bac4-3ct-a0')"><i data-lucide="zap"></i> Sửa & Render Live</button>
+                    </div>
+                </div>
+
+                <!-- CARD 7 -->
+                <div class="card-item">
+                    <div class="card-head">
+                        <h3><i data-lucide="circle-dot" style="color:#10b981;"></i> Bậc 4: a > 0 (1 Cực Trị)</h3>
+                        <span class="bbt-live-kicker">1 Cực tiểu</span>
+                    </div>
+                    <div class="card-preview" id="prev-bbt-bac4-1ct">⏳ Đang render…</div>
+                    <pre class="card-code"><code id="code-bbt-bac4-1ct">#bbtv2(
+  var: $x$, der: $y'$, func: $y$,
+  x-vals: ($-oo$, $0$, $+oo$),
+  d-signs: ($-$, $0$, $+$),
+  v-vals: ($+oo$, $-2$, $+oo$),
+)</code></pre>
+                    <div class="card-foot">
+                        <button class="copy-card-btn" onclick="copySnippet('code-bbt-bac4-1ct')"><i data-lucide="copy"></i> Copy Code</button>
+                        <button class="load-card-btn" onclick="editSnippetLive('code-bbt-bac4-1ct')"><i data-lucide="zap"></i> Sửa & Render Live</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: NHẤT BIẾN & BẬC 2/1 -->
+        <div id="tab-nhatbien" class="tab-content" style="display:none;">
+            <div class="gallery-grid">
+                <!-- CARD 8 -->
+                <div class="card-item">
+                    <div class="card-head">
+                        <h3><i data-lucide="split" style="color:#f59e0b;"></i> Nhất Biến: (ax+b)/(cx+d) y' < 0</h3>
+                        <span class="bbt-live-kicker">Tiệm cận đứng & ngang</span>
+                    </div>
+                    <div class="card-preview" id="prev-bbt-hyperbola">⏳ Đang render…</div>
+                    <pre class="card-code"><code id="code-bbt-hyperbola">#bbtv2(
+  var: $x$, der: $y'$, func: $y$,
+  x-vals: ($-oo$, $1$, $+oo$),
+  d-signs: ($-$, $||$, $-$),
+  v-vals: ($2$, ($-oo$, $+oo$), $2$),
+  shade: ((1, 1),),
+)</code></pre>
+                    <div class="card-foot">
+                        <button class="copy-card-btn" onclick="copySnippet('code-bbt-hyperbola')"><i data-lucide="copy"></i> Copy Code</button>
+                        <button class="load-card-btn" onclick="editSnippetLive('code-bbt-hyperbola')"><i data-lucide="zap"></i> Sửa & Render Live</button>
+                    </div>
+                </div>
+
+                <!-- CARD 9 -->
+                <div class="card-item">
+                    <div class="card-head">
+                        <h3><i data-lucide="split" style="color:#0ea5e9;"></i> Nhất Biến: (ax+b)/(cx+d) y' > 0</h3>
+                        <span class="bbt-live-kicker">Đồng biến từng khoảng</span>
+                    </div>
+                    <div class="card-preview" id="prev-bbt-hyperbola-tang">⏳ Đang render…</div>
+                    <pre class="card-code"><code id="code-bbt-hyperbola-tang">#bbtv2(
+  var: $x$, der: $y'$, func: $y$,
+  x-vals: ($-oo$, $-2$, $+oo$),
+  d-signs: ($+$, $||$, $+$),
+  v-vals: ($1$, ($+oo$, $-oo$), $1$),
+  shade: ((1, 1),),
+)</code></pre>
+                    <div class="card-foot">
+                        <button class="copy-card-btn" onclick="copySnippet('code-bbt-hyperbola-tang')"><i data-lucide="copy"></i> Copy Code</button>
+                        <button class="load-card-btn" onclick="editSnippetLive('code-bbt-hyperbola-tang')"><i data-lucide="zap"></i> Sửa & Render Live</button>
+                    </div>
+                </div>
+
+                <!-- CARD 10 -->
+                <div class="card-item">
+                    <div class="card-head">
+                        <h3><i data-lucide="combine" style="color:#7c3aed;"></i> Bậc 2 trên Bậc 1 (2 Cực Trị)</h3>
+                        <span class="bbt-live-kicker">Tiệm cận xiên & đứng</span>
+                    </div>
+                    <div class="card-preview" id="prev-bbt-bac2-1">⏳ Đang render…</div>
+                    <pre class="card-code"><code id="code-bbt-bac2-1">#bbtv2(
+  var: $x$, der: $y'$, func: $y$,
+  x-vals: ($-oo$, $0$, $1$, $2$, $+oo$),
+  d-signs: ($+$, $0$, $-$, $||$, $-$, $0$, $+$),
+  v-vals: ($-oo$, $2$, ($-oo$, $+oo$), $6$, $+oo$),
+  shade: ((2, 2),),
+)</code></pre>
+                    <div class="card-foot">
+                        <button class="copy-card-btn" onclick="copySnippet('code-bbt-bac2-1')"><i data-lucide="copy"></i> Copy Code</button>
+                        <button class="load-card-btn" onclick="editSnippetLive('code-bbt-bac2-1')"><i data-lucide="zap"></i> Sửa & Render Live</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: PARABOL, CĂN & MŨ/LOG -->
+        <div id="tab-khac" class="tab-content" style="display:none;">
+            <div class="gallery-grid">
+                <!-- CARD 11 -->
+                <div class="card-item">
+                    <div class="card-head">
+                        <h3><i data-lucide="chart-column" style="color:#0ea5e9;"></i> Parabol Bậc Hai (a > 0)</h3>
+                        <span class="bbt-live-kicker">Lớp 10</span>
+                    </div>
+                    <div class="card-preview" id="prev-bbt-parabol">⏳ Đang render…</div>
+                    <pre class="card-code"><code id="code-bbt-parabol">#bbtv2(
+  var: $x$, der: $y'$, func: $y$,
+  x-vals: ($-oo$, $2$, $+oo$),
+  d-signs: ($-$, $0$, $+$),
+  v-vals: ($+oo$, $-1$, $+oo$),
+)</code></pre>
+                    <div class="card-foot">
+                        <button class="copy-card-btn" onclick="copySnippet('code-bbt-parabol')"><i data-lucide="copy"></i> Copy Code</button>
+                        <button class="load-card-btn" onclick="editSnippetLive('code-bbt-parabol')"><i data-lucide="zap"></i> Sửa & Render Live</button>
+                    </div>
+                </div>
+
+                <!-- CARD 12B: GIÁ TRỊ TRUNG GIAN (GUIDES) -->
+                <div class="card-item">
+                    <div class="card-head">
+                        <h3><i data-lucide="git-commit" style="color:#f59e0b;"></i> BBT Giá Trị Trung Gian (Guides)</h3>
+                        <span class="bbt-live-kicker">Nét đứt dóng tọa độ x=0</span>
+                    </div>
+                    <div class="card-preview" id="prev-bbt-guides">⏳ Đang render…</div>
+                    <pre class="card-code"><code id="code-bbt-guides">#bbtv2(
+  var: $x$, der: $y'$, func: $y$,
+  x-vals: ($-oo$, $1$, $3$, $+oo$),
+  d-signs: ($+$, $0$, $-$, $0$, $+$),
+  v-vals: ($-oo$, $3$, $-1$, $+oo$),
+  annotations: (
+    tab-val(1, 2, pos: 0.5, x: $2$, y: $1$),
+  )
+)</code></pre>
+                    <div class="card-foot">
+                        <button class="copy-card-btn" onclick="copySnippet('code-bbt-guides')"><i data-lucide="copy"></i> Copy Code</button>
+                        <button class="load-card-btn" onclick="editSnippetLive('code-bbt-guides')"><i data-lucide="zap"></i> Sửa & Render Live</button>
+                    </div>
+                </div>
+
+                <!-- CARD 12C: TÙY CHỈNH MÀU NÉT VẼ -->
+                <div class="card-item">
+                    <div class="card-head">
+                        <h3><i data-lucide="palette" style="color:#ec4899;"></i> BBT Đổi Màu Khung & Mũi Tên</h3>
+                        <span class="bbt-live-kicker">stroke & arrow-stroke</span>
+                    </div>
+                    <div class="card-preview" id="prev-bbt-colors">⏳ Đang render…</div>
+                    <pre class="card-code"><code id="code-bbt-colors">#bbtv2(
+  var: $x$, der: $f'(x)$, func: $f(x)$,
+  x-vals: ($-oo$, $1$, $+oo$),
+  d-signs: ($+$, $0$, $-$),
+  v-vals: ($-oo$, $4$, $-oo$),
+  stroke: 1pt + rgb("#1e40af"),
+  arrow-stroke: 1.2pt + rgb("#dc2626")
+)</code></pre>
+                    <div class="card-foot">
+                        <button class="copy-card-btn" onclick="copySnippet('code-bbt-colors')"><i data-lucide="copy"></i> Copy Code</button>
+                        <button class="load-card-btn" onclick="editSnippetLive('code-bbt-colors')"><i data-lucide="zap"></i> Sửa & Render Live</button>
+                    </div>
+                </div>
+
+                <!-- CARD 12D: HÀM HỢP 4 DÒNG (VAR2) -->
+                <div class="card-item">
+                    <div class="card-head">
+                        <h3><i data-lucide="layers" style="color:#3b82f6;"></i> BBT Hàm Hợp 4 Dòng (var2)</h3>
+                        <span class="bbt-live-kicker">Cột nhãn x, u(x), f'(u), f(u)</span>
+                    </div>
+                    <div class="card-preview" id="prev-bbt-var2">⏳ Đang render…</div>
+                    <pre class="card-code"><code id="code-bbt-var2">#bbtv2(
+  var: $x$, var2: $u(x)$, u-vals: ($-oo$, $-1$, $3$, $+oo$),
+  der: $f'(u)$, func: $f(u)$,
+  x-vals: ($-oo$, $0$, $2$, $+oo$),
+  d-signs: ($+$, $0$, $-$, $0$, $+$),
+  v-vals: ($-oo$, $3$, $-1$, $+oo$)
+)</code></pre>
+                    <div class="card-foot">
+                        <button class="copy-card-btn" onclick="copySnippet('code-bbt-var2')"><i data-lucide="copy"></i> Copy Code</button>
+                        <button class="load-card-btn" onclick="editSnippetLive('code-bbt-var2')"><i data-lucide="zap"></i> Sửa & Render Live</button>
+                    </div>
+                </div>
+
+                <!-- CARD 12E: ĐẠO HÀM CẤP 2 LỒI LÕM (DER2) -->
+                <div class="card-item">
+                    <div class="card-head">
+                        <h3><i data-lucide="activity" style="color:#8b5cf6;"></i> BBT Xét Tính Lồi Lõm (der2)</h3>
+                        <span class="bbt-live-kicker">Cột nhãn f'(x) & f''(x)</span>
+                    </div>
+                    <div class="card-preview" id="prev-bbt-der2">⏳ Đang render…</div>
+                    <pre class="card-code"><code id="code-bbt-der2">#bbtv2(
+  var: $x$, der: $f'(x)$, der2: $f''(x)$, func: $f(x)$,
+  x-vals: ($-oo$, $0$, $1$, $+oo$),
+  d-signs: ($-$, $0$, $+$, $0$, $+$),
+  d2-signs: ($+$, $0$, $-$, $0$, $+$),
+  v-vals: ($+oo$, $0$, $2$, $+oo$)
+)</code></pre>
+                    <div class="card-foot">
+                        <button class="copy-card-btn" onclick="copySnippet('code-bbt-der2')"><i data-lucide="copy"></i> Copy Code</button>
+                        <button class="load-card-btn" onclick="editSnippetLive('code-bbt-der2')"><i data-lucide="zap"></i> Sửa & Render Live</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: Ô CHÉO & NỐI Ô BẢNG -->
+        <div id="tab-table" class="tab-content" style="display:none;">
+            <div class="gallery-grid">
+                <!-- CARD 13: O-CHEO-CELL CHUẨN NATIVE TABLE (CHÉO XUÔI) -->
+                <div class="card-item">
+                    <div class="card-head">
+                        <h3><i data-lucide="slash" style="color:#0ea5e9;"></i> Ô Chéo Native (Chéo Xuôi \)</h3>
+                        <span class="bbt-live-kicker">Khít 100% không hở</span>
+                    </div>
+                    <div class="card-preview" id="prev-ocheo-2">⏳ Đang render…</div>
+                    <pre class="card-code"><code id="code-ocheo-2">#import "bbt.typ": o-cheo-cell
+#table(
+  columns: (3.2cm, 2.2cm, 2.2cm),
+  align: center + horizon,
+  o-cheo-cell("Môn", "Lớp", dir: "tl-br"), [Toán 10], [Toán 11],
+  [Bài 01], [8.5], [9.0],
+  [Bài 02], [7.0], [9.5]
+)</code></pre>
+                    <div class="card-foot">
+                        <button class="copy-card-btn" onclick="copySnippet('code-ocheo-2')"><i data-lucide="copy"></i> Copy Code</button>
+                        <button class="load-card-btn" onclick="editSnippetLive('code-ocheo-2')"><i data-lucide="zap"></i> Sửa & Render Live</button>
+                    </div>
+                </div>
+
+                <!-- CARD 13B: O-CHEO-CELL CHUẨN NATIVE TABLE (CHÉO NGƯỢC) -->
+                <div class="card-item">
+                    <div class="card-head">
+                        <h3><i data-lucide="slash" style="color:#0284c7;"></i> Ô Chéo Native (Chéo Ngược /)</h3>
+                        <span class="bbt-live-kicker">Khít 100% không hở</span>
+                    </div>
+                    <div class="card-preview" id="prev-ocheo-nguoc">⏳ Đang render…</div>
+                    <pre class="card-code"><code id="code-ocheo-nguoc">#import "bbt.typ": o-cheo-cell
+#table(
+  columns: (3.2cm, 2.2cm, 2.2cm),
+  align: center + horizon,
+  o-cheo-cell("Lớp", "Môn", dir: "tr-bl"), [Toán 10], [Toán 11],
+  [Bài 01], [8.5], [9.0],
+  [Bài 02], [7.0], [9.5]
+)</code></pre>
+                    <div class="card-foot">
+                        <button class="copy-card-btn" onclick="copySnippet('code-ocheo-nguoc')"><i data-lucide="copy"></i> Copy Code</button>
+                        <button class="load-card-btn" onclick="editSnippetLive('code-ocheo-nguoc')"><i data-lucide="zap"></i> Sửa & Render Live</button>
+                    </div>
+                </div>
+
+                <!-- CARD 13C: BẢNG CETZ THUẦN (CHÉO XUÔI) -->
+                <div class="card-item">
+                    <div class="card-head">
+                        <h3><i data-lucide="box" style="color:#8b5cf6;"></i> Bảng CeTZ (Chéo Xuôi \)</h3>
+                        <span class="bbt-live-kicker">Tùy biến cao</span>
+                    </div>
+                    <div class="card-preview" id="prev-cetz-table-xuoi">⏳ Đang render…</div>
+                    <pre class="card-code"><code id="code-cetz-table-xuoi">#import "bbt.typ": cetz-table, cetz-o-cheo
+#cetz-table(
+  cols: (3.2cm, 2.2cm, 2.2cm),
+  data: (
+    (cetz-o-cheo("Môn", "Lớp", dir: "tl-br"), [Toán 10], [Toán 11]),
+    ([Bài 01], [8.5], [9.0]),
+    ([Bài 02], [7.0], [9.5])
+  )
+)</code></pre>
+                    <div class="card-foot">
+                        <button class="copy-card-btn" onclick="copySnippet('code-cetz-table-xuoi')"><i data-lucide="copy"></i> Copy Code</button>
+                        <button class="load-card-btn" onclick="editSnippetLive('code-cetz-table-xuoi')"><i data-lucide="zap"></i> Sửa & Render Live</button>
+                    </div>
+                </div>
+
+                <!-- CARD 13C2: O-CHEO 3 MIỀN NATIVE -->
+                <div class="card-item">
+                    <div class="card-head">
+                        <h3><i data-lucide="slash" style="color:#0284c7;"></i> Ô Chéo 3 Vùng (#o-cheo3-cell)</h3>
+                        <span class="bbt-live-kicker">3 vùng góc</span>
+                    </div>
+                    <div class="card-preview" id="prev-ocheo-3">⏳ Đang render…</div>
+                    <pre class="card-code"><code id="code-ocheo-3">#import "bbt.typ": o-cheo3-cell
+#table(
+  columns: (3.5cm, 2.2cm, 2.2cm),
+  align: center + horizon,
+  o-cheo3-cell("Trường", "Năm", "Môn"), [Toán 10], [Toán 11],
+  [THPT A], [2024], [9.0],
+  [THPT B], [2025], [9.5]
+)</code></pre>
+                    <div class="card-foot">
+                        <button class="copy-card-btn" onclick="copySnippet('code-ocheo-3')"><i data-lucide="copy"></i> Copy Code</button>
+                        <button class="load-card-btn" onclick="editSnippetLive('code-ocheo-3')"><i data-lucide="zap"></i> Sửa & Render Live</button>
+                    </div>
+                </div>
+
+                <!-- CARD 13D: BẢNG CETZ THUẦN (CHÉO NGƯỢC & GỘP Ô) -->
+                <div class="card-item">
+                    <div class="card-head">
+                        <h3><i data-lucide="box" style="color:#7c3aed;"></i> Bảng CeTZ (Chéo Ngược / & Gộp Ô)</h3>
+                        <span class="bbt-live-kicker">Sạch đường kẻ 100%</span>
+                    </div>
+                    <div class="card-preview" id="prev-cetz-table">⏳ Đang render…</div>
+                    <pre class="card-code"><code id="code-cetz-table">#import "bbt.typ": cetz-table, cetz-o-cheo, cetz-cell
+#cetz-table(
+  cols: (3.5cm, 2.2cm, 2.2cm),
+  data: (
+    (cetz-o-cheo("Trường", "Môn", dir: "tr-bl"), [Toán 10], [Toán 11]),
+    (cetz-cell([Gộp 2 cột], colspan: 2, fill: rgb("#f1f5f9")), [9.0]),
+    ([Bài 02], [7.0], [9.5])
+  )
+)</code></pre>
+                    <div class="card-foot">
+                        <button class="copy-card-btn" onclick="copySnippet('code-cetz-table')"><i data-lucide="copy"></i> Copy Code</button>
+                        <button class="load-card-btn" onclick="editSnippetLive('code-cetz-table')"><i data-lucide="zap"></i> Sửa & Render Live</button>
+                    </div>
+                </div>
+
+                <!-- CARD 13E: BẢNG CETZ THUẦN 3 MIỀN -->
+                <div class="card-item">
+                    <div class="card-head">
+                        <h3><i data-lucide="box" style="color:#6366f1;"></i> Bảng CeTZ 3 Vùng (cetz-o-cheo3)</h3>
+                        <span class="bbt-live-kicker">3 vùng CeTZ</span>
+                    </div>
+                    <div class="card-preview" id="prev-cetz-table-3">⏳ Đang render…</div>
+                    <pre class="card-code"><code id="code-cetz-table-3">#import "bbt.typ": cetz-table, cetz-o-cheo3
+#cetz-table(
+  cols: (3.6cm, 2.2cm, 2.2cm),
+  row-height: 1.4cm,
+  data: (
+    (cetz-o-cheo3("Trường", "Năm", "Môn"), [Toán 10], [Toán 11]),
+    ([THPT A], [2024], [9.0])
+  )
+)</code></pre>
+                    <div class="card-foot">
+                        <button class="copy-card-btn" onclick="copySnippet('code-cetz-table-3')"><i data-lucide="copy"></i> Copy Code</button>
+                        <button class="load-card-btn" onclick="editSnippetLive('code-cetz-table-3')"><i data-lucide="zap"></i> Sửa & Render Live</button>
+                    </div>
+                </div>
+
+                <!-- CARD 14: TABLE CELL MERGE -->
+                <div class="card-item">
+                    <div class="card-head">
+                        <h3><i data-lucide="table-properties" style="color:#10b981;"></i> Nối Cột & Nối Hàng (table.cell)</h3>
+                        <span class="bbt-live-kicker">Colspan / Rowspan</span>
+                    </div>
+                    <div class="card-preview" id="prev-table-cell">⏳ Đang render…</div>
+                    <pre class="card-code"><code id="code-table-cell">#table(
+  columns: (2.5cm, 2.5cm, 2.5cm),
+  align: center + horizon,
+  table.cell(colspan: 2, fill: rgb("#f1f5f9"))[*Tiêu đề nối 2 cột*], [*Cột 3*],
+  table.cell(rowspan: 2, fill: rgb("#f8fafc"))[*Nối 2 hàng*], [Hàng 1 - Ô A], [Hàng 1 - Ô B],
+  [Hàng 2 - Ô A], [Hàng 2 - Ô B]
+)</code></pre>
+                    <div class="card-foot">
+                        <button class="copy-card-btn" onclick="copySnippet('code-table-cell')"><i data-lucide="copy"></i> Copy Code</button>
+                        <button class="load-card-btn" onclick="editSnippetLive('code-table-cell')"><i data-lucide="zap"></i> Sửa & Render Live</button>
+                    </div>
+                </div>
+
+                <!-- CARD 15: BẢNG GIÁ TRỊ HÀM SỐ -->
+                <div class="card-item">
+                    <div class="card-head">
+                        <h3><i data-lucide="grid" style="color:#8b5cf6;"></i> Bảng Giá Trị Hàm Số y=f(x)</h3>
+                        <span class="bbt-live-kicker">Chuẩn SGK</span>
+                    </div>
+                    <div class="card-preview" id="prev-table-giatri">⏳ Đang render…</div>
+                    <pre class="card-code"><code id="code-table-giatri">#table(
+  columns: (1.8cm, ..range(5).map(_ => 1.5cm)),
+  align: center + horizon,
+  [$x$], [$-2$], [$-1$], [$0$], [$1$], [$2$],
+  [$y$], [$4$], [$1$], [$0$], [$1$], [$4$]
+)</code></pre>
+                    <div class="card-foot">
+                        <button class="copy-card-btn" onclick="copySnippet('code-table-giatri')"><i data-lucide="copy"></i> Copy Code</button>
+                        <button class="load-card-btn" onclick="editSnippetLive('code-table-giatri')"><i data-lucide="zap"></i> Sửa & Render Live</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 6: BẢNG XÉT DẤU -->
+        <div id="tab-bxd" class="tab-content" style="display:none;">
+            <div class="gallery-grid">
+                <!-- CARD 16: BXD TICH -->
+                <div class="card-item">
+                    <div class="card-head">
+                        <h3><i data-lucide="calculator" style="color:#8b5cf6;"></i> Xét Dấu Tích (#bxd-tich)</h3>
+                        <span class="bbt-live-kicker">Tự tính dòng f(x)</span>
+                    </div>
+                    <div class="card-preview" id="prev-bxd-tich">⏳ Đang render…</div>
+                    <pre class="card-code"><code id="code-bxd-tich">#import "bbt.typ": bxd-tich
+#bxd-tich(
+  var: $x$,
+  x-vals: ($-oo$, $-2$, $3$, $+oo$),
+  rows: (
+    ($x + 2$, ($-$, $0$, $+$, $+$, $+$)),
+    ($3 - x$, ($+$, $+$, $+$, $0$, $-$)),
+  ),
+  func: $f(x)$
+)</code></pre>
+                    <div class="card-foot">
+                        <button class="copy-card-btn" onclick="copySnippet('code-bxd-tich')"><i data-lucide="copy"></i> Copy Code</button>
+                        <button class="load-card-btn" onclick="editSnippetLive('code-bxd-tich')"><i data-lucide="zap"></i> Sửa & Render Live</button>
+                    </div>
+                </div>
+
+                <!-- CARD 17: BXD THƯƠNG -->
+                <div class="card-item">
+                    <div class="card-head">
+                        <h3><i data-lucide="divide" style="color:#dc2626;"></i> Xét Dấu Thương (#bxd-tich có ||)</h3>
+                        <span class="bbt-live-kicker">Không xác định ||</span>
+                    </div>
+                    <div class="card-preview" id="prev-bxd-thuong">⏳ Đang render…</div>
+                    <pre class="card-code"><code id="code-bxd-thuong">#import "bbt.typ": bxd-tich
+#bxd-tich(
+  var: $x$,
+  x-vals: ($-oo$, $-2$, $1$, $+oo$),
+  rows: (
+    ($x - 1$, ($-$, $-$, $-$, $0$, $+$)),
+    ($x + 2$, ($-$, $0$, $+$, $+$, $+$)),
+  ),
+  func: $(x-1)/(x+2)$
+)</code></pre>
+                    <div class="card-foot">
+                        <button class="copy-card-btn" onclick="copySnippet('code-bxd-thuong')"><i data-lucide="copy"></i> Copy Code</button>
+                        <button class="load-card-btn" onclick="editSnippetLive('code-bxd-thuong')"><i data-lucide="zap"></i> Sửa & Render Live</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 7: THUẦN CETZ CANVAS (TÙY BIẾN 100%) -->
+        <div id="tab-cetz-pure" class="tab-content" style="display:none;">
+            <div class="gallery-grid">
+                <!-- CARD 18: CETZ BẬC 3 -->
+                <div class="card-item">
+                    <div class="card-head">
+                        <h3><i data-lucide="shapes" style="color:#eab308;"></i> CeTZ Thuần: Hàm Bậc 3</h3>
+                        <span class="bbt-live-kicker">Zero macro - 100% CeTZ canvas</span>
+                    </div>
+                    <div class="card-preview" id="prev-cetz-bbt-bac3">⏳ Đang render…</div>
+                    <pre class="card-code"><code id="code-cetz-bbt-bac3">#import "@preview/cetz:0.5.2": canvas, draw
+#canvas({
+  import draw: *
+  rect((0,0), (10, -3.8), stroke: 0.8pt)
+  line((0, -0.7), (10, -0.7), stroke: 0.8pt)
+  line((0, -1.4), (10, -1.4), stroke: 0.8pt)
+  line((1.5, 0), (1.5, -3.8), stroke: 0.8pt)
+  content((0.75, -0.35), $x$)
+  content((0.75, -1.05), $y'$)
+  content((0.75, -2.60), $y$)
+  content((2.5, -0.35), [$-oo$])
+  content((4.5, -0.35), [$1$])
+  content((7.0, -0.35), [$3$])
+  content((9.2, -0.35), [$+oo$])
+  content((3.5, -1.05), [$+$])
+  content((4.5, -1.05), [$0$])
+  content((5.75, -1.05), [$-$])
+  content((7.0, -1.05), [$0$])
+  content((8.1, -1.05), [$+$])
+  content((2.5, -3.4), [$-oo$], name: "v0")
+  content((4.5, -1.8), [$3$], name: "v1")
+  content((7.0, -3.4), [$-1$], name: "v2")
+  content((9.2, -1.8), [$+oo$], name: "v3")
+  line("v0", "v1", mark: (end: "stealth", fill: black), stroke: 0.8pt)
+  line("v1", "v2", mark: (end: "stealth", fill: black), stroke: 0.8pt)
+  line("v2", "v3", mark: (end: "stealth", fill: black), stroke: 0.8pt)
+})</code></pre>
+                    <div class="card-foot">
+                        <button class="copy-card-btn" onclick="copySnippet('code-cetz-bbt-bac3')"><i data-lucide="copy"></i> Copy Code</button>
+                        <button class="load-card-btn" onclick="editSnippetLive('code-cetz-bbt-bac3')"><i data-lucide="zap"></i> Sửa & Render Live</button>
+                    </div>
+                </div>
+
+                <!-- CARD 19: CETZ ĐIỂM PHỤ & MŨI TÊN DÓNG -->
+                <div class="card-item">
+                    <div class="card-head">
+                        <h3><i data-lucide="git-commit" style="color:#ef4444;"></i> CeTZ Thuần: Điểm Phụ x=2 & Mũi Tên Dóng</h3>
+                        <span class="bbt-live-kicker">Chân số x=2 dóng xuống</span>
+                    </div>
+                    <div class="card-preview" id="prev-cetz-bbt-subpoint">⏳ Đang render…</div>
+                    <pre class="card-code"><code id="code-cetz-bbt-subpoint">#import "@preview/cetz:0.5.2": canvas, draw
+#canvas({
+  import draw: *
+  rect((0,0), (10, -3.8), stroke: 0.8pt)
+  line((0, -0.7), (10, -0.7), stroke: 0.8pt)
+  line((0, -1.4), (10, -1.4), stroke: 0.8pt)
+  line((1.5, 0), (1.5, -3.8), stroke: 0.8pt)
+  content((0.75, -0.35), $x$)
+  content((0.75, -1.05), $y'$)
+  content((0.75, -2.60), $y$)
+  content((2.5, -0.35), [$-oo$])
+  content((4.5, -0.35), [$1$])
+  content((5.75, -0.35), [$2$])
+  content((7.0, -0.35), [$3$])
+  content((9.2, -0.35), [$+oo$])
+  content((3.5, -1.05), [$+$])
+  content((4.5, -1.05), [$0$])
+  content((5.1, -1.05), [$-$])
+  content((6.37, -1.05), [$-$])
+  content((7.0, -1.05), [$0$])
+  content((8.1, -1.05), [$+$])
+  content((2.5, -3.4), [$-oo$], name: "v0")
+  content((4.5, -1.8), [$3$], name: "v1")
+  content((7.0, -3.4), [$-1$], name: "v2")
+  content((9.2, -1.8), [$+oo$], name: "v3")
+  line("v0", "v1", mark: (end: "stealth", fill: black), stroke: 0.8pt)
+  line("v1", "v2", mark: (end: "stealth", fill: black), stroke: 0.8pt)
+  line("v2", "v3", mark: (end: "stealth", fill: black), stroke: 0.8pt)
+  content((5.75, -2.6), [$1$], fill: white, padding: 0.1)
+  line((5.75, -0.55), (5.75, -2.4), stroke: (dash: "dashed", paint: rgb("#dc2626"), thickness: 0.8pt), mark: (end: "stealth", fill: rgb("#dc2626")))
+})</code></pre>
+                    <div class="card-foot">
+                        <button class="copy-card-btn" onclick="copySnippet('code-cetz-bbt-subpoint')"><i data-lucide="copy"></i> Copy Code</button>
+                        <button class="load-card-btn" onclick="editSnippetLive('code-cetz-bbt-subpoint')"><i data-lucide="zap"></i> Sửa & Render Live</button>
+                    </div>
+                </div>
+
+                <!-- CARD 20: CETZ NHẤT BIẾN 2 GẠCH -->
+                <div class="card-item">
+                    <div class="card-head">
+                        <h3><i data-lucide="split" style="color:#0284c7;"></i> CeTZ Thuần: Hàm Nhất Biến 2 Gạch</h3>
+                        <span class="bbt-live-kicker">Gạch đôi x=1</span>
+                    </div>
+                    <div class="card-preview" id="prev-cetz-bbt-hyperbola">⏳ Đang render…</div>
+                    <pre class="card-code"><code id="code-cetz-bbt-hyperbola">#import "@preview/cetz:0.5.2": canvas, draw
+#canvas({
+  import draw: *
+  rect((0,0), (10, -3.8), stroke: 0.8pt)
+  line((0, -0.7), (10, -0.7), stroke: 0.8pt)
+  line((0, -1.4), (10, -1.4), stroke: 0.8pt)
+  line((1.5, 0), (1.5, -3.8), stroke: 0.8pt)
+  content((0.75, -0.35), $x$)
+  content((0.75, -1.05), $y'$)
+  content((0.75, -2.60), $y$)
+  content((2.5, -0.35), [$-oo$])
+  content((5.75, -0.35), [$1$])
+  content((9.0, -0.35), [$+oo$])
+  content((4.12, -1.05), [$-$])
+  content((7.37, -1.05), [$-$])
+  line((5.70, -0.7), (5.70, -3.8), stroke: 0.8pt)
+  line((5.80, -0.7), (5.80, -3.8), stroke: 0.8pt)
+  content((2.5, -1.8), [$2$], name: "v0")
+  content((5.45, -3.4), [$-oo$], name: "v1")
+  content((6.05, -1.8), [$+oo$], name: "v2")
+  content((9.0, -3.4), [$2$], name: "v3")
+  line("v0", "v1", mark: (end: "stealth", fill: black), stroke: 0.8pt)
+  line("v2", "v3", mark: (end: "stealth", fill: black), stroke: 0.8pt)
+})</code></pre>
+                    <div class="card-foot">
+                        <button class="copy-card-btn" onclick="copySnippet('code-cetz-bbt-hyperbola')"><i data-lucide="copy"></i> Copy Code</button>
+                        <button class="load-card-btn" onclick="editSnippetLive('code-cetz-bbt-hyperbola')"><i data-lucide="zap"></i> Sửa & Render Live</button>
+                    </div>
+                </div>
+
+                <!-- CARD 21: CETZ BẬC 4 TRÙNG PHƯƠNG -->
+                <div class="card-item">
+                    <div class="card-head">
+                        <h3><i data-lucide="activity" style="color:#8b5cf6;"></i> CeTZ Thuần: Hàm Bậc 4 (3 Cực Trị)</h3>
+                        <span class="bbt-live-kicker">W-shape 4 mũi tên</span>
+                    </div>
+                    <div class="card-preview" id="prev-cetz-bbt-bac4">⏳ Đang render…</div>
+                    <pre class="card-code"><code id="code-cetz-bbt-bac4">#import "@preview/cetz:0.5.2": canvas, draw
+#canvas({
+  import draw: *
+  rect((0,0), (10, -3.8), stroke: 0.8pt)
+  line((0, -0.7), (10, -0.7), stroke: 0.8pt)
+  line((0, -1.4), (10, -1.4), stroke: 0.8pt)
+  line((1.5, 0), (1.5, -3.8), stroke: 0.8pt)
+  content((0.75, -0.35), $x$)
+  content((0.75, -1.05), $y'$)
+  content((0.75, -2.60), $y$)
+  content((2.2, -0.35), [$-oo$])
+  content((3.8, -0.35), [$-2$])
+  content((5.75, -0.35), [$0$])
+  content((7.7, -0.35), [$2$])
+  content((9.3, -0.35), [$+oo$])
+  content((3.0, -1.05), [$-$])
+  content((3.8, -1.05), [$0$])
+  content((4.7, -1.05), [$+$])
+  content((5.75, -1.05), [$0$])
+  content((6.7, -1.05), [$-$])
+  content((7.7, -1.05), [$0$])
+  content((8.5, -1.05), [$+$])
+  content((2.2, -1.8), [$+oo$], name: "v0")
+  content((3.8, -3.4), [$-3$], name: "v1")
+  content((5.75, -1.8), [$1$], name: "v2")
+  content((7.7, -3.4), [$-3$], name: "v3")
+  content((9.3, -1.8), [$+oo$], name: "v4")
+  line("v0", "v1", mark: (end: "stealth", fill: black), stroke: 0.8pt)
+  line("v1", "v2", mark: (end: "stealth", fill: black), stroke: 0.8pt)
+  line("v2", "v3", mark: (end: "stealth", fill: black), stroke: 0.8pt)
+  line("v3", "v4", mark: (end: "stealth", fill: black), stroke: 0.8pt)
+})</code></pre>
+                    <div class="card-foot">
+                        <button class="copy-card-btn" onclick="copySnippet('code-cetz-bbt-bac4')"><i data-lucide="copy"></i> Copy Code</button>
+                        <button class="load-card-btn" onclick="editSnippetLive('code-cetz-bbt-bac4')"><i data-lucide="zap"></i> Sửa & Render Live</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- WORKBENCH SECTION (LIVE INTERACTIVE GENERATOR & EDITOR) -->
+        <div class="workbench-section">
+            <div class="workbench-title">
+                <span style="display:flex;align-items:center;gap:8px;"><i data-lucide="sliders" style="color:#0ea5e9;"></i> Trình Tùy Chỉnh & Sửa Code Trực Tiếp (Workbench)</span>
+                <span id="bbtCheckBadge" class="bbt-live-kicker" style="font-size:11px;">Sẵn sàng</span>
+            </div>
+            
+            <div class="workbench-mode-switch">
+                <button type="button" id="modeCodeBtn" class="mode-btn active" onclick="setWorkbenchMode('code')"><i data-lucide="code"></i> 1. Trình Soạn Thảo Code Live (Chỉnh sửa mọi mẫu)</button>
+                <button type="button" id="modeFormBtn" class="mode-btn" onclick="setWorkbenchMode('form')"><i data-lucide="sliders"></i> 2. Form Điền Tham Số Trực Quan (#bbtv2)</button>
+            </div>
+
+            <div class="bbt-live" id="bbtLive" style="margin:0;">
+                <div class="bbt-live-grid">
+                    <!-- MODE 1: FREE CODE EDITOR -->
+                    <div id="workbenchCodePanel" class="bbt-control-panel" style="display:block;">
+                        <label>
+                            <span style="display:flex;justify-content:space-between;align-items:center;">
+                                <span>Nhập/Sửa Mã Typst Trực Tiếp:</span>
+                                <small style="color:#0ea5e9;font-weight:normal;">Render tự động 50ms</small>
+                            </span>
+                            <textarea id="bbtLiveTextarea" class="live-code-textarea" spellcheck="false">#bbtv2(
+  var: $x$, der: $y'$, func: $y$,
+  x-vals: ($-oo$, $-1$, $1$, $+oo$),
+  d-signs: ($+$, $0$, $-$, $0$, $+$),
+  v-vals: ($-oo$, $3$, $-1$, $+oo$),
+)</textarea>
+                        </label>
+                        <div style="display:flex;gap:8px;margin-top:10px;">
+                            <button type="button" class="bbt-action-btn" id="bbtCopyBtn"><i data-lucide="copy"></i> Copy Code</button>
+                            <button type="button" class="bbt-action-btn ghost" id="bbtCopyFullBtn"><i data-lucide="file-code"></i> Copy File .typ</button>
+                        </div>
+                    </div>
+
+                    <!-- MODE 2: FORM PARAMETERS -->
+                    <div id="workbenchFormPanel" class="bbt-control-panel" style="display:none;">
+                        <label>
+                            <span>Nhãn hàng</span>
+                            <div class="bbt-inline-3">
+                                <div><input id="bbtVar" value="$x$" /><span class="field-hint">Nhãn biến (x)</span></div>
+                                <div><input id="bbtDer" value="$y'$" /><span class="field-hint">Nhãn đạo hàm</span></div>
+                                <div><input id="bbtFunc" value="$y$" /><span class="field-hint">Nhãn hàm số</span></div>
+                            </div>
+                        </label>
+                        <label>
+                            <span>x-vals (Các mốc x)</span>
+                            <textarea id="bbtXVals" rows="2" spellcheck="false">$-oo$, $-1$, $1$, $+oo$</textarea>
+                            <span class="field-hint">Cấu trúc: ($-oo$, mốc₁, mốc₂, $+oo$)</span>
+                        </label>
+                        <label>
+                            <span>d-signs (Dấu đạo hàm)</span>
+                            <textarea id="bbtDSigns" rows="2" spellcheck="false">$+$, $0$, $-$, $0$, $+$</textarea>
+                            <span class="field-hint">Cấu trúc 2n-3: khoảng, tại_x, khoảng, tại_x...</span>
+                        </label>
+                        <label>
+                            <span>v-vals (Giá trị y tương ứng)</span>
+                            <textarea id="bbtVVals" rows="2" spellcheck="false">$-oo$, $3$, $-1$, $+oo$</textarea>
+                            <span class="field-hint">Số phần tử đúng bằng số mốc x. Tiệm cận dùng ($+oo$, $-oo$)</span>
+                        </label>
+                        <label>
+                            <span>shade (Vùng gạch chéo tiệm cận)</span>
+                            <input id="bbtShade" value="" placeholder="VD: 1-2 hoặc ((1, 2),)" />
+                            <span class="field-hint">VD: 1-2 để gạch chéo từ mốc 1 đến mốc 2</span>
+                        </label>
+                        <div class="bbt-inline-3">
+                            <label><span>w1</span><input id="bbtW1" type="number" step="0.1" value="1.5" /><span class="field-hint">Rộng nhãn (cm)</span></label>
+                            <label><span>w2</span><input id="bbtW2" type="number" step="0.5" value="10" /><span class="field-hint">Rộng bảng (cm)</span></label>
+                            <label><span>h3</span><input id="bbtH3" value="auto" /><span class="field-hint">Cao hàng y</span></label>
+                        </div>
+                        <div class="bbt-live-note" id="bbtLiveNote"></div>
+                    </div>
+
+                    <!-- RIGHT PREVIEW PANEL -->
+                    <div class="bbt-preview-panel">
+                        <div class="bbt-preview-toolbar" style="padding:14px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;">
+                            <strong style="font-size:0.9rem;">Kết quả Render Typst Trực Tiếp (WASM)</strong>
+                            <span style="font-size:0.75rem;color:#10b981;font-weight:700;"><i data-lucide="check-circle"></i> Live SVG</span>
+                        </div>
+                        <div class="bbt-preview-scroll" style="padding:20px;display:flex;justify-content:center;align-items:center;min-height:300px;overflow:auto;">
+                            <div id="bbtPreview" class="bbt-official-preview" style="text-align:center;width:100%;"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -541,491 +1120,253 @@
     </main>
 
     <script>
-        // ── State ──────────────────────────────────────────────
-        let state = {
-            numPoints: 1,  // số điểm cực trị (interior points)
-            xVals: [],     // x values for all points including -∞ and +∞
-            dSigns: [],    // derivative signs
-            yVals: [],     // y values (single or jump)
-            isJump: [],    // whether each y-val is a jump
-            yValsLeft: [], // left y values for jumps
-            yValsRight: [], // right y values for jumps
-            shades: [],    // shade pairs
-        }
+        function el(id) { return document.getElementById(id); }
 
-        function initState(n) {
-            state.numPoints = n
-            const total = n + 2  // interior + 2 boundaries
-            state.xVals = Array(total).fill('').map((_, i) => {
-                if (i === 0) return '-oo'
-                if (i === total - 1) return '+oo'
-                return String(i)  // placeholder
-            })
-            state.dSigns = Array(2 * n + 1).fill('+') // 2n+1 for interior+interval signs = 2*total-3
-            state.yVals = Array(total).fill('')
-            state.yVals[0] = '-oo'
-            state.yVals[total - 1] = '+oo'
-            state.isJump = Array(total).fill(false)
-            state.yValsLeft = Array(total).fill('')
-            state.yValsRight = Array(total).fill('')
-        }
+        let currentWorkbenchMode = 'code';
 
-        function rebuildTable() {
-            const n = parseInt(document.getElementById('numPoints').value) || 0
-            if (n !== state.numPoints) {
-                initState(n)
-                state.shades = []
-                document.getElementById('shadeItems').innerHTML = ''
-            }
-            renderForm()
-            generate()
-        }
+        function setWorkbenchMode(mode) {
+            currentWorkbenchMode = mode;
+            const codePanel = el('workbenchCodePanel');
+            const formPanel = el('workbenchFormPanel');
+            const codeBtn = el('modeCodeBtn');
+            const formBtn = el('modeFormBtn');
 
-        // ── Render Form ───────────────────────────────────────
-        function renderForm() {
-            const n = state.numPoints
-            const total = n + 2
-            const container = document.getElementById('bbtFormContainer')
-
-            let html = `<div style="overflow-x:auto;">`
-            html += `<table style="border-collapse:collapse;width:100%;min-width:400px;">`
-
-            // Header row with x values
-            html += `<tr>`
-            html += `<td style="padding:6px 12px;font-weight:600;background:#f8fafc;border:1px solid var(--line);">x</td>`
-            for (let i = 0; i < total; i++) {
-                html += `<td style="border:1px solid var(--line);padding:4px;">`
-                html += `<input class="form-input" style="width:80px;text-align:center;" id="xval_${i}" value="${state.xVals[i]}" placeholder="${i === 0 ? '-oo' : i === total - 1 ? '+oo' : 'x' + i}" oninput="onXChange(${i})" />`
-                html += `</td>`
-                if (i < total - 1) {
-                    // Interval column
-                    html += `<td style="border:1px solid var(--line);padding:4px;background:#fafafa;min-width:50px;"></td>`
-                }
-            }
-            html += `</tr>`
-
-            // Derivative row
-            html += `<tr>`
-            html += `<td style="padding:6px 12px;font-weight:600;background:#f8fafc;border:1px solid var(--line);">y′</td>`
-            const dLen = 2 * n + 1  // for total = n+2, d-signs length = 2*(n+2)-3 = 2n+1
-            let dIdx = 0
-            for (let i = 0; i < total; i++) {
-                html += `<td style="border:1px solid var(--line);padding:4px;text-align:center;">`
-                if (i === 0 || i === total - 1) {
-                    html += `<span style="color:var(--muted)">—</span>`
-                } else {
-                    // Sign at x[i] (interior point)
-                    html += `<select id="dsign_at_${i}" onchange="onDSignChange()" style="border:none;cursor:pointer;font-size:0.95rem;width:60px;text-align:center;">`
-                    html += `<option value="0" ${state.dSigns[dIdx * 2 - 1] === '0' ? 'selected' : ''}>0</option>`
-                    html += `<option value="||" ${state.dSigns[dIdx * 2 - 1] === '||' ? 'selected' : ''}>&Vert;</option>`
-                    html += `<option value="" ${state.dSigns[dIdx * 2 - 1] === '' ? 'selected' : ''}>—</option>`
-                    html += `</select>`
-                }
-                html += `</td>`
-                if (i < total - 1) {
-                    // Sign in interval
-                    const signIdx = i === 0 ? 0 : dIdx * 2
-                    html += `<td style="border:1px solid var(--line);padding:4px;background:#fafafa;">`
-                    html += `<select id="dsign_interval_${i}" onchange="onDSignChange()" style="border:none;cursor:pointer;font-size:1rem;width:50px;text-align:center;">`
-                    html += `<option value="+" ${(i === 0 ? state.dSigns[0] : state.dSigns[dIdx * 2]) === '+' ? 'selected' : ''}>+</option>`
-                    html += `<option value="-" ${(i === 0 ? state.dSigns[0] : state.dSigns[dIdx * 2]) === '-' ? 'selected' : ''}>−</option>`
-                    html += `<option value="" ${(i === 0 ? state.dSigns[0] : state.dSigns[dIdx * 2]) === '' ? 'selected' : ''}>—</option>`
-                    html += `</select>`
-                    html += `</td>`
-                    if (i > 0) dIdx++
-                }
-            }
-            html += `</tr>`
-
-            // Y row
-            html += `<tr>`
-            html += `<td style="padding:6px 12px;font-weight:600;background:#f8fafc;border:1px solid var(--line);">y</td>`
-            for (let i = 0; i < total; i++) {
-                html += `<td style="border:1px solid var(--line);padding:4px;vertical-align:middle;">`
-                if (state.isJump[i]) {
-                    html += `<div style="display:flex;flex-direction:column;gap:2px;">`
-                    html += `<input class="form-input" style="width:70px;font-size:0.8rem;" id="yleft_${i}" value="${state.yValsLeft[i]}" placeholder="trái" oninput="onYChange(${i})" />`
-                    html += `<input class="form-input" style="width:70px;font-size:0.8rem;" id="yright_${i}" value="${state.yValsRight[i]}" placeholder="phải" oninput="onYChange(${i})" />`
-                    html += `<button class="btn btn-danger btn-sm" onclick="toggleJump(${i})" title="Bỏ nhảy">×</button>`
-                    html += `</div>`
-                } else {
-                    html += `<div style="display:flex;gap:3px;align-items:center;">`
-                    html += `<input class="form-input" style="width:70px;" id="yval_${i}" value="${state.yVals[i]}" placeholder="y${i}" oninput="onYChange(${i})" />`
-                    if (i > 0 && i < total - 1) {
-                        html += `<button class="btn btn-secondary btn-sm" onclick="toggleJump(${i})" title="Gián đoạn/Tiệm cận">⇕</button>`
-                    }
-                    html += `</div>`
-                }
-                html += `</td>`
-                if (i < total - 1) {
-                    html += `<td style="border:1px solid var(--line);padding:4px;background:#fafafa;text-align:center;">`
-                    // show arrow direction based on signs
-                    html += `<span id="arrow_${i}" style="font-size:1.2rem;">→</span>`
-                    html += `</td>`
-                }
-            }
-            html += `</tr>`
-            html += `</table></div>`
-
-            container.innerHTML = html
-            updateArrows()
-        }
-
-        function updateArrows() {
-            const n = state.numPoints
-            const total = n + 2
-            const signs = getDSignsArray()
-
-            for (let i = 0; i < total - 1; i++) {
-                const intervalSign = signs[i === 0 ? 0 : i * 2]
-                const el = document.getElementById(`arrow_${i}`)
-                if (!el) continue
-                if (intervalSign === '+') el.innerHTML = '<span style="color:#16a34a;font-size:1.3rem">↗</span>'
-                else if (intervalSign === '-') el.innerHTML = '<span style="color:#dc2626;font-size:1.3rem">↘</span>'
-                else el.innerHTML = '<span style="color:#94a3b8;">→</span>'
-            }
-        }
-
-        function getDSignsArray() {
-            const n = state.numPoints
-            const total = n + 2
-            const signs = []
-            // Structure: interval0, at_x1, interval1, at_x2, ..., at_x_{n}, interval_{n}
-            // = 2n+1 elements for n interior points
-            for (let i = 0; i < total; i++) {
-                if (i < total - 1) {
-                    const el = document.getElementById(`dsign_interval_${i}`)
-                    signs.push(el ? el.value : '+')
-                }
-                if (i > 0 && i < total - 1) {
-                    const el = document.getElementById(`dsign_at_${i}`)
-                    signs.push(el ? el.value : '0')
-                }
-            }
-            return signs
-        }
-
-        function onXChange(i) {
-            state.xVals[i] = document.getElementById(`xval_${i}`).value
-            generate()
-        }
-
-        function onDSignChange() {
-            updateArrows()
-            generate()
-        }
-
-        function onYChange(i) {
-            if (state.isJump[i]) {
-                state.yValsLeft[i] = document.getElementById(`yleft_${i}`)?.value || ''
-                state.yValsRight[i] = document.getElementById(`yright_${i}`)?.value || ''
+            if (mode === 'code') {
+                if (codePanel) codePanel.style.display = 'block';
+                if (formPanel) formPanel.style.display = 'none';
+                codeBtn?.classList.add('active');
+                formBtn?.classList.remove('active');
             } else {
-                state.yVals[i] = document.getElementById(`yval_${i}`)?.value || ''
+                if (codePanel) codePanel.style.display = 'none';
+                if (formPanel) formPanel.style.display = 'block';
+                formBtn?.classList.add('active');
+                codeBtn?.classList.remove('active');
+                renderBbtFromForm();
             }
-            generate()
+            scheduleBbtOfficialRender(50);
         }
 
-        function toggleJump(i) {
-            state.isJump[i] = !state.isJump[i]
-            if (state.isJump[i]) {
-                state.yValsLeft[i] = state.yVals[i]
-                state.yValsRight[i] = ''
-            }
-            renderForm()
-            generate()
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
+            
+            const selectedBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick')?.includes(tabId));
+            if (selectedBtn) selectedBtn.classList.add('active');
+            
+            const target = el(tabId);
+            if (target) target.style.display = 'block';
         }
 
-        // ── Generate Typst code ───────────────────────────────
-        function generate() {
-            const varName = document.getElementById('varName').value || 'x'
-            const derName = document.getElementById('derName').value || "y'"
-            const funcName = document.getElementById('funcName').value || 'y'
-            const n = state.numPoints
-            const total = n + 2
+        async function copySnippet(id) {
+            const code = el(id)?.textContent || '';
+            await navigator.clipboard.writeText(code);
+            alert('✓ Đã copy mã Typst!');
+        }
 
-            // Collect current values from DOM
-            const xVals = []
-            for (let i = 0; i < total; i++) {
-                xVals.push(document.getElementById(`xval_${i}`)?.value || state.xVals[i])
+        function editSnippetLive(id) {
+            const code = el(id)?.textContent || '';
+            if (!code) return;
+            setWorkbenchMode('code');
+            const textarea = el('bbtLiveTextarea');
+            if (textarea) textarea.value = code;
+            el('bbtLive')?.scrollIntoView({ behavior: 'smooth' });
+            scheduleBbtOfficialRender(50);
+        }
+
+        const GALLERY_CODES = {
+            'prev-bbt-bac3-a1': `#import "bbt.typ": *\n#bbtv2(var: $x$, der: $y'$, func: $y$, x-vals: ($-oo$, $-1$, $1$, $+oo$), d-signs: ($+$, $0$, $-$, $0$, $+$), v-vals: ($-oo$, $3$, $-1$, $+oo$))`,
+            'prev-bbt-bac3-a0': `#import "bbt.typ": *\n#bbtv2(var: $x$, der: $y'$, func: $y$, x-vals: ($-oo$, $-2$, $2$, $+oo$), d-signs: ($-$, $0$, $+$, $0$, $-$), v-vals: ($+oo$, $-4$, $4$, $-oo$))`,
+            'prev-bbt-don-dieu': `#import "bbt.typ": *\n#bbtv2(var: $x$, der: $y'$, func: $y$, x-vals: ($-oo$, $+oo$), d-signs: ($+$,), v-vals: ($-oo$, $+oo$))`,
+            'prev-bbt-don-giam': `#import "bbt.typ": *\n#bbtv2(var: $x$, der: $y'$, func: $y$, x-vals: ($-oo$, $+oo$), d-signs: ($-$,), v-vals: ($+oo$, $-oo$))`,
+            'prev-bbt-bac4-3ct': `#import "bbt.typ": *\n#bbtv2(var: $x$, der: $y'$, func: $y$, x-vals: ($-oo$, $-2$, $0$, $2$, $+oo$), d-signs: ($-$, $0$, $+$, $0$, $-$, $0$, $+$), v-vals: ($+oo$, $-3$, $1$, $-3$, $+oo$))`,
+            'prev-bbt-bac4-3ct-a0': `#import "bbt.typ": *\n#bbtv2(var: $x$, der: $y'$, func: $y$, x-vals: ($-oo$, $-1$, $0$, $1$, $+oo$), d-signs: ($+$, $0$, $-$, $0$, $+$, $0$, $-$), v-vals: ($-oo$, $2$, $-1$, $2$, $-oo$))`,
+            'prev-bbt-bac4-1ct': `#import "bbt.typ": *\n#bbtv2(var: $x$, der: $y'$, func: $y$, x-vals: ($-oo$, $0$, $+oo$), d-signs: ($-$, $0$, $+$), v-vals: ($+oo$, $-2$, $+oo$))`,
+            'prev-bbt-hyperbola': `#import "bbt.typ": *\n#bbtv2(var: $x$, der: $y'$, func: $y$, x-vals: ($-oo$, $1$, $+oo$), d-signs: ($-$, $||$, $-$), v-vals: ($2$, ($-oo$, $+oo$), $2$), shade: ((1, 1),))`,
+            'prev-bbt-hyperbola-tang': `#import "bbt.typ": *\n#bbtv2(var: $x$, der: $y'$, func: $y$, x-vals: ($-oo$, $-2$, $+oo$), d-signs: ($+$, $||$, $+$), v-vals: ($1$, ($+oo$, $-oo$), $1$), shade: ((1, 1),))`,
+            'prev-bbt-bac2-1': `#import "bbt.typ": *\n#bbtv2(var: $x$, der: $y'$, func: $y$, x-vals: ($-oo$, $0$, $1$, $2$, $+oo$), d-signs: ($+$, $0$, $-$, $||$, $-$, $0$, $+$), v-vals: ($-oo$, $2$, ($-oo$, $+oo$), $6$, $+oo$), shade: ((2, 2),))`,
+            'prev-bbt-parabol': `#import "bbt.typ": *\n#bbtv2(var: $x$, der: $y'$, func: $y$, x-vals: ($-oo$, $2$, $+oo$), d-signs: ($-$, $0$, $+$), v-vals: ($+oo$, $-1$, $+oo$))`,
+            'prev-bbt-can': `#import "bbt.typ": *\n#bbtv2(var: $x$, der: $y'$, func: $y$, x-vals: ($-oo$, $-1$, $1$, $+oo$), d-signs: ($-$, $||$, $||$, $||$, $+$), v-vals: ($+oo$, $0$, $0$, $+oo$), shade: ((1, 2),))`,
+            'prev-bbt-guides': `#import "bbt.typ": *\n#bbtv2(var: $x$, der: $y'$, func: $y$, x-vals: ($-oo$, $1$, $3$, $+oo$), d-signs: ($+$, $0$, $-$, $0$, $+$), v-vals: ($-oo$, $3$, $-1$, $+oo$), annotations: ((from-idx: 1, to-idx: 2, pos: 0.5, x-label: $2$, val: $1$, stroke: (dash: "dashed", paint: rgb("#dc2626"), thickness: 0.8pt)),))`,
+            'prev-bbt-colors': `#import "bbt.typ": *\n#bbtv2(var: $x$, der: $f'(x)$, func: $f(x)$, x-vals: ($-oo$, $1$, $+oo$), d-signs: ($+$, $0$, $-$), v-vals: ($-oo$, $4$, $-oo$), stroke: 1pt + rgb("#1e40af"), arrow-stroke: 1.2pt + rgb("#dc2626"))`,
+            'prev-bbt-var2': `#import "bbt.typ": *\n#bbtv2(var: $x$, var2: $u(x)$, u-vals: ($-oo$, $-1$, $3$, $+oo$), der: $f'(u)$, func: $f(u)$, x-vals: ($-oo$, $0$, $2$, $+oo$), d-signs: ($+$, $0$, $-$, $0$, $+$), v-vals: ($-oo$, $3$, $-1$, $+oo$))`,
+            'prev-bbt-der2': `#import "bbt.typ": *\n#bbtv2(var: $x$, der: $f'(x)$, der2: $f''(x)$, func: $f(x)$, x-vals: ($-oo$, $0$, $1$, $+oo$), d-signs: ($-$, $0$, $+$, $0$, $+$), d2-signs: ($+$, $0$, $-$, $0$, $+$), v-vals: ($+oo$, $0$, $2$, $+oo$))`,
+            'prev-ocheo-2': `#import "bbt.typ": o-cheo-cell\n#table(columns: (3.2cm, 2.2cm, 2.2cm), align: center + horizon, o-cheo-cell("Môn", "Lớp", dir: "tl-br"), [Toán 10], [Toán 11], [Bài 01], [8.5], [9.0], [Bài 02], [7.0], [9.5])`,
+            'prev-ocheo-nguoc': `#import "bbt.typ": o-cheo-cell\n#table(columns: (3.2cm, 2.2cm, 2.2cm), align: center + horizon, o-cheo-cell("Lớp", "Môn", dir: "tr-bl"), [Toán 10], [Toán 11], [Bài 01], [8.5], [9.0], [Bài 02], [7.0], [9.5])`,
+            'prev-ocheo-3': `#import "bbt.typ": o-cheo3-cell\n#table(columns: (3.5cm, 2.2cm, 2.2cm), align: center + horizon, o-cheo3-cell("Trường", "Năm", "Môn"), [Toán 10], [Toán 11], [THPT A], [2024], [9.0], [THPT B], [2025], [9.5])`,
+            'prev-cetz-table-xuoi': `#import "bbt.typ": cetz-table, cetz-o-cheo\n#cetz-table(cols: (3.2cm, 2.2cm, 2.2cm), data: ((cetz-o-cheo("Môn", "Lớp", dir: "tl-br"), [Toán 10], [Toán 11]), ([Bài 01], [8.5], [9.0]), ([Bài 02], [7.0], [9.5])))`,
+            'prev-cetz-table': `#import "bbt.typ": cetz-table, cetz-o-cheo, cetz-cell\n#cetz-table(cols: (3.5cm, 2.2cm, 2.2cm), data: ((cetz-o-cheo("Trường", "Môn", dir: "tr-bl"), [Toán 10], [Toán 11]), (cetz-cell([Gộp 2 cột], colspan: 2, fill: rgb("#f1f5f9")), [9.0]), ([Bài 02], [7.0], [9.5])))`,
+            'prev-cetz-table-3': `#import "bbt.typ": cetz-table, cetz-o-cheo3\n#cetz-table(cols: (3.6cm, 2.2cm, 2.2cm), row-height: 1.4cm, data: ((cetz-o-cheo3("Trường", "Năm", "Môn"), [Toán 10], [Toán 11]), ([THPT A], [2024], [9.0])))`,
+            'prev-table-cell': `#table(columns: (2.5cm, 2.5cm, 2.5cm), align: center + horizon, table.cell(colspan: 2, fill: rgb("#f1f5f9"))[*Tiêu đề nối 2 cột*], [*Cột 3*], table.cell(rowspan: 2, fill: rgb("#f8fafc"))[*Nối 2 hàng*], [Hàng 1 - Ô A], [Hàng 1 - Ô B], [Hàng 2 - Ô A], [Hàng 2 - Ô B])`,
+            'prev-table-giatri': `#table(columns: (1.8cm, ..range(5).map(_ => 1.5cm)), align: center + horizon, [$x$], [$-2$], [$-1$], [$0$], [$1$], [$2$], [$y$], [$4$], [$1$], [$0$], [$1$], [$4$])`,
+            'prev-bxd-tich': `#import "bbt.typ": bxd-tich\n#bxd-tich(var: $x$, x-vals: ($-oo$, $-2$, $3$, $+oo$), rows: (($x + 2$, ($-$, $0$, $+$, $+$, $+$)), ($3 - x$, ($+$, $+$, $+$, $0$, $-$))), func: $f(x)$)`,
+            'prev-bxd-thuong': `#import "bbt.typ": bxd-tich\n#bxd-tich(var: $x$, x-vals: ($-oo$, $-2$, $1$, $+oo$), rows: (($x - 1$, ($-$, $-$, $-$, $0$, $+$)), ($x + 2$, ($-$, $0$, $+$, $+$, $+$))), func: $(x-1)/(x+2)$)`,
+            'prev-cetz-bbt-bac3': `#import "@preview/cetz:0.5.2": canvas, draw\n#canvas({\n  import draw: *\n  rect((0,0), (10, -3.8), stroke: 0.8pt)\n  line((0, -0.7), (10, -0.7), stroke: 0.8pt)\n  line((0, -1.4), (10, -1.4), stroke: 0.8pt)\n  line((1.5, 0), (1.5, -3.8), stroke: 0.8pt)\n  content((0.75, -0.35), $x$)\n  content((0.75, -1.05), $y'$)\n  content((0.75, -2.60), $y$)\n  content((2.5, -0.35), [$-oo$])\n  content((4.5, -0.35), [$1$])\n  content((7.0, -0.35), [$3$])\n  content((9.2, -0.35), [$+oo$])\n  content((3.5, -1.05), [$+$])\n  content((4.5, -1.05), [$0$])\n  content((5.75, -1.05), [$-$])\n  content((7.0, -1.05), [$0$])\n  content((8.1, -1.05), [$+$])\n  content((2.5, -3.4), [$-oo$], name: "v0")\n  content((4.5, -1.8), [$3$], name: "v1")\n  content((7.0, -3.4), [$-1$], name: "v2")\n  content((9.2, -1.8), [$+oo$], name: "v3")\n  line("v0", "v1", mark: (end: "stealth", fill: black), stroke: 0.8pt)\n  line("v1", "v2", mark: (end: "stealth", fill: black), stroke: 0.8pt)\n  line("v2", "v3", mark: (end: "stealth", fill: black), stroke: 0.8pt)\n})`,
+            'prev-cetz-bbt-subpoint': `#import "@preview/cetz:0.5.2": canvas, draw\n#canvas({\n  import draw: *\n  rect((0,0), (10, -3.8), stroke: 0.8pt)\n  line((0, -0.7), (10, -0.7), stroke: 0.8pt)\n  line((0, -1.4), (10, -1.4), stroke: 0.8pt)\n  line((1.5, 0), (1.5, -3.8), stroke: 0.8pt)\n  content((0.75, -0.35), $x$)\n  content((0.75, -1.05), $y'$)\n  content((0.75, -2.60), $y$)\n  content((2.5, -0.35), [$-oo$])\n  content((4.5, -0.35), [$1$])\n  content((5.75, -0.35), [$2$])\n  content((7.0, -0.35), [$3$])\n  content((9.2, -0.35), [$+oo$])\n  content((3.5, -1.05), [$+$])\n  content((4.5, -1.05), [$0$])\n  content((5.1, -1.05), [$-$])\n  content((6.37, -1.05), [$-$])\n  content((7.0, -1.05), [$0$])\n  content((8.1, -1.05), [$+$])\n  content((2.5, -3.4), [$-oo$], name: "v0")\n  content((4.5, -1.8), [$3$], name: "v1")\n  content((7.0, -3.4), [$-1$], name: "v2")\n  content((9.2, -1.8), [$+oo$], name: "v3")\n  line("v0", "v1", mark: (end: "stealth", fill: black), stroke: 0.8pt)\n  line("v1", "v2", mark: (end: "stealth", fill: black), stroke: 0.8pt)\n  line("v2", "v3", mark: (end: "stealth", fill: black), stroke: 0.8pt)\n  content((5.75, -2.6), [$1$], fill: white, padding: 0.1)\n  line((5.75, -0.55), (5.75, -2.4), stroke: (dash: "dashed", paint: rgb("#dc2626"), thickness: 0.8pt), mark: (end: "stealth", fill: rgb("#dc2626")))\n})`,
+            'prev-cetz-bbt-hyperbola': `#import "@preview/cetz:0.5.2": canvas, draw\n#canvas({\n  import draw: *\n  rect((0,0), (10, -3.8), stroke: 0.8pt)\n  line((0, -0.7), (10, -0.7), stroke: 0.8pt)\n  line((0, -1.4), (10, -1.4), stroke: 0.8pt)\n  line((1.5, 0), (1.5, -3.8), stroke: 0.8pt)\n  content((0.75, -0.35), $x$)\n  content((0.75, -1.05), $y'$)\n  content((0.75, -2.60), $y$)\n  content((2.5, -0.35), [$-oo$])\n  content((5.75, -0.35), [$1$])\n  content((9.0, -0.35), [$+oo$])\n  content((4.12, -1.05), [$-$])\n  content((7.37, -1.05), [$-$])\n  line((5.70, -0.7), (5.70, -3.8), stroke: 0.8pt)\n  line((5.80, -0.7), (5.80, -3.8), stroke: 0.8pt)\n  content((2.5, -1.8), [$2$], name: "v0")\n  content((5.45, -3.4), [$-oo$], name: "v1")\n  content((6.05, -1.8), [$+oo$], name: "v2")\n  content((9.0, -3.4), [$2$], name: "v3")\n  line("v0", "v1", mark: (end: "stealth", fill: black), stroke: 0.8pt)\n  line("v2", "v3", mark: (end: "stealth", fill: black), stroke: 0.8pt)\n})`,
+            'prev-cetz-bbt-bac4': `#import "@preview/cetz:0.5.2": canvas, draw\n#canvas({\n  import draw: *\n  rect((0,0), (10, -3.8), stroke: 0.8pt)\n  line((0, -0.7), (10, -0.7), stroke: 0.8pt)\n  line((0, -1.4), (10, -1.4), stroke: 0.8pt)\n  line((1.5, 0), (1.5, -3.8), stroke: 0.8pt)\n  content((0.75, -0.35), $x$)\n  content((0.75, -1.05), $y'$)\n  content((0.75, -2.60), $y$)\n  content((2.2, -0.35), [$-oo$])\n  content((3.8, -0.35), [$-2$])\n  content((5.75, -0.35), [$0$])\n  content((7.7, -0.35), [$2$])\n  content((9.3, -0.35), [$+oo$])\n  content((3.0, -1.05), [$-$])\n  content((3.8, -1.05), [$0$])\n  content((4.7, -1.05), [$+$])\n  content((5.75, -1.05), [$0$])\n  content((6.7, -1.05), [$-$])\n  content((7.7, -1.05), [$0$])\n  content((8.5, -1.05), [$+$])\n  content((2.2, -1.8), [$+oo$], name: "v0")\n  content((3.8, -3.4), [$-3$], name: "v1")\n  content((5.75, -1.8), [$1$], name: "v2")\n  content((7.7, -3.4), [$-3$], name: "v3")\n  content((9.3, -1.8), [$+oo$], name: "v4")\n  line("v0", "v1", mark: (end: "stealth", fill: black), stroke: 0.8pt)\n  line("v1", "v2", mark: (end: "stealth", fill: black), stroke: 0.8pt)\n  line("v2", "v3", mark: (end: "stealth", fill: black), stroke: 0.8pt)\n  line("v3", "v4", mark: (end: "stealth", fill: black), stroke: 0.8pt)\n})`
+        };
+
+        async function renderGalleryPreviews() {
+            if (!window.compileTypstToSvg) {
+                setTimeout(renderGalleryPreviews, 600);
+                return;
             }
 
-            const dSigns = getDSignsArray()
-
-            const yVals = []
-            for (let i = 0; i < total; i++) {
-                if (state.isJump[i]) {
-                    const l = document.getElementById(`yleft_${i}`)?.value || ''
-                    const r = document.getElementById(`yright_${i}`)?.value || ''
-                    yVals.push({ type: 'jump', left: l, right: r })
-                } else {
-                    const v = document.getElementById(`yval_${i}`)?.value || state.yVals[i]
-                    yVals.push({ type: 'single', val: v })
+            for (const [id, code] of Object.entries(GALLERY_CODES)) {
+                const target = el(id);
+                if (!target) continue;
+                try {
+                    const svg = await window.compileTypstToSvg(code);
+                    target.innerHTML = svg;
+                    const s = target.querySelector('svg');
+                    if (s) { s.style.maxWidth = '100%'; s.style.height = 'auto'; }
+                } catch (e) {
+                    target.innerHTML = `<span style="color:#dc2626;font-size:0.75rem;">Lỗi render mẫu</span>`;
                 }
             }
-
-            // Build Typst code
-            const typstXVals = xVals.map(x => formatTypstVal(x))
-            const typstDSigns = dSigns.map(s => formatSign(s))
-            const typstYVals = yVals.map(y => {
-                if (y.type === 'jump') return `(${formatTypstVal(y.left)}, ${formatTypstVal(y.right)})`
-                return formatTypstVal(y.val)
-            })
-
-            const shadeCode = state.shades.length > 0
-                ? `\n  shade: (${state.shades.map(([a, b]) => `(${a}, ${b})`).join(', ')},),`
-                : ''
-
-            const code = `#bbtv2(
-  var: $${varName}$, der: $${derName}$, func: $${funcName}$,
-  x-vals: (${typstXVals.join(', ')}),
-  d-signs: (${typstDSigns.join(', ')}),
-  v-vals: (${typstYVals.join(', ')}),${shadeCode}
-)`
-
-            document.getElementById('codeOutput').value = code
-            renderPreview(xVals, dSigns, yVals, varName, derName, funcName)
         }
 
-        function formatTypstVal(v) {
-            if (!v || v === '') return '$" "$'
-            v = v.trim()
-            if (v.startsWith('$')) return v
-            if (v === '+oo') return '$+oo$'
-            if (v === '-oo') return '$-oo$'
-            if (v === '||') return '$"||"$'
-            if (v === '0' || /^-?\d+(\.\d+)?$/.test(v)) return `$${v}$`
-            return `$${v}$`
+        // Workbench Form logic
+        function splitBbtList(text) {
+            if (!text || !text.trim()) return [];
+            return text.split(',').map(s => s.trim()).filter(Boolean);
         }
 
-        function formatSign(s) {
-            if (s === '+') return '$+$'
-            if (s === '-') return '$-$'
-            if (s === '0') return '$0$'
-            if (s === '||') return '$"||"$'
-            if (s === '') return '$" "$'
-            return `$${s}$`
+        function formatTuple(arr) {
+            if (!arr || !arr.length) return '()';
+            if (arr.length === 1) return `(${arr[0]},)`;
+            return `(${arr.join(', ')})`;
         }
 
-        function renderPreview(xVals, dSigns, yVals, varName, derName, funcName) {
-            const n = state.numPoints
-            const total = n + 2
-            const prev = document.getElementById('bbtPreview')
+        function formatShadeForTypst(text) {
+            const raw = text.trim();
+            if (!raw) return '()';
+            if (raw.startsWith('(')) return raw;
+            const match = raw.match(/^(\d+)\s*[-–—,]\s*(\d+)$/);
+            if (match) return `((${match[1]}, ${match[2]}),)`;
+            return `(${raw})`;
+        }
 
-            let html = `<table class="bbt-table">`
-            // X row
-            html += `<tr><td class="row-label">${varName}</td>`
-            for (let i = 0; i < total; i++) {
-                html += `<td class="x-cell">${displayVal(xVals[i])}</td>`
-                if (i < total - 1) html += `<td class="interval-cell"></td>`
+        function readBbtState() {
+            return {
+                var: el('bbtVar')?.value.trim() || '$x$',
+                der: el('bbtDer')?.value.trim() || "$y'$",
+                func: el('bbtFunc')?.value.trim() || '$y$',
+                xVals: splitBbtList(el('bbtXVals')?.value || ''),
+                dSigns: splitBbtList(el('bbtDSigns')?.value || ''),
+                vVals: splitBbtList(el('bbtVVals')?.value || ''),
+                shade: el('bbtShade')?.value.trim() || '',
+                w1: el('bbtW1')?.value.trim() || '1.5',
+                w2: el('bbtW2')?.value.trim() || '10',
+                h3: el('bbtH3')?.value.trim() || 'auto',
+            };
+        }
+
+        function buildBbtCodeFromForm(state) {
+            const shadeLine = state.shade ? `\n  shade: ${formatShadeForTypst(state.shade)},` : '';
+            return `#bbtv2(
+  var: ${state.var},
+  der: ${state.der},
+  func: ${state.func},
+  x-vals: ${formatTuple(state.xVals)},
+  d-signs: ${formatTuple(state.dSigns)},
+  v-vals: ${formatTuple(state.vVals)},${shadeLine}
+  w1: ${state.w1},
+  w2: ${state.w2},
+  h3: ${state.h3},
+)`;
+        }
+
+        function renderBbtFromForm() {
+            if (currentWorkbenchMode !== 'form') return;
+            const state = readBbtState();
+            const code = buildBbtCodeFromForm(state);
+            const textarea = el('bbtLiveTextarea');
+            if (textarea) textarea.value = code;
+            scheduleBbtOfficialRender(50);
+        }
+
+        let bbtOfficialTimer = 0;
+        let bbtLastRenderedCode = '';
+
+        function setBbtBadge(kind, text) {
+            const badge = el('bbtCheckBadge');
+            if (!badge) return;
+            badge.textContent = text;
+            badge.style.background = kind === 'warn' ? '#fef3c7' : kind === 'loading' ? '#e0f2fe' : kind === 'error' ? '#fee2e2' : '#dcfce7';
+            badge.style.color = kind === 'warn' ? '#d97706' : kind === 'loading' ? '#0284c7' : kind === 'error' ? '#dc2626' : '#15803d';
+        }
+
+        function scheduleBbtOfficialRender(delay = 100) {
+            clearTimeout(bbtOfficialTimer);
+            bbtOfficialTimer = setTimeout(renderBbtOfficial, delay);
+        }
+
+        async function renderBbtOfficial() {
+            const textarea = el('bbtLiveTextarea');
+            let code = textarea?.value || '';
+            if (!code.trim()) return;
+
+            const preview = el('bbtPreview');
+            if (!window.compileTypstToSvg) {
+                setBbtBadge('loading', 'Đang nạp WASM…');
+                if (preview) preview.innerHTML = '<div style="color:var(--muted);padding:20px;">⏳ Đang nạp engine Typst WASM…</div>';
+                setTimeout(renderBbtOfficial, 500);
+                return;
             }
-            html += `</tr>`
 
-            // y' row
-            html += `<tr><td class="row-label">${derName}</td>`
-            let dIdx = 0
-            for (let i = 0; i < total; i++) {
-                html += `<td class="x-cell" style="text-align:center;">`
-                if (i === 0 || i === total - 1) html += `<span style="color:#ccc">—</span>`
-                else html += signHtml(dSigns[dIdx * 2 - 1])
-                html += `</td>`
-                if (i < total - 1) {
-                    const intervalSign = dSigns[i === 0 ? 0 : dIdx * 2]
-                    html += `<td class="interval-cell">${signHtml(intervalSign)}</td>`
-                    if (i > 0) dIdx++
-                }
+            if (code === bbtLastRenderedCode && preview?.querySelector('svg')) {
+                setBbtBadge('ok', 'Render chính thức ✓');
+                return;
             }
-            html += `</tr>`
 
-            // y row with arrows
-            html += `<tr><td class="row-label">${funcName}</td>`
-            for (let i = 0; i < total; i++) {
-                const y = yVals[i]
-                html += `<td class="y-cell">`
-                if (y.type === 'jump') {
-                    html += `<div class="y-cell-inner"><span class="y-tip">${displayVal(y.left)}</span><span>|</span><span class="y-tip">${displayVal(y.right)}</span></div>`
-                } else {
-                    html += `<div class="y-cell-inner"><span>${displayVal(y.val)}</span></div>`
+            try {
+                setBbtBadge('loading', 'Đang render…');
+                let fullTypstCode = code;
+                if (!fullTypstCode.includes('#import')) {
+                    fullTypstCode = `#import "bbt.typ": *\n${code}`;
                 }
-                html += `</td>`
-                if (i < total - 1) {
-                    const dSign = dSigns[i === 0 ? 0 : (dIdx - 1) * 2] || ''
-                    const arrowStr = dSign === '+' ? '↗' : dSign === '-' ? '↘' : '→'
-                    const arrowColor = dSign === '+' ? '#16a34a' : dSign === '-' ? '#dc2626' : '#ccc'
-                    html += `<td class="interval-cell" style="font-size:1.3rem;color:${arrowColor};">${arrowStr}</td>`
+                const svg = await window.compileTypstToSvg(fullTypstCode);
+                if (preview) {
+                    preview.innerHTML = svg;
+                    const s = preview.querySelector('svg');
+                    if (s) { s.style.maxWidth = '100%'; s.style.height = 'auto'; }
                 }
-            }
-            html += `</tr>`
-
-            html += `</table>`
-            prev.innerHTML = html
-        }
-
-        function signHtml(s) {
-            if (s === '+') return `<span class="sign-plus">+</span>`
-            if (s === '-') return `<span class="sign-minus">−</span>`
-            if (s === '0') return `<span class="sign-zero">0</span>`
-            if (s === '||') return `<span style="color:#7c3aed;font-weight:700;">||</span>`
-            return `<span style="color:#ccc">—</span>`
-        }
-
-        function displayVal(v) {
-            if (!v) return '·'
-            if (v === '+oo' || v === '+∞') return '+∞'
-            if (v === '-oo' || v === '-∞') return '−∞'
-            if (v === '||') return '||'
-            // Simple math display
-            return v.replace(/\^(\w+)/g, '<sup>$1</sup>').replace(/frac\((.+?),(.+?)\)/g, '$1/$2')
-        }
-
-        // ── Shade management ──────────────────────────────────
-        function addShade() {
-            const input = document.getElementById('shadeInput').value.trim()
-            const match = input.match(/^(\d+)\s*,\s*(\d+)$/)
-            if (!match) { alert('Nhập dạng: i,j (ví dụ: 1,2)'); return }
-            const [_, a, b] = match
-            state.shades.push([parseInt(a), parseInt(b)])
-            document.getElementById('shadeInput').value = ''
-            renderShadeItems()
-            generate()
-        }
-
-        function removeShade(i) {
-            state.shades.splice(i, 1)
-            renderShadeItems()
-            generate()
-        }
-
-        function renderShadeItems() {
-            document.getElementById('shadeItems').innerHTML = state.shades.map((s, i) =>
-                `<span class="shade-item">Cột ${s[0]}→${s[1]} <button onclick="removeShade(${i})" style="border:none;background:none;cursor:pointer;color:#dc2626;font-size:1rem;">×</button></span>`
-            ).join('')
-        }
-
-        // ── Copy ──────────────────────────────────────────────
-        async function copyCode() {
-            const code = document.getElementById('codeOutput').value
-            await navigator.clipboard.writeText(code)
-            alert('✓ Đã copy mã #bbtv2!')
-        }
-
-        async function copyFull() {
-            const code = document.getElementById('codeOutput').value
-            const full = `#import "@preview/cetz:0.5.2": canvas, draw
-#import "bbt.typ": bbtv2
-
-// Kết quả BBT
-#align(center)[${code}]`
-            await navigator.clipboard.writeText(full)
-            alert('✓ Đã copy file Typst đầy đủ!')
-        }
-
-        // ── Examples ──────────────────────────────────────────
-        const EXAMPLES = {
-            bac3: {
-                numPoints: 1, var: 'x', der: "y'", func: 'y',
-                xVals: ['-oo', '-1', '+oo'],
-                dSigns: ['+', '0', '-'],
-                yVals: ['-oo', '3', '-oo'],
-                isJump: [false, false, false],
-                shades: []
-            },
-            bac4: {
-                numPoints: 2, var: 'x', der: "y'", func: 'y',
-                xVals: ['-oo', '-1', '1', '+oo'],
-                dSigns: ['-', '0', '+', '0', '-'],
-                yVals: ['+oo', '-2', '2', '-oo'],
-                isJump: [false, false, false, false],
-                shades: []
-            },
-            hyperbola: {
-                numPoints: 2, var: 'x', der: "y'", func: 'y',
-                xVals: ['-oo', '0', '1', '+oo'],
-                dSigns: ['+', '||', '', '||', '+'],
-                yVals: ['-oo', ['+oo', '-oo'], ['+oo', '-oo'], '+oo'],
-                isJump: [false, true, true, false],
-                yValsLeft: ['', '+oo', '+oo', ''],
-                yValsRight: ['', '-oo', '-oo', ''],
-                shades: [[1, 2]]
-            },
-            sqrt: {
-                numPoints: 1, var: 'x', der: "y'", func: 'y',
-                xVals: ['-oo', '0', '+oo'],
-                dSigns: ['||', '||', '+'],
-                yVals: ['+oo', '0', '+oo'],
-                isJump: [false, false, false],
-                shades: []
-            },
-            tang: {
-                numPoints: 0, var: 'x', der: "y'", func: 'y',
-                xVals: ['-oo', '+oo'],
-                dSigns: ['+'],
-                yVals: ['-oo', '+oo'],
-                isJump: [false, false],
-                shades: []
+                bbtLastRenderedCode = code;
+                setBbtBadge('ok', 'Render chính thức ✓');
+            } catch (err) {
+                setBbtBadge('error', 'Lỗi compile');
+                if (preview) {
+                    preview.innerHTML = `<pre style="color:#dc2626;font-size:0.8rem;text-align:left;white-space:pre-wrap;">${String(err.message || err)}</pre>`;
+                }
             }
         }
 
-        function loadExample(key) {
-            const ex = EXAMPLES[key]
-            if (!ex) return
-
-            state.numPoints = ex.numPoints
-            state.xVals = [...ex.xVals]
-            state.yVals = ex.yVals.map(v => Array.isArray(v) ? '' : v)
-            state.isJump = [...(ex.isJump || ex.xVals.map(() => false))]
-            state.yValsLeft = ex.xVals.map((_, i) => Array.isArray(ex.yVals[i]) ? ex.yVals[i][0] : (ex.yValsLeft?.[i] || ''))
-            state.yValsRight = ex.xVals.map((_, i) => Array.isArray(ex.yVals[i]) ? ex.yVals[i][1] : (ex.yValsRight?.[i] || ''))
-            state.shades = [...(ex.shades || [])]
-
-            document.getElementById('numPoints').value = ex.numPoints
-            document.getElementById('varName').value = ex.var
-            document.getElementById('derName').value = ex.der
-            document.getElementById('funcName').value = ex.func
-
-            renderForm()
-            renderShadeItems()
-
-            // Restore signs after form render
-            setTimeout(() => {
-                const total = ex.numPoints + 2
-                const dLen = 2 * ex.numPoints + 1
-
-                let dIdx = 0
-                for (let i = 0; i < total; i++) {
-                    if (i < total - 1) {
-                        const signIdx = i === 0 ? 0 : dIdx * 2
-                        const el = document.getElementById(`dsign_interval_${i}`)
-                        if (el) el.value = ex.dSigns[signIdx] || '+'
-                    }
-                    if (i > 0 && i < total - 1) {
-                        const el = document.getElementById(`dsign_at_${i}`)
-                        if (el) el.value = ex.dSigns[dIdx * 2 - 1] || '0'
-                        dIdx++
-                    }
-                }
-
-                // Restore y values
-                for (let i = 0; i < total; i++) {
-                    if (state.isJump[i]) {
-                        const lEl = document.getElementById(`yleft_${i}`)
-                        const rEl = document.getElementById(`yright_${i}`)
-                        if (lEl) lEl.value = state.yValsLeft[i]
-                        if (rEl) rEl.value = state.yValsRight[i]
-                    } else {
-                        const el = document.getElementById(`yval_${i}`)
-                        if (el) el.value = state.yVals[i] || ex.yVals[i] || ''
-                    }
-                }
-
-                generate()
-            }, 50)
-        }
-
-        // ── Init ──────────────────────────────────────────────
         document.addEventListener('DOMContentLoaded', () => {
-            window.lucide?.createIcons()
-            loadExample('bac3')
-        })
+            window.lucide?.createIcons();
+
+            el('bbtLiveTextarea')?.addEventListener('input', () => scheduleBbtOfficialRender(50));
+
+            ['bbtVar', 'bbtDer', 'bbtFunc', 'bbtXVals', 'bbtDSigns', 'bbtVVals', 'bbtShade', 'bbtW1', 'bbtW2', 'bbtH3'].forEach(id => {
+                el(id)?.addEventListener('input', renderBbtFromForm);
+            });
+
+            el('bbtCopyBtn')?.addEventListener('click', async () => {
+                const code = el('bbtLiveTextarea')?.value || '';
+                await navigator.clipboard.writeText(code);
+                alert('✓ Đã copy mã Typst!');
+            });
+
+            el('bbtCopyFullBtn')?.addEventListener('click', async () => {
+                const code = el('bbtLiveTextarea')?.value || '';
+                const full = `#import "@preview/cetz:0.5.2": canvas, draw\n#import "bbt.typ": *\n\n${code}`;
+                await navigator.clipboard.writeText(full);
+                alert('✓ Đã copy file Typst đầy đủ!');
+            });
+
+            setTimeout(renderGalleryPreviews, 600);
+            scheduleBbtOfficialRender(100);
+        });
     </script>
 </body>
 

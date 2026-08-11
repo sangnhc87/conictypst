@@ -1,4 +1,4 @@
-# Giới thiệu Sang-Math v1.0.1
+# Giới thiệu Sang-Math v1.0.2
 
 `sang-math` là một thư viện hỗ trợ vẽ hình học Không Gian, Hình học Phẳng, Giải Tích và Thống Kê một cách chuẩn mực và module hóa dựa trên CeTZ dành cho Typst.
 
@@ -22,7 +22,7 @@ Thư viện bao gồm các module chính:
 Tải thư viện hoặc đặt trong thư mục dự án của bạn và sử dụng:
 
 ```typst
-#import "@preview/sang-math:1.0.1": *
+#import "@preview/sang-math:1.0.2": *
 #import cetz.draw: *
 
 #cetz.canvas({

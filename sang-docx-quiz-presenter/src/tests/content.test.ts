@@ -1,0 +1,2 @@
+import {describe,expect,it} from 'vitest';import {demoQuiz} from '../demo/demoData';
+describe('content block',()=>{it('giữ đúng thứ tự nội dung',()=>expect(demoQuiz.questions[3].stem.map(x=>x.kind)).toEqual(['paragraph','image','math','math']));it('không bỏ qua công thức không hỗ trợ',()=>{const q=demoQuiz.questions[3];expect(q.stem.some(x=>x.kind==='math'&&x.status==='unsupported')).toBe(true);expect(q.warnings.length).toBeGreaterThan(0)})});

@@ -1,0 +1,2 @@
+import {describe,expect,it} from 'vitest';import {normalizeAnswer,isShortAnswerCorrect} from '../utils/answer';
+describe('chấm trả lời ngắn',()=>{it('chuẩn hóa dấu phẩy thập phân và khoảng trắng',()=>expect(normalizeAnswer(' 12,50 ')).toBe('12.50'));it('chấm với sai số',()=>expect(isShortAnswerCorrect('3,141',['3.14'],.01)).toBe(true));it('hỗ trợ chuỗi tương đương',()=>expect(isShortAnswerCorrect(' HÀ NỘI ',['Hà Nội'])).toBe(true))});

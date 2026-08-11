@@ -192,13 +192,7 @@
   configure-step-reveal(before_nonfirst: if auto_step_pause { [#pause] } else { none })
 
   set text(font: "Libertinus Serif", size: text_size, fill: _fg, lang: "vi")
-  show math.equation.where(block: false): it => {
-    if repr(it).contains("frac") {
-      box(inset: (y: 0.16em))[#math.display(it)]
-    } else {
-      math.display(it)
-    }
-  }
+  show math.frac: math.display
   show math.equation: set text(fill: math_color)
 
   title-slide()
@@ -317,13 +311,7 @@
     #context {
       let style = _bm-style.get()
       let _cf = if card-fill == none { style.at("card", default: rgb("#1e293b")) } else { card-fill }
-      show math.equation.where(block: false): it => {
-    if repr(it).contains("frac") {
-      box(inset: (y: 0.16em))[#math.display(it)]
-    } else {
-      math.display(it)
-    }
-  }
+  show math.frac: math.display
       show math.equation: set text(fill: style.at("math_color", default: bm-colors.gold))
 
       v(-0.5em)
@@ -378,13 +366,7 @@
       #context {
         let style = _bm-style.get()
         let _cf = if card-fill == none { style.at("card", default: rgb("#1e293b")) } else { card-fill }
-        show math.equation.where(block: false): it => {
-    if repr(it).contains("frac") {
-      box(inset: (y: 0.16em))[#math.display(it)]
-    } else {
-      math.display(it)
-    }
-  }
+  show math.frac: math.display
         show math.equation: set text(fill: style.at("math_color", default: bm-colors.gold))
 
         v(-0.5em)
@@ -499,13 +481,7 @@
     }
     #context {
       let style = _bm-style.get()
-      show math.equation.where(block: false): it => {
-    if repr(it).contains("frac") {
-      box(inset: (y: 0.16em))[#math.display(it)]
-    } else {
-      math.display(it)
-    }
-  }
+  show math.frac: math.display
       show math.equation: set text(fill: style.at("math_color", default: bm-colors.gold))
 
       v(-0.5em)
@@ -587,13 +563,7 @@
     slide(title: none)[
       #context {
         let style = _bm-style.get()
-        show math.equation.where(block: false): it => {
-    if repr(it).contains("frac") {
-      box(inset: (y: 0.16em))[#math.display(it)]
-    } else {
-      math.display(it)
-    }
-  }
+  show math.frac: math.display
         show math.equation: set text(fill: style.at("math_color", default: bm-colors.gold))
 
         v(-0.5em)
@@ -738,13 +708,7 @@
     }
     #context {
       let style = _bm-style.get()
-      show math.equation.where(block: false): it => {
-    if repr(it).contains("frac") {
-      box(inset: (y: 0.16em))[#math.display(it)]
-    } else {
-      math.display(it)
-    }
-  }
+  show math.frac: math.display
       show math.equation: set text(fill: style.at("math_color", default: bm-colors.gold))
 
       v(-0.5em)
@@ -793,13 +757,7 @@
     slide(title: none)[
       #context {
         let style = _bm-style.get()
-        show math.equation.where(block: false): it => {
-    if repr(it).contains("frac") {
-      box(inset: (y: 0.16em))[#math.display(it)]
-    } else {
-      math.display(it)
-    }
-  }
+  show math.frac: math.display
         show math.equation: set text(fill: style.at("math_color", default: bm-colors.gold))
 
         v(-0.5em)
@@ -881,13 +839,7 @@
     }
     #context {
       let style = _bm-style.get()
-      show math.equation.where(block: false): it => {
-    if repr(it).contains("frac") {
-      box(inset: (y: 0.16em))[#math.display(it)]
-    } else {
-      math.display(it)
-    }
-  }
+  show math.frac: math.display
       show math.equation: set text(fill: style.at("math_color", default: bm-colors.gold))
 
       v(-0.5em)
@@ -930,13 +882,7 @@
     slide(title: none)[
       #context {
         let style = _bm-style.get()
-        show math.equation.where(block: false): it => {
-    if repr(it).contains("frac") {
-      box(inset: (y: 0.16em))[#math.display(it)]
-    } else {
-      math.display(it)
-    }
-  }
+  show math.frac: math.display
         show math.equation: set text(fill: style.at("math_color", default: bm-colors.gold))
 
         v(-0.5em)

@@ -4,6 +4,7 @@
 // ═════════════════════════════════════════════════════════════════════════════
 
 // Import tất cả các module con và re-export ra ngoài
+#import "@preview/cetz:0.5.2" as cetz
 #import "src/core/utils.typ": *
 #import "src/core/projections.typ": *
 #import "src/2d/conics.typ": *
@@ -20,8 +21,16 @@
 #import "src/probability/tree.typ": *
 #import "src/probability/bayes.typ": *
 
+// Hai tiện ích giúp người dùng không phải lặp lại import CeTZ ở mọi file.
+// Các hàm draw-* vẫn được gọi bên trong canvas như API CeTZ thông thường.
+#let smg-canvas(length: 1cm, body) = cetz.canvas(length: length, body)
+#let smg-draw = cetz.draw
+
 // Re-export tất cả các hàm công khai
 #let (
+  // CeTZ convenience
+  smg-canvas,
+  smg-draw,
   // utils
   deg-to-rad,
   rad-to-deg,
@@ -73,6 +82,7 @@
   circle-circumcircle,
   circle-incircle,
   angle-mark,
+  arc-by-points,
   dashed-seg,
   
   // 2d graphs
@@ -103,6 +113,8 @@
   truncated-cone-geodesic-3d,
   truncated-cone-unfold-2d,
 ) = (
+  smg-canvas,
+  smg-draw,
   deg-to-rad,
   rad-to-deg,
   lerp,
@@ -144,6 +156,7 @@
   circle-circumcircle,
   circle-incircle,
   angle-mark,
+  arc-by-points,
   dashed-seg,
   plot-cubic,
   plot-parabola,

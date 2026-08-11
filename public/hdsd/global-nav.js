@@ -32,6 +32,8 @@
       items: [
         ['✏️', 'Bảng vẽ CeTZ', 'cetz-ve.html'],
         ['📈', 'Bảng biến thiên Live', 'bbt-live.html'],
+        ['📐', 'Hình học Live 2D/3D', 'hh-live.html'],
+        ['⌁', 'GeoGebra → TikZ thuần', 'tikz-geogebra.html'],
         ['📐', 'Geogebra → CeTZ', 'cetz-geogebra.html'],
         ['🧊', 'Hình học 3D', 'cetz-3d.html'],
       ],

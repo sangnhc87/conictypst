@@ -297,6 +297,51 @@
   })
 }
 
+// ═══════════════════════════════════════════════════════════
+// bxd-tich — Bảng xét dấu TÍCH/THƯƠNG, TỰ TÍNH dòng kết quả
+// Giáo viên chỉ khai dấu từng thừa số; dòng f(x) được nhân dấu tự động.
+// Thương dùng chung quy tắc dấu với tích: dấu(a/b) = dấu(a·b).
+// factors: (( nhãn, (dấu-1, dấu-2, ...) ), ...) — mỗi dấu-i dài 2n-1 như bxd.
+//   Ký hiệu: $+$ / $-$ / $0$ / "||" (không xác định) / [] (bỏ trống).
+// ═══════════════════════════════════════════════════════════
+#let bxd-tich(
+  var: $x$,
+  x-vals: (),
+  factors: (),
+  result-label: $f(x)$,
+  w1: 1.5,
+  w2: 8,
+  h1: 0.8,
+  h2: 0.8,
+) = {
+  let norm(s) = {
+    let r = repr(s)
+    if s == "+" or s == $+$ or r.contains("+") { "+" }
+    else if s == "-" or s == $-$ or r.contains("−") or r.contains("-") { "-" }
+    else if s == "||" or r.contains("||") or r.contains("parallel") { "||" }
+    else if s == "" or s == [] or s == none or r == "\"\"" or r == "[]" or r == "none" { "" }
+    else { "0" }
+  }
+  let mul2(a, b) = {
+    if a == "||" or b == "||" { "||" }
+    else if a == "0" or b == "0" { "0" }
+    else if a == "" or b == "" { "" }
+    else if a == b { "+" } else { "-" }
+  }
+  let nsig = if factors.len() > 0 { factors.at(0).at(1).len() } else { 0 }
+  let result = ()
+  for i in range(nsig) {
+    let acc = "+"
+    for f in factors { acc = mul2(acc, norm(f.at(1).at(i))) }
+    result.push(
+      if acc == "+" { $+$ } else if acc == "-" { $-$ } else if acc == "0" { $0$ } else if acc == "||" { $|$ } else { [] },
+    )
+  }
+  let all-funcs = factors.map(f => f.at(0)) + (result-label,)
+  let all-signs = factors.map(f => f.at(1)) + (result,)
+  bxd(var: var, func: all-funcs, x-vals: x-vals, f-signs: all-signs, w1: w1, w2: w2, h1: h1, h2: h2)
+}
+
 #let bbbt(
   var: $x$,
   der: $y'$,
@@ -586,6 +631,32 @@
       content((cw + cw / 2, -(i + 1) * rh - rh / 2), item.at(1))
     }
   })
+}
+
+// ═══════════════════════════════════════════════════════════
+// Ô CHÉO (diagonal-split cell) — Typst KHÔNG có sẵn, tự vẽ bằng place+line.
+// Dùng cho ô tiêu đề chia chéo, vd góc bảng "Lớp \ Môn".
+// NỐI Ô thì Typst có sẵn: table.cell(colspan: n) / table.cell(rowspan: n).
+// ───────────────────────────────────────────────────────────
+#let o-cheo(tr, bl, width: 3cm, height: 1.2cm, stroke: 0.6pt, inset: 5pt) = context {
+  let __clr = text.fill
+  let s = if type(stroke) == length { stroke + __clr } else { stroke }
+  box(width: width, height: height, stroke: s)[
+    #place(line(start: (0%, 0%), end: (100%, 100%), stroke: s))
+    #place(top + right, dx: -inset, dy: inset * 0.6)[#tr]
+    #place(bottom + left, dx: inset, dy: -inset * 0.6)[#bl]
+  ]
+}
+#let o-cheo3(a, b, c, width: 3.2cm, height: 1.6cm, stroke: 0.6pt, inset: 4pt) = context {
+  let __clr = text.fill
+  let s = if type(stroke) == length { stroke + __clr } else { stroke }
+  box(width: width, height: height, stroke: s)[
+    #place(line(start: (0%, 0%), end: (60%, 100%), stroke: s))
+    #place(line(start: (0%, 0%), end: (100%, 60%), stroke: s))
+    #place(top + right, dx: -inset, dy: inset * 0.5)[#a]
+    #place(horizon + right, dx: -inset)[#b]
+    #place(bottom + left, dx: inset, dy: -inset * 0.5)[#c]
+  ]
 }
 
 // ═══════════════════════════════════════════════════════════

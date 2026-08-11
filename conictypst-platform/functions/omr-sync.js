@@ -5,7 +5,7 @@ const { getFirestore, Timestamp, FieldValue } = require('firebase-admin/firestor
 const { onCall, HttpsError } = require('firebase-functions/v2/https');
 const { onSchedule } = require('firebase-functions/v2/scheduler');
 const { logger } = require('firebase-functions');
-const { DEFAULT_OWNER_EMAIL, PRODUCT_DEFINITIONS } = require('./lib/constants');
+const { bootstrapOwnerEmails, PRODUCT_DEFINITIONS } = require('./lib/constants');
 const { buildSearchTokens, normalizeProfile } = require('./lib/membership');
 const { EXAM_PRODUCT_ID, purgeExamMemberForDeletion } = require('./lib/examDeletion');
 
@@ -337,7 +337,7 @@ async function isPlatformAdmin(auth, database = db()) {
 
 function isVerifiedOwner(auth) {
     const email = String(auth.token?.email || '').trim().toLowerCase();
-    return auth.token?.email_verified === true && email === DEFAULT_OWNER_EMAIL;
+    return auth.token?.email_verified === true && bootstrapOwnerEmails().has(email);
 }
 
 exports.omrRequestAccess = onCall({ region: REGION, cors: true, maxInstances: 3 }, async (request) => {

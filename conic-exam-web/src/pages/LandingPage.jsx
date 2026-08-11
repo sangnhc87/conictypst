@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { APP_CONFIG } from '../config';
 import { examMembership, useAuth } from '../auth/AuthContext';
 import { Button, Card, Notice, Pill, formatDate } from '../components/UI';
@@ -7,20 +7,12 @@ import { Shell } from '../components/Shell';
 
 export default function LandingPage() {
   const { user, account, status, error, signIn, api, refreshAccount, setError } = useAuth();
+  const navigate = useNavigate();
   const [requesting, setRequesting] = useState(false);
   const membership = examMembership(account);
 
   async function requestAccess() {
-    setRequesting(true);
-    setError('');
-    try {
-      await api.requestTeacherAccess('Đăng ký gói Conic Exam giáo viên 12 tháng.');
-      await refreshAccount();
-    } catch (cause) {
-      setError(cause.message);
-    } finally {
-      setRequesting(false);
-    }
+    navigate('/teacher/pricing');
   }
 
   if (!user) {
@@ -38,7 +30,11 @@ export default function LandingPage() {
               <h1>Một nguồn đề.<br /><em>Ba cách tổ chức thi.</em></h1>
               <p>Phát hành đề trực tuyến chuyên nghiệp, quản lý lớp riêng, duyệt học sinh, tự lưu bản nháp trên thiết bị và chấm hoàn toàn phía máy chủ khi nộp.</p>
               {error && <Notice tone="danger">{error}</Notice>}
-              <div className="hero-public__actions"><Button onClick={signIn}>Bắt đầu bằng Google</Button><a className="button button--secondary" href="#features">Xem hệ thống</a></div>
+              <div className="hero-public__actions">
+                <Button onClick={signIn}>Bắt đầu bằng Google</Button>
+                <Link className="button button--secondary" to="/demo">👀 Trải nghiệm Đề thi mẫu</Link>
+                <a className="button button--secondary" href="#features">Xem hệ thống</a>
+              </div>
               <div className="trust-row"><span>✓ Đáp án không xuống máy học sinh</span><span>✓ Reload vẫn khôi phục trên cùng thiết bị</span><span>✓ Chuẩn 12–4–6</span></div>
             </div>
             <div className="hero-public__visual" aria-label="Minh họa luồng tổ chức kỳ thi">
@@ -63,8 +59,8 @@ export default function LandingPage() {
             </div>
           </section>
           <section id="pricing" className="pricing-section">
-            <div><p className="eyebrow">GÓI GIÁO VIÊN</p><h2>100.000đ cho trọn một năm</h2><p>Anh Sang duyệt từng tài khoản giáo viên. Giáo viên tự tạo lớp và tự quản lý học sinh của mình.</p></div>
-            <Card className="price-card"><Pill tone="success">12 tháng</Pill><strong>100.000<small>đ / năm</small></strong><ul><li>10 lớp học</li><li>500 học sinh</li><li>200 đề đã phát hành</li><li>12.000 lượt thi / năm</li></ul><Button onClick={signIn}>Đăng ký tài khoản</Button></Card>
+            <div><p className="eyebrow">GÓI GIÁO VIÊN</p><h2>299.000đ cho trọn một năm</h2><p>Anh Sang duyệt từng tài khoản giáo viên. Giáo viên tự tạo lớp và tự quản lý học sinh của mình.</p></div>
+            <Card className="price-card"><Pill tone="success">12 tháng</Pill><strong>299.000<small>đ / năm</small></strong><ul><li>10 lớp học</li><li>100 học sinh</li><li>200 đề đã phát hành</li><li>12.000 lượt thi / năm</li></ul><Button onClick={signIn}>Đăng ký tài khoản</Button></Card>
           </section>
         </main>
       </div>
@@ -74,13 +70,20 @@ export default function LandingPage() {
   return (
     <Shell>
       <section className="dashboard-hero">
-        <div><p className="eyebrow">TRUNG TÂM CONIC EXAM</p><h1>Xin chào, {account?.profile?.displayName || user.displayName}.</h1><p>Chọn không gian làm việc phù hợp với vai trò hôm nay.</p></div>
+        <div>
+          <p className="eyebrow">TRUNG TÂM CONIC EXAM</p>
+          <h1>Xin chào, {account?.profile?.displayName || user.displayName}.</h1>
+          <p>Chọn không gian làm việc phù hợp với vai trò hôm nay.</p>
+          <div style={{ marginTop: '1.5rem' }}>
+            <Link className="button button--secondary" to="/demo">👀 Trải nghiệm Đề thi mẫu</Link>
+          </div>
+        </div>
         <div className="dashboard-hero__badge"><span className="live-dot" /><span><small>Hệ thống</small><strong>Đang hoạt động</strong></span></div>
       </section>
       {error && <Notice tone="danger" onClose={() => setError('')}>{error}</Notice>}
       <div className="role-grid">
         <Card className="role-card role-card--student"><span className="role-card__icon">HS</span><div><Pill tone="success">Học sinh</Pill><h2>Vào lớp và làm bài</h2><p>Nhập mã lớp giáo viên cung cấp, theo dõi yêu cầu và tiếp tục các lượt thi đang làm.</p><Link className="button button--primary" to="/student">Mở cổng học sinh</Link></div></Card>
-        <Card className="role-card role-card--teacher"><span className="role-card__icon">GV</span><div><Pill tone={membership?.hasAccess || account?.isAdmin ? 'success' : 'warning'}>{membership?.hasAccess || account?.isAdmin ? 'Đã kích hoạt' : 'Gói 100.000đ/năm'}</Pill><h2>Tổ chức lớp và kỳ thi</h2>
+        <Card className="role-card role-card--teacher"><span className="role-card__icon">GV</span><div><Pill tone={membership?.hasAccess || account?.isAdmin ? 'success' : 'warning'}>{membership?.hasAccess || account?.isAdmin ? 'Đã kích hoạt' : 'Gói Cơ Bản'}</Pill><h2>Tổ chức lớp và kỳ thi</h2>
           {account?.isAdmin ? <><p>Chủ hệ thống có quyền mở không gian giáo viên để kiểm thử và vận hành.</p><Link className="button button--primary" to="/teacher">Mở bảng điều khiển</Link></> : membership?.hasAccess ? <><p>Quyền giáo viên còn hạn đến {formatDate(membership.accessEndsAt)}.</p><Link className="button button--primary" to="/teacher">Mở bảng điều khiển</Link></> : membership?.status === 'pending' ? <><p>Yêu cầu của thầy/cô đang chờ quản trị viên xác minh và kích hoạt.</p><Button disabled>Đang chờ duyệt</Button></> : <><p>Đăng ký quyền giáo viên, sau đó liên hệ quản trị viên để xác minh thanh toán.</p><Button onClick={requestAccess} busy={requesting}>Đăng ký quyền giáo viên</Button></>}
         </div></Card>
         {account?.isAdmin && <Card className="role-card role-card--admin"><span className="role-card__icon">QT</span><div><Pill tone="danger">Chủ hệ thống</Pill><h2>Duyệt và vận hành SaaS</h2><p>Xử lý giáo viên đăng ký, thời hạn thuê bao, hạn mức và nhật ký quản trị.</p><Link className="button button--primary" to="/admin">Mở trung tâm quản trị</Link></div></Card>}

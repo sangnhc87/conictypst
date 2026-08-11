@@ -53,8 +53,10 @@ const PRODUCT_DEFINITIONS = Object.freeze({
     active: true,
     accessMode: 'approval',
     defaultMonths: 12,
+    priceVnd: 99000,
     defaultLimits: Object.freeze({
-      storageBytes: 536870912,
+      // 50 MiB/người: đủ rộng cho mã .typ và ảnh học liệu đã tối ưu; local vẫn không giới hạn.
+      storageBytes: 52428800,
       maxClasses: 10,
       maxStudents: 500,
       retentionDays: 365,
@@ -99,14 +101,18 @@ const ADMIN_ACTIONS = Object.freeze([
   'cancel_delete',
 ]);
 
-const DEFAULT_OWNER_EMAIL = 'nguyensangnhc@gmail.com';
+const DEFAULT_OWNER_EMAILS = Object.freeze([
+  'nguyensangnhc@gmail.com',
+  'sangbeau@gmail.com',
+]);
+const DEFAULT_OWNER_EMAIL = DEFAULT_OWNER_EMAILS[0];
 const AUDIT_RETENTION_DAYS = 365;
 const MUTATION_RETENTION_DAYS = 30;
 
 function bootstrapOwnerEmails() {
   const configured = process.env.CT_BOOTSTRAP_OWNER_EMAILS || DEFAULT_OWNER_EMAIL;
   return new Set([
-    DEFAULT_OWNER_EMAIL,
+    ...DEFAULT_OWNER_EMAILS,
     ...configured
       .split(',')
       .map((email) => email.trim().toLowerCase())
@@ -118,6 +124,7 @@ module.exports = {
   ADMIN_ACTIONS,
   AUDIT_RETENTION_DAYS,
   DEFAULT_OWNER_EMAIL,
+  DEFAULT_OWNER_EMAILS,
   MEMBER_STATUSES,
   MUTATION_RETENTION_DAYS,
   PRODUCT_DEFINITIONS,

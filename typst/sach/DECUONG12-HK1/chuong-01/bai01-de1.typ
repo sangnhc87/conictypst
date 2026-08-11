@@ -1,7 +1,7 @@
 #import "../preamble.typ": *
 #import "../../../math-sym.typ": *
-
 #show math.frac: math.display
+
 // #show: doc-setup
 #muc([Đề Luyện Tập Số 01])
 
@@ -764,7 +764,13 @@
     [$(0; 2)$]
   ),
   loigiai: [
-    #step[Đang cập nhật...]
+        #step[Tập xác định: $D = RR$.]
+    #step[Đạo hàm $y' = 3x^2 - 6x = 3x(x - 2)$.]
+    #step[Cho $y' = 0 <=> 3x(x - 2) = 0 <=> x = 0$ hoặc $x = 2$.]
+    #step[Ta có $y'' = 6x - 6$. Tại $x = 2$, $y''(2) = 6(2) - 6 = 6 > 0$, do đó hàm số đạt cực tiểu tại $x = 2$.]
+    #step[Tung độ điểm cực tiểu là $y(2) = 2^3 - 3(2^2) + 2 = -2$. Vậy điểm cực tiểu của đồ thị hàm số có tọa độ là $(2; -2)$.]
+    #step[Kết luận: Chọn đáp án B.]
+    #resetstep()
   ]
 )
 
@@ -778,7 +784,11 @@
     [$3$]
   ),
   loigiai: [
-    #step[Đang cập nhật...]
+        #step[Ta có $f'(x) = x - 1 = 0 <=> x = 1$.]
+    #step[Đạo hàm $f'(x)$ là nhị thức bậc nhất, đổi dấu từ âm sang dương khi đi qua nghiệm $x = 1$.]
+    #step[Do đạo hàm đổi dấu đúng $1$ lần nên hàm số $y = f(x)$ có duy nhất $1$ điểm cực trị (điểm cực tiểu tại $x = 1$).]
+    #step[Kết luận: Chọn đáp án B.]
+    #resetstep()
   ]
 )
 
@@ -792,7 +802,12 @@
     [$2$]
   ),
   loigiai: [
-    #step[Đang cập nhật...]
+        #step[Ta có $f'(x) = 0 <=> x^2 (x + 1)^2 (2x - 1) = 0 <=> x = 0$, $x = -1$, hoặc $x = 1/2$.]
+    #step[Lưu ý rằng $x = 0$ và $x = -1$ là các nghiệm bội chẵn (mũ 2), nên $f'(x)$ không đổi dấu khi qua các nghiệm này. Hàm số không đạt cực trị tại $x = 0$ và $x = -1$.]
+    #step[Nghiệm $x = 1/2$ là nghiệm bội lẻ (mũ 1), đạo hàm $f'(x)$ đổi dấu khi đi qua điểm này.]
+    #step[Vậy hàm số $y = f(x)$ chỉ có đúng $1$ điểm cực trị tại $x = 1/2$.]
+    #step[Kết luận: Chọn đáp án C.]
+    #resetstep()
   ]
 )
 

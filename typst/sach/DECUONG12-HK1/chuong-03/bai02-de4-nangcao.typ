@@ -1,7 +1,7 @@
 #import "../preamble.typ": *
 #import "../../../math-sym.typ": *
-
 #show math.frac: math.display
+
 
 #muc([Đề Luyện Tập Số 04 — Thống Kê Nâng Cao (Tổng Hợp)])
 
@@ -11,7 +11,7 @@
 // ─── CÂU 1 ───
 #tn(
   dir: "doc",lines: 0,
-  [Khi cộng tất cả các giá trị của một mẫu số liệu ghép nhóm với cùng một hằng số dương $a$, thì khẳng định nào sau đây là **đúng**?],
+  [Khi cộng tất cả các giá trị của một mẫu số liệu ghép nhóm với cùng một hằng số dương $a$, thì khẳng định nào sau đây là *đúng*?],
   (
     [Phương sai của mẫu số liệu tăng thêm $a$],
     True([Độ lệch chuẩn của mẫu số liệu không thay đổi]),

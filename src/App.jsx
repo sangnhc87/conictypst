@@ -9,6 +9,7 @@ import Pdv3StudioPage from './Pdv3StudioPage.jsx'
 import ExamApp from './exam/ExamApp.jsx'
 import GiaiToanApp from './giaitoan/GiaiToanApp.jsx'
 import FileBrowser from './FileBrowser.jsx'
+import SimilarGenerator from './SimilarGenerator.jsx'
 import {
   DIFFICULTY_BY_CODE,
   DIFFICULTY_OPTIONS,
@@ -18,9 +19,17 @@ import {
   createEmptyOptionArray,
   createEmptyStatements,
 } from './questionBankSeed.js'
+import {
+  buildQuestionBankPayload,
+  recordsFromQuestionBankPayload,
+  typstForRecords,
+  typstQuestionForRecord,
+} from './questionBankFormat.js'
 
 const STORAGE_KEY = 'conictypst.question-bank.records.v2'
 const CART_KEY = 'conictypst.question-bank.cart.v1'
+const PACKS_KEY = 'conictypst.question-bank.packs.v1'
+const FEATURED_BUNDLE_URL = '/data/ngo-duc-tai-hk1-bundle-with-figures.v1.json'
 const VISIBLE_LIMIT = 180
 const DEFAULT_FILTERS = {
   query: '',
@@ -32,6 +41,8 @@ const DEFAULT_FILTERS = {
   status: '',
   type: '',
   authored: 'all',
+  collection: '',
+  figure: '',
 }
 
 const TYPE_LABELS = Object.fromEntries(QUESTION_TYPE_OPTIONS.map(option => [option.value, option]))
@@ -154,6 +165,7 @@ function normalizeCorrectAnswers(value) {
 function createRecordDraft(entry) {
   return {
     id: entry?.id || '',
+    bankId: entry?.bankId || entry?.id || '',
     type: 'tn',
     status: 'draft',
     difficulty: entry?.inferredDifficulty || 'nhan-biet',
@@ -178,6 +190,7 @@ function normalizeRecord(record, entry) {
     ...fallback,
     ...source,
     id: source.id || entry?.id || fallback.id,
+    bankId: String(source.bankId || entry?.bankId || source.id || fallback.bankId || ''),
     type: TYPE_LABELS[source.type] ? source.type : fallback.type,
     status: STATUS_LABELS[source.status] ? source.status : fallback.status,
     difficulty: DIFFICULTY_LABELS[source.difficulty] ? source.difficulty : fallback.difficulty,
@@ -192,6 +205,19 @@ function normalizeRecord(record, entry) {
       correct: Boolean(statement?.correct),
     })),
     shortAnswer: String(source.shortAnswer || source.answer || ''),
+    source: String(source.source || ''),
+    sourcePage: String(source.sourcePage || ''),
+    sourcePdf: String(source.sourcePdf || ''),
+    collection: String(source.collection || ''),
+    examId: String(source.examId || ''),
+    examTitle: String(source.examTitle || ''),
+    figure: String(source.figure || ''),
+    figureAlt: String(source.figureAlt || ''),
+    figureStatus: String(source.figureStatus || ''),
+    confidence: String(source.confidence || ''),
+    reviewNotes: String(source.reviewNotes || ''),
+    answerVerified: Boolean(source.answerVerified),
+    solutionVerified: Boolean(source.solutionVerified),
     updatedAt: String(source.updatedAt || ''),
     createdAt: String(source.createdAt || ''),
   }
@@ -203,6 +229,7 @@ function serializeRecord(record, entry, baselineRecord) {
 
   return {
     id: normalized.id,
+    bankId: normalized.bankId,
     type: normalized.type,
     status: normalized.status,
     difficulty: normalized.difficulty,
@@ -214,6 +241,19 @@ function serializeRecord(record, entry, baselineRecord) {
     correctAnswers: normalized.correctAnswers,
     statements: normalized.statements,
     shortAnswer: normalized.shortAnswer.trim(),
+    source: normalized.source.trim(),
+    sourcePage: normalized.sourcePage.trim(),
+    sourcePdf: normalized.sourcePdf.trim(),
+    collection: normalized.collection.trim(),
+    examId: normalized.examId.trim(),
+    examTitle: normalized.examTitle.trim(),
+    figure: normalized.figure.trim(),
+    figureAlt: normalized.figureAlt.trim(),
+    figureStatus: normalized.figureStatus.trim(),
+    confidence: normalized.confidence.trim(),
+    reviewNotes: normalized.reviewNotes.trim(),
+    answerVerified: normalized.answerVerified,
+    solutionVerified: normalized.solutionVerified,
     createdAt: baselineRecord?.createdAt || normalized.createdAt || now,
     updatedAt: now,
   }
@@ -229,6 +269,14 @@ function buildSearchableText(entry, record) {
     record?.stem,
     record?.solution,
     record?.tags?.join(' '),
+    record?.source,
+    record?.sourcePdf,
+    record?.collection,
+    record?.examId,
+    record?.examTitle,
+    record?.figure,
+    record?.figureAlt,
+    record?.reviewNotes,
   ]
     .filter(Boolean)
     .join(' ')
@@ -250,6 +298,8 @@ function matchesFilters(entry, record, filters) {
   if (filters.form && entry.form !== filters.form) return false
   if (filters.status && effectiveStatus !== filters.status) return false
   if (filters.type && effectiveType !== filters.type) return false
+  if (filters.collection && record?.collection !== filters.collection) return false
+  if (filters.figure && (filters.figure === 'has' ? !record?.figure : Boolean(record?.figure))) return false
   if (filters.query && !searchableText.includes(filters.query)) return false
 
   return true
@@ -271,11 +321,11 @@ function sortEntries(left, right, recordsById) {
   return left.id.localeCompare(right.id, 'vi')
 }
 
-function buildExportPayload(ids, recordsById, catalogById) {
+function buildExportPayload(ids, recordsById, taxonomyById) {
   const questions = ids
     .filter(id => recordsById[id])
     .map(id => ({
-      taxonomy: catalogById.get(id) || null,
+      taxonomy: taxonomyById.get(recordsById[id].bankId || id) || null,
       record: recordsById[id],
     }))
 
@@ -284,6 +334,15 @@ function buildExportPayload(ids, recordsById, catalogById) {
     questionCount: questions.length,
     questions,
   }
+}
+
+function shuffleItems(items) {
+  const result = [...items]
+  for (let index = result.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.floor(Math.random() * (index + 1))
+    ;[result[index], result[swapIndex]] = [result[swapIndex], result[index]]
+  }
+  return result
 }
 
 function downloadJson(filename, payload) {
@@ -321,10 +380,8 @@ function getPreviewText(entry, record) {
   return `${entry.chapter} / ${entry.form}`
 }
 
-function coerceImportedRecords(payload, catalogById) {
-  const source = Array.isArray(payload)
-    ? Object.fromEntries(payload.map(item => [item.id, item]))
-    : payload?.records || payload
+function coerceImportedRecords(payload, taxonomyById) {
+  const source = recordsFromQuestionBankPayload(payload)
 
   if (!source || typeof source !== 'object') {
     return {}
@@ -333,7 +390,7 @@ function coerceImportedRecords(payload, catalogById) {
   return Object.fromEntries(
     Object.entries(source)
       .filter(([id]) => typeof id === 'string')
-      .map(([id, value]) => [id, normalizeRecord({ ...value, id }, catalogById.get(id))]),
+      .map(([id, value]) => [id, normalizeRecord({ ...value, id }, taxonomyById.get(value?.bankId || id))]),
   )
 }
 
@@ -389,14 +446,22 @@ function FilterField({ label, value, options, onChange }) {
 function App() {
   const isDesktopRuntime = typeof window !== 'undefined' && Boolean(window.desktopApi)
   const catalogEntries = useMemo(() => parseBankCatalog(bankCatalog), [])
-  const catalogById = useMemo(() => new Map(catalogEntries.map(entry => [entry.id, entry])), [catalogEntries])
+  const taxonomyById = useMemo(() => new Map(catalogEntries.map(entry => [entry.id, entry])), [catalogEntries])
+  const hadStoredRecords = useRef(typeof window !== 'undefined' && Boolean(window.localStorage.getItem(STORAGE_KEY)))
   const [records, setRecords] = useLocalStorageState(STORAGE_KEY, SAMPLE_RECORDS)
   const [cartIds, setCartIds] = useLocalStorageState(CART_KEY, Object.keys(SAMPLE_RECORDS))
+  const [savedPacks, setSavedPacks] = useLocalStorageState(PACKS_KEY, [])
   const [filters, setFilters] = useState(DEFAULT_FILTERS)
+  const [randomCount, setRandomCount] = useState(10)
+  const [randomType, setRandomType] = useState('')
+  const [randomDifficulty, setRandomDifficulty] = useState('')
+  const [packName, setPackName] = useState('')
+  const [bundleLoading, setBundleLoading] = useState(false)
   const [selectedId, setSelectedId] = useState(Object.keys(SAMPLE_RECORDS)[0] || catalogEntries[0]?.id || '')
   const [editorDraft, setEditorDraft] = useState(null)
   const [notice, setNotice] = useState(null)
   const [activeView, setActiveView] = useState(isDesktopRuntime ? 'extract' : 'bank')
+  const [viewMode, setViewMode] = useState('flat')
   const importInputRef = useRef(null)
   const deferredQuery = useDeferredValue(filters.query.trim().toLowerCase())
 
@@ -427,6 +492,7 @@ function App() {
     ]
     : [
       { id: 'bank', label: 'Ngân hàng' },
+      { id: 'similar', label: 'Sinh Tương Tự' },
       { id: 'filebrowser', label: '📁 Thư viện' },
       { id: 'gen', label: 'Tạo khung' },
       { id: 'editor', label: 'Editor' },
@@ -442,23 +508,75 @@ function App() {
     setRecords(currentRecords => upgradeLegacySeedRecords(currentRecords))
   }, [setRecords])
 
+  useEffect(() => {
+    if (typeof window === 'undefined' || hadStoredRecords.current) return undefined
+    let cancelled = false
+    setBundleLoading(true)
+    fetch(FEATURED_BUNDLE_URL)
+      .then(response => {
+        if (!response.ok) throw new Error(`HTTP ${response.status}`)
+        return response.json()
+      })
+      .then(payload => {
+        if (cancelled) return
+        const importedRecords = coerceImportedRecords(payload, taxonomyById)
+        if (Object.keys(importedRecords).length === 0) throw new Error('empty bundle')
+        setRecords(currentRecords => ({ ...currentRecords, ...importedRecords }))
+        setNotice({ tone: 'success', message: `Đã nạp sẵn ${Object.keys(importedRecords).length} câu Ngô Đức Tài` })
+      })
+      .catch(() => {
+        if (!cancelled) setNotice({ tone: 'danger', message: 'Chưa nạp được bộ đề dựng sẵn; bạn có thể nhập JSON thủ công.' })
+      })
+      .finally(() => {
+        if (!cancelled) setBundleLoading(false)
+      })
+    return () => { cancelled = true }
+  }, [setRecords, taxonomyById])
+
   const normalizedRecords = useMemo(
     () =>
       Object.fromEntries(
-        Object.entries(records).map(([id, record]) => [id, normalizeRecord(record, catalogById.get(id))]),
+        Object.entries(records).map(([id, record]) => [id, normalizeRecord(record, taxonomyById.get(record?.bankId || id))]),
       ),
-    [records, catalogById],
+    [records, taxonomyById],
   )
+
+  const authoredEntries = useMemo(
+    () => Object.values(normalizedRecords)
+      .filter(record => !taxonomyById.has(record.id))
+      .map(record => {
+        const taxonomy = taxonomyById.get(record.bankId)
+        return {
+          id: record.id,
+          bankId: record.bankId,
+          label: `${record.bankId || 'Không gắn bank ID'} | ${record.collection || record.examTitle || 'Bản ghi nhập'}`,
+          grade: taxonomy?.grade || 'Lớp 12',
+          branch: taxonomy?.branch || 'Bản ghi nhập',
+          chapterTag: taxonomy?.chapterTag || '',
+          chapter: taxonomy?.chapter || record.collection || 'Bản ghi nhập',
+          lessonTag: taxonomy?.lessonTag || '',
+          lesson: taxonomy?.lesson || record.examTitle || record.examId || 'Câu hỏi nguồn',
+          formTag: taxonomy?.formTag || '',
+          form: taxonomy?.form || record.type,
+          inferredDifficulty: taxonomy?.inferredDifficulty || record.difficulty,
+          isVariant: true,
+        }
+      }),
+    [normalizedRecords, taxonomyById],
+  )
+  const displayEntries = useMemo(() => [...catalogEntries, ...authoredEntries], [catalogEntries, authoredEntries])
+  const displayById = useMemo(() => new Map(displayEntries.map(entry => [entry.id, entry])), [displayEntries])
 
   const filterOptions = useMemo(
     () => ({
-      grades: uniqueSorted(catalogEntries.map(entry => entry.grade)),
-      branches: uniqueSorted(catalogEntries.map(entry => entry.branch)),
-      chapters: uniqueSorted(catalogEntries.map(entry => entry.chapter)),
-      lessons: uniqueSorted(catalogEntries.map(entry => entry.lesson)),
-      forms: uniqueSorted(catalogEntries.map(entry => entry.form)),
+      grades: uniqueSorted(displayEntries.map(entry => entry.grade)),
+      branches: uniqueSorted(displayEntries.map(entry => entry.branch)),
+      chapters: uniqueSorted(displayEntries.map(entry => entry.chapter)),
+      lessons: uniqueSorted(displayEntries.map(entry => entry.lesson)),
+      forms: uniqueSorted(displayEntries.map(entry => entry.form)),
+      collections: uniqueSorted(Object.values(normalizedRecords).map(record => record.collection)),
     }),
-    [catalogEntries],
+    [displayEntries, normalizedRecords],
   )
 
   const effectiveFilters = useMemo(
@@ -471,14 +589,47 @@ function App() {
 
   const filteredEntries = useMemo(
     () =>
-      catalogEntries
+      displayEntries
         .filter(entry => matchesFilters(entry, normalizedRecords[entry.id], effectiveFilters))
         .sort((left, right) => sortEntries(left, right, normalizedRecords)),
-    [catalogEntries, effectiveFilters, normalizedRecords],
+    [displayEntries, effectiveFilters, normalizedRecords],
   )
 
   const visibleEntries = filteredEntries.slice(0, VISIBLE_LIMIT)
-  const selectedEntry = catalogById.get(selectedId) || visibleEntries[0] || catalogEntries[0] || null
+
+  const treeData = useMemo(() => {
+    if (viewMode !== 'tree') return null
+    const tree = {}
+    for (const entry of filteredEntries) {
+      const grade = entry.grade || 'Không rõ lớp'
+      const branch = entry.branch || 'Khác'
+      const chapter = entry.chapter || 'Chưa phân chương'
+      const lesson = entry.lesson || 'Chưa phân bài'
+      if (!tree[grade]) tree[grade] = {}
+      if (!tree[grade][branch]) tree[grade][branch] = {}
+      if (!tree[grade][branch][chapter]) tree[grade][branch][chapter] = {}
+      if (!tree[grade][branch][chapter][lesson]) tree[grade][branch][chapter][lesson] = []
+      tree[grade][branch][chapter][lesson].push(entry)
+    }
+    return tree
+  }, [filteredEntries, viewMode])
+
+  const examData = useMemo(() => {
+    if (viewMode !== 'exam') return null
+    const groups = {}
+    for (const entry of filteredEntries) {
+      const record = normalizedRecords[entry.id]
+      let groupName = 'Chưa phân đề'
+      if (record && (record.examTitle || record.collection)) {
+        groupName = record.examTitle || record.collection
+      }
+      if (!groups[groupName]) groups[groupName] = []
+      groups[groupName].push(entry)
+    }
+    return groups
+  }, [filteredEntries, normalizedRecords, viewMode])
+
+  const selectedEntry = displayById.get(selectedId) || visibleEntries[0] || displayEntries[0] || null
   const baselineRecord = selectedEntry ? normalizedRecords[selectedEntry.id] || createRecordDraft(selectedEntry) : null
   const baselineSignature = useMemo(() => JSON.stringify(baselineRecord), [baselineRecord])
 
@@ -513,9 +664,9 @@ function App() {
   const readyCount = Object.values(normalizedRecords).filter(record => record.status === 'ready').length
   const reviewCount = Object.values(normalizedRecords).filter(record => record.status === 'review').length
   const coverage = catalogEntries.length === 0 ? 0 : Math.round((authoredCount / catalogEntries.length) * 100)
-  const orphanIds = Object.keys(normalizedRecords).filter(id => !catalogById.has(id))
+  const orphanIds = Object.values(normalizedRecords).filter(record => !taxonomyById.has(record.bankId || record.id))
 
-  const selectedCartRows = cartIds.map(id => ({ id, entry: catalogById.get(id), record: normalizedRecords[id] })).filter(row => row.entry && row.record)
+  const selectedCartRows = cartIds.map(id => ({ id, entry: displayById.get(id), record: normalizedRecords[id] })).filter(row => row.entry && row.record)
 
   function updateFilter(field, value) {
     startTransition(() => {
@@ -588,6 +739,53 @@ function App() {
     ))
   }
 
+  function handleRandomizeCart() {
+    const candidates = filteredEntries
+      .filter(entry => normalizedRecords[entry.id])
+      .filter(entry => !randomType || normalizedRecords[entry.id].type === randomType)
+      .filter(entry => !randomDifficulty || normalizedRecords[entry.id].difficulty === randomDifficulty)
+
+    if (candidates.length === 0) {
+      setNotice({ tone: 'danger', message: 'Không có câu phù hợp với bộ lọc ngẫu nhiên' })
+      return
+    }
+
+    const selected = shuffleItems(candidates).slice(0, Math.max(1, Math.min(200, Number(randomCount) || 1)))
+    setCartIds(selected.map(entry => entry.id))
+    setSelectedId(selected[0].id)
+    setNotice({ tone: 'success', message: `Đã chọn ngẫu nhiên ${selected.length} câu vào giỏ đề` })
+  }
+
+  function handleSavePack() {
+    if (selectedCartRows.length === 0) {
+      setNotice({ tone: 'danger', message: 'Hãy chọn câu vào giỏ trước khi lưu gói đề' })
+      return
+    }
+
+    const label = packName.trim() || `Gói đề ${new Date().toLocaleDateString('vi-VN')}`
+    const pack = {
+      id: `pack-${Date.now()}`,
+      name: label,
+      ids: selectedCartRows.map(row => row.id),
+      filters,
+      createdAt: new Date().toISOString(),
+    }
+    setSavedPacks(current => [pack, ...current.filter(item => item.name !== label)].slice(0, 50))
+    setPackName('')
+    setNotice({ tone: 'success', message: `Đã lưu gói “${label}”` })
+  }
+
+  function handleLoadPack(pack) {
+    const ids = (pack?.ids || []).filter(id => normalizedRecords[id])
+    setCartIds(ids)
+    if (ids[0]) setSelectedId(ids[0])
+    setNotice({ tone: 'success', message: `Đã nạp ${ids.length} câu từ gói “${pack.name}”` })
+  }
+
+  function handleDeletePack(packId) {
+    setSavedPacks(current => current.filter(pack => pack.id !== packId))
+  }
+
   async function handleCopyCartIds() {
     if (selectedCartRows.length === 0) return
 
@@ -602,15 +800,38 @@ function App() {
   }
 
   function handleExportAll() {
-    downloadJson('conictypst-question-bank.json', {
-      records: normalizedRecords,
-      exportedAt: new Date().toISOString(),
-    })
+    downloadJson('conictypst-question-bank.v1.json', buildQuestionBankPayload(normalizedRecords, {
+      source: 'ConicTypst question bank UI',
+    }))
     setNotice({ tone: 'success', message: 'Đã tải toàn bộ dữ liệu JSON' })
   }
 
+  function handleExportTypst() {
+    const recordsToExport = selectedCartRows.length > 0
+      ? selectedCartRows.map(row => row.record)
+      : Object.values(normalizedRecords).filter(record => record.status !== 'archived')
+
+    if (!recordsToExport.length) {
+      setNotice({ tone: 'danger', message: 'Chưa có câu hỏi đã soạn để xuất Typst' })
+      return
+    }
+
+    const typ = typstForRecords(recordsToExport, {
+      title: 'NGÂN HÀNG CÂU HỎI TOÁN THPT',
+      profile: 'loigiai',
+    })
+    const blob = new Blob([typ], { type: 'text/plain;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const anchor = document.createElement('a')
+    anchor.href = url
+    anchor.download = 'conictypst-question-bank-sang-math-1.0.4.typ'
+    anchor.click()
+    URL.revokeObjectURL(url)
+    setNotice({ tone: 'success', message: `Đã xuất ${recordsToExport.length} câu Typst chuẩn 1.0.4` })
+  }
+
   function handleExportCart() {
-    const payload = buildExportPayload(cartIds, normalizedRecords, catalogById)
+    const payload = buildExportPayload(cartIds, normalizedRecords, taxonomyById)
     downloadJson('conictypst-exam-pack.json', payload)
     setNotice({ tone: 'success', message: 'Đã tải gói đề đang chọn' })
   }
@@ -626,7 +847,7 @@ function App() {
     try {
       const text = await file.text()
       const payload = JSON.parse(text)
-      const importedRecords = coerceImportedRecords(payload, catalogById)
+      const importedRecords = coerceImportedRecords(payload, taxonomyById)
 
       setRecords(currentRecords => ({
         ...currentRecords,
@@ -640,6 +861,21 @@ function App() {
     event.target.value = ''
   }
 
+  async function handleLoadFeaturedBundle() {
+    setBundleLoading(true)
+    try {
+      const response = await fetch(FEATURED_BUNDLE_URL)
+      if (!response.ok) throw new Error(`HTTP ${response.status}`)
+      const importedRecords = coerceImportedRecords(await response.json(), taxonomyById)
+      setRecords(currentRecords => ({ ...currentRecords, ...importedRecords }))
+      setNotice({ tone: 'success', message: `Đã nạp ${Object.keys(importedRecords).length} câu vào kho hiện tại` })
+    } catch {
+      setNotice({ tone: 'danger', message: 'Không tải được bộ đề dựng sẵn' })
+    } finally {
+      setBundleLoading(false)
+    }
+  }
+
   function handleResetSeed() {
     if (!window.confirm('Khôi phục bộ dữ liệu mẫu và ghi đè local data hiện tại?')) return
 
@@ -650,35 +886,7 @@ function App() {
 
   async function handleCopyTypst() {
     if (!selectedEntry || !editorDraft) return
-    const id = selectedEntry.id
-    const type = editorDraft.type
-    const d = editorDraft
-    let code = ''
-
-    if (type === 'tn') {
-      code += `#tn(id: "${id}",\n  [${d.stem}],\n  ([${d.options[0]}], [${d.options[1]}], [${d.options[2]}], [${d.options[3]}]),\n  correct: ${d.correctAnswers[0] || 1},\n`
-    } else if (type === 'ds') {
-      const s = d.statements
-      code += `#ds(id: "${id}",\n  [${d.stem}],\n  (\n`
-      for (let i = 0; i < 4; i++) {
-        if (s[i].correct) code += `    True([${s[i].text}]),\n`
-        else code += `    [${s[i].text}],\n`
-      }
-      code += `  ),\n`
-    } else if (type === 'tln') {
-      code += `#tln(id: "${id}",\n  [${d.stem}],\n  [${d.shortAnswer}],\n`
-    } else {
-      code += `#tl(id: "${id}",\n  [${d.stem}],\n`
-    }
-
-    if (d.solution) {
-      code += `  loigiai: [\n    ${d.solution}\n  ]\n`
-    } else {
-      // Xoá dấu phẩy thừa ở cuối nếu không có lời giải
-      code = code.replace(/,\n$/, '\n')
-    }
-
-    code += `)\n`
+    const code = typstQuestionForRecord({ ...editorDraft, id: selectedEntry.id })
 
     try {
       await navigator.clipboard.writeText(code)
@@ -735,8 +943,14 @@ function App() {
             <button type="button" className="action-btn action-btn--accent" onClick={handleExportAll}>
               Xuất JSON
             </button>
+            <button type="button" className="action-btn" onClick={handleExportTypst}>
+              Xuất Typst 1.0.4
+            </button>
             <button type="button" className="action-btn" onClick={handleImportClick}>
               Nhập JSON
+            </button>
+            <button type="button" className="action-btn" onClick={handleLoadFeaturedBundle} disabled={bundleLoading}>
+              {bundleLoading ? 'Đang nạp bộ đề…' : 'Nạp 40 đề Ngô Đức Tài'}
             </button>
             <button type="button" className="action-btn" onClick={handleResetSeed}>
               Khôi phục mẫu
@@ -748,6 +962,7 @@ function App() {
       </header>
 
       {activeView === 'gen' && <TemplateGen />}
+      {activeView === 'similar' && <SimilarGenerator />}
 
       {activeView === 'editor' && <TypstEditor />}
 
@@ -826,6 +1041,8 @@ function App() {
                     options={QUESTION_TYPE_OPTIONS.map(option => option.value)}
                     onChange={value => updateFilter('type', value)}
                   />
+                  <FilterField label="Bộ đề / nguồn" value={filters.collection} options={filterOptions.collections} onChange={value => updateFilter('collection', value)} />
+                  <FilterField label="Hình / BBT" value={filters.figure} options={['has', 'missing']} onChange={value => updateFilter('figure', value)} />
 
                   <label className="field">
                     <span className="field__label">Độ phủ nội dung</span>
@@ -887,6 +1104,46 @@ function App() {
                   Nếu có bản ghi mồ côi, nghĩa là có câu hỏi trong local JSON không còn tồn tại trong taxonomy hiện tại.
                 </p>
               </section>
+
+              <section className="panel-section panel-section--accent">
+                <div className="section-head section-head--space">
+                  <h2>Chọn ngẫu nhiên</h2>
+                  <span className="muted-copy">theo bộ lọc</span>
+                </div>
+                <div className="field-grid">
+                  <label className="field">
+                    <span className="field__label">Số câu</span>
+                    <input className="field__control" type="number" min="1" max="200" value={randomCount} onChange={event => setRandomCount(event.target.value)} />
+                  </label>
+                  <FilterField label="Loại" value={randomType} options={QUESTION_TYPE_OPTIONS.map(option => option.value)} onChange={setRandomType} />
+                  <FilterField label="Mức độ" value={randomDifficulty} options={DIFFICULTY_OPTIONS.map(option => option.value)} onChange={setRandomDifficulty} />
+                </div>
+                <button type="button" className="action-btn action-btn--accent" onClick={handleRandomizeCart}>
+                  Trộn vào giỏ đề
+                </button>
+              </section>
+
+              <section className="panel-section">
+                <div className="section-head section-head--space">
+                  <h2>Gói đã lưu</h2>
+                  <span className="muted-copy">{savedPacks.length}</span>
+                </div>
+                <div className="pack-save-row">
+                  <input className="field__control" value={packName} onChange={event => setPackName(event.target.value)} placeholder="Tên gói đề" />
+                  <button type="button" className="mini-btn" onClick={handleSavePack}>Lưu</button>
+                </div>
+                <div className="saved-pack-list">
+                  {savedPacks.length === 0 ? <p className="empty-copy">Chưa có preset. Lưu giỏ đề để dùng lại.</p> : savedPacks.map(pack => (
+                    <div key={pack.id} className="saved-pack-row">
+                      <button type="button" className="saved-pack-row__load" onClick={() => handleLoadPack(pack)}>
+                        <strong>{pack.name}</strong>
+                        <span>{pack.ids.length} câu</span>
+                      </button>
+                      <button type="button" className="mini-btn mini-btn--danger" onClick={() => handleDeletePack(pack.id)} aria-label={`Xóa ${pack.name}`}>×</button>
+                    </div>
+                  ))}
+                </div>
+              </section>
             </aside>
 
             <section className="paper-panel catalog-panel">
@@ -897,11 +1154,15 @@ function App() {
                     {filteredEntries.length} kết quả{filteredEntries.length > VISIBLE_LIMIT ? `, đang hiện ${VISIBLE_LIMIT} mục đầu` : ''}
                   </p>
                 </div>
-                <span className="tiny-note">Bấm vào dòng để chuyển sang trình soạn ở bên phải</span>
+                <div className="view-mode-tabs">
+                  <button type="button" className={`action-btn ${viewMode === 'flat' ? 'action-btn--accent' : ''}`} onClick={() => setViewMode('flat')}>Danh sách</button>
+                  <button type="button" className={`action-btn ${viewMode === 'tree' ? 'action-btn--accent' : ''}`} onClick={() => setViewMode('tree')}>Cây thư mục</button>
+                  <button type="button" className={`action-btn ${viewMode === 'exam' ? 'action-btn--accent' : ''}`} onClick={() => setViewMode('exam')}>Theo đề</button>
+                </div>
               </div>
 
-              <div className="catalog-list">
-                {visibleEntries.map(entry => {
+              {(() => {
+                const renderEntry = (entry) => {
                   const record = normalizedRecords[entry.id]
                   const inCart = cartIds.includes(entry.id)
                   const effectiveStatus = record ? record.status : 'missing'
@@ -909,7 +1170,7 @@ function App() {
                   return (
                     <article
                       key={entry.id}
-                      className={`catalog-row ${selectedEntry.id === entry.id ? 'is-selected' : ''}`}
+                      className={`catalog-row ${selectedEntry?.id === entry.id ? 'is-selected' : ''}`}
                     >
                       <button type="button" className="catalog-row__body" onClick={() => setSelectedId(entry.id)}>
                         <div className="catalog-row__topline">
@@ -942,8 +1203,81 @@ function App() {
                       </div>
                     </article>
                   )
-                })}
-              </div>
+                }
+
+                if (viewMode === 'flat') {
+                  return (
+                    <div className="catalog-list">
+                      {visibleEntries.map(renderEntry)}
+                    </div>
+                  )
+                }
+
+                if (viewMode === 'exam') {
+                  return (
+                    <div className="catalog-list catalog-list--grouped">
+                      {Object.entries(examData || {}).map(([groupName, entries]) => (
+                        <details key={groupName} className="smart-tree-node exam-group-node" open>
+                          <summary className="smart-tree-summary">
+                            <span className="folder-icon">📝</span> <strong>{groupName}</strong>
+                            <span className="node-count">{entries.length} câu</span>
+                          </summary>
+                          <div className="smart-tree-children catalog-grid">
+                            {entries.map(renderEntry)}
+                          </div>
+                        </details>
+                      ))}
+                    </div>
+                  )
+                }
+
+                if (viewMode === 'tree') {
+                  return (
+                    <div className="catalog-list catalog-list--tree">
+                      {Object.entries(treeData || {}).map(([grade, branches]) => (
+                        <details key={grade} className="smart-tree-node level-grade">
+                          <summary className="smart-tree-summary">
+                            <span className="folder-icon">📚</span> <strong>{grade}</strong>
+                          </summary>
+                          <div className="smart-tree-children">
+                            {Object.entries(branches).map(([branch, chapters]) => (
+                              <details key={branch} className="smart-tree-node level-branch" open>
+                                <summary className="smart-tree-summary">
+                                  <span className="folder-icon">📂</span> <strong>{branch}</strong>
+                                </summary>
+                                <div className="smart-tree-children">
+                                  {Object.entries(chapters).map(([chapter, lessons]) => (
+                                    <details key={chapter} className="smart-tree-node level-chapter">
+                                      <summary className="smart-tree-summary">
+                                        <span className="folder-icon">📁</span> <strong>{chapter}</strong>
+                                      </summary>
+                                      <div className="smart-tree-children">
+                                        {Object.entries(lessons).map(([lesson, entries]) => (
+                                          <details key={lesson} className="smart-tree-node level-lesson">
+                                            <summary className="smart-tree-summary">
+                                              <span className="folder-icon">📄</span> <strong>{lesson}</strong>
+                                              <span className="node-count">{entries.length} câu</span>
+                                            </summary>
+                                            <div className="smart-tree-children catalog-grid">
+                                              {entries.map(renderEntry)}
+                                            </div>
+                                          </details>
+                                        ))}
+                                      </div>
+                                    </details>
+                                  ))}
+                                </div>
+                              </details>
+                            ))}
+                          </div>
+                        </details>
+                      ))}
+                    </div>
+                  )
+                }
+
+                return null
+              })()}
             </section>
 
             <section className="paper-panel editor-panel">
@@ -1135,6 +1469,87 @@ function App() {
                   placeholder="Cảnh báo, yêu cầu hình vẽ, tài liệu gốc hoặc ghi chú nội bộ"
                 />
               </label>
+
+              <section className="editor-block">
+                <div className="section-head section-head--space">
+                  <h3>Nguồn và kiểm duyệt</h3>
+                  <span className="tiny-note">Dùng cho câu nhập từ PDF / AI</span>
+                </div>
+                <div className="field-grid">
+                  <label className="field">
+                    <span className="field__label">Tệp nguồn</span>
+                    <input
+                      className="field__control"
+                      value={editorDraft.source}
+                      onChange={event => updateDraft({ source: event.target.value })}
+                      placeholder="de-giua-ky-1.pdf"
+                    />
+                  </label>
+                  <label className="field">
+                    <span className="field__label">Trang / vị trí</span>
+                    <input
+                      className="field__control"
+                      value={editorDraft.sourcePage}
+                      onChange={event => updateDraft({ sourcePage: event.target.value })}
+                      placeholder="trang 3, câu 12"
+                    />
+                  </label>
+                  <label className="field">
+                    <span className="field__label">Độ tin cậy</span>
+                    <input
+                      className="field__control"
+                      value={editorDraft.confidence}
+                      onChange={event => updateDraft({ confidence: event.target.value })}
+                      placeholder="cao / vừa / cần OCR lại"
+                    />
+                  </label>
+                  <label className="field">
+                    <span className="field__label">Hình Typst</span>
+                    <input
+                      className="field__control"
+                      value={editorDraft.figure}
+                      onChange={event => updateDraft({ figure: event.target.value })}
+                      placeholder="figures/de-01-cau-06.png hoặc #cetz.canvas(...)"
+                    />
+                  </label>
+                  <label className="field">
+                    <span className="field__label">Mô tả hình</span>
+                    <input
+                      className="field__control"
+                      value={editorDraft.figureAlt}
+                      onChange={event => updateDraft({ figureAlt: event.target.value })}
+                      placeholder="Đồ thị hàm phân thức có tiệm cận..."
+                    />
+                  </label>
+                </div>
+                <div className="editor-checks">
+                  <label className="toggle-pill">
+                    <input
+                      type="checkbox"
+                      checked={editorDraft.answerVerified}
+                      onChange={event => updateDraft({ answerVerified: event.target.checked })}
+                    />
+                    <span>Đã kiểm tra đáp án</span>
+                  </label>
+                  <label className="toggle-pill">
+                    <input
+                      type="checkbox"
+                      checked={editorDraft.solutionVerified}
+                      onChange={event => updateDraft({ solutionVerified: event.target.checked })}
+                    />
+                    <span>Đã kiểm tra lời giải</span>
+                  </label>
+                </div>
+                <label className="field">
+                  <span className="field__label">Ghi chú soát lỗi</span>
+                  <textarea
+                    className="field__control"
+                    value={editorDraft.reviewNotes}
+                    onChange={event => updateDraft({ reviewNotes: event.target.value })}
+                    placeholder="Ví dụ: cần đối chiếu hình ở trang 4; đáp án cần xác minh lại."
+                  />
+                </label>
+              </section>
 
               <div className="editor-actions">
                 <button type="button" className="action-btn action-btn--accent" onClick={handleSaveRecord}>

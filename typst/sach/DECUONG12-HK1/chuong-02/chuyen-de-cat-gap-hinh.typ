@@ -1,7 +1,7 @@
 #import "../preamble.typ": *
 #import "../../../math-sym.typ": *
-
 #show math.frac: math.display
+
 
 #muc([Chuyên Đề: Ứng Dụng Tối Ưu & Cắt Gấp Khối Tròn Xoay])
 
@@ -205,4 +205,3 @@
     #step[Làm tròn đến số nguyên, kết quả là $175$ $"cm"^3$.]
   ]
 )
-

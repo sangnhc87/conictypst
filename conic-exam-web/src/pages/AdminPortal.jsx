@@ -169,7 +169,7 @@ export default function AdminPortal() {
         mutationId: crypto.randomUUID(), uid: member.uid, action,
         expectedRevision: member.revision || 0, payload,
         reason: action === 'approve'
-          ? 'Đã xác minh gói giáo viên Conic Exam 100.000đ/12 tháng.'
+          ? 'Đã xác minh gói giáo viên Conic Exam 299.000đ/12 tháng.'
           : action === 'schedule_delete'
             ? 'Owner lên lịch xóa tenant Conic Exam và toàn bộ dữ liệu thuộc giáo viên sau 7 ngày.'
             : action === 'cancel_delete'
@@ -307,7 +307,7 @@ export default function AdminPortal() {
       <CostControl overview={overview} usageByUid={usageByUid} />
 
       <Card className="panel" id="teacher-members">
-        <header className="panel__header"><div><p className="eyebrow">GÓI 100.000Đ / 12 THÁNG</p><h2>Giáo viên và sức khỏe quota</h2></div><div className="segmented">{FILTERS.map((value) => <button key={value} type="button" className={filter === value ? 'is-active' : ''} onClick={() => setFilter(value)}>{FILTER_LABELS[value]}</button>)}</div></header>
+        <header className="panel__header"><div><p className="eyebrow">GÓI CƠ BẢN (299.000Đ / 12 THÁNG)</p><h2>Giáo viên và sức khỏe quota</h2></div><div className="segmented">{FILTERS.map((value) => <button key={value} type="button" className={filter === value ? 'is-active' : ''} onClick={() => setFilter(value)}>{FILTER_LABELS[value]}</button>)}</div></header>
         {selected.size > 0 && <div className="bulk-toolbar"><strong>{selected.size} giáo viên đã chọn</strong><span /><Button variant="secondary" busy={actionUid === 'bulk'} onClick={() => bulkAction('extend')}>+12 tháng</Button><Button variant="secondary" busy={actionUid === 'bulk'} onClick={() => bulkAction('resume')}>Mở lại</Button><Button variant="danger-ghost" busy={actionUid === 'bulk'} onClick={() => bulkAction('suspend')}>Tạm dừng</Button><Button variant="ghost" onClick={() => setSelected(new Set())}>Bỏ chọn</Button></div>}
         {loading ? <div className="panel-loading"><span className="spinner" />Đang tải giáo viên…</div> : members.length === 0 ? <EmptyState icon="✓" title="Không có tài khoản trong bộ lọc">Các yêu cầu mới sẽ xuất hiện tại đây.</EmptyState> : (
           <div className="table-wrap"><table><thead><tr><th className="select-column"><input type="checkbox" checked={allSelected} onChange={() => setSelected(allSelected ? new Set() : new Set(members.map((member) => member.uid)))} aria-label="Chọn tất cả" /></th><th>Giáo viên</th><th>Lớp & học sinh</th><th>Trạng thái</th><th>Thời hạn</th><th>Sử dụng cao nhất</th><th>Hạn mức</th><th>Thao tác</th></tr></thead><tbody>{members.map((member) => {

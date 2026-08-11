@@ -9,13 +9,13 @@ Bộ macro Typst dành cho Toán THPT Việt Nam: đề thi bốn dạng câu h�
 ## Cài đặt
 
 ```typ
-#import "@preview/sang-math:1.0.1": *
+#import "@preview/sang-math:1.0.4": *
 ```
 
 Khi chỉ dùng một nhóm chức năng, nên import đúng tên cần dùng để file dễ đọc và API rõ ràng:
 
 ```typ
-#import "@preview/sang-math:1.0.1": tn, ds, tln, tl, True, sang-setup
+#import "@preview/sang-math:1.0.4": tn, ds, tln, tl, True, sang-setup
 ```
 
 ## API chính
@@ -25,6 +25,7 @@ Khi chỉ dùng một nhóm chức năng, nên import đúng tên cần dùng đ
 | Đề thi | `tn`, `ds`, `tln`, `tl`, `exam-mode`, `exam-part`, `print-answer-key` |
 | Giao diện đề | `exam-theme`, `exam-preset`, `exam-input-preset`, `exam-template-names` |
 | Sách/chuyên đề | `book-theme`, `book-chapter`, `book-lesson`, các hộp sư phạm, `book-template-names` |
+| Layout in hai mặt | `layout-draft`, `layout-2col-draft` — nội dung 70%, nháp 30% đổi bên chẵn/lẻ |
 | Bảng Toán | `bbtv2`, `bbbt`, `bxd`, `bang-gia-tri`, `bang-phan-phoi`, `auto-bbt` |
 | Hình học cơ bản | `tri-abc`, `tri-right`, `chop-sabc`, `circle-desc`, `axis-xy`, `plot` |
 | Conic | `draw-parabola`, `draw-ellipse`, `draw-hyperbola` |
@@ -34,10 +35,38 @@ Khi chỉ dùng một nhóm chức năng, nên import đúng tên cần dùng đ
 
 `lib.typ` là cổng public duy nhất và hiện đã export cả template đề, template sách cùng các module CeTZ nâng cao. Người dùng không cần import đường dẫn nội bộ.
 
+## Câu đúng/sai dạng bảng hoặc danh sách
+
+Mặc định `#ds` vẫn dùng bảng Đ/S như các phiên bản trước. Từ `1.0.4`, có thể
+chuyển nhanh sang danh sách bằng `use-table: false`:
+
+```typ
+#ds(
+  [Xét các phát biểu sau.],
+  (True([Mệnh đề đúng.]), [Mệnh đề sai.]),
+  use-table: false,
+)
+```
+
+Để chọn giao diện danh sách, dùng `ds-style` với một trong các giá trị:
+`"list"`, `"pill"`, `"modern"`, `"minimal"`, `"bookmark"`, `"folder"`,
+`"diamond"`, `"gradient"` hoặc `"checklist"`.
+
+```typ
+#ds(
+  [Xét các phát biểu sau.],
+  (True([Mệnh đề đúng.]), [Mệnh đề sai.]),
+  ds-style: "bookmark",
+)
+```
+
+`use-table: false` tương đương `ds-style: "list"`. Cú pháp cũ
+`table: false` cũng được giữ để tương thích với các ví dụ đã lưu.
+
 ## Ví dụ đề thi
 
 ```typ
-#import "@preview/sang-math:1.0.1": *
+#import "@preview/sang-math:1.0.4": *
 
 #let preset = exam-preset(
   theme: "teal-pro",
@@ -79,7 +108,7 @@ Các theme đề có thể lấy trực tiếp bằng `exam-template-names`; hi�
 ## Ví dụ sách/chuyên đề
 
 ```typ
-#import "@preview/sang-math:1.0.1": *
+#import "@preview/sang-math:1.0.4": *
 
 #show: book-theme.with(
   theme: "sgk-modern",
@@ -100,7 +129,7 @@ Danh sách giao diện sách có sẵn nằm trong `book-template-names`.
 ## Bảng biến thiên
 
 ```typ
-#import "@preview/sang-math:1.0.1": bbtv2
+#import "@preview/sang-math:1.0.4": bbtv2
 
 #bbtv2(
   x-vals: ($-oo$, $-1$, $1$, $+oo$),
@@ -109,13 +138,31 @@ Danh sách giao diện sách có sẵn nằm trong `book-template-names`.
 )
 ```
 
+## Đề 70/30 có nháp khi in hai mặt
+
+```typ
+#import "@preview/sang-math:1.0.4": layout-draft
+
+#show: layout-draft.with(
+  nháp-pct: 30%,
+  accent: rgb("#117a65"),
+)
+
+Nội dung đề thi...
+```
+
+Trang lẻ đặt vùng nháp bên phải, trang chẵn đặt vùng nháp bên trái. Lề nội dung
+dùng cơ chế `inside`/`outside` nên tự đảo đúng khi in hai mặt. Mẫu đầy đủ nằm tại
+[`examples/copy-ready/07-de-70-30-nhap-in-hai-mat.typ`](./examples/copy-ready/07-de-70-30-nhap-in-hai-mat.typ).
+
+
 ## Hình học CeTZ nâng cao
 
 Các hàm `draw-*` được gọi bên trong `cetz.canvas`:
 
 ```typ
 #import "@preview/cetz:0.5.2"
-#import "@preview/sang-math:1.0.1": draw-ellipse, draw-cylinder
+#import "@preview/sang-math:1.0.4": draw-ellipse, draw-cylinder
 
 #cetz.canvas({
   draw-ellipse(a: 2, b: 1, show-axes: true, show-foci: true)

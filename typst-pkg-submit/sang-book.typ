@@ -405,13 +405,7 @@
 
   set text(font: "Libertinus Serif", size: 12pt, lang: "vi")
   set par(justify: true, leading: 0.75em)
-  show math.equation.where(block: false): it => {
-    if repr(it).contains("frac") {
-      box(inset: (y: 0.16em))[#math.display(it)]
-    } else {
-      math.display(it)
-    }
-  }
+  show math.frac: math.display
   set enum(numbering: "1.")
 
   if show-cover {

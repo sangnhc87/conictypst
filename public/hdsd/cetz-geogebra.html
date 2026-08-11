@@ -150,8 +150,6 @@
   </style>
 
   <!-- 1-Click Templates -->
-  <script src="ggb-templates.js" defer></script>
-  <script src="ggb-template-ui.js" defer></script>
 </head>
 <body>
   <!-- Header inject from global-nav.js -->
@@ -333,6 +331,52 @@
       };
       const colorExpr = (r, g, b) => `rgb(${r}, ${g}, ${b})`;
       const fillExpr = (r, g, b, alpha) => `${colorExpr(r, g, b)}.transparentize(${fmt(100 - alpha, 0)}%)`;
+      const numericInput = (value, fallback = NaN) => {
+        const direct = Number(value);
+        if (Number.isFinite(direct)) return direct;
+        try {
+          const evaluated = Number(window.ggbApplet?.getValue?.(value));
+          return Number.isFinite(evaluated) ? evaluated : fallback;
+        } catch (_) {
+          return fallback;
+        }
+      };
+      const conicFromMatrix = element => {
+        const matrix = element.getElementsByTagName("matrix")[0];
+        if (!matrix) return null;
+        const a = numericInput(matrix.getAttribute("A0"));
+        const c = numericInput(matrix.getAttribute("A1"));
+        const f = numericInput(matrix.getAttribute("A2"));
+        const b = numericInput(matrix.getAttribute("A3"));
+        const d = numericInput(matrix.getAttribute("A4"));
+        const e = numericInput(matrix.getAttribute("A5"));
+        if (![a, b, c, d, e, f].every(Number.isFinite)) return null;
+        const determinant = a * c - b * b;
+        if (Math.abs(determinant) < 1e-9) return { kind: "parabola", a, b, c, d, e, f };
+        const cx = (b * e - c * d) / determinant;
+        const cy = (b * d - a * e) / determinant;
+        const constant = f + d * cx + e * cy;
+        const trace = a + c;
+        const delta = Math.sqrt(Math.max(0, (a - c) ** 2 + 4 * b ** 2));
+        const eigen1 = (trace + delta) / 2;
+        const eigen2 = (trace - delta) / 2;
+        const rotation = .5 * Math.atan2(2 * b, a - c);
+        const radius1Sq = -constant / eigen1;
+        const radius2Sq = -constant / eigen2;
+        if (radius1Sq > 1e-9 && radius2Sq > 1e-9) {
+          return { kind: "ellipse", cx, cy, r1: Math.sqrt(radius1Sq), r2: Math.sqrt(radius2Sq), rotation };
+        }
+        if (radius1Sq * radius2Sq < -1e-9) {
+          const first = radius1Sq > 0;
+          return {
+            kind: "hyperbola", cx, cy,
+            major: Math.sqrt(Math.abs(first ? radius1Sq : radius2Sq)),
+            minor: Math.sqrt(Math.abs(first ? radius2Sq : radius1Sq)),
+            rotation: rotation + (first ? 0 : Math.PI / 2),
+          };
+        }
+        return null;
+      };
       
       let code = `#import "@preview/cetz:0.5.2": *
 #import draw: *
@@ -393,6 +437,25 @@
 
       // Pass 3: Process all visible elements for drawing
       let getCoord = (lbl) => points[lbl] ? `(${fmt(points[lbl].x)}, ${fmt(points[lbl].y)})` : `"${lbl}"`;
+      const regularPolygonCoords = (firstLabel, secondLabel, countValue) => {
+        const first = points[firstLabel];
+        const second = points[secondLabel];
+        const count = Math.round(numericInput(countValue));
+        if (!first || !second || count < 3 || count > 100) return [];
+        const vertices = [first, second];
+        const step = 2 * Math.PI / count;
+        for (let vertexIndex = 2; vertexIndex < count; vertexIndex++) {
+          const previous = vertices[vertexIndex - 1];
+          const prior = vertices[vertexIndex - 2];
+          const dx = previous.x - prior.x;
+          const dy = previous.y - prior.y;
+          vertices.push({
+            x: previous.x + dx * Math.cos(step) - dy * Math.sin(step),
+            y: previous.y + dx * Math.sin(step) + dy * Math.cos(step),
+          });
+        }
+        return vertices.map(point => `(${fmt(point.x)}, ${fmt(point.y)})`);
+      };
 
       for (let i = 0; i < elements.length; i++) {
         let el = elements[i];
@@ -435,6 +498,36 @@
         let polyFillStr = `, fill: ${fillExpr(r, g, b, alpha)}`;
 
         let cmdInfo = commandOutputs[label];
+
+        if (cmdInfo && /^Integral(Between)?$/i.test(cmdInfo.name)) {
+          const between = /Between/i.test(cmdInfo.name);
+          const firstFunction = cmdInfo.inputs[0];
+          const secondFunction = between ? cmdInfo.inputs[1] : null;
+          const lower = numericInput(cmdInfo.inputs[between ? 2 : 1]);
+          const upper = numericInput(cmdInfo.inputs[between ? 3 : 2]);
+          const sample = functionLabel => {
+            const values = [];
+            for (let sampleIndex = 0; sampleIndex <= 90; sampleIndex++) {
+              const x = lower + (upper - lower) * sampleIndex / 90;
+              const y = numericInput(window.ggbApplet?.getValue?.(`${functionLabel}(${x})`));
+              if (!Number.isFinite(y)) return [];
+              values.push(`(${fmt(x)}, ${fmt(y)})`);
+            }
+            return values;
+          };
+          if (Number.isFinite(lower) && Number.isFinite(upper) && upper > lower) {
+            const top = sample(firstFunction);
+            const bottom = secondFunction
+              ? sample(secondFunction).reverse()
+              : [`(${fmt(upper)}, 0)`, `(${fmt(lower)}, 0)`];
+            if (top.length > 1 && bottom.length > 1) {
+              code += `    line(\n      ${[...top, ...bottom].join(",\n      ")},\n      close: true, stroke: none${polyFillStr}\n    )\n`;
+            } else {
+              code += `    // Integral skipped: discontinuity inside [${fmt(lower)}, ${fmt(upper)}]\n`;
+            }
+          }
+          continue;
+        }
 
         if (type === "point") {
           let p = points[label];
@@ -516,7 +609,9 @@
           if (cmdInfo && cmdInfo.name === "Vector") {
              let strokeV = strokeStr;
              if (strokeV === "") strokeV = ", stroke: (paint: black)";
-             code += `    line(${getCoord(cmdInfo.inputs[0])}, ${getCoord(cmdInfo.inputs[1])}, mark: (end: ">", fill: ${rgbStr})${strokeV})\n`;
+             const start = cmdInfo.inputs.length > 1 ? getCoord(cmdInfo.inputs[0]) : "(0, 0)";
+             const end = getCoord(cmdInfo.inputs[cmdInfo.inputs.length - 1]);
+             code += `    line(${start}, ${end}, mark: (end: ">", fill: ${rgbStr})${strokeV})\n`;
           }
         }
         else if (type === "line") {
@@ -564,8 +659,12 @@
             } else {
                polyPts = [...cmdInfo.inputs];
             }
-            let coordsList = polyPts.map(p => getCoord(p));
-            code += `    line(${coordsList.join(', ')}, close: true, stroke: none${polyFillStr})\n`;
+            let coordsList = isRegular
+              ? regularPolygonCoords(cmdInfo.inputs[0], cmdInfo.inputs[1], cmdInfo.inputs[2])
+              : polyPts.map(p => getCoord(p));
+            if (coordsList.length >= 3) {
+              code += `    line(${coordsList.join(', ')}, close: true, stroke: none${polyFillStr})\n`;
+            }
           }
         } 
         else if (type === "conic" || type === "conicpart" || type === "arc" || type === "sector" || type === "semicircle") {
@@ -577,8 +676,8 @@
                 let rad = Math.hypot(pOnCircle.x - pCenter.x, pOnCircle.y - pCenter.y);
                 code += `    circle(${getCoord(cmdInfo.inputs[0])}, radius: ${fmt(rad)}${strokeStr}${polyFillStr})\n`;
               } else {
-                let rad = parseFloat(cmdInfo.inputs[1]);
-                if (!isNaN(rad)) {
+                let rad = numericInput(cmdInfo.inputs[1]);
+                if (Number.isFinite(rad)) {
                    code += `    circle(${getCoord(cmdInfo.inputs[0])}, radius: ${fmt(rad)}${strokeStr}${polyFillStr})\n`;
                 }
               }
@@ -618,8 +717,55 @@
             }
           } else if (cmdInfo && (cmdInfo.name === "CircumcircularArc" || cmdInfo.name === "CircumcircleArc")) {
             code += `    arc-through(${getCoord(cmdInfo.inputs[0])}, ${getCoord(cmdInfo.inputs[1])}, ${getCoord(cmdInfo.inputs[2])}${strokeStr})\n`;
-          } else if (cmdInfo) {
-            code += `    // Unhandled conic command: ${cmdInfo.name}\n`;
+          } else {
+            const conic = conicFromMatrix(el);
+            if (conic?.kind === "ellipse") {
+              const coords = [];
+              for (let sampleIndex = 0; sampleIndex < 96; sampleIndex++) {
+                const t = 2 * Math.PI * sampleIndex / 96;
+                const localX = conic.r1 * Math.cos(t);
+                const localY = conic.r2 * Math.sin(t);
+                const x = conic.cx + localX * Math.cos(conic.rotation) - localY * Math.sin(conic.rotation);
+                const y = conic.cy + localX * Math.sin(conic.rotation) + localY * Math.cos(conic.rotation);
+                coords.push(`(${fmt(x)}, ${fmt(y)})`);
+              }
+              code += `    line(\n      ${coords.join(",\n      ")},\n      close: true${strokeStr}${polyFillStr}\n    )\n`;
+            } else if (conic?.kind === "hyperbola") {
+              for (const sign of [-1, 1]) {
+                const coords = [];
+                for (let sampleIndex = 0; sampleIndex <= 80; sampleIndex++) {
+                  const t = -2.4 + 4.8 * sampleIndex / 80;
+                  const localX = sign * conic.major * Math.cosh(t);
+                  const localY = conic.minor * Math.sinh(t);
+                  const x = conic.cx + localX * Math.cos(conic.rotation) - localY * Math.sin(conic.rotation);
+                  const y = conic.cy + localX * Math.sin(conic.rotation) + localY * Math.cos(conic.rotation);
+                  coords.push(`(${fmt(x)}, ${fmt(y)})`);
+                }
+                code += `    line(\n      ${coords.join(",\n      ")}${strokeStr}\n    )\n`;
+              }
+            } else if (conic?.kind === "parabola") {
+              const trace = conic.a + conic.c;
+              const firstRow = Math.hypot(conic.a, conic.b) > 1e-9;
+              const length = firstRow ? Math.hypot(conic.a, conic.b) : Math.hypot(conic.b, conic.c);
+              const ux = firstRow ? conic.a / length : conic.b / length;
+              const uy = firstRow ? conic.b / length : conic.c / length;
+              const vx = -uy, vy = ux;
+              const ds = conic.d * ux + conic.e * uy;
+              const dt = conic.d * vx + conic.e * vy;
+              if (Math.abs(trace) > 1e-9 && Math.abs(dt) > 1e-9) {
+                const coords = [];
+                for (let sampleIndex = 0; sampleIndex <= 120; sampleIndex++) {
+                  const s = -8 + 16 * sampleIndex / 120;
+                  const t = -(trace * s * s + 2 * ds * s + conic.f) / (2 * dt);
+                  const x = ux * s + vx * t;
+                  const y = uy * s + vy * t;
+                  if (Math.abs(x) <= 20 && Math.abs(y) <= 20) coords.push(`(${fmt(x)}, ${fmt(y)})`);
+                }
+                if (coords.length > 1) code += `    line(\n      ${coords.join(",\n      ")}${strokeStr}\n    )\n`;
+              }
+            } else if (cmdInfo) {
+              code += `    // Unhandled conic command: ${cmdInfo.name}\n`;
+            }
           }
         }
         else if (type === "angle") {
@@ -711,67 +857,32 @@
         }
         else if (type === "function") {
            if (window.ggbApplet) {
-               let xMin = window.ggbApplet.getValue('x(Corner(1))');
-               let xMax = window.ggbApplet.getValue('x(Corner(2))');
-               let steps = 60;
+               let xMin = numericInput(window.ggbApplet.getValue('x(Corner(1))'), -8);
+               let xMax = numericInput(window.ggbApplet.getValue('x(Corner(2))'), 8);
+               let yMin = numericInput(window.ggbApplet.getValue('y(Corner(1))'), -5);
+               let yMax = numericInput(window.ggbApplet.getValue('y(Corner(3))'), 5);
+               let steps = 180;
                let dx = (xMax - xMin) / steps;
+               let segments = [];
                let pts = [];
                for (let i = 0; i <= steps; i++) {
                    let x = xMin + i * dx;
-                   let y = window.ggbApplet.getValue(label + "(" + x + ")");
-                   if (!isNaN(y) && isFinite(y)) pts.push(`(${fmt(x)}, ${fmt(y)})`);
-               }
-               if (pts.length > 1) {
-                   let lines = [];
-                   for (let i = 0; i < pts.length; i += 6) {
-                       lines.push((i === 0 ? "" : "      ") + pts.slice(i, i + 6).join(", "));
+                   let y = numericInput(window.ggbApplet.getValue(label + "(" + x + ")"));
+                   const valid = Number.isFinite(y) && y >= yMin - 2 * (yMax - yMin) && y <= yMax + 2 * (yMax - yMin);
+                   const jump = pts.length && Math.abs(y - pts[pts.length - 1].y) > .8 * (yMax - yMin);
+                   if (!valid || jump) {
+                     if (pts.length > 1) segments.push(pts);
+                     pts = valid ? [{ x, y }] : [];
+                   } else {
+                     pts.push({ x, y });
                    }
-                   code += `    line(\n      ${lines.join(",\n")}\n    ${strokeStr})\n`;
+               }
+               if (pts.length > 1) segments.push(pts);
+               for (const segment of segments) {
+                 const coords = segment.map(p => `(${fmt(p.x)}, ${fmt(p.y)})`);
+                 code += `    line(\n      ${coords.join(",\n      ")}${strokeStr}\n    )\n`;
                }
            }
-        }
-        else if (type === "integral") {
-           if (window.ggbApplet) {
-               let cmdStr = window.ggbApplet.getCommandString(label);
-               let m = cmdStr.match(/^Integral\((.+?),\s*(.+?),\s*(.+?)\)$/);
-               let mBet = cmdStr.match(/^IntegralBetween\((.+?),\s*(.+?),\s*(.+?),\s*(.+?)\)$/);
-               let a, b, f, g;
-               if (m) {
-                   f = m[1]; a = window.ggbApplet.getValue(m[2]); b = window.ggbApplet.getValue(m[3]);
-               } else if (mBet) {
-                   f = mBet[1]; g = mBet[2]; a = window.ggbApplet.getValue(mBet[3]); b = window.ggbApplet.getValue(mBet[4]);
-               }
-               
-               if (f !== undefined && !isNaN(a) && !isNaN(b)) {
-                    let steps = 60;
-                    let dx = (b - a) / steps;
-                    let pts = [];
-                    for (let i = 0; i <= steps; i++) {
-                        let x = a + i * dx;
-                        let y = window.ggbApplet.getValue(f + "(" + x + ")");
-                        if (!isNaN(y) && isFinite(y)) pts.push(`(${fmt(x)}, ${fmt(y)})`);
-                    }
-                    if (g !== undefined) {
-                        for (let i = steps; i >= 0; i--) {
-                            let x = a + i * dx;
-                            let y = window.ggbApplet.getValue(g + "(" + x + ")");
-                            if (!isNaN(y) && isFinite(y)) pts.push(`(${fmt(x)}, ${fmt(y)})`);
-                        }
-                    } else {
-                        pts.push(`(${fmt(b)}, 0)`);
-                        pts.push(`(${fmt(a)}, 0)`);
-                    }
-                    if (pts.length > 2) {
-                        let lines = [];
-                        for (let i = 0; i < pts.length; i += 6) {
-                            lines.push((i === 0 ? "" : "      ") + pts.slice(i, i + 6).join(", "));
-                        }
-                        let styleStr = "close: true";
-                        if (polyFillStr) { styleStr += ", " + polyFillStr.slice(1, -1); }
-                        code += `    line(\n      ${lines.join(",\n")},\n      ${styleStr}\n    )\n`;
-                    }
-                }
-            }
         }
         else {
           if (!["point", "numeric", "boolean", "angle", "line", "quadric", "polyhedron", "pyramid", "surface", "conicpart", "sector", "curve"].includes(type)) {

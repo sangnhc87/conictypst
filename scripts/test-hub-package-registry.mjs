@@ -5,6 +5,7 @@ import {
   StudioPackageRegistry,
   isBundledSangMathPackage,
 } from '../typst-conic-hub/src/studio/packageRegistry.js'
+import { SANG_MATH_VERSION } from '../typst-conic-hub/src/studio/packagePolicy.js'
 
 function createAccessModel() {
   const files = new Map()
@@ -19,7 +20,7 @@ function createAccessModel() {
   }
 }
 
-test('registry cài package 1.0.1 vào MemoryAccessModel và trả đúng package root', () => {
+test('registry cài package hiện hành vào MemoryAccessModel và trả đúng package root', () => {
   const accessModel = createAccessModel()
   const fallbackCalls = []
   const fallback = {
@@ -33,7 +34,7 @@ test('registry cài package 1.0.1 vào MemoryAccessModel và trả đúng packag
     'sang-exam.typ': '#let inline = box[$x$]',
   }, fallback)
 
-  const spec = { namespace: 'preview', name: 'sang-math', version: '1.0.1' }
+  const spec = { namespace: 'preview', name: 'sang-math', version: SANG_MATH_VERSION }
   assert.equal(isBundledSangMathPackage(spec), true)
   assert.equal(registry.resolve(spec, { untar: () => undefined }), SANG_MATH_PACKAGE_ROOT)
   assert.equal(fallbackCalls.length, 0)
@@ -56,8 +57,8 @@ test('registry fallback cho sang-math cũ và mọi package khác', () => {
   const registry = new StudioPackageRegistry(accessModel, {}, fallback)
 
   assert.equal(
-    registry.resolve({ namespace: 'preview', name: 'sang-math', version: '1.0.0' }),
-    '/fallback/sang-math/1.0.0',
+    registry.resolve({ namespace: 'preview', name: 'sang-math', version: '1.0.1' }),
+    '/fallback/sang-math/1.0.1',
   )
   assert.equal(
     registry.resolve({ namespace: 'preview', name: 'cetz', version: '0.3.4' }),

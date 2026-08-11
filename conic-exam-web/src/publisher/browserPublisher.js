@@ -152,11 +152,11 @@ async function compileProject(project, onProgress) {
       if (message.type === 'publisher-error') {
         cleanup()
         const detail = message.error?.message || 'Không thể phân tích nguồn Typst.'
-        if (/outside of project root|access denied/iu.test(detail)) {
-          reject(new Error('File đề đang dùng ảnh, dữ liệu hoặc module nằm bên ngoài nguồn đã chọn. Hãy bấm “Đổi thư mục” và chọn thư mục cha chứa đầy đủ file đề cùng các file phụ.'))
-        } else {
+        // if (/outside of project root|access denied/iu.test(detail)) {
+        //   reject(new Error('File đề đang dùng ảnh, dữ liệu hoặc module nằm bên ngoài nguồn đã chọn. Hãy bấm “Đổi thư mục” và chọn thư mục cha chứa đầy đủ file đề cùng các file phụ.'))
+        // } else {
           reject(new Error(detail))
-        }
+        // }
       }
       if (message.type === 'publisher-compiled') {
         cleanup()

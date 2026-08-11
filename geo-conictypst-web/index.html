@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Geo2Code by ConicTypst: vẽ trên GeoGebra và xuất mã TikZ hoặc CeTZ sạch, miễn phí cho giáo viên Toán.">
+  <meta name="theme-color" content="#063d35">
+  <meta property="og:title" content="Geo2Code · ConicTypst">
+  <meta property="og:description" content="Từ hình dựng GeoGebra đến mã TikZ và CeTZ sạch — 2D, 3D, miễn phí.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://geo-conictypst.pages.dev/">
+  <meta property="og:image" content="https://geo-conictypst.pages.dev/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://geo-conictypst.pages.dev/og.png">
+  <title>Geo2Code · ConicTypst</title>
+  <link rel="stylesheet" href="site.css">
+  <script src="copyright-guard.js"></script>
+  <script defer src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script defer src="site.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Geo2Code - Trang chủ">
+      <span class="brand-mark">G²</span>
+      <span><strong>Geo2Code</strong><small>một sản phẩm của ConicTypst</small></span>
+    </a>
+    <nav aria-label="Điều hướng chính">
+      <a href="#cong-cu">Công cụ</a>
+      <a class="nav-support" href="#ung-ho"><i data-lucide="heart"></i>Ủng hộ</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-grid compact-hero">
+        <div class="hero-copy">
+          <p class="eyebrow"><span></span>Geo2Code · ConicTypst</p>
+          <h1>Vẽ hình, lấy mã.</h1>
+          <p class="lead">Chọn đúng đầu ra rồi dựng hình trực tiếp trên GeoGebra. Không tài khoản, không hình mẫu, không phần thừa.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="/tikz-geogebra"><i data-lucide="pen-tool"></i>Mở GeoGebra → TikZ</a>
+            <a class="button secondary" href="/cetz-geogebra"><i data-lucide="braces"></i>Mở GeoGebra → CeTZ</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section tools-section" id="cong-cu">
+      <div class="section-heading">
+        <p class="kicker">Bốn không gian làm việc</p>
+        <h2>Chọn đúng đầu ra, bắt đầu vẽ ngay</h2>
+        <p>Bốn công cụ độc lập, mở thẳng vào bảng dựng hình tương ứng.</p>
+      </div>
+      <div class="tool-grid">
+        <a class="tool-card tikz" href="/tikz-geogebra">
+          <span class="tool-icon"><i data-lucide="spline"></i></span>
+          <span class="tag">LaTeX · 2D</span>
+          <h3>GeoGebra → TikZ</h3>
+          <p>Điểm, đường, đa giác, góc, đường conic, hàm số, miền tích phân và kiểu nét.</p>
+          <strong>Mở công cụ <i data-lucide="arrow-up-right"></i></strong>
+        </a>
+        <a class="tool-card tikz" href="/tikz-geogebra-3d">
+          <span class="tool-icon"><i data-lucide="box"></i></span>
+          <span class="tag">LaTeX · 3D</span>
+          <h3>GeoGebra 3D → TikZ</h3>
+          <p>Khối đa diện, mặt, đường tròn không gian, trụ, nón, cầu và chiếu phối cảnh.</p>
+          <strong>Mở công cụ <i data-lucide="arrow-up-right"></i></strong>
+        </a>
+        <a class="tool-card cetz" href="/cetz-geogebra">
+          <span class="tool-icon"><i data-lucide="component"></i></span>
+          <span class="tag">Typst · 2D</span>
+          <h3>GeoGebra → CeTZ</h3>
+          <p>Xuất mã CeTZ tự nhiên, xem trước ngay và tiếp tục hoàn thiện trong Typst.</p>
+          <strong>Mở công cụ <i data-lucide="arrow-up-right"></i></strong>
+        </a>
+        <a class="tool-card cetz" href="/cetz-geogebra-3d">
+          <span class="tool-icon"><i data-lucide="blocks"></i></span>
+          <span class="tag">Typst · 3D</span>
+          <h3>GeoGebra 3D → CeTZ</h3>
+          <p>Xuất hình không gian sang CeTZ với camera tùy chỉnh và quản lý cạnh khuất.</p>
+          <strong>Mở công cụ <i data-lucide="arrow-up-right"></i></strong>
+        </a>
+      </div>
+      <p class="scope-note"><i data-lucide="shield-check"></i>Dữ liệu được xử lý ngay trên trình duyệt. Mã xuất ra có thể tiếp tục chỉnh sửa trong LaTeX hoặc Typst.</p>
+    </section>
+
+    <section class="section ecosystem compact-ecosystem" id="he-sinh-thai">
+      <div class="section-heading light">
+        <p class="kicker">Không chỉ là một bộ chuyển đổi</p>
+        <h2>Thuộc hệ sinh thái ConicTypst</h2>
+        <p>Các sản phẩm liên quan trong cùng hệ sinh thái.</p>
+      </div>
+      <div class="ecosystem-grid">
+        <a href="https://typstconichub.pages.dev/#studio" target="_blank" rel="noopener">
+          <span>✦</span><div><b>TypstConicHub</b><small>Soạn, xem trước và xuất bản tài liệu Typst</small></div><i data-lucide="external-link"></i>
+        </a>
+        <a href="https://stexgv.web.app/" target="_blank" rel="noopener">
+          <span>Σ</span><div><b>STEXGV Cloud</b><small>Trợ lý AI và LaTeX chuyên nghiệp</small></div><i data-lucide="external-link"></i>
+        </a>
+        <a href="https://conicgv.web.app/" target="_blank" rel="noopener">
+          <span>C</span><div><b>ConicGV</b><small>Thi online và quản lý lớp học</small></div><i data-lucide="external-link"></i>
+        </a>
+        <a href="https://chamthi-conictypst.pages.dev/" target="_blank" rel="noopener">
+          <span>✓</span><div><b>Sang Math OMR</b><small>Tạo phiếu, chấm ảnh và thống kê</small></div><i data-lucide="external-link"></i>
+        </a>
+      </div>
+    </section>
+
+    <section class="section author-support" id="tac-gia">
+      <article class="author-card">
+        <div class="portrait">NS</div>
+        <div>
+          <p class="kicker">Người phát triển</p>
+          <h2>Thầy Nguyễn Văn Sang</h2>
+          <p class="role">Giáo viên môn Toán · THPT Nguyễn Hữu Cảnh, TP.HCM</p>
+          <p>ConicTypst và Geo2Code được xây dựng với mong muốn giúp giáo viên tạo tài liệu Toán đẹp, chuẩn và tiết kiệm thời gian hơn.</p>
+          <a href="https://www.facebook.com/sang.nguyenhuu.35" target="_blank" rel="noopener"><i data-lucide="facebook"></i>Kết nối qua Facebook</a>
+        </div>
+      </article>
+      <article class="support-card" id="ung-ho">
+        <div class="support-copy">
+          <p class="kicker">Ủng hộ dự án</p>
+          <h2>Mời tác giả một ly cà phê</h2>
+          <p>Nếu công cụ hữu ích, sự ủng hộ của thầy cô giúp hệ thống tiếp tục được duy trì và nâng cấp miễn phí.</p>
+          <dl><div><dt>Ngân hàng</dt><dd>VPBank</dd></div><div><dt>Chủ tài khoản</dt><dd>NGUYEN VAN SANG</dd></div><div><dt>Số tài khoản</dt><dd>10389821115 <button id="copyAccount" type="button" aria-label="Sao chép số tài khoản"><i data-lucide="copy"></i></button></dd></div></dl>
+        </div>
+        <img src="images/qr-donate.png" alt="Mã QR ủng hộ Nguyễn Văn Sang qua VPBank" width="220" height="220">
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <div><strong>Geo2Code</strong><span>© 2026 Nguyễn Văn Sang · Một sản phẩm trong hệ sinh thái ConicTypst.</span></div>
+    <p>Mã TikZ/CeTZ đầu ra được dùng tự do cho tài liệu của thầy cô. Mã nguồn và giao diện website không được sao chép hoặc tái triển khai khi chưa được cho phép.</p>
+  </footer>
+</body>
+</html>

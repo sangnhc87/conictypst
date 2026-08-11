@@ -5,8 +5,8 @@
 // ─────────────────────────────────────────────────────────────────
 #import "../preamble.typ": *
 #import "../../../math-sym.typ": *
-
 #show math.frac: math.display
+
 
 #bai("Phương sai và độ lệch chuẩn của mẫu số liệu ghép nhóm", mau: C3)
 

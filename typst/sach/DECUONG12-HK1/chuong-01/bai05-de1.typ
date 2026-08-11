@@ -1,7 +1,7 @@
 #import "../preamble.typ": *
 #import "../../../math-sym.typ": *
-
 #show math.frac: math.display
+
 
 #muc([Đề Luyện Tập Số 01 — Ứng Dụng Đạo Hàm Vào Thực Tiễn])
 
@@ -55,7 +55,11 @@
     [$-10$ nghìn người/năm]
   ),
   loigiai: [
-    #step[Đang cập nhật...]
+        #step[Tốc độ tăng dân số tức thời tại thời điểm $t$ là đạo hàm của hàm dân số: $P'(t) = 20 - 2t$.]
+    #step[Năm $2005$ tương ứng với $t = 2005 - 2000 = 5$.]
+    #step[Tốc độ tăng dân số vào năm $2005$ là $P'(5) = 20 - 2(5) = 10$ (nghìn người/năm).]
+    #step[Kết luận: Chọn đáp án A.]
+    #resetstep()
   ]
 )
 
@@ -106,7 +110,12 @@
     [$x = 40$]
   ),
   loigiai: [
-    #step[Đang cập nhật...]
+        #step[Đạo hàm của hàm lợi nhuận: $P'(x) = -4x + 40$.]
+    #step[Cho $P'(x) = 0 <=> -4x + 40 = 0 <=> x = 10$.]
+    #step[Ta có $P''(x) = -4 < 0$ với mọi $x$, do đó hàm số đạt cực đại tại $x = 10$.]
+    #step[Vậy sản lượng để doanh nghiệp đạt lợi nhuận cực đại là $10$ (trăm chiếc).]
+    #step[Kết luận: Chọn đáp án B.]
+    #resetstep()
   ]
 )
 
@@ -121,7 +130,12 @@
     [$t = 8$]
   ),
   loigiai: [
-    #step[Đang cập nhật...]
+        #step[Đạo hàm của hàm năng suất: $N'(t) = -3t^2 + 18t - 15 = -3(t^2 - 6t + 5)$.]
+    #step[Cho $N'(t) = 0 <=> t = 1$ hoặc $t = 5$. Cả hai nghiệm đều thuộc đoạn $[0; 8]$.]
+    #step[Ta có $N''(t) = -6t + 18$. Xét tại các điểm tới hạn: $N''(1) = 12 > 0$ (đạt cực tiểu) và $N''(5) = -12 < 0$ (đạt cực đại).]
+    #step[Vậy năng suất lao động đạt cực đại vào giờ thứ $5$.]
+    #step[Kết luận: Chọn đáp án B.]
+    #resetstep()
   ]
 )
 
@@ -278,7 +292,12 @@
     [Xe luôn cùng chiều dương]
   ),
   loigiai: [
-    #step[Đang cập nhật...]
+        #step[Xe chuyển động ngược chiều dương khi và chỉ khi vận tốc của xe mang giá trị âm, tức là $v(t) < 0$.]
+    #step[Ta có bất phương trình: $3t^2 - 24t + 36 < 0 <=> 3(t^2 - 8t + 12) < 0 <=> 3(t - 2)(t - 6) < 0$.]
+    #step[Giải bất phương trình trên ta được $2 < t < 6$.]
+    #step[Vậy khoảng thời gian xe chuyển động ngược chiều dương là $(2; 6)$ giây.]
+    #step[Kết luận: Chọn đáp án C.]
+    #resetstep()
   ]
 )
 
@@ -365,7 +384,11 @@
     True([Gia tốc của vật tại $t = 3$ giây bằng $0$ m/s²])
   ),
   loigiai: [
-    #step[Đang cập nhật...]
+        #step[a) Vận tốc $v(t) = s'(t) = 3t^2 - 18t + 24$ (m/s). Vậy phát biểu này *Đúng*.]
+    #step[b) Vật dừng lại khi $v(t) = 0 <=> 3t^2 - 18t + 24 = 0 <=> t = 2$ hoặc $t = 4$. Vậy phát biểu này *Đúng*.]
+    #step[c) Vật chuyển động ngược chiều dương khi $v(t) < 0 <=> 3t^2 - 18t + 24 < 0 <=> 2 < t < 4$. Vậy phát biểu này *Đúng*.]
+    #step[d) Gia tốc của vật là $a(t) = v'(t) = 6t - 18$. Tại $t = 3$, $a(3) = 6(3) - 18 = 0$ (m/s²). Vậy phát biểu này *Đúng*.]
+    #resetstep()
   ]
 )
 
@@ -380,7 +403,11 @@
     True([Lợi nhuận lớn nhất của công ty trên $[0; 8]$ là $P(8) = 202$ triệu đồng])
   ),
   loigiai: [
-    #step[Đang cập nhật...]
+        #step[a) Ta có $P'(t) = 3t^2 - 12t + 9 = 3(t^2 - 4t + 3)$. Cho $P'(t) = 0 <=> t = 1$ hoặc $t = 3$. Đây chính là các điểm cực trị. Phát biểu *Đúng*.]
+    #step[b) Xét trên đoạn $[0; 8]$: $P(0) = 2$, $P(1) = 6$, $P(3) = 2$, $P(8) = 8^3 - 6(64) + 9(8) + 2 = 202$. Lợi nhuận lớn nhất không đạt tại $t = 3$. Phát biểu *Sai*.]
+    #step[c) Trên khoảng $(1; 3)$, $P'(t) < 0$ nên lợi nhuận công ty đang giảm. Phát biểu *Đúng*.]
+    #step[d) Theo tính toán ở ý b, lợi nhuận lớn nhất trên $[0; 8]$ đạt được tại biên $t=8$ với $P(8) = 202$ (triệu đồng). Phát biểu *Đúng*.]
+    #resetstep()
   ]
 )
 
@@ -395,7 +422,11 @@
     [Nồng độ thuốc tăng liên tục theo thời gian $t$]
   ),
   loigiai: [
-    #step[Đang cập nhật...]
+        #step[a) $C'(t) = (4(t^2 + 4) - 4t(2t)) / (t^2 + 4)^2 = (16 - 4t^2) / (t^2 + 4)^2$. Cho $C'(t) = 0 <=> t = 2$ (do $t >= 0$). Đạo hàm đổi dấu từ dương sang âm tại $t=2$ nên hàm số đạt cực đại tại $t=2$. Phát biểu *Đúng*.]
+    #step[b) Nồng độ thuốc cực đại là $C(2) = (4(2)) / (2^2 + 4) = 8 / 8 = 1$ (mg/L). Phát biểu *Đúng*.]
+    #step[c) Ta có $lim_(t -> +oo) C(t) = lim_(t -> +oo) (4t)/(t^2 + 4) = 0$, nghĩa là thuốc sẽ được đào thải hết. Phát biểu *Đúng*.]
+    #step[d) Từ bảng biến thiên, nồng độ tăng từ $t = 0$ đến $t = 2$ sau đó giảm dần, không phải tăng liên tục. Phát biểu *Sai*.]
+    #resetstep()
   ]
 )
 
@@ -410,7 +441,11 @@
     True([Giá trị tài sản không bao giờ về đúng $0$, chỉ tiến về $0$])
   ),
   loigiai: [
-    #step[Đang cập nhật...]
+        #step[a) $A'(t) = 500 dot 0.8^t ln 0.8$. Vì $0.8^t > 0$ và $ln 0.8 < 0$ nên $A'(t) < 0$ với mọi $t >= 0$. Tài sản giảm giá. Phát biểu *Đúng*.]
+    #step[b) Tại $t = 0$, tốc độ thay đổi là $A'(0) = 500 ln 0.8 approx 500(-0.223) = -111.5$. Tốc độ mất giá (độ lớn) là $111.5$ triệu đồng/năm. Phát biểu *Đúng*.]
+    #step[c) Sau 5 năm, $A(5) = 500 dot 0.8^5 = 500 dot 0.32768 = 163.84 eq.not 200$. Phát biểu *Sai*.]
+    #step[d) Vì $0.8^t > 0$ với mọi $t$ nên $A(t)$ không bao giờ chạm $0$, nhưng $lim_(t -> +oo) 500 dot 0.8^t = 0$. Phát biểu *Đúng*.]
+    #resetstep()
   ]
 )
 
@@ -425,7 +460,11 @@
     True([Đạo hàm $P'(n) = 100 - 2n$ biểu diễn tốc độ thay đổi năng suất khi thêm một công nhân])
   ),
   loigiai: [
-    #step[Đang cập nhật...]
+        #step[a) Khai triển $P(n) = 100n - n^2$. Đạo hàm $P'(n) = 100 - 2n = 0 <=> n = 50$. Do parabol quay bề lõm xuống dưới ($a = -1 < 0$) nên đạt cực đại tại $n=50$. Phát biểu *Đúng*.]
+    #step[b) Năng suất cực đại là $P(50) = 50(100 - 50) = 2500$ (đơn vị/ngày). Phát biểu *Đúng*.]
+    #step[c) Tại $n = 60$, đạo hàm $P'(60) = 100 - 2(60) = -20 < 0$. Việc thêm công nhân lúc này sẽ làm giảm năng suất tổng hợp. Phát biểu *Sai*.]
+    #step[d) Đạo hàm $P'(n)$ là năng suất biên, đại diện cho tốc độ thay đổi của năng suất tổng hợp khi bổ sung thêm nhân lực. Phát biểu *Đúng*.]
+    #resetstep()
   ]
 )
 
@@ -440,7 +479,11 @@
     True([Trong khoảng $(20/3; 10)$, tên lửa đang chuyển động đi xuống])
   ),
   loigiai: [
-    #step[Đang cập nhật...]
+        #step[a) Vận tốc là $v(t) = h'(t) = 200t - 30t^2$. Tại $t = 5$, $v(5) = 200(5) - 30(25) = 250 eq.not 750$. Phát biểu *Sai*.]
+    #step[b) Xét $v(t) = 0 <=> 10t(20 - 3t) = 0 <=> t = 0$ hoặc $t = 20/3$. Tên lửa đi lên từ $t=0$ đến $t=20/3$ rồi rơi xuống. Độ cao lớn nhất đạt được tại $t = 20/3$. Phát biểu *Sai*.]
+    #step[c) Gia tốc $a(t) = v'(t) = 200 - 60t$. Xét $a(t) = 0 <=> 60t = 200 <=> t = 10/3$. Phát biểu *Đúng*.]
+    #step[d) Trên khoảng $(20/3; 10)$, vận tốc $v(t) < 0$ nên tên lửa đang trên đà rơi tự do đi xuống. Phát biểu *Đúng*.]
+    #resetstep()
   ]
 )
 
@@ -455,7 +498,11 @@
     True([Tháng thứ $6$ là tháng có tốc độ sản xuất bằng $0$])
   ),
   loigiai: [
-    #step[Đang cập nhật...]
+        #step[a) Tốc độ sản xuất là đạo hàm $Q'(t) = 6 - t$. Tại tháng thứ $3$, tốc độ là $Q'(3) = 6 - 3 = 3$ (nghìn sản phẩm/tháng). Phát biểu *Đúng*.]
+    #step[b) Tổng sản lượng trong 6 tháng là $Q(6) = 6(6) - 6^2/2 = 36 - 18 = 18$ (nghìn sản phẩm). Phát biểu *Đúng*.]
+    #step[c) Ta có gia tốc của sản lượng là $Q''(t) = -1 < 0$. Vận tốc sản xuất (tốc độ) đang giảm dần. Phát biểu *Sai*.]
+    #step[d) Tại $t = 6$, tốc độ sản xuất là $Q'(6) = 6 - 6 = 0$. Phát biểu *Đúng*.]
+    #resetstep()
   ]
 )
 
@@ -470,7 +517,11 @@
     [Sản lượng mỗi ngày tăng liên tục không giới hạn]
   ),
   loigiai: [
-    #step[Đang cập nhật...]
+        #step[a) Tính đạo hàm $Q'(t) = 100(1 dot e^(-0.1t) + t dot (-0.1)e^(-0.1t)) = 100 e^(-0.1t) (1 - 0.1t)$. Xét $Q'(t) = 0 <=> 1 - 0.1t = 0 <=> t = 10$. Đạo hàm đổi dấu từ dương sang âm tại $t=10$ nên đạt cực đại tại đây. Phát biểu *Đúng*.]
+    #step[b) Với $t < 10$, ta có $1 - 0.1t > 0$ nên $Q'(t) > 0$. Vậy sản lượng mỗi ngày đang tăng. Phát biểu *Đúng*.]
+    #step[c) Khi $t -> +oo$, hàm mũ $e^(-0.1t)$ tiến về $0$ nhanh hơn đa thức $t$ tiến ra vô cực, nên $lim_(t -> +oo) Q(t) = 0$. Mỏ dầu sẽ cạn kiệt. Phát biểu *Đúng*.]
+    #step[d) Sản lượng chỉ tăng trong 10 ngày đầu tiên rồi giảm dần. Phát biểu *Sai*.]
+    #resetstep()
   ]
 )
 

@@ -10,7 +10,7 @@ Module này vẽ các hình tròn xoay tiêu chuẩn trong không gian chiếu t
 ## Ví dụ: Nón nội tiếp Trụ
 
 ```typst
-#import "@preview/sang-math:1.0.1": *
+#import "@preview/sang-math:1.0.2": *
 #import cetz.draw: *
 
 #cetz.canvas({

@@ -4,8 +4,8 @@
 // ─────────────────────────────────────────────────────────────────
 #import "../preamble.typ": *
 #import "../../../math-sym.typ": *
-
 #show math.frac: math.display
+
 
 #bai("Chuyên đề: Tiếp tuyến, tương giao và các điểm đặc biệt", mau: C1)
 

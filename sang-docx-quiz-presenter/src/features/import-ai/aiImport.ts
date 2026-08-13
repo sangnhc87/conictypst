@@ -12,6 +12,8 @@ import { hashFile, cacheKey, getCached, setCached } from "../cache/fileCache";
 import { deskewImage } from "./imageDeskew";
 import { smartOcrRoute } from "./tesseractOcr";
 import { getSubjectProfile, makeProfileRef } from "../../config/subjectProfiles";
+import { applyAnswerKey, buildSkeleton, chunkMarkdownBySkeleton, describeSkeleton, questionSlice } from "./skeleton";
+import katex from "katex";
 
 
 export type AiMode = "auto" | "economy" | "balanced" | "precision";
@@ -394,23 +396,30 @@ async function structureMarkdown(
 ): Promise<AiStructuredDocument> {
   const profile = getSubjectProfile(profileContext.profileId);
   const maxChunkChars = profile.groupMode === "central" ? 8_000 : profile.groupMode === "recommended" ? 6_000 : 4_200;
-  const chunks = chunkMarkdownForAI(markdown, maxChunkChars);
+  const skeleton = buildSkeleton(markdown);
+  // Skeleton-first: khi quét được marker câu, cắt chunk tại ranh giới câu và
+  // kèm "context header" (phần thi, số câu chunk phải trả, bảng đáp án) để AI
+  // điền vào khung thay vì tự do suy đoán cấu trúc.
+  const useSkeleton = skeleton.markers.length >= 2;
+  const chunks = useSkeleton
+    ? chunkMarkdownBySkeleton(markdown, skeleton, maxChunkChars)
+    : chunkMarkdownForAI(markdown, maxChunkChars).map((text) => ({ text, questionNumbers: [] as number[], sectionTitle: undefined as string | undefined }));
   const documents: AiStructuredDocument[] = [];
-  const structureChunk = async (text: string, label: string): Promise<AiStructuredDocument[]> => {
+  const structureChunk = async (text: string, label: string, skeletonNote = ""): Promise<AiStructuredDocument[]> => {
     const response = await fetch("/api/structure", {
       method: "POST",
       headers: {
         "content-type": "application/json",
         ...(profileContext.authToken ? { Authorization: `Bearer ${profileContext.authToken}` } : {}),
       },
-      body: JSON.stringify({ markdown: text, sourceFileName: fileName, generateSolutions, customApiKey, profileId: profileContext.profileId, grade: profileContext.grade }),
+      body: JSON.stringify({ markdown: text, sourceFileName: fileName, generateSolutions, customApiKey, profileId: profileContext.profileId, grade: profileContext.grade, ...(skeletonNote ? { skeletonNote } : {}) }),
     });
     if (!response.ok && response.status === 413 && text.length > 1_500) {
       const smaller = splitLongMarkdown(text, Math.ceil(text.length / 2));
       if (smaller.length > 1) {
         const nested: AiStructuredDocument[] = [];
         for (let partIndex = 0; partIndex < smaller.length; partIndex += 1) {
-          nested.push(...await structureChunk(smaller[partIndex], `${label}.${partIndex + 1}`));
+          nested.push(...await structureChunk(smaller[partIndex], `${label}.${partIndex + 1}`, skeletonNote));
         }
         return nested;
       }
@@ -421,10 +430,14 @@ async function structureMarkdown(
   };
   for (let index = 0; index < chunks.length; index += 1) {
     onProgress(74 + Math.round(((index + 1) / chunks.length) * 23), `AI đang dựng cấu trúc · phần ${index + 1}/${chunks.length}`);
-    documents.push(...await structureChunk(chunks[index], `${fileName} · phần ${index + 1}/${chunks.length}`));
+    const chunk = chunks[index];
+    const note = useSkeleton
+      ? [chunk.sectionTitle ? `Phần thi hiện tại: ${chunk.sectionTitle}` : "", describeSkeleton(skeleton, chunk.questionNumbers)].filter(Boolean).join("\n")
+      : "";
+    documents.push(...await structureChunk(chunk.text, `${fileName} · phần ${index + 1}/${chunks.length}`, note));
   }
   const prefixKey = (index: number, key?: string) => key ? `chunk-${index}-${key}` : "";
-  return {
+  const mergeDocuments = () => ({
     title: documents[0]?.title || fileName.replace(/\.[^.]+$/, ""),
     sections: documents.flatMap((document, index) => (document.sections || []).map((section) => ({ ...section, key: prefixKey(index, section.key) }))),
     groups: documents.flatMap((document, index) => (document.groups || []).map((group) => ({ ...group, key: prefixKey(index, group.key) }))),
@@ -434,7 +447,65 @@ async function structureMarkdown(
       groupKey: prefixKey(index, question.groupKey),
     }))),
     warnings: documents.flatMap((document) => document.warnings),
-  } satisfies AiStructuredDocument;
+  }) satisfies AiStructuredDocument;
+
+  const merged = mergeDocuments();
+
+  // Validation LaTeX: công thức AI trả về mà KaTeX không compile được thì gắn
+  // cảnh báo ngay vào câu, tránh xuất bản trình chiếu có công thức vỡ.
+  for (const question of merged.questions) {
+    const badLatex = question.stem
+      .filter((block) => block.kind === "math")
+      .filter((block) => {
+        try { katex.renderToString(block.latex, { throwOnError: true, strict: false }); return false; } catch { return true; }
+      });
+    if (badLatex.length) {
+      question.warnings.push(`Có ${badLatex.length} công thức LaTeX chưa hợp lệ, cần sửa tay: "${badLatex[0].latex.slice(0, 60)}…"`);
+      question.confidence = question.confidence === "high" ? "medium" : question.confidence;
+    }
+  }
+
+  // Validation + targeted repair: đối chiếu skeleton, chỉ gửi lại các câu còn
+  // thiếu thay vì chạy lại cả đề hoặc âm thầm chấp nhận kết quả thiếu.
+  if (useSkeleton) {
+    const expectedNumbers = [...new Set(skeleton.markers.map((marker) => marker.number))];
+    const missing = expectedNumbers.filter((number) => !merged.questions.some((question) => question.number === number));
+    if (missing.length) {
+      const repairText = missing.map((number) => questionSlice(markdown, skeleton, number)).filter(Boolean).join("\n\n");
+      if (repairText.trim()) {
+        try {
+          onProgress(97, `Đang sửa bổ sung ${missing.length} câu còn thiếu…`);
+          const repairedDocs = await structureChunk(
+            repairText,
+            `${fileName} · sửa ${missing.length} câu`,
+            `${describeSkeleton(skeleton, missing)}\nĐÂY LÀ LƯỢT SỬA BỔ SUNG: chỉ trả về đúng các câu được liệt kê ở trên.`,
+          );
+          const before = merged.questions.length;
+          for (const repaired of repairedDocs) {
+            for (const question of repaired.questions) {
+              if (merged.questions.some((existing) => existing.number === question.number)) continue;
+              merged.questions.push({
+                ...question,
+                sectionKey: question.sectionKey ? `repair-${question.sectionKey}` : "",
+                groupKey: question.groupKey ? `repair-${question.groupKey}` : "",
+              });
+            }
+            merged.warnings.push(...repaired.warnings);
+          }
+          const recovered = merged.questions.length - before;
+          const stillMissing = expectedNumbers.filter((number) => !merged.questions.some((question) => question.number === number));
+          merged.warnings.push(
+            stillMissing.length
+              ? `Còn thiếu ${stillMissing.length} câu sau lượt sửa tự động: ${stillMissing.slice(0, 20).join(", ")}${stillMissing.length > 20 ? "…" : ""}. Hãy kiểm tra trực tiếp vùng đó trong tệp nguồn.`
+              : `Đã sửa bổ sung ${recovered} câu bị AI bỏ sót ở lượt đầu.`,
+          );
+        } catch {
+          merged.warnings.push(`Thiếu ${missing.length} câu (${missing.slice(0, 20).join(", ")}${missing.length > 20 ? "…" : ""}) và lượt sửa tự động không thành công. Hãy kiểm tra trực tiếp vùng đó trong tệp nguồn.`);
+        }
+      }
+    }
+  }
+  return merged;
 }
 
 function fallbackQuizFromMarkdown(markdown: string, fileName: string, reason: string, profileContext: ImportProfileContext): QuizDocument {
@@ -442,6 +513,9 @@ function fallbackQuizFromMarkdown(markdown: string, fileName: string, reason: st
   const parsed = profileContext.profileId === "informatics-thpt-v1"
     ? parseInformaticsLines(parserLines, profileContext.profileId)
     : parseLines(parserLines);
+  // Fallback cũng được hưởng skeleton: bảng đáp án cuối đề vẫn được gán lại.
+  const skeleton = buildSkeleton(markdown);
+  const answerKeyWarnings = applyAnswerKey(parsed.questions, skeleton.answerKey);
   const questions = parsed.questions.length
     ? parsed.questions
     : markdown
@@ -474,10 +548,19 @@ function fallbackQuizFromMarkdown(markdown: string, fileName: string, reason: st
       { id: uid("w"), type: "parser", message: `AI dựng cấu trúc bị bỏ qua: ${reason}` },
       { id: uid("w"), type: "parser", message: "Đang dùng parser cục bộ từ OCR. Hãy rà soát lại loại câu, đáp án và lời giải trước khi xuất." },
       ...parsed.warnings,
+      ...answerKeyWarnings.map((message) => ({ id: uid("w"), type: "parser" as const, message })),
     ],
     settings: { theme: "light", revealMode: "step", hideAnswersInitially: true, ratio: "16:9" },
   };
 }
+
+/** Gán bảng đáp án trích xuất deterministic (nếu đề có) lên kết quả cuối. */
+const applySkeletonAnswerKey = (quiz: QuizDocument, markdown: string) => {
+  const skeleton = buildSkeleton(markdown);
+  for (const message of applyAnswerKey(quiz.questions, skeleton.answerKey)) {
+    quiz.warnings.push({ id: uid("w"), type: "parser", message });
+  }
+};
 
 export async function importWithAi(
   fileInput: File | File[],
@@ -535,6 +618,7 @@ export async function importWithAi(
       quiz = fallbackQuizFromMarkdown(combinedMarkdown, titleName, reason, profileContext);
     }
 
+    applySkeletonAnswerKey(quiz, combinedMarkdown);
     if (!quiz.questions.length) throw new Error("Không tìm thấy câu hỏi từ các tệp đã chọn.");
     onProgress(100, `Hoàn tất · ${quiz.questions.length} câu từ ${fileList.length} ảnh/tệp · ${mainProvider}`);
     const estimatedOcrUsd = totalPages * 0.002;
@@ -613,6 +697,7 @@ export async function importWithAi(
           onProgress(96, "AI cấu trúc lỗi · đang dựng bài bằng parser cục bộ…");
           quiz = fallbackQuizFromMarkdown(markdown, file.name, reason, profileContext);
         }
+        applySkeletonAnswerKey(quiz, markdown);
         if (!quiz.questions.length) throw new Error("Không tìm thấy câu hỏi. Hãy thử chế độ Công thức khó hoặc chia nhỏ đề.");
         const estimatedOcrUsd = (provider as string) === "mistral" ? 0.002 : (provider as string) === "gemini" ? 0.001 : 0;
         onProgress(100, `Hoàn tất · ${quiz.questions.length} câu · ${provider}`);
@@ -656,6 +741,7 @@ export async function importWithAi(
     onProgress(96, "AI cấu trúc lỗi · đang dựng bài bằng parser cục bộ…");
     quiz = fallbackQuizFromMarkdown(markdown, file.name, reason, profileContext);
   }
+  applySkeletonAnswerKey(quiz, markdown);
   if (!quiz.questions.length) throw new Error("Không tìm thấy câu hỏi. Hãy thử chế độ Công thức khó hoặc chia nhỏ đề.");
   onProgress(100, `Hoàn tất · ${quiz.questions.length} câu · ${provider === "local" ? "OCR miễn phí" : provider}`);
   const estimatedOcrUsd = provider === "mistral" ? pageCount * 0.002 : provider === "gemini" ? pageCount * (isImage(file) ? 0.001 : 0.0015) : 0;

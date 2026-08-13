@@ -1830,3 +1830,21 @@ export function parseEnglishLines(lines: string[], profileId = 'english-12-v1'):
 export function parseEnglishStructuredHtml(html: string, profileId = 'english-12-v1'): ParsedDocument {
   return parseEnglishLines(linesFromHtml(html), profileId);
 }
+
+/**
+ * Điểm vào duy nhất để chọn adapter parser theo profile. Mọi đường nhập
+ * (importDocx, golden metrics, các công cụ kiểm thử) phải đi qua hàm này để
+ * không bị lệch hành vi giữa production và kiểm thử.
+ */
+export function parseHtmlByProfile(html: string, profileId?: string): ParsedDocument {
+  if (profileId?.startsWith('english-')) return parseEnglishStructuredHtml(html, profileId);
+  if (profileId === 'history-thpt-v1') return parseHistoryStructuredHtml(html, profileId);
+  if (profileId === 'geography-thpt-v1') return parseGeographyStructuredHtml(html, profileId);
+  if (profileId === 'biology-thpt-v1') return parseBiologyStructuredHtml(html, profileId);
+  if (profileId === 'physics-thpt-v1') return parsePhysicsStructuredHtml(html, profileId);
+  if (profileId === 'gdqp-10-v1') return parseGdqpStructuredHtml(html, profileId);
+  if (profileId === 'informatics-thpt-v1') return parseInformaticsStructuredHtml(html, profileId);
+  if (profileId === 'literature-thpt-v1') return parseLiteratureStructuredHtml(html, profileId);
+  if (profileId && profileId !== 'math-thpt-v1') return parseProfileStructuredHtml(html, profileId);
+  return parseStructuredHtml(html);
+}

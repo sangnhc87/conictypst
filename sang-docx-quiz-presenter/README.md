@@ -46,6 +46,18 @@ Nếu các khóa PayOS từng xuất hiện trong mã nguồn hoặc lịch sử
 3. Sửa loại câu, nội dung, LaTeX, đáp án và hình trong cột giữa; xem kết quả tức thời ở cột phải.
 4. Bấm **Trình chiếu**, hoặc xuất HTML một file/ZIP offline/JSON để sửa lại sau.
 
+### Template DOCX chuẩn (độ chính xác cao nhất)
+
+File soạn theo `public/templates/mau-de-chuan-quiz.docx` được tách **deterministic theo style**, không cần đoán mẫu: áp style `QuizQuestion` cho câu hỏi, `QuizChoice` cho phương án, `QuizStatement` cho ý đúng/sai, `QuizAnswer` cho đáp án (`B`, `Đ S Đ S` hoặc giá trị trả lời ngắn), `QuizSolution` cho lời giải, `QuizSection` cho phần thi và `QuizStimulus` cho dữ kiện chùm. Tạo lại template bằng `node scripts/build-template.mjs`. Với đề không theo template, pipeline vẫn chạy đường OCR + AI như dưới đây.
+
+### Pipeline OCR + AI: skeleton-first
+
+Trước khi giao markdown cho AI, `src/features/import-ai/skeleton.ts` quét deterministic các mỏ neo của đề: marker câu hỏi, tiêu đề phần thi và **bảng đáp án cuối đề** (dạng bảng markdown, lưới `1. A 2. B`, hoặc từng dòng). Chunking chỉ cắt ở ranh giới câu (không bao giờ xẻ đôi một câu) và mỗi chunk kèm "khung đề đã phân tích sẵn" (phần thi hiện tại, danh sách đúng các câu trong chunk, bảng đáp án) nên AI điền vào khung thay vì tự suy cấu trúc. Sau khi AI trả về, hệ thống đối chiếu skeleton: câu bị bỏ sót được gửi **lượt sửa riêng**, bảng đáp án được gán lại deterministic, công thức LaTeX không compile được bằng KaTeX sẽ gắn cảnh báo ngay vào câu.
+
+### Đo chất lượng bằng golden set
+
+`src/features/quality/metrics.ts` chấm điểm mọi đề đã parse (số câu, số thứ tự, đủ phương án, phủ đáp án, tỉ lệ LaTeX compile, cảnh báo parser) ra thang 100. `src/tests/quality-metrics.test.ts` chạy toàn bộ đề thật trong `public/samples` và fixture OCR trong `src/tests/fixtures`, chặn hồi quy ở ngưỡng 99. Thêm đề mới vào `GOLDEN_DOCX_SET` hoặc cặp `*.md` + kỳ vọng trong fixtures để mở rộng bộ đo.
+
 ## Profile môn học và câu hỏi chùm
 
 Trước khi nhập tệp, chọn đúng **Môn và cấu trúc đề** cùng **Khối**. Hệ thống hiện có các profile độc lập cho Toán, Tiếng Anh, Sinh học, Lịch sử, Địa lý, GDCD/GDKT&PL, Vật lý, Hóa học, Tiểu học liên môn và Ngữ văn. Tiếng Anh lớp 10 và lớp 12 là hai profile riêng vì cấu trúc đề và prompt hậu xử lý khác nhau.

@@ -37,6 +37,8 @@ export interface StructuralDocxBlock {
   source: "paragraph" | "table" | "textbox";
   text: string;
   numbered: boolean;
+  /** styleId của đoạn (w:pStyle/@w:val) — nền của parser theo template chuẩn. */
+  styleId?: string;
 }
 export interface DocxStructure {
   html: string;
@@ -83,11 +85,17 @@ const textFromParagraph = (paragraph: Element) => {
 
 const isNumberedParagraph = (paragraph: Element) => Boolean(paragraph.getElementsByTagNameNS("*", "numPr").length);
 
+const paragraphStyleId = (paragraph: Element) => {
+  const style = paragraph.getElementsByTagNameNS("*", "pStyle")[0];
+  return style?.getAttribute("w:val") || style?.getAttribute("val") || undefined;
+};
+
 const makeParagraphBlock = (paragraph: Element, source: StructuralDocxBlock["source"], blocks: StructuralDocxBlock[]) => {
   const text = textFromParagraph(paragraph);
   if (!text) return "";
   const numbered = isNumberedParagraph(paragraph);
-  blocks.push({ source, text, numbered });
+  const styleId = paragraphStyleId(paragraph);
+  blocks.push({ source, text, numbered, ...(styleId ? { styleId } : {}) });
   return `<p>${htmlForText(text)}</p>`;
 };
 

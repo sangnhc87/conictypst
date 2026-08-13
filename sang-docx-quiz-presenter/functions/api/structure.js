@@ -107,6 +107,7 @@ export const onRequestPost = async ({ request, env }) => {
     if (!markdown.trim()) return withCors(fail("Kết quả OCR đang trống."), request);
     if (markdown.length > MAX_MARKDOWN_CHARS) return withCors(fail("Tài liệu quá dài; hãy chia thành các phần nhỏ hơn."), request);
     const sourceName = String(payload.sourceFileName || "de-thi").slice(0, 180);
+    const skeletonNote = String(payload.skeletonNote || "").slice(0, 4000);
     const generateSolutions = payload.generateSolutions !== false;
     const profileId = String(payload.profileId || "math-thpt-v1");
     const grade = String(payload.grade || "12").slice(0, 20);
@@ -120,7 +121,7 @@ export const onRequestPost = async ({ request, env }) => {
       contents: [
         {
           role: "user",
-          parts: [{ text: `Profile: ${profileId}\nMôn: ${profile.subject}\nKhối: ${grade}\nTên tệp: ${sourceName}\n\nNỘI DUNG OCR:\n${markdown}` }]
+          parts: [{ text: `Profile: ${profileId}\nMôn: ${profile.subject}\nKhối: ${grade}\nTên tệp: ${sourceName}\n${skeletonNote ? `\nKHUNG ĐỀ ĐÃ PHÂN TÍCH SẴN (bắt buộc tuân theo):\n${skeletonNote}\n` : ""}\nNỘI DUNG OCR:\n${markdown}` }]
         }
       ],
       generationConfig: {

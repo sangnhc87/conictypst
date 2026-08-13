@@ -1,6 +1,7 @@
 import DOMPurify from 'dompurify';
 import { inspectDocx, shouldPreferStructuralHtml } from './docxInspector';
-import { parseBiologyStructuredHtml, parseEnglishStructuredHtml, parseGeographyStructuredHtml, parseGdqpStructuredHtml, parseHistoryStructuredHtml, parseInformaticsStructuredHtml, parseLiteratureStructuredHtml, parsePhysicsStructuredHtml, parseProfileStructuredHtml, parseStructuredHtml } from '../question-parser/parser';
+import { parseHtmlByProfile } from '../question-parser/parser';
+import { hasTemplateStyles, parseTemplateBlocks } from './templateParser';
 import { getSubjectProfile } from '../../config/subjectProfiles';
 import type { ImageBlock, QuizDocument } from '../../models/quiz';
 import { uid } from '../../models/quiz';
@@ -79,25 +80,10 @@ export async function importDocx(file:File,onProgress:(n:number,s:string)=>void,
     })
     : sourceHtml;
   const html=DOMPurify.sanitize(htmlSource,{FORBID_TAGS:['script','iframe','object','embed'],FORBID_ATTR:['onerror','onclick']});
-  const parsed=profileId?.startsWith('english-')
-    ? parseEnglishStructuredHtml(html, profileId)
-    : profileId === 'history-thpt-v1'
-    ? parseHistoryStructuredHtml(html, profileId)
-    : profileId === 'geography-thpt-v1'
-    ? parseGeographyStructuredHtml(html, profileId)
-    : profileId === 'biology-thpt-v1'
-    ? parseBiologyStructuredHtml(html, profileId)
-    : profileId === 'physics-thpt-v1'
-    ? parsePhysicsStructuredHtml(html, profileId)
-    : profileId === 'gdqp-10-v1'
-    ? parseGdqpStructuredHtml(html, profileId)
-    : profileId === 'informatics-thpt-v1'
-    ? parseInformaticsStructuredHtml(html, profileId)
-    : profileId === 'literature-thpt-v1'
-    ? parseLiteratureStructuredHtml(html, profileId)
-    : profileId && profileId !== 'math-thpt-v1'
-    ? parseProfileStructuredHtml(html, profileId)
-    : parseStructuredHtml(html);
+  // Fast lane: file soạn theo template chuẩn (style Quiz*) được parse
+  // deterministic theo style, bỏ qua mọi adapter regex.
+  const usedTemplateStyles = hasTemplateStyles(inspection.structure.blocks);
+  const parsed=usedTemplateStyles ? parseTemplateBlocks(inspection.structure.blocks) : parseHtmlByProfile(html, profileId);
   const assessment = assessDocxImport(inspection, parsed, usedStructuralRecovery);
   const recoveryWarning = usedStructuralRecovery
     ? [{ id: uid('w'), type: 'parser' as const, message: `Đã phục hồi DOCX trực tiếp từ cấu trúc Word (${inspection.structure.tableCells} ô bảng, ${inspection.structure.textBoxParagraphs} đoạn textbox) vì bộ chuyển đổi HTML bỏ sót nội dung.` }]
@@ -105,7 +91,10 @@ export async function importDocx(file:File,onProgress:(n:number,s:string)=>void,
   const assessmentWarning = assessment.shouldUseCloudVerification
     ? [{ id: uid('w'), type: 'parser' as const, message: `DOCX có rủi ro cao (${assessment.reasons.join(' ')}) · nên dùng Mistral để đối chiếu cấu trúc.` }]
     : [];
-  const rawWarnings=[...inspection.warnings.filter((warning) => !(formulaPreviewProfile && /^Đã chuyển .* từ WMF sang PNG/iu.test(warning.message))),...recoveryWarning,...assessmentWarning,...parsed.warnings,...converted.messages.map(message=>({id:uid('w'),type:'parser' as const,message}))];
+  const templateWarning = usedTemplateStyles
+    ? [{ id: uid('w'), type: 'parser' as const, message: 'Đã nhận diện template chuẩn (style Quiz*) — đề được tách deterministic theo style, không dùng đoán mẫu.' }]
+    : [];
+  const rawWarnings=[...inspection.warnings.filter((warning) => !(formulaPreviewProfile && /^Đã chuyển .* từ WMF sang PNG/iu.test(warning.message))),...templateWarning,...recoveryWarning,...assessmentWarning,...parsed.warnings,...converted.messages.map(message=>({id:uid('w'),type:'parser' as const,message}))];
   const warnings=rawWarnings.filter((warning, index, all) => all.findIndex((item) => item.type === warning.type && item.message === warning.message) === index);
   const questionFor=(number?:number, sectionId?:string)=>parsed.questions.find(q=>q.number===number && (!sectionId || q.sectionId===sectionId))||parsed.questions.find(q=>q.number===number)||parsed.questions[0];
   const appendMediaBlock = (q: NonNullable<ReturnType<typeof questionFor>>, block: ImageBlock, phase?: 'questions'|'answers'|'solutions') => {

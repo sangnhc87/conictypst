@@ -381,34 +381,36 @@
                             <div class="form-group">
                                 <label>Nhà cung cấp</label>
                                 <select class="form-input" id="provider" onchange="updateModelList()">
-                                    <option value="groq">Groq (Llama Vision — nhanh, miễn phí)</option>
-                                    <option value="gemini">Google Gemini (chính xác cao)</option>
-                                    <option value="openrouter">OpenRouter (nhiều model)</option>
+                                    <option value="gemini">Google Gemini (Model 3.7 / 2.5 / 2.0 — khuyên dùng)</option>
+                                    <option value="groq">Groq (Llama 4 Vision — siêu nhanh, miễn phí)</option>
+                                    <option value="openrouter">OpenRouter (Gemini, Claude 3.7, GPT-4o)</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>Model</label>
-                                <select class="form-input" id="model"></select>
+                                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+                                    <label style="margin:0;">Model AI</label>
+                                    <button type="button" onclick="fetchLiveModels()" class="btn" style="padding:2px 8px;font-size:0.75rem;background:#e0f2fe;color:#0369a1;border:1px solid #bae6fd;border-radius:999px;">
+                                        <i data-lucide="refresh-cw" style="width:12px;height:12px;"></i> Tự nhận model mới
+                                    </button>
+                                </div>
+                                <select class="form-input" id="model" onchange="handleModelChange()"></select>
+                                <input type="text" id="customModelInput" class="form-input" style="display:none;margin-top:6px;" placeholder="Nhập tên model chính xác (vd: gemini-3.7-flash)..." oninput="saveCustomModel(this.value)" />
+                                <div id="modelStatusHint" style="font-size:0.75rem;color:#0284c7;margin-top:4px;"></div>
                             </div>
                             <div class="form-group">
                                 <label>API Key</label>
                                 <input class="form-input" type="password" id="apiKey"
-                                    placeholder="Nhập API key của bạn..." />
-                                <div class="api-note">Key lưu trong localStorage, không gửi lên server. <a
-                                        href="https://console.groq.com/keys" target="_blank">Lấy Groq key miễn phí</a>
-                                </div>
+                                    placeholder="Nhập API key (tự động nhận diện model)..." onblur="fetchLiveModels(true)" />
+                                <div class="api-note" id="apiKeyHint">Key lưu an toàn trong trình duyệt. <a id="apiKeyLink" href="https://aistudio.google.com/app/apikey" target="_blank">Lấy Gemini API Key miễn phí tại Google AI Studio</a></div>
                             </div>
                             <div class="form-group">
-                                <label>Loại câu hỏi đầu ra</label>
+                                <label>Loại câu hỏi đầu ra (Chuẩn sang-math:1.0.5)</label>
                                 <div class="format-tabs">
                                     <span class="format-tab active" data-type="auto"
-                                        onclick="setOutputType(this,'auto')">Tự động</span>
-                                    <span class="format-tab" data-type="tn" onclick="setOutputType(this,'tn')">#tn
-                                        (MC)</span>
-                                    <span class="format-tab" data-type="ds" onclick="setOutputType(this,'ds')">#ds
-                                        (T/F)</span>
-                                    <span class="format-tab" data-type="tln" onclick="setOutputType(this,'tln')">#tln
-                                        (Ngắn)</span>
+                                        onclick="setOutputType(this,'auto')">Tự động (#tn/#ds/#tln)</span>
+                                    <span class="format-tab" data-type="tn" onclick="setOutputType(this,'tn')">#tn (4 lựa chọn)</span>
+                                    <span class="format-tab" data-type="ds" onclick="setOutputType(this,'ds')">#ds (Đúng/Sai)</span>
+                                    <span class="format-tab" data-type="tln" onclick="setOutputType(this,'tln')">#tln (Trả lời ngắn)</span>
                                 </div>
                             </div>
                         </div>
@@ -450,25 +452,35 @@
                 </div>
 
                 <div class="panel">
-                    <div class="panel-head"><i data-lucide="info"></i> Cú pháp Typst xuất ra</div>
+                    <div class="panel-head"><i data-lucide="info"></i> Cú pháp Typst sang-math:1.0.5</div>
                     <div class="panel-body" style="font-size:0.84rem;line-height:1.7;">
-                        <strong>Trắc nghiệm:</strong>
+                        <strong>Trắc nghiệm 4 lựa chọn:</strong>
                         <code
-                            style="display:block;background:#f1f5f9;padding:6px 10px;border-radius:4px;margin:4px 0 10px;font-size:0.78rem;white-space:pre">
-//[2D1N1-1]
-#tn[Câu hỏi][A. ...][#True[B. Đáp án đúng]][C. ...][D. ...][
-  #ppgiai[Lời giải]
-]</code>
-                        <strong>Đúng sai:</strong>
+                            style="display:block;background:#f1f5f9;padding:6px 10px;border-radius:4px;margin:4px 0 10px;font-size:0.78rem;white-space:pre">#tn(
+  [Nội dung câu hỏi $...$],
+  ([$A$], True([$B$]), [$C$], [$D$]),
+  id: "TN01",
+  tags: ("chu-de", "NB"),
+  loigiai: [Lời giải chi tiết.]
+)</code>
+                        <strong>Đúng sai 4 ý:</strong>
                         <code
-                            style="display:block;background:#f1f5f9;padding:6px 10px;border-radius:4px;margin:4px 0 10px;font-size:0.78rem;white-space:pre">
-#ds[Câu hỏi][#True[Ý 1 đúng]][#False[Ý 2 sai]][...][...][
-  #ppgiai[Lời giải]
-]</code>
+                            style="display:block;background:#f1f5f9;padding:6px 10px;border-radius:4px;margin:4px 0 10px;font-size:0.78rem;white-space:pre">#ds(
+  [Nội dung chung $...$],
+  (True([Mệnh đề a đúng]), [Mệnh đề b sai], True([Mệnh đề c đúng]), [Mệnh đề d sai]),
+  id: "DS01",
+  tags: ("chu-de", "TH"),
+  loigiai: [Giải thích chi tiết 4 mệnh đề.]
+)</code>
                         <strong>Trả lời ngắn:</strong>
                         <code
-                            style="display:block;background:#f1f5f9;padding:6px 10px;border-radius:4px;margin:4px 0;font-size:0.78rem;white-space:pre">
-#tln[Câu hỏi][$42$][#ppgiai[Lời giải]]</code>
+                            style="display:block;background:#f1f5f9;padding:6px 10px;border-radius:4px;margin:4px 0;font-size:0.78rem;white-space:pre">#tln(
+  [Nội dung câu hỏi $...$],
+  [$42$],
+  id: "TLN01",
+  tags: ("chu-de", "VD"),
+  loigiai: [Lời giải chi tiết.]
+)</code>
                     </div>
                 </div>
             </div>
@@ -476,32 +488,45 @@
     </main>
 
     <script>
-        // ── Model lists ────────────────────────────────────────
+        // ── Model lists (Chỉ giữ model thế hệ mới nhất 3.7 / 3.5 & Tự nhận diện) ─────────
         const MODELS = {
+            gemini: [
+                { value: 'gemini-3.7-flash', label: 'Gemini 3.7 Flash [MỚI NHẤT — Siêu nhanh, OCR đỉnh cao]' },
+                { value: 'gemini-3.7-pro', label: 'Gemini 3.7 Pro [Suy luận sâu & Bài toán khó]' },
+                { value: 'gemini-3.7-flash-thinking', label: 'Gemini 3.7 Thinking [Tư duy từng bước]' },
+                { value: 'gemini-3.5-flash', label: 'Gemini 3.5 Flash [Tốc độ cao]' },
+                { value: '__custom__', label: '➕ Tự nhập tên model tùy ý...' }
+            ],
             groq: [
                 { value: 'meta-llama/llama-4-scout-17b-16e-instruct', label: 'Llama 4 Scout 17B (nhanh nhất)' },
                 { value: 'meta-llama/llama-4-maverick-17b-128e-instruct', label: 'Llama 4 Maverick 17B' },
                 { value: 'llama-3.2-90b-vision-preview', label: 'Llama 3.2 90B Vision' },
-                { value: 'llama-3.2-11b-vision-preview', label: 'Llama 3.2 11B Vision (nhẹ)' },
-            ],
-            gemini: [
-                { value: 'gemini-2.0-flash', label: 'Gemini 2.0 Flash (nhanh)' },
-                { value: 'gemini-2.5-flash', label: 'Gemini 2.5 Flash' },
-                { value: 'gemini-1.5-pro', label: 'Gemini 1.5 Pro (chính xác)' },
+                { value: '__custom__', label: '➕ Tự nhập tên model tùy ý...' }
             ],
             openrouter: [
-                { value: 'google/gemini-2.0-flash-001', label: 'Gemini 2.0 Flash (OR)' },
+                { value: 'google/gemini-3.7-flash', label: 'Gemini 3.7 Flash (OR)' },
+                { value: 'google/gemini-3.7-pro', label: 'Gemini 3.7 Pro (OR)' },
+                { value: 'anthropic/claude-3.7-sonnet', label: 'Claude 3.7 Sonnet (OR)' },
+                { value: 'openai/gpt-4o', label: 'GPT-4o Vision (OR)' },
                 { value: 'meta-llama/llama-4-scout', label: 'Llama 4 Scout (OR)' },
-                { value: 'anthropic/claude-3.5-sonnet', label: 'Claude 3.5 Sonnet (OR)' },
+                { value: '__custom__', label: '➕ Tự nhập tên model tùy ý...' }
             ]
         }
 
         let currentOutputType = 'auto'
-        let currentImageBase64 = null
+        let currentBase64 = null
         let currentMimeType = null
+        let snippingRect = null
 
         // ── Init ──────────────────────────────────────────────
         document.addEventListener('DOMContentLoaded', () => {
+            const cachedGemini = localStorage.getItem('ocr_gemini_models_cache')
+            if (cachedGemini) {
+                try {
+                    const parsed = JSON.parse(cachedGemini)
+                    if (Array.isArray(parsed) && parsed.length > 0) MODELS.gemini = parsed
+                } catch(e) {}
+            }
             updateModelList()
             loadSavedSettings()
             setupDragDrop()
@@ -519,23 +544,51 @@
             localStorage.setItem(`ocr_typst_key_${provider}`, e.target.value)
         })
 
-        document.getElementById('model').addEventListener('change', e => {
-            const provider = document.getElementById('provider').value
-            localStorage.setItem(`ocr_typst_model_${provider}`, e.target.value)
-        })
-
         function loadSavedSettings() {
             const provider = document.getElementById('provider').value
-            const savedKey = localStorage.getItem(`ocr_typst_key_${provider}`) || localStorage.getItem('groq_api_key') || ''
+            const savedKey = localStorage.getItem(`ocr_typst_key_${provider}`) || (provider === 'groq' ? localStorage.getItem('groq_api_key') : '') || ''
             document.getElementById('apiKey').value = savedKey
+
+            // Update API key hint link based on provider
+            const keyLink = document.getElementById('apiKeyLink')
+            if (keyLink) {
+                if (provider === 'gemini') {
+                    keyLink.href = 'https://aistudio.google.com/app/apikey'
+                    keyLink.textContent = 'Lấy Gemini API Key miễn phí tại Google AI Studio'
+                } else if (provider === 'groq') {
+                    keyLink.href = 'https://console.groq.com/keys'
+                    keyLink.textContent = 'Lấy Groq API Key miễn phí tại Groq Console'
+                } else {
+                    keyLink.href = 'https://openrouter.ai/keys'
+                    keyLink.textContent = 'Lấy API Key tại OpenRouter'
+                }
+            }
 
             const savedModel = localStorage.getItem(`ocr_typst_model_${provider}`)
             if (savedModel) {
                 const sel = document.getElementById('model')
+                let found = false
                 for (const opt of sel.options) {
-                    if (opt.value === savedModel) { sel.value = savedModel; break }
+                    if (opt.value === savedModel) { sel.value = savedModel; found = true; break }
+                }
+                if (!found && savedModel !== '__custom__') {
+                    // Prepend custom saved model
+                    const newOpt = document.createElement('option')
+                    newOpt.value = savedModel
+                    newOpt.textContent = `${savedModel} [Đã lưu]`
+                    sel.insertBefore(newOpt, sel.firstChild)
+                    sel.value = savedModel
                 }
             }
+            handleModelChange()
+        }
+
+        function renderModelSelect(list) {
+            const sel = document.getElementById('model')
+            const currentVal = sel.value
+            sel.innerHTML = list.map(m => `<option value="${m.value}">${m.label}</option>`).join('')
+            if (currentVal) sel.value = currentVal
+            handleModelChange()
         }
 
         function updateModelList() {
@@ -543,6 +596,117 @@
             const sel = document.getElementById('model')
             sel.innerHTML = MODELS[provider].map(m => `<option value="${m.value}">${m.label}</option>`).join('')
             loadSavedSettings()
+        }
+
+        function handleModelChange() {
+            const sel = document.getElementById('model')
+            const customInput = document.getElementById('customModelInput')
+            const provider = document.getElementById('provider').value
+            
+            if (sel.value === '__custom__') {
+                customInput.style.display = 'block'
+                customInput.value = localStorage.getItem(`ocr_typst_custom_model_${provider}`) || ''
+                customInput.focus()
+            } else {
+                customInput.style.display = 'none'
+                localStorage.setItem(`ocr_typst_model_${provider}`, sel.value)
+            }
+        }
+
+        function saveCustomModel(val) {
+            const provider = document.getElementById('provider').value
+            localStorage.setItem(`ocr_typst_custom_model_${provider}`, val.trim())
+        }
+
+        function getActiveModel() {
+            const sel = document.getElementById('model')
+            const customInput = document.getElementById('customModelInput')
+            const provider = document.getElementById('provider').value
+            if (sel.value === '__custom__') {
+                return customInput.value.trim() || localStorage.getItem(`ocr_typst_custom_model_${provider}`) || 'gemini-3.7-flash'
+            }
+            return sel.value
+        }
+
+        async function fetchLiveModels(silent = false) {
+            const provider = document.getElementById('provider').value
+            const apiKey = document.getElementById('apiKey').value.trim()
+            const hint = document.getElementById('modelStatusHint')
+            
+            if (!apiKey) {
+                if (!silent) alert('Vui lòng nhập API Key để quét danh sách model mới nhất!')
+                return
+            }
+
+            if (hint) hint.textContent = '🔄 Đang tự động quét model mới nhất...'
+
+            try {
+                if (provider === 'gemini') {
+                    const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`)
+                    if (!resp.ok) throw new Error('Không lấy được danh sách model: ' + resp.statusText)
+                    const data = await resp.json()
+                    if (data.models && Array.isArray(data.models)) {
+                        const geminiModels = data.models
+                            .filter(m => m.supportedGenerationMethods && m.supportedGenerationMethods.includes('generateContent'))
+                            .map(m => {
+                                const name = m.name.replace('models/', '')
+                                let label = name
+                                if (name.includes('3.7-flash')) label = `${name} [MỚI NHẤT — Siêu Nhanh]`
+                                else if (name.includes('3.7-pro')) label = `${name} [Suy Luận Pro]`
+                                else if (name.includes('3.5-flash')) label = `${name} [3.5 Flash]`
+                                else if (name.includes('3.5-pro')) label = `${name} [3.5 Pro]`
+                                else label = `${name}`
+                                return { value: name, label: label }
+                            })
+                            // Lọc bỏ triệt để các model đã khai tử (1.5, 2.0, 2.5)
+                            .filter(m => !m.value.includes('1.5') && !m.value.includes('2.0') && !m.value.includes('2.5'))
+
+                        geminiModels.sort((a, b) => {
+                            const score = s => s.includes('3.7') ? 100 : s.includes('3.5') ? 80 : s.includes('3.') ? 60 : 10
+                            return score(b.value) - score(a.value)
+                        })
+
+                        geminiModels.push({ value: '__custom__', label: '➕ Tự nhập tên model tùy ý...' })
+                        MODELS.gemini = geminiModels
+                        localStorage.setItem('ocr_gemini_models_cache', JSON.stringify(geminiModels))
+                        renderModelSelect(geminiModels)
+                        if (hint) hint.textContent = `✨ Đã tự động cập nhật ${geminiModels.length - 1} model Gemini từ Google!`
+                    }
+                } else if (provider === 'openrouter') {
+                    const resp = await fetch('https://openrouter.ai/api/v1/models', {
+                        headers: { 'Authorization': `Bearer ${apiKey}` }
+                    })
+                    if (resp.ok) {
+                        const data = await resp.json()
+                        if (data.data && Array.isArray(data.data)) {
+                            const orModels = data.data
+                                .filter(m => m.id && (m.id.includes('gemini') || m.id.includes('claude') || m.id.includes('llama') || m.id.includes('gpt')))
+                                .slice(0, 35)
+                                .map(m => ({ value: m.id, label: `${m.name || m.id} (OR)` }))
+                            orModels.push({ value: '__custom__', label: '➕ Tự nhập tên model tùy ý...' })
+                            MODELS.openrouter = orModels
+                            renderModelSelect(orModels)
+                            if (hint) hint.textContent = `✨ Đã tự động cập nhật ${orModels.length - 1} model từ OpenRouter!`
+                        }
+                    }
+                } else if (provider === 'groq') {
+                    const resp = await fetch('https://api.groq.com/openai/v1/models', {
+                        headers: { 'Authorization': `Bearer ${apiKey}` }
+                    })
+                    if (resp.ok) {
+                        const data = await resp.json()
+                        if (data.data && Array.isArray(data.data)) {
+                            const groqModels = data.data.map(m => ({ value: m.id, label: `${m.id}` }))
+                            groqModels.push({ value: '__custom__', label: '➕ Tự nhập tên model tùy ý...' })
+                            MODELS.groq = groqModels
+                            renderModelSelect(groqModels)
+                            if (hint) hint.textContent = `✨ Đã tự động cập nhật ${groqModels.length - 1} model từ Groq!`
+                        }
+                    }
+                }
+            } catch (err) {
+                if (!silent && hint) hint.textContent = `⚠️ Không thể quét tự động: ${err.message}. Dùng danh sách có sẵn.`
+            }
         }
 
         function setOutputType(el, type) {
@@ -565,7 +729,6 @@
 
         let isDrawing = false;
         let startPos = { x: 0, y: 0 };
-        let snippingRect = null;
 
         function getMousePos(canvas, evt) {
             const rect = canvas.getBoundingClientRect();
@@ -784,71 +947,90 @@
             setStatus('ok', `PDF ${pdf.numPages} trang — chọn trang, kéo chuột vẽ vùng câu hỏi và nhấn nhận dạng`)
         }
 
-        // ── System prompt ──────────────────────────────────────
+        // ── System prompt for sang-math 1.0.4 ───────────────────
         function buildSystemPrompt(outputType) {
             const typMap = {
-                auto: 'Phát hiện loại câu và dùng macro phù hợp: #tn cho MC, #ds cho T/F, #tln cho trả lời ngắn.',
-                tn: 'Chuyển về dạng trắc nghiệm #tn.',
-                ds: 'Chuyển về dạng đúng/sai #ds.',
-                tln: 'Chuyển về dạng trả lời ngắn #tln.',
+                auto: 'Tự động phát hiện loại câu hỏi: Dùng #tn cho trắc nghiệm 4 lựa chọn, #ds cho Đúng/Sai 4 ý, #tln cho câu hỏi trả lời ngắn.',
+                tn: 'BẮT BUỘC xuất ra dạng trắc nghiệm 4 lựa chọn bằng macro #tn.',
+                ds: 'BẮT BUỘC xuất ra dạng Đúng/Sai 4 ý bằng macro #ds.',
+                tln: 'BẮT BUỘC xuất ra dạng Trả lời ngắn bằng macro #tln.',
             }
-            return `Bạn là OCR LaTeX → Typst chuyên biệt cho Toán THPT Việt Nam (ConicTypst).
-
-MỤC TIÊU: Nhận dạng CHÍNH XÁC nội dung trong ảnh, xuất mã Typst ConicTypst.
+            return `Bạn là hệ thống chuyên gia OCR Toán THPT Việt Nam xuất mã Typst chuẩn package sang-math 1.0.4.
+MỤC TIÊU: Chuyển đổi chính xác 100% câu hỏi Toán từ hình ảnh/PDF thành mã Typst chuẩn sang-math:1.0.5.
 ${typMap[outputType] || typMap.auto}
 
-===ĐỊNH DẠNG ĐẦU RA===
+=== CHỮ KÝ MACRO SANG-MATH 1.0.4 CHÍNH XÁC DUY NHẤT ===
 
-1. TRẮC NGHIỆM (#tn):
-//[2D1N1-1]
-#tn[
-  Câu hỏi
-][A. Phương án][#True[B. Đáp án đúng]][C. Phương án][D. Phương án][
-  #ppgiai[Lời giải ngắn gọn]
-]
+1. TRẮC NGHIỆM 4 PHƯƠNG ÁN (#tn):
+#tn(
+  [Nội dung câu hỏi...],
+  ([$A$], True([$B$]), [$C$], [$D$]),
+  id: "TN01",
+  tags: ("chu-de", "NB"),
+  loigiai: [
+    Lời giải chi tiết từng bước.
+    *Chọn đáp án B.*
+  ]
+)
+(Lưu ý: Đúng 4 phương án, chỉ DUY NHẤT phương án đúng bọc True([...]), 3 phương án sai để content thường [...]).
 
-2. ĐÚNG/SAI (#ds):
-//[2D2N2-1]
-#ds[
-  Câu hỏi
-][#True[a) Mệnh đề đúng]][#False[b) Mệnh đề sai]][#True[c) Đúng]][#False[d) Sai]][
-  #ppgiai[Lời giải]
-]
+2. ĐÚNG/SAI 4 Ý (#ds):
+#ds(
+  [Nội dung chung của câu hỏi...],
+  (True([Mệnh đề a đúng]), [Mệnh đề b sai], True([Mệnh đề c đúng]), [Mệnh đề d sai]),
+  id: "DS01",
+  tags: ("chu-de", "TH"),
+  loigiai: [
+    - a) Đúng vì...
+    - b) Sai vì...
+    - c) Đúng vì...
+    - d) Sai vì...
+  ]
+)
+(Lưu ý: Đúng 4 ý a, b, c, d; ý đúng bọc True([...]), ý sai để content thường [...]).
 
 3. TRẢ LỜI NGẮN (#tln):
-//[2D3N3-1]
-#tln[Câu hỏi][$42$][#ppgiai[Lời giải]]
+#tln(
+  [Nội dung câu hỏi...],
+  [$42$],
+  id: "TLN01",
+  tags: ("chu-de", "VD"),
+  loigiai: [
+    Lời giải chi tiết.
+    *Đáp số: $42$.*
+  ]
+)
 
-===QUY TẮC TYPST===
-- Phân số: $frac(1, 2)$ (KHÔNG dùng \\frac{}{})
-- Căn: $sqrt(x)$, $root(3, x)$
-- Vô cùng: $+oo$, $-oo$
-- Véc-tơ: $vect(AB)$, $arrow(AB)$
-- Tập hợp: $RR$, $ZZ$, $NN$
-- Hàm: $sin(x)$, $cos(x)$, $ln(x)$ (không cần \\sin)
-- Góc: $angle$, đơn vị: $degree$
-- Hệ phương trình: $heva(x+y=1, x-y=0)$
-- Hệ bất phương trình: $hoac(x>0, x<-1)$
-- Véc-tơ ma trận: $mat(1,2;3,4)$
-
-===QUY TẮC CHUNG===
-- Chỉ chép đúng nội dung trong ảnh, KHÔNG suy diễn thêm
-- Nếu không rõ đáp án, để #True[...] ở phương án trống và ghi chú
-- Nếu có hình vẽ/bảng số liệu, chú thích bằng comment // [hình vẽ chưa dịch]`
+=== QUY TẮC BẮT BUỘC & CẤM ===
+- CẤM cú pháp cũ: #tn[...][...], #ds[...], #False[...], #ppgiai[...].
+- CẤM LaTeX thô: \\frac, \\sqrt, \\begin, \\mathrm, \\mathbb, \\alpha, \\beta, \\vec.
+- CÔNG THỨC TOÁN TYPST:
+  + Luôn nằm trong $ ... $.
+  + Phân số: $frac(a, b)$ hoặc $dfrac(a, b)$.
+  + Căn thức: $sqrt(x)$, $root(3, x)$.
+  + Vô cùng: $+oo$, $-oo$.
+  + Véc tơ: $arrow(u)$, $arrow(A B)$, tích có hướng $arrow(u) times arrow(v)$.
+  + Tập hợp: $RR$, $ZZ$, $NN$, $QQ$.
+  + Hệ phương trình: $heva(x+y=1, x-y=0)$.
+  + Tuyển / Hoặc: $hoac(x>1, x<-1)$.
+  + Tích phân: $integral_a^b f(x) dif x$.
+  + Góc: $angle(A B C)$, $60 degree$.
+- Nếu có hình vẽ minh họa / bảng biến thiên trong ảnh, ghi comment: // [hình vẽ CeTZ minh họa]
+- Chỉ xuất nội dung mã Typst sạch, KHÔNG viết lời mở đầu hay lời kết.`
         }
 
         // ── Run OCR ───────────────────────────────────────────
         async function runOCR() {
             const apiKey = document.getElementById('apiKey').value.trim()
             if (!apiKey) { alert('Vui lòng nhập API key!'); return }
-            if (!currentBase64) { alert('Vui lòng chọn ảnh!'); return }
+            if (!currentBase64) { alert('Vui lòng chọn ảnh hoặc trang PDF!'); return }
 
             const provider = document.getElementById('provider').value
-            const model = document.getElementById('model').value
+            const model = getActiveModel()
 
-            setStatus('loading', 'Đang nhận dạng...')
+            setStatus('loading', `Đang nhận dạng qua ${model}...`)
             document.getElementById('runBtn').disabled = true
-            document.getElementById('resultArea').value = '// Đang nhận dạng, vui lòng chờ...'
+            document.getElementById('resultArea').value = `// Đang nhận dạng bằng ${model}, vui lòng chờ...`
 
             // Crop image if snippingRect exists
             if (snippingRect) {
@@ -876,13 +1058,20 @@ ${typMap[outputType] || typMap.auto}
                     result = await callOpenRouter(apiKey, model)
                 }
 
+                // Clean markdown fences if any
+                if (result.includes('```typst')) {
+                    result = result.replace(/```typst\s*/gi, '').replace(/```\s*$/gi, '').trim()
+                } else if (result.includes('```')) {
+                    result = result.replace(/```\s*/gi, '').trim()
+                }
+
                 document.getElementById('resultArea').value = result
-                setStatus('ok', 'Hoàn thành!')
+                setStatus('ok', `Nhận dạng thành công bằng ${model}!`)
                 localStorage.setItem(`ocr_typst_key_${provider}`, apiKey)
                 localStorage.setItem(`ocr_typst_model_${provider}`, model)
             } catch (err) {
                 setStatus('error', 'Lỗi: ' + err.message)
-                document.getElementById('resultArea').value = `// Lỗi khi gọi API:\n// ${err.message}`
+                document.getElementById('resultArea').value = `// Lỗi khi gọi API (${model}):\n// ${err.message}`
             } finally {
                 document.getElementById('runBtn').disabled = false
             }
@@ -919,7 +1108,8 @@ ${typMap[outputType] || typMap.auto}
 
         async function callGemini(apiKey, model) {
             const prompt = buildSystemPrompt(currentOutputType)
-            const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
+            const cleanModel = model.replace('models/', '')
+            const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${cleanModel}:generateContent?key=${apiKey}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -980,7 +1170,7 @@ ${typMap[outputType] || typMap.auto}
 
         async function copyResult() {
             const val = document.getElementById('resultArea').value
-            if (!val || val.startsWith('//') && val.length < 50) { alert('Chưa có kết quả!'); return }
+            if (!val || (val.startsWith('//') && val.length < 50)) { alert('Chưa có kết quả!'); return }
             await navigator.clipboard.writeText(val)
             setStatus('ok', 'Đã copy vào clipboard!')
         }

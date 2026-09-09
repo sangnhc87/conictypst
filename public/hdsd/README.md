@@ -1,15 +1,15 @@
-# HDSD chính thức — `sang-math:1.0.0`
+# HDSD chính thức — `sang-math:1.0.5`
 
 Website production: <https://hdsd-conictypst.pages.dev/#intro>
 
-Tài liệu này mô tả API public của package Typst `sang-math:1.0.0`: đề thi,
+Tài liệu này mô tả API public của package Typst `sang-math:1.0.5`: đề thi,
 sách/chuyên đề, BBT/BXD, hình học cơ bản và CeTZ nâng cao. Bản PDF thực hành
 gồm 100 trang với hơn 110 khung code và kết quả được Typst render trực tiếp.
 
 ## Import chuẩn
 
 ```typst
-#import "@preview/sang-math:1.0.0": *
+#import "@preview/sang-math:1.0.5": *
 ```
 
 Không sao chép hoặc import trực tiếp `sang-exam.typ`, `bbt.typ`,

@@ -631,3 +631,28 @@ document.addEventListener('typst-playground-ready', () => {
 document.addEventListener('hdsd-section-shown', e => {
   if (e.detail?.id === 'bbtv2') scheduleBbtOfficialRender(0);
 });
+
+// ── Chuyển đổi tab đề mẫu chuẩn (sang-math 1.0.5) ─────────────────────
+function switchSampleTab(tabKey, btn) {
+  const tabs = document.querySelectorAll('.sample-tabs .tab-btn');
+  tabs.forEach(t => {
+    t.classList.remove('active');
+    t.style.background = 'var(--paper)';
+    t.style.color = 'var(--ink)';
+    t.style.border = '1px solid var(--line)';
+    t.style.fontWeight = '600';
+  });
+  if (btn) {
+    btn.classList.add('active');
+    btn.style.background = '#0f766e';
+    btn.style.color = '#fff';
+    btn.style.border = 'none';
+    btn.style.fontWeight = '700';
+  }
+  const contents = document.querySelectorAll('.sample-tab-content');
+  contents.forEach(c => (c.style.display = 'none'));
+  const target = document.getElementById('tab-content-' + tabKey);
+  if (target) target.style.display = 'block';
+}
+window.switchSampleTab = switchSampleTab;
+

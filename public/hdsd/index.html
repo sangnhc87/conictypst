@@ -129,28 +129,42 @@
 <!-- ═══════════════════════════════════════════ -->
 <section id="intro" class="doc-section">
   <div class="hero">
-    <div class="hero-badge">Tài liệu chính thức · sang-math 1.0.0</div>
-    <h1 class="hero-title">Một package Typst<br/><span class="accent">Từ Đề Thi Đến Sách Toán</span></h1>
-    <p class="hero-desc">Hướng dẫn công khai theo đúng API đã merge của <strong>sang-math:1.0.0</strong>: một import duy nhất cho đề thi THPT, sách/chuyên đề, 18 theme đề, 12 theme sách, BBT/BXD, hình học và CeTZ nâng cao.</p>
+    <div class="hero-badge">Tài liệu chính thức · sang-math 1.0.5 (Mới nhất)</div>
+    <h1 class="hero-title">Một package Typst<br/><span class="accent">Từ Đề Thi Đến Sách &amp; Đa Môn</span></h1>
+    <p class="hero-desc">Hướng dẫn công khai theo đúng API đã merge của <strong>sang-math:1.0.5</strong>: một import duy nhất cho đề thi THPT chuẩn BGD 2025 (Toán, Vật lí, Hóa học), sách/chuyên đề, 18 theme đề, 12 theme sách, BBT/BXD, hình học và CeTZ nâng cao.</p>
     <div class="hero-pills">
-      <span class="pill">📋 Đề thi 4 loại câu</span>
+      <span class="pill">📋 Đề thi chuẩn BGD 2025</span>
+      <span class="pill">🧪 Đa môn: Toán, Lý, Hóa</span>
       <span class="pill">📚 SGK / Chuyên đề</span>
-      <span class="pill">📈 BBT &amp; Hình học</span>
+      <span class="pill">📈 BBT &amp; Hình học CeTZ</span>
       <span class="pill">🎨 30 theme xuất bản</span>
     </div>
-    <a class="hero-studio-cta" href="https://typstconichub.pages.dev/#studio" target="_blank" rel="noopener">
-      <span class="hero-studio-mark">✦</span>
-      <span><strong>Mở TypstConicHub Studio</strong><small>Soạn Typst · Preview trực tiếp · Tự lưu trên máy · Xuất PDF/SVG/PNG</small></span>
-      <b>Mở Studio ↗</b>
-    </a>
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 14px; justify-content: center;">
+      <a class="hero-studio-cta" href="#exam-boiler" onclick="navigateTo('exam-boiler')" style="background: linear-gradient(135deg, #0f766e, #0369a1); text-decoration: none;">
+        <span class="hero-studio-mark">📄</span>
+        <span><strong>Lấy Đề Mẫu Chuẩn Dùng Ngay</strong><small>Đề Toán, Hóa, Lý chuẩn BGD 2025 · Copy 1 chạm · Sẵn bảng đáp án</small></span>
+        <b>Xem mẫu ➔</b>
+      </a>
+      <a class="hero-studio-cta" href="https://typstconichub.pages.dev/#studio" target="_blank" rel="noopener">
+        <span class="hero-studio-mark">✦</span>
+        <span><strong>Mở TypstConicHub Studio</strong><small>Soạn Typst · Preview trực tiếp · Tự lưu trên máy · Xuất PDF/SVG/PNG</small></span>
+        <b>Mở Studio ↗</b>
+      </a>
+    </div>
   </div>
 
   <div class="card-grid">
+    <div class="feature-card" onclick="navigateTo('exam-boiler')">
+      <div class="feature-icon">📄</div>
+      <div class="feature-title">Đề mẫu chuẩn copy dùng ngay</div>
+      <div class="feature-desc">Mẫu đề hoàn chỉnh chuẩn Bộ GD&amp;ĐT 2025 cho Toán, Hóa học (kèm typsium), Vật lí (kèm ký hiệu mới), có bảng đáp án tự động.</div>
+      <div class="feature-tags"><span>sang-math:1.0.5</span><span>Toán · Lý · Hóa</span></div>
+    </div>
     <div class="feature-card" onclick="navigateTo('exam-overview')">
       <div class="feature-icon">📋</div>
       <div class="feature-title">Đề thi 4 dạng câu</div>
       <div class="feature-desc">Trắc nghiệm, đúng-sai, trả lời ngắn và tự luận; tự đánh số, ID/tags, lời giải, bảng đáp án, 5 profile và 18 theme.</div>
-      <div class="feature-tags"><span>sang-math:1.0.0</span><span>#tn #ds #tln #tl</span></div>
+      <div class="feature-tags"><span>sang-math:1.0.5</span><span>#tn #ds #tln #tl</span></div>
     </div>
     <div class="feature-card" onclick="navigateTo('book-overview')">
       <div class="feature-icon">📚</div>
@@ -160,22 +174,16 @@
     </div>
     <div class="feature-card" onclick="navigateTo('bbt-overview')">
       <div class="feature-icon">📈</div>
-      <div class="feature-title">Module Vẽ Hình</div>
+      <div class="feature-title">Module Vẽ Hình &amp; CeTZ</div>
       <div class="feature-desc">BBT, bảng xét dấu, conic, hình trụ-nón-cầu, helix, lò xo và hình học THPT với CeTZ.</div>
       <div class="feature-tags"><span>#bbtv2 #bxd</span><span>#draw-ellipse #draw-cylinder</span></div>
     </div>
-    <a class="feature-card" href="https://typstconichub.pages.dev/#studio" target="_blank" rel="noopener">
-      <div class="feature-icon">✦</div>
-      <div class="feature-title">TypstConicHub Studio</div>
-      <div class="feature-desc">IDE Typst chạy ngay trên trình duyệt, tích hợp sang-math 1.0.1, preview WASM, quản lý dự án và nhận trực tiếp mã từ Bảng vẽ CeTZ.</div>
-      <div class="feature-tags"><span>Monaco + Typst WASM</span><span>Local-first</span></div>
-    </a>
   </div>
 
   <div class="info-box">
     <div class="info-box-title">ℹ️ Về hệ thống này</div>
-    <p>Thiết kế bởi <strong>GV Nguyễn Văn Sang</strong>, yêu cầu <strong>Typst ≥ 0.12</strong> và phát hành theo <strong>MIT License</strong>. Người dùng cộng đồng chỉ import <code>@preview/sang-math:1.0.0</code>; không cần tải hay nhớ đường dẫn các file nội bộ.</p>
-    <p><a href="downloads/hdsd-sang-math-1.0.0.pdf" download>📕 Tải sách PDF 1.0.0</a> · <a href="#sang-math-package" onclick="navigateTo('sang-math-package')">Xem hợp đồng API và hướng dẫn di trú</a></p>
+    <p>Thiết kế bởi <strong>GV Nguyễn Văn Sang</strong>, yêu cầu <strong>Typst ≥ 0.14.0</strong> và phát hành theo <strong>MIT License</strong>. Người dùng cộng đồng chỉ import <code>@preview/sang-math:1.0.5</code>; không cần tải hay nhớ đường dẫn các file nội bộ.</p>
+    <p><a href="#exam-boiler" onclick="navigateTo('exam-boiler')">📄 Lấy đề mẫu chuẩn copy dùng ngay</a> · <a href="#sang-math-package" onclick="navigateTo('sang-math-package')">Xem hợp đồng API và hướng dẫn di trú</a></p>
   </div>
 </section>
 
@@ -197,7 +205,7 @@
   </div>
 
   <h2>Lệnh biên dịch chuẩn</h2>
-  <div class="callout callout-tip"><strong>Package public không cần <code>--root</code>.</strong> Typst tự tải <code>sang-math:1.0.0</code> và phụ thuộc CeTZ trong lần biên dịch đầu tiên.</div>
+  <div class="callout callout-tip"><strong>Package public không cần <code>--root</code>.</strong> Typst tự tải <code>sang-math:1.0.5</code> và phụ thuộc CeTZ trong lần biên dịch đầu tiên.</div>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
     <pre><code class="lang-bash">typst compile main.typ main.pdf
@@ -223,10 +231,10 @@ Không sao chép sang-exam.typ, bbt.typ hay modules/book.typ vào dự án.</cod
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
     <pre><code class="lang-typst">// Dùng nhiều nhóm API
-#import "@preview/sang-math:1.0.0": *
+#import "@preview/sang-math:1.0.5": *
 
 // Hoặc import tường minh để source dễ đọc
-#import "@preview/sang-math:1.0.0": tn, ds, tln, tl, True, exam-mode, sang-setup
+#import "@preview/sang-math:1.0.5": tn, ds, tln, tl, True, exam-mode, sang-setup
 
 // Chỉ cần import CeTZ trực tiếp khi tự tạo canvas hoặc dùng draw-*
 #import "@preview/cetz:0.5.2"</code></pre>
@@ -251,7 +259,7 @@ Không sao chép sang-exam.typ, bbt.typ hay modules/book.typ vào dự án.</cod
     <div class="code-block-wrap">
       <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
       <pre><code class="lang-typst">// ① Import package public
-#import "@preview/sang-math:1.0.0": *
+#import "@preview/sang-math:1.0.5": *
 
 // ② Chọn theme và profile
 #let preset = exam-preset(theme: "teal-pro", profile: "dethi")
@@ -315,7 +323,7 @@ Không sao chép sang-exam.typ, bbt.typ hay modules/book.typ vào dự án.</cod
     <h2>File sách / SGK cơ bản</h2>
     <div class="code-block-wrap">
       <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-      <pre><code class="lang-typst">#import "@preview/sang-math:1.0.0": *
+      <pre><code class="lang-typst">#import "@preview/sang-math:1.0.5": *
 
 #let theme = "sgk-modern"
 #show: book-theme.with(
@@ -365,7 +373,7 @@ Không sao chép sang-exam.typ, bbt.typ hay modules/book.typ vào dự án.</cod
     <div class="code-block-wrap">
       <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
       <pre><code class="lang-typst">
-#import "@preview/sang-math:1.0.0": *
+#import "@preview/sang-math:1.0.5": *
 #let preset = exam-preset(theme: "classic", profile: "dethi")
 #let (tn, ds, tln, tl) = exam-mode(..preset.question)
 
@@ -414,12 +422,12 @@ Không sao chép sang-exam.typ, bbt.typ hay modules/book.typ vào dự án.</cod
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
     <pre><code class="lang-typst">// Toàn bộ API
-#import "@preview/sang-math:1.0.0": *
+#import "@preview/sang-math:1.0.5": *
 
 // Hoặc import tường minh
-#import "@preview/sang-math:1.0.0": tn, ds, tln, tl, True, sang-setup
-#import "@preview/sang-math:1.0.0": exam-preset, exam-theme
-#import "@preview/sang-math:1.0.0": draw-ellipse, draw-cylinder</code></pre>
+#import "@preview/sang-math:1.0.5": tn, ds, tln, tl, True, sang-setup
+#import "@preview/sang-math:1.0.5": exam-preset, exam-theme
+#import "@preview/sang-math:1.0.5": draw-ellipse, draw-cylinder</code></pre>
   </div>
 
   <h2>Bản đồ API</h2>
@@ -454,7 +462,7 @@ Không sao chép sang-exam.typ, bbt.typ hay modules/book.typ vào dự án.</cod
   <h2>Mẫu package-first chuẩn</h2>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-    <pre><code class="lang-typst">#import "@preview/sang-math:1.0.0": *
+    <pre><code class="lang-typst">#import "@preview/sang-math:1.0.5": *
 
 #let preset = exam-preset(theme: "teal-pro", profile: "dethi")
 #let (tn, ds, tln, tl) = exam-mode(..preset.question)
@@ -475,7 +483,7 @@ Không sao chép sang-exam.typ, bbt.typ hay modules/book.typ vào dự án.</cod
   <table class="doc-table">
     <thead><tr><th>Cú pháp cũ</th><th>API package 1.0.0</th></tr></thead>
     <tbody>
-      <tr><td><code>#import "sang-exam.typ": *</code></td><td><code>#import "@preview/sang-math:1.0.0": *</code></td></tr>
+      <tr><td><code>#import "sang-exam.typ": *</code></td><td><code>#import "@preview/sang-math:1.0.5": *</code></td></tr>
       <tr><td><code>#import "bbt.typ": *</code></td><td>Không cần; BBT đã export từ package root.</td></tr>
       <tr><td><code>stexgv-doc</code></td><td><code>book-theme</code></td></tr>
       <tr><td><code>chapter / bai / muc</code></td><td><code>book-chapter / book-lesson / book-section</code></td></tr>
@@ -492,11 +500,11 @@ Không sao chép sang-exam.typ, bbt.typ hay modules/book.typ vào dự án.</cod
 <!-- ═══════════════════════════════════════════ -->
 <section id="exam-overview" class="doc-section hidden">
   <h1>📋 Tổng Quan Module Đề Thi</h1>
-  <p>Nhóm API đề thi của <code>sang-math:1.0.0</code> cung cấp đầy đủ công cụ soạn đề THPT theo cấu trúc Bộ GD&amp;ĐT từ 2025.</p>
+  <p>Nhóm API đề thi của <code>sang-math:1.0.5</code> cung cấp đầy đủ công cụ soạn đề THPT theo cấu trúc Bộ GD&amp;ĐT từ 2025.</p>
 
   <h2>Luồng làm việc</h2>
   <div class="flow-steps">
-    <div class="flow-step"><div class="flow-num">1</div><div><strong>Import</strong><br/>sang-math:1.0.0</div></div>
+    <div class="flow-step"><div class="flow-num">1</div><div><strong>Import</strong><br/>sang-math:1.0.5</div></div>
     <div class="flow-arrow">→</div>
     <div class="flow-step"><div class="flow-num">2</div><div><strong>Chọn preset</strong><br/>theme + profile</div></div>
     <div class="flow-arrow">→</div>
@@ -635,7 +643,7 @@ Không sao chép sang-exam.typ, bbt.typ hay modules/book.typ vào dự án.</cod
 <!-- ═══════════════════════════════════════════ -->
 <section id="ds" class="doc-section hidden">
   <h1>② #ds — Câu Đúng / Sai</h1>
-  <p>Câu hỏi gồm một thân chung và các phát biểu a/b/c/d, học sinh chọn Đúng/Sai cho từng ý. Mặc định gói sinh bảng Đ/S có header màu; từ <code>sang-math:1.0.4</code> có thể đổi sang danh sách hoặc chín giao diện tuỳ biến.</p>
+  <p>Câu hỏi gồm một thân chung và các phát biểu a/b/c/d, học sinh chọn Đúng/Sai cho từng ý. Mặc định gói sinh bảng Đ/S có header màu; từ <code>sang-math:1.0.5</code> có thể đổi sang danh sách hoặc chín giao diện tuỳ biến.</p>
 
   <div class="callout callout-tip">
     <strong>✨ Mới trong 1.0.4:</strong> <code>use-table: false</code> nay hoạt động thật. Tham số từng có trong HDSD cũ nhưng chưa được engine 1.0.3 xử lý.
@@ -694,7 +702,7 @@ Không sao chép sang-exam.typ, bbt.typ hay modules/book.typ vào dự án.</cod
   <p>Cú pháp ngắn nhất để in dạng danh sách a), b), c), d). Mặc định tài liệu vẫn dùng bảng, nên nâng từ 1.0.3 lên 1.0.4 không tự đổi bố cục cũ.</p>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst · sang-math 1.0.4+</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-    <pre><code class="lang-typst">#import "@preview/sang-math:1.0.4": *
+    <pre><code class="lang-typst">#import "@preview/sang-math:1.0.5": *
 
 #let (tn, ds, tln, tl) = exam-mode()
 
@@ -741,7 +749,7 @@ Không sao chép sang-exam.typ, bbt.typ hay modules/book.typ vào dự án.</cod
   </div>
 
   <div class="callout callout-warning">
-    <strong>Phạm vi phiên bản:</strong> Không dùng các tham số trên với <code>sang-math:1.0.3</code>. Hãy đổi dòng import sang <code>@preview/sang-math:1.0.4</code> sau khi phiên bản này được phát hành. Cú pháp cũ <code>table: false</code> vẫn được 1.0.4 nhận để không làm hỏng file ví dụ đã lưu.
+    <strong>Phạm vi phiên bản:</strong> Không dùng các tham số trên với <code>sang-math:1.0.3</code>. Hãy đổi dòng import sang <code>@preview/sang-math:1.0.5</code> sau khi phiên bản này được phát hành. Cú pháp cũ <code>table: false</code> vẫn được 1.0.4 nhận để không làm hỏng file ví dụ đã lưu.
   </div>
 </section>
 
@@ -979,7 +987,7 @@ classic.crimson // = rgb("#cc2200")  — đỏ đậm</code></pre>
   <h1>🆔 ID, Tags &amp; Ngân Hàng Câu Hỏi</h1>
   <p>Hệ thống dùng ID để quản lý câu hỏi bền vững. ID trong câu hỏi giúp đối soát khi trộn đề; ID trong <code>bank.json</code> là bản đồ phân loại để lọc theo lớp, chương, bài, dạng và mức độ.</p>
 
-  <div class="callout callout-warning"><strong>Phạm vi API:</strong> <code>id:</code> và <code>tags:</code> có sẵn trong <code>sang-math:1.0.0</code>. Các script <code>bank:*</code> và <code>modules/question-bank.typ</code> bên dưới là tiện ích mở rộng của repository ConicTypst, không nằm trong package Typst Universe.</div>
+  <div class="callout callout-warning"><strong>Phạm vi API:</strong> <code>id:</code> và <code>tags:</code> có sẵn trong <code>sang-math:1.0.5</code>. Các script <code>bank:*</code> và <code>modules/question-bank.typ</code> bên dưới là tiện ích mở rộng của repository ConicTypst, không nằm trong package Typst Universe.</div>
 
   <h2>Quy ước ID khuyến nghị</h2>
   <div class="code-block-wrap">
@@ -1065,7 +1073,7 @@ classic.crimson // = rgb("#cc2200")  — đỏ đậm</code></pre>
   <h2>Dựng câu theo bộ lọc</h2>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-    <pre><code class="lang-typst">#import "@preview/sang-math:1.0.0": *
+    <pre><code class="lang-typst">#import "@preview/sang-math:1.0.5": *
 #import "modules/question-bank.typ": *
 #import "questions.typ": question-bank
 
@@ -1114,7 +1122,7 @@ npm run stexgv:mix -- --compile</code></pre>
   <h2>Import lõi trộn đề</h2>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-    <pre><code class="lang-typst">#import "@preview/sang-math:1.0.0": *
+    <pre><code class="lang-typst">#import "@preview/sang-math:1.0.5": *
 #import "questions.typ": question-bank
 #import "modules/question-bank.typ": (
   exam-slot,
@@ -1368,106 +1376,365 @@ npm run stexgv:mix -- --compile</code></pre>
 </section>
 
 <!-- ═══════════════════════════════════════════ -->
-<!-- SECTION: EXAM BOILERPLATE -->
+<!-- SECTION: EXAM BOILERPLATE & GỌI LỆNH XỊN 1.0.5 -->
 <!-- ═══════════════════════════════════════════ -->
 <section id="exam-boiler" class="doc-section hidden">
-  <h1>📄 File Mẫu Đề Thi Hoàn Chỉnh</h1>
-  <p>Copy file mẫu này, đổi thông tin tiêu đề và thêm câu hỏi vào đúng phần.</p>
+  <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 12px;">
+    <div>
+      <h1 style="margin: 0 0 6px 0;">📄 Kho Đề Mẫu Chuẩn &amp; Gọi Lệnh Xịn</h1>
+      <p style="margin: 0; color: var(--muted); font-size: 1.05rem;">Mẫu chuẩn 100% cú pháp <strong>sang-math:1.0.5</strong> theo định dạng Bộ GD&amp;ĐT 2025. Chọn mẫu môn học bên dưới rồi bấm <strong>Copy</strong> để dùng ngay.</p>
+    </div>
+    <span class="hero-badge" style="background: #e6fffb; color: #0f766e; border: 1px solid rgba(15, 118, 110, 0.3);">Phiên bản 1.0.5</span>
+  </div>
 
-  <div class="code-block-wrap">
-    <div class="code-header"><span class="code-lang">typst — de-thi-mau.typ</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-    <pre><code class="lang-typst">// ═══════════════════════════════════════════
-// ĐỀ THI MẪU — Chỉnh sửa phần có dấu ◄
-// Biên dịch: typst compile de-thi-mau.typ de-thi-mau.pdf
-// ═══════════════════════════════════════════
+  <!-- BỘ TAB CHỌN MÔN HỌC -->
+  <div class="sample-tabs" style="display: flex; gap: 8px; margin: 16px 0 14px 0; border-bottom: 2px solid var(--line); padding-bottom: 4px; overflow-x: auto;">
+    <button class="tab-btn active" onclick="switchSampleTab('math', this)" style="padding: 10px 18px; border-radius: 8px 8px 0 0; border: none; background: #0f766e; color: #fff; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px;">📐 1. Đề Toán Chuẩn 2025</button>
+    <button class="tab-btn" onclick="switchSampleTab('chem', this)" style="padding: 10px 18px; border-radius: 8px 8px 0 0; border: 1px solid var(--line); background: var(--paper); color: var(--ink); font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px;">🧪 2. Đề Hóa Học (kèm typsium)</button>
+    <button class="tab-btn" onclick="switchSampleTab('phys', this)" style="padding: 10px 18px; border-radius: 8px 8px 0 0; border: 1px solid var(--line); background: var(--paper); color: var(--ink); font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px;">⚡ 3. Đề Vật Lí (kèm #ohm, #doC)</button>
+    <button class="tab-btn" onclick="switchSampleTab('quick', this)" style="padding: 10px 18px; border-radius: 8px 8px 0 0; border: 1px solid var(--line); background: var(--paper); color: var(--ink); font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px;">⚡ 4. Gọi Lệnh 1 Chạm Siêu Gọn</button>
+  </div>
 
-#import "@preview/sang-math:1.0.0": *
+  <!-- TAB 1: ĐỀ TOÁN CHUẨN -->
+  <div id="tab-content-math" class="sample-tab-content">
+    <div class="code-block-wrap">
+      <div class="code-header"><span class="code-lang">typst — de-thi-toan-chuan-2025.typ</span><button class="copy-btn" onclick="copyCode(this)">Copy Mã Đề</button></div>
+      <pre><code class="lang-typst">// ================================================================
+// ĐỀ THI MÔN TOÁN 12 — CHUẨN CẤU TRÚC BỘ GD&amp;ĐT 2025
+// Biên dịch: typst compile de-thi-toan.typ
+// ================================================================
+#import "@preview/sang-math:1.0.5": *
 
-// ── Chế độ ◄ ─────────────────────────────
-#let mode   = "dethi"       // ◄ đổi thành "loigiai" để xem đáp án
-#let accent = classic.blue  // ◄ classic.blue | .emerald | .crimson
+// 1. Chế độ: "dethi" (phát học sinh) hoặc "loigiai" (có giải &amp; bảng đáp án)
+#let profile = sys.inputs.at("profile", default: "loigiai")
 
-// ── Tạo macro ────────────────────────────
-#let (tn, ds, tln, tl) = exam-mode(mode: mode, accent: accent)
-#show: sang-setup
+// 2. Preset giao diện chuẩn
+#let preset = exam-preset(
+  theme: "teal-pro",          // classic | ocean | emerald | royal | teal-pro...
+  profile: profile,
+  two-columns: true,          // Đề chia 2 cột tiết kiệm giấy in
+  opt-style: "circle",        // Nhãn khoanh tròn: Ⓐ Ⓑ Ⓒ Ⓓ (hoặc "plain", "hexagon")
+)
+#let (tn, ds, tln, tl) = exam-mode(..preset.question)
+#show: sang-setup.with(math-color: preset.accent)
 
-// ── Trang ────────────────────────────────
-#set page(paper: "a4", margin: (x: 2cm, y: 2.5cm))
-#set text(font: "New Computer Modern", size: 11pt, lang: "vi")
-
-// ── Tiêu đề ◄ ────────────────────────────
-#show: thpt-school-exam.with(
-  department: "SỞ GIÁO DỤC VÀ ĐÀO TẠO",  // ◄ Đổi tên sở
-  school: "TỈNH ĐỒNG THÁP",               // ◄ Đổi tên tỉnh
-  exam-title: "KỲ THI THỬ TỐT NGHIỆP THPT NĂM 2025", // ◄
-  subject: "TOÁN",
-  duration: "90 phút, không kể thời gian phát đề",
-  code: "001",              // ◄ Mã đề
-  accent: accent,
+#show: exam-theme.with(
+  theme: preset.theme,
+  department: "SỞ GIÁO DỤC VÀ ĐÀO TẠO",
+  school: "TRƯỜNG THPT NGUYỄN TRÃI",
+  exam-title: "KHẢO SÁT CHẤT LƯỢNG ĐẦU NĂM",
+  subject: "TOÁN - KHỐI 12",
+  duration: "90 phút",
+  code: "101",
+  ..preset.template,
 )
 
-// ═══════════════════════════════════════
-// PHẦN I — TRẮC NGHIỆM (12 câu)
-// ═══════════════════════════════════════
-#exam-part([PHẦN I. Câu trắc nghiệm nhiều phương án. _(Câu 1 đến Câu 12)_
-  Thí sinh chọn *một phương án đúng* cho mỗi câu.], count: 12)
+// ════════════════════════════════════════════════════════════════
+// PHẦN I. CÂU HỎI TRẮC NGHIỆM NHIỀU PHƯƠNG ÁN LỰA CHỌN (12 câu)
+// Mỗi câu hỏi chỉ chọn một phương án đúng (được bọc bởi True([...])).
+// ════════════════════════════════════════════════════════════════
+#exam-part([PHẦN I. Câu trắc nghiệm nhiều phương án lựa chọn], count: 12)
 
 #tn(
-  [Đạo hàm của $f(x) = 2x^3 - 3x^2 + 1$ là],
-  ([$6x^2 - 3$], True([$6x^2 - 6x$]), [$6x - 6$], [$2x^2 - 6x$]),
-  loigiai: [$f'(x) = 6x^2 - 6x$],
+  [Cho hàm số $f(x) = x^3 - 3 x + 2$. Đạo hàm của hàm số tại điểm $x = 2$ bằng],
+  ([$3$], True([$9$]), [$6$], [$-3$]),
+  id: "TN01",
+  tags: ("dao-ham", "NB"),
+  loigiai: [Ta có $f'(x) = 3 x^2 - 3 => f'(2) = 3 dot 2^2 - 3 = 9$.],
 )
 
-// ◄ Thêm câu 2–12 ở đây...
+#tn(
+  [Tập xác định của hàm số $y = log_2 (x - 1)$ là],
+  ([$(0; +oo)$], True([$(1; +oo)$]), [$[1; +oo)$], [$RR$]),
+  id: "TN02",
+  tags: ("logarit", "NB"),
+  loigiai: [Điều kiện xác định: $x - 1 > 0 <=> x > 1$. Vậy $D = (1; +oo)$.],
+)
 
-// ═══════════════════════════════════════
-// PHẦN II — ĐÚNG SAI (4 câu)
-// ═══════════════════════════════════════
-#exam-part([PHẦN II. Câu đúng sai. _(Câu 13 đến Câu 16)_
-  Thí sinh chọn *Đúng hoặc Sai* cho mỗi mệnh đề.], count: 4)
+// ════════════════════════════════════════════════════════════════
+// PHẦN II. CÂU HỎI TRẮC NGHIỆM ĐÚNG / SAI (4 câu)
+// Trong mỗi ý a), b), c), d), thí sinh chọn đúng hoặc sai.
+// Ý ĐÚNG được bọc bởi True([...]), ý SAI để nội dung bình thường.
+// ════════════════════════════════════════════════════════════════
+#exam-part([PHẦN II. Câu trắc nghiệm đúng / sai], count: 4)
 
 #ds(
-  [Cho hàm số $f(x) = x^3 - 3x + 2$. Xét tính đúng/sai:],
+  [Cho hàm số $f(x) = x^3 - 3 x$. Xét tính đúng/sai của các mệnh đề sau:],
   (
-    [Hàm số có 2 cực trị.],           // SAI
-    True([$f(1) = 0$]),               // ĐÚNG
-    True([Cực đại tại $x = -1$]),     // ĐÚNG
-    [Hàm đồng biến trên $\mathbb{R}$], // SAI
+    True([$f'(x) = 3 x^2 - 3$.]),
+    True([Phương trình $f'(x) = 0$ có hai nghiệm phân biệt $x = -1$ và $x = 1$.]),
+    [Hàm số đồng biến trên khoảng $(-1; 1)$.],
+    True([Giá trị cực tiểu của hàm số bằng $-2$.]),
   ),
-  loigiai: [Phân tích từng ý...],
+  id: "DS01",
+  tags: ("khao-sat", "TH"),
+  loigiai: [
+    - Ý a đúng vì $(x^3 - 3x)' = 3x^2 - 3$.
+    - Ý b đúng vì $3x^2 - 3 = 0 <=> x = plus.minus 1$.
+    - Ý c sai vì trên khoảng $(-1; 1)$, $f'(x) < 0$ nên hàm số nghịch biến.
+    - Ý d đúng vì cực tiểu tại $x = 1$, $f(1) = 1 - 3 = -2$.
+  ],
 )
 
-// ◄ Thêm câu 14–16 ở đây...
-
-// ═══════════════════════════════════════
-// PHẦN III — TRẢ LỜI NGẮN (4 câu)
-// ═══════════════════════════════════════
-#exam-part([PHẦN III. Câu trả lời ngắn. _(Câu 17 đến Câu 20)_
-  Thí sinh điền đáp án vào ô trống.], count: 4)
+// ════════════════════════════════════════════════════════════════
+// PHẦN III. CÂU HỎI TRẮC NGHIỆM TRẢ LỜI NGẮN (6 câu)
+// Thí sinh điền kết quả vào ô trống (ans: "...").
+// ════════════════════════════════════════════════════════════════
+#exam-part([PHẦN III. Câu trắc nghiệm trả lời ngắn], count: 6)
 
 #tln(
-  [Tính $lim_(x -> 2) frac(x^2 - 4, x - 2)$.],
-  [$4$],
-  loigiai: [Rút gọn: $frac((x-2)(x+2), x-2) = x+2 -> 4$.],
+  [Tính giới hạn $lim_(x -> 2) frac(x^2 - 4, x - 2)$.],
+  ans: "4",
+  id: "TLN01",
+  tags: ("gioi-han", "TH"),
+  loigiai: [Ta có $lim_(x -> 2) frac(x^2 - 4, x - 2) = lim_(x -> 2) (x + 2) = 4$.],
 )
 
-// ◄ Thêm câu 18–20 ở đây...
+#tln(
+  [Cho tam giác $A B C$ có $a = 7$, $b = 8$, $c = 5$. Tính diện tích tam giác $A B C$.],
+  ans: "17,32",
+  id: "TLN02",
+  tags: ("tam-giac", "VD"),
+  loigiai: [Nửa chu vi $p = 10$. $S = sqrt(10 dot 3 dot 2 dot 5) = 10 sqrt(3) approx 17{,}32$.],
+)
 
-// ═══════════════════════════════════════
-// PHẦN IV — TỰ LUẬN (2 câu)
-// ═══════════════════════════════════════
-#exam-part([PHẦN IV. Câu tự luận. _(Câu 21 đến Câu 22)_])
+#het</code></pre>
+    </div>
+  </div>
 
-#tl(
-  [Khảo sát sự biến thiên của $f(x) = x^3 - 3x^2 + 4$.],
-  lines: 10,
+  <!-- TAB 2: ĐỀ HÓA HỌC -->
+  <div id="tab-content-chem" class="sample-tab-content" style="display: none;">
+    <div class="code-block-wrap">
+      <div class="code-header"><span class="code-lang">typst — de-thi-hoa-hoc-12.typ</span><button class="copy-btn" onclick="copyCode(this)">Copy Mã Đề Hóa</button></div>
+      <pre><code class="lang-typst">// ================================================================
+// ĐỀ THI MÔN HÓA HỌC 12 — SỬ DỤNG SANG-MATH 1.0.5 + TYPSIUM 0.3.2
+// ================================================================
+#import "@preview/sang-math:1.0.5": *
+#import "@preview/typsium:0.3.2": ce
+
+#let profile = sys.inputs.at("profile", default: "loigiai")
+#let preset = exam-preset(theme: "ocean", profile: profile, two-columns: true, opt-style: "circle")
+#let (tn, ds, tln, tl) = exam-mode(..preset.question)
+#show: sang-setup.with(math-color: preset.accent)
+
+#show: exam-theme.with(
+  theme: preset.theme,
+  school: "TRƯỜNG THPT CHUYÊN QUỐC HỌC",
+  exam-title: "KIỂM TRA HỌC KỲ I NĂM HỌC 2025 - 2026",
+  subject: "HÓA HỌC - KHỐI 12",
+  duration: "50 phút",
+  code: "204",
+  ..preset.template,
+)
+
+#exam-part([PHẦN I. Câu trắc nghiệm nhiều phương án lựa chọn], count: 18)
+
+#tn(
+  [Chất nào sau đây là este no, đơn chức, mạch hở?],
+  (
+    [#ce("CH3COOH")],
+    True([#ce("CH3COOC2H5")]),
+    [#ce("CH2=CHCOOCH3")],
+    [#ce("HCOOCH=CH2")],
+  ),
+  id: "TN01",
+  tags: ("este", "NB"),
+  loigiai: [Este no, đơn chức, mạch hở có CTPT dạng $C_n H_(2n) O_2$, ở đây là ethyl acetate #ce("CH3COOC2H5").],
+)
+
+#tn(
+  [Kim loại nào sau đây phản ứng được với dung dịch #ce("FeSO4")?],
+  (
+    [#ce("Cu")],
+    [#ce("Ag")],
+    True([#ce("Zn")]),
+    [#ce("Pb")],
+  ),
+  id: "TN02",
+  tags: ("kim-loai", "TH"),
+  loigiai: [Kẽm (#ce("Zn")) có tính khử mạnh hơn #ce("Fe") nên đẩy được #ce("Fe") ra khỏi muối.],
+)
+
+#exam-part([PHẦN II. Câu trắc nghiệm đúng / sai], count: 4)
+
+#ds(
+  [Cho phản ứng nhiệt nhôm: #ce("2Al + Fe2O3 ->[t^o] Al2O3 + 2Fe"). Xét các khẳng định sau:],
+  (
+    True([Nhôm (#ce("Al")) đóng vai trò là chất khử trong phản ứng.]),
+    [#ce("Fe2O3") bị oxi hóa thành sắt kim loại.],
+    True([Phản ứng tỏa lượng nhiệt rất lớn làm sắt sinh ra ở trạng thái nóng chảy.]),
+    [Trong công nghiệp, phản ứng trên dùng để sản xuất gang thương phẩm.],
+  ),
+  id: "DS01",
+  tags: ("nhiet-nhom", "TH"),
   loigiai: [
-    #ppgiai[Tính $f'$, giải $f' = 0$, lập BBT.]
-    #step[$f'(x) = 3x^2 - 6x = 3x(x-2)$.]
-    #step[CT: $f(0) = 4$; CT': $f(2) = 0$.]
-    #reset-step()
+    - Ý a đúng vì số oxi hóa của Al tăng từ 0 lên +3.
+    - Ý b sai vì #ce("Fe2O3") bị khử thành Fe.
+    - Ý c đúng (ứng dụng hàn đường ray).
+    - Ý d sai vì sản xuất gang dùng lò cao khử quặng bằng CO.
   ],
-)</code></pre>
+)
+
+#exam-part([PHẦN III. Câu trắc nghiệm trả lời ngắn], count: 6)
+
+#tln(
+  [Hòa tan hết $2{,}4$ gam #ce("Mg") vào lượng dư dung dịch #ce("HCl"), thu được $V$ lít khí #ce("H2") ở điều kiện chuẩn ($298 "K", 1 "bar"$). Giá trị của $V$ bằng bao nhiêu?],
+  ans: "2,479",
+  id: "TLN01",
+  tags: ("tinh-toan", "VD"),
+  loigiai: [
+    $n_(#ce("Mg")) = 2{,}4 / 24 = 0{,}1 "mol"$. \
+    Phương trình: #ce("Mg + 2HCl -> MgCl2 + H2"). \
+    $V = 0{,}1 times 24{,}79 = 2{,}479$ lít.
+  ],
+)
+
+#het</code></pre>
+    </div>
+  </div>
+
+  <!-- TAB 3: ĐỀ VẬT LÍ -->
+  <div id="tab-content-phys" class="sample-tab-content" style="display: none;">
+    <div class="code-block-wrap">
+      <div class="code-header"><span class="code-lang">typst — de-thi-vat-li-12.typ</span><button class="copy-btn" onclick="copyCode(this)">Copy Mã Đề Lý</button></div>
+      <pre><code class="lang-typst">// ================================================================
+// ĐỀ THI MÔN VẬT LÍ 12 — SỬ DỤNG SANG-MATH 1.0.5
+// ================================================================
+#import "@preview/sang-math:1.0.5": *
+
+#let profile = sys.inputs.at("profile", default: "loigiai")
+#let preset = exam-preset(theme: "royal", profile: profile, two-columns: true, opt-style: "circle")
+#let (tn, ds, tln, tl) = exam-mode(..preset.question)
+#show: sang-setup.with(math-color: preset.accent)
+
+#show: exam-theme.with(
+  theme: preset.theme,
+  school: "SỞ GIÁO DỤC VÀ ĐÀO TẠO",
+  exam-title: "KIỂM TRA GIỮA HỌC KỲ I",
+  subject: "VẬT LÍ - LỚP 12",
+  duration: "50 phút",
+  code: "305",
+  ..preset.template,
+)
+
+#exam-part([PHẦN I. Câu trắc nghiệm nhiều phương án lựa chọn], count: 18)
+
+#tn(
+  [Một đoạn mạch điện gồm điện trở thuần $R = 100 #ohm$ mắc nối tiếp với cuộn cảm thuần có cảm kháng $Z_L = 100 #ohm$. Tổng trở của đoạn mạch là],
+  (
+    [$100 #ohm$],
+    True([$100 sqrt(2) #ohm$]),
+    [$200 #ohm$],
+    [$50 sqrt(2) #ohm$],
+  ),
+  id: "TN01",
+  tags: ("dong-dien-xoay-chieu", "NB"),
+  loigiai: [$Z = sqrt(R^2 + Z_L^2) = sqrt(100^2 + 100^2) = 100 sqrt(2) #ohm$.],
+)
+
+#exam-part([PHẦN II. Câu trắc nghiệm đúng / sai], count: 4)
+
+#ds(
+  [Một chất điểm dao động điều hòa với phương trình $x = 4 cos(2 pi t - pi/3)$ (cm). Xét các mệnh đề:],
+  (
+    True([Biên độ dao động của chất điểm là $A = 4$ cm.]),
+    [Pha ban đầu của dao động là $pi/3$ rad.],
+    True([Tần số dao động của chất điểm là $f = 1$ Hz.]),
+    [Vận tốc cực đại của chất điểm là $v_("max") = 4 pi$ cm/s.],
+  ),
+  id: "DS01",
+  tags: ("dao-dong-co", "TH"),
+  loigiai: [
+    - Ý a đúng vì $A = 4$ cm.
+    - Ý b sai vì pha ban đầu là $-pi/3$ rad.
+    - Ý c đúng vì $omega = 2 pi => f = omega / (2 pi) = 1$ Hz.
+    - Ý d sai vì $v_("max") = omega A = 2 pi times 4 = 8 pi$ cm/s.
+  ],
+)
+
+#exam-part([PHẦN III. Câu trắc nghiệm trả lời ngắn], count: 6)
+
+#tln(
+  [Một khối khí lí tưởng ở nhiệt độ $27 #doC$ có áp suất $1 "bar"$. Nếu nung nóng đẳng tích lượng khí đó lên đến $127 #doC$ thì áp suất chất khí xấp xỉ bằng bao nhiêu bar (lấy 2 chữ số thập phân)?],
+  ans: "1,33",
+  id: "TLN01",
+  tags: ("nhiet-hoc", "VD"),
+  loigiai: [
+    $T_1 = 27 + 273 = 300 "K"$, $T_2 = 127 + 273 = 400 "K"$. \
+    Đẳng tích: $p_1 / T_1 = p_2 / T_2 => p_2 = 1 times 400 / 300 approx 1{,}33 "bar"$.
+  ],
+)
+
+#het</code></pre>
+    </div>
+  </div>
+
+  <!-- TAB 4: SIÊU GỌN 1 CHẠM -->
+  <div id="tab-content-quick" class="sample-tab-content" style="display: none;">
+    <div class="code-block-wrap">
+      <div class="code-header"><span class="code-lang">typst — de-thi-sieu-gon-1-cham.typ</span><button class="copy-btn" onclick="copyCode(this)">Copy Mã Siêu Gọn</button></div>
+      <pre><code class="lang-typst">// ================================================================
+// ĐỀ THI SIÊU GỌN 1 CHẠM — KHÔNG CẦN KHAI BÁO BIẾN PRESET
+// Tự động in bảng đáp án cuối trang với answer-key: true
+// ================================================================
+#import "@preview/sang-math:1.0.5": *
+
+#show: exam-ocean.with(
+  school: "TRƯỜNG THPT NGUYỄN HUỆ",
+  exam-title: "KIỂM TRA ĐỊNH KỲ",
+  subject: "TOÁN - KHỐI 12",
+  duration: "45 phút",
+  code: "105",
+  two-columns: true,          // Chia 2 cột
+  answer-key: true,           // Tự động gom &amp; in bảng đáp án cuối trang!
+)
+
+#exam-part([PHẦN I. Trắc nghiệm 4 lựa chọn])
+
+#tn([Đạo hàm của hàm số $f(x) = x^4 - 2 x^2$ là], (
+  [$4 x^3 - 2$],
+  True([$4 x^3 - 4 x$]),
+  [$x^3 - 4 x$],
+  [$4 x^2 - 4$],
+))
+
+#exam-part([PHẦN II. Câu trắc nghiệm đúng / sai])
+
+#ds([Cho hàm số $y = f(x)$ xác định trên $RR$. Xét các khẳng định:], (
+  True([Hàm số có 2 điểm cực trị.]),
+  [Hàm số đồng biến trên toàn trục số $RR$.],
+  True([Đồ thị hàm số đi qua gốc tọa độ $O(0; 0)$.]),
+  [Giá trị lớn nhất của hàm số trên $RR$ bằng $10$.],
+))
+
+#exam-part([PHẦN III. Trả lời ngắn])
+
+#tln([Tính bán kính $R$ của mặt cầu $(S): x^2 + y^2 + z^2 = 25$.], ans: "5")
+</code></pre>
+    </div>
+  </div>
+
+  <!-- BẢNG HƯỚNG DẪN GỌI LỆNH XỊN 1.0.5 -->
+  <div style="margin-top: 24px; background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 20px; box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);">
+    <h3 style="margin-top: 0; color: #0f766e; display: flex; align-items: center; gap: 8px;">💡 Bí kíp gọi lệnh xịn nhất trong bản 1.0.5</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin-top: 12px;">
+      <div style="background: #f8fafc; border-left: 4px solid #0f766e; padding: 12px; border-radius: 6px;">
+        <strong>1. In bảng đáp án tự động</strong>
+        <p style="margin: 4px 0 0; font-size: 0.9rem; color: var(--muted);">Thêm <code>answer-key: true</code> vào <code>exam-ocean</code> hoặc gọi <code>#print-answer-key()</code> ở cuối tài liệu.</p>
+      </div>
+      <div style="background: #f8fafc; border-left: 4px solid #0284c7; padding: 12px; border-radius: 6px;">
+        <strong>2. Đổi nhãn A/B/C/D khoanh tròn</strong>
+        <p style="margin: 4px 0 0; font-size: 0.9rem; color: var(--muted);">Dùng <code>opt-style: "circle"</code> (Ⓐ Ⓑ Ⓒ Ⓓ) hoặc <code>"hexagon"</code> (lục giác), <code>"solid-pentagon"</code>.</p>
+      </div>
+      <div style="background: #f8fafc; border-left: 4px solid #7c3aed; padding: 12px; border-radius: 6px;">
+        <strong>3. Đổi Đúng/Sai sang dạng thẻ</strong>
+        <p style="margin: 4px 0 0; font-size: 0.9rem; color: var(--muted);">Dùng <code>use-table: false, ds-style: "bookmark"</code> hoặc <code>"pill"</code>, <code>"checklist"</code>.</p>
+      </div>
+      <div style="background: #f8fafc; border-left: 4px solid #ea580c; padding: 12px; border-radius: 6px;">
+        <strong>4. Ký hiệu Đa môn tiện dụng</strong>
+        <p style="margin: 4px 0 0; font-size: 0.9rem; color: var(--muted);">Gõ ngay <code>#doC</code> ($degree C$), <code>#ohm</code> ($Omega$), <code>#pu-tn</code> ($arrow.l.r.double$), <code>#pu-nhiet</code> ($limits(arrow)^(t^compose)$).</p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1476,7 +1743,7 @@ npm run stexgv:mix -- --compile</code></pre>
 <!-- ═══════════════════════════════════════════ -->
 <section id="book-overview" class="doc-section hidden">
   <h1>📚 Tổng Quan Sách / SGK</h1>
-  <p><code>sang-math:1.0.0</code> cung cấp một API ổn định để soạn SGK, chuyên đề, workbook, sách lời giải, handout và tài liệu nghiên cứu. Không cần sao chép module nội bộ.</p>
+  <p><code>sang-math:1.0.5</code> cung cấp một API ổn định để soạn SGK, chuyên đề, workbook, sách lời giải, handout và tài liệu nghiên cứu. Không cần sao chép module nội bộ.</p>
 
   <h2>12 giao diện sách chính thức</h2>
   <table class="doc-table">
@@ -1492,7 +1759,7 @@ npm run stexgv:mix -- --compile</code></pre>
   <h2>Khung sách tối thiểu</h2>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-    <pre><code class="lang-typst">#import "@preview/sang-math:1.0.0": *
+    <pre><code class="lang-typst">#import "@preview/sang-math:1.0.5": *
 
 #let theme = "sgk-modern"
 
@@ -1658,7 +1925,7 @@ npm run stexgv:mix -- --compile</code></pre>
   <h2>Mẫu hai mã đề</h2>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-    <pre><code class="lang-typst">#import "@preview/sang-math:1.0.0": *
+    <pre><code class="lang-typst">#import "@preview/sang-math:1.0.5": *
 
 #let preset = exam-preset(theme: "classic", profile: "dethi")
 #let (tn, ds, tln, tl) = exam-mode(..preset.question)
@@ -1691,7 +1958,7 @@ npm run stexgv:mix -- --compile</code></pre>
     <div class="code-header"><span class="code-lang">typst — chuyen-de-mau.typ</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
     <pre><code class="lang-typst">// Biên dịch: typst compile chuyen-de-mau.typ chuyen-de-mau.pdf
 
-#import "@preview/sang-math:1.0.0": *
+#import "@preview/sang-math:1.0.5": *
 
 #let theme = "sgk-modern" // đổi sang một trong 12 book theme
 
@@ -1761,7 +2028,7 @@ npm run stexgv:mix -- --compile</code></pre>
   <h2>Import</h2>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-    <pre><code class="lang-typst">#import "@preview/sang-math:1.0.0": *
+    <pre><code class="lang-typst">#import "@preview/sang-math:1.0.5": *
 
 // Dùng trực tiếp:
 #bbtv2(...)
@@ -2260,7 +2527,7 @@ ranks: ((0,), (2, -2), (0,))</code></pre>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
     <pre><code class="lang-typst">#import "@preview/cetz:0.5.2"
-#import "@preview/sang-math:1.0.0": draw-parabola, draw-ellipse, draw-hyperbola
+#import "@preview/sang-math:1.0.5": draw-parabola, draw-ellipse, draw-hyperbola
 
 #cetz.canvas(length: 1cm, {
   draw-ellipse(a: 2.5, b: 1.5, show-axes: true, show-foci: true)

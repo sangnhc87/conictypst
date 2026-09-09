@@ -1,6 +1,6 @@
-export const CONTRACT_VERSION = 'sang-math-ai-contract/1.0.1-r1'
+export const CONTRACT_VERSION = 'sang-math-ai-contract/1.0.5-r1'
 
-export const FULL_FILE_TEMPLATE = `#import "@preview/sang-math:1.0.1": *
+export const FULL_FILE_TEMPLATE = `#import "@preview/sang-math:1.0.5": *
 
 #let profile = sys.inputs.at("profile", default: "dethi")
 #let preset = exam-preset(theme: "teal-pro", profile: profile)
@@ -30,7 +30,7 @@ export const FULL_FILE_TEMPLATE = `#import "@preview/sang-math:1.0.1": *
 #het`
 
 export const SYSTEM_CONTRACT = `Bạn là bộ sinh mã nối trực tiếp với trình biên dịch Typst.
-Hợp đồng bắt buộc: ${CONTRACT_VERSION}. Package duy nhất được mặc định cho phép là sang-math 1.0.1.
+Hợp đồng bắt buộc: ${CONTRACT_VERSION}. Package duy nhất được mặc định cho phép là sang-math 1.0.5.
 
 MỤC TIÊU
 - Trả về đúng một file Typst hoàn chỉnh, không Markdown, không dấu ba chấm, không giải thích ngoài mã.
@@ -38,7 +38,7 @@ MỤC TIÊU
 - Tự giải lại bài toán trước khi đánh dấu đáp án. Không chắc thì chèn comment // TODO-CAN-GV-KIEM-TRA và không bịa.
 
 KHUNG API CHÍNH XÁC
-#import "@preview/sang-math:1.0.1": *
+#import "@preview/sang-math:1.0.5": *
 #let profile = sys.inputs.at("profile", default: "dethi")
 #let preset = exam-preset(theme: "teal-pro", profile: profile)
 #let (tn, ds, tln, tl) = exam-mode(..preset.question)
@@ -267,8 +267,8 @@ export function validateSangMath(source, expected = {}) {
     tl: Number(expected.tl || 0),
   }
 
-  if (!/#import\s+"@preview\/sang-math:1\.0\.1"\s*:\s*\*/.test(code)) {
-    errors.push(issue('IMPORT', 'Thiếu import chính xác @preview/sang-math:1.0.1.', 1))
+  if (!/#import\s+"@preview\/sang-math:1\.0\.[0-9]+"\s*:\s*\*/.test(code)) {
+    errors.push(issue('IMPORT', 'Thiếu import chính xác @preview/sang-math:1.0.5.', 1))
   }
   if (!/exam-preset\s*\(/.test(code) || !/exam-mode\s*\(/.test(code) || !/exam-theme\.with\s*\(/.test(code)) {
     errors.push(issue('SETUP', 'Thiếu khung exam-preset, exam-mode hoặc exam-theme.with.', 1))
@@ -280,7 +280,7 @@ export function validateSangMath(source, expected = {}) {
 
   const forbidden = [
     [/#(?:tn|ds|tln|tl)\s*\[/, 'OLD_CALL', 'Đang dùng chữ ký cũ #tn[...] thay vì #tn(...).'],
-    [/#False\s*[\[(]/, 'FALSE', 'sang-math 1.0.1 không dùng #False; mệnh đề sai để content thường.'],
+    [/#False\s*[\[(]/, 'FALSE', 'sang-math không dùng #False; mệnh đề sai để content thường.'],
     [/#ppgiai\s*\[/, 'PPGIAI', 'Dùng tham số loigiai: [...] thay cho #ppgiai.'],
     [/\\(?:frac|sqrt|begin|end|mathrm|mathbb)\b/, 'LATEX', 'Còn cú pháp LaTeX thô; phải chuyển sang cú pháp toán Typst.'],
     [/#(?:question|choices|answer|solution)\s*[\[(]/, 'FAKE_API', 'Có macro ngoài hợp đồng sang-math.'],
@@ -366,7 +366,7 @@ Theme: ${options.theme}.
 Ma trận số lượng chính xác: ${counts}.
 Phân bố mức độ: ${options.difficulty}.
 Yêu cầu riêng: ${options.notes || 'Không có'}.
-Package bổ sung được phép: ${extras || 'Không có; chỉ dùng sang-math:1.0.1'}.
+Package bổ sung được phép: ${extras || 'Không có; chỉ dùng sang-math:1.0.5'}.
 
 ${modeInstruction}
 

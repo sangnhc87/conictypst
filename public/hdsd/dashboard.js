@@ -7,77 +7,75 @@ const allToolsGrid = document.getElementById('allToolsGrid')
 const adminGrid = document.getElementById('adminGrid')
 
 const quickActions = [
-  { title: 'AI sang-math có kiểm định', desc: 'Chọn model, nhập API key, sinh file .typ đúng hợp đồng 1.0.1', icon: 'sparkles', color: 'green', href: 'ai-sang-math.html', keywords: 'ai sang math tạo đề api key model validator tự sửa typst' },
+  { title: 'AI sang-math có kiểm định', desc: 'Chọn model, nhập API key, sinh file .typ đúng chuẩn sang-math:1.0.5', icon: 'sparkles', color: 'green', href: 'ai-sang-math.html', keywords: 'ai sang math tạo đề api key model validator tự sửa typst 1.0.5' },
   { title: 'TypstConicHub Studio', desc: 'Soạn Typst, preview trực tiếp, tự lưu và xuất PDF ngay trên trình duyệt', icon: 'sparkles', color: 'green', href: 'https://typstconichub.pages.dev/#studio', keywords: 'studio soạn thảo typst live preview wasm sang math' },
-  { title: 'AI tạo đề theo API key của bạn', desc: 'Tự chọn model, tự nhập key, mở cho mọi người dùng', icon: 'zap', color: 'cyan', href: 'ai-tao-de.html?tab=gen', keywords: 'ai tạo đề api key typst model' },
-  { title: 'AI tạo đề thi tốt nghiệp hay-lạ-khó', desc: 'Quản lý tạo đề bằng AI Pro', icon: 'cpu', color: 'violet', href: 'ai-tao-de.html?tab=pro', keywords: 'ai tạo đề thi tốt nghiệp hay lạ khó thpt' },
-  { title: 'Ngân hàng câu hỏi', desc: 'Quản lý, soạn đề, lọc ID/tags/source', icon: 'layout-grid', color: 'blue', href: 'ngan-hang.html', keywords: 'ngân hàng câu hỏi bank id quản lý typst' },
-  { title: 'Siêu tạo đề', desc: 'AI tự động sinh đề theo ma trận', icon: 'zap', color: 'magenta', href: 'ai-tao-de.html?tab=gen', keywords: 'siêu tạo đề sinh đề tự động matrix' },
-  { title: 'Typst → Word/PDF', desc: 'Xuất PDF, chuẩn hóa nội dung, lộ trình DOCX', icon: 'file-text', color: 'teal', href: 'index.html#downloads', keywords: 'typst word pdf docx export' },
-  { title: 'Trộn đề từ nhiều file', desc: 'Xáo trộn nguyên bản, nhiều mã đề .typ', icon: 'shuffle', color: 'orange', href: 'tron-de.html', keywords: 'trộn đề từ nhiều file randomizer seed typst' },
-  { title: 'Kiểm lỗi Typst', desc: 'Tìm lỗi #tn/#ds/#tln, LaTeX sót, cetz', icon: 'circle-check', color: 'red', href: 'typst-linter.html', keywords: 'kiểm lỗi typst linter compile macro' },
+  { title: 'Kho Mẫu Đề & Chuyên Đề', desc: '18 theme đề thi, 12 theme sách và 30 theme beamer', icon: 'layers', color: 'purple', href: 'exam-templates.html', keywords: 'kho mẫu template đề thi sách chuyên đề beamer' },
+  { title: 'Live BBT & BXD', desc: 'Nhập bảng biến thiên trực quan sinh #bbtv2() ngay', icon: 'layout-grid', color: 'teal', href: 'bbt-live.html', keywords: 'live bbt bbtv2 bảng biến thiên typst' },
+  { title: 'Live Geometry 2D/3D', desc: 'Vẽ hình học phẳng & không gian CeTZ tương tác', icon: 'shapes', color: 'sky', href: 'hh-live.html', keywords: 'live geometry 2d 3d cetz hình học' },
   { title: 'OCR → Typst', desc: 'Ảnh/PDF → #tn/#ds/#tln (Groq/Gemini)', icon: 'camera', color: 'amber', href: 'ocr-typst.html', keywords: 'ocr nhanh ảnh pdf typst groq gemini' },
-  { title: 'Trộn đề Pro', desc: 'Trộn đề chi tiết, cấu trúc + phương án', icon: 'pen-line', color: 'purple', href: 'tron-de.html', keywords: 'trộn đề pro chi tiết 22 slot typst' },
+  { title: 'Trộn Đề Thi Typst', desc: 'Xáo trộn nguyên bản, hoán vị phương án, nhiều mã đề .typ', icon: 'shuffle', color: 'orange', href: 'tron-de.html', keywords: 'trộn đề từ nhiều file randomizer seed typst' },
+  { title: 'Kiểm lỗi Typst (Linter)', desc: 'Tìm lỗi #tn/#ds/#tln, LaTeX sót, CeTZ syntax', icon: 'circle-check', color: 'red', href: 'typst-linter.html', keywords: 'kiểm lỗi typst linter compile macro' },
+  { title: 'Bảng vẽ CeTZ & TikZ', desc: 'Chuyển mã TikZ sang CeTZ hình học Typst', icon: 'wrench', color: 'mint', href: 'cetz-ve.html', keywords: 'bảng vẽ tikz cetz geometry vẽ hình' },
+  { title: 'Ngân hàng câu hỏi', desc: 'Quản lý, soạn đề, lọc ID/tags/source', icon: 'landmark', color: 'blue', href: 'ngan-hang.html', keywords: 'ngân hàng câu hỏi bank id quản lý typst' },
+  { title: 'AI tạo đề theo API key', desc: 'Tự chọn model, tự nhập key, mở cho mọi người dùng', icon: 'zap', color: 'cyan', href: 'ai-tao-de.html?tab=gen', keywords: 'ai tạo đề api key typst model' },
+  { title: 'AI tạo đề thi Pro', desc: 'Quản lý tạo đề tốt nghiệp hay-lạ-khó bằng AI Pro', icon: 'cpu', color: 'violet', href: 'ai-tao-de.html?tab=pro', keywords: 'ai tạo đề thi tốt nghiệp hay lạ khó thpt' },
 ]
 
 const exploreSections = [
-  { title: 'Bài toán nâng cao', desc: 'Tổ hợp, xác suất, hình học nâng cao', icon: 'book-open', color: 'green', href: 'index.html#book-overview', keywords: 'bài toán nâng cao tổ hợp xác suất hình học' },
-  { title: 'Toán thực tế', desc: 'Bài toán thực tiễn đời sống & ứng dụng', icon: 'globe-2', color: 'sky', href: 'index.html#geo-3d', keywords: 'toán thực tế ứng dụng đời sống' },
-  { title: 'Toán thực tế V2', desc: '12+ chủ đề ứng dụng thực tiễn', icon: 'box', color: 'rose', href: 'index.html#book-overview', keywords: 'toán thực tế v2 chủ đề ứng dụng' },
-  { title: 'PDF từ ảnh', desc: 'Trích xuất nội dung từ PDF & hình ảnh', icon: 'image', color: 'purple', href: 'ai-tao-de.html?tab=grade', keywords: 'pdf từ ảnh trích xuất ocr typst' },
-  { title: 'Giải toán phổ thông', desc: 'Công cụ tính toán K10-K12', icon: 'calculator', color: 'green', href: 'ai-tao-de.html?tab=gen', keywords: 'giải toán phổ thông k10 k11 k12' },
-  { title: 'Sân chơi trí tuệ', desc: '30+ game luyện tư duy toán học', icon: 'play', color: 'orange', href: '#all-tools', keywords: 'sân chơi trí tuệ game luyện tư duy' },
+  { title: 'Kho Mẫu Chuyên Đề', desc: 'Mẫu chuyên đề VIP, thực tế & hình học', icon: 'book-open', color: 'green', href: 'exam-templates.html', keywords: 'kho mẫu chuyên đề vip thực tế hình học' },
+  { title: 'Bảng Biến Thiên Live', desc: 'Nhập thông số sinh ngay mã #bbtv2()', icon: 'layout-grid', color: 'sky', href: 'bbt-live.html', keywords: 'bảng biến thiên live bbt' },
+  { title: 'Hình học Live 2D/3D', desc: 'Trực quan hóa khối chóp, lăng trụ & CeTZ 3D', icon: 'box', color: 'rose', href: 'hh-live.html', keywords: 'hình học không gian cetz 3d khối chóp live' },
+  { title: 'OCR từ Ảnh / PDF', desc: 'Trích xuất đề từ ảnh & PDF sang mã Typst', icon: 'image', color: 'purple', href: 'ocr-typst.html', keywords: 'pdf từ ảnh trích xuất ocr typst' },
+  { title: 'Trợ lý AI Typst', desc: 'Hỏi đáp kỹ thuật, sửa lỗi & hỗ trợ CeTZ', icon: 'bot', color: 'green', href: 'ai-tro-ly.html', keywords: 'trợ lý ai typst assistant hỏi đáp sửa lỗi' },
+  { title: 'Atlas Chuyên Đề', desc: 'Tra cứu và tải tài liệu Atlas chuyên đề Toán', icon: 'database', color: 'orange', href: 'atlas.html', keywords: 'atlas chuyên đề tra cứu toán học' },
 ]
 
 const tools = [
-  { title: 'AI sang-math 1.0.1', desc: 'Sinh đề bằng Gemini/GPT/Claude qua API key riêng, kiểm định và tự sửa', icon: 'sparkles', color: 'green', href: 'ai-sang-math.html', status: 'Mới ✓', keywords: 'ai sang math contract validator model api key đề thi typst' },
+  { title: 'AI sang-math 1.0.4', desc: 'Sinh đề chuẩn API 1.0.4 bằng Gemini/GPT/Claude qua API key riêng, kiểm định tự động', icon: 'sparkles', color: 'green', href: 'ai-sang-math.html', status: 'Live ✓', keywords: 'ai sang math 1.0.4 contract validator model api key đề thi typst' },
   { title: 'Sang Math Studio', desc: 'IDE Typst tích hợp preview, dự án và xuất bản', icon: 'sparkles', color: 'green', href: 'https://typstconichub.pages.dev/#studio', status: 'Live ✓', keywords: 'studio typst editor preview wasm project' },
-  { title: 'Hỗ trợ vẽ CeTZ', desc: 'Từ TikZ sang hình Typst-native', icon: 'wrench', color: 'mint', href: 'cetz-ve.html', status: 'Live ✓', keywords: 'hỗ trợ vẽ tikz cetz geometry typst drawing' },
-  { title: 'Sơ đồ cây', desc: 'Mẫu xác suất, Bayes, nhánh sự kiện', icon: 'git-branch', color: 'blue', href: 'index.html#figure-gallery', status: 'Mẫu', keywords: 'sơ đồ cây tree diagram xác suất bayes cetz' },
-  { title: 'Bảng biến thiên', desc: 'Live BBT nhập là sinh #bbtv2() ngay', icon: 'layout-grid', color: 'violet', href: 'bbt-live.html', status: 'Live ✓', keywords: 'bbt bbtv2 bảng biến thiên live typst cetz' },
+  { title: 'Kho Mẫu Đề & Sách', desc: '18 Theme đề, 12 Theme sách, 30 Beamer theme', icon: 'layers', color: 'purple', href: 'exam-templates.html', status: 'Live ✓', keywords: 'kho mẫu exam templates theme sách beamer' },
+  { title: 'Bảng biến thiên Live', desc: 'Nhập trực quan sinh ngay mã #bbtv2()', icon: 'layout-grid', color: 'violet', href: 'bbt-live.html', status: 'Live ✓', keywords: 'bbt bbtv2 bảng biến thiên live typst cetz' },
   { title: 'Hình học Live 2D/3D', desc: 'Live Geometry, Conic, Trụ/Nón/Cầu, Xoắn 3D', icon: 'shapes', color: 'sky', href: 'hh-live.html', status: 'Live ✓', keywords: 'hh hh-live hình học geometry cetz 2d 3d conic tròn xoay live typst' },
-  { title: 'Thư viện CeTZ', desc: 'Kho hình thay thế thư viện TikZ', icon: 'archive', color: 'purple', href: 'index.html#figure-gallery', status: 'Đã có', keywords: 'thư viện tikz cetz kho hình mẫu gallery' },
-  { title: 'Cộng đồng Typst', desc: 'Quy ước đóng góp ID và mẫu', icon: 'users', color: 'pink', href: 'index.html#ids-bank', status: 'Mở', keywords: 'cộng đồng typst đóng góp bank id' },
-  { title: 'Soạn bảng', desc: 'Bảng dữ liệu, bảng đáp án, matrix', icon: 'table-2', color: 'amber', href: 'index.html#typst-params', status: 'Đã có', keywords: 'soạn bảng table typst matrix đáp án' },
-  { title: 'Miền nghiệm BPT', desc: 'Quy hoạch tuyến tính bằng CeTZ', icon: 'bar-chart-3', color: 'orange', href: 'index.html#graphs', status: 'Mẫu', keywords: 'miền nghiệm bpt bất phương trình quy hoạch tuyến tính' },
-  { title: 'Tô miền', desc: 'Shade vùng, giao miền, hình phẳng', icon: 'pen-line', color: 'sky', href: 'index.html#geo-2d', status: 'Mẫu', keywords: 'tô miền shade miền nghiệm cetz' },
-  { title: 'Vẽ & sinh code CeTZ', desc: 'Mẫu lệnh cho đồ thị và hình học', icon: 'image', color: 'cyan', href: 'cetz-ve.html', status: 'Live ✓', keywords: 'sinh code cetz vẽ hình typst' },
-  { title: 'Tròn xoay', desc: 'Thể tích, mặt cắt, hình minh họa', icon: 'box', color: 'rose', href: 'index.html#geo-3d', status: 'Mẫu', keywords: 'tròn xoay thể tích hình không gian tích phân' },
+  { title: 'Bảng vẽ CeTZ & TikZ', desc: 'Vẽ hình và chuyển đổi TikZ sang CeTZ Typst', icon: 'wrench', color: 'mint', href: 'cetz-ve.html', status: 'Live ✓', keywords: 'hỗ trợ vẽ tikz cetz geometry typst drawing' },
+  { title: 'CeTZ Generator', desc: 'Trình sinh mã CeTZ đồ thị và hình học nhanh', icon: 'image', color: 'cyan', href: 'cetz-generator.html', status: 'Live ✓', keywords: 'cetz generator sinh mã đồ thị hình học' },
+  { title: 'GeoGebra 2D → CeTZ', desc: 'Chuyển hình vẽ GeoGebra phẳng sang mã CeTZ', icon: 'pen-line', color: 'amber', href: 'cetz-geogebra.html', status: 'Live ✓', keywords: 'geogebra cetz 2d hình phẳng' },
+  { title: 'GeoGebra 3D → CeTZ', desc: 'Chuyển mô hình không gian GeoGebra sang CeTZ 3D', icon: 'box', color: 'rose', href: 'cetz-geogebra-3d.html', status: 'Live ✓', keywords: 'geogebra 3d cetz không gian' },
+  { title: 'CeTZ Plot Đồ Thị', desc: 'Vẽ đồ thị hàm số và miền phẳng sắc nét', icon: 'line-chart', color: 'teal', href: 'cetz-plot.html', status: 'Live ✓', keywords: 'cetz plot đồ thị hàm số' },
+  { title: 'OCR → Typst', desc: 'Ảnh/PDF → #tn/#ds/#tln an toàn chuẩn 1.0.4', icon: 'camera', color: 'orange', href: 'ocr-typst.html', status: 'Live ✓', keywords: 'ocr ảnh pdf typst latex nhận dạng groq gemini' },
+  { title: 'Kiểm lỗi Typst (Linter)', desc: 'Rà lỗi #tn/#ds/#tln, LaTeX sót, CeTZ syntax', icon: 'badge-check', color: 'red', href: 'typst-linter.html', status: 'Live ✓', keywords: 'linter typst lỗi compile tham số macro kiểm tra' },
+  { title: 'Trộn Đề Thi Typst', desc: 'Xáo trộn câu hỏi, hoán vị phương án sang-math', icon: 'shuffle', color: 'amber', href: 'tron-de.html', status: 'Live ✓', keywords: 'trộn đề thi randomizer seed typst' },
+  { title: 'Ngân Hàng Câu Hỏi', desc: 'Quản lý kho câu hỏi, duyệt và phân loại theo ID', icon: 'landmark', color: 'blue', href: 'ngan-hang.html', status: 'Live ✓', keywords: 'ngân hàng câu hỏi bank id' },
   { title: 'AI tạo bài tương tự', desc: 'Sinh bài tập mới từ bài toán mẫu', icon: 'cpu', color: 'violet', href: 'ai-tuong-tu.html', status: 'Live ✓', keywords: 'ai tạo bài tương tự sinh câu hỏi gemini' },
-  { title: 'Sinh hàng loạt', desc: 'Import bank, mix nhiều mã đề', icon: 'layers', color: 'blue', href: 'index.html#exam-mix-typst', status: 'Đã có', keywords: 'sinh hàng loạt batch bank import mix đề' },
-  { title: 'Kiểm lỗi Typst', desc: 'Rà lỗi #tn/#ds/#tln, LaTeX sót, cetz', icon: 'badge-check', color: 'red', href: 'typst-linter.html', status: 'Live ✓', keywords: 'linter typst lỗi compile tham số macro kiểm tra' },
-  { title: 'Beamer Converter', desc: 'Chuyển đề thi sang Slide Beamer', icon: 'presentation', color: 'indigo', href: 'beamer-converter.html', status: 'Live ✓', keywords: 'beamer converter slide typst touying trình chiếu' },
-  { title: 'OCR → Typst', desc: 'Ảnh/PDF → #tn/#ds/#tln an toàn', icon: 'camera', color: 'orange', href: 'ocr-typst.html', status: 'Live ✓', keywords: 'ocr ảnh pdf typst latex nhận dạng groq gemini' },
+  { title: 'AI Tạo Đề Thi THPT', desc: 'Sinh đề theo ma trận, tự giải và kiểm định', icon: 'zap', color: 'cyan', href: 'ai-tao-de.html', status: 'Live ✓', keywords: 'ai tạo đề thi thpt ma trận' },
   { title: 'AI Typst Assistant', desc: 'Trợ lý lập trình CeTZ, sửa lỗi, định dạng trắc nghiệm', icon: 'bot', color: 'green', href: 'ai-tro-ly.html', status: 'Live ✓', keywords: 'ai typst assistant macro cetz solve' },
-  { title: 'QR đáp án', desc: 'Gắn mã tra đáp án theo mã đề', icon: 'share-2', color: 'pink', href: 'index.html#exam-mix-typst', status: 'Ý tưởng', keywords: 'qr đáp án mã đề answer key' },
-  { title: 'Biểu đồ cột CeTZ', desc: 'Chart nhẹ cho đề và sách', icon: 'bar-chart', color: 'cyan', href: 'index.html#graphs', status: 'Mẫu', keywords: 'biểu đồ cột chart cetz' },
-  { title: 'Kế hoạch bài giảng', desc: 'Template giáo án và chuyên đề', icon: 'calendar-days', color: 'amber', href: 'index.html#book-overview', status: 'Đã có', keywords: 'kế hoạch bài giảng giáo án book' },
-  { title: 'Bài giảng THPT', desc: 'Kho bài học K10-K12', icon: 'book-open', color: 'purple', href: 'index.html#book-structure', status: 'Đã có', keywords: 'bài giảng thpt sách chuyên đề' },
-  { title: 'Lớp học trực tuyến', desc: 'Xuất bản PDF/slide cho lớp học', icon: 'video', color: 'red', href: 'index.html#exam-set', status: 'Ý tưởng', keywords: 'lớp học trực tuyến slide pdf' },
-  { title: 'Kho siêu tốc', desc: 'Tra cứu nhanh ID, tags, source', icon: 'zap', color: 'sky', href: 'index.html#ids-bank', status: 'Đã có', keywords: 'kho siêu tốc bank search id' },
-  { title: 'Kho Main Text', desc: 'Văn bản gốc, lý thuyết, template', icon: 'database', color: 'slate', href: 'index.html#book-overview', status: 'Đã có', keywords: 'main text lý thuyết template' },
+  { title: 'Beamer Converter', desc: 'Chuyển đề thi sang Slide Beamer trình chiếu', icon: 'presentation', color: 'indigo', href: 'beamer-converter.html', status: 'Live ✓', keywords: 'beamer converter slide typst touying trình chiếu' },
+  { title: 'Atlas Chuyên Đề', desc: 'Kho PDF Atlas chuyên đề và bài giảng THPT', icon: 'database', color: 'slate', href: 'atlas.html', status: 'Live ✓', keywords: 'atlas chuyên đề pdf bài giảng' },
+  { title: 'TikZ 3D Exporter', desc: 'Xuất mô hình 3D sang TikZ / Typst', icon: 'ruler', color: 'pink', href: 'tikz-geogebra-3d.html', status: 'Live ✓', keywords: 'tikz 3d exporter geogebra' },
+  { title: 'Miền nghiệm BPT', desc: 'Quy hoạch tuyến tính, vẽ miền nghiệm hệ BPT bậc nhất hai ẩn CeTZ', icon: 'layers', color: 'orange', href: 'cetz-plot.html', status: 'Live ✓', keywords: 'miền nghiệm bpt bất phương trình quy hoạch tuyến tính' },
+  { title: 'Tô miền & Tích phân', desc: 'Shade diện tích hình phẳng, giao miền tích phân và hình học trực quan', icon: 'pen-tool', color: 'sky', href: 'cetz-plot.html', status: 'Live ✓', keywords: 'tô miền shade miền nghiệm tích phân cetz' },
+  { title: 'Khối tròn xoay 3D', desc: 'Mô phỏng mặt cắt, thể tích khối tròn xoay quanh trục Ox/Oy', icon: 'box', color: 'rose', href: 'hh-live.html', status: 'Live ✓', keywords: 'tròn xoay thể tích hình không gian tích phân 3d' },
+  { title: 'Sơ đồ cây & Xác suất', desc: 'Bộ công cụ sinh sơ đồ cây Bayes, phân phối xác suất và tổ hợp', icon: 'git-branch', color: 'blue', href: 'cetz-plot.html', status: 'Live ✓', keywords: 'sơ đồ cây tree diagram xác suất bayes cetz' },
+  { title: 'QR Tra Cứu Đáp Án', desc: 'Tự động gắn mã QR tra lời giải và bảng đáp án theo từng mã đề', icon: 'share-2', color: 'pink', href: 'tron-de.html', status: 'Live ✓', keywords: 'qr tra cứu đáp án mã đề answer key' },
+  { title: 'Soạn Bảng & Matrix', desc: 'Trình dựng bảng dữ liệu, bảng biến thiên thu gọn và ma trận Typst', icon: 'grid', color: 'amber', href: 'bbt-live.html', status: 'Live ✓', keywords: 'soạn bảng table matrix typst ma trận' },
+  { title: 'Lớp học trực tuyến', desc: 'Trình chiếu bài giảng tương tác và xuất bản đề thi cho học sinh', icon: 'video', color: 'red', href: 'beamer-converter.html', status: 'Live ✓', keywords: 'lớp học trực tuyến slide pdf bài giảng' },
+  { title: 'Kế hoạch bài giảng', desc: 'Khung mẫu giáo án chuẩn GDPT 2018 theo công văn 5512', icon: 'calendar-days', color: 'purple', href: 'atlas.html', status: 'Live ✓', keywords: 'kế hoạch bài giảng giáo án 5512 book' },
+  { title: 'Bài giảng THPT K10-K12', desc: 'Kho học liệu slide và bài tập theo chương trình mới', icon: 'book-open', color: 'green', href: 'atlas.html', status: 'Live ✓', keywords: 'bài giảng thpt sách chuyên đề k10 k11 k12' },
+  { title: 'Biểu đồ thống kê CeTZ', desc: 'Vẽ biểu đồ cột, đoạn thẳng, hình quạt cho Thống kê 10-12', icon: 'bar-chart-2', color: 'cyan', href: 'cetz-plot.html', status: 'Live ✓', keywords: 'biểu đồ thống kê cột hình quạt cetz' },
 ]
 
 const adminTools = [
-  { title: 'AI tạo đề thi THPT', icon: 'graduation-cap', href: 'ai-tao-de.html?tab=pro', active: true, keywords: 'ai tạo đề thi tốt nghiệp thpt' },
-  { title: 'Typst Bank Bridge', icon: 'brain', href: 'ngan-hang.html', active: true, keywords: 'deepseek bridge typst bank import' },
-  { title: 'Magic Chương', icon: 'sprout', href: 'index.html#book-structure', active: false, keywords: 'magic chương lesson chapter' },
-  { title: 'Kho đề gốc .typ', icon: 'folder', href: 'index.html#exam-set', active: false, keywords: 'kho đề gốc typ' },
-  { title: 'Tách câu từ .tex', icon: 'inbox', href: 'index.html#exam-mix-typst', active: false, keywords: 'tách câu tex import latex' },
-  { title: 'Typst Bank Studio', icon: 'puzzle', href: 'ngan-hang.html', active: true, keywords: 'tex bank studio typst bank manager' },
-  { title: 'Duyệt Exam Plus', icon: 'check-square', href: 'index.html#exam-mix-typst', active: false, keywords: 'duyệt exam plus review ready' },
-  { title: 'Duyệt Plus Demo', icon: 'megaphone', href: 'index.html#exam-mix-typst', active: false, keywords: 'duyệt plus demo' },
-  { title: 'Grade 10/11', icon: 'triangle', href: 'index.html#book-structure', active: false, keywords: 'grade 10 11 ngân hàng' },
-  { title: 'Bank Manager', icon: 'landmark', href: 'ngan-hang.html', active: true, keywords: 'bank manager quản lý ngân hàng' },
-  { title: 'SuperAdmin', icon: 'settings-2', href: '#admin-panel', active: false, keywords: 'superadmin admin panel' },
-  { title: 'Trang quản trị', icon: 'shield', href: '#admin-panel', active: false, keywords: 'trang quản trị admin' },
-  { title: 'QL người dùng', icon: 'users', href: '#admin-panel', active: false, keywords: 'quản lý người dùng' },
-  { title: 'Lý thuyết', icon: 'book-open', href: 'index.html#book-overview', active: false, keywords: 'lý thuyết main text' },
-  { title: 'Kho phần mềm', icon: 'save', href: 'index.html#downloads', active: false, keywords: 'kho phần mềm download' },
-  { title: 'BST HSG', icon: 'trophy', href: 'index.html#exam-set', active: false, keywords: 'hsg học sinh giỏi' },
-  { title: 'CeTZ Plot', icon: 'line-chart', href: 'index.html#graphs', active: true, keywords: 'cetz plot đồ thị' },
-  { title: 'CeTZ Euclide', icon: 'drafting-compass', href: 'cetz-ve.html', active: true, keywords: 'cetz euclide hình phẳng' },
-  { title: 'TikZ -> CeTZ Euclide', icon: 'ruler', href: 'cetz-ve.html', active: true, keywords: 'tikz euclide cetz chuyển đổi' },
+  { title: 'AI tạo đề thi THPT Pro', icon: 'graduation-cap', href: 'ai-tao-de.html?tab=pro', status: 'Live ✓', active: true, keywords: 'ai tạo đề thi tốt nghiệp thpt' },
+  { title: 'Bank Manager Studio', icon: 'landmark', href: 'ngan-hang.html', status: 'Live ✓', active: true, keywords: 'bank manager quản lý ngân hàng' },
+  { title: 'CeTZ Generator Studio', icon: 'image', href: 'cetz-generator.html', status: 'Live ✓', active: true, keywords: 'cetz generator studio' },
+  { title: 'GeoGebra 2D Bridge', icon: 'drafting-compass', href: 'cetz-geogebra.html', status: 'Live ✓', active: true, keywords: 'geogebra 2d bridge cetz' },
+  { title: 'GeoGebra 3D Bridge', icon: 'box', href: 'cetz-geogebra-3d.html', status: 'Live ✓', active: true, keywords: 'geogebra 3d bridge cetz' },
+  { title: 'TikZ → CeTZ Euclide', icon: 'ruler', href: 'cetz-ve.html', status: 'Live ✓', active: true, keywords: 'tikz euclide cetz chuyển đổi' },
+  { title: 'Typst Syntax Linter', icon: 'badge-check', href: 'typst-linter.html', status: 'Live ✓', active: true, keywords: 'typst syntax linter kiểm lỗi' },
+  { title: 'Atlas Data Explorer', icon: 'database', href: 'atlas.html', status: 'Live ✓', active: true, keywords: 'atlas data explorer chuyên đề' },
+  { title: 'Magic Chương Giáo Án', icon: 'sprout', href: 'exam-templates.html', status: 'Đang phát triển ⏳', active: false, keywords: 'magic chương lesson chapter giáo án' },
+  { title: 'Tách câu tự động từ .tex', icon: 'inbox', href: 'ngan-hang.html', status: 'Đang phát triển ⏳', active: false, keywords: 'tách câu tex import latex' },
+  { title: 'Duyệt Exam Plus Bank', icon: 'check-square', href: 'ngan-hang.html', status: 'Đang phát triển ⏳', active: false, keywords: 'duyệt exam plus review ready' },
+  { title: 'Kho đề gốc K10-K12', icon: 'folder', href: 'atlas.html', status: 'Đang phát triển ⏳', active: false, keywords: 'kho đề gốc typ k10 k11 k12' },
 ]
 
 function createIcon(name) {
@@ -107,9 +105,14 @@ function renderTools() {
 
   allToolsGrid.innerHTML = tools.map(tool => {
     const isLive = tool.status && (tool.status.includes('Live') || tool.status.includes('✓'))
-    const badgeStyle = isLive ? 'background:#d1fae5;color:#065f46;' : ''
+    const isDev = tool.status && (tool.status.includes('phát triển') || tool.status.includes('⏳'))
+    const badgeStyle = isLive 
+      ? 'background:#d1fae5;color:#065f46;border:1px solid #a7f3d0;' 
+      : isDev 
+        ? 'background:#fef3c7;color:#92400e;border:1px solid #fde68a;' 
+        : 'background:#f1f5f9;color:#475569;'
     return `
-    <a class="tool-card ${tool.color}" href="${tool.href}" data-search="${tool.keywords} ${tool.title} ${tool.desc}">
+    <a class="tool-card ${tool.color}${isDev ? ' is-dev' : ''}" href="${tool.href}" data-search="${tool.keywords} ${tool.title} ${tool.desc}">
       <span class="tool-icon">${createIcon(tool.icon)}</span>
       <span class="tool-body">
         <strong>${tool.title}</strong>
@@ -119,12 +122,23 @@ function renderTools() {
     </a>
   `}).join('')
 
-  adminGrid.innerHTML = adminTools.map(tool => `
+  adminGrid.innerHTML = adminTools.map(tool => {
+    const isLive = tool.status && (tool.status.includes('Live') || tool.status.includes('✓'))
+    const isDev = tool.status && (tool.status.includes('phát triển') || tool.status.includes('⏳'))
+    const badgeStyle = isLive 
+      ? 'background:#d1fae5;color:#065f46;border:1px solid #a7f3d0;font-size:0.65rem;padding:2px 6px;border-radius:999px;' 
+      : isDev 
+        ? 'background:#fef3c7;color:#92400e;border:1px solid #fde68a;font-size:0.65rem;padding:2px 6px;border-radius:999px;' 
+        : ''
+    return `
     <a class="admin-card${tool.active ? ' active' : ''}" href="${tool.href}" data-search="${tool.keywords} ${tool.title}">
       ${createIcon(tool.icon)}
-      <strong>${tool.title}</strong>
+      <span>
+        <strong>${tool.title}</strong>
+        ${tool.status ? `<br><em style="${badgeStyle}">${tool.status}</em>` : ''}
+      </span>
     </a>
-  `).join('')
+  `}).join('')
 }
 
 function allSearchableCards() {

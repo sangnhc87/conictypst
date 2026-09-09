@@ -2,6 +2,27 @@
 
 Các thay đổi đáng chú ý của `sang-math` được ghi tại đây. Gói tuân theo Semantic Versioning; nhánh `1.0.x` không được xóa hoặc đổi chữ ký API public đã phát hành.
 
+## 1.0.5 — 2026-09-09
+
+### Đề thi & Khung câu hỏi (`sang-exam.typ`)
+
+- Sửa lỗi hàm `exam-mode` không chuyển tiếp đầy đủ tham số: hỗ trợ `..args` và `params`
+  pass-through, giúp các cấu hình nâng cao (`opt-style: "circle"`, `prefix: "Bài"`, `box-inset`...)
+  truyền thông suốt xuống các hàm con `#tn`, `#ds`.
+
+### Ký hiệu toán & đa môn (`math-sym.typ`)
+
+- Chuẩn hóa `lim`: dùng `math.limits(math.lim, inline: true)` để cận dưới giới hạn hiển thị chuẩn toán học Việt Nam.
+- Bổ sung ký hiệu tiện ích cho Đa môn (Vật lí, Hóa học):
+  - `#doC`, `#celsius`: Độ Celsius ($degree C$).
+  - `#ohm`: Đơn vị điện trở Ohm ($Omega$).
+  - `#pu-tn`: Mũi tên phản ứng thuận nghịch ($<=>$).
+  - `#pu-nhiet`: Mũi tên phản ứng có điều kiện nhiệt độ ($->^(t^compose)$).
+
+### Tài liệu & AI
+
+- Cập nhật hướng dẫn sử dụng và System Prompt mẫu cho AI tạo đề Đa môn (Toán, Lý, Hóa) theo chuẩn BGD 2025.
+
 ## 1.0.4 — 2026-07-26
 
 ### Câu đúng/sai

@@ -9,13 +9,13 @@ Bộ macro Typst dành cho Toán THPT Việt Nam: đề thi bốn dạng câu h�
 ## Cài đặt
 
 ```typ
-#import "@preview/sang-math:1.0.4": *
+#import "@preview/sang-math:1.0.5": *
 ```
 
 Khi chỉ dùng một nhóm chức năng, nên import đúng tên cần dùng để file dễ đọc và API rõ ràng:
 
 ```typ
-#import "@preview/sang-math:1.0.4": tn, ds, tln, tl, True, sang-setup
+#import "@preview/sang-math:1.0.5": tn, ds, tln, tl, True, sang-setup
 ```
 
 ## API chính
@@ -66,7 +66,7 @@ chuyển nhanh sang danh sách bằng `use-table: false`:
 ## Ví dụ đề thi
 
 ```typ
-#import "@preview/sang-math:1.0.4": *
+#import "@preview/sang-math:1.0.5": *
 
 #let preset = exam-preset(
   theme: "teal-pro",
@@ -94,13 +94,13 @@ chuyển nhanh sang danh sách bằng `use-table: false`:
 
 ## Bộ mẫu để copy và sửa
 
-Thư mục [`examples/copy-ready`](./examples/copy-ready) có các mẫu chạy sẵn cho
+Thư mục [`examples/copy-ready`](https://github.com/sangnhc87/conictypst/tree/14b296889533c8b1897e5bebbfec499de7c5a932/typst-pkg-sang-math/examples/copy-ready) có các mẫu chạy sẵn cho
 đề 15 phút, giữa kỳ hỗn hợp, cấu trúc THPT 12–4–6, đề tự luận có nháp, phiếu học
 tập và câu có bảng biến thiên/CeTZ. Xem bảng chọn mẫu tại
-[`examples/README.md`](./examples/README.md).
+[`examples/README.md`](https://github.com/sangnhc87/conictypst/blob/14b296889533c8b1897e5bebbfec499de7c5a932/typst-pkg-sang-math/examples/README.md).
 
 Giáo viên dùng AI/OCR để tạo hoặc chuyển đề có thể sao chép bộ hướng dẫn tại
-[`PROMPT_AI_TAO_DE.md`](./PROMPT_AI_TAO_DE.md). Prompt quy định đúng chữ ký
+[`PROMPT_AI_TAO_DE.md`](https://github.com/sangnhc87/conictypst/blob/14b296889533c8b1897e5bebbfec499de7c5a932/typst-pkg-sang-math/PROMPT_AI_TAO_DE.md). Prompt quy định đúng chữ ký
 `tn/ds/tln/tl`, ID ổn định, cú pháp toán Typst và bước tự kiểm tra đáp án.
 
 Các theme đề có thể lấy trực tiếp bằng `exam-template-names`; hiện gồm `classic`, `ocean`, `emerald`, `royal`, `violet`, `crimson`, `graphite`, `amber`, `teal-pro`, `sky`, `indigo-minimal`, `print-economy`, `aurora`, `lotus`, `navy-gold`, `jade`, `coral`, `plum`.
@@ -108,7 +108,7 @@ Các theme đề có thể lấy trực tiếp bằng `exam-template-names`; hi�
 ## Ví dụ sách/chuyên đề
 
 ```typ
-#import "@preview/sang-math:1.0.4": *
+#import "@preview/sang-math:1.0.5": *
 
 #show: book-theme.with(
   theme: "sgk-modern",
@@ -129,7 +129,7 @@ Danh sách giao diện sách có sẵn nằm trong `book-template-names`.
 ## Bảng biến thiên
 
 ```typ
-#import "@preview/sang-math:1.0.4": bbtv2
+#import "@preview/sang-math:1.0.5": bbtv2
 
 #bbtv2(
   x-vals: ($-oo$, $-1$, $1$, $+oo$),
@@ -141,7 +141,7 @@ Danh sách giao diện sách có sẵn nằm trong `book-template-names`.
 ## Đề 70/30 có nháp khi in hai mặt
 
 ```typ
-#import "@preview/sang-math:1.0.4": layout-draft
+#import "@preview/sang-math:1.0.5": layout-draft
 
 #show: layout-draft.with(
   nháp-pct: 30%,
@@ -153,7 +153,7 @@ Nội dung đề thi...
 
 Trang lẻ đặt vùng nháp bên phải, trang chẵn đặt vùng nháp bên trái. Lề nội dung
 dùng cơ chế `inside`/`outside` nên tự đảo đúng khi in hai mặt. Mẫu đầy đủ nằm tại
-[`examples/copy-ready/07-de-70-30-nhap-in-hai-mat.typ`](./examples/copy-ready/07-de-70-30-nhap-in-hai-mat.typ).
+[`examples/copy-ready/07-de-70-30-nhap-in-hai-mat.typ`](https://github.com/sangnhc87/conictypst/blob/14b296889533c8b1897e5bebbfec499de7c5a932/typst-pkg-sang-math/examples/copy-ready/07-de-70-30-nhap-in-hai-mat.typ).
 
 
 ## Hình học CeTZ nâng cao
@@ -162,7 +162,7 @@ Các hàm `draw-*` được gọi bên trong `cetz.canvas`:
 
 ```typ
 #import "@preview/cetz:0.5.2"
-#import "@preview/sang-math:1.0.4": draw-ellipse, draw-cylinder
+#import "@preview/sang-math:1.0.5": draw-ellipse, draw-cylinder
 
 #cetz.canvas({
   draw-ellipse(a: 2, b: 1, show-axes: true, show-foci: true)
@@ -172,6 +172,28 @@ Các hàm `draw-*` được gọi bên trong `cetz.canvas`:
   draw-cylinder(radius: 1.4, height: 3.5, show-hidden: true)
 })
 ```
+
+## Ứng dụng cho Đa môn (Vật lí, Hóa học, KHTN)
+Gói `sang-math` cung cấp khung đề thi chuẩn Bộ GD&ĐT 2025, hoàn toàn có thể dùng cho mọi môn học:
+- **Vật lí**: Đổi `subject: "VẬT LÍ 12"`, sử dụng các ký hiệu `$ohm$`, `$doC$` hoặc `$mu"F"$.
+- **Hóa học**: Kết hợp với gói công thức hóa học `@preview/typsium:0.3.2`:
+```typ
+#import "@preview/sang-math:1.0.5": *
+#import "@preview/typsium:0.3.2": *
+
+#show: exam-classic.with(subject: "HÓA HỌC 12", duration: "50 phút")
+
+#exam-part([PHẦN I. Trắc nghiệm 4 lựa chọn])
+#tn([Chất nào là este no, đơn chức, mạch hở?], (
+  [#ce("CH3COOH")],
+  True([#ce("CH3COOC2H5")]),
+  [#ce("CH2=CHCOOCH3")],
+  [#ce("HCOOCH=CH2")],
+))
+```
+
+## Tạo đề bằng AI (ChatGPT / Claude / Gemini)
+Để AI hỗ trợ soạn đề tự động đúng 100% cú pháp `sang-math:1.0.5`, xem hướng dẫn và sao chép System Prompt chuẩn tại [`PROMPT_AI_TAO_DE.md`](https://github.com/sangnhc87/conictypst/blob/14b296889533c8b1897e5bebbfec499de7c5a932/typst-pkg-sang-math/PROMPT_AI_TAO_DE.md).
 
 ## Phát triển và kiểm thử
 

@@ -1,6 +1,6 @@
 // ================================================================
-// SANG-MATH 1.0.4 — Bộ macro Toán THPT Việt Nam
-// Entry point: #import "@preview/sang-math:1.0.4": *
+// SANG-MATH 1.0.5 — Bộ macro Toán & Đa môn THPT Việt Nam
+// Entry point: #import "@preview/sang-math:1.0.5": *
 // ================================================================
 
 // ── Stable public API ────────────────────────────────────────────

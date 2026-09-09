@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # ================================================================
 # install.sh — Cài sang-math vào Typst local package
-# Sau khi cài, dùng: #import "@local/sang-math:1.0.4": *
+# Sau khi cài, dùng: #import "@local/sang-math:1.0.5": *
 # ================================================================
 set -e
 
 PKG_NAME="sang-math"
-PKG_VERSION="1.0.4"
+PKG_VERSION="1.0.5"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Xác định thư mục data của Typst theo OS
@@ -54,7 +54,7 @@ echo ""
 echo "✅ Cài đặt thành công!"
 echo ""
 echo "Dùng trong file .typ:"
-echo '  #import "@local/sang-math:1.0.4": *'
+echo '  #import "@local/sang-math:1.0.5": *'
 echo ""
 echo "Hoặc chỉ import module cần:"
-echo '  #import "@local/sang-math:1.0.4": tn, ds, bbtv2, bxd, layout-draft'
+echo '  #import "@local/sang-math:1.0.5": tn, ds, bbtv2, bxd, layout-draft'

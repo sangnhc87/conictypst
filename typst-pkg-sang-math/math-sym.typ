@@ -79,12 +79,12 @@ eg)
 #let iiint = sym.integral.triple   // ∭  (LaTeX: \iiint)
 #let oint = sym.integral.cont     // ∮  (LaTeX: \oint)
 #let partial = sym.partial       // ∂  (LaTeX: \partial)
-#let nabla = sym.nabla         // ∇  (LaTeX: 
-abla)
+#let nabla = sym.nabla         // ∇  (LaTeX: \nabla)
 
 // ─── Vô cực & giới hạn ─────────────────────────────────────
 #let infty = sym.infinity      // ∞  (LaTeX: \infty)
 #let infinity = sym.infinity      // ∞  alias dài hơn
+#let lim = math.limits(math.lim, inline: true) // lim với cận dưới chuẩn toán Việt Nam
 
 // ─── Dấu chấm & dấu ba chấm ────────────────────────────────
 #let ldots = sym.dots.h        // …  (LaTeX: \ldots)
@@ -180,11 +180,17 @@ e      eq.not          neq / ne
 //  \subset         subset          (đã có sẵn)
 //  \subseteq       subset.eq       subseteq
 //  \emptyset       nothing         emptyset
-//  \in             in              (đã có sẵn)
-//  
-otin          in.not          notin
+//  \notin          in.not          notin
 //  \cot            —               cot (math.op)
 //  \arcsin         —               arcsin (math.op)
 //  \vec{v}         arrow(v)        vec(v) / overrightarrow(v)
 
 #let boxed(x) = box(stroke: 0.5pt, inset: 3pt, outset: 0pt)[#x]
+
+// ─── Tiện ích Ký hiệu Lý - Hóa (Đa môn) ─────────────────────
+#let doC = [$degree C$]                    // Độ Celsius
+#let celsius = [$degree C$]                // Độ Celsius alias
+#let ohm = sym.Omega                       // Đơn vị Ohm (Ω)
+#let pu-tn = $arrow.l.r.double$            // Phản ứng thuận nghịch <=>
+#let pu-nhiet = $limits(arrow)^(t^compose)$ // Mũi tên có t độ
+

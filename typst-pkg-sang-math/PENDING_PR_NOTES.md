@@ -10,7 +10,7 @@
   - Hỗ trợ "pass-through" (chuyển tiếp tự động) toàn bộ các tham số hiện có và cả những tham số tương lai mà không cần phải quay lại cập nhật hàm `exam-mode`.
   - Vẫn bảo tồn được tính năng Auto-complete trên các IDE như VSCode (do vẫn giữ danh sách tham số cơ bản ở đầu hàm).
 
-- **Trạng thái**: Đã fix thành công trên nhánh/thư mục local `typst-pkg-sang-math/sang-exam.typ` dòng `1536`.
+- **Trạng thái**: Đã fix thành công trên `sang-exam.typ`, đã đóng gói và bổ sung vào `CHANGELOG.md` cho phiên bản `1.0.5`.
 
 ---
-*Ghi chú: Khi nào gom đủ các thay đổi, thầy có thể copy các lưu ý này vào `CHANGELOG.md` và `RELEASE.md` trước khi publish phiên bản mới lên Typst universe.*
+*Ghi chú: Toàn bộ thay đổi đã được tích hợp vào mã nguồn, sẵn sàng mở PR phát hành `1.0.5`.*

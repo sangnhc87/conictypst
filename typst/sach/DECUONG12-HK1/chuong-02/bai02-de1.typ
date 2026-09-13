@@ -3,7 +3,6 @@
 #show math.frac: math.display
 
 
-#muc([Đề Luyện Tập Số 03 — Toạ độ của vectơ trong không gian])
 
 #resetexamstate()
 #exam-part([PHẦN I. Câu trắc nghiệm nhiều phương án lựa chọn (30 câu)], count: 30)

@@ -10,7 +10,7 @@
 
 #bai("Khoảng biến thiên và khoảng tứ phân vị của mẫu số liệu ghép nhóm", mau: C3)
 
-#dang("Khoảng biến thiên và khoảng tứ phân vị (Đề 1)", mau: C3)
+#dang("Khoảng biến thiên và khoảng tứ phân vị", mau: C3)
 #include "bai01-de1.typ"
-#dang("Khoảng biến thiên và khoảng tứ phân vị (Đề 2)", mau: C3)
+#dang("Khoảng biến thiên và khoảng tứ phân vị", mau: C3)
 #include "bai01-de2.typ"

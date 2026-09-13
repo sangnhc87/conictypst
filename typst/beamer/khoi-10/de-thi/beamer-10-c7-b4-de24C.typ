@@ -1,0 +1,560 @@
+// ═══════════════════════════════════════════════════════════════════════════
+// BEAMER ĐỀ THI: BÀI 22: BA ĐƯỜNG CONIC (ĐỀ SỐ 24C - NÂNG CAO & VDC)
+// Lớp: Khối 10  ·  Mã đề: 166  ·  GV: Nguyễn Văn Sang
+// THPT Nguyễn Hữu Cảnh  ·  Tổ Toán
+// ═══════════════════════════════════════════════════════════════════════════
+
+#import "@preview/sang-math:1.0.4": *
+#import "../../../giao-an/modules/lecture-beamer.typ": *
+#import "@preview/cetz:0.3.4"
+
+#let hoac(..args) = math.cases(delim: "[", ..args.named(), ..args.pos().map(math.display))
+#let heva(..args) = math.cases(delim: "{", ..args.named(), ..args.pos().map(math.display))
+#let notin = sym.in.not
+#let cap = math.inter
+#let cup = math.union
+#let setminus = math.without
+#let subset = math.subset
+#let emptyset = math.emptyset
+#let True(body) = ("true": true, body: body)
+#let accent = rgb("#0057b8")
+
+
+
+#show: lecture-theme.with(
+  title: "BÀI 22: BA ĐƯỜNG CONIC (ĐỀ SỐ 24C - NÂNG CAO & VDC)",
+  subtitle: "CHƯƠNG VII: PHƯƠNG PHÁP TỌA ĐỘ TRONG MẶT PHẲNG — MÃ ĐỀ: 166",
+  author: "GV Nguyễn Văn Sang",
+  institution: "THPT Nguyễn Hữu Cảnh",
+  base-size: 18pt,
+  math-color: rgb("#d81b60"),
+  math-size: 1.05em,
+  body-font: ("Arial", "Times New Roman"),
+)
+
+#lt-toc(title: [🗺️ CẤU TRÚC ĐỀ THI & ĐIỀU HƯỚNG])
+
+// ── BẢNG ĐIỀU HƯỚNG 22 CÂU HỎI ────────────────────────────
+#slide(title: none)[
+  #[#metadata(none) #label("sec-exercise-hub")]
+  #context {
+    let s = _lec-style.get()
+    v(-0.4em)
+    grid(
+      columns: (auto, 1fr, auto),
+      align: (left + horizon, left + horizon, right + horizon),
+      box(fill: s.accent, inset: (x: 10pt, y: 5pt), radius: 4pt)[
+        #text(weight: "bold", fill: white, size: 11pt)[📋 MA TRẬN ĐIỀU HƯỚNG 22 CÂU HỎI]
+      ],
+      pad(left: 8pt)[#text(size: 9pt, fill: s.muted, weight: "bold")[MÃ ĐỀ: 166]],
+      lt-nav-btn("lec-toc-main", icon: "◀", txt: "Mục lục chính")
+    )
+    v(0.4em)
+
+    // Phần I: 12 câu TN (Lưới 6x2)
+    block(fill: rgb("#eff6ff"), stroke: 1pt + rgb("#bfdbfe"), inset: 7pt, radius: 6pt, width: 100%)[
+      #text(size: 8.5pt, weight: "bold", fill: rgb("#1d4ed8"))[🎯 PHẦN I: TRẮC NGHIỆM 4 LỰA CHỌN (Câu 1 -> 12)]
+      #v(0.3em)
+      #grid(
+        columns: (1fr, 1fr, 1fr, 1fr, 1fr, 1fr),
+        gutter: 5pt,
+        ..(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12).map(i => {
+          link(label("cau-" + str(i)))[
+            #block(
+              fill: white,
+              stroke: 0.8pt + rgb("#3b82f6"),
+              inset: (y: 4pt),
+              radius: 4pt,
+              width: 100%,
+              align(center)[#text(size: 8pt, weight: "bold", fill: rgb("#1d4ed8"))[Câu #i]]
+            )
+          ]
+        })
+      )
+    ]
+
+    v(0.3em)
+
+    // Phần II: 4 câu Đúng/Sai (Lưới 4x1)
+    block(fill: rgb("#faf5ff"), stroke: 1pt + rgb("#e9d5ff"), inset: 7pt, radius: 6pt, width: 100%)[
+      #text(size: 8.5pt, weight: "bold", fill: rgb("#7e22ce"))[📝 PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI (Câu 13 -> 16 — Mỗi câu 4 ý a, b, c, d)]
+      #v(0.3em)
+      #grid(
+        columns: (1fr, 1fr, 1fr, 1fr),
+        gutter: 6pt,
+        ..(13, 14, 15, 16).map(i => {
+          link(label("cau-" + str(i)))[
+            #block(
+              fill: white,
+              stroke: 0.8pt + rgb("#a855f7"),
+              inset: (y: 4.5pt),
+              radius: 4pt,
+              width: 100%,
+              align(center)[#text(size: 8pt, weight: "bold", fill: rgb("#7e22ce"))[Câu #i (Đ/S)]]
+            )
+          ]
+        })
+      )
+    ]
+
+    v(0.3em)
+
+    // Phần III: 6 câu Trả lời ngắn (Lưới 6x1)
+    block(fill: rgb("#ecfeff"), stroke: 1pt + rgb("#a5f3fc"), inset: 7pt, radius: 6pt, width: 100%)[
+      #text(size: 8.5pt, weight: "bold", fill: rgb("#0e7490"))[🔢 PHẦN III: CÂU HỎI TRẢ LỜI NGẮN (Câu 17 -> 22)]
+      #v(0.3em)
+      #grid(
+        columns: (1fr, 1fr, 1fr, 1fr, 1fr, 1fr),
+        gutter: 5pt,
+        ..(17, 18, 19, 20, 21, 22).map(i => {
+          link(label("cau-" + str(i)))[
+            #block(
+              fill: white,
+              stroke: 0.8pt + rgb("#06b6d4"),
+              inset: (y: 4pt),
+              radius: 4pt,
+              width: 100%,
+              align(center)[#text(size: 8pt, weight: "bold", fill: rgb("#0e7490"))[Câu #i]]
+            )
+          ]
+        })
+      )
+    ]
+  }
+]
+
+#let exam-part(title, count: none) = {
+  slide(title: none)[
+    #align(center + horizon)[
+      #block(fill: rgb("#eff6ff"), stroke: 2pt + rgb("#2563eb"), inset: 18pt, radius: 10pt, width: 85%)[
+        #text(size: 16pt, weight: "bold", fill: rgb("#1d4ed8"))[#title]
+      ]
+    ]
+  ]
+}
+
+// ── NỘI DUNG 22 CÂU HỎI THỰC CHIẾN ─────────────────────────
+#exam-part([PHẦN I. Câu trắc nghiệm nhiều phương án lựa chọn. Thí sinh trả lời từ câu 1 đến câu 12. Mỗi câu hỏi thí sinh chỉ chọn một phương án.], count: auto)
+
+// TN 1
+#lt-tn(num: 1, de: [Đề 3 (C) — Mã 166], back-to: "sec-exercise-hub",[Cho Elip $(E): x^2 / 25 + y^2 / 9 = 1$. Điểm $M$ thuộc $(E)$ có hoành độ dương thỏa mãn $M F_1 = 2 M F_2$ (với $F_1, F_2$ là hai tiêu điểm). Hoành độ của điểm $M$ bằng],
+    (
+        True([$25 / 12$]),
+        [$5 / 2$],
+        [$20 / 9$],
+        [$15 / 8$]
+    ),
+    loigiai: [
+        Ta có $a = 5, b = 3 => c = sqrt(25 - 9) = 4$. Tâm sai $e = c / a = 4 / 5$.
+        
+        Theo định nghĩa Elip: $M F_1 + M F_2 = 2a = 10$.
+        
+        Vì $M F_1 = 2 M F_2$ nên:
+        $ 3 M F_2 = 10 <=> M F_2 = 10 / 3 $
+        
+        Mặt khác, theo công thức bán kính qua tiêu:
+        $ M F_2 = a - e x_M <=> 5 - 4 / 5 x_M = 10 / 3 <=> 4 / 5 x_M = 5 / 3 <=> x_M = 25 / 12 $
+    ]
+)
+
+// TN 2
+#lt-tn(num: 2, de: [Đề 3 (C) — Mã 166], back-to: "sec-exercise-hub",[Cho Hypebol $(H): x^2 / 16 - y^2 / 9 = 1$ có hai tiêu điểm $F_1, F_2$. Điểm $M$ thuộc nhánh phải của $(H)$ nhìn hai tiêu điểm dưới một góc vuông ($hat(F_1 M F_2) = 90^circ$). Khi đó giá trị của $M F_1^2 + M F_2^2$ bằng],
+    (
+        True([$100$]),
+        [$50$],
+        [$64$],
+        [$25$]
+    ),
+    loigiai: [
+        Ta có $a^2 = 16, b^2 = 9 => c^2 = a^2 + b^2 = 25 => c = 5$.
+        Tiêu cự $F_1 F_2 = 2c = 10$.
+        Tam giác $F_1 M F_2$ vuông tại $M$ nên theo định lý Pythagore:
+        $ M F_1^2 + M F_2^2 = F_1 F_2^2 = (10)^2 = 100 $
+    ]
+)
+
+// TN 3
+#lt-tn(num: 3, de: [Đề 3 (C) — Mã 166], back-to: "sec-exercise-hub",[Tích các khoảng cách từ một điểm $M$ bất kỳ trên Hypebol $(H): x^2 / 16 - y^2 / 9 = 1$ đến hai đường tiệm cận của nó bằng],
+    (
+        True([$5.76$]),
+        [$2.88$],
+        [$12$],
+        [$7.2$]
+    ),
+    loigiai: [
+        Hai đường tiệm cận của $(H)$ là $d_1: 3x - 4y = 0$ và $d_2: 3x + 4y = 0$.
+        Với $M(x_0; y_0) in (H)$ ta có $x_0^2 / 16 - y_0^2 / 9 = 1 <=> 9x_0^2 - 16y_0^2 = 144$.
+        Tích khoảng cách:
+        $ d(M, d_1) cdot d(M, d_2) = (|3x_0 - 4y_0|) / 5 cdot (|3x_0 + 4y_0|) / 5 = (|9x_0^2 - 16y_0^2|) / 25 = 144 / 25 = 5.76 $
+    ]
+)
+
+// TN 4
+#lt-tn(num: 4, de: [Đề 3 (C) — Mã 166], back-to: "sec-exercise-hub",[Tìm tất cả các giá trị của tham số $m$ để đường thẳng $d: 2x - y + m = 0$ tiếp xúc với Parabol $(P): y^2 = 4x$.],
+    (
+        True([$m = 1 / 2$]),
+        [$m = - 1 / 2$],
+        [$m = 1$],
+        [$m = 2$]
+    ),
+    loigiai: [
+        Từ phương trình đường thẳng: $y = 2x + m$.
+        Thay vào Parabol:
+        $ (2x + m)^2 = 4x <=> 4x^2 + 4(m - 1)x + m^2 = 0 $
+        Đường thẳng tiếp xúc với Parabol khi và chỉ khi phương trình có nghiệm kép:
+        $ Delta' = 4(m - 1)^2 - 4m^2 = 4(1 - 2m) = 0 <=> 1 - 2m = 0 <=> m = 1 / 2 $
+    ]
+)
+
+// TN 5
+#lt-tn(num: 5, de: [Đề 3 (C) — Mã 166], back-to: "sec-exercise-hub",[Tìm tất cả các giá trị của tham số $m$ để đường thẳng $d: 3x + 4y + m = 0$ tiếp xúc với Elip $(E): x^2 / 16 + y^2 / 9 = 1$.],
+    (
+        True([$m = plus.minus 12 sqrt(2)$]),
+        [$m = plus.minus 12$],
+        [$m = plus.minus 24$],
+        [$m = plus.minus 6 sqrt(2)$]
+    ),
+    loigiai: [
+        Đường thẳng $A x + B y + C = 0$ tiếp xúc với Elip $x^2 / a^2 + y^2 / b^2 = 1$ khi:
+        $ A^2 a^2 + B^2 b^2 = C^2 $
+        Ở đây: $A = 3, B = 4, C = m, a^2 = 16, b^2 = 9$.
+        $ m^2 = 3^2(16) + 4^2(9) = 144 + 144 = 288 => m = plus.minus sqrt(288) = plus.minus 12 sqrt(2) $
+    ]
+)
+
+// TN 6
+#lt-tn(num: 6, de: [Đề 3 (C) — Mã 166], back-to: "sec-exercise-hub",[Cho Parabol $(P): y^2 = 8x$. Một dây cung $A B$ đi qua tiêu điểm $F$ của Parabol có hai đầu mút là $A(x_1; y_1)$ và $B(x_2; y_2)$. Tích các tung độ $y_1 y_2$ bằng],
+    (
+        True([$-16$]),
+        [$16$],
+        [$-8$],
+        [$8$]
+    ),
+    loigiai: [
+        Tiêu điểm của $(P)$ là $F(2; 0)$ ($p = 4$).
+        Đường thẳng đi qua $F$ có phương trình dạng $x = k y + 2$.
+        Thay vào phương trình Parabol:
+        $ y^2 = 8(k y + 2) <=> y^2 - 8k y - 16 = 0 $
+        Theo định lý Viète, tích hai tung độ giao điểm là:
+        $ y_1 y_2 = -16 = -p^2 $
+    ]
+)
+
+// TN 7
+#lt-tn(num: 7, de: [Đề 3 (C) — Mã 166], back-to: "sec-exercise-hub",[Cho Elip $(E): x^2 / 25 + y^2 / 16 = 1$ có hai tiêu điểm $F_1, F_2$. Diện tích tam giác $M F_1 F_2$ với $M in (E)$ có giá trị lớn nhất bằng],
+    (
+        True([$12$]),
+        [$15$],
+        [$20$],
+        [$24$]
+    ),
+    loigiai: [
+        Ta có $a = 5, b = 4 => c = sqrt(25 - 16) = 3$.
+        Cạnh đáy $F_1 F_2 = 2c = 6$.
+        Diện tích tam giác: $S = 1 / 2 F_1 F_2 |y_M| = 3 |y_M|$.
+        Vì $M in (E)$ nên $|y_M| <= b = 4$.
+        Do đó $S_text("max") = 3(4) = 12$ đạt được tại các đỉnh $B_1(0; -4)$ hoặc $B_2(0; 4)$.
+    ]
+)
+
+// TN 8
+#lt-tn(num: 8, de: [Đề 3 (C) — Mã 166], back-to: "sec-exercise-hub",[Cho Hypebol $(H): x^2 / 9 - y^2 / 16 = 1$. Côsin của góc tạo bởi hai đường tiệm cận của $(H)$ bằng],
+    (
+        True([$7 / 25$]),
+        [$24 / 25$],
+        [$3 / 5$],
+        [$4 / 5$]
+    ),
+    loigiai: [
+        Hai đường tiệm cận là $y = plus.minus 4 / 3 x$.
+        Vectơ pháp tuyến tương ứng: $vec(n_1) = (4; -3)$ và $vec(n_2) = (4; 3)$.
+        $ cos alpha = (|vec(n_1) cdot vec(n_2)|) / (|vec(n_1)| |vec(n_2)|) = (|4(4) + (-3)(3)|) / (sqrt(4^2 + (-3)^2) sqrt(4^2 + 3^2)) = (|16 - 9|) / (5 times 5) = 7 / 25 $
+    ]
+)
+
+// TN 9
+#lt-tn(num: 9, de: [Đề 3 (C) — Mã 166], back-to: "sec-exercise-hub",[Phương trình chính tắc của Parabol biết khoảng cách từ tiêu điểm $F$ đến đường chuẩn $Delta$ bằng $6$ là],
+    (
+        True([$y^2 = 12x$]),
+        [$y^2 = 6x$],
+        [$y^2 = 24x$],
+        [$y^2 = 3x$]
+    ),
+    loigiai: [
+        Tiêu điểm $F(p / 2; 0)$ và đường chuẩn $Delta: x = -p / 2$.
+        Khoảng cách giữa tiêu điểm và đường chuẩn chính bằng tham số tiêu:
+        $ d(F, Delta) = p / 2 - (-p / 2) = p = 6 $
+        Phương trình chính tắc của Parabol: $y^2 = 2p x = 2(6)x = 12x$.
+    ]
+)
+
+// TN 10
+#lt-tn(num: 10, de: [Đề 3 (C) — Mã 166], back-to: "sec-exercise-hub",[Cho Elip $(E): x^2 / 25 + y^2 / 9 = 1$ có hai tiêu điểm $F_1, F_2$. Điểm $M in (E)$ nhìn hai tiêu điểm dưới một góc $60^circ$ ($hat(F_1 M F_2) = 60^circ$). Tích khoảng cách $M F_1 cdot M F_2$ bằng],
+    (
+        True([$12$]),
+        [$16$],
+        [$9$],
+        [$15$]
+    ),
+    loigiai: [
+        Ta có $2a = 10$ và $2c = 2 sqrt(25 - 9) = 8$.
+        Áp dụng định lý côsin trong tam giác $F_1 M F_2$:
+        $ F_1 F_2^2 = M F_1^2 + M F_2^2 - 2 M F_1 M F_2 cos 60^circ $
+        $ <=> (2c)^2 = (M F_1 + M F_2)^2 - 2 M F_1 M F_2 - 2 M F_1 M F_2 (1 / 2) $
+        $ <=> 8^2 = 10^2 - 3 M F_1 M F_2 <=> 64 = 100 - 3 M F_1 M F_2 <=> 3 M F_1 M F_2 = 36 <=> M F_1 M F_2 = 12 $
+    ]
+)
+
+// TN 11
+#lt-tn(num: 11, de: [Đề 3 (C) — Mã 166], back-to: "sec-exercise-hub",[Một bàn bi-a có mặt bàn hình Elip với trục lớn dài $200 text(" cm")$ ($2a = 200$) và tiêu cự dài $160 text(" cm")$ ($2c = 160$).
+Một bi đặt tại tiêu điểm $F_1$ được cơ thủ đánh đập vào băng bàn tại điểm $M$ rồi phản xạ đi thẳng qua tiêu điểm $F_2$.
+Tổng quãng đường bi lăn từ $F_1$ đến $M$ rồi tới $F_2$ bằng],
+    (
+        True([$200 text(" cm")$]),
+        [$160 text(" cm")$],
+        [$180 text(" cm")$],
+        [$240 text(" cm")$]
+    ),
+    loigiai: [
+        Theo tính chất quang học của đường Elip, tia phản xạ của chùm tia xuất phát từ tiêu điểm $F_1$ khi đập vào Elip luôn đi qua tiêu điểm $F_2$.
+        Tổng quãng đường bi lăn là:
+        $ M F_1 + M F_2 = 2a = 200 text(" cm") $
+    ]
+)
+
+// TN 12
+#lt-tn(num: 12, de: [Đề 3 (C) — Mã 166], back-to: "sec-exercise-hub",[Gương phản xạ sơ cấp của một kính thiên văn có dạng Parabol với đường kính miệng gương $2.4 text(" m")$ ($y = plus.minus 1.2 text(" m")$) và tiêu cự từ đỉnh gương đến tiêu điểm là $f = 4.8 text(" m")$.
+Độ sâu $h$ của lòng gương tại tâm bằng],
+    (
+        True([$7.5 text(" cm")$]),
+        [$15 text(" cm")$],
+        [$3.75 text(" cm")$],
+        [$5 text(" cm")$]
+    ),
+    loigiai: [
+        Ta có $f = p / 2 = 4.8 text(" m") => p = 9.6 text(" m")$.
+        Phương trình Parabol: $y^2 = 2p x = 19.2 x$.
+        Tại mép ngoài của gương ($y = 1.2 text(" m")$):
+        $ 1.2^2 = 19.2 h <=> 1.44 = 19.2 h <=> h = 1.44 / 19.2 = 0.075 text(" m") = 7.5 text(" cm") $
+    ]
+)
+
+#exam-part([PHẦN II. Câu trắc nghiệm đúng sai. Trong mỗi ý a), b), c), d) ở mỗi câu, thí sinh chọn đúng hoặc sai.], count: auto)
+
+// DS 1 (Tính chất góc nhìn và diện tích tiêu điểm Elip có CeTZ)
+#lt-ds(num: 13, de: [Đề 3 (C) — Mã 166], back-to: "sec-exercise-hub",[Cho Elip $(E): x^2 / 25 + y^2 / 16 = 1$ và hai tiêu điểm $F_1, F_2$ như hình vẽ:
+#align(center)[
+#cetz.canvas({
+  import cetz.draw: *
+  line((-6, 0), (6, 0), stroke: 0.8pt, mark: (end: "stealth"))
+  line((0, -4.5), (0, 4.5), stroke: 0.8pt, mark: (end: "stealth"))
+  content((5.8, -0.3), [$x$])
+  content((-0.3, 4.2), [$y$])
+  content((-0.25, -0.25), [$O$])
+  
+  // Elip
+  circle((0, 0), radius: (4, 2.5), stroke: 1.2pt + rgb("d97706"))
+  content((3.5, 2.3), [$(E)$])
+  
+  // Tiêu điểm F1(-2.4, 0), F2(2.4, 0)
+  circle((-2.4, 0), radius: 2pt, fill: red)
+  content((-2.4, -0.3), [$F_1$])
+  circle((2.4, 0), radius: 2pt, fill: red)
+  content((2.4, -0.3), [$F_2$])
+  
+  // Đỉnh B2(0, 2.5) -> tam giác MF1F2 có Smax
+  circle((0, 2.5), radius: 2pt, fill: blue)
+  content((0.4, 2.7), [$B_2$])
+  line((-2.4, 0), (0, 2.5), stroke: 1pt + blue)
+  line((2.4, 0), (0, 2.5), stroke: 1pt + blue)
+})
+]
+Xét tính đúng sai của các nhận định sau:],
+  (
+    True([Tiêu cự của Elip bằng $F_1 F_2 = 6$.]),
+    True([Với mọi điểm $M in (E)$, ta luôn có $M F_1 + M F_2 = 10$.]),
+    True([Diện tích tam giác $M F_1 F_2$ đạt giá trị lớn nhất bằng $12$ khi điểm $M$ trùng với đỉnh $B_1(0; -4)$ hoặc $B_2(0; 4)$.]),
+    [Có đúng hai điểm $M in (E)$ nhìn hai tiêu điểm dưới một góc vuông ($hat(F_1 M F_2) = 90^circ$).]
+  ),
+  loigiai: [
+    #step([Tiêu cự và bán trục])
+    $a = 5, b = 4 => c = sqrt(25 - 16) = 3$. Tiêu cự $F_1 F_2 = 2c = 6$. Mệnh đề a ĐÚNG.
+
+    #step([Tổng bán kính qua tiêu])
+    $M F_1 + M F_2 = 2a = 10$. Mệnh đề b ĐÚNG.
+
+    #step([Diện tích lớn nhất])
+    $S = 1 / 2 F_1 F_2 |y_M| = 3 |y_M| <= 3(4) = 12$. Đạt được tại các đỉnh trên trục nhỏ. Mệnh đề c ĐÚNG.
+
+    #step([Góc nhìn vuông])
+    Nếu $hat(F_1 M F_2) = 90^circ$ thì điểm $M$ thuộc đường tròn đường kính $F_1 F_2$ có bán kính $R = c = 3$.
+    Vì khoảng cách từ tâm đến các điểm trên Elip luôn thỏa mãn $r_M >= b = 4 > 3 = R$ nên đường tròn đường kính $F_1 F_2$ nằm lọt hoàn toàn bên trong Elip $(E)$, không có điểm chung nào với $(E)$.
+    Do đó không tồn tại điểm nào trên $(E)$ nhìn hai tiêu điểm dưới góc vuông.
+    Khẳng định có đúng hai điểm là SAI. Mệnh đề d SAI.
+  ]
+)
+
+// DS 2 (Bàn bi-a Elip)
+#lt-ds(num: 14, de: [Đề 3 (C) — Mã 166], back-to: "sec-exercise-hub",[Một bàn bi-a đặc biệt có mặt bàn giới hạn bởi đường Elip $(E): x^2 / 10000 + y^2 / 3600 = 1$ (đơn vị: cm).
+Hai lỗ bi được đặt tại hai tiêu điểm $F_1, F_2$ của Elip.
+Xét tính đúng sai của các nhận định sau:],
+  (
+    True([Bán trục lớn của mặt bàn bằng $a = 100 text(" cm")$ và bán trục nhỏ bằng $b = 60 text(" cm")$.]),
+    True([Khoảng cách giữa hai lỗ bi $F_1 F_2$ bằng $160 text(" cm")$.]),
+    True([Một viên bi xuất phát từ lỗ $F_1$ đánh vào bất kỳ điểm nào trên băng bàn sẽ phản xạ đi thẳng vào lỗ $F_2$.]),
+    [Quãng đường viên bi lăn từ $F_1$ đập vào băng bàn rồi tới $F_2$ phụ thuộc vào góc đánh của cơ thủ.]
+  ),
+  loigiai: [
+    #step([Bán trục])
+    $a = sqrt(10000) = 100 text(" cm")$ và $b = sqrt(3600) = 60 text(" cm")$. Mệnh đề a ĐÚNG.
+
+    #step([Khoảng cách giữa hai lỗ])
+    $c = sqrt(100^2 - 60^2) = 80 => F_1 F_2 = 2c = 160 text(" cm")$. Mệnh đề b ĐÚNG.
+
+    #step([Tính chất phản xạ quang học])
+    Theo tính chất của Elip, pháp tuyến tại mỗi điểm trên Elip là đường phân giác của góc tạo bởi hai bán kính qua tiêu. Do đó tia tới từ $F_1$ sẽ phản xạ đi qua $F_2$. Mệnh đề c ĐÚNG.
+
+    #step([Tổng quãng đường])
+    $M F_1 + M F_2 = 2a = 200 text(" cm")$ luôn là một hằng số cố định, không phụ thuộc vào vị trí va chạm hay góc đánh.
+    Khẳng định phụ thuộc vào góc đánh là SAI. Mệnh đề d SAI.
+  ]
+)
+
+// DS 3 (Kính thiên văn Parabol)
+#lt-ds(num: 15, de: [Đề 3 (C) — Mã 166], back-to: "sec-exercise-hub",[Gương phản xạ của một kính thiên văn quang học có mặt cắt là Parabol $y^2 = 19.2 x$ (đơn vị: mét).
+Đường kính miệng gương là $2.4 text(" m")$ ($y = plus.minus 1.2 text(" m")$).
+Xét tính đúng sai của các nhận định sau:],
+  (
+    True([Tham số tiêu của Parabol bằng $p = 9.6 text(" m")$.]),
+    True([Tiêu cự của gương (khoảng cách từ đỉnh gương đến bộ thu sáng tại tiêu điểm $F$) bằng $4.8 text(" m")$.]),
+    True([Độ sâu của lòng gương Parabol tại tâm bằng $0.075 text(" m")$ ($7.5 text(" cm")$).]),
+    [Khi chùm tia sáng từ một ngôi sao ở xa chiếu song song với trục của gương, tất cả các tia phản xạ sẽ hội tụ tại điểm $(9.6; 0)$.]
+  ),
+  loigiai: [
+    #step([Tham số tiêu])
+    $2p = 19.2 => p = 9.6 text(" m")$. Mệnh đề a ĐÚNG.
+
+    #step([Tiêu cự])
+    $f = p / 2 = 4.8 text(" m")$. Mệnh đề b ĐÚNG.
+
+    #step([Độ sâu])
+    Tại $y = 1.2$, $h = 1.2^2 / 19.2 = 0.075 text(" m")$. Mệnh đề c ĐÚNG.
+
+    #step([Vị trí hội tụ])
+    Chùm tia sáng song song trục gương phản xạ hội tụ tại tiêu điểm $F(p / 2; 0) = F(4.8; 0)$ (chứ không phải $(9.6; 0)$).
+    Khẳng định hội tụ tại $(9.6; 0)$ là SAI. Mệnh đề d SAI.
+  ]
+)
+
+// DS 4 (Tích khoảng cách đến hai tiệm cận Hypebol)
+#lt-ds(num: 16, de: [Đề 3 (C) — Mã 166], back-to: "sec-exercise-hub",[Cho Hypebol $(H): x^2 / 16 - y^2 / 9 = 1$ và điểm $M(x_0; y_0)$ bất kỳ thuộc $(H)$.
+Xét tính đúng sai của các nhận định sau:],
+  (
+    True([Phương trình hai đường tiệm cận của $(H)$ là $Delta_1: 3x - 4y = 0$ và $Delta_2: 3x + 4y = 0$.]),
+    True([Khoảng cách từ điểm $M$ đến $Delta_1$ là $d_1 = (|3x_0 - 4y_0|) / 5$.]),
+    True([Khoảng cách từ điểm $M$ đến $Delta_2$ là $d_2 = (|3x_0 + 4y_0|) / 5$.]),
+    [Tích hai khoảng cách $d_1 cdot d_2$ phụ thuộc vào vị trí của điểm $M$ trên đường Hypebol.]
+  ),
+  loigiai: [
+    #step([Phương trình hai tiệm cận])
+    $y = plus.minus 3 / 4 x <=> 3x plus.minus 4y = 0$. Mệnh đề a ĐÚNG.
+
+    #step([Khoảng cách d1 và d2])
+    $d_1 = (|3x_0 - 4y_0|) / 5$ và $d_2 = (|3x_0 + 4y_0|) / 5$. Mệnh đề b, c ĐÚNG.
+
+    #step([Tích khoảng cách])
+    $ d_1 cdot d_2 = (|9x_0^2 - 16y_0^2|) / 25 = 144 / 25 = 5.76 $
+    Đây là một hằng số cố định, không phụ thuộc vào vị trí của điểm $M$.
+    Khẳng định tích khoảng cách phụ thuộc vị trí $M$ là SAI. Mệnh đề d SAI.
+  ]
+)
+
+#exam-part([PHẦN III. Câu trắc nghiệm trả lời ngắn. Thí sinh trả lời từ câu 1 đến câu 6.], count: auto)
+
+// TLN 1 (Diện tích lớn nhất tam giác MF1F2)
+#lt-tln(num: 17, de: [Đề 3 (C) — Mã 166], back-to: "sec-exercise-hub",[Cho Elip $(E): x^2 / 25 + y^2 / 16 = 1$. Diện tích lớn nhất của tam giác $M F_1 F_2$ với điểm $M$ di động trên $(E)$ bằng bao nhiêu?],
+    [12],
+    loigiai: [
+        #step([Tính c])
+        $ c = sqrt(25 - 16) = 3 => F_1 F_2 = 6 $
+        
+        #step([Tính diện tích cực đại])
+        $ S_text("max") = 1 / 2 (6) b = 3(4) = 12 $
+    ]
+)
+
+// TLN 2 (Tổng quãng đường bàn bi-a Elip)
+#lt-tln(num: 18, de: [Đề 3 (C) — Mã 166], back-to: "sec-exercise-hub",[Trong bài toán bàn bi-a Elip trục lớn $2a = 200 text(" cm")$, tổng quãng đường viên bi lăn từ lỗ $F_1$ qua điểm chạm băng $M$ đến lỗ $F_2$ bằng bao nhiêu centimét?],
+    [200],
+    loigiai: [
+        #step([Áp dụng định nghĩa Elip])
+        $ M F_1 + M F_2 = 2a = 200 text(" cm") $
+    ]
+)
+
+// TLN 3 (Tiêu cự gương Parabol)
+#lt-tln(num: 19, de: [Đề 3 (C) — Mã 166], back-to: "sec-exercise-hub",[Trong bài toán kính thiên văn có mặt cắt gương $y^2 = 19.2 x$, khoảng cách từ đỉnh gương đến tiêu điểm hội tụ $F$ bằng bao nhiêu mét?],
+    [4.8],
+    loigiai: [
+        #step([Tính tiêu cự])
+        $ f = p / 2 = 9.6 / 2 = 4.8 text(" m") $
+    ]
+)
+
+// TLN 4 (Tích khoảng cách đến hai tiệm cận)
+#lt-tln(num: 20, de: [Đề 3 (C) — Mã 166], back-to: "sec-exercise-hub",[Trong bài toán Hypebol $(H): x^2 / 16 - y^2 / 9 = 1$, tích các khoảng cách từ một điểm trên $(H)$ đến hai đường tiệm cận bằng bao nhiêu? (Nhập kết quả dưới dạng số thập phân).],
+    [5.76],
+    loigiai: [
+        #step([Tính tích khoảng cách])
+        $ d_1 d_2 = 144 / 25 = 5.76 $
+    ]
+)
+
+// TLN 5 (Tích tung độ dây cung qua tiêu)
+#lt-tln(num: 21, de: [Đề 3 (C) — Mã 166], back-to: "sec-exercise-hub",[Cho Parabol $(P): y^2 = 8x$. Một dây cung đi qua tiêu điểm $F$ có hai đầu mút $A(x_1; y_1)$ và $B(x_2; y_2)$. Tích các tung độ $y_1 y_2$ bằng bao nhiêu?],
+    [-16],
+    loigiai: [
+        #step([Tính tích tung độ])
+        Với Parabol $y^2 = 2p x$, mọi dây cung qua tiêu đều có $y_1 y_2 = -p^2 = -4^2 = -16$.
+    ]
+)
+
+// TLN 6 (Tích bán kính qua tiêu)
+#lt-tln(num: 22, de: [Đề 3 (C) — Mã 166], back-to: "sec-exercise-hub",[Cho Elip $(E): x^2 / 25 + y^2 / 9 = 1$. Điểm $M in (E)$ nhìn hai tiêu điểm dưới một góc $60^circ$. Tích khoảng cách $M F_1 cdot M F_2$ bằng bao nhiêu?],
+    [12],
+    loigiai: [
+        #step([Áp dụng định lý côsin])
+        $ (2c)^2 = (2a)^2 - 3 M F_1 M F_2 <=> 64 = 100 - 3 M F_1 M F_2 <=> M F_1 M F_2 = 12 $
+    ]
+)
+
+// ── CỘT MỐC HOÀN THÀNH ─────────────────────────────────────
+#slide(title: none)[
+  #align(center + horizon)[
+    #block(
+      fill: rgb("#1e1b4b"),
+      inset: (x: 36pt, y: 24pt),
+      radius: 16pt,
+      stroke: 2pt + rgb("#6366f1")
+    )[
+      #text(weight: "bold", fill: rgb("#a5b4fc"), size: 22pt)[🎉 CHÚC MỪNG HOÀN THÀNH BÀI 22: BA ĐƯỜNG CONIC (ĐỀ SỐ 24C - NÂNG CAO & VDC)!]      #v(0.6em)
+      #text(fill: white, size: 14pt)[
+        Bạn đã hoàn thành xuất sắc toàn bộ 22 câu hỏi của đề thi!        Chúc các em tự tin đạt điểm số tối đa trong kỳ thi chính thức!
+      ]
+      #v(1em)
+      #box(fill: rgb("#4f46e5"), inset: (x: 18pt, y: 8pt), radius: 20pt)[
+        #text(weight: "bold", fill: white, size: 12pt)[GV Nguyễn Văn Sang — THPT Nguyễn Hữu Cảnh]
+      ]
+      #v(0.8em)
+      #link("lec-toc-main")[
+        #block(
+          fill: rgb("#16a34a"),
+          inset: (x: 16pt, y: 8pt),
+          radius: 6pt
+        )[
+          #text(fill: white, weight: "bold", size: 11pt)[🗺️ QUAY LẠI MỤC LỤC CHÍNH]
+        ]
+      ]
+    ]
+  ]
+]

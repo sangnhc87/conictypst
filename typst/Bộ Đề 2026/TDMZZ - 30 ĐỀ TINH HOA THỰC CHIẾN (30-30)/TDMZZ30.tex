@@ -1,0 +1,373 @@
+\caulc
+\cauds
+\begin{ex}%[2D1H2-1]%[Dương Công Tạo]
+	Trong mặt phẳng toạ độ $Oxy$, cho hàm số $y = \dfrac{x^2-2x+1}{x+1}$ có đồ thị $(C)$.
+	\choiceTF
+	{\True Tập xác định của hàm số là $\mathscr{D} = \mathbb{R} \setminus \{-1\}$}
+	{\True Hàm số có hai điểm cực trị}
+	{$(C)$ có tâm đối xứng là $I(-1;-2)$}
+	{\True Đường thẳng đi qua hai điểm cực trị của $(C)$ là $y = 2x - 2$}
+	\loigiai{
+		\begin{itemchoice}
+			\itemch Hàm số đã cho xác định khi và chỉ khi $x+1\neq 0\Leftrightarrow x\neq -1$.\\
+			Vậy tập xác định của hàm số là $\mathscr{D} = \mathbb{R} \setminus \{-1\}$.
+			\itemch Với $x\neq -1$, ta có $y'= \dfrac{x^2+2x-3}{(x+1)^2}$; $y'=0\Leftrightarrow x^2+2x-3=0\Leftrightarrow\hoac{&x=1\\&x=-3.}$\\
+			Bảng biến thiên
+			\begin{center}
+				\begin{tikzpicture}[>=stealth]
+					\tkzTabInit[nocadre=false,lgt=1.5,espcl=2,deltacl=0.6]{$x$/.7 ,$f'(x)$/.7,$f(x)$/2}
+					{$-\infty$ , $-3$ , $-1$ , $1$ , $+\infty$}
+					\tkzTabLine{ , + , $0$ , - , d, -, $0$ , + , }
+					\tkzTabVar{-/$-\infty$ , +/$-8$ , -D+/$-\infty$/$+\infty$ , -/$0$, +/$+\infty$}
+				\end{tikzpicture}
+			\end{center}
+			Dựa vào bảng biến thiên, ta thấy hàm số đã cho có hai điểm cực trị.
+			\itemch Vói $x\neq -1$, hàm số được viết lại là $y=x-3+\dfrac{4}{x+1}$. Ta có
+			\begin{itemize}
+				\item $\lim\limits_{x\to (-1)^-}y=-\infty\Rightarrow x=-1$ là tiệm cận đứng của đồ thị $(C)$.
+				\item $\lim\limits_{x\to \pm\infty}\left[y-(x-3)\right]=-\infty\Rightarrow y=x-3$ là tiệm cận xiên của đồ thị $(C)$.
+			\end{itemize}
+			Khi đó, đồ thị $(C)$ nhận giao điểm $I(-1;-4)$ của hai tiệm cận trên làm tâm đối xứng.
+			\itemch Gọi $A(-3;-8)$ và $B(1;0)$ là hai cực trị của đồ thị $(C)$.\\
+			Ta có đường thẳng đi qua điểm $A$ và $B$ có dạng \[\dfrac{x-x_A}{x_B-x_A}=\dfrac{y-y_A}{y_B-y_A}\Leftrightarrow \dfrac{x+3}{4}=\dfrac{y+8}{8}\text{ hay }y=2x-2.\]
+		\end{itemchoice}
+	}
+\end{ex}
+\begin{ex}
+	content
+\end{ex}
+\begin{ex}%[2D4V3-5]%[TDMZZ29]%[Vũ Hồng Toàn]
+	Một hạt chuyển động dọc theo trục $Oy$. Vị trí của hạt (đơn vị: mét) tại thời điểm $t$ (giây) được xác định bởi $y(t) = 30t\mathrm{e}^{-0,5t}$ (m), (với $t \ge 0$).
+	\choiceTF
+	{\True Vận tốc xuất phát của hạt tại thời điểm $t = 0$ là $30$\,m/s}
+	{\True Trong suốt quá trình chuyển động, hạt chỉ đổi chiều chuyển động đúng một lần duy nhất tại thời điểm $t = 2$\,(giây)}
+	{\True Khoảng cách xa nhất mà hạt đạt được so với gốc tọa độ $O$ là $22{,}1$\,mét (tính theo đơn vị mét và làm tròn kết quả đến hàng phần mười)}
+	{\True Tổng quãng đường hạt đi được không quá $44{,}15$\,mét}
+	\loigiai{
+		Vị trí của hạt tại thời điểm $t$ là $y(t) = 30t\mathrm{e}^{-0{,}5t}$\,(m) với $t \ge 0$.\\
+		Vận tốc của hạt tại thời điểm $t$ là đạo hàm của li độ theo thời gian
+		\[v(t) = y'(t) = 30\mathrm{e}^{-0{,}5t} + 30t \cdot (-0{,}5)\mathrm{e}^{-0{,}5t} = 15(2 - t)\mathrm{e}^{-0{,}5t}\text{ (m/s)}.\]
+		\begin{itemchoice}
+			\itemch Tại thời điểm xuất phát $t = 0$, vận tốc của hạt là $v(0) = 15\cdot(2 - 0)\mathrm{e}^0 = 30$\,m/s.
+			\itemch Ta có $v(t) = 0 \Leftrightarrow 15(2 - t)\mathrm{e}^{-0{,}5t} = 0 \Leftrightarrow t = 2$.\\
+			Ta có $y(0) = 0$ và $\lim\limits_{t \to +\infty} y(t) = \lim\limits_{t \to +\infty} \dfrac{30t}{\mathrm{e}^{0{,}5t}} = 0$.\\
+			Bảng biến thiên
+			\begin{center}
+				\begin{tikzpicture}
+					\tkzTabInit[nocadre=true, lgt=1.2, espcl=3, deltacl=0.5]
+					{$t$/0.7,$v(t)$/0.7,$y(t)$/2}
+					{$0$,$2$,$+\infty$}
+					\tkzTabLine{,+,0,-,}
+					\tkzTabVar{-/$0$,+/$y(2)$,-/$0$}
+				\end{tikzpicture}
+			\end{center}
+			Vì $v(t) > 0$ khi $0 \le t < 2$ và $v(t) < 0$ khi $t > 2$ nên hạt đổi chiều chuyển động đúng một lần duy nhất tại thời điểm $t = 2$\,(giây).
+			\itemch Khoảng cách từ hạt đến gốc tọa độ $O$ tại thời điểm $t$ là $d(t) = |y(t)| = 30t\mathrm{e}^{-0{,}5t}$ (vì $t \ge 0$ nên $y(t) \ge 0$).\\
+			Hàm số $y(t)$ đồng biến trên khoảng $(0; 2)$ và nghịch biến trên khoảng $(2; +\infty)$.\\
+			Do đó, khoảng cách xa nhất mà hạt đạt được so với gốc tọa độ $O$ là tại thời điểm $t = 2$ là
+			\[y(2) = 30 \cdot 2 \cdot \mathrm{e}^{-1} = \dfrac{60}{\mathrm{e}} \approx 22{,}1\text{mét}.\]
+			\itemch Tổng quãng đường hạt đi được từ thời điểm $t = 0$ đến khi dừng hẳn (khi $t \to +\infty$) là
+			\[S = 2 \cdot \dfrac{60}{\mathrm{e}} = \dfrac{120}{\mathrm{e}} \approx 44{,}15\text{ (mét)}.\]
+		\end{itemchoice}
+	}
+\end{ex}
+
+\begin{ex}%[2H5V3-4]%[TDMZZ30]%[Văn Minh Thoại]
+	\immini[thm]{
+		Trong không gian $Oxyz$ có đơn vị dài trên mỗi trục là centimet, có một quả cầu nhỏ $(S)$ có bán kính bằng $25$ cm, ở thời điểm ban đầu $t_0=0$ tâm của nó ở vị trí $I_0(240;180;0)$ và có một khối cầu to $(S')$ có tâm $J(0;0;0)$ và bán kính $R'=180$. Quả cầu nhỏ bắt đầu chuyển động tịnh tiến với tốc độ bằng $v=12$ cm/s theo hướng vectơ $\overrightarrow{u}=(-1;-2;-1)$?
+	}{
+		\begin{tikzpicture}[declare function={R = 3.5; r = 0.45; f (\x) = 0.6*\x -0.5; ang = 31; },line join=round,line cap=round,>=stealth,scale=0.7]
+			\draw[dashed,gray!80!black](5,{f (5)}) -- (-5,{f (-5)});
+			\shade[ball color=teal!40] (1.8,{f (1.8)}) circle (r);
+			\shade[ball color=orange!40] (-0.6,{f (-0.6)}) circle (r);
+			\shade[inner color=white,outer color=cyan!30,opacity=0.7] (0,0) circle (R);
+			\draw[cyan!50] (0,0) circle (R);
+			\shade[ball color=orange!60] (4.2,{f (4.2)}) circle (r);
+			\shade[ball color=orange] (-4,{f (-4)}) circle (r);
+			\draw[->,red,line width=1.2pt] (-2.85,{f (-2.85)}) -- ($(-4,{f (-4)}) + (ang:r + 1.5pt)$);
+			\node[fill=black!70,text=white,scale=0.7,inner sep=2pt,rounded corners=1pt] at (0,2.5) {Mặt cầu (S')};
+		\end{tikzpicture}
+	}
+	\choiceTF
+	{\True $I_0J=300$}
+	{\True Tâm của quả cầu $(S)$ chuyển động trên đường thẳng $\heva{& x=240-t \\ & y=180-2t \\ & z=-t}$}
+	{\True Quả cầu nhỏ va chạm vào quả cầu to ngay khi khoảng cách hai tâm của hai quả cầu bằng $205$ cm}
+	{Tính từ lúc bắt đầu chuyển động đến khi quả cầu nhỏ va chạm vào quả cầu to thì hết một khoảng thời gian là $14$ giây \textit{(tính theo giây và làm tròn đến hàng đơn vị)}}
+	\loigiai{
+		\begin{itemchoice}
+			\itemch
+			Ta có $I_0(240;180;0)$ và $J(0;0;0)$.\\
+			Suy ra $I_0J=\sqrt{240^2+180^2+0^2} = \sqrt{57\,600+32\,400} = \sqrt{90\,000} = 300$.
+			\itemch
+			Quỹ đạo tâm của quả cầu $(S)$ là đường thẳng đi qua $I_0(240;180;0)$ và nhận vectơ $\overrightarrow{u}=(-1;-2;-1)$ làm vectơ chỉ phương.\\
+			Phương trình tham số của đường quỹ đạo này là $\heva{& x=240-t \\ & y=180-2t \\ & z=-t}$ (với $t \in \mathbb{R}$).\\
+			Do đó tâm của quả cầu $(S)$ chuyển động trên đường thẳng này.
+			\itemch
+			Hai quả cầu bắt đầu va chạm (tiếp xúc ngoài) ngay khi khoảng cách giữa hai tâm bằng tổng hai bán kính của chúng. \\
+			Nghĩa là $IJ = R + R' = 25 + 180 = 205$ cm.
+			\itemch
+			Vectơ vận tốc $\overrightarrow{v}$ của quả cầu $(S)$ cùng hướng với $\overrightarrow{u}=(-1;-2;-1)$ và có độ lớn $\left|\overrightarrow{v}\right| = 12$.\\
+			Ta được
+			\[\overrightarrow{v} = \left|\overrightarrow{v}\right| \cdot \dfrac{\overrightarrow{u}}{\left|\overrightarrow{u}\right|} = 12 \cdot \dfrac{(-1; -2; -1)}{\sqrt{(-1)^2 + (-2)^2 + (-1)^2}} =\left(-2\sqrt{6}; -4\sqrt{6}; -2\sqrt{6}\right). \]
+			Tại thời điểm $t$ (giây), vị trí tâm $I$ của $(S)$ là $I\left(240 - 2\sqrt{6}t; 180 - 4\sqrt{6}t; -2\sqrt{6}t\right)$.\\
+			Khi $(S)$ va chạm với $(S')$ thì khoảng cách $IJ = 205 \Leftrightarrow IJ^2 = 42\,025$. Khi đó
+			\allowdisplaybreaks
+			\begin{eqnarray*}
+				&&(240-2\sqrt{6}t)^2+(180-4\sqrt{6}t)^2+(-2\sqrt{6}t)^2=42\,025\\
+				&\Leftrightarrow&240^2-960\sqrt{6}t+24t^2+180^2-1\,440\sqrt{6}t+96t^2+24t^2=42\,025\\
+				&\Leftrightarrow&144t^2-2\,400\sqrt{6}t+90\,000=42\,025\\
+				&\Leftrightarrow&144t^2-2\,400\sqrt{6}t+47\,975=0\\
+				&\Leftrightarrow&\hoac{& t_1 = \dfrac{1\,200\sqrt{6} - 60\sqrt{481}}{144} \approx 11{,}27\\&_2 = \dfrac{1\,200\sqrt{6} + 60\sqrt{481}}{144} \approx 29{,}55.}
+			\end{eqnarray*}
+			Thời điểm bắt đầu va chạm tương ứng với giá trị $t$ nhỏ hơn nên thời gian di chuyển là $t \approx 11$ (giây).
+		\end{itemchoice}
+	}
+\end{ex}
+\caukq
+\begin{ex}
+	content
+\end{ex}
+
+\begin{ex}
+	content
+\end{ex}
+\begin{ex}%[2D4V3-3]%[TDMZZ29-19-TLN]%[Đỗ Đường Hiếu]
+	\immini[thm]{Chiếc bình bằng thuỷ tinh có mặt bên ngoài được tạo thành bằng cách quay hình phẳng $(H)$ (phần gạch chéo trong hình vẽ) quanh trục $AB$. Hình $(H)$ nằm trong hình chữ nhật $ABCD$, giới hạn bởi các đoạn thẳng $AM$, $BP$, cung tròn $MN$ (có tâm $I$ là trung điểm của đoạn thẳng $AE$ nằm trên trục $AB$) và cung parabol $NP$. Biết rằng $AB = 60$ cm, $AM = 20$ cm, $BE = 20$ cm. Tiếp tuyến của cung tròn và cung parabol tại điểm tiếp giáp $N$ là trùng nhau. Biết tổng thể tích của thủy tinh đã dùng là $2\,400$ cm$^3$. Hãy xác định sức chứa nước tối đa theo đơn vị lít của chiếc bình (\textit{không làm tròn ở các phép tính trung gian và làm tròn kết quả cuối cùng đến hàng phần mười}).}
+	{\begin{tikzpicture}[scale=1, font=, line join=round, line cap=round, >=stealth]
+			\pgfmathsetmacro\r{sqrt(2)}
+			\path 
+			(0:0) coordinate (A)
+			(90:6) coordinate (B)
+			(180:2) coordinate (M)
+			(90:4) coordinate (E)
+			(180:3) coordinate (D)
+			($(B)+(D)-(A)$) coordinate (C)
+			($(M)+(E)-(A)$) coordinate (N)
+			($(M)+(B)-(A)$) coordinate (P)
+			;
+			\draw[dashed](M)--(P) (N)--(E);
+			\draw (A) -- (B) -- (C) -- (D)--cycle;
+			\begin{scope}[rotate around={90:(A)}]
+				\draw[smooth,samples=200]
+				plot[domain=0:4]
+				(\x,{sqrt(4+4*(\x)-(\x)^2)});
+				\draw[smooth,samples=200]
+				plot[domain=4:6]
+				(\x,{0.5*(\x-4)*(\x-6)+2)});
+				\fill[pattern=north east lines] plot[domain=0:4](\x,{sqrt(4+4*(\x)-(\x)^2)})--plot[domain=4:6](\x,{0.5*(\x-4)*(\x-6)+2)})--(6,0)--(0,0)--cycle;
+			\end{scope}
+			\foreach \p/\q in {A/-40,B/60,C/150,D/-150,E/0,M/-90,N/120,P/90}
+			\fill[black] (\p) circle (1.0pt) node[shift={(\q:3mm)}]{$\p$};
+		\end{tikzpicture}
+	}
+	\par\shortans{99,0}
+	\loigiai{
+		\begin{center}
+			\begin{tikzpicture}[scale=1, font=, line join=round, line cap=round, >=stealth]
+				\pgfmathsetmacro\r{sqrt(2)}
+				\path 
+				(0:0) coordinate (A)
+				(0:6) coordinate (B)
+				(90:2) coordinate (M)
+				(0:4) coordinate (E)
+				(90:3) coordinate (D)
+				(5,1) coordinate (Q)
+				($(B)+(D)-(A)$) coordinate (C)
+				($(M)+(E)-(A)$) coordinate (N)
+				($(M)+(B)-(A)$) coordinate (P)
+				;
+				\draw[->] (-1,0)--(7,0) node[below]{$x$};
+				\draw[->] (0,-1)--(0,5) node[right]{$y$};
+				\draw[dashed](M)--(P) (N)--(E);
+				\draw (A) -- (B) -- (C) -- (D)--cycle;
+				\begin{scope}
+					\clip (0,0) rectangle (6,4);
+					\draw[smooth,samples=200]
+					plot[domain=0:4]
+					(\x,{sqrt(4+4*(\x)-(\x)^2)});
+					\draw[smooth,samples=200]
+					plot[domain=4:6]
+					(\x,{0.5*(\x-4)*(\x-6)+2)});
+				\end{scope}
+				\fill[pattern=north east lines] plot[domain=0:4](\x,{sqrt(4+4*(\x)-(\x)^2)})--plot[domain=4:6](\x,{0.5*(\x-4)*(\x-6)+2)})--(6,0)--(0,0)--cycle;
+				\foreach \p/\q in {A/-140,B/-90,C/60,D/150,E/-90,M/180,N/70,P/0}
+				\fill[black] (\p) circle (1.0pt) node[shift={(\q:3mm)}]{$\p$};
+			\end{tikzpicture}
+		\end{center}
+		Chọn hệ trục tọa độ $Oxy$ với mỗi đơn vị trên các trục ứng với $10$ cm (như hình vẽ).\\
+		Ta có $A(0;0)$, $B(6;0)$, $D(0;4)$, $C(6;4)$, $M(0;2)$, $E(4;0)$, $N(4;2)$, $P(6;2)$.\\
+		Cung tròn $MN$ tâm $I$ là trung điểm $AE$, ta có $I(2;0)$.\\
+		Bán kính $R = IN = 2\sqrt{2}$. Phương trình cung tròn $MN$ là
+		$$(x-2)^2 + y^2 = \left(2\sqrt{2}\right)^2 \Rightarrow y^2 = 8 - (x-2)^2 \Rightarrow y = f(x) = \sqrt{4 + 4x - x^2}.$$
+		với $x \in [0; 4]$.\\
+		Cung parabol $NP$ có dạng $y = g(x) = a(x-4)(x-6)+2$.\\
+		Ta có $f'(x)= \dfrac{2-x}{\sqrt{4 + 4x - x^2}}$, $g'(x)=a(2x-10)$.\\
+		Tiếp tuyến của cung tròn và cung parabol tại điểm tiếp giáp $N$ là trùng nhau nên
+		$$f'(4)=g'(4)\Leftrightarrow \dfrac{2-4}{\sqrt{4 + 4\cdot 4 - 4^2}}=a(2\cdot 4-10)\Rightarrow a=\dfrac{1}{2}.$$
+		Vậy, cung parabol $NP$ có phương trình $y = \dfrac{1}{2}(x-4)(x-6)+2$.\\
+		Thể tích vật thể tròn xoay tạo bởi khi quay hình phẳng $(H)$ quanh trục $AB$ là
+		$$V = \pi\displaystyle\int\limits_0^{4}\left(\sqrt{4 + 4x - x^2}\right)^2\mathrm{\,d}x + \pi \displaystyle\int\limits_{4}^{6}\left[\dfrac{1}{2}(x-4)(x-6)+2\right]^2\mathrm{\,d}x= \dfrac{484\pi}{15}\,\left(\mathrm{dm}^3\right).$$
+		Sức chứa nước là thể tích phần rỗng, ta có
+		$$V_{\text{nước}} = V - V_{\text{thủy tinh}} = \dfrac{484\pi}{15} - 2{,}4 \approx 98{,}97 \, \left(\text{dm}^3\right) \approx 99{,}0\,\left(\text{lít}\right).$$
+	}
+\end{ex}
+
+\begin{ex}%[2D1V4-3]%[TDMZZ30]%[Nguyễn Đức Tuấn Anh]
+	Trong mặt phẳng toạ độ $Oxy$ có đơn vị dài trên mỗi trục là mét, cho hàm số $y = \dfrac{x^2 - 6x + 15}{x - 2}$ có đồ thị $(C)$. Từ một điểm $M \in (C)$ một vật di chuyển đến tiệm cận đứng của $(C)$ tại điểm $H$ theo hướng vuông góc với tiệm cận đứng này, từ $H$ ta trở về $M$, tiếp sau đó di chuyển từ $M$ đến gặp tiệm cận xiên của $(C)$ tại điểm $K$ theo hướng vuông góc với tiệm cận xiên này. Hãy tính tổng quãng đường nhỏ nhất mà vật đã di chuyển theo đơn vị mét \textit{(không làm tròn ở các phép tính trung gian và làm tròn kết quả cuối cùng đến hàng phần mười)}.
+	\par\shortans[0]{6,3}
+	\loigiai{
+		\begin{center}
+			\begin{tikzpicture}[scale=.8, font=\footnotesize, line join=round, line cap=round, >=stealth]
+				\clip (-1.5,-3) rectangle (8.7,6.25);
+				\draw[->] (-1.5,0) -- (8.5,0) node[below] {$x$};
+				\draw[->] (0,-4) -- (0,6) node[left] {$y$};
+				\path
+				(0,0) coordinate (O)
+				(2,0) coordinate (V1)
+				(2,1) coordinate (V2)
+				(0,-4) coordinate (S1)
+				(4,0) coordinate (S2)
+				(4,3.5) coordinate (M)
+				($(V1)!(M)!(V2)$) coordinate (H)
+				($(S1)!(M)!(S2)$) coordinate (K)
+				($(H)+(0,1)$) coordinate (H_up)
+				($(K)+(1,1)$) coordinate (K_up);
+				\draw[dashed] (2,-4.5) -- (2,6.5) node[pos=0.15, right] {$x=2$};
+				\draw[dashed] (-0.5,-4.5) -- (8.5,4.5) node[pos=0.8, right] {$y=x-4$};
+				\draw[thick, samples=100, smooth, domain=2.3:8.5] plot (\x, {\x - 4 + 7/(\x - 2)});
+				\draw[thick, samples=100, smooth, domain=-1:1.7] plot (\x, {\x - 4 + 7/(\x - 2)});
+				\draw (M)--(H) (M)--(K);
+				\foreach \x/\y/\z in {M/H/H_up, M/K/K_up}
+				\draw pic[draw, angle radius=2mm]{right angle= \x--\y--\z};
+				\foreach \p/\ang in {O/-135, M/60, H/180, K/-45} {
+					\fill (\p) circle (1pt)node[shift={(\ang:0.25)}]{$\p$};
+				}
+				\node at (6.5, 4.5) {$(C)$};
+			\end{tikzpicture}
+		\end{center}
+		Ta có $y = \dfrac{x^2 - 6x + 15}{x - 2} = x - 4 + \dfrac{7}{x - 2}$.\\
+		Tập xác định của hàm số là $\mathscr{D} = \mathbb{R} \setminus \{2\}$.\\
+		Đồ thị $(C)$ có các đường tiệm cận:
+		\begin{itemize}
+			\item Đường tiệm cận đứng $\Delta_1\colon x - 2 = 0$.
+			\item Đường tiệm cận xiên $\Delta_2\colon y = x - 4 \Leftrightarrow x - y - 4 = 0$.
+		\end{itemize}
+		Gọi điểm $M\left(m; m - 4 + \dfrac{7}{m - 2}\right) \in (C)$ với $m \neq 2$.\\
+		Quãng đường vật di chuyển gồm đoạn $MH$, đoạn $HM$ và đoạn $MK$.\\
+		Do đó, tổng quãng đường $S$ mà vật đã di chuyển là
+		\[ S = 2MH + MK = 2\mathrm{d}\big(M, \Delta_1\big) + \mathrm{d}\big(M, \Delta_2\big). \]
+		Ta có khoảng cách từ điểm $M$ đến các đường tiệm cận lần lượt là
+		\begin{itemize}
+			\item $\mathrm{d}\big(M, \Delta_1\big) = \dfrac{|m - 2|}{\sqrt{1^2 + 0^2}} = |m - 2|$.
+			\item $ \mathrm{d}\big(M, \Delta_2\big) = \dfrac{\left|m - \left(m - 4 + \dfrac{7}{m - 2}\right) - 4\right|}{\sqrt{1^2 + (-1)^2}} = \dfrac{\left|-\dfrac{7}{m - 2}\right|}{\sqrt{2}} = \dfrac{7}{\sqrt{2}|m - 2|}$.
+		\end{itemize}
+		Suy ra $S = 2|m - 2| + \dfrac{7}{\sqrt{2}|m - 2|}$.\\
+		Vì $m \neq 2 \Rightarrow |m - 2| > 0$, áp dụng bất đẳng thức AM-GM cho hai số dương, ta có
+		\[ S = 2|m - 2| + \dfrac{7}{\sqrt{2}|m - 2|} \ge 2\sqrt{2|m - 2| \cdot \dfrac{7}{\sqrt{2}|m - 2|}} = 2\sqrt{\dfrac{14}{\sqrt{2}}} = 2\sqrt{7\sqrt{2}}. \]
+		Dấu \lq\lq=\rq\rq\ xảy ra khi và chỉ khi
+		\[ 2|m - 2| = \dfrac{7}{\sqrt{2}|m - 2|} \Leftrightarrow (m - 2)^2 = \dfrac{7\sqrt{2}}{4}. \]
+		Vậy giá trị nhỏ nhất của quãng đường là
+		\[ S_{\min} = 2\sqrt{7\sqrt{2}} \approx 6,3\text{ (m)}. \]
+	}
+\end{ex}
+\begin{ex}
+	content
+\end{ex}
+\begin{ex}%[0D0C2-5]%[TDM42]%[Nguyễn Văn Sang]
+	Trong công tác chuẩn bị cho Kỳ thi Tốt nghiệp THPT năm 2027, một phần mềm quản lý thi tiến hành xếp chỗ cho $20$ thí sinh vào một phòng thi chuẩn. Phòng thi chuẩn gồm $20$ bàn được xếp thành $4$ dãy, đánh số thứ tự từ $1$ đến $4$, mỗi dãy gồm $5$ bàn (mỗi bàn đúng một thí sinh). Trong số $20$ thí sinh này, có $9$ thí sinh chọn thi môn Vật Lý và $11$ thí sinh chọn thi môn Lịch Sử (trong ca thi này mỗi thí sinh chỉ làm một bài thi là Vật Lí hoặc Lịch Sử).\\
+	Biết rằng sau khi sắp xếp, phần mềm không tạo ra bất kỳ dãy bàn nào chỉ toàn thí sinh thi môn Lịch Sử.\\
+	Gọi $p$ là xác suất để dãy bàn số 1 có đúng $3$ thí sinh thi môn Lịch Sử. Hãy tính $2027p$ (\textit{làm tròn kết quả cuối cùng đến hàng đơn vị})?
+	\begin{center}
+		\begin{tikzpicture}[scale=0.85, >=stealth]
+			% Vẽ 4 dãy bàn 
+			\foreach \c in {1,...,4} {
+				% Nút đánh số dãy (Màu Xanh dương đậm)
+				\node[fill=blue!70, text=white, circle, inner sep=2pt, font=\bfseries] at (\c*2.2, 6.2) {\c};
+				
+				\foreach \r in {1,...,5} {
+					% Bàn học (Màu vân gỗ sáng)
+					\draw[thick, fill=orange!15, draw=orange!70!black, rounded corners=2pt] (\c*2.2-0.7, \r*1.1-0.4) rectangle ++(1.4,0.7);
+					% Hộc bàn/Vở (Màu vân gỗ đậm hơn)
+					\draw[thin, fill=orange!25, draw=orange!60!black] (\c*2.2-0.5, \r*1.1-0.3) rectangle ++(0.4,0.3);
+				}
+			}
+			
+			% Chú thích số lượng bàn dưới đáy (Màu đỏ sẫm)
+			\node[font=\small\bfseries, text=red!70!black] at (5.5, 0.2) {4 dãy $\times$ 5 bàn = 20 bàn};
+			
+			% --- KHUNG CHÚ THÍCH BÊN PHẢI ---
+			% Viền đứt khúc bao quanh chú thích
+			\draw[dashed, draw=gray!50, rounded corners=4pt, fill=gray!5] (9.5, 3.5) rectangle (17.5, 5.7);
+			
+			% Chú thích môn Vật Lý (Màu Xanh dương)
+			\draw[thick, fill=blue!60, draw=blue!80!black, rounded corners=1pt] (10, 5) rectangle ++(0.6,0.3);
+			\node[anchor=west, font=\small, text=blue!80!black] at (10.7, 5.15) {Thí sinh môn Vật Lý: \textbf{9 em}};
+			
+			% Chú thích môn Lịch Sử (Màu Đỏ)
+			\draw[thick, fill=red!60, draw=red!80!black, rounded corners=1pt] (10, 4) rectangle ++(0.6,0.3);
+			\node[anchor=west, font=\small, text=red!80!black] at (10.7, 4.15) {Thí sinh môn Lịch Sử: \textbf{11 em}};
+		\end{tikzpicture}
+	\end{center}
+	\par\shortans[0]{832}
+	\loigiai{
+		\textbf{Nhận xét chung:} Việc sắp xếp $20$ học sinh tương đương với việc chọn ra $11$ chiếc ghế trống để xếp cho $11$ thí sinh môn Lịch Sử (các ghế còn lại tự động thuộc về thí sinh môn Vật Lý). Các phép hoán vị cá nhân học sinh ($11!$ và $9!$) sẽ xuất hiện ở cả tử số và mẫu số nên tự triệt tiêu. Do đó, ta chỉ cần đếm số cách chọn vị trí ghế cho môn Lịch Sử.\\
+		\textbf{Cách 1: Sử dụng nguyên lí bù trừ (Phương pháp phần bù)}\\
+		\textbf{Bước 1: Tính số phần tử của không gian mẫu $n(\Omega)$}\\
+		Điều kiện của không gian mẫu: \textit{Chọn $11$ ghế trong $20$ ghế sao cho không có dãy nào có đúng $5$ ghế được chọn.}
+		\begin{itemize}
+			\item Chọn $11$ ghế bất kỳ trong $20$ ghế: Có $\mathrm{C}_{20}^{11}$ cách.
+			\item Trường hợp có $1$ dãy chứa $5$ học sinh Lịch Sử: Chọn $1$ dãy và xếp $5$ học sinh ($\mathrm{C}_4^1$ cách), chọn $6$ vị trí cho các học sinh còn lại trong $15$ ghế của $3$ dãy kia ($\mathrm{C}_{15}^6$ cách). Số cách sắp xếp là $\mathrm{C}_4^1 \cdot \mathrm{C}_{15}^6$.
+			\item Trường hợp có $2$ dãy chứa $5$ học sinh Lịch Sử: Chọn $2$ dãy và xếp $10$ học sinh ($\mathrm{C}_4^2$ cách), chọn $1$ vị trí cho học sinh còn lại trong $10$ ghế của $2$ dãy kia ($\mathrm{C}_{10}^1$ cách). Số cách sắp xếp là $\mathrm{C}_4^2 \cdot \mathrm{C}_{10}^1$.
+		\end{itemize}
+		Áp dụng nguyên lí bù trừ, số cách chọn ghế thỏa mãn điều kiện không gian mẫu là
+		$$n(\Omega) = \mathrm{C}_{20}^{11} - \mathrm{C}_4^1 \cdot \mathrm{C}_{15}^6 + \mathrm{C}_4^2 \cdot \mathrm{C}_{10}^1 = 167.960 - 20.020 + 60 = 148\,000$$
+		\textbf{Bước 2: Tính số kết quả thuận lợi cho biến cố $n(A)$}\\
+		Biến cố $A$: \textit{Dãy 1 có đúng $3$ học sinh Lịch Sử và $3$ dãy còn lại không có dãy nào chứa $5$ học sinh Lịch Sử.}
+		\begin{itemize}
+			\item Tại dãy 1: Chọn $3$ ghế trong $5$ ghế, có $\mathrm{C}_5^3 = 10$ cách.
+			\item Tại $3$ dãy còn lại: Cần chọn $8$ ghế trong $15$ ghế cho các học sinh Lịch Sử còn lại. Số cách chọn tùy ý là $\mathrm{C}_{15}^8$. Trong đó, số trường hợp vi phạm (có $1$ dãy chứa $5$ học sinh Lịch Sử) là $\mathrm{C}_3^1 \cdot \mathrm{C}_{10}^3$. \\
+			Số cách chọn hợp lệ tại $3$ dãy này là $\mathrm{C}_{15}^8 - \mathrm{C}_3^1 \cdot \mathrm{C}_{10}^3 = 6435 - 3 \cdot 120 = 6075$ cách.
+		\end{itemize}
+		Số kết quả thuận lợi cho biến cố $A$ là
+		$$n(A) = 10 \cdot 6075 = 60\,750$$
+		\textbf{Cách 2: Phân chia trường hợp trực tiếp}\\
+		Gọi $x_1, x_2, x_3, x_4$ lần lượt là số lượng học sinh Lịch Sử ở các dãy $1, 2, 3, 4$.
+		Theo giả thiết, không dãy nào toàn học sinh Lịch Sử nên $0 \le x_i \le 4$.\\
+		\textbf{Bước 1: Tính số phần tử của không gian mẫu $n(\Omega)$}\\
+		Ta tìm các nghiệm nguyên của phương trình $x_1 + x_2 + x_3 + x_4 = 11$ với điều kiện $0 \le x_i \le 4$. Ta có các bộ phân bố số lượng sau
+		\begin{center}
+			\renewcommand{\arraystretch}{1.75}
+			\begin{tabular}{|c|c|c|r|}
+				\hline
+				\textbf{Cấu trúc phân bố} & \textbf{Số hoán vị dãy} & \textbf{Cách chọn ghế trong dãy} & \textbf{Số cách xếp} \\ \hline
+				$\{4, 4, 3, 0\}$ & $\dfrac{4!}{2!} = 12$ & $\mathrm{C}_5^4 \cdot \mathrm{C}_5^4 \cdot \mathrm{C}_5^3 \cdot \mathrm{C}_5^0$ & $12 \cdot 250 = 3\,000$ \\ \hline
+				$\{4, 4, 2, 1\}$ & $\dfrac{4!}{2!} = 12$ & $\mathrm{C}_5^4 \cdot \mathrm{C}_5^4 \cdot \mathrm{C}_5^2 \cdot \mathrm{C}_5^1$ & $12 \cdot 1\,250 = 15\,000$ \\ \hline
+				$\{4, 3, 3, 1\}$ & $\dfrac{4!}{2!} = 12$ & $\mathrm{C}_5^4 \cdot \mathrm{C}_5^3 \cdot \mathrm{C}_5^3 \cdot \mathrm{C}_5^1$ & $12 \cdot 2\,500 = 30\,000$ \\ \hline
+				$\{4, 3, 2, 2\}$ & $\dfrac{4!}{2!} = 12$ & $\mathrm{C}_5^4 \cdot \mathrm{C}_5^3 \cdot \mathrm{C}_5^2 \cdot \mathrm{C}_5^2$ & $12 \cdot 5\,000 = 60\,000$ \\ \hline
+				$\{3, 3, 3, 2\}$ & $\dfrac{4!}{3!} = 4$ & $\mathrm{C}_5^3 \cdot \mathrm{C}_5^3 \cdot \mathrm{C}_5^3 \cdot \mathrm{C}_5^2$ & $4 \cdot 10\,000 = 40\,000$ \\ \hline
+				\multicolumn{3}{|c|}{\textbf{Tổng số kết quả $n(\Omega)$}} & $\mathbf{148\,000}$ \\ \hline
+			\end{tabular}
+		\end{center}
+		\textbf{Bước 2: Tính số kết quả thuận lợi cho biến cố $n(A)$}\\
+		Cố định dãy 1 có đúng $3$ học sinh ($x_1 = 3$). Tổng số học sinh ở $3$ dãy còn lại là $x_2 + x_3 + x_4 = 8$ (với $0 \le x_i \le 4$). Phân bố cấu trúc cho $3$ dãy này như sau
+		\begin{center}
+			\renewcommand{\arraystretch}{1.75}
+			\begin{tabular}{|c|c|c|r|}
+				\hline
+				\textbf{Cấu trúc 3 dãy} & \textbf{Số hoán vị dãy} & \textbf{Cách chọn ghế trong dãy} & \textbf{Số cách xếp} \\ \hline
+				$\{4, 4, 0\}$ & $\dfrac{3!}{2!} = 3$ & $\mathrm{C}_5^4 \cdot \mathrm{C}_5^4 \cdot \mathrm{C}_5^0$ & $3 \cdot 25 = 75$ \\ \hline
+				$\{4, 3, 1\}$ & $3! = 6$ & $\mathrm{C}_5^4 \cdot \mathrm{C}_5^3 \cdot \mathrm{C}_5^1$ & $6 \cdot 250 = 1\,500$ \\ \hline
+				$\{4, 2, 2\}$ & $\dfrac{3!}{2!} = 3$ & $\mathrm{C}_5^4 \cdot \mathrm{C}_5^2 \cdot \mathrm{C}_5^2$ & $3 \cdot 500 = 1\,500$ \\ \hline
+				$\{3, 3, 2\}$ & $\dfrac{3!}{2!} = 3$ & $\mathrm{C}_5^3 \cdot \mathrm{C}_5^3 \cdot \mathrm{C}_5^2$ & $3 \cdot 1000 = 3\,000$ \\ \hline
+				\multicolumn{3}{|c|}{\textbf{Tổng số cách xếp cho 3 dãy còn lại}} & $\mathbf{6075}$ \\ \hline
+			\end{tabular}
+		\end{center}
+		Số cách chọn $3$ ghế ở dãy $1$ là $\mathrm{C}_5^3 = 10$ cách.\\
+		Số kết quả thuận lợi là $n(A) = 10 \cdot 6075 = 60\,750$.\\
+		\textbf{Bước 3: Tính xác suất và đối chiếu yêu cầu}\\
+		Xác suất $p$ của biến cố là
+		$$p = \dfrac{n(A)}{n(\Omega)} = \dfrac{60\,750}{148\,000} = \dfrac{243}{592}$$
+		Giá trị của đại lượng cần tìm là
+		$$2027p = 2027 \cdot \dfrac{243}{592} \approx 832.$$
+	}
+\end{ex}

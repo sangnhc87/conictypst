@@ -613,3 +613,6 @@
 ) = {
   draw-helix(center: center, radius: radius, height: height, loops: loops, color: color, stroke-width: stroke-width, steps: steps, auto-dashed: false, persp-y: 0.5)
 }
+
+// ── Kết nối thư viện hình mẫu sang-math-geom ─────────────────────────────
+#import "sang-math-geom.typ": *

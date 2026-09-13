@@ -3,7 +3,6 @@
 #show math.frac: math.display
 
 
-#muc([Đề Thực Tế — Ứng dụng thực tiễn của vectơ trong không gian])
 
 #resetexamstate()
 #exam-part([PHẦN I. Câu trắc nghiệm nhiều phương án lựa chọn (12 câu)], count: 12)

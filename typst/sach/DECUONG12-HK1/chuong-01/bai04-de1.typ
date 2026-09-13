@@ -3,7 +3,6 @@
 #show math.frac: math.display
 
 
-#muc([Đề Luyện Tập Số 01])
 
 #resetexamstate()
 #exam-part([PHẦN I. Câu trắc nghiệm nhiều phương án lựa chọn (10 câu)], count: 10)
@@ -98,8 +97,8 @@
     }
     line(..pts, stroke: 1.2pt + blue)
   }),
-  fig-pos: "right",
-  fig-width: 32%,
+  fig-pos: "center",
+  fig-width: 22%,
   [Đồ thị sau đây là của hàm số nào?],
   (
     True([$y = x^3 - 3x + 1$.]),
@@ -189,35 +188,45 @@
 
 #tn(
   dir: "doc",lines: 0,
-  fig: canvas(length: 1cm, {
+  fig: canvas(length: 0.5cm, {
     import draw: *
-    line((-1.5, 0), (3.5, 0), mark: (end: ">"), stroke: 0.5pt)
-    content((3.5, 0), $x$, anchor: "north", padding: 2pt)
-    line((0, -2.5), (0, 3.5), mark: (end: ">"), stroke: 0.5pt)
-    content((0, 3.5), $y$, anchor: "west", padding: 2pt)
-    content((-0.2, -0.2), $O$)
+    line((-3.0, 0), (4.5, 0), mark: (end: ">"), stroke: 0.5pt)
+    content((4.5, -0.35), $x$)
+    line((0, -3.5), (0, 6.0), mark: (end: ">"), stroke: 0.5pt)
+    content((0.35, 6.0), $y$)
+    content((-0.3, -0.3), $O$)
     
     // Tiệm cận
-    line((1, -2.5), (1, 3.5), stroke: (dash: "dashed", paint: red))
-    line((-1.5, 2), (3.5, 2), stroke: (dash: "dashed", paint: red))
+    line((1, -3.5), (1, 6.0), stroke: (dash: "dashed", paint: red, thickness: 0.6pt))
+    line((-3.0, 2), (4.5, 2), stroke: (dash: "dashed", paint: red, thickness: 0.6pt))
+    
+    // Tọa độ đặc biệt & vạch chia
+    line((1, -0.1), (1, 0.1), stroke: 0.5pt)
+    content((1.25, -0.35), $1$)
+    
+    line((-0.1, 2), (0.1, 2), stroke: 0.5pt)
+    content((-0.35, 2.0), $2$)
+    
+    line((-0.1, -1), (0.1, -1), stroke: 0.5pt)
+    content((-0.4, -1.0), $-1$)
     
     let pts1 = ()
     let pts2 = ()
-    for i in range(-15, 9) {
-      let x = i / 10
+    for i in range(-300, 85) {
+      let x = i / 100
       let y = (2*x + 1)/(x - 1)
-      if y >= -2.4 and y <= 3.4 { pts1.push((x, y)) }
+      if y >= -3.3 and y <= 5.8 { pts1.push((x, y)) }
     }
-    for i in range(11, 35) {
-      let x = i / 10
+    for i in range(115, 450) {
+      let x = i / 100
       let y = (2*x + 1)/(x - 1)
-      if y >= -2.4 and y <= 3.4 { pts2.push((x, y)) }
+      if y >= -3.3 and y <= 5.8 { pts2.push((x, y)) }
     }
-    line(..pts1, stroke: 1.2pt + blue)
-    line(..pts2, stroke: 1.2pt + blue)
+    line(..pts1, stroke: 1.1pt + blue)
+    line(..pts2, stroke: 1.1pt + blue)
   }),
-  fig-pos: "right",
-  fig-width: 32%,
+  fig-pos: "center",
+  fig-width: 25%,
   [Đường cong trong hình vẽ là đồ thị của hàm số nào dưới đây?],
   (
     [$y = (x - 1)/(x + 1)$.],
@@ -235,35 +244,48 @@
 
 #tn(
   dir: "doc",lines: 0,
-  fig: canvas(length: 1cm, {
+  fig: canvas(length: 0.5cm, {
     import draw: *
-    line((-2.5, 0), (2.5, 0), mark: (end: ">"), stroke: 0.5pt)
-    content((2.5, 0), $x$, anchor: "north", padding: 2pt)
-    line((0, -2.5), (0, 2.5), mark: (end: ">"), stroke: 0.5pt)
-    content((0, 2.5), $y$, anchor: "west", padding: 2pt)
-    content((0.2, -0.2), $O$)
+    line((-4.5, 0), (4.0, 0), mark: (end: ">"), stroke: 0.5pt)
+    content((4.0, -0.35), $x$)
+    line((0, -5.0), (0, 4.5), mark: (end: ">"), stroke: 0.5pt)
+    content((0.35, 4.5), $y$)
+    content((0.3, -0.3), $O$)
     
     // Tiệm cận
-    line((-1, -2.5), (-1, 2.5), stroke: (dash: "dashed", paint: red))
-    line((-2.5, -1), (2.5, -1), stroke: (dash: "dashed", paint: red))
+    line((-1, -5.0), (-1, 4.5), stroke: (dash: "dashed", paint: red, thickness: 0.6pt))
+    line((-4.5, -1), (4.0, -1), stroke: (dash: "dashed", paint: red, thickness: 0.6pt))
+    
+    // Tọa độ đặc biệt & vạch chia
+    line((-1, -0.1), (-1, 0.1), stroke: 0.5pt)
+    content((-1.25, 0.35), $-1$)
+    
+    line((-0.1, -1), (0.1, -1), stroke: 0.5pt)
+    content((0.4, -1.0), $-1$)
+    
+    line((-0.1, 2), (0.1, 2), stroke: 0.5pt)
+    content((-0.35, 2.0), $2$)
+    
+    line((2, -0.1), (2, 0.1), stroke: 0.5pt)
+    content((2.0, -0.35), $2$)
     
     let pts1 = ()
     let pts2 = ()
-    for i in range(-50, -11) {
-      let x = i / 10
+    for i in range(-450, -115) {
+      let x = i / 100
       let y = (-x + 2)/(x + 1)
-      if y >= -2.4 and y <= 2.4 { pts1.push((x, y)) }
+      if y >= -4.8 and y <= 4.2 { pts1.push((x, y)) }
     }
-    for i in range(-9, 25) {
-      let x = i / 10
+    for i in range(-85, 400) {
+      let x = i / 100
       let y = (-x + 2)/(x + 1)
-      if y >= -2.4 and y <= 2.4 { pts2.push((x, y)) }
+      if y >= -4.8 and y <= 4.2 { pts2.push((x, y)) }
     }
-    line(..pts1, stroke: 1.2pt + blue)
-    line(..pts2, stroke: 1.2pt + blue)
+    line(..pts1, stroke: 1.1pt + blue)
+    line(..pts2, stroke: 1.1pt + blue)
   }),
   fig-pos: "right",
-  fig-width: 32%,
+  fig-width: 25%,
   [Cho hàm số $y = (a x + b)/(c x + d)$ có đồ thị như hình vẽ. Khẳng định nào sau đây là đúng?],
   (
     True([$a c < 0, b d > 0$.]),

@@ -3,7 +3,6 @@
 #show math.frac: math.display
 
 // #show: doc-setup
-#muc([Đề Luyện Tập Số 01])
 
 #resetexamstate()
 #exam-part([PHẦN I. Câu trắc nghiệm nhiều phương án lựa chọn (35 câu)], count: 35)
@@ -116,7 +115,7 @@
     #step[Bảng biến thiên:]
     #align(center)[
     #my-bbbt(
-      var: $x$, der: $y'$, func: $y$, x-vals: ($-oo$, $1$, $+oo$), d-signs: ("-", "||", "-"), v-vals: ($-1$, ($-oo$, $+oo$), $-1$), ranks: (0, (-1, 0), 0)
+      var: $x$, der: $y'$, func: $y$, x-vals: ($-oo$, $1$, $+oo$), d-signs: ("-", "||", "-"), v-vals: ($-1$, ($-oo$, $+oo$), $-1$)
     )
     ]
     #step[Dựa vào bảng biến thiên, ta thấy hàm số nghịch biến trên các khoảng $(-oo; 1)$ và $(1; +oo)$. Lưu ý: Không dùng ký hiệu $union$ hay $RR \\ {1}$ để kết luận khoảng đơn điệu.]

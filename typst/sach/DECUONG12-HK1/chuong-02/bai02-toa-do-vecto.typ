@@ -80,4 +80,5 @@
 // )
 
 // // ── III. BÀI TẬP TỰ LUYỆN ────────────────────────────────────────
+#dang("Toạ độ của vectơ trong không gian", mau: C2)
 #include "bai02-de1.typ"

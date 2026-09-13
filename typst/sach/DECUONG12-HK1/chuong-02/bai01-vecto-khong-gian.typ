@@ -81,5 +81,7 @@
 // )
 
 // // ── III. BÀI TẬP TỰ LUYỆN ────────────────────────────────────────
+#dang("Vectơ trong không gian", mau: C2)
 #include "bai01-de1.typ"
+#dang("Vectơ trong không gian", mau: C2)
 #include "bai01-de2.typ"

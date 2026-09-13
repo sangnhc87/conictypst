@@ -16,6 +16,7 @@ const allowedProjects = new Set([
   'sang-math-store',
   'geo-conictypst',
   'beamer',
+  'beamer-sangnhc',
   'trinhchieu',
   'sang-math-graphics-studio',
 ]);

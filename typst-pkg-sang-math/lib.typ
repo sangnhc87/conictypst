@@ -19,6 +19,5 @@
 // ── Geometry 2D ──────────────────────────────────────────────────
 #import "geometry-2d/conics.typ": *  // draw-parabola, draw-ellipse, draw-hyperbola
 
-// ── Geometry 3D ──────────────────────────────────────────────────
-#import "geometry-3d/curves-3d.typ": *   // draw-helix, draw-spring, helix-points
-#import "geometry-3d/revolution.typ": *  // draw-cylinder, draw-cone, draw-sphere
+// ── Geometry 3D (Thuật toán tự động & Khử nét khuất kiểu Luadraw) ──
+#import "geometry-3d/lib.typ": *

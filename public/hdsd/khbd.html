@@ -1,0 +1,2981 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Kế Hoạch Dạy Học & Ký Sổ Đầu Bài — Toán THPT Nguyễn Hữu Cảnh</title>
+  <meta name="theme-color" content="#0284c7">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="KHBD & TKB">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-app: #f8fafc;
+      --bg-card: #ffffff;
+      --border: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --primary: #0284c7;
+      --primary-dark: #0369a1;
+      --accent: #f59e0b;
+      --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.05);
+      --font-heading: 'Outfit', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body.theme-dark {
+      --bg-app: #090d16;
+      --bg-card: #111827;
+      --border: #1f2937;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --primary: #38bdf8;
+      --primary-dark: #0284c7;
+      --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg-app);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* TOP APP BAR */
+    .top-bar {
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    }
+
+    .top-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .app-icon {
+      font-size: 1.8rem;
+    }
+
+    .app-title-wrap h1 {
+      margin: 0;
+      font-family: var(--font-heading);
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .app-title-wrap span {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-action-nav {
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 7px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-main);
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-action-nav:hover {
+      background: var(--border);
+    }
+
+    .btn-theme-toggle {
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-main);
+      padding: 7px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    /* MAIN CONTAINER */
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 24px 20px 48px;
+      width: 100%;
+      flex: 1;
+    }
+
+    /* HEADER CARD */
+    .khbd-header-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px 24px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .khbd-tag-badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: #0284c7;
+      background: rgba(2, 132, 199, 0.1);
+      padding: 3px 8px;
+      border-radius: 6px;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    .khbd-title {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin: 0 0 4px 0;
+      font-family: var(--font-heading);
+    }
+
+    .khbd-subtitle {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .khbd-filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      padding-top: 16px;
+      margin-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .khbd-filter-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .khbd-filter-label {
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .khbd-pills-row {
+      display: flex;
+      background: var(--bg-app);
+      padding: 4px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      gap: 4px;
+    }
+
+    .khbd-pill {
+      border: none;
+      background: transparent;
+      padding: 6px 14px;
+      border-radius: 7px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .khbd-pill:hover {
+      color: var(--text-main);
+      background: rgba(0, 0, 0, 0.04);
+    }
+
+    .khbd-pill.active {
+      background: var(--bg-card);
+      color: #0284c7;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    .khbd-view-switch {
+      margin-left: auto;
+    }
+
+    /* TODAY LIVE CARD (THẺ HÔM NAY) */
+    .khbd-today-card {
+      background: linear-gradient(135deg, rgba(2, 132, 199, 0.08), rgba(16, 185, 129, 0.08));
+      border: 1px solid rgba(2, 132, 199, 0.25);
+      border-left: 5px solid #0284c7;
+      border-radius: 14px;
+      padding: 14px 18px;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      box-shadow: var(--shadow-card);
+      transition: all 0.2s ease;
+    }
+
+    body.theme-dark .khbd-today-card {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.12), rgba(16, 185, 129, 0.1));
+      border-color: rgba(56, 189, 248, 0.3);
+      border-left-color: #38bdf8;
+    }
+
+    .today-card-left {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+    }
+
+    .today-card-title-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .today-pulse-dot {
+      width: 9px;
+      height: 9px;
+      background-color: #10b981;
+      border-radius: 50%;
+      display: inline-block;
+      box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+      animation: todayDotPulse 2s infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes todayDotPulse {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    .today-date-text {
+      font-family: var(--font-heading);
+      font-size: 1.08rem;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.2px;
+    }
+
+    .today-badge-chip {
+      background: rgba(2, 132, 199, 0.12);
+      color: var(--primary);
+      font-size: 0.74rem;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .today-range-text {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .today-details-row {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      line-height: 1.4;
+    }
+
+    .today-details-row strong {
+      color: var(--text-main);
+    }
+
+    .today-class-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 2px 7px;
+      border-radius: 6px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: #0284c7;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+
+    .today-class-pill b {
+      color: var(--text-main);
+      font-weight: 800;
+    }
+
+    .today-card-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .btn-today-action {
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-main);
+      padding: 8px 14px;
+      border-radius: 9px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-today-action:hover {
+      background: var(--border);
+      transform: translateY(-1px);
+    }
+
+    .btn-today-action.primary {
+      background: linear-gradient(135deg, #0284c7, #0369a1);
+      color: #ffffff;
+      border-color: #0284c7;
+      box-shadow: 0 2px 8px rgba(2, 132, 199, 0.25);
+    }
+
+    .btn-today-action.primary:hover {
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+    }
+
+    .tkb-today-subtext {
+      font-size: 0.82rem;
+      color: #0284c7;
+      font-weight: 700;
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tkb-card-date {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-left: 4px;
+    }
+
+    .tab-date-sub {
+      font-size: 0.7rem;
+      opacity: 0.85;
+      font-weight: 600;
+      margin-left: 2px;
+    }
+
+    .tkb-day-pill-btn.is-today-pill:not(.active) {
+      border-color: #10b981;
+      color: #059669;
+      background: rgba(16, 185, 129, 0.08);
+      font-weight: 800;
+    }
+
+    .tkb-day-pill-btn .today-mini-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #10b981;
+      display: inline-block;
+      margin-right: 4px;
+    }
+
+    .tkb-day-pill-btn.active .today-mini-dot {
+      background: #ffffff;
+    }
+
+    /* WEEK NAVBAR */
+    .khbd-week-navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 18px;
+      margin-bottom: 16px;
+      gap: 12px;
+      flex-wrap: wrap;
+      box-shadow: var(--shadow-card);
+    }
+
+    .btn-week-step {
+      border: 1px solid var(--border);
+      background: var(--bg-app);
+      color: var(--text-main);
+      font-weight: 700;
+      font-size: 0.88rem;
+      padding: 8px 16px;
+      border-radius: 9px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-week-step:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .khbd-week-center-ctrl {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      justify-content: center;
+      max-width: 540px;
+    }
+
+    .khbd-week-dropdown {
+      font-size: 0.95rem;
+      font-weight: 700;
+      padding: 8px 14px;
+      border-radius: 9px;
+      border: 1px solid var(--primary);
+      background: var(--bg-card);
+      color: var(--text-main);
+      flex: 1;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .btn-today-pill {
+      border: none;
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+      padding: 8px 14px;
+      border-radius: 9px;
+      font-weight: 700;
+      font-size: 0.82rem;
+      cursor: pointer;
+      white-space: nowrap;
+      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+      transition: all 0.2s;
+    }
+
+    .btn-today-pill:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+    }
+
+    /* RADAR ALERT BANNER */
+    .khbd-radar-alert {
+      background: linear-gradient(135deg, #fffbeb, #fef3c7);
+      border: 1px solid #f59e0b;
+      border-left: 5px solid #d97706;
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 2px 8px rgba(217, 119, 6, 0.12);
+      animation: radarPulse 2.5s infinite;
+    }
+
+    @keyframes radarPulse {
+      0%, 100% { box-shadow: 0 2px 8px rgba(217, 119, 6, 0.12); }
+      50% { box-shadow: 0 4px 16px rgba(217, 119, 6, 0.25); }
+    }
+
+    .radar-icon {
+      font-size: 1.6rem;
+      flex-shrink: 0;
+    }
+
+    .radar-text {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #92400e;
+      line-height: 1.4;
+    }
+
+    .khbd-radar-alert.next-week-alert {
+      background: linear-gradient(135deg, #fff7ed, #ffedd5);
+      border: 1px solid #ea580c;
+      border-left: 5px solid #ea580c;
+      box-shadow: 0 2px 8px rgba(234, 88, 12, 0.15);
+      animation: none;
+    }
+
+    .khbd-radar-alert.next-week-alert .radar-text {
+      color: #9a3412;
+    }
+
+    body.theme-dark .khbd-radar-alert.next-week-alert {
+      background: rgba(234, 88, 12, 0.15);
+      border-color: rgba(234, 88, 12, 0.4);
+      border-left: 5px solid #f97316;
+    }
+
+    body.theme-dark .khbd-radar-alert.next-week-alert .radar-text {
+      color: #fed7aa;
+    }
+
+    /* SUB TOOLBAR */
+    .khbd-sub-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      padding: 10px 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      flex-wrap: wrap;
+      gap: 12px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .khbd-class-select-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.86rem;
+    }
+
+    .class-select-input {
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg-app);
+      color: var(--text-main);
+      font-weight: 700;
+      font-size: 0.86rem;
+      outline: none;
+    }
+
+    .sync-desc {
+      color: var(--text-muted);
+      font-size: 0.82rem;
+    }
+
+    .btn-copy-all {
+      background: var(--bg-app);
+      color: var(--text-main);
+      font-weight: 700;
+      border: 1px solid var(--border);
+      padding: 7px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-copy-all:hover {
+      background: #0284c7;
+      color: white;
+      border-color: #0284c7;
+    }
+
+    /* PERIODS GRID */
+    .khbd-periods-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .khbd-period-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-card);
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .khbd-period-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      border-color: var(--primary);
+    }
+
+    .khbd-period-card.taught {
+      border-color: #10b981;
+      background: linear-gradient(180deg, rgba(16, 185, 129, 0.04) 0%, var(--bg-card) 100%);
+    }
+
+    .period-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .period-badge-ppct {
+      font-size: 0.82rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .badge-ppct-standard {
+      background: rgba(2, 132, 199, 0.12);
+      color: #0284c7;
+      border: 1px solid rgba(2, 132, 199, 0.3);
+    }
+
+    .badge-ppct-chuyende {
+      background: rgba(124, 58, 237, 0.12);
+      color: #7c3aed;
+      border: 1px solid rgba(124, 58, 237, 0.3);
+    }
+
+    .badge-ppct-exam {
+      background: rgba(220, 38, 38, 0.12);
+      color: #dc2626;
+      border: 1px solid rgba(220, 38, 38, 0.3);
+      font-weight: 900;
+    }
+
+    .badge-ppct-trainghiem {
+      background: rgba(13, 148, 136, 0.12);
+      color: #0d9488;
+      border: 1px solid rgba(13, 148, 136, 0.3);
+    }
+
+    .btn-toggle-taught {
+      border: 1px solid var(--border);
+      background: var(--bg-app);
+      color: var(--text-muted);
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-toggle-taught:hover {
+      border-color: #10b981;
+      color: #10b981;
+    }
+
+    .btn-toggle-taught.is-taught {
+      background: #10b981;
+      color: white;
+      border-color: #10b981;
+      box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
+    }
+
+    .period-card-chuong {
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .period-card-name {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.4;
+      margin-bottom: 14px;
+      flex: 1;
+    }
+
+    .period-card-footer {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--border);
+    }
+
+    .btn-copy-sign {
+      flex: 1;
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-copy-sign:hover {
+      background: linear-gradient(135deg, #0369a1, #1d4ed8);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+    }
+
+    .btn-copy-sign.copied {
+      background: #10b981 !important;
+    }
+
+    .btn-copy-title-only {
+      background: var(--bg-app);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-copy-title-only:hover {
+      color: var(--text-main);
+      border-color: var(--primary);
+    }
+
+    /* MEMO BOX */
+    .khbd-memo-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 20px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .memo-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .memo-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .memo-icon {
+      font-size: 1.2rem;
+    }
+
+    .memo-title {
+      margin: 0;
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .memo-saved-tag {
+      font-size: 0.72rem;
+      color: #10b981;
+      font-weight: 700;
+    }
+
+    .khbd-memo-textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: var(--bg-app);
+      color: var(--text-main);
+      padding: 10px 12px;
+      font-size: 0.88rem;
+      font-family: inherit;
+      resize: vertical;
+      outline: none;
+    }
+
+    .khbd-memo-textarea:focus {
+      border-color: var(--primary);
+      background: var(--bg-card);
+    }
+
+    /* FULL TABLE VIEW */
+    .khbd-search-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .search-input-wrap {
+      flex: 1;
+      max-width: 480px;
+    }
+
+    .clean-search-input {
+      width: 100%;
+      padding: 10px 16px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--bg-card);
+      color: var(--text-main);
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    .clean-search-input:focus {
+      border-color: var(--primary);
+    }
+
+    .search-count-badge {
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      background: var(--bg-card);
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+    .khbd-full-table-wrap {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+      max-height: 700px;
+      overflow-y: auto;
+    }
+
+    .khbd-full-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.86rem;
+    }
+
+    .khbd-full-table th {
+      background: var(--bg-app);
+      padding: 12px 14px;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      border-bottom: 2px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      text-align: left;
+    }
+
+    .khbd-full-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-main);
+      vertical-align: middle;
+    }
+
+    .khbd-full-table tr:hover td {
+      background: rgba(0, 0, 0, 0.02);
+    }
+
+    .khbd-full-table tr.row-exam td {
+      background: rgba(220, 38, 38, 0.04);
+    }
+
+    .tuan-cell {
+      font-weight: 800;
+      text-align: center;
+      color: var(--text-main);
+    }
+
+    .tuan-cell.current-week {
+      color: #0284c7;
+    }
+
+    .tuan-cell.current-week::after {
+      content: '⚡';
+      font-size: 0.7rem;
+      margin-left: 2px;
+    }
+
+    .btn-table-copy {
+      border: 1px solid var(--border);
+      background: var(--bg-app);
+      color: var(--text-main);
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-table-copy:hover {
+      background: #0284c7;
+      color: white;
+      border-color: #0284c7;
+    }
+
+    /* TOAST */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .toast {
+      background: #0f172a;
+      color: #ffffff;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+      border-left: 4px solid #10b981;
+      animation: slideIn 0.25s ease-out;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* PWA INSTALL BUTTON & BANNER */
+    .btn-install-app {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #ffffff;
+      border: none;
+      font-size: 0.84rem;
+      font-weight: 800;
+      padding: 7px 14px;
+      border-radius: 9px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.35);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn-install-app:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.45);
+    }
+
+    .pwa-mobile-banner {
+      background: linear-gradient(135deg, #0369a1, #0284c7);
+      color: white;
+      padding: 10px 16px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+    }
+    .pwa-mobile-banner .pwa-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.88rem;
+    }
+    .pwa-mobile-banner .pwa-icon {
+      font-size: 1.4rem;
+    }
+    .pwa-mobile-banner .btn-banner-install {
+      background: #ffffff;
+      color: #0369a1;
+      border: none;
+      font-weight: 800;
+      font-size: 0.82rem;
+      padding: 6px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    /* TKB SECTION STYLES */
+    .tkb-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .tkb-top-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px 20px;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+    .tkb-info-group h3 {
+      margin: 0 0 4px 0;
+      font-size: 1.18rem;
+      font-family: var(--font-heading);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tkb-info-group p {
+      margin: 0;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .tkb-badge-stat {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(2, 132, 199, 0.1);
+      color: var(--primary);
+      padding: 5px 12px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 800;
+    }
+    .tkb-actions-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn-tkb-action {
+      border: 1px solid var(--border);
+      background: var(--bg-app);
+      color: var(--text-main);
+      padding: 8px 14px;
+      border-radius: 9px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-tkb-action:hover {
+      background: var(--border);
+    }
+    .btn-tkb-primary {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    .btn-tkb-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    /* TKB DAY CARDS GRID */
+    .tkb-days-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 14px;
+    }
+    .tkb-day-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: var(--shadow-card);
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .tkb-day-card.is-today {
+      border-color: #0284c7;
+      box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.25), var(--shadow-card);
+      background: linear-gradient(180deg, rgba(2, 132, 199, 0.03) 0%, var(--bg-card) 40%);
+    }
+    .tkb-day-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+      margin-bottom: 12px;
+    }
+    .tkb-day-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      font-family: var(--font-heading);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .tkb-today-badge {
+      background: #0284c7;
+      color: #fff;
+      font-size: 0.68rem;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 6px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .tkb-day-count {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .tkb-session-block {
+      margin-bottom: 12px;
+    }
+    .tkb-session-title {
+      font-size: 0.74rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .tkb-period-list {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .tkb-period-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg-app);
+      font-size: 0.84rem;
+      transition: all 0.15s;
+    }
+    .tkb-period-item.has-class {
+      background: var(--bg-card);
+      border-color: rgba(2, 132, 199, 0.25);
+    }
+    .tkb-period-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tkb-period-num {
+      width: 22px;
+      height: 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      background: rgba(0, 0, 0, 0.06);
+      font-size: 0.76rem;
+      font-weight: 800;
+      color: var(--text-muted);
+    }
+    .tkb-period-item.has-class .tkb-period-num {
+      background: rgba(2, 132, 199, 0.15);
+      color: var(--primary);
+    }
+    .tkb-class-badge {
+      font-size: 0.82rem;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+    .tkb-class-badge.c12c2 { background: #dbeafe; color: #1d4ed8; }
+    .tkb-class-badge.c12c13 { background: #fce7f3; color: #be185d; }
+    .tkb-class-badge.c10a1 { background: #dcfce7; color: #15803d; }
+    .tkb-class-badge.c10a8 { background: #fef3c7; color: #b45309; }
+    .tkb-class-badge.csh10a2 { background: #ede9fe; color: #6d28d9; }
+    .tkb-class-badge.generic { background: #e0f2fe; color: #0369a1; }
+    .tkb-room-badge {
+      font-size: 0.76rem;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 5px;
+      background: #f1f5f9;
+      color: #334155;
+      border: 1px solid #cbd5e1;
+      letter-spacing: 0.2px;
+    }
+    .tkb-period-free {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      font-style: italic;
+    }
+
+    /* MODAL TÙY BIẾN TKB */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .modal-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      max-width: 680px;
+      width: 100%;
+      max-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 16px 36px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+    .modal-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .modal-header h3 {
+      margin: 0;
+      font-size: 1.2rem;
+      font-family: var(--font-heading);
+    }
+    .btn-modal-close {
+      background: transparent;
+      border: none;
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+    .modal-body {
+      padding: 20px;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .modal-footer {
+      padding: 14px 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-app);
+    }
+    .tkb-edit-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .tkb-edit-day-row {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      background: var(--bg-card);
+    }
+    .tkb-edit-day-row h4 {
+      margin: 0 0 8px 0;
+      font-size: 0.95rem;
+      color: var(--primary);
+    }
+    .tkb-inputs-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+    .tkb-input-group label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+    .tkb-input-group input {
+      width: 100%;
+      padding: 6px 8px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--bg-app);
+      color: var(--text-main);
+      font-size: 0.84rem;
+      font-weight: 600;
+    }
+
+    /* TKB QUICK DAY FILTER PILLS (MOBILE & TABLET) */
+    .tkb-day-tabs-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      overflow-x: auto;
+      padding: 4px 2px 10px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .tkb-day-tabs-bar::-webkit-scrollbar { display: none; }
+    .tkb-day-pill-btn {
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 7px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .tkb-day-pill-btn:hover {
+      color: var(--text-main);
+      background: var(--bg-app);
+    }
+    .tkb-day-pill-btn.active {
+      background: #0284c7;
+      color: #ffffff;
+      border-color: #0284c7;
+      box-shadow: 0 2px 8px rgba(2, 132, 199, 0.3);
+    }
+    .tkb-day-pill-btn .badge-tiet {
+      background: rgba(0, 0, 0, 0.08);
+      font-size: 0.7rem;
+      padding: 1px 6px;
+      border-radius: 10px;
+    }
+    .tkb-day-pill-btn.active .badge-tiet {
+      background: rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+    }
+
+    @media (max-width: 768px) {
+      .top-bar {
+        padding: 8px 12px;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .top-left {
+        gap: 8px;
+      }
+      .app-icon {
+        font-size: 1.4rem;
+      }
+      .app-title-wrap h1 {
+        font-size: 0.98rem;
+        line-height: 1.2;
+      }
+      .app-title-wrap span {
+        font-size: 0.7rem;
+        display: block;
+      }
+      .top-actions {
+        gap: 6px;
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 2px;
+        -webkit-overflow-scrolling: touch;
+      }
+      .top-actions::-webkit-scrollbar { display: none; }
+      .btn-action-nav {
+        font-size: 0.74rem;
+        padding: 5px 9px;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      .btn-install-app {
+        font-size: 0.76rem;
+        padding: 5px 10px;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      .btn-theme-toggle {
+        padding: 5px 9px;
+        flex-shrink: 0;
+      }
+
+      .container {
+        padding: 10px 10px 32px;
+      }
+
+      /* Card Header & Filter Bar */
+      .khbd-header-card {
+        padding: 14px 14px;
+        border-radius: 14px;
+        margin-bottom: 12px;
+      }
+
+      /* Today Card Mobile */
+      .khbd-today-card {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 12px 14px;
+        gap: 10px;
+        margin-bottom: 12px;
+        border-radius: 12px;
+      }
+      .today-date-text {
+        font-size: 0.96rem;
+      }
+      .today-details-row {
+        font-size: 0.8rem;
+        line-height: 1.4;
+      }
+      .today-card-actions {
+        width: 100%;
+        display: flex;
+        gap: 8px;
+      }
+      .btn-today-action {
+        flex: 1;
+        justify-content: center;
+        padding: 8px 10px;
+        font-size: 0.78rem;
+      }
+      .khbd-title {
+        font-size: 1.15rem;
+      }
+      .khbd-subtitle {
+        font-size: 0.78rem;
+      }
+      .khbd-filter-bar {
+        gap: 10px;
+        margin-top: 12px;
+        padding-top: 12px;
+      }
+      .khbd-filter-group {
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+      }
+      .khbd-filter-label {
+        font-size: 0.74rem;
+      }
+      .khbd-pills-row {
+        width: 100%;
+        display: flex;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      .khbd-pills-row::-webkit-scrollbar { display: none; }
+      .khbd-pill {
+        flex: 1;
+        text-align: center;
+        padding: 7px 8px;
+        font-size: 0.78rem;
+        white-space: nowrap;
+      }
+      .khbd-view-switch {
+        margin-left: 0;
+        width: 100%;
+      }
+      .khbd-view-switch .khbd-pills-row {
+        display: flex;
+        width: 100%;
+      }
+
+      /* TKB Card Mobile */
+      .tkb-top-card {
+        padding: 12px 14px;
+        border-radius: 12px;
+        gap: 10px;
+      }
+      .tkb-info-group h3 {
+        font-size: 1rem;
+      }
+      .tkb-info-group p {
+        font-size: 0.78rem;
+      }
+      .tkb-actions-row {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        gap: 6px;
+      }
+      .btn-tkb-action {
+        flex: 1;
+        justify-content: center;
+        padding: 7px 8px;
+        font-size: 0.78rem;
+      }
+      .tkb-badge-stat {
+        font-size: 0.76rem;
+        padding: 4px 8px;
+      }
+
+      /* TKB Days Grid */
+      .tkb-days-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      .tkb-day-card {
+        padding: 14px;
+        border-radius: 12px;
+      }
+      .tkb-day-title {
+        font-size: 0.98rem;
+      }
+      .tkb-period-item {
+        padding: 8px 10px;
+        min-height: 42px;
+      }
+      .tkb-class-badge {
+        font-size: 0.85rem;
+        padding: 4px 9px;
+      }
+
+      /* Modal Mobile */
+      .modal-box {
+        max-height: 92vh;
+        width: 96%;
+        border-radius: 14px;
+      }
+      .modal-header {
+        padding: 12px 14px;
+      }
+      .modal-header h3 {
+        font-size: 1rem;
+      }
+      .modal-body {
+        padding: 12px 14px;
+      }
+      .modal-footer {
+        padding: 10px 14px;
+        flex-direction: column-reverse;
+        gap: 8px;
+      }
+      .modal-footer > div {
+        width: 100%;
+        display: flex;
+        gap: 8px;
+      }
+      .modal-footer button {
+        flex: 1;
+        justify-content: center;
+      }
+      .tkb-edit-day-row {
+        padding: 10px;
+      }
+      .tkb-inputs-row {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px;
+      }
+      .tkb-input-group input {
+        font-size: 0.82rem;
+        padding: 7px 8px;
+      }
+
+      /* Week View Mobile */
+      .khbd-week-navbar {
+        padding: 10px 12px;
+        gap: 8px;
+      }
+      .khbd-week-center-ctrl {
+        max-width: 100%;
+        width: 100%;
+        order: 3;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .khbd-week-dropdown {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        font-size: 0.84rem;
+        padding: 8px 10px;
+        text-overflow: ellipsis;
+      }
+      .btn-today-pill {
+        width: 100%;
+        text-align: center;
+        padding: 8px 12px;
+        font-size: 0.82rem;
+      }
+      .btn-week-step {
+        flex: 1;
+        padding: 7px 10px;
+        font-size: 0.8rem;
+      }
+      .khbd-periods-grid {
+        grid-template-columns: 1fr;
+      }
+      .khbd-sub-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .btn-copy-all {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <header class="top-bar">
+    <div class="top-left">
+      <span class="app-icon">📅</span>
+      <div class="app-title-wrap">
+        <h1>Kế Hoạch Bài Dạy & Sổ Đầu Bài</h1>
+        <span>Toán THPT 10 • 11 • 12 (Năm học 2026 - 2027)</span>
+      </div>
+    </div>
+    <div class="top-actions">
+      <a href="atlas" class="btn-action-nav" title="Mở Sang Math Atlas - 210 học liệu soạn sẵn">
+        <span>🗺️</span> Atlas Bài Dạy
+      </a>
+      <a href="https://beamer-sangnhc.pages.dev/" target="_blank" class="btn-action-nav" title="Mở Thư viện Slide Beamer">
+        <span>📺</span> Slide Beamer
+      </a>
+      <a href="conic-classroom" class="btn-action-nav" title="Mở ConicClassroom">
+        <span>🏫</span> ConicClassroom
+      </a>
+      <a href="links.html" class="btn-action-nav" title="Về Cổng Web Links">
+        <span>🌐</span> Cổng Web
+      </a>
+      <button id="btn-install-app" class="btn-install-app" title="Cài đặt App vào điện thoại / máy tính">
+        <span>📲</span> Cài App
+      </button>
+      <button id="btn-toggle-theme" class="btn-theme-toggle" title="Sáng / Tối">☀️</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- PWA Smart Banner (chỉ hiện khi chưa cài đặt) -->
+    <div id="pwa-mobile-banner" class="pwa-mobile-banner" style="display: none;">
+      <div class="pwa-info">
+        <span class="pwa-icon">📲</span>
+        <div>
+          <strong>Cài App KHBD & TKB về Màn hình chính</strong>
+          <div style="font-size: 0.78rem; opacity: 0.9;">Mở nhanh 1-chạm, xem ngoại tuyến, tra cứu TKB và ký sổ tiện lợi!</div>
+        </div>
+      </div>
+      <button id="btn-banner-install" class="btn-banner-install">Cài Đặt Ngay</button>
+    </div>
+
+    <!-- KHBD Header Card -->
+    <div class="khbd-header-card">
+      <div class="khbd-tag-badge">TRƯỜNG THPT NGUYỄN HỮU CẢNH • TỔ CHUYÊN MÔN TOÁN</div>
+      <h2 class="khbd-title">Kế Hoạch Dạy Học & Trợ Lý Ký Sổ Đầu Bài</h2>
+      <div class="khbd-subtitle">Tiết PPCT chuẩn xác 100% • Sao chép 1-chạm ký sổ VnEdu/SMAS • Tự động nhắc việc & chống lệch tiết</div>
+
+      <div class="khbd-filter-bar">
+        <!-- Chọn Khối -->
+        <div class="khbd-filter-group" id="khbd-grade-group">
+          <span class="khbd-filter-label">Khối Lớp:</span>
+          <div id="khbd-grade-pills" class="khbd-pills-row">
+            <button class="khbd-pill active" data-grade="k10" type="button">Toán 10 (Chuyên đề)</button>
+            <button class="khbd-pill" data-grade="k11" type="button">Toán 11 (Chuyên đề)</button>
+            <button class="khbd-pill" data-grade="k12" type="button">Toán 12 (Chuyên đề)</button>
+          </div>
+        </div>
+
+        <!-- Chọn Học kỳ -->
+        <div class="khbd-filter-group" id="khbd-hk-group">
+          <span class="khbd-filter-label">Học Kỳ:</span>
+          <div id="khbd-hk-pills" class="khbd-pills-row">
+            <button class="khbd-pill active" data-hk="hk1" type="button">🍂 Học Kỳ I (18 tuần • 72 tiết)</button>
+            <button class="khbd-pill" data-hk="hk2" type="button">🌸 Học Kỳ II</button>
+          </div>
+        </div>
+
+        <!-- Chọn Chế độ xem -->
+        <div class="khbd-filter-group khbd-view-switch">
+          <div class="khbd-pills-row">
+            <button id="btn-khbd-view-tkb" class="khbd-pill" type="button">🗓️ Thời Khóa Biểu</button>
+            <button id="btn-khbd-view-week" class="khbd-pill active" type="button">🎯 Tiêu Điểm Tuần</button>
+            <button id="btn-khbd-view-full" class="khbd-pill" type="button">📚 Xem Cả 18 Tuần</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TODAY LIVE CARD: THẺ NGÀY HIỆN TẠI (HIỂN THỊ TRỰC QUAN TRÊN MOBILE & MÁY TÍNH) -->
+    <div id="khbd-today-card" class="khbd-today-card">
+      <div class="today-card-left">
+        <div class="today-card-title-row">
+          <span class="today-pulse-dot" title="Thời gian thực"></span>
+          <span id="today-full-date-text" class="today-date-text">Đang lấy ngày hiện tại...</span>
+          <span id="today-week-badge" class="today-badge-chip">Tuần 1</span>
+          <span id="today-week-range" class="today-range-text"></span>
+        </div>
+        <div id="today-schedule-summary" class="today-details-row">
+          <span>Đang nạp lịch dạy hôm nay...</span>
+        </div>
+      </div>
+      <div class="today-card-actions">
+        <button id="btn-quick-view-today-tkb" class="btn-today-action primary" type="button" title="Nhảy nhanh đến thời khóa biểu hôm nay">
+          <span>🗓️</span> TKB Hôm Nay
+        </button>
+        <button id="btn-quick-view-current-week" class="btn-today-action" type="button" title="Xem kế hoạch bài dạy tuần này">
+          <span>🎯</span> Bài Dạy Tuần Này
+        </button>
+      </div>
+    </div>
+
+    <!-- VIEW 1: WEEK FOCUS VIEW -->
+    <div id="khbd-week-view">
+      <!-- Week Navbar -->
+      <div class="khbd-week-navbar">
+        <button id="btn-khbd-prev-week" class="btn-week-step" type="button">◀ Tuần Trước</button>
+        <div class="khbd-week-center-ctrl">
+          <select id="khbd-week-select" class="khbd-week-dropdown" title="Chọn tuần"></select>
+          <button id="btn-khbd-jump-current" class="btn-today-pill" type="button">⚡ Về Tuần Hiện Tại</button>
+        </div>
+        <button id="btn-khbd-next-week" class="btn-week-step" type="button">Tuần Sau ▶</button>
+      </div>
+
+      <!-- Radar Alert Banner (Tuần hiện tại) -->
+      <div id="khbd-week-alert" class="khbd-radar-alert" style="display: none;">
+        <span class="radar-icon">🔔</span>
+        <div id="khbd-alert-text" class="radar-text">...</div>
+      </div>
+
+      <!-- Radar Lookahead Alert Banner (Nhắc nhở kiểm tra tuần sau) -->
+      <div id="khbd-next-week-alert" class="khbd-radar-alert next-week-alert" style="display: none;">
+        <span class="radar-icon">📢</span>
+        <div id="khbd-next-alert-text" class="radar-text">...</div>
+      </div>
+
+      <!-- Toolbar -->
+      <div class="khbd-sub-toolbar">
+        <div class="khbd-class-select-wrap">
+          <strong>Lớp đang theo dõi:</strong>
+          <select id="khbd-class-select" class="class-select-input">
+            <option value="10A1" selected>Lớp 10A1</option>
+            <option value="10A8">Lớp 10A8</option>
+            <option value="11A1">Lớp 11A1</option>
+            <option value="12C2">Lớp 12C2</option>
+            <option value="12C13">Lớp 12C13</option>
+          </select>
+          <span class="sync-desc">Tick chọn <strong style="color: #10b981;">✅ Đã dạy</strong> để ghi nhớ tiến độ từng lớp và tránh lệch tiết!</span>
+        </div>
+        <div>
+          <button id="btn-copy-week-summary" class="btn-copy-all" type="button">
+            📋 Chép Cả 4 Tiết Tuần Này
+          </button>
+        </div>
+      </div>
+
+      <!-- 4 Periods Grid -->
+      <div id="khbd-periods-grid" class="khbd-periods-grid"></div>
+
+      <!-- Weekly Memo -->
+      <div class="khbd-memo-box">
+        <div class="memo-top-row">
+          <div class="memo-title-wrap">
+            <span class="memo-icon">📝</span>
+            <h4 class="memo-title">Sổ Ghi Chép Nhắc Nhớ Tuần — <span id="khbd-memo-week-label">Tuần 1</span></h4>
+          </div>
+          <span id="khbd-memo-status" class="memo-saved-tag">Đã lưu tự động</span>
+        </div>
+        <textarea id="khbd-weekly-memo" class="khbd-memo-textarea" rows="2" placeholder="Ghi nhớ việc của thầy trong tuần này (VD: Dặn lớp mang máy tính Casio; in đề KTTX1; kiểm tra bài tập về nhà...)"></textarea>
+      </div>
+    </div>
+
+    <!-- VIEW 2: FULL 18 WEEKS VIEW -->
+    <div id="khbd-full-view" style="display: none;">
+      <div class="khbd-search-row">
+        <div class="search-input-wrap">
+          <input type="text" id="khbd-search-input" class="clean-search-input" placeholder="🔍 Tìm kiếm bài dạy, tên chương, KTTX, chuyên đề, vectơ, hàm số...">
+        </div>
+        <span id="khbd-full-count-badge" class="search-count-badge">Tổng cộng 18 tuần • 72 tiết</span>
+      </div>
+
+      <div class="khbd-full-table-wrap">
+        <table class="khbd-full-table">
+          <thead>
+            <tr>
+              <th style="width: 70px; text-align: center;">Tuần</th>
+              <th style="width: 140px;">Thời Gian</th>
+              <th style="width: 85px; text-align: center;">Tiết PPCT</th>
+              <th style="width: 230px;">Chương / Phân Phối</th>
+              <th>Nội Dung Giảng Dạy & Ghi Chú</th>
+              <th style="width: 110px; text-align: center;">Ký Sổ</th>
+            </tr>
+          </thead>
+          <tbody id="khbd-full-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- VIEW 3: THỜI KHÓA BIỂU HÀNG TUẦN (MÃ GV: T3 / THẦY SANG) -->
+    <div id="khbd-tkb-view" class="tkb-wrapper" style="display: none;">
+      <!-- TKB Top Card -->
+      <div class="tkb-top-card">
+        <div class="tkb-info-group">
+          <h3>
+            <span>🗓️</span> Thời Khóa Biểu Dạy Hàng Tuần — <span id="tkb-teacher-name">Thầy Sang (Mã: T3)</span>
+          </h3>
+          <p id="tkb-note-text">Phân phòng HK1 (07/09/2026): 12C2 (P.02), 12C13 (P.13), 10A1 (P.23), 10A8 (P.30), TNHN-10A2 (P.38)</p>
+          <div id="tkb-today-text" class="tkb-today-subtext"></div>
+        </div>
+        <div class="tkb-actions-row">
+          <span id="tkb-stat-badge" class="tkb-badge-stat">⚡ 17 tiết / tuần</span>
+          <button id="btn-tkb-today" class="btn-tkb-action" type="button" title="Nhảy nhanh đến ngày hôm nay">
+            <span>📍</span> Hôm Nay
+          </button>
+          <button id="btn-tkb-edit" class="btn-tkb-action btn-tkb-primary" type="button" title="Chỉnh sửa TKB khi nhà trường thay đổi">
+            <span>✏️</span> Tùy Biến / Đổi TKB
+          </button>
+        </div>
+      </div>
+
+      <!-- THANH CHỌN NHANH THỨ TRONG TUẦN (TIỆN LỢI TRÊN MOBILE) -->
+      <div class="tkb-day-tabs-bar" id="tkb-quick-tabs">
+        <button class="tkb-day-pill-btn active" data-day="all" type="button">
+          <span class="tab-day-label">📅 Cả Tuần</span>
+        </button>
+        <button class="tkb-day-pill-btn" data-day="T2" type="button">
+          <span class="tab-day-label">Thứ 2</span>
+          <span class="badge-tiet">4t</span>
+        </button>
+        <button class="tkb-day-pill-btn" data-day="T3" type="button">
+          <span class="tab-day-label">Thứ 3</span>
+          <span class="badge-tiet">Nghỉ</span>
+        </button>
+        <button class="tkb-day-pill-btn" data-day="T4" type="button">
+          <span class="tab-day-label">Thứ 4</span>
+          <span class="badge-tiet">5t</span>
+        </button>
+        <button class="tkb-day-pill-btn" data-day="T5" type="button">
+          <span class="tab-day-label">Thứ 5</span>
+          <span class="badge-tiet">4t</span>
+        </button>
+        <button class="tkb-day-pill-btn" data-day="T6" type="button">
+          <span class="tab-day-label">Thứ 6</span>
+          <span class="badge-tiet">4t</span>
+        </button>
+        <button class="tkb-day-pill-btn" data-day="T7" type="button">
+          <span class="tab-day-label">Thứ 7</span>
+          <span class="badge-tiet">—</span>
+        </button>
+      </div>
+
+      <!-- TKB Grid Các Ngày Trong Tuần -->
+      <div id="tkb-days-container" class="tkb-days-grid">
+        <!-- Render động qua JS -->
+      </div>
+    </div>
+  </main>
+
+  <!-- MODAL TÙY BIẾN / CHỈNH SỬA TKB KHI CÓ THAY ĐỔI -->
+  <div id="tkb-edit-modal" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>✏️ Chỉnh Sửa Thời Khóa Biểu (Khi có thay đổi)</h3>
+        <button id="btn-close-modal" class="btn-modal-close" type="button">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0;">
+          💡 <em>Nhập tên lớp cho từng tiết (VD: <strong>12C2</strong>, <strong>10A1</strong>, <strong>10A8</strong>, <strong>12C13</strong>, <strong>SH-10A2</strong> hoặc để trống nếu không có tiết). Dữ liệu được lưu ngay vào điện thoại/máy của thầy!</em>
+        </p>
+        <div id="tkb-edit-form-content" class="tkb-edit-grid">
+          <!-- Render form nhập liệu từ T2 -> T7 -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="btn-tkb-reset" class="btn-tkb-action" style="color: #dc2626; border-color: #fca5a5;" type="button">
+          🔄 Khôi phục TKB gốc
+        </button>
+        <div style="display: flex; gap: 8px;">
+          <button id="btn-modal-cancel" class="btn-tkb-action" type="button">Đóng</button>
+          <button id="btn-tkb-save" class="btn-tkb-action btn-tkb-primary" type="button">💾 Lưu Thay Đổi</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Nạp dữ liệu KHBD 3 Khối -->
+  <script src="khbd-data.js"></script>
+
+  <script>
+    (function () {
+      'use strict';
+
+      let currentGrade = 'k10';
+      let currentHk = 'hk1';
+      let currentWeek = 1;
+      let currentView = 'week';
+      let currentClass = '10A1';
+      let searchQuery = '';
+
+      function showToast(msg, type = 'success') {
+        const container = document.getElementById('toast-container');
+        if (!container) return;
+        const t = document.createElement('div');
+        t.className = 'toast';
+        t.textContent = msg;
+        container.appendChild(t);
+        setTimeout(() => {
+          t.style.opacity = '0';
+          t.style.transition = 'opacity 0.3s';
+          setTimeout(() => t.remove(), 300);
+        }, 2800);
+      }
+
+      function copyText(text, msg) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(() => showToast(msg)).catch(() => fallbackCopy(text, msg));
+        } else {
+          fallbackCopy(text, msg);
+        }
+      }
+
+      function fallbackCopy(text, msg) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+          document.execCommand('copy');
+          showToast(msg);
+        } catch (e) {
+          showToast('Xin hãy bôi đen văn bản để chép.');
+        }
+        document.body.removeChild(ta);
+      }
+
+      function escapeHtml(s) {
+        if (!s) return '';
+        return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      }
+
+      function getTodayFormattedDate() {
+        const now = new Date();
+        const days = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
+        const dayName = days[now.getDay()];
+        const dd = String(now.getDate()).padStart(2, '0');
+        const mm = String(now.getMonth() + 1).padStart(2, '0');
+        const yyyy = now.getFullYear();
+        return `${dayName}, ngày ${dd}/${mm}/${yyyy}`;
+      }
+
+      function detectCurrentSchoolWeek() {
+        const today = new Date();
+        const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+        const weeks = window.KHBD_DATA?.[currentGrade]?.hk1 || window.KHBD_DATA?.k10?.hk1 || [];
+        for (let i = 0; i < weeks.length; i++) {
+          if (todayStr >= weeks[i].startDate && todayStr <= weeks[i].endDate) {
+            return weeks[i].tuan;
+          }
+        }
+        if (weeks.length > 0) {
+          if (todayStr < weeks[0].startDate) return 1;
+          if (todayStr > weeks[weeks.length - 1].endDate) return weeks.length;
+        }
+        return 1;
+      }
+
+      function getDatesOfCurrentSchoolWeek() {
+        const currentSchoolWeek = detectCurrentSchoolWeek();
+        const weeks = window.KHBD_DATA?.[currentGrade]?.hk1 || window.KHBD_DATA?.k10?.hk1 || [];
+        const weekObj = weeks.find(w => w.tuan === currentSchoolWeek);
+        
+        let mondayDate;
+        if (weekObj && weekObj.startDate) {
+          const parts = weekObj.startDate.split('-');
+          mondayDate = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+        } else {
+          const now = new Date();
+          const day = now.getDay();
+          const diff = now.getDate() - day + (day === 0 ? -6 : 1);
+          mondayDate = new Date(now.getFullYear(), now.getMonth(), diff);
+        }
+
+        const result = {};
+        const dayKeys = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
+        dayKeys.forEach((k, idx) => {
+          const d = new Date(mondayDate.getFullYear(), mondayDate.getMonth(), mondayDate.getDate() + idx);
+          const dd = String(d.getDate()).padStart(2, '0');
+          const mm = String(d.getMonth() + 1).padStart(2, '0');
+          const yyyy = d.getFullYear();
+          result[k] = {
+            dateStr: `${dd}/${mm}`,
+            fullDateStr: `${dd}/${mm}/${yyyy}`,
+            dateObj: d
+          };
+        });
+        return result;
+      }
+
+      function getTodayScheduleSummary() {
+        const tkbData = getTKBData();
+        const schedule = tkbData.schedule || {};
+        const now = new Date();
+        const dayIdx = now.getDay();
+        const dayMap = { 1: 'T2', 2: 'T3', 3: 'T4', 4: 'T5', 5: 'T6', 6: 'T7' };
+        const todayKey = dayMap[dayIdx] || null;
+
+        if (!todayKey) {
+          return {
+            todayKey: null,
+            count: 0,
+            text: 'Chủ Nhật — Hôm nay Thầy nghỉ dạy 🎉',
+            html: '<span style="color: #10b981; font-weight: 700;">🎉 Hôm nay là Chủ Nhật — Thầy được nghỉ dạy!</span>',
+            classes: []
+          };
+        }
+
+        const dayData = schedule[todayKey] || { name: todayKey, sang: [], chieu: [] };
+        const sangClasses = (dayData.sang || []).filter(p => p.lop && p.lop.trim() !== '').map(p => ({ ...p, session: 'sang' }));
+        const chieuClasses = (dayData.chieu || []).filter(p => p.lop && p.lop.trim() !== '').map(p => ({ ...p, session: 'chieu' }));
+        const allPeriodClasses = [...sangClasses, ...chieuClasses];
+        const totalPeriods = allPeriodClasses.length;
+
+        if (totalPeriods === 0) {
+          return {
+            todayKey,
+            count: 0,
+            text: `${dayData.name || 'Hôm nay'}: Thầy không có tiết trên lớp (Nghỉ) 🌴`,
+            html: `<span>🌴 <strong>${escapeHtml(dayData.name || 'Hôm nay')}:</strong> Thầy không có tiết trên lớp (Nghỉ)</span>`,
+            classes: []
+          };
+        }
+
+        const parts = [];
+        if (sangClasses.length > 0) {
+          const sDesc = sangClasses.map(p => `T${p.tiet} (${p.lop}${p.phong ? ' • ' + p.phong : ''})`).join(', ');
+          parts.push(`Sáng ${sangClasses.length}t: ${sDesc}`);
+        }
+        if (chieuClasses.length > 0) {
+          const cDesc = chieuClasses.map(p => `T${p.tiet} (${p.lop}${p.phong ? ' • ' + p.phong : ''})`).join(', ');
+          parts.push(`Chiều ${chieuClasses.length}t: ${cDesc}`);
+        }
+
+        const pillSpans = allPeriodClasses.map(p => {
+          const sessLabel = p.session === 'sang' ? 'Sáng' : 'Chiều';
+          return `<span class="today-class-pill"><b>${sessLabel} T${p.tiet}:</b> ${escapeHtml(p.lop)}${p.phong ? ' (' + escapeHtml(p.phong) + ')' : ''}</span>`;
+        }).join(' ');
+
+        return {
+          todayKey,
+          count: totalPeriods,
+          text: `Hôm nay có ${totalPeriods} tiết: ${parts.join(' | ')}`,
+          html: `<strong>⚡ Hôm nay có ${totalPeriods} tiết:</strong> ${pillSpans}`,
+          classes: allPeriodClasses
+        };
+      }
+
+      function updateTodayCard() {
+        const fullDateStr = getTodayFormattedDate();
+        const currentSchoolWeek = detectCurrentSchoolWeek();
+        const weeks = window.KHBD_DATA?.[currentGrade]?.[currentHk] || window.KHBD_DATA?.k10?.hk1 || [];
+        const weekObj = weeks.find(w => w.tuan === currentSchoolWeek);
+        const weekLabel = `Tuần ${currentSchoolWeek}`;
+        const weekRange = weekObj ? weekObj.range : '';
+
+        const summary = getTodayScheduleSummary();
+
+        const fullDateEl = document.getElementById('today-full-date-text');
+        if (fullDateEl) fullDateEl.textContent = fullDateStr;
+
+        const weekBadgeEl = document.getElementById('today-week-badge');
+        if (weekBadgeEl) weekBadgeEl.textContent = weekLabel;
+
+        const weekRangeEl = document.getElementById('today-week-range');
+        if (weekRangeEl) weekRangeEl.textContent = weekRange ? `(${weekRange})` : '';
+
+        const summaryEl = document.getElementById('today-schedule-summary');
+        if (summaryEl) summaryEl.innerHTML = summary.html;
+
+        const now = new Date();
+        const days = ['Chủ Nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7'];
+        const dayShort = days[now.getDay()];
+
+        const btnTkb = document.getElementById('btn-quick-view-today-tkb');
+        if (btnTkb) {
+          if (summary.todayKey) {
+            btnTkb.innerHTML = `<span>🗓️</span> TKB ${dayShort}`;
+          } else {
+            btnTkb.innerHTML = `<span>🗓️</span> TKB Cả Tuần`;
+          }
+        }
+
+        const btnKhbd = document.getElementById('btn-quick-view-current-week');
+        if (btnKhbd) {
+          btnKhbd.innerHTML = `<span>🎯</span> Bài Dạy ${weekLabel}`;
+        }
+      }
+
+      function getWeekList() {
+        return window.KHBD_DATA?.[currentGrade]?.[currentHk] || [];
+      }
+
+      function getWeekData(tuan) {
+        const list = getWeekList();
+        return list.find(w => w.tuan === tuan) || list[0] || null;
+      }
+
+      function getTaughtKey(wNum, pIdx) {
+        return `taught_${currentClass}_${currentGrade}_${currentHk}_w${wNum}_p${pIdx}`;
+      }
+
+      function isTaught(wNum, pIdx) {
+        try {
+          return localStorage.getItem(getTaughtKey(wNum, pIdx)) === 'true';
+        } catch (e) { return false; }
+      }
+
+      function toggleTaught(wNum, pIdx, btnEl, cardEl) {
+        const key = getTaughtKey(wNum, pIdx);
+        const curr = isTaught(wNum, pIdx);
+        const newVal = !curr;
+        try { localStorage.setItem(key, String(newVal)); } catch (e) {}
+
+        if (newVal) {
+          btnEl.classList.add('is-taught');
+          btnEl.innerHTML = '✅ Đã dạy xong';
+          cardEl?.classList.add('taught');
+          showToast(`Đã ghi nhận ${currentClass} hoàn thành tiết học này!`);
+        } else {
+          btnEl.classList.remove('is-taught');
+          btnEl.innerHTML = '⚪ Chưa dạy';
+          cardEl?.classList.remove('taught');
+          showToast(`Đã bỏ đánh dấu tiết học cho ${currentClass}`);
+        }
+      }
+
+      function getMemo(tuan) {
+        try {
+          return localStorage.getItem(`memo_${currentGrade}_${currentHk}_w${tuan}`) || '';
+        } catch (e) { return ''; }
+      }
+
+      function saveMemo(tuan, val) {
+        try {
+          localStorage.setItem(`memo_${currentGrade}_${currentHk}_w${tuan}`, val);
+        } catch (e) {}
+      }
+
+      function renderWeekView() {
+        const weeks = getWeekList();
+        if (!weeks || weeks.length === 0) return;
+
+        if (currentWeek < 1) currentWeek = 1;
+        if (currentWeek > weeks.length) currentWeek = weeks.length;
+
+        const currentSchoolWeek = detectCurrentSchoolWeek();
+        const weekData = getWeekData(currentWeek);
+        if (!weekData) return;
+
+        // Dropdown tuần
+        const weekSelect = document.getElementById('khbd-week-select');
+        if (weekSelect) {
+          weekSelect.innerHTML = weeks.map(w => {
+            const isCurrent = w.tuan === currentSchoolWeek;
+            const sel = w.tuan === currentWeek ? 'selected' : '';
+            return `<option value="${w.tuan}" ${sel}>Tuần ${w.tuan}: ${w.range} ${isCurrent ? '⭐ (Tuần Này)' : ''}</option>`;
+          }).join('');
+        }
+
+        // Radar Alert (Tuần hiện tại)
+        const alertBox = document.getElementById('khbd-week-alert');
+        const alertText = document.getElementById('khbd-alert-text');
+        if (alertBox && alertText) {
+          if (weekData.alert) {
+            alertBox.style.display = 'flex';
+            alertText.textContent = weekData.alert;
+          } else {
+            alertBox.style.display = 'none';
+          }
+        }
+
+        // Radar Lookahead Alert (Báo trước 1 tuần nếu tuần kế tiếp có Kiểm tra / Thi)
+        const nextAlertBox = document.getElementById('khbd-next-week-alert');
+        const nextAlertText = document.getElementById('khbd-next-alert-text');
+        if (nextAlertBox && nextAlertText) {
+          const nextWeekData = weeks.find(w => w.tuan === weekData.tuan + 1);
+          if (nextWeekData) {
+            const examPeriods = (nextWeekData.tiets || []).filter(p => 
+              p.type === 'exam' || 
+              /KTTX|kiểm tra|thi/i.test(p.tenBai || '') || 
+              /KTTX|kiểm tra|thi/i.test(p.ghiChu || '')
+            );
+            const hasExamAlert = /kiểm tra|KTTX|thi|giữa kỳ|cuối kỳ/i.test(nextWeekData.alert || '');
+
+            if (examPeriods.length > 0 || hasExamAlert) {
+              let details = examPeriods.map(p => `Tiết ${p.ppct}: ${p.ghiChu || p.tenBai}`).join(', ');
+              if (!details) details = nextWeekData.alert || 'Kiểm tra';
+              nextAlertBox.style.display = 'flex';
+              nextAlertText.innerHTML = `<strong>📢 NHẮC NHỞ TUẦN SAU (Tuần ${nextWeekData.tuan}: ${nextWeekData.range}):</strong> Sắp có <strong>${escapeHtml(details)}</strong>! Thầy nhớ dặn học sinh chuẩn bị bài và ôn tập trước từ tuần này nhé.`;
+            } else {
+              nextAlertBox.style.display = 'none';
+            }
+          } else {
+            nextAlertBox.style.display = 'none';
+          }
+        }
+
+        // 4 Period Cards
+        const gridEl = document.getElementById('khbd-periods-grid');
+        if (gridEl && weekData.tiets) {
+          gridEl.innerHTML = weekData.tiets.map((period, idx) => {
+            const taught = isTaught(weekData.tuan, idx);
+            let badgeClass = 'badge-ppct-standard';
+            let badgeLabel = `Tiết ${period.ppct}`;
+            if (period.type === 'chuyende') {
+              badgeClass = 'badge-ppct-chuyende';
+              badgeLabel = `📘 Tiết ${period.ppct}`;
+            } else if (period.type === 'exam') {
+              badgeClass = 'badge-ppct-exam';
+              badgeLabel = `📝 ${period.ghiChu || 'Kiểm Tra'}`;
+            } else if (period.type === 'trainghiem') {
+              badgeClass = 'badge-ppct-trainghiem';
+              badgeLabel = `🌟 Trải Nghiệm`;
+            }
+
+            return `
+              <div class="khbd-period-card ${taught ? 'taught' : ''}" id="period-card-${weekData.tuan}-${idx}">
+                <div class="period-card-top">
+                  <span class="period-badge-ppct ${badgeClass}">${badgeLabel}</span>
+                  <button class="btn-toggle-taught ${taught ? 'is-taught' : ''}" data-week="${weekData.tuan}" data-idx="${idx}" type="button">
+                    ${taught ? '✅ Đã dạy xong' : '⚪ Chưa dạy'}
+                  </button>
+                </div>
+                <div class="period-card-chuong">${escapeHtml(period.chuong)}</div>
+                <div class="period-card-name">${escapeHtml(period.tenBai)}</div>
+                <div class="period-card-footer">
+                  <button class="btn-copy-sign" data-ppct="${period.ppct}" data-name="${escapeHtml(period.tenBai)}" type="button" title="Chép chuỗi 'Tiết ${period.ppct}: ${escapeHtml(period.tenBai)}' để ký sổ">
+                    📋 Ký Sổ (Tiết + Tên)
+                  </button>
+                  <button class="btn-copy-title-only" data-name="${escapeHtml(period.tenBai)}" type="button" title="Chỉ chép tên bài">
+                    Chỉ Tên Bài
+                  </button>
+                </div>
+              </div>
+            `;
+          }).join('');
+
+          gridEl.querySelectorAll('.btn-toggle-taught').forEach(b => {
+            b.addEventListener('click', () => {
+              const wNum = parseInt(b.dataset.week, 10);
+              const pIdx = parseInt(b.dataset.idx, 10);
+              const card = document.getElementById(`period-card-${wNum}-${pIdx}`);
+              toggleTaught(wNum, pIdx, b, card);
+            });
+          });
+
+          gridEl.querySelectorAll('.btn-copy-sign').forEach(b => {
+            b.addEventListener('click', () => {
+              const text = `Tiết ${b.dataset.ppct}: ${b.dataset.name}`;
+              copyText(text, `Đã chép: "${text}" để ký sổ!`);
+              b.classList.add('copied');
+              b.innerHTML = '✓ Đã Chép!';
+              setTimeout(() => {
+                b.classList.remove('copied');
+                b.innerHTML = '📋 Ký Sổ (Tiết + Tên)';
+              }, 1500);
+            });
+          });
+
+          gridEl.querySelectorAll('.btn-copy-title-only').forEach(b => {
+            b.addEventListener('click', () => {
+              copyText(b.dataset.name, `Đã chép tên bài: "${b.dataset.name}"!`);
+            });
+          });
+        }
+
+        // Memo
+        const memoLabel = document.getElementById('khbd-memo-week-label');
+        const memoText = document.getElementById('khbd-weekly-memo');
+        if (memoLabel) memoLabel.textContent = `Tuần ${weekData.tuan} (${weekData.range})`;
+        if (memoText) memoText.value = getMemo(weekData.tuan);
+      }
+
+      function renderFullView() {
+        const weeks = getWeekList();
+        const tbody = document.getElementById('khbd-full-tbody');
+        const countBadge = document.getElementById('khbd-full-count-badge');
+        if (!tbody || !weeks) return;
+
+        const currentSchoolWeek = detectCurrentSchoolWeek();
+        let rowsHtml = '';
+        let count = 0;
+
+        weeks.forEach(w => {
+          const isCurrent = w.tuan === currentSchoolWeek;
+          w.tiets.forEach(p => {
+            if (searchQuery) {
+              const matchPpct = String(p.ppct).toLowerCase().includes(searchQuery);
+              const matchName = p.tenBai.toLowerCase().includes(searchQuery);
+              const matchChuong = p.chuong.toLowerCase().includes(searchQuery);
+              const matchTuan = `tuần ${w.tuan}`.includes(searchQuery);
+              if (!matchPpct && !matchName && !matchChuong && !matchTuan) return;
+            }
+            count++;
+            const isExam = p.type === 'exam';
+            rowsHtml += `
+              <tr class="${isExam ? 'row-exam' : ''}">
+                <td class="tuan-cell ${isCurrent ? 'current-week' : ''}">T${w.tuan}</td>
+                <td style="color: var(--text-muted); font-size: 0.8rem;">${w.range}</td>
+                <td style="text-align: center; font-weight: 800; color: ${p.type === 'chuyende' ? '#7c3aed' : isExam ? '#dc2626' : 'var(--text-main)'};">${p.ppct}</td>
+                <td><span style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted);">${escapeHtml(p.chuong)}</span></td>
+                <td>
+                  <div style="font-weight: 700;">${escapeHtml(p.tenBai)}</div>
+                  ${p.ghiChu ? `<span class="badge-ppct-exam" style="font-size: 0.72rem; padding: 1px 6px; border-radius: 4px; display: inline-block; margin-top: 3px;">${escapeHtml(p.ghiChu)}</span>` : ''}
+                </td>
+                <td style="text-align: center;">
+                  <button class="btn-table-copy" data-ppct="${p.ppct}" data-name="${escapeHtml(p.tenBai)}" type="button">📋 Ký Sổ</button>
+                </td>
+              </tr>
+            `;
+          });
+        });
+
+        if (rowsHtml === '') {
+          tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 32px; color: var(--text-muted);">Không tìm thấy bài dạy nào phù hợp với từ khóa "${escapeHtml(searchQuery)}"</td></tr>`;
+        } else {
+          tbody.innerHTML = rowsHtml;
+        }
+
+        if (countBadge) {
+          countBadge.textContent = searchQuery ? `Tìm thấy ${count} tiết phù hợp` : `Tổng cộng ${weeks.length} tuần • ${count} tiết`;
+        }
+
+        tbody.querySelectorAll('.btn-table-copy').forEach(b => {
+          b.addEventListener('click', () => {
+            const text = `Tiết ${b.dataset.ppct}: ${b.dataset.name}`;
+            copyText(text, `Đã chép: "${text}"!`);
+          });
+        });
+      }
+
+      // ==========================================
+      // THỜI KHÓA BIỂU (TKB) MODULE & LOGIC
+      // ==========================================
+      const TKB_STORAGE_KEY = 'conic_tkb_sang_data_v2';
+
+      function getTKBData() {
+        try {
+          const raw = localStorage.getItem(TKB_STORAGE_KEY);
+          if (raw) return JSON.parse(raw);
+        } catch (e) {}
+        return JSON.parse(JSON.stringify(window.TKB_DEFAULT || {}));
+      }
+
+      function saveTKBData(data) {
+        try {
+          localStorage.setItem(TKB_STORAGE_KEY, JSON.stringify(data));
+        } catch (e) {}
+      }
+
+      function getClassBadgeClass(lop) {
+        if (!lop) return '';
+        const clean = lop.toUpperCase().replace(/[^A-Z0-9]/g, '');
+        if (clean.includes('12C2')) return 'c12c2';
+        if (clean.includes('12C13')) return 'c12c13';
+        if (clean.includes('10A1')) return 'c10a1';
+        if (clean.includes('10A8')) return 'c10a8';
+        if (clean.includes('10A2') || clean.includes('SH')) return 'csh10a2';
+        return 'generic';
+      }
+
+      function renderTKBView() {
+        const tkbData = getTKBData();
+        const container = document.getElementById('tkb-days-container');
+        if (!container) return;
+
+        const schedule = tkbData.schedule || {};
+        const days = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
+        
+        // Xác định hôm nay là thứ mấy (0: CN, 1: T2, 2: T3, ..., 6: T7)
+        const dayIdx = new Date().getDay();
+        const dayMap = { 1: 'T2', 2: 'T3', 3: 'T4', 4: 'T5', 5: 'T6', 6: 'T7' };
+        const todayKey = dayMap[dayIdx] || null;
+
+        const schoolDates = getDatesOfCurrentSchoolWeek();
+        let totalTietTuan = 0;
+
+        const html = days.map(dKey => {
+          const dayData = schedule[dKey] || { name: dKey, sang: [], chieu: [] };
+          const isToday = dKey === todayKey;
+          const dateInfo = schoolDates[dKey];
+          const dateStr = dateInfo ? dateInfo.dateStr : '';
+          const fullDateStr = dateInfo ? dateInfo.fullDateStr : '';
+          
+          const sangPeriods = dayData.sang || [];
+          const chieuPeriods = dayData.chieu || [];
+
+          const countSang = sangPeriods.filter(p => p.lop && p.lop.trim() !== '').length;
+          const countChieu = chieuPeriods.filter(p => p.lop && p.lop.trim() !== '').length;
+          const totalDay = countSang + countChieu;
+          totalTietTuan += totalDay;
+
+          const renderSessionList = (list) => {
+            return list.map(p => {
+              const hasClass = p.lop && p.lop.trim() !== '';
+              const badgeCls = hasClass ? getClassBadgeClass(p.lop) : '';
+              return `
+                <div class="tkb-period-item ${hasClass ? 'has-class' : ''}">
+                  <div class="tkb-period-left">
+                    <span class="tkb-period-num">T${p.tiet}</span>
+                    ${hasClass ? `<span class="tkb-class-badge ${badgeCls}">${escapeHtml(p.lop)}</span>` : '<span class="tkb-period-free">— Trống</span>'}
+                    ${hasClass && p.phong ? `<span class="tkb-room-badge" title="Phòng học">${escapeHtml(p.phong)}</span>` : ''}
+                  </div>
+                  ${hasClass && p.note ? `<span style="font-size: 0.72rem; color: var(--text-muted);">${escapeHtml(p.note)}</span>` : ''}
+                </div>
+              `;
+            }).join('');
+          };
+
+          return `
+            <div class="tkb-day-card ${isToday ? 'is-today' : ''}" id="tkb-card-${dKey}">
+              <div class="tkb-day-header">
+                <div class="tkb-day-title">
+                  <span>${escapeHtml(dayData.name)}${fullDateStr ? `<small class="tkb-card-date">(${fullDateStr})</small>` : ''}</span>
+                  ${isToday ? '<span class="tkb-today-badge">📍 Hôm Nay</span>' : ''}
+                </div>
+                <div class="tkb-day-count">
+                  ${totalDay > 0 ? `<strong>${totalDay}</strong> tiết` : '<span style="color: var(--text-muted); font-size: 0.75rem;">Nghỉ</span>'}
+                </div>
+              </div>
+
+              <!-- Buổi Sáng -->
+              <div class="tkb-session-block">
+                <div class="tkb-session-title">
+                  <span>☀️</span> Buổi Sáng (${countSang} tiết)
+                </div>
+                <div class="tkb-period-list">
+                  ${renderSessionList(sangPeriods)}
+                </div>
+              </div>
+
+              <!-- Buổi Chiều -->
+              <div class="tkb-session-block">
+                <div class="tkb-session-title">
+                  <span>🌤️</span> Buổi Chiều (${countChieu} tiết)
+                </div>
+                <div class="tkb-period-list">
+                  ${renderSessionList(chieuPeriods)}
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        container.innerHTML = html;
+
+        // Cập nhật số tiết & ngày trên thanh quick-tabs
+        days.forEach(dKey => {
+          const dData = schedule[dKey] || { name: dKey, sang: [], chieu: [] };
+          const cSang = (dData.sang || []).filter(p => p.lop && p.lop.trim() !== '').length;
+          const cChieu = (dData.chieu || []).filter(p => p.lop && p.lop.trim() !== '').length;
+          const tot = cSang + cChieu;
+          const isToday = dKey === todayKey;
+          const dateInfo = schoolDates[dKey];
+          const dateStr = dateInfo ? dateInfo.dateStr : '';
+
+          const btn = document.querySelector(`#tkb-quick-tabs .tkb-day-pill-btn[data-day="${dKey}"]`);
+          if (btn) {
+            btn.classList.toggle('is-today-pill', isToday);
+            const labelEl = btn.querySelector('.tab-day-label') || btn.firstElementChild;
+            if (labelEl) {
+              labelEl.innerHTML = `${isToday ? '<span class="today-mini-dot"></span>' : ''}${escapeHtml(dData.name || dKey)}${dateStr ? ` <small class="tab-date-sub">(${dateStr})</small>` : ''}`;
+            }
+            const badgeTiet = btn.querySelector('.badge-tiet');
+            if (badgeTiet) {
+              badgeTiet.textContent = tot > 0 ? `${tot}t` : (dKey === 'T3' ? 'Nghỉ' : '—');
+            }
+          }
+        });
+
+        // Cập nhật dòng text TKB hôm nay
+        const tkbTodayTextEl = document.getElementById('tkb-today-text');
+        if (tkbTodayTextEl) {
+          const currentSchoolWeek = detectCurrentSchoolWeek();
+          const todayFullDate = getTodayFormattedDate();
+          const todaySummary = getTodayScheduleSummary();
+          tkbTodayTextEl.innerHTML = `📍 <strong>${todayFullDate}</strong> (Tuần ${currentSchoolWeek}) • ${todaySummary.text}`;
+        }
+
+        // Xử lý filter theo thứ được chọn
+        const currentActiveFilterBtn = document.querySelector('#tkb-quick-tabs .tkb-day-pill-btn.active');
+        const activeFilter = currentActiveFilterBtn ? currentActiveFilterBtn.dataset.day : 'all';
+        applyTKBFilter(activeFilter);
+
+        // Cập nhật thống kê
+        const statBadge = document.getElementById('tkb-stat-badge');
+        if (statBadge) {
+          statBadge.textContent = `⚡ ${totalTietTuan} tiết / tuần`;
+        }
+      }
+
+      function applyTKBFilter(dayKey) {
+        const cards = document.querySelectorAll('.tkb-day-card');
+        cards.forEach(card => {
+          if (dayKey === 'all' || card.id === `tkb-card-${dayKey}`) {
+            card.style.display = 'block';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      }
+
+      function openTKBEditModal() {
+        const tkbData = getTKBData();
+        const formContainer = document.getElementById('tkb-edit-form-content');
+        if (!formContainer) return;
+
+        const schedule = tkbData.schedule || {};
+        const days = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
+
+        formContainer.innerHTML = days.map(dKey => {
+          const dayData = schedule[dKey] || { name: dKey, sang: [], chieu: [] };
+          return `
+            <div class="tkb-edit-day-row">
+              <h4>📅 ${escapeHtml(dayData.name)}</h4>
+              <div style="font-size: 0.78rem; font-weight: 700; color: #0284c7; margin-bottom: 4px;">☀️ Sáng (Tiết 1 - 4):</div>
+              <div class="tkb-inputs-row">
+                ${(dayData.sang || []).map(p => `
+                  <div class="tkb-input-group">
+                    <label>Tiết ${p.tiet}:</label>
+                    <input type="text" data-day="${dKey}" data-session="sang" data-tiet="${p.tiet}" value="${escapeHtml(p.lop || '')}" placeholder="Lớp (10A1...)">
+                  </div>
+                `).join('')}
+              </div>
+              <div style="font-size: 0.78rem; font-weight: 700; color: #f59e0b; margin: 8px 0 4px 0;">🌤️ Chiều (Tiết 1 - 4):</div>
+              <div class="tkb-inputs-row">
+                ${(dayData.chieu || []).map(p => `
+                  <div class="tkb-input-group">
+                    <label>Tiết ${p.tiet}:</label>
+                    <input type="text" data-day="${dKey}" data-session="chieu" data-tiet="${p.tiet}" value="${escapeHtml(p.lop || '')}" placeholder="Lớp (12C2...)">
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        const modal = document.getElementById('tkb-edit-modal');
+        if (modal) modal.classList.add('active');
+      }
+
+      function closeTKBEditModal() {
+        const modal = document.getElementById('tkb-edit-modal');
+        if (modal) modal.classList.remove('active');
+      }
+
+      function saveTKBFromModal() {
+        const tkbData = getTKBData();
+        const inputs = document.querySelectorAll('#tkb-edit-form-content input');
+        
+        inputs.forEach(inp => {
+          const dKey = inp.dataset.day;
+          const session = inp.dataset.session;
+          const tiet = parseInt(inp.dataset.tiet, 10);
+          const val = inp.value.trim();
+
+          if (tkbData.schedule?.[dKey]?.[session]) {
+            const periodObj = tkbData.schedule[dKey][session].find(p => p.tiet === tiet);
+            if (periodObj) {
+              periodObj.lop = val;
+              // Cập nhật note gợi ý
+              if (/12/i.test(val)) periodObj.note = 'Toán 12';
+              else if (/10/i.test(val)) periodObj.note = 'Toán 10';
+              else if (/11/i.test(val)) periodObj.note = 'Toán 11';
+              else if (/SH/i.test(val)) periodObj.note = 'Sinh hoạt';
+              else periodObj.note = '';
+            }
+          }
+        });
+
+        saveTKBData(tkbData);
+        closeTKBEditModal();
+        renderTKBView();
+        showToast('✅ Đã lưu thay đổi Thời khóa biểu thành công!');
+      }
+
+      function resetTKBToDefault() {
+        if (confirm('Thầy có chắc chắn muốn khôi phục Thời khóa biểu gốc (17 tiết theo ảnh thời khóa biểu ban đầu) không?')) {
+          localStorage.removeItem(TKB_STORAGE_KEY);
+          closeTKBEditModal();
+          renderTKBView();
+          showToast('Đã khôi phục Thời khóa biểu gốc!');
+        }
+      }
+
+      // ==========================================
+      // PWA INSTALLATION HANDLER
+      // ==========================================
+      let deferredPrompt = null;
+
+      function setupPWA() {
+        // Đăng ký Service Worker
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('sw.js').catch(() => {});
+        }
+
+        const btnInstall = document.getElementById('btn-install-app');
+        const mobileBanner = document.getElementById('pwa-mobile-banner');
+        const btnBannerInstall = document.getElementById('btn-banner-install');
+
+        // Bắt sự kiện beforeinstallprompt (Android Chrome / Edge / Desktop Chrome)
+        window.addEventListener('beforeinstallprompt', (e) => {
+          e.preventDefault();
+          deferredPrompt = e;
+          if (btnInstall) btnInstall.style.display = 'inline-flex';
+          if (mobileBanner) mobileBanner.style.display = 'flex';
+        });
+
+        const triggerInstall = () => {
+          if (deferredPrompt) {
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then((choiceResult) => {
+              if (choiceResult.outcome === 'accepted') {
+                showToast('🎉 Đã thêm App vào màn hình chính thành công!');
+                if (mobileBanner) mobileBanner.style.display = 'none';
+              }
+              deferredPrompt = null;
+            });
+          } else {
+            // Hướng dẫn nếu là iOS Safari hoặc trình duyệt không hỗ trợ beforeinstallprompt trực tiếp
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            if (isIOS) {
+              alert('📲 Để cài đặt trên iPhone / iPad:\n1. Bấm nút Chia sẻ (biểu tượng mũi tên lên [↑] ở thanh Safari)\n2. Cuộn xuống và chọn "Thêm vào MH chính" (Add to Home Screen)\n3. Bấm "Thêm" là xong!');
+            } else {
+              alert('📲 Để cài đặt:\nBấm vào menu trình duyệt (dấu 3 chấm ở góc phải) và chọn "Cài đặt ứng dụng" hoặc "Thêm vào màn hình chính" (Add to Home Screen).');
+            }
+          }
+        };
+
+        btnInstall?.addEventListener('click', triggerInstall);
+        btnBannerInstall?.addEventListener('click', triggerInstall);
+
+        window.addEventListener('appinstalled', () => {
+          showToast('App KHBD & TKB đã được cài đặt!');
+          if (mobileBanner) mobileBanner.style.display = 'none';
+          deferredPrompt = null;
+        });
+      }
+
+      function renderKHBD() {
+        updateTodayCard();
+        const weeks = getWeekList();
+        const weekView = document.getElementById('khbd-week-view');
+        const fullView = document.getElementById('khbd-full-view');
+        const tkbView = document.getElementById('khbd-tkb-view');
+        const gradeGroup = document.getElementById('khbd-grade-group');
+        const hkGroup = document.getElementById('khbd-hk-group');
+
+        if (currentView === 'tkb') {
+          if (weekView) weekView.style.display = 'none';
+          if (fullView) fullView.style.display = 'none';
+          if (tkbView) tkbView.style.display = 'flex';
+          if (gradeGroup) gradeGroup.style.display = 'none';
+          if (hkGroup) hkGroup.style.display = 'none';
+          renderTKBView();
+          return;
+        }
+
+        // Hiện lại chọn khối & học kỳ nếu không ở tab TKB
+        if (gradeGroup) gradeGroup.style.display = 'flex';
+        if (hkGroup) hkGroup.style.display = 'flex';
+        if (tkbView) tkbView.style.display = 'none';
+
+        if (!weeks || weeks.length === 0) {
+          if (weekView) {
+            weekView.innerHTML = `
+              <div style="text-align: center; padding: 48px 24px; background: var(--bg-card); border: 1px dashed var(--border); border-radius: 16px;">
+                <div style="font-size: 3rem; margin-bottom: 12px;">📂</div>
+                <h3>Chưa có dữ liệu cho ${currentGrade.toUpperCase()} - ${currentHk.toUpperCase()}</h3>
+                <p style="color: var(--text-muted);">Thầy hãy chọn Khối 10, 11 hoặc 12 (Học kỳ I) để xem phân phối chương trình!</p>
+              </div>
+            `;
+          }
+          return;
+        }
+
+        if (currentView === 'week') {
+          if (weekView) weekView.style.display = 'block';
+          if (fullView) fullView.style.display = 'none';
+          renderWeekView();
+        } else {
+          if (weekView) weekView.style.display = 'none';
+          if (fullView) fullView.style.display = 'block';
+          renderFullView();
+        }
+      }
+
+      function init() {
+        currentWeek = detectCurrentSchoolWeek();
+
+        // Pills Khối
+        document.querySelectorAll('#khbd-grade-pills .khbd-pill').forEach(b => {
+          b.addEventListener('click', () => {
+            document.querySelectorAll('#khbd-grade-pills .khbd-pill').forEach(x => x.classList.remove('active'));
+            b.classList.add('active');
+            currentGrade = b.dataset.grade;
+            renderKHBD();
+          });
+        });
+
+        // Pills HK
+        document.querySelectorAll('#khbd-hk-pills .khbd-pill').forEach(b => {
+          b.addEventListener('click', () => {
+            document.querySelectorAll('#khbd-hk-pills .khbd-pill').forEach(x => x.classList.remove('active'));
+            b.classList.add('active');
+            currentHk = b.dataset.hk;
+            renderKHBD();
+          });
+        });
+
+        // View toggle (3 tabs: TKB, Tuần, Cả 18 tuần)
+        const btnTkb = document.getElementById('btn-khbd-view-tkb');
+        const btnWeek = document.getElementById('btn-khbd-view-week');
+        const btnFull = document.getElementById('btn-khbd-view-full');
+
+        btnTkb?.addEventListener('click', () => {
+          currentView = 'tkb';
+          btnTkb.classList.add('active');
+          btnWeek?.classList.remove('active');
+          btnFull?.classList.remove('active');
+          renderKHBD();
+        });
+
+        btnWeek?.addEventListener('click', () => {
+          currentView = 'week';
+          btnWeek.classList.add('active');
+          btnTkb?.classList.remove('active');
+          btnFull?.classList.remove('active');
+          renderKHBD();
+        });
+
+        btnFull?.addEventListener('click', () => {
+          currentView = 'full';
+          btnFull.classList.add('active');
+          btnTkb?.classList.remove('active');
+          btnWeek?.classList.remove('active');
+          renderKHBD();
+        });
+
+        // TKB Action Buttons
+        document.getElementById('btn-tkb-edit')?.addEventListener('click', openTKBEditModal);
+        document.getElementById('btn-close-modal')?.addEventListener('click', closeTKBEditModal);
+        document.getElementById('btn-modal-cancel')?.addEventListener('click', closeTKBEditModal);
+        document.getElementById('btn-tkb-save')?.addEventListener('click', saveTKBFromModal);
+        document.getElementById('btn-tkb-reset')?.addEventListener('click', resetTKBToDefault);
+
+        // TKB Quick Day Filter Pills Click
+        document.querySelectorAll('#tkb-quick-tabs .tkb-day-pill-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            document.querySelectorAll('#tkb-quick-tabs .tkb-day-pill-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const dayKey = btn.dataset.day;
+            applyTKBFilter(dayKey);
+          });
+        });
+
+        document.getElementById('btn-tkb-today')?.addEventListener('click', () => {
+          const dayIdx = new Date().getDay();
+          const dayMap = { 1: 'T2', 2: 'T3', 3: 'T4', 4: 'T5', 5: 'T6', 6: 'T7' };
+          const todayKey = dayMap[dayIdx];
+          if (todayKey) {
+            // Kích hoạt pill của hôm nay trên thanh quick-tabs
+            const todayPill = document.querySelector(`#tkb-quick-tabs .tkb-day-pill-btn[data-day="${todayKey}"]`);
+            if (todayPill) {
+              document.querySelectorAll('#tkb-quick-tabs .tkb-day-pill-btn').forEach(b => b.classList.remove('active'));
+              todayPill.classList.add('active');
+              applyTKBFilter(todayKey);
+            }
+            const card = document.getElementById(`tkb-card-${todayKey}`);
+            if (card) {
+              card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              card.style.transition = 'transform 0.2s';
+              card.style.transform = 'scale(1.02)';
+              setTimeout(() => card.style.transform = 'scale(1)', 400);
+              showToast(`Đã chuyển đến Thời khóa biểu ${todayKey}!`);
+            }
+          } else {
+            showToast('Hôm nay là Chủ Nhật — Thầy được nghỉ dạy! 🎉');
+          }
+        });
+
+        // Week navigation
+        document.getElementById('btn-khbd-prev-week')?.addEventListener('click', () => {
+          if (currentWeek > 1) { currentWeek--; renderWeekView(); }
+        });
+
+        document.getElementById('btn-khbd-next-week')?.addEventListener('click', () => {
+          const maxW = getWeekList().length || 18;
+          if (currentWeek < maxW) { currentWeek++; renderWeekView(); }
+        });
+
+        document.getElementById('khbd-week-select')?.addEventListener('change', (e) => {
+          currentWeek = parseInt(e.target.value, 10) || 1;
+          renderWeekView();
+        });
+
+        document.getElementById('btn-khbd-jump-current')?.addEventListener('click', () => {
+          currentWeek = detectCurrentSchoolWeek();
+          renderWeekView();
+          showToast(`Đã chuyển về Tuần ${currentWeek} hiện tại`);
+        });
+
+        // Class selector
+        document.getElementById('khbd-class-select')?.addEventListener('change', (e) => {
+          currentClass = e.target.value;
+          renderWeekView();
+          showToast(`Đang theo dõi tiến độ cho ${currentClass}`);
+        });
+
+        // Copy week summary
+        document.getElementById('btn-copy-week-summary')?.addEventListener('click', () => {
+          const weekData = getWeekData(currentWeek);
+          if (!weekData) return;
+          let text = `[KẾ HOẠCH BÀI DẠY - TUẦN ${weekData.tuan} (${weekData.range})]\n`;
+          text += `Trường THPT Nguyễn Hữu Cảnh • Môn Toán ${currentGrade.toUpperCase()} • ${currentClass}\n\n`;
+          weekData.tiets.forEach(p => {
+            text += `• Tiết ${p.ppct}: ${p.tenBai} (${p.chuong})\n`;
+          });
+          if (weekData.alert) text += `\n⚠️ Lưu ý: ${weekData.alert}\n`;
+          copyText(text, `Đã chép tóm tắt 4 tiết Tuần ${weekData.tuan} vào Clipboard!`);
+        });
+
+        // Memo auto-save
+        let memoTimeout = null;
+        document.getElementById('khbd-weekly-memo')?.addEventListener('input', (e) => {
+          const status = document.getElementById('khbd-memo-status');
+          if (status) status.textContent = 'Đang lưu...';
+          clearTimeout(memoTimeout);
+          memoTimeout = setTimeout(() => {
+            saveMemo(currentWeek, e.target.value);
+            if (status) status.textContent = 'Đã lưu tự động';
+          }, 500);
+        });
+
+        // Search in full view
+        document.getElementById('khbd-search-input')?.addEventListener('input', (e) => {
+          searchQuery = e.target.value.trim().toLowerCase();
+          renderFullView();
+        });
+
+        // Theme toggle
+        document.getElementById('btn-toggle-theme')?.addEventListener('click', () => {
+          document.body.classList.toggle('theme-dark');
+          const isDark = document.body.classList.contains('theme-dark');
+          document.getElementById('btn-toggle-theme').textContent = isDark ? '🌙' : '☀️';
+        });
+
+        // Today Live Card Action Buttons
+        document.getElementById('btn-quick-view-today-tkb')?.addEventListener('click', () => {
+          const dayIdx = new Date().getDay();
+          const dayMap = { 1: 'T2', 2: 'T3', 3: 'T4', 4: 'T5', 5: 'T6', 6: 'T7' };
+          const todayKey = dayMap[dayIdx];
+
+          currentView = 'tkb';
+          btnTkb?.classList.add('active');
+          btnWeek?.classList.remove('active');
+          btnFull?.classList.remove('active');
+          renderKHBD();
+
+          if (todayKey) {
+            const todayPill = document.querySelector(`#tkb-quick-tabs .tkb-day-pill-btn[data-day="${todayKey}"]`);
+            if (todayPill) {
+              document.querySelectorAll('#tkb-quick-tabs .tkb-day-pill-btn').forEach(b => b.classList.remove('active'));
+              todayPill.classList.add('active');
+              applyTKBFilter(todayKey);
+            }
+            const card = document.getElementById(`tkb-card-${todayKey}`);
+            if (card) {
+              card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              card.style.transition = 'transform 0.2s';
+              card.style.transform = 'scale(1.02)';
+              setTimeout(() => card.style.transform = 'scale(1)', 400);
+              showToast(`Đã chuyển đến Thời khóa biểu ${todayKey}!`);
+            }
+          } else {
+            const allPill = document.querySelector(`#tkb-quick-tabs .tkb-day-pill-btn[data-day="all"]`);
+            if (allPill) {
+              document.querySelectorAll('#tkb-quick-tabs .tkb-day-pill-btn').forEach(b => b.classList.remove('active'));
+              allPill.classList.add('active');
+              applyTKBFilter('all');
+            }
+            showToast('Hôm nay là Chủ Nhật — Thầy được nghỉ dạy! 🎉');
+          }
+        });
+
+        document.getElementById('btn-quick-view-current-week')?.addEventListener('click', () => {
+          currentView = 'week';
+          currentWeek = detectCurrentSchoolWeek();
+          btnWeek?.classList.add('active');
+          btnTkb?.classList.remove('active');
+          btnFull?.classList.remove('active');
+          renderKHBD();
+
+          const weekViewEl = document.getElementById('khbd-week-view');
+          if (weekViewEl) {
+            weekViewEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+          showToast(`Đã chuyển về Tuần ${currentWeek} hiện tại`);
+        });
+
+        // Tự động cập nhật thời gian thực khi chuyển tab hoặc định kỳ 1 phút
+        document.addEventListener('visibilitychange', () => {
+          if (!document.hidden) {
+            updateTodayCard();
+          }
+        });
+        setInterval(updateTodayCard, 60000);
+
+        // Khởi động PWA
+        setupPWA();
+
+        renderKHBD();
+      }
+
+      window.addEventListener('DOMContentLoaded', init);
+    })();
+  </script>
+</body>
+</html>

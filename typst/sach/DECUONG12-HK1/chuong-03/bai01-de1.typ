@@ -3,7 +3,6 @@
 #show math.frac: math.display
 
 
-#muc([Đề Luyện Tập Số 01 — Khoảng Biến Thiên & Khoảng Tứ Phân Vị])
 
 #resetexamstate()
 #exam-part([PHẦN I. Câu trắc nghiệm nhiều phương án lựa chọn (12 câu)], count: auto)

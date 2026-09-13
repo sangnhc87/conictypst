@@ -1,15 +1,25 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-
   <script src="copyright-guard.js"></script>
-
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CeTZ Plot & Miền Phẳng — ConicTypst</title>
+  <title>CeTZ Plot, Miền Nghiệm BPT & Thống Kê — ConicTypst</title>
   <link rel="stylesheet" href="dashboard.css" />
   <script defer src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
   <script src="global-nav.js" defer></script>
+  <script type="importmap">
+  {
+    "imports": {
+      "@myriaddreamin/typst.ts/dist/esm/main.mjs":          "https://cdn.jsdelivr.net/npm/@myriaddreamin/typst.ts@0.7.0-rc2/dist/esm/main.mjs",
+      "@myriaddreamin/typst.ts/dist/esm/options.init.mjs":   "https://cdn.jsdelivr.net/npm/@myriaddreamin/typst.ts@0.7.0-rc2/dist/esm/options.init.mjs",
+      "@myriaddreamin/typst.ts/dist/esm/fs/memory.mjs":      "https://cdn.jsdelivr.net/npm/@myriaddreamin/typst.ts@0.7.0-rc2/dist/esm/fs/memory.mjs",
+      "@myriaddreamin/typst.ts/dist/esm/fs/index.mjs":       "https://cdn.jsdelivr.net/npm/@myriaddreamin/typst.ts@0.7.0-rc2/dist/esm/fs/index.mjs",
+      "@myriaddreamin/typst-ts-web-compiler":                "https://cdn.jsdelivr.net/npm/@myriaddreamin/typst-ts-web-compiler@0.7.0-rc2/pkg/typst_ts_web_compiler.mjs",
+      "@myriaddreamin/typst-ts-renderer":                    "https://cdn.jsdelivr.net/npm/@myriaddreamin/typst-ts-renderer@0.7.0-rc2/pkg/typst_ts_renderer.mjs"
+    }
+  }
+  </script>
   <script type="module" src="playground.js"></script>
   <style>
     body {
@@ -28,14 +38,14 @@
       flex: 1;
       gap: 20px;
       padding: 20px;
-      max-width: 1400px;
+      max-width: 1450px;
       margin: 0 auto;
       width: 100%;
       box-sizing: border-box;
     }
 
     .panel-left {
-      width: 450px;
+      width: 480px;
       background: #1e293b;
       border: 1px solid #334155;
       border-radius: 12px;
@@ -53,12 +63,13 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      position: relative;
     }
 
     .panel-title {
-      padding: 16px;
+      padding: 14px 16px;
       font-weight: 600;
-      font-size: 1rem;
+      font-size: 0.95rem;
       color: #f8fafc;
       background: #0f172a;
       border-bottom: 1px solid #334155;
@@ -68,21 +79,21 @@
     }
 
     .panel-content {
-      padding: 20px;
+      padding: 18px;
       overflow-y: auto;
       flex: 1;
     }
 
     .form-group {
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
 
     .form-group label {
       display: block;
-      margin-bottom: 8px;
-      font-size: 0.85rem;
+      margin-bottom: 6px;
+      font-size: 0.83rem;
       color: #94a3b8;
-      font-weight: 500;
+      font-weight: 600;
     }
 
     .form-control {
@@ -90,10 +101,10 @@
       background: #0f172a;
       border: 1px solid #334155;
       color: #f8fafc;
-      padding: 10px 12px;
+      padding: 9px 12px;
       border-radius: 6px;
       font-family: monospace;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       box-sizing: border-box;
     }
 
@@ -114,7 +125,7 @@
       align-items: center;
       gap: 8px;
       cursor: pointer;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: #cbd5e1;
     }
 
@@ -122,15 +133,14 @@
       background: #38bdf8;
       color: #0f172a;
       border: none;
-      padding: 12px 20px;
+      padding: 8px 14px;
       border-radius: 6px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      width: 100%;
+      gap: 6px;
       transition: all 0.2s;
     }
 
@@ -142,15 +152,15 @@
       background: #10b981;
       color: white;
       border: none;
-      padding: 6px 12px;
+      padding: 8px 14px;
       border-radius: 6px;
-      font-weight: 600;
-      font-size: 0.8rem;
+      font-weight: 700;
+      font-size: 0.82rem;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 6px;
       transition: all 0.2s;
     }
 
@@ -158,15 +168,16 @@
 
     #codeOutput {
       width: 100%;
-      flex: 1;
-      background: #0f172a;
+      height: 220px;
+      background: #0b1120;
       border: none;
       color: #38bdf8;
       font-family: 'Fira Code', 'Courier New', monospace;
-      font-size: 0.9rem;
-      padding: 16px;
-      resize: none;
+      font-size: 0.85rem;
+      padding: 14px;
+      resize: vertical;
       box-sizing: border-box;
+      line-height: 1.4;
     }
 
     #codeOutput:focus {
@@ -177,33 +188,72 @@
       display: flex;
       border-bottom: 1px solid #334155;
       background: #0f172a;
+      overflow-x: auto;
     }
 
     .tab {
-      padding: 12px 20px;
+      padding: 12px 14px;
       cursor: pointer;
       color: #94a3b8;
-      font-size: 0.9rem;
-      font-weight: 500;
+      font-size: 0.85rem;
+      font-weight: 600;
       border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .tab.active {
       color: #38bdf8;
       border-bottom-color: #38bdf8;
+      background: rgba(56, 189, 248, 0.08);
+    }
+
+    .preset-pill {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: #334155;
+      color: #94a3b8;
+      font-size: 0.75rem;
+      cursor: pointer;
+      margin-right: 4px;
+      margin-bottom: 6px;
+      transition: all 0.15s;
+    }
+
+    .preset-pill:hover {
+      background: #38bdf8;
+      color: #0f172a;
+      font-weight: 700;
+    }
+
+    .preview-box {
+      width: 100%;
+      flex: 1;
+      min-height: 380px;
+      background: #ffffff;
+      border-top: 1px solid #334155;
+      overflow: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      box-sizing: border-box;
     }
   </style>
 </head>
 <body>
-  <!-- Header inject from global-nav.js -->
-
   <div class="generator-layout">
     <!-- LEFT PANEL: CONTROLS -->
     <div class="panel-left">
       <div class="tabs">
-        <div class="tab active" onclick="switchTab('func')" id="tab-func">Đồ thị Hàm số</div>
-        <div class="tab" onclick="switchTab('area')" id="tab-area">Diện tích Phẳng</div>
-        <div class="tab" onclick="switchTab('ineq')" id="tab-ineq">Miền Nghiệm</div>
+        <div class="tab active" onclick="switchTab('func')" id="tab-func"><i data-lucide="line-chart"></i> Đồ Thị Hàm Số</div>
+        <div class="tab" onclick="switchTab('area')" id="tab-area"><i data-lucide="pen-tool"></i> Diện Tích & Tích Phân</div>
+        <div class="tab" onclick="switchTab('ineq')" id="tab-ineq"><i data-lucide="layers"></i> Miền Nghiệm BPT</div>
+        <div class="tab" onclick="switchTab('stats')" id="tab-stats"><i data-lucide="bar-chart-2"></i> Thống Kê</div>
+        <div class="tab" onclick="switchTab('tree')" id="tab-tree"><i data-lucide="git-branch"></i> Cây Bayes</div>
       </div>
       
       <div class="panel-content" id="form-content">
@@ -211,28 +261,28 @@
       </div>
     </div>
 
-    <!-- RIGHT PANEL: CODE OUTPUT -->
+    <!-- RIGHT PANEL: CODE OUTPUT & PREVIEW -->
     <div class="panel-right">
       <div class="panel-title">
-        <i data-lucide="code" style="width: 18px; height: 18px;"></i> Code
+        <i data-lucide="code" style="width: 18px; height: 18px;"></i> Mã Typst / CeTZ Sinh Tự Động
         <div style="margin-left: auto; display: flex; gap: 8px;">
-          <button class="btn-primary" style="width: auto; padding: 6px 12px; font-size: 0.8rem;" onclick="copyCode()">
+          <button class="btn-primary" style="padding: 6px 12px; font-size: 0.8rem;" onclick="copyCode()">
             <i data-lucide="copy" style="width: 14px; height: 14px;"></i> Copy Code
           </button>
-          <button class="btn-success" id="btnTriggerCompile">
-            <i data-lucide="play" style="width: 14px; height: 14px;"></i> Dịch hiệu ứng đang biên dịch đẹp đẳng cấp
+          <button class="btn-success" id="btnTriggerCompile" onclick="triggerTypstCompile()">
+            <i data-lucide="play" style="width: 14px; height: 14px;"></i> Xem Trước (WASM)
           </button>
         </div>
       </div>
       <textarea id="codeOutput" readonly></textarea>
       
       <!-- Preview Container -->
-      <div id="compiledSvgContainer" style="width: 100%; height: 350px; background: white; border-top: 1px solid #334155; overflow: auto; display: flex; align-items: center; justify-content: center;">
-        <span style="color: #64748b; font-size: 0.85rem;">(Bấm "Dịch hiệu ứng đang biên dịch đẹp đẳng cấp" để xem trước hình)</span>
+      <div id="compiledSvgContainer" class="preview-box">
+        <span style="color: #64748b; font-size: 0.85rem;">(Bấm "Xem Trước (WASM)" hoặc nhập dữ liệu để tự động dịch đồ thị CeTZ)</span>
       </div>
       <div id="compileOverlay" style="display: none; position: absolute; inset: 0; background: rgba(15, 23, 42, 0.7); align-items: center; justify-content: center; flex-direction: column; z-index: 100;">
         <i data-lucide="loader-circle" style="width: 32px; height: 32px; color: #38bdf8; animation: spin 1s linear infinite;"></i>
-        <div style="color: white; margin-top: 10px; font-size: 0.9rem;">Đang biên dịch Typst...</div>
+        <div style="color: white; margin-top: 10px; font-size: 0.9rem;">Đang biên dịch Typst CeTZ qua WASM...</div>
       </div>
     </div>
   </div>
@@ -240,85 +290,250 @@
   <script>
     let currentMode = 'func';
 
+    function toTypstMath(expr) {
+      if (!expr) return "x";
+      let s = String(expr).trim();
+      // Handle x^3 or (x-1)^2 -> calc.pow(..., ...)
+      s = s.replace(/([a-zA-Z0-9_\.]+|\([^\)]+\))\s*\^\s*([a-zA-Z0-9_\.]+|\([^\)]+\))/g, 'calc.pow($1, $2)');
+      s = s.replace(/\bsqrt\(/g, 'calc.sqrt(');
+      s = s.replace(/\b(sin|cos|tan|ln|abs|max|min)\(/g, 'calc.$1(');
+      return s;
+    }
+
+    const presets = {
+      func: [
+        { label: 'Bậc 3: x³ - 3x', expr: 'x^3 - 3*x', min: -2.4, max: 2.4, ymin: -3, ymax: 3 },
+        { label: 'Bậc 4 trùng phương: x⁴ - 2x² - 1', expr: 'x^4 - 2*x^2 - 1', min: -1.8, max: 1.8, ymin: -2.5, ymax: 2 },
+        { label: 'Phân thức: (2x-1)/(x+1)', expr: '(2*x - 1)/(x + 1)', min: -4, max: 3, ymin: -5, ymax: 5 },
+        { label: 'Lượng giác: sin(x)', expr: 'sin(x)', min: -3.5, max: 3.5, ymin: -1.5, ymax: 1.5 },
+        { label: 'Mũ: 2^x', expr: '2^x', min: -3, max: 2.5, ymin: -0.5, ymax: 5 }
+      ],
+      area: [
+        { label: 'Parabol y=4-x² & Trục Ox', f1: '4 - x^2', f2: '0', a: -2, b: 2, fill: 'blue.lighten(75%)' },
+        { label: 'Giao 2 parabol: x² & 2-x²', f1: '2 - x^2', f2: 'x^2', a: -1, b: 1, fill: 'purple.lighten(75%)' },
+        { label: 'Hàm căn: y=sqrt(x) & y=x', f1: 'sqrt(calc.max(0, x))', f2: 'x', a: 0, b: 1, fill: 'teal.lighten(75%)' }
+      ],
+      ineq: [
+        { label: 'Hệ 1: x + y <= 3, x >= 0, y >= 0', l1: '3 - x', t1: '<=', xmin: 0, xmax: 4, ymin: 0, ymax: 4 },
+        { label: 'Hệ 2: 2x - y + 2 >= 0 & x + y <= 4', l1: '2*x + 2', t1: '>=', l2: '4 - x', t2: '<=', xmin: -2, xmax: 5, ymin: -2, ymax: 6 }
+      ],
+      stats: [
+        { label: 'Điểm thi Toán K12 (Cột)', type: 'bar', labels: 'Giỏi, Khá, TB, Yếu', vals: '15, 22, 10, 3' },
+        { label: 'Tăng trưởng doanh thu (Đoạn thẳng)', type: 'line', labels: 'Q1, Q2, Q3, Q4', vals: '120, 150, 180, 210' },
+        { label: 'Cơ cấu chi phí (Hình quạt)', type: 'pie', labels: 'Nhân sự, CSVC, Marketing, Khác', vals: '40, 25, 20, 15' }
+      ],
+      tree: [
+        { label: 'Cây Bayes 2 tầng (Sản phẩm tốt/lỗi)', b1: 'Máy A (0.6)', b2: 'Máy B (0.4)', a1: 'Tốt (0.95)', a2: 'Lỗi (0.05)', b1_sub: 'Tốt (0.90)', b2_sub: 'Lỗi (0.10)' },
+        { label: 'Xác suất bắn trúng mục tiêu', b1: 'Xạ thủ 1 (0.5)', b2: 'Xạ thủ 2 (0.5)', a1: 'Trúng (0.8)', a2: 'Trượt (0.2)', b1_sub: 'Trúng (0.7)', b2_sub: 'Trượt (0.3)' }
+      ]
+    };
+
     function switchTab(mode) {
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
       document.getElementById('tab-' + mode).classList.add('active');
       currentMode = mode;
       renderForm();
       generateCode();
+      window.lucide?.createIcons();
+    }
+
+    function applyPreset(idx) {
+      const p = presets[currentMode][idx];
+      if (!p) return;
+
+      if (currentMode === 'func') {
+        document.getElementById('funcExpr').value = p.expr;
+        document.getElementById('domainMin').value = p.min;
+        document.getElementById('domainMax').value = p.max;
+        document.getElementById('yMin').value = p.ymin;
+        document.getElementById('yMax').value = p.ymax;
+      } else if (currentMode === 'area') {
+        document.getElementById('funcExpr1').value = p.f1;
+        document.getElementById('funcExpr2').value = p.f2;
+        document.getElementById('areaMin').value = p.a;
+        document.getElementById('areaMax').value = p.b;
+        document.getElementById('fillColor').value = p.fill;
+      } else if (currentMode === 'ineq') {
+        document.getElementById('ineqLine1').value = p.l1;
+        document.getElementById('ineqType1').value = p.t1;
+        if (p.l2 && document.getElementById('ineqLine2')) {
+          document.getElementById('ineqLine2').value = p.l2;
+          document.getElementById('ineqType2').value = p.t2;
+        }
+      } else if (currentMode === 'stats') {
+        document.getElementById('statsType').value = p.type;
+        document.getElementById('statsLabels').value = p.labels;
+        document.getElementById('statsValues').value = p.vals;
+      } else if (currentMode === 'tree') {
+        document.getElementById('treeBranch1').value = p.b1;
+        document.getElementById('treeBranch2').value = p.b2;
+        document.getElementById('treeSub11').value = p.a1;
+        document.getElementById('treeSub12').value = p.a2;
+        document.getElementById('treeSub21').value = p.b1_sub;
+        document.getElementById('treeSub22').value = p.b2_sub;
+      }
+      generateCode();
     }
 
     function renderForm() {
       const form = document.getElementById('form-content');
+      let presetHtml = `<div class="form-group"><label>Mẫu chuẩn (Preset nhanh):</label><div>`;
+      presets[currentMode].forEach((p, i) => {
+        presetHtml += `<span class="preset-pill" onclick="applyPreset(${i})">${p.label}</span>`;
+      });
+      presetHtml += `</div></div>`;
+
       if (currentMode === 'func') {
-        form.innerHTML = `
+        form.innerHTML = presetHtml + `
           <div class="form-group">
-            <label>Hàm số f(x)</label>
+            <label>Hàm số f(x) (Nhập dạng toán học quen thuộc)</label>
             <input type="text" id="funcExpr" class="form-control" value="x^3 - 3*x" oninput="generateCode()" />
+            <small style="color: #64748b; font-size: 0.75rem;">Hỗ trợ: x^3 - 3*x, (2*x-1)/(x+1), sin(x), 2^x, sqrt(x)</small>
           </div>
           <div class="grid-2">
             <div class="form-group">
-              <label>Domain Min (x)</label>
+              <label>Domain x min</label>
               <input type="number" id="domainMin" class="form-control" value="-2.5" step="0.5" oninput="generateCode()" />
             </div>
             <div class="form-group">
-              <label>Domain Max (x)</label>
+              <label>Domain x max</label>
               <input type="number" id="domainMax" class="form-control" value="2.5" step="0.5" oninput="generateCode()" />
             </div>
           </div>
-          <div class="form-group">
-            <label>Màu nét vẽ</label>
-            <input type="text" id="strokeColor" class="form-control" value="blue" oninput="generateCode()" />
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Y min</label>
+              <input type="number" id="yMin" class="form-control" value="-3.5" step="0.5" oninput="generateCode()" />
+            </div>
+            <div class="form-group">
+              <label>Y max</label>
+              <input type="number" id="yMax" class="form-control" value="3.5" step="0.5" oninput="generateCode()" />
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Màu nét vẽ</label>
+              <input type="text" id="strokeColor" class="form-control" value="blue.darken(20%)" oninput="generateCode()" />
+            </div>
+            <div class="form-group">
+              <label>Độ dày nét</label>
+              <input type="text" id="strokeWidth" class="form-control" value="1.2pt" oninput="generateCode()" />
+            </div>
           </div>
           <div class="form-group">
             <label>Tùy chọn hiển thị</label>
-            <label class="checkbox-label"><input type="checkbox" id="showAxes" checked onchange="generateCode()"> Hiển thị trục Oxy</label>
-            <label class="checkbox-label" style="margin-top: 8px;"><input type="checkbox" id="showGrid" checked onchange="generateCode()"> Hiển thị lưới (Grid)</label>
+            <label class="checkbox-label"><input type="checkbox" id="showAxes" checked onchange="generateCode()"> Hiển thị trục tọa độ Oxy chuẩn SGK</label>
+            <label class="checkbox-label" style="margin-top: 6px;"><input type="checkbox" id="showGrid" checked onchange="generateCode()"> Hiển thị lưới tọa độ (Grid)</label>
           </div>
         `;
       } else if (currentMode === 'area') {
-        form.innerHTML = `
+        form.innerHTML = presetHtml + `
           <div class="form-group">
-            <label>Hàm số 1: f(x)</label>
-            <input type="text" id="funcExpr1" class="form-control" value="x^2 - 4" oninput="generateCode()" />
+            <label>Hàm số phía trên: f₁(x)</label>
+            <input type="text" id="funcExpr1" class="form-control" value="4 - x^2" oninput="generateCode()" />
           </div>
           <div class="form-group">
-            <label>Hàm số 2: g(x) (hoặc trục hoành y=0)</label>
+            <label>Hàm số phía dưới: f₂(x) (hoặc 0)</label>
             <input type="text" id="funcExpr2" class="form-control" value="0" oninput="generateCode()" />
           </div>
           <div class="grid-2">
             <div class="form-group">
-              <label>Cận a (x min)</label>
+              <label>Cận dưới a</label>
               <input type="number" id="areaMin" class="form-control" value="-2" step="0.5" oninput="generateCode()" />
             </div>
             <div class="form-group">
-              <label>Cận b (x max)</label>
+              <label>Cận trên b</label>
               <input type="number" id="areaMax" class="form-control" value="2" step="0.5" oninput="generateCode()" />
             </div>
           </div>
           <div class="form-group">
             <label>Màu tô miền (Fill)</label>
-            <input type="text" id="fillColor" class="form-control" value="rgb(0, 150, 255, 30%)" oninput="generateCode()" />
+            <input type="text" id="fillColor" class="form-control" value="blue.lighten(75%)" oninput="generateCode()" />
           </div>
         `;
       } else if (currentMode === 'ineq') {
-        form.innerHTML = `
+        form.innerHTML = presetHtml + `
           <div class="form-group">
-            <label>Đường thẳng d (Dạng mx + c)</label>
-            <input type="text" id="ineqLine" class="form-control" value="-x + 2" oninput="generateCode()" />
+            <label>Bất phương trình (1): Dạng y [>= / <=] mx + c</label>
+            <div class="grid-2">
+              <input type="text" id="ineqLine1" class="form-control" value="3 - x" oninput="generateCode()" placeholder="mx + c" />
+              <select id="ineqType1" class="form-control" onchange="generateCode()">
+                <option value="<=">y &lt;= 3 - x (Nửa mặt phẳng dưới)</option>
+                <option value=">=">y &gt;= 3 - x (Nửa mặt phẳng trên)</option>
+              </select>
+            </div>
           </div>
           <div class="form-group">
-            <label>Miền gạch bỏ ( >, <, >=, <= )</label>
-            <select id="ineqType" class="form-control" onchange="generateCode()">
-              <option value=">=">y >= mx + c (Gạch phần lớn hơn)</option>
-              <option value="<=">y <= mx + c (Gạch phần nhỏ hơn)</option>
+            <label>Bất phương trình (2): (Tùy chọn)</label>
+            <div class="grid-2">
+              <input type="text" id="ineqLine2" class="form-control" value="2*x + 2" oninput="generateCode()" placeholder="mx + c" />
+              <select id="ineqType2" class="form-control" onchange="generateCode()">
+                <option value=">=">y &gt;= 2x + 2 (Nửa mặt phẳng trên)</option>
+                <option value="<=">y &lt;= 2x + 2 (Nửa mặt phẳng dưới)</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Giới hạn x (Min, Max)</label>
+              <div class="grid-2">
+                <input type="number" id="ineqXMin" class="form-control" value="-1" oninput="generateCode()" />
+                <input type="number" id="ineqXMax" class="form-control" value="5" oninput="generateCode()" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Giới hạn y (Min, Max)</label>
+              <div class="grid-2">
+                <input type="number" id="ineqYMin" class="form-control" value="-1" oninput="generateCode()" />
+                <input type="number" id="ineqYMax" class="form-control" value="6" oninput="generateCode()" />
+              </div>
+            </div>
+          </div>
+        `;
+      } else if (currentMode === 'stats') {
+        form.innerHTML = presetHtml + `
+          <div class="form-group">
+            <label>Loại biểu đồ</label>
+            <select id="statsType" class="form-control" onchange="generateCode()">
+              <option value="bar">Biểu đồ hình cột (Bar Chart)</option>
+              <option value="line">Biểu đồ đoạn thẳng (Line Chart)</option>
+              <option value="pie">Biểu đồ hình quạt tròn (Pie Chart)</option>
             </select>
           </div>
           <div class="form-group">
-            <label>Khoảng x vẽ lưới</label>
+            <label>Tiêu đề các nhóm (ngăn cách bằng dấu phẩy)</label>
+            <input type="text" id="statsLabels" class="form-control" value="Giỏi, Khá, TB, Yếu" oninput="generateCode()" />
+          </div>
+          <div class="form-group">
+            <label>Số liệu tương ứng (ngăn cách bằng dấu phẩy)</label>
+            <input type="text" id="statsValues" class="form-control" value="15, 22, 10, 3" oninput="generateCode()" />
+          </div>
+          <div class="form-group">
+            <label>Tiêu đề biểu đồ</label>
+            <input type="text" id="statsTitle" class="form-control" value="Biểu đồ phân bố kết quả học tập" oninput="generateCode()" />
+          </div>
+        `;
+      } else if (currentMode === 'tree') {
+        form.innerHTML = presetHtml + `
+          <div class="form-group">
+            <label>Biến cố tầng 1 (Nhánh A và B)</label>
             <div class="grid-2">
-              <input type="number" id="ineqXMin" class="form-control" value="-3" oninput="generateCode()" />
-              <input type="number" id="ineqXMax" class="form-control" value="3" oninput="generateCode()" />
+              <input type="text" id="treeBranch1" class="form-control" value="Máy 1 (0.6)" oninput="generateCode()" placeholder="Nhánh 1" />
+              <input type="text" id="treeBranch2" class="form-control" value="Máy 2 (0.4)" oninput="generateCode()" placeholder="Nhánh 2" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Tầng 2 từ Nhánh 1</label>
+            <div class="grid-2">
+              <input type="text" id="treeSub11" class="form-control" value="Tốt (0.95)" oninput="generateCode()" placeholder="Nhánh 1.1" />
+              <input type="text" id="treeSub12" class="form-control" value="Lỗi (0.05)" oninput="generateCode()" placeholder="Nhánh 1.2" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Tầng 2 từ Nhánh 2</label>
+            <div class="grid-2">
+              <input type="text" id="treeSub21" class="form-control" value="Tốt (0.90)" oninput="generateCode()" placeholder="Nhánh 2.1" />
+              <input type="text" id="treeSub22" class="form-control" value="Lỗi (0.10)" oninput="generateCode()" placeholder="Nhánh 2.2" />
             </div>
           </div>
         `;
@@ -326,99 +541,70 @@
     }
 
     function generateCode() {
-      let code = `#import "@preview/cetz:0.5.2": *
-#import draw: *
-#import "@preview/cetz-plot:0.1.1": plot
-
-#align(center)[
-  #canvas({
-`;
+      let code = `#import "@preview/cetz:0.3.4": *\n#import "@preview/cetz-plot:0.1.1": plot\n\n`;
 
       if (currentMode === 'func') {
-        const func = document.getElementById('funcExpr').value || "x";
-        const dMin = document.getElementById('domainMin').value || -5;
-        const dMax = document.getElementById('domainMax').value || 5;
-        const color = document.getElementById('strokeColor').value || "blue";
-        const showAxes = document.getElementById('showAxes').checked;
-        const showGrid = document.getElementById('showGrid').checked;
+        const rawFunc = document.getElementById('funcExpr')?.value || "x^3 - 3*x";
+        const func = toTypstMath(rawFunc);
+        const dMin = document.getElementById('domainMin')?.value || -2.5;
+        const dMax = document.getElementById('domainMax')?.value || 2.5;
+        const yMin = document.getElementById('yMin')?.value || -3.5;
+        const yMax = document.getElementById('yMax')?.value || 3.5;
+        const color = document.getElementById('strokeColor')?.value || "blue.darken(20%)";
+        const width = document.getElementById('strokeWidth')?.value || "1.2pt";
+        const showAxes = document.getElementById('showAxes')?.checked ?? true;
+        const showGrid = document.getElementById('showGrid')?.checked ?? true;
 
-        let parsedFunc = func.replace(/\\^/g, '**');
-
-        code += `    plot.plot(
-      size: (8, 6),
-      x-tick-step: 1,
-      y-tick-step: 1,
-      axis-style: "\${showAxes ? 'school-book' : 'none'}",
-      x-grid: \${showGrid},
-      y-grid: \${showGrid},
-      {
-        plot.add(
-          domain: (\${dMin}, \${dMax}),
-          style: (stroke: \${color} + 1.2pt),
-          x => \${parsedFunc}
-        )
-      }
-    )`;
+        code += `#align(center)[\n  #canvas({\n    import draw: *\n    plot.plot(\n      size: (7.5, 5.5),\n      x-tick-step: 1,\n      y-tick-step: 1,\n      x-min: ${dMin}, x-max: ${dMax},\n      y-min: ${yMin}, y-max: ${yMax},\n      axis-style: "${showAxes ? 'school-book' : 'none'}",\n      x-grid: ${showGrid},\n      y-grid: ${showGrid},\n      {\n        plot.add(\n          domain: (${dMin}, ${dMax}),\n          style: (stroke: ${color} + ${width}),\n          x => ${func}\n        )\n      }\n    )\n  })\n]`;
       } else if (currentMode === 'area') {
-        const f1 = document.getElementById('funcExpr1').value || "x";
-        const f2 = document.getElementById('funcExpr2').value || "0";
-        const a = document.getElementById('areaMin').value || -2;
-        const b = document.getElementById('areaMax').value || 2;
-        const fill = document.getElementById('fillColor').value || "blue.transparentize(80%)";
+        const rawF1 = document.getElementById('funcExpr1')?.value || "4 - x^2";
+        const rawF2 = document.getElementById('funcExpr2')?.value || "0";
+        const f1 = toTypstMath(rawF1);
+        const f2 = toTypstMath(rawF2);
+        const a = document.getElementById('areaMin')?.value || -2;
+        const b = document.getElementById('areaMax')?.value || 2;
+        const fill = document.getElementById('fillColor')?.value || "blue.lighten(75%)";
 
-        let pf1 = f1.replace(/\\^/g, '**');
-        let pf2 = f2.replace(/\\^/g, '**');
-
-        code += `    plot.plot(
-      size: (8, 6),
-      axis-style: "school-book",
-      {
-        plot.add-fill-between(
-          domain: (\${a}, \${b}),
-          style: (fill: \${fill}),
-          x => \${pf1},
-          x => \${pf2}
-        )
-        // Vẽ lại 2 biên
-        plot.add(domain: (-4, 4), style: (stroke: blue + 1pt), x => \${pf1})
-        plot.add(domain: (-4, 4), style: (stroke: red + 1pt), x => \${pf2})
-      }
-    )`;
+        code += `#align(center)[\n  #canvas({\n    import draw: *\n    plot.plot(\n      size: (7.5, 5.5),\n      axis-style: "school-book",\n      x-tick-step: 1,\n      y-tick-step: 1,\n      {\n        // Miền tích phân gạch / tô màu\n        plot.add-fill-between(\n          domain: (${a}, ${b}),\n          style: (fill: ${fill}),\n          x => ${f1},\n          x => ${f2}\n        )\n        // Vẽ 2 đường cong biên\n        plot.add(domain: (-3, 3), style: (stroke: blue + 1.2pt), x => ${f1})\n        plot.add(domain: (-3, 3), style: (stroke: red + 1.2pt), x => ${f2})\n      }\n    )\n  })\n]`;
       } else if (currentMode === 'ineq') {
-        const line = document.getElementById('ineqLine').value || "x";
-        const type = document.getElementById('ineqType').value || ">=";
-        const xMin = document.getElementById('ineqXMin').value || -3;
-        const xMax = document.getElementById('ineqXMax').value || 3;
-        
-        let pline = line.replace(/\\^/g, '**');
+        const rawL1 = document.getElementById('ineqLine1')?.value || "3 - x";
+        const l1 = toTypstMath(rawL1);
+        const t1 = document.getElementById('ineqType1')?.value || "<=";
+        const rawL2 = document.getElementById('ineqLine2')?.value || "";
+        const l2 = rawL2 ? toTypstMath(rawL2) : "";
+        const t2 = document.getElementById('ineqType2')?.value || ">=";
+        const xmin = document.getElementById('ineqXMin')?.value || -1;
+        const xmax = document.getElementById('ineqXMax')?.value || 5;
 
-        code += `    plot.plot(
-      size: (8, 6),
-      axis-style: "school-book",
-      {
-        // Đường thẳng biên
-        plot.add(domain: (\${xMin}, \${xMax}), style: (stroke: black + 1.2pt), x => \${pline})
-        
-        // Gạch bỏ miền
-        plot.add-fill-between(
-          domain: (\${xMin}, \${xMax}),
-          style: (fill: pattern(size: (5pt, 5pt), line(start: (0%,0%), end: (100%,100%), stroke: 0.5pt))),
-          x => \${pline},
-          x => \${type === '>=' ? '10' : '-10'} // Hướng gạch
-          x => ${pline},
-          x => ${type === '>=' ? '10' : '-10'} // Hướng gạch
-        )
-      }
-    )`;
+        code += `#align(center)[\n  #canvas({\n    import draw: *\n    plot.plot(\n      size: (7.5, 5.5),\n      axis-style: "school-book",\n      x-min: ${xmin}, x-max: ${xmax},\n      {\n        // Đường thẳng d1: y = ${l1}\n        plot.add(domain: (${xmin}, ${xmax}), style: (stroke: blue + 1.2pt), x => ${l1})\n        plot.add-fill-between(\n          domain: (${xmin}, ${xmax}),\n          style: (fill: blue.transparentize(85%)),\n          x => ${l1},\n          x => ${t1 === '>=' ? '10' : '-10'}\n        )\n`;
+        if (l2) {
+          code += `        // Đường thẳng d2: y = ${l2}\n        plot.add(domain: (${xmin}, ${xmax}), style: (stroke: red + 1.2pt), x => ${l2})\n        plot.add-fill-between(\n          domain: (${xmin}, ${xmax}),\n          style: (fill: red.transparentize(85%)),\n          x => ${l2},\n          x => ${t2 === '>=' ? '10' : '-10'}\n        )\n`;
+        }
+        code += `      }\n    )\n  })\n]`;
+      } else if (currentMode === 'stats') {
+        const type = document.getElementById('statsType')?.value || 'bar';
+        const vals = (document.getElementById('statsValues')?.value || "10, 20, 15, 5").split(',').map(s => Number(s.trim()) || 0);
+        const title = document.getElementById('statsTitle')?.value || "Biểu đồ";
+
+        if (type === 'bar') {
+          code += `// Biểu đồ hình cột (Bar Chart) CeTZ\n#align(center)[\n  #text(weight: "bold", size: 1.1em)[${title}]\n  #v(8pt)\n  #canvas({\n    import draw: *\n    let data = (${vals.map((v, i) => `("${(document.getElementById('statsLabels')?.value || '').split(',')[i]?.trim() || i}", ${v})`).join(', ')})\n    let max-val = calc.max(..data.map(d => d.at(1)))\n    let step-x = 1.6\n    let bar-w = 0.9\n    \n    // Trục Oy & Ox\n    line((0, 0), (data.len() * step-x + 1, 0), mark: (end: ">"), stroke: 1pt)\n    line((0, 0), (0, 4.5), mark: (end: ">"), stroke: 1pt)\n    content((data.len() * step-x + 1, -0.3), [Nhóm])\n    content((-0.4, 4.5), [Số lượng])\n    \n    // Vẽ từng cột\n    for (i, d) in data.enumerate() {\n      let x = (i + 1) * step-x - 0.5\n      let h = (d.at(1) / max-val) * 3.8\n      rect((x - bar-w/2, 0), (x + bar-w/2, h), fill: rgb(56, 189, 248, 70%), stroke: blue.darken(20%) + 1pt)\n      content((x, h + 0.25), text(weight: "bold")[#d.at(1)])\n      content((x, -0.35), text(size: 0.85em)[#d.at(0)])\n    }\n  })\n]`;
+        } else if (type === 'line') {
+          code += `// Biểu đồ đoạn thẳng (Line Chart) CeTZ\n#align(center)[\n  #text(weight: "bold", size: 1.1em)[${title}]\n  #v(8pt)\n  #canvas({\n    import draw: *\n    let data = (${vals.map((v, i) => `("${(document.getElementById('statsLabels')?.value || '').split(',')[i]?.trim() || i}", ${v})`).join(', ')})\n    let max-val = calc.max(..data.map(d => d.at(1)))\n    let step-x = 1.8\n    let pts = ()\n    \n    line((0, 0), (data.len() * step-x + 0.8, 0), mark: (end: ">"), stroke: 1pt)\n    line((0, 0), (0, 4.5), mark: (end: ">"), stroke: 1pt)\n    \n    for (i, d) in data.enumerate() {\n      let x = (i + 1) * step-x - 0.6\n      let y = (d.at(1) / max-val) * 3.8\n      pts.push((x, y))\n      circle((x, y), radius: 3.5pt, fill: blue, stroke: white + 1pt)\n      content((x, y + 0.3), text(weight: "bold")[#d.at(1)])\n      content((x, -0.35), text(size: 0.85em)[#d.at(0)])\n    }\n    for i in range(pts.len() - 1) {\n      line(pts.at(i), pts.at(i + 1), stroke: blue.darken(10%) + 1.5pt)\n    }\n  })\n]`;
+        } else {
+          code += `// Biểu đồ hình quạt tròn (Pie Chart) CeTZ\n#align(center)[\n  #text(weight: "bold", size: 1.1em)[${title}]\n  #v(8pt)\n  #canvas({\n    import draw: *\n    let data = (${vals.map((v, i) => `("${(document.getElementById('statsLabels')?.value || '').split(',')[i]?.trim() || i}", ${v})`).join(', ')})\n    let total = data.map(d => d.at(1)).sum()\n    let colors = (rgb("#38bdf8"), rgb("#818cf8"), rgb("#34d399"), rgb("#f472b6"), rgb("#fbbf24"))\n    let cur-deg = 0deg\n    \n    for (i, d) in data.enumerate() {\n      let sweep = (d.at(1) / total) * 360deg\n      arc((0, 0), radius: 2.2, start: cur-deg, delta: sweep, mode: "PIE", fill: colors.at(calc.rem(i, colors.len())), stroke: white + 1.2pt)\n      let mid-deg = cur-deg + sweep / 2\n      let label-x = 1.4 * calc.cos(mid-deg)\n      let label-y = 1.4 * calc.sin(mid-deg)\n      content((label-x, label-y), text(size: 0.8em, weight: "bold", fill: white)[#(calc.round(d.at(1) / total * 100))%])\n      cur-deg += sweep\n    }\n  })\n]`;
+        }
+      } else if (currentMode === 'tree') {
+        const b1 = document.getElementById('treeBranch1')?.value || "Máy 1 (0.6)";
+        const b2 = document.getElementById('treeBranch2')?.value || "Máy 2 (0.4)";
+        const s11 = document.getElementById('treeSub11')?.value || "Tốt (0.95)";
+        const s12 = document.getElementById('treeSub12')?.value || "Lỗi (0.05)";
+        const s21 = document.getElementById('treeSub21')?.value || "Tốt (0.90)";
+        const s22 = document.getElementById('treeSub22')?.value || "Lỗi (0.10)";
+
+        code += `// Sơ đồ cây Xác suất Bayes CeTZ\n#align(center)[\n  #canvas({\n    import draw: *\n    let root = (0, 0)\n    let n1 = (2.8, 1.6)\n    let n2 = (2.8, -1.6)\n    \n    let n11 = (6.0, 2.4)\n    let n12 = (6.0, 0.8)\n    let n21 = (6.0, -0.8)\n    let n22 = (6.0, -2.4)\n    \n    // Điểm gốc & Nhánh tầng 1\n    circle(root, radius: 3pt, fill: black)\n    line(root, n1, mark: (end: ">"), stroke: 1.2pt)\n    line(root, n2, mark: (end: ">"), stroke: 1.2pt)\n    content(n1, [ *${b1}* ], anchor: "west")\n    content(n2, [ *${b2}* ], anchor: "west")\n    \n    // Nhánh tầng 2 (Nhánh 1)\n    line((3.8, 1.6), n11, mark: (end: ">"), stroke: 1pt)\n    line((3.8, 1.6), n12, mark: (end: ">"), stroke: 1pt)\n    content(n11, [ ${s11} ], anchor: "west")\n    content(n12, [ ${s12} ], anchor: "west")\n    \n    // Nhánh tầng 2 (Nhánh 2)\n    line((3.8, -1.6), n21, mark: (end: ">"), stroke: 1pt)\n    line((3.8, -1.6), n22, mark: (end: ">"), stroke: 1pt)\n    content(n21, [ ${s21} ], anchor: "west")\n    content(n22, [ ${s22} ], anchor: "west")\n  })\n]`;
       }
 
-      code += `\n  })\n]`;
       document.getElementById('codeOutput').value = code;
-
-      // Auto compile if hiệu ứng đang biên dịch đẹp đẳng cấp is ready
-      if (window.compileTypstToSvg) {
-        triggerTypstCompile(true);
-      }
     }
 
     function copyCode() {
@@ -427,7 +613,7 @@
       document.execCommand('copy');
       const btn = document.querySelector('.btn-primary');
       const orig = btn.innerHTML;
-      btn.innerHTML = '<i data-lucide="check" style="width: 14px; height: 14px;"></i> Copied!';
+      btn.innerHTML = '<i data-lucide="check" style="width: 14px; height: 14px;"></i> Đã Copy!';
       window.lucide?.createIcons();
       setTimeout(() => {
         btn.innerHTML = orig;
@@ -446,11 +632,11 @@
           const svgMarkup = await window.compileTypstToSvg(cetzCode);
           container.innerHTML = svgMarkup;
         } else {
-          if (!silent) container.innerHTML = `<div style="color:#ef4444; font-weight:600; font-size:0.8rem; text-align:center;">Hiệu ứng đang biên dịch đẹp đẳng cấp đang khởi tạo. Vui lòng thử lại sau 2 giây.</div>`;
+          if (!silent) container.innerHTML = `<div style="color:#ef4444; font-weight:600; font-size:0.8rem; text-align:center;">Trình biên dịch WASM đang khởi tạo...</div>`;
         }
       } catch (err) {
         if (!silent) {
-          container.innerHTML = `<pre style="color:#ef4444; font-size:0.75rem; background:#fee2e2; border:1px solid #fecaca; padding:12px; border-radius:6px; text-align:left; width:100%; overflow:auto;">Biên dịch lỗi:\n${err.message}</pre>`;
+          container.innerHTML = `<pre style="color:#ef4444; font-size:0.75rem; background:#fee2e2; border:1px solid #fecaca; padding:12px; border-radius:6px; text-align:left; width:100%; overflow:auto;">Biên dịch lỗi:\\n${err.message}</pre>`;
         }
       } finally {
         if (!silent) overlay.style.display = 'none';
@@ -461,7 +647,6 @@
       window.lucide?.createIcons();
       renderForm();
       generateCode();
-      document.getElementById('btnTriggerCompile').addEventListener('click', triggerTypstCompile);
     });
   </script>
 </body>

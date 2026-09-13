@@ -1,0 +1,29 @@
+<svg class="typst-doc" viewBox="0 0 44.01574803149607 46.8503937007874" width="44.01574803149607pt" height="46.8503937007874pt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:h5="http://www.w3.org/1999/xhtml">
+    <g>
+        <g class="typst-group" transform="matrix(1 0 0 1 5 5)">
+            <g>
+                <path class="typst-shape" fill="#ffd700" fill-rule="nonzero" stroke="#000000" stroke-width="1.5" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" transform="matrix(1 0 0 1 0 11.338582677165354)" d="M 0 0m 2.8346457 0 c -1.5641122 0 -2.8346457 1.2705336 -2.8346457 2.8346457 v 19.84252 c 0 1.5641117 1.2705336 2.8346443 2.8346457 2.8346443 h 28.346457 c 1.5641136 0 2.8346443 -1.2705326 2.8346443 -2.8346443 v -19.84252 c 0 -1.5641122 -1.2705307 -2.8346457 -2.8346443 -2.8346457 h -28.346457 Z "/>
+                <path class="typst-shape" fill="none" transform="matrix(1 0 0 1 13.409874015748033 19.509488188976377)" d="M 0 0h 7.196 v 9.17 h -7.196 v -9.17 Z "/>
+                <g class="typst-group">
+                    <g>
+                        <g class="typst-group" transform="matrix(1 0 0 1 13.409873999999999 19.509488078740162)">
+                            <g>
+                                <g class="typst-text" transform="matrix(1 0 0 -1 0 9.03)">
+                                    <use xlink:href="#gE7FD6BCE71BD386AC6CEF016F81AD2D8" x="0" y="0" fill="#d32f2f" fill-rule="nonzero"/>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+                <path class="typst-shape" fill="none" stroke="#000000" stroke-width="1.5" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" transform="matrix(1 0 0 1 5.669291338582676 0)" d="M 0 0m 22.677166 11.338583 c 0 -6.2621264 -5.076456 -11.338583 -11.338583 -11.338583 c -6.2621264 0 -11.338583 5.0764565 -11.338583 11.338583 "/>
+                <path class="typst-shape" fill="none" stroke="#000000" stroke-width="1.5" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" transform="matrix(1 0 0 1 5.669291338582676 11.338582677165354)" d="M 0 0v 5.6692915 "/>
+                <path class="typst-shape" fill="none" stroke="#000000" stroke-width="1.5" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" transform="matrix(1 0 0 1 28.346456692913385 11.338582677165354)" d="M 0 0v 5.6692915 "/>
+            </g>
+        </g>
+    </g>
+    <defs id="glyph">
+        <symbol id="gE7FD6BCE71BD386AC6CEF016F81AD2D8" overflow="visible">
+            <path d="M 0 0m 0.994 0.43400002 c -0.041999996 -0.16800001 -0.027999997 -0.43400002 0.08400005 -0.574 c 1.974 0.055999994 3.0240002 0.43400002 4.0880003 1.358 c 1.0639997 0.9239999 1.5119996 2.394 1.5119996 3.7380004 c 0 2.9959998 -1.652 3.5839996 -3.0659997 3.5839996 c -2.184 0 -2.9960003 -1.7639999 -2.9960003 -2.9959998 c 0 -0.6859999 0.60200006 -2.254 2.6740003 -2.254 c 0.5319998 0 0.9939997 0.18199992 1.5259998 0.49 c -0.11199999 -1.0080001 -0.5739999 -1.9740001 -1.2319999 -2.506 c -0.826 -0.67200005 -1.792 -0.79800004 -2.5900002 -0.84000003 Z m 3.9060001 3.92 c -0.53200006 -0.33599997 -0.82599974 -0.36400008 -1.0780001 -0.36400008 c -0.93799996 0 -1.3299999 0.9660003 -1.3299999 1.806 c 0 1.5120001 0.44799995 2.1980004 0.9519999 2.1980004 c 0.70000005 0 1.47 -0.546 1.47 -2.9820004 c 0 -0.1539998 0 -0.5039997 -0.013999939 -0.658 Z "/>
+        </symbol>
+    </defs>
+</svg>

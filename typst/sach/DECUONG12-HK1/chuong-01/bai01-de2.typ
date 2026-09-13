@@ -4,7 +4,6 @@
 
 // #show: doc-setup
 
-#muc([Đề Luyện Tập Số 02])
 
 #resetexamstate()
 #exam-part([PHẦN I. Câu trắc nghiệm nhiều phương án lựa chọn (12 câu)], count: 12)

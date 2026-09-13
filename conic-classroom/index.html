@@ -1,0 +1,2184 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ConicClassroom — Trợ Lý Lớp Học & Sổ Điểm Thông Minh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="if(window.renderMathInElement) renderMathInElement(document.body);"></script>
+</head>
+<body class="theme-light">
+  <canvas id="confetti-canvas"></canvas>
+
+  <div class="app-container">
+    <!-- ================= 1. HEADER CHÍNH TINH GỌN ================= -->
+    <header class="app-header">
+      <div class="header-brand">
+        <div class="brand-badge">🎯</div>
+        <div class="brand-titles">
+          <span class="app-title">ConicClassroom</span>
+          <span class="app-subtitle">Toán THPT 10 • 11 • 12</span>
+        </div>
+      </div>
+
+      <!-- 3 Nhóm Menu Phân Hệ Tinh Gọn Dạng Dropdown -->
+      <nav class="header-nav dropdown-nav" id="header-nav-dropdowns">
+        <!-- Nhóm 1: Điểm & Sơ Đồ -->
+        <div class="nav-drop-group" data-group="grade" id="nav-group-grade">
+          <button class="nav-drop-trigger active" id="trigger-group-grade" type="button" title="Đánh giá & Sơ đồ lớp">
+            <span class="tab-icon">👥</span>
+            <span class="trigger-label" id="label-group-grade">Điểm Nhanh</span>
+            <span class="drop-arrow">▾</span>
+          </button>
+          <div class="nav-drop-menu">
+            <button class="nav-drop-item active" data-tab="tab-classroom" type="button">
+              <span class="item-icon">👥</span>
+              <div class="item-text">
+                <span class="item-name">Điểm Nhanh (+/-)</span>
+                <span class="item-desc">Chấm điểm trực tiếp, theo tổ & gọi tên</span>
+              </div>
+            </button>
+            <button class="nav-drop-item" data-tab="tab-missions" type="button">
+              <span class="item-icon">🎯</span>
+              <div class="item-text">
+                <span class="item-name">Nhiệm Vụ & Phân Nhóm</span>
+                <span class="item-desc">Chia ngẫu nhiên / thủ công & rã điểm XP</span>
+              </div>
+            </button>
+            <button class="nav-drop-item" data-tab="tab-seating" type="button">
+              <span class="item-icon">🪑</span>
+              <div class="item-text">
+                <span class="item-name">Sơ Đồ Bàn Học</span>
+                <span class="item-desc">Sơ đồ 4 HS/hàng lớp 12C2 & 12C13</span>
+              </div>
+            </button>
+            <button class="nav-drop-item" data-tab="tab-gradebook" type="button">
+              <span class="item-icon">📊</span>
+              <div class="item-text">
+                <span class="item-name">Sổ Điểm (TT22)</span>
+                <span class="item-desc">Đầy đủ ĐGTX 1-5, Giữa kỳ, Cuối kỳ</span>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Nhóm 2: Tiện Ích Tiết Học -->
+        <div class="nav-drop-group" data-group="tools" id="nav-group-tools">
+          <button class="nav-drop-trigger" id="trigger-group-tools" type="button" title="Công cụ hỗ trợ tiết dạy">
+            <span class="tab-icon">🎯</span>
+            <span class="trigger-label" id="label-group-tools">Tiện Ích Tiết Học</span>
+            <span class="drop-arrow">▾</span>
+          </button>
+          <div class="nav-drop-menu">
+            <button class="nav-drop-item" data-tab="tab-wheel" type="button">
+              <span class="item-icon">🎡</span>
+              <div class="item-text">
+                <span class="item-name">Vòng Quay May Mắn</span>
+                <span class="item-desc">Quay số gọi tên ngẫu nhiên phát biểu</span>
+              </div>
+            </button>
+            <button class="nav-drop-item" data-tab="tab-tools" type="button">
+              <span class="item-icon">⏱️</span>
+              <div class="item-text">
+                <span class="item-name">Timer & Chia Nhóm</span>
+                <span class="item-desc">Đồng hồ đếm ngược & ghép nhóm tự động</span>
+              </div>
+            </button>
+            <button class="nav-drop-item" data-tab="tab-leaderboard" type="button">
+              <span class="item-icon">🏆</span>
+              <div class="item-text">
+                <span class="item-name">Bảng Vinh Danh</span>
+                <span class="item-desc">Xếp hạng tích cực, huy hiệu xuất sắc</span>
+              </div>
+            </button>
+            <button class="nav-drop-item" data-tab="tab-khbd" type="button">
+              <span class="item-icon">📅</span>
+              <div class="item-text">
+                <span class="item-name">Kế Hoạch Dạy & Sổ Ký</span>
+                <span class="item-desc">Tiết PPCT, ký sổ đầu bài 1-chạm, nhắc việc tuần</span>
+              </div>
+            </button>
+            <a class="nav-drop-item" href="atlas" target="_blank" style="text-decoration: none;">
+              <span class="item-icon">🗺️</span>
+              <div class="item-text">
+                <span class="item-name">Sang Math Atlas</span>
+                <span class="item-desc">Kho 210 học liệu, giáo án & chuyên đề soạn sẵn</span>
+              </div>
+            </a>
+            <a class="nav-drop-item" href="https://beamer-sangnhc.pages.dev/" target="_blank" style="text-decoration: none;">
+              <span class="item-icon">📺</span>
+              <div class="item-text">
+                <span class="item-name">Slide Trình Chiếu Beamer</span>
+                <span class="item-desc">Mở slide toàn màn hình cho giờ dạy</span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Nhóm 3: Quản Trị & Hệ Thống -->
+        <div class="nav-drop-group" data-group="admin" id="nav-group-admin">
+          <button class="nav-drop-trigger teacher-only" id="trigger-group-admin" type="button" title="Quản trị lớp & Trợ giúp">
+            <span class="tab-icon">🛠️</span>
+            <span class="trigger-label" id="label-group-admin">Quản Trị & HDSD</span>
+            <span class="drop-arrow">▾</span>
+          </button>
+          <div class="nav-drop-menu">
+            <button class="nav-drop-item teacher-only" data-tab="tab-admin" type="button">
+              <span class="item-icon">☁️</span>
+              <div class="item-text">
+                <span class="item-name">Quản Trị Lớp & Cloud</span>
+                <span class="item-desc">Phân quyền Lớp trưởng, Supabase Cloud</span>
+              </div>
+            </button>
+            <button class="nav-drop-item" data-tab="tab-guide" type="button">
+              <span class="item-icon">📖</span>
+              <div class="item-text">
+                <span class="item-name">Hướng Dẫn & Mẹo Dạy</span>
+                <span class="item-desc">Phím tắt nhanh & quy trình tổ chức lớp</span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Điều khiển: Chế độ GV/HS & Tiện ích -->
+      <div class="header-actions">
+        <!-- Đăng nhập Google & Trạng thái Cloud Supabase -->
+        <div id="auth-status-container" class="auth-status-wrap">
+          <button id="btn-google-login" class="btn-google-auth" title="Đăng nhập Gmail (Thầy giáo hoặc Lớp trưởng)">
+            <svg class="google-g-icon" viewBox="0 0 24 24" width="16" height="16">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+            </svg>
+            <span id="google-auth-text">Đăng Nhập</span>
+          </button>
+
+          <div id="user-profile-badge" class="user-badge" style="display: none;">
+            <span id="user-role-tag" class="role-tag teacher">👑 Thầy</span>
+            <span id="user-display-email" class="user-email-text" title="Email hiện tại">...</span>
+            <button id="btn-cloud-sync" class="icon-btn-sm" title="Đồng bộ Cloud">☁️</button>
+            <button id="btn-user-logout" class="icon-btn-sm text-danger" title="Đăng xuất">🚪</button>
+          </div>
+        </div>
+
+        <div class="mode-pill-toggle">
+          <button id="btn-mode-teacher" class="mode-pill-btn" title="Chế độ Giáo viên (Mở khóa bằng PIN)">
+            👨‍🏫 <span id="mode-teacher-text">GV</span>
+          </button>
+          <button id="btn-mode-student" class="mode-pill-btn active" title="Chế độ Học sinh (Chỉ xem)">
+            🎓 <span>HS</span>
+          </button>
+        </div>
+
+        <div class="quick-icons">
+          <button id="btn-open-remote-modal" class="icon-btn teacher-only" title="📱 Remote Điều Khiển Từ Xa (Dùng trên điện thoại)" style="background: rgba(16, 185, 129, 0.12); color: #059669; border-color: #10b981;">
+            📱
+          </button>
+          <button id="btn-show-cloud-settings" class="icon-btn" title="Cài đặt Supabase Cloud & Đăng nhập">
+            ☁️
+          </button>
+          <button id="btn-header-officers" class="icon-btn teacher-only" title="Ban Cán Sự & Phân Quyền Gmail (Lớp Trưởng/Phó)">
+            🛡️
+          </button>
+          <button id="btn-toggle-sound" class="icon-btn" title="Bật/Tắt âm thanh">
+            <span id="sound-icon">🔊</span>
+          </button>
+          <button id="btn-toggle-theme" class="icon-btn" title="Sáng / Tối">
+            <span id="theme-icon">☀️</span>
+          </button>
+          <button id="btn-manage-classes" class="icon-btn teacher-only" title="Quản lý lớp & Nhập Excel">
+            ⚙️
+          </button>
+          <button id="btn-toggle-fullscreen" class="icon-btn" title="Toàn màn hình">
+            ⛶
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ================= 2. THANH BỐI CẢNH LỚP HỌC (CONTEXT BAR) ================= -->
+    <div class="context-bar">
+      <div class="class-selector-area">
+        <span class="context-label">Lớp:</span>
+
+        <!-- Dropdown Chọn Lớp Tinh Gọn -->
+        <div class="class-dropdown-wrap" id="class-dropdown-wrap">
+          <button id="btn-class-dropdown" class="class-dropdown-trigger" type="button" title="Bấm để mở danh sách lớp">
+            <span class="class-drop-icon">🏫</span>
+            <span id="current-class-title" class="class-drop-name">Lớp 12C2</span>
+            <span id="current-class-count" class="class-drop-badge">47 HS</span>
+            <span class="drop-chevron">▾</span>
+          </button>
+          <div id="class-dropdown-menu" class="class-dropdown-menu">
+            <!-- Render động từ JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Bộ Chuyển Đổi Học Kỳ Thông Minh (HK1, HK2, Cả Năm) -->
+      <div class="semester-switcher" id="semester-switcher" title="Chuyển đổi thi đua và bảng điểm theo Học Kỳ">
+        <button class="btn-semester active" data-semester="hk1" type="button">🍂 HK I</button>
+        <button class="btn-semester" data-semester="hk2" type="button">🌸 HK II</button>
+        <button class="btn-semester" data-semester="year" type="button">🏆 Cả Năm</button>
+      </div>
+
+      <div class="context-right">
+        <div class="mini-stat-chip">
+          <span>Sĩ số:</span> <strong id="stat-total-students">0</strong>
+        </div>
+        <div class="mini-stat-chip stat-xp">
+          <span>Hôm nay:</span> <strong id="stat-today-points">+0 XP</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= 2B. THANH ĐIỀU HƯỚNG NHANH 1 CHẠM (QUICK NAV RIBBON) ================= -->
+    <nav class="quick-nav-ribbon" id="quick-nav-ribbon">
+      <button class="nav-tab-btn active" data-tab="tab-classroom" type="button">
+        <span>👥</span> Điểm Nhanh
+      </button>
+      <button class="nav-tab-btn" data-tab="tab-missions" type="button" title="Mở phân hệ Nhiệm vụ & Phân nhóm">
+        <span>🎯</span> Nhiệm Vụ & Phân Nhóm
+      </button>
+      <button class="nav-tab-btn" data-tab="tab-seating" type="button">
+        <span>🪑</span> Sơ Đồ Lớp
+      </button>
+      <button class="nav-tab-btn" data-tab="tab-gradebook" type="button">
+        <span>📊</span> Sổ Điểm (TT22)
+      </button>
+      <button class="nav-tab-btn" data-tab="tab-khbd" type="button" title="Kế Hoạch Dạy & Ký Sổ Đầu Bài">
+        <span>📅</span> KHBD & Sổ Ký
+      </button>
+      <button class="nav-tab-btn" data-tab="tab-wheel" type="button">
+        <span>🎡</span> Vòng Quay
+      </button>
+      <button class="nav-tab-btn" data-tab="tab-tools" type="button">
+        <span>⏱️</span> Đồng Hồ (Timer)
+      </button>
+      <button class="nav-tab-btn" data-tab="tab-leaderboard" type="button">
+        <span>🏆</span> Vinh Danh
+      </button>
+      <button class="nav-tab-btn" data-tab="tab-admin" type="button">
+        <span>☁️</span> Quản Trị & Cloud
+      </button>
+    </nav>
+
+    <!-- Thông báo chế độ Học Sinh -->
+    <div id="student-notice-banner" class="student-notice-bar" style="display: none;">
+      <span>🎓 <strong>Chế độ Học Sinh (Chỉ xem):</strong> Thầy cô đã khóa chỉnh sửa. Các em hãy tra cứu điểm cá nhân, xem sơ đồ lớp và bảng xếp hạng!</span>
+      <button id="btn-banner-unlock" class="btn-text-small text-accent" style="margin-left: 12px; font-weight: 700; cursor: pointer;">Thầy cô mở khóa?</button>
+    </div>
+
+    <!-- ================= 3. MAIN CONTENT VIEW ================= -->
+    <main class="app-main">
+
+      <!-- ================= TAB 1: THẺ LỚP HỌC & ĐIỂM NHANH ================= -->
+      <section id="tab-classroom" class="tab-pane active">
+        <div class="clean-sub-toolbar">
+          <div class="filter-pills-row">
+            <span class="sub-label">Tổ:</span>
+            <div id="team-filter-buttons" class="filter-pills-group">
+              <button class="filter-pill active" data-team="all">Tất cả</button>
+              <button class="filter-pill" data-team="1">Tổ 1</button>
+              <button class="filter-pill" data-team="2">Tổ 2</button>
+              <button class="filter-pill" data-team="3">Tổ 3</button>
+              <button class="filter-pill" data-team="4">Tổ 4</button>
+              <button class="filter-pill text-danger" data-team="weak" title="Lọc các bạn cần hỗ trợ gỡ điểm (ĐTB < 5 hoặc ít phát biểu)">🆘 Cần Giúp Đỡ</button>
+            </div>
+            
+            <div class="search-input-pill">
+              <span>🔍</span>
+              <input type="text" id="student-search-input" placeholder="Tìm tên hoặc STT...">
+            </div>
+          </div>
+
+          <div class="toolbar-actions teacher-only">
+            <button id="btn-batch-team" class="btn-sub-action btn-team-reward" title="Cộng điểm thi đua cho cả tổ">
+              <span>🤝</span> Điểm Cả Tổ
+            </button>
+            <button id="btn-assign-teams" class="btn-sub-action btn-assign-team" title="Phân bổ và sắp xếp học sinh vào các tổ">
+              <span>🗂️</span> Phân Tổ
+            </button>
+            <button id="btn-open-officers-modal" class="btn-sub-action btn-officers-action" title="Quản lý Ban cán sự & Phân quyền Gmail cho lớp">
+              <span>🛡️</span> Ban Cán Sự
+            </button>
+            <button id="btn-open-audit-log" class="btn-sub-action btn-audit-action" title="Nhật ký đối chiếu điểm toàn lớp & từng học sinh">
+              <span>📜</span> Nhật Ký Đối Chiếu
+            </button>
+            <button id="btn-open-missions" class="btn-sub-action btn-missions-action" title="Nhiệm vụ học tập & chia nhóm tự động rã điểm XP">
+              <span>🎯</span> Nhiệm Vụ Nhóm
+            </button>
+            <button id="btn-batch-select" class="btn-sub-action" title="Chọn nhiều học sinh cùng lúc">
+              <span>☑️</span> Chọn Nhiều
+            </button>
+            <button id="btn-quick-add-student" class="btn-sub-action btn-add-stu">
+              <span>➕</span> Thêm Em
+            </button>
+          </div>
+        </div>
+
+        <div id="batch-action-bar" class="batch-bar" style="display: none;">
+          <div class="batch-info">
+            Đang chọn <strong id="selected-count">0</strong> bạn
+          </div>
+          <div class="batch-buttons">
+            <button class="btn-quick-plus" data-pts="1">+1</button>
+            <button class="btn-quick-plus" data-pts="2">+2</button>
+            <button class="btn-quick-minus" data-pts="-1">-1</button>
+            <span class="batch-divider">|</span>
+            <span class="batch-lbl">Đổi tổ:</span>
+            <button class="btn-batch-change-team" data-team="1">Tổ 1</button>
+            <button class="btn-batch-change-team" data-team="2">Tổ 2</button>
+            <button class="btn-batch-change-team" data-team="3">Tổ 3</button>
+            <button class="btn-batch-change-team" data-team="4">Tổ 4</button>
+            <button id="btn-cancel-batch" class="btn-sub-action">Xong</button>
+          </div>
+        </div>
+
+        <!-- Lưới thẻ học sinh -->
+        <div id="students-grid" class="students-grid">
+          <!-- Render từ JS -->
+        </div>
+      </section>
+
+      <!-- ================= TAB 2: SƠ ĐỒ CHỖ NGỒI LỚP HỌC (SEATING CHART) ================= -->
+      
+      <!-- ================= TAB 2: NHIỆM VỤ HỌC TẬP & PHÂN NHÓM (DEDICATED) ================= -->
+      <section id="tab-missions" class="tab-pane">
+        <div class="clean-card mission-card-wide">
+          <!-- Top Bar -->
+          <div class="mission-top-bar mb-3">
+            <div>
+              <h2 class="box-title mb-1" style="font-size: 1.3rem;">🎯 Nhiệm Vụ Học Tập & Phân Nhóm Linh Hoạt</h2>
+              <p class="text-muted small mb-0">
+                Lớp: <strong id="mission-class-name" class="text-main">...</strong> • 
+                <span id="mission-sem-badge" class="badge-pill">🍂 Học Kỳ I</span> • 
+                Hỗ trợ chia ngẫu nhiên & thủ công, tự động rã điểm XP về từng bạn trong nhóm
+              </p>
+            </div>
+            <div class="mission-top-actions">
+              <button id="btn-view-missions-history" class="btn-sub-action" type="button" title="Xem các nhiệm vụ đã thực hiện trong học kỳ">
+                📜 Sổ Nhiệm Vụ (<span id="mission-history-count">0</span>)
+              </button>
+              <button id="btn-save-current-mission" class="btn-sub-action btn-add-stu" type="button" title="Lưu nhiệm vụ này vào nhật ký học kỳ">
+                💾 Lưu Nhiệm Vụ
+              </button>
+            </div>
+          </div>
+
+          <!-- Thiết lập nhiệm vụ -->
+          <div class="mission-setup-box mb-3 p-3">
+            <div class="form-group-clean mb-2">
+              <label style="font-weight: 700; font-size: 0.85rem; color: var(--text-main);">Tên Nhiệm Vụ / Hoạt Động Cần Chấm:</label>
+              <div class="flex-gap">
+                <input type="text" id="mission-title-input" class="clean-input flex-1" placeholder="Nhập tên nhiệm vụ (vd: Phiếu học tập 1, Hoạt động mảnh ghép, Thuyết trình...)" value="Nhiệm vụ 1: Hoạt động nhóm">
+              </div>
+            </div>
+            
+            <div class="mission-preset-pills mb-3">
+              <span class="small text-muted" style="font-weight: 600;">Mẫu nhanh:</span>
+              <button class="mission-preset-pill" type="button" data-name="Phiếu học tập số 1">📝 Phiếu học tập 1</button>
+              <button class="mission-preset-pill" type="button" data-name="Hoạt động mảnh ghép (Jigsaw)">🧩 Mảnh ghép (Jigsaw)</button>
+              <button class="mission-preset-pill" type="button" data-name="Thuyết trình chuyên đề">📢 Thuyết trình</button>
+              <button class="mission-preset-pill" type="button" data-name="Giải toán tiếp sức">⚡ Giải toán tiếp sức</button>
+              <button class="mission-preset-pill" type="button" data-name="Bài tập nhóm tại lớp">📚 Bài tập nhóm</button>
+              <button class="mission-preset-pill" type="button" data-name="Thảo luận sâu">💡 Thảo luận sâu</button>
+            </div>
+
+            <!-- CHỌN CHẾ ĐỘ: 🎲 NGẪU NHIÊN vs ✍️ THỦ CÔNG -->
+            <div class="mission-mode-tabs">
+              <button id="btn-mode-split-random" class="mission-mode-btn active" type="button">
+                🎲 1. Phân Nhóm Ngẫu Nhiên
+              </button>
+              <button id="btn-mode-split-manual" class="mission-mode-btn" type="button">
+                ✍️ 2. Phân Nhóm Thủ Công (Tự Chọn Em)
+              </button>
+            </div>
+
+            <!-- KHỐI 1: ĐIỀU KHIỂN CHIA NGẪU NHIÊN -->
+            <div id="mission-random-controls" class="mission-controls-grid">
+              <div class="mission-ctrl-item">
+                <label>Số lượng nhóm:</label>
+                <select id="team-count-select" class="clean-select-sm">
+                  <option value="2">2 Nhóm</option>
+                  <option value="3">3 Nhóm</option>
+                  <option value="4" selected>4 Nhóm</option>
+                  <option value="5">5 Nhóm</option>
+                  <option value="6">6 Nhóm</option>
+                  <option value="7">7 Nhóm</option>
+                  <option value="8">8 Nhóm</option>
+                  <option value="10">10 Nhóm</option>
+                </select>
+              </div>
+              <div class="mission-ctrl-item">
+                <label>Tiêu chí chia ngẫu nhiên:</label>
+                <select id="mission-split-method" class="clean-select-sm">
+                  <option value="random" selected>🎲 Ngẫu nhiên trộn đều quân số</option>
+                  <option value="fair">⚖️ Cân bằng học lực (XP zic-zac: đều có khá & cần hỗ trợ)</option>
+                  <option value="desks">🪑 Theo cụm bàn / số thứ tự gần nhau</option>
+                </select>
+              </div>
+              <div class="mission-ctrl-item mission-btn-col">
+                <label>&nbsp;</label>
+                <button id="btn-generate-teams" class="btn-sub-action btn-team-reward btn-generate-mission-teams" type="button">
+                  🎲 Tạo Nhóm Ngẫu Nhiên Ngay
+                </button>
+              </div>
+            </div>
+
+            <!-- KHỐI 2: ĐIỀU KHIỂN PHÂN NHÓM THỦ CÔNG -->
+            <div id="mission-manual-controls" class="manual-assign-box" style="display: none;">
+              <div class="flex-between mb-2 flex-wrap gap-2">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <label style="font-weight: 700; font-size: 0.82rem; margin: 0;">Số nhóm:</label>
+                  <select id="manual-team-count-select" class="clean-select-sm" style="width: auto;">
+                    <option value="2">2 Nhóm</option>
+                    <option value="3">3 Nhóm</option>
+                    <option value="4" selected>4 Nhóm</option>
+                    <option value="5">5 Nhóm</option>
+                    <option value="6">6 Nhóm</option>
+                    <option value="8">8 Nhóm</option>
+                  </select>
+                </div>
+
+                <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
+                  <input type="text" id="manual-search-stu" class="clean-input" placeholder="🔍 Lọc học sinh..." style="font-size: 0.78rem; padding: 4px 8px; width: 150px;">
+                  <button id="btn-manual-quick-seed" class="btn-sub-action" type="button" title="Hệ thống chia sẵn đều quân số, sau đó Thầy chỉ việc click đổi nhóm cho những bạn cần đổi">
+                    🎲 Trộn Gợi Ý Ban Đầu
+                  </button>
+                  <button id="btn-manual-clear-all" class="btn-sub-action" type="button" title="Xóa toàn bộ nhóm để chọn lại từ đầu">
+                    🔄 Xóa Trắng
+                  </button>
+                </div>
+              </div>
+
+              <!-- Thống kê sĩ số các nhóm theo thời gian thực -->
+              <div id="manual-groups-stats" class="manual-groups-summary">
+                <!-- Render từ JS -->
+              </div>
+
+              <!-- Danh sách học sinh với nút chọn nhóm 1 chạm -->
+              <div id="manual-assign-list" class="manual-assign-list">
+                <!-- Render từ JS -->
+              </div>
+
+              <div style="margin-top: 14px; display: flex; justify-content: flex-end;">
+                <button id="btn-manual-apply-teams" class="btn-sub-action btn-team-reward" type="button" style="padding: 10px 20px; font-size: 0.92rem;">
+                  🚀 Bắt Đầu Chấm Điểm & Rã XP Cho Các Nhóm Này →
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Lưới kết quả các nhóm & Chấm điểm tự rã XP -->
+          <div class="flex-between mb-2">
+            <h3 class="box-title mb-0" style="font-size: 1.05rem;">
+              📋 Danh Sách Nhóm Đang Thực Hiện
+            </h3>
+            <span class="text-muted small">Bấm <strong>+1, +2, +5, -1</strong> để tự rã điểm về từng bạn • Bấm <strong>⇄</strong> cạnh tên em để đổi nhóm</span>
+          </div>
+
+          <div id="generated-teams-result" class="teams-cards-grid">
+            <div class="empty-hint-box">
+              Chọn phương thức <strong>"Phân Nhóm Ngẫu Nhiên"</strong> hoặc <strong>"Phân Nhóm Thủ Công"</strong> ở trên để bắt đầu hoạt động nhóm!
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="tab-seating" class="tab-pane">
+        <div class="clean-card seating-box">
+          <div class="card-top-bar">
+            <div>
+              <h2 class="section-title">🪑 Sơ Đồ Bàn Học Thực Tế</h2>
+              <p class="section-desc">Mô phỏng 4 dãy bàn học trong phòng lớp. Bấm trực tiếp vào bàn để ghi nhận phát biểu!</p>
+            </div>
+            <div class="blackboard-indicator">
+              <span>BẢNG LỚP HỌC / BÀN GIÁO VIÊN</span>
+            </div>
+          </div>
+
+          <div id="seating-chart-grid" class="seating-chart-container">
+            <!-- Render 4 dãy bàn từ JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 3: SỔ ĐIỂM HỌC KỲ (7-8 CỘT TT22 + THÊM CỘT) ================= -->
+      <section id="tab-gradebook" class="tab-pane">
+        <div class="clean-card gradebook-box">
+          <div class="card-top-bar">
+            <div>
+              <h2 class="section-title">📊 Bảng Điểm Môn Toán — Thông Tư 22 / GDPT 2018</h2>
+              <p class="section-desc">Đầy đủ các cột ĐGTX, Điểm Chuyên cần/Thái độ, Giữa kỳ (x2), Cuối kỳ (x3), Tự tính ĐTB môn & Xếp loại</p>
+            </div>
+            <div class="card-top-actions teacher-only">
+              <button id="btn-import-omr-scores" class="btn-sub-action" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; font-weight: 700;">
+                <span>📥</span> Nhập điểm Sang Math OMR
+              </button>
+              <button id="btn-add-custom-col" class="btn-sub-action btn-add-stu">
+                <span>➕</span> Thêm Cột Điểm
+              </button>
+              <button id="btn-export-gradebook-excel" class="btn-sub-action btn-team-reward">
+                <span>📊</span> Xuất Excel Sổ Điểm
+              </button>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="clean-gradebook-table" id="gradebook-table-element">
+              <thead>
+                <tr id="gradebook-header-row">
+                  <th style="width: 45px;">STT</th>
+                  <th style="min-width: 170px; text-align: left;">Họ và tên</th>
+                  <th style="width: 55px;">Tổ</th>
+                  <th class="col-dgtx" style="width: 60px;">ĐGTX 1</th>
+                  <th class="col-dgtx" style="width: 60px;">ĐGTX 2</th>
+                  <th class="col-dgtx" style="width: 60px;">ĐGTX 3</th>
+                  <th class="col-dgtx" style="width: 60px;">ĐGTX 4</th>
+                  <th class="col-dgtx" style="width: 60px;">ĐGTX 5</th>
+                  <th class="col-attitude" style="width: 65px;">Thái Độ</th>
+                  <th class="col-gk" style="width: 70px;">Giữa Kỳ</th>
+                  <th class="col-ck" style="width: 70px;">Cuối Kỳ</th>
+                  <th class="col-avg" style="width: 75px;">ĐTB Môn</th>
+                  <th class="col-rank" style="width: 80px;">Xếp Loại</th>
+                  <th class="col-xp" style="width: 80px;">Điểm Thưởng</th>
+                  <th class="teacher-only" style="width: 95px;">Bù Điểm</th>
+                </tr>
+              </thead>
+              <tbody id="gradebook-tbody">
+                <!-- Render từ JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 4: VÒNG QUAY & GỌI TÊN ================= -->
+      <section id="tab-wheel" class="tab-pane">
+        <div class="wheel-layout">
+          <div class="clean-card wheel-card">
+            <div class="wheel-pointer">▼</div>
+            <canvas id="wheel-canvas" width="460" height="460"></canvas>
+            <button id="btn-spin-wheel" class="btn-spin-primary">
+              QUAY NGAY
+            </button>
+          </div>
+
+          <div class="wheel-side-panel">
+            <div class="clean-card side-box">
+              <h3 class="box-title">⚙️ Tùy Chọn Gọi Tên</h3>
+              <div class="form-group-clean">
+                <label>Phạm vi gọi:</label>
+                <select id="wheel-team-scope" class="clean-select">
+                  <option value="all">Toàn bộ lớp</option>
+                  <option value="1">Chỉ Tổ 1</option>
+                  <option value="2">Chỉ Tổ 2</option>
+                  <option value="3">Chỉ Tổ 3</option>
+                  <option value="4">Chỉ Tổ 4</option>
+                </select>
+              </div>
+
+              <div class="checkbox-row-clean">
+                <label class="custom-checkbox">
+                  <input type="checkbox" id="chk-fair-mode" checked>
+                  <span><strong>Chế độ công bằng:</strong> Ưu tiên bạn ít phát biểu</span>
+                </label>
+              </div>
+
+              <div class="checkbox-row-clean">
+                <label class="custom-checkbox">
+                  <input type="checkbox" id="chk-exclude-called" checked>
+                  <span>Loại trừ bạn đã gọi trong tiết này</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="clean-card side-box">
+              <h3 class="box-title">🎲 Cách Gọi Khác</h3>
+              <div class="quick-modes-list">
+                <button id="btn-magic-card" class="btn-quick-mode">
+                  <span class="mode-emoji">🃏</span>
+                  <div>
+                    <strong>Lật Thẻ Bí Ẩn</strong>
+                    <small>Chọn 1 bạn ngẫu nhiên với hiệu ứng 3D</small>
+                  </div>
+                </button>
+                <button id="btn-showdown-1v1" class="btn-quick-mode">
+                  <span class="mode-emoji">⚔️</span>
+                  <div>
+                    <strong>Đấu Trường 1 vs 1</strong>
+                    <small>Bốc 2 bạn đọ sức giải toán</small>
+                  </div>
+                </button>
+                <button id="btn-fun-challenge" class="btn-quick-mode">
+                  <span class="mode-emoji">🎭</span>
+                  <div>
+                    <strong>Thử Thách Vui</strong>
+                    <small>Hát, nhảy lò cò, chép công thức (khi chưa thuộc bài)</small>
+                  </div>
+                </button>
+              </div>
+            </div>
+
+            <div class="clean-card side-box">
+              <div class="flex-between mb-2">
+                <h3 class="box-title mb-0">📋 Đã Gọi (<span id="called-count">0</span>)</h3>
+                <button id="btn-reset-called" class="btn-link-clean" title="Xóa danh sách đã gọi để quay vòng mới">🔄 Làm mới</button>
+              </div>
+              <div id="called-students-list" class="called-chips-container">
+                <span class="empty-text">Chưa gọi bạn nào</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 5: ĐỒNG HỒ & CHIA NHÓM ================= -->
+      <section id="tab-tools" class="tab-pane">
+        <div class="tools-layout">
+          <div class="clean-card tool-card">
+            <h3 class="box-title">⏱️ Đồng Hồ Đếm Ngược</h3>
+            <div class="timer-circle-wrapper">
+              <svg class="timer-svg" viewBox="0 0 200 200">
+                <circle class="timer-bg-track" cx="100" cy="100" r="88"></circle>
+                <circle id="timer-progress" class="timer-fill-track" cx="100" cy="100" r="88"></circle>
+              </svg>
+              <div class="timer-digits" id="timer-display">03:00</div>
+              <div class="timer-hint" id="timer-status">Sẵn sàng</div>
+            </div>
+
+            <div class="timer-pill-presets">
+              <button class="timer-preset-pill" data-sec="60">1p</button>
+              <button class="timer-preset-pill active" data-sec="180">3p</button>
+              <button class="timer-preset-pill" data-sec="300">5p</button>
+              <button class="timer-preset-pill" data-sec="600">10p</button>
+              <button class="timer-preset-pill" data-sec="900">15p</button>
+            </div>
+
+            <div class="timer-btns-row">
+              <button id="btn-timer-start" class="btn-timer-cta btn-start">▶ Bắt Đầu</button>
+              <button id="btn-timer-pause" class="btn-timer-cta btn-pause" style="display: none;">⏸ Tạm Dừng</button>
+              <button id="btn-timer-reset" class="btn-timer-cta btn-reset">🔄 Đặt Lại</button>
+              <button id="btn-timer-add-1m" class="btn-timer-cta btn-add">+1 Phút</button>
+            </div>
+          </div>
+
+          <!-- Card Chuyển Nhanh Sang Nhiệm Vụ & Phân Nhóm -->
+          <div class="clean-card tool-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div class="flex-between mb-2">
+                <h3 class="box-title mb-0">🎯 Nhiệm Vụ & Phân Nhóm Linh Hoạt</h3>
+                <span class="badge-pill" style="background: #f59e0b; color: #fff; font-size: 0.72rem; padding: 2px 8px; font-weight: 800;">CHUYÊN SÂU</span>
+              </div>
+              <p class="text-muted small">
+                Tính năng phân nhóm đã được nâng cấp thành phân hệ chuyên sâu độc lập: 
+                hỗ trợ chia nhóm <strong>ngẫu nhiên</strong> (cân bằng học lực XP, cụm bàn), 
+                phân nhóm <strong>thủ công</strong> từng em 1 chạm, và <strong>tự động rã điểm XP</strong> về từng học sinh khi chấm nhóm!
+              </p>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px;">
+                <span class="badge-pill">🎲 Chia Ngẫu Nhiên 2 - 10 Nhóm</span>
+                <span class="badge-pill">✍️ Phân Nhóm Thủ Công 1 Chạm</span>
+                <span class="badge-pill">⚖️ Cân Bằng Học Lực (Zic-zac)</span>
+                <span class="badge-pill">⚡ Tự Động Rã Điểm XP</span>
+                <span class="badge-pill">⇄ Đổi Nhóm Tức Thì</span>
+              </div>
+            </div>
+
+            <div style="margin-top: 24px;">
+              <button class="btn-sub-action btn-team-reward" type="button" id="btn-tools-open-missions" style="width: 100%; padding: 12px; font-weight: 800; font-size: 0.95rem; justify-content: center;">
+                🚀 Mở Bảng Phân Nhóm & Nhiệm Vụ Ngay ➜
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 6: BẢNG VINH DANH ================= -->
+      <section id="tab-leaderboard" class="tab-pane">
+        <div class="podium-section">
+          <h2 class="podium-heading">🌟 BỤC VINH DANH CHIẾN BINH TOÁN HỌC 🌟</h2>
+          <div class="podium-row" id="podium-wrapper">
+            <!-- Render từ JS -->
+          </div>
+        </div>
+
+        <div class="leaderboard-grid">
+          <div class="clean-card">
+            <div class="flex-between mb-3">
+              <h3 class="box-title mb-0">🏆 Bảng Điểm Thưởng Tích Cực</h3>
+              <button id="btn-export-excel" class="btn-sub-action">📥 Xuất Bảng Điểm</button>
+            </div>
+
+            <div class="table-responsive">
+              <table class="clean-table">
+                <thead>
+                  <tr>
+                    <th style="width: 50px;">Hạng</th>
+                    <th>Học sinh</th>
+                    <th style="width: 65px;">Cấp Độ</th>
+                    <th style="width: 65px;">Tổ</th>
+                    <th style="width: 85px;">Điểm Thưởng</th>
+                    <th>Danh hiệu</th>
+                    <th style="width: 85px;">Lịch sử</th>
+                  </tr>
+                </thead>
+                <tbody id="leaderboard-tbody">
+                  <!-- Render từ JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="leaderboard-side-col">
+            <div class="clean-card mb-3">
+              <h3 class="box-title">🚩 Thi Đua Giữa Các Tổ</h3>
+              <div id="teams-leaderboard-list" class="teams-rank-column"></div>
+            </div>
+
+            <div class="clean-card">
+              <h3 class="box-title">🔎 Học Sinh Tự Tra Cứu</h3>
+              <p class="text-muted small">Nhập tên để xem thành tích & cấp độ:</p>
+              <div class="search-input-pill w-100 mt-2">
+                <span>🔍</span>
+                <input type="text" id="self-lookup-input" placeholder="Nhập tên em...">
+              </div>
+              <div id="self-lookup-result" class="mt-2"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 7: HƯỚNG DẪN SỬ DỤNG & MẸO SƯ PHẠM ================= -->
+      <section id="tab-guide" class="tab-pane">
+        <div class="guide-container">
+          <!-- HERO BANNER -->
+          <div class="guide-hero">
+            <div class="guide-hero-badge">📖 CẨM NANG SƯ PHẠM CONICCLASSROOM</div>
+            <h2 class="guide-hero-title">Đồng Hành Cùng Thầy Dạy Học Tích Cực Môn Toán THPT</h2>
+            <p class="guide-hero-desc">
+              Hệ thống trợ lý lớp học được thiết kế chuyên biệt cho Giáo viên Toán Lớp 10, 11, 12 theo định hướng GDPT 2018: Biến mỗi tiết học thành trải nghiệm sôi nổi, công bằng, minh bạch điểm số và tạo động lực tiến bộ cho từng học sinh.
+            </p>
+            <div class="guide-hero-tags">
+              <span class="guide-tag">🎯 Chuẩn GDPT 2018</span>
+              <span class="guide-tag">⚡ 1-Chạm Ghi Điểm</span>
+              <span class="guide-tag">📊 Bù Điểm Thông Tư 22</span>
+              <span class="guide-tag">🔐 PIN 2026 Bảo Mật</span>
+              <span class="guide-tag">📱 Tra Cứu QR Realtime</span>
+            </div>
+          </div>
+
+          <div class="guide-grid">
+            <!-- Thẻ 1: Kịch bản 45 phút -->
+            <div class="guide-card">
+              <div class="guide-card-header">
+                <span class="guide-icon">⏱️</span>
+                <div>
+                  <h3 class="guide-title">Kịch Bản Tiết Học Tích Cực (45 Phút)</h3>
+                  <span class="guide-subtitle">Quy trình 4 bước tạo hào hứng từ phút đầu đến phút cuối</span>
+                </div>
+              </div>
+              <div class="lesson-steps-flow">
+                <div class="lesson-step-item">
+                  <span class="step-time-badge">00 - 05p</span>
+                  <div class="step-content">
+                    <div class="step-header">
+                      <strong>1. Khởi Động & Kiểm Tra Bài Cũ</strong>
+                      <span class="step-pill">Vòng Quay 🎡 • Thẻ Bí Ẩn 🃏</span>
+                    </div>
+                    <p>Quay ngẫu nhiên 1 học sinh lên kiểm tra. Trả lời đúng nhận ngay <code>+1</code> hoặc <code>+2 XP</code>. Nếu học sinh chưa thuộc bài, mở ngay <strong>Thử Thách Vui</strong> để động viên mà không làm em bị xấu hổ.</p>
+                  </div>
+                </div>
+
+                <div class="lesson-step-item">
+                  <span class="step-time-badge">05 - 25p</span>
+                  <div class="step-content">
+                    <div class="step-header">
+                      <strong>2. Hình Thành Kiến Thức & Luyện Tập</strong>
+                      <span class="step-pill">Sơ Đồ Bàn Học 🪑 • Chạm 1s ⚡</span>
+                    </div>
+                    <p>Chiếu bài tập lên bảng. Thầy mở tab <strong>Sơ Đồ Bàn Học</strong> trên máy tính hoặc iPad. Học sinh nào giơ tay giải bài, Thầy chỉ cần chạm vào đúng bàn của em đó <span class="guide-arrow">→</span> Hiệu ứng số bay <code>+1 ⭐</code> xuất hiện tức thì kèm tiếng ting hào hứng!</p>
+                  </div>
+                </div>
+
+                <div class="lesson-step-item">
+                  <span class="step-time-badge">25 - 35p</span>
+                  <div class="step-content">
+                    <div class="step-header">
+                      <strong>3. Hoạt Động Nhóm & Đấu Trường 1 vs 1</strong>
+                      <span class="step-pill">Timer ⏱️ • Thưởng Cả Tổ 👥</span>
+                    </div>
+                    <p>Bật tab <strong>Timer & Nhóm</strong> đếm ngược 5-10 phút. Nhóm giải bài nhanh và nề nếp nhất được Thầy bấm <strong>Thưởng Cả Tổ</strong> (cộng đều cho mọi bạn trong tổ). Cuối phần luyện tập, bốc 2 bạn thi đấu trên <strong>Đấu Trường 1 vs 1</strong>.</p>
+                  </div>
+                </div>
+
+                <div class="lesson-step-item">
+                  <span class="step-time-badge">35 - 45p</span>
+                  <div class="step-content">
+                    <div class="step-header">
+                      <strong>4. Tổng Kết & Vinh Danh Bục Top 3</strong>
+                      <span class="step-pill">Bục Vinh Danh 🥇 • Pháo Hoa 🎆</span>
+                    </div>
+                    <p>Mở tab <strong>Vinh Danh</strong>: Cả lớp chiêm ngưỡng Bục Top 3 cá nhân và Tổ dẫn đầu tuần với pháo hoa rực rỡ. Học sinh thấy ngay thành quả cố gắng trong từng phút học tập.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Thẻ 2: Chính sách điểm thưởng XP & Bù điểm -->
+            <div class="guide-card">
+              <div class="guide-card-header">
+                <span class="guide-icon">⚖️</span>
+                <div>
+                  <h3 class="guide-title">Chính Sách Điểm Thưởng & Bù Điểm TT22</h3>
+                  <span class="guide-subtitle">Khuyến khích học sinh tiến bộ mà không gây lạm phát điểm</span>
+                </div>
+              </div>
+
+              <div class="policy-section">
+                <div class="policy-subheading positive">🌟 Điểm Thưởng Tích Cực (Cộng XP)</div>
+                <div class="xp-chips-grid">
+                  <div class="xp-chip pos">
+                    <span>🙋‍♂️ Phát biểu đúng ý / xây dựng bài</span>
+                    <strong class="xp-val">+1 XP</strong>
+                  </div>
+                  <div class="xp-chip pos">
+                    <span>🎯 Lên bảng giải bài cơ bản đúng</span>
+                    <strong class="xp-val">+1 XP</strong>
+                  </div>
+                  <div class="xp-chip pos">
+                    <span>💡 Cách giải độc đáo / Sáng tạo</span>
+                    <strong class="xp-val">+2 XP</strong>
+                  </div>
+                  <div class="xp-chip pos">
+                    <span>⚔️ Thắng trong Đấu Trường 1 vs 1</span>
+                    <strong class="xp-val">+2 XP</strong>
+                  </div>
+                  <div class="xp-chip pos">
+                    <span>🤝 Giúp đỡ bạn yếu cùng tiến</span>
+                    <strong class="xp-val">+2 XP</strong>
+                  </div>
+                  <div class="xp-chip pos">
+                    <span>👥 Thưởng hoạt động nhóm xuất sắc</span>
+                    <strong class="xp-val">+1 XP/bạn</strong>
+                  </div>
+                  <div class="xp-chip pos highlight">
+                    <span>⭐ Điểm 10 kiểm tra / Thành tích cao</span>
+                    <strong class="xp-val">+5 XP</strong>
+                  </div>
+                </div>
+
+                <div class="policy-subheading negative mt-3">⚠️ Điểm Nhắc Nhở Nề Nếp</div>
+                <div class="xp-chips-grid">
+                  <div class="xp-chip neg">
+                    <span>❌ Chưa làm BTVN đầy đủ</span>
+                    <strong class="xp-val">-2 XP</strong>
+                  </div>
+                  <div class="xp-chip neg">
+                    <span>📵 Mất trật tự / Dùng điện thoại</span>
+                    <strong class="xp-val">-1 XP</strong>
+                  </div>
+                  <div class="xp-chip neg">
+                    <span>⏰ Đi học muộn / Không chú ý</span>
+                    <strong class="xp-val">-1 XP</strong>
+                  </div>
+                </div>
+
+                <!-- Banner Quy Đổi Bù Điểm Thông Tư 22 -->
+                <div class="formula-box mt-3">
+                  <div class="formula-badge">🎁 CÔNG THỨC QUY ĐỔI BÙ ĐIỂM CHUẨN THÔNG TƯ 22</div>
+                  <div class="formula-equation">
+                    <span class="formula-num">5 XP</span>
+                    <span class="formula-arrow">=</span>
+                    <span class="formula-res">+1.0 Điểm ĐGTX</span>
+                  </div>
+                  <div class="formula-rules">
+                    <div class="formula-rule-item">
+                      <span class="rule-icon">✅</span>
+                      <span>Bù vào cột <strong>ĐGTX (Thường xuyên)</strong> bị điểm thấp để khuyến khích em gỡ điểm.</span>
+                    </div>
+                    <div class="formula-rule-item">
+                      <span class="rule-icon">🛡️</span>
+                      <span>Tối đa bù <strong>+2.0 điểm/cột</strong> và điểm sau bù không vượt quá <strong>10.0</strong>.</span>
+                    </div>
+                    <div class="formula-rule-item">
+                      <span class="rule-icon">🚫</span>
+                      <span><strong>Không áp dụng</strong> bù vào điểm thi Cuối Kỳ (bài thi chung đề toàn trường).</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Thẻ 3: Bảo mật & Phân quyền -->
+            <div class="guide-card">
+              <div class="guide-card-header">
+                <span class="guide-icon">🔐</span>
+                <div>
+                  <h3 class="guide-title">Bảo Mật & Phân Quyền (Chỉ Thầy Ghi Điểm)</h3>
+                  <span class="guide-subtitle">Tuyệt đối an toàn khi chiếu màn hình hoặc gửi link cho học sinh</span>
+                </div>
+              </div>
+
+              <div class="security-steps-grid">
+                <div class="sec-step-card">
+                  <div class="sec-step-num">1</div>
+                  <div class="sec-step-body">
+                    <strong>Mã PIN Giáo Viên Mặc Định: <code>2026</code></strong>
+                    <p>Chỉ người có mã PIN mới có quyền cộng/trừ điểm, đổi điểm, nạp danh sách Excel hoặc sửa sổ điểm. Thầy có thể đổi mã PIN bất kỳ lúc nào tại nút Cài Đặt ⚙️.</p>
+                  </div>
+                </div>
+
+                <div class="sec-step-card">
+                  <div class="sec-step-num">2</div>
+                  <div class="sec-step-body">
+                    <strong>Chế Độ Học Sinh (Mặc Định Khi Mở Web)</strong>
+                    <p>Toàn bộ nút cộng trừ điểm và nút quản lý sẽ tự động ẩn đi. Học sinh mở web chỉ có quyền tra cứu tên/SBD để tự hào xem điểm của mình.</p>
+                  </div>
+                </div>
+
+                <div class="sec-step-card">
+                  <div class="sec-step-num">3</div>
+                  <div class="sec-step-body">
+                    <strong>Mở Khóa Trên Máy Của Thầy (1 Lần Duy Nhất)</strong>
+                    <p>Bấm nút <code>👨‍🏫 GV</code> ở góc trên <span class="guide-arrow">→</span> Nhập PIN <code>2026</code>. Hệ thống sẽ lưu trên trình duyệt của Thầy, các lần sau mở ra là dùng ngay!</p>
+                  </div>
+                </div>
+
+                <div class="sec-step-card highlight">
+                  <div class="sec-step-num">4</div>
+                  <div class="sec-step-body">
+                    <strong>Mẹo Chiếu Máy Chiếu An Toàn 📽️</strong>
+                    <p>Trước khi cắm dây chiếu laptop lên màn hình lớp học, Thầy chỉ cần bấm nút <code>🎓 HS</code> ở góc trên. Web sẽ chuyển ngay sang giao diện học sinh, tránh việc học sinh tò mò hoặc bấm vào máy của Thầy.</p>
+                  </div>
+                </div>
+
+                <div class="sec-step-card">
+                  <div class="sec-step-num">5</div>
+                  <div class="sec-step-body">
+                    <strong>Gửi Bảng Điểm Về Nhà Qua Zalo 📱</strong>
+                    <p>Bấm nút <code>📱 QR Học Sinh</code> <span class="guide-arrow">→</span> Chọn <code>📋 Sao Chép Link Kèm Điểm</code> <span class="guide-arrow">→</span> Dán vào nhóm Zalo lớp. Học sinh mở trên điện thoại sẽ xem ngay bảng điểm mới nhất ở chế độ Chỉ Xem!</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Thẻ 4: Cẩm nang thao tác nhanh -->
+            <div class="guide-card">
+              <div class="guide-card-header">
+                <span class="guide-icon">⚡</span>
+                <div>
+                  <h3 class="guide-title">Cẩm Nang "Chống Quên" Thao Tác Nhanh</h3>
+                  <span class="guide-subtitle">Lối tắt 1 chạm cho mọi tác vụ thường ngày của Thầy</span>
+                </div>
+              </div>
+
+              <div class="shortcuts-grid">
+                <div class="shortcut-item">
+                  <div class="shortcut-badge">1 Chạm</div>
+                  <div class="shortcut-content">
+                    <strong>🔄 Chuyển Lớp Nhanh</strong>
+                    <p>Bấm chọn ngay <code>Lớp 10A1</code>, <code>Lớp 11B2</code>, <code>Lớp 12C3</code> ở thanh chọn lớp trên cùng.</p>
+                  </div>
+                </div>
+
+                <div class="shortcut-item">
+                  <div class="shortcut-badge">5 Giây</div>
+                  <div class="shortcut-content">
+                    <strong>📋 Nạp Danh Sách Từ Excel</strong>
+                    <p>Bấm <code>⚙️ Cài Đặt</code> <span class="guide-arrow">→</span> Copy 3 cột (Họ tên, Tổ, SBD) từ Excel rồi dán vào khung <span class="guide-arrow">→</span> Bấm <code>✅ Nạp Vào Lớp</code>.</p>
+                  </div>
+                </div>
+
+                <div class="shortcut-item">
+                  <div class="shortcut-badge">Linh Hoạt</div>
+                  <div class="shortcut-content">
+                    <strong>➕ Thêm Cột Điểm Độc Lập</strong>
+                    <p>Vào Tab <strong>Sổ Điểm (TT22)</strong> <span class="guide-arrow">→</span> Bấm <code>➕ Thêm Cột Điểm</code> (chọn Hệ số 1 hoặc 2, điểm sẽ tự động tính vào ĐTB).</p>
+                  </div>
+                </div>
+
+                <div class="shortcut-item">
+                  <div class="shortcut-badge">Đổi Thưởng</div>
+                  <div class="shortcut-content">
+                    <strong>🎁 Bù Điểm Cho Học Sinh</strong>
+                    <p>Vào Tab <strong>Sổ Điểm</strong> <span class="guide-arrow">→</span> Bấm nút <code>🎁 Bù điểm</code> ở dòng em muốn giúp đỡ để chuyển XP thành điểm thực tế.</p>
+                  </div>
+                </div>
+
+                <div class="shortcut-item">
+                  <div class="shortcut-badge">Nộp Trường</div>
+                  <div class="shortcut-content">
+                    <strong>📥 Xuất Excel Chuẩn Bộ GD</strong>
+                    <p>Bấm nút <code>📥 Xuất Excel Sổ Điểm</code>. File CSV tải về mở trực tiếp bằng Excel với đầy đủ dấu tiếng Việt, không bị lỗi font.</p>
+                  </div>
+                </div>
+
+                <div class="shortcut-item">
+                  <div class="shortcut-badge alert">Trợ Giúp</div>
+                  <div class="shortcut-content">
+                    <strong>🆘 Lọc Học Sinh Cần Hỗ Trợ</strong>
+                    <p>Bấm nút <code>🆘 Cần Giúp Đỡ</code> ở thanh lọc để xem ngay các học sinh có ĐTB <span class="score-low-badge">&lt; 5.0</span> hoặc ít phát biểu.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Mẹo sư phạm thực chiến -->
+              <div class="pro-tip-box mt-3">
+                <strong>💡 Mẹo Sư Phạm Thực Chiến:</strong><br>
+                • <strong>Khi lớp học trầm lắng:</strong> Mở ngay <strong>Vòng Quay May Mắn</strong> hoặc <strong>Đấu Trường 1 vs 1</strong> để kích hoạt sự hào hứng tức thì.<br>
+                • <strong>Khi học sinh yếu tự ti:</strong> Thưởng <code>+2 XP</code> cho hoạt động <em>"Hỗ trợ bạn cùng tiến"</em>, giao bạn khá giỏi kèm bạn yếu.<br>
+                • <strong>Khi có tiếng ồn:</strong> Chỉ cần chạm nhẹ <code>-1 XP</code> trên <strong>Sơ Đồ Bàn Học</strong>, âm thanh nhắc nhở tế nhị vang lên sẽ đưa lớp về trật tự mà Thầy không phải gắt giọng!
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 8: QUẢN TRỊ LỚP & ĐÁM MÂY SUPABASE ================= -->
+      <section id="tab-admin" class="tab-pane">
+        <div class="admin-dashboard-wrap">
+          <!-- 1. Banner Đám mây & Bảo vệ dữ liệu chống mất máy -->
+          <div class="cloud-shield-banner">
+            <div class="shield-icon">🛡️</div>
+            <div class="shield-info">
+              <div class="shield-title-row">
+                <h3 class="shield-title">Trung Tâm Bảo Vệ & Đồng Bộ Đám Mây (Cloud Shield)</h3>
+                <span id="admin-cloud-badge" class="cloud-badge-pill online">🟢 Đang Kết Nối Supabase Cloud</span>
+              </div>
+              <p class="shield-desc">
+                Điểm số và dữ liệu học sinh của Thầy được đồng bộ trực tuyến lên Supabase. 
+                <strong>Dù máy tính có hỏng đột ngột, đổi máy mới hay mở trên điện thoại</strong>, 
+                toàn bộ điểm số các lớp của Thầy vẫn an toàn 100% vĩnh viễn!
+              </p>
+              <div class="shield-actions">
+                <button id="admin-btn-sync-now" class="btn-sub-action btn-add-stu">⬆️ Đồng Bộ Lên Cloud Ngay</button>
+                <button id="admin-btn-pull-cloud" class="btn-sub-action">⬇️ Kéo Dữ Liệu Mới Nhất Về Máy</button>
+                <button id="admin-btn-backup-json" class="btn-sub-action">💾 Tải Bản Sao Lưu Dự Phòng (.json)</button>
+              </div>
+              <div id="admin-sync-feedback" class="small mt-2"></div>
+            </div>
+          </div>
+
+          <!-- 2. Danh sách toàn bộ các lớp của Thầy & Nhập Excel -->
+          <div class="admin-grid-layout">
+            <div class="admin-panel flex-1">
+              <div class="panel-head-flex">
+                <div>
+                  <h3 class="panel-title">📚 Danh Sách Các Lớp Của Thầy</h3>
+                  <span class="text-muted small">Xem sĩ số, chọn lớp giảng dạy và gán quyền Lớp trưởng (ghi điểm)</span>
+                </div>
+                <button id="admin-btn-new-class" class="btn-sub-action btn-team-reward">➕ Tạo Lớp Mới</button>
+              </div>
+
+              <div id="admin-class-list" class="admin-classes-grid mt-3">
+                <!-- Render các card lớp to, đẹp, chi tiết -->
+              </div>
+            </div>
+
+            <div class="admin-panel flex-1">
+              <div class="panel-head-flex">
+                <div>
+                  <h3 class="panel-title">📋 Nhập Nhanh Học Sinh Từ Excel</h3>
+                  <span class="text-muted small">Nạp danh sách cho lớp đang chọn: <strong id="admin-active-class-name" class="text-accent">...</strong></span>
+                </div>
+              </div>
+
+              <div class="panel-body-clean mt-2">
+                <textarea id="admin-excel-textarea" rows="7" class="clean-textarea" placeholder="Copy từ file Excel (Họ tên, Tổ, SBD) rồi dán vào đây:
+Võ Phạm Quốc An	1	1201
+Phan Huỳnh Anh	2	1202
+... (Mỗi em 1 dòng)"></textarea>
+                <div class="flex-gap mt-3">
+                  <button id="admin-btn-import-excel" class="btn-sub-action btn-add-stu">✅ Nạp Danh Sách Vào Lớp</button>
+                  <button id="admin-btn-export-excel" class="btn-sub-action">📥 Xuất Excel Sổ Lớp</button>
+                </div>
+                <div id="admin-import-feedback" class="small mt-2"></div>
+              </div>
+
+              <div class="pro-tip-box mt-3">
+                <strong>💡 Mẹo Quản Trị Cho Thầy:</strong><br>
+                • <strong>Cấp quyền Lớp trưởng:</strong> Điền Gmail của em Lớp trưởng vào ô dưới tên từng lớp rồi bấm Lưu. Khi em đó mở web, hệ thống tự động mở đúng lớp đó để em chấm điểm.<br>
+                • <strong>Chống mất mát dữ liệu:</strong> Mỗi tuần hoặc sau mỗi buổi chấm điểm, bấm <strong>⬆️ Đồng Bộ Lên Cloud Ngay</strong> để lưu vĩnh viễn trên Supabase.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 10: KẾ HOẠCH BÀI DẠY & SỔ ĐẦU BÀI (KHBD) ================= -->
+      <section id="tab-khbd" class="tab-pane">
+        <!-- Header Phân Hệ KHBD -->
+        <div class="khbd-header-card">
+          <div class="khbd-brand-wrap">
+            <div class="khbd-icon-circle">📅</div>
+            <div class="khbd-brand-text">
+              <div class="khbd-tag-badge">TOÁN THPT NGUYỄN HỮU CẢNH • NĂM HỌC 2026 - 2027</div>
+              <h2 class="khbd-title">Kế Hoạch Bài Dạy & Trợ Lý Ký Sổ Đầu Bài</h2>
+              <div class="khbd-subtitle">Tiết PPCT chuẩn xác 100% • Sao chép 1-chạm ký sổ VnEdu/SMAS • Tự động nhắc việc & chống lệch tiết</div>
+            </div>
+          </div>
+
+          <div class="khbd-filter-bar">
+            <!-- Bộ lọc chọn Khối -->
+            <div class="khbd-filter-group">
+              <span class="khbd-filter-label">Khối Lớp:</span>
+              <div id="khbd-grade-pills" class="khbd-pills-row">
+                <button class="khbd-pill active" data-grade="k10" type="button">Toán 10 (Chuyên đề)</button>
+                <button class="khbd-pill" data-grade="k11" type="button">Toán 11</button>
+                <button class="khbd-pill" data-grade="k12" type="button">Toán 12</button>
+              </div>
+            </div>
+
+            <!-- Bộ lọc chọn Học kỳ -->
+            <div class="khbd-filter-group">
+              <span class="khbd-filter-label">Học Kỳ:</span>
+              <div id="khbd-hk-pills" class="khbd-pills-row">
+                <button class="khbd-pill active" data-hk="hk1" type="button">🍂 Học Kỳ I (18 tuần • 72 tiết)</button>
+                <button class="khbd-pill" data-hk="hk2" type="button">🌸 Học Kỳ II</button>
+              </div>
+            </div>
+
+            <!-- Bộ chuyển chế độ xem: Tuần này / Cả kỳ -->
+            <div class="khbd-filter-group khbd-view-switch">
+              <div class="khbd-pills-row">
+                <button id="btn-khbd-view-week" class="khbd-pill active" type="button">🎯 Tiêu Điểm Tuần</button>
+                <button id="btn-khbd-view-full" class="khbd-pill" type="button">📚 Xem Cả 18 Tuần</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= VIEW 1: TIÊU ĐIỂM TUẦN (WEEK FOCUS VIEW) ================= -->
+        <div id="khbd-week-view" class="khbd-view-container">
+          <!-- Thanh điều hướng tuần thông minh -->
+          <div class="khbd-week-navbar">
+            <button id="btn-khbd-prev-week" class="btn-week-step" type="button" title="Xem tuần trước">
+              ◀ Tuần Trước
+            </button>
+
+            <div class="khbd-week-center-ctrl">
+              <select id="khbd-week-select" class="clean-select khbd-week-dropdown" title="Chọn tuần">
+                <!-- Render từ JS -->
+              </select>
+              <button id="btn-khbd-jump-current" class="btn-today-pill" type="button" title="Quay về tuần tương ứng với ngày hôm nay">
+                ⚡ Về Tuần Hiện Tại
+              </button>
+            </div>
+
+            <button id="btn-khbd-next-week" class="btn-week-step" type="button" title="Xem tuần sau">
+              Tuần Sau ▶
+            </button>
+          </div>
+
+          <!-- Banner Radar Cảnh Báo Nhắc Việc Tuần Này -->
+          <div id="khbd-week-alert" class="khbd-radar-alert" style="display: none;">
+            <span class="radar-icon">🔔</span>
+            <div id="khbd-alert-text" class="radar-text">...</div>
+          </div>
+
+          <!-- Banner Radar Nhắc Việc Tuần Sau (Báo trước 1 tuần) -->
+          <div id="khbd-next-week-alert" class="khbd-radar-alert next-week-alert" style="display: none;">
+            <span class="radar-icon">📢</span>
+            <div id="khbd-next-alert-text" class="radar-text">...</div>
+          </div>
+
+          <!-- Thanh trạng thái lớp & công cụ nhanh -->
+          <div class="khbd-sub-toolbar">
+            <div class="khbd-active-class-info">
+              <span class="info-label">Lớp đang theo dõi:</span>
+              <span id="khbd-active-class-name" class="class-name-badge">Lớp 10A1</span>
+              <span class="sync-desc">Tick chọn <strong class="text-success">✅ Đã dạy</strong> để ghi nhớ tiến độ từng lớp và tránh lệch tiết!</span>
+            </div>
+
+            <div class="khbd-toolbar-actions">
+              <button id="btn-copy-week-summary" class="btn-sub-action btn-copy-all" type="button" title="Chép tóm tắt nội dung 4 tiết tuần này">
+                📋 Chép Cả 4 Tiết Tuần Này
+              </button>
+            </div>
+          </div>
+
+          <!-- Lưới 4 Thẻ Tiết Học Trong Tuần -->
+          <div id="khbd-periods-grid" class="khbd-periods-grid">
+            <!-- Render từ JS -->
+          </div>
+
+          <!-- Sổ Tay Ghi Nhớ Tuần Cho Thầy (Weekly Memo) -->
+          <div class="khbd-memo-box">
+            <div class="memo-top-row">
+              <div class="memo-title-wrap">
+                <span class="memo-icon">📝</span>
+                <h4 class="memo-title">Sổ Ghi Chép Nhắc Nhớ Tuần — <span id="khbd-memo-week-label">Tuần 1</span></h4>
+              </div>
+              <span id="khbd-memo-status" class="memo-saved-tag">Đã lưu tự động</span>
+            </div>
+            <textarea id="khbd-weekly-memo" class="khbd-memo-textarea" rows="2" placeholder="Ghi nhớ việc của thầy trong tuần này (VD: Dặn 10A1 mang máy tính Casio; in đề KTTX1; kiểm tra bài tập về nhà Tổ 2...)"></textarea>
+          </div>
+        </div>
+
+        <!-- ================= VIEW 2: TRA CỨU TOÀN BỘ 18 TUẦN (FULL CURRICULUM VIEW) ================= -->
+        <div id="khbd-full-view" class="khbd-view-container" style="display: none;">
+          <div class="khbd-search-row">
+            <div class="search-input-wrap">
+              <input type="text" id="khbd-search-input" class="clean-search-input" placeholder="🔍 Tìm kiếm bài dạy, tên chương, KTTX, quy nạp, vectơ...">
+            </div>
+            <div class="search-stat-wrap">
+              <span id="khbd-full-count-badge" class="search-count-badge">Tổng cộng 18 tuần • 72 tiết</span>
+            </div>
+          </div>
+
+          <div class="khbd-full-table-wrap">
+            <table class="khbd-full-table">
+              <thead>
+                <tr>
+                  <th style="width: 70px; text-align: center;">Tuần</th>
+                  <th style="width: 140px;">Thời Gian</th>
+                  <th style="width: 85px; text-align: center;">Tiết PPCT</th>
+                  <th style="width: 220px;">Chương / Phân Phối</th>
+                  <th>Nội Dung Giảng Dạy & Ghi Chú</th>
+                  <th style="width: 110px; text-align: center;">Ký Sổ</th>
+                </tr>
+              </thead>
+              <tbody id="khbd-full-tbody">
+                <!-- Render từ JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ================= MODALS & POPUPS ================= -->
+
+  <!-- Modal Chấm Điểm 1 Em -->
+  <div id="modal-score" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-top">
+        <div class="stu-info-flex">
+          <div id="modal-student-avatar" class="avatar-circle">A</div>
+          <div>
+            <h3 id="modal-student-name">...</h3>
+            <span id="modal-student-sub" class="text-muted small">...</span>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <button id="btn-modal-view-history" class="btn-sub-action" type="button" title="Xem nhật ký đối chiếu của riêng học sinh này">
+            📜 Đối Chiếu
+          </button>
+          <button class="btn-modal-close" data-close="modal-score">&times;</button>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <div class="reasons-category">
+          <span class="cat-label text-success">🌟 CỘNG ĐIỂM TÍCH CỰC</span>
+          <div class="reasons-grid">
+            <button class="btn-reason-card pos" data-pts="1" data-reason="Phát biểu đúng ý / xây dựng bài">
+              <span>🙋‍♂️ Phát biểu đúng ý</span>
+              <span class="pts-badge">+1</span>
+            </button>
+            <button class="btn-reason-card pos" data-pts="1" data-reason="Lên bảng giải bài cơ bản đúng">
+              <span>🎯 Lên bảng giải đúng</span>
+              <span class="pts-badge">+1</span>
+            </button>
+            <button class="btn-reason-card pos" data-pts="2" data-reason="Cách giải độc đáo / Sáng tạo">
+              <span>💡 Cách giải độc đáo</span>
+              <span class="pts-badge">+2</span>
+            </button>
+            <button class="btn-reason-card pos" data-pts="2" data-reason="Thắng trong Đấu Trường 1 vs 1">
+              <span>⚔️ Thắng Đấu Trường</span>
+              <span class="pts-badge">+2</span>
+            </button>
+            <button class="btn-reason-card pos" data-pts="2" data-reason="Giúp đỡ bạn yếu cùng tiến">
+              <span>🤝 Giúp bạn cùng tiến</span>
+              <span class="pts-badge">+2</span>
+            </button>
+            <button class="btn-reason-card pos" data-pts="1" data-reason="BTVN làm đầy đủ, xuất sắc">
+              <span>✍️ BTVN xuất sắc</span>
+              <span class="pts-badge">+1</span>
+            </button>
+            <button class="btn-reason-card pos" data-pts="1" data-reason="Thưởng hoạt động nhóm xuất sắc">
+              <span>👥 Bài tập nhóm tốt</span>
+              <span class="pts-badge">+1</span>
+            </button>
+            <button class="btn-reason-card pos" data-pts="5" data-reason="Điểm 10 kiểm tra / Thành tích cao">
+              <span>⭐ Điểm 10 / Giải khó</span>
+              <span class="pts-badge">+5</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="reasons-category mt-3">
+          <span class="cat-label text-danger">⚠️ ĐIỂM NHẮC NHỞ</span>
+          <div class="reasons-grid">
+            <button class="btn-reason-card neg" data-pts="-2" data-reason="Chưa làm BTVN đầy đủ">
+              <span>❌ Chưa làm BTVN</span>
+              <span class="pts-badge">-2</span>
+            </button>
+            <button class="btn-reason-card neg" data-pts="-1" data-reason="Mất trật tự / Dùng điện thoại">
+              <span>📵 Mất trật tự / Dùng ĐT</span>
+              <span class="pts-badge">-1</span>
+            </button>
+            <button class="btn-reason-card neg" data-pts="-1" data-reason="Đi học muộn / Không chú ý">
+              <span>⏰ Đi học muộn</span>
+              <span class="pts-badge">-1</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Thẻ Điểm Tùy Chỉnh Do Thầy Tự Thêm -->
+        <div id="custom-reasons-wrapper" class="reasons-category mt-3" style="display: none;">
+          <span class="cat-label text-accent">✨ NÚT THẦY ĐÃ LƯU THÊM</span>
+          <div id="custom-reasons-grid" class="reasons-grid"></div>
+        </div>
+
+        <div class="custom-point-bar mt-3">
+          <input type="text" id="custom-reason-input" placeholder="Nhập lý do khác..." class="clean-input">
+          <input type="number" id="custom-pts-input" value="1" class="clean-input-pts" title="Số điểm (+ hoặc -)">
+          <button id="btn-submit-custom-point" class="btn-sub-action btn-add-stu" title="Ghi điểm 1 lần cho em này">Ghi Điểm</button>
+          <button id="btn-save-custom-reason" class="btn-sub-action btn-team-reward" title="Lưu thành nút bấm sẵn cho các lần sau">➕ Lưu Nút</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Bù Điểm Thưởng vào Cột Điểm Học Kỳ -->
+  <div id="modal-redeem-xp" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-top">
+        <h3 class="modal-title">🎁 Đổi Điểm Thưởng (XP) Vào Cột Điểm</h3>
+        <button class="btn-modal-close" data-close="modal-redeem-xp">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="mb-3">
+          Học sinh: <strong id="redeem-student-name">...</strong><br>
+          Điểm thưởng hiện có: <strong id="redeem-student-xp" class="text-success">0 XP</strong>
+        </p>
+        <div class="form-group-clean mb-3">
+          <label>Cộng điểm vào cột nào:</label>
+          <select id="redeem-target-column" class="clean-select">
+            <option value="dgtx1">ĐGTX 1</option>
+            <option value="dgtx2">ĐGTX 2</option>
+            <option value="dgtx3">ĐGTX 3</option>
+            <option value="dgtx4">ĐGTX 4</option>
+            <option value="dgtx5">ĐGTX 5</option>
+            <option value="attitude">Thái độ / Chuyên cần</option>
+          </select>
+        </div>
+        <div class="form-group-clean mb-3">
+          <label>Số điểm muốn bù (+):</label>
+          <input type="number" id="redeem-points-add" value="1" min="0.5" max="10" step="0.5" class="clean-input" style="width: 100px;">
+          <small class="text-muted d-block mt-1">(Tỉ lệ: 5 XP = +1 điểm vào cột được chọn)</small>
+        </div>
+        <div class="flex-gap mt-3">
+          <button id="btn-confirm-redeem" class="btn-timer-cta btn-start">Xác Nhận Bù Điểm</button>
+          <button class="btn-sub-action" data-close="modal-redeem-xp">Đóng</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Thêm Cột Điểm Tùy Chỉnh Cho Sổ Điểm -->
+  <div id="modal-add-column" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-top">
+        <h3 class="modal-title">➕ Thêm Cột Điểm Mới Vào Sổ Điểm</h3>
+        <button class="btn-modal-close" data-close="modal-add-column">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group-clean mb-3">
+          <label>Tên cột điểm mới:</label>
+          <input type="text" id="new-column-name" placeholder="VD: Khảo sát đầu năm, 15p bù, Bài tập dự án..." class="clean-input">
+        </div>
+        <div class="form-group-clean mb-3">
+          <label>Hệ số tính ĐTB:</label>
+          <select id="new-column-weight" class="clean-select">
+            <option value="1">Hệ số 1 (Đánh giá thường xuyên)</option>
+            <option value="2">Hệ số 2 (Đánh giá giữa kỳ)</option>
+            <option value="0">Không tính vào ĐTB (Cột tham khảo)</option>
+          </select>
+        </div>
+        <div class="flex-gap mt-3">
+          <button id="btn-confirm-add-col" class="btn-timer-cta btn-start">Tạo Cột Mới</button>
+          <button class="btn-sub-action" data-close="modal-add-column">Hủy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal QR Code Cho Học Sinh Tra Cứu -->
+  <div id="modal-qr" class="modal-overlay">
+    <div class="modal-box text-center">
+      <div class="modal-top">
+        <h3 class="modal-title">📱 Quét Mã QR Xem Bảng Điểm</h3>
+        <button class="btn-modal-close" data-close="modal-qr">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="text-muted small mb-3">Học sinh mở camera điện thoại quét mã này để vào xem bảng điểm & tra cứu cá nhân:</p>
+        <div id="qr-code-display" class="qr-container-box">
+          <!-- Render QR Code SVG -->
+        </div>
+        <p class="mt-3 font-weight-bold" style="font-size: 0.9rem; color: var(--primary-dark);">
+          https://hdsd-conictypst.pages.dev/conic-classroom
+        </p>
+        <div class="flex-gap mt-3" style="justify-content: center;">
+          <button id="btn-copy-share-link" class="btn-sub-action btn-team-reward">
+            📋 Sao Chép Link Kèm Điểm (Gửi Zalo Lớp)
+          </button>
+          <button class="btn-sub-action" data-close="modal-qr">Đóng</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Xác Thực Mã PIN Giáo Viên -->
+  <div id="modal-pin" class="modal-overlay">
+    <div class="modal-box text-center" style="max-width: 380px;">
+      <div class="modal-top">
+        <h3 class="modal-title">🔐 Xác Thực Giáo Viên</h3>
+        <button class="btn-modal-close" data-close="modal-pin">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="text-muted small mb-3">
+          Nhập mã PIN để mở khóa quyền ghi điểm và sửa sổ điểm.<br>
+          <span style="color: var(--accent-dark); font-weight: 700;">(Mã mặc định: 2026)</span>
+        </p>
+        <div class="form-group-clean mb-3">
+          <input type="password" id="input-teacher-pin" maxlength="8" placeholder="••••" class="clean-input text-center" style="font-size: 1.6rem; letter-spacing: 8px; font-weight: 800; max-width: 200px; margin: 0 auto;">
+        </div>
+        <div id="pin-error-msg" class="text-danger small mb-2" style="display: none; font-weight: 700;">Mã PIN không đúng! Vui lòng thử lại.</div>
+        <div class="flex-gap mt-3">
+          <button id="btn-submit-pin" class="btn-timer-cta btn-start flex-1">Mở Khóa</button>
+          <button class="btn-sub-action" data-close="modal-pin">Hủy</button>
+        </div>
+        <div class="mt-3 text-right">
+          <button id="btn-change-pin" class="btn-text-small" style="font-size: 0.75rem; color: var(--text-muted);">Đổi mã PIN mới?</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Thử Thách Vui Khi Chưa Thuộc Bài -->
+  <div id="modal-fun-challenge" class="modal-overlay">
+    <div class="modal-box text-center">
+      <div class="modal-top">
+        <h3 class="modal-title">🎭 THỬ THÁCH VUI 🎭</h3>
+        <button class="btn-modal-close" data-close="modal-fun-challenge">&times;</button>
+      </div>
+      <div class="modal-body">
+        <span style="font-size: 3.5rem; display: block; margin: 10px 0;">🎲</span>
+        <h3 id="fun-challenge-text" style="font-family: var(--font-heading); font-size: 1.25rem; color: var(--accent-dark); min-height: 50px; line-height: 1.4;">...</h3>
+        <p class="text-muted small mt-2">Dành cho bạn chưa thuộc bài hoặc quên công thức để tạo tiếng cười thư giãn cho cả lớp!</p>
+        <div class="flex-gap mt-4" style="justify-content: center;">
+          <button id="btn-spin-another-challenge" class="btn-timer-cta btn-start">🎲 Đổi Thử Thách Khác</button>
+          <button class="btn-sub-action" data-close="modal-fun-challenge">Đóng</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Chúc Mừng Thần May Mắn -->
+  <div id="modal-winner" class="modal-overlay">
+    <div class="modal-box text-center">
+      <div class="winner-emoji">🎉</div>
+      <span class="winner-sub">XIN CHÚC MỪNG BẠN</span>
+      <h2 id="winner-name" class="winner-headline">...</h2>
+      <div id="winner-team-badge" class="team-tag">Tổ 1</div>
+      <p class="mt-2 text-muted">Đã được thần may mắn gọi tên lên bảng!</p>
+      <div class="mt-4 flex-center gap-2 teacher-only">
+        <button class="btn-timer-cta btn-start" id="btn-winner-add-pts">➕ Thưởng Điểm (+2 XP)</button>
+        <button class="btn-sub-action" data-close="modal-winner">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Đấu Trường 1 vs 1 -->
+  <div id="modal-showdown" class="modal-overlay">
+    <div class="modal-box text-center modal-lg">
+      <div class="modal-top">
+        <h3 class="modal-title">⚔️ ĐẤU TRƯỜNG 1 VS 1 ⚔️</h3>
+        <button class="btn-modal-close" data-close="modal-showdown">&times;</button>
+      </div>
+      <div class="showdown-arena-clean">
+        <div class="contestant-card-clean">
+          <div class="avatar-circle-lg" id="sd-p1-avatar">A</div>
+          <h4 id="sd-p1-name">Học Sinh 1</h4>
+          <span id="sd-p1-team" class="team-tag">Tổ 1</span>
+          <button class="btn-sub-action btn-add-stu mt-3" id="btn-sd-p1-win">🏆 Em này thắng (+2đ)</button>
+        </div>
+        <div class="vs-text">VS</div>
+        <div class="contestant-card-clean">
+          <div class="avatar-circle-lg" id="sd-p2-avatar">B</div>
+          <h4 id="sd-p2-name">Học Sinh 2</h4>
+          <span id="sd-p2-team" class="team-tag">Tổ 3</span>
+          <button class="btn-sub-action btn-add-stu mt-3" id="btn-sd-p2-win">🏆 Em này thắng (+2đ)</button>
+        </div>
+      </div>
+      <button id="btn-re-showdown" class="btn-sub-action mt-3">🎲 Đổi 2 Bạn Khác</button>
+    </div>
+  </div>
+
+  <!-- Modal Lật Thẻ Bí Ẩn -->
+  <div id="modal-card-flip" class="modal-overlay">
+    <div class="modal-box text-center">
+      <div class="modal-top">
+        <h3 class="modal-title">🃏 LẬT THẺ BÍ ẨN</h3>
+        <button class="btn-modal-close" data-close="modal-card-flip">&times;</button>
+      </div>
+      <div class="flip-card-container" id="flip-card-element">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <span style="font-size: 3.5rem;">❓</span>
+            <p class="mt-2 text-muted">Chạm để lật bài</p>
+          </div>
+          <div class="flip-card-back">
+            <div class="avatar-circle-lg" id="flip-avatar">H</div>
+            <h4 id="flip-name" class="mt-2">...</h4>
+            <span id="flip-team" class="team-tag">Tổ 4</span>
+            <button class="btn-sub-action btn-add-stu mt-3" id="btn-flip-add-point">+1 Điểm May Mắn</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Xem Lịch Sử & Nhật Ký Đối Chiếu Toàn Diện -->
+  <div id="modal-history" class="modal-overlay">
+    <div class="modal-box modal-lg history-modal-box">
+      <div class="modal-top">
+        <div class="history-top-tabs">
+          <button id="tab-audit-all" class="audit-tab-btn active" data-audit-tab="all" type="button">
+            📜 Nhật Ký Toàn Lớp (<span id="audit-class-name">Lớp Hiện Tại</span>)
+          </button>
+          <button id="tab-audit-student" class="audit-tab-btn" data-audit-tab="student" type="button">
+            👤 Cá Nhân: <span id="history-student-name">Chưa chọn em</span>
+          </button>
+        </div>
+        <div class="modal-top-actions">
+          <button id="btn-export-audit-csv" class="btn-sub-action btn-team-reward" type="button" title="Xuất file CSV nhật ký để lưu trữ hoặc in đối chiếu">
+            📥 Xuất CSV
+          </button>
+          <button class="btn-modal-close" data-close="modal-history">&times;</button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <!-- View 1: Toàn Lớp Đối Chiếu (Audit Log) -->
+        <div id="audit-view-all" class="audit-view-pane active">
+          <div class="audit-filter-bar">
+            <div class="audit-search-wrap">
+              <input type="text" id="audit-search-input" placeholder="🔍 Tìm theo tên HS, STT, lý do, người chấm..." class="clean-input">
+            </div>
+            <div class="audit-selects-wrap">
+              <select id="audit-filter-team" class="clean-select-sm">
+                <option value="all">Tất cả các Tổ</option>
+                <option value="1">Tổ 1</option>
+                <option value="2">Tổ 2</option>
+                <option value="3">Tổ 3</option>
+                <option value="4">Tổ 4</option>
+              </select>
+              <select id="audit-filter-type" class="clean-select-sm">
+                <option value="all">Tất cả điểm (+ & -)</option>
+                <option value="pos">Chỉ điểm cộng (+)</option>
+                <option value="neg">Chỉ điểm trừ (-)</option>
+              </select>
+              <select id="audit-filter-semester" class="clean-select-sm">
+                <option value="all">Tất cả Học Kỳ</option>
+                <option value="hk1">Học Kỳ I</option>
+                <option value="hk2">Học Kỳ II</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="audit-summary-bar">
+            <span>Hiển thị <strong id="audit-log-count">0</strong> lượt ghi nhận</span>
+            <span class="audit-badge-free">⚡ Tự động lưu trữ an toàn & đối chiếu minh bạch</span>
+          </div>
+
+          <div class="audit-table-wrap">
+            <table class="audit-table" id="audit-table">
+              <thead>
+                <tr>
+                  <th style="width: 125px;">Thời Gian</th>
+                  <th style="min-width: 140px; text-align: left;">Học Sinh</th>
+                  <th style="width: 60px;">Tổ</th>
+                  <th style="width: 75px;">Điểm</th>
+                  <th style="min-width: 160px; text-align: left;">Lý Do</th>
+                  <th style="min-width: 150px; text-align: left;">Người Chấm</th>
+                </tr>
+              </thead>
+              <tbody id="audit-tbody">
+                <!-- Render từ JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- View 2: Cá Nhân Học Sinh -->
+        <div id="audit-view-student" class="audit-view-pane" style="display: none;">
+          <div id="history-timeline" class="clean-timeline"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- Modal Quản Lý Lớp & Excel -->
+  <div id="modal-manage-classes" class="modal-overlay">
+    <div class="modal-box modal-lg">
+      <div class="modal-top">
+        <h3 class="modal-title">⚙️ Quản Lý Lớp & Nhập Danh Sách</h3>
+        <button class="btn-modal-close" data-close="modal-manage-classes">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="clean-card mb-3 p-3">
+          <h4 class="box-title">Tạo Lớp Mới:</h4>
+          <div class="flex-gap">
+            <input type="text" id="new-class-name" placeholder="Tên lớp (VD: 10A2, 11B1, 12 chuyên)..." class="clean-input flex-1">
+            <button id="btn-create-class" class="btn-sub-action btn-add-stu">Tạo Lớp</button>
+          </div>
+        </div>
+
+        <div class="clean-card mb-3 p-3">
+          <h4 class="box-title">📋 Nhập Nhanh Từ Excel / Google Sheets:</h4>
+          <p class="text-muted small">Copy các cột từ Excel (Họ và tên, Tổ, SBD) rồi dán vào đây:</p>
+          <textarea id="paste-excel-input" rows="5" class="clean-textarea" placeholder="Ví dụ:
+Nguyễn Văn An	1	1001
+Trần Thị Bích	1	1002
+... (Mỗi em 1 dòng)"></textarea>
+          <div class="flex-gap mt-2">
+            <button id="btn-import-excel" class="btn-sub-action btn-team-reward">✅ Nạp Vào Lớp Này</button>
+            <button id="btn-load-sample" class="btn-sub-action">Nạp Lại Dữ Liệu Mẫu</button>
+          </div>
+        </div>
+        <div class="clean-card mb-3 p-3">
+          <h4 class="box-title">⭐ Cấp Quyền Lớp Trưởng (Ghi Điểm):</h4>
+          <p class="text-muted small">Chỉ định Gmail của bạn Lớp trưởng lớp này. Khi bạn đăng nhập Google, hệ thống tự động nhận diện và mở đúng lớp này để bạn ghi điểm:</p>
+          <div class="flex-gap">
+            <input type="email" id="input-monitor-email" placeholder="Gmail lớp trưởng (vd: lop_truong_12c13@gmail.com)" class="clean-input flex-1">
+            <button id="btn-save-monitor-email" class="btn-sub-action btn-add-stu">💾 Lưu</button>
+          </div>
+          <div id="monitor-email-status" class="small text-muted mt-1"></div>
+        </div>
+
+        <div class="clean-card p-3">
+          <h4 class="box-title">🔄 Học Kỳ II, Niên Khóa & Bảo Đảm 100% Miễn Phí Vĩnh Viễn:</h4>
+          <div class="quota-safety-badge mb-2">
+            <span>🛡️ <strong>Chính sách lưu trữ:</strong> Dữ liệu nhật ký cũ hơn 1 năm (365 ngày) được tự động dọn dẹp hoặc sao lưu tải về. Nhờ đó cơ sở dữ liệu luôn duy trì dưới 5 MB (&lt;1% hạn mức 500 MB của Supabase Free Tier), cam kết miễn phí 100% trọn đời.</span>
+          </div>
+          <div class="flex-gap flex-wrap">
+            <button id="btn-rollover-hk2" class="btn-sub-action btn-team-reward" type="button" title="Chuyển sang HK2: Giữ nguyên điểm HK1 và mở thi đua HK2 mới từ 0 XP">
+              🌸 Khởi Động Học Kỳ II
+            </button>
+            <button id="btn-export-backup" class="btn-sub-action" type="button" title="Tải toàn bộ dữ liệu ra file JSON an toàn trên máy tính">
+              📦 Tải Sao Lưu Niên Khóa (JSON)
+            </button>
+            <button id="btn-clean-old-history" class="btn-sub-action text-warning" type="button" title="Dọn dẹp các dòng nhật ký cũ hơn 365 ngày">
+              🧹 Dọn Dẹp Dữ Liệu &gt; 1 Năm
+            </button>
+            <button id="btn-reset-week" class="btn-sub-action text-danger" type="button">Đặt Lại Điểm Thưởng Tuần</button>
+            <button id="btn-import-backup" class="btn-sub-action" type="button">Khôi Phục (JSON)</button>
+            <input type="file" id="backup-file-input" style="display: none;" accept=".json">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Phân Bổ Tổ Học Tập -->
+  <div id="modal-assign-teams" class="modal-overlay">
+    <div class="modal-box modal-box-lg">
+      <div class="modal-top">
+        <h3 class="modal-title">🗂️ Phân Bổ Tổ Học Tập — <span id="assign-teams-class-name">Lớp 12C2</span></h3>
+        <button class="btn-modal-close" data-close="modal-assign-teams">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="quick-split-bar mb-3">
+          <span class="quick-lbl">Chia nhanh:</span>
+          <button id="btn-quick-split-alternate" class="btn-preset-sm" type="button" title="Gán lần lượt Tổ 1, 2, 3, 4 xen kẽ theo danh sách">⚡ Xen kẽ 1-2-3-4</button>
+          <button id="btn-quick-split-blocks" class="btn-preset-sm" type="button" title="Chia theo từng đoạn STT đều nhau">⚡ Theo đoạn STT</button>
+          <button id="btn-quick-split-random" class="btn-preset-sm" type="button" title="Trộn ngẫu nhiên 4 tổ đều quân số">🎲 Ngẫu nhiên</button>
+        </div>
+
+        <div class="team-summary-chips mb-3" id="team-summary-stats">
+          <!-- Render số lượng học sinh mỗi tổ -->
+        </div>
+
+        <div class="search-filter-row mb-3">
+          <input type="text" id="assign-teams-search" class="clean-input" placeholder="🔍 Gõ tên học sinh để tìm nhanh...">
+        </div>
+
+        <div class="assign-teams-container">
+          <div id="assign-teams-list" class="assign-teams-list">
+            <!-- Render danh sách từng bạn kèm 4 nút bấm chọn tổ -->
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="display: flex; justify-content: flex-end; gap: 8px; padding: 12px 20px; border-top: 1px solid var(--border);">
+        <button class="btn-modal-close btn-sub-action" data-close="modal-assign-teams" type="button">Đóng</button>
+        <button id="btn-save-assign-teams" class="btn-primary-action" type="button">💾 Lưu Cập Nhật Tổ</button>
+      </div>
+    </div>
+  </div>
+
+  
+  <!-- ================= MODAL QUẢN LÝ BAN CÁN SỰ & PHÂN QUYỀN LỚP ================= -->
+  <div id="modal-class-officers" class="modal-overlay">
+    <div class="modal-box modal-box-lg">
+      <div class="modal-top">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.6rem;">🛡️</span>
+          <div>
+            <h3 class="modal-title" style="margin: 0;">Ban Cán Sự & Phân Quyền Ghi Điểm</h3>
+            <p class="text-muted small" style="margin: 2px 0 0;">Cấp quyền cho Lớp trưởng, Lớp phó, Tổ trưởng dùng Gmail cá nhân để ghi điểm</p>
+          </div>
+        </div>
+        <button class="btn-modal-close" data-close="modal-class-officers">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- 1. Thanh chọn nhanh lớp trong Modal -->
+        <div class="officers-class-tabs" id="officers-class-tabs">
+          <!-- Render động [Lớp 12C2] [Lớp 12C13] [Lớp 10A8] [Lớp 10A1] từ JS -->
+        </div>
+
+        <!-- 2. Thẻ thông tin lớp đang chọn -->
+        <div class="officers-class-header-card">
+          <div class="officers-class-meta">
+            <h4 id="officers-target-class-name" class="officers-class-title">Lớp 12C2</h4>
+            <span id="officers-target-class-badge" class="badge-pill">47 học sinh</span>
+            <span id="officers-target-count-badge" class="badge-pill highlight">0 cán sự</span>
+          </div>
+          <div class="officers-cloud-status" id="officers-cloud-status">
+            <span class="status-dot online"></span> <span id="officers-cloud-status-text">Đã đồng bộ Cloud</span>
+          </div>
+        </div>
+
+        <!-- 3. Danh sách cán sự hiện tại của lớp -->
+        <div class="officers-list-section">
+          <div class="section-subtitle">
+            <strong>Danh Sách Cán Sự Được Cấp Quyền:</strong>
+            <small class="text-muted">(Bấm ✕ để thu hồi quyền bất kỳ lúc nào)</small>
+          </div>
+          <div id="officers-chips-container" class="officers-chips-grid">
+            <!-- Render động các chip cán sự -->
+          </div>
+        </div>
+
+        <!-- 4. Form Thêm Cán Sự Mới -->
+        <div class="officers-add-card">
+          <h5 class="box-title" style="font-size: 0.86rem; margin-bottom: 8px;">➕ Thêm Cán Sự Mới Cho Lớp:</h5>
+          <div class="officers-form-row">
+            <div class="officers-role-col">
+              <select id="officer-new-role" class="clean-select">
+                <option value="Lớp Trưởng">👑 Lớp Trưởng</option>
+                <option value="Lớp Phó Học Tập">⭐ Lớp Phó Học Tập</option>
+                <option value="Lớp Phó Kỷ Luật">📋 Lớp Phó Kỷ Luật</option>
+                <option value="Tổ Trưởng Tổ 1">🎖️ Tổ Trưởng Tổ 1</option>
+                <option value="Tổ Trưởng Tổ 2">🎖️ Tổ Trưởng Tổ 2</option>
+                <option value="Tổ Trưởng Tổ 3">🎖️ Tổ Trưởng Tổ 3</option>
+                <option value="Tổ Trưởng Tổ 4">🎖️ Tổ Trưởng Tổ 4</option>
+                <option value="Trợ Lý Tiết Học">✍️ Trợ Lý Tiết Học</option>
+              </select>
+            </div>
+            <div class="officers-email-col flex-1">
+              <input type="text" id="officer-new-email" class="clean-input" placeholder="Nhập Gmail của học sinh (vd: minh_anh@gmail.com)...">
+            </div>
+            <button id="btn-add-single-officer" class="btn-sub-action btn-add-stu" type="button">➕ Thêm</button>
+          </div>
+          <div class="officers-quick-paste-toggle">
+            <button id="btn-toggle-batch-paste" class="btn-text-small text-accent" type="button">📋 Dán nhiều Gmail cùng lúc (Batch Paste)...</button>
+          </div>
+          <div id="officers-batch-paste-box" class="officers-batch-box" style="display: none;">
+            <textarea id="officers-batch-emails" rows="3" class="clean-textarea" placeholder="Dán danh sách nhiều Gmail (phân cách bằng dấu phẩy, khoảng trắng hoặc mỗi email một dòng)..."></textarea>
+            <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 6px;">
+              <button id="btn-cancel-batch-paste" class="btn-sub-action" type="button">Hủy</button>
+              <button id="btn-apply-batch-paste" class="btn-sub-action btn-team-reward" type="button">✅ Thêm Tất Cả</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Hướng Dẫn Cơ Chế Bảo Mật & Đẳng Cấp -->
+        <div class="security-info-box">
+          <div class="sec-info-header">
+            <span class="sec-icon">💡</span>
+            <strong>Cơ Chế Phân Quyền Thông Minh:</strong>
+          </div>
+          <ul class="sec-info-list">
+            <li><strong>Giáo Viên (Admin):</strong> Toàn quyền trên cả 4 lớp, mở/khóa ghi điểm, sửa sơ đồ bàn học, xuất báo cáo tổng hợp.</li>
+            <li><strong>Ban Cán Sự:</strong> Chỉ cần bấm "Đăng nhập Google" bằng Gmail ở trên ➔ Hệ thống tự động mở đúng lớp, cấp quyền ghi điểm (+1, -1 XP phát biểu) mà không thể xem hay sửa dữ liệu của lớp khác.</li>
+            <li><strong>Đa email linh hoạt:</strong> Có thể cấp quyền cho nhiều bạn (Lớp trưởng + Lớp phó + 4 Tổ trưởng) cùng hỗ trợ Thầy quản lý lớp trong tiết học.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border);">
+        <button class="btn-sub-action" data-close="modal-class-officers" type="button" style="padding: 8px 18px; border-radius: 8px; font-weight: 600; font-size: 0.9rem;">✕ Đóng</button>
+        <div style="display: flex; gap: 10px;">
+          <button id="btn-sync-officers-cloud" class="btn-sub-action btn-cloud-sync" type="button" style="padding: 8px 18px; border-radius: 8px; font-weight: 700; font-size: 0.9rem;">☁️ Đồng Bộ Cloud</button>
+          <button id="btn-save-officers" class="btn-sub-action btn-save-primary" type="button" style="padding: 8px 18px; border-radius: 8px; font-weight: 700; font-size: 0.9rem;">💾 Lưu Cấu Hình Cán Sự</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Điểm Cả Tổ -->
+  <div id="modal-team-score" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-top">
+        <h3 class="modal-title">🤝 Cộng Điểm Cả Tổ</h3>
+        <button class="btn-modal-close" data-close="modal-team-score">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group-clean mb-3">
+          <label>Chọn Tổ:</label>
+          <select id="team-batch-select" class="clean-select">
+            <option value="1">Tổ 1</option>
+            <option value="2">Tổ 2</option>
+            <option value="3">Tổ 3</option>
+            <option value="4">Tổ 4</option>
+          </select>
+        </div>
+        <div class="reasons-grid">
+          <button class="btn-reason-card pos" data-team-pts="1" data-team-reason="Hoạt động nhóm tích cực">
+            <span>👥 Hoạt động nhóm tích cực</span>
+            <span class="pts-badge">+1</span>
+          </button>
+          <button class="btn-reason-card pos" data-team-pts="2" data-team-reason="Hoàn thành bài tập nhanh nhất">
+            <span>⚡ Giải bài nhanh nhất</span>
+            <span class="pts-badge">+2</span>
+          </button>
+          <button class="btn-reason-card pos" data-team-pts="1" data-team-reason="Nề nếp / Vệ sinh sạch sẽ">
+            <span>🧹 Nề nếp tốt</span>
+            <span class="pts-badge">+1</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Cấu Hình Supabase Cloud & Đăng Nhập -->
+  <div id="modal-supabase-cloud" class="modal-overlay">
+    <div class="modal-box modal-lg">
+      <div class="modal-top">
+        <h3 class="modal-title">☁️ Cấu Hình Supabase Cloud & Đăng Nhập Gmail</h3>
+        <button class="btn-modal-close" data-close="modal-supabase-cloud">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="clean-card mb-3 p-3">
+          <h4 class="box-title">1. Thông Tin Dự Án Supabase:</h4>
+          <p class="text-muted small">Lấy từ Supabase Dashboard > Project Settings > API:</p>
+          <div class="mb-2">
+            <label class="small text-muted font-bold" style="display:block; margin-bottom:4px;">Project URL:</label>
+            <input type="text" id="cfg-supabase-url" placeholder="https://your-project-ref.supabase.co" class="clean-input" style="width: 100%;">
+          </div>
+          <div class="mb-2">
+            <label class="small text-muted font-bold" style="display:block; margin-bottom:4px;">Anon Public Key:</label>
+            <input type="text" id="cfg-supabase-key" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." class="clean-input" style="width: 100%;">
+          </div>
+          <div class="flex-gap mt-3">
+            <button id="btn-save-cloud-config" class="btn-sub-action btn-team-reward">💾 Lưu Cấu Hình</button>
+            <button id="btn-test-cloud-config" class="btn-sub-action">⚡ Kiểm Tra Kết Nối</button>
+          </div>
+          <div id="cloud-connection-status" class="small mt-2"></div>
+        </div>
+
+        <div class="clean-card mb-3 p-3">
+          <h4 class="box-title">2. Đồng Bộ Dữ Liệu Lớp Học (Local ⇄ Cloud):</h4>
+          <p class="text-muted small">Đẩy toàn bộ các lớp (12C2, 12C13...) và học sinh hiện tại lên Cloud hoặc kéo dữ liệu mới nhất về máy:</p>
+          <div class="flex-gap">
+            <button id="btn-upload-to-cloud" class="btn-sub-action btn-add-stu">⬆️ Đẩy Dữ Liệu Lên Cloud</button>
+            <button id="btn-download-from-cloud" class="btn-sub-action">⬇️ Kéo Dữ Liệu Từ Cloud Về</button>
+          </div>
+          <div id="cloud-sync-status" class="small mt-2"></div>
+        </div>
+
+        <div class="clean-card p-3">
+          <h4 class="box-title">3. Kích Hoạt Database 1 Click (100% Miễn Phí):</h4>
+          <p class="text-muted small">1. Tạo project trên <a href="https://supabase.com" target="_blank" class="text-accent" style="text-decoration: underline;">supabase.com</a> (Free Tier).</p>
+          <p class="text-muted small">2. Mở <strong>SQL Editor</strong> trong Supabase, bấm nút bên dưới để Copy toàn bộ mã SQL rồi Dán vào Supabase và bấm <strong>Run</strong>:</p>
+          <div class="mt-2 mb-3" style="display: flex; gap: 8px;">
+            <button id="btn-copy-sql-schema" class="btn-sub-action btn-add-stu">📋 Copy Toàn Bộ Mã SQL Tạo Bảng</button>
+            <a href="supabase-schema.sql" target="_blank" class="btn-sub-action" style="text-decoration:none; display: inline-flex; align-items: center;">📄 Mở Xem File SQL</a>
+          </div>
+          <p class="text-muted small">3. Mở <strong>Authentication > Providers > Google</strong> để bật đăng nhập Gmail cho Thầy và Lớp trưởng.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Supabase JS CDN & Config -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="khbd-data.js"></script>
+  <script src="app.js"></script>
+
+  <!-- Modal Sổ Lịch Sử Các Nhiệm Vụ Học Tập -->
+  <div id="modal-missions-history" class="modal-overlay">
+    <div class="modal-box modal-lg">
+      <div class="modal-top">
+        <h3 class="modal-title">📜 Sổ Lịch Sử Nhiệm Vụ Học Tập — <span id="mission-history-class-name">...</span></h3>
+        <button class="btn-modal-close" data-close="modal-missions-history">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="missions-history-container" class="missions-history-list">
+          <!-- Render từ JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Cửa Hàng XP -->
+  <div id="modal-xp-store" class="modal-overlay">
+    <div class="modal-box modal-md" style="max-width: 600px;">
+      <div class="modal-top" style="background: linear-gradient(135deg, #f59e0b, #ea580c); color: white;">
+        <h3 class="modal-title" style="color: white;">🛒 Cửa Hàng XP Đổi Thưởng</h3>
+        <button class="btn-modal-close" data-close="modal-xp-store" style="color: white;">&times;</button>
+      </div>
+      <div class="modal-body" style="background: var(--bg-app);">
+        <div class="flex-between mb-3" style="align-items: center; background: white; padding: 12px 16px; border-radius: 12px; box-shadow: var(--shadow-card);">
+          <div>
+            <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">Đổi thưởng cho:</div>
+            <div id="xp-store-student-name" style="font-size: 1.25rem; font-weight: 800; color: var(--text-main); margin-top: 2px;">Nguyễn Văn A</div>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">Số dư XP:</div>
+            <div id="xp-store-student-points" style="font-size: 1.8rem; font-weight: 900; color: var(--accent-dark); line-height: 1;">120</div>
+          </div>
+        </div>
+        
+        <div id="xp-store-items-grid" class="xp-store-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; margin-top: 16px;">
+          <!-- Render from JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Cấp Huy Hiệu -->
+  <div id="modal-badge" class="modal-overlay">
+    <div class="modal-box modal-md" style="max-width: 600px;">
+      <div class="modal-top" style="background: linear-gradient(135deg, #10b981, #059669); color: white;">
+        <h3 class="modal-title" style="color: white;">🎖️ Cấp Huy Hiệu Danh Dự</h3>
+        <button class="btn-modal-close" data-close="modal-badge" style="color: white;">&times;</button>
+      </div>
+      <div class="modal-body" style="background: var(--bg-app);">
+        <div class="flex-between mb-3" style="align-items: center; background: white; padding: 12px 16px; border-radius: 12px; box-shadow: var(--shadow-card);">
+          <div>
+            <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">Cấp huy hiệu cho:</div>
+            <div id="badge-student-name" style="font-size: 1.25rem; font-weight: 800; color: var(--text-main); margin-top: 2px;">Nguyễn Văn A</div>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">Huy hiệu hiện có:</div>
+            <div id="badge-student-badges-count" style="font-size: 1.5rem; font-weight: 900; color: var(--primary-dark); line-height: 1;">0</div>
+          </div>
+        </div>
+        
+        <p class="text-muted small mb-3">Lưu ý: Huy hiệu giúp vinh danh trên thẻ mà không gây lạm phát XP quá mức.</p>
+
+        <div id="badge-items-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; margin-top: 16px;">
+          <!-- Render from JS -->
+        </div>
+      </div>
+    </div>
+  <!-- Modal Nhập Điểm Sang Math OMR -->
+  <div id="modal-import-omr" class="modal-overlay">
+    <div class="modal-box modal-lg" style="max-width: 820px;">
+      <div class="modal-top" style="background: linear-gradient(135deg, #10b981, #059669); color: white;">
+        <h3 class="modal-title" style="color: white;">📥 Nhập Điểm Từ Sang Math OMR Vào Sổ Điểm</h3>
+        <button class="btn-modal-close" data-close="modal-import-omr" style="color: white;">&times;</button>
+      </div>
+      <div class="modal-body" style="background: var(--bg-app); max-height: 80vh; overflow-y: auto;">
+        <div class="clean-card mb-3" style="background: white; padding: 16px; border-radius: 12px; box-shadow: var(--shadow-card);">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: center;">
+            <div>
+              <label style="font-weight: 700; font-size: 0.9rem; color: var(--text-main); display: block; margin-bottom: 6px;">
+                🎯 Cột điểm đích cần đổ vào:
+              </label>
+              <select id="omr-target-col" class="clean-select" style="width: 100%; padding: 10px; border-radius: 8px; font-weight: 600; border: 1px solid var(--border);">
+                <option value="dgtx1">ĐGTX 1 (Thường xuyên 1)</option>
+                <option value="dgtx2">ĐGTX 2 (Thường xuyên 2)</option>
+                <option value="dgtx3">ĐGTX 3 (Thường xuyên 3)</option>
+                <option value="dgtx4">ĐGTX 4 (Thường xuyên 4)</option>
+                <option value="dgtx5">ĐGTX 5 (Thường xuyên 5)</option>
+                <option value="giuaKy">Giữa Kỳ (Hệ số 2)</option>
+                <option value="cuoiKy">Cuối Kỳ (Hệ số 3)</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-weight: 700; font-size: 0.9rem; color: var(--text-main); display: block; margin-bottom: 6px;">
+                📁 Chọn file CSV xuất từ OMR:
+              </label>
+              <input type="file" id="omr-file-upload" accept=".csv,.txt" style="display: none;">
+              <button id="btn-trigger-omr-file" type="button" class="btn-sub-action" style="width: 100%; justify-content: center; padding: 10px; font-weight: 700; background: var(--bg-subtle);">
+                📂 Chọn Tệp CSV Từ Máy...
+              </button>
+            </div>
+          </div>
+          <div style="margin-top: 14px;">
+            <label style="font-weight: 600; font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">
+              Hoặc dán trực tiếp dữ liệu (SBD, Họ tên, Điểm):
+            </label>
+            <textarea id="omr-raw-paste" rows="3" class="clean-input" style="width: 100%; font-family: monospace; font-size: 0.85rem; padding: 10px; border: 1px solid var(--border); border-radius: 8px;" placeholder="Ví dụ:&#10;120201, Võ Phạm Quốc An, 8.5&#10;120202, Phan Huỳnh Anh, 9.0"></textarea>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px;">
+            <span class="text-muted small">💡 Hệ thống tự động so khớp theo <strong>SBD 6 chữ số</strong> của lớp hiện tại.</span>
+            <button id="btn-parse-omr-data" type="button" class="btn-sub-action btn-add-stu" style="font-weight: 700;">
+              🔍 Kiểm Tra & So Khớp SBD
+            </button>
+          </div>
+        </div>
+
+        <div id="omr-match-summary" style="display: none; margin-bottom: 12px;"></div>
+
+        <div id="omr-match-preview-wrap" style="display: none;">
+          <div style="max-height: 300px; overflow-y: auto; border: 1px solid var(--border); border-radius: 8px; background: white;">
+            <table class="clean-gradebook-table" style="width: 100%; font-size: 0.85rem;">
+              <thead>
+                <tr>
+                  <th style="width: 45px;">#</th>
+                  <th style="width: 80px;">SBD</th>
+                  <th style="text-align: left;">Họ và tên</th>
+                  <th style="width: 85px;">Điểm OMR</th>
+                  <th style="width: 85px;">Điểm Cũ</th>
+                  <th style="width: 120px;">Trạng Thái</th>
+                </tr>
+              </thead>
+              <tbody id="omr-preview-tbody">
+              </tbody>
+            </table>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px;">
+            <span class="text-muted small" id="omr-confirm-hint">Điểm hợp lệ sẽ được ghi vào sổ điểm và tính lại ĐTB môn ngay lập tức.</span>
+            <button id="btn-apply-omr-grades" type="button" class="btn-action-primary" style="background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 10px 24px; font-weight: 800; border-radius: 8px; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);">
+              ✅ Xác Nhận Đổ Điểm Vào Sổ Điểm
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Túi Đồ Thẻ Đặc Quyền (Inventory) -->
+  <div id="modal-inventory" class="modal-overlay">
+    <div class="modal-box modal-md" style="max-width: 620px;">
+      <div class="modal-top" style="background: linear-gradient(135deg, #6366f1, #4f46e5); color: white;">
+        <h3 class="modal-title" style="color: white;">🎒 Túi Đồ Thẻ Đặc Quyền</h3>
+        <button class="btn-modal-close" data-close="modal-inventory" style="color: white;">&times;</button>
+      </div>
+      <div class="modal-body" style="background: var(--bg-app);">
+        <div class="flex-between mb-3" style="align-items: center; background: white; padding: 12px 16px; border-radius: 12px; box-shadow: var(--shadow-card);">
+          <div>
+            <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">Chủ sở hữu:</div>
+            <div id="inventory-student-name" style="font-size: 1.25rem; font-weight: 800; color: var(--text-main); margin-top: 2px;">Nguyễn Văn A</div>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">Thẻ khả dụng:</div>
+            <div id="inventory-cards-count" style="font-size: 1.5rem; font-weight: 900; color: #4f46e5; line-height: 1;">0</div>
+          </div>
+        </div>
+
+        <p class="text-muted small mb-2">Thẻ bài đặc quyền đã đổi từ Cửa hàng XP. Nhấn "Kích hoạt thẻ" khi đến lượt sử dụng trong tiết học.</p>
+
+        <div id="inventory-cards-grid" style="display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 10px;">
+          <!-- Render danh sách thẻ đã mua -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Remote Điều Khiển Từ Xa (Teacher Mobile Clicker) -->
+  <div id="modal-remote-controller" class="modal-overlay">
+    <div class="modal-box modal-md" style="max-width: 520px;">
+      <div class="modal-top" style="background: linear-gradient(135deg, #0284c7, #0369a1); color: white;">
+        <h3 class="modal-title" style="color: white;">📱 Remote Điện Thoại Cho Thầy Giáo</h3>
+        <button class="btn-modal-close" data-close="modal-remote-controller" style="color: white;">&times;</button>
+      </div>
+      <div class="modal-body" style="background: var(--bg-app); text-align: center; padding: 20px;">
+        <div style="background: white; border-radius: 16px; padding: 20px; box-shadow: var(--shadow-card); margin-bottom: 16px;">
+          <div style="font-size: 1rem; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">
+            📲 Quét mã để mở Remote trên điện thoại của Thầy:
+          </div>
+          <div id="remote-qr-code-wrap" style="margin: 16px auto; display: flex; justify-content: center;">
+            <img id="remote-qr-img" src="" alt="QR Code Remote" style="width: 180px; height: 180px; border-radius: 12px; border: 1px solid var(--border);" />
+          </div>
+          <div style="margin-top: 10px;">
+            <a id="remote-link-url" href="" target="_blank" style="font-size: 0.85rem; color: var(--primary-dark); font-weight: 700; word-break: break-all; text-decoration: underline;">
+              ...
+            </a>
+          </div>
+          <div style="margin-top: 14px; display: flex; justify-content: center; gap: 10px;">
+            <button id="btn-copy-remote-link" class="btn-sub-action" type="button" style="font-weight: 700;">
+              📋 Sao chép Link Remote
+            </button>
+            <button id="btn-open-remote-tab" class="btn-sub-action" type="button" style="font-weight: 700;">
+              🚀 Mở Giao Diện Remote
+            </button>
+          </div>
+        </div>
+
+        <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 12px 16px; text-align: left; font-size: 0.85rem; color: #166534;">
+          <strong>💡 Cách dùng trong giờ dạy:</strong> Thầy quét mã bằng Camera/Zalo trên điện thoại. Khi thầy đi quanh lớp kiểm tra, bấm cộng điểm hoặc bấm quay số trên điện thoại, TV máy chiếu trên bục giảng sẽ tự động nhảy số tức thì qua Supabase Realtime!
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Giao diện Remote Độc Lập Cho Màn Hình Điện Thoại (Kích hoạt khi có ?mode=remote) -->
+  <div id="mobile-remote-app" style="display: none; position: fixed; inset: 0; background: #0f172a; color: #f8fafc; z-index: 999999; flex-direction: column; overflow: hidden; font-family: var(--font-body);">
+    <!-- Remote Header -->
+    <div style="background: #1e293b; padding: 12px 16px; border-bottom: 1px solid #334155; display: flex; justify-content: space-between; align-items: center;">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="font-size: 1.4rem;">📱</span>
+        <div>
+          <div style="font-weight: 800; font-size: 1rem; color: #38bdf8;">Conic Remote</div>
+          <div id="remote-class-badge" style="font-size: 0.75rem; color: #94a3b8;">Đang kết nối TV...</div>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <select id="remote-class-select" style="background: #334155; color: white; border: 1px solid #475569; padding: 6px 10px; border-radius: 8px; font-weight: 700; font-size: 0.85rem;">
+          <!-- Render Lớp -->
+        </select>
+        <button id="btn-remote-exit" style="background: #ef4444; color: white; border: none; padding: 6px 10px; border-radius: 8px; font-weight: 700; font-size: 0.8rem; cursor: pointer;">Thoát</button>
+      </div>
+    </div>
+
+    <!-- Remote Student Search & List -->
+    <div style="padding: 10px 14px; background: #1e293b; border-bottom: 1px solid #334155;">
+      <input type="text" id="remote-search-student" placeholder="🔍 Tìm nhanh học sinh theo tên hoặc số..." style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid #475569; background: #0f172a; color: white; font-size: 0.95rem;" />
+    </div>
+
+    <div id="remote-students-list" style="flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 8px;">
+      <!-- Danh sách thẻ học sinh dạng nút to -->
+    </div>
+
+    <!-- Remote Bottom Action Bar -->
+    <div style="background: #1e293b; border-top: 1px solid #334155; padding: 10px 14px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
+      <button id="btn-remote-spin" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; border: none; padding: 12px 6px; border-radius: 10px; font-weight: 800; font-size: 0.88rem; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;">
+        <span style="font-size: 1.2rem;">🎡</span>
+        <span>Quay TV</span>
+      </button>
+      <button id="btn-remote-timer" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; padding: 12px 6px; border-radius: 10px; font-weight: 800; font-size: 0.88rem; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;">
+        <span style="font-size: 1.2rem;">⏱️</span>
+        <span>Timer 3p</span>
+      </button>
+      <button id="btn-remote-switch-tab" style="background: linear-gradient(135deg, #6366f1, #4f46e5); color: white; border: none; padding: 12px 6px; border-radius: 10px; font-weight: 800; font-size: 0.88rem; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;">
+        <span style="font-size: 1.2rem;">🏆</span>
+        <span>Vinh Danh</span>
+      </button>
+    </div>
+  </div>
+
+</body>
+</html>

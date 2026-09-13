@@ -367,6 +367,67 @@
             border-color: #38bdf8;
         }
 
+        .snippet-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 8px;
+            background: #f8fafc;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--line, #e2e8f0);
+        }
+
+        .tool-btn {
+            padding: 5px 9px;
+            font-size: 0.76rem;
+            font-weight: 600;
+            border-radius: 6px;
+            border: 1px solid #cbd5e1;
+            background: #ffffff;
+            color: #1e293b;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.15s;
+        }
+
+        .tool-btn:hover {
+            background: #0ea5e9;
+            color: #ffffff;
+            border-color: #0284c7;
+        }
+
+        .cheat-sheet-box {
+            margin-top: 14px;
+            background: #ffffff;
+            border: 1px solid var(--line, #e2e8f0);
+            border-radius: 8px;
+            padding: 12px 14px;
+            font-size: 0.8rem;
+        }
+
+        .cheat-sheet-box table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .cheat-sheet-box td {
+            padding: 5px 6px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .cheat-sheet-box code {
+            color: #0284c7;
+            font-weight: 700;
+            background: #f0f9ff;
+            padding: 1px 4px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+
         .bbt-action-btn {
             padding: 9px 16px;
             font-size: 0.85rem;
@@ -410,6 +471,127 @@
             max-width: 100%;
             height: auto;
             filter: drop-shadow(0 2px 8px rgba(0,0,0,0.06));
+        /* AI Prompt Modal */
+        .ai-modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+        .ai-modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .ai-modal-card {
+            background: #ffffff;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 840px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            transform: scale(0.96);
+            transition: transform 0.2s ease;
+        }
+        .ai-modal-overlay.active .ai-modal-card {
+            transform: scale(1);
+        }
+        .ai-modal-header {
+            padding: 18px 24px;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .ai-modal-header h2 {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #ffffff;
+        }
+        .ai-modal-close {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: #ffffff;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.15s;
+        }
+        .ai-modal-close:hover {
+            background: rgba(255, 255, 255, 0.35);
+        }
+        .ai-modal-body {
+            padding: 20px 24px;
+            overflow-y: auto;
+            flex: 1;
+        }
+        .ai-modal-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 8px;
+        }
+        .ai-tab-btn {
+            background: #f1f5f9;
+            border: none;
+            padding: 8px 16px;
+            font-size: 0.86rem;
+            font-weight: 700;
+            color: #475569;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .ai-tab-btn.active {
+            background: #7c3aed;
+            color: #ffffff;
+        }
+        .ai-prompt-box {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 16px;
+            border-radius: 10px;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.83rem;
+            line-height: 1.45;
+            max-height: 280px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            border: 1px solid #334155;
+            margin-bottom: 14px;
+        }
+        .ai-modal-footer {
+            padding: 14px 24px;
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
         }
     </style>
 </head>
@@ -433,348 +615,466 @@
 
     <main class="tool-page">
         <div class="hero-banner">
-            <h1><i data-lucide="shapes"></i> Kho Hình Học Live — sang-math-graphics</h1>
-            <p>Showcase toàn bộ thư viện <strong>typst-pkg-sang-math-graphics</strong>: Hình 2D, Hình Khối 3D, Phẳng Hoá, Geodesic, Xác Suất, Tích Phân. Bấm <strong>⚡ Sửa &amp; Render Live</strong> ở bất kỳ mẫu để chỉnh sửa ngay tức thì!</p>
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px;">
+                <div style="flex:1; min-width:300px;">
+                    <h1><i data-lucide="shapes"></i> Kho Mẫu Hình Học Live Playground — SANG-MATH GEOM</h1>
+                    <p>Hệ thống hình học sư phạm chuẩn mực THPT: Chóp &amp; Lăng Trụ SGK, 5 Khối Đa Diện Đều Platon, Toạ Độ Oxyz Chuẩn 12, Khối Tròn Xoay, Hình Phẳng 2D, Đồ Thị &amp; Phẳng Hoá Geodesic. Bấm <strong>⚡ Sửa Live</strong> để nạp vào Workbench biên tập tức thì!</p>
+                </div>
+                <div>
+                    <button class="btn-ai-prompt" onclick="openAiPromptModal()" style="background:linear-gradient(135deg, #7c3aed, #db2777); color:#fff; border:none; padding:12px 20px; border-radius:10px; font-weight:800; font-size:0.95rem; cursor:pointer; display:flex; align-items:center; gap:8px; box-shadow:0 4px 15px rgba(124,58,237,0.35); transition:transform 0.15s, box-shadow 0.15s;">
+                        <i data-lucide="bot"></i> 🤖 Dạy AI Tự Động Vẽ Hình
+                    </button>
+                </div>
+            </div>
         </div>
 
         <div class="tab-nav">
-            <button class="tab-btn active" onclick="switchTab('tab-2d')"><i data-lucide="triangle"></i> 1. Hình Phẳng 2D</button>
-            <button class="tab-btn" onclick="switchTab('tab-3d-poly')"><i data-lucide="box"></i> 2. Hình Khối &amp; Lăng Trụ</button>
-            <button class="tab-btn" onclick="switchTab('tab-solids')"><i data-lucide="cylinder"></i> 3. Khối Tròn Xoay</button>
-            <button class="tab-btn" onclick="switchTab('tab-conics')"><i data-lucide="orbit"></i> 4. Đường Conic 2D</button>
-            <button class="tab-btn" onclick="switchTab('tab-phanghoa')"><i data-lucide="layers"></i> 5. Phẳng Hoá &amp; Geodesic</button>
-            <button class="tab-btn" onclick="switchTab('tab-special')"><i data-lucide="git-branch"></i> 6. Xác Suất &amp; Tích Phân</button>
+            <button class="tab-btn active" onclick="switchTab('tab-thao-tac')"><i data-lucide="sparkles" style="color:#f59e0b;"></i> 🔥 Vẽ Tiếp &amp; Thiết Diện Thực Chiến</button>
+            <button class="tab-btn" onclick="switchTab('tab-3d-sgk')"><i data-lucide="pyramid"></i> 1. Chóp &amp; Lăng Trụ THPT</button>
+            <button class="tab-btn" onclick="switchTab('tab-platonic')"><i data-lucide="gem"></i> 2. Đa Diện Đều Platon</button>
+            <button class="tab-btn" onclick="switchTab('tab-oxyz')"><i data-lucide="compass"></i> 3. Toạ Độ Oxyz Chuẩn 12</button>
+            <button class="tab-btn" onclick="switchTab('tab-solids')"><i data-lucide="cylinder"></i> 4. Khối Tròn Xoay</button>
+            <button class="tab-btn" onclick="switchTab('tab-2d')"><i data-lucide="triangle"></i> 5. Hình Phẳng 2D</button>
+            <button class="tab-btn" onclick="switchTab('tab-conics')"><i data-lucide="trending-up"></i> 6. Đồ Thị &amp; Conic</button>
+            <button class="tab-btn" onclick="switchTab('tab-phanghoa')"><i data-lucide="layers"></i> 7. Phẳng Hoá &amp; Xác Suất</button>
         </div>
 
-        <!-- TAB 1: HÌNH PHẲNG 2D -->
-        <div id="tab-2d" class="tab-content active">
+        <!-- TAB ĐẶC BIỆT: THAO TÁC NỐI TIẾP & BÀI TOÁN THỰC CHIẾN SGK -->
+        <div id="tab-thao-tac" class="tab-content active">
             <div class="gallery-grid">
                 <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="triangle" style="color:#0ea5e9;"></i> Tam Giác ABC (Tọa Độ)</h3><span class="bbt-live-kicker">tri-xyz</span></div>
-                    <div class="card-preview" id="prev-tri-xyz">⏳</div>
-                    <pre class="card-code"><code id="code-tri-xyz">#tri-xyz((0,0), (5,0), (2, 3.5), labels: ("A", "B", "C"), scale: 0.8cm)</code></pre>
-                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-tri-xyz')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-tri-xyz')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                    <div class="card-head"><h3><i data-lucide="scissors" style="color:#e11d48;"></i> Dựng Thiết Diện (AMN) Cắt Chóp S.ABC</h3><span class="bbt-live-kicker">Thiết diện qua 3 điểm</span></div>
+                    <div class="card-preview" id="prev-thao-tac-thiet-dien">⏳</div>
+                    <pre class="card-code"><code id="code-thao-tac-thiet-dien">#sm-chop-sabc(
+  w: 7.5cm,
+  duong-cao: "dinh-a",
+  them: (ctx, d) => {
+    let M = sm-trung-diem(d.S, d.B)
+    let N = sm-ti-le(d.S, d.C, 2/3)
+    sm-diem(ctx, M, ten: $M$, huong: "dong")
+    sm-diem(ctx, N, ten: $N$, huong: "tay")
+    sm-thiet-dien(ctx, (d.A, M, N), to: rgb(239, 68, 68, 40))
+    sm-doan(ctx, d.A, M, mau: sm-red, day: 1.2pt)
+    sm-doan(ctx, M, N, mau: sm-red, day: 1.2pt)
+    sm-doan(ctx, d.A, N, dut: true, mau: sm-red, day: 1.2pt)
+  }
+)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-thao-tac-thiet-dien')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-thao-tac-thiet-dien')"><i data-lucide="zap"></i> Sửa Live</button></div>
                 </div>
+
                 <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="triangle" style="color:#10b981;"></i> Tam Giác Vuông Tại A</h3><span class="bbt-live-kicker">tri-right</span></div>
-                    <div class="card-preview" id="prev-tri-right">⏳</div>
-                    <pre class="card-code"><code id="code-tri-right">#tri-right(leg1: 4, leg2: 3, labels: ("A", "B", "C"), right-angle-vertex: "A", scale: 0.8cm)</code></pre>
-                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-tri-right')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-tri-right')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                    <div class="card-head"><h3><i data-lucide="compass" style="color:#0ea5e9;"></i> Góc Giữa SC và Đáy (ABCD) — 45°</h3><span class="bbt-live-kicker">Góc đường và mặt</span></div>
+                    <div class="card-preview" id="prev-thao-tac-goc-day">⏳</div>
+                    <pre class="card-code"><code id="code-thao-tac-goc-day">#sm-chop-sabcd-sa(
+  w: 7.5cm,
+  them: (ctx, d) => {
+    let O = sm-giao-diem(d.A, d.C, d.B, d.D)
+    sm-diem(ctx, O, ten: $O$, huong: "duoi", bk: 2pt)
+    sm-doan(ctx, d.A, d.C, dut: true, mau: sm-blue, day: 0.9pt)
+    sm-doan(ctx, d.B, d.D, dut: true, mau: sm-blue, day: 0.9pt)
+    sm-doan(ctx, d.S, O, dut: true, mau: sm-blue, day: 1pt)
+    sm-ve-goc(ctx, d.S, d.C, d.A, r: 0.7, ten: $45 degree$, mau: sm-red)
+    sm-ve-goc-vuong(ctx, d.S, d.A, d.C, r: 0.3, mau: sm-red)
+  }
+)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-thao-tac-goc-day')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-thao-tac-goc-day')"><i data-lucide="zap"></i> Sửa Live</button></div>
                 </div>
+
                 <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="rectangle-horizontal" style="color:#8b5cf6;"></i> Hình Chữ Nhật ABCD</h3><span class="bbt-live-kicker">rect-abc</span></div>
-                    <div class="card-preview" id="prev-rect-abc">⏳</div>
-                    <pre class="card-code"><code id="code-rect-abc">#rect-abc(width: 5, height: 3, labels: ("A", "B", "C", "D"), scale: 0.8cm)</code></pre>
-                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-rect-abc')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-rect-abc')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                    <div class="card-head"><h3><i data-lucide="ruler" style="color:#10b981;"></i> Khoảng Cách Từ A Đến (SBC) — AH ⊥ SB</h3><span class="bbt-live-kicker">Hình chiếu vuông góc</span></div>
+                    <div class="card-preview" id="prev-thao-tac-khoang-cach">⏳</div>
+                    <pre class="card-code"><code id="code-thao-tac-khoang-cach">#sm-chop-sabc(
+  w: 7.5cm,
+  duong-cao: "dinh-a",
+  them: (ctx, d) => {
+    sm-ve-goc-vuong(ctx, d.A, d.B, d.C, r: 0.28, mau: sm-blue)
+    let H = sm-hinh-chieu(d.A, d.S, d.B)
+    sm-diem(ctx, H, ten: $H$, huong: "dong", bk: 2pt, mau: sm-red)
+    sm-doan(ctx, d.A, H, dut: true, mau: sm-red, day: 1.2pt)
+    sm-ve-goc-vuong(ctx, d.A, H, d.S, r: 0.24, mau: sm-red)
+  }
+)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-thao-tac-khoang-cach')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-thao-tac-khoang-cach')"><i data-lucide="zap"></i> Sửa Live</button></div>
                 </div>
+
                 <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="square" style="color:#dc2626;"></i> Hình Vuông ABCD</h3><span class="bbt-live-kicker">square</span></div>
-                    <div class="card-preview" id="prev-square">⏳</div>
-                    <pre class="card-code"><code id="code-square">#square(a: 4, labels: ("A", "B", "C", "D"), scale: 0.8cm)</code></pre>
-                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-square')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-square')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                    <div class="card-head"><h3><i data-lucide="crosshair" style="color:#8b5cf6;"></i> Giao Điểm I Của Đường SO &amp; Mặt (AMN)</h3><span class="bbt-live-kicker">Giao điểm đường &amp; mặt</span></div>
+                    <div class="card-preview" id="prev-thao-tac-giao-diem">⏳</div>
+                    <pre class="card-code"><code id="code-thao-tac-giao-diem">#sm-chop-sabcd-sa(
+  w: 7.5cm,
+  them: (ctx, d) => {
+    let O = sm-giao-diem(d.A, d.C, d.B, d.D)
+    let M = sm-trung-diem(d.S, d.C)
+    let I = sm-giao-diem(d.S, O, d.A, M)
+    sm-diem(ctx, O, ten: $O$, huong: "duoi")
+    sm-diem(ctx, M, ten: $M$, huong: "dong")
+    sm-diem(ctx, I, ten: $I$, huong: "tay", bk: 2.2pt, mau: sm-red)
+    sm-doan(ctx, d.A, d.C, dut: true, mau: gray)
+    sm-doan(ctx, d.B, d.D, dut: true, mau: gray)
+    sm-doan(ctx, d.S, O, dut: true, mau: gray)
+    sm-doan(ctx, d.A, M, dut: true, mau: sm-red, day: 1.2pt)
+  }
+)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-thao-tac-giao-diem')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-thao-tac-giao-diem')"><i data-lucide="zap"></i> Sửa Live</button></div>
                 </div>
+
                 <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="circle" style="color:#0ea5e9;"></i> Đường Tròn Ngoại Tiếp</h3><span class="bbt-live-kicker">circle-circumcircle</span></div>
-                    <div class="card-preview" id="prev-circumcircle">⏳</div>
-                    <pre class="card-code"><code id="code-circumcircle">#circle-circumcircle((-2.5, 0), (2.5, 0), (0, 3.5), label: "O", scale: 0.8cm)</code></pre>
-                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-circumcircle')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-circumcircle')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                    <div class="card-head"><h3><i data-lucide="box" style="color:#059669;"></i> Thiết Diện Song Song Lăng Trụ Tam Giác</h3><span class="bbt-live-kicker">Thiết diện song song</span></div>
+                    <div class="card-preview" id="prev-thao-tac-lang-tru">⏳</div>
+                    <pre class="card-code"><code id="code-thao-tac-lang-tru">#sm-lang-tru-tam-giac(
+  w: 7cm,
+  them: (ctx, d) => {
+    let M = sm-trung-diem(d.A, d.B)
+    let N = sm-trung-diem(d.B, d.C)
+    let M1 = sm-trung-diem(d.A1, d.B1)
+    let N1 = sm-trung-diem(d.B1, d.C1)
+    sm-diem(ctx, M, ten: $M$, huong: "duoi")
+    sm-diem(ctx, N, ten: $N$, huong: "duoi-phai")
+    sm-diem(ctx, M1, ten: $M'$, huong: "tren-trai")
+    sm-diem(ctx, N1, ten: $N'$, huong: "tren-phai")
+    sm-thiet-dien(ctx, (M, N, N1, M1), to: rgb(5, 150, 105, 40), mau: sm-green)
+    sm-doan(ctx, M, N, mau: sm-green, day: 1.2pt)
+    sm-doan(ctx, N, N1, mau: sm-green, day: 1.2pt)
+    sm-doan(ctx, N1, M1, mau: sm-green, day: 1.2pt)
+    sm-doan(ctx, M1, M, mau: sm-green, day: 1.2pt)
+  }
+)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-thao-tac-lang-tru')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-thao-tac-lang-tru')"><i data-lucide="zap"></i> Sửa Live</button></div>
                 </div>
+
                 <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="circle-dot" style="color:#10b981;"></i> Đường Tròn Nội Tiếp</h3><span class="bbt-live-kicker">circle-incircle</span></div>
-                    <div class="card-preview" id="prev-incircle">⏳</div>
-                    <pre class="card-code"><code id="code-incircle">#circle-incircle((-2.5, 0), (2.5, 0), (0, 3.5), label: "I", scale: 0.8cm)</code></pre>
-                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-incircle')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-incircle')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                    <div class="card-head"><h3><i data-lucide="cone" style="color:#d97706;"></i> Thiết Diện Qua Trục Của Hình Nón (SAB)</h3><span class="bbt-live-kicker">Mặt phẳng qua trục</span></div>
+                    <div class="card-preview" id="prev-thao-tac-non-truc">⏳</div>
+                    <pre class="card-code"><code id="code-thao-tac-non-truc">#sm-non(
+  w: 6.5cm,
+  them: (ctx, d) => {
+    sm-thiet-dien(ctx, (d.S, d.T1, d.T2), to: rgb(217, 119, 6, 40), mau: sm-amber)
+    sm-doan(ctx, d.T1, d.T2, dut: true, mau: sm-amber, day: 1.2pt)
+    sm-doan(ctx, d.S, d.O, dut: true, mau: sm-red, day: 1pt)
+    sm-ve-goc-vuong(ctx, d.S, d.O, d.T2, r: 0.25, mau: sm-red)
+    sm-diem(ctx, d.T1, ten: $A$, huong: "trai")
+    sm-diem(ctx, d.T2, ten: $B$, huong: "phai")
+  }
+)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-thao-tac-non-truc')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-thao-tac-non-truc')"><i data-lucide="zap"></i> Sửa Live</button></div>
                 </div>
+
                 <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="circle" style="color:#f59e0b;"></i> Đường Tròn Tâm O</h3><span class="bbt-live-kicker">circle-desc</span></div>
-                    <div class="card-preview" id="prev-circle-desc">⏳</div>
-                    <pre class="card-code"><code id="code-circle-desc">#circle-desc(center: (0, 0), radius: 2.5, label: "O", scale: 0.8cm)</code></pre>
-                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-circle-desc')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-circle-desc')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                    <div class="card-head"><h3><i data-lucide="cylinder" style="color:#7c3aed;"></i> Thiết Diện Qua Trục Của Hình Trụ</h3><span class="bbt-live-kicker">Mặt phẳng qua trục trụ</span></div>
+                    <div class="card-preview" id="prev-thao-tac-tru-mat-cat">⏳</div>
+                    <pre class="card-code"><code id="code-thao-tac-tru-mat-cat">#sm-tru(
+  w: 6.5cm,
+  them: (ctx, d) => {
+    let A = (-1.5, 0)
+    let B = (1.5, 0)
+    let A1 = (-1.5, 3.2)
+    let B1 = (1.5, 3.2)
+    sm-thiet-dien(ctx, (A, B, B1, A1), to: rgb(124, 58, 237, 35), mau: sm-purple)
+    sm-doan(ctx, A, B, dut: true, mau: sm-purple, day: 1.1pt)
+    sm-doan(ctx, A1, B1, mau: sm-purple, day: 1.1pt)
+    sm-diem(ctx, A, ten: $A$, huong: "trai")
+    sm-diem(ctx, B, ten: $B$, huong: "phai")
+    sm-diem(ctx, A1, ten: $A'$, huong: "trai")
+    sm-diem(ctx, B1, ten: $B'$, huong: "phai")
+  }
+)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-thao-tac-tru-mat-cat')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-thao-tac-tru-mat-cat')"><i data-lucide="zap"></i> Sửa Live</button></div>
                 </div>
+
                 <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="move-diagonal" style="color:#8b5cf6;"></i> Đoạn Thẳng Có Nhãn</h3><span class="bbt-live-kicker">dashed-seg</span></div>
-                    <div class="card-preview" id="prev-dashed-seg">⏳</div>
-                    <pre class="card-code"><code id="code-dashed-seg">#dashed-seg((0,0), (5,0), scale: 0.8cm)</code></pre>
-                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-dashed-seg')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-dashed-seg')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                    <div class="card-head"><h3><i data-lucide="compass" style="color:#2563eb;"></i> Mặt Phẳng Đoạn Chắn &amp; Đường Cao CH</h3><span class="bbt-live-kicker">Tọa độ Oxyz chuẩn 12</span></div>
+                    <div class="card-preview" id="prev-thao-tac-oxyz-mat-phang">⏳</div>
+                    <pre class="card-code"><code id="code-thao-tac-oxyz-mat-phang">#sm-oxyz(
+  w: 7.5cm,
+  x: 5, y: 6, z: 6,
+  them: (ctx, t3) => {
+    let A = t3((3, 0, 0))
+    let B = t3((0, 4, 0))
+    let C = t3((0, 0, 4))
+    sm-diem(ctx, A, ten: $A(3;0;0)$, huong: "duoi-trai")
+    sm-diem(ctx, B, ten: $B(0;4;0)$, huong: "duoi")
+    sm-diem(ctx, C, ten: $C(0;0;4)$, huong: "trai")
+    sm-thiet-dien(ctx, (A, B, C), to: rgb(59, 130, 246, 35), mau: sm-blue)
+    sm-doan(ctx, A, B, mau: sm-blue, day: 1.2pt)
+    sm-doan(ctx, B, C, mau: sm-blue, day: 1.2pt)
+    sm-doan(ctx, C, A, mau: sm-blue, day: 1.2pt)
+    let H = sm-hinh-chieu(C, A, B)
+    sm-diem(ctx, H, ten: $H$, huong: "duoi", bk: 2pt, mau: sm-red)
+    sm-doan(ctx, C, H, mau: sm-red, day: 1.2pt)
+    sm-ve-goc-vuong(ctx, C, H, B, r: 0.25, mau: sm-red)
+  }
+)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-thao-tac-oxyz-mat-phang')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-thao-tac-oxyz-mat-phang')"><i data-lucide="zap"></i> Sửa Live</button></div>
                 </div>
             </div>
         </div>
 
-        <!-- TAB 2: HÌNH KHỐI 3D -->
-        <div id="tab-3d-poly" class="tab-content">
+        <!-- TAB 1: HÌNH KHỐI & LĂNG TRỤ THPT -->
+        <div id="tab-3d-sgk" class="tab-content">
             <div class="gallery-grid">
                 <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="pyramid" style="color:#0ea5e9;"></i> Hình Chóp S.ABC</h3><span class="bbt-live-kicker">chop-sabc</span></div>
+                    <div class="card-head"><h3><i data-lucide="pyramid" style="color:#0ea5e9;"></i> Chóp S.ABC (SA ⊥ Đáy)</h3><span class="bbt-live-kicker">sm-chop-sabc</span></div>
                     <div class="card-preview" id="prev-chop-sabc">⏳</div>
-                    <pre class="card-code"><code id="code-chop-sabc">#chop-sabc(labels: ("S", "A", "B", "C"), hidden: ("AC",), scale: 0.8cm)</code></pre>
+                    <pre class="card-code"><code id="code-chop-sabc">#sm-chop-sabc(w: 6.8cm)</code></pre>
                     <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-chop-sabc')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-chop-sabc')"><i data-lucide="zap"></i> Sửa Live</button></div>
                 </div>
                 <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="pyramid" style="color:#dc2626;"></i> Hình Chóp S.ABCD</h3><span class="bbt-live-kicker">chop-sabcd</span></div>
-                    <div class="card-preview" id="prev-chop-sabcd">⏳</div>
-                    <pre class="card-code"><code id="code-chop-sabcd">#chop-sabcd(labels: ("S", "A", "B", "C", "D"), hidden: ("AB", "AD", "AC"), scale: 0.8cm)</code></pre>
-                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-chop-sabcd')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-chop-sabcd')"><i data-lucide="zap"></i> Sửa Live</button></div>
-                </div>
-                <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="pyramid" style="color:#8b5cf6;"></i> Chóp Đều S.ABC (Đường Cao)</h3><span class="bbt-live-kicker">chop-sabc-deu</span></div>
+                    <div class="card-head"><h3><i data-lucide="pyramid" style="color:#10b981;"></i> Chóp Đều S.ABC (Trọng Tâm O)</h3><span class="bbt-live-kicker">sm-chop-sabc-deu</span></div>
                     <div class="card-preview" id="prev-chop-sabc-deu">⏳</div>
-                    <pre class="card-code"><code id="code-chop-sabc-deu">#chop-sabc-deu(S-height: 6, labels: ("S", "A", "B", "C", "O"), scale: 0.8cm)</code></pre>
+                    <pre class="card-code"><code id="code-chop-sabc-deu">#sm-chop-sabc-deu(w: 6.8cm)</code></pre>
                     <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-chop-sabc-deu')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-chop-sabc-deu')"><i data-lucide="zap"></i> Sửa Live</button></div>
                 </div>
                 <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="pyramid" style="color:#f59e0b;"></i> Chóp Đều S.ABCD (Đường Cao)</h3><span class="bbt-live-kicker">chop-sabcd-deu</span></div>
+                    <div class="card-head"><h3><i data-lucide="pyramid" style="color:#8b5cf6;"></i> Chóp Đều S.ABCD (Tâm O)</h3><span class="bbt-live-kicker">sm-chop-sabcd-deu</span></div>
                     <div class="card-preview" id="prev-chop-sabcd-deu">⏳</div>
-                    <pre class="card-code"><code id="code-chop-sabcd-deu">#chop-sabcd-deu(S-height: 7, labels: ("S", "A", "B", "C", "D", "O"), scale: 0.8cm)</code></pre>
+                    <pre class="card-code"><code id="code-chop-sabcd-deu">#sm-chop-sabcd-deu(w: 7.2cm)</code></pre>
                     <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-chop-sabcd-deu')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-chop-sabcd-deu')"><i data-lucide="zap"></i> Sửa Live</button></div>
                 </div>
                 <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="box" style="color:#10b981;"></i> Lăng Trụ ABC.A'B'C'</h3><span class="bbt-live-kicker">lang-tru-abc</span></div>
-                    <div class="card-preview" id="prev-lang-tru">⏳</div>
-                    <pre class="card-code"><code id="code-lang-tru">#lang-tru-abc(labels: ("A", "B", "C", "A'", "B'", "C'"), hidden: ("AA'", "AB"), scale: 0.8cm)</code></pre>
-                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-lang-tru')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-lang-tru')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                    <div class="card-head"><h3><i data-lucide="pyramid" style="color:#f59e0b;"></i> Chóp Tứ Giác S.ABCD (SA ⊥ Đáy)</h3><span class="bbt-live-kicker">sm-chop-sabcd-sa</span></div>
+                    <div class="card-preview" id="prev-chop-sabcd-sa">⏳</div>
+                    <pre class="card-code"><code id="code-chop-sabcd-sa">#sm-chop-sabcd-sa(w: 7.2cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-chop-sabcd-sa')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-chop-sabcd-sa')"><i data-lucide="zap"></i> Sửa Live</button></div>
                 </div>
                 <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="layers" style="color:#0ea5e9;"></i> Trục Tọa Độ Oxyz</h3><span class="bbt-live-kicker">axis-xyz</span></div>
-                    <div class="card-preview" id="prev-axis-xyz">⏳</div>
-                    <pre class="card-code"><code id="code-axis-xyz">#axis-xyz(x-len: 3, y-len: 4, z-len: 4, labels: ("x", "y", "z", "O"), scale: 0.8cm)</code></pre>
-                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-axis-xyz')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-axis-xyz')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                    <div class="card-head"><h3><i data-lucide="pyramid" style="color:#e11d48;"></i> Chóp Đáy Hình Thang</h3><span class="bbt-live-kicker">sm-chop-day-hinh-thang</span></div>
+                    <div class="card-preview" id="prev-chop-day-hinh-thang">⏳</div>
+                    <pre class="card-code"><code id="code-chop-day-hinh-thang">#sm-chop-day-hinh-thang(w: 7.2cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-chop-day-hinh-thang')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-chop-day-hinh-thang')"><i data-lucide="zap"></i> Sửa Live</button></div>
                 </div>
                 <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="move-3d" style="color:#dc2626;"></i> Nón Pseudo 3D</h3><span class="bbt-live-kicker">pseudo-cone</span></div>
-                    <div class="card-preview" id="prev-pseudo-cone">⏳</div>
-                    <pre class="card-code"><code id="code-pseudo-cone">#pseudo-cone(radius-x: 3, radius-y: 1, height: 6, label-S: "S", label-O: "O", scale: 0.8cm)</code></pre>
-                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-pseudo-cone')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-pseudo-cone')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                    <div class="card-head"><h3><i data-lucide="box" style="color:#0ea5e9;"></i> Lăng Trụ Tam Giác ABC.A'B'C'</h3><span class="bbt-live-kicker">sm-lang-tru-tam-giac</span></div>
+                    <div class="card-preview" id="prev-lang-tru-tam-giac">⏳</div>
+                    <pre class="card-code"><code id="code-lang-tru-tam-giac">#sm-lang-tru-tam-giac(w: 6.8cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-lang-tru-tam-giac')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-lang-tru-tam-giac')"><i data-lucide="zap"></i> Sửa Live</button></div>
                 </div>
                 <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="move-3d" style="color:#8b5cf6;"></i> Trụ Pseudo 3D</h3><span class="bbt-live-kicker">pseudo-cylinder</span></div>
-                    <div class="card-preview" id="prev-pseudo-cyl">⏳</div>
-                    <pre class="card-code"><code id="code-pseudo-cyl">#pseudo-cylinder(O1: (0,0), O2: (0,6), radius-x: 3, radius-y: 1, label-O1: "O", label-O2: "O'", scale: 0.8cm)</code></pre>
-                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-pseudo-cyl')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-pseudo-cyl')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                    <div class="card-head"><h3><i data-lucide="box" style="color:#10b981;"></i> Lăng Trụ Tứ Giác Đều</h3><span class="bbt-live-kicker">sm-lang-tru-tu-giac</span></div>
+                    <div class="card-preview" id="prev-lang-tru-tu-giac">⏳</div>
+                    <pre class="card-code"><code id="code-lang-tru-tu-giac">#sm-lang-tru-tu-giac(w: 7.2cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-lang-tru-tu-giac')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-lang-tru-tu-giac')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="package" style="color:#8b5cf6;"></i> Hình Hộp Chữ Nhật (Đường Chéo)</h3><span class="bbt-live-kicker">sm-hop-chu-nhat</span></div>
+                    <div class="card-preview" id="prev-hop-chu-nhat">⏳</div>
+                    <pre class="card-code"><code id="code-hop-chu-nhat">#sm-hop-chu-nhat(w: 7.2cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-hop-chu-nhat')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-hop-chu-nhat')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="square" style="color:#e11d48;"></i> Hình Lập Phương ABCD.A'B'C'D'</h3><span class="bbt-live-kicker">sm-lap-phuong</span></div>
+                    <div class="card-preview" id="prev-lap-phuong">⏳</div>
+                    <pre class="card-code"><code id="code-lap-phuong">#sm-lap-phuong(w: 6.8cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-lap-phuong')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-lap-phuong')"><i data-lucide="zap"></i> Sửa Live</button></div>
                 </div>
             </div>
         </div>
 
-        <!-- TAB 3: KHỐI TRÒN XOAY -->
+        <!-- TAB 2: ĐA DIỆN ĐỀU PLATON & PHỨC HỢP -->
+        <div id="tab-platonic" class="tab-content">
+            <div class="gallery-grid">
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="gem" style="color:#0ea5e9;"></i> Khối Tứ Diện Đều (4 Mặt)</h3><span class="bbt-live-kicker">sm-tu-dien-deu</span></div>
+                    <div class="card-preview" id="prev-tu-dien-deu">⏳</div>
+                    <pre class="card-code"><code id="code-tu-dien-deu">#sm-tu-dien-deu(w: 6.5cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-tu-dien-deu')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-tu-dien-deu')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="box" style="color:#10b981;"></i> Khối Lập Phương (6 Mặt)</h3><span class="bbt-live-kicker">sm-khoi-lap-phuong</span></div>
+                    <div class="card-preview" id="prev-khoi-lap-phuong">⏳</div>
+                    <pre class="card-code"><code id="code-khoi-lap-phuong">#sm-khoi-lap-phuong(w: 6.5cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-khoi-lap-phuong')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-khoi-lap-phuong')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="gem" style="color:#8b5cf6;"></i> Khối Bát Diện Đều (8 Mặt)</h3><span class="bbt-live-kicker">sm-bat-dien-deu</span></div>
+                    <div class="card-preview" id="prev-bat-dien-deu">⏳</div>
+                    <pre class="card-code"><code id="code-bat-dien-deu">#sm-bat-dien-deu(w: 6.5cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-bat-dien-deu')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-bat-dien-deu')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="sparkles" style="color:#f59e0b;"></i> Khối 12 Mặt Đều (Dodecahedron)</h3><span class="bbt-live-kicker">sm-12-mat-deu</span></div>
+                    <div class="card-preview" id="prev-12-mat-deu">⏳</div>
+                    <pre class="card-code"><code id="code-12-mat-deu">#sm-12-mat-deu(w: 6.8cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-12-mat-deu')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-12-mat-deu')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="sparkles" style="color:#0284c7;"></i> Khối 20 Mặt Đều (Icosahedron)</h3><span class="bbt-live-kicker">sm-20-mat-deu</span></div>
+                    <div class="card-preview" id="prev-20-mat-deu">⏳</div>
+                    <pre class="card-code"><code id="code-20-mat-deu">#sm-20-mat-deu(w: 6.8cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-20-mat-deu')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-20-mat-deu')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="pyramid" style="color:#e11d48;"></i> Chóp Cụt Tam Giác Đều</h3><span class="bbt-live-kicker">sm-chop-cuc-tam-giac</span></div>
+                    <div class="card-preview" id="prev-chop-cuc-tam-giac">⏳</div>
+                    <pre class="card-code"><code id="code-chop-cuc-tam-giac">#sm-chop-cuc-tam-giac(w: 6.8cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-chop-cuc-tam-giac')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-chop-cuc-tam-giac')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="pyramid" style="color:#10b981;"></i> Chóp Cụt Tứ Giác Đều</h3><span class="bbt-live-kicker">sm-chop-cuc-tu-giac</span></div>
+                    <div class="card-preview" id="prev-chop-cuc-tu-giac">⏳</div>
+                    <pre class="card-code"><code id="code-chop-cuc-tu-giac">#sm-chop-cuc-tu-giac(w: 7.2cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-chop-cuc-tu-giac')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-chop-cuc-tu-giac')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="hexagon" style="color:#8b5cf6;"></i> Chóp Lục Giác Đều (6 Mặt Bên)</h3><span class="bbt-live-kicker">sm-chop-luc-giac-deu</span></div>
+                    <div class="card-preview" id="prev-chop-luc-giac-deu">⏳</div>
+                    <pre class="card-code"><code id="code-chop-luc-giac-deu">#sm-chop-luc-giac-deu(w: 6.8cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-chop-luc-giac-deu')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-chop-luc-giac-deu')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: TOẠ ĐỘ OXYZ CHUẨN 12 -->
+        <div id="tab-oxyz" class="tab-content">
+            <div class="gallery-grid">
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="compass" style="color:#0ea5e9;"></i> Trục Oxyz Chia Vạch &amp; Lưới xy</h3><span class="bbt-live-kicker">sm-oxyz</span></div>
+                    <div class="card-preview" id="prev-oxyz">⏳</div>
+                    <pre class="card-code"><code id="code-oxyz">#sm-oxyz(w: 7.5cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-oxyz')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-oxyz')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="box" style="color:#10b981;"></i> Điểm M &amp; Hộp Gióng Oxyz</h3><span class="bbt-live-kicker">sm-oxyz-hop-giong</span></div>
+                    <div class="card-preview" id="prev-oxyz-hop-giong">⏳</div>
+                    <pre class="card-code"><code id="code-oxyz-hop-giong">#sm-oxyz-hop-giong(pt: (4, 5, 5), w: 7.5cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-oxyz-hop-giong')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-oxyz-hop-giong')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="layers" style="color:#e11d48;"></i> Mặt Phẳng Đoạn Chắn &amp; Vết Cắt ABC</h3><span class="bbt-live-kicker">sm-oxyz-mat-phang-chan</span></div>
+                    <div class="card-preview" id="prev-oxyz-mat-phang-chan">⏳</div>
+                    <pre class="card-code"><code id="code-oxyz-mat-phang-chan">#sm-oxyz-mat-phang-chan(a: 3.5, b: 4.5, c: 4.5, w: 7.5cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-oxyz-mat-phang-chan')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-oxyz-mat-phang-chan')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: KHỐI TRÒN XOAY & TÍCH PHÂN -->
         <div id="tab-solids" class="tab-content">
             <div class="gallery-grid">
                 <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="cylinder" style="color:#0ea5e9;"></i> Hình Trụ 3D (Anchor C.top/bottom)</h3><span class="bbt-live-kicker">draw-cylinder</span></div>
-                    <div class="card-preview" id="prev-cylinder">⏳</div>
-                    <pre class="card-code"><code id="code-cylinder">#cetz.canvas(length: 0.8cm, {
-  import cetz.draw: *
-  draw-cylinder(name: "C", radius: 2, height: 4, center: (0,0,0), stroke: rgb("0057b8"))
-  content("C.top-center", [$O'$], anchor: "south")
-  content("C.bottom-center", [$O$], anchor: "north")
-})</code></pre>
-                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-cylinder')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-cylinder')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                    <div class="card-head"><h3><i data-lucide="triangle" style="color:#e11d48;"></i> Hình Nón (Đường Sinh &amp; Bán Kính)</h3><span class="bbt-live-kicker">sm-non</span></div>
+                    <div class="card-preview" id="prev-non">⏳</div>
+                    <pre class="card-code"><code id="code-non">#sm-non(r: 2.0, cao: 3.8, w: 6.5cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-non')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-non')"><i data-lucide="zap"></i> Sửa Live</button></div>
                 </div>
                 <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="triangle" style="color:#e91e63;"></i> Hình Nón 3D (Anchor N.top/center)</h3><span class="bbt-live-kicker">draw-cone</span></div>
-                    <div class="card-preview" id="prev-cone">⏳</div>
-                    <pre class="card-code"><code id="code-cone">#cetz.canvas(length: 0.8cm, {
-  import cetz.draw: *
-  draw-cone(name: "N", radius: 2.5, height: 4, center: (0,0,0), stroke: rgb("cc2200"))
-  circle("N.top", radius: 0.06, fill: red)
-  content("N.top", [$S$], anchor: "south")
-  content("N.center", [$O$], anchor: "north")
-})</code></pre>
-                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-cone')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-cone')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                    <div class="card-head"><h3><i data-lucide="cylinder" style="color:#0ea5e9;"></i> Hình Trụ (Trục O-O' &amp; 2 Đáy)</h3><span class="bbt-live-kicker">sm-tru</span></div>
+                    <div class="card-preview" id="prev-tru">⏳</div>
+                    <pre class="card-code"><code id="code-tru">#sm-tru(r: 1.8, cao: 3.6, w: 6.5cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-tru')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-tru')"><i data-lucide="zap"></i> Sửa Live</button></div>
                 </div>
                 <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="globe-2" style="color:#10b981;"></i> Hình Cầu 3D (Xích Đạo+Kinh Tuyến)</h3><span class="bbt-live-kicker">draw-sphere</span></div>
-                    <div class="card-preview" id="prev-sphere">⏳</div>
-                    <pre class="card-code"><code id="code-sphere">#cetz.canvas(length: 0.8cm, {
-  import cetz.draw: *
-  draw-sphere(name: "S", radius: 2.5, center: (0,0,0), stroke: rgb("1a7a2e"))
-  content("S.center", [$O$], anchor: "north")
-})</code></pre>
-                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-sphere')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-sphere')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                    <div class="card-head"><h3><i data-lucide="globe" style="color:#10b981;"></i> Hình Cầu (Kinh Tuyến &amp; Vĩ Tuyến)</h3><span class="bbt-live-kicker">sm-cau</span></div>
+                    <div class="card-preview" id="prev-cau">⏳</div>
+                    <pre class="card-code"><code id="code-cau">#sm-cau(r: 2.2, w: 6.5cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-cau')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-cau')"><i data-lucide="zap"></i> Sửa Live</button></div>
                 </div>
                 <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="rotate-3d" style="color:#e91e63;"></i> Xoắn Ốc Trên Trụ (Kiến Bò)</h3><span class="bbt-live-kicker">draw-helix</span></div>
-                    <div class="card-preview" id="prev-helix">⏳</div>
-                    <pre class="card-code"><code id="code-helix">#cetz.canvas(length: 0.8cm, {
-  import cetz.draw: *
-  draw-cylinder(name: "C", radius: 1.8, height: 4, center: (0,0,0), stroke: rgb("888"))
-  draw-helix(center: (0,0,0), radius: 1.8, height: 4, loops: 2, stroke: rgb("cc2200") + 1.2pt)
-})</code></pre>
-                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-helix')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-helix')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                    <div class="card-head"><h3><i data-lucide="disc" style="color:#8b5cf6;"></i> Khối Tròn Xoay Tích Phân Ox</h3><span class="bbt-live-kicker">sm-khoi-tron-xoay</span></div>
+                    <div class="card-preview" id="prev-khoi-tron-xoay">⏳</div>
+                    <pre class="card-code"><code id="code-khoi-tron-xoay">#sm-khoi-tron-xoay(f: x => calc.sqrt(x), a: 0, b: 4, w: 6.8cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-khoi-tron-xoay')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-khoi-tron-xoay')"><i data-lucide="zap"></i> Sửa Live</button></div>
                 </div>
-                <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="zap" style="color:#0ea5e9;"></i> Xoắn Ốc Trên Nón (Conical Helix)</h3><span class="bbt-live-kicker">draw-conical-helix</span></div>
-                    <div class="card-preview" id="prev-conical-helix">⏳</div>
-                    <pre class="card-code"><code id="code-conical-helix">#cetz.canvas(length: 0.8cm, {
-  import cetz.draw: *
-  draw-cone(radius: 3, height: 5, center: (0,0,0), stroke: rgb("888"))
-  draw-conical-helix(center: (0,0,0), base-radius: 3, height: 5, loops: 3, stroke: rgb("cc2200") + 1.2pt)
-})</code></pre>
-                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-conical-helix')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-conical-helix')"><i data-lucide="zap"></i> Sửa Live</button></div>
-                </div>
-
             </div>
         </div>
 
-        <!-- TAB 4: ĐƯỜNG CONIC 2D -->
+        <!-- TAB 5: HÌNH HỌC PHẲNG 2D -->
+        <div id="tab-2d" class="tab-content">
+            <div class="gallery-grid">
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="triangle" style="color:#e11d48;"></i> Tam Giác &amp; Trực Tâm H (3 Đường Cao)</h3><span class="bbt-live-kicker">sm-tam-giac-truc-tam</span></div>
+                    <div class="card-preview" id="prev-tam-giac-truc-tam">⏳</div>
+                    <pre class="card-code"><code id="code-tam-giac-truc-tam">#sm-tam-giac-truc-tam(w: 6.5cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-tam-giac-truc-tam')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-tam-giac-truc-tam')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="circle" style="color:#0ea5e9;"></i> Đường Tròn Ngoại Tiếp Tâm O</h3><span class="bbt-live-kicker">sm-tam-giac-ngoai-tiep</span></div>
+                    <div class="card-preview" id="prev-tam-giac-ngoai-tiep">⏳</div>
+                    <pre class="card-code"><code id="code-tam-giac-ngoai-tiep">#sm-tam-giac-ngoai-tiep(w: 6.5cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-tam-giac-ngoai-tiep')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-tam-giac-ngoai-tiep')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="circle-dot" style="color:#10b981;"></i> Đường Tròn Nội Tiếp Tâm I</h3><span class="bbt-live-kicker">sm-tam-giac-noi-tiep</span></div>
+                    <div class="card-preview" id="prev-tam-giac-noi-tiep">⏳</div>
+                    <pre class="card-code"><code id="code-tam-giac-noi-tiep">#sm-tam-giac-noi-tiep(w: 6.5cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-tam-giac-noi-tiep')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-tam-giac-noi-tiep')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="move-diagonal" style="color:#8b5cf6;"></i> Tiếp Tuyến Từ Điểm M Đến (O; R)</h3><span class="bbt-live-kicker">sm-tiep-tuyen-duong-tron</span></div>
+                    <div class="card-preview" id="prev-tiep-tuyen-duong-tron">⏳</div>
+                    <pre class="card-code"><code id="code-tiep-tuyen-duong-tron">#sm-tiep-tuyen-duong-tron(w: 6.8cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-tiep-tuyen-duong-tron')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-tiep-tuyen-duong-tron')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 6: ĐỒ THỊ HÀM SỐ & ĐƯỜNG CONIC -->
         <div id="tab-conics" class="tab-content">
             <div class="gallery-grid">
                 <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="orbit" style="color:#0ea5e9;"></i> Parabol 2D</h3><span class="bbt-live-kicker">draw-parabola</span></div>
-                    <div class="card-preview" id="prev-parabola">⏳</div>
-                    <pre class="card-code"><code id="code-parabola">#cetz.canvas(length: 0.8cm, {
-  import cetz.draw: *
-  line((-3.5,0),(3.5,0), mark: (end: ">"), stroke: 0.7pt)
-  line((0,-1.5),(0,3.5), mark: (end: ">"), stroke: 0.7pt)
-  draw-parabola(a: 0.5, b: 0, c: -1, x-range: (-2.8, 2.8), stroke: rgb("1565C0"))
-})</code></pre>
-                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-parabola')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-parabola')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                    <div class="card-head"><h3><i data-lucide="trending-up" style="color:#0ea5e9;"></i> Đồ Thị Bậc 3 (Gióng Cực Trị)</h3><span class="bbt-live-kicker">sm-do-thi-bac-ba</span></div>
+                    <div class="card-preview" id="prev-do-thi-bac-ba">⏳</div>
+                    <pre class="card-code"><code id="code-do-thi-bac-ba">#sm-do-thi-bac-ba(1, -3, 0, 2, w: 7cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-do-thi-bac-ba')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-do-thi-bac-ba')"><i data-lucide="zap"></i> Sửa Live</button></div>
                 </div>
                 <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="disc" style="color:#10b981;"></i> Elip 2D (Tiêu Điểm)</h3><span class="bbt-live-kicker">draw-ellipse</span></div>
+                    <div class="card-head"><h3><i data-lucide="trending-up" style="color:#8b5cf6;"></i> Đồ Thị Bậc 4 Trùng Phương</h3><span class="bbt-live-kicker">sm-do-thi-trung-phuong</span></div>
+                    <div class="card-preview" id="prev-do-thi-trung-phuong">⏳</div>
+                    <pre class="card-code"><code id="code-do-thi-trung-phuong">#sm-do-thi-trung-phuong(1, -2, -1, w: 7cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-do-thi-trung-phuong')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-do-thi-trung-phuong')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="git-commit" style="color:#e11d48;"></i> Đồ Thị Phân Thức (2 Tiệm Cận)</h3><span class="bbt-live-kicker">sm-do-thi-phan-thuc</span></div>
+                    <div class="card-preview" id="prev-do-thi-phan-thuc">⏳</div>
+                    <pre class="card-code"><code id="code-do-thi-phan-thuc">#sm-do-thi-phan-thuc(2, 1, 1, -1, w: 7cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-do-thi-phan-thuc')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-do-thi-phan-thuc')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="activity" style="color:#10b981;"></i> Parabol Bậc Hai (Đỉnh I)</h3><span class="bbt-live-kicker">sm-do-thi-bac-hai</span></div>
+                    <div class="card-preview" id="prev-do-thi-bac-hai">⏳</div>
+                    <pre class="card-code"><code id="code-do-thi-bac-hai">#sm-do-thi-bac-hai(1, -2, -1, w: 7cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-do-thi-bac-hai')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-do-thi-bac-hai')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                </div>
+                <div class="card-item">
+                    <div class="card-head"><h3><i data-lucide="orbit" style="color:#8b5cf6;"></i> Đường Elip (2 Tiêu Điểm)</h3><span class="bbt-live-kicker">sm-elip</span></div>
                     <div class="card-preview" id="prev-ellipse">⏳</div>
-                    <pre class="card-code"><code id="code-ellipse">#cetz.canvas(length: 0.8cm, {
-  import cetz.draw: *
-  line((-3.5,0),(3.5,0), mark: (end: ">"), stroke: 0.7pt)
-  line((0,-2.5),(0,2.5), mark: (end: ">"), stroke: 0.7pt)
-  draw-ellipse(a: 3, b: 2, stroke: rgb("6a1b9a") + 1.2pt)
-})</code></pre>
+                    <pre class="card-code"><code id="code-ellipse">#sm-elip(a: 3, b: 2)</code></pre>
                     <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-ellipse')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-ellipse')"><i data-lucide="zap"></i> Sửa Live</button></div>
                 </div>
                 <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="activity" style="color:#e91e63;"></i> Hyperbol 2D (Tiệm Cận)</h3><span class="bbt-live-kicker">draw-hyperbola</span></div>
+                    <div class="card-head"><h3><i data-lucide="activity" style="color:#e11d48;"></i> Đường Hyperbol (2 Tiệm Cận)</h3><span class="bbt-live-kicker">sm-hyperbol</span></div>
                     <div class="card-preview" id="prev-hyperbola">⏳</div>
-                    <pre class="card-code"><code id="code-hyperbola">#cetz.canvas(length: 0.8cm, {
-  import cetz.draw: *
-  line((-4,0),(4,0), mark: (end: ">"), stroke: 0.7pt)
-  line((0,-3),(0,3), mark: (end: ">"), stroke: 0.7pt)
-  draw-hyperbola(a: 1.5, b: 1, x-range: (1.6, 4), stroke: rgb("cc2200") + 1.2pt)
-})</code></pre>
+                    <pre class="card-code"><code id="code-hyperbola">#sm-hyperbol(a: 1.8, b: 1.2)</code></pre>
                     <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-hyperbola')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-hyperbola')"><i data-lucide="zap"></i> Sửa Live</button></div>
-                </div>
-                <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="trending-up" style="color:#f59e0b;"></i> Đồ Thị Hàm Bậc 3</h3><span class="bbt-live-kicker">plot-cubic</span></div>
-                    <div class="card-preview" id="prev-plot-cubic">⏳</div>
-                    <pre class="card-code"><code id="code-plot-cubic">#plot-cubic(scale: 0.8cm)</code></pre>
-                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-plot-cubic')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-plot-cubic')"><i data-lucide="zap"></i> Sửa Live</button></div>
-                </div>
-                <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="trending-up" style="color:#8b5cf6;"></i> Đồ Thị Hàm Phân Thức</h3><span class="bbt-live-kicker">plot-rational</span></div>
-                    <div class="card-preview" id="prev-plot-rational">⏳</div>
-                    <pre class="card-code"><code id="code-plot-rational">#plot-rational(scale: 0.8cm)</code></pre>
-                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-plot-rational')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-plot-rational')"><i data-lucide="zap"></i> Sửa Live</button></div>
-                </div>
-                <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="mountain-snow" style="color:#0ea5e9;"></i> Mặt Yên Ngựa (Saddle)</h3><span class="bbt-live-kicker">draw-saddle</span></div>
-                    <div class="card-preview" id="prev-saddle">⏳</div>
-                    <pre class="card-code"><code id="code-saddle">#cetz.canvas(length: 1.2cm, {
-  import cetz.draw: *
-  draw-saddle(x-range: (-2, 2), y-range: (-2, 2), samples: 12, stroke: rgb("1A5276") + 0.6pt)
-})</code></pre>
-                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-saddle')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-saddle')"><i data-lucide="zap"></i> Sửa Live</button></div>
                 </div>
             </div>
         </div>
 
-        <!-- TAB 5: PHẲNG HOÁ & GEODESIC -->
+        <!-- TAB 7: PHẲNG HOÁ & XÁC SUẤT -->
         <div id="tab-phanghoa" class="tab-content">
             <div class="gallery-grid">
                 <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="layers" style="color:#0ea5e9;"></i> Khai Triển Hình Nón</h3><span class="bbt-live-kicker">phanghoa-non</span></div>
+                    <div class="card-head"><h3><i data-lucide="layers" style="color:#0ea5e9;"></i> Khai Triển Hình Nón Ra Mặt Phẳng</h3><span class="bbt-live-kicker">sm-khai-trien-non</span></div>
                     <div class="card-preview" id="prev-phanghoa-non">⏳</div>
-                    <pre class="card-code"><code id="code-phanghoa-non">#phanghoa-non(r: 3, h: 4, labels: ("S", "A", "A'"), draw-base: true, scale: 0.7cm)</code></pre>
+                    <pre class="card-code"><code id="code-phanghoa-non">#sm-khai-trien-non(r: 3, h: 4, scale: 0.7cm)</code></pre>
                     <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-phanghoa-non')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-phanghoa-non')"><i data-lucide="zap"></i> Sửa Live</button></div>
                 </div>
                 <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="layers" style="color:#10b981;"></i> Khai Triển Hình Trụ</h3><span class="bbt-live-kicker">phanghoa-tru</span></div>
+                    <div class="card-head"><h3><i data-lucide="layers" style="color:#10b981;"></i> Khai Triển Hình Trụ Ra Mặt Phẳng</h3><span class="bbt-live-kicker">sm-khai-trien-tru</span></div>
                     <div class="card-preview" id="prev-phanghoa-tru">⏳</div>
-                    <pre class="card-code"><code id="code-phanghoa-tru">#phanghoa-tru(r: 2, h: 5, labels: ("A", "B", "B'", "A'"), draw-bases: true, scale: 0.6cm)</code></pre>
+                    <pre class="card-code"><code id="code-phanghoa-tru">#sm-khai-trien-tru(r: 2, h: 5, scale: 0.6cm)</code></pre>
                     <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-phanghoa-tru')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-phanghoa-tru')"><i data-lucide="zap"></i> Sửa Live</button></div>
                 </div>
                 <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="layers" style="color:#8b5cf6;"></i> Khai Triển Chóp S.ABC</h3><span class="bbt-live-kicker">phanghoa-sabc</span></div>
+                    <div class="card-head"><h3><i data-lucide="layers" style="color:#8b5cf6;"></i> Khai Triển Chóp S.ABC (Đoạn Ngắn Nhất)</h3><span class="bbt-live-kicker">sm-khai-trien-sabc</span></div>
                     <div class="card-preview" id="prev-phanghoa-sabc">⏳</div>
-                    <pre class="card-code"><code id="code-phanghoa-sabc">#phanghoa-sabc(SA: 5, SB: 6, SC: 5.5, AB: 4, BC: 4.5, CA: 3.5, scale: 0.7cm)</code></pre>
+                    <pre class="card-code"><code id="code-phanghoa-sabc">#sm-khai-trien-sabc(SA: 5, SB: 6, SC: 5.5, AB: 4, BC: 4.5, CA: 3.5, scale: 0.7cm)</code></pre>
                     <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-phanghoa-sabc')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-phanghoa-sabc')"><i data-lucide="zap"></i> Sửa Live</button></div>
                 </div>
                 <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="navigation" style="color:#f59e0b;"></i> Geodesic Xoắn Ốc Trên Nón</h3><span class="bbt-live-kicker">cone-geodesic-3d</span></div>
-                    <div class="card-preview" id="prev-cone-geo">⏳</div>
-                    <pre class="card-code"><code id="code-cone-geo">#cone-geodesic-3d(r: 3, h: 8, loops: 3, end-distance: 5, scale: 0.6cm)</code></pre>
-                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-cone-geo')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-cone-geo')"><i data-lucide="zap"></i> Sửa Live</button></div>
-                </div>
-                <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="map" style="color:#dc2626;"></i> Geodesic Nón — Trải Phẳng 2D</h3><span class="bbt-live-kicker">cone-unfold-2d</span></div>
-                    <div class="card-preview" id="prev-cone-unfold">⏳</div>
-                    <pre class="card-code"><code id="code-cone-unfold">#cone-unfold-2d(r: 3, h: 8, loops: 3, end-distance: 5, scale: 0.6cm)</code></pre>
-                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-cone-unfold')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-cone-unfold')"><i data-lucide="zap"></i> Sửa Live</button></div>
-                </div>
-                <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="navigation-2" style="color:#10b981;"></i> Geodesic Xoắn Ốc Trên Trụ</h3><span class="bbt-live-kicker">cylinder-geodesic-3d</span></div>
-                    <div class="card-preview" id="prev-cyl-geo">⏳</div>
-                    <pre class="card-code"><code id="code-cyl-geo">#cylinder-geodesic-3d(r: 2, h: 5, loops: 2, scale: 0.7cm)</code></pre>
-                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-cyl-geo')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-cyl-geo')"><i data-lucide="zap"></i> Sửa Live</button></div>
-                </div>
-                <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="map-pin" style="color:#0ea5e9;"></i> Geodesic Trụ — Trải Phẳng 2D</h3><span class="bbt-live-kicker">cylinder-unfold-2d</span></div>
-                    <div class="card-preview" id="prev-cyl-unfold">⏳</div>
-                    <pre class="card-code"><code id="code-cyl-unfold">#cylinder-unfold-2d(r: 2, h: 5, loops: 2, scale: 0.7cm)</code></pre>
-                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-cyl-unfold')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-cyl-unfold')"><i data-lucide="zap"></i> Sửa Live</button></div>
-                </div>
-                <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="layers" style="color:#8b5cf6;"></i> Geodesic Nón Cụt 3D</h3><span class="bbt-live-kicker">truncated-cone-geodesic-3d</span></div>
-                    <div class="card-preview" id="prev-trcone-geo">⏳</div>
-                    <pre class="card-code"><code id="code-trcone-geo">#truncated-cone-geodesic-3d(R: 3, r: 1, h: 4, loops: 1.5, scale: 0.7cm)</code></pre>
-                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-trcone-geo')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-trcone-geo')"><i data-lucide="zap"></i> Sửa Live</button></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB 6: XÁC SUẤT & TÍCH PHÂN -->
-        <div id="tab-special" class="tab-content">
-            <div class="gallery-grid">
-                <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="git-branch" style="color:#0ea5e9;"></i> Sơ Đồ Cây 2x2</h3><span class="bbt-live-kicker">draw-tree-2x2</span></div>
-                    <div class="card-preview" id="prev-tree-2x2">⏳</div>
-                    <pre class="card-code"><code id="code-tree-2x2">#draw-tree-2x2()</code></pre>
-                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-tree-2x2')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-tree-2x2')"><i data-lucide="zap"></i> Sửa Live</button></div>
-                </div>
-                <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="git-merge" style="color:#10b981;"></i> Sơ Đồ Cây 3x2</h3><span class="bbt-live-kicker">draw-tree-3x2</span></div>
-                    <div class="card-preview" id="prev-tree-3x2">⏳</div>
-                    <pre class="card-code"><code id="code-tree-3x2">#draw-tree-3x2()</code></pre>
-                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-tree-3x2')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-tree-3x2')"><i data-lucide="zap"></i> Sửa Live</button></div>
-                </div>
-                <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="bar-chart-3" style="color:#8b5cf6;"></i> Biểu Đồ Đóng Góp Bayes</h3><span class="bbt-live-kicker">draw-bayes-contribution-bar</span></div>
-                    <div class="card-preview" id="prev-bayes-bar">⏳</div>
-                    <pre class="card-code"><code id="code-bayes-bar">#draw-bayes-contribution-bar(terms: (([B1], 0.4, blue), ([B2], 0.6, red)))</code></pre>
-                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-bayes-bar')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-bayes-bar')"><i data-lucide="zap"></i> Sửa Live</button></div>
-                </div>
-                <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="box-select" style="color:#f59e0b;"></i> Thể Tích Mặt Cắt Vuông</h3><span class="bbt-live-kicker">draw-square-cross-section</span></div>
-                    <div class="card-preview" id="prev-vol-cross">⏳</div>
-                    <pre class="card-code"><code id="code-vol-cross">#cetz.canvas(length: 0.9cm, {
-  import cetz.draw: *
-  draw-square-cross-section(x => calc.pow(2, x), x-range: (0, 2), samples: 5)
-})</code></pre>
-                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-vol-cross')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-vol-cross')"><i data-lucide="zap"></i> Sửa Live</button></div>
-                </div>
-                <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="mountain" style="color:#10b981;"></i> Paraboloid 3D</h3><span class="bbt-live-kicker">draw-paraboloid</span></div>
-                    <div class="card-preview" id="prev-paraboloid">⏳</div>
-                    <pre class="card-code"><code id="code-paraboloid">#cetz.canvas(length: 1.0cm, {
-  import cetz.draw: *
-  draw-paraboloid(a: 2, b: 2, z-max: 4, samples: 12, stroke: rgb("2e7d32"))
-})</code></pre>
-                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-paraboloid')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-paraboloid')"><i data-lucide="zap"></i> Sửa Live</button></div>
-                </div>
-                <div class="card-item">
-                    <div class="card-head"><h3><i data-lucide="box" style="color:#dc2626;"></i> Đường Hầm Nửa Elip</h3><span class="bbt-live-kicker">draw-half-elliptical-tunnel</span></div>
-                    <div class="card-preview" id="prev-tunnel">⏳</div>
-                    <pre class="card-code"><code id="code-tunnel">#cetz.canvas(length: 0.5cm, {
-  import cetz.draw: *
-  draw-half-elliptical-tunnel(length: 6, h-start: 4, h-end: 1, ratio: 3)
-})</code></pre>
-                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-tunnel')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-tunnel')"><i data-lucide="zap"></i> Sửa Live</button></div>
+                    <div class="card-head"><h3><i data-lucide="git-branch" style="color:#f59e0b;"></i> Sơ Đồ Cây Xác Suất THPT</h3><span class="bbt-live-kicker">sm-so-do-cay</span></div>
+                    <div class="card-preview" id="prev-so-do-cay">⏳</div>
+                    <pre class="card-code"><code id="code-so-do-cay">#sm-so-do-cay(w: 12cm)</code></pre>
+                    <div class="card-foot"><button class="copy-card-btn" onclick="copySnippet('code-so-do-cay')"><i data-lucide="copy"></i> Copy</button><button class="load-card-btn" onclick="editSnippetLive('code-so-do-cay')"><i data-lucide="zap"></i> Sửa Live</button></div>
                 </div>
             </div>
         </div>
@@ -782,7 +1082,7 @@
         <!-- WORKBENCH -->
         <div class="workbench-section">
             <div class="workbench-title">
-                <span style="display:flex;align-items:center;gap:8px;"><i data-lucide="sliders" style="color:#0ea5e9;"></i> Trình Biên Tập Live — sang-math-graphics Workbench</span>
+                <span style="display:flex;align-items:center;gap:8px;"><i data-lucide="sliders" style="color:#0ea5e9;"></i> Trình Biên Tập Live — SANG-MATH GEOM Workbench</span>
                 <span id="hhCheckBadge" class="bbt-live-kicker" style="font-size:11px;">Sẵn sàng</span>
             </div>
             <div class="workbench-mode-switch">
@@ -793,62 +1093,117 @@
                 <div class="bbt-live-grid">
                     <div id="workbenchCodePanel" class="bbt-control-panel" style="display:block;">
                         <label>
-                            <span style="display:flex;justify-content:space-between;align-items:center;">
+                            <span style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
                                 <span>Nhập/Sửa Mã Typst Trực Tiếp:</span>
                                 <small style="color:#0ea5e9;font-weight:normal;">Auto render 50ms</small>
                             </span>
-                            <textarea id="hhLiveTextarea" class="live-code-textarea" spellcheck="false">#chop-sabc(labels: ("S", "A", "B", "C"), hidden: ("AC",), scale: 0.8cm)</textarea>
+                            <div class="snippet-toolbar">
+                                <span style="font-size:12px;font-weight:700;color:#64748b;margin-right:2px;">⚡ Thao tác vẽ tiếp:</span>
+                                <button type="button" class="tool-btn" onclick="insertCodeSnippet('trung-diem')"><i data-lucide="plus"></i> Trung điểm M</button>
+                                <button type="button" class="tool-btn" onclick="insertCodeSnippet('ti-le')"><i data-lucide="plus"></i> Tỉ lệ 2/3 N</button>
+                                <button type="button" class="tool-btn" onclick="insertCodeSnippet('giao-diem')"><i data-lucide="plus"></i> Giao điểm I</button>
+                                <button type="button" class="tool-btn" onclick="insertCodeSnippet('hinh-chieu')"><i data-lucide="plus"></i> Đường cao AH ⊥</button>
+                                <button type="button" class="tool-btn" onclick="insertCodeSnippet('thiet-dien')"><i data-lucide="plus"></i> Tô thiết diện</button>
+                                <button type="button" class="tool-btn" onclick="insertCodeSnippet('cung-goc')"><i data-lucide="plus"></i> Cung góc 45°</button>
+                                <button type="button" class="tool-btn" onclick="insertCodeSnippet('goc-vuong')"><i data-lucide="plus"></i> Góc vuông</button>
+                            </div>
+                            <textarea id="hhLiveTextarea" class="live-code-textarea" spellcheck="false">#sm-chop-sabc(
+  w: 7.5cm,
+  duong-cao: "dinh-a",
+  them: (ctx, d) => {
+    let M = sm-trung-diem(d.S, d.B)
+    let N = sm-ti-le(d.S, d.C, 2/3)
+    sm-diem(ctx, M, ten: $M$, huong: "dong")
+    sm-diem(ctx, N, ten: $N$, huong: "tay")
+    sm-thiet-dien(ctx, (d.A, M, N), to: rgb(239, 68, 68, 40))
+    sm-doan(ctx, d.A, M, mau: sm-red, day: 1.2pt)
+    sm-doan(ctx, M, N, mau: sm-red, day: 1.2pt)
+    sm-doan(ctx, d.A, N, dut: true, mau: sm-red, day: 1.2pt)
+  }
+)</textarea>
                         </label>
                         <div style="display:flex;gap:8px;margin-top:10px;">
                             <button type="button" class="bbt-action-btn" id="hhCopyBtn"><i data-lucide="copy"></i> Copy Code</button>
                             <button type="button" class="bbt-action-btn ghost" id="hhCopyFullBtn"><i data-lucide="file-code"></i> Copy File .typ</button>
                         </div>
+                        <div class="cheat-sheet-box">
+                            <strong style="display:block;margin-bottom:6px;color:#0f172a;"><i data-lucide="book-open"></i> Cẩm Nang Đại Số Hình Học Sư Phạm (Dùng trong hook <code>them</code>)</strong>
+                            <table>
+                                <tr><td><code>sm-trung-diem(A, B)</code></td><td>Tọa độ trung điểm đoạn thẳng $A B$</td></tr>
+                                <tr><td><code>sm-ti-le(A, B, k)</code></td><td>Chia đoạn theo tỉ số $k$ (VD: $1/3$ hoặc $2/3$)</td></tr>
+                                <tr><td><code>sm-giao-diem(A, B, C, D)</code></td><td>Giao điểm của 2 đường thẳng $A B$ và $C D$</td></tr>
+                                <tr><td><code>sm-hinh-chieu(P, A, B)</code></td><td>Hình chiếu vuông góc của điểm $P$ lên đường $A B$</td></tr>
+                                <tr><td><code>sm-song-song(A, B, C)</code></td><td>Dựng điểm $D$ sao cho tứ giác $A B D C$ là hình bình hành</td></tr>
+                                <tr><td><code>sm-diem(ctx, P, ten: ...)</code></td><td>Chấm điểm và đặt nhãn (hướng: <code>"dong"</code>, <code>"tay"</code>, <code>"bac"</code>, <code>"nam"</code>)</td></tr>
+                                <tr><td><code>sm-doan(ctx, A, B, dut: ...)</code></td><td>Vẽ đoạn thẳng (<code>dut: true</code> là nét đứt)</td></tr>
+                                <tr><td><code>sm-thiet-dien(ctx, pts, to: ...)</code></td><td>Vẽ và tô màu thiết diện đa giác mờ trong suốt</td></tr>
+                                <tr><td><code>sm-ve-goc(ctx, A, O, B, ten: ...)</code></td><td>Vẽ cung góc $\widehat{A O B}$ kèm số đo (VD: <code>$45 degree$</code>)</td></tr>
+                                <tr><td><code>sm-ve-goc-vuong(ctx, A, O, B)</code></td><td>Ký hiệu góc vuông tại đỉnh $O$</td></tr>
+                            </table>
+                        </div>
                     </div>
                     <div id="workbenchFormPanel" class="bbt-control-panel" style="display:none;">
                         <label>
-                            <span>Loại Hình (Shape)</span>
+                            <span>Chọn Mô Hình Hình Học (SANG-MATH)</span>
                             <select id="hhShapeSelect">
-                                <optgroup label="── Hình Phẳng 2D ──">
-                                    <option value="tri-xyz">Tam Giác ABC (tri-xyz)</option>
-                                    <option value="tri-right">Tam Giác Vuông (tri-right)</option>
-                                    <option value="rect-abc">Hình Chữ Nhật (rect-abc)</option>
-                                    <option value="circle-desc">Đường Tròn (circle-desc)</option>
+                                <optgroup label="── 1. Chóp &amp; Lăng Trụ THPT ──">
+                                    <option value="sm-chop-sabc">Chóp S.ABC (SA ⊥ Đáy)</option>
+                                    <option value="sm-chop-sabc-deu">Chóp Đều S.ABC (Trọng Tâm O)</option>
+                                    <option value="sm-chop-sabcd-deu">Chóp Đều S.ABCD (Tâm O)</option>
+                                    <option value="sm-chop-sabcd-sa">Chóp S.ABCD (SA ⊥ Đáy)</option>
+                                    <option value="sm-chop-day-hinh-thang">Chóp Đáy Hình Thang</option>
+                                    <option value="sm-lang-tru-tam-giac">Lăng Trụ Tam Giác ABC.A'B'C'</option>
+                                    <option value="sm-lang-tru-tu-giac">Lăng Trụ Tứ Giác Đều</option>
+                                    <option value="sm-hop-chu-nhat">Hình Hộp Chữ Nhật</option>
+                                    <option value="sm-lap-phuong">Hình Lập Phương</option>
                                 </optgroup>
-                                <optgroup label="── Hình Khối 3D ──">
-                                    <option value="chop-sabc">Chóp S.ABC</option>
-                                    <option value="chop-sabcd">Chóp S.ABCD</option>
-                                    <option value="chop-sabc-deu">Chóp Đều S.ABC</option>
-                                    <option value="chop-sabcd-deu">Chóp Đều S.ABCD</option>
-                                    <option value="lang-tru-abc">Lăng Trụ ABC.A'B'C'</option>
-                                    <option value="pseudo-cone">Nón Pseudo</option>
-                                    <option value="pseudo-cylinder">Trụ Pseudo</option>
+                                <optgroup label="── 2. Đa Diện Đều Platon ──">
+                                    <option value="sm-tu-dien-deu">Khối Tứ Diện Đều</option>
+                                    <option value="sm-khoi-lap-phuong">Khối Lập Phương</option>
+                                    <option value="sm-bat-dien-deu">Khối Bát Diện Đều</option>
+                                    <option value="sm-12-mat-deu">Khối 12 Mặt Đều (Dodecahedron)</option>
+                                    <option value="sm-20-mat-deu">Khối 20 Mặt Đều (Icosahedron)</option>
+                                    <option value="sm-chop-cuc-tam-giac">Chóp Cụt Tam Giác Đều</option>
+                                    <option value="sm-chop-cuc-tu-giac">Chóp Cụt Tứ Giác Đều</option>
+                                    <option value="sm-chop-luc-giac-deu">Chóp Lục Giác Đều</option>
                                 </optgroup>
-                                <optgroup label="── Khối Tròn Xoay ──">
-                                    <option value="draw-cylinder">Hình Trụ 3D</option>
-                                    <option value="draw-cone">Hình Nón 3D</option>
-                                    <option value="draw-sphere">Hình Cầu 3D</option>
-                                    <option value="draw-helix">Xoắn Ốc Trên Trụ</option>
+                                <optgroup label="── 3. Toạ Độ Oxyz Chuẩn 12 ──">
+                                    <option value="sm-oxyz">Hệ Trục Oxyz Chia Vạch &amp; Lưới</option>
+                                    <option value="sm-oxyz-hop-giong">Điểm M &amp; Hộp Gióng Oxyz</option>
+                                    <option value="sm-oxyz-mat-phang-chan">Mặt Phẳng Đoạn Chắn ABC</option>
                                 </optgroup>
-                                <optgroup label="── Đường Conic ──">
-                                    <option value="draw-parabola">Parabol 2D</option>
-                                    <option value="draw-ellipse">Elip 2D</option>
-                                    <option value="draw-hyperbola">Hyperbol 2D</option>
+                                <optgroup label="── 4. Khối Tròn Xoay ──">
+                                    <option value="sm-non">Hình Nón</option>
+                                    <option value="sm-tru">Hình Trụ</option>
+                                    <option value="sm-cau">Hình Cầu</option>
+                                    <option value="sm-khoi-tron-xoay">Khối Tròn Xoay Tích Phân</option>
                                 </optgroup>
-                                <optgroup label="── Phẳng Hoá ──">
-                                    <option value="phanghoa-non">Khai Triển Nón</option>
-                                    <option value="phanghoa-tru">Khai Triển Trụ</option>
-                                    <option value="phanghoa-sabc">Khai Triển Chóp S.ABC</option>
+                                <optgroup label="── 5. Hình Phẳng 2D ──">
+                                    <option value="sm-tam-giac-truc-tam">Tam Giác &amp; Trực Tâm H</option>
+                                    <option value="sm-tam-giac-ngoai-tiep">Đường Tròn Ngoại Tiếp</option>
+                                    <option value="sm-tam-giac-noi-tiep">Đường Tròn Nội Tiếp</option>
+                                    <option value="sm-tiep-tuyen-duong-tron">Tiếp Tuyến Từ Điểm M Đến (O; R)</option>
+                                </optgroup>
+                                <optgroup label="── 6. Đồ Thị Hàm Số &amp; Conic ──">
+                                    <option value="sm-do-thi-bac-ba">Đồ Thị Hàm Bậc 3</option>
+                                    <option value="sm-do-thi-trung-phuong">Đồ Thị Bậc 4 Trùng Phương</option>
+                                    <option value="sm-do-thi-phan-thuc">Đồ Thị Phân Thức</option>
+                                    <option value="sm-do-thi-bac-hai">Parabol Bậc 2</option>
+                                    <option value="sm-elip">Đường Elip</option>
+                                    <option value="sm-hyperbol">Đường Hyperbol</option>
+                                </optgroup>
+                                <optgroup label="── 7. Phẳng Hoá &amp; Xác Suất ──">
+                                    <option value="sm-khai-trien-non">Khai Triển Nón</option>
+                                    <option value="sm-khai-trien-tru">Khai Triển Trụ</option>
+                                    <option value="sm-khai-trien-sabc">Khai Triển Chóp S.ABC</option>
+                                    <option value="sm-so-do-cay">Sơ Đồ Cây Xác Suất</option>
                                 </optgroup>
                             </select>
                         </label>
                         <div class="bbt-inline-3">
+                            <label><span>Kích thước chiều rộng (w)</span><input id="hhScale" value="7cm" /><span class="field-hint">VD: 6.8cm, 7.5cm</span></label>
                             <label><span>Tham số a / bán kính</span><input id="hhParamA" type="number" step="0.5" value="3" /><span class="field-hint">VD: 3, 2.5</span></label>
-                            <label><span>Tham số b / bán trục</span><input id="hhParamB" type="number" step="0.5" value="2" /><span class="field-hint">VD: 2, 1.5</span></label>
-                            <label><span>Chiều cao (h)</span><input id="hhParamH" type="number" step="0.5" value="4" /><span class="field-hint">VD: 4, 5, 6</span></label>
-                        </div>
-                        <div class="bbt-inline-2">
-                            <label><span>Tỷ lệ (Scale)</span><input id="hhScale" value="0.8cm" /><span class="field-hint">VD: 0.7cm, 1cm</span></label>
-                            <label><span>Nhãn Đỉnh (Labels)</span><input id="hhLabels" value="S, A, B, C" /><span class="field-hint">Phân cách dấu phẩy</span></label>
+                            <label><span>Chiều cao h / trục z</span><input id="hhParamH" type="number" step="0.5" value="4" /><span class="field-hint">VD: 4, 5, 6</span></label>
                         </div>
                     </div>
                     <div class="bbt-preview-panel">
@@ -890,7 +1245,7 @@
 
         async function copySnippet(id) {
             await navigator.clipboard.writeText(el(id)?.textContent || '');
-            alert('Copied!');
+            alert('Đã copy code vào clipboard!');
         }
 
         function editSnippetLive(id) {
@@ -902,49 +1257,217 @@
             scheduleHhOfficialRender(50);
         }
 
-        const GALLERY_CODES = {
-            'prev-tri-xyz': '#tri-xyz((0,0), (5,0), (2, 3.5), labels: ("A", "B", "C"), scale: 0.8cm)',
-            'prev-tri-right': '#tri-right(leg1: 4, leg2: 3, labels: ("A", "B", "C"), right-angle-vertex: "A", scale: 0.8cm)',
-            'prev-rect-abc': '#rect-abc(width: 5, height: 3, labels: ("A", "B", "C", "D"), scale: 0.8cm)',
-            'prev-square': '#square(a: 4, labels: ("A", "B", "C", "D"), scale: 0.8cm)',
-            'prev-circumcircle': '#circle-circumcircle((-2.5, 0), (2.5, 0), (0, 3.5), label: "O", scale: 0.8cm)',
-            'prev-incircle': '#circle-incircle((-2.5, 0), (2.5, 0), (0, 3.5), label: "I", scale: 0.8cm)',
-            'prev-circle-desc': '#circle-desc(center: (0, 0), radius: 2.5, label: "O", scale: 0.8cm)',
-            'prev-dashed-seg': '#dashed-seg((0,0), (5,0), scale: 0.8cm)',
-            'prev-chop-sabc': '#chop-sabc(labels: ("S", "A", "B", "C"), hidden: ("AC",), scale: 0.8cm)',
-            'prev-chop-sabcd': '#chop-sabcd(labels: ("S", "A", "B", "C", "D"), hidden: ("AB", "AD", "AC"), scale: 0.8cm)',
-            'prev-chop-sabc-deu': '#chop-sabc-deu(S-height: 6, labels: ("S", "A", "B", "C", "O"), scale: 0.8cm)',
-            'prev-chop-sabcd-deu': '#chop-sabcd-deu(S-height: 7, labels: ("S", "A", "B", "C", "D", "O"), scale: 0.8cm)',
-            'prev-lang-tru': '#lang-tru-abc(labels: ("A", "B", "C", "A\'", "B\'", "C\'"), hidden: ("AA\'", "AB"), scale: 0.8cm)',
-            'prev-axis-xyz': '#axis-xyz(x-len: 3, y-len: 4, z-len: 4, labels: ("x", "y", "z", "O"), scale: 0.8cm)',
-            'prev-pseudo-cone': '#pseudo-cone(radius-x: 3, radius-y: 1, height: 6, label-S: "S", label-O: "O", scale: 0.8cm)',
-            'prev-pseudo-cyl': '#pseudo-cylinder(O1: (0,0), O2: (0,6), radius-x: 3, radius-y: 1, label-O1: "O", label-O2: "O\'", scale: 0.8cm)',
-            'prev-cylinder': '#cetz.canvas(length: 0.8cm, {\n  import cetz.draw: *\n  draw-cylinder(name: "C", radius: 2, height: 4, center: (0,0,0), stroke: rgb("0057b8"))\n  content("C.top-center", [$O\'$], anchor: "south")\n  content("C.bottom-center", [$O$], anchor: "north")\n})',
-            'prev-cone': '#cetz.canvas(length: 0.8cm, {\n  import cetz.draw: *\n  draw-cone(name: "N", radius: 2.5, height: 4, center: (0,0,0), stroke: rgb("cc2200"))\n  content("N.top", [$S$], anchor: "south")\n  content("N.center", [$O$], anchor: "north")\n})',
-            'prev-sphere': '#cetz.canvas(length: 0.8cm, {\n  import cetz.draw: *\n  draw-sphere(name: "S", radius: 2.5, center: (0,0,0), stroke: rgb("1a7a2e"))\n  content("S.center", [$O$], anchor: "north")\n})',
-            'prev-helix': '#cetz.canvas(length: 0.8cm, {\n  import cetz.draw: *\n  draw-cylinder(name: "C", radius: 1.8, height: 4, center: (0,0,0), stroke: rgb("888"))\n  draw-helix(center: (0,0,0), radius: 1.8, height: 4, loops: 2, stroke: rgb("cc2200") + 1.2pt)\n})',
-            'prev-conical-helix': '#cetz.canvas(length: 0.8cm, {\n  import cetz.draw: *\n  draw-cone(radius: 3, height: 5, center: (0,0,0), stroke: rgb("888"))\n  draw-conical-helix(center: (0,0,0), base-radius: 3, height: 5, loops: 3, stroke: rgb("cc2200") + 1.2pt)\n})',
+        function insertCodeSnippet(type) {
+            const ta = el('hhLiveTextarea');
+            if (!ta) return;
+            let snippet = '';
+            if (type === 'trung-diem') {
+                snippet = `\n    let M = sm-trung-diem(d.S, d.B)\n    sm-diem(ctx, M, ten: $M$, huong: "dong")`;
+            } else if (type === 'ti-le') {
+                snippet = `\n    let N = sm-ti-le(d.S, d.C, 2/3)\n    sm-diem(ctx, N, ten: $N$, huong: "tay")`;
+            } else if (type === 'giao-diem') {
+                snippet = `\n    let O = sm-giao-diem(d.A, d.C, d.B, d.D)\n    sm-diem(ctx, O, ten: $O$, huong: "duoi")`;
+            } else if (type === 'hinh-chieu') {
+                snippet = `\n    let H = sm-hinh-chieu(d.A, d.S, d.B)\n    sm-diem(ctx, H, ten: $H$, huong: "dong", bk: 2pt, mau: sm-red)\n    sm-doan(ctx, d.A, H, dut: true, mau: sm-red, day: 1.2pt)\n    sm-ve-goc-vuong(ctx, d.A, H, d.S, mau: sm-red)`;
+            } else if (type === 'thiet-dien') {
+                snippet = `\n    sm-thiet-dien(ctx, (d.A, M, N), to: rgb(239, 68, 68, 40))\n    sm-doan(ctx, d.A, M, mau: sm-red, day: 1.2pt)\n    sm-doan(ctx, M, N, mau: sm-red, day: 1.2pt)\n    sm-doan(ctx, d.A, N, dut: true, mau: sm-red, day: 1.2pt)`;
+            } else if (type === 'cung-goc') {
+                snippet = `\n    sm-ve-goc(ctx, d.S, d.C, d.A, r: 0.7, ten: $45 degree$, mau: sm-red)`;
+            } else if (type === 'goc-vuong') {
+                snippet = `\n    sm-ve-goc-vuong(ctx, d.S, d.A, d.C, r: 0.3, mau: sm-red)`;
+            }
+            
+            const val = ta.value;
+            if (val.includes('them:')) {
+                const lastBrace = val.lastIndexOf('}');
+                if (lastBrace !== -1) {
+                    ta.value = val.slice(0, lastBrace) + snippet + '\n  ' + val.slice(lastBrace);
+                } else {
+                    ta.value += snippet;
+                }
+            } else {
+                const lastParen = val.lastIndexOf(')');
+                if (lastParen !== -1) {
+                    const insert = `,\n  them: (ctx, d) => {${snippet}\n  }`;
+                    ta.value = val.slice(0, lastParen) + insert + val.slice(lastParen);
+                } else {
+                    ta.value += snippet;
+                }
+            }
+            scheduleHhOfficialRender(50);
+        }
 
-            'prev-parabola': '#cetz.canvas(length: 0.8cm, {\n  import cetz.draw: *\n  line((-3.5,0),(3.5,0), mark: (end: ">"), stroke: 0.7pt)\n  line((0,-1.5),(0,3.5), mark: (end: ">"), stroke: 0.7pt)\n  draw-parabola(a: 0.5, b: 0, c: -1, x-range: (-2.8, 2.8), stroke: rgb("1565C0"))\n})',
-            'prev-ellipse': '#cetz.canvas(length: 0.8cm, {\n  import cetz.draw: *\n  line((-3.5,0),(3.5,0), mark: (end: ">"), stroke: 0.7pt)\n  line((0,-2.5),(0,2.5), mark: (end: ">"), stroke: 0.7pt)\n  draw-ellipse(a: 3, b: 2, stroke: rgb("6a1b9a") + 1.2pt)\n})',
-            'prev-hyperbola': '#cetz.canvas(length: 0.8cm, {\n  import cetz.draw: *\n  line((-4,0),(4,0), mark: (end: ">"), stroke: 0.7pt)\n  line((0,-3),(0,3), mark: (end: ">"), stroke: 0.7pt)\n  draw-hyperbola(a: 1.5, b: 1, x-range: (1.6, 4), stroke: rgb("cc2200") + 1.2pt)\n})',
-            'prev-plot-cubic': '#plot-cubic(scale: 0.8cm)',
-            'prev-plot-rational': '#plot-rational(scale: 0.8cm)',
-            'prev-saddle': '#cetz.canvas(length: 1.2cm, {\n  import cetz.draw: *\n  draw-saddle(x-range: (-2, 2), y-range: (-2, 2), samples: 12, stroke: rgb("1A5276") + 0.6pt)\n})',
-            'prev-phanghoa-non': '#cone(r: 2, l: 6, to: 3, display: "both", scale: 0.8cm, gap: 1.5cm)',
-            'prev-phanghoa-tru': '#cylinder(r: 2, h: 5, wrap: 2, display: "both", scale: 0.7cm, gap: 1.5cm)',
-            'prev-phanghoa-sabc': '#pyramid(n: 4, a: 2, e: 4, sm: 2, display: "both", scale: 0.7cm, gap: 1.5cm)',
-            'prev-cone-geo': '#cone(r: 2, l: 6, to: 3, wrap: 2, display: "solid", scale: 0.8cm)',
-            'prev-cone-unfold': '#cone(r: 2, l: 6, to: 3, wrap: 2, display: "net", scale: 0.8cm)',
-            'prev-cyl-geo': '#cylinder(r: 2, h: 5, wrap: 2, display: "solid", scale: 0.8cm)',
-            'prev-cyl-unfold': '#cylinder(r: 2, h: 5, wrap: 2, display: "net", scale: 0.8cm)',
-            'prev-trcone-geo': '#frustum(r1: 3, r2: 1.5, l: 5, wrap: 1.5, display: "solid", scale: 0.8cm)',
-            'prev-tree-2x2': '#draw-tree-nodes((name: "O", p: 1, children: (\n  (name: "A", p: 0.6, children: (\n    (name: "A1", p: 0.7),\n    (name: "A2", p: 0.3)\n  )),\n  (name: "B", p: 0.4, children: (\n    (name: "B1", p: 0.2),\n    (name: "B2", p: 0.8)\n  ))\n)), theme-colors: (fill: rgb("E3F2FD"), stroke: rgb("1A5276")), prob-pos: 0.4, path-type: "orthogonal")',
-            'prev-tree-3x2': '#draw-tree-nodes((name: "Start", p: 1, children: (\n  (name: "X", p: 0.3, children: ((name: "X1", p: 0.5), (name: "X2", p: 0.5))),\n  (name: "Y", p: 0.5, children: ((name: "Y1", p: 0.8), (name: "Y2", p: 0.2))),\n  (name: "Z", p: 0.2, children: ((name: "Z1", p: 0.1), (name: "Z2", p: 0.9)))\n)), theme-colors: (fill: rgb("FCE4EC"), stroke: rgb("E91E63")), prob-pos: 0.5, path-type: "straight")',
-            'prev-bayes-bar': '#draw-bayes-contribution-bar(terms: (([B1], 0.4, blue), ([B2], 0.6, red)))',
-            'prev-vol-cross': '#draw-solid-section(type: "square", axis: "x", f: x => calc.pow(2, x), domain: (0, 2), slices: (0.5, 1, 1.5), size-scale: 1.5)',
-            'prev-paraboloid': '#draw-solid-section(type: "circle", axis: "y", f: y => calc.sqrt(y), domain: (0, 4), slices: (1, 2, 3), size-scale: 1.2)',
-            'prev-tunnel': '#draw-solid-section(type: "semi-circle", axis: "x", f: x => 3, domain: (0, 6), slices: (1, 3, 5), size-scale: 1.0)',
+        const GALLERY_CODES = {
+            // Tab ĐẶC BIỆT: 🔥 Vẽ Tiếp & Thiết Diện Thực Chiến
+            'prev-thao-tac-thiet-dien': `#sm-chop-sabc(
+  w: 7.5cm,
+  duong-cao: "dinh-a",
+  them: (ctx, d) => {
+    let M = sm-trung-diem(d.S, d.B)
+    let N = sm-ti-le(d.S, d.C, 2/3)
+    sm-diem(ctx, M, ten: $M$, huong: "dong")
+    sm-diem(ctx, N, ten: $N$, huong: "tay")
+    sm-thiet-dien(ctx, (d.A, M, N), to: rgb(239, 68, 68, 40))
+    sm-doan(ctx, d.A, M, mau: sm-red, day: 1.2pt)
+    sm-doan(ctx, M, N, mau: sm-red, day: 1.2pt)
+    sm-doan(ctx, d.A, N, dut: true, mau: sm-red, day: 1.2pt)
+  }
+)`,
+            'prev-thao-tac-goc-day': `#sm-chop-sabcd-sa(
+  w: 7.5cm,
+  them: (ctx, d) => {
+    let O = sm-giao-diem(d.A, d.C, d.B, d.D)
+    sm-diem(ctx, O, ten: $O$, huong: "duoi", bk: 2pt)
+    sm-doan(ctx, d.A, d.C, dut: true, mau: sm-blue, day: 0.9pt)
+    sm-doan(ctx, d.B, d.D, dut: true, mau: sm-blue, day: 0.9pt)
+    sm-doan(ctx, d.S, O, dut: true, mau: sm-blue, day: 1pt)
+    sm-ve-goc(ctx, d.S, d.C, d.A, r: 0.7, ten: $45 degree$, mau: sm-red)
+    sm-ve-goc-vuong(ctx, d.S, d.A, d.C, r: 0.3, mau: sm-red)
+  }
+)`,
+            'prev-thao-tac-khoang-cach': `#sm-chop-sabc(
+  w: 7.5cm,
+  duong-cao: "dinh-a",
+  them: (ctx, d) => {
+    sm-ve-goc-vuong(ctx, d.A, d.B, d.C, r: 0.28, mau: sm-blue)
+    let H = sm-hinh-chieu(d.A, d.S, d.B)
+    sm-diem(ctx, H, ten: $H$, huong: "dong", bk: 2pt, mau: sm-red)
+    sm-doan(ctx, d.A, H, dut: true, mau: sm-red, day: 1.2pt)
+    sm-ve-goc-vuong(ctx, d.A, H, d.S, r: 0.24, mau: sm-red)
+  }
+)`,
+            'prev-thao-tac-giao-diem': `#sm-chop-sabcd-sa(
+  w: 7.5cm,
+  them: (ctx, d) => {
+    let O = sm-giao-diem(d.A, d.C, d.B, d.D)
+    let M = sm-trung-diem(d.S, d.C)
+    let I = sm-giao-diem(d.S, O, d.A, M)
+    sm-diem(ctx, O, ten: $O$, huong: "duoi")
+    sm-diem(ctx, M, ten: $M$, huong: "dong")
+    sm-diem(ctx, I, ten: $I$, huong: "tay", bk: 2.2pt, mau: sm-red)
+    sm-doan(ctx, d.A, d.C, dut: true, mau: gray)
+    sm-doan(ctx, d.B, d.D, dut: true, mau: gray)
+    sm-doan(ctx, d.S, O, dut: true, mau: gray)
+    sm-doan(ctx, d.A, M, dut: true, mau: sm-red, day: 1.2pt)
+  }
+)`,
+            'prev-thao-tac-lang-tru': `#sm-lang-tru-tam-giac(
+  w: 7cm,
+  them: (ctx, d) => {
+    let M = sm-trung-diem(d.A, d.B)
+    let N = sm-trung-diem(d.B, d.C)
+    let M1 = sm-trung-diem(d.A1, d.B1)
+    let N1 = sm-trung-diem(d.B1, d.C1)
+    sm-diem(ctx, M, ten: $M$, huong: "duoi")
+    sm-diem(ctx, N, ten: $N$, huong: "duoi-phai")
+    sm-diem(ctx, M1, ten: $M'$, huong: "tren-trai")
+    sm-diem(ctx, N1, ten: $N'$, huong: "tren-phai")
+    sm-thiet-dien(ctx, (M, N, N1, M1), to: rgb(5, 150, 105, 40), mau: sm-green)
+    sm-doan(ctx, M, N, mau: sm-green, day: 1.2pt)
+    sm-doan(ctx, N, N1, mau: sm-green, day: 1.2pt)
+    sm-doan(ctx, N1, M1, mau: sm-green, day: 1.2pt)
+    sm-doan(ctx, M1, M, mau: sm-green, day: 1.2pt)
+  }
+)`,
+            'prev-thao-tac-non-truc': `#sm-non(
+  w: 6.5cm,
+  them: (ctx, d) => {
+    sm-thiet-dien(ctx, (d.S, d.T1, d.T2), to: rgb(217, 119, 6, 40), mau: sm-amber)
+    sm-doan(ctx, d.T1, d.T2, dut: true, mau: sm-amber, day: 1.2pt)
+    sm-doan(ctx, d.S, d.O, dut: true, mau: sm-red, day: 1pt)
+    sm-ve-goc-vuong(ctx, d.S, d.O, d.T2, r: 0.25, mau: sm-red)
+    sm-diem(ctx, d.T1, ten: $A$, huong: "trai")
+    sm-diem(ctx, d.T2, ten: $B$, huong: "phai")
+  }
+)`,
+            'prev-thao-tac-tru-mat-cat': `#sm-tru(
+  w: 6.5cm,
+  them: (ctx, d) => {
+    let A = (-1.5, 0)
+    let B = (1.5, 0)
+    let A1 = (-1.5, 3.2)
+    let B1 = (1.5, 3.2)
+    sm-thiet-dien(ctx, (A, B, B1, A1), to: rgb(124, 58, 237, 35), mau: sm-purple)
+    sm-doan(ctx, A, B, dut: true, mau: sm-purple, day: 1.1pt)
+    sm-doan(ctx, A1, B1, mau: sm-purple, day: 1.1pt)
+    sm-diem(ctx, A, ten: $A$, huong: "trai")
+    sm-diem(ctx, B, ten: $B$, huong: "phai")
+    sm-diem(ctx, A1, ten: $A'$, huong: "trai")
+    sm-diem(ctx, B1, ten: $B'$, huong: "phai")
+  }
+)`,
+            'prev-thao-tac-oxyz-mat-phang': `#sm-oxyz(
+  w: 7.5cm,
+  x: 5, y: 6, z: 6,
+  them: (ctx, t3) => {
+    let A = t3((3, 0, 0))
+    let B = t3((0, 4, 0))
+    let C = t3((0, 0, 4))
+    sm-diem(ctx, A, ten: $A(3;0;0)$, huong: "duoi-trai")
+    sm-diem(ctx, B, ten: $B(0;4;0)$, huong: "duoi")
+    sm-diem(ctx, C, ten: $C(0;0;4)$, huong: "trai")
+    sm-thiet-dien(ctx, (A, B, C), to: rgb(59, 130, 246, 35), mau: sm-blue)
+    sm-doan(ctx, A, B, mau: sm-blue, day: 1.2pt)
+    sm-doan(ctx, B, C, mau: sm-blue, day: 1.2pt)
+    sm-doan(ctx, C, A, mau: sm-blue, day: 1.2pt)
+    let H = sm-hinh-chieu(C, A, B)
+    sm-diem(ctx, H, ten: $H$, huong: "duoi", bk: 2pt, mau: sm-red)
+    sm-doan(ctx, C, H, mau: sm-red, day: 1.2pt)
+    sm-ve-goc-vuong(ctx, C, H, B, r: 0.25, mau: sm-red)
+  }
+)`,
+
+            // Tab 1: Chóp & Lăng Trụ THPT
+            'prev-chop-sabc': '#sm-chop-sabc(w: 6.8cm)',
+            'prev-chop-sabc-deu': '#sm-chop-sabc-deu(w: 6.8cm)',
+            'prev-chop-sabcd-deu': '#sm-chop-sabcd-deu(w: 7.2cm)',
+            'prev-chop-sabcd-sa': '#sm-chop-sabcd-sa(w: 7.2cm)',
+            'prev-chop-day-hinh-thang': '#sm-chop-day-hinh-thang(w: 7.2cm)',
+            'prev-lang-tru-tam-giac': '#sm-lang-tru-tam-giac(w: 6.8cm)',
+            'prev-lang-tru-tu-giac': '#sm-lang-tru-tu-giac(w: 7.2cm)',
+            'prev-hop-chu-nhat': '#sm-hop-chu-nhat(w: 7.2cm)',
+            'prev-lap-phuong': '#sm-lap-phuong(w: 6.8cm)',
+
+            // Tab 2: Đa Diện Đều Platon & Phức Hợp
+            'prev-tu-dien-deu': '#sm-tu-dien-deu(w: 6.5cm)',
+            'prev-khoi-lap-phuong': '#sm-khoi-lap-phuong(w: 6.5cm)',
+            'prev-bat-dien-deu': '#sm-bat-dien-deu(w: 6.5cm)',
+            'prev-12-mat-deu': '#sm-12-mat-deu(w: 6.8cm)',
+            'prev-20-mat-deu': '#sm-20-mat-deu(w: 6.8cm)',
+            'prev-chop-cuc-tam-giac': '#sm-chop-cuc-tam-giac(w: 6.8cm)',
+            'prev-chop-cuc-tu-giac': '#sm-chop-cuc-tu-giac(w: 7.2cm)',
+            'prev-chop-luc-giac-deu': '#sm-chop-luc-giac-deu(w: 6.8cm)',
+
+            // Tab 3: Toạ Độ Oxyz Chuẩn 12
+            'prev-oxyz': '#sm-oxyz(w: 7.5cm)',
+            'prev-oxyz-hop-giong': '#sm-oxyz-hop-giong(pt: (4, 5, 5), w: 7.5cm)',
+            'prev-oxyz-mat-phang-chan': '#sm-oxyz-mat-phang-chan(a: 3.5, b: 4.5, c: 4.5, w: 7.5cm)',
+
+            // Tab 4: Khối Tròn Xoay & Tích Phân
+            'prev-non': '#sm-non(r: 2.0, cao: 3.8, w: 6.5cm)',
+            'prev-tru': '#sm-tru(r: 1.8, cao: 3.6, w: 6.5cm)',
+            'prev-cau': '#sm-cau(r: 2.2, w: 6.5cm)',
+            'prev-khoi-tron-xoay': '#sm-khoi-tron-xoay(f: x => calc.sqrt(x), a: 0, b: 4, w: 6.8cm)',
+
+            // Tab 5: Hình Phẳng 2D
+            'prev-tam-giac-truc-tam': '#sm-tam-giac-truc-tam(w: 6.5cm)',
+            'prev-tam-giac-ngoai-tiep': '#sm-tam-giac-ngoai-tiep(w: 6.5cm)',
+            'prev-tam-giac-noi-tiep': '#sm-tam-giac-noi-tiep(w: 6.5cm)',
+            'prev-tiep-tuyen-duong-tron': '#sm-tiep-tuyen-duong-tron(w: 6.8cm)',
+
+            // Tab 6: Đồ Thị Hàm Số & Conic
+            'prev-do-thi-bac-ba': '#sm-do-thi-bac-ba(1, -3, 0, 2, w: 7cm)',
+            'prev-do-thi-trung-phuong': '#sm-do-thi-trung-phuong(1, -2, -1, w: 7cm)',
+            'prev-do-thi-phan-thuc': '#sm-do-thi-phan-thuc(2, 1, 1, -1, w: 7cm)',
+            'prev-do-thi-bac-hai': '#sm-do-thi-bac-hai(1, -2, -1, w: 7cm)',
+            'prev-ellipse': '#sm-elip(a: 3, b: 2)',
+            'prev-hyperbola': '#sm-hyperbol(a: 1.8, b: 1.2)',
+
+            // Tab 7: Phẳng Hoá & Xác Suất
+            'prev-phanghoa-non': '#sm-khai-trien-non(r: 3, h: 4, scale: 0.7cm)',
+            'prev-phanghoa-tru': '#sm-khai-trien-tru(r: 2, h: 5, scale: 0.6cm)',
+            'prev-phanghoa-sabc': '#sm-khai-trien-sabc(SA: 5, SB: 6, SC: 5.5, AB: 4, BC: 4.5, CA: 3.5, scale: 0.7cm)',
+            'prev-so-do-cay': '#sm-so-do-cay(w: 12cm)',
         };
 
         async function renderGalleryPreviews() {
@@ -963,37 +1486,51 @@
             }
         }
 
-        function formatLabels(str) {
-            return '(' + str.split(',').map(s => `"${s.trim()}"`).filter(Boolean).join(', ') + ')';
-        }
-
         function buildHhCodeFromForm() {
-            const shape = el('hhShapeSelect')?.value || 'chop-sabc';
-            const a = parseFloat(el('hhParamA')?.value||'3'), b = parseFloat(el('hhParamB')?.value||'2'), h = parseFloat(el('hhParamH')?.value||'4');
-            const scale = el('hhScale')?.value||'0.8cm', labels = formatLabels(el('hhLabels')?.value||'S, A, B, C');
+            const shape = el('hhShapeSelect')?.value || 'sm-chop-sabc';
+            const a = parseFloat(el('hhParamA')?.value||'3');
+            const h = parseFloat(el('hhParamH')?.value||'4');
+            const scale = el('hhScale')?.value||'7cm';
             switch(shape) {
-                case 'tri-xyz': return `#tri-xyz((0,0),(${a},0),(1.5,${h}),labels:${labels},scale:${scale})`;
-                case 'tri-right': return `#tri-right(leg1:${a},leg2:${b},labels:${labels},right-angle-vertex:"A",scale:${scale})`;
-                case 'rect-abc': return `#rect-abc(width:${a},height:${b},labels:${labels},scale:${scale})`;
-                case 'circle-desc': return `#circle-desc(center:(0,0),radius:${a},label:"O",scale:${scale})`;
-                case 'chop-sabc': return `#chop-sabc(labels:${labels},hidden:("AC",),scale:${scale})`;
-                case 'chop-sabcd': return `#chop-sabcd(labels:${labels},hidden:("AB","AD","AC"),scale:${scale})`;
-                case 'chop-sabc-deu': return `#chop-sabc-deu(S-height:${h},labels:${labels},scale:${scale})`;
-                case 'chop-sabcd-deu': return `#chop-sabcd-deu(S-height:${h},labels:${labels},scale:${scale})`;
-                case 'lang-tru-abc': return `#lang-tru-abc(labels:${labels},hidden:("AA'","AB"),scale:${scale})`;
-                case 'pseudo-cone': return `#pseudo-cone(radius-x:${a},radius-y:1,height:${h},label-S:"S",label-O:"O",scale:${scale})`;
-                case 'pseudo-cylinder': return `#pseudo-cylinder(O1:(0,0),O2:(0,${h}),radius-x:${a},radius-y:1,scale:${scale})`;
-                case 'draw-cylinder': return `#cetz.canvas(length:${scale},{\n  import cetz.draw: *\n  draw-cylinder(name:"C",radius:${a},height:${h},center:(0,0,0),stroke:rgb("0057b8"))\n  content("C.top-center",[$O'$],anchor:"south")\n  content("C.bottom-center",[$O$],anchor:"north")\n})`;
-                case 'draw-cone': return `#cetz.canvas(length:${scale},{\n  import cetz.draw: *\n  draw-cone(name:"N",radius:${a},height:${h},center:(0,0,0),stroke:rgb("cc2200"))\n  content("N.top",[$S$],anchor:"south")\n  content("N.center",[$O$],anchor:"north")\n})`;
-                case 'draw-sphere': return `#cetz.canvas(length:${scale},{\n  import cetz.draw: *\n  draw-sphere(name:"S",radius:${a},center:(0,0,0),stroke:rgb("1a7a2e"))\n  content("S.center",[$O$],anchor:"north")\n})`;
-                case 'draw-helix': return `#cetz.canvas(length:${scale},{\n  import cetz.draw: *\n  draw-cylinder(name:"C",radius:${a},height:${h},center:(0,0,0),stroke:rgb("888"))\n  draw-helix(center:(0,0,0),radius:${a},height:${h},loops:2,stroke:rgb("cc2200")+1.2pt)\n})`;
-                case 'draw-parabola': return `#cetz.canvas(length:${scale},{\n  import cetz.draw: *\n  line((-4,0),(4,0),mark:(end:">"),stroke:0.7pt)\n  line((0,-2),(0,4),mark:(end:">"),stroke:0.7pt)\n  draw-parabola(a:0.4,b:0,c:-1,x-range:(-3,3),stroke:rgb("1565C0"))\n})`;
-                case 'draw-ellipse': return `#cetz.canvas(length:${scale},{\n  import cetz.draw: *\n  line((-4,0),(4,0),mark:(end:">"),stroke:0.7pt)\n  line((0,-${b+0.5}),(0,${b+0.5}),mark:(end:">"),stroke:0.7pt)\n  draw-ellipse(a:${a},b:${b},stroke:rgb("6a1b9a")+1.2pt)\n})`;
-                case 'draw-hyperbola': return `#cetz.canvas(length:${scale},{\n  import cetz.draw: *\n  line((-4,0),(4,0),mark:(end:">"),stroke:0.7pt)\n  line((0,-3),(0,3),mark:(end:">"),stroke:0.7pt)\n  draw-hyperbola(a:${a},b:${b},x-range:(1.6,4),stroke:rgb("cc2200")+1.2pt)\n})`;
-                case 'phanghoa-non': return `#phanghoa-non(r:${a},h:${h},labels:("S","A","A'"),draw-base:true,scale:${scale})`;
-                case 'phanghoa-tru': return `#phanghoa-tru(r:${a},h:${h},labels:("A","B","B'","A'"),draw-bases:true,scale:${scale})`;
-                case 'phanghoa-sabc': return `#phanghoa-sabc(SA:5,SB:${h},SC:5.5,AB:4,BC:4.5,CA:${a},scale:${scale})`;
-                default: return `#chop-sabc(labels:("S","A","B","C"),hidden:("AC",),scale:0.8cm)`;
+                case 'sm-chop-sabc': return `#sm-chop-sabc(w: ${scale})`;
+                case 'sm-chop-sabc-deu': return `#sm-chop-sabc-deu(w: ${scale})`;
+                case 'sm-chop-sabcd-deu': return `#sm-chop-sabcd-deu(w: ${scale})`;
+                case 'sm-chop-sabcd-sa': return `#sm-chop-sabcd-sa(w: ${scale})`;
+                case 'sm-chop-day-hinh-thang': return `#sm-chop-day-hinh-thang(w: ${scale})`;
+                case 'sm-lang-tru-tam-giac': return `#sm-lang-tru-tam-giac(w: ${scale})`;
+                case 'sm-lang-tru-tu-giac': return `#sm-lang-tru-tu-giac(w: ${scale})`;
+                case 'sm-hop-chu-nhat': return `#sm-hop-chu-nhat(w: ${scale})`;
+                case 'sm-lap-phuong': return `#sm-lap-phuong(w: ${scale})`;
+                case 'sm-tu-dien-deu': return `#sm-tu-dien-deu(a: ${a}, w: ${scale})`;
+                case 'sm-khoi-lap-phuong': return `#sm-khoi-lap-phuong(w: ${scale})`;
+                case 'sm-bat-dien-deu': return `#sm-bat-dien-deu(w: ${scale})`;
+                case 'sm-12-mat-deu': return `#sm-12-mat-deu(w: ${scale})`;
+                case 'sm-20-mat-deu': return `#sm-20-mat-deu(w: ${scale})`;
+                case 'sm-chop-cuc-tam-giac': return `#sm-chop-cuc-tam-giac(w: ${scale})`;
+                case 'sm-chop-cuc-tu-giac': return `#sm-chop-cuc-tu-giac(w: ${scale})`;
+                case 'sm-chop-luc-giac-deu': return `#sm-chop-luc-giac-deu(w: ${scale})`;
+                case 'sm-oxyz': return `#sm-oxyz(x: ${a+2}, y: ${a+4}, z: ${h+3}, w: ${scale})`;
+                case 'sm-oxyz-hop-giong': return `#sm-oxyz-hop-giong(pt: (${a}, ${a+1}, ${h}), w: ${scale})`;
+                case 'sm-oxyz-mat-phang-chan': return `#sm-oxyz-mat-phang-chan(a: ${a}, b: ${a+1}, c: ${h}, w: ${scale})`;
+                case 'sm-non': return `#sm-non(r: ${a}, cao: ${h}, w: ${scale})`;
+                case 'sm-tru': return `#sm-tru(r: ${a}, cao: ${h}, w: ${scale})`;
+                case 'sm-cau': return `#sm-cau(r: ${a}, w: ${scale})`;
+                case 'sm-khoi-tron-xoay': return `#sm-khoi-tron-xoay(w: ${scale})`;
+                case 'sm-tam-giac-truc-tam': return `#sm-tam-giac-truc-tam(w: ${scale})`;
+                case 'sm-tam-giac-ngoai-tiep': return `#sm-tam-giac-ngoai-tiep(w: ${scale})`;
+                case 'sm-tam-giac-noi-tiep': return `#sm-tam-giac-noi-tiep(w: ${scale})`;
+                case 'sm-tiep-tuyen-duong-tron': return `#sm-tiep-tuyen-duong-tron(r: ${a}, w: ${scale})`;
+                case 'sm-do-thi-bac-ba': return `#sm-do-thi-bac-ba(1, -3, 0, ${a}, w: ${scale})`;
+                case 'sm-do-thi-trung-phuong': return `#sm-do-thi-trung-phuong(1, -2, -1, w: ${scale})`;
+                case 'sm-do-thi-phan-thuc': return `#sm-do-thi-phan-thuc(${a}, 1, 1, -1, w: ${scale})`;
+                case 'sm-do-thi-bac-hai': return `#sm-do-thi-bac-hai(1, -2, -1, w: ${scale})`;
+                case 'sm-elip': return `#sm-elip(a: ${a}, b: 2)`;
+                case 'sm-hyperbol': return `#sm-hyperbol(a: ${a}, b: 1.2)`;
+                case 'sm-khai-trien-non': return `#sm-khai-trien-non(r: ${a}, h: ${h}, scale: 0.7cm)`;
+                case 'sm-khai-trien-tru': return `#sm-khai-trien-tru(r: ${a}, h: ${h}, scale: 0.6cm)`;
+                case 'sm-khai-trien-sabc': return `#sm-khai-trien-sabc(scale: 0.7cm)`;
+                case 'sm-so-do-cay': return `#sm-so-do-cay(w: 12cm)`;
+                default: return `#sm-chop-sabc(w: 6.8cm)`;
             }
         }
 
@@ -1030,26 +1567,154 @@
             }
         }
 
+        function openAiPromptModal() {
+            const m = el('aiPromptModal');
+            if (m) {
+                m.classList.add('active');
+                window.lucide?.createIcons();
+            }
+        }
+        function closeAiPromptModal() {
+            const m = el('aiPromptModal');
+            if (m) m.classList.remove('active');
+        }
+        function switchAiTab(tabId) {
+            document.querySelectorAll('.ai-tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.ai-tab-pane').forEach(p => p.style.display = 'none');
+            const targetBtn = Array.from(document.querySelectorAll('.ai-tab-btn')).find(b => b.getAttribute('onclick')?.includes(tabId));
+            if (targetBtn) targetBtn.classList.add('active');
+            const p = el(tabId);
+            if (p) p.style.display = 'block';
+            window.lucide?.createIcons();
+        }
+        async function copyAiSystemPrompt() {
+            const text = el('aiSystemPromptText')?.textContent || '';
+            await navigator.clipboard.writeText(text);
+            alert('✅ Đã sao chép System Prompt! Hãy dán vào ChatGPT / Claude / Gemini để dạy AI vẽ hình.');
+        }
+        async function buildAndCopyAiPrompt() {
+            const problem = el('aiProblemInput')?.value.trim();
+            if (!problem) {
+                alert('Vui lòng nhập hoặc dán đề bài hình học vào ô!');
+                return;
+            }
+            const system = el('aiSystemPromptText')?.textContent || '';
+            const fullPrompt = `${system}\n\n================================\nĐỀ BÀI TOÁN HÌNH HỌC:\n${problem}\n\nHãy sinh mã Typst sử dụng thư viện sang-math để vẽ hình cho bài toán trên theo đúng các quy tắc đã hướng dẫn. Chỉ trả về mã Typst, không giải thích dài dòng.`;
+            await navigator.clipboard.writeText(fullPrompt);
+            alert('✨ Đã sao chép Lệnh Hoàn Chỉnh (Prompt + Đề bài)! Dán ngay vào ChatGPT / Claude / Gemini.');
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             window.lucide?.createIcons();
             el('hhLiveTextarea')?.addEventListener('input', () => scheduleHhOfficialRender(50));
             el('hhShapeSelect')?.addEventListener('change', () => {
-                const m = { 'chop-sabc':'S, A, B, C', 'chop-sabcd':'S, A, B, C, D', 'chop-sabc-deu':'S, A, B, C, O', 'chop-sabcd-deu':'S, A, B, C, D, O', 'lang-tru-abc':"A, B, C, A', B', C'", 'tri-xyz':'A, B, C', 'tri-right':'A, B, C', 'rect-abc':'A, B, C, D' };
-                const v = el('hhShapeSelect')?.value; const li = el('hhLabels'); if (li && m[v]) li.value = m[v];
                 renderHhFromForm();
             });
-            ['hhParamA','hhParamB','hhParamH','hhScale','hhLabels'].forEach(id => {
+            ['hhParamA','hhParamH','hhScale'].forEach(id => {
                 el(id)?.addEventListener('input', renderHhFromForm);
                 el(id)?.addEventListener('change', renderHhFromForm);
             });
-            el('hhCopyBtn')?.addEventListener('click', async () => { await navigator.clipboard.writeText(el('hhLiveTextarea')?.value||''); alert('Copied!'); });
+            el('hhCopyBtn')?.addEventListener('click', async () => { await navigator.clipboard.writeText(el('hhLiveTextarea')?.value||''); alert('Đã copy code!'); });
             el('hhCopyFullBtn')?.addEventListener('click', async () => {
-                const full = `#import "@preview/cetz:0.5.2": *\n#import "/smg/lib.typ": *\n\n${el('hhLiveTextarea')?.value||''}`;
-                await navigator.clipboard.writeText(full); alert('Copied full .typ!');
+                const full = `#import "@preview/cetz:0.5.2": *\n#import "sang-math-geom.typ": *\n\n${el('hhLiveTextarea')?.value||''}`;
+                await navigator.clipboard.writeText(full); alert('Đã copy toàn bộ file .typ!');
             });
             setTimeout(renderGalleryPreviews, 800);
             scheduleHhOfficialRender(100);
         });
     </script>
+
+    <!-- AI PROMPT MODAL -->
+    <div id="aiPromptModal" class="ai-modal-overlay" onclick="if(event.target===this) closeAiPromptModal()">
+        <div class="ai-modal-card">
+            <div class="ai-modal-header">
+                <h2><i data-lucide="bot"></i> Trợ Lý Dạy AI Tự Động Vẽ Hình (ChatGPT / Claude / Gemini)</h2>
+                <button class="ai-modal-close" onclick="closeAiPromptModal()">&times;</button>
+            </div>
+            <div class="ai-modal-body">
+                <div class="ai-modal-tabs">
+                    <button class="ai-tab-btn active" onclick="switchAiTab('ai-tab-system')"><i data-lucide="cpu"></i> 1. System Prompt (Copy Cho AI)</button>
+                    <button class="ai-tab-btn" onclick="switchAiTab('ai-tab-builder')"><i data-lucide="sparkles"></i> 2. Ghép Đề Bài Tự Động</button>
+                    <button class="ai-tab-btn" onclick="switchAiTab('ai-tab-cheatsheet')"><i data-lucide="book-open"></i> 3. Nguyên Tắc Sư Phạm</button>
+                </div>
+
+                <!-- Tab 1: System Prompt -->
+                <div id="ai-tab-system" class="ai-tab-pane">
+                    <p style="font-size:0.9rem; color:#475569; margin:0 0 10px;">
+                        💡 <strong>Cách dùng:</strong> Sao chép đoạn chỉ dẫn bên dưới và dán vào <strong>ChatGPT, Claude, Gemini hoặc DeepSeek</strong> làm bối cảnh (hoặc Custom Instructions). Sau đó bạn chỉ cần dán đề bài hình học, AI sẽ tự động sinh mã Typst <code>sang-math</code> chuẩn đẹp 100%!
+                    </p>
+                    <div class="ai-prompt-box" id="aiSystemPromptText">Bạn là chuyên gia đồ họa Toán THPT chuyên về Typst và thư viện sang-math.
+Nhiệm vụ của bạn là đọc đề bài Toán hình học không gian hoặc hình phẳng và sinh ra mã Typst hoàn chỉnh, đẹp chuẩn sư phạm.
+
+QUY TẮC BẮT BUỘC:
+1. Luôn bắt đầu bằng:
+   #import "/conictypst/public/hdsd/typst/sang-math-geom.typ": *
+   (hoặc #import "@preview/sang-math:1.0.5": *)
+
+2. TUYỆT ĐỐI KHÔNG tự vẽ lại từ đầu bằng CeTZ thô. BẮT BUỘC chọn một khối hình cơ sở có sẵn:
+   - Chóp tam giác: sm-chop-sabc(a: 4, b: 3.5, h: 4, ten-dinh: ("S", "A", "B", "C"), them: ...)
+   - Chóp tam giác đều: sm-chop-sabc-deu(..)
+   - Chóp SA vuông góc đáy: sm-chop-sabcd-sa(..)
+   - Chóp tứ giác đều: sm-chop-sabcd-deu(..)
+   - Lăng trụ tam giác: sm-lang-tru-tam-giac(..)
+   - Khối tròn xoay: sm-non(r: 2.2, h: 3.5, ..), sm-tru(..), sm-cau(..)
+   - Oxyz: sm-oxyz(..)
+
+3. Mọi thao tác vẽ tiếp, dựng thêm điểm, thiết diện BẮT BUỘC nằm trong hook them: (ctx, d) => { ... }.
+   Toạ độ các đỉnh gốc được lấy từ dictionary d (ví dụ: d.S, d.A, d.B, d.C...).
+
+4. Dùng các hàm đại số dựng hình để tự động tính toạ độ (KHÔNG tính chay):
+   - sm-trung-diem(A, B): Lấy trung điểm
+   - sm-ti-le(A, B, k): Lấy điểm chia tỉ lệ (k = 1/3, 2/3...)
+   - sm-hinh-chieu(P, A, B): Chân đường cao kẻ từ P vuông góc AB
+   - sm-giao-diem(A, B, C, D): Giao điểm 2 đường thẳng AB và CD
+   - sm-song-song(A, B, C): Dựng điểm D sao cho CD = AB (hình bình hành)
+   - sm-khoang-cach(A, B), sm-trong-tam(A, B, C)
+
+5. Vẽ và hoàn thiện hình học:
+   - Đoạn thẳng: sm-doan(ctx, A, B, dut: false, mau: blue) (nếu bị che khuất thì dut: true)
+   - Tô thiết diện: sm-thiet-dien(ctx, (A, M, N), mau: rgb("7c3aed40"))
+   - Góc vuông: sm-ve-goc-vuong(ctx, A, O, B) (vuông tại đỉnh O)
+   - Cung góc: sm-ve-goc(ctx, S, C, A, r: 0.6, ten: [$45 degree$])
+   - Chấm điểm và gắn nhãn: sm-diem(ctx, M, ten: "M", huong: "tay")</div>
+                    <button class="bbt-action-btn" onclick="copyAiSystemPrompt()" style="background:#7c3aed; width:100%; justify-content:center; padding:12px;">
+                        <i data-lucide="copy"></i> 📋 Sao Chép System Prompt Này Cho AI
+                    </button>
+                </div>
+
+                <!-- Tab 2: Prompt Builder -->
+                <div id="ai-tab-builder" class="ai-tab-pane" style="display:none;">
+                    <p style="font-size:0.9rem; color:#475569; margin:0 0 10px;">
+                        Nhập hoặc dán đề bài toán hình học vào đây, hệ thống sẽ tự động ghép thành câu lệnh hoàn chỉnh để bạn copy gửi thẳng cho AI:
+                    </p>
+                    <textarea id="aiProblemInput" rows="4" style="width:100%; border:1.5px solid #cbd5e1; border-radius:8px; padding:12px; font-size:0.9rem; font-family:inherit; resize:vertical; box-sizing:border-box;" placeholder="Ví dụ: Cho hình chóp S.ABCD có đáy ABCD là hình chữ nhật, SA vuông góc với đáy. Gọi M là trung điểm của SC. Vẽ thiết diện của hình chóp cắt bởi mặt phẳng (ABM)..."></textarea>
+                    <div style="margin-top:10px; display:flex; gap:10px;">
+                        <button class="bbt-action-btn" onclick="buildAndCopyAiPrompt()" style="background:#0ea5e9; flex:1; justify-content:center; padding:12px;">
+                            <i data-lucide="send"></i> ✨ Ghép Câu Lệnh Hoàn Chỉnh &amp; Sao Chép
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tab 3: Cheatsheet -->
+                <div id="ai-tab-cheatsheet" class="ai-tab-pane" style="display:none;">
+                    <div style="font-size:0.88rem; line-height:1.6; color:#334155;">
+                        <h4 style="margin:0 0 8px; color:#0f172a;">🎯 4 Bước AI Tự Động Xử Lý Đề Bài:</h4>
+                        <ol style="margin:0 0 16px; padding-left:20px;">
+                            <li><strong>Xác định khối cơ sở:</strong> Chóp tam giác, tứ giác, chóp đều hay lăng trụ...</li>
+                            <li><strong>Lấy toạ độ gốc từ <code>d</code>:</strong> Không tính chay toạ độ mà dùng <code>d.S, d.A, d.B...</code></li>
+                            <li><strong>Tính toạ độ mới bằng hàm đại số:</strong> Dùng <code>sm-trung-diem</code>, <code>sm-ti-le</code>, <code>sm-hinh-chieu</code>.</li>
+                            <li><strong>Phân định nét vẽ:</strong> Nét đứt (<code>dut: true</code>) cho đường khuất bên trong, nét liền (<code>dut: false</code>) cho đường nhìn thấy, tô mờ thiết diện (<code>sm-thiet-dien</code>).</li>
+                        </ol>
+                        <p style="margin:0; background:#f1f5f9; padding:10px; border-radius:6px; font-size:0.84rem;">
+                            📂 File hướng dẫn chi tiết dành cho lập trình viên/AI: <code>public/hdsd/AI-HINH-HOC-PROMPT.md</code> và skill <code>.agents/skills/typst-geom-expert/SKILL.md</code>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="ai-modal-footer">
+                <button class="bbt-action-btn ghost" onclick="closeAiPromptModal()">Đóng</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

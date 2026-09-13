@@ -3,7 +3,6 @@
 #show math.frac: math.display
 
 
-#muc([Đề Luyện Tập Số 01])
 
 #resetexamstate()
 #exam-part([PHẦN I. Câu hỏi trắc nghiệm nhiều phương án lựa chọn], count: 33)

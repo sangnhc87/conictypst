@@ -3,7 +3,6 @@
 #show math.frac: math.display
 
 
-#muc([Đề Luyện Tập Số 01 — Vectơ trong không gian])
 
 #resetexamstate()
 #exam-part([PHẦN I. Câu trắc nghiệm nhiều phương án lựa chọn (24 câu)], count: 24)

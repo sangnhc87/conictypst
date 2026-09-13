@@ -1,0 +1,16 @@
+<svg class="typst-doc" viewBox="0 0 112.04724409448819 112.04724409448819" width="112.04724409448819pt" height="112.04724409448819pt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:h5="http://www.w3.org/1999/xhtml">
+    <g>
+        <g class="typst-group" transform="matrix(1 0 0 1 5 5)">
+            <g>
+                <path class="typst-shape" fill="none" stroke="#0f766e" stroke-width="1.2" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" d="M 0 0m 51.02362 0 c -28.154016 0 -51.02362 22.869604 -51.02362 51.02362 c 0 28.154022 22.869604 51.02362 51.02362 51.02362 c 28.154022 0 51.02362 -22.869598 51.02362 -51.02362 c 0 -28.154016 -22.869598 -51.02362 -51.02362 -51.02362 Z "/>
+                <path class="typst-shape" fill="none" stroke="#0f766e" stroke-width="0.8" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" transform="matrix(1 0 0 1 0 51.023622047244096)" d="M 0 0c 0 7.8276577 22.844053 14.173228 51.02362 14.173228 c 28.179573 0 51.02362 -6.3455706 51.02362 -14.173228 "/>
+                <path class="typst-shape" fill="none" stroke="#aaaaaa" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" stroke-dashoffset="0" stroke-dasharray="3 3" transform="matrix(1 0 0 1 0 36.8503937007874)" d="M 0 0m 0 14.173228 c 0.0000000000000062941777 -7.8276577 22.844053 -14.173228 51.02362 -14.173228 c 28.179573 0 51.02362 6.3455706 51.02362 14.173228 "/>
+                <path class="typst-shape" fill="none" stroke="#b45309" stroke-width="1.2" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" transform="matrix(1 0 0 1 11.338582677165357 9.921259842519682)" d="M 0 0m 39.68504 0 c -21.89757 0 -39.68504 4.4468675 -39.68504 9.92126 c 0 5.474392 17.78747 9.92126 39.68504 9.92126 c 21.897568 0 39.68504 -4.446868 39.68504 -9.92126 c 0 -5.4743924 -17.787472 -9.92126 -39.68504 -9.92126 Z "/>
+                <path class="typst-shape" fill="none" stroke="#b45309" stroke-width="1.2" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" transform="matrix(1 0 0 1 11.338582677165357 19.84251968503937)" d="M 0 0v 62.362206 "/>
+                <path class="typst-shape" fill="none" stroke="#b45309" stroke-width="1.2" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" transform="matrix(1 0 0 1 90.70866141732283 19.84251968503937)" d="M 0 0v 62.362206 "/>
+                <path class="typst-shape" fill="none" stroke="#b45309" stroke-width="1.2" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" transform="matrix(1 0 0 1 11.338582677165357 82.20472440944883)" d="M 0 0c 0 5.4793606 17.767597 9.92126 39.68504 9.92126 c 21.917442 0 39.68504 -4.4418993 39.68504 -9.92126 "/>
+                <path class="typst-shape" fill="none" stroke="#b45309" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" stroke-dashoffset="0" stroke-dasharray="3 3" transform="matrix(1 0 0 1 11.338582677165357 72.28346456692915)" d="M 0 0m 0 9.92126 c 0.0000000000000062941777 -5.4793606 17.767597 -9.92126 39.68504 -9.92126 c 21.917442 0 39.68504 4.4418993 39.68504 9.92126 "/>
+            </g>
+        </g>
+    </g>
+</svg>

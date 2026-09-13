@@ -3,7 +3,6 @@
 #show math.frac: math.display
 
 
-#muc([Đề Luyện Tập Số 07 - Bài Toán Thực Tế & Tối Ưu Hóa Nâng Cao])
 
 #resetexamstate()
 #exam-part([PHẦN I. Câu hỏi trắc nghiệm nhiều phương án lựa chọn (8 câu)], count: 8)

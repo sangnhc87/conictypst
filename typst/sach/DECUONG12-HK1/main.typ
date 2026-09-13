@@ -27,13 +27,19 @@
 #show math.frac: math.display
 
 
-// ─── CẤU HÌNH CHUNG (chỉnh sửa tại đây) ─────────────────────────
+// ─── CẤU HÌNH CHUNG (mặc định cho THPT Nguyễn Hữu Cảnh, có thể ghi đè qua sys.inputs) ─────
+#let truong-cfg = sys.inputs.at("truong", default: "TRƯỜNG THPT NGUYỄN HỮU CẢNH")
+#let to-bomon-cfg = sys.inputs.at("to-bomon", default: "TỔ TOÁN")
+#let tieu-de-cfg = sys.inputs.at("tieu-de", default: if mode == "loigiai" { "HƯỚNG DẪN GIẢI CHI TIẾT" } else { "TÀI LIỆU HỌC TẬP HỌC KỲ I" })
+#let mon-cfg = sys.inputs.at("mon", default: "MÔN: TOÁN — LỚP 12")
+#let nam-hoc-cfg = sys.inputs.at("nam-hoc", default: "NĂM HỌC 2026–2027")
+
 #show: de-cuong.with(
-  truong:    "TRƯỜNG THPT NGUYỄN HỮU CẢNH",
-  to-bomon:  "TỔ TOÁN",
-  tieu-de:   "TÀI LIỆU HỌC TẬP HỌC KỲ I",
-  mon:       "MÔN: TOÁN — LỚP 12",
-  nam-hoc:   "NĂM HỌC 2026–2027",
+  truong:    truong-cfg,
+  to-bomon:  to-bomon-cfg,
+  tieu-de:   tieu-de-cfg,
+  mon:       mon-cfg,
+  nam-hoc:   nam-hoc-cfg,
 )
  
 
@@ -103,7 +109,6 @@
 // ── Các bài trong Chương 3 ───────────────────────────────────────
 #include "chuong-03/bai01-khoang-bien-thien-tu-phan-vi.typ"
 #include "chuong-03/bai02-phuong-sai-do-lech-chuan.typ"
-#include "chuong-03/bai02-de4-nangcao.typ"
 
 #context {
   if mode != "dethi" {

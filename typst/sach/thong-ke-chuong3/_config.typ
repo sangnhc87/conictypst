@@ -161,7 +161,7 @@
             #q-content
           ],
           [
-            #text(size: 8pt, fill: gray.lighten(20%))[_Bài làm / Nháp:_]
+            #text(size: 8pt, fill: gray.lighten(20%))[_Bài làm:_]
             #v(0.3em)
             #rect(width: 100%, height: rect-h, stroke: none, fill: line-pattern)
           ]
@@ -178,7 +178,7 @@
             #q-content
           ],
           [
-            #text(size: 8pt, fill: gray.lighten(20%))[_Bài làm / Nháp:_]
+            #text(size: 8pt, fill: gray.lighten(20%))[_Bài làm:_]
             #v(0.3em)
             #rect(width: 100%, height: rect-h, stroke: none, fill: line-pattern)
           ]

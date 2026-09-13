@@ -3,7 +3,6 @@
 #show math.frac: math.display
 
 
-#muc([Đề Luyện Tập Số 03])
 
 #resetexamstate()
 #exam-part([PHẦN I. Câu trắc nghiệm nhiều phương án lựa chọn], count: auto)
@@ -293,8 +292,8 @@
   fig: canvas(length: 0.7cm, {
     import draw: *
     // Vẽ hệ trục tọa độ
-    line((-5.0, 0), (5.0, 0), mark: (end: ">"), stroke: 0.5pt)
-    content((5.0, 0), $x$, anchor: "north", padding: 2pt)
+    line((-5.0, 0), (4.0, 0), mark: (end: ">"), stroke: 0.5pt)
+    content((4.0, 0), $x$, anchor: "north", padding: 2pt)
     line((0, -6.0), (0, 6.0), mark: (end: ">"), stroke: 0.5pt)
     content((0, 6.0), $y$, anchor: "west", padding: 2pt)
     content((0.25, -0.25), $O$)
@@ -331,7 +330,7 @@
     line(..pts_left, stroke: 1.2pt + blue)
     
     let pts_right = ()
-    for i in range(-8, 50) {
+    for i in range(-8, 40) {
       let x = i / 10
       let y = (-x * x - x + 2) / (x + 1)
       if y >= -6.0 and y <= 6.0 {
@@ -365,17 +364,17 @@
     // Vẽ hệ trục tọa độ
     line((-5.0, 0), (4.0, 0), mark: (end: ">"), stroke: 0.5pt)
     content((4.0, 0), $x$, anchor: "north", padding: 2pt)
-    line((0, -6.0), (0, 5.0), mark: (end: ">"), stroke: 0.5pt)
+    line((0, -3.0), (0, 5.0), mark: (end: ">"), stroke: 0.5pt)
     content((0, 5.0), $y$, anchor: "west", padding: 2pt)
     content((0.25, -0.25), $O$)
     
     // Tiệm cận đứng x = 1
-    line((1, -6.0), (1, 5.0), stroke: (dash: "dashed", paint: gray, thickness: 0.5pt))
+    line((1, -3.0), (1, 5.0), stroke: (dash: "dashed", paint: gray, thickness: 0.95pt))
     content((1.2, 4.5), $x = 1$, anchor: "west")
     content((1.2, -0.35), $1$)
     
     // Tiệm cận xiên y = x + 2
-    line((-5.0, -3.0), (3.0, 5.0), stroke: (dash: "dashed", paint: gray, thickness: 0.5pt))
+    line((-5.0, -3.0), (3.0, 5.0), stroke: (dash: "dashed", paint: gray, thickness: 0.95pt))
     content((2.5, 4.8), $y = x + 2$, anchor: "south-east")
     
     // Giao điểm tiệm cận xiên với các trục
@@ -580,38 +579,56 @@
     import draw: *
     // Vẽ hệ trục tọa độ
     line((-3.0, 0), (5.0, 0), mark: (end: ">"), stroke: 0.5pt)
-    content((5.0, 0), $x$, anchor: "north", padding: 2pt)
-    line((0, -2.0), (0, 7.0), mark: (end: ">"), stroke: 0.5pt)
-    content((0, 7.0), $y$, anchor: "west", padding: 2pt)
-    content((0.2, -0.2), $O$)
+    content((5.0, -0.3), $x$)
+    line((0, -2.5), (0, 7.0), mark: (end: ">"), stroke: 0.5pt)
+    content((0.3, 7.0), $y$)
+    content((-0.3, -0.3), $O$)
     
     // Tiệm cận đứng x = 1
-    line((1, -2.0), (1, 7.0), stroke: (dash: "dashed", paint: gray, thickness: 0.5pt))
-    content((1.2, 6.5), $x = 1$, anchor: "west")
+    line((1, -2.5), (1, 7.0), stroke: (dash: "dashed", paint: gray, thickness: 0.8pt))
+    content((1.3, 6.5), $x = 1$, anchor: "west")
     
     // Tiệm cận xiên y = x + 1
-    line((-3.0, -2.0), (5.0, 6.0), stroke: (dash: "dashed", paint: gray, thickness: 0.5pt))
+    line((-3.0, -2.0), (5.0, 6.0), stroke: (dash: "dashed", paint: gray, thickness: 0.8pt))
     
-    // Các điểm đặc biệt
-    content((0.2, 1.2), $1$)
-    content((-0.2, 2.0), $2$)
+    // Các điểm đặc biệt trên trục
+    // Điểm cực tiểu (2, 4)
+    line((2, 0), (2, 4), stroke: (dash: "dashed", paint: gray, thickness: 0.5pt))
+    line((0, 4), (2, 4), stroke: (dash: "dashed", paint: gray, thickness: 0.5pt))
+    
+    // Ox
+    line((1, -0.1), (1, 0.1), stroke: 0.5pt)
+    content((1.3, -0.3), $1$) // TCĐ
+    
+    line((2, -0.1), (2, 0.1), stroke: 0.5pt)
+    content((2, -0.3), $2$) // Hoành độ cực tiểu
+    
+    line((-1, -0.1), (-1, 0.1), stroke: 0.5pt)
+    content((-1, 0.3), $-1$) // Cắt TCX
+    
+    // Oy
+    line((-0.1, 1), (0.1, 1), stroke: 0.5pt)
+    content((-0.3, 1), $1$) // Cắt TCX
+    
+    line((-0.1, 4), (0.1, 4), stroke: 0.5pt)
+    content((-0.3, 4), $4$) // Tung độ cực tiểu
     
     // Vẽ đồ thị y = x + 1 + 1/(x-1)
     let pts_left = ()
-    for i in range(-30, 8) {
-      let x = i / 10
+    for i in range(-300, 80) {
+      let x = i / 100
       let y = x + 1 + 1 / (x - 1)
-      if y >= -2.0 and y <= 7.0 {
+      if y >= -2.5 and y <= 7.0 {
         pts_left.push((x, y))
       }
     }
     line(..pts_left, stroke: 1.2pt + blue)
     
     let pts_right = ()
-    for i in range(12, 50) {
-      let x = i / 10
+    for i in range(120, 500) {
+      let x = i / 100
       let y = x + 1 + 1 / (x - 1)
-      if y >= -2.0 and y <= 7.0 {
+      if y >= -2.5 and y <= 7.0 {
         pts_right.push((x, y))
       }
     }

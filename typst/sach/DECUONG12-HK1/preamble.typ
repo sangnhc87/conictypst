@@ -102,7 +102,7 @@
           ],
           table.cell(fill: if compact-layout { line-pattern } else { none })[
             #box(fill: white, inset: (right: 4pt, bottom: 2pt))[
-              #text(size: 8pt, fill: gray.lighten(10%))[_Bài làm / Nháp:_]
+              #text(size: 8pt, fill: gray.lighten(10%))[_Bài làm:_]
             ]
             #v(0.3em)
             #rect(
@@ -125,7 +125,7 @@
             #q-content
           ],
           [
-            #text(size: 8pt, fill: gray.lighten(10%))[_Bài làm / Nháp:_]
+            #text(size: 8pt, fill: gray.lighten(10%))[_Bài làm:_]
             #v(0.3em)
             #rect(width: 100%, height: rect-h, stroke: none, fill: line-pattern)
           ]
@@ -218,7 +218,7 @@
   set page(
     paper: "a4",
     flipped: landscape,
-    margin: if compact-layout { (top: 1.0cm, bottom: 1.0cm, x: 0.8cm) } else { (top: 1.2cm, bottom: 1.2cm, x: 1cm) },
+    margin: if compact-layout { (top: 1.0cm, bottom: 1.6cm, x: 0.8cm) } else { (top: 1.2cm, bottom: 1.8cm, x: 1cm) },
     header: context {
       if counter(page).get().first() <= 2 { return none }
       set text(size: 8.5pt, fill: rgb("#666"))
@@ -231,11 +231,19 @@
     },
     footer: context {
       if counter(page).get().first() <= 2 { return none }
-      line(length: 100%, stroke: 0.3pt + rgb("#ddd"))
-      v(2pt)
-      align(center, text(size: 8pt, fill: rgb("#aaa"))[
-        #truong  ·  #to-bomon  ·  #nam-hoc
-      ])
+      align(bottom)[
+        #pad(bottom: if compact-layout { 0.8cm } else { 0.9cm })[
+          #line(length: 100%, stroke: 0.3pt + rgb("#ddd"))
+          #v(2pt)
+          #align(center, text(size: 8pt, fill: rgb("#777"))[
+            #if upper(truong) != upper(to-bomon) [
+              #truong  ·  #to-bomon  ·  #nam-hoc
+            ] else [
+              #to-bomon  ·  #nam-hoc
+            ]
+          ])
+        ]
+      ]
     }
   )
   set text(font: "Libertinus Serif", size: if compact-layout { 11pt } else { 12pt }, lang: "vi")
@@ -318,19 +326,24 @@
   ])[
     #box(width: 100%, height: 100%, inset: 2.5cm)[
       #v(1cm)
-      #text(size: 16pt, weight: "bold", fill: rgb("003087"), tracking: 2pt)[#upper(truong)]
+      #if upper(truong) != upper(to-bomon) [
+        #text(size: 16pt, weight: "bold", fill: rgb("003087"), tracking: 2pt)[#upper(truong)]
+        #v(0.3cm)
+        #text(size: 13pt, fill: rgb("003087").lighten(20%), tracking: 1pt, weight: "bold")[#upper(to-bomon)]
+      ] else [
+        #text(size: 18pt, weight: "bold", fill: rgb("003087"), tracking: 2pt)[#upper(to-bomon)]
+        #v(0.3cm)
+        #text(size: 12pt, fill: rgb("003087").lighten(20%), tracking: 1pt, weight: "bold")[CHIA SẺ CHUYÊN MÔN TOÁN HỌC]
+      ]
       
-      #v(0.3cm)
-      #text(size: 13pt, fill: rgb("003087").lighten(20%), tracking: 1pt, weight: "bold")[#upper(to-bomon)]
-      
-      #v(6cm)
+      #v(5.5cm)
       
       #rect(width: 80pt, height: 6pt, fill: rgb("c8102e"), radius: 3pt)
       
       #v(1cm)
-      #text(size: 44pt, weight: "black", fill: rgb("003087"), font: "Libertinus Serif")[#upper(tieu-de)]
+      #text(size: if tieu-de.len() > 30 { 32pt } else { 42pt }, weight: "black", fill: rgb("003087"), font: "Libertinus Serif")[#upper(tieu-de)]
       
-      #v(1.5cm)
+      #v(1.2cm)
       #block(
         fill: gradient.linear(rgb("c8102e"), rgb("ff4d4d")),
         inset: (x: 20pt, y: 12pt), 
@@ -343,12 +356,18 @@
       #grid(
         columns: (auto, 1fr),
         align: (left, right),
-        text(size: 12pt, weight: "bold", fill: rgb("003087"))[NĂM HỌC #nam-hoc],
+        text(size: 12pt, weight: "bold", fill: rgb("003087"))[
+          #if nam-hoc.starts-with("NĂM HỌC") [#upper(nam-hoc)] else [NĂM HỌC #upper(nam-hoc)]
+        ],
         text(size: 12pt, fill: rgb("666666"), style: "italic")[Tài liệu lưu hành nội bộ]
       )
       #v(0.5cm)
       #align(center)[
-        #text(size: 10pt, weight: "bold", fill: rgb("003087"), tracking: 1.5pt)[TRƯỜNG ĐẠT CHUẨN QUỐC GIA]
+        #if upper(truong) != upper(to-bomon) [
+          #text(size: 10pt, weight: "bold", fill: rgb("003087"), tracking: 1.5pt)[TRƯỜNG ĐẠT CHUẨN QUỐC GIA]
+        ] else [
+          #text(size: 10pt, weight: "bold", fill: rgb("003087"), tracking: 1.5pt)[CHIA SẺ CHUYÊN MÔN DÀNH TẶNG ĐỒNG NGHIỆP]
+        ]
       ]
     ]
   ]

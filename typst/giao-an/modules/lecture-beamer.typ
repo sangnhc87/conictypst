@@ -95,11 +95,16 @@
     aspect-ratio: aspect-ratio,
     footer: context {
       set text(size: 7pt, fill: _muted)
+      let has-toc = query(label("lec-toc-main")).len() > 0
       grid(
         columns: (1fr, auto, 1fr),
         align: (left + horizon, center + horizon, right + horizon),
         pad(left: 4pt)[#author — #institution],
-        text(fill: accent, weight: "bold")[#title],
+        if has-toc {
+          link(label("lec-toc-main"))[#text(fill: accent, weight: "bold")[📑 #title]]
+        } else {
+          text(fill: accent, weight: "bold")[#title]
+        },
         pad(right: 4pt)[#counter(page).display() / #counter(page).final().first()],
       )
     },
@@ -668,12 +673,8 @@
 }
 
 // ── HELPER: Dùng inline cho số đặc biệt ───────────────────────────────────
-// Reset example counter (dùng đầu mỗi file)
-#let lec-reset() = {
-  _lec-ex-cnt.update(0)
-  _lec-thm-cnt.update(0)
-  _lec-def-cnt.update(0)
-}
+// Reset example counter (dùng đầu mỗi file - an toàn không sinh slide trắng)
+#let lec-reset() = none
 
 // ══════════════════════════════════════════════════════════════════════════
 // HỆ THỐNG HYPERLINK & MỤC LỤC
@@ -692,24 +693,27 @@
 #let lt-nav-btn(label-id, icon: "←", txt: "Mục lục") = {
   context {
     let s = _lec-style.get()
-    link(label(label-id),
-      box(
-        fill: s.accent.darken(60%),
-        stroke: 0.8pt + s.accent,
-        inset: (x: 10pt, y: 5pt),
-        radius: 4pt,
-      )[
-        #text(size: 9pt, fill: s.accent, weight: "bold")[#icon #txt]
-      ]
-    )
+    let has-lbl = query(label(label-id)).len() > 0
+    if has-lbl {
+      link(label(label-id),
+        box(
+          fill: s.accent.lighten(90%),
+          stroke: 0.8pt + s.accent,
+          inset: (x: 8pt, y: 4pt),
+          radius: 4pt,
+        )[
+          #text(size: 8pt, fill: s.accent, weight: "bold")[#icon #txt]
+        ]
+      )
+    }
   }
 }
 
 // ── lt-section-link: Section slide với label để hyperlink đến ────────────
 // Thay thế lt-section khi dùng hệ thống TOC
 #let lt-section-link(id, icon, body) = {
-  _register-toc(id, body, icon)
   slide(title: none)[
+    #_register-toc(id, body, icon)
     #[#metadata(none) #label(id)]
     #align(center + horizon)[
       #v(-1em)
@@ -734,6 +738,9 @@
 // ── lt-toc: Slide Mục lục có hyperlink đến từng phần ─────────────────────
 #let lt-toc(title: "📋 MỤC LỤC BÀI HỌC") = {
   slide(title: none)[
+    #_lec-ex-cnt.update(0)
+    #_lec-thm-cnt.update(0)
+    #_lec-def-cnt.update(0)
     #[#metadata(none) #label("lec-toc-main")]
     #context {
       let s = _lec-style.get()
@@ -777,15 +784,61 @@
   ]
 }
 
+// ── lt-exercise-hub: Bảng điều hướng bài tập tương tác ────────────────────
+#let lt-exercise-hub(title: "📋 BẢNG ĐIỀU HƯỚNG BÀI TẬP", questions: (), back-to: "lec-toc-main") = {
+  slide(title: none)[
+    #[#metadata(none) #label("sec-exercise-hub")]
+    #context {
+      let s = _lec-style.get()
+      v(-0.3em)
+      text(size: s.base * 0.9, fill: s.accent, weight: "bold")[#title]
+      v(0.6em)
+      grid(
+        columns: (1fr, 1fr, 1fr),
+        row-gutter: 8pt,
+        column-gutter: 10pt,
+        ..questions.map(q => {
+          let q-num = q.at("num", default: 1)
+          let q-type = q.at("type", default: "TN")
+          let q-desc = q.at("desc", default: "")
+          let q-clr = if q-type == "DS" { lec-palette.violet } else if q-type == "TLN" { lec-palette.cyan } else { s.accent }
+          link(label("cau-" + str(q-num)),
+            block(
+              width: 100%,
+              fill: q-clr.lighten(92%),
+              stroke: 1pt + q-clr,
+              inset: (x: 8pt, y: 7pt),
+              radius: 6pt,
+            )[
+              #grid(
+                columns: (auto, 1fr),
+                column-gutter: 6pt,
+                align: (left + horizon, left + horizon),
+                box(fill: q-clr, inset: (x: 6pt, y: 3pt), radius: 3pt)[
+                  #text(weight: "bold", fill: white, size: 7.5pt)[#q-type #q-num]
+                ],
+                text(size: 7.5pt, fill: s.fg, weight: "medium")[#q-desc]
+              )
+            ]
+          )
+        })
+      )
+      v(0.6em)
+      align(right)[#lt-nav-btn(back-to, icon: "◀", txt: "Quay lại mục lục")]
+    }
+  ]
+}
+
 // ══════════════════════════════════════════════════════════════════════════
 // ADAPTER CÂU HỎI CHO BEAMER
 // ══════════════════════════════════════════════════════════════════════════
 
 #let _lec-q-label = counter("lec-q-idx")
 
-#let lt-tn(stem, options, correct: (), loigiai: none, de: "", num: auto) = {
-  _lec-q-label.step()
+#let lt-tn(stem, options, correct: (), loigiai: none, de: "", num: auto, highlight-correct: false, back-to: "lec-toc-main", fig: none, fig-pos: "right", fig-width: 35%, lines: 0, dir: "doc", accent: none, opt-fig: false, ..args) = {
   slide(title: none)[
+    #only(1)[#_lec-q-label.step()]
+    #if num != auto { only(1)[#metadata(none) #label("cau-" + str(num))] }
     #context {
       let s = _lec-style.get()
       let q-n = if num != auto { num } else { _lec-q-label.display() }
@@ -795,19 +848,48 @@
           #text(size: 7pt, fill: lec-palette.violet, weight: "bold")[#de]
         ]
       } else { none }
-      let correct-set = if type(correct) == array { correct } else { (correct,) }
+      let has-hub = query(label("sec-exercise-hub")).len() > 0
+      let has-toc = query(label("lec-toc-main")).len() > 0
 
       grid(
-        columns: (auto, 1fr),
-        align: (left + horizon, right + horizon),
-        box(fill: s.accent, inset: (x: 12pt, y: 8pt), radius: 4pt)[
-          #text(weight: "bold", fill: white, size: s.base * 0.85)[Câu #q-n]
+        columns: (auto, 1fr, auto),
+        column-gutter: 8pt,
+        align: (left + horizon, left + horizon, right + horizon),
+        box(fill: s.accent, inset: (x: 10pt, y: 6pt), radius: 4pt)[
+          #text(weight: "bold", fill: white, size: s.base * 0.8)[Câu #q-n]
         ],
         if de-tag != none { de-tag } else { [] },
+        [
+          #if has-hub [
+            #link(label("sec-exercise-hub"))[
+              #box(fill: s.accent.lighten(90%), stroke: 0.8pt + s.accent, inset: (x: 6pt, y: 3.5pt), radius: 4pt)[
+                #text(size: 7pt, fill: s.accent, weight: "bold")[↩ Bài tập]
+              ]
+            ]
+            #h(4pt)
+          ]
+          #if has-toc [
+            #link(label("lec-toc-main"))[
+              #box(fill: s.accent.lighten(90%), stroke: 0.8pt + s.accent, inset: (x: 6pt, y: 3.5pt), radius: 4pt)[
+                #text(size: 7pt, fill: s.accent, weight: "bold")[◀ Mục lục]
+              ]
+            ]
+          ]
+        ]
       )
-      v(0.6em)
-      text(size: s.base * 1.0, fill: s.fg, weight: "medium")[#stem]
-      v(0.4em)
+      v(0.5em)
+      if fig != none {
+        grid(
+          columns: (1fr, auto),
+          column-gutter: 12pt,
+          align: (left + top, center + horizon),
+          text(size: s.base * 1.0, fill: s.fg, weight: "medium")[#stem],
+          align(center)[#fig]
+        )
+      } else {
+        text(size: s.base * 1.0, fill: s.fg, weight: "medium")[#stem]
+      }
+      v(0.35em)
       grid(
         columns: (1fr, 1fr),
         row-gutter: 8pt, column-gutter: 10pt,
@@ -815,7 +897,7 @@
           let lbl = labels.at(i)
           let is-dict = type(opt) == dictionary
           let is-true-dict = is-dict and opt.at("true", default: false)
-          let ok = correct-set.contains(i + 1) or is-true-dict
+          let ok = highlight-correct and (correct-set.contains(i + 1) or is-true-dict)
           let content-val = if is-dict { opt.at("body", default: opt) } else { opt }
           block(
             width: 100%,
@@ -845,6 +927,9 @@
       pause
       context {
         let s = _lec-style.get()
+        let labels = ("A", "B", "C", "D", "E", "F")
+        let correct-set = if type(correct) == array { correct } else { if correct != () and correct != none { (correct,) } else { () } }
+        let ans-str = if correct-set.len() > 0 { correct-set.map(c => labels.at(c - 1)).join(", ") } else { "" }
         v(0.3em)
         block(
           width: 100%,
@@ -853,7 +938,19 @@
           inset: (x: 14pt, y: 9pt),
           radius: (right: 5pt),
         )[
-          #text(size: s.base * 0.65, fill: lec-palette.emerald, weight: "bold")[✅ LỜI GIẢI]
+          #grid(
+            columns: (auto, 1fr),
+            column-gutter: 10pt,
+            align: (left + horizon, left + horizon),
+            [
+              #text(size: s.base * 0.7, fill: lec-palette.emerald, weight: "bold")[✅ LỜI GIẢI CHI TIẾT]
+            ],
+            if ans-str != "" [
+              #box(fill: lec-palette.emerald, inset: (x: 8pt, y: 3pt), radius: 3pt)[
+                #text(size: s.base * 0.65, fill: white, weight: "bold")[Chọn đáp án: #ans-str]
+              ]
+            ]
+          )
           #v(0.25em)
           #set text(size: s.base * 0.75, fill: s.fg)
           #loigiai
@@ -863,85 +960,131 @@
   ]
 }
 
-#let lt-ds(stem, statements, loigiai: none, de: "", num: auto) = {
-  _lec-q-label.step()
+#let lt-ds(stem, statements, loigiai: none, de: "", num: auto, back-to: "lec-toc-main", fig: none, fig-pos: "right", fig-width: 35%, lines: 0, dir: "doc", accent: none, ..args) = {
   slide(title: none)[
+    #only(1)[#_lec-q-label.step()]
+    #if num != auto { only(1)[#metadata(none) #label("cau-" + str(num))] }
     #context {
       let s = _lec-style.get()
       let q-n = if num != auto { num } else { _lec-q-label.display() }
-      let alpha = ("a", "b", "c", "d")
+      let alpha = ("a", "b", "c", "d", "e", "f")
       let de-tag = if de != "" {
         box(fill: lec-palette.violet.lighten(70%), stroke: 0.5pt + lec-palette.violet, inset: (x: 7pt, y: 3pt), radius: 3pt)[
           #text(size: 7pt, fill: lec-palette.violet, weight: "bold")[#de]
         ]
       } else { none }
+      let has-hub = query(label("sec-exercise-hub")).len() > 0
+      let has-toc = query(label("lec-toc-main")).len() > 0
 
       grid(
-        columns: (auto, 1fr),
-        align: (left + horizon, right + horizon),
-        box(fill: lec-palette.violet, inset: (x: 12pt, y: 8pt), radius: 4pt)[
-          #text(weight: "bold", fill: white, size: s.base * 0.85)[Câu #q-n — Đúng/Sai]
+        columns: (auto, 1fr, auto),
+        column-gutter: 8pt,
+        align: (left + horizon, left + horizon, right + horizon),
+        box(fill: lec-palette.violet, inset: (x: 10pt, y: 6pt), radius: 4pt)[
+          #text(weight: "bold", fill: white, size: s.base * 0.8)[Câu #q-n — Đúng/Sai]
         ],
         if de-tag != none { de-tag } else { [] },
+        [
+          #if has-hub [
+            #link(label("sec-exercise-hub"))[
+              #box(fill: lec-palette.violet.lighten(90%), stroke: 0.8pt + lec-palette.violet, inset: (x: 6pt, y: 3.5pt), radius: 4pt)[
+                #text(size: 7pt, fill: lec-palette.violet, weight: "bold")[↩ Bài tập]
+              ]
+            ]
+            #h(4pt)
+          ]
+          #if has-toc [
+            #link(label("lec-toc-main"))[
+              #box(fill: lec-palette.violet.lighten(90%), stroke: 0.8pt + lec-palette.violet, inset: (x: 6pt, y: 3.5pt), radius: 4pt)[
+                #text(size: 7pt, fill: lec-palette.violet, weight: "bold")[◀ Mục lục]
+              ]
+            ]
+          ]
+        ]
       )
-      v(0.6em)
-      text(size: s.base * 1.0, fill: s.fg, weight: "medium")[#stem]
       v(0.4em)
+      if fig != none {
+        grid(
+          columns: (1fr, auto),
+          column-gutter: 12pt,
+          align: (left + top, center + horizon),
+          text(size: s.base * 0.95, fill: s.fg, weight: "medium")[#stem],
+          align(center)[#fig]
+        )
+      } else {
+        text(size: s.base * 0.95, fill: s.fg, weight: "medium")[#stem]
+      }
+      v(0.35em)
       
-      for (i, stmt) in statements.enumerate() {
-        let content-val = if type(stmt) == dictionary { stmt.at("body", default: stmt) } else { stmt }
-        block(below: 8pt)[
-          #grid(
+      grid(
+        columns: (1fr, 1fr),
+        row-gutter: 7pt,
+        column-gutter: 14pt,
+        ..statements.enumerate().map(((i, stmt)) => {
+          let content-val = if type(stmt) == dictionary { stmt.at("body", default: stmt) } else { stmt }
+          grid(
             columns: (auto, 1fr),
-            column-gutter: 12pt,
+            column-gutter: 8pt,
             align: (center + top, left + horizon),
             box(
-              width: 26pt, height: 26pt,
+              width: 22pt, height: 22pt,
               fill: s.card,
               stroke: 1pt + s.accent.lighten(40%),
-              radius: 13pt,
+              radius: 11pt,
             )[
               #align(center + horizon)[
-                #text(weight: "bold", fill: s.accent, size: s.base * 0.75)[
-                  #alpha.at(i)
-                ]
+                #text(weight: "bold", fill: s.accent, size: s.base * 0.7)[#alpha.at(i)]
               ]
             ],
-            text(size: s.base * 0.85, fill: s.fg)[#content-val],
+            text(size: s.base * 0.8, fill: s.fg)[#content-val]
           )
-        ]
-      }
+        })
+      )
     }
     #if loigiai != none {
       pause
       context {
         let s = _lec-style.get()
-        let alpha = ("a", "b", "c", "d")
-        v(0.3em)
+        let alpha = ("a", "b", "c", "d", "e", "f")
+        v(0.25em)
         block(
           width: 100%,
           fill: lec-palette.sol-fill,
           stroke: (left: 3pt + lec-palette.emerald),
-          inset: (x: 14pt, y: 9pt),
+          inset: (x: 12pt, y: 8pt),
           radius: (right: 5pt),
         )[
-          #text(size: s.base * 0.65, fill: lec-palette.emerald, weight: "bold")[✅ LỜI GIẢI CHI TIẾT & ĐÁP ÁN]
-          #v(0.25em)
-          
           #grid(
-            columns: (auto, auto, auto, auto),
-            column-gutter: 16pt,
-            ..statements.enumerate().map(((i, stmt)) => {
-              let correct-val = if type(stmt) == dictionary { stmt.at("true", default: false) } else { false }
-              let lbl = if correct-val { "Đúng" } else { "Sai" }
-              let clr = if correct-val { lec-palette.emerald } else { lec-palette.rose }
-              text(weight: "bold", fill: clr, size: s.base * 0.75)[Mệnh đề #alpha.at(i): #lbl]
-            })
+            columns: (auto, 1fr),
+            column-gutter: 12pt,
+            align: (left + horizon, left + horizon),
+            [
+              #text(size: s.base * 0.65, fill: lec-palette.emerald, weight: "bold")[✅ ĐÁP ÁN & LỜI GIẢI CHI TIẾT]
+            ],
+            [
+              #grid(
+                columns: statements.map(_ => auto),
+                column-gutter: 10pt,
+                ..statements.enumerate().map(((i, stmt)) => {
+                  let correct-val = if type(stmt) == dictionary { stmt.at("true", default: false) } else { false }
+                  let lbl = if correct-val { "Đúng" } else { "Sai" }
+                  let clr = if correct-val { lec-palette.emerald } else { lec-palette.rose }
+                  box(
+                    fill: clr.lighten(85%),
+                    stroke: 0.8pt + clr,
+                    inset: (x: 6pt, y: 2pt),
+                    radius: 3pt,
+                  )[
+                    #text(weight: "bold", fill: clr, size: s.base * 0.65)[#alpha.at(i)) #lbl]
+                  ]
+                })
+              )
+            ]
           )
-          #v(0.5em)
+          #v(0.2em)
           #line(length: 100%, stroke: 0.5pt + lec-palette.emerald.lighten(60%))
-          #v(0.5em)
-          #set text(size: s.base * 0.75, fill: s.fg)
+          #v(0.2em)
+          #set text(size: s.base * 0.72, fill: s.fg)
           #loigiai
         ]
       }
@@ -949,9 +1092,10 @@
   ]
 }
 
-#let lt-tln(stem, answer, loigiai: none, de: "", num: auto) = {
-  _lec-q-label.step()
+#let lt-tln(stem, answer, loigiai: none, de: "", num: auto, back-to: "lec-toc-main", fig: none, fig-pos: "right", fig-width: 35%, lines: 0, dir: "doc", accent: none, ..args) = {
   slide(title: none)[
+    #only(1)[#_lec-q-label.step()]
+    #if num != auto { only(1)[#metadata(none) #label("cau-" + str(num))] }
     #context {
       let s = _lec-style.get()
       let q-n = if num != auto { num } else { _lec-q-label.display() }
@@ -960,36 +1104,49 @@
           #text(size: 7pt, fill: lec-palette.cyan, weight: "bold")[#de]
         ]
       } else { none }
+      let has-hub = query(label("sec-exercise-hub")).len() > 0
+      let has-toc = query(label("lec-toc-main")).len() > 0
 
       grid(
-        columns: (auto, 1fr),
-        align: (left + horizon, right + horizon),
-        box(fill: lec-palette.cyan, inset: (x: 12pt, y: 8pt), radius: 4pt)[
-          #text(weight: "bold", fill: white, size: s.base * 0.85)[Câu #q-n — Tự luận ngắn]
+        columns: (auto, 1fr, auto),
+        column-gutter: 8pt,
+        align: (left + horizon, left + horizon, right + horizon),
+        box(fill: lec-palette.cyan, inset: (x: 10pt, y: 6pt), radius: 4pt)[
+          #text(weight: "bold", fill: white, size: s.base * 0.8)[Câu #q-n — Trả lời ngắn]
         ],
         if de-tag != none { de-tag } else { [] },
-      )
-      v(0.6em)
-      text(size: s.base * 1.0, fill: s.fg, weight: "medium")[#stem]
-    }
-    #pause
-    #context {
-      let s = _lec-style.get()
-      v(0.5em)
-      align(center)[
-        #block(
-          fill: lec-palette.amber.lighten(85%),
-          stroke: 1.5pt + lec-palette.amber,
-          inset: (x: 24pt, y: 12pt),
-          radius: 8pt,
-        )[
-          #text(size: s.base * 0.68, fill: lec-palette.amber, weight: "bold")[🎯 ĐÁP ÁN:]
-          #h(8pt)
-          #text(size: s.base * 1.1, fill: white, weight: "bold")[#answer]
+        [
+          #if has-hub [
+            #link(label("sec-exercise-hub"))[
+              #box(fill: lec-palette.cyan.lighten(90%), stroke: 0.8pt + lec-palette.cyan, inset: (x: 6pt, y: 3.5pt), radius: 4pt)[
+                #text(size: 7pt, fill: lec-palette.cyan, weight: "bold")[↩ Bài tập]
+              ]
+            ]
+            #h(4pt)
+          ]
+          #if has-toc [
+            #link(label("lec-toc-main"))[
+              #box(fill: lec-palette.cyan.lighten(90%), stroke: 0.8pt + lec-palette.cyan, inset: (x: 6pt, y: 3.5pt), radius: 4pt)[
+                #text(size: 7pt, fill: lec-palette.cyan, weight: "bold")[◀ Mục lục]
+              ]
+            ]
+          ]
         ]
-      ]
+      )
+      v(0.4em)
+      if fig != none {
+        grid(
+          columns: (1fr, auto),
+          column-gutter: 12pt,
+          align: (left + top, center + horizon),
+          text(size: s.base * 0.95, fill: s.fg, weight: "medium")[#stem],
+          align(center)[#fig]
+        )
+      } else {
+        text(size: s.base * 0.95, fill: s.fg, weight: "medium")[#stem]
+      }
     }
-    #if loigiai != none {
+    #if answer != none or loigiai != none {
       pause
       context {
         let s = _lec-style.get()
@@ -998,13 +1155,34 @@
           width: 100%,
           fill: lec-palette.sol-fill,
           stroke: (left: 3pt + lec-palette.emerald),
-          inset: (x: 14pt, y: 9pt),
+          inset: (x: 14pt, y: 8pt),
           radius: (right: 5pt),
         )[
-          #text(size: s.base * 0.65, fill: lec-palette.emerald, weight: "bold")[✅ LỜI GIẢI]
-          #v(0.25em)
-          #set text(size: s.base * 0.72, fill: s.fg)
-          #loigiai
+          #grid(
+            columns: (auto, 1fr),
+            column-gutter: 14pt,
+            align: (left + horizon, left + horizon),
+            [
+              #text(size: s.base * 0.65, fill: lec-palette.emerald, weight: "bold")[✅ LỜI GIẢI CHI TIẾT]
+            ],
+            [
+              #box(
+                fill: lec-palette.amber.lighten(85%),
+                stroke: 1pt + lec-palette.amber,
+                inset: (x: 10pt, y: 3pt),
+                radius: 4pt,
+              )[
+                #text(size: s.base * 0.68, fill: lec-palette.amber.darken(25%), weight: "bold")[🎯 ĐÁP SỐ: #answer]
+              ]
+            ]
+          )
+          #if loigiai != none [
+            #v(0.2em)
+            #line(length: 100%, stroke: 0.5pt + lec-palette.emerald.lighten(60%))
+            #v(0.2em)
+            #set text(size: s.base * 0.72, fill: s.fg)
+            #loigiai
+          ]
         ]
       }
     }

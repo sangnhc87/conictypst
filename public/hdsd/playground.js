@@ -41,6 +41,25 @@ const SYSTEM_FILES = {
   '/sang-exam.typ': null,
   '/math-sym.typ': null,
   '/geometry.typ': null,
+  // sang-math-geom & conic-toan pure typst models
+  '/sang-math-geom.typ': null,
+  '/conic-toan/baigiang.typ': null,
+  '/conic-toan/lib/ve.typ': null,
+  '/conic-toan/lib/hinh-phang.typ': null,
+  '/conic-toan/lib/hinh-khong-gian.typ': null,
+  '/conic-toan/lib/da-dien.typ': null,
+  '/conic-toan/lib/tron-xoay.typ': null,
+  '/conic-toan/lib/mat-cong.typ': null,
+  '/conic-toan/lib/oxyz-toan.typ': null,
+  '/conic-toan/lib/do-thi.typ': null,
+  '/conic-toan/lib/so-do-cay.typ': null,
+  '/conic-toan/lib/bang.typ': null,
+  '/conic-toan/lib/khao-sat.typ': null,
+  '/conic-toan/lib/bang-thong-ke.typ': null,
+  '/conic-toan/lib/bieu-do-thong-ke.typ': null,
+  '/conic-toan/lib/slide.typ': null,
+  '/conic-toan/lib/cau-hoi.typ': null,
+  '/conic-toan/lib/che-do.typ': null,
   // sang-math-graphics (SMG) virtual file system
   '/smg/lib.typ': null,
   '/smg/src/core/utils.typ': null,
@@ -77,6 +96,25 @@ async function loadSystemFiles() {
     { key: '/sang-exam.typ', url: `${base}/typst/sang-exam.typ` },
     { key: '/math-sym.typ',  url: `${base}/typst/math-sym.typ` },
     { key: '/geometry.typ',  url: `${base}/typst/geometry.typ` },
+    // sang-math-geom & conic-toan files
+    { key: '/sang-math-geom.typ',             url: `${base}/typst/sang-math-geom.typ` },
+    { key: '/conic-toan/baigiang.typ',        url: `${base}/typst/conic-toan/baigiang.typ` },
+    { key: '/conic-toan/lib/ve.typ',           url: `${base}/typst/conic-toan/lib/ve.typ` },
+    { key: '/conic-toan/lib/hinh-phang.typ',   url: `${base}/typst/conic-toan/lib/hinh-phang.typ` },
+    { key: '/conic-toan/lib/hinh-khong-gian.typ', url: `${base}/typst/conic-toan/lib/hinh-khong-gian.typ` },
+    { key: '/conic-toan/lib/da-dien.typ',      url: `${base}/typst/conic-toan/lib/da-dien.typ` },
+    { key: '/conic-toan/lib/tron-xoay.typ',    url: `${base}/typst/conic-toan/lib/tron-xoay.typ` },
+    { key: '/conic-toan/lib/mat-cong.typ',     url: `${base}/typst/conic-toan/lib/mat-cong.typ` },
+    { key: '/conic-toan/lib/oxyz-toan.typ',    url: `${base}/typst/conic-toan/lib/oxyz-toan.typ` },
+    { key: '/conic-toan/lib/do-thi.typ',       url: `${base}/typst/conic-toan/lib/do-thi.typ` },
+    { key: '/conic-toan/lib/so-do-cay.typ',    url: `${base}/typst/conic-toan/lib/so-do-cay.typ` },
+    { key: '/conic-toan/lib/bang.typ',         url: `${base}/typst/conic-toan/lib/bang.typ` },
+    { key: '/conic-toan/lib/khao-sat.typ',     url: `${base}/typst/conic-toan/lib/khao-sat.typ` },
+    { key: '/conic-toan/lib/bang-thong-ke.typ', url: `${base}/typst/conic-toan/lib/bang-thong-ke.typ` },
+    { key: '/conic-toan/lib/bieu-do-thong-ke.typ', url: `${base}/typst/conic-toan/lib/bieu-do-thong-ke.typ` },
+    { key: '/conic-toan/lib/slide.typ',        url: `${base}/typst/conic-toan/lib/slide.typ` },
+    { key: '/conic-toan/lib/cau-hoi.typ',      url: `${base}/typst/conic-toan/lib/cau-hoi.typ` },
+    { key: '/conic-toan/lib/che-do.typ',       url: `${base}/typst/conic-toan/lib/che-do.typ` },
     // SMG sang-math-graphics files
     { key: '/smg/lib.typ',                    url: `${base}/typst/smg/lib.typ` },
     { key: '/smg/src/core/utils.typ',         url: `${base}/typst/smg/src/core/utils.typ` },
@@ -176,8 +214,10 @@ async function compileTySvg(code) {
   // SMG: sang-math-graphics — detect by SMG function names
   const hasSmg = /(chop-sabc|chop-sabcd|lang-tru-abc|axis-xyz|pseudo-cone|pseudo-cylinder|tri-xyz|tri-abc|tri-right|rect-xyz|rect-abc|square|circle-desc|circle-circumcircle|circle-incircle|angle-mark|dashed-seg|draw-parabola|draw-ellipse|draw-hyperbola|draw-cone|draw-cylinder|draw-sphere|draw-pyramid|draw-truncated-pyramid|draw-helix|draw-conical-helix|draw-spring|draw-saddle|draw-paraboloid|draw-square-cross-section|draw-half-elliptical-tunnel|phanghoa-non|phanghoa-tru|phanghoa-sabc|cone-geodesic-3d|cone-unfold-2d|cylinder-geodesic-3d|cylinder-unfold-2d|truncated-cone-geodesic-3d|truncated-cone-unfold-2d|chop-sabc-deu|chop-sabcd-deu|plot-cubic|plot-parabola|plot-rational|draw-tree-2x2|draw-tree-3x2|draw-bayes-tree|draw-box-transfer-diagram|draw-bayes-contribution-bar)\(/.test(code);
   const hasUnfold = /#(cone|cylinder|prism|pyramid|box3|net|draw-solid-section|draw-tree-nodes)\(/.test(code);
+  const hasSangGeom = /(sm-|hinh-chop|hinh-hop|hinh-lap-phuong|hinh-lang-tru|hinh-non|hinh-tru|hinh-cau|tu-dien-deu|bat-dien-deu|muoi-hai-mat-deu|hai-muoi-mat-deu|chop-cuc|khoi-tron-xoay|truc-oxyz|oxyz|tam-giac|duong-tron-|ve-truc-tam|do-thi-|so-do-cay|da-dien|khoi-|hinh\(|khung-vua)/.test(code);
 
   let imports = '';
+  if (hasSangGeom && SYSTEM_FILES['/sang-math-geom.typ']) imports += `#import "/sang-math-geom.typ": *\n`;
   if (hasUnfold) {
     if (SYSTEM_FILES['/unfold-package/unfold.typ']) imports += `#import "/unfold-package/unfold.typ": *\n`;
     if (SYSTEM_FILES['/unfold-package/solid-section.typ']) imports += `#import "/unfold-package/solid-section.typ": *\n`;
@@ -192,7 +232,7 @@ async function compileTySvg(code) {
   if (SYSTEM_FILES['/math-sym.typ']) imports += `#import "/math-sym.typ": *\n`;
   if (hasBbt  && SYSTEM_FILES['/bbt.typ'])       imports += `#import "/bbt.typ": *\n`;
   if (hasSang && SYSTEM_FILES['/sang-exam.typ']) imports += `#import "/sang-exam.typ": *\n`;
-  if (!hasSmg && SYSTEM_FILES['/geometry.typ']) imports += `#import "/geometry.typ": *\n`;
+  if (!hasSmg && !hasSangGeom && SYSTEM_FILES['/geometry.typ']) imports += `#import "/geometry.typ": *\n`;
 
   // ── Page setup tùy loại content ──────────────────────────
   // - BBT / CeTZ: width:auto (tự fit với canvas)

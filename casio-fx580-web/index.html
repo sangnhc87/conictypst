@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Casio fx-580VN X ClassWiz - Giả Lập Máy Tính Khoa Học</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#1e2227">
+  
+  <link rel="stylesheet" href="./src/css/calculator.css">
+  <link rel="stylesheet" href="./src/css/lcd-display.css">
+</head>
+<body>
+
+  <!-- Top Action Toolbar -->
+  <header class="app-top-bar">
+    <div class="brand-badge">
+      <span class="brand-dot"></span>
+      <span>fx-580VN X ClassWiz</span>
+    </div>
+    <div class="top-actions">
+      <button id="btn-split-toggle" class="action-btn" title="Mở chia đôi màn hình vừa đọc đề bài vừa bấm máy (như iPad)">
+        📖 Đề bài &amp; PDF
+      </button>
+      <button id="btn-pwa-install" class="action-btn" title="Cài đặt vào điện thoại, iPad hoặc máy tính">
+        📲 Cài đặt App
+      </button>
+      <button id="btn-sound-toggle" class="action-btn" title="Bật/Tắt âm thanh gõ phím">
+        🔊 Âm phím: Bật
+      </button>
+      <button id="btn-dock-toggle" class="action-btn" title="Ghim máy tính nổi bên phải (kiểu Slide Over)">
+        📌 Ghim nổi
+      </button>
+    </div>
+  </header>
+
+  <div class="app-workspace">
+    <!-- Calculator Body (Draggable & Floating) -->
+    <main id="calculator-body" class="fx580-calculator">
+      
+      <!-- Header with Drag Handle, Brand & Solar Panel -->
+      <div id="calc-drag-handle" class="calc-header" title="Giữ chuột hoặc ngón tay để kéo di chuyển máy tính">
+        <div class="calc-title-wrap">
+          <span class="calc-brand">CASIO</span>
+          <span class="calc-model">fx-580VN X <span style="color:#e64980; font-size:8px;">CLASSWIZ</span></span>
+        </div>
+        <div class="calc-scientific-badge">SCIENTIFIC</div>
+        <div class="solar-panel">
+          <div class="solar-cell"></div>
+          <div class="solar-cell"></div>
+          <div class="solar-cell"></div>
+          <div class="solar-cell"></div>
+        </div>
+      </div>
+
+      <!-- LCD Screen Housing -->
+      <div class="calc-screen-housing" id="calc-app">
+        <div class="lcd-container">
+          <!-- Status Bar -->
+          <div class="lcd-status-bar">
+            <div class="status-left">
+              <span class="st-indicator st-shift">S</span>
+              <span class="st-indicator st-alpha">A</span>
+              <span class="st-indicator st-mem">M</span>
+              <span class="st-indicator st-sto">STO</span>
+            </div>
+            <div class="status-right">
+              <span class="st-indicator active" style="font-size:7px;">√■</span>
+              <span class="st-indicator st-angle active st-box">D</span>
+              <span class="st-indicator st-math active">Math</span>
+              <span class="st-indicator active" style="font-size:8px;">▲▼</span>
+            </div>
+          </div>
+
+          <!-- Main Display (Input line & Result area) -->
+          <div class="lcd-main-screen">
+            <div class="lcd-input-line">
+              <span class="expr-text"></span><span class="lcd-cursor"></span>
+            </div>
+            <div class="lcd-result-area">
+              <div class="lcd-result-text">0</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Middle Control Pad: D-Pad & Top Function Keys -->
+      <div class="control-pad-section">
+        <!-- 4-way Chrome D-Pad (Replay) -->
+        <div class="d-pad">
+          <button class="d-btn d-up" data-key="UP" title="Lên">▲</button>
+          <button class="d-btn d-down" data-key="DOWN" title="Xuống">▼</button>
+          <button class="d-btn d-left" data-key="LEFT" title="Trái">◀</button>
+          <button class="d-btn d-right" data-key="RIGHT" title="Phải">▶</button>
+          <div class="d-pad-inner">REPLAY</div>
+        </div>
+
+        <!-- Top Left & Right Keys around D-pad -->
+        <div class="top-keys-grid">
+          <div class="top-keys-col">
+            <div class="key-wrapper">
+              <div class="key-sub-labels"><span class="lbl-shift"></span></div>
+              <button class="c-btn btn-dark" data-key="SHIFT" style="color:var(--label-shift); font-weight:900;">SHIFT</button>
+            </div>
+            <div class="key-wrapper">
+              <div class="key-sub-labels"><span class="lbl-optn">QR</span></div>
+              <button class="c-btn btn-dark" data-key="OPTN">OPTN</button>
+            </div>
+          </div>
+
+          <div class="top-keys-col">
+            <div class="key-wrapper">
+              <div class="key-sub-labels"><span class="lbl-alpha"></span></div>
+              <button class="c-btn btn-dark" data-key="ALPHA" style="color:var(--label-alpha); font-weight:900;">ALPHA</button>
+            </div>
+            <div class="key-wrapper" style="display:flex; flex-direction:row; gap:4px;">
+              <button class="c-btn btn-dark" data-key="MENU" style="font-size:8.5px; padding:0; line-height:1.1;">MENU<br><span style="color:var(--label-shift); font-size:7.5px;">SETUP</span></button>
+              <button class="c-btn btn-dark" data-key="ON" style="font-size:10px;">ON</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scientific Function Keys Grid (4 rows x 6 cols) -->
+      <div class="func-keys-grid">
+        <!-- Row 1 -->
+        <div class="key-wrapper">
+          <div class="key-sub-labels"><span class="lbl-shift">SOLVE</span><span class="lbl-alpha">=</span></div>
+          <button class="c-btn btn-dark" data-key="CALC">CALC</button>
+        </div>
+        <div class="key-wrapper">
+          <div class="key-sub-labels"><span class="lbl-shift">d/dx</span><span class="lbl-shift" style="color:#d6336c;">Σ</span></div>
+          <button class="c-btn btn-dark" data-key="int">∫dx</button>
+        </div>
+        <div class="key-wrapper">
+          <div class="key-sub-labels"><span class="lbl-alpha">x</span></div>
+          <button class="c-btn btn-dark" data-key="x">x</button>
+        </div>
+        <div class="key-wrapper">
+          <div class="key-sub-labels"><span class="lbl-shift">c/d</span></div>
+          <button class="c-btn btn-dark" data-key="frac">■/□</button>
+        </div>
+        <div class="key-wrapper">
+          <div class="key-sub-labels"><span class="lbl-shift">∛■</span></div>
+          <button class="c-btn btn-dark" data-key="sqrt">√■</button>
+        </div>
+        <div class="key-wrapper">
+          <div class="key-sub-labels"><span class="lbl-shift">x³</span><span style="color:#20c997; font-size:7px;">DEC</span></div>
+          <button class="c-btn btn-dark" data-key="x^2">x²</button>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="key-wrapper">
+          <div class="key-sub-labels"><span class="lbl-shift">ⁿ√■</span><span style="color:#20c997; font-size:7px;">HEX</span></div>
+          <button class="c-btn btn-dark" data-key="x^y">x^■</button>
+        </div>
+        <div class="key-wrapper">
+          <div class="key-sub-labels"><span class="lbl-shift">10^■</span><span style="color:#20c997; font-size:7px;">BIN</span></div>
+          <button class="c-btn btn-dark" data-key="log">log</button>
+        </div>
+        <div class="key-wrapper">
+          <div class="key-sub-labels"><span class="lbl-shift">e^■</span><span style="color:#20c997; font-size:7px;">OCT</span></div>
+          <button class="c-btn btn-dark" data-key="ln">ln</button>
+        </div>
+        <div class="key-wrapper">
+          <div class="key-sub-labels"><span class="lbl-alpha">A</span></div>
+          <button class="c-btn btn-dark" data-key="(-)">(-)</button>
+        </div>
+        <div class="key-wrapper">
+          <div class="key-sub-labels"><span class="lbl-alpha">B</span><span class="lbl-shift">FACT</span></div>
+          <button class="c-btn btn-dark" data-key="deg">° ' "</button>
+        </div>
+        <div class="key-wrapper">
+          <div class="key-sub-labels"><span class="lbl-alpha">C</span><span class="lbl-shift">x!</span></div>
+          <button class="c-btn btn-dark" data-key="x^-1">x⁻¹</button>
+        </div>
+
+        <!-- Row 3 -->
+        <div class="key-wrapper">
+          <div class="key-sub-labels"><span class="lbl-alpha">D</span><span class="lbl-shift">sin⁻¹</span></div>
+          <button class="c-btn btn-dark" data-key="sin">sin</button>
+        </div>
+        <div class="key-wrapper">
+          <div class="key-sub-labels"><span class="lbl-alpha">E</span><span class="lbl-shift">cos⁻¹</span></div>
+          <button class="c-btn btn-dark" data-key="cos">cos</button>
+        </div>
+        <div class="key-wrapper">
+          <div class="key-sub-labels"><span class="lbl-alpha">F</span><span class="lbl-shift">tan⁻¹</span></div>
+          <button class="c-btn btn-dark" data-key="tan">tan</button>
+        </div>
+        <div class="key-wrapper">
+          <div class="key-sub-labels"><span class="lbl-shift">RECALL</span></div>
+          <button class="c-btn btn-dark" data-key="STO">STO</button>
+        </div>
+        <div class="key-wrapper">
+          <div class="key-sub-labels"><span class="lbl-shift">i</span></div>
+          <button class="c-btn btn-dark" data-key="ENG">ENG</button>
+        </div>
+        <div class="key-wrapper">
+          <div class="key-sub-labels"><span class="lbl-shift">%</span></div>
+          <button class="c-btn btn-dark" data-key="(">(</button>
+        </div>
+
+        <!-- Row 4 -->
+        <div class="key-wrapper">
+          <div class="key-sub-labels"><span class="lbl-alpha">x</span><span class="lbl-shift">,</span></div>
+          <button class="c-btn btn-dark" data-key=")">)</button>
+        </div>
+        <div class="key-wrapper">
+          <div class="key-sub-labels"><span class="lbl-alpha">y</span></div>
+          <button class="c-btn btn-dark" data-key="S_D">S&lt;=&gt;D</button>
+        </div>
+        <div class="key-wrapper">
+          <div class="key-sub-labels"><span class="lbl-alpha">M</span><span class="lbl-shift">M-</span></div>
+          <button class="c-btn btn-dark" data-key="M+">M+</button>
+        </div>
+        <div class="key-wrapper">
+          <div class="key-sub-labels"></div>
+          <button class="c-btn btn-dark" style="opacity:0; pointer-events:none;"></button>
+        </div>
+        <div class="key-wrapper">
+          <div class="key-sub-labels"></div>
+          <button class="c-btn btn-dark" style="opacity:0; pointer-events:none;"></button>
+        </div>
+        <div class="key-wrapper">
+          <div class="key-sub-labels"></div>
+          <button class="c-btn btn-dark" style="opacity:0; pointer-events:none;"></button>
+        </div>
+      </div>
+
+      <!-- Numeric Keypad Grid (4 rows x 5 cols) -->
+      <div class="num-keys-grid">
+        <!-- Row 1: 7, 8, 9, DEL, AC -->
+        <div class="key-wrapper">
+          <div class="key-sub-labels"><span class="lbl-shift">CONST</span></div>
+          <button class="c-btn btn-white" data-key="7">7</button>
+        </div>
+        <div class="key-wrapper">
+          <div class="key-sub-labels"><span class="lbl-shift">CONV</span></div>
+          <button class="c-btn btn-white" data-key="8">8</button>
+        </div>
+        <div class="key-wrapper">
+          <div class="key-sub-labels"><span class="lbl-shift">RESET</span></div>
+          <button class="c-btn btn-white" data-key="9">9</button>
+        </div>
+        <div class="key-wrapper">
+          <div class="key-sub-labels"><span class="lbl-shift">INS</span></div>
+          <button class="c-btn btn-del" data-key="DEL">DEL</button>
+        </div>
+        <div class="key-wrapper">
+          <div class="key-sub-labels"><span class="lbl-shift">OFF</span></div>
+          <button class="c-btn btn-ac" data-key="AC">AC</button>
+        </div>
+
+        <!-- Row 2: 4, 5, 6, ×, ÷ -->
+        <div class="key-wrapper">
+          <button class="c-btn btn-white" data-key="4">4</button>
+        </div>
+        <div class="key-wrapper">
+          <button class="c-btn btn-white" data-key="5">5</button>
+        </div>
+        <div class="key-wrapper">
+          <button class="c-btn btn-white" data-key="6">6</button>
+        </div>
+        <div class="key-wrapper">
+          <div class="key-sub-labels"><span class="lbl-shift">nPr</span><span style="color:#20c997; font-size:7px;">GCD</span></div>
+          <button class="c-btn btn-dark" data-key="×" style="font-size:16px;">×</button>
+        </div>
+        <div class="key-wrapper">
+          <div class="key-sub-labels"><span class="lbl-shift">nCr</span><span style="color:#20c997; font-size:7px;">LCM</span></div>
+          <button class="c-btn btn-dark" data-key="÷" style="font-size:16px;">÷</button>
+        </div>
+
+        <!-- Row 3: 1, 2, 3, +, - -->
+        <div class="key-wrapper">
+          <button class="c-btn btn-white" data-key="1">1</button>
+        </div>
+        <div class="key-wrapper">
+          <button class="c-btn btn-white" data-key="2">2</button>
+        </div>
+        <div class="key-wrapper">
+          <button class="c-btn btn-white" data-key="3">3</button>
+        </div>
+        <div class="key-wrapper">
+          <div class="key-sub-labels"><span class="lbl-shift">Pol</span><span style="color:#d6336c; font-size:7px;">Int</span></div>
+          <button class="c-btn btn-dark" data-key="+" style="font-size:16px;">+</button>
+        </div>
+        <div class="key-wrapper">
+          <div class="key-sub-labels"><span class="lbl-shift">Rec</span><span style="color:#d6336c; font-size:7px;">Intg</span></div>
+          <button class="c-btn btn-dark" data-key="-" style="font-size:16px;">−</button>
+        </div>
+
+        <!-- Row 4: 0, ., ×10^x, Ans, = -->
+        <div class="key-wrapper">
+          <div class="key-sub-labels"><span class="lbl-shift">Rnd</span></div>
+          <button class="c-btn btn-white" data-key="0">0</button>
+        </div>
+        <div class="key-wrapper">
+          <div class="key-sub-labels"><span class="lbl-shift">Ran#</span><span style="color:#d6336c; font-size:7px;">RanInt</span></div>
+          <button class="c-btn btn-white" data-key=".">•</button>
+        </div>
+        <div class="key-wrapper">
+          <div class="key-sub-labels"><span class="lbl-shift">π</span><span class="lbl-alpha">e</span></div>
+          <button class="c-btn btn-dark" data-key="x10^x" style="font-size:11px;">×10^x</button>
+        </div>
+        <div class="key-wrapper">
+          <div class="key-sub-labels"><span class="lbl-shift">%</span><span style="color:#d6336c; font-size:7px;">PreAns</span></div>
+          <button class="c-btn btn-dark" data-key="Ans">Ans</button>
+        </div>
+        <div class="key-wrapper">
+          <div class="key-sub-labels"><span class="lbl-shift">≈</span></div>
+          <button class="c-btn btn-white" data-key="=" style="background:#e8f0fe; font-size:18px;">=</button>
+        </div>
+      </div>
+
+      <div class="calc-footer-credit">CASIO CLASSWIZ fx-580VN X SIMULATOR</div>
+    </main>
+
+    <!-- Document Split Pane (Mimicking the user's iPad study view) -->
+    <section id="split-document-pane" class="document-split-pane" style="display:none;">
+      <div class="doc-header">
+        <div class="doc-title-tab">📄 Bài Tập Mẫu (iPad Study View)</div>
+        <label class="doc-upload-btn">
+          📂 Mở PDF / Ảnh
+          <input type="file" id="doc-file-input" accept="image/*,application/pdf" style="display:none;">
+        </label>
+      </div>
+
+      <div class="doc-content">
+        <div class="math-problem-box">
+          <div class="problem-title">Bài toán (Trích trong ảnh mẫu):</div>
+          <div class="problem-statement">
+            Giải phương trình: $$(x + 3)\sqrt{10 - x^2} = x^2 - x - 12$$
+          </div>
+          <div class="problem-solution">
+            <strong>Lời giải:</strong>
+            <p>Điều kiện xác định: \(10 - x^2 \ge 0 \iff -\sqrt{10} \le x \le \sqrt{10}\) (\(\approx -3.162 \le x \le 3.162\)).</p>
+            <p>Phương trình tương đương:</p>
+            <p style="text-align:center; font-family:serif; font-size:15px; margin:8px 0;">
+              \((x + 3)\left[\sqrt{10 - x^2} - (x - 4)\right] = 0\)
+            </p>
+            <div class="solution-cases">
+              <div>• <strong>Trường hợp 1:</strong> \(x + 3 = 0 \iff x = -3\) (Thỏa mãn điều kiện).</div>
+              <div>• <strong>Trường hợp 2:</strong> \(\sqrt{10 - x^2} = x - 4\)</div>
+              <div style="padding-left:14px; color:#c92a2a; font-size:13px; margin-top:4px;">
+                Điều kiện: \(x - 4 \ge 0 \iff x \ge 4\). Kết hợp với miền xác định \(x \le \sqrt{10} \approx 3.162\) suy ra mâu thuẫn, vô nghiệm!
+              </div>
+            </div>
+            <div style="margin-top:12px; padding:8px 12px; background:#e6fcf5; border-left:4px solid #20c997; border-radius:4px; color:#087f5b; font-size:13px;">
+              💡 <strong>Kiểm tra bằng TABLE fx-580:</strong><br>
+              Nhập \(f(x) = (x+3)\sqrt{10-x^2} - (x^2 - x - 12)\).<br>
+              Với \(x = -5, -4.655, -4.31, -3.965\) máy báo <strong>ERROR</strong> do nằm ngoài tập xác định (y hệt màn hình máy tính bên cạnh)!
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- iOS / iPadOS Safari Add-to-Home-Screen Modal -->
+  <div id="ios-modal" class="ios-guide-modal">
+    <div class="modal-content">
+      <div class="modal-icon">📲</div>
+      <div class="modal-title">Cài đặt cho iPad &amp; iPhone</div>
+      <div class="modal-steps">
+        <ol>
+          <li>Nhấn vào biểu tượng <strong>Chia sẻ (Share)</strong> trên thanh công cụ Safari.</li>
+          <li>Cuộn xuống và chọn <strong>"Thêm vào Màn hình chính" (Add to Home Screen)</strong>.</li>
+          <li>Nhấn <strong>Thêm (Add)</strong> ở góc trên bên phải.</li>
+        </ol>
+        <p style="margin-top:10px; font-size:12px; color:#10b981; font-weight:700;">
+          ✓ Ứng dụng sẽ hoạt động toàn màn hình, hỗ trợ kéo nổi (Slide Over) và dùng 100% Offline không cần mạng!
+        </p>
+      </div>
+      <button id="btn-close-ios-modal" class="modal-close-btn">Đã hiểu</button>
+    </div>
+  </div>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

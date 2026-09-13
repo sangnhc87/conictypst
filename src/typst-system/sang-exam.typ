@@ -637,6 +637,42 @@
   ]
 }
 
+#let _strip-statement-prefix(c) = {
+  if type(c) == str {
+    c.replace(regex("^\s*\(?[a-fA-F][\.\)]\s*"), "")
+  } else if type(c) == content and c.has("children") {
+    let ch = c.children
+    let start-idx = 0
+    while start-idx < ch.len() and ch.at(start-idx).func() == [ ].func() {
+      start-idx += 1
+    }
+    if start-idx < ch.len() and ch.at(start-idx).has("text") {
+      let orig-t = ch.at(start-idx).text
+      let t = orig-t.replace(regex("^\s*\(?[a-fA-F][\.\)]\s*"), "")
+      if t != orig-t {
+        let rest = ch.slice(start-idx + 1)
+        if t != "" {
+          ([#t], ..rest).join()
+        } else {
+          if rest.len() > 0 and rest.at(0).func() == [ ].func() {
+            rest.slice(1).join()
+          } else {
+            rest.join()
+          }
+        }
+      } else {
+        c
+      }
+    } else {
+      c
+    }
+  } else if type(c) == content and c.has("text") {
+    [#c.text.replace(regex("^\s*\(?[a-fA-F][\.\)]\s*"), "")]
+  } else {
+    c
+  }
+}
+
 // ─────────────────────────────────────────────────────────
 // TF — True([...]) = đúng, [...] = sai
 // Bảng: Phát biểu | □Đ | □S
@@ -675,7 +711,7 @@
     .enumerate()
     .map(((i, s)) => {
       let ok = if type(s) == dictionary { s.at("correct", default: false) } else { false }
-      let txt = if type(s) == dictionary { s.body } else { s }
+      let txt = if type(s) == dictionary { _strip-statement-prefix(s.body) } else { _strip-statement-prefix(s) }
       let md = if vis-ans and ok { text(fill: palette.correct, weight: "bold")[✓] } else { none }
       let ms = if vis-ans and not ok { text(fill: palette.wrong, weight: "bold")[✓] } else { none }
       let fd = if vis-ans and ok { palette.correct.lighten(80%) } else { white }

@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="50%" stop-color="#2563eb" />
+      <stop offset="100%" stop-color="#1d4ed8" />
+    </linearGradient>
+    <linearGradient id="calGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- Background rounded rect -->
+  <rect width="512" height="512" rx="112" fill="url(#bgGrad)" />
+
+  <!-- Inner calendar body -->
+  <g filter="url(#shadow)">
+    <!-- Calendar base -->
+    <rect x="76" y="96" width="360" height="330" rx="36" fill="#ffffff" />
+    
+    <!-- Calendar header strip -->
+    <path d="M 76 132 C 76 112.118 92.118 96 112 96 L 400 96 C 419.882 96 436 112.118 436 132 L 436 180 L 76 180 Z" fill="url(#calGrad)" />
+    
+    <!-- Rings -->
+    <rect x="140" y="72" width="24" height="48" rx="12" fill="#0f172a" />
+    <rect x="348" y="72" width="24" height="48" rx="12" fill="#0f172a" />
+    
+    <!-- Header title text -->
+    <text x="256" y="152" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="28" font-weight="900" text-anchor="middle" letter-spacing="3">KHBD • TKB</text>
+    
+    <!-- Math & Grid graphic inside calendar -->
+    <!-- Grid points -->
+    <circle cx="140" cy="230" r="14" fill="#0284c7" />
+    <circle cx="218" cy="230" r="14" fill="#e2e8f0" />
+    <circle cx="296" cy="230" r="14" fill="#e2e8f0" />
+    <circle cx="372" cy="230" r="14" fill="#f59e0b" />
+
+    <!-- Math Symbol: Sigma / Integral stylized -->
+    <path d="M 130 330 L 190 330 L 150 285 L 190 240 L 130 240" fill="none" stroke="#2563eb" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <!-- Clock / Check badge -->
+    <g transform="translate(230, 270)">
+      <rect x="0" y="0" width="150" height="96" rx="20" fill="#f0fdf4" stroke="#86efac" stroke-width="4"/>
+      <!-- Checkmark -->
+      <path d="M 32 48 L 52 68 L 96 26" fill="none" stroke="#16a34a" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="76" y="80" fill="#15803d" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="20" font-weight="800">THẦY SANG</text>
+    </g>
+  </g>
+</svg>

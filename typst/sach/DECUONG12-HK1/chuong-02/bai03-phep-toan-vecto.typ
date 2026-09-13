@@ -84,5 +84,7 @@
 // )
 
 // ── III. BÀI TẬP TỰ LUYỆN ────────────────────────────────────────
+#dang("Toạ độ của các phép toán vectơ", mau: C2)
 #include "bai03-de1.typ"
+#dang("Ứng dụng thực tiễn của vectơ trong không gian", mau: C2)
 #include "bai03-de2.typ"

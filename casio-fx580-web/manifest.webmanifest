@@ -1,0 +1,25 @@
+{
+  "name": "Casio fx-580VN X Giả Lập Chuyên Sâu",
+  "short_name": "fx-580VN X",
+  "description": "Máy tính khoa học Casio fx-580VN X chuẩn Web PWA & Desktop, hỗ trợ Bảng giá trị f(x), Giải phương trình, Số phức, Ma trận",
+  "start_url": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#121417",
+  "theme_color": "#202428",
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "utilities", "productivity"]
+}

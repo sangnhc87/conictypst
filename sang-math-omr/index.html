@@ -2634,9 +2634,10 @@ TLN: 2; 1,5; -3; 0; 5; 6</div>
                     <button class="btn btn-success" style="width:100%;justify-content:center"
                         onclick="mergeResults()">🔗 Ghép Điểm Vào Danh Sách</button>
                     <div class="separator"></div>
-                    <div class="row" style="gap:8px">
+                    <div class="row" style="gap:8px; flex-wrap: wrap;">
                         <button class="btn btn-info btn-sm" onclick="exportCSV()">📊 Xuất CSV</button>
                         <button class="btn btn-secondary btn-sm" onclick="exportExcel()">📗 Xuất Excel</button>
+                        <button class="btn btn-sm" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; font-weight: 700;" onclick="exportForConicClassroom()">🎯 Xuất cho ConicClassroom</button>
                     </div>
                 </div>
             </div>
@@ -2709,8 +2710,9 @@ TLN: 2; 1,5; -3; 0; 5; 6</div>
         <div class="card mt-3" style="margin-top:14px">
             <div class="row-between mb-3">
                 <h2 style="margin:0">📋 Bảng Điểm Chi Tiết</h2>
-                <div class="row" style="gap:8px">
+                <div class="row" style="gap:8px; flex-wrap: wrap;">
                     <button class="btn btn-info btn-sm" onclick="exportCSV()">📊 Xuất CSV</button>
+                    <button class="btn btn-sm" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; font-weight: 700;" onclick="exportForConicClassroom()">🎯 Xuất ConicClassroom</button>
                     <button class="btn btn-secondary btn-sm" onclick="clearAllResults()">🗑️ Xoá Tất Cả</button>
                 </div>
             </div>
@@ -6506,6 +6508,22 @@ window.onload = function() {
                 return [i+1,r.sbd,name,r.made,r.score,r.correct ?? r.mcqCorrect ?? '',r.total ?? r.mcqTotal ?? '',r.timestamp ?? ''].map(value => `"${String(value).replace(/"/g,'""')}"`).join(',');
             }).join('\n');
             downloadBlobFile(new Blob(['\uFEFF' + header + rows], { type: 'text/csv;charset=utf-8' }), `bang-diem-${new Date().toISOString().slice(0,10)}.csv`);
+        }
+
+        // ---- EXPORT FOR CONICCLASSROOM ----
+        function exportForConicClassroom() {
+            if (!gradeResults.length) return alert('Chưa có kết quả để xuất cho ConicClassroom.');
+            const header = 'SBD,Họ tên,Điểm,Mã đề\n';
+            const rows = gradeResults.map(r => {
+                const student = _studentOf(r);
+                const name = student ? student.name : '';
+                const sbd = String(r.sbd || '').padStart(6, '0');
+                const score = (r.score !== undefined && r.score !== null) ? r.score : '';
+                const made = r.made || '';
+                return `"${sbd}","${name.replace(/"/g, '""')}","${score}","${made}"`;
+            }).join('\n');
+            const content = '\uFEFF' + header + rows;
+            downloadBlobFile(new Blob([content], { type: 'text/csv;charset=utf-8' }), `diem-omr-conicclassroom-${new Date().toISOString().slice(0,10)}.csv`);
         }
 
         function exportExcel() {

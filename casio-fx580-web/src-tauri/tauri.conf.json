@@ -1,0 +1,46 @@
+{
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "beforeBuildCommand": "npm run build",
+    "devPath": "http://localhost:5180",
+    "distDir": "../dist"
+  },
+  "package": {
+    "productName": "Casio fx-580VN X",
+    "version": "1.0.0"
+  },
+  "tauri": {
+    "allowlist": {
+      "all": false,
+      "shell": {
+        "all": false,
+        "open": true
+      }
+    },
+    "bundle": {
+      "active": true,
+      "category": "Education",
+      "copyright": "2026 ConicTypst",
+      "identifier": "com.sangmath.fx580",
+      "icon": [
+        "icons/icon-192.png",
+        "icons/icon-512.png"
+      ]
+    },
+    "security": {
+      "csp": null
+    },
+    "windows": [
+      {
+        "title": "Casio fx-580VN X",
+        "width": 390,
+        "height": 780,
+        "minWidth": 320,
+        "minHeight": 640,
+        "resizable": true,
+        "fullscreen": false,
+        "alwaysOnTop": true
+      }
+    ]
+  }
+}

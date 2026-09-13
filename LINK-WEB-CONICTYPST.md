@@ -12,12 +12,16 @@ https://hdsd-conictypst.pages.dev/links
 - HDSD ConicTypst: https://hdsd-conictypst.pages.dev/
 - Dashboard HDSD: https://hdsd-conictypst.pages.dev/dashboard
 - Sang Math Atlas: https://hdsd-conictypst.pages.dev/atlas
-- Trình chiếu Beamer: https://beamer-gjv.pages.dev/
-- Bài trong ảnh: https://beamer-gjv.pages.dev/pdfs/beamer-12-bai-1-tinh-on-dieu-cuc-tri.pdf
+- Trình chiếu Beamer: https://beamer-sangnhc.pages.dev/ (hoặc https://beamer-gjv.pages.dev/)
+- Bài trong ảnh: https://beamer-sangnhc.pages.dev/pdfs/beamer-12-bai-1-tinh-on-dieu-cuc-tri.pdf
 - ConicTypst app chính: https://conictypst.pages.dev/
 
 ## Công cụ hay dùng
 
+- ConicClassroom (Trợ lý lớp & Bảng điểm tích cực): https://hdsd-conictypst.pages.dev/conic-classroom
+- Mở nhanh ConicClassroom trên máy: Nhấp đúp file `Mo-ConicClassroom.command`
+- Kế hoạch bài dạy & Ký sổ đầu bài (K10 - K11 - K12): https://hdsd-conictypst.pages.dev/khbd
+- Mở nhanh KHBD trên máy: Nhấp đúp file `Mo-KHBD.command`
 - GeoGebra -> CeTZ: https://hdsd-conictypst.pages.dev/cetz-geogebra
 - GeoGebra 3D -> CeTZ: https://hdsd-conictypst.pages.dev/cetz-geogebra-3d
 - GeoGebra -> TikZ thuần: https://hdsd-conictypst.pages.dev/tikz-geogebra

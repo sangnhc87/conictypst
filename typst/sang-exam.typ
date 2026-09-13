@@ -41,8 +41,9 @@
 // Dùng: #show: sang-setup
 //       #show: sang-setup.with(math-color: accent)
 #let sang-setup(body, math-color: black) = {
-  // Phân số lớn nhưng phương trình inline vẫn giữ baseline tự nhiên của Typst.
+  // Phân số và hệ phương trình lớn nhưng phương trình inline vẫn giữ baseline tự nhiên của Typst.
   show math.frac: math.display
+  show math.cases: math.display
   show math.equation: set text(fill: math-color)
 
   // Tự động chuyển C, A, P (những chữ số gán sub/sup) thành chữ đứng để in đúng C_n^k
@@ -426,8 +427,8 @@
       width: 100%,
       stroke: (left: 1.5pt + border-color),
       inset: (left: 8pt, right: 0pt, top: 1.5pt, bottom: 1.5pt),
-      below: 0.3em,
-      above: 0.3em,
+      below: 0.55em,
+      above: 0.55em,
     )[
       #text(fill: text-color, weight: "bold")[Bước #n.] #h(0.3em) #body
     ]
@@ -715,6 +716,42 @@
   ]
 }
 
+#let _strip-statement-prefix(c) = {
+  if type(c) == str {
+    c.replace(regex("^\s*\(?[a-fA-F][\.\)]\s*"), "")
+  } else if type(c) == content and c.has("children") {
+    let ch = c.children
+    let start-idx = 0
+    while start-idx < ch.len() and ch.at(start-idx).func() == [ ].func() {
+      start-idx += 1
+    }
+    if start-idx < ch.len() and ch.at(start-idx).has("text") {
+      let orig-t = ch.at(start-idx).text
+      let t = orig-t.replace(regex("^\s*\(?[a-fA-F][\.\)]\s*"), "")
+      if t != orig-t {
+        let rest = ch.slice(start-idx + 1)
+        if t != "" {
+          ([#t], ..rest).join()
+        } else {
+          if rest.len() > 0 and rest.at(0).func() == [ ].func() {
+            rest.slice(1).join()
+          } else {
+            rest.join()
+          }
+        }
+      } else {
+        c
+      }
+    } else {
+      c
+    }
+  } else if type(c) == content and c.has("text") {
+    [#c.text.replace(regex("^\s*\(?[a-fA-F][\.\)]\s*"), "")]
+  } else {
+    c
+  }
+}
+
 // ─────────────────────────────────────────────────────────
 // TF — True([...]) = đúng, [...] = sai
 // Bảng: Phát biểu | □Đ | □S
@@ -754,7 +791,7 @@
     .enumerate()
     .map(((i, s)) => {
       let ok = if type(s) == dictionary { s.at("correct", default: false) } else { false }
-      let txt = if type(s) == dictionary { s.body } else { s }
+      let txt = if type(s) == dictionary { _strip-statement-prefix(s.body) } else { _strip-statement-prefix(s) }
       let md = if vis-ans and ok { text(fill: palette.correct, weight: "bold")[✓] } else { none }
       let ms = if vis-ans and not ok { text(fill: palette.wrong, weight: "bold")[✓] } else { none }
       let fd = if vis-ans and ok { palette.correct.lighten(80%) } else { white }
@@ -890,8 +927,8 @@
       width: 100%,
       stroke: (left: 1.5pt + border-color),
       inset: (left: 8pt, right: 0pt, top: 1.5pt, bottom: 1.5pt),
-      below: 0.3em,
-      above: 0.3em,
+      below: 0.55em,
+      above: 0.55em,
     )[
       #text(fill: text-color, weight: "bold")[Bước #n.] #h(0.3em) #body
     ]
@@ -1221,6 +1258,7 @@
   set text(font: body-font, size: body-size, lang: "vi")
   set par(justify: true, leading: 0.75em)
   show math.frac: math.display
+  show math.cases: math.display
   // ── Kích hoạt font viết tay toàn cục ─────────────────────
   // Hàm #hw[...] đã được export ở đầu sang-exam.typ
   // Chỉ cần update state để hw() đọc đúng font

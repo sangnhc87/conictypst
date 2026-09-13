@@ -234,34 +234,50 @@
   },
 )
 
-= CHỦ ĐỀ 1: GIỚI THIỆU MẪU CHUYÊN ĐỀ
+= CHỦ ĐỀ 1: BÀI TOÁN CHIA KẸO EULER & PHƯƠNG PHÁP VÁCH NGĂN
 
-== 1. Tóm tắt lý thuyết
-#definition-box(title: "Định nghĩa cơ bản")[
-  Đây là một mẫu định nghĩa sử dụng macro của sang-math.
-  Bạn có thể thay đổi màu sắc và cấu trúc bằng cách sửa hàm `definition-box` hoặc tạo một template mới.
+== 1. Tóm tắt lý thuyết & Định lý cốt lõi
+#theorem-box(title: "Bài toán chia kẹo Euler (Stars and Bars)")[
+  - *Bài toán 1 (Nghiệm nguyên dương):* Số cách chia $n$ chiếc kẹo giống nhau cho $k$ đứa trẻ sao cho mỗi đứa có ít nhất 1 chiếc kẹo (tương đương tìm số nghiệm nguyên dương của $x_1 + x_2 + dots + x_k = n$) bằng:
+    $ N_1 = upright(C)_(n-1)^(k-1) $
+  - *Bài toán 2 (Nghiệm nguyên không âm):* Số cách chia $n$ chiếc kẹo giống nhau cho $k$ đứa trẻ tùy ý (tương đương tìm số nghiệm nguyên không âm của $x_1 + x_2 + dots + x_k = n$) bằng:
+    $ N_2 = upright(C)_(n+k-1)^(k-1) $
 ]
 
-#theorem-box(title: "Định lý quan trọng")[
-  Nếu một hàm số $f(x)$ liên tục trên đoạn $[a, b]$ và $f(a)f(b) < 0$, thì tồn tại ít nhất một nghiệm $c \in (a,b)$ sao cho $f(c) = 0$.
+#method-box(title: "Phương pháp vách ngăn đổi biến")[
+  Khi bài toán yêu cầu mỗi biến $x_i >= c_i$ (với $c_i in NN$):
+  + Đặt ẩn phụ $y_i = x_i - c_i >= 0$.
+  + Phương trình trở thành $y_1 + y_2 + dots + y_k = n - sum_(i=1)^k c_i = n'$.
+  + Số nghiệm của bài toán bằng $upright(C)_(n' + k - 1)^(k - 1)$.
 ]
 
-== 2. Các dạng bài tập
-#example-box(title: "Ví dụ minh họa")[
-  Giải phương trình sau: $x^2 - 3x + 2 = 0$
-  
+== 2. Các ví dụ minh họa điển hình
+#example-box(title: "Ví dụ 1 (Phân phối phần thưởng & Tìm số nghiệm)")[
+  Một thầy giáo có $12$ quyển sách Toán giống nhau cần phát thưởng cho $4$ học sinh giỏi $A, B, C, D$.
+  + a) Có bao nhiêu cách chia sao cho học sinh nào cũng nhận được ít nhất 1 quyển sách?
+  + b) Có bao nhiêu cách chia sao cho học sinh $A$ nhận ít nhất 2 quyển, học sinh $B$ nhận ít nhất 3 quyển?
+
   *Lời giải:*
-  Ta có $a+b+c = 1 - 3 + 2 = 0$.
-  Nên phương trình có 2 nghiệm phân biệt:
-  $ x_1 = 1, quad x_2 = 2 $
+  + a) Gọi số sách chia cho $A, B, C, D$ lần lượt là $x_1, x_2, x_3, x_4 in NN^*$.
+    Ta có phương trình: $x_1 + x_2 + x_3 + x_4 = 12$.
+    Áp dụng công thức chia kẹo Euler bài toán 1 với $n = 12, k = 4$:
+    $ N_1 = upright(C)_(12 - 1)^(4 - 1) = upright(C)_(11)^3 = frac(11 dot 10 dot 9, 6) = 165 text(" (cách)") $
+
+  + b) Với điều kiện $x_1 >= 2, x_2 >= 3, x_3 >= 1, x_4 >= 1$:
+    Đặt $y_1 = x_1 - 2 >= 0$, $y_2 = x_2 - 3 >= 0$, $y_3 = x_3 - 1 >= 0$, $y_4 = x_4 - 1 >= 0$.
+    Phương trình trở thành:
+    $ (y_1 + 2) + (y_2 + 3) + (y_3 + 1) + (y_4 + 1) = 12 <=> y_1 + y_2 + y_3 + y_4 = 5 $
+    với $y_i in NN$. Số nghiệm nguyên không âm bằng:
+    $ N_2 = upright(C)_(5 + 4 - 1)^(4 - 1) = upright(C)_8^3 = frac(8 dot 7 dot 6, 6) = 56 text(" (cách)") $
 ]
 
 #practice-box(title: "Bài tập tự luyện")[
-  1. Giải phương trình $2x^2 - 5x + 3 = 0$.
-  2. Xét dấu của tam thức bậc hai $f(x) = -x^2 + 4x - 4$.
+  1. Có bao nhiêu số tự nhiên có 4 chữ số $overline(a b c d)$ thỏa mãn điều kiện $a + b + c + d = 9$ và $a >= 1$?
+  2. Tìm số nghiệm nguyên của phương trình $x_1 + x_2 + x_3 + x_4 = 20$ thỏa mãn $x_1 >= 2, x_2 >= 4, x_3 >= 1, x_4 >= 0$.
 ]
 
-#summary-box[
-  Đây là khung tổng kết bài học. Rất thích hợp để đặt ở cuối mỗi chủ đề để học sinh tiện ôn tập.
+#summary-box(title: "Đúc kết chuyên đề VIP")[
+  - Bài toán vách ngăn là công cụ mạnh nhất để giải các bài toán chia đồ vật giống nhau cho các đối tượng phân biệt.
+  - Luôn đưa về ẩn phụ $y_i >= 0$ để áp dụng công thức $upright(C)_(n+k-1)^(k-1)$ nhanh và chính xác.
 ]
 

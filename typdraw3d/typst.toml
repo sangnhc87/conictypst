@@ -1,0 +1,12 @@
+[package]
+name = "typdraw3d"
+version = "0.3.0"
+entrypoint = "lib.typ"
+authors = ["Sang Nguyen <sangnhc87@gmail.com>"]
+compiler = "0.14.0"
+license = "MIT"
+description = "Thư viện dựng hình học 3D thuật toán tự động kiểu luadraw cho Typst: tự động khử nét khuất (Back-face Culling), cắt chỏm cầu (cut-sphere), xoay camera đa góc nhìn, đa giác đều n đỉnh và vector lực không gian."
+keywords = ["geometry", "3d", "cetz", "luadraw", "math", "physics", "culling", "vector"]
+homepage = "https://github.com/sangnhc87/conictypst"
+repository = "https://github.com/sangnhc87/conictypst"
+categories = ["visualization", "graphics"]

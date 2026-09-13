@@ -13,6 +13,7 @@
 #let emptyset = sym.nothing       // ∅  (LaTeX: \emptyset)
 #let varnothing = sym.nothing      // ∅  (LaTeX: \varnothing)
 #let setminus = sym.backslash     // ∖  (LaTeX: \setminus)
+#let mid = sym.bar.v              // |  (LaTeX: \mid trong định nghĩa tập hợp)
 
 // ─── So sánh & quan hệ ─────────────────────────────────────
 #let leq = sym.lt.eq         // ≤  (LaTeX: \leq / \le)

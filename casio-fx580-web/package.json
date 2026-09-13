@@ -1,0 +1,16 @@
+{
+  "name": "casio-fx580-web",
+  "version": "1.0.0",
+  "description": "Giả lập máy tính khoa học Casio fx-580VN X chuẩn Web PWA & Desktop Tauri",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 5180 --host",
+    "build": "vite build",
+    "preview": "vite preview --port 5180",
+    "tauri": "tauri"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}

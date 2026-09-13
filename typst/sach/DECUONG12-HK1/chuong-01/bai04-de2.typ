@@ -3,7 +3,6 @@
 #show math.frac: math.display
 
 
-#muc([Đề Luyện Tập Số 02])
 
 #resetexamstate()
 #exam-part([PHẦN I. Câu trắc nghiệm nhiều phương án lựa chọn], count: auto)
@@ -20,7 +19,8 @@
         x-vals: ($-oo$, $2$, $+oo$),
         d-signs: ("-", "||", "-"),
         v-vals: ($2$, ($-oo$, $+oo$), $2$),
-        ranks: (1, (-2, 2), 1)
+        // ranks: (1, (-2, 2), 1)
+        w2:8,
       )
     ]
   ],
@@ -217,7 +217,7 @@
   ]
 )
 
-
+ 
 // ─── CÂU 5 ───
 #tn(
   dir: "doc",lines:0,
@@ -230,7 +230,8 @@
         x-vals: ($-oo$, $-1$, $+oo$),
         d-signs: ("+", "||", "+"),
         v-vals: ($2$, ($+oo$, $-oo$), $2$),
-        ranks: (0, (2, -1), 0)
+        // ranks: (0, (2, -1), 0)
+        w2:8,
       )
     ]
   ],

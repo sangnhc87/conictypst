@@ -10,13 +10,13 @@ import {
 const STUDIO_ORIGIN = 'https://typstconichub.pages.dev'
 const PROVIDERS = {
   gemini: {
-    defaultModel: 'gemini-3.5-flash',
-    models: ['gemini-3.5-flash', 'gemini-3.1-pro-preview'],
+    defaultModel: 'gemini-3.7-flash',
+    models: ['gemini-3.7-flash', 'gemini-3.7-pro', 'gemini-3.5-flash', 'gemini-3.1-pro-preview'],
     help: 'Gemini: tạo key tại Google AI Studio. Danh sách model có thể tải trực tiếp từ API sau khi nhập key.',
   },
   openrouter: {
-    defaultModel: '~openai/gpt-latest',
-    models: ['~openai/gpt-latest', 'google/gemini-3.5-flash', 'anthropic/claude-haiku-4.5'],
+    defaultModel: 'google/gemini-3.7-flash',
+    models: ['google/gemini-3.7-flash', 'google/gemini-3.7-pro', 'anthropic/claude-3.7-sonnet', '~openai/gpt-latest'],
     help: 'OpenRouter: một key dùng được nhiều hãng. Nên đặt giới hạn tín dụng cho key dành riêng cho ConicTypst.',
   },
 }

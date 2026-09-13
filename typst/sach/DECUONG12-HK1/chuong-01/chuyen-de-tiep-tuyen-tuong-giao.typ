@@ -3,7 +3,6 @@
 #show math.frac: math.display
 
 
-#muc([Chuyên Đề: Tiếp Tuyến, Tương Giao Và Các Điểm Đặc Biệt])
 
 #resetexamstate()
 #exam-part([PHẦN I. Câu trắc nghiệm nhiều phương án (10 câu)], count: 10)

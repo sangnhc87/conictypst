@@ -4,6 +4,11 @@
         "/Users/admin/conictypst/fonts"
     ],
     "python-envs.defaultEnvManager": "ms-python.python:system",
+    "python.analysis.extraPaths": [
+        "${workspaceFolder}/typst/sach/DECUONG12-HK1/scorm",
+        "${workspaceFolder}/typst/sach/de-on-tap-theo-chuong-k10",
+        "${workspaceFolder}/typst/sach/de-on-tap-theo-chuong-k12"
+    ],
     "aider.providers": {
         "deepseek": {
             "endpoint": "https://api.deepseek.ai/v1",
@@ -19,5 +24,65 @@
     },
     "aider.defaultProvider": "deepseek",
     "tinymist.typstSystem.rootPath": "${workspaceFolder}",
-    "claudeCode.useTerminal": true
+    "tinymist.preview.pin": false,
+    "tinymist.formatterMode": "typstyle",
+    "tinymist.exportPdf": "never",
+    "tinymist.serverPath": "",
+    "claudeCode.useTerminal": true,
+    "liveServer.settings.port": 5501,
+
+    // ── TỐI ƯU HÓA TÀI NGUYÊN & CPU (CHỐNG NÓNG MÁY CHO MAC INTEL I7) ──
+    "files.watcherExclude": {
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true,
+        "**/node_modules/**": true,
+        "**/.venv/**": true,
+        "**/dist/**": true,
+        "**/dist-*/**": true,
+        "**/build/**": true,
+        "**/exported_figs/**": true,
+        "**/temp_render/**": true,
+        "**/.system_generated/**": true,
+        "**/tmp/**": true
+    },
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/bower_components": true,
+        "**/*.code-search": true,
+        "**/dist": true,
+        "**/dist-*": true,
+        "**/.venv": true,
+        "**/temp_render": true,
+        "**/.git": true
+    },
+    "files.exclude": {
+        "**/.git": false,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/node_modules": false
+    },
+    // Giảm gánh nặng render đồ họa & hiệu ứng động
+    "editor.minimap.enabled": false,
+    "editor.smoothScrolling": false,
+    "workbench.list.smoothScrolling": false,
+    "terminal.integrated.gpuAcceleration": "auto",
+    "editor.cursorBlinking": "solid",
+    "editor.renderWhitespace": "selection",
+
+    // Tối ưu Git trong VS Code
+    "git.autorefresh": true,
+    "git.autoStash": true,
+    "git.fetchOnPull": true,
+    "git.status.submodules": false,
+
+    // Tối ưu gõ tài liệu Typst / Toán
+    "[typst]": {
+        "editor.wordWrap": "on",
+        "editor.quickSuggestions": {
+            "comments": "off",
+            "strings": "on",
+            "other": "on"
+        },
+        "editor.suggest.snippetsPreventQuickSuggestions": false
+    }
 }

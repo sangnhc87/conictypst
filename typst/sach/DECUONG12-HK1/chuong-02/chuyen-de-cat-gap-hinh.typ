@@ -3,7 +3,6 @@
 #show math.frac: math.display
 
 
-#muc([Chuyên Đề: Ứng Dụng Tối Ưu & Cắt Gấp Khối Tròn Xoay])
 
 #resetexamstate()
 #exam-part([CÂU HỎI TRẮC NGHIỆM TRẢ LỜI NGẮN], count: auto)

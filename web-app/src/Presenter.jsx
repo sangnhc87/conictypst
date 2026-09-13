@@ -4,7 +4,7 @@ import { Maximize, Minimize, ChevronLeft, ChevronRight, ArrowLeft } from 'lucide
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
 
-export default function Presenter({ url, onClose }) {
+export default function Presenter({ item, url, onClose }) {
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
   const renderTaskRef = useRef(null);
@@ -179,7 +179,7 @@ export default function Presenter({ url, onClose }) {
       className="presenter-container" 
       ref={containerRef}
       onClick={(e) => {
-        if (e.target.closest('.toolbar') || e.target.closest('.back-btn')) return;
+        if (e.target.closest('.presenter-top-bar') || e.target.closest('.toolbar')) return;
         nextPage();
       }}
       onContextMenu={(e) => {
@@ -187,38 +187,33 @@ export default function Presenter({ url, onClose }) {
         prevPage();
       }}
     >
-      <button 
-        className="back-btn" 
-        onClick={onClose}
-        style={{
-          position: 'absolute',
-          top: '20px',
-          left: '20px',
-          zIndex: 100,
-          background: 'rgba(15, 23, 42, 0.6)',
-          backdropFilter: 'blur(8px)',
-          border: '1px solid rgba(255,255,255,0.1)',
-          color: 'white',
-          padding: '10px 20px',
-          borderRadius: '999px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          cursor: 'pointer',
-          fontWeight: '500',
-          transition: 'all 0.2s',
-          opacity: 0.7,
-        }}
-        onMouseEnter={(e) => { e.currentTarget.style.opacity = 1; e.currentTarget.style.background = 'rgba(15, 23, 42, 0.9)'; }}
-        onMouseLeave={(e) => { e.currentTarget.style.opacity = 0.7; e.currentTarget.style.background = 'rgba(15, 23, 42, 0.6)'; }}
-      >
-        <ArrowLeft size={20} /> Thoát trình chiếu
-      </button>
+      {/* Top Presenter Bar */}
+      <header className="presenter-top-bar" onClick={e => e.stopPropagation()}>
+        <button 
+          className="presenter-back-btn" 
+          onClick={onClose}
+          title="Thoát trình chiếu (Esc)"
+        >
+          <ArrowLeft size={18} />
+          <span>Thư viện</span>
+        </button>
+
+        <div className="presenter-title-container">
+          <span className={`presenter-badge ${item?.type === 'exam' ? 'badge-exam' : 'badge-lesson'}`}>
+            {item?.type === 'exam' ? `ĐỀ THI 22 CÂU · K${item?.grade}` : `BÀI GIẢNG · K${item?.grade}`}
+          </span>
+          <h2 className="presenter-doc-title">{item?.title || 'Bài giảng trình chiếu'}</h2>
+        </div>
+
+        <div className="presenter-hints">
+          <span>Phím: <strong>←</strong> <strong>→</strong> <strong>Space</strong> lật trang · <strong>F</strong> toàn màn hình</span>
+        </div>
+      </header>
 
       {loading ? (
         <div className="loader">
           <div className="spinner"></div>
-          <p>Đang tải bài giảng...</p>
+          <p>Đang chuẩn bị slide trình chiếu...</p>
         </div>
       ) : (
         <div className="canvas-wrapper" style={{ position: 'relative', display: 'inline-block' }}>
@@ -227,8 +222,6 @@ export default function Presenter({ url, onClose }) {
           {/* Lớp Overlay cho Hyperlinks */}
           {links.map((anno, idx) => {
             const [x1, y1, x2, y2] = anno.rect;
-            // PDF tọa độ gốc ở góc dưới-trái, HTML tọa độ gốc ở góc trên-trái
-            // Cần lấy kích thước trang gốc để tính đúng
             const left = x1 * canvasStyle.scale;
             const top = (canvasStyle.height / canvasStyle.scale - y2) * canvasStyle.scale;
             const width = (x2 - x1) * canvasStyle.scale;
@@ -247,7 +240,7 @@ export default function Presenter({ url, onClose }) {
                   cursor: 'pointer',
                   zIndex: 50,
                 }}
-                title={anno.url || "Chuyển trang"}
+                title={anno.url || "Chuyển câu / Mục lục"}
               />
             );
           })}
@@ -256,22 +249,24 @@ export default function Presenter({ url, onClose }) {
 
       {!loading && (
         <div className="toolbar" onClick={e => e.stopPropagation()}>
-          <button className="toolbar-btn" onClick={prevPage} disabled={pageNum <= 1} title="Quay lại">
-            <ChevronLeft size={24} />
+          <button className="toolbar-btn" onClick={prevPage} disabled={pageNum <= 1} title="Slide trước (←)">
+            <ChevronLeft size={22} />
           </button>
           
-          <span className="page-info">
-            {pageNum} / {pageCount}
-          </span>
+          <div className="page-info">
+            <span className="page-current">{pageNum}</span>
+            <span className="page-slash">/</span>
+            <span className="page-total">{pageCount}</span>
+          </div>
           
-          <button className="toolbar-btn" onClick={nextPage} disabled={pageNum >= pageCount} title="Tiếp theo">
-            <ChevronRight size={24} />
+          <button className="toolbar-btn" onClick={nextPage} disabled={pageNum >= pageCount} title="Slide tiếp (→ hoặc Space)">
+            <ChevronRight size={22} />
           </button>
           
-          <div style={{ width: '1px', height: '24px', background: 'rgba(255,255,255,0.2)', margin: '0 0.5rem' }}></div>
+          <div className="toolbar-divider"></div>
           
-          <button className="toolbar-btn" onClick={toggleFullscreen} title="Toàn màn hình (F)">
-            {isFullscreen ? <Minimize size={20} /> : <Maximize size={20} />}
+          <button className="toolbar-btn" onClick={toggleFullscreen} title="Bật/Tắt Toàn màn hình (F)">
+            {isFullscreen ? <Minimize size={18} /> : <Maximize size={18} />}
           </button>
         </div>
       )}

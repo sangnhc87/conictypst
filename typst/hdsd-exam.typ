@@ -3925,7 +3925,7 @@ Dưới đây là 10 ví dụ thực tế của wrapper tự xây dựng. Nếu 
         inset: 8pt,
         [#q],
         [
-          #text(size: 8pt, fill: gray)[_Bài làm / Nháp:_]
+          #text(size: 8pt, fill: gray)[_Bài làm:_]
           #v(0.3em)
           #rect(width: 100%, height: rect-h, stroke: none, fill: line-pattern)
         ]
@@ -3940,7 +3940,7 @@ Dưới đây là 10 ví dụ thực tế của wrapper tự xây dựng. Nếu 
         inset: 8pt,
         [#q],
         [
-          #text(size: 8pt, fill: gray)[_Bài làm / Nháp:_]
+          #text(size: 8pt, fill: gray)[_Bài làm:_]
           #v(0.3em)
           #rect(width: 100%, height: rect-h, stroke: none, fill: line-pattern)
         ]

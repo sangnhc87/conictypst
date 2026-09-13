@@ -18,7 +18,6 @@
   }
 }
 
-#muc([Đề Luyện Tập Số 06 - Bài Toán Thực Tế & Tối Ưu Hóa Hình Học])
 
 #resetexamstate()
 #exam-part([PHẦN I. Câu hỏi trắc nghiệm nhiều phương án lựa chọn (12 câu)], count: 12)

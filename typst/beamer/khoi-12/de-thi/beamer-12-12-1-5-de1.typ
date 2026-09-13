@@ -1,0 +1,746 @@
+#import "/typst/math-sym.typ": *
+#import "/typst/bbt.typ": *
+#import "/typst/giao-an/modules/lecture-beamer.typ": *
+#import "@preview/cetz:0.3.4"
+
+#let hoac(..args) = math.cases(delim: "[", ..args.named(), ..args.pos().map(math.display))
+#let heva(..args) = math.cases(delim: "{", ..args.named(), ..args.pos().map(math.display))
+#let notin = sym.in.not
+#let cap = math.inter
+#let cup = math.union
+#let setminus = math.without
+#let subset = math.subset
+#let emptyset = math.emptyset
+#let True(body) = ("true": true, body: body)
+#let vect = vec
+#let tfrac(num, den) = {
+  show math.frac: f => f
+  scale(x: 72%, y: 72%, origin: center + horizon, reflow: true, math.inline(math.frac(num, den)))
+}
+#let nhap(n) = []
+#let c-book = rgb("#0057b8")
+#let q-wrap(q, ..args) = q
+
+#let draw-ellipse(cx, cy, rx, ry, stroke: 1pt, style: "solid") = {
+  let stroke-val = stroke
+  import cetz.draw: *
+  if style == "dashed" {
+    arc((cx + rx, cy), start: 0deg, stop: 180deg, radius: (rx, ry), stroke: (paint: gray, thickness: 0.5pt, dash: "dashed"))
+    arc((cx - rx, cy), start: 180deg, stop: 360deg, radius: (rx, ry), stroke: (paint: gray, thickness: 0.5pt, dash: "dashed"))
+  } else if style == "dashed-back" {
+    arc((cx + rx, cy), start: 0deg, stop: 180deg, radius: (rx, ry), stroke: (paint: gray, thickness: 0.5pt, dash: "dashed"))
+    arc((cx - rx, cy), start: 180deg, stop: 360deg, radius: (rx, ry), stroke: stroke-val)
+  } else {
+    arc((cx + rx, cy), start: 0deg, stop: 180deg, radius: (rx, ry), stroke: stroke-val)
+    arc((cx - rx, cy), start: 180deg, stop: 360deg, radius: (rx, ry), stroke: stroke-val)
+  }
+}
+
+#let my-bxd = bxd
+#let my-bbbt = bbbt
+#let step(body) = body
+#let resetstep() = []
+#let resetexamstate() = []
+#let resetcau() = []
+#let exam-part(..args) = []
+#let tn(..args) = lt-tn(..args)
+#let ds(..args) = lt-ds(..args)
+#let tln(..args) = lt-tln(..args)
+
+#show: lecture-theme.with(
+  title: "BÀI 5: ỨNG DỤNG ĐẠO HÀM GIẢI QUYẾT BÀI TOÁN THỰC TIỄN",
+  subtitle: "ĐỀ 1 — BÀI TOÁN TỐI ƯU KINH TẾ, CHI PHÍ & LỢI NHUẬN — MÃ ĐỀ: 513",
+  author: "Tổ Toán — THPT",
+  institution: "TOÁN 12",
+  base-size: 20pt,
+)
+
+#lec-reset()
+#lt-toc()
+
+#resetexamstate()
+#exam-part([PHẦN I. Câu trắc nghiệm nhiều phương án lựa chọn (20 câu)], count: auto)
+
+// ─── CÂU 1 ───
+#tn(
+  dir: "ngang",
+  [Một vật chuyển động theo phương trình $s(t) = t^3 - 6t^2 + 9t + 2$ (m), với $t$ tính bằng giây, $t >= 0$. Vận tốc tức thời của vật tại thời điểm $t = 2$ giây là:],
+  (
+    [$3$ m/s],
+    True([$-3$ m/s]),
+    [$0$ m/s],
+    [$6$ m/s]
+  ),
+  loigiai: [
+    #step[Vận tốc tức thời của vật là đạo hàm của phương trình chuyển động $s(t)$ theo thời gian $t$.]
+    #step[Ta có $v(t) = s'(t) = 3t^2 - 12t + 9$.]
+    #step[Tại thời điểm $t = 2$, vận tốc của vật là $v(2) = 3(2)^2 - 12(2) + 9 = 12 - 24 + 9 = -3$ (m/s).]
+    #step[Kết luận: Chọn đáp án B.]
+  ]
+)
+
+// ─── CÂU 2 ───
+#tn(
+  dir: "ngang",
+  [Quãng đường $s$ (m) của một vật theo thời gian $t$ (giây) là $s(t) = 2t^3 - 3t^2 + 1$. Gia tốc của vật tại thời điểm $t = 1$ giây bằng:],
+  (
+    [$12$ m/s²],
+    [$0$ m/s²],
+    True([$6$ m/s²]),
+    [$-6$ m/s²]
+  ),
+  loigiai: [
+    #step[Vận tốc của vật là $v(t) = s'(t) = 6t^2 - 6t$.]
+    #step[Gia tốc của vật là đạo hàm của vận tốc $a(t) = v'(t) = 12t - 6$.]
+    #step[Tại thời điểm $t = 1$, gia tốc của vật là $a(1) = 12(1) - 6 = 6$ (m/s²).]
+    #step[Kết luận: Chọn đáp án C.]
+  ]
+)
+
+// ─── CÂU 3 ───
+#tn(
+  dir: "ngang",
+  [Dân số của một thành phố sau $t$ năm (kể từ năm 2000) được mô hình hóa bởi $P(t) = 500 + 20t - t^2$ (nghìn người). Tốc độ tăng dân số tức thời vào năm 2005 là:],
+  (
+    True([$10$ nghìn người/năm]),
+    [$20$ nghìn người/năm],
+    [$0$ nghìn người/năm],
+    [$-10$ nghìn người/năm]
+  ),
+  loigiai: [
+        #step[Tốc độ tăng dân số tức thời tại thời điểm $t$ là đạo hàm của hàm dân số: $P'(t) = 20 - 2t$.]
+    #step[Năm $2005$ tương ứng với $t = 2005 - 2000 = 5$.]
+    #step[Tốc độ tăng dân số vào năm $2005$ là $P'(5) = 20 - 2(5) = 10$ (nghìn người/năm).]
+    #step[Kết luận: Chọn đáp án A.]
+    #resetstep()
+  ]
+)
+
+// ─── CÂU 4 ───
+#tn(
+  dir: "ngang",
+  [Tổng chi phí sản xuất $x$ sản phẩm của một xưởng là $C(x) = x^3 - 15x^2 + 80x + 200$ (nghìn đồng). Chi phí cận biên tại sản lượng $x = 5$ sản phẩm là:],
+  (
+    [$30$ nghìn đồng],
+    [$-30$ nghìn đồng],
+    True([$5$ nghìn đồng]),
+    [$80$ nghìn đồng]
+  ),
+  loigiai: [
+    #step[Chi phí cận biên là đạo hàm của hàm tổng chi phí $C(x)$ theo sản lượng $x$.]
+    #step[Ta có $C'(x) = 3x^2 - 30x + 80$.]
+    #step[Tại sản lượng $x = 5$, chi phí cận biên là $C'(5) = 3(5)^2 - 30(5) + 80 = 75 - 150 + 80 = 5$ (nghìn đồng).]
+    #step[Kết luận: Chọn đáp án C.]
+  ]
+)
+
+// ─── CÂU 5 ───
+#tn(
+  dir: "ngang",
+  [Một quả bóng ném thẳng đứng lên có độ cao $h(t) = -4.9t^2 + 20t + 1.5$ (mét) sau $t$ giây. Thời điểm quả bóng đạt độ cao lớn nhất xấp xỉ:],
+  (
+    [$t = 2$ giây],
+    True([$t approx 2.04$ giây]),
+    [$t = 4$ giây],
+    [$t = 1$ giây]
+  ),
+  loigiai: [
+    #step[Độ cao của quả bóng là $h(t) = -4.9t^2 + 20t + 1.5$. Quả bóng đạt độ cao lớn nhất khi $h'(t) = 0$.]
+    #step[Ta có $h'(t) = -9.8t + 20 = 0 <=> t = 20/9.8 approx 2.04$ (giây).]
+    #step[Tại $t approx 2.04$, $h''(t) = -9.8 < 0$ nên $h(t)$ đạt cực đại.]
+    #step[Kết luận: Chọn đáp án B.]
+  ]
+)
+
+// ─── CÂU 6 ───
+#tn(
+  dir: "ngang",
+  [Hàm lợi nhuận của một doanh nghiệp là $P(x) = -2x^2 + 40x - 80$ (triệu đồng), với $x$ là số lượng sản phẩm (trăm chiếc). Sản lượng tại đó lợi nhuận đạt cực đại là:],
+  (
+    [$x = 5$],
+    True([$x = 10$]),
+    [$x = 20$],
+    [$x = 40$]
+  ),
+  loigiai: [
+        #step[Đạo hàm của hàm lợi nhuận: $P'(x) = -4x + 40$.]
+    #step[Cho $P'(x) = 0 <=> -4x + 40 = 0 <=> x = 10$.]
+    #step[Ta có $P''(x) = -4 < 0$ với mọi $x$, do đó hàm số đạt cực đại tại $x = 10$.]
+    #step[Vậy sản lượng để doanh nghiệp đạt lợi nhuận cực đại là $10$ (trăm chiếc).]
+    #step[Kết luận: Chọn đáp án B.]
+    #resetstep()
+  ]
+)
+
+// ─── CÂU 7 ───
+#tn(
+  dir: "ngang",
+  [Năng suất lao động (sản phẩm/giờ) của một công nhân trong ca $t$ giờ được mô tả bởi $N(t) = -t^3 + 9t^2 - 15t + 8$ với $0 <= t <= 8$. Năng suất đạt cực đại vào giờ thứ:],
+  (
+    [$t = 1$],
+    True([$t = 5$]),
+    [$t = 3$],
+    [$t = 8$]
+  ),
+  loigiai: [
+        #step[Đạo hàm của hàm năng suất: $N'(t) = -3t^2 + 18t - 15 = -3(t^2 - 6t + 5)$.]
+    #step[Cho $N'(t) = 0 <=> t = 1$ hoặc $t = 5$. Cả hai nghiệm đều thuộc đoạn $[0; 8]$.]
+    #step[Ta có $N''(t) = -6t + 18$. Xét tại các điểm tới hạn: $N''(1) = 12 > 0$ (đạt cực tiểu) và $N''(5) = -12 < 0$ (đạt cực đại).]
+    #step[Vậy năng suất lao động đạt cực đại vào giờ thứ $5$.]
+    #step[Kết luận: Chọn đáp án B.]
+    #resetstep()
+  ]
+)
+
+// ─── CÂU 8 ───
+#tn(
+  dir: "ngang",
+  [Hàm lượng thuốc $C(t) = (4t)/(t^2 + 4)$ (mg/L) trong máu bệnh nhân sau $t$ giờ tiêm. Nồng độ thuốc đạt cực đại tại:],
+  (
+    [$t = 4$ giờ],
+    True([$t = 2$ giờ]),
+    [$t = 1$ giờ],
+    [$t = 0$ giờ]
+  ),
+  loigiai: [
+    #step[Hàm nồng độ thuốc là $C(t) = (4t)/(t^2 + 4)$. Ta cần tìm $t > 0$ sao cho $C(t)$ đạt lớn nhất.]
+    #step[Đạo hàm $C'(t) = (4(t^2 + 4) - 4t(2t))/(t^2 + 4)^2 = (16 - 4t^2)/(t^2 + 4)^2$.]
+    #step[Cho $C'(t) = 0 <=> 16 - 4t^2 = 0 <=> t = 2$ (vì $t > 0$). Lập bảng biến thiên ta thấy $C(t)$ đạt cực đại tại $t = 2$.]
+    #step[Kết luận: Chọn đáp án B.]
+  ]
+)
+
+// ─── CÂU 9 ───
+#tn(
+  dir: "ngang",
+  [Một chiếc tàu chạy dọc con kênh với vị trí $x(t) = t^3 - 4.5t^2 + 3t$ (km). Vận tốc của tàu bằng $0$ lần đầu tiên vào khoảng thời gian:],
+  (
+    True([$t approx 0.38$ giờ]),
+    [$t = 1$ giờ],
+    [$t = 3$ giờ],
+    [$t = 0$ giờ]
+  ),
+  loigiai: [
+    #step[Vị trí của tàu là $x(t) = t^3 - 4.5t^2 + 3t$. Vận tốc tàu là $v(t) = x'(t) = 3t^2 - 9t + 3$.]
+    #step[Tàu dừng lại khi vận tốc bằng $0$, tức là $3t^2 - 9t + 3 = 0 <=> t^2 - 3t + 1 = 0$.]
+    #step[Giải phương trình bậc hai ta được $t = (3 +- sqrt(5))/2$. Thời điểm đầu tiên tàu dừng lại là $t = (3 - sqrt(5))/2 approx 0.38$ (giờ).]
+    #step[Kết luận: Chọn đáp án A.]
+  ]
+)
+
+// ─── CÂU 10 ───
+#tn(
+  dir: "ngang",
+  [Sản lượng lúa của một cánh đồng phụ thuộc vào lượng phân bón $x$ (kg/sào) theo hàm $Y(x) = -0.1x^2 + 8x + 500$ (kg). Lượng phân bón tối ưu để sản lượng lớn nhất là:],
+  (
+    [$x = 50$ kg/sào],
+    True([$x = 40$ kg/sào]),
+    [$x = 80$ kg/sào],
+    [$x = 20$ kg/sào]
+  ),
+  loigiai: [
+    #step[Sản lượng lúa $Y(x) = -0.1x^2 + 8x + 500$ đạt lớn nhất khi $Y'(x) = 0$.]
+    #step[Ta có $Y'(x) = -0.2x + 8 = 0 <=> x = 8 / 0.2 = 40$ (kg/sào).]
+    #step[Kết luận: Lượng phân bón tối ưu là $40$ kg/sào. Chọn đáp án B.]
+  ]
+)
+
+// ─── CÂU 11 ───
+#tn(
+  dir: "ngang",
+  [Một viên đạn được bắn lên theo phương thẳng đứng với phương trình $h(t) = 40t - 5t^2$ (m). Khoảng thời gian viên đạn ở độ cao lớn hơn $60$ m là:],
+  (
+    [$2$ giây],
+    True([$4$ giây]),
+    [$6$ giây],
+    [$3$ giây]
+  ),
+  loigiai: [
+    #step[Độ cao viên đạn lớn hơn $60$ m khi $h(t) > 60 <=> 40t - 5t^2 > 60$.]
+    #step[Bất phương trình tương đương: $-5t^2 + 40t - 60 > 0 <=> t^2 - 8t + 12 < 0$.]
+    #step[Nghiệm của bất phương trình là $2 < t < 6$.]
+    #step[Khoảng thời gian viên đạn ở độ cao trên $60$ m là $6 - 2 = 4$ (giây). Chọn đáp án B.]
+  ]
+)
+
+// ─── CÂU 12 ───
+#tn(
+  dir: "ngang",
+  [Một nhà máy có hàm tổng chi phí $C(x) = 0.5x^2 + 40x + 5000$ (nghìn đồng). Chi phí trung bình mỗi sản phẩm nhỏ nhất đạt được khi sản xuất:],
+  (
+    [$x = 50$ sản phẩm],
+    True([$x = 100$ sản phẩm]),
+    [$x = 200$ sản phẩm],
+    [$x = 40$ sản phẩm]
+  ),
+  loigiai: [
+    #step[Chi phí trung bình cho mỗi sản phẩm là $overline(C)(x) = C(x)/x = 0.5x + 40 + 5000/x$.]
+    #step[Đạo hàm $overline(C)'(x) = 0.5 - 5000/x^2$. Cho $overline(C)'(x) = 0 <=> x^2 = 10000 <=> x = 100$ (vì $x > 0$).]
+    #step[Vậy chi phí trung bình nhỏ nhất khi sản xuất $100$ sản phẩm. Chọn đáp án B.]
+  ]
+)
+
+// ─── CÂU 13 ───
+#tn(
+  dir: "ngang",
+  [Doanh thu bán hàng $R(t) = -t^3 + 9t^2 - 5$ (triệu đồng/ngày) biến đổi trong ngày $0 <= t <= 12$ giờ. Doanh thu tăng nhanh nhất (tốc độ tăng cực đại) vào lúc:],
+  (
+    True([$t = 3$ giờ]),
+    [$t = 6$ giờ],
+    [$t = 9$ giờ],
+    [$t = 12$ giờ]
+  ),
+  loigiai: [
+    #step[Tốc độ thay đổi doanh thu (doanh thu cận biên) là $v(t) = R'(t) = -3t^2 + 18t$.]
+    #step[Doanh thu tăng nhanh nhất khi $v(t)$ đạt cực đại. Đạo hàm $v'(t) = -6t + 18 = 0 <=> t = 3$.]
+    #step[Kết luận: Vào lúc $t = 3$ giờ, tốc độ tăng doanh thu là lớn nhất. Chọn đáp án A.]
+  ]
+)
+
+// ─── CÂU 14 ───
+#tn(
+  dir: "ngang",
+  [Nhiệt độ (°C) của lò nung sau $t$ giờ là $T(t) = -t^3 + 9t^2 + 60$ với $0 <= t <= 8$. Nhiệt độ lò đạt giá trị lớn nhất là:],
+  (
+    [$120$ °C],
+    [$60$ °C],
+    True([$168$ °C]),
+    [$148$ °C]
+  ),
+  loigiai: [
+    #step[Đạo hàm của nhiệt độ lò là $T'(t) = -3t^2 + 18t$. Cho $T'(t) = 0 <=> t = 0$ hoặc $t = 6$.]
+    #step[Tính các giá trị tại $t = 0, t = 6, t = 8$:]
+    #step[+$T(0) = 60$]
+    #step[+$T(6) = -(6)^3 + 9(6)^2 + 60 = 168$]
+    #step[+$T(8) = -(8)^3 + 9(8)^2 + 60 = 124$]
+    #step[Nhiệt độ lớn nhất là $168$ °C. Chọn đáp án C.]
+  ]
+)
+
+// ─── CÂU 15 ───
+#tn(
+  dir: "ngang",
+  [Lượng hàng hóa (nghìn sản phẩm) sản xuất trong $t$ tháng là $Q(t) = 6t - t^2/2$ với $0 <= t <= 6$. Tốc độ sản xuất đang tăng hay giảm theo thời gian?],
+  (
+    [Tăng dần vì $Q'(t) > 0$],
+    True([Giảm dần vì $Q''(t) < 0$]),
+    [Không đổi],
+    [Tăng rồi giảm]
+  ),
+  loigiai: [
+    #step[Tốc độ sản xuất là đạo hàm của hàm lượng hàng hóa: $v(t) = Q'(t) = 6 - t$.]
+    #step[Đạo hàm của tốc độ sản xuất là $v'(t) = Q''(t) = -1 < 0$ với mọi $t$.]
+    #step[Do $Q''(t) < 0$, tốc độ sản xuất đang giảm dần theo thời gian. Chọn đáp án B.]
+  ]
+)
+
+// ─── CÂU 16 ───
+#tn(
+  dir: "ngang",
+  [Vận tốc (m/s) của một xe điện là $v(t) = 3t^2 - 24t + 36$ với $0 <= t <= 10$ giây. Khoảng thời gian xe chuyển động ngược chiều dương là:],
+  (
+    [$[0; 2]$ giây],
+    [$[6; 10]$ giây],
+    True([$(2; 6)$ giây]),
+    [Xe luôn cùng chiều dương]
+  ),
+  loigiai: [
+        #step[Xe chuyển động ngược chiều dương khi và chỉ khi vận tốc của xe mang giá trị âm, tức là $v(t) < 0$.]
+    #step[Ta có bất phương trình: $3t^2 - 24t + 36 < 0 <=> 3(t^2 - 8t + 12) < 0 <=> 3(t - 2)(t - 6) < 0$.]
+    #step[Giải bất phương trình trên ta được $2 < t < 6$.]
+    #step[Vậy khoảng thời gian xe chuyển động ngược chiều dương là $(2; 6)$ giây.]
+    #step[Kết luận: Chọn đáp án C.]
+    #resetstep()
+  ]
+)
+
+// ─── CÂU 17 ───
+#tn(
+  dir: "ngang",
+  [Một tên lửa có độ cao $h(t) = 100t^2 - 10t^3$ (m), $0 <= t <= 10$. Tên lửa đạt độ cao lớn nhất tại:],
+  (
+    [$t = 5$ giây],
+    True([$t = 20/3$ giây]),
+    [$t = 10$ giây],
+    [$t = 3$ giây]
+  ),
+  loigiai: [
+    #step[Độ cao tên lửa $h(t) = 100t^2 - 10t^3$. Đạo hàm $h'(t) = 200t - 30t^2$.]
+    #step[Cho $h'(t) = 0 <=> 10t(20 - 3t) = 0 <=> t = 0$ hoặc $t = 20/3$.]
+    #step[Lập bảng biến thiên trên đoạn $[0; 10]$, ta thấy hàm số đạt cực đại và giá trị lớn nhất tại $t = 20/3$ giây. Chọn đáp án B.]
+  ]
+)
+
+// ─── CÂU 18 ───
+#tn(
+  dir: "ngang",
+  [Khối lượng của vi khuẩn trong đĩa nuôi cấy tăng theo $M(t) = 5 dot 2^t$ (mg), $t$ tính bằng giờ. Biết $ln 2 approx 0.693$. Tốc độ tăng trưởng tức thời tại $t = 3$ giờ xấp xỉ:],
+  (
+    [$40$ mg/giờ],
+    [$20$ mg/giờ],
+    True([$27.7$ mg/giờ]),
+    [$5 dot 3$ mg/giờ]
+  ),
+  loigiai: [
+    #step[Tốc độ tăng trưởng tức thời của vi khuẩn là đạo hàm $M'(t)$.]
+    #step[Ta có $M'(t) = 5(2^t) ln 2$. Tại $t = 3$, $M'(3) = 5(2^3) ln 2 = 40 ln 2$.]
+    #step[Với $ln 2 approx 0.693$, ta có $M'(3) approx 40(0.693) = 27.72 approx 27.7$ (mg/giờ). Chọn đáp án C.]
+  ]
+)
+
+// ─── CÂU 19 ───
+#tn(
+  dir: "ngang",
+  [Một đập nước tích nước với thể tích $V(t) = 3t^2 - t^3/3$ (triệu m³), $0 <= t <= 6$ ngày. Tốc độ tích nước lớn nhất vào ngày thứ:],
+  (
+    [$t = 6$],
+    True([$t = 3$]),
+    [$t = 1$],
+    [$t = 2$]
+  ),
+  loigiai: [
+    #step[Tốc độ tích nước là $v(t) = V'(t) = 6t - t^2$.]
+    #step[Tốc độ lớn nhất khi hàm $v(t)$ đạt lớn nhất. Đạo hàm $v'(t) = 6 - 2t = 0 <=> t = 3$.]
+    #step[Do đây là parabol quay bề lõm xuống dưới, nó đạt cực đại tại $t = 3$. Chọn đáp án B.]
+  ]
+)
+
+// ─── CÂU 20 ───
+#tn(
+  dir: "ngang",
+  [Một vật dao động điều hòa theo $x(t) = 5 cos(2t)$ (cm). Vận tốc dao động tại thời điểm $t = pi/4$ giây là:],
+  (
+    [$5$ cm/s],
+    True([$-10$ cm/s]),
+    [$10$ cm/s],
+    [$0$ cm/s]
+  ),
+  loigiai: [
+    #step[Vận tốc của vật dao động là $v(t) = x'(t) = -10 sin(2t)$.]
+    #step[Tại thời điểm $t = pi/4$, ta có $v(pi/4) = -10 sin(2(pi/4)) = -10 sin(pi/2) = -10$ (cm/s).]
+    #step[Kết luận: Chọn đáp án B.]
+  ]
+)
+
+#resetcau()
+
+#exam-part([PHẦN II. Câu trắc nghiệm đúng sai. Trong mỗi ý a), b), c), d) ở mỗi câu, thí sinh chọn đúng hoặc sai.], count: auto)
+
+// ─── CÂU 1 (PHẦN II) ───
+#ds(
+  dir: "doc",
+  [Một vật chuyển động theo phương trình $s(t) = t^3 - 9t^2 + 24t - 7$ (m), $t >= 0$ (giây). Khi đó:],
+  (
+    True([Vận tốc của vật tại thời điểm $t$ là $v(t) = 3t^2 - 18t + 24$ (m/s)]),
+    True([Vật dừng lại tại hai thời điểm $t = 2$ giây và $t = 4$ giây]),
+    True([Vật chuyển động ngược chiều dương khi $t in (2; 4)$]),
+    True([Gia tốc của vật tại $t = 3$ giây bằng $0$ m/s²])
+  ),
+  loigiai: [
+        #step[a) Vận tốc $v(t) = s'(t) = 3t^2 - 18t + 24$ (m/s). Vậy phát biểu này *Đúng*.]
+    #step[b) Vật dừng lại khi $v(t) = 0 <=> 3t^2 - 18t + 24 = 0 <=> t = 2$ hoặc $t = 4$. Vậy phát biểu này *Đúng*.]
+    #step[c) Vật chuyển động ngược chiều dương khi $v(t) < 0 <=> 3t^2 - 18t + 24 < 0 <=> 2 < t < 4$. Vậy phát biểu này *Đúng*.]
+    #step[d) Gia tốc của vật là $a(t) = v'(t) = 6t - 18$. Tại $t = 3$, $a(3) = 6(3) - 18 = 0$ (m/s²). Vậy phát biểu này *Đúng*.]
+    #resetstep()
+  ]
+)
+
+// ─── CÂU 2 (PHẦN II) ───
+#ds(
+  dir: "doc",
+  [Lợi nhuận (triệu đồng) của một công ty sau $t$ tháng hoạt động là $P(t) = t^3 - 6t^2 + 9t + 2$ với $0 <= t <= 8$. Khi đó:],
+  (
+    True([Tốc độ thay đổi lợi nhuận bằng $0$ tại $t = 1$ và $t = 3$, đây là các điểm cực trị của $P(t)$]),
+    [Lợi nhuận lớn nhất của công ty trên $[0;8]$ đạt được tại $t = 3$],
+    True([Trên khoảng $(1; 3)$, lợi nhuận công ty đang giảm]),
+    True([Lợi nhuận lớn nhất của công ty trên $[0; 8]$ là $P(8) = 202$ triệu đồng])
+  ),
+  loigiai: [
+        #step[a) Ta có $P'(t) = 3t^2 - 12t + 9 = 3(t^2 - 4t + 3)$. Cho $P'(t) = 0 <=> t = 1$ hoặc $t = 3$. Đây chính là các điểm cực trị. Phát biểu *Đúng*.]
+    #step[b) Xét trên đoạn $[0; 8]$: $P(0) = 2$, $P(1) = 6$, $P(3) = 2$, $P(8) = 8^3 - 6(64) + 9(8) + 2 = 202$. Lợi nhuận lớn nhất không đạt tại $t = 3$. Phát biểu *Sai*.]
+    #step[c) Trên khoảng $(1; 3)$, $P'(t) < 0$ nên lợi nhuận công ty đang giảm. Phát biểu *Đúng*.]
+    #step[d) Theo tính toán ở ý b, lợi nhuận lớn nhất trên $[0; 8]$ đạt được tại biên $t=8$ với $P(8) = 202$ (triệu đồng). Phát biểu *Đúng*.]
+    #resetstep()
+  ]
+)
+
+// ─── CÂU 3 (PHẦN II) ───
+#ds(
+  dir: "doc",
+  [Nồng độ thuốc $C(t) = (4t)/(t^2 + 4)$ (mg/L) trong máu bệnh nhân ($t >= 0$ giờ). Khi đó:],
+  (
+    True([Nồng độ thuốc đạt cực đại tại $t = 2$ giờ]),
+    True([Nồng độ thuốc cực đại là $C(2) = 1$ mg/L]),
+    True([Khi $t arrow.r +oo$, nồng độ thuốc tiến về $0$ mg/L]),
+    [Nồng độ thuốc tăng liên tục theo thời gian $t$]
+  ),
+  loigiai: [
+        #step[a) $C'(t) = (4(t^2 + 4) - 4t(2t)) / (t^2 + 4)^2 = (16 - 4t^2) / (t^2 + 4)^2$. Cho $C'(t) = 0 <=> t = 2$ (do $t >= 0$). Đạo hàm đổi dấu từ dương sang âm tại $t=2$ nên hàm số đạt cực đại tại $t=2$. Phát biểu *Đúng*.]
+    #step[b) Nồng độ thuốc cực đại là $C(2) = (4(2)) / (2^2 + 4) = 8 / 8 = 1$ (mg/L). Phát biểu *Đúng*.]
+    #step[c) Ta có $lim_(t -> +oo) C(t) = lim_(t -> +oo) (4t)/(t^2 + 4) = 0$, nghĩa là thuốc sẽ được đào thải hết. Phát biểu *Đúng*.]
+    #step[d) Từ bảng biến thiên, nồng độ tăng từ $t = 0$ đến $t = 2$ sau đó giảm dần, không phải tăng liên tục. Phát biểu *Sai*.]
+    #resetstep()
+  ]
+)
+
+// ─── CÂU 4 (PHẦN II) ───
+#ds(
+  dir: "doc",
+  [Giá trị tài sản (triệu đồng) sau $t$ năm là $A(t) = 500 dot 0.8^t$ ($t >= 0$). Biết $ln 0.8 approx -0.223$. Khi đó:],
+  (
+    True([Tài sản giảm giá theo thời gian vì $A'(t) < 0$]),
+    True([Tốc độ mất giá tại $t = 0$ xấp xỉ $111.5$ triệu đồng/năm]),
+    [Sau $5$ năm, giá trị tài sản còn $200$ triệu đồng],
+    True([Giá trị tài sản không bao giờ về đúng $0$, chỉ tiến về $0$])
+  ),
+  loigiai: [
+        #step[a) $A'(t) = 500 dot 0.8^t ln 0.8$. Vì $0.8^t > 0$ và $ln 0.8 < 0$ nên $A'(t) < 0$ với mọi $t >= 0$. Tài sản giảm giá. Phát biểu *Đúng*.]
+    #step[b) Tại $t = 0$, tốc độ thay đổi là $A'(0) = 500 ln 0.8 approx 500(-0.223) = -111.5$. Tốc độ mất giá (độ lớn) là $111.5$ triệu đồng/năm. Phát biểu *Đúng*.]
+    #step[c) Sau 5 năm, $A(5) = 500 dot 0.8^5 = 500 dot 0.32768 = 163.84 eq.not 200$. Phát biểu *Sai*.]
+    #step[d) Vì $0.8^t > 0$ với mọi $t$ nên $A(t)$ không bao giờ chạm $0$, nhưng $lim_(t -> +oo) 500 dot 0.8^t = 0$. Phát biểu *Đúng*.]
+    #resetstep()
+  ]
+)
+
+// ─── CÂU 5 (PHẦN II) ───
+#ds(
+  dir: "doc",lines: 4,
+  [Năng suất tổng hợp của $n$ công nhân được cho bởi $P(n) = n(100 - n)$ (đơn vị/ngày), $0 < n < 100$. Khi đó:],
+  (
+    True([Năng suất đạt cực đại khi sử dụng $n = 50$ công nhân]),
+    True([Năng suất cực đại đạt được là $2500$ đơn vị/ngày]),
+    [Thêm một công nhân vào nhóm $60$ người sẽ làm tăng năng suất tổng hợp],
+    True([Đạo hàm $P'(n) = 100 - 2n$ biểu diễn tốc độ thay đổi năng suất khi thêm một công nhân])
+  ),
+  loigiai: [
+        #step[a) Khai triển $P(n) = 100n - n^2$. Đạo hàm $P'(n) = 100 - 2n = 0 <=> n = 50$. Do parabol quay bề lõm xuống dưới ($a = -1 < 0$) nên đạt cực đại tại $n=50$. Phát biểu *Đúng*.]
+    #step[b) Năng suất cực đại là $P(50) = 50(100 - 50) = 2500$ (đơn vị/ngày). Phát biểu *Đúng*.]
+    #step[c) Tại $n = 60$, đạo hàm $P'(60) = 100 - 2(60) = -20 < 0$. Việc thêm công nhân lúc này sẽ làm giảm năng suất tổng hợp. Phát biểu *Sai*.]
+    #step[d) Đạo hàm $P'(n)$ là năng suất biên, đại diện cho tốc độ thay đổi của năng suất tổng hợp khi bổ sung thêm nhân lực. Phát biểu *Đúng*.]
+    #resetstep()
+  ]
+)
+
+// ─── CÂU 6 (PHẦN II) ───
+#ds(
+  dir: "doc",lines: 4,
+  [Một tên lửa có độ cao $h(t) = 100t^2 - 10t^3$ (m), $0 <= t <= 10$ giây. Khi đó:],
+  (
+    [Vận tốc của tên lửa tại $t = 5$ giây là $750$ m/s],
+    [Tên lửa đạt độ cao lớn nhất tại $t = 10$ giây],
+    True([Gia tốc của tên lửa bằng $0$ tại $t = 10/3$ giây]),
+    True([Trong khoảng $(20/3; 10)$, tên lửa đang chuyển động đi xuống])
+  ),
+  loigiai: [
+        #step[a) Vận tốc là $v(t) = h'(t) = 200t - 30t^2$. Tại $t = 5$, $v(5) = 200(5) - 30(25) = 250 eq.not 750$. Phát biểu *Sai*.]
+    #step[b) Xét $v(t) = 0 <=> 10t(20 - 3t) = 0 <=> t = 0$ hoặc $t = 20/3$. Tên lửa đi lên từ $t=0$ đến $t=20/3$ rồi rơi xuống. Độ cao lớn nhất đạt được tại $t = 20/3$. Phát biểu *Sai*.]
+    #step[c) Gia tốc $a(t) = v'(t) = 200 - 60t$. Xét $a(t) = 0 <=> 60t = 200 <=> t = 10/3$. Phát biểu *Đúng*.]
+    #step[d) Trên khoảng $(20/3; 10)$, vận tốc $v(t) < 0$ nên tên lửa đang trên đà rơi tự do đi xuống. Phát biểu *Đúng*.]
+    #resetstep()
+  ]
+)
+
+// ─── CÂU 7 (PHẦN II) ───
+#ds(
+  dir: "doc",
+  [Lượng hàng hóa sản xuất trong $t$ tháng là $Q(t) = 6t - t^2/2$ nghìn sản phẩm, $0 <= t <= 6$. Khi đó:],
+  (
+    True([Tốc độ sản xuất tại tháng thứ $3$ là $3$ nghìn sản phẩm/tháng]),
+    True([Tổng sản lượng trong $6$ tháng là $18$ nghìn sản phẩm]),
+    [Tốc độ sản xuất tăng dần theo thời gian],
+    True([Tháng thứ $6$ là tháng có tốc độ sản xuất bằng $0$])
+  ),
+  loigiai: [
+        #step[a) Tốc độ sản xuất là đạo hàm $Q'(t) = 6 - t$. Tại tháng thứ $3$, tốc độ là $Q'(3) = 6 - 3 = 3$ (nghìn sản phẩm/tháng). Phát biểu *Đúng*.]
+    #step[b) Tổng sản lượng trong 6 tháng là $Q(6) = 6(6) - 6^2/2 = 36 - 18 = 18$ (nghìn sản phẩm). Phát biểu *Đúng*.]
+    #step[c) Ta có gia tốc của sản lượng là $Q''(t) = -1 < 0$. Vận tốc sản xuất (tốc độ) đang giảm dần. Phát biểu *Sai*.]
+    #step[d) Tại $t = 6$, tốc độ sản xuất là $Q'(6) = 6 - 6 = 0$. Phát biểu *Đúng*.]
+    #resetstep()
+  ]
+)
+
+// ─── CÂU 8 (PHẦN II) ───
+#ds(
+  dir: "doc",
+  [Một công ty mỏ khai thác dầu thu được $Q(t) = 100 t e^(-0.1 t)$ (tấn) sau $t$ ngày khai thác ($t >= 0$). Khi đó:],
+  (
+    True([Ngày khai thác có sản lượng cao nhất là ngày thứ $10$]),
+    True([Với $t < 10$: sản lượng mỗi ngày đang tăng]),
+    True([Khi $t arrow.r +oo$, sản lượng mỗi ngày tiến về $0$]),
+    [Sản lượng mỗi ngày tăng liên tục không giới hạn]
+  ),
+  loigiai: [
+        #step[a) Tính đạo hàm $Q'(t) = 100(1 dot e^(-0.1t) + t dot (-0.1)e^(-0.1t)) = 100 e^(-0.1t) (1 - 0.1t)$. Xét $Q'(t) = 0 <=> 1 - 0.1t = 0 <=> t = 10$. Đạo hàm đổi dấu từ dương sang âm tại $t=10$ nên đạt cực đại tại đây. Phát biểu *Đúng*.]
+    #step[b) Với $t < 10$, ta có $1 - 0.1t > 0$ nên $Q'(t) > 0$. Vậy sản lượng mỗi ngày đang tăng. Phát biểu *Đúng*.]
+    #step[c) Khi $t -> +oo$, hàm mũ $e^(-0.1t)$ tiến về $0$ nhanh hơn đa thức $t$ tiến ra vô cực, nên $lim_(t -> +oo) Q(t) = 0$. Mỏ dầu sẽ cạn kiệt. Phát biểu *Đúng*.]
+    #step[d) Sản lượng chỉ tăng trong 10 ngày đầu tiên rồi giảm dần. Phát biểu *Sai*.]
+    #resetstep()
+  ]
+)
+
+// ─── CÂU 9 (PHẦN II) ───
+#ds(
+  dir: "doc",lines: 4,
+  [Một doanh nghiệp sản xuất sản phẩm với hàm chi phí $C(x) = x^3 - 6x^2 + 15x + 10$ (triệu đồng) và bán với giá cố định $27$ triệu đồng/sản phẩm ($x >= 0$ là số lượng sản phẩm). Gọi $P(x)$ là hàm lợi nhuận thu được. Khi đó:],
+  (
+    True([Hàm lợi nhuận thu được là $P(x) = -x^3 + 6x^2 + 12x - 10$ (triệu đồng)]),
+    True([Tốc độ thay đổi lợi nhuận tức thời khi sản xuất $x$ sản phẩm là $P'(x) = -3x^2 + 12x + 12$]),
+    True([Doanh nghiệp đạt lợi nhuận lớn nhất khi sản xuất khoảng $4.83$ sản phẩm (tức là $x = 2 + 2 sqrt(2)$)]),
+    [Nếu doanh nghiệp sản xuất và bán ra $10$ sản phẩm thì sẽ có lãi]
+  ),
+  loigiai: [
+    Doanh thu từ việc bán $x$ sản phẩm là $R(x) = 27x$.\\
+    Lợi nhuận là $P(x) = R(x) - C(x) = 27x - (x^3 - 6x^2 + 15x + 10) = -x^3 + 6x^2 + 12x - 10$.\\
+    Đạo hàm $P'(x) = -3x^2 + 12x + 12$.\\
+    $P'(x) = 0 <=> -3(x^2 - 4x - 4) = 0 <=> x = 2 + 2 sqrt(2) approx 4.83$ (do $x >= 0$).\\
+    Ta có $P''(x) = -6x + 12$. Tại $x = 2 + 2 sqrt(2)$, $P''(x) = -6(2+2 sqrt(2)) + 12 < 0$, do đó hàm số đạt cực đại tại đây.\\
+    Tại $x = 10$, $P(10) = -10^3 + 6 dot 10^2 + 12 dot 10 - 10 = -1000 + 600 + 120 - 10 = -290 < 0$ (lỗ), do đó ý d) là Sai.
+  ]
+)
+
+// ─── CÂU 10 (PHẦN II) ───
+#ds(
+  dir: "doc",lines: 4,
+  [Độ cao của sóng triều (mét) tại một cảng biển sau $t$ giờ ($0 <= t <= 24$) được mô hình hóa bởi hàm số $h(t) = 4 + 2 sin(pi t / 6 - pi / 3)$. Khi đó:],
+  (
+    True([Độ cao lớn nhất của sóng triều là $6$ m]),
+    True([Độ cao thấp nhất của sóng triều là $2$ m]),
+    True([Tốc độ thay đổi độ cao sóng triều tại thời điểm $t$ là $h'(t) = pi/3 cos(pi t / 6 - pi / 3)$ (m/giờ)]),
+    [Độ cao của sóng triều đang giảm tại thời điểm $t = 4$ giờ]
+  ),
+  loigiai: [
+    Vì $-1 <= sin(pi t / 6 - pi / 3) <= 1$ nên $2 <= h(t) <= 6$.\\
+    Độ cao lớn nhất là $4 + 2 = 6$ m, nhỏ nhất là $4 - 2 = 2$ m.\\
+    Đạo hàm $h'(t) = 2 dot pi/6 cos(pi t / 6 - pi / 3) = pi/3 cos(pi t / 6 - pi / 3)$.\\
+    Tại $t = 4$, $h'(4) = pi/3 cos(4 pi / 6 - pi / 3) = pi/3 cos(pi / 3) = pi / 6 > 0$, do đó độ cao đang tăng (ý d) là Sai).
+  ]
+)
+
+#resetcau()
+
+#exam-part([PHẦN III. Câu trắc nghiệm trả lời ngắn (10 câu)], count: auto)
+
+// ─── CÂU 1 (PHẦN III) ───
+#tln(
+  dir: "ngang",
+  [Một vật chuyển động theo phương trình $s(t) = 2t^3 - 9t^2 + 12t$ (m), $t >= 0$ (giây). Tổng quãng đường vật đi được trong $3$ giây đầu là bao nhiêu mét?],
+  [$11$ m],
+  loigiai: [
+    $v(t) = s'(t) = 6t^2 - 18t + 12 = 6(t-1)(t-2)$. Vật dừng tại $t = 1$ và $t = 2$.
+
+    $s(0) = 0$, $s(1) = 5$, $s(2) = 4$, $s(3) = 9$.
+
+    Tổng quãng đường: $|s(1) - s(0)| + |s(2) - s(1)| + |s(3) - s(2)| = 5 + 1 + 5 = 11$ m.
+  ]
+)
+
+// ─── CÂU 2 (PHẦN III) ───
+#tln(
+  dir: "ngang",
+  [Hàm doanh thu của một cửa hàng là $R(x) = 200x - x^2$ (nghìn đồng), $x$ là số sản phẩm bán ra. Doanh thu cận biên bằng $80$ nghìn đồng khi bán bao nhiêu sản phẩm?],
+  [$60$ sản phẩm],
+  loigiai: [
+    $R'(x) = 200 - 2x$.
+    $ 200 - 2x = 80 => x = 60 $
+  ]
+)
+
+// ─── CÂU 3 (PHẦN III) ───
+#tln(
+  dir: "ngang",
+  [Quãng đường của một xe (km) theo thời gian $t$ (giờ) là $s(t) = t^3 - 3t + 4$, $t >= 0$. Vận tốc tức thời của xe bằng $0$ lần đầu tiên vào thời điểm $t$ bằng bao nhiêu giờ?],
+  [$1$ giờ],
+  loigiai: [
+    $v(t) = 3t^2 - 3 = 3(t-1)(t+1) = 0$ khi $t = 1$ (do $t >= 0$).
+  ]
+)
+
+// ─── CÂU 4 (PHẦN III) ───
+#tln(
+  dir: "ngang",
+  [Lợi nhuận của một doanh nghiệp là $P(x) = -x^3 + 12x^2 - 36x + 48$ (triệu đồng), $0 <= x <= 10$. Lợi nhuận lớn nhất mà doanh nghiệp có thể đạt được bằng bao nhiêu triệu đồng?],
+  [$48$ triệu đồng],
+  loigiai: [
+    $P'(x) = -3(x-2)(x-6)$. $P'(x) = 0$ khi $x = 2$ hoặc $x = 6$.
+
+    So sánh: $P(0) = 48$, $P(2) = 16$, $P(6) = 48$, $P(10) = -112$.
+
+    Lợi nhuận lớn nhất là *48* triệu đồng.
+  ]
+)
+
+// ─── CÂU 5 (PHẦN III) ───
+#tln(
+  dir: "ngang",
+  [Nhiệt độ của lò nung (°C) sau $t$ giờ là $T(t) = -t^3 + 9t^2 + 60$ với $0 <= t <= 8$. Nhiệt độ lò nung đạt giá trị lớn nhất bằng bao nhiêu °C?],
+  [$168$ °C],
+  loigiai: [
+    $T'(t) = -3t(t - 6) = 0$ khi $t = 0$ hoặc $t = 6$.
+
+    $T(0) = 60$, $T(6) = -216 + 324 + 60 = 168$, $T(8) = -512 + 576 + 60 = 124$.
+
+    Nhiệt độ lớn nhất là *168* °C.
+  ]
+)
+
+// ─── CÂU 6 (PHẦN III) ───
+#tln(
+  dir: "ngang",
+  [Vận tốc (m/s) của một xe điện là $v(t) = 3t^2 - 24t + 36$, $0 <= t <= 10$ giây. Khoảng thời gian (giây) mà xe chuyển động ngược chiều dương là bao nhiêu giây?],
+  [$4$ giây],
+  loigiai: [
+    $v(t) = 3(t-2)(t-6) < 0$ khi $2 < t < 6$.
+
+    Khoảng thời gian: $6 - 2 = 4$ giây.
+  ]
+)
+
+// ─── CÂU 7 (PHẦN III) ───
+#tln(
+  dir: "ngang",
+  [Một công ty mỏ khai thác dầu thu được sản lượng mỗi ngày là $Q(t) = 100t e^(-0.1t)$ (tấn), $t >= 0$. Ngày khai thác có sản lượng cao nhất là ngày thứ mấy?],
+  [$10$],
+  loigiai: [
+    $Q'(t) = 100 e^(-0.1t)(1 - 0.1t) = 0 => t = 10$.
+
+    Với $t < 10$: $Q' > 0$ (tăng); với $t > 10$: $Q' < 0$ (giảm). Vậy sản lượng cao nhất vào ngày thứ *10*.
+  ]
+)
+
+// ─── CÂU 8 (PHẦN III) ───
+#tln(
+  dir: "ngang",
+  [Một người thả hòn đá từ trên cầu. Độ cao (m) của hòn đá so với mặt nước sau $t$ giây là $h(t) = 45 - 5t^2$. Hòn đá chạm mặt nước với vận tốc bao nhiêu m/s?],
+  [$30$ m/s],
+  loigiai: [
+    Hòn đá chạm nước khi $h(t) = 0$: $45 - 5t^2 = 0 => t = 3$ giây.
+
+    $v(t) = h'(t) = -10t$. Vận tốc chạm nước: $|v(3)| = 30$ m/s.
+  ]
+)
+
+// ─── CÂU 9 (PHẦN III) ───
+#tln(
+  dir: "ngang",
+  [Chi phí trung bình mỗi sản phẩm khi sản xuất $x$ sản phẩm là $A C(x) = 0.5x + 40 + 5000/x$ (nghìn đồng). Chi phí trung bình nhỏ nhất đạt được bằng bao nhiêu nghìn đồng?],
+  [$140$ nghìn đồng],
+  loigiai: [
+    $A C'(x) = 0.5 - 5000/x^2 = 0 => x^2 = 10000 => x = 100$.
+
+    $A C(100) = 50 + 40 + 50 = 140$ nghìn đồng.
+  ]
+)
+
+// ─── CÂU 10 (PHẦN III) ───
+#tln(
+  dir: "ngang",
+  [Lợi nhuận bán hàng của một công ty phụ thuộc vào giá bán $p$ (triệu đồng/sản phẩm) theo hàm $Pi(p) = (p - 2)(100 - 10p)$ với $2 <= p <= 10$. Giá bán tối ưu để lợi nhuận lớn nhất là bao nhiêu triệu đồng/sản phẩm?],
+  [$6$ triệu đồng/sản phẩm],
+  loigiai: [
+    $Pi(p) = (p-2)(100-10p) = 100p - 10p^2 - 200 + 20p = -10p^2 + 120p - 200$.
+
+    $Pi'(p) = -20p + 120 = 0 => p = 6$.
+
+    Vì $Pi''(p) = -20 < 0$, đây là cực đại. Giá bán tối ưu là *6* triệu đồng/sản phẩm.
+  ]
+)

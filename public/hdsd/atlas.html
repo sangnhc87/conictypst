@@ -3,371 +3,189 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sang Math Atlas — Kho chuyên đề & bài giảng</title>
-  <meta name="description" content="Atlas học liệu Sang Math: chuyên đề CD, bài giảng Beamer, kế hoạch dùng lại theo năm." />
+  <title>Sang Math Atlas — Kho Chuyên Đề VDC & Bài Giảng THPT</title>
+  <meta name="description" content="Hệ thống Atlas học liệu số Sang Math: 100+ chuyên đề VDC chất lượng cao, 14 chuyên đề VDC Khối 10, giáo án KNTT cả 3 khối 10-11-12 và hơn 300 slide Beamer." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="atlas.css" />
   <script defer src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
   <script defer src="atlas.js"></script>
   <script src="global-nav.js" defer></script>
-  <style>
-    :root {
-      --ink: #172033;
-      --muted: #64748b;
-      --line: #dbe3ef;
-      --soft: #f6f8fb;
-      --blue: #2563eb;
-      --teal: #0f766e;
-      --amber: #b45309;
-      --red: #be123c;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--ink);
-      background: #fff;
-    }
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      background: rgba(255,255,255,.94);
-      border-bottom: 1px solid var(--line);
-      backdrop-filter: blur(12px);
-    }
-    .topbar-inner {
-      max-width: 1360px;
-      margin: 0 auto;
-      padding: 12px 22px;
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      gap: 18px;
-      align-items: center;
-    }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: inherit;
-      text-decoration: none;
-      min-width: 220px;
-    }
-    .brand-mark {
-      width: 38px;
-      height: 38px;
-      display: grid;
-      place-items: center;
-      border-radius: 8px;
-      background: var(--blue);
-      color: white;
-      font-weight: 800;
-    }
-    .brand strong { display: block; font-size: 14px; }
-    .brand small { color: var(--muted); font-size: 12px; }
-    .search {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      border: 1px solid var(--line);
-      background: var(--soft);
-      border-radius: 8px;
-      padding: 0 12px;
-      min-height: 42px;
-    }
-    .search input {
-      width: 100%;
-      border: 0;
-      outline: 0;
-      background: transparent;
-      font: inherit;
-    }
-    .nav {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-    .nav a {
-      color: var(--ink);
-      text-decoration: none;
-      font-size: 13px;
-      font-weight: 700;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 8px 11px;
-      background: white;
-    }
-    main {
-      max-width: 1360px;
-      margin: 0 auto;
-      padding: 22px;
-    }
-    .atlas-head {
-      display: grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap: 18px;
-      align-items: stretch;
-      padding: 22px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: linear-gradient(180deg, #f8fbff, #fff);
-    }
-    .eyebrow {
-      margin: 0 0 8px;
-      color: var(--teal);
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-    }
-    h1 {
-      margin: 0;
-      font-size: clamp(30px, 4vw, 48px);
-      letter-spacing: 0;
-    }
-    .atlas-head p {
-      max-width: 820px;
-      color: var(--muted);
-      line-height: 1.65;
-      margin: 12px 0 0;
-    }
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-    }
-    .stat {
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 14px;
-      background: white;
-    }
-    .stat strong { display: block; font-size: 28px; color: var(--blue); }
-    .stat span { color: var(--muted); font-size: 13px; font-weight: 700; }
-    .toolbar {
-      margin-top: 18px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-    }
-    .segmented {
-      display: flex;
-      gap: 6px;
-      background: var(--soft);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 5px;
-    }
-    button, select {
-      font: inherit;
-      color: var(--ink);
-    }
-    .segmented button, select {
-      border: 0;
-      border-radius: 6px;
-      background: transparent;
-      padding: 9px 12px;
-      font-weight: 800;
-      cursor: pointer;
-    }
-    .segmented button.active {
-      background: white;
-      box-shadow: 0 1px 4px rgba(15,23,42,.12);
-      color: var(--blue);
-    }
-    select {
-      border: 1px solid var(--line);
-      background: white;
-      min-height: 42px;
-    }
-    .content {
-      margin-top: 18px;
-      display: grid;
-      grid-template-columns: 280px 1fr;
-      gap: 18px;
-      align-items: start;
-    }
-    .side {
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 14px;
-      background: var(--soft);
-      position: sticky;
-      top: 78px;
-    }
-    .side h2 {
-      font-size: 15px;
-      margin: 0 0 10px;
-    }
-    .check-list {
-      display: grid;
-      gap: 8px;
-    }
-    .check-list label {
-      display: flex;
-      gap: 8px;
-      align-items: flex-start;
-      font-size: 13px;
-      color: var(--ink);
-    }
-    .list-head {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-    .list-head h2 { margin: 0; font-size: 20px; }
-    .list-head span { color: var(--muted); font-size: 13px; font-weight: 700; }
-    .asset-list {
-      display: grid;
-      gap: 10px;
-    }
-    .asset {
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: white;
-      padding: 14px;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 12px;
-    }
-    .asset h3 {
-      margin: 0;
-      font-size: 17px;
-    }
-    .asset p {
-      margin: 7px 0 0;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.5;
-    }
-    .badges {
-      margin-top: 10px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-    .badge {
-      font-size: 12px;
-      font-weight: 800;
-      padding: 5px 8px;
-      border-radius: 999px;
-      background: #eef2ff;
-      color: #3730a3;
-    }
-    .badge.cd { background: #ecfdf5; color: #047857; }
-    .badge.lesson-plan { background: #fef3c7; color: #92400e; }
-    .badge.beamer { background: #eff6ff; color: #1d4ed8; }
-    .badge.warn { background: #fff7ed; color: #c2410c; }
-    .actions {
-      display: flex;
-      gap: 8px;
-      align-items: start;
-      justify-content: flex-end;
-      flex-wrap: wrap;
-      min-width: 160px;
-    }
-    .actions a {
-      text-decoration: none;
-      font-size: 12px;
-      font-weight: 800;
-      border-radius: 6px;
-      padding: 8px 10px;
-      border: 1px solid var(--line);
-      color: var(--ink);
-      background: white;
-    }
-    .actions a.primary {
-      border-color: var(--blue);
-      color: white;
-      background: var(--blue);
-    }
-    .empty {
-      padding: 30px;
-      text-align: center;
-      color: var(--muted);
-      border: 1px dashed var(--line);
-      border-radius: 8px;
-    }
-    @media (max-width: 960px) {
-      .topbar-inner, .atlas-head, .content { grid-template-columns: 1fr; }
-      .side { position: static; }
-      .asset { grid-template-columns: 1fr; }
-      .actions { justify-content: flex-start; }
-    }
-  </style>
 </head>
-<body>
-  <header class="topbar">
-    <div class="topbar-inner">
-      <a class="brand" href="atlas.html">
-        <span class="brand-mark">A</span>
-        <span>
+<body class="atlas-body">
+  <!-- Topbar -->
+  <header class="atlas-topbar">
+    <div class="atlas-topbar-inner">
+      <a class="atlas-brand" href="atlas.html" title="Sang Math Atlas">
+        <span class="atlas-brand-mark">A</span>
+        <div class="atlas-brand-text">
           <strong>Sang Math Atlas</strong>
-          <small>Giáo án - chuyên đề - Beamer</small>
-        </span>
+          <small>Kho Chuyên Đề VDC & Bài Giảng Sư Phạm</small>
+        </div>
       </a>
-      <label class="search">
-        <i data-lucide="search"></i>
-        <input id="searchInput" type="search" placeholder="Tìm: Lorenz, Oxyz, Markov, Beamer, xếp ghế..." />
-      </label>
-      <nav class="nav">
-        <a href="dashboard.html">Dashboard</a>
-        <a href="index.html">HDSD</a>
+
+      <!-- Quick Search -->
+      <div class="atlas-search-wrap">
+        <label class="atlas-search" for="searchInput">
+          <i data-lucide="search" class="atlas-search-icon"></i>
+          <input id="searchInput" type="search" placeholder="Tìm kiếm nhanh: VDC, Euler, Oxyz, Gauss, Tâm tỉ cự, Conic..." autocomplete="off" />
+          <button type="button" class="atlas-search-clear" id="searchClear" title="Xóa tìm kiếm" aria-label="Xóa tìm kiếm">
+            <i data-lucide="x" style="width: 14px; height: 14px;"></i>
+          </button>
+          <span class="atlas-search-kbd">⌘K</span>
+        </label>
+      </div>
+
+      <!-- Navigation links -->
+      <nav class="atlas-nav-links">
+        <a class="atlas-nav-btn featured" href="khbd" title="Kế hoạch bài dạy & Ký sổ đầu bài">
+          <i data-lucide="calendar-check-2" style="width: 16px; height: 16px;"></i> Kế Hoạch Bài Dạy
+        </a>
+        <a class="atlas-nav-btn" href="https://beamer-sangnhc.pages.dev/" target="_blank" rel="noopener" title="Thư viện slide Beamer trực tuyến">
+          <i data-lucide="presentation" style="width: 16px; height: 16px;"></i> Slide Beamer
+        </a>
+        <a class="atlas-nav-btn" href="conic-classroom" title="Quản lý lớp học & điểm tích cực">
+          <i data-lucide="school" style="width: 16px; height: 16px;"></i> ConicClassroom
+        </a>
+        <a class="atlas-nav-btn" href="dashboard.html" title="Bảng điều khiển hệ thống">
+          <i data-lucide="layout-dashboard" style="width: 16px; height: 16px;"></i> Dashboard
+        </a>
+        <a class="atlas-nav-btn" href="links.html" title="Danh mục liên kết tiện ích">
+          <i data-lucide="globe" style="width: 16px; height: 16px;"></i> Web Hub
+        </a>
       </nav>
     </div>
   </header>
 
-  <main>
-    <section class="atlas-head">
-      <div>
-        <p class="eyebrow">Kho học liệu sống</p>
-        <h1>Atlas cho chuyên đề và bài giảng hằng năm</h1>
-        <p>Kho dùng ngay gồm giáo án lớp 10/12, chuyên đề nâng cao và slide Beamer. PDF được kiểm tra và đóng gói tự động từ nguồn Typst để không còn thẻ “Chưa có PDF” giả do sai pipeline.</p>
-      </div>
-      <div class="stats" id="stats"></div>
-    </section>
+  <!-- Main Container -->
+  <main class="atlas-main">
+    <!-- Hero Banner & Stats -->
+    <section class="atlas-hero">
+      <div class="atlas-hero-inner">
+        <div class="atlas-hero-content">
+          <span class="atlas-eyebrow">
+            <i data-lucide="sparkles" style="width: 14px; height: 14px;"></i> Kho Học Liệu Sống · GDPT 2018
+          </span>
+          <h1>
+            Atlas Chuyên Đề <span class="gradient">Vận Dụng Cao</span> & Bài Giảng
+          </h1>
+          <p>
+            Kho chuyên khảo Toán THPT chất lượng cao biên soạn bằng <strong>Typst & CeTZ</strong>: tập trung các chuyên đề VDC đỉnh cao (Khối 10, 11, 12), mô hình toán thực tế, giáo án KNTT và bài giảng trình chiếu Beamer đã biên dịch PDF dùng ngay.
+          </p>
 
-    <section class="toolbar">
-      <div class="segmented" id="kindTabs">
-        <button type="button" data-kind="all" class="active">Tất cả</button>
-        <button type="button" data-kind="lesson-plan">Giáo án</button>
-        <button type="button" data-kind="cd">Chuyên đề CD</button>
-        <button type="button" data-kind="beamer">Beamer</button>
-      </div>
-      <select id="gradeFilter" aria-label="Lọc khối">
-        <option value="all">Tất cả khối</option>
-        <option value="10">Khối 10</option>
-        <option value="11">Khối 11</option>
-        <option value="12">Khối 12</option>
-      </select>
-      <select id="statusFilter" aria-label="Lọc trạng thái">
-        <option value="all">Tất cả trạng thái</option>
-        <option value="ready">ready</option>
-        <option value="draft">draft</option>
-        <option value="gold">gold</option>
-        <option value="revise">revise</option>
-      </select>
-    </section>
-
-    <section class="content">
-      <aside class="side">
-        <h2>Nhóm chủ đề</h2>
-        <div class="check-list" id="clusterFilters"></div>
-      </aside>
-      <section>
-        <div class="list-head">
-          <h2>Học liệu</h2>
-          <span id="resultInfo">Đang nạp...</span>
+          <!-- Quick Search Tags -->
+          <div class="atlas-quick-tags" id="quickSearchTags">
+            <span class="atlas-quick-tag-label">Chạm để lọc nhanh:</span>
+            <button type="button" class="atlas-quick-tag vdc" data-quick="vdc">🔥 Chỉ Chuyên đề VDC</button>
+            <button type="button" class="atlas-quick-tag vdc" data-quick="k10-vdc">Khối 10 VDC</button>
+            <button type="button" class="atlas-quick-tag" data-quick="euler">Chia kẹo Euler</button>
+            <button type="button" class="atlas-quick-tag" data-quick="oxyz">Oxyz Cực trị</button>
+            <button type="button" class="atlas-quick-tag" data-quick="gauss">Khử Gauss Leontief</button>
+            <button type="button" class="atlas-quick-tag" data-quick="tamticu">Tâm tỉ cự</button>
+            <button type="button" class="atlas-quick-tag" data-quick="conic">Conic quang học</button>
+            <button type="button" class="atlas-quick-tag" data-quick="logic">Hiệp sĩ Logic</button>
+          </div>
         </div>
-        <div class="asset-list" id="assetList"></div>
-      </section>
+
+        <!-- Clickable Stat Cards -->
+        <div class="atlas-stats-grid" id="stats"></div>
+      </div>
     </section>
+
+    <!-- Toolbar: Tabs, Grade Chips & View Controls -->
+    <section class="atlas-toolbar">
+      <div class="atlas-filter-groups">
+        <!-- Prominent VDC Toggle Button -->
+        <button type="button" class="atlas-vdc-toggle-btn" id="btnToggleVdc" title="Bật/Tắt chế độ chỉ xem Chuyên đề và bài toán Vận Dụng Cao">
+          <span>🔥 Chỉ Chuyên đề VDC</span>
+          <span class="atlas-vdc-badge" id="vdcBadgeCount">131</span>
+        </button>
+
+        <!-- Kind Tabs -->
+        <div class="atlas-segmented" id="kindTabs" role="tablist">
+          <button type="button" data-kind="all" class="atlas-segmented-btn active" role="tab">
+            <span>Tất cả</span>
+          </button>
+          <button type="button" data-kind="cd" class="atlas-segmented-btn" role="tab">
+            <i data-lucide="book-open" style="width: 15px; height: 15px;"></i>
+            <span>Chuyên đề CD</span>
+          </button>
+          <button type="button" data-kind="lesson-plan" class="atlas-segmented-btn" role="tab">
+            <i data-lucide="file-text" style="width: 15px; height: 15px;"></i>
+            <span>Giáo án</span>
+          </button>
+          <button type="button" data-kind="beamer" class="atlas-segmented-btn" role="tab">
+            <i data-lucide="presentation" style="width: 15px; height: 15px;"></i>
+            <span>Beamer</span>
+          </button>
+        </div>
+
+        <!-- Grade Chips -->
+        <div class="atlas-grade-chips" id="gradeChips">
+          <button type="button" class="atlas-grade-chip active" data-grade="all">Toàn bộ khối</button>
+          <button type="button" class="atlas-grade-chip" data-grade="10">Lớp 10</button>
+          <button type="button" class="atlas-grade-chip" data-grade="11">Lớp 11</button>
+          <button type="button" class="atlas-grade-chip" data-grade="12">Lớp 12</button>
+        </div>
+      </div>
+
+      <!-- Right Controls: Status & View Mode -->
+      <div class="atlas-view-controls">
+        <select id="statusFilter" class="atlas-select" aria-label="Lọc trạng thái">
+          <option value="all">Tất cả trạng thái</option>
+          <option value="ready">✓ PDF sẵn sàng</option>
+          <option value="draft">⏳ Bản thảo</option>
+        </select>
+
+        <div style="display: flex; gap: 4px;">
+          <button type="button" class="atlas-view-mode-btn active" id="viewModeGrid" title="Chế độ lưới trực quan" aria-label="Chế độ lưới">
+            <i data-lucide="layout-grid" style="width: 18px; height: 18px;"></i>
+          </button>
+          <button type="button" class="atlas-view-mode-btn" id="viewModeList" title="Chế độ danh sách gọn gàng" aria-label="Chế độ danh sách">
+            <i data-lucide="list" style="width: 18px; height: 18px;"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content Layout -->
+    <div class="atlas-content-layout">
+      <!-- Sticky Sidebar -->
+      <aside class="atlas-sidebar">
+        <div class="atlas-sidebar-head">
+          <h2>Nhóm chủ đề</h2>
+          <div class="atlas-sidebar-actions">
+            <button type="button" class="atlas-sidebar-btn" id="btnSelectAllClusters">Chọn hết</button>
+            <button type="button" class="atlas-sidebar-btn" id="btnClearClusters">Bỏ chọn</button>
+          </div>
+        </div>
+        <div class="atlas-cluster-list" id="clusterFilters"></div>
+      </aside>
+
+      <!-- Asset Results Area -->
+      <section>
+        <!-- Active Filter Indicator Bar -->
+        <div class="atlas-active-filter-bar" id="activeFilterBar">
+          <span class="atlas-active-filter-title">Đang lọc:</span>
+          <div id="activeFilterPills" style="display: flex; gap: 6px; flex-wrap: wrap;"></div>
+          <button type="button" class="atlas-clear-all-btn" id="btnClearAllFilters">Xóa tất cả bộ lọc</button>
+        </div>
+
+        <div class="atlas-results-bar">
+          <h2>
+            <span>Danh mục học liệu</span>
+            <span class="atlas-results-count" id="resultCount">Đang nạp...</span>
+          </h2>
+        </div>
+
+        <!-- Dynamic Asset Grid/List Container -->
+        <div class="atlas-asset-container grid-view" id="assetList"></div>
+
+        <!-- Pagination & Load More -->
+        <div class="atlas-pagination-wrap" id="paginationWrap"></div>
+      </section>
+    </div>
   </main>
 </body>
 </html>

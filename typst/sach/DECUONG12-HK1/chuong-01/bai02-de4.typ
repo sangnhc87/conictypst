@@ -18,7 +18,6 @@
   }
 }
 
-#muc([Đề Luyện Tập Số 04])
 
 #resetexamstate()
 #exam-part([PHẦN I. Câu hỏi trắc nghiệm nhiều phương án lựa chọn (12 câu)], count: 12)

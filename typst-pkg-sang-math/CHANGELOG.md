@@ -2,7 +2,35 @@
 
 Các thay đổi đáng chú ý của `sang-math` được ghi tại đây. Gói tuân theo Semantic Versioning; nhánh `1.0.x` không được xóa hoặc đổi chữ ký API public đã phát hành.
 
+## 1.0.6 — 2026-09-13
+
+### Hệ thống Sách Toàn năng & Đề Cương (`decuong-book.typ`)
+
+- **`#show: decuong-book.with(...)`**: Template sách Đề cương / Tài liệu học tập THPT chuẩn hoá toàn diện:
+  - Hỗ trợ tham số linh hoạt tiếng Việt & tiếng Anh (`title`/`tieu-de`, `author`/`to-bomon`, `school`/`truong`, `subject`/`mon`, `year`/`nam-hoc`).
+  - Tự động chuyển đổi chế độ thông minh qua `mode: "dethi"` vs `mode: "loigiai"`:
+    - `"dethi"`: Bản sách bài tập cho học sinh, bài tập trắc nghiệm hiển thị bố cục 2 cột (câu hỏi bên trái, ô chấm `_Bài làm:_` bên phải) tiết kiệm giấy tối đa; tự động ẩn toàn bộ lời giải chi tiết.
+    - `"loigiai"`: Bản sách hướng dẫn giải chi tiết cho giáo viên, bố cục 1 cột thoáng đãng, sắc nét; tự động hiển thị đầy đủ các khối lời giải (`loigiai`).
+  - Tự động sinh trang bìa nghệ thuật chuẩn nhận diện thương hiệu và mục lục 3 cấp với phong cách chuyên nghiệp.
+- **`#show: chuyende-book.with(...)`**: Mẫu sách chuyên đề chuyên sâu, bồi dưỡng học sinh giỏi, biên soạn SGK.
+- **`#show: dethi-book.with(...)`**: Mẫu sách tuyển tập bộ đề thi thử tốt nghiệp THPT chuẩn BGD 2025.
+- **Hệ thống phân cấp bài giảng & bài tập chuẩn mực**:
+  - `#chuong(ten, mau: C1)`: Phân chia chương kèm huy hiệu số chương hình tròn và dải màu gradient.
+  - `#bai(ten, mau: C1)`: Phân bài học kèm badge `[BÀI X]` và thanh gạch chân màu chủ đề.
+  - `#dang(ten, mau: C1)`: Banner dạng toán tự động tăng bộ đếm dạng.
+  - `#phuong-phap[...]`: Khung phương pháp giải màu pastel nhẹ nhàng.
+  - `#ly-thuyet[...]`: Khung lý thuyết cần nhớ viền trái đậm.
+  - `#bai-tap-tu-luan[...]` & `#bai-tap-trac-nghiem()`: Khung bài tập tự luận và trắc nghiệm.
+  - `#bt-item(num, stem, loigiai: ...)`: Bài tập tự luận tự động hiển thị/ẩn lời giải theo `mode`.
+- **Hỗ trợ Ma trận Suy luận Logic & Bảng nâng cao**:
+  - `#co`, `#yes` ($bold(text("✔ Có"))$) và `#khong`, `#no` ($bold(text("✘ Không"))$).
+  - `#logic-check` ($bold(text("✔"))$) và `#logic-cross` ($bold(text("✘"))$).
+  - `#matrix-table(...)`: Bảng ma trận logic với hàng tiêu đề và cột định danh nổi bật.
+- **Bảng màu chủ đề 5 Chương chuẩn mực**: `C1`, `C2`, `C3`, `C4`, `C5`, `gold`, `ok`, `warn`.
+- **Độ co giãn BBT/BXD (`my-bxd`, `my-bbbt`)**: Tự động nhận diện số cột và thu phóng phù hợp với chế độ in 2 cột hoặc 1 cột.
+
 ## 1.0.5 — 2026-09-09
+
 
 ### Đề thi & Khung câu hỏi (`sang-exam.typ`)
 

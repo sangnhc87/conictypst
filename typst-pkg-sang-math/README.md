@@ -9,31 +9,36 @@ Bộ macro Typst dành cho Toán THPT Việt Nam: đề thi bốn dạng câu h�
 ## Cài đặt
 
 ```typ
-#import "@preview/sang-math:1.0.5": *
+// Sử dụng bản chính thức trên Typst Universe:
+#import "@preview/sang-math:1.0.6": *
+
+// Hoặc sử dụng bản cài đặt local trên máy:
+#import "@local/sang-math:1.0.6": *
 ```
 
-Khi chỉ dùng một nhóm chức năng, nên import đúng tên cần dùng để file dễ đọc và API rõ ràng:
+Khi chỉ dùng một nhóm chức năng, có thể import tường minh:
 
 ```typ
-#import "@preview/sang-math:1.0.5": tn, ds, tln, tl, True, sang-setup
+#import "@local/sang-math:1.0.6": tn, ds, tln, tl, True, decuong-book, decuong-preview
 ```
 
 ## API chính
 
 | Nhóm | Macro tiêu biểu |
 |---|---|
-| Đề thi | `tn`, `ds`, `tln`, `tl`, `exam-mode`, `exam-part`, `print-answer-key` |
-| Giao diện đề | `exam-theme`, `exam-preset`, `exam-input-preset`, `exam-template-names` |
-| Sách/chuyên đề | `book-theme`, `book-chapter`, `book-lesson`, các hộp sư phạm, `book-template-names` |
-| Layout in hai mặt | `layout-draft`, `layout-2col-draft` — nội dung 70%, nháp 30% đổi bên chẵn/lẻ |
-| Bảng Toán | `bbtv2`, `bbbt`, `bxd`, `bang-gia-tri`, `bang-phan-phoi`, `auto-bbt` |
-| Hình học cơ bản | `tri-abc`, `tri-right`, `chop-sabc`, `circle-desc`, `axis-xy`, `plot` |
-| Conic | `draw-parabola`, `draw-ellipse`, `draw-hyperbola` |
-| Khối tròn xoay | `draw-cylinder`, `draw-cone`, `draw-sphere` |
-| Đường cong 3D | `draw-helix`, `draw-spring` |
-| Ký hiệu | `RR`, `ZZ`, `NN`, `QQ`, `Rightarrow`, `Leftrightarrow`, `vect`... |
+| **Sách Đề cương (Mới 1.0.6)** | `decuong-book`, `decuong-preview`, `chuyende-book`, `dethi-book`, `chuong`, `bai`, `dang`, `phuong-phap`, `bt-item`, `C1`..`C5` |
+| **Ma trận Logic (Mới 1.0.6)** | `matrix-table`, `co`, `yes`, `khong`, `no`, `logic-check`, `logic-cross` |
+| **Đề thi THPT** | `tn`, `ds`, `tln`, `tl`, `exam-mode`, `exam-part`, `print-answer-key` |
+| **Giao diện đề thi** | `exam-theme`, `exam-preset`, `exam-input-preset`, `exam-template-names` |
+| **Sách / SGK chuyên sâu** | `book-theme`, `book-chapter`, `book-lesson`, các hộp sư phạm (`goal-box`, `theorem-box`...) |
+| **Layout in hai mặt** | `layout-draft`, `layout-2col-draft` — nội dung 70%, nháp 30% đổi bên chẵn/lẻ |
+| **Bảng biến thiên & Xét dấu** | `bbtv2`, `bbbt`, `bxd`, `my-bxd`, `my-bbbt`, `bang-gia-tri`, `auto-bbt` |
+| **Hình học cơ bản** | `tri-abc`, `tri-right`, `chop-sabc`, `circle-desc`, `axis-xy`, `plot` |
+| **Conic & Khối tròn xoay** | `draw-parabola`, `draw-ellipse`, `draw-hyperbola`, `draw-cylinder`, `draw-cone`, `draw-sphere` |
+| **Ký hiệu toán & đa môn** | `RR`, `ZZ`, `NN`, `QQ`, `tfrac`, `heva`, `hoac`, `doC`, `ohm`, `pu-tn`... |
 
-`lib.typ` là cổng public duy nhất và hiện đã export cả template đề, template sách cùng các module CeTZ nâng cao. Người dùng không cần import đường dẫn nội bộ.
+`lib.typ` là cổng public duy nhất xuất toàn bộ hệ thống đề thi, sách đề cương, ma trận logic, BBT và hình học CeTZ.
+
 
 ## Câu đúng/sai dạng bảng hoặc danh sách
 
@@ -63,7 +68,59 @@ chuyển nhanh sang danh sách bằng `use-table: false`:
 `use-table: false` tương đương `ds-style: "list"`. Cú pháp cũ
 `table: false` cũng được giữ để tương thích với các ví dụ đã lưu.
 
+## Sách Đề Cương & Biên Soạn Toàn Năng (Mới 1.0.6)
+
+Soạn thảo toàn bộ tài liệu học tập, sách đề cương ôn tập hoặc hướng dẫn giải chi tiết chỉ với một lệnh show rule duy nhất:
+
+```typ
+#import "@local/sang-math:1.0.6": *
+
+#show: decuong-book.with(
+  title: "ĐỀ CƯƠNG TOÁN 10 HỌC KỲ I",
+  author: "Thầy Nguyễn Sang",
+  school: "TRƯỜNG THPT NGUYỄN HỮU CẢNH",
+  subject: "MÔN: TOÁN — LỚP 10",
+  year: "NĂM HỌC 2026–2027",
+  mode: "loigiai", // Đổi thành "dethi" là cả cuốn sách tự động ẩn hết lời giải!
+  show-cover: true, // Bìa màu chuẩn nhận diện
+  show-toc: true,   // Mục lục 3 cấp
+)
+
+#chuong("MỆNH ĐỀ VÀ TẬP HỢP", mau: C1)
+#bai("MỆNH ĐỀ TOÁN HỌC", mau: C1)
+
+#dang("Suy luận logic bằng bảng ma trận", mau: C1)
+#phuong-phap[Phương pháp loại trừ theo hàng và cột...]
+
+#bai-tap-tu-luan(mau: C1)[
+  #bt-item(1, [Đề bài tự luận...], loigiai: [Lời giải chi tiết...])
+]
+
+#bai-tap-trac-nghiem(mau: C1)
+#tn(dir: "ngang", [Câu hỏi trắc nghiệm...], (A, B, C, D), loigiai: [...])
+```
+
+### Soạn riêng lẻ 1 file bài tập (decuong-preview)
+
+Khi đang mở riêng 1 file bài trong IDE, dùng `decuong-preview` để xem trước trực tiếp mà không sinh ra trang bìa hay mục lục:
+
+```typ
+#import "@local/sang-math:1.0.6": *
+#show: decuong-preview.with(mode: "loigiai") // Hoặc "dethi"
+
+#dang("Dạng toán cụ thể", mau: C1)
+...
+```
+
+### Ký hiệu Ma Trận Logic
+
+Hỗ trợ trực tiếp các ký hiệu ma trận suy luận:
+- `#co`, `#yes` (✔ Có) và `#khong`, `#no` (✘ Không).
+- `#logic-check` (✔) và `#logic-cross` (✘).
+- `#matrix-table(headers: (...), rows: (...))` cho bảng suy luận logic nhiều chiều.
+
 ## Ví dụ đề thi
+
 
 ```typ
 #import "@preview/sang-math:1.0.5": *

@@ -9,8 +9,8 @@
   <meta charset="UTF-8" />
   <script src="copyright-guard.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>sang-math 1.0.0 — Hướng dẫn Typst Toán đầy đủ</title>
-  <meta name="description" content="Hướng dẫn chính thức sang-math 1.0.0: đề thi THPT, sách và chuyên đề, 30 theme, BBT, hình học CeTZ và API nâng cao." />
+  <title>sang-math 1.0.6 — Hướng dẫn Typst Toán đầy đủ</title>
+  <meta name="description" content="Hướng dẫn chính thức sang-math 1.0.6: sách đề cương toàn năng, ma trận logic, đề thi THPT, 30 theme, BBT, hình học CeTZ và API nâng cao." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" rel="stylesheet" />
@@ -92,6 +92,8 @@
   </div>
   <div class="sidebar-section">
     <div class="sidebar-label">Module 2 — Sách &amp; Chuyên đề</div>
+    <a href="#decuong-book-v106" class="nav-link" data-section="decuong-book-v106">🔥 Sách Đề cương 1.0.6</a>
+    <a href="#logic-matrix-v106" class="nav-link" data-section="logic-matrix-v106">🧩 Ma trận Logic 1.0.6</a>
     <a href="#book-overview" class="nav-link" data-section="book-overview">📚 Tổng quan sách</a>
     <a href="#book-structure" class="nav-link" data-section="book-structure">🗂️ Cấu trúc phân cấp</a>
     <a href="#book-boxes" class="nav-link" data-section="book-boxes">📦 Hộp nội dung SGK</a>
@@ -2015,6 +2017,313 @@ npm run stexgv:mix -- --compile</code></pre>
   Hàm bậc ba $y = ax^3+bx^2+cx+d$ ($a \ne 0$):
   - Có $\Delta' = b^2-3ac$: 2 cực trị khi $\Delta' > 0$.
 ]</code></pre>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION: DECUONG BOOK (SANG-MATH 1.0.6) -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="decuong-book-v106" class="doc-section hidden">
+  <div class="badge-v106" style="display:inline-block; background: linear-gradient(135deg, #1565c0, #0d47a1); color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.85em; font-weight: 600; margin-bottom: 12px;">MỚI TRONG SANG-MATH 1.0.6</div>
+  <h1>🔥 Sách Đề Cương &amp; Biên Soạn Toàn Năng</h1>
+  <p>Gói <code>sang-math:1.0.6</code> giới thiệu hệ thống <strong>Sách Đề Cương (decuong-book)</strong> chuyên nghiệp chuẩn hóa theo chương trình GDPT 2018. Bạn không còn phải quản lý hàng loạt file <code>preamble.typ</code>, <code>_config.typ</code> rườm rà — chỉ với một lệnh khai báo duy nhất, tài liệu tự động có bìa nghệ thuật, mục lục 3 cấp, bộ đếm chuẩn và chuyển đổi chế độ thông minh.</p>
+
+  <div class="callout callout-tip">
+    <strong>💡 Đột phá 1 chạm (Dual-Mode):</strong>
+    Chỉ cần đổi tham số <code>mode: "dethi"</code> sang <code>mode: "loigiai"</code>, toàn bộ cuốn sách hàng trăm trang sẽ tự động chuyển từ <em>Bản in bài tập 2 cột cho học sinh</em> sang <em>Bản hướng dẫn giải chi tiết 1 cột sắc nét cho giáo viên</em> mà không cần sửa bất kỳ dòng nội dung nào!
+  </div>
+
+  <h2>So sánh 2 chế độ hiển thị</h2>
+  <table class="doc-table">
+    <thead>
+      <tr>
+        <th>Tiêu chí</th>
+        <th>mode: "dethi" (Học sinh)</th>
+        <th>mode: "loigiai" (Giáo viên)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Lời giải bài tập</strong></td>
+        <td><span style="color:#dc2626; font-weight:bold;">Ẩn 100%</span> mọi lời giải tự luận &amp; trắc nghiệm</td>
+        <td><span style="color:#16a34a; font-weight:bold;">Hiện đầy đủ</span> chi tiết từng bước, có khung xanh</td>
+      </tr>
+      <tr>
+        <td><strong>Bố cục câu hỏi</strong></td>
+        <td><strong>2 cột (side-by-side)</strong>: Câu hỏi bên trái, ô chấm <code>_Bài làm:_</code> bên phải</td>
+        <td><strong>1 cột (chuẩn giáo khoa)</strong>: Rộng rãi, thoáng mắt</td>
+      </tr>
+      <tr>
+        <td><strong>Tiết kiệm giấy in</strong></td>
+        <td>Giảm 40% - 60% số trang in khi photocopy cho lớp học</td>
+        <td>In sách chuyên khảo, sách mẫu giải chi tiết</td>
+      </tr>
+      <tr>
+        <td><strong>Đáp án trắc nghiệm</strong></td>
+        <td>Ô trống để học sinh khoanh / tô đáp án</td>
+        <td>Tô màu nổi bật phương án đúng</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>1. Mẫu sách đề cương hoàn chỉnh (main.typ)</h2>
+  <p>Dùng để biên dịch toàn bộ cuốn sách tài liệu học tập, bao gồm trang bìa, mục lục và các chương.</p>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst — main.typ</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">// ═════════════════════════════════════════════════════════════════════════════
+// MAIN.TYP — BIÊN DỊCH TOÀN BỘ SÁCH ĐỀ CƯƠNG BẰNG SANG-MATH 1.0.6
+// Lệnh biên dịch: typst compile main.typ de-cuong-toan-10.pdf
+// Hoặc truyền mode từ CLI: typst compile --input mode=loigiai main.typ giai-toan-10.pdf
+// ═════════════════════════════════════════════════════════════════════════════
+
+#import "@local/sang-math:1.0.6": *
+
+#show: decuong-book.with(
+  title: "ĐỀ CƯƠNG TOÁN 10 HỌC KỲ I",      // Tiêu đề sách (hoặc dùng: tieu-de)
+  author: "Thầy Nguyễn Sang",              // Tác giả biên soạn (hoặc: to-bomon)
+  school: "TRƯỜNG THPT NGUYỄN HỮU CẢNH",   // Tên trường (hoặc: truong)
+  subject: "MÔN: TOÁN — LỚP 10",           // Môn học & Khối lớp (hoặc: mon)
+  year: "NĂM HỌC 2026–2027",               // Niên khóa (hoặc: nam-hoc)
+  mode: "loigiai",                         // "dethi" (học sinh) hoặc "loigiai" (giáo viên)
+  show-cover: true,                        // Tự động tạo trang bìa màu sắc nét
+  show-toc: true,                          // Tự động tạo Mục lục 3 cấp chuẩn mực
+  font: "Libertinus Serif",                // Phông chữ chuẩn Toán học
+)
+
+// ═════════════════════════════════════════════════════════════════════════════
+// NỘI DUNG SÁCH: CÁC CHƯƠNG VÀ BÀI HỌC
+// ═════════════════════════════════════════════════════════════════════════════
+
+#chuong("MỆNH ĐỀ VÀ TẬP HỢP", mau: C1)
+#bai("MỆNH ĐỀ TOÁN HỌC", mau: C1)
+
+// Nhúng các file dạng bài (hoặc viết trực tiếp)
+#include "chuong-01/bai01-dang01.typ"
+#include "chuong-01/bai01-dang07.typ"
+
+#chuong("BẤT PHƯƠNG TRÌNH BẬC NHẤT HAI ẨN", mau: C2)
+#bai("BẤT PHƯƠNG TRÌNH BẬC NHẤT HAI ẨN", mau: C2)
+#include "chuong-02/bai01-bpt.typ"</code></pre>
+  </div>
+
+  <h2>2. Soạn và xem trước 1 bài / 1 dạng lẻ (decuong-preview)</h2>
+  <p>Khi thầy cô đang làm việc trong VS Code / Antigravity IDE và mở riêng một file dạng toán (ví dụ: <code>bai01-dang07.typ</code>), hãy dùng <code>decuong-preview</code> để xem trước ngay lập tức mà không bị sinh ra trang bìa hay mục lục thừa.</p>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst — bai01-dang07.typ</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#import "@local/sang-math:1.0.6": *
+
+// Xem trước bản LỜI GIẢI khi đang soạn bài:
+#show: decuong-preview.with(mode: "loigiai")
+// Khi muốn xem trước bản in ĐỀ THI của học sinh, chỉ cần đổi thành:
+// #show: decuong-preview.with(mode: "dethi")
+
+#dang("Suy luận logic bằng phương pháp lập bảng ma trận", mau: C1)
+
+#phuong-phap(mau: C1)[
+  - Lập bảng ma trận các thuộc tính của đối tượng.
+  - Sử dụng các dữ kiện loại trừ để điền #khong (#logic-cross).
+  - Quét theo từng hàng và cột để xác định giá trị #co (#logic-check).
+]
+
+#bai-tap-tu-luan(mau: C1)[
+  #bt-item(1, [
+    Ba bạn Toán, Lý, Hóa dạy 3 môn trùng tên 3 bạn.
+    Biết không ai dạy môn trùng tên mình và bạn Toán lớn tuổi hơn người dạy Hóa.
+    Tìm môn dạy của mỗi người.
+  ], loigiai: [
+    Ta lập bảng ma trận suy luận:
+    #align(center)[
+      #matrix-table(
+        headers: ([Tên \\ Môn], [Toán], [Lý], [Hóa]),
+        rows: (
+          ([Toán], khong, co, khong),
+          ([Lý], co, khong, khong),
+          ([Hóa], khong, khong, co),
+        )
+      )
+    ]
+    Vậy bạn Toán dạy Lý, bạn Lý dạy Toán, bạn Hóa dạy Hóa là vô lý nên bạn Hóa dạy Lý...
+  ])
+]
+
+#bai-tap-trac-nghiem(mau: C1)
+
+#tn(
+  dir: "ngang", // "ngang": 2 cột bên cạnh nhau, "doc": xếp chồng
+  [Mệnh đề nào sau đây đúng?],
+  (
+    [$forall x in RR, x^2 > 0$],
+    True([$exists x in RR, x^2 = 0$]),
+    [$pi < 3$],
+    [$sqrt(2) in QQ$],
+  ),
+  loigiai: [Với $x = 0$ thì $0^2 = 0$ nên mệnh đề tồn tại là đúng.]
+)</code></pre>
+  </div>
+
+  <h2>3. Bảng tổng hợp các hàm cấu trúc sách</h2>
+  <table class="doc-table">
+    <thead>
+      <tr>
+        <th>Hàm / Ký hiệu</th>
+        <th>Mô tả &amp; Chức năng</th>
+        <th>Ví dụ</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>#chuong(ten, mau: C1)</code></td>
+        <td>Tạo đầu chương kèm huy hiệu tròn số chương tự động và dải màu gradient</td>
+        <td><code>#chuong("Vectơ", mau: C4)</code></td>
+      </tr>
+      <tr>
+        <td><code>#bai(ten, mau: C1)</code></td>
+        <td>Tạo bài học kèm badge <code>[BÀI X]</code> tự động và gạch chân đồng bộ màu</td>
+        <td><code>#bai("Tích vô hướng", mau: C4)</code></td>
+      </tr>
+      <tr>
+        <td><code>#muc(ten)</code></td>
+        <td>Tiêu đề mục con cấp 3 (Heading 3)</td>
+        <td><code>#muc("1. Khái niệm mở đầu")</code></td>
+      </tr>
+      <tr>
+        <td><code>#dang(ten, mau: C1)</code></td>
+        <td>Banner dạng toán tự động nhảy số dạng: <em>Dạng 1, Dạng 2...</em></td>
+        <td><code>#dang("Tìm tập xác định", mau: C1)</code></td>
+      </tr>
+      <tr>
+        <td><code>#phuong-phap[...]</code></td>
+        <td>Hộp phương pháp giải màu pastel trang nhã</td>
+        <td><code>#phuong-phap[Các bước giải...]</code></td>
+      </tr>
+      <tr>
+        <td><code>#ly-thuyet[...]</code></td>
+        <td>Hộp lý thuyết cần nhớ có viền trái đậm nổi bật</td>
+        <td><code>#ly-thuyet[Định lý Pitago...]</code></td>
+      </tr>
+      <tr>
+        <td><code>#bai-tap-tu-luan[...]</code></td>
+        <td>Khung chứa toàn bộ bài tập tự luận của dạng toán</td>
+        <td><code>#bai-tap-tu-luan[#bt-item(...)]</code></td>
+      </tr>
+      <tr>
+        <td><code>#bt-item(num, stem, loigiai: ...)</code></td>
+        <td>Từng câu bài tập tự luận. <strong>Tự động ẩn lời giải</strong> khi <code>mode: "dethi"</code> và hiện khung xanh khi <code>mode: "loigiai"</code></td>
+        <td><code>#bt-item(1, [Đề bài], loigiai: [...])</code></td>
+      </tr>
+      <tr>
+        <td><code>#bai-tap-trac-nghiem()</code></td>
+        <td>Huy hiệu phân tách phần Bài tập trắc nghiệm</td>
+        <td><code>#bai-tap-trac-nghiem(mau: C1)</code></td>
+      </tr>
+      <tr>
+        <td><code>#tn(...)</code>, <code>#ds(...)</code>, <code>#tln(...)</code></td>
+        <td>Các câu hỏi trắc nghiệm 4 lựa chọn, đúng/sai, trả lời ngắn. Tự động hỗ trợ <strong>2 cột có dòng nháp</strong> khi in đề và <strong>1 cột đầy đủ lời giải</strong> khi in đáp án.</td>
+        <td><code>#tn(dir: "ngang", [Câu hỏi], (A, B, C, D))</code></td>
+      </tr>
+      <tr>
+        <td><code>C1, C2, C3, C4, C5</code></td>
+        <td>Bảng 5 màu chủ đạo cho 5 chương sách: Xanh hoàng gia, Xanh ngọc, Hồng sen, Tím hoàng gia, Cam hổ phách</td>
+        <td><code>mau: C3</code></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION: LOGIC MATRIX (SANG-MATH 1.0.6) -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="logic-matrix-v106" class="doc-section hidden">
+  <div class="badge-v106" style="display:inline-block; background: linear-gradient(135deg, #059669, #047857); color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.85em; font-weight: 600; margin-bottom: 12px;">CHUẨN SƯ PHẠM THPT</div>
+  <h1>🧩 Ma Trận Suy Luận Logic</h1>
+  <p>Phương pháp <strong>Lập bảng ma trận (Logic Grid Puzzle)</strong> là công cụ tư duy giải quyết 100% các bài toán suy luận logic trong đề thi THPT, thi Đánh giá năng lực (ĐHQG Hà Nội, ĐHQG TP.HCM) và các bài toán đố nổi tiếng (như câu đố Einstein, bài toán toà nhà, nghề nghiệp...).</p>
+
+  <h2>Chu trình giải 3 bước sư phạm</h2>
+  <div class="card-grid">
+    <div class="feature-card">
+      <div class="feature-icon">1️⃣</div>
+      <div class="feature-title">Bước 1: Bảng ban đầu</div>
+      <div class="feature-desc">Điền các thông tin phủ định trực tiếp từ đề bài bằng dấu <span style="color:#dc2626; font-weight:bold;">✘ Không</span>.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">2️⃣</div>
+      <div class="feature-title">Bước 2: Nhận — Loại chéo</div>
+      <div class="feature-desc">Mỗi hàng/cột có một dấu <span style="color:#16a34a; font-weight:bold;">✔ Có</span> thì lập tức gạch <span style="color:#dc2626; font-weight:bold;">✘</span> toàn bộ các ô còn lại trên cùng hàng và cùng cột đó.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">3️⃣</div>
+      <div class="feature-title">Bước 3: Bảng hoàn thiện</div>
+      <div class="feature-desc">Điền đầy đủ toàn bộ ma trận, suy ra kết luận duy nhất cho bài toán mà không thể xảy ra mâu thuẫn.</div>
+    </div>
+  </div>
+
+  <h2>Bộ macro ký hiệu có sẵn trong 1.0.6</h2>
+  <table class="doc-table">
+    <thead>
+      <tr>
+        <th>Ký hiệu / Lệnh</th>
+        <th>Kết quả hiển thị</th>
+        <th>Ý nghĩa sư phạm</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>#co</code> hoặc <code>#yes</code></td>
+        <td><span style="color:#16a34a; font-weight:bold;">✔ Có</span></td>
+        <td>Xác nhận thuộc tính đúng / thỏa mãn</td>
+      </tr>
+      <tr>
+        <td><code>#khong</code> hoặc <code>#no</code></td>
+        <td><span style="color:#dc2626; font-weight:bold;">✘ Không</span></td>
+        <td>Loại trừ thuộc tính sai / mâu thuẫn</td>
+      </tr>
+      <tr>
+        <td><code>#logic-check</code></td>
+        <td><span style="color:#16a34a; font-weight:bold;">✔</span></td>
+        <td>Dấu tích gọn trong bảng ma trận lớn</td>
+      </tr>
+      <tr>
+        <td><code>#logic-cross</code></td>
+        <td><span style="color:#dc2626; font-weight:bold;">✘</span></td>
+        <td>Dấu gạch chéo gọn trong bảng ma trận lớn</td>
+      </tr>
+      <tr>
+        <td><code>#matrix-table(headers: (...), rows: (...))</code></td>
+        <td>Bảng định dạng chuẩn</td>
+        <td>Tự động tô màu tiêu đề, cột nhãn và căn giữa</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Mẫu Code ví dụ giải bài toán ma trận logic 3x3</h2>
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre><code class="lang-typst">#import "@local/sang-math:1.0.6": *
+
+*Bài toán:* Ba bạn An, Bình, Cúc đến từ 3 tỉnh Hà Nội, Đà Nẵng, Cần Thơ và học 3 chuyên ngành Toán, Tin, Anh. Biết:
+- An không ở Hà Nội.
+- Bạn học Tin ở Đà Nẵng.
+- Bình học chuyên ngành Anh.
+Xác định quê quán và chuyên ngành của từng bạn.
+
+*Lời giải chi tiết:*
+
+*Bước 1. Lập bảng ma trận Tên — Quê quán và Tên — Chuyên ngành:*
+#align(center)[
+  #matrix-table(
+    headers: ([Tên], [Hà Nội], [Đà Nẵng], [Cần Thơ], [Toán], [Tin], [Anh]),
+    rows: (
+      ([An],   khong, co,    khong, co,    khong, khong),
+      ([Bình], co,    khong, khong, khong, khong, co   ),
+      ([Cúc],  khong, khong, co,    khong, co,    khong),
+    )
+  )
+]
+
+*Bước 2. Kết luận:*
+- Bạn *An*: quê ở *Đà Nẵng*, học chuyên ngành *Toán*.
+- Bạn *Bình*: quê ở *Hà Nội*, học chuyên ngành *Anh*.
+- Bạn *Cúc*: quê ở *Cần Thơ*, học chuyên ngành *Tin*.</code></pre>
   </div>
 </section>
 

@@ -773,3 +773,30 @@
     body
   )
 }
+
+// ═══════════════════════════════════════════════════════════════════
+// MẪU XEM TRƯỚC 1 DẠNG / 1 BÀI ĐƠN LẺ (DECUONG-PREVIEW)
+// Dùng khi đang soạn riêng lẻ 1 file trong IDE (không bìa, không mục lục)
+// ═══════════════════════════════════════════════════════════════════
+#let decuong-preview(
+  mode: "loigiai", // Hoặc "dethi"
+  layout: auto,
+  accent: rgb("#1565C0"),
+  paper: "a4",
+  flipped: false,
+  font: "Libertinus Serif",
+  body
+) = {
+  decuong-book(
+    mode: mode,
+    layout: layout,
+    theme-color: accent,
+    paper: paper,
+    flipped: flipped,
+    font: font,
+    show-cover: false,
+    show-toc: false,
+    body
+  )
+}
+

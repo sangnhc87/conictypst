@@ -193,7 +193,7 @@ window.OmrEngine = {
 
       const region = options.region;
       if (region && Number.isFinite(region.x) && Number.isFinite(region.y) &&
-          Number.isFinite(region.width) && Number.isFinite(region.height)) {
+        Number.isFinite(region.width) && Number.isFinite(region.height)) {
         const regionCandidates = candidates.filter(candidate =>
           candidate.cx >= region.x && candidate.cx <= region.x + region.width &&
           candidate.cy >= region.y && candidate.cy <= region.y + region.height
@@ -222,8 +222,8 @@ window.OmrEngine = {
     if (options.debug) this.lastFastMarkerDebug = null;
     const inputRegion = options.region;
     if (!src || !inputRegion ||
-        !Number.isFinite(inputRegion.x) || !Number.isFinite(inputRegion.y) ||
-        !Number.isFinite(inputRegion.width) || !Number.isFinite(inputRegion.height)) {
+      !Number.isFinite(inputRegion.x) || !Number.isFinite(inputRegion.y) ||
+      !Number.isFinite(inputRegion.width) || !Number.isFinite(inputRegion.height)) {
       return null;
     }
 
@@ -345,7 +345,7 @@ window.OmrEngine = {
                 if (area < minArea || area > maxArea) continue;
                 const bounds = cv.boundingRect(contour);
                 if (bounds.width < 3 || bounds.height < 3 ||
-                    bounds.width > maxSide || bounds.height > maxSide) continue;
+                  bounds.width > maxSide || bounds.height > maxSide) continue;
                 const aspect = bounds.width / Math.max(1, bounds.height);
                 if (aspect < 0.62 || aspect > 1.62) continue;
 
@@ -804,7 +804,7 @@ window.OmrEngine = {
           let ry = Math.max(0, Math.floor(expectedY - 50));
           let rw = Math.min(100, warped.cols - rx);
           let rh = Math.min(100, warped.rows - ry);
-          if (rw <= 0 || rh <= 0) return {dx: 0, dy: 0};
+          if (rw <= 0 || rh <= 0) return { dx: 0, dy: 0 };
 
           let roi = warped.roi(new cv.Rect(rx, ry, rw, rh));
           let gray = new cv.Mat();
@@ -879,7 +879,7 @@ window.OmrEngine = {
 
             let pts = template.sbd[col].map(p => [...p]);
             if (col === 0) {
-                window._sbdOff = getLocalOffset(pts[0][0] - 12, pts[0][1] - 49);
+              window._sbdOff = getLocalOffset(pts[0][0] - 12, pts[0][1] - 49);
             }
             if (window._sbdOff) pts = pts.map(p => [p[0] + window._sbdOff.dx, p[1] + window._sbdOff.dy]);
 
@@ -914,7 +914,7 @@ window.OmrEngine = {
 
             let pts = template.made[col].map(p => [...p]);
             if (col === 0) {
-                window._madeOff = getLocalOffset(pts[0][0] - 12, pts[0][1] - 49);
+              window._madeOff = getLocalOffset(pts[0][0] - 12, pts[0][1] - 49);
             }
             if (window._madeOff) pts = pts.map(p => [p[0] + window._madeOff.dx, p[1] + window._madeOff.dy]);
 
@@ -952,9 +952,9 @@ window.OmrEngine = {
             // If it's the first question of a column (e.g. Q1, Q11, Q21)
             // Wait, we can just detect if it's the start of a column by looking at Y coordinate!
             if (q === 1 || (pts[0][1] < 300 && template.mcq[(q - 1).toString()] && template.mcq[(q - 1).toString()][0][1] > pts[0][1])) {
-                window._mcqOff = getLocalOffset(pts[0][0] - 21, pts[0][1] - 20);
+              window._mcqOff = getLocalOffset(pts[0][0] - 21, pts[0][1] - 20);
             } else if (q === 1 && !window._mcqOff) {
-                window._mcqOff = getLocalOffset(pts[0][0] - 21, pts[0][1] - 20);
+              window._mcqOff = getLocalOffset(pts[0][0] - 21, pts[0][1] - 20);
             }
             if (window._mcqOff) currentPts = currentPts.map(p => [p[0] + window._mcqOff.dx, p[1] + window._mcqOff.dy]);
             const counts = window.OmrEngine.readBubbleCol(threshWarped, currentPts, 9);
@@ -971,50 +971,50 @@ window.OmrEngine = {
             let finalIdx = -1;
 
             if (decision.ambiguous) {
-                warnings.push(`Câu ${q} tô nhiều ô`);
-                scanQuality.answerAmbiguous++;
+              warnings.push(`Câu ${q} tô nhiều ô`);
+              scanQuality.answerAmbiguous++;
             } else if (decision.weak && window.TFGraderInstance && window.TFGraderInstance.model) {
-                // AI Verification for suspicious bubbles
-                const idx = decision.maxIdx;
-                const [cx, cy] = pts[idx];
+              // AI Verification for suspicious bubbles
+              const idx = decision.maxIdx;
+              const [cx, cy] = pts[idx];
 
-                // Crop 32x32 around cx, cy from original warped image
-                let rx = Math.max(0, cx - 16);
-                let ry = Math.max(0, cy - 16);
-                let rw = Math.min(32, warped.cols - rx);
-                let rh = Math.min(32, warped.rows - ry);
+              // Crop 32x32 around cx, cy from original warped image
+              let rx = Math.max(0, cx - 16);
+              let ry = Math.max(0, cy - 16);
+              let rw = Math.min(32, warped.cols - rx);
+              let rh = Math.min(32, warped.rows - ry);
 
-                if (rw === 32 && rh === 32) {
-                    let rect = new cv.Rect(rx, ry, 32, 32);
-                    let roi = warped.roi(rect);
+              if (rw === 32 && rh === 32) {
+                let rect = new cv.Rect(rx, ry, 32, 32);
+                let roi = warped.roi(rect);
 
-                    // Create an ImageData object
-                    let imgData = new ImageData(new Uint8ClampedArray(roi.data), 32, 32);
+                // Create an ImageData object
+                let imgData = new ImageData(new Uint8ClampedArray(roi.data), 32, 32);
 
-                    // predict: 0=Empty, 1=Filled, 2=Invalid
-                    const pred = window.TFGraderInstance.predictBubble(imgData);
-                    roi.delete();
+                // predict: 0=Empty, 1=Filled, 2=Invalid
+                const pred = window.TFGraderInstance.predictBubble(imgData);
+                roi.delete();
 
-                    if (pred === 1) {
-                        finalIdx = idx; // Confirmed as filled
-                        warnings.push(`Câu ${q} tô mờ/tẩy xóa`);
-                        scanQuality.faintMarks++;
-                    } else {
-                        warnings.push(`Câu ${q} AI xác nhận nét vẽ lỗi (gạch xóa/chưa tô kín)`);
-                        scanQuality.answerAmbiguous++;
-                    }
+                if (pred === 1) {
+                  finalIdx = idx; // Confirmed as filled
+                  warnings.push(`Câu ${q} tô mờ/tẩy xóa`);
+                  scanQuality.faintMarks++;
                 } else {
-                    finalIdx = idx;
-                    warnings.push(`Câu ${q} tô mờ/tẩy xóa`);
-                    scanQuality.faintMarks++;
+                  warnings.push(`Câu ${q} AI xác nhận nét vẽ lỗi (gạch xóa/chưa tô kín)`);
+                  scanQuality.answerAmbiguous++;
                 }
-            } else if (decision.selected && !decision.weak) {
-                finalIdx = decision.maxIdx;
-            } else if (decision.weak) {
-                // Suspicious but no AI model loaded, accept it but warning
+              } else {
+                finalIdx = idx;
                 warnings.push(`Câu ${q} tô mờ/tẩy xóa`);
                 scanQuality.faintMarks++;
-                finalIdx = decision.maxIdx;
+              }
+            } else if (decision.selected && !decision.weak) {
+              finalIdx = decision.maxIdx;
+            } else if (decision.weak) {
+              // Suspicious but no AI model loaded, accept it but warning
+              warnings.push(`Câu ${q} tô mờ/tẩy xóa`);
+              scanQuality.faintMarks++;
+              finalIdx = decision.maxIdx;
             }
 
             if (finalIdx !== -1) {
@@ -1282,7 +1282,10 @@ window.OmrEngine = {
         keySet = fullAnswers;
       } else if (fullAnswers && typeof fullAnswers === 'object') {
         // New masterAnswerKeys format — lookup by detected mã đề
-        keySet = fullAnswers[madeCode] || fullAnswers['default'] || { mcq: {}, tf: {}, tln: {} };
+        const rawCode = String(madeCode ?? '').trim();
+        const numericCode = /^\d+$/.test(rawCode) ? String(Number(rawCode)) : rawCode;
+        const paddedCode = /^\d+$/.test(rawCode) ? rawCode.padStart(4, '0').slice(-4) : rawCode;
+        keySet = fullAnswers[rawCode] || fullAnswers[numericCode] || fullAnswers[paddedCode] || fullAnswers['default'] || { mcq: {}, tf: {}, tln: {} };
       } else {
         keySet = { mcq: {}, tf: {}, tln: {} };
       }
@@ -1529,7 +1532,7 @@ window.OmrEngine = {
         verdict = '🏆 Xuất Sắc'; verdictColor = '#00b87a';
         autoComment = 'Em đã trả lời xuất sắc! Tiếp tục phát huy nhé 🌟';
       } else if (sc >= 7.0) {
-        verdict = '⭐ Khá';    verdictColor = '#2196f3';
+        verdict = '⭐ Khá'; verdictColor = '#2196f3';
         autoComment = 'Kết quả tốt! Xem lại các câu còn sai để hoàn thiện hơn 👍';
       } else if (sc >= 5.0) {
         verdict = '📖 Trung Bình'; verdictColor = '#ff9800';

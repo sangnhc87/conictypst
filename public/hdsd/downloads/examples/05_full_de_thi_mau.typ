@@ -42,7 +42,10 @@
 // Các lựa chọn: "plain" (chữ thường), "pill" (bo viên), "solid-pill", "badge", "ribbon" (ruy băng), "flag" (lá cờ), "underline" (gạch chân), "spark" (toả sáng)
 #let q-label-style = auto      // auto = tự lấy kiểu đẹp nhất của theme đang chọn. Nếu muốn ép kiểu khác, đổi auto thành tên kiểu (VD: "pill")
 #let answer-key = false        // true: In thêm bảng đáp án A-B-C-D ở cuối đề thi
+#let in-qr-dap-an = false      // true: In mã QR Đáp án OMR - Bản giáo viên quét nạp key trên Sang Math OMR
 #let two-columns = false       // true: Chia đề thi thành 2 cột
+#let watermark = none          // none = không dùng; đổi thành [TÊN TRƯỜNG] hoặc "ĐỀ THI THỬ" để in chữ chìm
+#let watermark-opacity = 0.05  // Độ mờ chữ in chìm (0.01 đến 0.2)
 
 #let preset = exam-preset(
   theme: theme,
@@ -64,6 +67,8 @@
   subject: "TOÁN 12 - CHƯƠNG TRÌNH 2025",
   duration: "90 phút",
   code: "101",
+  watermark: watermark,
+  watermark-opacity: watermark-opacity,
   ..preset.template,
 )
 
@@ -76,6 +81,18 @@
 
 // Lời chào kết thúc
 #het
+
+// In mã QR Đáp án OMR - Bản giáo viên quét chấm bài trên app Sang Math OMR
+#if in-qr-dap-an [
+  #pagebreak()
+  #align(center)[
+    #text(weight: "bold", size: 15pt, fill: preset.accent)[QR ĐÁP ÁN OMR - BẢN GIÁO VIÊN]
+    #v(0.5em)
+    #text(size: 10pt)[Mã đề #preset.template.at("code", default: "101"). Mở Sang Math OMR, chọn “Quét QR trực tiếp” để nạp key và chấm bài.]
+    #v(1em)
+    #sang-omr-qr(ma-de: preset.template.at("code", default: "101"))
+  ]
+]
 
 // In bảng đáp án (nếu answer-key = true)
 #if preset.template.at("answer-key", default: false) {

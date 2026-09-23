@@ -19,6 +19,7 @@ const allowedProjects = new Set([
   'beamer-sangnhc',
   'trinhchieu',
   'sang-math-graphics-studio',
+  'stex2025',
 ]);
 
 const rawArguments = process.argv.slice(2);

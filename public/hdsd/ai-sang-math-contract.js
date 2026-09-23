@@ -14,6 +14,8 @@ export const FULL_FILE_TEMPLATE = `#import "@preview/sang-math:1.0.5": *
   subject: "TOÁN 12",
   duration: "90 phút",
   code: "101",
+  watermark: none, // Chữ in chìm: đổi thành [TÊN TRƯỜNG] hoặc "ĐỀ THI THỬ", hoặc để none nếu không dùng
+  watermark-opacity: 0.05, // Độ mờ chữ in chìm (0.01 đến 0.2)
   ..preset.template,
 )
 

@@ -157,8 +157,13 @@
         }
         const provider = new firebase.auth.GoogleAuthProvider();
         provider.setCustomParameters({ prompt: 'select_account' });
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         try {
-            await state.identityAuth.signInWithPopup(provider);
+            if (isMobile) {
+                await state.identityAuth.signInWithRedirect(provider);
+            } else {
+                await state.identityAuth.signInWithPopup(provider);
+            }
         } catch (error) {
             if (['auth/popup-blocked', 'auth/operation-not-supported-in-this-environment'].includes(error?.code)) {
                 await state.identityAuth.signInWithRedirect(provider);

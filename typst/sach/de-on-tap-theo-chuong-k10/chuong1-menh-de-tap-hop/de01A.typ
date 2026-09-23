@@ -43,7 +43,7 @@
         [Phương trình $x^2 + 1 = 0$ có nghiệm thực.]
     ),
     loigiai: [
-        Câu "Các em hãy cố gắng học tập thật tốt nhé!" là câu cầu khiến, không có tính đúng sai, nên không phải là mệnh đề.
+        - Câu "Các em hãy cố gắng học tập thật tốt nhé!" là câu cầu khiến, không có tính đúng sai, nên không phải là mệnh đề.
     ]
 )
 
@@ -56,8 +56,8 @@
         [Có ít nhất một số nguyên là số vô tỉ.]
     ),
     loigiai: [
-        Mệnh đề ban đầu: "$forall x in ZZ, x in QQ$". 
-        Phủ định của mệnh đề này là "$exists x in ZZ, x notin QQ$" (Tồn tại một số nguyên không phải là số hữu tỉ).
+        - Mệnh đề ban đầu: "$forall x in ZZ, x in QQ$".
+        - Phủ định của mệnh đề này là "$exists x in ZZ, x notin QQ$" (Tồn tại một số nguyên không phải là số hữu tỉ).
     ]
 )
 
@@ -70,8 +70,8 @@
         [Số $a$ chia hết cho 3 khi và chỉ khi số $a$ chia hết cho 9. (Sai)]
     ),
     loigiai: [
-        Mệnh đề $P => Q$: "Nếu số $a$ chia hết cho 3 thì số $a$ chia hết cho 9".
-        Đây là một mệnh đề sai. Phản ví dụ: $a = 6$ chia hết cho 3 nhưng không chia hết cho 9.
+        - Mệnh đề $P => Q$: "Nếu số $a$ chia hết cho 3 thì số $a$ chia hết cho 9".
+        - Đây là một mệnh đề sai. Phản ví dụ: $a = 6$ chia hết cho 3 nhưng không chia hết cho 9.
     ]
 )
 
@@ -84,8 +84,8 @@
         [$forall x in NN, P(x)$]
     ),
     loigiai: [
-        Phương trình $x^2 - 3 x + 2 = 0 <=> hoac(x = 1, x = 2)$.
-        Do đó tồn tại số thực $x$ (ví dụ $x=1$) để mệnh đề đúng, tức là $exists x in RR, P(x)$ là mệnh đề đúng.
+        - Phương trình $x^2 - 3 x + 2 = 0 <=> hoac(x = 1, x = 2)$.
+        - Do đó tồn tại số thực $x$ (ví dụ $x=1$) để mệnh đề đúng, tức là $exists x in RR, P(x)$ là mệnh đề đúng.
     ]
 )
 
@@ -98,8 +98,8 @@
         [Hai tam giác bằng nhau là điều kiện cần và đủ để diện tích của chúng bằng nhau.]
     ),
     loigiai: [
-        Cấu trúc định lý $P => Q$. Khi đó $P$ là điều kiện đủ để có $Q$; và $Q$ là điều kiện cần để có $P$.
-        Do đó, "Hai tam giác bằng nhau" là điều kiện đủ để "diện tích của chúng bằng nhau".
+        - Cấu trúc định lý $P => Q$. Khi đó $P$ là điều kiện đủ để có $Q$; và $Q$ là điều kiện cần để có $P$.
+        - Do đó, "Hai tam giác bằng nhau" là điều kiện đủ để "diện tích của chúng bằng nhau".
         
         #align(center)[
             #cetz.canvas({
@@ -127,7 +127,7 @@
         True([Mệnh đề $P <=> Q$ đúng khi $P$ đúng và $Q$ sai.])
     ),
     loigiai: [
-        Mệnh đề tương đương $P <=> Q$ chỉ đúng khi $P$ và $Q$ cùng đúng hoặc cùng sai. Nếu $P$ đúng, $Q$ sai thì $P <=> Q$ là mệnh đề sai.
+        - Mệnh đề tương đương $P <=> Q$ chỉ đúng khi $P$ và $Q$ cùng đúng hoặc cùng sai. Nếu $P$ đúng, $Q$ sai thì $P <=> Q$ là mệnh đề sai.
     ]
 )
 
@@ -140,7 +140,7 @@
         [$P$ sai, $Q$ sai.]
     ),
     loigiai: [
-        Theo bảng chân trị, mệnh đề $P => Q$ chỉ sai trong duy nhất một trường hợp: giả thiết $P$ đúng nhưng kết luận $Q$ sai.
+        - Theo bảng chân trị, mệnh đề $P => Q$ chỉ sai trong duy nhất một trường hợp: giả thiết $P$ đúng nhưng kết luận $Q$ sai.
     ]
 )
 
@@ -153,7 +153,7 @@
         [Cả hai đều là kẻ gian.]
     ),
     loigiai: [
-        Ta lập bảng chân trị để phân tích logic:
+        - Ta lập bảng chân trị để phân tích logic:
         #align(center)[
             #table(
                 columns: (auto, auto, auto),
@@ -178,9 +178,9 @@
         True([$exists x in RR, x^2 - x + 1 <= 0$])
     ),
     loigiai: [
-        Phủ định của $forall$ là $exists$. 
-        Phủ định của $>$ là $<=$.
-        Vậy mệnh đề phủ định là "$exists x in RR, x^2 - x + 1 <= 0$".
+        - Phủ định của $forall$ là $exists$.
+        - Phủ định của $>$ là $<=$.
+        - Vậy mệnh đề phủ định là "$exists x in RR, x^2 - x + 1 <= 0$".
     ]
 )
 
@@ -209,9 +209,9 @@
         [5]
     ),
     loigiai: [
-        Ta có $n^2 - 4 < 0 <=> -2 < n < 2$.
-        Vì $n in ZZ$ nên $n in {-1; 0; 1}$.
-        Có 3 giá trị nguyên của $n$ thỏa mãn điều kiện $-5 <= n <= 5$ để mệnh đề là đúng.
+        - Ta có $n^2 - 4 < 0 <=> -2 < n < 2$.
+        - Vì $n in ZZ$ nên $n in {-1; 0; 1}$.
+        - Có 3 giá trị nguyên của $n$ thỏa mãn điều kiện $-5 <= n <= 5$ để mệnh đề là đúng.
     ]
 )
 
@@ -224,9 +224,9 @@
         [$P$ đúng, $Q$ đúng và $R$ đúng.]
     ),
     loigiai: [
-        Mệnh đề $P => (Q text(" hay ") R)$ sai khi và chỉ khi $P$ đúng và $(Q text(" hay ") R)$ sai.
-        Mệnh đề tuyển $(Q text(" hay ") R)$ sai khi và chỉ khi cả $Q$ và $R$ cùng sai.
-        Vậy $P$ đúng, $Q$ sai và $R$ sai.
+        - Mệnh đề $P => (Q text(" hay ") R)$ sai khi và chỉ khi $P$ đúng và $(Q text(" hay ") R)$ sai.
+        - Mệnh đề tuyển $(Q text(" hay ") R)$ sai khi và chỉ khi cả $Q$ và $R$ cùng sai.
+        - Vậy $P$ đúng, $Q$ sai và $R$ sai.
     ]
 )
 
@@ -241,10 +241,10 @@
     True([Mệnh đề $P$ có thể được biểu diễn dưới dạng ký hiệu là: "$forall x in 10A, x text(" thích học Toán") $".])
   ),
   loigiai: [
-    a) Sai. Phủ định của "Mọi" là "Tồn tại" (Có ít nhất một).
-    b) Đúng. 
-    c) Sai. Mệnh đề "Mọi" yêu cầu tất cả 40 học sinh đều thích. Nếu có 1 học sinh không thích thì $P$ sai.
-    d) Đúng. Ký hiệu $forall$ đại diện cho từ "Mọi".
+    - a) Sai. Phủ định của "Mọi" là "Tồn tại" (Có ít nhất một).
+    - b) Đúng.
+    - c) Sai. Mệnh đề "Mọi" yêu cầu tất cả 40 học sinh đều thích. Nếu có 1 học sinh không thích thì $P$ sai.
+    - d) Đúng. Ký hiệu $forall$ đại diện cho từ "Mọi".
   ]
 )
 
@@ -257,10 +257,10 @@
     True([Nếu định lý đúng và mệnh đề đảo của nó cũng đúng, ta có thể phát biểu "$P(x)$ khi và chỉ khi $Q(x)$".])
   ),
   loigiai: [
-    a) Đúng. Trong mệnh đề kéo theo, giả thiết là điều kiện đủ.
-    b) Sai. Mệnh đề đảo là "$forall x in RR, Q(x) => P(x)$".
-    c) Đúng. Phủ định của $P => Q$ là $P$ đúng nhưng $Q$ sai.
-    d) Đúng. Hai mệnh đề thuận và đảo cùng đúng tạo thành mệnh đề tương đương.
+    - a) Đúng. Trong mệnh đề kéo theo, giả thiết là điều kiện đủ.
+    - b) Sai. Mệnh đề đảo là "$forall x in RR, Q(x) => P(x)$".
+    - c) Đúng. Phủ định của $P => Q$ là $P$ đúng nhưng $Q$ sai.
+    - d) Đúng. Hai mệnh đề thuận và đảo cùng đúng tạo thành mệnh đề tương đương.
   ]
 )
 
@@ -273,10 +273,10 @@
     [$exists x in QQ, x^2 = 2$.]
   ),
   loigiai: [
-    a) Đúng. $x^2 >= 0 => x^2 + 1 >= 1 > 0, forall x in RR$.
-    b) Sai. $x^2 + 2x + 2 = (x+1)^2 + 1 > 0, forall x in RR$.
-    c) Đúng. Bình phương của một số thực luôn không âm.
-    d) Sai. $x^2 = 2 <=> x = +-sqrt(2)$ là các số vô tỉ, không thuộc $QQ$.
+    - a) Đúng. $x^2 >= 0 => x^2 + 1 >= 1 > 0, forall x in RR$.
+    - b) Sai. $x^2 + 2x + 2 = (x+1)^2 + 1 > 0, forall x in RR$.
+    - c) Đúng. Bình phương của một số thực luôn không âm.
+    - d) Sai. $x^2 = 2 <=> x = +-sqrt(2)$ là các số vô tỉ, không thuộc $QQ$.
   ]
 )
 
@@ -293,7 +293,7 @@ Biết rằng trong hai gợi ý của mỗi người, luôn có đúng 1 mệnh
     True([Mật mã của khóa số là số 9.])
   ),
       loigiai: [
-    Ta tóm tắt các gợi ý vào một bảng để phân tích:
+    - Ta tóm tắt các gợi ý vào một bảng để phân tích:
     #align(center)[
         #table(
             columns: (auto, auto, auto),
@@ -352,7 +352,7 @@ Trong các câu trên, có bao nhiêu câu là mệnh đề ĐÚNG?],
         - (4) là mệnh đề ĐÚNG (vì hai chữ số tận cùng là 24 chia hết cho 4).
         
         #step([Kết luận số lượng mệnh đề đúng])
-        Có 2 mệnh đề đúng là (3) và (4).
+        - Có 2 mệnh đề đúng là (3) và (4).
     ]
 )
 
@@ -366,14 +366,14 @@ Trong các câu trên, có bao nhiêu câu là mệnh đề ĐÚNG?],
         - Với $n=3: 3^2 - 3 + 11 = 17$ (là số nguyên tố) $=>$ $P(3)$ ĐÚNG.
 
         #step([Dự đoán quy luật để tìm $n$ sao cho biểu thức là hợp số])
-        Để biểu thức $n^2 - n + 11$ chắc chắn chia hết cho 11 (và lớn hơn 11, tức là hợp số), ta có thể chọn $n$ sao cho các số hạng đều chia hết cho 11.
-        Nếu chọn $n = 11$, ta có:
-        $11^2 - 11 + 11 = 11^2 = 121$.
-        Số 121 chia hết cho 11 và $121 > 11$ nên 121 là hợp số.
+        - Để biểu thức $n^2 - n + 11$ chắc chắn chia hết cho 11 (và lớn hơn 11, tức là hợp số), ta có thể chọn $n$ sao cho các số hạng đều chia hết cho 11.
+        - Nếu chọn $n = 11$, ta có:
+        - $11^2 - 11 + 11 = 11^2 = 121$.
+        - Số 121 chia hết cho 11 và $121 > 11$ nên 121 là hợp số.
         
         #step([Kết luận])
-        Các giá trị $n < 11$ đều cho kết quả là số nguyên tố. 
-        Vậy giá trị nguyên dương nhỏ nhất làm cho mệnh đề sai là $n = 11$.
+        - Các giá trị $n < 11$ đều cho kết quả là số nguyên tố.
+        - Vậy giá trị nguyên dương nhỏ nhất làm cho mệnh đề sai là $n = 11$.
     ]
 )
 
@@ -410,16 +410,16 @@ Trong các câu trên, có bao nhiêu câu là mệnh đề ĐÚNG?],
     [1],
     loigiai: [
         #step([Phân tích điều kiện để mệnh đề tồn tại sai])
-        Mệnh đề " $exists x in RR, (m - 1) x + 2 = 0$ " sai khi và chỉ khi phương trình $(m - 1) x + 2 = 0$ VÔ NGHIỆM trên tập số thực $RR$.
+        - Mệnh đề " $exists x in RR, (m - 1) x + 2 = 0$ " sai khi và chỉ khi phương trình $(m - 1) x + 2 = 0$ VÔ NGHIỆM trên tập số thực $RR$.
         
         #step([Tìm điều kiện để phương trình vô nghiệm])
-        Phương trình được viết lại thành: $(m - 1) x = -2$.
-        Phương trình này vô nghiệm khi hệ số của $x$ bằng 0 và hằng số khác 0.
-        Tức là: $m - 1 = 0 <=> m = 1$.
+        - Phương trình được viết lại thành: $(m - 1) x = -2$.
+        - Phương trình này vô nghiệm khi hệ số của $x$ bằng 0 và hằng số khác 0.
+        - Tức là: $m - 1 = 0 <=> m = 1$.
         (Lưu ý: Nếu $m != 1$, phương trình luôn có nghiệm duy nhất $x = -2/(m-1)$, khi đó mệnh đề sẽ đúng).
 
         #step([Kết luận])
-        Vậy $m = 1$ là giá trị cần tìm.
+        - Vậy $m = 1$ là giá trị cần tìm.
     ]
 )
 
@@ -433,8 +433,8 @@ Trong 4 mệnh đề sau đây, có bao nhiêu mệnh đề là mệnh đề Đ�
     [3],
     loigiai: [
         #step([Xác định tính đúng sai của $P$ và $Q$])
-        Mệnh đề kéo theo $P => Q$ chỉ sai trong duy nhất một trường hợp: giả thiết $P$ ĐÚNG và kết luận $Q$ SAI.
-        Vậy ta có: $P = True$, $Q = False$.
+        - Mệnh đề kéo theo $P => Q$ chỉ sai trong duy nhất một trường hợp: giả thiết $P$ ĐÚNG và kết luận $Q$ SAI.
+        - Vậy ta có: $P = True$, $Q = False$.
         Suy ra: $overline(P) = False$, $overline(Q) = True$.
 
         #step([Xét tính đúng sai của từng mệnh đề])
@@ -444,7 +444,7 @@ Trong 4 mệnh đề sau đây, có bao nhiêu mệnh đề là mệnh đề Đ�
         - Mệnh đề (4) $Q => P$: $False => True$ là mệnh đề ĐÚNG.
 
         #step([Đếm số lượng mệnh đề đúng])
-        Có 3 mệnh đề đúng là (1), (2) và (4).
+        - Có 3 mệnh đề đúng là (1), (2) và (4).
     ]
 )
 
@@ -458,17 +458,17 @@ Tính tổng số điểm của 3 bạn An, Bình, Cường.],
     [11],
     loigiai: [
         #step([Giả sử mệnh đề của An là đúng])
-        Nếu An nói thật, điểm của An là số chẵn và nguyên tố $=>$ Điểm của An là 2.
+        - Nếu An nói thật, điểm của An là số chẵn và nguyên tố $=>$ Điểm của An là 2.
         
         #step([Kiểm tra mệnh đề của Bình])
-        Nếu Bình nói thật, điểm của Bình là bội của 3 ($3, 6, 9$) và phải NHỎ HƠN điểm của An (nhỏ hơn 2). 
-        Điều này vô lý vì không có số nguyên dương nào là bội của 3 mà lại nhỏ hơn 2.
-        Do đó, mệnh đề của Bình BẮT BUỘC PHẢI SAI.
+        - Nếu Bình nói thật, điểm của Bình là bội của 3 ($3, 6, 9$) và phải NHỎ HƠN điểm của An (nhỏ hơn 2).
+        - Điều này vô lý vì không có số nguyên dương nào là bội của 3 mà lại nhỏ hơn 2.
+        - Do đó, mệnh đề của Bình BẮT BUỘC PHẢI SAI.
 
         #step([Suy luận điểm của Cường và tính tổng])
-        Vì chỉ có 1 bạn nói sai (là Bình), nên Cường phải nói ĐÚNG.
-        Từ lời nói của Cường, ta có: Điểm của Bình là 3. Điểm của Cường gấp đôi điểm Bình nên Cường là 6.
-        Bảng tổng kết điểm số:
+        - Vì chỉ có 1 bạn nói sai (là Bình), nên Cường phải nói ĐÚNG.
+        - Từ lời nói của Cường, ta có: Điểm của Bình là 3. Điểm của Cường gấp đôi điểm Bình nên Cường là 6.
+        - Bảng tổng kết điểm số:
         #align(center)[
             #table(
                 columns: (auto, auto, auto),

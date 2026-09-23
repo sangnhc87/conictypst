@@ -1,0 +1,68 @@
+#set page(width: auto, height: auto, margin: 0.2cm, fill: none)
+#import "@preview/cetz:0.3.2"
+#import cetz: canvas, draw
+
+#let c-book = rgb("#0057b8")
+#let c-main = rgb("#0057b8")
+#let sm-blue = rgb("#0057b8")
+#let sm-blue-light = rgb("#e0f2fe")
+#let sm-green = rgb("#059669")
+#let sm-green-light = rgb("#d1fae5")
+#let sm-red = rgb("#e11d48")
+#let sm-red-light = rgb("#ffe4e6")
+#let sm-amber = rgb("#d97706")
+#let sm-purple = rgb("#7c3aed")
+#let sm-gray = rgb("#64748b")
+#let draw-ellipse(x, y, rx, ry, stroke: 1pt, style: "solid") = {
+  draw.circle((x, y), radius: (rx, ry), stroke: stroke)
+}
+
+#canvas({
+          import cetz.draw: *
+          set-style(stroke: 0.8pt)
+          let sc = 0.052
+          let xmax = 55
+          let ymax = 45
+          
+          for x in range(0, 6) {
+            let xv = x * 10 * sc
+            line((xv, 0), (xv, ymax * sc), stroke: 0.25pt + rgb("f1f5f9"))
+          }
+          for y in range(0, 5) {
+            let yv = y * 10 * sc
+            line((0, yv), (xmax * sc, yv), stroke: 0.25pt + rgb("f1f5f9"))
+          }
+          
+          fill(rgb("eff6ff"))
+          stroke(1.2pt + rgb("2563eb"))
+          line((0, 0), (40 * sc, 0), (30 * sc, 20 * sc), (0, 30 * sc), close: true)
+          
+          line((22 * sc, 36 * sc), (43 * sc, -6 * sc), stroke: 1.1pt + rgb("2563eb"))
+          content((22 * sc, 38 * sc), box(fill: white, inset: 1pt)[#text(fill: rgb("2563eb"), size: 6.5pt, weight: "bold")[$2x + y = 80$]])
+          
+          line((-4 * sc, 31.33 * sc), (52 * sc, 12.67 * sc), stroke: 1.1pt + rgb("059669"))
+          content((46 * sc, 16.5 * sc), box(fill: white, inset: 1pt)[#text(fill: rgb("059669"), size: 6.5pt, weight: "bold")[$x + 3y = 90$]])
+          
+          line((30 * sc, 20 * sc), (30 * sc, 0), stroke: (dash: "dashed", paint: rgb("64748b"), thickness: 0.75pt))
+          line((30 * sc, 20 * sc), (0, 20 * sc), stroke: (dash: "dashed", paint: rgb("64748b"), thickness: 0.75pt))
+          
+          line((-4 * sc, 0), ((xmax + 4) * sc, 0), mark: (end: "stealth", fill: black), stroke: 0.85pt + black)
+          content(((xmax + 5) * sc, 0), [$x$])
+          line((0, -4 * sc), (0, (ymax + 4) * sc), mark: (end: "stealth", fill: black), stroke: 0.85pt + black)
+          content((0, (ymax + 5) * sc), [$y$])
+          content((-0.2, -0.2), [$O$])
+          
+          content((30 * sc, -0.22), box(fill: white, inset: 1pt)[#text(size: 7pt)[$30$]])
+          content((40 * sc, -0.22), box(fill: white, inset: 1pt)[#text(size: 7pt)[$40$]])
+          content((-0.26, 20 * sc), box(fill: white, inset: 1pt)[#text(size: 7pt)[$20$]])
+          content((-0.26, 30 * sc), box(fill: white, inset: 1pt)[#text(size: 7pt)[$30$]])
+          
+          circle((0, 0), radius: 1.8pt, fill: black)
+          circle((40 * sc, 0), radius: 2pt, fill: black)
+          content((40 * sc + 0.12, 0.22), box(fill: white, inset: 1pt)[#text(size: 7pt, weight: "bold")[$A$]])
+          circle((0, 30 * sc), radius: 2pt, fill: black)
+          content((0.22, 30 * sc + 0.12), box(fill: white, inset: 1pt)[#text(size: 7pt, weight: "bold")[$C$]])
+          
+          circle((30 * sc, 20 * sc), radius: 2.5pt, fill: rgb("dc2626"), stroke: 0.8pt + white)
+          content((30 * sc + 0.55, 20 * sc + 0.25), box(fill: white, inset: 1.2pt)[#text(fill: rgb("dc2626"), size: 7.5pt, weight: "bold")[$B(30; 20)$]])
+        })

@@ -1,4 +1,4 @@
-#import "@preview/sang-math:1.0.1": *
+#import "@preview/sang-math:1.0.2": *
 
 #let mode = "loigiai"
 #let accent = classic.blue
@@ -15,6 +15,8 @@
   duration: "90 phút",
   structure: auto,
   code: "9999",
+  watermark: none, // Chữ in chìm: đổi thành "ĐỀ THI THỬ" hoặc [TÊN TRƯỜNG], hoặc để none nếu không dùng
+  watermark-opacity: 0.05, // Độ mờ chữ in chìm (0.01 đến 0.2)
   footer-left: [GV Nguyễn Văn Sang],
   accent: accent,
   show-topbar: false,

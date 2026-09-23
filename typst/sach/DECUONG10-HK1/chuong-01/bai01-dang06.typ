@@ -5,7 +5,7 @@
 #dang("Bài toán lập luận logic nâng cao", mau: C1)
 
 #phuong-phap(mau: C1)[
-  Học sinh lớp 10 mới làm quen với logic thường thấy bối rối vì có quá nhiều thông tin "thật - giả" lẫn lộn. Bí quyết để giải quyết bài toán này là sự *ngăn nắp trong tư duy* thông qua kỹ thuật **Chia tình huống và Nhận - Loại**.
+  Học sinh lớp 10 mới làm quen với logic thường thấy bối rối vì có quá nhiều thông tin "thật - giả" lẫn lộn. Bí quyết để giải quyết bài toán này là sự *ngăn nắp trong tư duy* thông qua kỹ thuật *Chia tình huống và Nhận - Loại*.
 
   Quy trình tư duy siêu tốc gồm 3 bước:
   
@@ -20,8 +20,8 @@
   *Bước 3. Nhận - Loại (Chốt đáp án)*
   - Đếm số lượng câu "Đúng" ở mỗi tình huống.
   - Mang đi so sánh với "Điều kiện khóa" ở Bước 1. 
-  - Tình huống nào bị mâu thuẫn $=>$ **LOẠI**.
-  - Tình huống nào khớp hoàn toàn $=>$ **NHẬN** (Đây chính là đáp án duy nhất).
+  - Tình huống nào bị mâu thuẫn $=>$ *LOẠI*.
+  - Tình huống nào khớp hoàn toàn $=>$ *NHẬN* (Đây chính là đáp án duy nhất).
   
   #luuy[
     - *Với bài toán vai trò (Hiệp sĩ, Kẻ bất lương, Gián điệp):* 

@@ -128,1704 +128,1704 @@
         desc: "THPT Nguyễn Hữu Cảnh (43 Học Sinh)",
         customColumns: [],
         students: [
-                {
-                        id: "10a8_1", name: "Bùi Nguyên Phúc Anh", team: 1, sbd: "100801",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nam",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_2", name: "Nguyễn Khoa Tuấn Anh", team: 2, sbd: "100802",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nam",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_3", name: "Võ Hoàng Phương Anh", team: 3, sbd: "100803",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nữ",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_4", name: "Nguyễn Thị Hồng Ánh", team: 4, sbd: "100804",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nữ",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_5", name: "Lê Quốc Bảo", team: 1, sbd: "100805",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nam",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_6", name: "Nguyễn Thị Bình", team: 2, sbd: "100806",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nữ",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_7", name: "Trương Thị Quế Chi", team: 3, sbd: "100807",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nữ",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_8", name: "Dương Bách Đăng", team: 4, sbd: "100808",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nam",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_9", name: "Nguyễn Văn Đức", team: 1, sbd: "100809",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nam",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_10", name: "Ngô Huy Dương", team: 2, sbd: "100810",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nam",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_11", name: "Hồ Võ Thế Duy", team: 3, sbd: "100811",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nam",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_12", name: "Võ Nguyễn Thị Duyên", team: 4, sbd: "100812",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nữ",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_13", name: "Hồ Ngọc Hân", team: 1, sbd: "100813",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nữ",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_14", name: "Võ Nhật Hảo", team: 2, sbd: "100814",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nam",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_15", name: "Nguyễn Hữu Hiền", team: 3, sbd: "100815",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nam",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_16", name: "Phan Nguyễn Trung Hiếu", team: 4, sbd: "100816",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nam",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_17", name: "Nguyễn Thành Hưng", team: 1, sbd: "100817",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nam",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_18", name: "Nguyễn Khang", team: 2, sbd: "100818",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nam",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_19", name: "Phạm Huỳnh Minh Khang", team: 3, sbd: "100819",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nam",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_20", name: "Trương Trọng Khang", team: 4, sbd: "100820",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nam",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_21", name: "Hoàng Gia Khánh", team: 1, sbd: "100821",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nam",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_22", name: "Nguyễn Văn Khoa", team: 2, sbd: "100822",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nam",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_23", name: "Bùi Lê Anh Kiệt", team: 3, sbd: "100823",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nam",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_24", name: "Lý Hoàng Kim", team: 4, sbd: "100824",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nữ",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_25", name: "Lý Nguyên Lâm", team: 1, sbd: "100825",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nam",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_26", name: "Đinh Ngọc Lan", team: 2, sbd: "100826",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nữ",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_27", name: "Huỳnh Ngọc Long", team: 3, sbd: "100827",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nam",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_28", name: "Trần Đức Tuệ Minh", team: 4, sbd: "100828",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nữ",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_29", name: "Huỳnh Trần Thục Nhi", team: 1, sbd: "100829",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nữ",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_30", name: "Trần Phạm Phương Nhi", team: 2, sbd: "100830",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nữ",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_31", name: "Khổng Hữu Phát", team: 3, sbd: "100831",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nam",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_32", name: "Lê Văn Gia Phúc", team: 4, sbd: "100832",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nam",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_33", name: "Voòng Thiên Phúc", team: 1, sbd: "100833",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nam",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_34", name: "Nguyễn Trung Quân", team: 2, sbd: "100834",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nam",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_35", name: "Nguyễn Minh Thái", team: 3, sbd: "100835",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nam",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_36", name: "Lý Ái Thiên", team: 4, sbd: "100836",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nam",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_37", name: "Nguyễn Giang Minh Trang", team: 1, sbd: "100837",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nữ",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_38", name: "Nguyễn Dương Minh Trí", team: 2, sbd: "100838",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nam",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_39", name: "Trương Thụy Phương Trúc", team: 3, sbd: "100839",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nữ",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_40", name: "Bành Gia Tuệ", team: 4, sbd: "100840",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nữ",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_41", name: "Lương Ái Vân", team: 1, sbd: "100841",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nữ",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_42", name: "Huỳnh Khánh Vy", team: 2, sbd: "100842",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nữ",
-                        ethnic: "Kinh",
-                        history: []
-                },
-                {
-                        id: "10a8_43", name: "Võ Ngọc Tường Vy", team: 3, sbd: "100843",
-                        points: 0,
-                        dgtx1: null,
-                        dgtx2: null,
-                        dgtx3: null,
-                        dgtx4: null,
-                        dgtx5: null,
-                        attitude: null,
-                        giuaKy: null,
-                        cuoiKy: null,
-                        dob: "",
-                        gender: "Nữ",
-                        ethnic: "Kinh",
-                        history: []
-                }
+          {
+            id: "10a8_1", name: "Bùi Nguyên Phúc Anh", team: 1, sbd: "100801",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nam",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_2", name: "Nguyễn Khoa Tuấn Anh", team: 2, sbd: "100802",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nam",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_3", name: "Võ Hoàng Phương Anh", team: 3, sbd: "100803",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nữ",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_4", name: "Nguyễn Thị Hồng Ánh", team: 4, sbd: "100804",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nữ",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_5", name: "Lê Quốc Bảo", team: 1, sbd: "100805",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nam",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_6", name: "Nguyễn Thị Bình", team: 2, sbd: "100806",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nữ",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_7", name: "Trương Thị Quế Chi", team: 3, sbd: "100807",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nữ",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_8", name: "Dương Bách Đăng", team: 4, sbd: "100808",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nam",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_9", name: "Nguyễn Văn Đức", team: 1, sbd: "100809",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nam",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_10", name: "Ngô Huy Dương", team: 2, sbd: "100810",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nam",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_11", name: "Hồ Võ Thế Duy", team: 3, sbd: "100811",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nam",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_12", name: "Võ Nguyễn Thị Duyên", team: 4, sbd: "100812",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nữ",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_13", name: "Hồ Ngọc Hân", team: 1, sbd: "100813",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nữ",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_14", name: "Võ Nhật Hảo", team: 2, sbd: "100814",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nam",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_15", name: "Nguyễn Hữu Hiền", team: 3, sbd: "100815",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nam",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_16", name: "Phan Nguyễn Trung Hiếu", team: 4, sbd: "100816",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nam",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_17", name: "Nguyễn Thành Hưng", team: 1, sbd: "100817",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nam",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_18", name: "Nguyễn Khang", team: 2, sbd: "100818",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nam",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_19", name: "Phạm Huỳnh Minh Khang", team: 3, sbd: "100819",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nam",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_20", name: "Trương Trọng Khang", team: 4, sbd: "100820",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nam",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_21", name: "Hoàng Gia Khánh", team: 1, sbd: "100821",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nam",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_22", name: "Nguyễn Văn Khoa", team: 2, sbd: "100822",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nam",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_23", name: "Bùi Lê Anh Kiệt", team: 3, sbd: "100823",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nam",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_24", name: "Lý Hoàng Kim", team: 4, sbd: "100824",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nữ",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_25", name: "Lý Nguyên Lâm", team: 1, sbd: "100825",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nam",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_26", name: "Đinh Ngọc Lan", team: 2, sbd: "100826",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nữ",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_27", name: "Huỳnh Ngọc Long", team: 3, sbd: "100827",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nam",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_28", name: "Trần Đức Tuệ Minh", team: 4, sbd: "100828",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nữ",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_29", name: "Huỳnh Trần Thục Nhi", team: 1, sbd: "100829",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nữ",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_30", name: "Trần Phạm Phương Nhi", team: 2, sbd: "100830",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nữ",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_31", name: "Khổng Hữu Phát", team: 3, sbd: "100831",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nam",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_32", name: "Lê Văn Gia Phúc", team: 4, sbd: "100832",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nam",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_33", name: "Voòng Thiên Phúc", team: 1, sbd: "100833",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nam",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_34", name: "Nguyễn Trung Quân", team: 2, sbd: "100834",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nam",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_35", name: "Nguyễn Minh Thái", team: 3, sbd: "100835",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nam",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_36", name: "Lý Ái Thiên", team: 4, sbd: "100836",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nam",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_37", name: "Nguyễn Giang Minh Trang", team: 1, sbd: "100837",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nữ",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_38", name: "Nguyễn Dương Minh Trí", team: 2, sbd: "100838",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nam",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_39", name: "Trương Thụy Phương Trúc", team: 3, sbd: "100839",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nữ",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_40", name: "Bành Gia Tuệ", team: 4, sbd: "100840",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nữ",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_41", name: "Lương Ái Vân", team: 1, sbd: "100841",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nữ",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_42", name: "Huỳnh Khánh Vy", team: 2, sbd: "100842",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nữ",
+            ethnic: "Kinh",
+            history: []
+          },
+          {
+            id: "10a8_43", name: "Võ Ngọc Tường Vy", team: 3, sbd: "100843",
+            points: 0,
+            dgtx1: null,
+            dgtx2: null,
+            dgtx3: null,
+            dgtx4: null,
+            dgtx5: null,
+            attitude: null,
+            giuaKy: null,
+            cuoiKy: null,
+            dob: "",
+            gender: "Nữ",
+            ethnic: "Kinh",
+            history: []
+          }
         ]
       },
       {
-      "id": "class_10a1",
-      "name": "Lớp 10A1",
-      "academicYear": "2026-2027",
-      "monitorEmail": "",
-      "desksLayout": {
-            "rows": 5,
-            "cols": 5
-      },
-      "seatingArrangement": {
-            "0_0": [
-                  "10a1_1",
-                  "10a1_2"
-            ],
-            "0_1": [
-                  "10a1_3",
-                  "10a1_4"
-            ],
-            "0_2": [
-                  "10a1_5",
-                  "10a1_6"
-            ],
-            "0_3": [
-                  "10a1_7",
-                  "10a1_8"
-            ],
-            "0_4": [
-                  "10a1_9",
-                  "10a1_10"
-            ],
-            "1_0": [
-                  "10a1_11",
-                  "10a1_12"
-            ],
-            "1_1": [
-                  "10a1_13",
-                  "10a1_14"
-            ],
-            "1_2": [
-                  "10a1_15",
-                  "10a1_16"
-            ],
-            "1_3": [
-                  "10a1_17",
-                  "10a1_18"
-            ],
-            "1_4": [
-                  "10a1_19",
-                  "10a1_20"
-            ],
-            "2_0": [
-                  "10a1_21",
-                  "10a1_22"
-            ],
-            "2_1": [
-                  "10a1_23",
-                  "10a1_24"
-            ],
-            "2_2": [
-                  "10a1_25",
-                  "10a1_26"
-            ],
-            "2_3": [
-                  "10a1_27",
-                  "10a1_28"
-            ],
-            "2_4": [
-                  "10a1_29",
-                  "10a1_30"
-            ],
-            "3_0": [
-                  "10a1_31",
-                  "10a1_32"
-            ],
-            "3_1": [
-                  "10a1_33",
-                  "10a1_34"
-            ],
-            "3_2": [
-                  "10a1_35",
-                  "10a1_36"
-            ],
-            "3_3": [
-                  "10a1_37",
-                  "10a1_38"
-            ],
-            "3_4": [
-                  "10a1_39",
-                  "10a1_40"
-            ],
-            "4_0": [
-                  "10a1_41",
-                  "10a1_42"
-            ],
-            "4_1": [
-                  "10a1_43",
-                  "10a1_44"
-            ],
-            "4_2": [
-                  "10a1_45",
-                  "10a1_46"
-            ],
-            "4_3": [
-                  "10a1_47",
-                  null
-            ],
-            "4_4": [
-                  null,
-                  null
-            ]
-      },
-      "customColumns": [],
-      "students": [
-            {
-                  "id": "10a1_1",
-                  "name": "Nguyễn Xuân Hoài An",
-                  "team": 1,
-                  "sbd": "100101",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "28/11/2011",
-                  "gender": "Nam",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_2",
-                  "name": "Hoàng Lại Ân",
-                  "team": 2,
-                  "sbd": "100102",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "26/12/2011",
-                  "gender": "Nam",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_3",
-                  "name": "Cao Nguyễn Tuấn Anh",
-                  "team": 3,
-                  "sbd": "100103",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "08/03/2011",
-                  "gender": "Nam",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_4",
-                  "name": "Lê Mỹ Anh",
-                  "team": 4,
-                  "sbd": "100104",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "22/03/2011",
-                  "gender": "Nữ",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_5",
-                  "name": "Nguyễn Ngọc Nguyệt Cát",
-                  "team": 1,
-                  "sbd": "100105",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "18/09/2011",
-                  "gender": "Nữ",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_6",
-                  "name": "Lương Bằng Bảo Châu",
-                  "team": 2,
-                  "sbd": "100106",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "29/10/2011",
-                  "gender": "Nữ",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_7",
-                  "name": "Châu Vũ Đạt",
-                  "team": 3,
-                  "sbd": "100107",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "28/01/2011",
-                  "gender": "Nam",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_8",
-                  "name": "Dương Bá Đạt",
-                  "team": 4,
-                  "sbd": "100108",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "28/10/2011",
-                  "gender": "Nam",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_9",
-                  "name": "Trương Nguyễn Hoàng Đạt",
-                  "team": 1,
-                  "sbd": "100109",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "27/06/2011",
-                  "gender": "Nam",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_10",
-                  "name": "Nguyễn Thị Trà Giang",
-                  "team": 2,
-                  "sbd": "100110",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "29/11/2011",
-                  "gender": "Nữ",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_11",
-                  "name": "Nguyễn Phương Nhật Hạ",
-                  "team": 3,
-                  "sbd": "100111",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "06/05/2011",
-                  "gender": "Nữ",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_12",
-                  "name": "Lê Nguyễn Bảo Hân",
-                  "team": 4,
-                  "sbd": "100112",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "31/05/2011",
-                  "gender": "Nữ",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_13",
-                  "name": "Bùi Nguyễn Huy Hoàng",
-                  "team": 1,
-                  "sbd": "100113",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "18/09/2011",
-                  "gender": "Nam",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_14",
-                  "name": "Đàm Vĩnh Hùng",
-                  "team": 2,
-                  "sbd": "100114",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "15/01/2011",
-                  "gender": "Nam",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_15",
-                  "name": "Nguyễn Minh Hương",
-                  "team": 3,
-                  "sbd": "100115",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "29/03/2011",
-                  "gender": "Nữ",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_16",
-                  "name": "Đặng Hoàng Huy",
-                  "team": 4,
-                  "sbd": "100116",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "12/08/2011",
-                  "gender": "Nam",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_17",
-                  "name": "Trịnh Quốc Huy",
-                  "team": 1,
-                  "sbd": "100117",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "11/04/2011",
-                  "gender": "Nam",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_18",
-                  "name": "Đinh Hữu Tuấn Khang",
-                  "team": 2,
-                  "sbd": "100118",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "01/07/2011",
-                  "gender": "Nam",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_19",
-                  "name": "Trần Đăng Khoa",
-                  "team": 3,
-                  "sbd": "100119",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "12/05/2011",
-                  "gender": "Nam",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_20",
-                  "name": "Đào Mai Khôi",
-                  "team": 4,
-                  "sbd": "100120",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "15/07/2011",
-                  "gender": "Nữ",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_21",
-                  "name": "Từ Khải Kiệt",
-                  "team": 1,
-                  "sbd": "100121",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "06/10/2011",
-                  "gender": "Nam",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_22",
-                  "name": "Trần Quốc Kỳ",
-                  "team": 2,
-                  "sbd": "100122",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "21/11/2011",
-                  "gender": "Nam",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_23",
-                  "name": "Trần Đình Long",
-                  "team": 3,
-                  "sbd": "100123",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "28/11/2011",
-                  "gender": "Nam",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_24",
-                  "name": "Huỳnh Nhật Minh",
-                  "team": 4,
-                  "sbd": "100124",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "01/09/2011",
-                  "gender": "Nam",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_25",
-                  "name": "Nguyễn Trà My",
-                  "team": 1,
-                  "sbd": "100125",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "24/09/2011",
-                  "gender": "Nữ",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_26",
-                  "name": "Võ Nhật Nam",
-                  "team": 2,
-                  "sbd": "100126",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "25/11/2011",
-                  "gender": "Nam",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_27",
-                  "name": "Lê Bảo Ngân",
-                  "team": 3,
-                  "sbd": "100127",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "12/08/2011",
-                  "gender": "Nữ",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_28",
-                  "name": "Mai Nguyễn Khánh Ngọc",
-                  "team": 4,
-                  "sbd": "100128",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "17/07/2011",
-                  "gender": "Nữ",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_29",
-                  "name": "Ngô Thanh Ngọc",
-                  "team": 1,
-                  "sbd": "100129",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "03/04/2011",
-                  "gender": "Nữ",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_30",
-                  "name": "Nguyễn Công Phúc Nguyên",
-                  "team": 2,
-                  "sbd": "100130",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "03/01/2011",
-                  "gender": "Nam",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_31",
-                  "name": "Lư Hoàng An Nhiên",
-                  "team": 3,
-                  "sbd": "100131",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "10/06/2011",
-                  "gender": "Nữ",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_32",
-                  "name": "Nguyễn Thành Phong",
-                  "team": 4,
-                  "sbd": "100132",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "01/01/2011",
-                  "gender": "Nam",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_33",
-                  "name": "Nguyễn Đình Phú",
-                  "team": 1,
-                  "sbd": "100133",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "15/06/2011",
-                  "gender": "Nam",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_34",
-                  "name": "Nguyễn Xuân Phúc",
-                  "team": 2,
-                  "sbd": "100134",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "13/01/2011",
-                  "gender": "Nam",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_35",
-                  "name": "Đào Thị Phương",
-                  "team": 3,
-                  "sbd": "100135",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "03/11/2011",
-                  "gender": "Nữ",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_36",
-                  "name": "Huỳnh Ngọc Quyên",
-                  "team": 4,
-                  "sbd": "100136",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "28/03/2011",
-                  "gender": "Nữ",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_37",
-                  "name": "Lại Đình Thịnh",
-                  "team": 1,
-                  "sbd": "100137",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "18/08/2011",
-                  "gender": "Nam",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_38",
-                  "name": "Trần Khang Thịnh",
-                  "team": 2,
-                  "sbd": "100138",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "22/08/2011",
-                  "gender": "Nam",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_39",
-                  "name": "Trần Thị Anh Thơ",
-                  "team": 3,
-                  "sbd": "100139",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "15/09/2011",
-                  "gender": "Nữ",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_40",
-                  "name": "Nguyễn Đặng Minh Thư",
-                  "team": 4,
-                  "sbd": "100140",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "06/04/2011",
-                  "gender": "Nữ",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_41",
-                  "name": "Phạm Ngọc Thanh Thùy",
-                  "team": 1,
-                  "sbd": "100141",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "04/09/2011",
-                  "gender": "Nữ",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_42",
-                  "name": "Nguyễn Thanh Tịnh",
-                  "team": 2,
-                  "sbd": "100142",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "11/06/2011",
-                  "gender": "Nam",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_43",
-                  "name": "Đồng Thị Thu Trâm",
-                  "team": 3,
-                  "sbd": "100143",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "21/05/2011",
-                  "gender": "Nữ",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_44",
-                  "name": "Huỳnh Quang Vinh",
-                  "team": 4,
-                  "sbd": "100144",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "10/10/2010",
-                  "gender": "Nam",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_45",
-                  "name": "Tô Trương Quốc Vinh",
-                  "team": 1,
-                  "sbd": "100145",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "02/11/2011",
-                  "gender": "Nam",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_46",
-                  "name": "Phạm Đào Anh Vũ",
-                  "team": 2,
-                  "sbd": "100146",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "11/01/2011",
-                  "gender": "Nam",
-                  "ethnic": "Kinh",
-                  "history": []
-            },
-            {
-                  "id": "10a1_47",
-                  "name": "Trần Nguyễn Tường Vy",
-                  "team": 3,
-                  "sbd": "100147",
-                  "points": 0,
-                  "dgtx1": null,
-                  "dgtx2": null,
-                  "dgtx3": null,
-                  "dgtx4": null,
-                  "dgtx5": null,
-                  "attitude": null,
-                  "giuaKy": null,
-                  "cuoiKy": null,
-                  "dob": "28/05/2011",
-                  "gender": "Nữ",
-                  "ethnic": "Kinh",
-                  "history": []
-            }
-      ]
-}
+        "id": "class_10a1",
+        "name": "Lớp 10A1",
+        "academicYear": "2026-2027",
+        "monitorEmail": "",
+        "desksLayout": {
+          "rows": 5,
+          "cols": 5
+        },
+        "seatingArrangement": {
+          "0_0": [
+            "10a1_1",
+            "10a1_2"
+          ],
+          "0_1": [
+            "10a1_3",
+            "10a1_4"
+          ],
+          "0_2": [
+            "10a1_5",
+            "10a1_6"
+          ],
+          "0_3": [
+            "10a1_7",
+            "10a1_8"
+          ],
+          "0_4": [
+            "10a1_9",
+            "10a1_10"
+          ],
+          "1_0": [
+            "10a1_11",
+            "10a1_12"
+          ],
+          "1_1": [
+            "10a1_13",
+            "10a1_14"
+          ],
+          "1_2": [
+            "10a1_15",
+            "10a1_16"
+          ],
+          "1_3": [
+            "10a1_17",
+            "10a1_18"
+          ],
+          "1_4": [
+            "10a1_19",
+            "10a1_20"
+          ],
+          "2_0": [
+            "10a1_21",
+            "10a1_22"
+          ],
+          "2_1": [
+            "10a1_23",
+            "10a1_24"
+          ],
+          "2_2": [
+            "10a1_25",
+            "10a1_26"
+          ],
+          "2_3": [
+            "10a1_27",
+            "10a1_28"
+          ],
+          "2_4": [
+            "10a1_29",
+            "10a1_30"
+          ],
+          "3_0": [
+            "10a1_31",
+            "10a1_32"
+          ],
+          "3_1": [
+            "10a1_33",
+            "10a1_34"
+          ],
+          "3_2": [
+            "10a1_35",
+            "10a1_36"
+          ],
+          "3_3": [
+            "10a1_37",
+            "10a1_38"
+          ],
+          "3_4": [
+            "10a1_39",
+            "10a1_40"
+          ],
+          "4_0": [
+            "10a1_41",
+            "10a1_42"
+          ],
+          "4_1": [
+            "10a1_43",
+            "10a1_44"
+          ],
+          "4_2": [
+            "10a1_45",
+            "10a1_46"
+          ],
+          "4_3": [
+            "10a1_47",
+            null
+          ],
+          "4_4": [
+            null,
+            null
+          ]
+        },
+        "customColumns": [],
+        "students": [
+          {
+            "id": "10a1_1",
+            "name": "Nguyễn Xuân Hoài An",
+            "team": 1,
+            "sbd": "100101",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "28/11/2011",
+            "gender": "Nam",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_2",
+            "name": "Hoàng Lại Ân",
+            "team": 2,
+            "sbd": "100102",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "26/12/2011",
+            "gender": "Nam",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_3",
+            "name": "Cao Nguyễn Tuấn Anh",
+            "team": 3,
+            "sbd": "100103",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "08/03/2011",
+            "gender": "Nam",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_4",
+            "name": "Lê Mỹ Anh",
+            "team": 4,
+            "sbd": "100104",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "22/03/2011",
+            "gender": "Nữ",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_5",
+            "name": "Nguyễn Ngọc Nguyệt Cát",
+            "team": 1,
+            "sbd": "100105",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "18/09/2011",
+            "gender": "Nữ",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_6",
+            "name": "Lương Bằng Bảo Châu",
+            "team": 2,
+            "sbd": "100106",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "29/10/2011",
+            "gender": "Nữ",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_7",
+            "name": "Châu Vũ Đạt",
+            "team": 3,
+            "sbd": "100107",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "28/01/2011",
+            "gender": "Nam",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_8",
+            "name": "Dương Bá Đạt",
+            "team": 4,
+            "sbd": "100108",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "28/10/2011",
+            "gender": "Nam",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_9",
+            "name": "Trương Nguyễn Hoàng Đạt",
+            "team": 1,
+            "sbd": "100109",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "27/06/2011",
+            "gender": "Nam",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_10",
+            "name": "Nguyễn Thị Trà Giang",
+            "team": 2,
+            "sbd": "100110",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "29/11/2011",
+            "gender": "Nữ",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_11",
+            "name": "Nguyễn Phương Nhật Hạ",
+            "team": 3,
+            "sbd": "100111",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "06/05/2011",
+            "gender": "Nữ",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_12",
+            "name": "Lê Nguyễn Bảo Hân",
+            "team": 4,
+            "sbd": "100112",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "31/05/2011",
+            "gender": "Nữ",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_13",
+            "name": "Bùi Nguyễn Huy Hoàng",
+            "team": 1,
+            "sbd": "100113",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "18/09/2011",
+            "gender": "Nam",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_14",
+            "name": "Đàm Vĩnh Hùng",
+            "team": 2,
+            "sbd": "100114",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "15/01/2011",
+            "gender": "Nam",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_15",
+            "name": "Nguyễn Minh Hương",
+            "team": 3,
+            "sbd": "100115",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "29/03/2011",
+            "gender": "Nữ",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_16",
+            "name": "Đặng Hoàng Huy",
+            "team": 4,
+            "sbd": "100116",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "12/08/2011",
+            "gender": "Nam",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_17",
+            "name": "Trịnh Quốc Huy",
+            "team": 1,
+            "sbd": "100117",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "11/04/2011",
+            "gender": "Nam",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_18",
+            "name": "Đinh Hữu Tuấn Khang",
+            "team": 2,
+            "sbd": "100118",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "01/07/2011",
+            "gender": "Nam",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_19",
+            "name": "Trần Đăng Khoa",
+            "team": 3,
+            "sbd": "100119",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "12/05/2011",
+            "gender": "Nam",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_20",
+            "name": "Đào Mai Khôi",
+            "team": 4,
+            "sbd": "100120",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "15/07/2011",
+            "gender": "Nữ",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_21",
+            "name": "Từ Khải Kiệt",
+            "team": 1,
+            "sbd": "100121",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "06/10/2011",
+            "gender": "Nam",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_22",
+            "name": "Trần Quốc Kỳ",
+            "team": 2,
+            "sbd": "100122",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "21/11/2011",
+            "gender": "Nam",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_23",
+            "name": "Trần Đình Long",
+            "team": 3,
+            "sbd": "100123",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "28/11/2011",
+            "gender": "Nam",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_24",
+            "name": "Huỳnh Nhật Minh",
+            "team": 4,
+            "sbd": "100124",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "01/09/2011",
+            "gender": "Nam",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_25",
+            "name": "Nguyễn Trà My",
+            "team": 1,
+            "sbd": "100125",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "24/09/2011",
+            "gender": "Nữ",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_26",
+            "name": "Võ Nhật Nam",
+            "team": 2,
+            "sbd": "100126",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "25/11/2011",
+            "gender": "Nam",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_27",
+            "name": "Lê Bảo Ngân",
+            "team": 3,
+            "sbd": "100127",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "12/08/2011",
+            "gender": "Nữ",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_28",
+            "name": "Mai Nguyễn Khánh Ngọc",
+            "team": 4,
+            "sbd": "100128",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "17/07/2011",
+            "gender": "Nữ",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_29",
+            "name": "Ngô Thanh Ngọc",
+            "team": 1,
+            "sbd": "100129",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "03/04/2011",
+            "gender": "Nữ",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_30",
+            "name": "Nguyễn Công Phúc Nguyên",
+            "team": 2,
+            "sbd": "100130",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "03/01/2011",
+            "gender": "Nam",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_31",
+            "name": "Lư Hoàng An Nhiên",
+            "team": 3,
+            "sbd": "100131",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "10/06/2011",
+            "gender": "Nữ",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_32",
+            "name": "Nguyễn Thành Phong",
+            "team": 4,
+            "sbd": "100132",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "01/01/2011",
+            "gender": "Nam",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_33",
+            "name": "Nguyễn Đình Phú",
+            "team": 1,
+            "sbd": "100133",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "15/06/2011",
+            "gender": "Nam",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_34",
+            "name": "Nguyễn Xuân Phúc",
+            "team": 2,
+            "sbd": "100134",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "13/01/2011",
+            "gender": "Nam",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_35",
+            "name": "Đào Thị Phương",
+            "team": 3,
+            "sbd": "100135",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "03/11/2011",
+            "gender": "Nữ",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_36",
+            "name": "Huỳnh Ngọc Quyên",
+            "team": 4,
+            "sbd": "100136",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "28/03/2011",
+            "gender": "Nữ",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_37",
+            "name": "Lại Đình Thịnh",
+            "team": 1,
+            "sbd": "100137",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "18/08/2011",
+            "gender": "Nam",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_38",
+            "name": "Trần Khang Thịnh",
+            "team": 2,
+            "sbd": "100138",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "22/08/2011",
+            "gender": "Nam",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_39",
+            "name": "Trần Thị Anh Thơ",
+            "team": 3,
+            "sbd": "100139",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "15/09/2011",
+            "gender": "Nữ",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_40",
+            "name": "Nguyễn Đặng Minh Thư",
+            "team": 4,
+            "sbd": "100140",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "06/04/2011",
+            "gender": "Nữ",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_41",
+            "name": "Phạm Ngọc Thanh Thùy",
+            "team": 1,
+            "sbd": "100141",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "04/09/2011",
+            "gender": "Nữ",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_42",
+            "name": "Nguyễn Thanh Tịnh",
+            "team": 2,
+            "sbd": "100142",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "11/06/2011",
+            "gender": "Nam",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_43",
+            "name": "Đồng Thị Thu Trâm",
+            "team": 3,
+            "sbd": "100143",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "21/05/2011",
+            "gender": "Nữ",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_44",
+            "name": "Huỳnh Quang Vinh",
+            "team": 4,
+            "sbd": "100144",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "10/10/2010",
+            "gender": "Nam",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_45",
+            "name": "Tô Trương Quốc Vinh",
+            "team": 1,
+            "sbd": "100145",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "02/11/2011",
+            "gender": "Nam",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_46",
+            "name": "Phạm Đào Anh Vũ",
+            "team": 2,
+            "sbd": "100146",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "11/01/2011",
+            "gender": "Nam",
+            "ethnic": "Kinh",
+            "history": []
+          },
+          {
+            "id": "10a1_47",
+            "name": "Trần Nguyễn Tường Vy",
+            "team": 3,
+            "sbd": "100147",
+            "points": 0,
+            "dgtx1": null,
+            "dgtx2": null,
+            "dgtx3": null,
+            "dgtx4": null,
+            "dgtx5": null,
+            "attitude": null,
+            "giuaKy": null,
+            "cuoiKy": null,
+            "dob": "28/05/2011",
+            "gender": "Nữ",
+            "ethnic": "Kinh",
+            "history": []
+          }
+        ]
+      }
     ]
   };
 
@@ -2116,7 +2116,7 @@
               }
             });
             parsed.data_version = 4;
-            try { localStorage.setItem('conic_classroom_v2', JSON.stringify(parsed)); } catch (e) {}
+            try { localStorage.setItem('conic_classroom_v2', JSON.stringify(parsed)); } catch (e) { }
           }
 
           // Tự động dọn dẹp lịch sử cũ hơn 1 năm (365 ngày) để bảo toàn dung lượng < 5MB (100% Free)
@@ -2171,8 +2171,70 @@
     renderClassStats();
   }
 
-  
-  
+  const OMR_BATCH_STORAGE_KEY = 'conic_omr_grade_batches_v1';
+
+  function getOmrGradeBatches() {
+    try {
+      const batches = JSON.parse(localStorage.getItem(OMR_BATCH_STORAGE_KEY) || '[]');
+      return Array.isArray(batches) ? batches : [];
+    } catch (error) {
+      console.warn('Không đọc được kho bài OMR:', error);
+      return [];
+    }
+  }
+
+  function saveOmrGradeBatches(batches) {
+    localStorage.setItem(OMR_BATCH_STORAGE_KEY, JSON.stringify(batches.slice(0, 500)));
+  }
+
+  function renderOmrGradeBatches() {
+    const list = document.getElementById('omr-batch-list');
+    if (!list) return;
+    const cls = getCurrentClass();
+    const batches = getOmrGradeBatches().filter(batch => batch.classId === cls.id && batch.semester === appState.currentSemester);
+    if (!batches.length) {
+      list.innerHTML = '<div class="text-muted" style="padding:18px 4px;">Chưa có đợt chấm nào được lưu cho lớp và học kỳ này.</div>';
+      return;
+    }
+    list.innerHTML = `<table class="clean-gradebook-table"><thead><tr><th>Thời gian</th><th>Số bài</th><th>Khớp SBD</th><th>Cột dự kiến</th><th>Trạng thái</th><th>Thao tác</th></tr></thead><tbody>${batches.map(batch => `
+      <tr>
+        <td>${escapeHtml(new Date(batch.createdAt).toLocaleString('vi-VN'))}</td>
+        <td>${batch.results.length}</td>
+        <td>${batch.results.filter(item => item.matched).length}</td>
+        <td>${escapeHtml(batch.targetCol || 'Chưa chọn')}</td>
+        <td>${batch.appliedAt ? `Đã áp dụng vào ${escapeHtml(batch.appliedCol || '')}` : 'Chỉ lưu bài chấm'}</td>
+        <td>${batch.appliedAt ? '<span class="text-muted">Đã ghi sổ</span>' : `<button class="btn-sub-action btn-team-reward" data-omr-apply="${escapeHtml(batch.id)}">Áp dụng vào sổ điểm</button>`}</td>
+      </tr>`).join('')}</tbody></table>`;
+  }
+
+  async function applyOmrGradeBatch(batchId) {
+    const batches = getOmrGradeBatches();
+    const batch = batches.find(item => item.id === batchId);
+    if (!batch) return;
+    const targetCol = window.prompt('Nhập cột điểm cần ghi (dgtx1, dgtx2, dgtx3, dgtx4, dgtx5, giuaKy, cuoiKy):', batch.targetCol || 'dgtx1');
+    if (!targetCol || !academicGradeField(targetCol)) return showToast('Cột điểm không hợp lệ.', 'warning');
+    const cls = getCurrentClass();
+    const matches = batch.results.map(item => {
+      const student = cls.students.find(stu => normalizeSbd(stu.sbd) === normalizeSbd(item.sbd));
+      return student && Number.isFinite(Number(item.score)) ? { student, score: Number(item.score), sbd: normalizeSbd(item.sbd) } : null;
+    }).filter(Boolean);
+    if (!matches.length) return showToast('Không khớp SBD nào trong lớp hiện tại.', 'warning');
+    matches.forEach(match => { match.student[targetCol] = match.score; });
+    try {
+      await syncOmrGradesToSupabase(cls, matches, targetCol);
+    } catch (error) {
+      return showToast(`Không ghi được lên Cloud: ${error.message}`, 'error');
+    }
+    batch.appliedAt = Date.now();
+    batch.appliedCol = targetCol;
+    saveOmrGradeBatches(batches);
+    saveState();
+    renderGradebookTab();
+    showToast(`Đã áp dụng ${matches.length} bài từ kho OMR vào ${targetCol}.`, 'success');
+  }
+
+
+
   function generate6DigitSbd(className, stt) {
     let clean = (className || '').replace(/lớp/i, '').trim();
     let grade = '12';
@@ -2242,7 +2304,7 @@
     const pill = document.createElement('div');
     pill.className = `floating-point-pill ${deltaPoints < 0 ? 'negative' : ''}`;
     pill.textContent = `${deltaPoints > 0 ? '+' : ''}${deltaPoints} ${deltaPoints > 0 ? '⭐' : '⚠️'}`;
-    
+
     const x = rect.left + rect.width / 2;
     const y = rect.top + window.scrollY;
     pill.style.left = `${x}px`;
@@ -2323,6 +2385,7 @@
   // 7. RENDER GIAO DIỆN
   // ==========================================
   function initApp() {
+    window.addEventListener('message', handleOmrGradeSyncMessage);
     checkUrlHashData();
     Confetti.init();
     renderClassRibbon();
@@ -2488,7 +2551,7 @@
       return `
         <div class="student-card ${isSelected ? 'selected' : ''}" data-id="${s.id}">
           <div class="card-top">
-            <div class="avatar-circle">${avatarInitial}</div>
+            ${getStudentAvatarHtml(s, 'md', 'student-card-avatar')}
             <div class="student-info">
               <div class="student-name" title="${escapeHtml(s.name)}">${escapeHtml(s.name)}</div>
               <div class="student-meta">
@@ -2515,6 +2578,9 @@
             <div style="display: flex; align-items: center; gap: 6px;">
               <button class="btn-badge teacher-only" data-action="open-badge" data-id="${s.id}" title="Cấp huy hiệu cho ${escapeHtml(s.name)}">🎖️</button>
               <button class="btn-xp-store teacher-only" data-action="open-store" data-id="${s.id}" title="Đổi thưởng cho ${escapeHtml(s.name)}">🛒 Đổi</button>
+              <button class="btn-transfer-xp" data-action="open-transfer" data-id="${s.id}" title="Tặng XP cho bạn (Đôi bạn cùng tiến)" style="background: #fff1f2; border: 1px solid #fecdd3; border-radius: 6px; padding: 3px 6px; font-size: 0.8rem; cursor: pointer; display: inline-flex; align-items: center; gap: 2px;">
+                🎁
+              </button>
               <button class="btn-inventory-badge" data-action="open-inventory" data-id="${s.id}" title="Túi đồ thẻ đặc quyền (${(s.inventory || []).filter(c => !c.used).length} thẻ)" style="background: #eef2ff; border: 1px solid #c7d2fe; border-radius: 6px; padding: 3px 6px; font-size: 0.8rem; cursor: pointer; display: inline-flex; align-items: center; gap: 2px;">
                 🎒${(s.inventory || []).filter(c => !c.used).length > 0 ? `<strong style="color: #4f46e5; font-size: 0.75rem;">${(s.inventory || []).filter(c => !c.used).length}</strong>` : ''}
               </button>
@@ -2530,6 +2596,7 @@
         </div>
       `;
     }).join('');
+    renderOmrGradeBatches();
   }
 
   // Render Tab 2: Sơ Đồ Bàn Học Thực Tế
@@ -2539,7 +2606,7 @@
 
     const cls = getCurrentClass();
     const teams = [1, 2, 3, 4];
-    
+
     let html = '';
     teams.forEach(teamNum => {
       const teamStudents = cls.students.filter(s => s.team === teamNum);
@@ -2586,8 +2653,8 @@
     const levelInfo = calculateLevel(student.points);
     return `
       <div class="desk-seat" data-seat-id="${student.id}" title="Bấm để thưởng +1 điểm phát biểu">
-        <div style="display: flex; align-items: center; gap: 4px; width: 100%;">
-          <div class="avatar-circle" style="width: 24px; height: 24px; font-size: 0.7rem; min-width: 24px;">${avatar}</div>
+        <div style="display: flex; align-items: center; gap: 6px; width: 100%;">
+          ${getStudentAvatarHtml(student, 'sm', 'desk-avatar')}
           <span class="seat-name" style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${escapeHtml(student.name)}</span>
         </div>
         <div style="display: flex; align-items: center; gap: 2px; margin-top: 4px; flex-wrap: wrap; min-height: 16px;">
@@ -2751,6 +2818,7 @@
     renderSeatingChart();
     renderGradebookTab();
     renderLeaderboard();
+    updateCalledListUI();
 
     if (deltaPoints > 0) {
       AudioEngine.playPositive();
@@ -2848,6 +2916,105 @@
     }).join('');
 
     openModal('modal-xp-store');
+  }
+
+  // ==========================================
+  // TRAO TẶNG ĐIỂM YÊU THƯƠNG (ĐÔI BẠN CÙNG TIẾN - PHÍ 50%)
+  // ==========================================
+  let activeTransferSenderId = null;
+
+  function openTransferXPModal(studentId) {
+    const cls = getCurrentClass();
+    const sender = cls.students.find(s => s.id === studentId);
+    if (!sender) return;
+
+    activeTransferSenderId = sender.id;
+    const senderPts = getStudentPoints(sender);
+
+    document.getElementById('transfer-sender-name').textContent = `${sender.name} (Tổ ${sender.team || 1})`;
+    document.getElementById('transfer-sender-points').textContent = senderPts;
+
+    // Render danh sách học sinh nhận (ngoại trừ chính em này)
+    const selectEl = document.getElementById('transfer-receiver-select');
+    if (selectEl) {
+      const otherStudents = cls.students.filter(s => s.id !== sender.id);
+      selectEl.innerHTML = '<option value="">-- Chọn bạn trong lớp muốn tặng --</option>' +
+        otherStudents.map(s => `<option value="${s.id}">${escapeHtml(s.name)} (Tổ ${s.team || 1} • Hiện có: ${getStudentPoints(s)} XP)</option>`).join('');
+    }
+
+    // Reset form
+    const amountInput = document.getElementById('transfer-xp-amount');
+    if (amountInput) {
+      amountInput.value = '4';
+      amountInput.max = Math.max(0, senderPts);
+    }
+    const msgInput = document.getElementById('transfer-message');
+    if (msgInput) msgInput.value = '';
+
+    updateTransferSummary();
+    openModal('modal-transfer-xp');
+  }
+
+  function updateTransferSummary() {
+    const amountInput = document.getElementById('transfer-xp-amount');
+    const deductEl = document.getElementById('transfer-summary-deduct');
+    const receiveEl = document.getElementById('transfer-summary-receive');
+    if (!amountInput || !deductEl || !receiveEl) return;
+
+    let amt = parseInt(amountInput.value, 10);
+    if (isNaN(amt) || amt < 0) amt = 0;
+
+    // Phí 50%: B nhận được 50% số điểm A tặng
+    const receivePts = Math.floor(amt * 0.5);
+
+    deductEl.textContent = `-${amt} XP`;
+    receiveEl.textContent = `+${receivePts} XP`;
+  }
+
+  function executeTransferXP() {
+    if (!activeTransferSenderId) return;
+    const cls = getCurrentClass();
+    const sender = cls.students.find(s => s.id === activeTransferSenderId);
+    if (!sender) return;
+
+    const receiverSelect = document.getElementById('transfer-receiver-select');
+    const receiverId = receiverSelect?.value;
+    if (!receiverId) {
+      showToast('⚠️ Thầy/Bạn vui lòng chọn học sinh nhận điểm!', 'warning');
+      return;
+    }
+
+    const receiver = cls.students.find(s => s.id === receiverId);
+    if (!receiver) return;
+
+    const amountInput = document.getElementById('transfer-xp-amount');
+    let amt = parseInt(amountInput?.value || '0', 10);
+    if (isNaN(amt) || amt < 2) {
+      showToast('⚠️ Số điểm tặng tối thiểu là 2 XP!', 'warning');
+      return;
+    }
+
+    const senderPts = getStudentPoints(sender);
+    if (senderPts < amt) {
+      showToast(`⚠️ Bạn ${sender.name} hiện chỉ có ${senderPts} XP, không đủ để tặng ${amt} XP!`, 'error');
+      return;
+    }
+
+    const receivePts = Math.floor(amt * 0.5);
+    const msgInput = document.getElementById('transfer-message');
+    const userMsg = msgInput?.value.trim();
+    const noteMsg = userMsg ? ` ("${userMsg}")` : '';
+
+    // Thực hiện trừ điểm người tặng
+    adjustStudentPoints(sender.id, -amt, `Tặng ${amt} XP cho bạn ${receiver.name} (Đôi bạn cùng tiến, phí 50%)${noteMsg}`);
+
+    // Thực hiện cộng điểm người nhận (50%)
+    adjustStudentPoints(receiver.id, receivePts, `Nhận ${receivePts} XP từ bạn ${sender.name} (Đôi bạn cùng tiến)${noteMsg}`);
+
+    AudioEngine.playFanfare();
+    Confetti.burst();
+    closeModal('modal-transfer-xp');
+    showToast(`🎁 Đã chuyển thành công: ${sender.name} (-${amt} XP) ➔ ${receiver.name} (+${receivePts} XP)!`, 'success');
   }
 
   // Quản lý Túi đồ học sinh (Inventory)
@@ -3016,7 +3183,7 @@
     drawWheel();
   }
 
-  function updateWheelStudents() {
+  function getEligibleWheelStudents() {
     const cls = getCurrentClass();
     const scope = document.getElementById('wheel-team-scope')?.value || 'all';
     const excludeCalled = document.getElementById('chk-exclude-called')?.checked ?? true;
@@ -3028,8 +3195,11 @@
     if (excludeCalled) {
       pool = pool.filter(s => !calledStudents.has(s.id));
     }
-    if (pool.length === 0) pool = [...cls.students];
-    wheelStudents = pool;
+    return pool;
+  }
+
+  function updateWheelStudents() {
+    wheelStudents = getEligibleWheelStudents();
   }
 
   function drawWheel() {
@@ -3042,7 +3212,25 @@
 
     wheelCtx.clearRect(0, 0, w, h);
     const count = wheelStudents.length;
-    if (count === 0) return;
+    if (count === 0) {
+      wheelCtx.save();
+      wheelCtx.beginPath();
+      wheelCtx.arc(cx, cy, r, 0, Math.PI * 2);
+      wheelCtx.fillStyle = '#f8fafc';
+      wheelCtx.fill();
+      wheelCtx.lineWidth = 2;
+      wheelCtx.strokeStyle = '#cbd5e1';
+      wheelCtx.stroke();
+      wheelCtx.fillStyle = '#64748b';
+      wheelCtx.font = 'bold 15px Outfit, sans-serif';
+      wheelCtx.textAlign = 'center';
+      wheelCtx.textBaseline = 'middle';
+      wheelCtx.fillText('Đã gọi hết học sinh!', cx, cy - 10);
+      wheelCtx.font = '13px Outfit, sans-serif';
+      wheelCtx.fillText('Bấm "Làm mới" để quay lại', cx, cy + 14);
+      wheelCtx.restore();
+      return;
+    }
 
     const arc = (Math.PI * 2) / count;
     const sliceColors = ['#10b981', '#f97316', '#3b82f6', '#ec4899', '#8b5cf6', '#06b6d4', '#f59e0b', '#14b8a6'];
@@ -3089,14 +3277,40 @@
   }
 
   function spinWheel() {
-    if (isSpinning || wheelStudents.length === 0) return;
+    if (isSpinning) return;
+    updateWheelStudents();
+    if (wheelStudents.length === 0) {
+      AudioEngine.playNegative();
+      showToast('Đã gọi hết tất cả học sinh trong phạm vi! Vui lòng bấm "Làm mới" trên Bảng Kết Quả để quay lại từ đầu.', 'warning');
+      return;
+    }
     isSpinning = true;
     AudioEngine.init();
 
     const spinBtn = document.getElementById('btn-spin-wheel');
     if (spinBtn) spinBtn.disabled = true;
 
-    const winnerIndex = Math.floor(Math.random() * wheelStudents.length);
+    // Chế độ công bằng: Ưu tiên học sinh ít XP hơn (chưa hoặc ít được phát biểu)
+    let winnerIndex;
+    const fairMode = document.getElementById('chk-fair-mode')?.checked ?? true;
+    if (fairMode && wheelStudents.length > 1) {
+      const weights = wheelStudents.map(s => {
+        const pts = Math.max(0, getStudentPoints(s));
+        return 1 / (pts + 1);
+      });
+      const totalWeight = weights.reduce((acc, w) => acc + w, 0);
+      let rand = Math.random() * totalWeight;
+      winnerIndex = 0;
+      for (let i = 0; i < weights.length; i++) {
+        if (rand < weights[i]) {
+          winnerIndex = i;
+          break;
+        }
+        rand -= weights[i];
+      }
+    } else {
+      winnerIndex = Math.floor(Math.random() * wheelStudents.length);
+    }
     const winner = wheelStudents[winnerIndex];
 
     const count = wheelStudents.length;
@@ -3132,15 +3346,50 @@
         if (spinBtn) spinBtn.disabled = false;
         calledStudents.add(winner.id);
         updateCalledListUI();
+        updateWheelStudents(); // Cập nhật ngay pool để lượt quay sau không bị trùng
         AudioEngine.playFanfare();
         Confetti.burst(window.innerWidth / 2, window.innerHeight / 2, 120);
 
         document.getElementById('winner-name').textContent = winner.name;
         document.getElementById('winner-team-badge').textContent = `Tổ ${winner.team} • SBD: ${winner.sbd || '---'}`;
-        document.getElementById('btn-winner-add-pts').onclick = () => {
-          adjustStudentPoints(winner.id, 2, 'Gọi tên may mắn lên bảng');
-          closeModal('modal-winner');
-        };
+
+        // Gán sự kiện chấm điểm sư phạm sau khi học sinh làm bài xong
+        const gradeBtnP2 = document.getElementById('btn-winner-grade-p2');
+        if (gradeBtnP2) {
+          gradeBtnP2.onclick = () => {
+            adjustStudentPoints(winner.id, 2, 'Lên bảng làm bài xuất sắc (+2 XP)');
+            closeModal('modal-winner');
+          };
+        }
+        const gradeBtnP1 = document.getElementById('btn-winner-grade-p1');
+        if (gradeBtnP1) {
+          gradeBtnP1.onclick = () => {
+            adjustStudentPoints(winner.id, 1, 'Lên bảng làm bài đạt yêu cầu (+1 XP)');
+            closeModal('modal-winner');
+          };
+        }
+        const gradeBtnP0 = document.getElementById('btn-winner-grade-p0');
+        if (gradeBtnP0) {
+          gradeBtnP0.onclick = () => {
+            closeModal('modal-winner');
+            showToast(`👌 Em ${winner.name} đã hoàn thành lượt làm bài (Không đổi điểm).`, 'info');
+          };
+        }
+        const gradeBtnM1 = document.getElementById('btn-winner-grade-m1');
+        if (gradeBtnM1) {
+          gradeBtnM1.onclick = () => {
+            adjustStudentPoints(winner.id, -1, 'Chưa chuẩn bị bài / chưa thuộc công thức (-1 XP)');
+            closeModal('modal-winner');
+          };
+        }
+        const gradeBtnDetail = document.getElementById('btn-winner-open-detail');
+        if (gradeBtnDetail) {
+          gradeBtnDetail.onclick = () => {
+            closeModal('modal-winner');
+            openScoreModal(winner.id);
+          };
+        }
+
         openModal('modal-winner');
       }
     }
@@ -3150,15 +3399,68 @@
   function updateCalledListUI() {
     const listEl = document.getElementById('called-students-list');
     const countEl = document.getElementById('called-count');
+    const btnRewardAll = document.getElementById('btn-reward-all-called');
     if (!listEl) return;
     const cls = getCurrentClass();
-    const calledArr = cls.students.filter(s => calledStudents.has(s.id));
+
+    // Lấy theo đúng thứ tự đã gọi từ Set calledStudents
+    const calledArr = [];
+    calledStudents.forEach(id => {
+      const s = cls.students.find(st => st.id === id);
+      if (s) calledArr.push(s);
+    });
+
     if (countEl) countEl.textContent = calledArr.length;
+    if (btnRewardAll) {
+      btnRewardAll.style.display = calledArr.length >= 2 ? 'inline-flex' : 'none';
+    }
+
     if (calledArr.length === 0) {
-      listEl.innerHTML = '<span class="empty-hint">Chưa có học sinh nào được gọi</span>';
+      listEl.innerHTML = `
+        <div class="called-empty-state">
+          <span class="called-empty-icon">🎯</span>
+          <span class="called-empty-text">Chưa gọi bạn nào lên bảng</span>
+        </div>
+      `;
       return;
     }
-    listEl.innerHTML = calledArr.map(s => `<span class="called-tag">${escapeHtml(s.name)} (Tổ ${s.team})</span>`).join('');
+
+    listEl.innerHTML = calledArr.map((s, idx) => {
+      const pts = getStudentPoints(s);
+      const classStt = s.stt || (cls.students.findIndex(st => st.id === s.id) + 1);
+      const sttText = classStt < 10 ? '0' + classStt : classStt;
+      return `
+        <div class="called-student-card" data-id="${s.id}">
+          <div class="called-student-info" data-action="score-modal" data-id="${s.id}" title="Bấm để mở bảng chấm điểm chi tiết của ${escapeHtml(s.name)}">
+            <span class="called-stt-badge" title="Số thứ tự trong sổ điểm lớp">STT ${sttText}</span>
+            <span class="called-turn-badge" title="Lượt gọi thứ ${idx + 1}">#${idx + 1}</span>
+            <div class="called-meta">
+              <div class="called-name-row">
+                <span class="called-name">${escapeHtml(s.name)}</span>
+                <span class="called-team">Tổ ${s.team || 1}</span>
+              </div>
+              <div class="called-points-tag">
+                <span class="pts-val">⭐ ${pts} XP</span>
+              </div>
+            </div>
+          </div>
+          <div class="called-actions">
+            <button class="btn-called-btn btn-called-plus1" data-action="plus-1" data-id="${s.id}" title="Lên bảng làm đúng: Thưởng +1 XP">
+              +1
+            </button>
+            <button class="btn-called-btn btn-called-plus2" data-action="plus-2" data-id="${s.id}" title="Lên bảng giải xuất sắc/sáng tạo: Thưởng +2 XP">
+              +2
+            </button>
+            <button class="btn-called-btn btn-called-minus1" data-action="minus-1" data-id="${s.id}" title="Chưa làm được bài / chưa chuẩn bị: -1 XP">
+              -1
+            </button>
+            <button class="btn-called-btn btn-called-remove" data-action="remove" data-id="${s.id}" title="Gỡ khỏi danh sách đã gọi để quay lại">
+              &times;
+            </button>
+          </div>
+        </div>
+      `;
+    }).join('');
   }
 
   // ==========================================
@@ -3225,7 +3527,7 @@
 
   let currentGeneratedTeams = [];
 
-    // ==========================================
+  // ==========================================
   // 10. NHIỆM VỤ HỌC TẬP & CHIA NHÓM TỰ RÃ ĐIỂM XP THÔNG MINH
   // ==========================================
   let currentMissionGroupScores = {};
@@ -3233,7 +3535,7 @@
   let manualGroupAssignments = {}; // { studentId: groupIndex }
   let activeMissionGroupingMode = 'random'; // 'random' | 'manual'
 
-  
+
   function renderMissionsTab() {
     const cls = getCurrentClass();
     const nameEl = document.getElementById('mission-class-name');
@@ -3283,7 +3585,7 @@
 
     if (!listContainer) return;
 
-    const filtered = cls.students.filter(s => 
+    const filtered = cls.students.filter(s =>
       !searchVal || s.name.toLowerCase().includes(searchVal) || (s.sbd && s.sbd.toLowerCase().includes(searchVal))
     );
 
@@ -3677,7 +3979,7 @@
   function exportGradebookCSV() {
     const cls = getCurrentClass();
     const customCols = cls.customColumns || [];
-    
+
     let headers = ['STT', 'Họ và tên', 'Tổ', 'SBD', 'ĐGTX 1', 'ĐGTX 2', 'ĐGTX 3', 'ĐGTX 4', 'ĐGTX 5', 'Thái độ', 'Giữa kỳ (x2)', 'Cuối kỳ (x3)'];
     customCols.forEach(c => {
       headers.push(`"${c.name} (HS ${c.weight})"`);
@@ -4016,7 +4318,7 @@
   }
 
   // ==========================================
-  
+
   // ==========================================
   // BAN CÁN SỰ & PHÂN QUYỀN ĐA GMAIL (OFFICERS)
   // ==========================================
@@ -4353,7 +4655,7 @@
     });
 
     if (query) {
-      logs = logs.filter(l => 
+      logs = logs.filter(l =>
         (l.studentName && l.studentName.toLowerCase().includes(query)) ||
         (l.sbd && l.sbd.toLowerCase().includes(query)) ||
         (l.reason && l.reason.toLowerCase().includes(query)) ||
@@ -4390,10 +4692,10 @@
 
     tbody.innerHTML = logs.map(l => {
       const pts = l.points || 0;
-      const ptsBadge = pts > 0 
-        ? `<span class="audit-pts-badge pos">+${pts} XP</span>` 
+      const ptsBadge = pts > 0
+        ? `<span class="audit-pts-badge pos">+${pts} XP</span>`
         : `<span class="audit-pts-badge neg">${pts} XP</span>`;
-      
+
       const isTeacherActor = l.actor && (l.actor.includes('nguyensangnhc') || l.actor.includes('sangbeau') || l.actor.includes('Thầy'));
       const isMonitorActor = l.actor && !isTeacherActor && l.actor !== 'Hệ thống';
       const actorIcon = isTeacherActor ? '👨‍🏫' : (isMonitorActor ? '👑' : '⚙️');
@@ -4786,6 +5088,9 @@
         return;
       }
 
+      const transferBtn = e.target.closest('[data-action="open-transfer"]');
+      const inventoryBtn = e.target.closest('[data-action="open-inventory"]');
+
       if (plusBtn) {
         e.stopPropagation();
         adjustStudentPoints(plusBtn.dataset.id, 1, 'Phát biểu xây dựng bài', plusBtn);
@@ -4809,6 +5114,16 @@
       if (badgeBtn) {
         e.stopPropagation();
         openBadgeModal(badgeBtn.dataset.id);
+        return;
+      }
+      if (transferBtn) {
+        e.stopPropagation();
+        openTransferXPModal(transferBtn.dataset.id);
+        return;
+      }
+      if (inventoryBtn) {
+        e.stopPropagation();
+        openInventoryModal(inventoryBtn.dataset.id);
         return;
       }
       if (card) {
@@ -4836,8 +5151,8 @@
       }
     });
 
-    
-      // 7b. Sự kiện Học Kỳ (HK1, HK2, Cả Năm) & Nhật Ký Đối Chiếu
+
+    // 7b. Sự kiện Học Kỳ (HK1, HK2, Cả Năm) & Nhật Ký Đối Chiếu
     document.querySelectorAll('.btn-semester').forEach(btn => {
       btn.addEventListener('click', () => {
         const sem = btn.dataset.semester;
@@ -4870,6 +5185,79 @@
         openAuditModal(activeStudentForModal.id);
       }
     });
+
+    document.getElementById('btn-modal-transfer-xp')?.addEventListener('click', () => {
+      if (activeStudentForModal) {
+        const currentStuId = activeStudentForModal.id;
+        closeModal('modal-score');
+        openTransferXPModal(currentStuId);
+      }
+    });
+
+    // Sự kiện đổi Avatar Chibi từ Modal Chấm Điểm
+    document.getElementById('btn-modal-change-avatar')?.addEventListener('click', () => {
+      if (activeStudentForModal) {
+        openAvatarPickerModal(activeStudentForModal.id);
+      }
+    });
+    document.getElementById('modal-student-avatar')?.addEventListener('click', () => {
+      if (activeStudentForModal) {
+        openAvatarPickerModal(activeStudentForModal.id);
+      }
+    });
+
+    // Sự kiện trong Modal Chọn Avatar (Tab, Upload, URL, Reset)
+    document.getElementById('tab-btn-chibi-presets')?.addEventListener('click', () => switchAvatarPickerTab('chibi'));
+    document.getElementById('tab-btn-upload-avatar')?.addEventListener('click', () => switchAvatarPickerTab('upload'));
+    document.getElementById('tab-btn-url-avatar')?.addEventListener('click', () => switchAvatarPickerTab('url'));
+
+    const dropzone = document.getElementById('avatar-upload-dropzone');
+    const fileInput = document.getElementById('input-avatar-file');
+    dropzone?.addEventListener('click', () => fileInput?.click());
+    dropzone?.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropzone.classList.add('drag-hover');
+    });
+    dropzone?.addEventListener('dragleave', () => dropzone.classList.remove('drag-hover'));
+    dropzone?.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropzone.classList.remove('drag-hover');
+      if (e.dataTransfer?.files?.[0]) {
+        handleAvatarFileUpload(e.dataTransfer.files[0]);
+      }
+    });
+    fileInput?.addEventListener('change', (e) => {
+      if (e.target.files?.[0]) {
+        handleAvatarFileUpload(e.target.files[0]);
+      }
+    });
+
+    document.getElementById('btn-apply-avatar-url')?.addEventListener('click', () => {
+      const urlInput = document.getElementById('input-avatar-url');
+      const val = urlInput?.value?.trim();
+      if (!val) {
+        showToast('⚠️ Vui lòng nhập link hình ảnh!', 'warning');
+        return;
+      }
+      applyStudentAvatar({ type: 'url', value: val });
+    });
+
+    document.getElementById('btn-reset-default-avatar')?.addEventListener('click', () => {
+      applyStudentAvatar(null);
+    });
+
+    // Sự kiện Modal Trao Tặng XP Đôi Bạn Cùng Tiến
+    document.getElementById('transfer-xp-amount')?.addEventListener('input', updateTransferSummary);
+    document.querySelectorAll('.btn-quick-transfer').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const amtInput = document.getElementById('transfer-xp-amount');
+        if (amtInput) {
+          amtInput.value = btn.dataset.amount;
+          updateTransferSummary();
+        }
+      });
+    });
+    document.getElementById('btn-confirm-transfer-xp')?.addEventListener('click', executeTransferXP);
 
     document.getElementById('tab-audit-all')?.addEventListener('click', () => switchAuditTab('all'));
     document.getElementById('tab-audit-student')?.addEventListener('click', () => switchAuditTab('student'));
@@ -4916,6 +5304,11 @@
         }
         saveState();
       }
+    });
+
+    document.getElementById('omr-batch-list')?.addEventListener('click', (e) => {
+      const button = e.target.closest('[data-omr-apply]');
+      if (button) applyOmrGradeBatch(button.dataset.omrApply);
     });
 
     // Thao tác xóa cột tùy chỉnh từ Header Sổ Điểm
@@ -5073,15 +5466,78 @@
       updateCalledListUI();
       updateWheelStudents();
       drawWheel();
+      showToast('Đã làm mới danh sách gọi.', 'info');
+    });
+
+    // Thưởng đồng loạt cho toàn bộ học sinh trong danh sách đã gọi (+1 XP)
+    document.getElementById('btn-reward-all-called')?.addEventListener('click', () => {
+      const cls = getCurrentClass();
+      const calledArr = [];
+      calledStudents.forEach(id => {
+        const s = cls.students.find(st => st.id === id);
+        if (s) calledArr.push(s);
+      });
+      if (calledArr.length === 0) return;
+
+      calledArr.forEach(s => {
+        adjustStudentPoints(s.id, 1, 'Lên bảng làm bài đạt yêu cầu (+1 XP)');
+      });
+      AudioEngine.playPositive();
+      Confetti.burst();
+      showToast(`🎉 Đã cộng +1 XP cho tất cả ${calledArr.length} bạn đã lên bảng!`, 'success');
+    });
+
+    // Sự kiện tương tác trên từng học sinh trong danh sách Đã Gọi (+, -, xóa, mở modal chấm chi tiết)
+    const calledListEl = document.getElementById('called-students-list');
+    calledListEl?.addEventListener('click', (e) => {
+      const btn = e.target.closest('button[data-action]');
+      if (btn) {
+        e.stopPropagation();
+        const action = btn.dataset.action;
+        const studentId = btn.dataset.id;
+        const cls = getCurrentClass();
+        const s = cls.students.find(st => st.id === studentId);
+        if (!s) return;
+
+        if (action === 'plus-1') {
+          adjustStudentPoints(s.id, 1, 'Lên bảng làm bài đạt yêu cầu (+1 XP)', btn);
+        } else if (action === 'plus-2') {
+          adjustStudentPoints(s.id, 2, 'Lên bảng giải xuất sắc / sáng tạo (+2 XP)', btn);
+        } else if (action === 'minus-1') {
+          adjustStudentPoints(s.id, -1, 'Chưa hoàn thành bài làm trên bảng (-1 XP)', btn);
+        } else if (action === 'remove') {
+          calledStudents.delete(s.id);
+          updateCalledListUI();
+          updateWheelStudents();
+          drawWheel();
+          showToast(`Đã gỡ ${escapeHtml(s.name)} khỏi danh sách gọi.`, 'info');
+        }
+        return;
+      }
+
+      const infoEl = e.target.closest('[data-action="score-modal"]');
+      if (infoEl && infoEl.dataset.id) {
+        openScoreModal(infoEl.dataset.id);
+      }
     });
 
     // 10. Đấu trường 1 vs 1 & Lật thẻ bí ẩn
     document.getElementById('btn-showdown-1v1')?.addEventListener('click', () => {
-      const cls = getCurrentClass();
-      if (cls.students.length < 2) return;
-      const p1 = cls.students[Math.floor(Math.random() * cls.students.length)];
-      const diffTeam = cls.students.filter(s => s.team !== p1.team);
-      const p2 = diffTeam.length > 0 ? diffTeam[Math.floor(Math.random() * diffTeam.length)] : cls.students.filter(s => s.id !== p1.id)[0];
+      const candidates = getEligibleWheelStudents();
+      if (candidates.length < 2) {
+        AudioEngine.playNegative();
+        showToast('Cần ít nhất 2 học sinh hợp lệ để mở Đấu Trường 1 vs 1! Vui lòng bấm "Làm mới" nếu đã gọi hết.', 'warning');
+        return;
+      }
+      const p1 = candidates[Math.floor(Math.random() * candidates.length)];
+      const diffTeam = candidates.filter(s => s.team !== p1.team);
+      const p2 = diffTeam.length > 0 ? diffTeam[Math.floor(Math.random() * diffTeam.length)] : candidates.filter(s => s.id !== p1.id)[0];
+
+      calledStudents.add(p1.id);
+      calledStudents.add(p2.id);
+      updateCalledListUI();
+      updateWheelStudents();
+      drawWheel();
 
       document.getElementById('sd-p1-name').textContent = p1.name;
       document.getElementById('sd-p1-team').textContent = `Tổ ${p1.team}`;
@@ -5104,24 +5560,65 @@
     });
 
     document.getElementById('btn-magic-card')?.addEventListener('click', () => {
-      const cls = getCurrentClass();
-      if (cls.students.length === 0) return;
-      const lucky = cls.students[Math.floor(Math.random() * cls.students.length)];
-      const cardEl = document.getElementById('flip-card-element');
-      cardEl.classList.remove('flipped');
-      document.getElementById('flip-name').textContent = lucky.name;
-      document.getElementById('flip-team').textContent = `Tổ ${lucky.team}`;
-      document.getElementById('flip-avatar').textContent = lucky.name.split(' ').pop().charAt(0).toUpperCase();
-      document.getElementById('btn-flip-add-point').onclick = () => {
-        adjustStudentPoints(lucky.id, 1, 'Thẻ bí ẩn may mắn');
+      openMagicCardModal();
+    });
+
+    // Các nút chấm điểm trong Modal Lật Thẻ Ma Thuật
+    document.getElementById('btn-flip-grade-p2')?.addEventListener('click', () => {
+      if (magicCardRevealedIndex !== -1 && magicCardsCurrentPool[magicCardRevealedIndex]) {
+        const s = magicCardsCurrentPool[magicCardRevealedIndex];
+        adjustStudentPoints(s.id, 2, 'Lật thẻ bí ẩn: Giải toán xuất sắc (+2 XP)');
         closeModal('modal-card-flip');
-      };
-      openModal('modal-card-flip');
-      cardEl.onclick = () => {
-        cardEl.classList.toggle('flipped');
-        AudioEngine.playPositive();
-        Confetti.burst();
-      };
+      }
+    });
+
+    document.getElementById('btn-flip-grade-p1')?.addEventListener('click', () => {
+      if (magicCardRevealedIndex !== -1 && magicCardsCurrentPool[magicCardRevealedIndex]) {
+        const s = magicCardsCurrentPool[magicCardRevealedIndex];
+        adjustStudentPoints(s.id, 1, 'Lật thẻ bí ẩn: Hoàn thành tốt bài giải (+1 XP)');
+        closeModal('modal-card-flip');
+      }
+    });
+
+    document.getElementById('btn-flip-grade-p0')?.addEventListener('click', () => {
+      if (magicCardRevealedIndex !== -1 && magicCardsCurrentPool[magicCardRevealedIndex]) {
+        const s = magicCardsCurrentPool[magicCardRevealedIndex];
+        adjustStudentPoints(s.id, 0, 'Lật thẻ bí ẩn: Hoàn thành lượt gọi (0 XP)');
+        closeModal('modal-card-flip');
+      }
+    });
+
+    document.getElementById('btn-flip-grade-m1')?.addEventListener('click', () => {
+      if (magicCardRevealedIndex !== -1 && magicCardsCurrentPool[magicCardRevealedIndex]) {
+        const s = magicCardsCurrentPool[magicCardRevealedIndex];
+        adjustStudentPoints(s.id, -1, 'Lật thẻ bí ẩn: Chưa chuẩn bị bài (-1 XP)');
+        closeModal('modal-card-flip');
+      }
+    });
+
+    document.getElementById('btn-flip-draw-another')?.addEventListener('click', () => {
+      const candidates = getEligibleWheelStudents();
+      if (candidates.length === 0) {
+        AudioEngine.playNegative();
+        showToast('Đã gọi hết học sinh trong phạm vi! Vui lòng bấm "Làm mới" trên vòng quay.', 'warning');
+        return;
+      }
+      prepareMagicCards(candidates);
+    });
+
+    document.getElementById('btn-flip-change-avatar')?.addEventListener('click', () => {
+      if (magicCardRevealedIndex !== -1 && magicCardsCurrentPool[magicCardRevealedIndex]) {
+        const s = magicCardsCurrentPool[magicCardRevealedIndex];
+        openAvatarPickerModal(s.id);
+      }
+    });
+
+    document.getElementById('btn-flip-open-detail')?.addEventListener('click', () => {
+      if (magicCardRevealedIndex !== -1 && magicCardsCurrentPool[magicCardRevealedIndex]) {
+        const s = magicCardsCurrentPool[magicCardRevealedIndex];
+        closeModal('modal-card-flip');
+        openScoreModal(s.id);
+      }
     });
 
     // 11. Timer & Chia nhóm
@@ -5349,8 +5846,8 @@
     });
 
     document.getElementById('btn-toggle-fullscreen')?.addEventListener('click', () => {
-      if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(() => {});
-      else document.exitFullscreen().catch(() => {});
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(() => { });
+      else document.exitFullscreen().catch(() => { });
     });
 
     // 14. Quản lý lớp & Excel
@@ -5461,7 +5958,7 @@
       if (card) {
         const studentId = card.dataset.studentId;
         const itemId = card.dataset.itemId;
-        
+
         if (appState.isStudentMode) return showToast('Chế độ Học sinh không được đổi điểm!', 'error');
 
         const cls = getCurrentClass();
@@ -5493,7 +5990,7 @@
         AudioEngine.playReward();
         Confetti.burst();
         showToast(`Đổi thành công ${item.name} cho ${stu.name}! Đã cất vào 🎒 Túi đồ.`, 'success');
-        
+
         // Đóng modal & cập nhật
         closeModal('modal-xp-store');
         renderClassroomTab();
@@ -5508,7 +6005,7 @@
       if (card) {
         const studentId = card.dataset.studentId;
         const badgeId = card.dataset.badgeId;
-        
+
         if (appState.isStudentMode) return showToast('Chế độ Học sinh không được cấp huy hiệu!', 'error');
 
         const cls = getCurrentClass();
@@ -5545,7 +6042,7 @@
         AudioEngine.playReward();
         Confetti.burst();
         showToast(`Đã cấp huy hiệu ${badgeInfo.name} cho ${stu.name}!`, 'success');
-        
+
         closeModal('modal-badge');
         renderClassroomTab();
         renderSeatingChart();
@@ -5647,7 +6144,7 @@
     });
     document.querySelectorAll('.modal-overlay').forEach(modal => {
       modal.addEventListener('click', (e) => {
-        if (e.target === modal) modal.classList.remove('open');
+        if (e.target === modal) closeModal(modal.id);
       });
     });
   }
@@ -5684,7 +6181,7 @@
 
   function openImportOMRModal() {
     if (appState.isStudentMode) return showToast('Chế độ Học sinh không được nhập điểm!', 'error');
-    
+
     // Đổ danh sách cột tuỳ chỉnh vào select nếu có
     const select = document.getElementById('omr-target-col');
     if (select) {
@@ -5863,9 +6360,9 @@
         </td>
         <td class="text-muted">${m.oldScore}</td>
         <td>
-          ${m.matched 
-            ? '<span style="background: #d1fae5; color: #065f46; padding: 2px 8px; border-radius: 10px; font-weight: 700; font-size: 0.75rem;">✓ Khớp chuẩn</span>'
-            : '<span style="background: #fee2e2; color: #991b1b; padding: 2px 8px; border-radius: 10px; font-weight: 700; font-size: 0.75rem;">Chưa có bài</span>'}
+          ${m.matched
+        ? '<span style="background: #d1fae5; color: #065f46; padding: 2px 8px; border-radius: 10px; font-weight: 700; font-size: 0.75rem;">✓ Khớp chuẩn</span>'
+        : '<span style="background: #fee2e2; color: #991b1b; padding: 2px 8px; border-radius: 10px; font-weight: 700; font-size: 0.75rem;">Chưa có bài</span>'}
         </td>
       </tr>
     `).join('');
@@ -5901,6 +6398,89 @@
     AudioEngine.playReward();
     Confetti.burst();
     showToast(`🎉 Đã nạp thành công điểm OMR cho ${updatedCount} học sinh vào sổ điểm!`, 'success');
+  }
+
+  const OMR_SYNC_ALLOWED_ORIGINS = new Set([
+    'https://hdsd-conictypst.pages.dev',
+    'http://localhost:5173',
+    'http://127.0.0.1:5173'
+  ]);
+  const handledOmrSyncKeys = new Set();
+
+  function normalizeSbd(value) {
+    return String(value ?? '').replace(/\D/g, '').padStart(6, '0');
+  }
+
+  function academicGradeField(targetCol) {
+    return {
+      dgtx1: 'dgtx1', dgtx2: 'dgtx2', dgtx3: 'dgtx3', dgtx4: 'dgtx4', dgtx5: 'dgtx5',
+      giuaKy: 'giua_ky', cuoiKy: 'cuoi_ky'
+    }[targetCol] || null;
+  }
+
+  async function syncOmrGradesToSupabase(cls, matches, targetCol) {
+    const field = academicGradeField(targetCol);
+    if (!field || !supabaseClient || !currentUser || !matches.length) return;
+    const responses = await Promise.all(matches.map(match => supabaseClient
+      .from('students')
+      .update({ [field]: match.score, updated_at: new Date().toISOString() })
+      .eq('id', match.student.id)
+      .eq('class_id', cls.id)));
+    const failed = responses.find(response => response.error);
+    if (failed) throw failed.error;
+  }
+
+  async function handleOmrGradeSyncMessage(event) {
+    if (!OMR_SYNC_ALLOWED_ORIGINS.has(event.origin) || event.data?.type !== 'conic-omr-grade-sync') return;
+    if (appState.isStudentMode) return;
+    const payload = event.data;
+    const targetCol = String(payload.targetCol || 'dgtx1');
+    if (!academicGradeField(targetCol)) return showToast('Cột điểm OMR không hợp lệ.', 'error');
+    const cls = getCurrentClass();
+    const results = Array.isArray(payload.results) ? payload.results : [];
+    const syncKey = `${payload.sentAt || ''}:${targetCol}:${results.map(result => normalizeSbd(result.sbd)).join(',')}`;
+    if (handledOmrSyncKeys.has(syncKey)) return;
+    handledOmrSyncKeys.add(syncKey);
+
+    const matches = [];
+    const missing = [];
+    for (const result of results) {
+      const sbd = normalizeSbd(result.sbd);
+      const student = cls.students.find(item => normalizeSbd(item.sbd) === sbd);
+      const score = Number(result.score);
+      if (!student || !Number.isFinite(score)) {
+        missing.push(sbd);
+        continue;
+      }
+      matches.push({ student, score, sbd });
+    }
+    if (!matches.length) return showToast('Không khớp SBD nào trong lớp đang chọn.', 'warning');
+
+    const batches = getOmrGradeBatches();
+    batches.unshift({
+      id: `${cls.id}:${payload.sentAt || Date.now()}:${targetCol}`,
+      classId: cls.id,
+      className: cls.name,
+      semester: appState.currentSemester,
+      targetCol,
+      createdAt: payload.sentAt || Date.now(),
+      results: results.filter(result => Number.isFinite(Number(result.score))).map(result => ({
+        sbd: normalizeSbd(result.sbd),
+        name: String(result.name || ''),
+        score: Number(result.score),
+        made: String(result.made || ''),
+        matched: matches.some(match => match.sbd === normalizeSbd(result.sbd))
+      }))
+    });
+    saveOmrGradeBatches(batches);
+    renderOmrGradeBatches();
+    event.source?.postMessage({
+      type: 'conic-omr-grade-sync-ack',
+      updated: matches.length,
+      missing,
+      targetCol
+    }, event.origin);
+    showToast(`📥 Đã lưu đợt chấm ${matches.length} bài vào kho OMR; chưa ghi vào sổ điểm.`, 'success');
   }
 
   // ==========================================
@@ -5941,7 +6521,7 @@
       try {
         if (!window.__conicLocalBc) window.__conicLocalBc = new BroadcastChannel('conic-classroom-local-bc');
         window.__conicLocalBc.postMessage(payload);
-      } catch (e) {}
+      } catch (e) { }
     }
 
     // 3. Local direct dispatch
@@ -6046,6 +6626,319 @@
     `).join('');
   }
 
+  // ==========================================
+  // 14B. HỆ THỐNG AVATAR CHIBI & QUYỀN HẠN CÁN SỰ LỚP
+  // ==========================================
+  const CHIBI_PRESETS = [
+    { id: 'chibi-cat', emoji: '🐱', name: 'Mèo Lười Siêng Học', bg: 'linear-gradient(135deg, #fce7f3, #f472b6)' },
+    { id: 'chibi-dog', emoji: '🐶', name: 'Cún Cưng Nhanh Nhẹn', bg: 'linear-gradient(135deg, #fef3c7, #f59e0b)' },
+    { id: 'chibi-fox', emoji: '🦊', name: 'Cáo Thông Thái', bg: 'linear-gradient(135deg, #ffedd5, #ea580c)' },
+    { id: 'chibi-bunny', emoji: '🐰', name: 'Thỏ Trắng Tinh Anh', bg: 'linear-gradient(135deg, #ffe4e6, #fb7185)' },
+    { id: 'chibi-bear', emoji: '🐻', name: 'Gấu Trầm Tính Chăm Chỉ', bg: 'linear-gradient(135deg, #fef9c3, #ca8a04)' },
+    { id: 'chibi-panda', emoji: '🐼', name: 'Gấu Trúc Dễ Thương', bg: 'linear-gradient(135deg, #f1f5f9, #64748b)' },
+    { id: 'chibi-koala', emoji: '🐨', name: 'Koala Mộng Mơ', bg: 'linear-gradient(135deg, #e2e8f0, #94a3b8)' },
+    { id: 'chibi-lion', emoji: '🦁', name: 'Sư Tử Dũng Mãnh', bg: 'linear-gradient(135deg, #fef08a, #d97706)' },
+    { id: 'chibi-tiger', emoji: '🐯', name: 'Hổ Con Đột Phá', bg: 'linear-gradient(135deg, #fed7aa, #f97316)' },
+    { id: 'chibi-dino', emoji: '🦖', name: 'Khủng Long Nhí', bg: 'linear-gradient(135deg, #dcfce7, #22c55e)' },
+    { id: 'chibi-unicorn', emoji: '🦄', name: 'Kỳ Lân May Mắn', bg: 'linear-gradient(135deg, #f5d0fe, #c084fc)' },
+    { id: 'chibi-dragon', emoji: '🐲', name: 'Rồng Con Quyết Thắng', bg: 'linear-gradient(135deg, #ccfbf1, #14b8a6)' },
+    { id: 'chibi-owl', emoji: '🦉', name: 'Cú Mèo Thủ Khoa', bg: 'linear-gradient(135deg, #e0e7ff, #6366f1)' },
+    { id: 'chibi-penguin', emoji: '🐧', name: 'Cánh Cụt Kiên Trì', bg: 'linear-gradient(135deg, #cffafe, #06b6d4)' },
+    { id: 'chibi-duck', emoji: '🐥', name: 'Vịt Vàng Hóm Hỉnh', bg: 'linear-gradient(135deg, #fef08a, #eab308)' },
+    { id: 'chibi-monkey', emoji: '🐵', name: 'Khỉ Con Sáng Tạo', bg: 'linear-gradient(135deg, #fed7aa, #b45309)' },
+    { id: 'chibi-frog', emoji: '🐸', name: 'Ếch Cố Gắng Vươn Lên', bg: 'linear-gradient(135deg, #dcfce7, #16a34a)' },
+    { id: 'chibi-bee', emoji: '🐝', name: 'Ong Chăm Chỉ Làm Bài', bg: 'linear-gradient(135deg, #fef9c3, #f59e0b)' },
+    { id: 'chibi-dolphin', emoji: '🐬', name: 'Cá Heo Vui Vẻ', bg: 'linear-gradient(135deg, #e0f2fe, #38bdf8)' },
+    { id: 'chibi-whale', emoji: '🐳', name: 'Cá Voi Khổng Lồ', bg: 'linear-gradient(135deg, #dbeafe, #3b82f6)' },
+    { id: 'chibi-astronaut', emoji: '👨‍🚀', name: 'Phi Hành Gia Khám Phá', bg: 'linear-gradient(135deg, #ede9fe, #8b5cf6)' },
+    { id: 'chibi-wizard', emoji: '🧙‍♂️', name: 'Pháp Sư Giải Toán', bg: 'linear-gradient(135deg, #fae8ff, #d946ef)' },
+    { id: 'chibi-ninja', emoji: '🥷', name: 'Ninja Thần Tốc', bg: 'linear-gradient(135deg, #f1f5f9, #334155)' },
+    { id: 'chibi-superhero', emoji: '🦸‍♀️', name: 'Nữ Anh Hùng Cần Mẫn', bg: 'linear-gradient(135deg, #ffe4e6, #f43f5e)' },
+    { id: 'chibi-scholar', emoji: '🧑‍🎓', name: 'Học Trò Xuất Sắc', bg: 'linear-gradient(135deg, #ecfdf5, #10b981)' },
+    { id: 'chibi-artist', emoji: '🎨', name: 'Họa Sĩ Đầy Ý Tưởng', bg: 'linear-gradient(135deg, #fdf4ff, #a855f7)' },
+    { id: 'chibi-rockstar', emoji: '🎸', name: 'Ngôi Sao Sôi Nổi', bg: 'linear-gradient(135deg, #fff1f2, #fb7185)' },
+    { id: 'chibi-scientist', emoji: '🔬', name: 'Nhà Nghiên Cứu Tỉ Mỉ', bg: 'linear-gradient(135deg, #f0fdf4, #22c55e)' },
+    { id: 'chibi-detective', emoji: '🕵️', name: 'Thám Tử Tìm Lời Giải', bg: 'linear-gradient(135deg, #f8fafc, #475569)' },
+    { id: 'chibi-sun', emoji: '🌞', name: 'Mặt Trời Tỏa Sáng', bg: 'linear-gradient(135deg, #fef08a, #f59e0b)' },
+    { id: 'chibi-star', emoji: '⭐', name: 'Ngôi Sao Tri Thức', bg: 'linear-gradient(135deg, #fef9c3, #eab308)' },
+    { id: 'chibi-fire', emoji: '🔥', name: 'Ngọn Lửa Nhiệt Huyết', bg: 'linear-gradient(135deg, #fee2e2, #ef4444)' }
+  ];
+
+  function getChibiPreset(id) {
+    return CHIBI_PRESETS.find(p => p.id === id) || null;
+  }
+
+  function canManageAvatar() {
+    return (!currentUser || userRole === 'teacher' || userRole === 'monitor');
+  }
+
+  function getStudentAvatarHtml(student, size = 'md', extraClass = '') {
+    if (!student) return `<div class="avatar-circle avatar-${size} ${extraClass}">?</div>`;
+    const avatar = student.avatar;
+    const initial = student.name ? student.name.split(' ').pop().charAt(0).toUpperCase() : '?';
+
+    if (avatar && avatar.type === 'chibi') {
+      const preset = getChibiPreset(avatar.value);
+      if (preset) {
+        return `
+          <div class="avatar-circle avatar-${size} avatar-chibi-badge ${extraClass}" 
+               style="background: ${preset.bg};" 
+               title="${escapeHtml(student.name)} (${preset.name})">
+            <span class="avatar-emoji-chibi">${preset.emoji}</span>
+          </div>
+        `;
+      }
+    } else if (avatar && (avatar.type === 'image' || avatar.type === 'url') && avatar.value) {
+      return `
+        <div class="avatar-circle avatar-${size} avatar-img-badge ${extraClass}" 
+             title="${escapeHtml(student.name)}">
+          <img src="${escapeHtml(avatar.value)}" alt="${escapeHtml(student.name)}" class="avatar-img-round" onerror="this.parentElement.innerHTML='${initial}'">
+        </div>
+      `;
+    }
+
+    return `<div class="avatar-circle avatar-${size} ${extraClass}" title="${escapeHtml(student.name)}">${initial}</div>`;
+  }
+
+  let activeStudentForAvatar = null;
+
+  function openAvatarPickerModal(studentId) {
+    if (!canManageAvatar()) {
+      showToast('⚠️ Bạn không có quyền đổi ảnh đại diện. Chỉ Giáo viên và Lớp Trưởng mới có quyền này!', 'warning');
+      return;
+    }
+    const cls = getCurrentClass();
+    const student = cls.students.find(s => s.id === studentId);
+    if (!student) return;
+
+    activeStudentForAvatar = student;
+    updateAvatarPickerPreview(student);
+    renderChibiPresetsGrid(student.avatar);
+    switchAvatarPickerTab('chibi');
+    openModal('modal-avatar-picker');
+  }
+
+  function updateAvatarPickerPreview(student) {
+    const previewBox = document.getElementById('avatar-picker-preview-circle');
+    const nameEl = document.getElementById('avatar-picker-name');
+    const metaEl = document.getElementById('avatar-picker-meta');
+
+    if (nameEl) nameEl.textContent = student.name;
+    if (metaEl) metaEl.textContent = `Tổ ${student.team || 1} • SBD: ${student.sbd || '---'} • Hiện có ${student.points || 0} XP`;
+    if (previewBox) {
+      previewBox.outerHTML = getStudentAvatarHtml(student, 'lg', 'avatar-circle-lg').replace('id="avatar-picker-preview-circle"', '')
+        .replace('<div class="avatar-circle', '<div id="avatar-picker-preview-circle" class="avatar-circle');
+    }
+  }
+
+  function renderChibiPresetsGrid(currentAvatar) {
+    const grid = document.getElementById('chibi-presets-grid');
+    if (!grid) return;
+
+    const currentPresetId = (currentAvatar && currentAvatar.type === 'chibi') ? currentAvatar.value : '';
+
+    grid.innerHTML = CHIBI_PRESETS.map(preset => {
+      const isSelected = preset.id === currentPresetId;
+      return `
+        <button class="chibi-preset-item ${isSelected ? 'active' : ''}" type="button" data-preset-id="${preset.id}" title="${preset.name}">
+          <div class="chibi-avatar-circle" style="background: ${preset.bg};">
+            <span class="chibi-emoji">${preset.emoji}</span>
+          </div>
+          <span class="chibi-preset-name">${escapeHtml(preset.name)}</span>
+          ${isSelected ? '<span class="chibi-check-badge">✓ Đang Dùng</span>' : ''}
+        </button>
+      `;
+    }).join('');
+
+    grid.querySelectorAll('.chibi-preset-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const presetId = item.dataset.presetId;
+        applyStudentAvatar({ type: 'chibi', value: presetId });
+      });
+    });
+  }
+
+  function applyStudentAvatar(newAvatar) {
+    if (!activeStudentForAvatar) return;
+    const cls = getCurrentClass();
+    const stu = cls.students.find(s => s.id === activeStudentForAvatar.id);
+    if (!stu) return;
+
+    if (newAvatar) {
+      stu.avatar = newAvatar;
+    } else {
+      delete stu.avatar;
+    }
+
+    activeStudentForAvatar = stu;
+    saveState();
+    renderClassroomTab();
+    renderSeatingChart();
+    updateAvatarPickerPreview(stu);
+    renderChibiPresetsGrid(stu.avatar);
+    updateModalStudentAvatar(stu);
+
+    const presetName = newAvatar && newAvatar.type === 'chibi' ? (getChibiPreset(newAvatar.value)?.name || 'Chibi') : 'mới';
+    showToast(`🎉 Đã cập nhật ảnh đại diện chibi "${presetName}" cho em <strong>${escapeHtml(stu.name)}</strong>!`, 'success');
+  }
+
+  function updateModalStudentAvatar(student) {
+    const modalAvatar = document.getElementById('modal-student-avatar');
+    if (modalAvatar && student) {
+      modalAvatar.outerHTML = getStudentAvatarHtml(student, 'md', 'clickable').replace('<div class="avatar-circle', '<div id="modal-student-avatar" class="avatar-circle');
+      const refreshed = document.getElementById('modal-student-avatar');
+      if (refreshed) {
+        refreshed.onclick = () => openAvatarPickerModal(student.id);
+      }
+    }
+  }
+
+  function switchAvatarPickerTab(tab) {
+    const tabChibi = document.getElementById('tab-btn-chibi-presets');
+    const tabUpload = document.getElementById('tab-btn-upload-avatar');
+    const tabUrl = document.getElementById('tab-btn-url-avatar');
+    const viewChibi = document.getElementById('view-chibi-presets');
+    const viewUpload = document.getElementById('view-upload-avatar');
+    const viewUrl = document.getElementById('view-url-avatar');
+
+    [tabChibi, tabUpload, tabUrl].forEach(t => t?.classList.remove('active'));
+    if (viewChibi) viewChibi.style.display = 'none';
+    if (viewUpload) viewUpload.style.display = 'none';
+    if (viewUrl) viewUrl.style.display = 'none';
+
+    if (tab === 'upload') {
+      tabUpload?.classList.add('active');
+      if (viewUpload) viewUpload.style.display = 'block';
+    } else if (tab === 'url') {
+      tabUrl?.classList.add('active');
+      if (viewUrl) viewUrl.style.display = 'block';
+    } else {
+      tabChibi?.classList.add('active');
+      if (viewChibi) viewChibi.style.display = 'block';
+    }
+  }
+
+  function handleAvatarFileUpload(file) {
+    if (!file || !file.type.startsWith('image/')) {
+      showToast('⚠️ Vui lòng chọn tệp hình ảnh hợp lệ (PNG, JPG, WEBP)!', 'warning');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        // Tối ưu ảnh về kích thước 128x128 để lưu localStorage siêu nhẹ (khoảng 4-8KB)
+        const canvas = document.createElement('canvas');
+        canvas.width = 128;
+        canvas.height = 128;
+        const ctx = canvas.getContext('2d');
+        const minDim = Math.min(img.width, img.height);
+        const sx = (img.width - minDim) / 2;
+        const sy = (img.height - minDim) / 2;
+        ctx.drawImage(img, sx, sy, minDim, minDim, 0, 0, 128, 128);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+        applyStudentAvatar({ type: 'image', value: dataUrl });
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // ==========================================
+  // 14C. LẬT THẺ MA THUẬT 3D (3 CARDS SELECTION)
+  // ==========================================
+  let magicCardsCurrentPool = [];
+  let magicCardRevealedIndex = -1;
+
+  function openMagicCardModal() {
+    const candidates = getEligibleWheelStudents();
+    if (candidates.length === 0) {
+      AudioEngine.playNegative();
+      showToast('Đã gọi hết học sinh trong phạm vi! Vui lòng bấm "Làm mới" để quay lại.', 'warning');
+      return;
+    }
+
+    prepareMagicCards(candidates);
+    openModal('modal-card-flip');
+  }
+
+  function prepareMagicCards(candidates) {
+    magicCardRevealedIndex = -1;
+    const shuffled = [...candidates].sort(() => 0.5 - Math.random());
+    const count = Math.min(3, shuffled.length);
+    magicCardsCurrentPool = shuffled.slice(0, count);
+
+    const container = document.getElementById('magic-cards-container');
+    const resultPanel = document.getElementById('magic-card-result-panel');
+    if (resultPanel) resultPanel.style.display = 'none';
+
+    if (!container) return;
+    container.innerHTML = magicCardsCurrentPool.map((stu, idx) => `
+      <div class="magic-card" data-card-idx="${idx}" id="magic-card-${idx}">
+        <div class="magic-card-inner">
+          <div class="magic-card-face magic-card-back">
+            <div class="magic-card-rune">✦</div>
+            <div class="magic-card-number">Lá Bài #${idx + 1}</div>
+            <div class="magic-card-prompt">Bấm để lật</div>
+          </div>
+          <div class="magic-card-face magic-card-front">
+            <div class="magic-avatar-slot">${getStudentAvatarHtml(stu, 'lg', 'magic-card-revealed-avatar')}</div>
+            <div class="magic-revealed-name">${escapeHtml(stu.name)}</div>
+            <div class="magic-revealed-sub">Tổ ${stu.team || 1} • SBD: ${stu.sbd || '---'}</div>
+            <div class="magic-revealed-xp">${stu.points || 0} XP</div>
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    container.querySelectorAll('.magic-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const idx = parseInt(card.dataset.cardIdx, 10);
+        revealMagicCard(idx);
+      });
+    });
+  }
+
+  function revealMagicCard(selectedIdx) {
+    if (magicCardRevealedIndex !== -1) return; // Đã lật rồi
+    magicCardRevealedIndex = selectedIdx;
+
+    const chosenStudent = magicCardsCurrentPool[selectedIdx];
+    if (!chosenStudent) return;
+
+    // Đánh dấu đã gọi
+    calledStudents.add(chosenStudent.id);
+    updateCalledListUI();
+    updateWheelStudents();
+    drawWheel();
+
+    // Lật lá bài được chọn
+    const cardEl = document.getElementById(`magic-card-${selectedIdx}`);
+    if (cardEl) {
+      cardEl.classList.add('flipped', 'spotlight');
+    }
+
+    // Hiệu ứng âm thanh + pháo hoa
+    AudioEngine.playPositive();
+    AudioEngine.playFanfare();
+    Confetti.burst();
+
+    // Hiển thị khung kết quả & các nút chấm điểm
+    setTimeout(() => {
+      const resultPanel = document.getElementById('magic-card-result-panel');
+      const winnerName = document.getElementById('flip-winner-name');
+      const winnerBadge = document.getElementById('flip-winner-badge');
+
+      if (winnerName) winnerName.textContent = chosenStudent.name;
+      if (winnerBadge) winnerBadge.textContent = `Tổ ${chosenStudent.team || 1} • SBD: ${chosenStudent.sbd || '---'} • ${chosenStudent.points} XP`;
+      if (resultPanel) {
+        resultPanel.style.display = 'block';
+        resultPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }, 450);
+  }
+
   function openScoreModal(studentId) {
     const cls = getCurrentClass();
     const student = cls.students.find(s => s.id === studentId);
@@ -6053,7 +6946,7 @@
     activeStudentForModal = student;
     document.getElementById('modal-student-name').textContent = student.name;
     document.getElementById('modal-student-sub').textContent = `Tổ ${student.team} • SBD: ${student.sbd || '---'} • Hiện có: ${student.points} XP`;
-    document.getElementById('modal-student-avatar').textContent = student.name.split(' ').pop().charAt(0).toUpperCase();
+    updateModalStudentAvatar(student);
     renderCustomReasons();
     openModal('modal-score');
   }
@@ -6063,6 +6956,10 @@
   }
   function closeModal(id) {
     document.getElementById(id)?.classList.remove('open');
+    if (id === 'modal-winner' || id === 'modal-showdown' || id === 'modal-card-flip') {
+      updateWheelStudents();
+      drawWheel();
+    }
   }
 
   function applyTheme(theme) {
@@ -6337,8 +7234,23 @@
             const stuId = payload.new.id;
             appState.classes.forEach(c => {
               const s = c.students.find(st => st.id === stuId);
-              if (s && s.points !== payload.new.points) {
-                s.points = payload.new.points;
+              if (s) {
+                let changed = false;
+                if (s.points !== payload.new.points) {
+                  s.points = payload.new.points;
+                  changed = true;
+                }
+                const gradeFields = {
+                  dgtx1: 'dgtx1', dgtx2: 'dgtx2', dgtx3: 'dgtx3', dgtx4: 'dgtx4', dgtx5: 'dgtx5',
+                  giua_ky: 'giuaKy', cuoi_ky: 'cuoiKy'
+                };
+                Object.entries(gradeFields).forEach(([remoteField, localField]) => {
+                  if (payload.new[remoteField] !== undefined && s[localField] !== payload.new[remoteField]) {
+                    s[localField] = payload.new[remoteField];
+                    changed = true;
+                  }
+                });
+                if (!changed) return;
                 saveState();
                 renderClassroomTab();
                 renderSeatingChart();
@@ -6541,7 +7453,7 @@
     document.getElementById('btn-upload-to-cloud')?.addEventListener('click', uploadDataToSupabase);
     document.getElementById('btn-download-from-cloud')?.addEventListener('click', downloadDataFromSupabase);
 
-    
+
     // (Sự kiện học kỳ & nhật ký đối chiếu đã được cấu hình trong initEventListeners)
 
     // Copy mã SQL tạo bảng 1 chạm
@@ -6947,7 +7859,7 @@
   function saveKhbdMemo(grade, hk, tuan, text) {
     try {
       localStorage.setItem(`conic_khbd_memo_${grade}_${hk}_w${tuan}`, text);
-    } catch (e) {}
+    } catch (e) { }
   }
 
   // Quản lý trạng thái "Đã dạy" theo lớp
@@ -6970,7 +7882,7 @@
     const newVal = !curr;
     try {
       localStorage.setItem(key, String(newVal));
-    } catch (e) {}
+    } catch (e) { }
 
     const cls = getCurrentClass();
     const clsName = cls ? cls.name : '';
@@ -7191,9 +8103,9 @@
     if (nextAlertBox && nextAlertText) {
       const nextWeekData = weeks.find(w => w.tuan === weekData.tuan + 1);
       if (nextWeekData) {
-        const examPeriods = (nextWeekData.tiets || []).filter(p => 
-          p.type === 'exam' || 
-          /KTTX|kiểm tra|thi/i.test(p.tenBai || '') || 
+        const examPeriods = (nextWeekData.tiets || []).filter(p =>
+          p.type === 'exam' ||
+          /KTTX|kiểm tra|thi/i.test(p.tenBai || '') ||
           /KTTX|kiểm tra|thi/i.test(p.ghiChu || '')
         );
         const hasExamAlert = /kiểm tra|KTTX|thi|giữa kỳ|cuối kỳ/i.test(nextWeekData.alert || '');
@@ -7219,7 +8131,7 @@
     if (gridEl && weekData.tiets) {
       gridEl.innerHTML = weekData.tiets.map((period, idx) => {
         const taught = isPeriodTaught(classId, currentKhbdGrade, currentKhbdHk, weekData.tuan, idx);
-        
+
         let badgeClass = 'badge-ppct-standard';
         let badgeLabel = `Tiết ${period.ppct}`;
         if (period.type === 'chuyende') {

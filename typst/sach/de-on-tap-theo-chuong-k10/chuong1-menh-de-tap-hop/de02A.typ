@@ -172,8 +172,8 @@
         [${0; 1}$]
     ),
     loigiai: [
-        Vì $x in ZZ$ và $-2 < x <= 1$ nên $x$ có thể nhận các giá trị nguyên là $-1, 0, 1$.
-        Vậy $A = {-1; 0; 1}$.
+        - Vì $x in ZZ$ và $-2 < x <= 1$ nên $x$ có thể nhận các giá trị nguyên là $-1, 0, 1$.
+        - Vậy $A = {-1; 0; 1}$.
     ]
 )
 
@@ -186,7 +186,7 @@
         [$[3; 7]$]
     ),
     loigiai: [
-        Tập hợp các số thực $x$ thỏa mãn $3 <= x < 7$ được ký hiệu là nửa khoảng $[3; 7)$.
+        - Tập hợp các số thực $x$ thỏa mãn $3 <= x < 7$ được ký hiệu là nửa khoảng $[3; 7)$.
     ]
 )
 
@@ -247,8 +247,8 @@
         [$( -2 ; 3 )$]
     ),
     loigiai: [
-        Phần tô đậm nằm giữa số $-2$ và $3$. Tại $-2$ dùng ngoặc vuông "$[$" biểu thị lấy dấu bằng, tại $3$ dùng ngoặc tròn "$)$" biểu thị không lấy dấu bằng.
-        Vậy hình vẽ biểu diễn nửa khoảng $[ -2; 3 )$.
+        - Phần tô đậm nằm giữa số $-2$ và $3$. Tại $-2$ dùng ngoặc vuông "$[$" biểu thị lấy dấu bằng, tại $3$ dùng ngoặc tròn "$)$" biểu thị không lấy dấu bằng.
+        - Vậy hình vẽ biểu diễn nửa khoảng $[ -2; 3 )$.
     ]
 )
 
@@ -261,8 +261,8 @@
         [${d; e}$]
     ),
     loigiai: [
-        Tập hợp giao $A cap B$ gồm các phần tử vừa thuộc $A$ vừa thuộc $B$.
-        Ta thấy chỉ có phần tử $c$ là chung. Do đó $A cap B = {c}$.
+        - Tập hợp giao $A cap B$ gồm các phần tử vừa thuộc $A$ vừa thuộc $B$.
+        - Ta thấy chỉ có phần tử $c$ là chung. Do đó $A cap B = {c}$.
     ]
 )
 
@@ -277,7 +277,7 @@
     loigiai: [
         - $A$ chứa tất cả các số nhỏ hơn $5$.
         - $B$ chứa tất cả các số lớn hơn hoặc bằng $-2$.
-        Hợp của $A$ và $B$ sẽ che phủ toàn bộ trục số. Vậy $A cup B = RR$.
+        - Hợp của $A$ và $B$ sẽ che phủ toàn bộ trục số. Vậy $A cup B = RR$.
         
         #align(center)[
           #cetz.canvas({
@@ -313,8 +313,8 @@
         [$( -infty ; -1 ] cup [ 3 ; +infty )$]
     ),
     loigiai: [
-        Phần bù của $A$ trong $RR$ là $RR setminus A$.
-        $RR setminus [-1; 3) = (-infty; -1) cup [3; +infty)$.
+        - Phần bù của $A$ trong $RR$ là $RR setminus A$.
+        - $RR setminus [-1; 3) = (-infty; -1) cup [3; +infty)$.
     ]
 )
 
@@ -327,8 +327,8 @@
         [9]
     ),
     loigiai: [
-        Số tập hợp con của một tập hợp có $n$ phần tử là $2^n$.
-        Với $n = 3$, số tập hợp con là $2^3 = 8$.
+        - Số tập hợp con của một tập hợp có $n$ phần tử là $2^n$.
+        - Với $n = 3$, số tập hợp con là $2^3 = 8$.
     ]
 )
 
@@ -341,8 +341,8 @@
         [30]
     ),
     loigiai: [
-        Số học sinh CHỈ thích môn Toán bằng tổng số học sinh thích môn Toán trừ đi số học sinh thích cả hai môn:
-        $ n(text("Chỉ Toán")) = n(text("Toán")) - n(text("Toán và Văn")) = 25 - 15 = 10 $
+        - Số học sinh CHỈ thích môn Toán bằng tổng số học sinh thích môn Toán trừ đi số học sinh thích cả hai môn:
+        - $ n(text("Chỉ Toán")) = n(text("Toán")) - n(text("Toán và Văn")) = 25 - 15 = 10 $
         
         #venn2(
           title: "Lớp 10A (Khảo sát)",
@@ -365,10 +365,10 @@
         [8]
     ),
     loigiai: [
-        Vì $A subset X subset B$, tập $X$ bắt buộc phải chứa tất cả các phần tử của $A$ (tức là $x, y, z$).
-        Các phần tử còn lại của $X$ được chọn từ tập $B setminus A = {t; w}$.
-        Số cách chọn các phần tử thêm vào chính là số tập con của ${t; w}$.
-        Vì ${t; w}$ có 2 phần tử nên có $2^2 = 4$ tập con.
+        - Vì $A subset X subset B$, tập $X$ bắt buộc phải chứa tất cả các phần tử của $A$ (tức là $x, y, z$).
+        - Các phần tử còn lại của $X$ được chọn từ tập $B setminus A = {t; w}$.
+        - Số cách chọn các phần tử thêm vào chính là số tập con của ${t; w}$.
+        - Vì ${t; w}$ có 2 phần tử nên có $2^2 = 4$ tập con.
     ]
 )
 
@@ -381,8 +381,8 @@
         [$A setminus B = {x | x in A text(" và ") x in B}$]
     ),
     loigiai: [
-        Phép hiệu $A setminus B$ bao gồm những phần tử thuộc tập $A$ NHƯNG KHÔNG thuộc tập $B$.
-        Ký hiệu toán học: $A setminus B = {x | x in A text(" và ") x notin B}$.
+        - Phép hiệu $A setminus B$ bao gồm những phần tử thuộc tập $A$ NHƯNG KHÔNG thuộc tập $B$.
+        - Ký hiệu toán học: $A setminus B = {x | x in A text(" và ") x notin B}$.
     ]
 )
 
@@ -442,11 +442,11 @@ $Y = {x in RR | 1 < x <= 4}$],
   ),
   loigiai: [
     #step([Tìm các phần tử của tập X])
-    Giải phương trình $x^2 - 4x + 3 = 0 <=> x = 1$ hoặc $x = 3$. 
-    Vì $1, 3 in ZZ$ nên $X = {1; 3}$. Phát biểu a) Đúng.
+    - Giải phương trình $x^2 - 4x + 3 = 0 <=> x = 1$ hoặc $x = 3$.
+    - Vì $1, 3 in ZZ$ nên $X = {1; 3}$. Phát biểu a) Đúng.
 
     #step([Xét các phép toán tập hợp với Y])
-    $Y = (1; 4]$. 
+    - $Y = (1; 4]$.
     - $X setminus Y = {1}$. Phát biểu b) Đúng.
     - $X cap Y = {3}$. Phát biểu c) Đúng.
     - Vì $1 notin Y$ nên $X$ không phải là tập con của $Y$. Phát biểu d) Sai.
@@ -466,12 +466,12 @@ $Y = {x in RR | 1 < x <= 4}$],
   ),
   loigiai: [
     #step([Tính số học sinh thích ít nhất 1 môn])
-    $n(A cup B) = 100 - 15 = 85$. Vậy a) Đúng.
+    - $n(A cup B) = 100 - 15 = 85$. Vậy a) Đúng.
     
     #step([Tính số học sinh thích cả 2 môn])
-    Áp dụng công thức: $n(A cup B) = n(A) + n(B) - n(A cap B)$.
-    $85 = 60 + 45 - n(A cap B) => n(A cap B) = 105 - 85 = 20$.
-    Vậy có 20 học sinh thích cả hai môn. Phát biểu b) Sai.
+    - Áp dụng công thức: $n(A cup B) = n(A) + n(B) - n(A cap B)$.
+    - $85 = 60 + 45 - n(A cap B) => n(A cap B) = 105 - 85 = 20$.
+    - Vậy có 20 học sinh thích cả hai môn. Phát biểu b) Sai.
     
     #step([Tính số học sinh chỉ thích 1 môn])
     - Chỉ thích Bóng đá = $60 - 20 = 40$. Vậy c) Đúng.
@@ -510,17 +510,17 @@ $Y = {x in RR | 1 < x <= 4}$],
   ),
   loigiai: [
     #step([Phân tích điều kiện $A cap B != emptyset$])
-    $A cap B = emptyset <=> m+2 <= 3$ hoặc $m >= 5 <=> m <= 1$ hoặc $m >= 5$.
-    Để $A cap B != emptyset$, ta lấy phủ định: $1 < m < 5$. Vậy a) Đúng.
+    - $A cap B = emptyset <=> m+2 <= 3$ hoặc $m >= 5 <=> m <= 1$ hoặc $m >= 5$.
+    - Để $A cap B != emptyset$, ta lấy phủ định: $1 < m < 5$. Vậy a) Đúng.
     
     #step([Phân tích điều kiện $A subset B$])
-    Để $A = (m; m+2) subset B = [3; 5)$, ta cần:
-    $ 3 <= m text(" và ") m+2 <= 5 <=> m = 3 $
+    - Để $A = (m; m+2) subset B = [3; 5)$, ta cần:
+    - $ 3 <= m text(" và ") m+2 <= 5 <=> m = 3 $
     - Với $m=3$, $A = (3; 5) subset [3; 5)$. Vậy b) Đúng.
     - Chỉ có DUY NHẤT 1 giá trị $m=3$ nguyên. Vậy d) Sai.
     
     #step([Kiểm tra trường hợp $m=1$])
-    Nếu $m=1$, $A = (1; 3)$ và $B = [3; 5) => A cap B = emptyset$. c) Đúng.
+    - Nếu $m=1$, $A = (1; 3)$ và $B = [3; 5) => A cap B = emptyset$. c) Đúng.
   ]
 )
 
@@ -563,15 +563,15 @@ Hỏi có bao nhiêu khách hàng thích ăn ĐÚNG MỘT món (chỉ Phở ho�
     [35],
     loigiai: [
         #step([Tính số khách hàng thích ít nhất 1 món])
-        $50 - 5 = 45$ người.
+        - $50 - 5 = 45$ người.
         
         #step([Tính số người thích cả 2 món])
-        $n(P cap B) = 30 + 25 - 45 = 10$ người.
+        - $n(P cap B) = 30 + 25 - 45 = 10$ người.
         
         #step([Tính số người thích ĐÚNG 1 món])
         - Chỉ Phở: $30 - 10 = 20$ người.
         - Chỉ Bún chả: $25 - 10 = 15$ người.
-        Tổng số: $20 + 15 = 35$ người.
+        - Tổng số: $20 + 15 = 35$ người.
         
         #venn2(
           title: "Khảo sát: 50 khách hàng",
@@ -590,7 +590,7 @@ Hỏi có bao nhiêu khách hàng thích ăn ĐÚNG MỘT món (chỉ Phở ho�
     [3],
     loigiai: [
         #step([Thực hiện phép hiệu hai tập hợp])
-        $ S = (-5; -2) cup (1; 3) $
+        - $ S = (-5; -2) cup (1; 3) $
         
         #align(center)[
           #cetz.canvas({
@@ -615,7 +615,7 @@ Hỏi có bao nhiêu khách hàng thích ăn ĐÚNG MỘT món (chỉ Phở ho�
     [3],
     loigiai: [
         #step([Phân tích điều kiện $A cap B = emptyset$])
-        Để hai tập hợp không có điểm chung, ta cần $m <= 3$.
+        - Để hai tập hợp không có điểm chung, ta cần $m <= 3$.
         
         #align(center)[
           #cetz.canvas({
@@ -642,11 +642,11 @@ Hỏi có bao nhiêu khách hàng thích ăn ĐÚNG MỘT món (chỉ Phở ho�
     [4],
     loigiai: [
         #step([Biến đổi biểu thức])
-        $ (2x + 3)/(x - 1) = 2 + 5/(x - 1) $
-        Biểu thức nguyên $<=> x - 1 in "Ư"(5) = {1, -1, 5, -5}$.
+        - $ (2x + 3)/(x - 1) = 2 + 5/(x - 1) $
+        - Biểu thức nguyên $<=> x - 1 in "Ư"(5) = {1, -1, 5, -5}$.
         
         #step([Tìm x])
-        Các nghiệm $x in {-4; 0; 2; 6}$. Tập $M$ có $4$ phần tử.
+        - Các nghiệm $x in {-4; 0; 2; 6}$. Tập $M$ có $4$ phần tử.
     ]
 )
 
@@ -655,8 +655,8 @@ Hỏi có bao nhiêu khách hàng thích ăn ĐÚNG MỘT món (chỉ Phở ho�
     [19],
     loigiai: [
         #step([Sử dụng công thức biểu đồ Venn cho 3 tập hợp])
-        $ n(A cup B cup C) = n(A) + n(B) + n(C) - n(A cap B) - n(B cap C) - n(C cap A) + n(A cap B cap C) $
-        $ = 10 + 10 + 10 - 4 - 4 - 4 + 1 = 19 $
+        - $ n(A cup B cup C) = n(A) + n(B) + n(C) - n(A cap B) - n(B cap C) - n(C cap A) + n(A cap B cap C) $
+        - $ = 10 + 10 + 10 - 4 - 4 - 4 + 1 = 19 $
         
         #venn3(
           title: "Ba tập hợp A, B, C",

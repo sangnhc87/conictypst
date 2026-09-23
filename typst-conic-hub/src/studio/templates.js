@@ -92,6 +92,8 @@ ${SANG_MATH_IMPORT}
   subject: "TOÁN 12",
   duration: "90 phút",
   code: "101",
+  watermark: none, // Chữ in chìm: đổi thành [TÊN TRƯỜNG] hoặc "ĐỀ THI THỬ", hoặc để none nếu không dùng
+  watermark-opacity: 0.05, // Độ mờ chữ in chìm (0.01 đến 0.2)
   ..preset.template,
 )
 
@@ -461,6 +463,7 @@ export const AUTHORING_SNIPPETS = [
   { id: 'tln', label: '#TLN', text: '#tln(\n  [Nội dung câu hỏi],\n  [$42$],\n  id: "TLN01",\n  answer-value: "42",\n  accepted-answers: ("42", "42,0"),\n  tolerance: 0,\n  loigiai: [Lời giải.],\n)\n' },
   { id: 'tl', label: '#TL', text: '#tl(\n  [Nội dung câu tự luận],\n  lines: 6,\n  id: "TL01",\n  loigiai: [Lời giải chi tiết.],\n)\n' },
   { id: 'box', label: 'Hộp', text: '#block(fill: rgb("#eef7f1"), inset: 12pt, radius: 7pt)[\n  Nội dung nổi bật\n]\n' },
+  { id: 'watermark', label: 'Chữ in chìm', text: 'watermark: "ĐỀ THI THỬ", // Đổi thành [TÊN TRƯỜNG] hoặc none\nwatermark-opacity: 0.05,\n' },
 ]
 
 export function createProjectFromTemplate(templateId = 'full-exam', customName = '') {

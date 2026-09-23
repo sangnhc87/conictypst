@@ -564,6 +564,7 @@
       <!-- ================= TAB 4: VÒNG QUAY & GỌI TÊN ================= -->
       <section id="tab-wheel" class="tab-pane">
         <div class="wheel-layout">
+          <!-- Cột 1: Vòng quay may mắn -->
           <div class="clean-card wheel-card">
             <div class="wheel-pointer">▼</div>
             <canvas id="wheel-canvas" width="460" height="460"></canvas>
@@ -572,6 +573,35 @@
             </button>
           </div>
 
+          <!-- Cột 2: Bảng Kết Quả Random & Chấm Điểm Lên Bảng (Cột trung tâm rộng rãi) -->
+          <div class="clean-card wheel-called-panel">
+            <div class="flex-between mb-3" style="align-items: center; gap: 8px; border-bottom: 1.5px solid var(--border); padding-bottom: 10px;">
+              <div>
+                <h3 class="box-title mb-0" style="display: flex; align-items: center; gap: 8px; font-size: 1.05rem;">
+                  <span>📋 Bảng Kết Quả Random</span>
+                  <span id="called-count" class="called-count-badge">0</span>
+                </h3>
+                <small style="color: var(--text-muted); font-size: 0.78rem;">Chấm điểm trực tiếp (+ / -) khi học sinh làm bài xong</small>
+              </div>
+              <div class="called-header-actions" style="display: flex; align-items: center; gap: 8px;">
+                <button id="btn-reward-all-called" class="btn-link-clean" title="Thưởng +1 XP cho tất cả bạn trong danh sách đã gọi" style="display: none; color: #10b981; font-weight: 700; font-size: 0.82rem; background: #ecfdf5; padding: 4px 10px; border-radius: 6px; border: 1px solid #a7f3d0;">
+                  🌟 +1 Tất cả
+                </button>
+                <button id="btn-reset-called" class="btn-link-clean" title="Xóa danh sách đã gọi để quay vòng mới" style="font-size: 0.82rem; padding: 4px 8px; border: 1px solid var(--border); border-radius: 6px;">
+                  🔄 Làm mới
+                </button>
+              </div>
+            </div>
+            <div id="called-students-list" class="called-list-container">
+              <div class="called-empty-state">
+                <span class="called-empty-icon">🎯</span>
+                <span class="called-empty-text">Chưa gọi bạn nào lên bảng</span>
+                <small style="color: var(--text-muted); margin-top: 4px;">Quay bánh xe hoặc chọn chế độ gọi để hiển thị danh sách tại đây</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cột 3: Tùy chọn & Cách gọi khác -->
           <div class="wheel-side-panel">
             <div class="clean-card side-box">
               <h3 class="box-title">⚙️ Tùy Chọn Gọi Tên</h3>
@@ -625,16 +655,6 @@
                     <small>Hát, nhảy lò cò, chép công thức (khi chưa thuộc bài)</small>
                   </div>
                 </button>
-              </div>
-            </div>
-
-            <div class="clean-card side-box">
-              <div class="flex-between mb-2">
-                <h3 class="box-title mb-0">📋 Đã Gọi (<span id="called-count">0</span>)</h3>
-                <button id="btn-reset-called" class="btn-link-clean" title="Xóa danh sách đã gọi để quay vòng mới">🔄 Làm mới</button>
-              </div>
-              <div id="called-students-list" class="called-chips-container">
-                <span class="empty-text">Chưa gọi bạn nào</span>
               </div>
             </div>
           </div>
@@ -1264,9 +1284,14 @@ Phan Huỳnh Anh	2	1202
     <div class="modal-box">
       <div class="modal-top">
         <div class="stu-info-flex">
-          <div id="modal-student-avatar" class="avatar-circle">A</div>
+          <div id="modal-student-avatar" class="avatar-circle clickable" title="Bấm để đổi ảnh đại diện">A</div>
           <div>
-            <h3 id="modal-student-name">...</h3>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <h3 id="modal-student-name" style="margin: 0;">...</h3>
+              <button id="btn-modal-change-avatar" class="btn-sub-action btn-change-avatar-pill" type="button" title="Đổi ảnh đại diện Chibi dễ thương (Thầy/Cô và Lớp Trưởng đều có quyền đổi)">
+                🎨 Đổi Ảnh Chibi
+              </button>
+            </div>
             <span id="modal-student-sub" class="text-muted small">...</span>
           </div>
         </div>
@@ -1560,26 +1585,163 @@ Phan Huỳnh Anh	2	1202
     </div>
   </div>
 
-  <!-- Modal Lật Thẻ Bí Ẩn -->
+  <!-- Modal Lật Thẻ Bí Ẩn (3-Card Magic Tarot Draw) -->
   <div id="modal-card-flip" class="modal-overlay">
-    <div class="modal-box text-center">
+    <div class="modal-box modal-lg text-center magic-card-modal-box" style="max-width: 680px;">
       <div class="modal-top">
-        <h3 class="modal-title">🃏 LẬT THẺ BÍ ẨN</h3>
-        <button class="btn-modal-close" data-close="modal-card-flip">&times;</button>
+        <div style="text-align: left;">
+          <h3 class="modal-title" style="display: flex; align-items: center; gap: 8px;">
+            <span>🃏</span> LẬT THẺ BÍ ẨN • BỐC THĂM LÊN BẢNG
+          </h3>
+          <p class="text-muted small" style="margin: 3px 0 0; color: #cbd5e1;">
+            Thầy/Cô và học sinh chọn 1 trong 3 lá bài ma thuật úp mặt để hé lộ bạn học sinh may mắn!
+          </p>
+        </div>
+        <button class="btn-modal-close" data-close="modal-card-flip" style="color: #cbd5e1;">&times;</button>
       </div>
-      <div class="flip-card-container" id="flip-card-element">
-        <div class="flip-card-inner">
-          <div class="flip-card-front">
-            <span style="font-size: 3.5rem;">❓</span>
-            <p class="mt-2 text-muted">Chạm để lật bài</p>
+
+      <!-- Hướng dẫn giáo viên sử dụng -->
+      <div class="magic-card-guide-banner">
+        <span class="guide-icon">💡</span>
+        <span class="guide-text"><strong>Cách dùng trong tiết học:</strong> Thầy/Cô mời cả lớp hoặc một bạn chọn <strong>Lá bài 1, 2 hay 3</strong>. Bấm vào lá bài được chọn để xoay 3D hé lộ bạn lên bảng giải toán!</span>
+      </div>
+
+      <!-- 3 Lá Bài Ma Thuật -->
+      <div class="magic-cards-wrapper" id="magic-cards-container">
+        <!-- Render bằng JS -->
+      </div>
+
+      <!-- Khung Chấm Điểm & Thao Tác Sau Khi Đã Lật Bài -->
+      <div id="magic-card-result-panel" class="magic-result-panel" style="display: none;">
+        <div class="magic-winner-meta">
+          <span class="magic-winner-title">🎯 BẠN ĐÃ ĐƯỢC CHỌN LÊN BẢNG:</span>
+          <h2 id="flip-winner-name" class="magic-winner-name">...</h2>
+          <div id="flip-winner-badge" class="team-tag" style="font-size: 0.9rem; padding: 4px 14px; margin-top: 4px;">Tổ 1 • SBD: ...</div>
+        </div>
+
+        <!-- Chấm điểm sư phạm sau khi giải bài -->
+        <div class="magic-grading-box">
+          <div style="font-weight: 700; font-size: 0.88rem; color: #f8fafc; margin-bottom: 8px;">
+            📝 Nhận xét & Chấm điểm sau khi học sinh làm bài xong:
           </div>
-          <div class="flip-card-back">
-            <div class="avatar-circle-lg" id="flip-avatar">H</div>
-            <h4 id="flip-name" class="mt-2">...</h4>
-            <span id="flip-team" class="team-tag">Tổ 4</span>
-            <button class="btn-sub-action btn-add-stu mt-3" id="btn-flip-add-point">+1 Điểm May Mắn</button>
+          <div class="magic-grade-actions">
+            <button id="btn-flip-grade-p2" class="btn-grade-choice p2" type="button" title="Giải xuất sắc / sáng tạo (+2 XP)">
+              <span class="grade-icon">🌟</span>
+              <div>
+                <strong>Xuất Sắc</strong>
+                <small>+2 XP</small>
+              </div>
+            </button>
+            <button id="btn-flip-grade-p1" class="btn-grade-choice p1" type="button" title="Làm đạt yêu cầu / đúng (+1 XP)">
+              <span class="grade-icon">👍</span>
+              <div>
+                <strong>Đạt Bài</strong>
+                <small>+1 XP</small>
+              </div>
+            </button>
+            <button id="btn-flip-grade-p0" class="btn-grade-choice p0" type="button" title="Hoàn thành lượt gọi (0 XP)">
+              <span class="grade-icon">👌</span>
+              <div>
+                <strong>Hoàn Thành</strong>
+                <small>0 XP</small>
+              </div>
+            </button>
+            <button id="btn-flip-grade-m1" class="btn-grade-choice m1" type="button" title="Chưa chuẩn bị bài / chưa thuộc công thức (-1 XP)">
+              <span class="grade-icon">⚠️</span>
+              <div>
+                <strong>Chưa Thuộc</strong>
+                <small>-1 XP</small>
+              </div>
+            </button>
           </div>
         </div>
+
+        <!-- Nút phụ: Bốc lại lượt mới, đổi avatar, chấm chi tiết -->
+        <div class="magic-bottom-actions">
+          <button id="btn-flip-draw-another" class="btn-sub-action" type="button" style="border-color: #818cf8; color: #c7d2fe; background: rgba(99, 102, 241, 0.15); font-weight: 700;">
+            🔄 Xáo 3 Thẻ Mới
+          </button>
+          <button id="btn-flip-change-avatar" class="btn-sub-action" type="button" style="border-color: #34d399; color: #a7f3d0; background: rgba(16, 185, 129, 0.15); font-weight: 700;">
+            🎨 Đổi Ảnh Chibi
+          </button>
+          <button id="btn-flip-open-detail" class="btn-sub-action" type="button" style="color: #f1f5f9; border-color: rgba(255,255,255,0.2);">
+            📋 Chấm Điểm Chi Tiết
+          </button>
+          <button class="btn-sub-action" data-close="modal-card-flip" type="button" style="color: #f1f5f9; border-color: rgba(255,255,255,0.2);">
+            Đóng
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Chọn Ảnh Đại Diện Chibi & Tải Ảnh -->
+  <div id="modal-avatar-picker" class="modal-overlay">
+    <div class="modal-box modal-md text-center" style="max-width: 620px;">
+      <div class="modal-top">
+        <div style="text-align: left;">
+          <h3 class="modal-title" style="display: flex; align-items: center; gap: 8px;">
+            <span>🎭</span> CHỌN ẢNH ĐẠI DIỆN CHIBI
+          </h3>
+          <p class="text-muted small" style="margin: 3px 0 0;">
+            Đặt ảnh đại diện cho học sinh (Cả Thầy/Cô và Lớp Trưởng đều có quyền cập nhật)
+          </p>
+        </div>
+        <button class="btn-modal-close" data-close="modal-avatar-picker">&times;</button>
+      </div>
+
+      <!-- Preview hiện tại -->
+      <div class="avatar-picker-preview-box">
+        <div id="avatar-picker-preview-circle" class="avatar-circle avatar-circle-lg">?</div>
+        <div style="text-align: left;">
+          <div id="avatar-picker-name" style="font-weight: 800; font-size: 1.15rem; color: var(--text-main);">...</div>
+          <div id="avatar-picker-meta" class="text-muted small">Tổ 1 • SBD: ...</div>
+        </div>
+      </div>
+
+      <!-- Tab chọn loại avatar -->
+      <div class="avatar-tabs-bar">
+        <button class="avatar-tab-btn active" id="tab-btn-chibi-presets" type="button">🧸 Kho Chibi (32 Mẫu)</button>
+        <button class="avatar-tab-btn" id="tab-btn-upload-avatar" type="button">📁 Tải Ảnh Từ Máy</button>
+        <button class="avatar-tab-btn" id="tab-btn-url-avatar" type="button">🔗 Link Ảnh Online</button>
+      </div>
+
+      <!-- View 1: Chibi Presets Grid -->
+      <div id="view-chibi-presets" class="avatar-picker-view-pane active">
+        <div class="chibi-grid-scroll">
+          <div class="chibi-presets-grid" id="chibi-presets-grid">
+            <!-- 32 cute chibi cards dynamically rendered -->
+          </div>
+        </div>
+      </div>
+
+      <!-- View 2: Upload File -->
+      <div id="view-upload-avatar" class="avatar-picker-view-pane" style="display: none; padding: 14px 4px;">
+        <div class="avatar-dropzone" id="avatar-upload-dropzone">
+          <span style="font-size: 2.8rem;">📸</span>
+          <div style="font-weight: 700; margin-top: 8px; color: var(--primary-dark); font-size: 1rem;">
+            Bấm vào đây để chọn ảnh từ máy tính hoặc điện thoại
+          </div>
+          <p class="text-muted small" style="margin-top: 4px;">Hỗ trợ định dạng JPG, PNG, WEBP, GIF (Tự động nén thành avatar tròn)</p>
+          <input type="file" id="input-avatar-file" accept="image/*" style="display: none;">
+        </div>
+      </div>
+
+      <!-- View 3: URL Image -->
+      <div id="view-url-avatar" class="avatar-picker-view-pane" style="display: none; padding: 20px 10px;">
+        <p class="text-muted small" style="margin-bottom: 8px; text-align: left;">Dán đường dẫn (link) ảnh trên mạng vào đây:</p>
+        <div style="display: flex; gap: 8px;">
+          <input type="url" id="input-avatar-url" placeholder="https://example.com/avatar.jpg" class="clean-input flex-1">
+          <button id="btn-apply-avatar-url" class="btn-primary" type="button">Áp Dụng</button>
+        </div>
+      </div>
+
+      <!-- Footer actions -->
+      <div class="modal-actions" style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+        <button id="btn-reset-default-avatar" class="btn-sub-action" type="button" style="color: #ef4444; border-color: #fca5a5; font-size: 0.85rem;">
+          ✕ Khôi phục chữ cái đầu
+        </button>
+        <button class="btn-sub-action" data-close="modal-avatar-picker" type="button">Đóng</button>
       </div>
     </div>
   </div>

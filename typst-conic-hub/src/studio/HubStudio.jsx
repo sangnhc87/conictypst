@@ -51,6 +51,7 @@ import {
   fetchStudioStats,
   identityAuth
 } from './firebaseSync.js'
+import ConverterStudio from './ConverterStudio.jsx'
 
 const TYPST_TS_VERSION = '0.8.0-rc3'
 const RENDERER_WASM_URL = `https://cdn.jsdelivr.net/npm/@myriaddreamin/typst-ts-renderer@${TYPST_TS_VERSION}/pkg/typst_ts_renderer_bg.wasm`
@@ -1079,6 +1080,7 @@ export default function HubStudio({ initialTemplateId, initialBridge, onExit, on
   const [themeDesignerOpen, setThemeDesignerOpen] = useState(false)
   const [commandOpen, setCommandOpen] = useState(false)
   const [problemsOpen, setProblemsOpen] = useState(false)
+  const [converterOpen, setConverterOpen] = useState(false)
   const [projectSearch, setProjectSearch] = useState('')
   const [macroSearch, setMacroSearch] = useState('')
   const [toast, setToast] = useState(null)
@@ -2458,6 +2460,7 @@ ${allBlocks.map(block => (block.hasHash ? block.text : `#${block.text}`)).join('
         </nav>
         <div className="studio-header__actions">
           <button type="button" className="studio-button studio-button--templates" onClick={() => setNewProjectOpen(true)}><span>＋</span> Mẫu soạn</button>
+          <button type="button" className="studio-button studio-button--converter" onClick={() => setConverterOpen(true)} title="Mở Bộ Chuyển Đổi Đa Năng Conic Typst Convert (Word · LaTeX · AI ↔ Typst sang-math:1.0.5 ↔ Word Cloud Run)"><span>🔄</span> Conic Convert</button>
           {readyDocx ? (
             <a className="studio-button studio-button--word" href={readyDocx.url} download={readyDocx.fileName} onClick={() => notify('Đang tải ZIP 3 bản Word về máy')} title="Tải ZIP 3 bản Word (đề · lời giải · đáp án)"><span>W</span> Tải Word</a>
           ) : (
@@ -2744,6 +2747,35 @@ ${allBlocks.map(block => (block.hasHash ? block.text : `#${block.text}`)).join('
       <AiQuickFixDialog open={aiQuickFixOpen} diagnostic={aiQuickFixDiagnostic} project={project} activeFilePath={activeFilePath} onClose={() => setAiQuickFixOpen(false)} onApply={applyQuickFix} />
       <UpgradeDialog open={upgradeDialogOpen} onClose={() => setUpgradeDialogOpen(false)} onUpgrade={onUpgrade} onLogin={handleGoogleSignIn} currentUser={currentUser} authLoading={authLoading} isPro={isCloudPro} />
       <ProHonorDialog open={proHonorOpen} onClose={() => setProHonorOpen(false)} onCloud={() => setSidebarMode('cloud')} />
+      {converterOpen && (
+        <ConverterStudio
+          initialTypstCode={activeFile?.kind === 'text' ? activeFile.content : ''}
+          onClose={() => setConverterOpen(false)}
+          onApplyToEditor={async (newTypstCode, newImages = {}) => {
+            if (!project) return
+            const next = { ...project, files: { ...project.files } }
+            const targetPath = activeFilePath || project.entryPath
+            next.files[targetPath] = {
+              kind: 'text',
+              content: newTypstCode
+            }
+            for (const [imgName, imgBlob] of Object.entries(newImages)) {
+              const imgPath = `/project/${imgName}`
+              next.files[imgPath] = {
+                kind: 'binary',
+                content: imgBlob
+              }
+            }
+            const saved = await saveProject(next)
+            setProject(saved)
+            setCompileStatus('waiting')
+            setIsDirty(true)
+            setConverterOpen(false)
+            notify('Đã nạp mã Typst và hình ảnh vào Editor thành công!')
+          }}
+          notify={notify}
+        />
+      )}
       {toast && <div className={`studio-toast ${toast.tone}`}><span>{toast.tone === 'error' ? '!' : '✓'}</span>{toast.message}</div>}
       <button type="button" className="danger-project-delete" onClick={removeCurrentProject} title="Xóa dự án hiện tại">Xóa dự án</button>
     </div>

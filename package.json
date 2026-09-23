@@ -37,6 +37,7 @@
     "stexgv:mix": "node scripts/stexgv-typst-bridge.mjs mix",
     "new:exam": "node scripts/new-exam.js",
     "compile:exam": "sh -c 'exam=${npm_config_de:-$1}; typst compile --font-path src/assets/fonts --font-path fonts \"typst/exams/$exam.typ\" --root .' --",
+    "omr:key": "node scripts/generate-omr-key-qr.cjs",
     "compile:beamer": "sh -c 'exam=${npm_config_de:-$1}; typst compile --font-path src/assets/fonts --font-path fonts \"typst/exams/${exam}-beamer.typ\" --root .' --",
     "compile:Beamer": "typst compile --font-path src/assets/fonts --font-path fonts --root . --input beamer=1 typst/Beamer.typ",
     "watch:Beamer": "typst watch --font-path src/assets/fonts --font-path fonts --root . --input beamer=1 typst/Beamer.typ",

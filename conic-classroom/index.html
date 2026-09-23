@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>ConicClassroom — Trợ Lý Lớp Học & Sổ Điểm Thông Minh</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="if(window.renderMathInElement) renderMathInElement(document.body);"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="if(window.renderMathInElement) renderMathInElement(document.body);"></script>
 </head>
+
 <body class="theme-light">
   <canvas id="confetti-canvas"></canvas>
 
@@ -110,7 +115,8 @@
                 <span class="item-desc">Kho 210 học liệu, giáo án & chuyên đề soạn sẵn</span>
               </div>
             </a>
-            <a class="nav-drop-item" href="https://beamer-sangnhc.pages.dev/" target="_blank" style="text-decoration: none;">
+            <a class="nav-drop-item" href="https://beamer-sangnhc.pages.dev/" target="_blank"
+              style="text-decoration: none;">
               <span class="item-icon">📺</span>
               <div class="item-text">
                 <span class="item-name">Slide Trình Chiếu Beamer</span>
@@ -122,7 +128,8 @@
 
         <!-- Nhóm 3: Quản Trị & Hệ Thống -->
         <div class="nav-drop-group" data-group="admin" id="nav-group-admin">
-          <button class="nav-drop-trigger teacher-only" id="trigger-group-admin" type="button" title="Quản trị lớp & Trợ giúp">
+          <button class="nav-drop-trigger teacher-only" id="trigger-group-admin" type="button"
+            title="Quản trị lớp & Trợ giúp">
             <span class="tab-icon">🛠️</span>
             <span class="trigger-label" id="label-group-admin">Quản Trị & HDSD</span>
             <span class="drop-arrow">▾</span>
@@ -152,10 +159,14 @@
         <div id="auth-status-container" class="auth-status-wrap">
           <button id="btn-google-login" class="btn-google-auth" title="Đăng nhập Gmail (Thầy giáo hoặc Lớp trưởng)">
             <svg class="google-g-icon" viewBox="0 0 24 24" width="16" height="16">
-              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
-              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+              <path fill="#4285F4"
+                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+              <path fill="#34A853"
+                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+              <path fill="#FBBC05"
+                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" />
+              <path fill="#EA4335"
+                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
             </svg>
             <span id="google-auth-text">Đăng Nhập</span>
           </button>
@@ -178,13 +189,16 @@
         </div>
 
         <div class="quick-icons">
-          <button id="btn-open-remote-modal" class="icon-btn teacher-only" title="📱 Remote Điều Khiển Từ Xa (Dùng trên điện thoại)" style="background: rgba(16, 185, 129, 0.12); color: #059669; border-color: #10b981;">
+          <button id="btn-open-remote-modal" class="icon-btn teacher-only"
+            title="📱 Remote Điều Khiển Từ Xa (Dùng trên điện thoại)"
+            style="background: rgba(16, 185, 129, 0.12); color: #059669; border-color: #10b981;">
             📱
           </button>
           <button id="btn-show-cloud-settings" class="icon-btn" title="Cài đặt Supabase Cloud & Đăng nhập">
             ☁️
           </button>
-          <button id="btn-header-officers" class="icon-btn teacher-only" title="Ban Cán Sự & Phân Quyền Gmail (Lớp Trưởng/Phó)">
+          <button id="btn-header-officers" class="icon-btn teacher-only"
+            title="Ban Cán Sự & Phân Quyền Gmail (Lớp Trưởng/Phó)">
             🛡️
           </button>
           <button id="btn-toggle-sound" class="icon-btn" title="Bật/Tắt âm thanh">
@@ -272,8 +286,10 @@
 
     <!-- Thông báo chế độ Học Sinh -->
     <div id="student-notice-banner" class="student-notice-bar" style="display: none;">
-      <span>🎓 <strong>Chế độ Học Sinh (Chỉ xem):</strong> Thầy cô đã khóa chỉnh sửa. Các em hãy tra cứu điểm cá nhân, xem sơ đồ lớp và bảng xếp hạng!</span>
-      <button id="btn-banner-unlock" class="btn-text-small text-accent" style="margin-left: 12px; font-weight: 700; cursor: pointer;">Thầy cô mở khóa?</button>
+      <span>🎓 <strong>Chế độ Học Sinh (Chỉ xem):</strong> Thầy cô đã khóa chỉnh sửa. Các em hãy tra cứu điểm cá nhân,
+        xem sơ đồ lớp và bảng xếp hạng!</span>
+      <button id="btn-banner-unlock" class="btn-text-small text-accent"
+        style="margin-left: 12px; font-weight: 700; cursor: pointer;">Thầy cô mở khóa?</button>
     </div>
 
     <!-- ================= 3. MAIN CONTENT VIEW ================= -->
@@ -290,9 +306,10 @@
               <button class="filter-pill" data-team="2">Tổ 2</button>
               <button class="filter-pill" data-team="3">Tổ 3</button>
               <button class="filter-pill" data-team="4">Tổ 4</button>
-              <button class="filter-pill text-danger" data-team="weak" title="Lọc các bạn cần hỗ trợ gỡ điểm (ĐTB < 5 hoặc ít phát biểu)">🆘 Cần Giúp Đỡ</button>
+              <button class="filter-pill text-danger" data-team="weak"
+                title="Lọc các bạn cần hỗ trợ gỡ điểm (ĐTB < 5 hoặc ít phát biểu)">🆘 Cần Giúp Đỡ</button>
             </div>
-            
+
             <div class="search-input-pill">
               <span>🔍</span>
               <input type="text" id="student-search-input" placeholder="Tìm tên hoặc STT...">
@@ -303,16 +320,20 @@
             <button id="btn-batch-team" class="btn-sub-action btn-team-reward" title="Cộng điểm thi đua cho cả tổ">
               <span>🤝</span> Điểm Cả Tổ
             </button>
-            <button id="btn-assign-teams" class="btn-sub-action btn-assign-team" title="Phân bổ và sắp xếp học sinh vào các tổ">
+            <button id="btn-assign-teams" class="btn-sub-action btn-assign-team"
+              title="Phân bổ và sắp xếp học sinh vào các tổ">
               <span>🗂️</span> Phân Tổ
             </button>
-            <button id="btn-open-officers-modal" class="btn-sub-action btn-officers-action" title="Quản lý Ban cán sự & Phân quyền Gmail cho lớp">
+            <button id="btn-open-officers-modal" class="btn-sub-action btn-officers-action"
+              title="Quản lý Ban cán sự & Phân quyền Gmail cho lớp">
               <span>🛡️</span> Ban Cán Sự
             </button>
-            <button id="btn-open-audit-log" class="btn-sub-action btn-audit-action" title="Nhật ký đối chiếu điểm toàn lớp & từng học sinh">
+            <button id="btn-open-audit-log" class="btn-sub-action btn-audit-action"
+              title="Nhật ký đối chiếu điểm toàn lớp & từng học sinh">
               <span>📜</span> Nhật Ký Đối Chiếu
             </button>
-            <button id="btn-open-missions" class="btn-sub-action btn-missions-action" title="Nhiệm vụ học tập & chia nhóm tự động rã điểm XP">
+            <button id="btn-open-missions" class="btn-sub-action btn-missions-action"
+              title="Nhiệm vụ học tập & chia nhóm tự động rã điểm XP">
               <span>🎯</span> Nhiệm Vụ Nhóm
             </button>
             <button id="btn-batch-select" class="btn-sub-action" title="Chọn nhiều học sinh cùng lúc">
@@ -349,7 +370,7 @@
       </section>
 
       <!-- ================= TAB 2: SƠ ĐỒ CHỖ NGỒI LỚP HỌC (SEATING CHART) ================= -->
-      
+
       <!-- ================= TAB 2: NHIỆM VỤ HỌC TẬP & PHÂN NHÓM (DEDICATED) ================= -->
       <section id="tab-missions" class="tab-pane">
         <div class="clean-card mission-card-wide">
@@ -358,16 +379,18 @@
             <div>
               <h2 class="box-title mb-1" style="font-size: 1.3rem;">🎯 Nhiệm Vụ Học Tập & Phân Nhóm Linh Hoạt</h2>
               <p class="text-muted small mb-0">
-                Lớp: <strong id="mission-class-name" class="text-main">...</strong> • 
-                <span id="mission-sem-badge" class="badge-pill">🍂 Học Kỳ I</span> • 
+                Lớp: <strong id="mission-class-name" class="text-main">...</strong> •
+                <span id="mission-sem-badge" class="badge-pill">🍂 Học Kỳ I</span> •
                 Hỗ trợ chia ngẫu nhiên & thủ công, tự động rã điểm XP về từng bạn trong nhóm
               </p>
             </div>
             <div class="mission-top-actions">
-              <button id="btn-view-missions-history" class="btn-sub-action" type="button" title="Xem các nhiệm vụ đã thực hiện trong học kỳ">
+              <button id="btn-view-missions-history" class="btn-sub-action" type="button"
+                title="Xem các nhiệm vụ đã thực hiện trong học kỳ">
                 📜 Sổ Nhiệm Vụ (<span id="mission-history-count">0</span>)
               </button>
-              <button id="btn-save-current-mission" class="btn-sub-action btn-add-stu" type="button" title="Lưu nhiệm vụ này vào nhật ký học kỳ">
+              <button id="btn-save-current-mission" class="btn-sub-action btn-add-stu" type="button"
+                title="Lưu nhiệm vụ này vào nhật ký học kỳ">
                 💾 Lưu Nhiệm Vụ
               </button>
             </div>
@@ -376,19 +399,27 @@
           <!-- Thiết lập nhiệm vụ -->
           <div class="mission-setup-box mb-3 p-3">
             <div class="form-group-clean mb-2">
-              <label style="font-weight: 700; font-size: 0.85rem; color: var(--text-main);">Tên Nhiệm Vụ / Hoạt Động Cần Chấm:</label>
+              <label style="font-weight: 700; font-size: 0.85rem; color: var(--text-main);">Tên Nhiệm Vụ / Hoạt Động Cần
+                Chấm:</label>
               <div class="flex-gap">
-                <input type="text" id="mission-title-input" class="clean-input flex-1" placeholder="Nhập tên nhiệm vụ (vd: Phiếu học tập 1, Hoạt động mảnh ghép, Thuyết trình...)" value="Nhiệm vụ 1: Hoạt động nhóm">
+                <input type="text" id="mission-title-input" class="clean-input flex-1"
+                  placeholder="Nhập tên nhiệm vụ (vd: Phiếu học tập 1, Hoạt động mảnh ghép, Thuyết trình...)"
+                  value="Nhiệm vụ 1: Hoạt động nhóm">
               </div>
             </div>
-            
+
             <div class="mission-preset-pills mb-3">
               <span class="small text-muted" style="font-weight: 600;">Mẫu nhanh:</span>
-              <button class="mission-preset-pill" type="button" data-name="Phiếu học tập số 1">📝 Phiếu học tập 1</button>
-              <button class="mission-preset-pill" type="button" data-name="Hoạt động mảnh ghép (Jigsaw)">🧩 Mảnh ghép (Jigsaw)</button>
-              <button class="mission-preset-pill" type="button" data-name="Thuyết trình chuyên đề">📢 Thuyết trình</button>
-              <button class="mission-preset-pill" type="button" data-name="Giải toán tiếp sức">⚡ Giải toán tiếp sức</button>
-              <button class="mission-preset-pill" type="button" data-name="Bài tập nhóm tại lớp">📚 Bài tập nhóm</button>
+              <button class="mission-preset-pill" type="button" data-name="Phiếu học tập số 1">📝 Phiếu học tập
+                1</button>
+              <button class="mission-preset-pill" type="button" data-name="Hoạt động mảnh ghép (Jigsaw)">🧩 Mảnh ghép
+                (Jigsaw)</button>
+              <button class="mission-preset-pill" type="button" data-name="Thuyết trình chuyên đề">📢 Thuyết
+                trình</button>
+              <button class="mission-preset-pill" type="button" data-name="Giải toán tiếp sức">⚡ Giải toán tiếp
+                sức</button>
+              <button class="mission-preset-pill" type="button" data-name="Bài tập nhóm tại lớp">📚 Bài tập
+                nhóm</button>
               <button class="mission-preset-pill" type="button" data-name="Thảo luận sâu">💡 Thảo luận sâu</button>
             </div>
 
@@ -427,7 +458,8 @@
               </div>
               <div class="mission-ctrl-item mission-btn-col">
                 <label>&nbsp;</label>
-                <button id="btn-generate-teams" class="btn-sub-action btn-team-reward btn-generate-mission-teams" type="button">
+                <button id="btn-generate-teams" class="btn-sub-action btn-team-reward btn-generate-mission-teams"
+                  type="button">
                   🎲 Tạo Nhóm Ngẫu Nhiên Ngay
                 </button>
               </div>
@@ -449,11 +481,14 @@
                 </div>
 
                 <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
-                  <input type="text" id="manual-search-stu" class="clean-input" placeholder="🔍 Lọc học sinh..." style="font-size: 0.78rem; padding: 4px 8px; width: 150px;">
-                  <button id="btn-manual-quick-seed" class="btn-sub-action" type="button" title="Hệ thống chia sẵn đều quân số, sau đó Thầy chỉ việc click đổi nhóm cho những bạn cần đổi">
+                  <input type="text" id="manual-search-stu" class="clean-input" placeholder="🔍 Lọc học sinh..."
+                    style="font-size: 0.78rem; padding: 4px 8px; width: 150px;">
+                  <button id="btn-manual-quick-seed" class="btn-sub-action" type="button"
+                    title="Hệ thống chia sẵn đều quân số, sau đó Thầy chỉ việc click đổi nhóm cho những bạn cần đổi">
                     🎲 Trộn Gợi Ý Ban Đầu
                   </button>
-                  <button id="btn-manual-clear-all" class="btn-sub-action" type="button" title="Xóa toàn bộ nhóm để chọn lại từ đầu">
+                  <button id="btn-manual-clear-all" class="btn-sub-action" type="button"
+                    title="Xóa toàn bộ nhóm để chọn lại từ đầu">
                     🔄 Xóa Trắng
                   </button>
                 </div>
@@ -470,7 +505,8 @@
               </div>
 
               <div style="margin-top: 14px; display: flex; justify-content: flex-end;">
-                <button id="btn-manual-apply-teams" class="btn-sub-action btn-team-reward" type="button" style="padding: 10px 20px; font-size: 0.92rem;">
+                <button id="btn-manual-apply-teams" class="btn-sub-action btn-team-reward" type="button"
+                  style="padding: 10px 20px; font-size: 0.92rem;">
                   🚀 Bắt Đầu Chấm Điểm & Rã XP Cho Các Nhóm Này →
                 </button>
               </div>
@@ -482,12 +518,14 @@
             <h3 class="box-title mb-0" style="font-size: 1.05rem;">
               📋 Danh Sách Nhóm Đang Thực Hiện
             </h3>
-            <span class="text-muted small">Bấm <strong>+1, +2, +5, -1</strong> để tự rã điểm về từng bạn • Bấm <strong>⇄</strong> cạnh tên em để đổi nhóm</span>
+            <span class="text-muted small">Bấm <strong>+1, +2, +5, -1</strong> để tự rã điểm về từng bạn • Bấm
+              <strong>⇄</strong> cạnh tên em để đổi nhóm</span>
           </div>
 
           <div id="generated-teams-result" class="teams-cards-grid">
             <div class="empty-hint-box">
-              Chọn phương thức <strong>"Phân Nhóm Ngẫu Nhiên"</strong> hoặc <strong>"Phân Nhóm Thủ Công"</strong> ở trên để bắt đầu hoạt động nhóm!
+              Chọn phương thức <strong>"Phân Nhóm Ngẫu Nhiên"</strong> hoặc <strong>"Phân Nhóm Thủ Công"</strong> ở trên
+              để bắt đầu hoạt động nhóm!
             </div>
           </div>
         </div>
@@ -498,7 +536,8 @@
           <div class="card-top-bar">
             <div>
               <h2 class="section-title">🪑 Sơ Đồ Bàn Học Thực Tế</h2>
-              <p class="section-desc">Mô phỏng 4 dãy bàn học trong phòng lớp. Bấm trực tiếp vào bàn để ghi nhận phát biểu!</p>
+              <p class="section-desc">Mô phỏng 4 dãy bàn học trong phòng lớp. Bấm trực tiếp vào bàn để ghi nhận phát
+                biểu!</p>
             </div>
             <div class="blackboard-indicator">
               <span>BẢNG LỚP HỌC / BÀN GIÁO VIÊN</span>
@@ -517,10 +556,12 @@
           <div class="card-top-bar">
             <div>
               <h2 class="section-title">📊 Bảng Điểm Môn Toán — Thông Tư 22 / GDPT 2018</h2>
-              <p class="section-desc">Đầy đủ các cột ĐGTX, Điểm Chuyên cần/Thái độ, Giữa kỳ (x2), Cuối kỳ (x3), Tự tính ĐTB môn & Xếp loại</p>
+              <p class="section-desc">Đầy đủ các cột ĐGTX, Điểm Chuyên cần/Thái độ, Giữa kỳ (x2), Cuối kỳ (x3), Tự tính
+                ĐTB môn & Xếp loại</p>
             </div>
             <div class="card-top-actions teacher-only">
-              <button id="btn-import-omr-scores" class="btn-sub-action" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; font-weight: 700;">
+              <button id="btn-import-omr-scores" class="btn-sub-action"
+                style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; font-weight: 700;">
                 <span>📥</span> Nhập điểm Sang Math OMR
               </button>
               <button id="btn-add-custom-col" class="btn-sub-action btn-add-stu">
@@ -559,11 +600,21 @@
             </table>
           </div>
         </div>
+        <div class="clean-card" id="omr-batch-card" style="margin-top:16px;">
+          <div class="card-top-bar">
+            <div>
+              <h2 class="section-title">🗂️ Kho bài đã chấm OMR</h2>
+              <p class="section-desc">Lưu mọi đợt chấm theo lớp và học kỳ. Chỉ đợt được chọn mới ghi vào cột điểm.</p>
+            </div>
+          </div>
+          <div id="omr-batch-list" class="table-responsive"></div>
+        </div>
       </section>
 
       <!-- ================= TAB 4: VÒNG QUAY & GỌI TÊN ================= -->
       <section id="tab-wheel" class="tab-pane">
         <div class="wheel-layout">
+          <!-- Cột 1: Vòng quay may mắn -->
           <div class="clean-card wheel-card">
             <div class="wheel-pointer">▼</div>
             <canvas id="wheel-canvas" width="460" height="460"></canvas>
@@ -572,6 +623,41 @@
             </button>
           </div>
 
+          <!-- Cột 2: Bảng Kết Quả Random & Chấm Điểm Lên Bảng (Cột trung tâm rộng rãi) -->
+          <div class="clean-card wheel-called-panel">
+            <div class="flex-between mb-3"
+              style="align-items: center; gap: 8px; border-bottom: 1.5px solid var(--border); padding-bottom: 10px;">
+              <div>
+                <h3 class="box-title mb-0" style="display: flex; align-items: center; gap: 8px; font-size: 1.05rem;">
+                  <span>📋 Bảng Kết Quả Random</span>
+                  <span id="called-count" class="called-count-badge">0</span>
+                </h3>
+                <small style="color: var(--text-muted); font-size: 0.78rem;">Chấm điểm trực tiếp (+ / -) khi học sinh
+                  làm bài xong</small>
+              </div>
+              <div class="called-header-actions" style="display: flex; align-items: center; gap: 8px;">
+                <button id="btn-reward-all-called" class="btn-link-clean"
+                  title="Thưởng +1 XP cho tất cả bạn trong danh sách đã gọi"
+                  style="display: none; color: #10b981; font-weight: 700; font-size: 0.82rem; background: #ecfdf5; padding: 4px 10px; border-radius: 6px; border: 1px solid #a7f3d0;">
+                  🌟 +1 Tất cả
+                </button>
+                <button id="btn-reset-called" class="btn-link-clean" title="Xóa danh sách đã gọi để quay vòng mới"
+                  style="font-size: 0.82rem; padding: 4px 8px; border: 1px solid var(--border); border-radius: 6px;">
+                  🔄 Làm mới
+                </button>
+              </div>
+            </div>
+            <div id="called-students-list" class="called-list-container">
+              <div class="called-empty-state">
+                <span class="called-empty-icon">🎯</span>
+                <span class="called-empty-text">Chưa gọi bạn nào lên bảng</span>
+                <small style="color: var(--text-muted); margin-top: 4px;">Quay bánh xe hoặc chọn chế độ gọi để hiển thị
+                  danh sách tại đây</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cột 3: Tùy chọn & Cách gọi khác -->
           <div class="wheel-side-panel">
             <div class="clean-card side-box">
               <h3 class="box-title">⚙️ Tùy Chọn Gọi Tên</h3>
@@ -627,16 +713,6 @@
                 </button>
               </div>
             </div>
-
-            <div class="clean-card side-box">
-              <div class="flex-between mb-2">
-                <h3 class="box-title mb-0">📋 Đã Gọi (<span id="called-count">0</span>)</h3>
-                <button id="btn-reset-called" class="btn-link-clean" title="Xóa danh sách đã gọi để quay vòng mới">🔄 Làm mới</button>
-              </div>
-              <div id="called-students-list" class="called-chips-container">
-                <span class="empty-text">Chưa gọi bạn nào</span>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -672,16 +748,20 @@
           </div>
 
           <!-- Card Chuyển Nhanh Sang Nhiệm Vụ & Phân Nhóm -->
-          <div class="clean-card tool-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+          <div class="clean-card tool-card"
+            style="display: flex; flex-direction: column; justify-content: space-between;">
             <div>
               <div class="flex-between mb-2">
                 <h3 class="box-title mb-0">🎯 Nhiệm Vụ & Phân Nhóm Linh Hoạt</h3>
-                <span class="badge-pill" style="background: #f59e0b; color: #fff; font-size: 0.72rem; padding: 2px 8px; font-weight: 800;">CHUYÊN SÂU</span>
+                <span class="badge-pill"
+                  style="background: #f59e0b; color: #fff; font-size: 0.72rem; padding: 2px 8px; font-weight: 800;">CHUYÊN
+                  SÂU</span>
               </div>
               <p class="text-muted small">
-                Tính năng phân nhóm đã được nâng cấp thành phân hệ chuyên sâu độc lập: 
-                hỗ trợ chia nhóm <strong>ngẫu nhiên</strong> (cân bằng học lực XP, cụm bàn), 
-                phân nhóm <strong>thủ công</strong> từng em 1 chạm, và <strong>tự động rã điểm XP</strong> về từng học sinh khi chấm nhóm!
+                Tính năng phân nhóm đã được nâng cấp thành phân hệ chuyên sâu độc lập:
+                hỗ trợ chia nhóm <strong>ngẫu nhiên</strong> (cân bằng học lực XP, cụm bàn),
+                phân nhóm <strong>thủ công</strong> từng em 1 chạm, và <strong>tự động rã điểm XP</strong> về từng học
+                sinh khi chấm nhóm!
               </p>
               <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px;">
                 <span class="badge-pill">🎲 Chia Ngẫu Nhiên 2 - 10 Nhóm</span>
@@ -693,7 +773,8 @@
             </div>
 
             <div style="margin-top: 24px;">
-              <button class="btn-sub-action btn-team-reward" type="button" id="btn-tools-open-missions" style="width: 100%; padding: 12px; font-weight: 800; font-size: 0.95rem; justify-content: center;">
+              <button class="btn-sub-action btn-team-reward" type="button" id="btn-tools-open-missions"
+                style="width: 100%; padding: 12px; font-weight: 800; font-size: 0.95rem; justify-content: center;">
                 🚀 Mở Bảng Phân Nhóm & Nhiệm Vụ Ngay ➜
               </button>
             </div>
@@ -764,7 +845,9 @@
             <div class="guide-hero-badge">📖 CẨM NANG SƯ PHẠM CONICCLASSROOM</div>
             <h2 class="guide-hero-title">Đồng Hành Cùng Thầy Dạy Học Tích Cực Môn Toán THPT</h2>
             <p class="guide-hero-desc">
-              Hệ thống trợ lý lớp học được thiết kế chuyên biệt cho Giáo viên Toán Lớp 10, 11, 12 theo định hướng GDPT 2018: Biến mỗi tiết học thành trải nghiệm sôi nổi, công bằng, minh bạch điểm số và tạo động lực tiến bộ cho từng học sinh.
+              Hệ thống trợ lý lớp học được thiết kế chuyên biệt cho Giáo viên Toán Lớp 10, 11, 12 theo định hướng GDPT
+              2018: Biến mỗi tiết học thành trải nghiệm sôi nổi, công bằng, minh bạch điểm số và tạo động lực tiến bộ
+              cho từng học sinh.
             </p>
             <div class="guide-hero-tags">
               <span class="guide-tag">🎯 Chuẩn GDPT 2018</span>
@@ -793,7 +876,9 @@
                       <strong>1. Khởi Động & Kiểm Tra Bài Cũ</strong>
                       <span class="step-pill">Vòng Quay 🎡 • Thẻ Bí Ẩn 🃏</span>
                     </div>
-                    <p>Quay ngẫu nhiên 1 học sinh lên kiểm tra. Trả lời đúng nhận ngay <code>+1</code> hoặc <code>+2 XP</code>. Nếu học sinh chưa thuộc bài, mở ngay <strong>Thử Thách Vui</strong> để động viên mà không làm em bị xấu hổ.</p>
+                    <p>Quay ngẫu nhiên 1 học sinh lên kiểm tra. Trả lời đúng nhận ngay <code>+1</code> hoặc
+                      <code>+2 XP</code>. Nếu học sinh chưa thuộc bài, mở ngay <strong>Thử Thách Vui</strong> để động
+                      viên mà không làm em bị xấu hổ.</p>
                   </div>
                 </div>
 
@@ -804,7 +889,10 @@
                       <strong>2. Hình Thành Kiến Thức & Luyện Tập</strong>
                       <span class="step-pill">Sơ Đồ Bàn Học 🪑 • Chạm 1s ⚡</span>
                     </div>
-                    <p>Chiếu bài tập lên bảng. Thầy mở tab <strong>Sơ Đồ Bàn Học</strong> trên máy tính hoặc iPad. Học sinh nào giơ tay giải bài, Thầy chỉ cần chạm vào đúng bàn của em đó <span class="guide-arrow">→</span> Hiệu ứng số bay <code>+1 ⭐</code> xuất hiện tức thì kèm tiếng ting hào hứng!</p>
+                    <p>Chiếu bài tập lên bảng. Thầy mở tab <strong>Sơ Đồ Bàn Học</strong> trên máy tính hoặc iPad. Học
+                      sinh nào giơ tay giải bài, Thầy chỉ cần chạm vào đúng bàn của em đó <span
+                        class="guide-arrow">→</span> Hiệu ứng số bay <code>+1 ⭐</code> xuất hiện tức thì kèm tiếng ting
+                      hào hứng!</p>
                   </div>
                 </div>
 
@@ -815,7 +903,9 @@
                       <strong>3. Hoạt Động Nhóm & Đấu Trường 1 vs 1</strong>
                       <span class="step-pill">Timer ⏱️ • Thưởng Cả Tổ 👥</span>
                     </div>
-                    <p>Bật tab <strong>Timer & Nhóm</strong> đếm ngược 5-10 phút. Nhóm giải bài nhanh và nề nếp nhất được Thầy bấm <strong>Thưởng Cả Tổ</strong> (cộng đều cho mọi bạn trong tổ). Cuối phần luyện tập, bốc 2 bạn thi đấu trên <strong>Đấu Trường 1 vs 1</strong>.</p>
+                    <p>Bật tab <strong>Timer & Nhóm</strong> đếm ngược 5-10 phút. Nhóm giải bài nhanh và nề nếp nhất
+                      được Thầy bấm <strong>Thưởng Cả Tổ</strong> (cộng đều cho mọi bạn trong tổ). Cuối phần luyện tập,
+                      bốc 2 bạn thi đấu trên <strong>Đấu Trường 1 vs 1</strong>.</p>
                   </div>
                 </div>
 
@@ -826,7 +916,8 @@
                       <strong>4. Tổng Kết & Vinh Danh Bục Top 3</strong>
                       <span class="step-pill">Bục Vinh Danh 🥇 • Pháo Hoa 🎆</span>
                     </div>
-                    <p>Mở tab <strong>Vinh Danh</strong>: Cả lớp chiêm ngưỡng Bục Top 3 cá nhân và Tổ dẫn đầu tuần với pháo hoa rực rỡ. Học sinh thấy ngay thành quả cố gắng trong từng phút học tập.</p>
+                    <p>Mở tab <strong>Vinh Danh</strong>: Cả lớp chiêm ngưỡng Bục Top 3 cá nhân và Tổ dẫn đầu tuần với
+                      pháo hoa rực rỡ. Học sinh thấy ngay thành quả cố gắng trong từng phút học tập.</p>
                   </div>
                 </div>
               </div>
@@ -902,15 +993,18 @@
                   <div class="formula-rules">
                     <div class="formula-rule-item">
                       <span class="rule-icon">✅</span>
-                      <span>Bù vào cột <strong>ĐGTX (Thường xuyên)</strong> bị điểm thấp để khuyến khích em gỡ điểm.</span>
+                      <span>Bù vào cột <strong>ĐGTX (Thường xuyên)</strong> bị điểm thấp để khuyến khích em gỡ
+                        điểm.</span>
                     </div>
                     <div class="formula-rule-item">
                       <span class="rule-icon">🛡️</span>
-                      <span>Tối đa bù <strong>+2.0 điểm/cột</strong> và điểm sau bù không vượt quá <strong>10.0</strong>.</span>
+                      <span>Tối đa bù <strong>+2.0 điểm/cột</strong> và điểm sau bù không vượt quá
+                        <strong>10.0</strong>.</span>
                     </div>
                     <div class="formula-rule-item">
                       <span class="rule-icon">🚫</span>
-                      <span><strong>Không áp dụng</strong> bù vào điểm thi Cuối Kỳ (bài thi chung đề toàn trường).</span>
+                      <span><strong>Không áp dụng</strong> bù vào điểm thi Cuối Kỳ (bài thi chung đề toàn
+                        trường).</span>
                     </div>
                   </div>
                 </div>
@@ -932,7 +1026,8 @@
                   <div class="sec-step-num">1</div>
                   <div class="sec-step-body">
                     <strong>Mã PIN Giáo Viên Mặc Định: <code>2026</code></strong>
-                    <p>Chỉ người có mã PIN mới có quyền cộng/trừ điểm, đổi điểm, nạp danh sách Excel hoặc sửa sổ điểm. Thầy có thể đổi mã PIN bất kỳ lúc nào tại nút Cài Đặt ⚙️.</p>
+                    <p>Chỉ người có mã PIN mới có quyền cộng/trừ điểm, đổi điểm, nạp danh sách Excel hoặc sửa sổ điểm.
+                      Thầy có thể đổi mã PIN bất kỳ lúc nào tại nút Cài Đặt ⚙️.</p>
                   </div>
                 </div>
 
@@ -940,7 +1035,8 @@
                   <div class="sec-step-num">2</div>
                   <div class="sec-step-body">
                     <strong>Chế Độ Học Sinh (Mặc Định Khi Mở Web)</strong>
-                    <p>Toàn bộ nút cộng trừ điểm và nút quản lý sẽ tự động ẩn đi. Học sinh mở web chỉ có quyền tra cứu tên/SBD để tự hào xem điểm của mình.</p>
+                    <p>Toàn bộ nút cộng trừ điểm và nút quản lý sẽ tự động ẩn đi. Học sinh mở web chỉ có quyền tra cứu
+                      tên/SBD để tự hào xem điểm của mình.</p>
                   </div>
                 </div>
 
@@ -948,7 +1044,8 @@
                   <div class="sec-step-num">3</div>
                   <div class="sec-step-body">
                     <strong>Mở Khóa Trên Máy Của Thầy (1 Lần Duy Nhất)</strong>
-                    <p>Bấm nút <code>👨‍🏫 GV</code> ở góc trên <span class="guide-arrow">→</span> Nhập PIN <code>2026</code>. Hệ thống sẽ lưu trên trình duyệt của Thầy, các lần sau mở ra là dùng ngay!</p>
+                    <p>Bấm nút <code>👨‍🏫 GV</code> ở góc trên <span class="guide-arrow">→</span> Nhập PIN
+                      <code>2026</code>. Hệ thống sẽ lưu trên trình duyệt của Thầy, các lần sau mở ra là dùng ngay!</p>
                   </div>
                 </div>
 
@@ -956,7 +1053,9 @@
                   <div class="sec-step-num">4</div>
                   <div class="sec-step-body">
                     <strong>Mẹo Chiếu Máy Chiếu An Toàn 📽️</strong>
-                    <p>Trước khi cắm dây chiếu laptop lên màn hình lớp học, Thầy chỉ cần bấm nút <code>🎓 HS</code> ở góc trên. Web sẽ chuyển ngay sang giao diện học sinh, tránh việc học sinh tò mò hoặc bấm vào máy của Thầy.</p>
+                    <p>Trước khi cắm dây chiếu laptop lên màn hình lớp học, Thầy chỉ cần bấm nút <code>🎓 HS</code> ở
+                      góc trên. Web sẽ chuyển ngay sang giao diện học sinh, tránh việc học sinh tò mò hoặc bấm vào máy
+                      của Thầy.</p>
                   </div>
                 </div>
 
@@ -964,7 +1063,9 @@
                   <div class="sec-step-num">5</div>
                   <div class="sec-step-body">
                     <strong>Gửi Bảng Điểm Về Nhà Qua Zalo 📱</strong>
-                    <p>Bấm nút <code>📱 QR Học Sinh</code> <span class="guide-arrow">→</span> Chọn <code>📋 Sao Chép Link Kèm Điểm</code> <span class="guide-arrow">→</span> Dán vào nhóm Zalo lớp. Học sinh mở trên điện thoại sẽ xem ngay bảng điểm mới nhất ở chế độ Chỉ Xem!</p>
+                    <p>Bấm nút <code>📱 QR Học Sinh</code> <span class="guide-arrow">→</span> Chọn
+                      <code>📋 Sao Chép Link Kèm Điểm</code> <span class="guide-arrow">→</span> Dán vào nhóm Zalo lớp.
+                      Học sinh mở trên điện thoại sẽ xem ngay bảng điểm mới nhất ở chế độ Chỉ Xem!</p>
                   </div>
                 </div>
               </div>
@@ -985,7 +1086,8 @@
                   <div class="shortcut-badge">1 Chạm</div>
                   <div class="shortcut-content">
                     <strong>🔄 Chuyển Lớp Nhanh</strong>
-                    <p>Bấm chọn ngay <code>Lớp 10A1</code>, <code>Lớp 11B2</code>, <code>Lớp 12C3</code> ở thanh chọn lớp trên cùng.</p>
+                    <p>Bấm chọn ngay <code>Lớp 10A1</code>, <code>Lớp 11B2</code>, <code>Lớp 12C3</code> ở thanh chọn
+                      lớp trên cùng.</p>
                   </div>
                 </div>
 
@@ -993,7 +1095,8 @@
                   <div class="shortcut-badge">5 Giây</div>
                   <div class="shortcut-content">
                     <strong>📋 Nạp Danh Sách Từ Excel</strong>
-                    <p>Bấm <code>⚙️ Cài Đặt</code> <span class="guide-arrow">→</span> Copy 3 cột (Họ tên, Tổ, SBD) từ Excel rồi dán vào khung <span class="guide-arrow">→</span> Bấm <code>✅ Nạp Vào Lớp</code>.</p>
+                    <p>Bấm <code>⚙️ Cài Đặt</code> <span class="guide-arrow">→</span> Copy 3 cột (Họ tên, Tổ, SBD) từ
+                      Excel rồi dán vào khung <span class="guide-arrow">→</span> Bấm <code>✅ Nạp Vào Lớp</code>.</p>
                   </div>
                 </div>
 
@@ -1001,7 +1104,8 @@
                   <div class="shortcut-badge">Linh Hoạt</div>
                   <div class="shortcut-content">
                     <strong>➕ Thêm Cột Điểm Độc Lập</strong>
-                    <p>Vào Tab <strong>Sổ Điểm (TT22)</strong> <span class="guide-arrow">→</span> Bấm <code>➕ Thêm Cột Điểm</code> (chọn Hệ số 1 hoặc 2, điểm sẽ tự động tính vào ĐTB).</p>
+                    <p>Vào Tab <strong>Sổ Điểm (TT22)</strong> <span class="guide-arrow">→</span> Bấm
+                      <code>➕ Thêm Cột Điểm</code> (chọn Hệ số 1 hoặc 2, điểm sẽ tự động tính vào ĐTB).</p>
                   </div>
                 </div>
 
@@ -1009,7 +1113,8 @@
                   <div class="shortcut-badge">Đổi Thưởng</div>
                   <div class="shortcut-content">
                     <strong>🎁 Bù Điểm Cho Học Sinh</strong>
-                    <p>Vào Tab <strong>Sổ Điểm</strong> <span class="guide-arrow">→</span> Bấm nút <code>🎁 Bù điểm</code> ở dòng em muốn giúp đỡ để chuyển XP thành điểm thực tế.</p>
+                    <p>Vào Tab <strong>Sổ Điểm</strong> <span class="guide-arrow">→</span> Bấm nút
+                      <code>🎁 Bù điểm</code> ở dòng em muốn giúp đỡ để chuyển XP thành điểm thực tế.</p>
                   </div>
                 </div>
 
@@ -1017,7 +1122,8 @@
                   <div class="shortcut-badge">Nộp Trường</div>
                   <div class="shortcut-content">
                     <strong>📥 Xuất Excel Chuẩn Bộ GD</strong>
-                    <p>Bấm nút <code>📥 Xuất Excel Sổ Điểm</code>. File CSV tải về mở trực tiếp bằng Excel với đầy đủ dấu tiếng Việt, không bị lỗi font.</p>
+                    <p>Bấm nút <code>📥 Xuất Excel Sổ Điểm</code>. File CSV tải về mở trực tiếp bằng Excel với đầy đủ
+                      dấu tiếng Việt, không bị lỗi font.</p>
                   </div>
                 </div>
 
@@ -1025,7 +1131,8 @@
                   <div class="shortcut-badge alert">Trợ Giúp</div>
                   <div class="shortcut-content">
                     <strong>🆘 Lọc Học Sinh Cần Hỗ Trợ</strong>
-                    <p>Bấm nút <code>🆘 Cần Giúp Đỡ</code> ở thanh lọc để xem ngay các học sinh có ĐTB <span class="score-low-badge">&lt; 5.0</span> hoặc ít phát biểu.</p>
+                    <p>Bấm nút <code>🆘 Cần Giúp Đỡ</code> ở thanh lọc để xem ngay các học sinh có ĐTB <span
+                        class="score-low-badge">&lt; 5.0</span> hoặc ít phát biểu.</p>
                   </div>
                 </div>
               </div>
@@ -1033,9 +1140,12 @@
               <!-- Mẹo sư phạm thực chiến -->
               <div class="pro-tip-box mt-3">
                 <strong>💡 Mẹo Sư Phạm Thực Chiến:</strong><br>
-                • <strong>Khi lớp học trầm lắng:</strong> Mở ngay <strong>Vòng Quay May Mắn</strong> hoặc <strong>Đấu Trường 1 vs 1</strong> để kích hoạt sự hào hứng tức thì.<br>
-                • <strong>Khi học sinh yếu tự ti:</strong> Thưởng <code>+2 XP</code> cho hoạt động <em>"Hỗ trợ bạn cùng tiến"</em>, giao bạn khá giỏi kèm bạn yếu.<br>
-                • <strong>Khi có tiếng ồn:</strong> Chỉ cần chạm nhẹ <code>-1 XP</code> trên <strong>Sơ Đồ Bàn Học</strong>, âm thanh nhắc nhở tế nhị vang lên sẽ đưa lớp về trật tự mà Thầy không phải gắt giọng!
+                • <strong>Khi lớp học trầm lắng:</strong> Mở ngay <strong>Vòng Quay May Mắn</strong> hoặc <strong>Đấu
+                  Trường 1 vs 1</strong> để kích hoạt sự hào hứng tức thì.<br>
+                • <strong>Khi học sinh yếu tự ti:</strong> Thưởng <code>+2 XP</code> cho hoạt động <em>"Hỗ trợ bạn cùng
+                  tiến"</em>, giao bạn khá giỏi kèm bạn yếu.<br>
+                • <strong>Khi có tiếng ồn:</strong> Chỉ cần chạm nhẹ <code>-1 XP</code> trên <strong>Sơ Đồ Bàn
+                  Học</strong>, âm thanh nhắc nhở tế nhị vang lên sẽ đưa lớp về trật tự mà Thầy không phải gắt giọng!
               </div>
             </div>
           </div>
@@ -1054,8 +1164,8 @@
                 <span id="admin-cloud-badge" class="cloud-badge-pill online">🟢 Đang Kết Nối Supabase Cloud</span>
               </div>
               <p class="shield-desc">
-                Điểm số và dữ liệu học sinh của Thầy được đồng bộ trực tuyến lên Supabase. 
-                <strong>Dù máy tính có hỏng đột ngột, đổi máy mới hay mở trên điện thoại</strong>, 
+                Điểm số và dữ liệu học sinh của Thầy được đồng bộ trực tuyến lên Supabase.
+                <strong>Dù máy tính có hỏng đột ngột, đổi máy mới hay mở trên điện thoại</strong>,
                 toàn bộ điểm số các lớp của Thầy vẫn an toàn 100% vĩnh viễn!
               </p>
               <div class="shield-actions">
@@ -1087,7 +1197,8 @@
               <div class="panel-head-flex">
                 <div>
                   <h3 class="panel-title">📋 Nhập Nhanh Học Sinh Từ Excel</h3>
-                  <span class="text-muted small">Nạp danh sách cho lớp đang chọn: <strong id="admin-active-class-name" class="text-accent">...</strong></span>
+                  <span class="text-muted small">Nạp danh sách cho lớp đang chọn: <strong id="admin-active-class-name"
+                      class="text-accent">...</strong></span>
                 </div>
               </div>
 
@@ -1097,7 +1208,8 @@ Võ Phạm Quốc An	1	1201
 Phan Huỳnh Anh	2	1202
 ... (Mỗi em 1 dòng)"></textarea>
                 <div class="flex-gap mt-3">
-                  <button id="admin-btn-import-excel" class="btn-sub-action btn-add-stu">✅ Nạp Danh Sách Vào Lớp</button>
+                  <button id="admin-btn-import-excel" class="btn-sub-action btn-add-stu">✅ Nạp Danh Sách Vào
+                    Lớp</button>
                   <button id="admin-btn-export-excel" class="btn-sub-action">📥 Xuất Excel Sổ Lớp</button>
                 </div>
                 <div id="admin-import-feedback" class="small mt-2"></div>
@@ -1105,8 +1217,10 @@ Phan Huỳnh Anh	2	1202
 
               <div class="pro-tip-box mt-3">
                 <strong>💡 Mẹo Quản Trị Cho Thầy:</strong><br>
-                • <strong>Cấp quyền Lớp trưởng:</strong> Điền Gmail của em Lớp trưởng vào ô dưới tên từng lớp rồi bấm Lưu. Khi em đó mở web, hệ thống tự động mở đúng lớp đó để em chấm điểm.<br>
-                • <strong>Chống mất mát dữ liệu:</strong> Mỗi tuần hoặc sau mỗi buổi chấm điểm, bấm <strong>⬆️ Đồng Bộ Lên Cloud Ngay</strong> để lưu vĩnh viễn trên Supabase.
+                • <strong>Cấp quyền Lớp trưởng:</strong> Điền Gmail của em Lớp trưởng vào ô dưới tên từng lớp rồi bấm
+                Lưu. Khi em đó mở web, hệ thống tự động mở đúng lớp đó để em chấm điểm.<br>
+                • <strong>Chống mất mát dữ liệu:</strong> Mỗi tuần hoặc sau mỗi buổi chấm điểm, bấm <strong>⬆️ Đồng Bộ
+                  Lên Cloud Ngay</strong> để lưu vĩnh viễn trên Supabase.
               </div>
             </div>
           </div>
@@ -1122,7 +1236,8 @@ Phan Huỳnh Anh	2	1202
             <div class="khbd-brand-text">
               <div class="khbd-tag-badge">TOÁN THPT NGUYỄN HỮU CẢNH • NĂM HỌC 2026 - 2027</div>
               <h2 class="khbd-title">Kế Hoạch Bài Dạy & Trợ Lý Ký Sổ Đầu Bài</h2>
-              <div class="khbd-subtitle">Tiết PPCT chuẩn xác 100% • Sao chép 1-chạm ký sổ VnEdu/SMAS • Tự động nhắc việc & chống lệch tiết</div>
+              <div class="khbd-subtitle">Tiết PPCT chuẩn xác 100% • Sao chép 1-chạm ký sổ VnEdu/SMAS • Tự động nhắc việc
+                & chống lệch tiết</div>
             </div>
           </div>
 
@@ -1168,7 +1283,8 @@ Phan Huỳnh Anh	2	1202
               <select id="khbd-week-select" class="clean-select khbd-week-dropdown" title="Chọn tuần">
                 <!-- Render từ JS -->
               </select>
-              <button id="btn-khbd-jump-current" class="btn-today-pill" type="button" title="Quay về tuần tương ứng với ngày hôm nay">
+              <button id="btn-khbd-jump-current" class="btn-today-pill" type="button"
+                title="Quay về tuần tương ứng với ngày hôm nay">
                 ⚡ Về Tuần Hiện Tại
               </button>
             </div>
@@ -1195,11 +1311,13 @@ Phan Huỳnh Anh	2	1202
             <div class="khbd-active-class-info">
               <span class="info-label">Lớp đang theo dõi:</span>
               <span id="khbd-active-class-name" class="class-name-badge">Lớp 10A1</span>
-              <span class="sync-desc">Tick chọn <strong class="text-success">✅ Đã dạy</strong> để ghi nhớ tiến độ từng lớp và tránh lệch tiết!</span>
+              <span class="sync-desc">Tick chọn <strong class="text-success">✅ Đã dạy</strong> để ghi nhớ tiến độ từng
+                lớp và tránh lệch tiết!</span>
             </div>
 
             <div class="khbd-toolbar-actions">
-              <button id="btn-copy-week-summary" class="btn-sub-action btn-copy-all" type="button" title="Chép tóm tắt nội dung 4 tiết tuần này">
+              <button id="btn-copy-week-summary" class="btn-sub-action btn-copy-all" type="button"
+                title="Chép tóm tắt nội dung 4 tiết tuần này">
                 📋 Chép Cả 4 Tiết Tuần Này
               </button>
             </div>
@@ -1219,7 +1337,8 @@ Phan Huỳnh Anh	2	1202
               </div>
               <span id="khbd-memo-status" class="memo-saved-tag">Đã lưu tự động</span>
             </div>
-            <textarea id="khbd-weekly-memo" class="khbd-memo-textarea" rows="2" placeholder="Ghi nhớ việc của thầy trong tuần này (VD: Dặn 10A1 mang máy tính Casio; in đề KTTX1; kiểm tra bài tập về nhà Tổ 2...)"></textarea>
+            <textarea id="khbd-weekly-memo" class="khbd-memo-textarea" rows="2"
+              placeholder="Ghi nhớ việc của thầy trong tuần này (VD: Dặn 10A1 mang máy tính Casio; in đề KTTX1; kiểm tra bài tập về nhà Tổ 2...)"></textarea>
           </div>
         </div>
 
@@ -1227,7 +1346,8 @@ Phan Huỳnh Anh	2	1202
         <div id="khbd-full-view" class="khbd-view-container" style="display: none;">
           <div class="khbd-search-row">
             <div class="search-input-wrap">
-              <input type="text" id="khbd-search-input" class="clean-search-input" placeholder="🔍 Tìm kiếm bài dạy, tên chương, KTTX, quy nạp, vectơ...">
+              <input type="text" id="khbd-search-input" class="clean-search-input"
+                placeholder="🔍 Tìm kiếm bài dạy, tên chương, KTTX, quy nạp, vectơ...">
             </div>
             <div class="search-stat-wrap">
               <span id="khbd-full-count-badge" class="search-count-badge">Tổng cộng 18 tuần • 72 tiết</span>
@@ -1264,14 +1384,21 @@ Phan Huỳnh Anh	2	1202
     <div class="modal-box">
       <div class="modal-top">
         <div class="stu-info-flex">
-          <div id="modal-student-avatar" class="avatar-circle">A</div>
+          <div id="modal-student-avatar" class="avatar-circle clickable" title="Bấm để đổi ảnh đại diện">A</div>
           <div>
-            <h3 id="modal-student-name">...</h3>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <h3 id="modal-student-name" style="margin: 0;">...</h3>
+              <button id="btn-modal-change-avatar" class="btn-sub-action btn-change-avatar-pill" type="button"
+                title="Đổi ảnh đại diện Chibi dễ thương (Thầy/Cô và Lớp Trưởng đều có quyền đổi)">
+                🎨 Đổi Ảnh Chibi
+              </button>
+            </div>
             <span id="modal-student-sub" class="text-muted small">...</span>
           </div>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
-          <button id="btn-modal-view-history" class="btn-sub-action" type="button" title="Xem nhật ký đối chiếu của riêng học sinh này">
+          <button id="btn-modal-view-history" class="btn-sub-action" type="button"
+            title="Xem nhật ký đối chiếu của riêng học sinh này">
             📜 Đối Chiếu
           </button>
           <button class="btn-modal-close" data-close="modal-score">&times;</button>
@@ -1344,8 +1471,10 @@ Phan Huỳnh Anh	2	1202
         <div class="custom-point-bar mt-3">
           <input type="text" id="custom-reason-input" placeholder="Nhập lý do khác..." class="clean-input">
           <input type="number" id="custom-pts-input" value="1" class="clean-input-pts" title="Số điểm (+ hoặc -)">
-          <button id="btn-submit-custom-point" class="btn-sub-action btn-add-stu" title="Ghi điểm 1 lần cho em này">Ghi Điểm</button>
-          <button id="btn-save-custom-reason" class="btn-sub-action btn-team-reward" title="Lưu thành nút bấm sẵn cho các lần sau">➕ Lưu Nút</button>
+          <button id="btn-submit-custom-point" class="btn-sub-action btn-add-stu" title="Ghi điểm 1 lần cho em này">Ghi
+            Điểm</button>
+          <button id="btn-save-custom-reason" class="btn-sub-action btn-team-reward"
+            title="Lưu thành nút bấm sẵn cho các lần sau">➕ Lưu Nút</button>
         </div>
       </div>
     </div>
@@ -1376,7 +1505,8 @@ Phan Huỳnh Anh	2	1202
         </div>
         <div class="form-group-clean mb-3">
           <label>Số điểm muốn bù (+):</label>
-          <input type="number" id="redeem-points-add" value="1" min="0.5" max="10" step="0.5" class="clean-input" style="width: 100px;">
+          <input type="number" id="redeem-points-add" value="1" min="0.5" max="10" step="0.5" class="clean-input"
+            style="width: 100px;">
           <small class="text-muted d-block mt-1">(Tỉ lệ: 5 XP = +1 điểm vào cột được chọn)</small>
         </div>
         <div class="flex-gap mt-3">
@@ -1397,7 +1527,8 @@ Phan Huỳnh Anh	2	1202
       <div class="modal-body">
         <div class="form-group-clean mb-3">
           <label>Tên cột điểm mới:</label>
-          <input type="text" id="new-column-name" placeholder="VD: Khảo sát đầu năm, 15p bù, Bài tập dự án..." class="clean-input">
+          <input type="text" id="new-column-name" placeholder="VD: Khảo sát đầu năm, 15p bù, Bài tập dự án..."
+            class="clean-input">
         </div>
         <div class="form-group-clean mb-3">
           <label>Hệ số tính ĐTB:</label>
@@ -1423,7 +1554,8 @@ Phan Huỳnh Anh	2	1202
         <button class="btn-modal-close" data-close="modal-qr">&times;</button>
       </div>
       <div class="modal-body">
-        <p class="text-muted small mb-3">Học sinh mở camera điện thoại quét mã này để vào xem bảng điểm & tra cứu cá nhân:</p>
+        <p class="text-muted small mb-3">Học sinh mở camera điện thoại quét mã này để vào xem bảng điểm & tra cứu cá
+          nhân:</p>
         <div id="qr-code-display" class="qr-container-box">
           <!-- Render QR Code SVG -->
         </div>
@@ -1453,15 +1585,18 @@ Phan Huỳnh Anh	2	1202
           <span style="color: var(--accent-dark); font-weight: 700;">(Mã mặc định: 2026)</span>
         </p>
         <div class="form-group-clean mb-3">
-          <input type="password" id="input-teacher-pin" maxlength="8" placeholder="••••" class="clean-input text-center" style="font-size: 1.6rem; letter-spacing: 8px; font-weight: 800; max-width: 200px; margin: 0 auto;">
+          <input type="password" id="input-teacher-pin" maxlength="8" placeholder="••••" class="clean-input text-center"
+            style="font-size: 1.6rem; letter-spacing: 8px; font-weight: 800; max-width: 200px; margin: 0 auto;">
         </div>
-        <div id="pin-error-msg" class="text-danger small mb-2" style="display: none; font-weight: 700;">Mã PIN không đúng! Vui lòng thử lại.</div>
+        <div id="pin-error-msg" class="text-danger small mb-2" style="display: none; font-weight: 700;">Mã PIN không
+          đúng! Vui lòng thử lại.</div>
         <div class="flex-gap mt-3">
           <button id="btn-submit-pin" class="btn-timer-cta btn-start flex-1">Mở Khóa</button>
           <button class="btn-sub-action" data-close="modal-pin">Hủy</button>
         </div>
         <div class="mt-3 text-right">
-          <button id="btn-change-pin" class="btn-text-small" style="font-size: 0.75rem; color: var(--text-muted);">Đổi mã PIN mới?</button>
+          <button id="btn-change-pin" class="btn-text-small" style="font-size: 0.75rem; color: var(--text-muted);">Đổi
+            mã PIN mới?</button>
         </div>
       </div>
     </div>
@@ -1476,8 +1611,11 @@ Phan Huỳnh Anh	2	1202
       </div>
       <div class="modal-body">
         <span style="font-size: 3.5rem; display: block; margin: 10px 0;">🎲</span>
-        <h3 id="fun-challenge-text" style="font-family: var(--font-heading); font-size: 1.25rem; color: var(--accent-dark); min-height: 50px; line-height: 1.4;">...</h3>
-        <p class="text-muted small mt-2">Dành cho bạn chưa thuộc bài hoặc quên công thức để tạo tiếng cười thư giãn cho cả lớp!</p>
+        <h3 id="fun-challenge-text"
+          style="font-family: var(--font-heading); font-size: 1.25rem; color: var(--accent-dark); min-height: 50px; line-height: 1.4;">
+          ...</h3>
+        <p class="text-muted small mt-2">Dành cho bạn chưa thuộc bài hoặc quên công thức để tạo tiếng cười thư giãn cho
+          cả lớp!</p>
         <div class="flex-gap mt-4" style="justify-content: center;">
           <button id="btn-spin-another-challenge" class="btn-timer-cta btn-start">🎲 Đổi Thử Thách Khác</button>
           <button class="btn-sub-action" data-close="modal-fun-challenge">Đóng</button>
@@ -1527,26 +1665,177 @@ Phan Huỳnh Anh	2	1202
     </div>
   </div>
 
-  <!-- Modal Lật Thẻ Bí Ẩn -->
+  <!-- Modal Lật Thẻ Bí Ẩn (3-Card Magic Tarot Draw) -->
   <div id="modal-card-flip" class="modal-overlay">
-    <div class="modal-box text-center">
+    <div class="modal-box modal-lg text-center magic-card-modal-box" style="max-width: 680px;">
       <div class="modal-top">
-        <h3 class="modal-title">🃏 LẬT THẺ BÍ ẨN</h3>
-        <button class="btn-modal-close" data-close="modal-card-flip">&times;</button>
+        <div style="text-align: left;">
+          <h3 class="modal-title" style="display: flex; align-items: center; gap: 8px;">
+            <span>🃏</span> LẬT THẺ BÍ ẨN • BỐC THĂM LÊN BẢNG
+          </h3>
+          <p class="text-muted small" style="margin: 3px 0 0; color: #cbd5e1;">
+            Thầy/Cô và học sinh chọn 1 trong 3 lá bài ma thuật úp mặt để hé lộ bạn học sinh may mắn!
+          </p>
+        </div>
+        <button class="btn-modal-close" data-close="modal-card-flip" style="color: #cbd5e1;">&times;</button>
       </div>
-      <div class="flip-card-container" id="flip-card-element">
-        <div class="flip-card-inner">
-          <div class="flip-card-front">
-            <span style="font-size: 3.5rem;">❓</span>
-            <p class="mt-2 text-muted">Chạm để lật bài</p>
+
+      <!-- Hướng dẫn giáo viên sử dụng -->
+      <div class="magic-card-guide-banner">
+        <span class="guide-icon">💡</span>
+        <span class="guide-text"><strong>Cách dùng trong tiết học:</strong> Thầy/Cô mời cả lớp hoặc một bạn chọn
+          <strong>Lá bài 1, 2 hay 3</strong>. Bấm vào lá bài được chọn để xoay 3D hé lộ bạn lên bảng giải toán!</span>
+      </div>
+
+      <!-- 3 Lá Bài Ma Thuật -->
+      <div class="magic-cards-wrapper" id="magic-cards-container">
+        <!-- Render bằng JS -->
+      </div>
+
+      <!-- Khung Chấm Điểm & Thao Tác Sau Khi Đã Lật Bài -->
+      <div id="magic-card-result-panel" class="magic-result-panel" style="display: none;">
+        <div class="magic-winner-meta">
+          <span class="magic-winner-title">🎯 BẠN ĐÃ ĐƯỢC CHỌN LÊN BẢNG:</span>
+          <h2 id="flip-winner-name" class="magic-winner-name">...</h2>
+          <div id="flip-winner-badge" class="team-tag" style="font-size: 0.9rem; padding: 4px 14px; margin-top: 4px;">Tổ
+            1 • SBD: ...</div>
+        </div>
+
+        <!-- Chấm điểm sư phạm sau khi giải bài -->
+        <div class="magic-grading-box">
+          <div style="font-weight: 700; font-size: 0.88rem; color: #f8fafc; margin-bottom: 8px;">
+            📝 Nhận xét & Chấm điểm sau khi học sinh làm bài xong:
           </div>
-          <div class="flip-card-back">
-            <div class="avatar-circle-lg" id="flip-avatar">H</div>
-            <h4 id="flip-name" class="mt-2">...</h4>
-            <span id="flip-team" class="team-tag">Tổ 4</span>
-            <button class="btn-sub-action btn-add-stu mt-3" id="btn-flip-add-point">+1 Điểm May Mắn</button>
+          <div class="magic-grade-actions">
+            <button id="btn-flip-grade-p2" class="btn-grade-choice p2" type="button"
+              title="Giải xuất sắc / sáng tạo (+2 XP)">
+              <span class="grade-icon">🌟</span>
+              <div>
+                <strong>Xuất Sắc</strong>
+                <small>+2 XP</small>
+              </div>
+            </button>
+            <button id="btn-flip-grade-p1" class="btn-grade-choice p1" type="button"
+              title="Làm đạt yêu cầu / đúng (+1 XP)">
+              <span class="grade-icon">👍</span>
+              <div>
+                <strong>Đạt Bài</strong>
+                <small>+1 XP</small>
+              </div>
+            </button>
+            <button id="btn-flip-grade-p0" class="btn-grade-choice p0" type="button" title="Hoàn thành lượt gọi (0 XP)">
+              <span class="grade-icon">👌</span>
+              <div>
+                <strong>Hoàn Thành</strong>
+                <small>0 XP</small>
+              </div>
+            </button>
+            <button id="btn-flip-grade-m1" class="btn-grade-choice m1" type="button"
+              title="Chưa chuẩn bị bài / chưa thuộc công thức (-1 XP)">
+              <span class="grade-icon">⚠️</span>
+              <div>
+                <strong>Chưa Thuộc</strong>
+                <small>-1 XP</small>
+              </div>
+            </button>
           </div>
         </div>
+
+        <!-- Nút phụ: Bốc lại lượt mới, đổi avatar, chấm chi tiết -->
+        <div class="magic-bottom-actions">
+          <button id="btn-flip-draw-another" class="btn-sub-action" type="button"
+            style="border-color: #818cf8; color: #c7d2fe; background: rgba(99, 102, 241, 0.15); font-weight: 700;">
+            🔄 Xáo 3 Thẻ Mới
+          </button>
+          <button id="btn-flip-change-avatar" class="btn-sub-action" type="button"
+            style="border-color: #34d399; color: #a7f3d0; background: rgba(16, 185, 129, 0.15); font-weight: 700;">
+            🎨 Đổi Ảnh Chibi
+          </button>
+          <button id="btn-flip-open-detail" class="btn-sub-action" type="button"
+            style="color: #f1f5f9; border-color: rgba(255,255,255,0.2);">
+            📋 Chấm Điểm Chi Tiết
+          </button>
+          <button class="btn-sub-action" data-close="modal-card-flip" type="button"
+            style="color: #f1f5f9; border-color: rgba(255,255,255,0.2);">
+            Đóng
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Chọn Ảnh Đại Diện Chibi & Tải Ảnh -->
+  <div id="modal-avatar-picker" class="modal-overlay">
+    <div class="modal-box modal-md text-center" style="max-width: 620px;">
+      <div class="modal-top">
+        <div style="text-align: left;">
+          <h3 class="modal-title" style="display: flex; align-items: center; gap: 8px;">
+            <span>🎭</span> CHỌN ẢNH ĐẠI DIỆN CHIBI
+          </h3>
+          <p class="text-muted small" style="margin: 3px 0 0;">
+            Đặt ảnh đại diện cho học sinh (Cả Thầy/Cô và Lớp Trưởng đều có quyền cập nhật)
+          </p>
+        </div>
+        <button class="btn-modal-close" data-close="modal-avatar-picker">&times;</button>
+      </div>
+
+      <!-- Preview hiện tại -->
+      <div class="avatar-picker-preview-box">
+        <div id="avatar-picker-preview-circle" class="avatar-circle avatar-circle-lg">?</div>
+        <div style="text-align: left;">
+          <div id="avatar-picker-name" style="font-weight: 800; font-size: 1.15rem; color: var(--text-main);">...</div>
+          <div id="avatar-picker-meta" class="text-muted small">Tổ 1 • SBD: ...</div>
+        </div>
+      </div>
+
+      <!-- Tab chọn loại avatar -->
+      <div class="avatar-tabs-bar">
+        <button class="avatar-tab-btn active" id="tab-btn-chibi-presets" type="button">🧸 Kho Chibi (32 Mẫu)</button>
+        <button class="avatar-tab-btn" id="tab-btn-upload-avatar" type="button">📁 Tải Ảnh Từ Máy</button>
+        <button class="avatar-tab-btn" id="tab-btn-url-avatar" type="button">🔗 Link Ảnh Online</button>
+      </div>
+
+      <!-- View 1: Chibi Presets Grid -->
+      <div id="view-chibi-presets" class="avatar-picker-view-pane active">
+        <div class="chibi-grid-scroll">
+          <div class="chibi-presets-grid" id="chibi-presets-grid">
+            <!-- 32 cute chibi cards dynamically rendered -->
+          </div>
+        </div>
+      </div>
+
+      <!-- View 2: Upload File -->
+      <div id="view-upload-avatar" class="avatar-picker-view-pane" style="display: none; padding: 14px 4px;">
+        <div class="avatar-dropzone" id="avatar-upload-dropzone">
+          <span style="font-size: 2.8rem;">📸</span>
+          <div style="font-weight: 700; margin-top: 8px; color: var(--primary-dark); font-size: 1rem;">
+            Bấm vào đây để chọn ảnh từ máy tính hoặc điện thoại
+          </div>
+          <p class="text-muted small" style="margin-top: 4px;">Hỗ trợ định dạng JPG, PNG, WEBP, GIF (Tự động nén thành
+            avatar tròn)</p>
+          <input type="file" id="input-avatar-file" accept="image/*" style="display: none;">
+        </div>
+      </div>
+
+      <!-- View 3: URL Image -->
+      <div id="view-url-avatar" class="avatar-picker-view-pane" style="display: none; padding: 20px 10px;">
+        <p class="text-muted small" style="margin-bottom: 8px; text-align: left;">Dán đường dẫn (link) ảnh trên mạng vào
+          đây:</p>
+        <div style="display: flex; gap: 8px;">
+          <input type="url" id="input-avatar-url" placeholder="https://example.com/avatar.jpg"
+            class="clean-input flex-1">
+          <button id="btn-apply-avatar-url" class="btn-primary" type="button">Áp Dụng</button>
+        </div>
+      </div>
+
+      <!-- Footer actions -->
+      <div class="modal-actions"
+        style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+        <button id="btn-reset-default-avatar" class="btn-sub-action" type="button"
+          style="color: #ef4444; border-color: #fca5a5; font-size: 0.85rem;">
+          ✕ Khôi phục chữ cái đầu
+        </button>
+        <button class="btn-sub-action" data-close="modal-avatar-picker" type="button">Đóng</button>
       </div>
     </div>
   </div>
@@ -1564,7 +1853,8 @@ Phan Huỳnh Anh	2	1202
           </button>
         </div>
         <div class="modal-top-actions">
-          <button id="btn-export-audit-csv" class="btn-sub-action btn-team-reward" type="button" title="Xuất file CSV nhật ký để lưu trữ hoặc in đối chiếu">
+          <button id="btn-export-audit-csv" class="btn-sub-action btn-team-reward" type="button"
+            title="Xuất file CSV nhật ký để lưu trữ hoặc in đối chiếu">
             📥 Xuất CSV
           </button>
           <button class="btn-modal-close" data-close="modal-history">&times;</button>
@@ -1575,7 +1865,8 @@ Phan Huỳnh Anh	2	1202
         <div id="audit-view-all" class="audit-view-pane active">
           <div class="audit-filter-bar">
             <div class="audit-search-wrap">
-              <input type="text" id="audit-search-input" placeholder="🔍 Tìm theo tên HS, STT, lý do, người chấm..." class="clean-input">
+              <input type="text" id="audit-search-input" placeholder="🔍 Tìm theo tên HS, STT, lý do, người chấm..."
+                class="clean-input">
             </div>
             <div class="audit-selects-wrap">
               <select id="audit-filter-team" class="clean-select-sm">
@@ -1642,7 +1933,8 @@ Phan Huỳnh Anh	2	1202
         <div class="clean-card mb-3 p-3">
           <h4 class="box-title">Tạo Lớp Mới:</h4>
           <div class="flex-gap">
-            <input type="text" id="new-class-name" placeholder="Tên lớp (VD: 10A2, 11B1, 12 chuyên)..." class="clean-input flex-1">
+            <input type="text" id="new-class-name" placeholder="Tên lớp (VD: 10A2, 11B1, 12 chuyên)..."
+              class="clean-input flex-1">
             <button id="btn-create-class" class="btn-sub-action btn-add-stu">Tạo Lớp</button>
           </div>
         </div>
@@ -1661,9 +1953,11 @@ Trần Thị Bích	1	1002
         </div>
         <div class="clean-card mb-3 p-3">
           <h4 class="box-title">⭐ Cấp Quyền Lớp Trưởng (Ghi Điểm):</h4>
-          <p class="text-muted small">Chỉ định Gmail của bạn Lớp trưởng lớp này. Khi bạn đăng nhập Google, hệ thống tự động nhận diện và mở đúng lớp này để bạn ghi điểm:</p>
+          <p class="text-muted small">Chỉ định Gmail của bạn Lớp trưởng lớp này. Khi bạn đăng nhập Google, hệ thống tự
+            động nhận diện và mở đúng lớp này để bạn ghi điểm:</p>
           <div class="flex-gap">
-            <input type="email" id="input-monitor-email" placeholder="Gmail lớp trưởng (vd: lop_truong_12c13@gmail.com)" class="clean-input flex-1">
+            <input type="email" id="input-monitor-email" placeholder="Gmail lớp trưởng (vd: lop_truong_12c13@gmail.com)"
+              class="clean-input flex-1">
             <button id="btn-save-monitor-email" class="btn-sub-action btn-add-stu">💾 Lưu</button>
           </div>
           <div id="monitor-email-status" class="small text-muted mt-1"></div>
@@ -1672,19 +1966,25 @@ Trần Thị Bích	1	1002
         <div class="clean-card p-3">
           <h4 class="box-title">🔄 Học Kỳ II, Niên Khóa & Bảo Đảm 100% Miễn Phí Vĩnh Viễn:</h4>
           <div class="quota-safety-badge mb-2">
-            <span>🛡️ <strong>Chính sách lưu trữ:</strong> Dữ liệu nhật ký cũ hơn 1 năm (365 ngày) được tự động dọn dẹp hoặc sao lưu tải về. Nhờ đó cơ sở dữ liệu luôn duy trì dưới 5 MB (&lt;1% hạn mức 500 MB của Supabase Free Tier), cam kết miễn phí 100% trọn đời.</span>
+            <span>🛡️ <strong>Chính sách lưu trữ:</strong> Dữ liệu nhật ký cũ hơn 1 năm (365 ngày) được tự động dọn dẹp
+              hoặc sao lưu tải về. Nhờ đó cơ sở dữ liệu luôn duy trì dưới 5 MB (&lt;1% hạn mức 500 MB của Supabase Free
+              Tier), cam kết miễn phí 100% trọn đời.</span>
           </div>
           <div class="flex-gap flex-wrap">
-            <button id="btn-rollover-hk2" class="btn-sub-action btn-team-reward" type="button" title="Chuyển sang HK2: Giữ nguyên điểm HK1 và mở thi đua HK2 mới từ 0 XP">
+            <button id="btn-rollover-hk2" class="btn-sub-action btn-team-reward" type="button"
+              title="Chuyển sang HK2: Giữ nguyên điểm HK1 và mở thi đua HK2 mới từ 0 XP">
               🌸 Khởi Động Học Kỳ II
             </button>
-            <button id="btn-export-backup" class="btn-sub-action" type="button" title="Tải toàn bộ dữ liệu ra file JSON an toàn trên máy tính">
+            <button id="btn-export-backup" class="btn-sub-action" type="button"
+              title="Tải toàn bộ dữ liệu ra file JSON an toàn trên máy tính">
               📦 Tải Sao Lưu Niên Khóa (JSON)
             </button>
-            <button id="btn-clean-old-history" class="btn-sub-action text-warning" type="button" title="Dọn dẹp các dòng nhật ký cũ hơn 365 ngày">
+            <button id="btn-clean-old-history" class="btn-sub-action text-warning" type="button"
+              title="Dọn dẹp các dòng nhật ký cũ hơn 365 ngày">
               🧹 Dọn Dẹp Dữ Liệu &gt; 1 Năm
             </button>
-            <button id="btn-reset-week" class="btn-sub-action text-danger" type="button">Đặt Lại Điểm Thưởng Tuần</button>
+            <button id="btn-reset-week" class="btn-sub-action text-danger" type="button">Đặt Lại Điểm Thưởng
+              Tuần</button>
             <button id="btn-import-backup" class="btn-sub-action" type="button">Khôi Phục (JSON)</button>
             <input type="file" id="backup-file-input" style="display: none;" accept=".json">
           </div>
@@ -1703,9 +2003,12 @@ Trần Thị Bích	1	1002
       <div class="modal-body">
         <div class="quick-split-bar mb-3">
           <span class="quick-lbl">Chia nhanh:</span>
-          <button id="btn-quick-split-alternate" class="btn-preset-sm" type="button" title="Gán lần lượt Tổ 1, 2, 3, 4 xen kẽ theo danh sách">⚡ Xen kẽ 1-2-3-4</button>
-          <button id="btn-quick-split-blocks" class="btn-preset-sm" type="button" title="Chia theo từng đoạn STT đều nhau">⚡ Theo đoạn STT</button>
-          <button id="btn-quick-split-random" class="btn-preset-sm" type="button" title="Trộn ngẫu nhiên 4 tổ đều quân số">🎲 Ngẫu nhiên</button>
+          <button id="btn-quick-split-alternate" class="btn-preset-sm" type="button"
+            title="Gán lần lượt Tổ 1, 2, 3, 4 xen kẽ theo danh sách">⚡ Xen kẽ 1-2-3-4</button>
+          <button id="btn-quick-split-blocks" class="btn-preset-sm" type="button"
+            title="Chia theo từng đoạn STT đều nhau">⚡ Theo đoạn STT</button>
+          <button id="btn-quick-split-random" class="btn-preset-sm" type="button"
+            title="Trộn ngẫu nhiên 4 tổ đều quân số">🎲 Ngẫu nhiên</button>
         </div>
 
         <div class="team-summary-chips mb-3" id="team-summary-stats">
@@ -1713,7 +2016,8 @@ Trần Thị Bích	1	1002
         </div>
 
         <div class="search-filter-row mb-3">
-          <input type="text" id="assign-teams-search" class="clean-input" placeholder="🔍 Gõ tên học sinh để tìm nhanh...">
+          <input type="text" id="assign-teams-search" class="clean-input"
+            placeholder="🔍 Gõ tên học sinh để tìm nhanh...">
         </div>
 
         <div class="assign-teams-container">
@@ -1722,14 +2026,15 @@ Trần Thị Bích	1	1002
           </div>
         </div>
       </div>
-      <div class="modal-footer" style="display: flex; justify-content: flex-end; gap: 8px; padding: 12px 20px; border-top: 1px solid var(--border);">
+      <div class="modal-footer"
+        style="display: flex; justify-content: flex-end; gap: 8px; padding: 12px 20px; border-top: 1px solid var(--border);">
         <button class="btn-modal-close btn-sub-action" data-close="modal-assign-teams" type="button">Đóng</button>
         <button id="btn-save-assign-teams" class="btn-primary-action" type="button">💾 Lưu Cập Nhật Tổ</button>
       </div>
     </div>
   </div>
 
-  
+
   <!-- ================= MODAL QUẢN LÝ BAN CÁN SỰ & PHÂN QUYỀN LỚP ================= -->
   <div id="modal-class-officers" class="modal-overlay">
     <div class="modal-box modal-box-lg">
@@ -1738,7 +2043,8 @@ Trần Thị Bích	1	1002
           <span style="font-size: 1.6rem;">🛡️</span>
           <div>
             <h3 class="modal-title" style="margin: 0;">Ban Cán Sự & Phân Quyền Ghi Điểm</h3>
-            <p class="text-muted small" style="margin: 2px 0 0;">Cấp quyền cho Lớp trưởng, Lớp phó, Tổ trưởng dùng Gmail cá nhân để ghi điểm</p>
+            <p class="text-muted small" style="margin: 2px 0 0;">Cấp quyền cho Lớp trưởng, Lớp phó, Tổ trưởng dùng Gmail
+              cá nhân để ghi điểm</p>
           </div>
         </div>
         <button class="btn-modal-close" data-close="modal-class-officers">&times;</button>
@@ -1790,18 +2096,22 @@ Trần Thị Bích	1	1002
               </select>
             </div>
             <div class="officers-email-col flex-1">
-              <input type="text" id="officer-new-email" class="clean-input" placeholder="Nhập Gmail của học sinh (vd: minh_anh@gmail.com)...">
+              <input type="text" id="officer-new-email" class="clean-input"
+                placeholder="Nhập Gmail của học sinh (vd: minh_anh@gmail.com)...">
             </div>
             <button id="btn-add-single-officer" class="btn-sub-action btn-add-stu" type="button">➕ Thêm</button>
           </div>
           <div class="officers-quick-paste-toggle">
-            <button id="btn-toggle-batch-paste" class="btn-text-small text-accent" type="button">📋 Dán nhiều Gmail cùng lúc (Batch Paste)...</button>
+            <button id="btn-toggle-batch-paste" class="btn-text-small text-accent" type="button">📋 Dán nhiều Gmail cùng
+              lúc (Batch Paste)...</button>
           </div>
           <div id="officers-batch-paste-box" class="officers-batch-box" style="display: none;">
-            <textarea id="officers-batch-emails" rows="3" class="clean-textarea" placeholder="Dán danh sách nhiều Gmail (phân cách bằng dấu phẩy, khoảng trắng hoặc mỗi email một dòng)..."></textarea>
+            <textarea id="officers-batch-emails" rows="3" class="clean-textarea"
+              placeholder="Dán danh sách nhiều Gmail (phân cách bằng dấu phẩy, khoảng trắng hoặc mỗi email một dòng)..."></textarea>
             <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 6px;">
               <button id="btn-cancel-batch-paste" class="btn-sub-action" type="button">Hủy</button>
-              <button id="btn-apply-batch-paste" class="btn-sub-action btn-team-reward" type="button">✅ Thêm Tất Cả</button>
+              <button id="btn-apply-batch-paste" class="btn-sub-action btn-team-reward" type="button">✅ Thêm Tất
+                Cả</button>
             </div>
           </div>
         </div>
@@ -1813,18 +2123,27 @@ Trần Thị Bích	1	1002
             <strong>Cơ Chế Phân Quyền Thông Minh:</strong>
           </div>
           <ul class="sec-info-list">
-            <li><strong>Giáo Viên (Admin):</strong> Toàn quyền trên cả 4 lớp, mở/khóa ghi điểm, sửa sơ đồ bàn học, xuất báo cáo tổng hợp.</li>
-            <li><strong>Ban Cán Sự:</strong> Chỉ cần bấm "Đăng nhập Google" bằng Gmail ở trên ➔ Hệ thống tự động mở đúng lớp, cấp quyền ghi điểm (+1, -1 XP phát biểu) mà không thể xem hay sửa dữ liệu của lớp khác.</li>
-            <li><strong>Đa email linh hoạt:</strong> Có thể cấp quyền cho nhiều bạn (Lớp trưởng + Lớp phó + 4 Tổ trưởng) cùng hỗ trợ Thầy quản lý lớp trong tiết học.</li>
+            <li><strong>Giáo Viên (Admin):</strong> Toàn quyền trên cả 4 lớp, mở/khóa ghi điểm, sửa sơ đồ bàn học, xuất
+              báo cáo tổng hợp.</li>
+            <li><strong>Ban Cán Sự:</strong> Chỉ cần bấm "Đăng nhập Google" bằng Gmail ở trên ➔ Hệ thống tự động mở đúng
+              lớp, cấp quyền ghi điểm (+1, -1 XP phát biểu) mà không thể xem hay sửa dữ liệu của lớp khác.</li>
+            <li><strong>Đa email linh hoạt:</strong> Có thể cấp quyền cho nhiều bạn (Lớp trưởng + Lớp phó + 4 Tổ trưởng)
+              cùng hỗ trợ Thầy quản lý lớp trong tiết học.</li>
           </ul>
         </div>
       </div>
 
-      <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border);">
-        <button class="btn-sub-action" data-close="modal-class-officers" type="button" style="padding: 8px 18px; border-radius: 8px; font-weight: 600; font-size: 0.9rem;">✕ Đóng</button>
+      <div class="modal-footer"
+        style="display: flex; justify-content: space-between; align-items: center; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border);">
+        <button class="btn-sub-action" data-close="modal-class-officers" type="button"
+          style="padding: 8px 18px; border-radius: 8px; font-weight: 600; font-size: 0.9rem;">✕ Đóng</button>
         <div style="display: flex; gap: 10px;">
-          <button id="btn-sync-officers-cloud" class="btn-sub-action btn-cloud-sync" type="button" style="padding: 8px 18px; border-radius: 8px; font-weight: 700; font-size: 0.9rem;">☁️ Đồng Bộ Cloud</button>
-          <button id="btn-save-officers" class="btn-sub-action btn-save-primary" type="button" style="padding: 8px 18px; border-radius: 8px; font-weight: 700; font-size: 0.9rem;">💾 Lưu Cấu Hình Cán Sự</button>
+          <button id="btn-sync-officers-cloud" class="btn-sub-action btn-cloud-sync" type="button"
+            style="padding: 8px 18px; border-radius: 8px; font-weight: 700; font-size: 0.9rem;">☁️ Đồng Bộ
+            Cloud</button>
+          <button id="btn-save-officers" class="btn-sub-action btn-save-primary" type="button"
+            style="padding: 8px 18px; border-radius: 8px; font-weight: 700; font-size: 0.9rem;">💾 Lưu Cấu Hình Cán
+            Sự</button>
         </div>
       </div>
     </div>
@@ -1878,11 +2197,13 @@ Trần Thị Bích	1	1002
           <p class="text-muted small">Lấy từ Supabase Dashboard > Project Settings > API:</p>
           <div class="mb-2">
             <label class="small text-muted font-bold" style="display:block; margin-bottom:4px;">Project URL:</label>
-            <input type="text" id="cfg-supabase-url" placeholder="https://your-project-ref.supabase.co" class="clean-input" style="width: 100%;">
+            <input type="text" id="cfg-supabase-url" placeholder="https://your-project-ref.supabase.co"
+              class="clean-input" style="width: 100%;">
           </div>
           <div class="mb-2">
             <label class="small text-muted font-bold" style="display:block; margin-bottom:4px;">Anon Public Key:</label>
-            <input type="text" id="cfg-supabase-key" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." class="clean-input" style="width: 100%;">
+            <input type="text" id="cfg-supabase-key" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+              class="clean-input" style="width: 100%;">
           </div>
           <div class="flex-gap mt-3">
             <button id="btn-save-cloud-config" class="btn-sub-action btn-team-reward">💾 Lưu Cấu Hình</button>
@@ -1893,7 +2214,8 @@ Trần Thị Bích	1	1002
 
         <div class="clean-card mb-3 p-3">
           <h4 class="box-title">2. Đồng Bộ Dữ Liệu Lớp Học (Local ⇄ Cloud):</h4>
-          <p class="text-muted small">Đẩy toàn bộ các lớp (12C2, 12C13...) và học sinh hiện tại lên Cloud hoặc kéo dữ liệu mới nhất về máy:</p>
+          <p class="text-muted small">Đẩy toàn bộ các lớp (12C2, 12C13...) và học sinh hiện tại lên Cloud hoặc kéo dữ
+            liệu mới nhất về máy:</p>
           <div class="flex-gap">
             <button id="btn-upload-to-cloud" class="btn-sub-action btn-add-stu">⬆️ Đẩy Dữ Liệu Lên Cloud</button>
             <button id="btn-download-from-cloud" class="btn-sub-action">⬇️ Kéo Dữ Liệu Từ Cloud Về</button>
@@ -1903,13 +2225,17 @@ Trần Thị Bích	1	1002
 
         <div class="clean-card p-3">
           <h4 class="box-title">3. Kích Hoạt Database 1 Click (100% Miễn Phí):</h4>
-          <p class="text-muted small">1. Tạo project trên <a href="https://supabase.com" target="_blank" class="text-accent" style="text-decoration: underline;">supabase.com</a> (Free Tier).</p>
-          <p class="text-muted small">2. Mở <strong>SQL Editor</strong> trong Supabase, bấm nút bên dưới để Copy toàn bộ mã SQL rồi Dán vào Supabase và bấm <strong>Run</strong>:</p>
+          <p class="text-muted small">1. Tạo project trên <a href="https://supabase.com" target="_blank"
+              class="text-accent" style="text-decoration: underline;">supabase.com</a> (Free Tier).</p>
+          <p class="text-muted small">2. Mở <strong>SQL Editor</strong> trong Supabase, bấm nút bên dưới để Copy toàn bộ
+            mã SQL rồi Dán vào Supabase và bấm <strong>Run</strong>:</p>
           <div class="mt-2 mb-3" style="display: flex; gap: 8px;">
             <button id="btn-copy-sql-schema" class="btn-sub-action btn-add-stu">📋 Copy Toàn Bộ Mã SQL Tạo Bảng</button>
-            <a href="supabase-schema.sql" target="_blank" class="btn-sub-action" style="text-decoration:none; display: inline-flex; align-items: center;">📄 Mở Xem File SQL</a>
+            <a href="supabase-schema.sql" target="_blank" class="btn-sub-action"
+              style="text-decoration:none; display: inline-flex; align-items: center;">📄 Mở Xem File SQL</a>
           </div>
-          <p class="text-muted small">3. Mở <strong>Authentication > Providers > Google</strong> để bật đăng nhập Gmail cho Thầy và Lớp trưởng.</p>
+          <p class="text-muted small">3. Mở <strong>Authentication > Providers > Google</strong> để bật đăng nhập Gmail
+            cho Thầy và Lớp trưởng.</p>
         </div>
       </div>
     </div>
@@ -1947,18 +2273,24 @@ Trần Thị Bích	1	1002
         <button class="btn-modal-close" data-close="modal-xp-store" style="color: white;">&times;</button>
       </div>
       <div class="modal-body" style="background: var(--bg-app);">
-        <div class="flex-between mb-3" style="align-items: center; background: white; padding: 12px 16px; border-radius: 12px; box-shadow: var(--shadow-card);">
+        <div class="flex-between mb-3"
+          style="align-items: center; background: white; padding: 12px 16px; border-radius: 12px; box-shadow: var(--shadow-card);">
           <div>
-            <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">Đổi thưởng cho:</div>
-            <div id="xp-store-student-name" style="font-size: 1.25rem; font-weight: 800; color: var(--text-main); margin-top: 2px;">Nguyễn Văn A</div>
+            <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">Đổi
+              thưởng cho:</div>
+            <div id="xp-store-student-name"
+              style="font-size: 1.25rem; font-weight: 800; color: var(--text-main); margin-top: 2px;">Nguyễn Văn A</div>
           </div>
           <div style="text-align: right;">
-            <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">Số dư XP:</div>
-            <div id="xp-store-student-points" style="font-size: 1.8rem; font-weight: 900; color: var(--accent-dark); line-height: 1;">120</div>
+            <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">Số
+              dư XP:</div>
+            <div id="xp-store-student-points"
+              style="font-size: 1.8rem; font-weight: 900; color: var(--accent-dark); line-height: 1;">120</div>
           </div>
         </div>
-        
-        <div id="xp-store-items-grid" class="xp-store-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; margin-top: 16px;">
+
+        <div id="xp-store-items-grid" class="xp-store-grid"
+          style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; margin-top: 16px;">
           <!-- Render from JS -->
         </div>
       </div>
@@ -1973,212 +2305,256 @@ Trần Thị Bích	1	1002
         <button class="btn-modal-close" data-close="modal-badge" style="color: white;">&times;</button>
       </div>
       <div class="modal-body" style="background: var(--bg-app);">
-        <div class="flex-between mb-3" style="align-items: center; background: white; padding: 12px 16px; border-radius: 12px; box-shadow: var(--shadow-card);">
+        <div class="flex-between mb-3"
+          style="align-items: center; background: white; padding: 12px 16px; border-radius: 12px; box-shadow: var(--shadow-card);">
           <div>
-            <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">Cấp huy hiệu cho:</div>
-            <div id="badge-student-name" style="font-size: 1.25rem; font-weight: 800; color: var(--text-main); margin-top: 2px;">Nguyễn Văn A</div>
+            <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">Cấp
+              huy hiệu cho:</div>
+            <div id="badge-student-name"
+              style="font-size: 1.25rem; font-weight: 800; color: var(--text-main); margin-top: 2px;">Nguyễn Văn A</div>
           </div>
           <div style="text-align: right;">
-            <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">Huy hiệu hiện có:</div>
-            <div id="badge-student-badges-count" style="font-size: 1.5rem; font-weight: 900; color: var(--primary-dark); line-height: 1;">0</div>
+            <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">Huy
+              hiệu hiện có:</div>
+            <div id="badge-student-badges-count"
+              style="font-size: 1.5rem; font-weight: 900; color: var(--primary-dark); line-height: 1;">0</div>
           </div>
         </div>
-        
+
         <p class="text-muted small mb-3">Lưu ý: Huy hiệu giúp vinh danh trên thẻ mà không gây lạm phát XP quá mức.</p>
 
-        <div id="badge-items-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; margin-top: 16px;">
+        <div id="badge-items-grid"
+          style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; margin-top: 16px;">
           <!-- Render from JS -->
         </div>
       </div>
     </div>
-  <!-- Modal Nhập Điểm Sang Math OMR -->
-  <div id="modal-import-omr" class="modal-overlay">
-    <div class="modal-box modal-lg" style="max-width: 820px;">
-      <div class="modal-top" style="background: linear-gradient(135deg, #10b981, #059669); color: white;">
-        <h3 class="modal-title" style="color: white;">📥 Nhập Điểm Từ Sang Math OMR Vào Sổ Điểm</h3>
-        <button class="btn-modal-close" data-close="modal-import-omr" style="color: white;">&times;</button>
-      </div>
-      <div class="modal-body" style="background: var(--bg-app); max-height: 80vh; overflow-y: auto;">
-        <div class="clean-card mb-3" style="background: white; padding: 16px; border-radius: 12px; box-shadow: var(--shadow-card);">
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: center;">
-            <div>
-              <label style="font-weight: 700; font-size: 0.9rem; color: var(--text-main); display: block; margin-bottom: 6px;">
-                🎯 Cột điểm đích cần đổ vào:
-              </label>
-              <select id="omr-target-col" class="clean-select" style="width: 100%; padding: 10px; border-radius: 8px; font-weight: 600; border: 1px solid var(--border);">
-                <option value="dgtx1">ĐGTX 1 (Thường xuyên 1)</option>
-                <option value="dgtx2">ĐGTX 2 (Thường xuyên 2)</option>
-                <option value="dgtx3">ĐGTX 3 (Thường xuyên 3)</option>
-                <option value="dgtx4">ĐGTX 4 (Thường xuyên 4)</option>
-                <option value="dgtx5">ĐGTX 5 (Thường xuyên 5)</option>
-                <option value="giuaKy">Giữa Kỳ (Hệ số 2)</option>
-                <option value="cuoiKy">Cuối Kỳ (Hệ số 3)</option>
-              </select>
+    <!-- Modal Nhập Điểm Sang Math OMR -->
+    <div id="modal-import-omr" class="modal-overlay">
+      <div class="modal-box modal-lg" style="max-width: 820px;">
+        <div class="modal-top" style="background: linear-gradient(135deg, #10b981, #059669); color: white;">
+          <h3 class="modal-title" style="color: white;">📥 Nhập Điểm Từ Sang Math OMR Vào Sổ Điểm</h3>
+          <button class="btn-modal-close" data-close="modal-import-omr" style="color: white;">&times;</button>
+        </div>
+        <div class="modal-body" style="background: var(--bg-app); max-height: 80vh; overflow-y: auto;">
+          <div class="clean-card mb-3"
+            style="background: white; padding: 16px; border-radius: 12px; box-shadow: var(--shadow-card);">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: center;">
+              <div>
+                <label
+                  style="font-weight: 700; font-size: 0.9rem; color: var(--text-main); display: block; margin-bottom: 6px;">
+                  🎯 Cột điểm đích cần đổ vào:
+                </label>
+                <select id="omr-target-col" class="clean-select"
+                  style="width: 100%; padding: 10px; border-radius: 8px; font-weight: 600; border: 1px solid var(--border);">
+                  <option value="dgtx1">ĐGTX 1 (Thường xuyên 1)</option>
+                  <option value="dgtx2">ĐGTX 2 (Thường xuyên 2)</option>
+                  <option value="dgtx3">ĐGTX 3 (Thường xuyên 3)</option>
+                  <option value="dgtx4">ĐGTX 4 (Thường xuyên 4)</option>
+                  <option value="dgtx5">ĐGTX 5 (Thường xuyên 5)</option>
+                  <option value="giuaKy">Giữa Kỳ (Hệ số 2)</option>
+                  <option value="cuoiKy">Cuối Kỳ (Hệ số 3)</option>
+                </select>
+              </div>
+              <div>
+                <label
+                  style="font-weight: 700; font-size: 0.9rem; color: var(--text-main); display: block; margin-bottom: 6px;">
+                  📁 Chọn file CSV xuất từ OMR:
+                </label>
+                <input type="file" id="omr-file-upload" accept=".csv,.txt" style="display: none;">
+                <button id="btn-trigger-omr-file" type="button" class="btn-sub-action"
+                  style="width: 100%; justify-content: center; padding: 10px; font-weight: 700; background: var(--bg-subtle);">
+                  📂 Chọn Tệp CSV Từ Máy...
+                </button>
+              </div>
             </div>
-            <div>
-              <label style="font-weight: 700; font-size: 0.9rem; color: var(--text-main); display: block; margin-bottom: 6px;">
-                📁 Chọn file CSV xuất từ OMR:
+            <div style="margin-top: 14px;">
+              <label
+                style="font-weight: 600; font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">
+                Hoặc dán trực tiếp dữ liệu (SBD, Họ tên, Điểm):
               </label>
-              <input type="file" id="omr-file-upload" accept=".csv,.txt" style="display: none;">
-              <button id="btn-trigger-omr-file" type="button" class="btn-sub-action" style="width: 100%; justify-content: center; padding: 10px; font-weight: 700; background: var(--bg-subtle);">
-                📂 Chọn Tệp CSV Từ Máy...
+              <textarea id="omr-raw-paste" rows="3" class="clean-input"
+                style="width: 100%; font-family: monospace; font-size: 0.85rem; padding: 10px; border: 1px solid var(--border); border-radius: 8px;"
+                placeholder="Ví dụ:&#10;120201, Võ Phạm Quốc An, 8.5&#10;120202, Phan Huỳnh Anh, 9.0"></textarea>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px;">
+              <span class="text-muted small">💡 Hệ thống tự động so khớp theo <strong>SBD 6 chữ số</strong> của lớp hiện
+                tại.</span>
+              <button id="btn-parse-omr-data" type="button" class="btn-sub-action btn-add-stu"
+                style="font-weight: 700;">
+                🔍 Kiểm Tra & So Khớp SBD
               </button>
             </div>
           </div>
-          <div style="margin-top: 14px;">
-            <label style="font-weight: 600; font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">
-              Hoặc dán trực tiếp dữ liệu (SBD, Họ tên, Điểm):
-            </label>
-            <textarea id="omr-raw-paste" rows="3" class="clean-input" style="width: 100%; font-family: monospace; font-size: 0.85rem; padding: 10px; border: 1px solid var(--border); border-radius: 8px;" placeholder="Ví dụ:&#10;120201, Võ Phạm Quốc An, 8.5&#10;120202, Phan Huỳnh Anh, 9.0"></textarea>
-          </div>
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px;">
-            <span class="text-muted small">💡 Hệ thống tự động so khớp theo <strong>SBD 6 chữ số</strong> của lớp hiện tại.</span>
-            <button id="btn-parse-omr-data" type="button" class="btn-sub-action btn-add-stu" style="font-weight: 700;">
-              🔍 Kiểm Tra & So Khớp SBD
-            </button>
-          </div>
-        </div>
 
-        <div id="omr-match-summary" style="display: none; margin-bottom: 12px;"></div>
+          <div id="omr-match-summary" style="display: none; margin-bottom: 12px;"></div>
 
-        <div id="omr-match-preview-wrap" style="display: none;">
-          <div style="max-height: 300px; overflow-y: auto; border: 1px solid var(--border); border-radius: 8px; background: white;">
-            <table class="clean-gradebook-table" style="width: 100%; font-size: 0.85rem;">
-              <thead>
-                <tr>
-                  <th style="width: 45px;">#</th>
-                  <th style="width: 80px;">SBD</th>
-                  <th style="text-align: left;">Họ và tên</th>
-                  <th style="width: 85px;">Điểm OMR</th>
-                  <th style="width: 85px;">Điểm Cũ</th>
-                  <th style="width: 120px;">Trạng Thái</th>
-                </tr>
-              </thead>
-              <tbody id="omr-preview-tbody">
-              </tbody>
-            </table>
-          </div>
+          <div id="omr-match-preview-wrap" style="display: none;">
+            <div
+              style="max-height: 300px; overflow-y: auto; border: 1px solid var(--border); border-radius: 8px; background: white;">
+              <table class="clean-gradebook-table" style="width: 100%; font-size: 0.85rem;">
+                <thead>
+                  <tr>
+                    <th style="width: 45px;">#</th>
+                    <th style="width: 80px;">SBD</th>
+                    <th style="text-align: left;">Họ và tên</th>
+                    <th style="width: 85px;">Điểm OMR</th>
+                    <th style="width: 85px;">Điểm Cũ</th>
+                    <th style="width: 120px;">Trạng Thái</th>
+                  </tr>
+                </thead>
+                <tbody id="omr-preview-tbody">
+                </tbody>
+              </table>
+            </div>
 
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px;">
-            <span class="text-muted small" id="omr-confirm-hint">Điểm hợp lệ sẽ được ghi vào sổ điểm và tính lại ĐTB môn ngay lập tức.</span>
-            <button id="btn-apply-omr-grades" type="button" class="btn-action-primary" style="background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 10px 24px; font-weight: 800; border-radius: 8px; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);">
-              ✅ Xác Nhận Đổ Điểm Vào Sổ Điểm
-            </button>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px;">
+              <span class="text-muted small" id="omr-confirm-hint">Điểm hợp lệ sẽ được ghi vào sổ điểm và tính lại ĐTB
+                môn ngay lập tức.</span>
+              <button id="btn-apply-omr-grades" type="button" class="btn-action-primary"
+                style="background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 10px 24px; font-weight: 800; border-radius: 8px; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);">
+                ✅ Xác Nhận Đổ Điểm Vào Sổ Điểm
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Modal Túi Đồ Thẻ Đặc Quyền (Inventory) -->
-  <div id="modal-inventory" class="modal-overlay">
-    <div class="modal-box modal-md" style="max-width: 620px;">
-      <div class="modal-top" style="background: linear-gradient(135deg, #6366f1, #4f46e5); color: white;">
-        <h3 class="modal-title" style="color: white;">🎒 Túi Đồ Thẻ Đặc Quyền</h3>
-        <button class="btn-modal-close" data-close="modal-inventory" style="color: white;">&times;</button>
+    <!-- Modal Túi Đồ Thẻ Đặc Quyền (Inventory) -->
+    <div id="modal-inventory" class="modal-overlay">
+      <div class="modal-box modal-md" style="max-width: 620px;">
+        <div class="modal-top" style="background: linear-gradient(135deg, #6366f1, #4f46e5); color: white;">
+          <h3 class="modal-title" style="color: white;">🎒 Túi Đồ Thẻ Đặc Quyền</h3>
+          <button class="btn-modal-close" data-close="modal-inventory" style="color: white;">&times;</button>
+        </div>
+        <div class="modal-body" style="background: var(--bg-app);">
+          <div class="flex-between mb-3"
+            style="align-items: center; background: white; padding: 12px 16px; border-radius: 12px; box-shadow: var(--shadow-card);">
+            <div>
+              <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">
+                Chủ sở hữu:</div>
+              <div id="inventory-student-name"
+                style="font-size: 1.25rem; font-weight: 800; color: var(--text-main); margin-top: 2px;">Nguyễn Văn A
+              </div>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">
+                Thẻ khả dụng:</div>
+              <div id="inventory-cards-count"
+                style="font-size: 1.5rem; font-weight: 900; color: #4f46e5; line-height: 1;">0</div>
+            </div>
+          </div>
+
+          <p class="text-muted small mb-2">Thẻ bài đặc quyền đã đổi từ Cửa hàng XP. Nhấn "Kích hoạt thẻ" khi đến lượt sử
+            dụng trong tiết học.</p>
+
+          <div id="inventory-cards-grid"
+            style="display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 10px;">
+            <!-- Render danh sách thẻ đã mua -->
+          </div>
+        </div>
       </div>
-      <div class="modal-body" style="background: var(--bg-app);">
-        <div class="flex-between mb-3" style="align-items: center; background: white; padding: 12px 16px; border-radius: 12px; box-shadow: var(--shadow-card);">
+    </div>
+
+    <!-- Modal Remote Điều Khiển Từ Xa (Teacher Mobile Clicker) -->
+    <div id="modal-remote-controller" class="modal-overlay">
+      <div class="modal-box modal-md" style="max-width: 520px;">
+        <div class="modal-top" style="background: linear-gradient(135deg, #0284c7, #0369a1); color: white;">
+          <h3 class="modal-title" style="color: white;">📱 Remote Điện Thoại Cho Thầy Giáo</h3>
+          <button class="btn-modal-close" data-close="modal-remote-controller" style="color: white;">&times;</button>
+        </div>
+        <div class="modal-body" style="background: var(--bg-app); text-align: center; padding: 20px;">
+          <div
+            style="background: white; border-radius: 16px; padding: 20px; box-shadow: var(--shadow-card); margin-bottom: 16px;">
+            <div style="font-size: 1rem; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">
+              📲 Quét mã để mở Remote trên điện thoại của Thầy:
+            </div>
+            <div id="remote-qr-code-wrap" style="margin: 16px auto; display: flex; justify-content: center;">
+              <img id="remote-qr-img" src="" alt="QR Code Remote"
+                style="width: 180px; height: 180px; border-radius: 12px; border: 1px solid var(--border);" />
+            </div>
+            <div style="margin-top: 10px;">
+              <a id="remote-link-url" href="" target="_blank"
+                style="font-size: 0.85rem; color: var(--primary-dark); font-weight: 700; word-break: break-all; text-decoration: underline;">
+                ...
+              </a>
+            </div>
+            <div style="margin-top: 14px; display: flex; justify-content: center; gap: 10px;">
+              <button id="btn-copy-remote-link" class="btn-sub-action" type="button" style="font-weight: 700;">
+                📋 Sao chép Link Remote
+              </button>
+              <button id="btn-open-remote-tab" class="btn-sub-action" type="button" style="font-weight: 700;">
+                🚀 Mở Giao Diện Remote
+              </button>
+            </div>
+          </div>
+
+          <div
+            style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 12px 16px; text-align: left; font-size: 0.85rem; color: #166534;">
+            <strong>💡 Cách dùng trong giờ dạy:</strong> Thầy quét mã bằng Camera/Zalo trên điện thoại. Khi thầy đi
+            quanh lớp kiểm tra, bấm cộng điểm hoặc bấm quay số trên điện thoại, TV máy chiếu trên bục giảng sẽ tự động
+            nhảy số tức thì qua Supabase Realtime!
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Giao diện Remote Độc Lập Cho Màn Hình Điện Thoại (Kích hoạt khi có ?mode=remote) -->
+    <div id="mobile-remote-app"
+      style="display: none; position: fixed; inset: 0; background: #0f172a; color: #f8fafc; z-index: 999999; flex-direction: column; overflow: hidden; font-family: var(--font-body);">
+      <!-- Remote Header -->
+      <div
+        style="background: #1e293b; padding: 12px 16px; border-bottom: 1px solid #334155; display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 1.4rem;">📱</span>
           <div>
-            <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">Chủ sở hữu:</div>
-            <div id="inventory-student-name" style="font-size: 1.25rem; font-weight: 800; color: var(--text-main); margin-top: 2px;">Nguyễn Văn A</div>
-          </div>
-          <div style="text-align: right;">
-            <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">Thẻ khả dụng:</div>
-            <div id="inventory-cards-count" style="font-size: 1.5rem; font-weight: 900; color: #4f46e5; line-height: 1;">0</div>
+            <div style="font-weight: 800; font-size: 1rem; color: #38bdf8;">Conic Remote</div>
+            <div id="remote-class-badge" style="font-size: 0.75rem; color: #94a3b8;">Đang kết nối TV...</div>
           </div>
         </div>
-
-        <p class="text-muted small mb-2">Thẻ bài đặc quyền đã đổi từ Cửa hàng XP. Nhấn "Kích hoạt thẻ" khi đến lượt sử dụng trong tiết học.</p>
-
-        <div id="inventory-cards-grid" style="display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 10px;">
-          <!-- Render danh sách thẻ đã mua -->
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <select id="remote-class-select"
+            style="background: #334155; color: white; border: 1px solid #475569; padding: 6px 10px; border-radius: 8px; font-weight: 700; font-size: 0.85rem;">
+            <!-- Render Lớp -->
+          </select>
+          <button id="btn-remote-exit"
+            style="background: #ef4444; color: white; border: none; padding: 6px 10px; border-radius: 8px; font-weight: 700; font-size: 0.8rem; cursor: pointer;">Thoát</button>
         </div>
       </div>
-    </div>
-  </div>
 
-  <!-- Modal Remote Điều Khiển Từ Xa (Teacher Mobile Clicker) -->
-  <div id="modal-remote-controller" class="modal-overlay">
-    <div class="modal-box modal-md" style="max-width: 520px;">
-      <div class="modal-top" style="background: linear-gradient(135deg, #0284c7, #0369a1); color: white;">
-        <h3 class="modal-title" style="color: white;">📱 Remote Điện Thoại Cho Thầy Giáo</h3>
-        <button class="btn-modal-close" data-close="modal-remote-controller" style="color: white;">&times;</button>
+      <!-- Remote Student Search & List -->
+      <div style="padding: 10px 14px; background: #1e293b; border-bottom: 1px solid #334155;">
+        <input type="text" id="remote-search-student" placeholder="🔍 Tìm nhanh học sinh theo tên hoặc số..."
+          style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid #475569; background: #0f172a; color: white; font-size: 0.95rem;" />
       </div>
-      <div class="modal-body" style="background: var(--bg-app); text-align: center; padding: 20px;">
-        <div style="background: white; border-radius: 16px; padding: 20px; box-shadow: var(--shadow-card); margin-bottom: 16px;">
-          <div style="font-size: 1rem; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">
-            📲 Quét mã để mở Remote trên điện thoại của Thầy:
-          </div>
-          <div id="remote-qr-code-wrap" style="margin: 16px auto; display: flex; justify-content: center;">
-            <img id="remote-qr-img" src="" alt="QR Code Remote" style="width: 180px; height: 180px; border-radius: 12px; border: 1px solid var(--border);" />
-          </div>
-          <div style="margin-top: 10px;">
-            <a id="remote-link-url" href="" target="_blank" style="font-size: 0.85rem; color: var(--primary-dark); font-weight: 700; word-break: break-all; text-decoration: underline;">
-              ...
-            </a>
-          </div>
-          <div style="margin-top: 14px; display: flex; justify-content: center; gap: 10px;">
-            <button id="btn-copy-remote-link" class="btn-sub-action" type="button" style="font-weight: 700;">
-              📋 Sao chép Link Remote
-            </button>
-            <button id="btn-open-remote-tab" class="btn-sub-action" type="button" style="font-weight: 700;">
-              🚀 Mở Giao Diện Remote
-            </button>
-          </div>
-        </div>
 
-        <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 12px 16px; text-align: left; font-size: 0.85rem; color: #166534;">
-          <strong>💡 Cách dùng trong giờ dạy:</strong> Thầy quét mã bằng Camera/Zalo trên điện thoại. Khi thầy đi quanh lớp kiểm tra, bấm cộng điểm hoặc bấm quay số trên điện thoại, TV máy chiếu trên bục giảng sẽ tự động nhảy số tức thì qua Supabase Realtime!
-        </div>
+      <div id="remote-students-list"
+        style="flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 8px;">
+        <!-- Danh sách thẻ học sinh dạng nút to -->
+      </div>
+
+      <!-- Remote Bottom Action Bar -->
+      <div
+        style="background: #1e293b; border-top: 1px solid #334155; padding: 10px 14px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
+        <button id="btn-remote-spin"
+          style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; border: none; padding: 12px 6px; border-radius: 10px; font-weight: 800; font-size: 0.88rem; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;">
+          <span style="font-size: 1.2rem;">🎡</span>
+          <span>Quay TV</span>
+        </button>
+        <button id="btn-remote-timer"
+          style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; padding: 12px 6px; border-radius: 10px; font-weight: 800; font-size: 0.88rem; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;">
+          <span style="font-size: 1.2rem;">⏱️</span>
+          <span>Timer 3p</span>
+        </button>
+        <button id="btn-remote-switch-tab"
+          style="background: linear-gradient(135deg, #6366f1, #4f46e5); color: white; border: none; padding: 12px 6px; border-radius: 10px; font-weight: 800; font-size: 0.88rem; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;">
+          <span style="font-size: 1.2rem;">🏆</span>
+          <span>Vinh Danh</span>
+        </button>
       </div>
     </div>
-  </div>
-
-  <!-- Giao diện Remote Độc Lập Cho Màn Hình Điện Thoại (Kích hoạt khi có ?mode=remote) -->
-  <div id="mobile-remote-app" style="display: none; position: fixed; inset: 0; background: #0f172a; color: #f8fafc; z-index: 999999; flex-direction: column; overflow: hidden; font-family: var(--font-body);">
-    <!-- Remote Header -->
-    <div style="background: #1e293b; padding: 12px 16px; border-bottom: 1px solid #334155; display: flex; justify-content: space-between; align-items: center;">
-      <div style="display: flex; align-items: center; gap: 8px;">
-        <span style="font-size: 1.4rem;">📱</span>
-        <div>
-          <div style="font-weight: 800; font-size: 1rem; color: #38bdf8;">Conic Remote</div>
-          <div id="remote-class-badge" style="font-size: 0.75rem; color: #94a3b8;">Đang kết nối TV...</div>
-        </div>
-      </div>
-      <div style="display: flex; align-items: center; gap: 8px;">
-        <select id="remote-class-select" style="background: #334155; color: white; border: 1px solid #475569; padding: 6px 10px; border-radius: 8px; font-weight: 700; font-size: 0.85rem;">
-          <!-- Render Lớp -->
-        </select>
-        <button id="btn-remote-exit" style="background: #ef4444; color: white; border: none; padding: 6px 10px; border-radius: 8px; font-weight: 700; font-size: 0.8rem; cursor: pointer;">Thoát</button>
-      </div>
-    </div>
-
-    <!-- Remote Student Search & List -->
-    <div style="padding: 10px 14px; background: #1e293b; border-bottom: 1px solid #334155;">
-      <input type="text" id="remote-search-student" placeholder="🔍 Tìm nhanh học sinh theo tên hoặc số..." style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid #475569; background: #0f172a; color: white; font-size: 0.95rem;" />
-    </div>
-
-    <div id="remote-students-list" style="flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 8px;">
-      <!-- Danh sách thẻ học sinh dạng nút to -->
-    </div>
-
-    <!-- Remote Bottom Action Bar -->
-    <div style="background: #1e293b; border-top: 1px solid #334155; padding: 10px 14px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
-      <button id="btn-remote-spin" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; border: none; padding: 12px 6px; border-radius: 10px; font-weight: 800; font-size: 0.88rem; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;">
-        <span style="font-size: 1.2rem;">🎡</span>
-        <span>Quay TV</span>
-      </button>
-      <button id="btn-remote-timer" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; padding: 12px 6px; border-radius: 10px; font-weight: 800; font-size: 0.88rem; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;">
-        <span style="font-size: 1.2rem;">⏱️</span>
-        <span>Timer 3p</span>
-      </button>
-      <button id="btn-remote-switch-tab" style="background: linear-gradient(135deg, #6366f1, #4f46e5); color: white; border: none; padding: 12px 6px; border-radius: 10px; font-weight: 800; font-size: 0.88rem; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;">
-        <span style="font-size: 1.2rem;">🏆</span>
-        <span>Vinh Danh</span>
-      </button>
-    </div>
-  </div>
 
 </body>
+
 </html>

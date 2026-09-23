@@ -137,6 +137,7 @@
     ],
   )
 
+
   #bt-item(
     3,
     [*(VDC - Câu đố Einstein rút gọn)* Có 4 ngôi nhà nằm ngang từ trái qua phải (đánh số 1, 2, 3, 4). Mỗi nhà có một màu khác nhau (Xanh, Đỏ, Vàng, Trắng), chủ nhân có quốc tịch khác nhau (Anh, Pháp, Mỹ, Nhật) và nuôi một con vật khác nhau (Chó, Mèo, Cá, Ngựa).

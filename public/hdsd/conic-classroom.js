@@ -2488,7 +2488,7 @@
       return `
         <div class="student-card ${isSelected ? 'selected' : ''}" data-id="${s.id}">
           <div class="card-top">
-            <div class="avatar-circle">${avatarInitial}</div>
+            ${getStudentAvatarHtml(s, 'md', 'student-card-avatar')}
             <div class="student-info">
               <div class="student-name" title="${escapeHtml(s.name)}">${escapeHtml(s.name)}</div>
               <div class="student-meta">
@@ -2589,8 +2589,8 @@
     const levelInfo = calculateLevel(student.points);
     return `
       <div class="desk-seat" data-seat-id="${student.id}" title="Bấm để thưởng +1 điểm phát biểu">
-        <div style="display: flex; align-items: center; gap: 4px; width: 100%;">
-          <div class="avatar-circle" style="width: 24px; height: 24px; font-size: 0.7rem; min-width: 24px;">${avatar}</div>
+        <div style="display: flex; align-items: center; gap: 6px; width: 100%;">
+          ${getStudentAvatarHtml(student, 'sm', 'desk-avatar')}
           <span class="seat-name" style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${escapeHtml(student.name)}</span>
         </div>
         <div style="display: flex; align-items: center; gap: 2px; margin-top: 4px; flex-wrap: wrap; min-height: 16px;">
@@ -2754,6 +2754,7 @@
     renderSeatingChart();
     renderGradebookTab();
     renderLeaderboard();
+    updateCalledListUI();
 
     if (deltaPoints > 0) {
       AudioEngine.playPositive();
@@ -3118,7 +3119,7 @@
     drawWheel();
   }
 
-  function updateWheelStudents() {
+  function getEligibleWheelStudents() {
     const cls = getCurrentClass();
     const scope = document.getElementById('wheel-team-scope')?.value || 'all';
     const excludeCalled = document.getElementById('chk-exclude-called')?.checked ?? true;
@@ -3130,8 +3131,11 @@
     if (excludeCalled) {
       pool = pool.filter(s => !calledStudents.has(s.id));
     }
-    if (pool.length === 0) pool = [...cls.students];
-    wheelStudents = pool;
+    return pool;
+  }
+
+  function updateWheelStudents() {
+    wheelStudents = getEligibleWheelStudents();
   }
 
   function drawWheel() {
@@ -3144,7 +3148,25 @@
 
     wheelCtx.clearRect(0, 0, w, h);
     const count = wheelStudents.length;
-    if (count === 0) return;
+    if (count === 0) {
+      wheelCtx.save();
+      wheelCtx.beginPath();
+      wheelCtx.arc(cx, cy, r, 0, Math.PI * 2);
+      wheelCtx.fillStyle = '#f8fafc';
+      wheelCtx.fill();
+      wheelCtx.lineWidth = 2;
+      wheelCtx.strokeStyle = '#cbd5e1';
+      wheelCtx.stroke();
+      wheelCtx.fillStyle = '#64748b';
+      wheelCtx.font = 'bold 15px Outfit, sans-serif';
+      wheelCtx.textAlign = 'center';
+      wheelCtx.textBaseline = 'middle';
+      wheelCtx.fillText('Đã gọi hết học sinh!', cx, cy - 10);
+      wheelCtx.font = '13px Outfit, sans-serif';
+      wheelCtx.fillText('Bấm "Làm mới" để quay lại', cx, cy + 14);
+      wheelCtx.restore();
+      return;
+    }
 
     const arc = (Math.PI * 2) / count;
     const sliceColors = ['#10b981', '#f97316', '#3b82f6', '#ec4899', '#8b5cf6', '#06b6d4', '#f59e0b', '#14b8a6'];
@@ -3191,14 +3213,40 @@
   }
 
   function spinWheel() {
-    if (isSpinning || wheelStudents.length === 0) return;
+    if (isSpinning) return;
+    updateWheelStudents();
+    if (wheelStudents.length === 0) {
+      AudioEngine.playNegative();
+      showToast('Đã gọi hết tất cả học sinh trong phạm vi! Vui lòng bấm "Làm mới" trên Bảng Kết Quả để quay lại từ đầu.', 'warning');
+      return;
+    }
     isSpinning = true;
     AudioEngine.init();
 
     const spinBtn = document.getElementById('btn-spin-wheel');
     if (spinBtn) spinBtn.disabled = true;
 
-    const winnerIndex = Math.floor(Math.random() * wheelStudents.length);
+    // Chế độ công bằng: Ưu tiên học sinh ít XP hơn (chưa hoặc ít được phát biểu)
+    let winnerIndex;
+    const fairMode = document.getElementById('chk-fair-mode')?.checked ?? true;
+    if (fairMode && wheelStudents.length > 1) {
+      const weights = wheelStudents.map(s => {
+        const pts = Math.max(0, getStudentPoints(s));
+        return 1 / (pts + 1);
+      });
+      const totalWeight = weights.reduce((acc, w) => acc + w, 0);
+      let rand = Math.random() * totalWeight;
+      winnerIndex = 0;
+      for (let i = 0; i < weights.length; i++) {
+        if (rand < weights[i]) {
+          winnerIndex = i;
+          break;
+        }
+        rand -= weights[i];
+      }
+    } else {
+      winnerIndex = Math.floor(Math.random() * wheelStudents.length);
+    }
     const winner = wheelStudents[winnerIndex];
 
     const count = wheelStudents.length;
@@ -3234,6 +3282,7 @@
         if (spinBtn) spinBtn.disabled = false;
         calledStudents.add(winner.id);
         updateCalledListUI();
+        updateWheelStudents(); // Cập nhật ngay pool để lượt quay sau không bị trùng
         AudioEngine.playFanfare();
         Confetti.burst(window.innerWidth / 2, window.innerHeight / 2, 120);
 
@@ -3286,15 +3335,68 @@
   function updateCalledListUI() {
     const listEl = document.getElementById('called-students-list');
     const countEl = document.getElementById('called-count');
+    const btnRewardAll = document.getElementById('btn-reward-all-called');
     if (!listEl) return;
     const cls = getCurrentClass();
-    const calledArr = cls.students.filter(s => calledStudents.has(s.id));
+    
+    // Lấy theo đúng thứ tự đã gọi từ Set calledStudents
+    const calledArr = [];
+    calledStudents.forEach(id => {
+      const s = cls.students.find(st => st.id === id);
+      if (s) calledArr.push(s);
+    });
+
     if (countEl) countEl.textContent = calledArr.length;
+    if (btnRewardAll) {
+      btnRewardAll.style.display = calledArr.length >= 2 ? 'inline-flex' : 'none';
+    }
+
     if (calledArr.length === 0) {
-      listEl.innerHTML = '<span class="empty-hint">Chưa có học sinh nào được gọi</span>';
+      listEl.innerHTML = `
+        <div class="called-empty-state">
+          <span class="called-empty-icon">🎯</span>
+          <span class="called-empty-text">Chưa gọi bạn nào lên bảng</span>
+        </div>
+      `;
       return;
     }
-    listEl.innerHTML = calledArr.map(s => `<span class="called-tag">${escapeHtml(s.name)} (Tổ ${s.team})</span>`).join('');
+
+    listEl.innerHTML = calledArr.map((s, idx) => {
+      const pts = getStudentPoints(s);
+      const classStt = s.stt || (cls.students.findIndex(st => st.id === s.id) + 1);
+      const sttText = classStt < 10 ? '0' + classStt : classStt;
+      return `
+        <div class="called-student-card" data-id="${s.id}">
+          <div class="called-student-info" data-action="score-modal" data-id="${s.id}" title="Bấm để mở bảng chấm điểm chi tiết của ${escapeHtml(s.name)}">
+            <span class="called-stt-badge" title="Số thứ tự trong sổ điểm lớp">STT ${sttText}</span>
+            <span class="called-turn-badge" title="Lượt gọi thứ ${idx + 1}">#${idx + 1}</span>
+            <div class="called-meta">
+              <div class="called-name-row">
+                <span class="called-name">${escapeHtml(s.name)}</span>
+                <span class="called-team">Tổ ${s.team || 1}</span>
+              </div>
+              <div class="called-points-tag">
+                <span class="pts-val">⭐ ${pts} XP</span>
+              </div>
+            </div>
+          </div>
+          <div class="called-actions">
+            <button class="btn-called-btn btn-called-plus1" data-action="plus-1" data-id="${s.id}" title="Lên bảng làm đúng: Thưởng +1 XP">
+              +1
+            </button>
+            <button class="btn-called-btn btn-called-plus2" data-action="plus-2" data-id="${s.id}" title="Lên bảng giải xuất sắc/sáng tạo: Thưởng +2 XP">
+              +2
+            </button>
+            <button class="btn-called-btn btn-called-minus1" data-action="minus-1" data-id="${s.id}" title="Chưa làm được bài / chưa chuẩn bị: -1 XP">
+              -1
+            </button>
+            <button class="btn-called-btn btn-called-remove" data-action="remove" data-id="${s.id}" title="Gỡ khỏi danh sách đã gọi để quay lại">
+              &times;
+            </button>
+          </div>
+        </div>
+      `;
+    }).join('');
   }
 
   // ==========================================
@@ -5028,6 +5130,58 @@
       }
     });
 
+    // Sự kiện đổi Avatar Chibi từ Modal Chấm Điểm
+    document.getElementById('btn-modal-change-avatar')?.addEventListener('click', () => {
+      if (activeStudentForModal) {
+        openAvatarPickerModal(activeStudentForModal.id);
+      }
+    });
+    document.getElementById('modal-student-avatar')?.addEventListener('click', () => {
+      if (activeStudentForModal) {
+        openAvatarPickerModal(activeStudentForModal.id);
+      }
+    });
+
+    // Sự kiện trong Modal Chọn Avatar (Tab, Upload, URL, Reset)
+    document.getElementById('tab-btn-chibi-presets')?.addEventListener('click', () => switchAvatarPickerTab('chibi'));
+    document.getElementById('tab-btn-upload-avatar')?.addEventListener('click', () => switchAvatarPickerTab('upload'));
+    document.getElementById('tab-btn-url-avatar')?.addEventListener('click', () => switchAvatarPickerTab('url'));
+
+    const dropzone = document.getElementById('avatar-upload-dropzone');
+    const fileInput = document.getElementById('input-avatar-file');
+    dropzone?.addEventListener('click', () => fileInput?.click());
+    dropzone?.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropzone.classList.add('drag-hover');
+    });
+    dropzone?.addEventListener('dragleave', () => dropzone.classList.remove('drag-hover'));
+    dropzone?.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropzone.classList.remove('drag-hover');
+      if (e.dataTransfer?.files?.[0]) {
+        handleAvatarFileUpload(e.dataTransfer.files[0]);
+      }
+    });
+    fileInput?.addEventListener('change', (e) => {
+      if (e.target.files?.[0]) {
+        handleAvatarFileUpload(e.target.files[0]);
+      }
+    });
+
+    document.getElementById('btn-apply-avatar-url')?.addEventListener('click', () => {
+      const urlInput = document.getElementById('input-avatar-url');
+      const val = urlInput?.value?.trim();
+      if (!val) {
+        showToast('⚠️ Vui lòng nhập link hình ảnh!', 'warning');
+        return;
+      }
+      applyStudentAvatar({ type: 'url', value: val });
+    });
+
+    document.getElementById('btn-reset-default-avatar')?.addEventListener('click', () => {
+      applyStudentAvatar(null);
+    });
+
     // Sự kiện Modal Trao Tặng XP Đôi Bạn Cùng Tiến
     document.getElementById('transfer-xp-amount')?.addEventListener('input', updateTransferSummary);
     document.querySelectorAll('.btn-quick-transfer').forEach(btn => {
@@ -5243,15 +5397,78 @@
       updateCalledListUI();
       updateWheelStudents();
       drawWheel();
+      showToast('Đã làm mới danh sách gọi.', 'info');
+    });
+
+    // Thưởng đồng loạt cho toàn bộ học sinh trong danh sách đã gọi (+1 XP)
+    document.getElementById('btn-reward-all-called')?.addEventListener('click', () => {
+      const cls = getCurrentClass();
+      const calledArr = [];
+      calledStudents.forEach(id => {
+        const s = cls.students.find(st => st.id === id);
+        if (s) calledArr.push(s);
+      });
+      if (calledArr.length === 0) return;
+
+      calledArr.forEach(s => {
+        adjustStudentPoints(s.id, 1, 'Lên bảng làm bài đạt yêu cầu (+1 XP)');
+      });
+      AudioEngine.playPositive();
+      Confetti.burst();
+      showToast(`🎉 Đã cộng +1 XP cho tất cả ${calledArr.length} bạn đã lên bảng!`, 'success');
+    });
+
+    // Sự kiện tương tác trên từng học sinh trong danh sách Đã Gọi (+, -, xóa, mở modal chấm chi tiết)
+    const calledListEl = document.getElementById('called-students-list');
+    calledListEl?.addEventListener('click', (e) => {
+      const btn = e.target.closest('button[data-action]');
+      if (btn) {
+        e.stopPropagation();
+        const action = btn.dataset.action;
+        const studentId = btn.dataset.id;
+        const cls = getCurrentClass();
+        const s = cls.students.find(st => st.id === studentId);
+        if (!s) return;
+
+        if (action === 'plus-1') {
+          adjustStudentPoints(s.id, 1, 'Lên bảng làm bài đạt yêu cầu (+1 XP)', btn);
+        } else if (action === 'plus-2') {
+          adjustStudentPoints(s.id, 2, 'Lên bảng giải xuất sắc / sáng tạo (+2 XP)', btn);
+        } else if (action === 'minus-1') {
+          adjustStudentPoints(s.id, -1, 'Chưa hoàn thành bài làm trên bảng (-1 XP)', btn);
+        } else if (action === 'remove') {
+          calledStudents.delete(s.id);
+          updateCalledListUI();
+          updateWheelStudents();
+          drawWheel();
+          showToast(`Đã gỡ ${escapeHtml(s.name)} khỏi danh sách gọi.`, 'info');
+        }
+        return;
+      }
+
+      const infoEl = e.target.closest('[data-action="score-modal"]');
+      if (infoEl && infoEl.dataset.id) {
+        openScoreModal(infoEl.dataset.id);
+      }
     });
 
     // 10. Đấu trường 1 vs 1 & Lật thẻ bí ẩn
     document.getElementById('btn-showdown-1v1')?.addEventListener('click', () => {
-      const cls = getCurrentClass();
-      if (cls.students.length < 2) return;
-      const p1 = cls.students[Math.floor(Math.random() * cls.students.length)];
-      const diffTeam = cls.students.filter(s => s.team !== p1.team);
-      const p2 = diffTeam.length > 0 ? diffTeam[Math.floor(Math.random() * diffTeam.length)] : cls.students.filter(s => s.id !== p1.id)[0];
+      const candidates = getEligibleWheelStudents();
+      if (candidates.length < 2) {
+        AudioEngine.playNegative();
+        showToast('Cần ít nhất 2 học sinh hợp lệ để mở Đấu Trường 1 vs 1! Vui lòng bấm "Làm mới" nếu đã gọi hết.', 'warning');
+        return;
+      }
+      const p1 = candidates[Math.floor(Math.random() * candidates.length)];
+      const diffTeam = candidates.filter(s => s.team !== p1.team);
+      const p2 = diffTeam.length > 0 ? diffTeam[Math.floor(Math.random() * diffTeam.length)] : candidates.filter(s => s.id !== p1.id)[0];
+
+      calledStudents.add(p1.id);
+      calledStudents.add(p2.id);
+      updateCalledListUI();
+      updateWheelStudents();
+      drawWheel();
 
       document.getElementById('sd-p1-name').textContent = p1.name;
       document.getElementById('sd-p1-team').textContent = `Tổ ${p1.team}`;
@@ -5274,24 +5491,65 @@
     });
 
     document.getElementById('btn-magic-card')?.addEventListener('click', () => {
-      const cls = getCurrentClass();
-      if (cls.students.length === 0) return;
-      const lucky = cls.students[Math.floor(Math.random() * cls.students.length)];
-      const cardEl = document.getElementById('flip-card-element');
-      cardEl.classList.remove('flipped');
-      document.getElementById('flip-name').textContent = lucky.name;
-      document.getElementById('flip-team').textContent = `Tổ ${lucky.team}`;
-      document.getElementById('flip-avatar').textContent = lucky.name.split(' ').pop().charAt(0).toUpperCase();
-      document.getElementById('btn-flip-add-point').onclick = () => {
-        adjustStudentPoints(lucky.id, 1, 'Thẻ bí ẩn may mắn');
+      openMagicCardModal();
+    });
+
+    // Các nút chấm điểm trong Modal Lật Thẻ Ma Thuật
+    document.getElementById('btn-flip-grade-p2')?.addEventListener('click', () => {
+      if (magicCardRevealedIndex !== -1 && magicCardsCurrentPool[magicCardRevealedIndex]) {
+        const s = magicCardsCurrentPool[magicCardRevealedIndex];
+        adjustStudentPoints(s.id, 2, 'Lật thẻ bí ẩn: Giải toán xuất sắc (+2 XP)');
         closeModal('modal-card-flip');
-      };
-      openModal('modal-card-flip');
-      cardEl.onclick = () => {
-        cardEl.classList.toggle('flipped');
-        AudioEngine.playPositive();
-        Confetti.burst();
-      };
+      }
+    });
+
+    document.getElementById('btn-flip-grade-p1')?.addEventListener('click', () => {
+      if (magicCardRevealedIndex !== -1 && magicCardsCurrentPool[magicCardRevealedIndex]) {
+        const s = magicCardsCurrentPool[magicCardRevealedIndex];
+        adjustStudentPoints(s.id, 1, 'Lật thẻ bí ẩn: Hoàn thành tốt bài giải (+1 XP)');
+        closeModal('modal-card-flip');
+      }
+    });
+
+    document.getElementById('btn-flip-grade-p0')?.addEventListener('click', () => {
+      if (magicCardRevealedIndex !== -1 && magicCardsCurrentPool[magicCardRevealedIndex]) {
+        const s = magicCardsCurrentPool[magicCardRevealedIndex];
+        adjustStudentPoints(s.id, 0, 'Lật thẻ bí ẩn: Hoàn thành lượt gọi (0 XP)');
+        closeModal('modal-card-flip');
+      }
+    });
+
+    document.getElementById('btn-flip-grade-m1')?.addEventListener('click', () => {
+      if (magicCardRevealedIndex !== -1 && magicCardsCurrentPool[magicCardRevealedIndex]) {
+        const s = magicCardsCurrentPool[magicCardRevealedIndex];
+        adjustStudentPoints(s.id, -1, 'Lật thẻ bí ẩn: Chưa chuẩn bị bài (-1 XP)');
+        closeModal('modal-card-flip');
+      }
+    });
+
+    document.getElementById('btn-flip-draw-another')?.addEventListener('click', () => {
+      const candidates = getEligibleWheelStudents();
+      if (candidates.length === 0) {
+        AudioEngine.playNegative();
+        showToast('Đã gọi hết học sinh trong phạm vi! Vui lòng bấm "Làm mới" trên vòng quay.', 'warning');
+        return;
+      }
+      prepareMagicCards(candidates);
+    });
+
+    document.getElementById('btn-flip-change-avatar')?.addEventListener('click', () => {
+      if (magicCardRevealedIndex !== -1 && magicCardsCurrentPool[magicCardRevealedIndex]) {
+        const s = magicCardsCurrentPool[magicCardRevealedIndex];
+        openAvatarPickerModal(s.id);
+      }
+    });
+
+    document.getElementById('btn-flip-open-detail')?.addEventListener('click', () => {
+      if (magicCardRevealedIndex !== -1 && magicCardsCurrentPool[magicCardRevealedIndex]) {
+        const s = magicCardsCurrentPool[magicCardRevealedIndex];
+        closeModal('modal-card-flip');
+        openScoreModal(s.id);
+      }
     });
 
     // 11. Timer & Chia nhóm
@@ -5817,7 +6075,7 @@
     });
     document.querySelectorAll('.modal-overlay').forEach(modal => {
       modal.addEventListener('click', (e) => {
-        if (e.target === modal) modal.classList.remove('open');
+        if (e.target === modal) closeModal(modal.id);
       });
     });
   }
@@ -6216,6 +6474,319 @@
     `).join('');
   }
 
+  // ==========================================
+  // 14B. HỆ THỐNG AVATAR CHIBI & QUYỀN HẠN CÁN SỰ LỚP
+  // ==========================================
+  const CHIBI_PRESETS = [
+    { id: 'chibi-cat', emoji: '🐱', name: 'Mèo Lười Siêng Học', bg: 'linear-gradient(135deg, #fce7f3, #f472b6)' },
+    { id: 'chibi-dog', emoji: '🐶', name: 'Cún Cưng Nhanh Nhẹn', bg: 'linear-gradient(135deg, #fef3c7, #f59e0b)' },
+    { id: 'chibi-fox', emoji: '🦊', name: 'Cáo Thông Thái', bg: 'linear-gradient(135deg, #ffedd5, #ea580c)' },
+    { id: 'chibi-bunny', emoji: '🐰', name: 'Thỏ Trắng Tinh Anh', bg: 'linear-gradient(135deg, #ffe4e6, #fb7185)' },
+    { id: 'chibi-bear', emoji: '🐻', name: 'Gấu Trầm Tính Chăm Chỉ', bg: 'linear-gradient(135deg, #fef9c3, #ca8a04)' },
+    { id: 'chibi-panda', emoji: '🐼', name: 'Gấu Trúc Dễ Thương', bg: 'linear-gradient(135deg, #f1f5f9, #64748b)' },
+    { id: 'chibi-koala', emoji: '🐨', name: 'Koala Mộng Mơ', bg: 'linear-gradient(135deg, #e2e8f0, #94a3b8)' },
+    { id: 'chibi-lion', emoji: '🦁', name: 'Sư Tử Dũng Mãnh', bg: 'linear-gradient(135deg, #fef08a, #d97706)' },
+    { id: 'chibi-tiger', emoji: '🐯', name: 'Hổ Con Đột Phá', bg: 'linear-gradient(135deg, #fed7aa, #f97316)' },
+    { id: 'chibi-dino', emoji: '🦖', name: 'Khủng Long Nhí', bg: 'linear-gradient(135deg, #dcfce7, #22c55e)' },
+    { id: 'chibi-unicorn', emoji: '🦄', name: 'Kỳ Lân May Mắn', bg: 'linear-gradient(135deg, #f5d0fe, #c084fc)' },
+    { id: 'chibi-dragon', emoji: '🐲', name: 'Rồng Con Quyết Thắng', bg: 'linear-gradient(135deg, #ccfbf1, #14b8a6)' },
+    { id: 'chibi-owl', emoji: '🦉', name: 'Cú Mèo Thủ Khoa', bg: 'linear-gradient(135deg, #e0e7ff, #6366f1)' },
+    { id: 'chibi-penguin', emoji: '🐧', name: 'Cánh Cụt Kiên Trì', bg: 'linear-gradient(135deg, #cffafe, #06b6d4)' },
+    { id: 'chibi-duck', emoji: '🐥', name: 'Vịt Vàng Hóm Hỉnh', bg: 'linear-gradient(135deg, #fef08a, #eab308)' },
+    { id: 'chibi-monkey', emoji: '🐵', name: 'Khỉ Con Sáng Tạo', bg: 'linear-gradient(135deg, #fed7aa, #b45309)' },
+    { id: 'chibi-frog', emoji: '🐸', name: 'Ếch Cố Gắng Vươn Lên', bg: 'linear-gradient(135deg, #dcfce7, #16a34a)' },
+    { id: 'chibi-bee', emoji: '🐝', name: 'Ong Chăm Chỉ Làm Bài', bg: 'linear-gradient(135deg, #fef9c3, #f59e0b)' },
+    { id: 'chibi-dolphin', emoji: '🐬', name: 'Cá Heo Vui Vẻ', bg: 'linear-gradient(135deg, #e0f2fe, #38bdf8)' },
+    { id: 'chibi-whale', emoji: '🐳', name: 'Cá Voi Khổng Lồ', bg: 'linear-gradient(135deg, #dbeafe, #3b82f6)' },
+    { id: 'chibi-astronaut', emoji: '👨‍🚀', name: 'Phi Hành Gia Khám Phá', bg: 'linear-gradient(135deg, #ede9fe, #8b5cf6)' },
+    { id: 'chibi-wizard', emoji: '🧙‍♂️', name: 'Pháp Sư Giải Toán', bg: 'linear-gradient(135deg, #fae8ff, #d946ef)' },
+    { id: 'chibi-ninja', emoji: '🥷', name: 'Ninja Thần Tốc', bg: 'linear-gradient(135deg, #f1f5f9, #334155)' },
+    { id: 'chibi-superhero', emoji: '🦸‍♀️', name: 'Nữ Anh Hùng Cần Mẫn', bg: 'linear-gradient(135deg, #ffe4e6, #f43f5e)' },
+    { id: 'chibi-scholar', emoji: '🧑‍🎓', name: 'Học Trò Xuất Sắc', bg: 'linear-gradient(135deg, #ecfdf5, #10b981)' },
+    { id: 'chibi-artist', emoji: '🎨', name: 'Họa Sĩ Đầy Ý Tưởng', bg: 'linear-gradient(135deg, #fdf4ff, #a855f7)' },
+    { id: 'chibi-rockstar', emoji: '🎸', name: 'Ngôi Sao Sôi Nổi', bg: 'linear-gradient(135deg, #fff1f2, #fb7185)' },
+    { id: 'chibi-scientist', emoji: '🔬', name: 'Nhà Nghiên Cứu Tỉ Mỉ', bg: 'linear-gradient(135deg, #f0fdf4, #22c55e)' },
+    { id: 'chibi-detective', emoji: '🕵️', name: 'Thám Tử Tìm Lời Giải', bg: 'linear-gradient(135deg, #f8fafc, #475569)' },
+    { id: 'chibi-sun', emoji: '🌞', name: 'Mặt Trời Tỏa Sáng', bg: 'linear-gradient(135deg, #fef08a, #f59e0b)' },
+    { id: 'chibi-star', emoji: '⭐', name: 'Ngôi Sao Tri Thức', bg: 'linear-gradient(135deg, #fef9c3, #eab308)' },
+    { id: 'chibi-fire', emoji: '🔥', name: 'Ngọn Lửa Nhiệt Huyết', bg: 'linear-gradient(135deg, #fee2e2, #ef4444)' }
+  ];
+
+  function getChibiPreset(id) {
+    return CHIBI_PRESETS.find(p => p.id === id) || null;
+  }
+
+  function canManageAvatar() {
+    return (!currentUser || userRole === 'teacher' || userRole === 'monitor');
+  }
+
+  function getStudentAvatarHtml(student, size = 'md', extraClass = '') {
+    if (!student) return `<div class="avatar-circle avatar-${size} ${extraClass}">?</div>`;
+    const avatar = student.avatar;
+    const initial = student.name ? student.name.split(' ').pop().charAt(0).toUpperCase() : '?';
+
+    if (avatar && avatar.type === 'chibi') {
+      const preset = getChibiPreset(avatar.value);
+      if (preset) {
+        return `
+          <div class="avatar-circle avatar-${size} avatar-chibi-badge ${extraClass}" 
+               style="background: ${preset.bg};" 
+               title="${escapeHtml(student.name)} (${preset.name})">
+            <span class="avatar-emoji-chibi">${preset.emoji}</span>
+          </div>
+        `;
+      }
+    } else if (avatar && (avatar.type === 'image' || avatar.type === 'url') && avatar.value) {
+      return `
+        <div class="avatar-circle avatar-${size} avatar-img-badge ${extraClass}" 
+             title="${escapeHtml(student.name)}">
+          <img src="${escapeHtml(avatar.value)}" alt="${escapeHtml(student.name)}" class="avatar-img-round" onerror="this.parentElement.innerHTML='${initial}'">
+        </div>
+      `;
+    }
+
+    return `<div class="avatar-circle avatar-${size} ${extraClass}" title="${escapeHtml(student.name)}">${initial}</div>`;
+  }
+
+  let activeStudentForAvatar = null;
+
+  function openAvatarPickerModal(studentId) {
+    if (!canManageAvatar()) {
+      showToast('⚠️ Bạn không có quyền đổi ảnh đại diện. Chỉ Giáo viên và Lớp Trưởng mới có quyền này!', 'warning');
+      return;
+    }
+    const cls = getCurrentClass();
+    const student = cls.students.find(s => s.id === studentId);
+    if (!student) return;
+
+    activeStudentForAvatar = student;
+    updateAvatarPickerPreview(student);
+    renderChibiPresetsGrid(student.avatar);
+    switchAvatarPickerTab('chibi');
+    openModal('modal-avatar-picker');
+  }
+
+  function updateAvatarPickerPreview(student) {
+    const previewBox = document.getElementById('avatar-picker-preview-circle');
+    const nameEl = document.getElementById('avatar-picker-name');
+    const metaEl = document.getElementById('avatar-picker-meta');
+
+    if (nameEl) nameEl.textContent = student.name;
+    if (metaEl) metaEl.textContent = `Tổ ${student.team || 1} • SBD: ${student.sbd || '---'} • Hiện có ${student.points || 0} XP`;
+    if (previewBox) {
+      previewBox.outerHTML = getStudentAvatarHtml(student, 'lg', 'avatar-circle-lg').replace('id="avatar-picker-preview-circle"', '')
+        .replace('<div class="avatar-circle', '<div id="avatar-picker-preview-circle" class="avatar-circle');
+    }
+  }
+
+  function renderChibiPresetsGrid(currentAvatar) {
+    const grid = document.getElementById('chibi-presets-grid');
+    if (!grid) return;
+
+    const currentPresetId = (currentAvatar && currentAvatar.type === 'chibi') ? currentAvatar.value : '';
+
+    grid.innerHTML = CHIBI_PRESETS.map(preset => {
+      const isSelected = preset.id === currentPresetId;
+      return `
+        <button class="chibi-preset-item ${isSelected ? 'active' : ''}" type="button" data-preset-id="${preset.id}" title="${preset.name}">
+          <div class="chibi-avatar-circle" style="background: ${preset.bg};">
+            <span class="chibi-emoji">${preset.emoji}</span>
+          </div>
+          <span class="chibi-preset-name">${escapeHtml(preset.name)}</span>
+          ${isSelected ? '<span class="chibi-check-badge">✓ Đang Dùng</span>' : ''}
+        </button>
+      `;
+    }).join('');
+
+    grid.querySelectorAll('.chibi-preset-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const presetId = item.dataset.presetId;
+        applyStudentAvatar({ type: 'chibi', value: presetId });
+      });
+    });
+  }
+
+  function applyStudentAvatar(newAvatar) {
+    if (!activeStudentForAvatar) return;
+    const cls = getCurrentClass();
+    const stu = cls.students.find(s => s.id === activeStudentForAvatar.id);
+    if (!stu) return;
+
+    if (newAvatar) {
+      stu.avatar = newAvatar;
+    } else {
+      delete stu.avatar;
+    }
+
+    activeStudentForAvatar = stu;
+    saveState();
+    renderClassroomTab();
+    renderSeatingChart();
+    updateAvatarPickerPreview(stu);
+    renderChibiPresetsGrid(stu.avatar);
+    updateModalStudentAvatar(stu);
+
+    const presetName = newAvatar && newAvatar.type === 'chibi' ? (getChibiPreset(newAvatar.value)?.name || 'Chibi') : 'mới';
+    showToast(`🎉 Đã cập nhật ảnh đại diện chibi "${presetName}" cho em <strong>${escapeHtml(stu.name)}</strong>!`, 'success');
+  }
+
+  function updateModalStudentAvatar(student) {
+    const modalAvatar = document.getElementById('modal-student-avatar');
+    if (modalAvatar && student) {
+      modalAvatar.outerHTML = getStudentAvatarHtml(student, 'md', 'clickable').replace('<div class="avatar-circle', '<div id="modal-student-avatar" class="avatar-circle');
+      const refreshed = document.getElementById('modal-student-avatar');
+      if (refreshed) {
+        refreshed.onclick = () => openAvatarPickerModal(student.id);
+      }
+    }
+  }
+
+  function switchAvatarPickerTab(tab) {
+    const tabChibi = document.getElementById('tab-btn-chibi-presets');
+    const tabUpload = document.getElementById('tab-btn-upload-avatar');
+    const tabUrl = document.getElementById('tab-btn-url-avatar');
+    const viewChibi = document.getElementById('view-chibi-presets');
+    const viewUpload = document.getElementById('view-upload-avatar');
+    const viewUrl = document.getElementById('view-url-avatar');
+
+    [tabChibi, tabUpload, tabUrl].forEach(t => t?.classList.remove('active'));
+    if (viewChibi) viewChibi.style.display = 'none';
+    if (viewUpload) viewUpload.style.display = 'none';
+    if (viewUrl) viewUrl.style.display = 'none';
+
+    if (tab === 'upload') {
+      tabUpload?.classList.add('active');
+      if (viewUpload) viewUpload.style.display = 'block';
+    } else if (tab === 'url') {
+      tabUrl?.classList.add('active');
+      if (viewUrl) viewUrl.style.display = 'block';
+    } else {
+      tabChibi?.classList.add('active');
+      if (viewChibi) viewChibi.style.display = 'block';
+    }
+  }
+
+  function handleAvatarFileUpload(file) {
+    if (!file || !file.type.startsWith('image/')) {
+      showToast('⚠️ Vui lòng chọn tệp hình ảnh hợp lệ (PNG, JPG, WEBP)!', 'warning');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        // Tối ưu ảnh về kích thước 128x128 để lưu localStorage siêu nhẹ (khoảng 4-8KB)
+        const canvas = document.createElement('canvas');
+        canvas.width = 128;
+        canvas.height = 128;
+        const ctx = canvas.getContext('2d');
+        const minDim = Math.min(img.width, img.height);
+        const sx = (img.width - minDim) / 2;
+        const sy = (img.height - minDim) / 2;
+        ctx.drawImage(img, sx, sy, minDim, minDim, 0, 0, 128, 128);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+        applyStudentAvatar({ type: 'image', value: dataUrl });
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // ==========================================
+  // 14C. LẬT THẺ MA THUẬT 3D (3 CARDS SELECTION)
+  // ==========================================
+  let magicCardsCurrentPool = [];
+  let magicCardRevealedIndex = -1;
+
+  function openMagicCardModal() {
+    const candidates = getEligibleWheelStudents();
+    if (candidates.length === 0) {
+      AudioEngine.playNegative();
+      showToast('Đã gọi hết học sinh trong phạm vi! Vui lòng bấm "Làm mới" để quay lại.', 'warning');
+      return;
+    }
+
+    prepareMagicCards(candidates);
+    openModal('modal-card-flip');
+  }
+
+  function prepareMagicCards(candidates) {
+    magicCardRevealedIndex = -1;
+    const shuffled = [...candidates].sort(() => 0.5 - Math.random());
+    const count = Math.min(3, shuffled.length);
+    magicCardsCurrentPool = shuffled.slice(0, count);
+
+    const container = document.getElementById('magic-cards-container');
+    const resultPanel = document.getElementById('magic-card-result-panel');
+    if (resultPanel) resultPanel.style.display = 'none';
+
+    if (!container) return;
+    container.innerHTML = magicCardsCurrentPool.map((stu, idx) => `
+      <div class="magic-card" data-card-idx="${idx}" id="magic-card-${idx}">
+        <div class="magic-card-inner">
+          <div class="magic-card-face magic-card-back">
+            <div class="magic-card-rune">✦</div>
+            <div class="magic-card-number">Lá Bài #${idx + 1}</div>
+            <div class="magic-card-prompt">Bấm để lật</div>
+          </div>
+          <div class="magic-card-face magic-card-front">
+            <div class="magic-avatar-slot">${getStudentAvatarHtml(stu, 'lg', 'magic-card-revealed-avatar')}</div>
+            <div class="magic-revealed-name">${escapeHtml(stu.name)}</div>
+            <div class="magic-revealed-sub">Tổ ${stu.team || 1} • SBD: ${stu.sbd || '---'}</div>
+            <div class="magic-revealed-xp">${stu.points || 0} XP</div>
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    container.querySelectorAll('.magic-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const idx = parseInt(card.dataset.cardIdx, 10);
+        revealMagicCard(idx);
+      });
+    });
+  }
+
+  function revealMagicCard(selectedIdx) {
+    if (magicCardRevealedIndex !== -1) return; // Đã lật rồi
+    magicCardRevealedIndex = selectedIdx;
+
+    const chosenStudent = magicCardsCurrentPool[selectedIdx];
+    if (!chosenStudent) return;
+
+    // Đánh dấu đã gọi
+    calledStudents.add(chosenStudent.id);
+    updateCalledListUI();
+    updateWheelStudents();
+    drawWheel();
+
+    // Lật lá bài được chọn
+    const cardEl = document.getElementById(`magic-card-${selectedIdx}`);
+    if (cardEl) {
+      cardEl.classList.add('flipped', 'spotlight');
+    }
+
+    // Hiệu ứng âm thanh + pháo hoa
+    AudioEngine.playPositive();
+    AudioEngine.playFanfare();
+    Confetti.burst();
+
+    // Hiển thị khung kết quả & các nút chấm điểm
+    setTimeout(() => {
+      const resultPanel = document.getElementById('magic-card-result-panel');
+      const winnerName = document.getElementById('flip-winner-name');
+      const winnerBadge = document.getElementById('flip-winner-badge');
+
+      if (winnerName) winnerName.textContent = chosenStudent.name;
+      if (winnerBadge) winnerBadge.textContent = `Tổ ${chosenStudent.team || 1} • SBD: ${chosenStudent.sbd || '---'} • ${chosenStudent.points} XP`;
+      if (resultPanel) {
+        resultPanel.style.display = 'block';
+        resultPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }, 450);
+  }
+
   function openScoreModal(studentId) {
     const cls = getCurrentClass();
     const student = cls.students.find(s => s.id === studentId);
@@ -6223,7 +6794,7 @@
     activeStudentForModal = student;
     document.getElementById('modal-student-name').textContent = student.name;
     document.getElementById('modal-student-sub').textContent = `Tổ ${student.team} • SBD: ${student.sbd || '---'} • Hiện có: ${student.points} XP`;
-    document.getElementById('modal-student-avatar').textContent = student.name.split(' ').pop().charAt(0).toUpperCase();
+    updateModalStudentAvatar(student);
     renderCustomReasons();
     openModal('modal-score');
   }
@@ -6233,6 +6804,10 @@
   }
   function closeModal(id) {
     document.getElementById(id)?.classList.remove('open');
+    if (id === 'modal-winner' || id === 'modal-showdown' || id === 'modal-card-flip') {
+      updateWheelStudents();
+      drawWheel();
+    }
   }
 
   function applyTheme(theme) {

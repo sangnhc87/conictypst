@@ -89,6 +89,7 @@
     <a href="#typst-params" class="nav-link" data-section="typst-params">⚙️ Tham số Typst</a>
     <a href="#pedagogy-boxes" class="nav-link" data-section="pedagogy-boxes">📦 Hộp sư phạm</a>
     <a href="#exam-boiler" class="nav-link" data-section="exam-boiler">📄 File mẫu đề thi</a>
+    <a href="#exam-omr-qr" class="nav-link" data-section="exam-omr-qr">📱 QR Đáp án OMR (1.0.6)</a>
   </div>
   <div class="sidebar-section">
     <div class="sidebar-label">Module 2 — Sách &amp; Chuyên đề</div>
@@ -1405,7 +1406,7 @@ npm run stexgv:mix -- --compile</code></pre>
 // ĐỀ THI MÔN TOÁN 12 — CHUẨN CẤU TRÚC BỘ GD&amp;ĐT 2025
 // Biên dịch: typst compile de-thi-toan.typ
 // ================================================================
-#import "@preview/sang-math:1.0.5": *
+#import "@preview/sang-math:1.0.6": *
 
 // 1. Chế độ: "dethi" (phát học sinh) hoặc "loigiai" (có giải &amp; bảng đáp án)
 #let profile = sys.inputs.at("profile", default: "loigiai")
@@ -1498,9 +1499,22 @@ npm run stexgv:mix -- --compile</code></pre>
   id: "TLN02",
   tags: ("tam-giac", "VD"),
   loigiai: [Nửa chu vi $p = 10$. $S = sqrt(10 dot 3 dot 2 dot 5) = 10 sqrt(3) approx 17{,}32$.],
-)
+#het
 
-#het</code></pre>
+// In QR Đáp án OMR — Bản giáo viên quét nạp key qua Sang Math OMR (1.0.6)
+#let in-qr-dap-an = true // Đổi true để xuất mã QR chấm thi
+#if in-qr-dap-an [
+  #pagebreak()
+  #align(center)[
+    #text(weight: "bold", size: 15pt, fill: preset.accent)[QR ĐÁP ÁN OMR - BẢN GIÁO VIÊN]
+    #v(0.5em)
+    #text(size: 10pt)[Mã đề 101. Mở Sang Math OMR, chọn “Quét QR trực tiếp” để nạp key và chấm bài.]
+    #v(1em)
+    #sang-omr-qr(ma-de: "101", show-info: true, pts: (mcq: 0.25, tf: 0.1, tf-full: 0.5, sh: 0.5))
+  ]
+]
+
+#print-answer-key()</code></pre>
     </div>
   </div>
 
@@ -1718,7 +1732,7 @@ npm run stexgv:mix -- --compile</code></pre>
 
   <!-- BẢNG HƯỚNG DẪN GỌI LỆNH XỊN 1.0.5 -->
   <div style="margin-top: 24px; background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 20px; box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);">
-    <h3 style="margin-top: 0; color: #0f766e; display: flex; align-items: center; gap: 8px;">💡 Bí kíp gọi lệnh xịn nhất trong bản 1.0.5</h3>
+    <h3 style="margin-top: 0; color: #0f766e; display: flex; align-items: center; gap: 8px;">💡 Bí kíp gọi lệnh xịn nhất trong bản 1.0.6</h3>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin-top: 12px;">
       <div style="background: #f8fafc; border-left: 4px solid #0f766e; padding: 12px; border-radius: 6px;">
         <strong>1. In bảng đáp án tự động</strong>
@@ -1736,6 +1750,83 @@ npm run stexgv:mix -- --compile</code></pre>
         <strong>4. Ký hiệu Đa môn tiện dụng</strong>
         <p style="margin: 4px 0 0; font-size: 0.9rem; color: var(--muted);">Gõ ngay <code>#doC</code> ($degree C$), <code>#ohm</code> ($Omega$), <code>#pu-tn</code> ($arrow.l.r.double$), <code>#pu-nhiet</code> ($limits(arrow)^(t^compose)$).</p>
       </div>
+      <div style="background: #f8fafc; border-left: 4px solid #10b981; padding: 12px; border-radius: 6px;">
+        <strong>5. QR Đáp án OMR Chấm bài tự động (Mới 1.0.6)</strong>
+        <p style="margin: 4px 0 0; font-size: 0.9rem; color: var(--muted);">Dùng <code>#sang-omr-qr(ma-de: "101", show-info: true, pts: (mcq: 0.25, tf: 0.1, tf-full: 0.5, sh: 0.5))</code> tự động nạp key vào app <strong>Sang Math OMR</strong> để chấm bài trắc nghiệm siêu tốc.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION: EXAM OMR QR (1.0.6) -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="exam-omr-qr" class="doc-section hidden">
+  <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
+    <div>
+      <h1 style="margin: 0 0 6px 0;">📱 QR Đáp Án OMR — Chấm Bài Tự Động (1.0.6)</h1>
+      <p style="margin: 0; color: var(--muted); font-size: 1.05rem;">Tự động đọc dữ liệu đáp án của đề thi (Phần I Trắc nghiệm, Phần II Đúng/Sai, Phần III Điền số) và nén thành mã QR chuẩn <code>SMKEY:1:...</code> để quét trực tiếp vào ứng dụng <strong>Sang Math OMR</strong> chấm bài siêu tốc.</p>
+    </div>
+    <span class="hero-badge" style="background: #ecfdf5; color: #047857; border: 1px solid rgba(16, 185, 129, 0.3); font-weight: 700;">✨ Tính năng mới 1.0.6</span>
+  </div>
+
+  <!-- BẢNG SO SÁNH 2 CÁCH DÙNG -->
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; margin: 20px 0;">
+    <div style="background: var(--paper); border: 1px solid var(--line); border-top: 4px solid #0f766e; border-radius: 10px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+      <h3 style="margin-top: 0; color: #0f766e; display: flex; align-items: center; gap: 8px;">🚀 Cách 1: Dùng trực tiếp từ package sang-math:1.0.6</h3>
+      <p style="font-size: 0.95rem; color: var(--muted); margin-bottom: 12px;">Khuyên dùng nhất khi soạn đề chuẩn trên Typst Universe hoặc cài đặt package phiên bản 1.0.6. Không cần tải thêm file phụ trợ.</p>
+      <div class="code-block-wrap" style="margin: 0;">
+        <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="lang-typst">// Cách 1: Dùng trực tiếp từ package sang-math:1.0.6
+#import "@preview/sang-math:1.0.6": *
+
+#sang-omr-qr(ma-de: "101", show-info: true, pts: (mcq: 0.25, tf: 0.1, tf-full: 0.5, sh: 0.5))</code></pre>
+      </div>
+    </div>
+
+    <div style="background: var(--paper); border: 1px solid var(--line); border-top: 4px solid #0284c7; border-radius: 10px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+      <h3 style="margin-top: 0; color: #0284c7; display: flex; align-items: center; gap: 8px;">📦 Cách 2: Import module con omr-qr rời</h3>
+      <p style="font-size: 0.95rem; color: var(--muted); margin-bottom: 12px;">Dành cho các thầy cô dùng file mã nguồn tách rời hoặc tích hợp module riêng vào thư mục đề thi của mình.</p>
+      <div class="code-block-wrap" style="margin: 0;">
+        <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="lang-typst">// Cách 2: Import module con omr-qr
+#import "omr-qr.typ": sang-omr-qr
+
+#sang-omr-qr(ma-de: "101", show-info: true, pts: (mcq: 0.25, tf: 0.1, tf-full: 0.5, sh: 0.5))</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- MẪU TÍCH HỢP CHUẨN VÀO CUỐI ĐỀ THI -->
+  <h2>📑 Cấu trúc tích hợp chuẩn vào cuối đề thi</h2>
+  <p>Đặt đoạn mã sau ngay sau khối câu hỏi <code>#make-questions()</code> hoặc sau câu hỏi cuối cùng của đề:</p>
+
+  <div class="code-block-wrap">
+    <div class="code-header"><span class="code-lang">typst — Mã nạp QR OMR bản giáo viên</span><button class="copy-btn" onclick="copyCode(this)">Copy Khung QR</button></div>
+    <pre><code class="lang-typst">#make-questions()
+
+#if in-qr-dap-an [
+  #pagebreak()
+  #align(center)[
+    #text(weight: "bold", size: 15pt, fill: accent)[QR ĐÁP ÁN OMR - BẢN GIÁO VIÊN]
+    #v(0.5em)
+    #text(size: 10pt)[Mã đề #ma-de. Mở Sang Math OMR, chọn “Quét QR trực tiếp” để nạp key và chấm bài.]
+    #v(1em)
+    #sang-omr-qr(ma-de: ma-de)
+  ]
+]
+
+#print-answer-key()</code></pre>
+  </div>
+
+  <!-- TẢI FILE MẪU -->
+  <div style="margin-top: 24px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 20px;">
+    <h3 style="margin-top: 0; color: #166534; display: flex; align-items: center; gap: 8px;">📥 Tải File Mẫu Đã Tích Hợp Sẵn</h3>
+    <p style="margin: 6px 0 16px 0; color: #15803d; font-size: 0.95rem;">Thầy cô có thể tải trọn bộ file mẫu đề thi có sẵn trang in mã QR và file module <code>omr-qr.typ</code> về chạy ngay:</p>
+    <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+      <a href="downloads/examples/06_de_thi_mau_qr_omr.typ" download class="dl-btn" style="background: #0f766e; color: #fff; padding: 9px 16px; border-radius: 6px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">📄 Tải 06_de_thi_mau_qr_omr.typ</a>
+      <a href="downloads/examples/06_de_thi_mau_qr_omr.pdf" target="_blank" class="dl-btn" style="background: #0284c7; color: #fff; padding: 9px 16px; border-radius: 6px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">👁️ Xem PDF Mẫu Có QR</a>
+      <a href="downloads/examples/omr-qr.typ" download class="dl-btn" style="background: #475569; color: #fff; padding: 9px 16px; border-radius: 6px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">🧩 Tải omr-qr.typ</a>
     </div>
   </div>
 </section>

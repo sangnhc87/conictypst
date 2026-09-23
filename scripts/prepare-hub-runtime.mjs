@@ -72,3 +72,13 @@ import { copyFile } from 'node:fs/promises';
 await copyFile(fileURLToPath(new URL('../scripts/tabs.lua', import.meta.url)), `${outputDir}tabs.lua`);
 await copyFile(fileURLToPath(new URL('../scripts/template.docx', import.meta.url)), `${outputDir}template.docx`);
 console.log("Copied tabs.lua and template.docx to public/runtime");
+
+// --- Copy PDF.js vendor files ---
+const vendorDir = fileURLToPath(new URL('../typst-conic-hub/public/vendor/', import.meta.url));
+await mkdir(vendorDir, { recursive: true });
+const pdfJsSource = fileURLToPath(new URL('../web-app/node_modules/pdfjs-dist/build/pdf.min.js', import.meta.url));
+const pdfWorkerSource = fileURLToPath(new URL('../web-app/node_modules/pdfjs-dist/build/pdf.worker.min.js', import.meta.url));
+await copyFile(pdfJsSource, `${vendorDir}pdf.min.js`);
+await copyFile(pdfWorkerSource, `${vendorDir}pdf.worker.min.js`);
+console.log("Copied pdf.min.js and pdf.worker.min.js to public/vendor");
+

@@ -6018,10 +6018,16 @@ document.getElementById('btn-lookup-score')?.addEventListener('click', () => {
   // Tìm trong tất cả các lớp của appState (vì học sinh có thể vào link chung)
   let foundStudent = null;
   let foundClass = null;
+
+  const removeAccents = (str) => {
+    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');
+  };
+  
+  const searchName = removeAccents(nameInput);
   
   for (const c of appState.classes) {
     const stu = c.students.find(s => 
-      s.name.toLowerCase().includes(nameInput) && 
+      removeAccents(s.name.toLowerCase()).includes(searchName) && 
       (s.sbd || '').toLowerCase() === sbdInput
     );
     if (stu) {

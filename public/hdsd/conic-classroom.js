@@ -2196,11 +2196,7 @@
 
   function getStudentPoints(student, semester = appState.currentSemester) {
     if (!student) return 0;
-    if (student.points_hk1 === undefined) student.points_hk1 = student.points || 0;
-    if (student.points_hk2 === undefined) student.points_hk2 = 0;
-    if (semester === 'hk2') return student.points_hk2 || 0;
-    if (semester === 'year') return (student.points_hk1 || 0) + (student.points_hk2 || 0);
-    return student.points_hk1 || 0;
+    return student.points || 0;
   }
 
   function getCurrentClass() {
@@ -2323,6 +2319,14 @@
   // 7. RENDER GIAO DIỆN
   // ==========================================
   function initApp() {
+    const queryParams = new URLSearchParams(window.location.search);
+    const classIdFromUrl = queryParams.get('class');
+    if (classIdFromUrl && appState.classes.length > 0) {
+      if (appState.classes.find(c => c.id === classIdFromUrl)) {
+        appState.currentClassId = classIdFromUrl;
+      }
+    }
+
     checkUrlHashData();
     Confetti.init();
     renderClassRibbon();
@@ -2391,13 +2395,25 @@
           <span class="class-drop-badge">${c.students.length} HS</span>
         </button>
       `).join('') + `
-        <button class="class-dropdown-item teacher-only" id="btn-drop-manage-officers" type="button" style="border-top: 1px dashed var(--border); color: #0284c7; font-weight: 700; margin-top: 4px;">
+        <button class="class-dropdown-item teacher-only" id="btn-drop-share-link" type="button" style="border-top: 1px dashed var(--border); color: #10b981; font-weight: 700; margin-top: 4px;">
+          <span>🔗 Sao chép Link Lớp...</span>
+        </button>
+        <button class="class-dropdown-item teacher-only" id="btn-drop-manage-officers" type="button" style="color: #0284c7; font-weight: 700;">
           <span>🛡️ Phân quyền Ban cán sự...</span>
         </button>
         <button class="class-dropdown-item teacher-only" id="btn-add-class-from-drop" type="button" style="color: var(--primary-dark); font-weight: 700;">
           <span>➕ Tạo thêm lớp mới...</span>
         </button>
       `;
+
+      menuEl.querySelector('#btn-drop-share-link')?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        document.getElementById('class-dropdown-wrap')?.classList.remove('open');
+        const link = window.location.origin + window.location.pathname + '?class=' + appState.currentClassId;
+        navigator.clipboard.writeText(link).then(() => {
+          showToast('Đã sao chép Link lớp! Gửi cho học sinh để các em chỉ vào được lớp này.', 'success');
+        });
+      });
 
       menuEl.querySelector('#btn-drop-manage-officers')?.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -2712,7 +2728,7 @@
   // 8. THAO TÁC CỘNG ĐIỂM & BÙ ĐIỂM XP
   // ==========================================
   function adjustStudentPoints(studentId, deltaPoints, reason = 'Phát biểu xây dựng bài', sourceEl = null) {
-    if (userRole === 'guest' && document.body.classList.contains('student-mode')) {
+    if (userRole === 'guest') {
       showToast('⚠️ Vui lòng đăng nhập Google (Thầy giáo hoặc Lớp trưởng) để ghi điểm.', 'warning');
       return;
     }
@@ -3870,10 +3886,11 @@
           <tr>
             <td style="font-family: var(--font-display); font-weight: 800;">${idx + 1}</td>
             <td><strong>${escapeHtml(s.name)}</strong></td>
+            <td><span class="level-badge level-${s.level || 1}">Lv.${s.level || 1}</span></td>
             <td><span class="team-tag">Tổ ${s.team}</span></td>
-            <td><strong style="color: var(--accent-dark); font-size: 1.1rem;">${s.points} XP</strong></td>
+            <td><strong style="color: var(--accent-dark); font-size: 1.1rem;">${getStudentPoints(s)} XP</strong></td>
             <td>${badge}</td>
-            <td>
+            <td style="text-align: right;">
               <button class="btn-text-small" data-view-history="${s.id}">Xem nhật ký</button>
             </td>
           </tr>
@@ -3885,7 +3902,7 @@
     const teamTotals = { 1: 0, 2: 0, 3: 0, 4: 0 };
     cls.students.forEach(s => {
       const t = s.team || 1;
-      teamTotals[t] = (teamTotals[t] || 0) + s.points;
+      teamTotals[t] = (teamTotals[t] || 0) + getStudentPoints(s);
     });
 
     const teamsListEl = document.getElementById('teams-leaderboard-list');
@@ -3936,9 +3953,9 @@
 
       let row = [
         idx + 1,
-        `"${s.name}"`,
+        s.name,
         s.team,
-        `"${s.sbd || ''}"`,
+        s.sbd || '',
         s.dgtx1 ?? '',
         s.dgtx2 ?? '',
         s.dgtx3 ?? '',
@@ -3954,8 +3971,12 @@
         row.push(customVal);
       });
 
-      row.push(avg, `"${rank}"`, s.points);
-      csv += row.join(',') + '\n';
+      row.push(avg, rank, s.points);
+      const safeRow = row.map(v => {
+        let str = String(v).replace(/"/g, '""'); // Escape existing quotes
+        return `"${str}"`;
+      });
+      csv += safeRow.join(',') + '\n';
     });
 
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -5983,6 +6004,95 @@
 
     // ─── 10. NHẬP ĐIỂM SANG MATH OMR ───
     document.getElementById('btn-import-omr-scores')?.addEventListener('click', openImportOMRModal);
+document.getElementById('btn-lookup-score')?.addEventListener('click', () => {
+  const nameInput = document.getElementById('lookup-name').value.trim().toLowerCase();
+  const sbdInput = document.getElementById('lookup-sbd').value.trim().toLowerCase();
+  const resEl = document.getElementById('lookup-result');
+  
+  if (!nameInput || !sbdInput) {
+    resEl.style.display = 'block';
+    resEl.innerHTML = '<span style="color: #ef4444; font-weight: bold;">❌ Vui lòng nhập đủ Họ Tên và Số Báo Danh!</span>';
+    return;
+  }
+  
+  // Tìm trong tất cả các lớp của appState (vì học sinh có thể vào link chung)
+  let foundStudent = null;
+  let foundClass = null;
+  
+  for (const c of appState.classes) {
+    const stu = c.students.find(s => 
+      s.name.toLowerCase().includes(nameInput) && 
+      (s.sbd || '').toLowerCase() === sbdInput
+    );
+    if (stu) {
+      foundStudent = stu;
+      foundClass = c;
+      break;
+    }
+  }
+  
+  if (!foundStudent) {
+    resEl.style.display = 'block';
+    resEl.innerHTML = '<span style="color: #ef4444; font-weight: bold;">❌ Không tìm thấy học sinh. Vui lòng kiểm tra lại chính tả Họ Tên và SBD!</span>';
+    return;
+  }
+  
+  // Render kết quả
+  const avg = calculateStudentAverage(foundStudent);
+  const rankBadge = calculateStudentRank(avg);
+  const avgBadge = getAverageClassBadge(avg);
+  
+  let html = `
+    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+      <h4 style="color: #0f172a; margin-bottom: 5px; font-size: 1.1rem;">🎓 ${escapeHtml(foundStudent.name)}</h4>
+      <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 15px;">Lớp: <strong>${escapeHtml(foundClass.name)}</strong> • SBD: <strong>${foundStudent.sbd}</strong></p>
+      
+      <table style="width: 100%; border-collapse: collapse; text-align: center; margin-bottom: 15px;">
+        <tr style="background: #f1f5f9; border-bottom: 2px solid #cbd5e1;">
+          <th style="padding: 8px; border: 1px solid #e2e8f0;">ĐGTX 1</th>
+          <th style="padding: 8px; border: 1px solid #e2e8f0;">ĐGTX 2</th>
+          <th style="padding: 8px; border: 1px solid #e2e8f0;">ĐGTX 3</th>
+          <th style="padding: 8px; border: 1px solid #e2e8f0;">ĐGTX 4</th>
+          <th style="padding: 8px; border: 1px solid #e2e8f0;">ĐGTX 5</th>
+          <th style="padding: 8px; border: 1px solid #e2e8f0;">Thái độ</th>
+        </tr>
+        <tr>
+          <td style="padding: 8px; border: 1px solid #e2e8f0;">${foundStudent.dgtx1 ?? '-'}</td>
+          <td style="padding: 8px; border: 1px solid #e2e8f0;">${foundStudent.dgtx2 ?? '-'}</td>
+          <td style="padding: 8px; border: 1px solid #e2e8f0;">${foundStudent.dgtx3 ?? '-'}</td>
+          <td style="padding: 8px; border: 1px solid #e2e8f0;">${foundStudent.dgtx4 ?? '-'}</td>
+          <td style="padding: 8px; border: 1px solid #e2e8f0;">${foundStudent.dgtx5 ?? '-'}</td>
+          <td style="padding: 8px; border: 1px solid #e2e8f0;">${foundStudent.attitude ?? '-'}</td>
+        </tr>
+      </table>
+      
+      <table style="width: 100%; border-collapse: collapse; text-align: center; margin-bottom: 20px;">
+        <tr style="background: #e0f2fe; border-bottom: 2px solid #bae6fd;">
+          <th style="padding: 8px; border: 1px solid #bae6fd; color: #0369a1;">Giữa Kỳ (x2)</th>
+          <th style="padding: 8px; border: 1px solid #bae6fd; color: #0369a1;">Cuối Kỳ (x3)</th>
+        </tr>
+        <tr>
+          <td style="padding: 8px; border: 1px solid #bae6fd; font-weight: bold; color: #0284c7;">${foundStudent.giuaKy ?? '-'}</td>
+          <td style="padding: 8px; border: 1px solid #bae6fd; font-weight: bold; color: #0284c7;">${foundStudent.cuoiKy ?? '-'}</td>
+        </tr>
+      </table>
+      
+      <div style="display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 15px; border-radius: 8px; border: 1px dashed #cbd5e1;">
+        <div>
+          <span style="font-size: 0.9rem; color: #64748b; display: block;">Điểm TB Môn:</span>
+          ${avgBadge}
+        </div>
+        <div style="text-align: right;">
+          <span style="font-size: 0.9rem; color: #64748b; display: block;">Xếp loại:</span>
+          ${rankBadge}
+        </div>
+      </div>
+    </div>
+  `;
+  
+  resEl.style.display = 'block';
+  resEl.innerHTML = html;
+});
 
     document.getElementById('btn-trigger-omr-file')?.addEventListener('click', () => {
       document.getElementById('omr-file-upload')?.click();
@@ -6869,7 +6979,7 @@
   ];
 
   let supabaseClient = null;
-  let currentUser = null;
+  let currentUser = null; localStorage.removeItem("conic_teacher_unlocked"); isTeacherUnlocked = false;
   let userRole = 'guest'; // 'teacher' | 'monitor' | 'guest'
   let monitorClassId = null;
 
@@ -6907,7 +7017,7 @@
       const { data: { session } } = await supabaseClient.auth.getSession();
       currentUser = session?.user || null;
     } catch (e) {
-      currentUser = null;
+      currentUser = null; localStorage.removeItem("conic_teacher_unlocked"); isTeacherUnlocked = false;
     }
 
     if (currentUser && currentUser.email) {
@@ -6957,6 +7067,12 @@
       }
     }
     updateAuthUI();
+
+    // Tự động kéo dữ liệu Cloud về cho Học sinh hoặc Lớp trưởng xem ngay không cần bấm nút (kéo ngầm)
+    if ((userRole === 'guest' || userRole === 'monitor') && !window._autoPullDone) {
+      window._autoPullDone = true;
+      downloadDataFromSupabase(true);
+    }
   }
 
   function applyMonitorMode(targetClass) {
@@ -7037,7 +7153,7 @@
     if (supabaseClient) {
       await supabaseClient.auth.signOut();
     }
-    currentUser = null;
+    currentUser = null; localStorage.removeItem("conic_teacher_unlocked"); isTeacherUnlocked = false;
     userRole = 'guest';
     monitorClassId = null;
     document.body.classList.remove('monitor-mode');
@@ -7113,65 +7229,110 @@
     if (statusEl) statusEl.innerHTML = '<span class="text-accent">⏳ Đang đồng bộ năm học, lớp học và học sinh lên Supabase...</span>';
 
     try {
+      if (userRole === 'monitor') {
+        if (!monitorClassId) throw new Error('Không xác định được lớp của lớp trưởng!');
+        const cls = appState.classes.find(c => c.id === monitorClassId);
+        if (!cls) throw new Error('Không tìm thấy dữ liệu lớp này trong bộ nhớ!');
+        
+        const promises = cls.students.map(s => {
+          const payload = {
+            points: s.points || 0,
+            dgtx1: s.dgtx1 ?? null,
+            dgtx2: s.dgtx2 ?? null,
+            dgtx3: s.dgtx3 ?? null,
+            dgtx4: s.dgtx4 ?? null,
+            dgtx5: s.dgtx5 ?? null,
+            attitude: s.attitude ?? null,
+            giua_ky: s.giuaKy ?? null,
+            cuoi_ky: s.cuoiKy ?? null
+          };
+          return supabaseClient
+            .from('students')
+            .update(payload)
+            .eq('id', s.id.length > 20 ? s.id.substring(0, 20) : s.id);
+        });
+        
+        const results = await Promise.all(promises);
+        const errors = results.filter(r => r.error).map(r => r.error);
+        if (errors.length > 0) {
+          throw new Error('Lỗi cập nhật điểm HS: ' + errors[0].message);
+        }
+        
+        if (statusEl) statusEl.innerHTML = '<span style="color: var(--primary-dark); font-weight: 700;">✅ Lớp trưởng đã cập nhật điểm thành công!</span>';
+        setTimeout(() => { if (statusEl) statusEl.textContent = ''; }, 5000);
+        showToast('Cập nhật điểm lên Cloud thành công!', 'success');
+        return;
+      }
+
       // 1. Năm học
       await supabaseClient
         .from('academic_years')
         .upsert({ id: '2026-2027', name: 'Năm học 2026 - 2027', is_active: true });
 
-      // 2. Lớp học
-      for (const cls of appState.classes) {
-        await supabaseClient
-          .from('classes')
-          .upsert({
-            id: cls.id,
-            year_id: '2026-2027',
-            name: cls.name,
-            teacher_email: 'nguyensangnhc@gmail.com',
-            monitor_email: cls.monitorEmail || null
-          });
+      try {
+        // 2. Lớp học
+        for (const cls of appState.classes) {
+          const { error: clsErr } = await supabaseClient
+            .from('classes')
+            .upsert({
+              id: cls.id,
+              year_id: '2026-2027',
+              name: cls.name,
+              teacher_email: (typeof currentUser !== 'undefined' && currentUser && currentUser.email) ? currentUser.email : 'nguyensangnhc@gmail.com',
+              monitor_email: cls.monitorEmail || null
+            });
+          
+          if (clsErr) throw new Error('Lỗi up lớp ' + cls.name + ': ' + clsErr.message);
 
-        // 3. Học sinh
-        const studentPayloads = cls.students.map((s, idx) => ({
-          id: s.id,
-          class_id: cls.id,
-          stt: idx + 1,
-          sbd: s.sbd || '',
-          name: s.name,
-          gender: s.gender || 'Nam',
-          dob: s.dob || '',
-          ethnic: s.ethnic || 'Kinh',
-          team: s.team || 1,
-          points: s.points || 0,
-          dgtx1: s.dgtx1 ?? 8.0,
-          dgtx2: s.dgtx2 ?? 8.0,
-          dgtx3: s.dgtx3 ?? 8.0,
-          dgtx4: s.dgtx4 ?? 8.0,
-          dgtx5: s.dgtx5 ?? 8.0,
-          attitude: s.attitude ?? 10,
-          giua_ky: s.giuaKy ?? 8.0,
-          cuoi_ky: s.cuoiKy ?? 8.0
-        }));
+          // 3. Học sinh
+          const studentPayloads = cls.students.map((s, idx) => ({
+            id: s.id.length > 20 ? s.id.substring(0, 20) : s.id,
+            class_id: cls.id,
+            stt: idx + 1,
+            sbd: s.sbd || '',
+            name: s.name,
+            gender: s.gender || 'Nam',
+            dob: s.dob || '',
+            ethnic: s.ethnic || 'Kinh',
+            team: s.team || 1,
+            points: s.points || 0,
+            dgtx1: s.dgtx1 ?? null,
+            dgtx2: s.dgtx2 ?? null,
+            dgtx3: s.dgtx3 ?? null,
+            dgtx4: s.dgtx4 ?? null,
+            dgtx5: s.dgtx5 ?? null,
+            attitude: s.attitude ?? null,
+            giua_ky: s.giuaKy ?? null,
+            cuoi_ky: s.cuoiKy ?? null
+          }));
 
-        if (studentPayloads.length > 0) {
-          await supabaseClient.from('students').upsert(studentPayloads);
+          if (studentPayloads.length > 0) {
+            const { error: stuErr } = await supabaseClient.from('students').upsert(studentPayloads);
+            if (stuErr) throw new Error('Lỗi up HS lớp ' + cls.name + ': ' + stuErr.message);
+          }
         }
-      }
 
-      if (statusEl) statusEl.innerHTML = '<span style="color: var(--primary-dark); font-weight: 700;">✅ Đã đẩy toàn bộ dữ liệu lên Supabase Cloud thành công!</span>';
-      showToast('Đã đồng bộ toàn bộ dữ liệu lên Cloud!', 'success');
+        if (statusEl) statusEl.innerHTML = '<span style="color: var(--primary-dark); font-weight: 700;">✅ Đã đẩy toàn bộ dữ liệu lên Supabase Cloud thành công!</span>';
+        setTimeout(() => { if (statusEl) statusEl.textContent = ''; }, 5000);
+        showToast('Đã đồng bộ toàn bộ dữ liệu lên Cloud!', 'success');
+      } catch (err) {
+        console.error('Lỗi upload dữ liệu:', err);
+        if (statusEl) statusEl.innerHTML = '<span style="color: red; font-weight: 700;">❌ ' + err.message + '</span>';
+        alert('Chi tiết lỗi Đám Mây: ' + err.message);
+      }
     } catch (e) {
       if (statusEl) statusEl.innerHTML = `<span class="text-danger">❌ Lỗi đồng bộ: ${escapeHtml(e.message)}</span>`;
       showToast('Lỗi đồng bộ: ' + e.message, 'neg');
     }
   }
 
-  async function downloadDataFromSupabase() {
+  async function downloadDataFromSupabase(isSilent = false) {
     if (!supabaseClient) {
-      showToast('Chưa kết nối Supabase!', 'neg');
+      if (!isSilent) showToast('Chưa kết nối Supabase!', 'neg');
       return;
     }
     const statusEl = document.getElementById('cloud-sync-status');
-    if (statusEl) statusEl.innerHTML = '<span class="text-accent">⏳ Đang kéo dữ liệu từ Supabase Cloud...</span>';
+    if (statusEl && !isSilent) statusEl.innerHTML = '<span class="text-accent">⏳ Đang kéo dữ liệu từ Supabase Cloud...</span>';
 
     try {
       const { data: dbClasses, error: cErr } = await supabaseClient.from('classes').select('*');
@@ -7188,6 +7349,11 @@
             appState.classes.push(localCls);
           }
           localCls.monitorEmail = dbc.monitor_email || '';
+          if (dbc.monitor_email) {
+            localCls.monitorEmails = dbc.monitor_email.split(/[,;\s\n]+/).filter(Boolean).map(e => ({ email: e.toLowerCase().trim(), role: 'Cán Sự' }));
+          } else {
+            localCls.monitorEmails = [];
+          }
 
           const classStus = (dbStudents || []).filter(s => s.class_id === dbc.id);
           if (classStus.length > 0) {
@@ -7215,12 +7381,12 @@
 
         saveState();
         initApp();
-        if (statusEl) statusEl.innerHTML = '<span style="color: var(--primary-dark); font-weight: 700;">✅ Đã kéo dữ liệu từ Cloud về máy thành công!</span>';
-        showToast('Đã nạp dữ liệu từ Cloud thành công!', 'success');
+        if (statusEl && !isSilent) statusEl.innerHTML = '<span style="color: var(--primary-dark); font-weight: 700;">✅ Đã kéo dữ liệu từ Cloud về máy thành công!</span>';
+        if (!isSilent) showToast('Đã nạp dữ liệu từ Cloud thành công!', 'success');
       }
     } catch (e) {
-      if (statusEl) statusEl.innerHTML = `<span class="text-danger">❌ Lỗi kéo dữ liệu: ${escapeHtml(e.message)}</span>`;
-      showToast('Lỗi: ' + e.message, 'neg');
+      if (statusEl && !isSilent) statusEl.innerHTML = `<span class="text-danger">❌ Lỗi kéo dữ liệu: ${escapeHtml(e.message)}</span>`;
+      if (!isSilent) showToast('Lỗi: ' + e.message, 'neg');
     }
   }
 

@@ -6141,3 +6141,23 @@ body.theme-dark .avatar-tab-btn.active {
   }
 }
 
+
+/* Gradebook Privacy */
+body.student-mode .gradebook-table-responsive {
+  display: none !important;
+}
+body:not(.student-mode) .student-lookup-container {
+  display: none !important;
+}
+
+/* Hide Class Switcher for Students */
+body.student-mode .class-dropdown-menu,
+body.student-mode #class-pills-list {
+  display: none !important;
+}
+body.student-mode .class-dropdown-trigger {
+  pointer-events: none;
+}
+body.student-mode .class-dropdown-trigger svg {
+  display: none;
+}

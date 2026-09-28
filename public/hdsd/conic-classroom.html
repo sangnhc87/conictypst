@@ -532,7 +532,18 @@
             </div>
           </div>
 
-          <div class="table-responsive">
+          <div class="student-lookup-container" style="padding: 30px; text-align: center; background: #fff; border-radius: 12px; margin-top: 20px;">
+            <h3 style="color: var(--primary-dark); margin-bottom: 15px;">🔒 Tra Cứu Điểm Cá Nhân</h3>
+            <p style="margin-bottom: 20px; color: #64748b; font-size: 0.95rem;">Học sinh vui lòng nhập đúng <strong>Họ và Tên</strong> và <strong>Số Báo Danh (SBD)</strong> để hệ thống trích xuất bảng điểm bảo mật.</p>
+            <div style="display: flex; gap: 10px; justify-content: center; max-width: 500px; margin: 0 auto 20px; flex-wrap: wrap;">
+              <input type="text" id="lookup-name" placeholder="Họ và Tên (VD: Nguyễn Văn A)" class="glass-input" style="flex: 2; min-width: 200px;">
+              <input type="text" id="lookup-sbd" placeholder="Số Báo Danh (VD: SBD01)" class="glass-input" style="flex: 1; min-width: 120px;">
+            </div>
+            <button id="btn-lookup-score" class="btn-primary" style="padding: 10px 30px; font-weight: 700;">🔍 Tra Cứu Điểm</button>
+            <div id="lookup-result" style="margin-top: 30px; display: none; text-align: left;"></div>
+          </div>
+
+          <div class="table-responsive gradebook-table-responsive">
             <table class="clean-gradebook-table" id="gradebook-table-element">
               <thead>
                 <tr id="gradebook-header-row">

@@ -2321,10 +2321,8 @@
   function initApp() {
     const queryParams = new URLSearchParams(window.location.search);
     const classIdFromUrl = queryParams.get('class');
-    if (classIdFromUrl && appState.classes.length > 0) {
-      if (appState.classes.find(c => c.id === classIdFromUrl)) {
-        appState.currentClassId = classIdFromUrl;
-      }
+    if (classIdFromUrl) {
+      appState.currentClassId = classIdFromUrl;
     }
 
     checkUrlHashData();
@@ -7341,11 +7339,35 @@ document.getElementById('btn-lookup-score')?.addEventListener('click', () => {
     if (statusEl && !isSilent) statusEl.innerHTML = '<span class="text-accent">⏳ Đang kéo dữ liệu từ Supabase Cloud...</span>';
 
     try {
-      const { data: dbClasses, error: cErr } = await supabaseClient.from('classes').select('*');
+      let classQuery = supabaseClient.from('classes').select('*');
+      
+      if (userRole === 'teacher') {
+        const teacherEmail = (typeof currentUser !== 'undefined' && currentUser && currentUser.email) ? currentUser.email : 'nguyensangnhc@gmail.com';
+        classQuery = classQuery.eq('teacher_email', teacherEmail);
+      } else if (userRole === 'monitor' && monitorClassId) {
+        classQuery = classQuery.eq('id', monitorClassId);
+      } else if (userRole === 'guest') {
+        if (appState.currentClassId) {
+          classQuery = classQuery.eq('id', appState.currentClassId);
+        } else {
+          classQuery = classQuery.eq('id', 'NONE');
+        }
+      }
+
+      const { data: dbClasses, error: cErr } = await classQuery;
       if (cErr) throw cErr;
 
-      const { data: dbStudents, error: sErr } = await supabaseClient.from('students').select('*').order('stt', { ascending: true });
-      if (sErr) throw sErr;
+      let dbStudents = [];
+      if (dbClasses && dbClasses.length > 0) {
+        const classIds = dbClasses.map(c => c.id);
+        const { data: stus, error: sErr } = await supabaseClient
+          .from('students')
+          .select('*')
+          .in('class_id', classIds)
+          .order('stt', { ascending: true });
+        if (sErr) throw sErr;
+        dbStudents = stus;
+      }
 
       if (dbClasses && dbClasses.length > 0) {
         dbClasses.forEach(dbc => {

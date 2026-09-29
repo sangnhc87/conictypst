@@ -6287,28 +6287,24 @@ document.getElementById('btn-lookup-score')?.addEventListener('click', () => {
       let name = '';
       let score = null;
 
+      // Extract SBD and Name from left to right
       tokens.forEach(tok => {
         const clean = tok.replace(/"/g, '').trim();
         if (!sbd && /^\d{4,8}$/.test(clean)) {
           sbd = clean;
-        } else if (score === null && /^(\d+(\.\d+)?)$/.test(clean) && Number(clean) <= 10) {
-          score = Number(clean);
         } else if (!name && /[a-zA-ZÀ-ỹ]{2,}/.test(clean) && isNaN(Number(clean))) {
           name = clean;
         }
       });
 
-      if (!sbd && tokens.length >= 3) {
-        if (/^\d+$/.test(tokens[0])) sbd = tokens[0];
-        else if (/^\d+$/.test(tokens[1])) sbd = tokens[1];
-      }
-      if (score === null && tokens.length >= 3) {
-        for (let k = tokens.length - 1; k >= 0; k--) {
-          const num = parseFloat(tokens[k]);
-          if (!isNaN(num) && num >= 0 && num <= 10) {
-            score = num;
-            break;
-          }
+      // Extract Score from right to left (because score is usually the last numeric column <= 10)
+      for (let k = tokens.length - 1; k >= 0; k--) {
+        const clean = tokens[k].replace(/"/g, '').trim();
+        const num = parseFloat(clean);
+        // Only accept if it strictly matches a number format (e.g. 8.5 or 10)
+        if (!isNaN(num) && num >= 0 && num <= 10 && /^(\d+(\.\d+)?)$/.test(clean)) {
+          score = num;
+          break; // Stop at the first valid score from the right
         }
       }
 

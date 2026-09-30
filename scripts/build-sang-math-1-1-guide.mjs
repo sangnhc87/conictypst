@@ -42,7 +42,7 @@ const visit = async (directory, prefix) => {
   }
 };
 await visit('typst-pkg-sang-math', 'typst-packages/local/sang-math/1.1.0');
-for (const file of ['typst.toml', 'LICENSE', 'README.md', 'MIGRATION.md', 'CHANGELOG.md', 'RELEASE.md', 'docs/question-model.md', 'examples/README.md']) {
+for (const file of ['typst.toml', 'LICENSE', 'README.md', 'MIGRATION.md', 'CHANGELOG.md', 'RELEASE.md', 'PROMPT_AI_TAO_DE.md', 'docs/question-model.md', 'examples/README.md']) {
   await add(`typst-pkg-sang-math/${file}`, `typst-packages/local/sang-math/1.1.0/${file}`);
 }
 for (const example of manifest.examples) {

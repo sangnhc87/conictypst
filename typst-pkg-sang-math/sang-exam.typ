@@ -2,6 +2,10 @@
 // SANG-EXAM.TYP v6.0 — Engine thi THPT chuẩn ex_test.sty
 // =========================================================
 
+#import "src/core/normalize.typ": legacy-mcq-to-question, legacy-tf-to-question, legacy-short-to-question, legacy-written-to-question
+#import "src/core/validate.typ": validate-question
+#import "src/render/common.typ": render-question-data
+
 // ── Beamer-mode flag (set by sang-beamer.typ to suppress print-only elements) ──
 #let _beamer-mode = state("_beamer-mode", false)
 #let set-beamer-mode() = { _beamer-mode.update(true) }
@@ -639,6 +643,9 @@
   ..args,
 ) = context {
   let loigiai = _resolve-loigiai(loigiai, args)
+  let q = legacy-mcq-to-question(stem, options, correct: correct, loigiai: loigiai, id: args.named().at("id", default: none), tags: tags)
+  let _ = validate-question(q, mode: "legacy-compatible")
+  let options = q.choices.map(c => (body: c.content, correct: c.correct))
   let q-state = _next-question-num(num: num)
   let num = q-state.num
   let labels = ("A", "B", "C", "D", "E", "F")
@@ -906,6 +913,9 @@
   ..args,
 ) = context {
   let loigiai = _resolve-loigiai(loigiai, args)
+  let q = legacy-tf-to-question(stem, statements, loigiai: loigiai, id: args.named().at("id", default: none), tags: tags)
+  let _ = validate-question(q, mode: "legacy-compatible")
+  let statements = q.choices.map(c => (body: c.content, correct: c.correct))
   let q-state = _next-question-num(num: num)
   let num = q-state.num
   let vis-ans = mode != "dethi"
@@ -1354,6 +1364,8 @@
   ..args,
 ) = context {
   let loigiai = _resolve-loigiai(loigiai, args)
+  let q = legacy-short-to-question(stem, answer, loigiai: loigiai, id: args.named().at("id", default: none), tags: tags)
+  let _ = validate-question(q, mode: "legacy-compatible")
   let q-state = _next-question-num(num: num)
   let num = q-state.num
 
@@ -1469,6 +1481,8 @@
   ..args,
 ) = context {
   let loigiai = _resolve-loigiai(loigiai, args)
+  let q = legacy-written-to-question(stem, loigiai: loigiai, id: args.named().at("id", default: none))
+  let _ = validate-question(q, mode: "legacy-compatible")
   let q-state = _next-question-num(num: num)
   let num = q-state.num
 
@@ -1531,6 +1545,17 @@
 #let tn = mcq
 #let ds = tf
 #let tln = short
+
+// Structured 1.1 API. Legacy macros above retain their layout and counters.
+#let render-question(q, mode: "student", ..args) = render-question-data(
+  q,
+  mcq,
+  tf,
+  short,
+  tl,
+  mode: mode,
+  ..args,
+)
 
 // ── exam-mode ─────────────────────────────────────────────
 #let exam-mode(

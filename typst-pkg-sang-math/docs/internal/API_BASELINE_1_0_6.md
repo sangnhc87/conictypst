@@ -15,7 +15,7 @@ Source: the committed `typst-pkg-sang-math` tree at the start of the 1.1 work. `
 
 ## Baseline verification
 
-With Typst 0.14.2, 29 of 30 package tests, examples, and the manual compiled before changes. `examples/exam-template-demo.typ` already failed because `$vec(a)$` resolves to the 3D coordinate constructor. The existing CI matrix covers Typst 0.14.0 and latest. Current examples under `examples/copy-ready` import older published `@preview` releases; the two top-level demos import local source.
+With Typst 0.14.2, 29 of 30 package tests, examples, and the manual compiled before changes. `examples/exam-template-demo.typ` already failed because `$vec(a)$` resolves to the 3D coordinate constructor. The baseline CI matrix covered Typst 0.14.0 and latest; the 1.1 release matrix now covers 0.15.0 and 0.15.1 because Touying 0.8.0 requires 0.15.0. Current examples under `examples/copy-ready` import older published `@preview` releases; the two top-level demos import local source.
 
 ## Public symbols and signatures
 

@@ -10,4 +10,4 @@ Measured locally with Typst 0.14.2 on the same host and cached dependencies. The
 | Responsive BBT | 0.873 | 0.883 | +1.1% |
 | Mixed exam with two answer keys and OMR QR codes | 25.374 | 26.329 | +3.8% |
 
-No measured case exceeded the 15–20% investigation threshold in the refactor plan. The QR-heavy result includes QR generation cost and therefore should not be read as isolated Question Model overhead. CI tests Typst 0.14.0 and latest for compile compatibility; the timing observations above apply only to the local 0.14.2 compiler and this host.
+No measured case exceeded the 15–20% investigation threshold in the refactor plan. The QR-heavy result includes QR generation cost and therefore should not be read as isolated Question Model overhead. These timing observations apply only to the local 0.14.2 compiler and this host. The 1.1 release CI checks Typst 0.15.0 and 0.15.1 because Touying 0.8.0 requires 0.15.0.

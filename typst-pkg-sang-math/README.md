@@ -5,7 +5,7 @@ Bộ macro Typst dành cho Toán THPT Việt Nam: đề thi bốn dạng câu h�
 - Hướng dẫn trực tuyến: https://hdsd-conictypst.pages.dev
 - Hướng dẫn 1.1 và 20 file mẫu copy ngay (preview): [PR nguồn và HDSD](https://github.com/sangnhc87/conictypst/pull/3)
 - Mã nguồn: https://github.com/sangnhc87/conictypst
-- Yêu cầu: Typst 0.14.0 trở lên (do `cetz 0.5.2`)
+- Yêu cầu cho 1.1.0: Typst 0.15.0 trở lên (do `touying 0.8.0`); bản 1.0.6 vẫn dùng được với Typst 0.14.x.
 
 ## Cài đặt
 

@@ -267,11 +267,11 @@
 )
 
 #tln(
-  [Cho $vec(a)=(1,2,2)$. Độ dài $vec(a)$ bằng bao nhiêu?],
+  [Cho $overrightarrow(a)=(1,2,2)$. Độ dài $overrightarrow(a)$ bằng bao nhiêu?],
   [$3$],
   id: "TLN06",
   tags: ("vecto", "oxyz"),
-  loigiai: [$abs(vec(a)) = sqrt(1^2+2^2+2^2)=3$.],
+  loigiai: [$abs(overrightarrow(a)) = sqrt(1^2+2^2+2^2)=3$.],
 )
 
 #exam-part([PHẦN IV. Câu tự luận], count: 3)

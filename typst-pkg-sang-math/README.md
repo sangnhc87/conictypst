@@ -10,16 +10,16 @@ Bộ macro Typst dành cho Toán THPT Việt Nam: đề thi bốn dạng câu h�
 
 ```typ
 // Sử dụng bản chính thức trên Typst Universe:
-#import "@preview/sang-math:1.0.6": *
+#import "@preview/sang-math:1.1.0": * // sau khi 1.1.0 được phát hành
 
 // Hoặc sử dụng bản cài đặt local trên máy:
-#import "@local/sang-math:1.0.6": *
+#import "@local/sang-math:1.1.0": *
 ```
 
 Khi chỉ dùng một nhóm chức năng, có thể import tường minh:
 
 ```typ
-#import "@local/sang-math:1.0.6": tn, ds, tln, tl, True, decuong-book, decuong-preview
+#import "@local/sang-math:1.1.0": tn, ds, tln, tl, True, decuong-book, decuong-preview
 ```
 
 ## API chính
@@ -29,6 +29,8 @@ Khi chỉ dùng một nhóm chức năng, có thể import tường minh:
 | **Sách Đề cương (Mới 1.0.6)** | `decuong-book`, `decuong-preview`, `chuyende-book`, `dethi-book`, `chuong`, `bai`, `dang`, `phuong-phap`, `bt-item`, `C1`..`C5` |
 | **Ma trận Logic (Mới 1.0.6)** | `matrix-table`, `co`, `yes`, `khong`, `no`, `logic-check`, `logic-cross` |
 | **Đề thi THPT** | `tn`, `ds`, `tln`, `tl`, `exam-mode`, `exam-part`, `print-answer-key` |
+| **Câu hỏi cấu trúc (1.1)** | `question`, `choice`, `answer`, `solution-step`, `validate-question`, `render-question` |
+| **Ngân hàng câu hỏi (1.1)** | `question-bank`, `bank-filter`, `bank-select`, `bank-shuffle-choices` |
 | **Giao diện đề thi** | `exam-theme`, `exam-preset`, `exam-input-preset`, `exam-template-names` |
 | **Sách / SGK chuyên sâu** | `book-theme`, `book-chapter`, `book-lesson`, các hộp sư phạm (`goal-box`, `theorem-box`...) |
 | **Layout in hai mặt** | `layout-draft`, `layout-2col-draft` — nội dung 70%, nháp 30% đổi bên chẵn/lẻ |
@@ -38,6 +40,32 @@ Khi chỉ dùng một nhóm chức năng, có thể import tường minh:
 | **Ký hiệu toán & đa môn** | `RR`, `ZZ`, `NN`, `QQ`, `tfrac`, `heva`, `hoac`, `doC`, `ohm`, `pu-tn`... |
 
 `lib.typ` là cổng public duy nhất xuất toàn bộ hệ thống đề thi, sách đề cương, ma trận logic, BBT và hình học CeTZ.
+
+## API câu hỏi cấu trúc 1.1
+
+Các tài liệu dùng `tn`, `ds`, `tln`, `tl` vẫn chạy với chữ ký và bố cục cũ. API mới lưu câu hỏi như dữ liệu để lọc, chọn đề theo seed và render theo chế độ. Ví dụ hoàn chỉnh có tại [`examples/question-bank-demo.typ`](examples/question-bank-demo.typ).
+
+```typ
+#let q = question(
+  id: "D12-001",
+  kind: QUESTION_MC,
+  prompt: [Đạo hàm của $x^2$ là gì?],
+  choices: (choice([$x$]), choice([$2x$], correct: true)),
+  answer: answer("choice", 2),
+  solution: [Áp dụng quy tắc đạo hàm lũy thừa.],
+  grade: 12,
+  topic: "dao-ham",
+  difficulty: 1,
+  tags: ("co-ban",),
+)
+#let bank = question-bank(q)
+#let selected = bank-select(bank-filter(bank, grade: 12), count: 1, seed: 101)
+#for item in selected { render-question(item, mode: "student") }
+```
+
+`kind` hỗ trợ `QUESTION_MC`, `QUESTION_TF`, `QUESTION_SA`, `QUESTION_WRITTEN`. `render-question` nhận `mode: "student"`, `"teacher"`, `"solution"` hoặc `"answer-key"`. Cùng bank và seed luôn cho cùng thứ tự chọn; muốn đảo phương án có thể gọi `bank-shuffle-choices(q, seed: ...)`. Metadata (`grade`, `chapter`, `topic`, `difficulty` từ 1 đến 5, `cognitive-level`, `tags`, `estimated-time`, `source`, `metadata`) đều tùy chọn. `validate-question` kiểm tra dữ liệu của API mới; đường legacy dùng chế độ tương thích.
+
+Xem [`MIGRATION.md`](MIGRATION.md) để biết cách dùng song song hai API và [`docs/question-model.md`](docs/question-model.md) để tra đủ kiểu dữ liệu, chế độ render và quy tắc lọc. Phiên bản 1.1.0 trong README là mã nguồn chuẩn bị phát hành; import `@preview` sẽ hoạt động sau khi bản phát hành xuất hiện trên Typst Universe.
 
 
 ## Câu đúng/sai dạng bảng hoặc danh sách

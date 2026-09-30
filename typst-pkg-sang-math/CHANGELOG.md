@@ -2,6 +2,26 @@
 
 Các thay đổi đáng chú ý của `sang-math` được ghi tại đây. Gói tuân theo Semantic Versioning; nhánh `1.0.x` không được xóa hoặc đổi chữ ký API public đã phát hành.
 
+## 1.1.0 — chuẩn bị phát hành
+
+### Added
+
+- Unified Question Model cho MCQ, đúng/sai, trả lời ngắn và tự luận; metadata học tập tùy chọn, đáp án có kiểu và lời giải nhiều bước.
+- `validate-question` với thông báo lỗi theo ID câu hỏi; chế độ kiểm tra nghiêm cho API mới và tương thích cho API cũ.
+- `render-question` với các chế độ học sinh, giáo viên, lời giải và đáp án.
+- `question-bank`, `bank-filter`, `bank-select` và `bank-shuffle-choices` với seed xác định.
+- Semantic theme tokens nội bộ, tài liệu chuyển đổi và bài kiểm thử hồi quy câu hỏi/OMR.
+
+### Changed
+
+- `tn`/`mcq`, `ds`/`tf`, `tln`/`short` và `tl` chuẩn hóa dữ liệu trước khi dùng renderer legacy; giữ nguyên chữ ký và hành vi hiển thị.
+- Sửa ví dụ `exam-template-demo.typ` dùng `overrightarrow` vì `vec` được export bởi hình học 3D và đã khiến ví dụ 1.0.6 không biên dịch.
+
+### Compatibility
+
+- Tài liệu 1.0.6 hợp lệ không cần đổi source. Không có breaking change dự kiến.
+- Chưa phát hành lên Typst Universe; thay đổi phiên bản chỉ là bước chuẩn bị release.
+
 ## 1.0.6 — 2026-09-13
 
 ### Hệ thống Sách Toàn năng & Đề Cương (`decuong-book.typ`)

@@ -14,6 +14,14 @@ dịch ngay trên Typst.app, VS Code hoặc TypstConicHub.
 | `06-de-co-bbt-va-hinh-cetz.typ` | Câu có bảng biến thiên và hình vector CeTZ |
 | `07-de-70-30-nhap-in-hai-mat.typ` | Đề in hai mặt: 70% nội dung, 30% nháp đổi bên chẵn/lẻ |
 
+## Ví dụ trộn đề và phiếu OMR 1.1
+
+[`../examples/exam-variant-omr.typ`](exam-variant-omr.typ) là ví dụ chạy từ repo, ghép ma trận 12–4–6, đề học sinh, QR đáp án giáo viên và phiếu ngang nhận `state("sbd")`/`state("made")`. Biên dịch với Typst 0.15.1 từ thư mục gốc:
+
+```bash
+typst compile --root . typst-pkg-sang-math/examples/exam-variant-omr.typ
+```
+
 ## Đổi đề học sinh sang bản lời giải
 
 Trong mỗi file đề, sửa:

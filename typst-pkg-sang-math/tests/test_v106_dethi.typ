@@ -1,4 +1,4 @@
-#import "@local/sang-math:1.0.6": *
+#import "../lib.typ": *
 
 #show: decuong-book.with(
   title: "ĐỀ CƯƠNG TOÁN 10 HỌC KỲ I",

@@ -47,3 +47,96 @@
   } else { old-answer }
   (..q, choices: shuffled.map(item => item.choice), answer: new-answer)
 }
+
+#let _balanced-select(pool, count, seed, usage) = {
+  if usage == none { return bank-select(pool, count: count, seed: seed) }
+  let rest = pool
+  let result = ()
+  let tier = 0
+  while result.len() < count {
+    let least = rest.fold(2147483647, (minimum, q) => calc.min(minimum, usage.at(repr(q.id), default: 0)))
+    let eligible = rest.filter(q => usage.at(repr(q.id), default: 0) == least)
+    let take = calc.min(count - result.len(), eligible.len())
+    result += bank-select(eligible, count: take, seed: seed + tier * 1543)
+    rest = rest.filter(q => usage.at(repr(q.id), default: 0) > least)
+    tier += 1
+  }
+  result
+}
+
+// A small blueprint engine: exact section quotas, explicit filters, no reuse
+// within one variant, and stable selection for a given seed.
+#let exam-variant(bank, blueprint, seed: 1, ma-de: none, shuffle-choices: true, usage: none) = {
+  if type(blueprint) != array or blueprint.len() == 0 {
+    panic("sang-math: blueprint must be a nonempty array of section dictionaries")
+  }
+  let code = if ma-de == none { str(calc.rem(calc.abs(seed), 10000)) } else { str(ma-de) }
+  if code.len() > 4 or code.len() == 0 { panic("sang-math: ma-de must have at most four digits") }
+  while code.len() < 4 { code = "0" + code }
+  for i in range(code.len()) { if not "0123456789".contains(code.at(i)) { panic("sang-math: ma-de must contain digits only") } }
+
+  let seen-ids = ()
+  for q in bank {
+    let _ = validate-question(q)
+    if q.id != none {
+      if seen-ids.contains(q.id) { panic("sang-math: duplicate question ID " + str(q.id)) }
+      seen-ids.push(q.id)
+    }
+  }
+
+  let remaining = bank
+  let sections = ()
+  let all = ()
+  for (section-index, spec) in blueprint.enumerate() {
+    if type(spec) != dictionary { panic("sang-math: blueprint section must be a dictionary") }
+    let count = spec.at("count", default: none)
+    if type(count) != int or count < 0 { panic("sang-math: blueprint section count must be a non-negative integer") }
+    let pool = bank-filter(
+      remaining,
+      grade: spec.at("grade", default: none),
+      topic: spec.at("topic", default: none),
+      difficulty: spec.at("difficulty", default: none),
+      kind: spec.at("kind", default: none),
+      tags: spec.at("tags", default: ()),
+    )
+    if pool.len() < count {
+      panic("sang-math: blueprint section " + str(section-index + 1) + " needs " + str(count) + " questions but only " + str(pool.len()) + " match")
+    }
+    let originals = _balanced-select(pool, count, seed + section-index * 1009, usage)
+    let selected = originals
+    if shuffle-choices {
+      selected = selected.enumerate().map(((i, q)) => {
+        if q.kind == "mcq" { bank-shuffle-choices(q, seed: seed + section-index * 1009 + i * 9176 + 1) } else { q }
+      })
+    }
+    sections.push((..spec, questions: selected))
+    all += selected
+    remaining = remaining.filter(q => not originals.contains(q))
+  }
+  (ma-de: code, seed: seed, sections: sections, questions: all)
+}
+
+#let exam-variants(bank, blueprint, codes, seed: 1, shuffle-choices: true) = {
+  if type(codes) != array or codes.len() == 0 { panic("sang-math: codes must be a nonempty array") }
+  if bank.any(q => q.at("id", default: none) == none) { panic("sang-math: each question needs an ID for balanced variants") }
+  let usage = (:)
+  let seen-codes = ()
+  let result = ()
+  for (i, code) in codes.enumerate() {
+    let variant = exam-variant(
+      bank, blueprint,
+      seed: seed + i * 104729,
+      ma-de: code,
+      shuffle-choices: shuffle-choices,
+      usage: usage,
+    )
+    if seen-codes.contains(variant.ma-de) { panic("sang-math: duplicate exam code " + variant.ma-de) }
+    seen-codes.push(variant.ma-de)
+    result.push(variant)
+    for q in variant.questions {
+      let key = repr(q.id)
+      usage.insert(key, usage.at(key, default: 0) + 1)
+    }
+  }
+  result
+}

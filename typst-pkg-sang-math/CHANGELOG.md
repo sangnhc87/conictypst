@@ -10,6 +10,8 @@ Các thay đổi đáng chú ý của `sang-math` được ghi tại đây. Gói
 - `validate-question` với thông báo lỗi theo ID câu hỏi; chế độ kiểm tra nghiêm cho API mới và tương thích cho API cũ.
 - `render-question` với các chế độ học sinh, giáo viên, lời giải và đáp án.
 - `question-bank`, `bank-filter`, `bank-select` và `bank-shuffle-choices` với seed xác định.
+- `exam-variant`/`exam-variants`: ma trận chỉ tiêu từng phần, chọn không lặp, cân bằng mức sử dụng câu giữa nhiều mã đề và trộn đáp án trắc nghiệm có cập nhật đáp án đúng.
+- `render-exam-variant` và QR đáp án `exam-variant-qr` đọc trực tiếp từng biến thể; tám mẫu phiếu OMR chuẩn nhận `state("sbd")`/`state("made")` khi `#include`.
 - Semantic theme tokens nội bộ, tài liệu chuyển đổi và bài kiểm thử hồi quy câu hỏi/OMR.
 
 ### Changed

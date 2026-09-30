@@ -28,7 +28,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        typst-version: ["0.14.0", "latest"]
+        typst-version: ["0.14.0", "0.15.1"]
     steps:
       - uses: actions/checkout@v6
       - uses: typst-community/setup-typst@v5
@@ -48,14 +48,20 @@ jobs:
           typst compile --root . typst-pkg-sang-math/examples/exam-template-demo.typ /tmp/exam-template-demo.pdf
           typst compile --root . typst-pkg-sang-math/examples/book-template-demo.typ /tmp/book-template-demo.pdf
           typst compile --root . typst-pkg-sang-math/examples/question-bank-demo.typ /tmp/question-bank-demo.pdf
+          typst compile --root . typst-pkg-sang-math/examples/exam-variant-omr.typ /tmp/exam-variant-omr.pdf
           for file in typst-pkg-sang-math/examples/copy-ready/*.typ; do
             name="$(basename "$file" .typ)"
             typst compile --root . "$file" "/tmp/${name}.pdf"
             typst compile --root . --input profile=loigiai "$file" "/tmp/${name}-loigiai.pdf"
           done
           typst compile --root . typst-pkg-sang-math/docs/manual.typ /tmp/sang-math-manual.pdf
+      - name: Compile OMR presets and state include
+        run: |
+          for name in 12-4-6ngang ds-12 hybrid-28tn-12ds thptqg-toan-2025 tln-10 tn-40 tn-50 tn-60 state-example; do
+            typst compile --root . "sang-math-omr/templates/$name.typ" "/tmp/omr-$name.pdf"
+          done
       - name: Compile full HDSD
-        if: matrix.typst-version == 'latest'
+        if: matrix.typst-version == '0.15.1'
         run: typst compile --root . typst/hdsd-exam.typ /tmp/hdsd-exam.pdf
 
   platform-functions:

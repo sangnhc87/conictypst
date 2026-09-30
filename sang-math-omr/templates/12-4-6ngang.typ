@@ -12,12 +12,28 @@
 #let qb = box(width: 1.15pt, height: 1.15pt, fill: black)
 #let qw = box(width: 1.15pt, height: 1.15pt, fill: white)
 
-#let bubble(label) = {
+
+// Optional: #state("sbd").update("1001") and #state("made").update("0101")
+// before #include. Blank states leave the student bubbles unmarked.
+#let omr-code(value, digits) = {
+  if value == none { return "" }
+  let code = str(value)
+  if code.len() == 0 or code.len() > digits { panic("sang-math OMR: invalid code length") }
+  for i in range(code.len()) { if not "0123456789".contains(code.at(i)) { panic("sang-math OMR: codes must contain digits only") } }
+  while code.len() < digits { code = "0" + code }
+  code
+}
+#let omr-marked(name, digits, column, row) = {
+  let code = omr-code(state(name).get(), digits)
+  code != "" and code.at(column) == str(row)
+}
+
+#let bubble(label, marked: false) = {
   circle(
     radius: if true { 4.3pt } else { 5pt },
     stroke: 0.5pt + rgb("#333333"),
-    fill: white,
-    align(center + horizon)[#text(size: if true { 6.0pt } else { 7pt }, weight: "regular", fill: rgb("#888888"))[#label]],
+    fill: if marked { black } else { white },
+    align(center + horizon)[#text(size: if true { 6.0pt } else { 7pt }, weight: "regular", fill: if marked { white } else { rgb("#888888") })[#label]],
   )
 }
 
@@ -34,7 +50,7 @@
       inset: (left: if true { 6pt } else { 4pt }, right: if true { 3pt } else { 2pt }, top: if true { 1pt } else { 2pt }, bottom: if true { 1pt } else { 2pt }),
       [
         #place(top + left, dx: -2pt, dy: -2pt)[#tracking-marker]
-        #align(center)[#text(weight: "bold", size: 8pt)[SBD]]
+        #align(center)[#text(weight: "bold", size: 8pt)[SBD #context omr-code(state("sbd").get(), 6)]]
         #v(if true { 1pt } else { 2pt })
         #grid(
           columns: (12pt,) * 6, gutter: if true { 1.2pt } else { 1.5pt },
@@ -43,7 +59,7 @@
         #v(if true { 1pt } else { 2pt })
         #grid(
           columns: (12pt,) * 6, row-gutter: if true { 0.8pt } else { 1.5pt }, column-gutter: 1.5pt,
-          ..range(10).map(r => range(6).map(c => align(center, bubble(str(r))))).flatten()
+          ..range(10).map(r => range(6).map(c => context align(center, bubble(str(r), marked: omr-marked("sbd", 6, c, r))))).flatten()
         )
       ],
     )
@@ -52,7 +68,7 @@
       inset: (left: if true { 3pt } else { 2pt }, right: if true { 3pt } else { 2pt }, top: if true { 1pt } else { 2pt }, bottom: if true { 1pt } else { 2pt }),
       [
         #place(top + left, dx: -2pt, dy: -2pt)[#tracking-marker]
-        #align(right)[#text(weight: "bold", size: 8pt)[Mã đề]]
+        #align(right)[#text(weight: "bold", size: 8pt)[Mã đề #context omr-code(state("made").get(), 4)]]
         #v(if true { 1pt } else { 2pt })
         #grid(
           columns: (12pt,) * 4,
@@ -65,7 +81,7 @@
         #v(if true { 1pt } else { 2pt })
         #grid(
           columns: (12pt,) * 4, row-gutter: if true { 0.8pt } else { 1.5pt }, column-gutter: 1.5pt,
-          ..range(10).map(r => range(4).map(c => align(center, bubble(str(r))))).flatten()
+          ..range(10).map(r => range(4).map(c => context align(center, bubble(str(r), marked: omr-marked("made", 4, c, r))))).flatten()
         )
       ],
     )

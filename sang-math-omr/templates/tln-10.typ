@@ -12,13 +12,29 @@
 #let marker = box(fill: black, width: 12pt, height: 12pt)
 #let tracking-marker = box(fill: black, width: 10pt, height: 10pt)
 
-#let bubble(label) = {
+
+// Optional: #state("sbd").update("1001") and #state("made").update("0101")
+// before #include. Blank states leave the student bubbles unmarked.
+#let omr-code(value, digits) = {
+  if value == none { return "" }
+  let code = str(value)
+  if code.len() == 0 or code.len() > digits { panic("sang-math OMR: invalid code length") }
+  for i in range(code.len()) { if not "0123456789".contains(code.at(i)) { panic("sang-math OMR: codes must contain digits only") } }
+  while code.len() < digits { code = "0" + code }
+  code
+}
+#let omr-marked(name, digits, column, row) = {
+  let code = omr-code(state(name).get(), digits)
+  code != "" and code.at(column) == str(row)
+}
+
+#let bubble(label, marked: false) = {
   align(center + horizon)[
     #circle(
       radius: 4.5pt,
       stroke: 0.5pt + rgb("#333333"),
-      fill: white,
-      align(center + horizon)[#text(size: 6.5pt, weight: "regular", fill: rgb("#888888"))[#label]],
+      fill: if marked { black } else { white },
+      align(center + horizon)[#text(size: 6.5pt, weight: "regular", fill: if marked { white } else { rgb("#888888") })[#label]],
     )
   ]
 }
@@ -38,7 +54,7 @@
   [
     #place(top + left, dx: -2pt, dy: -2pt)[#tracking-marker]
     #v(if false { 2pt } else { 4pt })
-    #align(center)[#text(weight: "bold", size: if false { 7pt } else { 7.5pt })[SỐ BÁO DANH]]
+    #align(center)[#text(weight: "bold", size: if false { 7pt } else { 7.5pt })[SỐ BÁO DANH #context omr-code(state("sbd").get(), 6)]]
     #v(if false { 1pt } else { 2pt })
     #grid(
       columns: (12pt,) * 6, gutter: if false { 1.2pt } else { 1.5pt },
@@ -46,8 +62,8 @@
     )
     #v(if false { 1pt } else { 2pt })
     #grid(
-      columns: (12pt,) * 6, row-gutter: if false { 0.8pt } else { 2pt }, column-gutter: 2pt,
-      ..range(10).map(r => range(6).map(c => bubble(str(r)))).flatten()
+      columns: (12pt,) * 6, row-gutter: if false { 0.8pt } else { 2pt }, column-gutter: 1.5pt,
+      ..range(10).map(r => range(6).map(c => context bubble(str(r), marked: omr-marked("sbd", 6, c, r)))).flatten()
     )
   ],
 )
@@ -57,7 +73,7 @@
   [
     #place(top + left, dx: -2pt, dy: -2pt)[#tracking-marker]
     #v(if false { 2pt } else { 4pt })
-    #align(right)[#text(weight: "bold", size: if false { 7pt } else { 7.5pt })[MÃ ĐỀ THI]]
+    #align(right)[#text(weight: "bold", size: if false { 7pt } else { 7.5pt })[MÃ ĐỀ THI #context omr-code(state("made").get(), 4)]]
     #v(if false { 1pt } else { 2pt })
     #grid(
       columns: (12pt,) * 4,
@@ -66,8 +82,8 @@
     )
     #v(if false { 1pt } else { 2pt })
     #grid(
-      columns: (12pt,) * 4, row-gutter: if false { 0.8pt } else { 2pt }, column-gutter: 2pt,
-      ..range(10).map(r => range(4).map(c => bubble(str(r)))).flatten()
+      columns: (12pt,) * 4, row-gutter: if false { 0.8pt } else { 2pt }, column-gutter: 1.5pt,
+      ..range(10).map(r => range(4).map(c => context bubble(str(r), marked: omr-marked("made", 4, c, r)))).flatten()
     )
   ],
 )

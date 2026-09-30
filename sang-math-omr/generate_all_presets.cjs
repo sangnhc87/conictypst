@@ -97,7 +97,55 @@ const genWasmTypst = context.genWasmTypst;
 function buildTypstCode(mcq, tf, tln, paper, templateId) {
   const hasEssay = (mcq === 12 && tf === 4 && tln === 6) || (mcq === 0 && tf === 0 && tln === 10);
   const qrCodeStr = getQRTypst(templateId);
-  return genWasmTypst({ mcq, tf, tln, paper, school: 'SANG MATH OMR', subtitle: 'Kiểm tra – Môn Toán', hasEssay, qrCodeStr });
+  return addStateSupport(genWasmTypst({ mcq, tf, tln, paper, school: 'SANG MATH OMR', subtitle: 'Kiểm tra – Môn Toán', hasEssay, qrCodeStr }));
+}
+
+// Keep the profile QR generated above unchanged: it identifies the sheet geometry.
+// The optional document states prefill only the SBD and exam-code bubbles.
+function replaceOnce(source, before, after) {
+  if (!source.includes(before)) throw new Error(`OMR generator pattern missing: ${before}; grid lines: ${source.match(/range\(10\)[^\n]*/g)?.slice(0, 4).join(' | ')}`);
+  return source.replace(before, after);
+}
+
+function addStateSupport(source) {
+  const helpers = `
+// Optional: #state("sbd").update("1001") and #state("made").update("0101")
+// before #include. Blank states leave the student bubbles unmarked.
+#let omr-code(value, digits) = {
+  if value == none { return "" }
+  let code = str(value)
+  if code.len() == 0 or code.len() > digits { panic("sang-math OMR: invalid code length") }
+  for i in range(code.len()) { if not "0123456789".contains(code.at(i)) { panic("sang-math OMR: codes must contain digits only") } }
+  while code.len() < digits { code = "0" + code }
+  code
+}
+#let omr-marked(name, digits, column, row) = {
+  let code = omr-code(state(name).get(), digits)
+  code != "" and code.at(column) == str(row)
+}
+`;
+  source = replaceOnce(source, '#let bubble(label) = {', helpers + '\n#let bubble(label, marked: false) = {');
+  const bubbleStart = source.indexOf('#let bubble(label, marked: false) = {');
+  const bubbleTail = source.slice(bubbleStart);
+  source = source.slice(0, bubbleStart) + replaceOnce(
+    replaceOnce(bubbleTail, 'fill: white,', 'fill: if marked { black } else { white },'),
+    'fill: rgb("#888888")', 'fill: if marked { white } else { rgb("#888888") }',
+  );
+  const mathLayout = source.includes('range(6).map(c => align(center, bubble(str(r))))');
+  for (const [name, digits] of [['sbd', 6], ['made', 4]]) {
+    const before = mathLayout
+      ? `range(${digits}).map(c => align(center, bubble(str(r))))`
+      : `range(${digits}).map(c => bubble(str(r)))`;
+    const after = mathLayout
+      ? `range(${digits}).map(c => context align(center, bubble(str(r), marked: omr-marked("${name}", ${digits}, c, r))))`
+      : `range(${digits}).map(c => context bubble(str(r), marked: omr-marked("${name}", ${digits}, c, r)))`;
+    source = replaceOnce(source, before, after);
+  }
+  const sbdLabel = source.includes('[SỐ BÁO DANH]') ? '[SỐ BÁO DANH]' : '[SBD]';
+  const madeLabel = source.includes('[MÃ ĐỀ THI]') ? '[MÃ ĐỀ THI]' : '[Mã đề]';
+  source = replaceOnce(source, sbdLabel, sbdLabel.slice(0, -1) + ' #context omr-code(state("sbd").get(), 6)]');
+  source = replaceOnce(source, madeLabel, madeLabel.slice(0, -1) + ' #context omr-code(state("made").get(), 4)]');
+  return source;
 }
 
 // Define some presets

@@ -1557,6 +1557,15 @@
   ..args,
 )
 
+#let render-exam-variant(variant, mode: "student", reset: true) = {
+  if reset { resetexamstate() }
+  for section in variant.sections {
+    let title = section.at("title", default: none)
+    if title != none { heading(title, level: 2) }
+    for q in section.questions { render-question(q, mode: mode) }
+  }
+}
+
 // ── exam-mode ─────────────────────────────────────────────
 #let exam-mode(
   mode: "dethi",
@@ -1929,7 +1938,7 @@
 // A simple dictionary to JSON encoder (only handles the subset needed for OMR key)
 #let _se-json-encode(val) = {
   if type(val) == str {
-    "\"" + val + "\""
+    "\"" + val.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n").replace("\r", "\\r").replace("\t", "\\t") + "\""
   } else if type(val) == int {
     str(val)
   } else if type(val) == array {
@@ -1977,6 +1986,8 @@
 #let _content-to-str(c) = {
   if type(c) == str {
     c
+  } else if type(c) == int or type(c) == float {
+    str(c)
   } else if type(c) == content and c.has("text") {
     c.text
   } else if type(c) == content and c.has("body") {
@@ -2036,4 +2047,60 @@
   let final-str = "SMKEY:1:" + b64-str
 
   box(fill: white, inset: 8pt, radius: 4pt, qr-code(final-str, width: width))
+}
+
+#let exam-variant-qr-payload(
+  variant,
+  profile: (id: "12-4-6ngang", mcq: 12, tf: 4, tln: 6, paper: "a5"),
+) = {
+  let mcq-ans = ()
+  let tf-ans = ()
+  let sh-ans = ()
+  let group = 0
+  for q in variant.questions {
+    let next-group = if q.kind == "mcq" { 0 } else if q.kind == "true-false" { 1 } else if q.kind == "short-answer" { 2 } else { 3 }
+    if next-group < group { panic("sang-math: OMR questions must be grouped as MCQ, true-false, short-answer, written") }
+    group = next-group
+    if q.kind == "mcq" {
+      if q.choices.len() != 4 { panic("sang-math: OMR MCQ needs four choices") }
+      let marked = q.choices.enumerate().filter(((_, item)) => item.correct)
+      let ans = q.at("answer", default: none)
+      let index = if type(ans) == dictionary and ans.at("kind", default: none) == "choice" { ans.value } else if marked.len() == 1 { marked.first().at(0) + 1 } else { 0 }
+      if index < 1 or index > 4 { panic("sang-math: OMR MCQ has no unique answer") }
+      mcq-ans.push(("A", "B", "C", "D").at(index - 1))
+    } else if q.kind == "true-false" {
+      if q.choices.len() != 4 { panic("sang-math: OMR true-false needs four statements") }
+      let ans = q.at("answer", default: none)
+      let values = if type(ans) == array { ans } else { q.choices.map(item => item.correct) }
+      tf-ans.push(values.map(value => if value { "Đ" } else { "S" }).join())
+    } else if q.kind == "short-answer" {
+      let ans = q.at("answer", default: none)
+      let value = if type(ans) == dictionary { ans.at("value", default: none) } else { ans }
+      if value == none { panic("sang-math: OMR short-answer is missing its answer") }
+      let printed = _content-to-str(value).trim().replace("−", "-")
+      if printed == "" { panic("sang-math: OMR short-answer cannot be converted to text") }
+      sh-ans.push(printed)
+    }
+  }
+  if mcq-ans.len() != profile.mcq or tf-ans.len() != profile.tf or sh-ans.len() != profile.tln {
+    panic("sang-math: variant question counts do not match the OMR profile")
+  }
+  let payload = (
+    z: 1,
+    m: (source: "ConicTypst", made: variant.ma-de,
+      omr: (id: profile.id, mcq: profile.mcq, tf: profile.tf, tln: profile.tln, paper: profile.paper)),
+    k: ((variant.ma-de): (
+      mcq-ans.join(),
+      if tf-ans.len() > 0 { mcq-ans.len() + 1 } else { 0 },
+      tf-ans.join(),
+      if sh-ans.len() > 0 { mcq-ans.len() + tf-ans.len() + 1 } else { 0 },
+      sh-ans,
+    )),
+  )
+  "SMKEY:1:" + _se-base64-encode(_se-json-encode(payload))
+}
+
+#let exam-variant-qr(variant, profile: (id: "12-4-6ngang", mcq: 12, tf: 4, tln: 6, paper: "a5"), width: 3cm) = {
+  let encoded = exam-variant-qr-payload(variant, profile: profile)
+  box(fill: white, inset: 8pt, radius: 4pt, qr-code(encoded, width: width))
 }

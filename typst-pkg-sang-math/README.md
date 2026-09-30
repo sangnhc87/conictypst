@@ -30,7 +30,8 @@ Khi chỉ dùng một nhóm chức năng, có thể import tường minh:
 | **Ma trận Logic (Mới 1.0.6)** | `matrix-table`, `co`, `yes`, `khong`, `no`, `logic-check`, `logic-cross` |
 | **Đề thi THPT** | `tn`, `ds`, `tln`, `tl`, `exam-mode`, `exam-part`, `print-answer-key` |
 | **Câu hỏi cấu trúc (1.1)** | `question`, `choice`, `answer`, `solution-step`, `validate-question`, `render-question` |
-| **Ngân hàng câu hỏi (1.1)** | `question-bank`, `bank-filter`, `bank-select`, `bank-shuffle-choices` |
+| **Ngân hàng và trộn đề (1.1)** | `question-bank`, `bank-filter`, `bank-select`, `bank-shuffle-choices`, `exam-variant`, `exam-variants` |
+| **Đề và phiếu OMR (1.1)** | `render-exam-variant`, `exam-variant-qr`, state `sbd`/`made` cho các phiếu chuẩn |
 | **Giao diện đề thi** | `exam-theme`, `exam-preset`, `exam-input-preset`, `exam-template-names` |
 | **Sách / SGK chuyên sâu** | `book-theme`, `book-chapter`, `book-lesson`, các hộp sư phạm (`goal-box`, `theorem-box`...) |
 | **Layout in hai mặt** | `layout-draft`, `layout-2col-draft` — nội dung 70%, nháp 30% đổi bên chẵn/lẻ |
@@ -64,6 +65,31 @@ Các tài liệu dùng `tn`, `ds`, `tln`, `tl` vẫn chạy với chữ ký và 
 ```
 
 `kind` hỗ trợ `QUESTION_MC`, `QUESTION_TF`, `QUESTION_SA`, `QUESTION_WRITTEN`. `render-question` nhận `mode: "student"`, `"teacher"`, `"solution"` hoặc `"answer-key"`. Cùng bank và seed luôn cho cùng thứ tự chọn; muốn đảo phương án có thể gọi `bank-shuffle-choices(q, seed: ...)`. Metadata (`grade`, `chapter`, `topic`, `difficulty` từ 1 đến 5, `cognitive-level`, `tags`, `estimated-time`, `source`, `metadata`) đều tùy chọn. `validate-question` kiểm tra dữ liệu của API mới; đường legacy dùng chế độ tương thích.
+
+## Trộn đề và phiếu 12–4–6 ngang
+
+`exam-variant(bank, blueprint, seed:, ma-de:)` chọn đúng số câu theo từng phần, lọc theo `kind`, lớp, chủ đề, độ khó và tags, không lặp câu trong một mã đề và đảo đáp án trắc nghiệm cùng chỉ số đáp án. `exam-variants` nhận nhiều mã đề và ưu tiên câu ít dùng ở các mã trước; mỗi câu cần ID ổn định. Cùng bank, blueprint và seed sẽ cho kết quả lặp lại được. Khi thiếu câu hoặc mã đề trùng, hàm báo lỗi lúc biên dịch.
+
+```typ
+#let blueprint = (
+  (kind: QUESTION_MC, count: 12, title: [Phần I]),
+  (kind: QUESTION_TF, count: 4, title: [Phần II]),
+  (kind: QUESTION_SA, count: 6, title: [Phần III]),
+)
+#let ma-de = "0101"
+#let variant = exam-variant(bank, blueprint, seed: 2026, ma-de: ma-de)
+#render-exam-variant(variant)
+
+// In QR đáp án trên trang dành cho giáo viên.
+#exam-variant-qr(variant)
+
+// Trong file có thể truy cập phiếu OMR (ví dụ bên trong repo):
+#state("sbd").update("1001")
+#state("made").update(ma-de)
+#include "12-4-6ngang.typ"
+```
+
+Đặt file gọi `#include` cạnh phiếu hoặc đổi đường dẫn cho phù hợp. Ví dụ biên dịch hoàn chỉnh ở [`examples/exam-variant-omr.typ`](examples/exam-variant-omr.typ); ví dụ chỉ in phiếu ở [`../sang-math-omr/templates/state-example.typ`](../sang-math-omr/templates/state-example.typ). QR trên phiếu là mã nhận diện bố cục `SMOMR`; `exam-variant-qr` xuất QR đáp án `SMKEY` riêng cho đúng mã đề. Dùng `exam-variant-qr-payload(variant)` để lấy chuỗi `SMKEY` khi cần xuất qua hệ thống khác. Giá trị state trống giữ phiếu chưa tô; SBD được thêm số 0 ở đầu đến sáu chữ số, mã đề đến bốn chữ số.
 
 Xem [`MIGRATION.md`](MIGRATION.md) để biết cách dùng song song hai API và [`docs/question-model.md`](docs/question-model.md) để tra đủ kiểu dữ liệu, chế độ render và quy tắc lọc. Phiên bản 1.1.0 trong README là mã nguồn chuẩn bị phát hành; import `@preview` sẽ hoạt động sau khi bản phát hành xuất hiện trên Typst Universe.
 

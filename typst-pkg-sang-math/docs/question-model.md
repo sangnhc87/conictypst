@@ -36,4 +36,14 @@ All metadata is optional: `id`, `subject`, `grade`, `chapter`, `topic`, `difficu
 
 The seed is an integer. The implementation uses a fixed Park–Miller generator so selection never depends on Typst's random state. Calling these functions does not reorder a legacy exam implicitly. If choices are shuffled, render the shuffled question and generate its answer key/OMR from that same rendering.
 
+## Exam variants and OMR
+
+`exam-variant(bank, blueprint, seed:, ma-de:, shuffle-choices: true)` accepts a nonempty tuple of section dictionaries. Each section has `count` and optional `kind`, `grade`, `topic`, `difficulty`, `tags`, and `title`. It selects exactly that many questions without reuse, validates IDs and quotas, and returns `(ma-de, seed, sections, questions)`. The four-digit exam code is zero-padded. MCQ choices and their typed answer index are shuffled together; true/false statements stay in their original order.
+
+`exam-variants(bank, blueprint, codes, seed:)` generates multiple codes and chooses questions with the lowest prior use first, then uses the seed to break ties. Every bank question needs a unique `id` for balancing. Duplicate normalized exam codes fail. The output is deterministic for identical inputs.
+
+`render-exam-variant(variant, mode: "student")` renders the selected sections with the existing exam layout. `exam-variant-qr(variant)` encodes answer data directly from that variant, so QR codes remain correct even when several variants share one document. `exam-variant-qr-payload(variant)` returns the same `SMKEY:1:` text for external export. The default OMR profile is `12-4-6ngang` (12 MCQ, 4 true/false, 6 short answers, A5). It requires four options/statements per MCQ/true-false question, grouped in OMR order, and rejects a profile count mismatch. A different profile can be passed as `(id:, mcq:, tf:, tln:, paper:)`.
+
+The eight generated OMR presets accept optional Typst states `sbd` and `made` immediately before `#include`. Prefilled bubbles and printed codes use six and four digits respectively; blank states keep the form empty. The fixed `SMOMR` QR printed on the sheet identifies its geometry. The `SMKEY` QR from `exam-variant-qr` contains the teacher answer key and should be distributed separately. See [`../examples/exam-variant-omr.typ`](../examples/exam-variant-omr.typ).
+
 See [`../examples/question-bank-demo.typ`](../examples/question-bank-demo.typ) for a complete document and [`../MIGRATION.md`](../MIGRATION.md) for the 1.0.6 transition.

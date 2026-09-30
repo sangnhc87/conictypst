@@ -13,7 +13,7 @@
     "deploy": "npm run build:public && wrangler pages deploy dist --project-name conictypsst && npm run pages:prune -- conictypsst",
     "deploy:pages": "npm run build:public && wrangler pages deploy dist --project-name conictypsst && npm run pages:prune -- conictypsst",
     "prepare:atlas": "node scripts/atlas-inventory.mjs",
-    "deploy:hdsd": "npm run prepare:atlas && npm run test:hdsd:runtime && wrangler pages deploy public/hdsd --project-name hdsd-conictypst --commit-dirty=true && npm run pages:prune -- hdsd-conictypst",
+    "deploy:hdsd": "npm run prepare:atlas && npm run test:hdsd:runtime && wrangler pages deploy public/hdsd --project-name hdsd-conictypst --branch main --commit-dirty=true && npm run pages:prune -- hdsd-conictypst",
     "build:geo": "node geo-conictypst-web/build_stage.mjs dist-geo-conictypst && node geo-conictypst-web/test_stage.mjs",
     "build:graphics-studio": "vite build --config vite.graphics-studio.config.js",
     "deploy:graphics-studio": "npm run build:graphics-studio && wrangler pages deploy dist-graphics-studio --project-name sang-math-graphics-studio --branch main --commit-dirty=true && npm run pages:prune -- sang-math-graphics-studio",

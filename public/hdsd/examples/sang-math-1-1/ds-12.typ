@@ -110,31 +110,31 @@
   qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw,
   qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw,
   qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw,
-  qw, qw, qw, qw, qb, qb, qb, qb, qb, qb, qb, qw, qb, qw, qw, qb, qw, qb, qw, qw, qb, qw, qb, qb, qb, qb, qb, qb, qb, qw, qw, qw, qw,
-  qw, qw, qw, qw, qb, qw, qw, qw, qw, qw, qb, qw, qw, qw, qw, qb, qw, qb, qw, qw, qb, qw, qb, qw, qw, qw, qw, qw, qb, qw, qw, qw, qw,
-  qw, qw, qw, qw, qb, qw, qb, qb, qb, qw, qb, qw, qb, qw, qb, qb, qb, qb, qb, qb, qw, qw, qb, qw, qb, qb, qb, qw, qb, qw, qw, qw, qw,
-  qw, qw, qw, qw, qb, qw, qb, qb, qb, qw, qb, qw, qw, qb, qw, qw, qw, qb, qw, qb, qw, qw, qb, qw, qb, qb, qb, qw, qb, qw, qw, qw, qw,
-  qw, qw, qw, qw, qb, qw, qb, qb, qb, qw, qb, qw, qw, qb, qb, qb, qb, qw, qw, qw, qb, qw, qb, qw, qb, qb, qb, qw, qb, qw, qw, qw, qw,
-  qw, qw, qw, qw, qb, qw, qw, qw, qw, qw, qb, qw, qb, qb, qw, qw, qb, qw, qw, qw, qw, qw, qb, qw, qw, qw, qw, qw, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qb, qb, qb, qb, qb, qb, qw, qb, qw, qw, qb, qb, qb, qb, qb, qw, qw, qb, qb, qb, qb, qb, qb, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qw, qw, qw, qw, qb, qw, qb, qb, qw, qb, qb, qb, qw, qw, qb, qw, qb, qw, qw, qw, qw, qw, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qb, qb, qb, qw, qb, qw, qw, qb, qb, qw, qw, qw, qw, qw, qb, qw, qb, qw, qb, qb, qb, qw, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qb, qb, qb, qw, qb, qw, qb, qb, qw, qw, qb, qw, qb, qb, qw, qw, qb, qw, qb, qb, qb, qw, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qb, qb, qb, qw, qb, qw, qw, qw, qw, qw, qb, qw, qb, qw, qb, qw, qb, qw, qb, qb, qb, qw, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qw, qw, qw, qw, qb, qw, qw, qb, qw, qw, qw, qb, qw, qb, qb, qw, qb, qw, qw, qw, qw, qw, qb, qw, qw, qw, qw,
   qw, qw, qw, qw, qb, qb, qb, qb, qb, qb, qb, qw, qb, qw, qb, qw, qb, qw, qb, qw, qb, qw, qb, qb, qb, qb, qb, qb, qb, qw, qw, qw, qw,
-  qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qb, qb, qw, qw, qw, qw, qb, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw,
-  qw, qw, qw, qw, qb, qw, qb, qw, qw, qw, qb, qb, qw, qw, qw, qw, qw, qw, qw, qb, qb, qw, qw, qb, qw, qw, qb, qw, qb, qw, qw, qw, qw,
-  qw, qw, qw, qw, qb, qb, qw, qw, qb, qb, qw, qw, qw, qw, qw, qw, qw, qw, qb, qb, qb, qb, qb, qw, qw, qb, qb, qw, qw, qw, qw, qw, qw,
-  qw, qw, qw, qw, qb, qb, qb, qb, qw, qb, qb, qb, qb, qb, qb, qb, qb, qb, qw, qb, qw, qb, qw, qb, qb, qw, qw, qw, qb, qw, qw, qw, qw,
-  qw, qw, qw, qw, qb, qb, qb, qb, qw, qb, qw, qw, qb, qb, qb, qw, qb, qw, qw, qw, qw, qw, qb, qw, qw, qb, qw, qb, qw, qw, qw, qw, qw,
-  qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qb, qb, qb, qw, qw, qw, qb, qw, qw, qw, qb, qw, qb, qw, qb, qb, qb, qw, qw, qw, qw, qw, qw,
-  qw, qw, qw, qw, qw, qw, qb, qw, qw, qb, qw, qw, qw, qb, qb, qw, qw, qb, qw, qb, qb, qw, qb, qb, qw, qb, qb, qw, qw, qw, qw, qw, qw,
-  qw, qw, qw, qw, qb, qb, qw, qb, qb, qb, qb, qb, qb, qw, qb, qb, qw, qw, qw, qb, qb, qb, qw, qb, qw, qw, qb, qw, qb, qw, qw, qw, qw,
-  qw, qw, qw, qw, qw, qw, qw, qw, qb, qw, qw, qw, qw, qb, qw, qb, qw, qw, qw, qb, qw, qw, qw, qw, qb, qb, qw, qb, qb, qw, qw, qw, qw,
-  qw, qw, qw, qw, qb, qb, qw, qb, qb, qb, qb, qb, qw, qw, qb, qb, qw, qw, qb, qb, qb, qb, qb, qb, qb, qw, qb, qb, qb, qw, qw, qw, qw,
-  qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qb, qb, qb, qb, qb, qb, qw, qb, qb, qw, qw, qw, qb, qw, qw, qb, qw, qw, qw, qw, qw,
-  qw, qw, qw, qw, qb, qb, qb, qb, qb, qb, qb, qw, qb, qw, qb, qb, qb, qb, qw, qw, qb, qw, qb, qw, qb, qb, qw, qw, qb, qw, qw, qw, qw,
-  qw, qw, qw, qw, qb, qw, qw, qw, qw, qw, qb, qw, qw, qb, qb, qw, qb, qw, qb, qb, qb, qw, qw, qw, qb, qw, qw, qw, qb, qw, qw, qw, qw,
-  qw, qw, qw, qw, qb, qw, qb, qb, qb, qw, qb, qw, qw, qw, qw, qb, qb, qw, qb, qb, qb, qb, qb, qb, qb, qw, qw, qb, qw, qw, qw, qw, qw,
-  qw, qw, qw, qw, qb, qw, qb, qb, qb, qw, qb, qw, qw, qb, qb, qb, qb, qw, qb, qw, qb, qb, qw, qb, qb, qw, qb, qb, qw, qw, qw, qw, qw,
-  qw, qw, qw, qw, qb, qw, qb, qb, qb, qw, qb, qw, qb, qb, qw, qb, qb, qb, qb, qb, qb, qw, qw, qb, qb, qb, qw, qb, qb, qw, qw, qw, qw,
-  qw, qw, qw, qw, qb, qw, qw, qw, qw, qw, qb, qw, qw, qw, qb, qb, qw, qw, qb, qw, qb, qw, qb, qb, qb, qw, qw, qw, qw, qw, qw, qw, qw,
-  qw, qw, qw, qw, qb, qb, qb, qb, qb, qb, qb, qw, qb, qb, qb, qb, qw, qw, qb, qw, qb, qw, qb, qb, qb, qw, qw, qw, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qb, qb, qw, qb, qw, qw, qw, qb, qb, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qb, qb, qw, qb, qb, qb, qw, qb, qb, qb, qw, qb, qw, qb, qb, qw, qb, qw, qw, qb, qw, qb, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qb, qw, qw, qb, qb, qw, qb, qb, qb, qb, qw, qw, qb, qb, qb, qw, qb, qw, qw, qw, qw, qb, qw, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qw, qb, qw, qb, qw, qw, qb, qw, qb, qb, qb, qb, qb, qb, qw, qw, qw, qb, qb, qw, qb, qb, qb, qw, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qw, qb, qb, qb, qb, qw, qw, qw, qw, qb, qw, qw, qb, qw, qw, qb, qb, qw, qb, qb, qw, qb, qb, qb, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qb, qb, qb, qw, qw, qb, qb, qw, qb, qw, qb, qb, qw, qb, qb, qb, qb, qb, qb, qw, qb, qw, qb, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qw, qb, qw, qw, qb, qw, qw, qb, qw, qw, qb, qb, qb, qw, qb, qb, qw, qb, qb, qb, qb, qb, qb, qb, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qw, qb, qb, qw, qw, qw, qb, qw, qw, qw, qw, qb, qw, qb, qw, qw, qw, qb, qw, qb, qb, qb, qb, qb, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qw, qb, qw, qb, qw, qw, qb, qb, qw, qb, qw, qw, qb, qb, qw, qw, qb, qw, qb, qw, qw, qb, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qw, qw, qb, qb, qb, qb, qb, qb, qw, qb, qw, qw, qb, qw, qb, qw, qb, qb, qb, qb, qb, qb, qw, qb, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qb, qb, qb, qw, qw, qw, qb, qb, qb, qw, qw, qw, qb, qw, qb, qb, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qb, qb, qb, qb, qb, qb, qw, qb, qb, qw, qw, qw, qb, qb, qw, qb, qw, qb, qw, qb, qb, qb, qb, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qw, qw, qw, qw, qb, qw, qb, qb, qb, qb, qw, qb, qb, qw, qb, qw, qw, qw, qb, qw, qw, qw, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qb, qb, qb, qw, qb, qw, qw, qw, qw, qw, qw, qb, qb, qw, qb, qb, qb, qb, qb, qb, qw, qb, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qb, qb, qb, qw, qb, qw, qb, qw, qb, qw, qw, qw, qw, qw, qw, qb, qb, qb, qb, qb, qb, qw, qb, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qb, qb, qb, qw, qb, qw, qb, qw, qb, qw, qw, qw, qb, qb, qb, qw, qb, qw, qb, qw, qb, qb, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qw, qw, qw, qw, qw, qb, qw, qw, qb, qb, qb, qb, qb, qb, qw, qw, qw, qw, qw, qb, qw, qb, qw, qw, qw, qw, qw, qw,
+  qw, qw, qw, qw, qb, qb, qb, qb, qb, qb, qb, qw, qb, qw, qb, qb, qw, qw, qw, qb, qw, qb, qw, qw, qw, qw, qb, qb, qb, qw, qw, qw, qw,
   qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw,
   qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw,
   qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw, qw,
@@ -147,61 +147,6 @@
 ])
 
 
-#v(4pt)
-#block(width:100%, stroke:(paint:rgb("#666666"),thickness:0.8pt,dash:"dashed"), radius:4pt, clip:true, [
-  #rect(width:100%, height:16pt, [#align(center+horizon)[#text(8pt, weight:"bold")[PHẦN I – TRẮC NGHIỆM (28 câu, chọn 1 đáp án)]]])
-  #grid(columns: (1fr,) * 3, stroke: (x,y) => if x==0 { none } else { 0.5pt },
-          block(
-            stroke: (right: 0.5pt),
-            inset: 2pt,
-            [
-              #grid(
-                columns: (16pt, 12pt, 12pt, 12pt, 12pt),
-                align(center)[#tracking-marker], align(center)[*A*], align(center)[*B*], align(center)[*C*], align(center)[*D*],
-              )
-              #v(2pt)
-              #grid(columns: 1, row-gutter: 1.5pt, ..range(1, 11).map(i => grid(
-                columns: (16pt, 12pt, 12pt, 12pt, 12pt),
-                align(center + horizon)[*#i*],
-                bubble(""), bubble(""), bubble(""), bubble(""),
-              )))
-            ]
-          ),
-
-          block(
-            stroke: (right: 0.5pt),
-            inset: 2pt,
-            [
-              #grid(
-                columns: (16pt, 12pt, 12pt, 12pt, 12pt),
-                align(center)[#tracking-marker], align(center)[*A*], align(center)[*B*], align(center)[*C*], align(center)[*D*],
-              )
-              #v(2pt)
-              #grid(columns: 1, row-gutter: 1.5pt, ..range(11, 21).map(i => grid(
-                columns: (16pt, 12pt, 12pt, 12pt, 12pt),
-                align(center + horizon)[*#i*],
-                bubble(""), bubble(""), bubble(""), bubble(""),
-              )))
-            ]
-          ),
-
-          block(
-            stroke: (right: 0.5pt),
-            inset: 2pt,
-            [
-              #grid(
-                columns: (16pt, 12pt, 12pt, 12pt, 12pt),
-                align(center)[#tracking-marker], align(center)[*A*], align(center)[*B*], align(center)[*C*], align(center)[*D*],
-              )
-              #v(2pt)
-              #grid(columns: 1, row-gutter: 1.5pt, ..range(21, 29).map(i => grid(
-                columns: (16pt, 12pt, 12pt, 12pt, 12pt),
-                align(center + horizon)[*#i*],
-                bubble(""), bubble(""), bubble(""), bubble(""),
-              )))
-            ]
-          ) )
-])
 
 #v(4pt)
 #block(width:100%, stroke:(paint:rgb("#666666"),thickness:0.8pt,dash:"dashed"), radius:4pt, clip:true, [

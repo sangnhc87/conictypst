@@ -2,7 +2,7 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-for case in index multiple points metadata; do
+for case in index multiple points metadata numeric-tolerance estimated-time tags no-correct tf-conflict; do
   if typst compile --root "$repo_root" --input "case=$case" \
     "$repo_root/typst-pkg-sang-math/tests/validation/invalid.typ" \
     "/tmp/sang-math-invalid-$case.pdf" >"/tmp/sang-math-invalid-$case.log" 2>&1; then
@@ -14,7 +14,7 @@ for case in index multiple points metadata; do
     exit 1
   fi
 done
-for case in quota duplicate-id duplicate-code bad-code profile; do
+for case in quota duplicate-id duplicate-code bad-code unknown-field bad-tags bad-difficulty bad-seed bad-filter-kind bad-profile-type profile; do
   if typst compile --root "$repo_root" --input "case=$case" \
     "$repo_root/typst-pkg-sang-math/tests/validation/invalid-variant.typ" \
     "/tmp/sang-math-invalid-variant-$case.pdf" >"/tmp/sang-math-invalid-variant-$case.log" 2>&1; then

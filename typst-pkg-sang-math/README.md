@@ -3,6 +3,7 @@
 Bộ macro Typst dành cho Toán THPT Việt Nam: đề thi bốn dạng câu hỏi, sách/chuyên đề, bảng biến thiên, bảng xét dấu và hình học CeTZ.
 
 - Hướng dẫn trực tuyến: https://hdsd-conictypst.pages.dev
+- Hướng dẫn 1.1 và 20 file mẫu copy ngay (preview): [PR nguồn và HDSD](https://github.com/sangnhc87/conictypst/pull/3)
 - Mã nguồn: https://github.com/sangnhc87/conictypst
 - Yêu cầu: Typst 0.14.0 trở lên (do `cetz 0.5.2`)
 
@@ -26,8 +27,9 @@ Khi chỉ dùng một nhóm chức năng, có thể import tường minh:
 
 | Nhóm | Macro tiêu biểu |
 |---|---|
-| **Sách Đề cương (Mới 1.0.6)** | `decuong-book`, `decuong-preview`, `chuyende-book`, `dethi-book`, `chuong`, `bai`, `dang`, `phuong-phap`, `bt-item`, `C1`..`C5` |
-| **Ma trận Logic (Mới 1.0.6)** | `matrix-table`, `co`, `yes`, `khong`, `no`, `logic-check`, `logic-cross` |
+| **Sách Đề cương (1.1)** | `decuong-book`, `decuong-preview`, `chuyende-book`, `dethi-book`, `chuong`, `bai`, `dang`, `phuong-phap`, `bt-item`, `C1`..`C5` |
+| **Namespace 1.0.6 đã phát hành** | `book`, `beamer`, `sang-omr-qr`, `draw-helix`, `draw-spring`, `draw-cylinder`, `draw-cone`, `draw-sphere` tiếp tục được export |
+| **Ma trận Logic (1.1)** | `matrix-table`, `co`, `yes`, `khong`, `no`, `logic-check`, `logic-cross` |
 | **Đề thi THPT** | `tn`, `ds`, `tln`, `tl`, `exam-mode`, `exam-part`, `print-answer-key` |
 | **Câu hỏi cấu trúc (1.1)** | `question`, `choice`, `answer`, `solution-step`, `validate-question`, `render-question` |
 | **Ngân hàng và trộn đề (1.1)** | `question-bank`, `bank-filter`, `bank-select`, `bank-shuffle-choices`, `exam-variant`, `exam-variants` |
@@ -89,7 +91,7 @@ Các tài liệu dùng `tn`, `ds`, `tln`, `tl` vẫn chạy với chữ ký và 
 #include "12-4-6ngang.typ"
 ```
 
-Đặt file gọi `#include` cạnh phiếu hoặc đổi đường dẫn cho phù hợp. Ví dụ biên dịch hoàn chỉnh ở [`examples/exam-variant-omr.typ`](examples/exam-variant-omr.typ); ví dụ chỉ in phiếu ở [`../sang-math-omr/templates/state-example.typ`](../sang-math-omr/templates/state-example.typ). QR trên phiếu là mã nhận diện bố cục `SMOMR`; `exam-variant-qr` xuất QR đáp án `SMKEY` riêng cho đúng mã đề. Dùng `exam-variant-qr-payload(variant)` để lấy chuỗi `SMKEY` khi cần xuất qua hệ thống khác. Giá trị state trống giữ phiếu chưa tô; SBD được thêm số 0 ở đầu đến sáu chữ số, mã đề đến bốn chữ số.
+Đặt file gọi `#include` cạnh phiếu hoặc đổi đường dẫn cho phù hợp. Ví dụ biên dịch hoàn chỉnh ở [`examples/exam-variant-omr.typ`](examples/exam-variant-omr.typ); tám preset phiếu và 20 file mẫu copy sẵn có trong [PR nguồn và HDSD](https://github.com/sangnhc87/conictypst/pull/3). QR trên phiếu là mã nhận diện bố cục `SMOMR`; `exam-variant-qr` xuất QR đáp án `SMKEY` riêng cho đúng mã đề. Dùng `exam-variant-qr-payload(variant)` để lấy chuỗi `SMKEY` khi cần xuất qua hệ thống khác. Giá trị state trống giữ phiếu chưa tô; SBD được thêm số 0 ở đầu đến sáu chữ số, mã đề đến bốn chữ số.
 
 Xem [`MIGRATION.md`](MIGRATION.md) để biết cách dùng song song hai API và [`docs/question-model.md`](docs/question-model.md) để tra đủ kiểu dữ liệu, chế độ render và quy tắc lọc. Phiên bản 1.1.0 trong README là mã nguồn chuẩn bị phát hành; import `@preview` sẽ hoạt động sau khi bản phát hành xuất hiện trên Typst Universe.
 

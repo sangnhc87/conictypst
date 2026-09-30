@@ -2053,6 +2053,16 @@
   variant,
   profile: (id: "12-4-6ngang", mcq: 12, tf: 4, tln: 6, paper: "a5"),
 ) = {
+  if type(variant) != dictionary or type(variant.at("questions", default: none)) != array or type(variant.at("ma-de", default: none)) != str {
+    panic("sang-math: OMR variant must come from exam-variant")
+  }
+  if type(profile) != dictionary or type(profile.at("id", default: none)) != str or profile.id == "" or type(profile.at("paper", default: none)) != str or profile.paper == "" {
+    panic("sang-math: OMR profile needs nonempty id and paper strings")
+  }
+  for field in ("mcq", "tf", "tln") {
+    let value = profile.at(field, default: none)
+    if type(value) != int or value < 0 { panic("sang-math: OMR profile " + field + " must be a non-negative integer") }
+  }
   let mcq-ans = ()
   let tf-ans = ()
   let sh-ans = ()

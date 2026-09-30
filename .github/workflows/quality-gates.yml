@@ -20,6 +20,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run test:hub
+      - run: npm run test:sang-math-guide
       - run: npm run build:hub
 
   sang-math:
@@ -63,6 +64,14 @@ jobs:
       - name: Compile full HDSD
         if: matrix.typst-version == '0.15.1'
         run: typst compile --root . typst/hdsd-exam.typ /tmp/hdsd-exam.pdf
+      - name: Compile every copy-ready HDSD example
+        if: matrix.typst-version == '0.15.1'
+        run: |
+          mkdir -p /tmp/sang-math-guide-packages/local/sang-math
+          ln -s "$PWD/typst-pkg-sang-math" /tmp/sang-math-guide-packages/local/sang-math/1.1.0
+          for file in public/hdsd/examples/sang-math-1-1/[0-9][0-9]-*.typ; do
+            typst compile --root . --package-path /tmp/sang-math-guide-packages "$file" "/tmp/guide-$(basename "$file" .typ).pdf"
+          done
 
   platform-functions:
     name: Platform access and retention policies

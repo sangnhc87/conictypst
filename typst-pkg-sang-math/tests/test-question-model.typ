@@ -28,6 +28,8 @@
 #let shuffled = bank-shuffle-choices(q1, seed: 42)
 #assert(shuffled.choices.at(shuffled.answer.value - 1).correct)
 #assert(shuffled.choices.at(shuffled.answer.value - 1).content == [2])
+#let shuffled-tf = bank-shuffle-choices((..q2, answer: (true, false, true, false)), seed: 42)
+#assert(shuffled-tf.choices.enumerate().all(((i, c)) => c.correct == shuffled-tf.answer.at(i)))
 #assert(answer("numeric", 3.14, tolerance: 0.001).tolerance == 0.001)
 #assert(validate-question(q1) == q1)
 #let blueprint = (

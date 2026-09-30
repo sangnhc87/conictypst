@@ -1,8 +1,23 @@
 #import "core/validate.typ": validate-question
+#import "core/question.typ": QUESTION_MC, QUESTION_TF, QUESTION_SA, QUESTION_WRITTEN
 
 #let question-bank(..questions) = questions.pos()
 
 #let bank-filter(bank, grade: none, topic: none, difficulty: none, kind: none, tags: ()) = {
+  if type(bank) != array { panic("sang-math: bank must be an array of questions") }
+  if type(tags) != array or tags.any(tag => type(tag) != str) {
+    panic("sang-math: bank-filter tags must be an array of strings")
+  }
+  if kind != none and not (QUESTION_MC, QUESTION_TF, QUESTION_SA, QUESTION_WRITTEN).contains(kind) {
+    panic("sang-math: bank-filter kind is unsupported")
+  }
+  if difficulty != none {
+    let values = if type(difficulty) == array { difficulty } else { (difficulty,) }
+    if values.any(value => type(value) != int or value < 1 or value > 5) {
+      panic("sang-math: bank-filter difficulty must contain integers from 1 to 5")
+    }
+  }
+  for q in bank { let _ = validate-question(q) }
   bank.filter(q => {
     let grade-ok = grade == none or q.at("grade", default: none) == grade
     let topic-ok = topic == none or q.at("topic", default: none) == topic
@@ -17,6 +32,7 @@
 #let _next-seed(seed) = calc.rem(seed * 48271, 2147483647)
 
 #let bank-select(bank, count: none, seed: 1) = {
+  if type(bank) != array { panic("sang-math: bank-select bank must be an array") }
   if type(seed) != int { panic("sang-math: bank-select seed must be an integer") }
   if count != none and (type(count) != int or count < 0 or count > bank.len()) {
     panic("sang-math: bank-select count must be between 0 and the bank size")
@@ -44,6 +60,8 @@
   let new-answer = if type(old-answer) == dictionary and old-answer.at("kind", default: none) == "choice" {
     let matching = shuffled.enumerate().filter(((i, item)) => item.index == old-answer.value)
     if matching.len() > 0 { (..old-answer, value: matching.first().at(0) + 1) } else { old-answer }
+  } else if q.kind == QUESTION_TF and type(old-answer) == array {
+    shuffled.map(item => old-answer.at(item.index - 1))
   } else { old-answer }
   (..q, choices: shuffled.map(item => item.choice), answer: new-answer)
 }
@@ -67,6 +85,10 @@
 // A small blueprint engine: exact section quotas, explicit filters, no reuse
 // within one variant, and stable selection for a given seed.
 #let exam-variant(bank, blueprint, seed: 1, ma-de: none, shuffle-choices: true, usage: none) = {
+  if type(bank) != array { panic("sang-math: exam bank must be an array") }
+  if type(seed) != int { panic("sang-math: exam seed must be an integer") }
+  if type(shuffle-choices) != bool { panic("sang-math: shuffle-choices must be a boolean") }
+  if usage != none and type(usage) != dictionary { panic("sang-math: usage must be a dictionary") }
   if type(blueprint) != array or blueprint.len() == 0 {
     panic("sang-math: blueprint must be a nonempty array of section dictionaries")
   }
@@ -89,14 +111,24 @@
   let all = ()
   for (section-index, spec) in blueprint.enumerate() {
     if type(spec) != dictionary { panic("sang-math: blueprint section must be a dictionary") }
+    let allowed = ("count", "kind", "grade", "topic", "difficulty", "tags", "title")
+    for key in spec.keys() {
+      if not allowed.contains(key) {
+        panic("sang-math: blueprint section " + str(section-index + 1) + " has unknown field " + key)
+      }
+    }
     let count = spec.at("count", default: none)
     if type(count) != int or count < 0 { panic("sang-math: blueprint section count must be a non-negative integer") }
+    let kind = spec.at("kind", default: none)
+    if kind != none and not (QUESTION_MC, QUESTION_TF, QUESTION_SA, QUESTION_WRITTEN).contains(kind) {
+      panic("sang-math: blueprint section " + str(section-index + 1) + " has unsupported kind " + repr(kind))
+    }
     let pool = bank-filter(
       remaining,
       grade: spec.at("grade", default: none),
       topic: spec.at("topic", default: none),
       difficulty: spec.at("difficulty", default: none),
-      kind: spec.at("kind", default: none),
+      kind: kind,
       tags: spec.at("tags", default: ()),
     )
     if pool.len() < count {

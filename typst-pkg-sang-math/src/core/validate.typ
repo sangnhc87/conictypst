@@ -17,7 +17,8 @@
   let choices = q.at("choices", default: ())
   if type(choices) != array { fail("choices must be an array") }
   if type(q.at("metadata", default: (:))) != dictionary { fail("metadata must be a dictionary") }
-  if type(q.at("tags", default: ())) != array { fail("tags must be an array") }
+  let tags = q.at("tags", default: ())
+  if type(tags) != array or tags.any(tag => type(tag) != str) { fail("tags must be an array of strings") }
   let points = q.at("points", default: none)
   if points != none and (type(points) != int and type(points) != float or points < 0) {
     fail("points must be a non-negative number")
@@ -25,6 +26,20 @@
   let difficulty = q.at("difficulty", default: none)
   if difficulty != none and (type(difficulty) != int or difficulty < 1 or difficulty > 5) {
     fail("difficulty must be an integer from 1 to 5")
+  }
+  let estimated-time = q.at("estimated-time", default: none)
+  if estimated-time != none and (type(estimated-time) != int or estimated-time < 0) {
+    fail("estimated-time must be a non-negative number of seconds")
+  }
+  let answer = q.at("answer", default: none)
+  if type(answer) == dictionary and answer.at("kind", default: none) == "numeric" {
+    if not (int, float).contains(type(answer.at("value", default: none))) {
+      fail("numeric answer value must be a number")
+    }
+    let tolerance = answer.at("tolerance", default: none)
+    if tolerance != none and (not (int, float).contains(type(tolerance)) or tolerance < 0) {
+      fail("numeric answer tolerance must be non-negative")
+    }
   }
   if (QUESTION_MC, QUESTION_TF).contains(kind) {
     if choices.len() == 0 { fail("choices cannot be empty") }
@@ -40,6 +55,9 @@
     let correct-count = choices.filter(item => item.correct).len()
     if correct-count > 1 { fail("mcq has more than one correct choice") }
     let ans = q.at("answer", default: none)
+    if correct-count == 0 and not (type(ans) == dictionary and ans.at("kind", default: none) == "choice") {
+      fail("mcq needs one correct choice or a typed choice answer")
+    }
     if type(ans) == dictionary and ans.at("kind", default: none) == "choice" {
       let index = ans.at("value", default: none)
       if type(index) != int or index < 1 or index > choices.len() {
@@ -55,6 +73,9 @@
     let ans = q.at("answer", default: none)
     if type(ans) == array and (ans.len() != choices.len() or ans.any(value => type(value) != bool)) {
       fail("true-false answer must contain one boolean per statement")
+    }
+    if type(ans) == array and choices.any(item => item.correct) and choices.enumerate().any(((i, item)) => item.correct != ans.at(i)) {
+      fail("true-false answer conflicts with marked statements")
     }
   }
   q

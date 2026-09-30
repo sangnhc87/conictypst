@@ -57,6 +57,8 @@
     "test:hub:source": "node --test scripts/test-hub-question-source.mjs",
     "test:hdsd:ai-contract": "node --test scripts/test-ai-sang-math-contract.mjs",
     "test:hdsd:runtime": "node scripts/validate-hdsd-runtime.mjs",
+    "build:sang-math-guide": "node scripts/build-sang-math-1-1-guide.mjs",
+    "test:sang-math-guide": "node scripts/build-sang-math-1-1-guide.mjs --check",
     "test:hub": "npm run test:hub:package && npm run test:hub:registry && npm run test:hub:inline-math && npm run test:hub:source && npm run test:hdsd:ai-contract",
     "test:hub:exam-online": "node scripts/test-hub-exam-online.mjs",
     "test:hub:smoke": "node scripts/test-hub-smoke.mjs",

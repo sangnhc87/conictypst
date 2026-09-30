@@ -1,7 +1,7 @@
 // ================================================================
-// SANG-MATH 1.0.6 — Bộ macro Toán & Đa môn THPT Việt Nam
-// Entry point: #import "@preview/sang-math:1.0.6": *
-// Hoặc local : #import "@local/sang-math:1.0.6": *
+// SANG-MATH 1.1.0 — Bộ macro Toán & Đa môn THPT Việt Nam
+// Entry point after publication: #import "@preview/sang-math:1.1.0": *
+// During development: #import "@local/sang-math:1.1.0": *
 // ================================================================
 
 // ── Stable public API ────────────────────────────────────────────
@@ -23,6 +23,10 @@
 
 // ── Geometry 3D (Thuật toán tự động & Khử nét khuất kiểu Luadraw) ──
 #import "geometry-3d/lib.typ": *
+
+// Public namespaces from the published 1.0.6 package.
+#import "sang-book.typ" as book
+#import "sang-beamer.typ" as beamer
 
 // Structured question data, validation, and seeded bank operations (1.1).
 #import "src/core/question.typ": question, choice, answer, solution-step, QUESTION_MC, QUESTION_TF, QUESTION_SA, QUESTION_WRITTEN

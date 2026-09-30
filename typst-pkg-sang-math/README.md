@@ -91,7 +91,7 @@ Các tài liệu dùng `tn`, `ds`, `tln`, `tl` vẫn chạy với chữ ký và 
 #include "12-4-6ngang.typ"
 ```
 
-Đặt file gọi `#include` cạnh phiếu hoặc đổi đường dẫn cho phù hợp. Ví dụ biên dịch hoàn chỉnh ở [`examples/exam-variant-omr.typ`](examples/exam-variant-omr.typ); tám preset phiếu và 20 file mẫu copy sẵn có trong [PR nguồn và HDSD](https://github.com/sangnhc87/conictypst/pull/3). QR trên phiếu là mã nhận diện bố cục `SMOMR`; `exam-variant-qr` xuất QR đáp án `SMKEY` riêng cho đúng mã đề. Dùng `exam-variant-qr-payload(variant)` để lấy chuỗi `SMKEY` khi cần xuất qua hệ thống khác. Giá trị state trống giữ phiếu chưa tô; SBD được thêm số 0 ở đầu đến sáu chữ số, mã đề đến bốn chữ số.
+Đặt file gọi `#include` cạnh phiếu hoặc đổi đường dẫn cho phù hợp. Ví dụ biên dịch hoàn chỉnh ở [`examples/exam-variant-omr.typ`](examples/exam-variant-omr.typ), tám preset phiếu có trong [`examples/omr/`](examples/omr/) và 20 file mẫu copy sẵn có trong [PR nguồn và HDSD](https://github.com/sangnhc87/conictypst/pull/3). QR trên phiếu là mã nhận diện bố cục `SMOMR`; `exam-variant-qr` xuất QR đáp án `SMKEY` riêng cho đúng mã đề. Dùng `exam-variant-qr-payload(variant)` để lấy chuỗi `SMKEY` khi cần xuất qua hệ thống khác. Giá trị state trống giữ phiếu chưa tô; SBD được thêm số 0 ở đầu đến sáu chữ số, mã đề đến bốn chữ số.
 
 Xem [`MIGRATION.md`](MIGRATION.md) để biết cách dùng song song hai API và [`docs/question-model.md`](docs/question-model.md) để tra đủ kiểu dữ liệu, chế độ render và quy tắc lọc. Phiên bản 1.1.0 trong README là mã nguồn chuẩn bị phát hành; import `@preview` sẽ hoạt động sau khi bản phát hành xuất hiện trên Typst Universe.
 
@@ -124,12 +124,12 @@ chuyển nhanh sang danh sách bằng `use-table: false`:
 `use-table: false` tương đương `ds-style: "list"`. Cú pháp cũ
 `table: false` cũng được giữ để tương thích với các ví dụ đã lưu.
 
-## Sách Đề Cương & Biên Soạn Toàn Năng (Mới 1.0.6)
+## Sách Đề Cương & Biên Soạn Toàn Năng (preview 1.1.0)
 
 Soạn thảo toàn bộ tài liệu học tập, sách đề cương ôn tập hoặc hướng dẫn giải chi tiết chỉ với một lệnh show rule duy nhất:
 
 ```typ
-#import "@local/sang-math:1.0.6": *
+#import "@local/sang-math:1.1.0": *
 
 #show: decuong-book.with(
   title: "ĐỀ CƯƠNG TOÁN 10 HỌC KỲ I",
@@ -161,7 +161,7 @@ Soạn thảo toàn bộ tài liệu học tập, sách đề cương ôn tập 
 Khi đang mở riêng 1 file bài trong IDE, dùng `decuong-preview` để xem trước trực tiếp mà không sinh ra trang bìa hay mục lục:
 
 ```typ
-#import "@local/sang-math:1.0.6": *
+#import "@local/sang-math:1.1.0": *
 #show: decuong-preview.with(mode: "loigiai") // Hoặc "dethi"
 
 #dang("Dạng toán cụ thể", mau: C1)
@@ -179,7 +179,7 @@ Hỗ trợ trực tiếp các ký hiệu ma trận suy luận:
 
 
 ```typ
-#import "@preview/sang-math:1.0.5": *
+#import "@preview/sang-math:1.0.6": *
 
 #let preset = exam-preset(
   theme: "teal-pro",
@@ -221,7 +221,7 @@ Các theme đề có thể lấy trực tiếp bằng `exam-template-names`; hi�
 ## Ví dụ sách/chuyên đề
 
 ```typ
-#import "@preview/sang-math:1.0.5": *
+#import "@preview/sang-math:1.0.6": *
 
 #show: book-theme.with(
   theme: "sgk-modern",
@@ -242,7 +242,7 @@ Danh sách giao diện sách có sẵn nằm trong `book-template-names`.
 ## Bảng biến thiên
 
 ```typ
-#import "@preview/sang-math:1.0.5": bbtv2
+#import "@preview/sang-math:1.0.6": bbtv2
 
 #bbtv2(
   x-vals: ($-oo$, $-1$, $1$, $+oo$),
@@ -254,7 +254,7 @@ Danh sách giao diện sách có sẵn nằm trong `book-template-names`.
 ## Đề 70/30 có nháp khi in hai mặt
 
 ```typ
-#import "@preview/sang-math:1.0.5": layout-draft
+#import "@preview/sang-math:1.0.6": layout-draft
 
 #show: layout-draft.with(
   nháp-pct: 30%,
@@ -275,7 +275,7 @@ Các hàm `draw-*` được gọi bên trong `cetz.canvas`:
 
 ```typ
 #import "@preview/cetz:0.5.2"
-#import "@preview/sang-math:1.0.5": draw-ellipse, draw-cylinder
+#import "@preview/sang-math:1.0.6": draw-ellipse, draw-cylinder
 
 #cetz.canvas({
   draw-ellipse(a: 2, b: 1, show-axes: true, show-foci: true)
@@ -291,7 +291,7 @@ Gói `sang-math` cung cấp khung đề thi chuẩn Bộ GD&ĐT 2025, hoàn toà
 - **Vật lí**: Đổi `subject: "VẬT LÍ 12"`, sử dụng các ký hiệu `$ohm$`, `$doC$` hoặc `$mu"F"$.
 - **Hóa học**: Kết hợp với gói công thức hóa học `@preview/typsium:0.3.2`:
 ```typ
-#import "@preview/sang-math:1.0.5": *
+#import "@preview/sang-math:1.0.6": *
 #import "@preview/typsium:0.3.2": *
 
 #show: exam-classic.with(subject: "HÓA HỌC 12", duration: "50 phút")
@@ -306,7 +306,7 @@ Gói `sang-math` cung cấp khung đề thi chuẩn Bộ GD&ĐT 2025, hoàn toà
 ```
 
 ## Tạo đề bằng AI (ChatGPT / Claude / Gemini)
-Để AI hỗ trợ soạn đề tự động đúng 100% cú pháp `sang-math:1.0.5`, xem hướng dẫn và sao chép System Prompt chuẩn tại [`PROMPT_AI_TAO_DE.md`](PROMPT_AI_TAO_DE.md).
+Để AI hỗ trợ soạn đề theo cú pháp `sang-math:1.0.6`, xem hướng dẫn và sao chép System Prompt tại [`PROMPT_AI_TAO_DE.md`](PROMPT_AI_TAO_DE.md). Luôn biên dịch và duyệt nội dung toán trước khi dùng.
 
 ## Phát triển và kiểm thử
 

@@ -1,4 +1,4 @@
-// Chạy từ repo: typst compile --root . typst-pkg-sang-math/examples/exam-variant-omr.typ
+// Chạy từ thư mục gói: typst compile --root . examples/exam-variant-omr.typ
 #import "../lib.typ": *
 
 #let mcq-bank = range(12).map(i => question(
@@ -41,4 +41,4 @@
 #pagebreak()
 #state("sbd").update("1001")
 #state("made").update(ma-de)
-#include "../../sang-math-omr/templates/12-4-6ngang.typ"
+#include "omr/12-4-6ngang.typ"

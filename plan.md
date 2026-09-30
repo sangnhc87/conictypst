@@ -34,7 +34,7 @@ Nguyên tắc sản phẩm:
 | Module | Production | Snapshot quan trọng |
 |---|---|---|
 | TypstConicHub | <https://typstconichub.pages.dev/> | `4b59299d.typstconichub.pages.dev` — DOCX Equation thật, liên kết tải trực tiếp và giao diện Kho Cloud riêng đã triển khai |
-| HDSD | <https://hdsd-conictypst.pages.dev/> | <https://6d4cefcb.hdsd-conictypst.pages.dev/> — Atlas 199 học liệu, 43 giáo án lớp 10, 14 giáo án HKII lớp 12, 79/80 chuyên đề có PDF (2026-07-30); bản `06b50173` giữ làm dự phòng |
+| HDSD | <https://hdsd-conictypst.pages.dev/> | `35c0ba06` — hướng dẫn sang-math 1.1, 20 ví dụ, tám phiếu OMR, ZIP tải được (2026-10-01); `ac5f52b6` giữ làm dự phòng |
 | Geo2Code cộng đồng | <https://geo-conictypst.pages.dev/> | `f74573cd` — trang riêng cho bốn công cụ GeoGebra → TikZ/CeTZ, có tác giả và QR ủng hộ (2026-07-26); `03a2c45d` giữ làm dự phòng |
 | Sang Math Graphics Studio | <https://sang-math-graphics-studio.pages.dev/> | `d03c43ec` — production: bàn vẽ trực quan click/kéo cho cung A–O–B, tam giác A–B–C, đường tròn O–R và hình nón O–R–S; mã Typst sinh tự động, không chờ WASM khi thao tác; package + API compile sạch, HTTP 200 (2026-08-06); `81fbe6e4` giữ làm dự phòng |
 | Trộn đề | <https://hdsd-conictypst.pages.dev/tron-de> | hiện nằm trong project HDSD |
@@ -129,6 +129,13 @@ Trước khi sửa OMR lần nữa, đọc `sang-math-omr/readme.md` và kiểm 
 
 ### 4.2 HDSD + Trộn đề
 
+- HDSD sang-math 1.1 đã deploy riêng lên `hdsd-conictypst` tại
+  <https://hdsd-conictypst.pages.dev/sang-math-1-1.html>. Trang có 20 file Typst
+  copy nhanh, tám preset OMR, hướng dẫn state SBD/mã đề, trộn seed và phân biệt
+  QR `SMOMR`/`SMKEY`. Bản 1.1 vẫn chờ xét duyệt ở
+  <https://github.com/typst/packages/pull/5987>; ZIP trên HDSD dùng local package.
+  `test:hdsd:runtime`, `test:sang-math-guide`, HTTP 200 của production/snapshot/ZIP
+  và dry-run prune đều đạt; project giữ đúng hai bản Production/main.
 - Đã khôi phục `public/hdsd/typst/{bbt,sang-exam,math-sym}.typ` sau khi một
   script test ghi đè bằng nội dung mock; `deploy:hdsd` nay bắt buộc chạy
   `test:hdsd:runtime` để chặn file quá nhỏ, file mock hoặc thiếu API chính.

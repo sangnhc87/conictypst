@@ -1,4 +1,4 @@
-#import "@preview/sang-math:1.0.1": *
+#import "@preview/sang-math:1.0.2": *
 
 #let mode = "loigiai"
 #let accent = classic.blue

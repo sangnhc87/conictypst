@@ -3,8 +3,8 @@
   "compiler": "0.15.1",
   "examples": [
     {"id":"01","category":"Tương thích","title":"Đề bốn dạng bằng API cũ","file":"01-legacy-bon-dang.typ","summary":"Giữ #tn, #ds, #tln, #tl và bảng đáp án; chuyển sang 1.1 không phải viết lại đề.","result":"Đề học sinh và trang đáp án giáo viên.","requires":[]},
-    {"id":"02","category":"Mô hình câu hỏi","title":"Question Model bốn dạng","file":"02-model-bon-dang.typ","summary":"Tạo câu có ID, metadata, đáp án có kiểu, gợi ý và lời giải nhiều bước.","result":"Đề học sinh chứa bốn kiểu câu.","requires":[]},
-    {"id":"03","category":"Ngân hàng","title":"Lọc và chọn bằng seed","file":"03-loc-ngan-hang-seed.typ","summary":"Lọc theo lớp, chủ đề, độ khó, tags; cùng seed cho cùng câu.","result":"Ba câu được chọn tái lập được.","requires":[]},
+    {"id":"02","category":"Mô hình câu hỏi","title":"tn/ds/tln/tl trong ngân hàng","file":"02-model-bon-dang.typ","summary":"Giữ cách gõ cũ, thêm một ID bank.json để tự suy ra lớp/chương/độ khó; đủ bốn dạng.","result":"Đề học sinh chứa bốn kiểu câu.","requires":[]},
+    {"id":"03","category":"Ngân hàng","title":"Lọc và chọn bằng seed","file":"03-loc-ngan-hang-seed.typ","summary":"Lọc theo tiền tố ID, lớp, độ khó, tags; nhiều câu cùng mã vẫn chọn được.","result":"Ba câu được chọn tái lập được.","requires":[]},
     {"id":"04","category":"Trộn đề","title":"Ma trận một mã đề","file":"04-ma-tran-mot-ma.typ","summary":"Chỉ tiêu từng phần, chọn không lặp và đảo phương án MCQ có remap đáp án.","result":"Mã 0101 gồm ba TN, một Đ/S và một TLN.","requires":[]},
     {"id":"05","category":"Trộn đề","title":"Ba mã đề cân bằng","file":"05-nhieu-ma-can-bang.typ","summary":"Ưu tiên câu ít dùng giữa các mã 0101, 0102, 0103.","result":"Ba mã đề có danh sách câu không trùng khi ngân hàng đủ lớn.","requires":[]},
     {"id":"06","category":"Chế độ xuất","title":"Học sinh · Giáo viên · Lời giải","file":"06-hoc-sinh-giao-vien-loi-giai.typ","summary":"Cùng một câu hỏi xuất bốn chế độ, không sao chép nội dung.","result":"Bốn trang cho bốn cách hiển thị.","requires":[]},

@@ -2,16 +2,11 @@
 #import "@local/sang-math:1.1.0": *
 #set page(paper: "a4", margin: 18mm)
 
-#let q = question(
-  id: "SOL-01", kind: QUESTION_MC,
-  prompt: [Nghiệm của $x^2-5x+6=0$ là cặp nào?],
-  choices: (choice([$(1,6)$]), choice([$(2,3)$], correct: true), choice([$(0,5)$]), choice([$(3,4)$])),
-  answer: answer("choice", 2),
-  solution: (
-    solution-step([Phân tích $x^2-5x+6=(x-2)(x-3)$.], title: [Phân tích]),
-    solution-step([Suy ra $x=2$ hoặc $x=3$.], title: [Kết luận]),
-  ),
-  hints: ([Tìm hai số có tổng $5$ và tích $6$.],),
+#let (tn, ds, tln, tl) = bank-mode()
+#let q = tn(
+  [Đạo hàm của $x^2$ là gì?],
+  ([$x$], True([$2x$]), [$x^2$], [$2$]),
+  id: "1D7N2-1", loigiai: [Áp dụng công thức $(x^n)'=n x^(n-1)$.],
 )
 
 = Bản học sinh

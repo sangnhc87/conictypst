@@ -31,7 +31,7 @@ Khi chỉ dùng một nhóm chức năng, có thể import tường minh:
 | **Namespace 1.0.6 đã phát hành** | `book`, `beamer`, `sang-omr-qr`, `draw-helix`, `draw-spring`, `draw-cylinder`, `draw-cone`, `draw-sphere` tiếp tục được export |
 | **Ma trận Logic (1.1)** | `matrix-table`, `co`, `yes`, `khong`, `no`, `logic-check`, `logic-cross` |
 | **Đề thi THPT** | `tn`, `ds`, `tln`, `tl`, `exam-mode`, `exam-part`, `print-answer-key` |
-| **Câu hỏi cấu trúc (1.1)** | `question`, `choice`, `answer`, `solution-step`, `validate-question`, `render-question` |
+| **Câu hỏi cấu trúc (1.1)** | `bank-mode` giữ tên `tn/ds/tln/tl`; `question`, `choice`, `answer` dành cho dữ liệu nâng cao; `render-question` |
 | **Ngân hàng và trộn đề (1.1)** | `question-bank`, `bank-filter`, `bank-select`, `bank-shuffle-choices`, `exam-variant`, `exam-variants` |
 | **Đề và phiếu OMR (1.1)** | `render-exam-variant`, `exam-variant-qr`, state `sbd`/`made` cho các phiếu chuẩn |
 | **Giao diện đề thi** | `exam-theme`, `exam-preset`, `exam-input-preset`, `exam-template-names` |
@@ -46,31 +46,26 @@ Khi chỉ dùng một nhóm chức năng, có thể import tường minh:
 
 ## API câu hỏi cấu trúc 1.1
 
-Các tài liệu dùng `tn`, `ds`, `tln`, `tl` vẫn chạy với chữ ký và bố cục cũ. API mới lưu câu hỏi như dữ liệu để lọc, chọn đề theo seed và render theo chế độ. Ví dụ hoàn chỉnh có tại [`examples/question-bank-demo.typ`](examples/question-bank-demo.typ).
+Các tài liệu dùng `#tn`, `#ds`, `#tln`, `#tl` vẫn chạy với chữ ký và bố cục cũ. Khi cần ngân hàng/trộn đề, gọi `bank-mode()` một lần rồi soạn với chính bốn tên lệnh ấy; lệnh sẽ trả dữ liệu câu hỏi thay vì in ngay. Ví dụ hoàn chỉnh có tại [`examples/question-bank-demo.typ`](examples/question-bank-demo.typ).
 
 ```typ
-#let q = question(
-  id: "D12-001",
-  kind: QUESTION_MC,
-  prompt: [Đạo hàm của $x^2$ là gì?],
-  choices: (choice([$x$]), choice([$2x$], correct: true)),
-  answer: answer("choice", 2),
-  solution: [Áp dụng quy tắc đạo hàm lũy thừa.],
-  grade: 12,
-  topic: "dao-ham",
-  difficulty: 1,
-  tags: ("co-ban",),
+#let (tn, ds, tln, tl) = bank-mode()
+#let q = tn(
+  [Đạo hàm của $x^2$ là gì?],
+  ([$x$], True([$2x$]), [$x^2$], [$2$]),
+  id: "1D7N2-1",
+  loigiai: [$(x^2)'=2x$.],
 )
 #let bank = question-bank(q)
-#let selected = bank-select(bank-filter(bank, grade: 12), count: 1, seed: 101)
+#let selected = bank-select(bank-filter(bank, id-prefix: "1D7"), count: 1, seed: 101)
 #for item in selected { render-question(item, mode: "student") }
 ```
 
-`kind` hỗ trợ `QUESTION_MC`, `QUESTION_TF`, `QUESTION_SA`, `QUESTION_WRITTEN`. `render-question` nhận `mode: "student"`, `"teacher"`, `"solution"` hoặc `"answer-key"`. Cùng bank và seed luôn cho cùng thứ tự chọn; muốn đảo phương án có thể gọi `bank-shuffle-choices(q, seed: ...)`. Metadata (`grade`, `chapter`, `topic`, `difficulty` từ 1 đến 5, `cognitive-level`, `tags`, `estimated-time`, `source`, `metadata`) đều tùy chọn. `validate-question` kiểm tra dữ liệu của API mới; đường legacy dùng chế độ tương thích.
+Mã `1D7N2-1` lấy từ `bank.json`: `1` là lớp 11, `D7` là mạch/chương, `N` là Nhận biết, `2` là bài, `1` là dạng. `bank-mode` tự suy ra `grade`, `chapter`, mã `topic` và `difficulty` (`N/H/V/C` → `1/2/3/4`). Loại câu do tên `tn/ds/tln/tl` xác định vì mã bank không chứa loại câu. Không cần ghi lại `kind`, `grade`, `topic`, `difficulty`; nhiều câu có thể dùng cùng mã phân loại. `id-prefix` lọc theo đầu mã, chẳng hạn `"1D7"`. ID đúng cấu trúc nhưng không có trong `bank.json` không được đối chiếu tự động, nên hãy lấy mã từ catalogue. `render-question` nhận `mode: "student"`, `"teacher"`, `"solution"` hoặc `"answer-key"`. Cấu trúc `question(...)` vẫn có cho nhu cầu dữ liệu nâng cao như đáp án có kiểu/tolerance; xem [Question Model](docs/question-model.md).
 
 ## Trộn đề và phiếu 12–4–6 ngang
 
-`exam-variant(bank, blueprint, seed:, ma-de:)` chọn đúng số câu theo từng phần, lọc theo `kind`, lớp, chủ đề, độ khó và tags, không lặp câu trong một mã đề và đảo đáp án trắc nghiệm cùng chỉ số đáp án. `exam-variants` nhận nhiều mã đề và ưu tiên câu ít dùng ở các mã trước; mỗi câu cần ID ổn định. Cùng bank, blueprint và seed sẽ cho kết quả lặp lại được. Khi thiếu câu hoặc mã đề trùng, hàm báo lỗi lúc biên dịch.
+`exam-variant(bank, blueprint, seed:, ma-de:)` chọn đúng số câu theo từng phần, lọc theo loại câu, lớp, tiền tố ID, chủ đề, độ khó và tags, không lặp câu trong một mã đề và đảo đáp án trắc nghiệm cùng chỉ số đáp án. `exam-variants` nhận nhiều mã đề và ưu tiên câu ít dùng ở các mã trước; nhiều câu cùng mã phân loại vẫn được cân bằng riêng theo vị trí ổn định trong bank. Cùng bank, blueprint và seed sẽ cho kết quả lặp lại được. Khi thiếu câu hoặc mã đề trùng, hàm báo lỗi lúc biên dịch.
 
 ```typ
 #let blueprint = (

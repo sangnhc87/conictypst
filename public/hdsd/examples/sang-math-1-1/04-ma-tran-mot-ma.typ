@@ -2,19 +2,20 @@
 #import "@local/sang-math:1.1.0": *
 #set page(paper: "a4", margin: 18mm)
 
-#let mc = range(5).map(i => question(
-  id: "MC-" + str(i), kind: QUESTION_MC, prompt: [Tính #str(i + 1) + 2.],
-  choices: (choice([0]), choice([#str(i + 3)], correct: true), choice([10]), choice([20])),
-  answer: answer("choice", 2), topic: "so-hoc", difficulty: 2,
+#let (tn, ds, tln, tl) = bank-mode()
+#let mc = range(5).map(i => tn(
+  [Câu #str(i + 1). Đạo hàm của $x^2$ là gì?],
+  ([$x$], True([$2x$]), [$x^2$], [$2$]), id: "1D7H2-1",
 ))
-#let ds = question(
-  id: "DS-1", kind: QUESTION_TF, prompt: [Xét các phát biểu về số tự nhiên.],
-  choices: (choice([$2$ chẵn.], correct: true), choice([$3$ chẵn.]), choice([$4$ chẵn.], correct: true), choice([$5$ chẵn.])),
+#let dung-sai = ds(
+  [Xét các phát biểu về đạo hàm của $f(x)=x^2$.],
+  (True([$f'(x)=2x$]), [$f'(1)=1$], True([$f'(2)=4$]), [$f'(0)=2$]),
+  id: "1D7H2-1",
 )
-#let ngan = question(id: "SA-1", kind: QUESTION_SA, prompt: [Tính $7+8$.], answer: answer("numeric", 15))
-#let bank = mc + (ds, ngan)
+#let ngan = tln([Tính $f'(2)$ với $f(x)=x^2$.], 4, id: "1D7H2-1")
+#let bank = mc + (dung-sai, ngan)
 #let blueprint = (
-  (kind: QUESTION_MC, topic: "so-hoc", difficulty: 2, count: 3, title: [Phần I — Trắc nghiệm]),
+  (kind: QUESTION_MC, id-prefix: "1D7", difficulty: 2, count: 3, title: [Phần I — Trắc nghiệm]),
   (kind: QUESTION_TF, count: 1, title: [Phần II — Đúng sai]),
   (kind: QUESTION_SA, count: 1, title: [Phần III — Trả lời ngắn]),
 )

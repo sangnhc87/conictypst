@@ -4,6 +4,7 @@ Các thay đổi đáng chú ý của `sang-math` được ghi tại đây. Gói
 
 ## 1.1.0 — chuẩn bị phát hành
 
+- Dùng Typst 0.15.0 trở lên để hỗ trợ Touying 0.8.0; cú pháp câu hỏi 1.0.6 được giữ nguyên.
 - Giữ nguyên cách gõ `#tn/#ds/#tln/#tl` và các export của bản đã phát hành 1.0.6.
 - Tám preset OMR nhận `state("sbd")` và `state("made")` để in/tô sẵn trước `#include`.
 - QR đáp án nhận `profile:` tùy chọn để kiểm số câu và chọn khổ đúng phiếu; khi bỏ tùy chọn này, hành vi 1.0.6 được giữ nguyên.

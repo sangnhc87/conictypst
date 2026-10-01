@@ -1,4 +1,4 @@
-// Compile after extracting the HDSD ZIP with Typst 0.14.2+:
+// Compile after extracting the HDSD ZIP with Typst 0.15.0+:
 // typst compile --root . --package-path ./typst-packages examples/sang-math-1-1/02-qr-va-phieu-12-4-6.typ 02.pdf
 #import "@local/sang-math:1.1.0": *
 

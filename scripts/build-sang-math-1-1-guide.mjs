@@ -9,7 +9,7 @@ const output = path.join(root, 'public/hdsd/downloads/sang-math-1.1.0-preview-ex
 const check = process.argv.includes('--check');
 const fixedDate = new Date('2026-01-01T00:00:00.000Z');
 const manifest = JSON.parse(await fs.readFile(path.join(gallery, 'manifest.json'), 'utf8'));
-if (manifest.version !== '1.1.0-preview' || manifest.compiler !== '0.14.2') {
+if (manifest.version !== '1.1.0-preview' || manifest.compiler !== '0.15.0') {
   throw new Error('Unexpected guide manifest version/compiler');
 }
 if (!Array.isArray(manifest.examples) || manifest.examples.length !== 10) {
@@ -63,7 +63,7 @@ for (const file of omrAssets) await add(`public/hdsd/examples/sang-math-1-1/${fi
 await add('public/hdsd/examples/sang-math-1-1/manifest.json', 'examples/sang-math-1-1/manifest.json');
 files.set('README.txt', Buffer.from(`SANG-MATH 1.1.0 — BO MAU PREVIEW CUA PR #3\n\n` +
   `Ban 1.1.0 chua phat hanh tren Typst Universe. Khong dung @preview/sang-math:1.1.0.\n` +
-  `Cai Typst 0.14.2 hoac moi hon, giai nen ZIP, mo terminal tai thu muc nay.\n\n` +
+  `Cai Typst 0.15.0 hoac moi hon, giai nen ZIP, mo terminal tai thu muc nay.\n\n` +
   `Vi du:\n` +
   `typst compile --root . --package-path ./typst-packages examples/sang-math-1-1/01-legacy-bon-dang.typ 01.pdf\n` +
   `typst compile --root . --package-path ./typst-packages examples/sang-math-1-1/02-qr-va-phieu-12-4-6.typ 02.pdf\n\n` +

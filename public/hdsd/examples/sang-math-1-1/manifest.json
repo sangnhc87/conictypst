@@ -1,6 +1,6 @@
 {
   "version": "1.1.0-preview",
-  "compiler": "0.14.2",
+  "compiler": "0.15.0",
   "examples": [
     {"id":"01","category":"Cú pháp 1.0.6","title":"Đề bốn dạng như trước","file":"01-legacy-bon-dang.typ","summary":"Giữ #tn, #ds, #tln, #tl và bảng đáp án; không cần học cách gõ mới.","result":"Đề và đáp án giáo viên.","requires":[]},
     {"id":"02","category":"QR và phiếu","title":"Đề 12–4–6 + QR + phiếu ngang","file":"02-qr-va-phieu-12-4-6.typ","summary":"Soạn bằng #tn/#ds/#tln, tạo QR đáp án và phiếu có state SBD/mã đề.","result":"Đề học sinh, QR giáo viên và phiếu 12–4–6.","requires":["12-4-6ngang.typ"]},

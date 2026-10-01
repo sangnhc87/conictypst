@@ -1,4 +1,4 @@
-// Compile from the ConicTypst checkout with Typst 0.14.2+:
+// Compile from the ConicTypst checkout with Typst 0.15.0+:
 // typst compile --root . typst-pkg-sang-math/examples/qr-12-4-6.typ /tmp/qr-12-4-6.pdf
 #import "../lib.typ": *
 

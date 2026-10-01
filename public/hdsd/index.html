@@ -70,7 +70,7 @@
     <a href="dashboard.html" class="nav-link">⚡ Dashboard</a>
     <a href="ai-sang-math.html" class="nav-link">✨ AI tạo đề có kiểm định</a>
     <a href="ecosystem.html" class="nav-link">🌿 Hệ sinh thái</a>
-    <a href="sang-math-1-1.html" class="nav-link">🧭 sang-math 1.1 · 20 file mẫu</a>
+    <a href="sang-math-1-1.html" class="nav-link">🧭 sang-math 1.1 · QR và phiếu tô</a>
     <a href="#intro" class="nav-link active" data-section="intro">🏠 Giới thiệu</a>
     <a href="#install" class="nav-link" data-section="install">⚙️ Cài đặt &amp; Biên dịch</a>
     <a href="#quickstart" class="nav-link" data-section="quickstart">🚀 Khởi động nhanh</a>
@@ -135,7 +135,7 @@
     <div class="hero-badge">Tài liệu công khai · sang-math 1.0.6</div>
     <h1 class="hero-title">Một package Typst<br/><span class="accent">Từ Đề Thi Đến Sách &amp; Đa Môn</span></h1>
     <p class="hero-desc">Hướng dẫn API đã phát hành của <strong>sang-math:1.0.6</strong>: một import cho đề thi THPT chuẩn BGD 2025 (Toán, Vật lí, Hóa học), sách/chuyên đề, theme, BBT/BXD và hình học CeTZ. Phần Đề cương/Logic bên dưới thuộc bản phát triển 1.1.</p>
-    <p class="hero-desc"><a href="sang-math-1-1.html">Xem trước sang-math 1.1: hướng dẫn chi tiết, 20 file Typst copy ngay, trộn đề, QR và phiếu OMR →</a></p>
+    <p class="hero-desc"><a href="sang-math-1-1.html">Xem trước sang-math 1.1: giữ cách gõ 1.0.6, thêm QR đáp án và phiếu OMR; 10 file Typst copy ngay →</a></p>
     <div class="hero-pills">
       <span class="pill">📋 Đề thi chuẩn BGD 2025</span>
       <span class="pill">🧪 Đa môn: Toán, Lý, Hóa</span>
@@ -2028,7 +2028,7 @@ npm run stexgv:mix -- --compile</code></pre>
 <section id="decuong-book-v106" class="doc-section hidden">
   <div class="badge-v106" style="display:inline-block; background: linear-gradient(135deg, #1565c0, #0d47a1); color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.85em; font-weight: 600; margin-bottom: 12px;">PREVIEW SANG-MATH 1.1 · CHƯA PHÁT HÀNH</div>
   <h1>🔥 Sách Đề Cương &amp; Biên Soạn Toàn Năng</h1>
-  <p>Bản phát triển <code>@local/sang-math:1.1.0</code> có hệ thống <strong>Sách Đề Cương (decuong-book)</strong>. API này chưa có trong <code>@preview/sang-math:1.0.6</code> trên Typst Universe. <a href="sang-math-1-1.html">Tải ZIP preview và file mẫu chạy độc lập</a> trước khi copy các ví dụ ở mục này.</p>
+  <p><strong>Sách Đề Cương (decuong-book)</strong> là module phát triển riêng trong repository ConicTypst. Các ví dụ dưới đây dành cho bản local của repository; bản phát hành <code>@preview/sang-math:1.1.0</code> tập trung vào QR và phiếu OMR. Xem <a href="sang-math-1-1.html">hướng dẫn bản phát hành 1.1</a> khi cần QR và phiếu.</p>
 
   <div class="callout callout-tip">
     <strong>💡 Đột phá 1 chạm (Dual-Mode):</strong>
@@ -2238,7 +2238,7 @@ npm run stexgv:mix -- --compile</code></pre>
 <section id="logic-matrix-v106" class="doc-section hidden">
   <div class="badge-v106" style="display:inline-block; background: linear-gradient(135deg, #059669, #047857); color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.85em; font-weight: 600; margin-bottom: 12px;">CHUẨN SƯ PHẠM THPT</div>
   <h1>🧩 Ma Trận Suy Luận Logic</h1>
-  <p><strong>Trạng thái:</strong> các lệnh <code>matrix-table</code>, <code>co/khong</code> ở đây thuộc bản <code>@local/sang-math:1.1.0</code> trong <a href="sang-math-1-1.html">ZIP preview</a>; gói Universe 1.0.6 chưa xuất các lệnh này.</p>
+  <p><strong>Trạng thái:</strong> các lệnh <code>matrix-table</code>, <code>co/khong</code> ở đây thuộc module phát triển riêng trong repository ConicTypst. Chúng không thuộc phạm vi bản phát hành 1.1 chỉ bổ sung <a href="sang-math-1-1.html">QR và phiếu OMR</a>.</p>
   <p>Phương pháp <strong>Lập bảng ma trận (Logic Grid Puzzle)</strong> là công cụ tư duy giải quyết 100% các bài toán suy luận logic trong đề thi THPT, thi Đánh giá năng lực (ĐHQG Hà Nội, ĐHQG TP.HCM) và các bài toán đố nổi tiếng (như câu đố Einstein, bài toán toà nhà, nghề nghiệp...).</p>
 
   <h2>Chu trình giải 3 bước sư phạm</h2>

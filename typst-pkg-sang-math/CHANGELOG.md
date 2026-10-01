@@ -4,34 +4,14 @@ Các thay đổi đáng chú ý của `sang-math` được ghi tại đây. Gói
 
 ## 1.1.0 — chuẩn bị phát hành
 
-### Added
+- Giữ nguyên cách gõ `#tn/#ds/#tln/#tl` và các export của bản đã phát hành 1.0.6.
+- Tám preset OMR nhận `state("sbd")` và `state("made")` để in/tô sẵn trước `#include`.
+- QR đáp án nhận `profile:` tùy chọn để kiểm số câu và chọn khổ đúng phiếu; khi bỏ tùy chọn này, hành vi 1.0.6 được giữ nguyên.
+- Mã hóa ký tự đặc biệt trong JSON QR; thêm `sang-omr-profile` để tra cấu hình phiếu.
 
-- `bank-mode()` cho phép soạn ngân hàng bằng chính tên và thứ tự tham số `tn/ds/tln/tl`; một mã `bank.json` tự điền lớp, chương, chủ đề mã và độ khó. Nhiều câu cùng mã phân loại được trộn/cân bằng riêng theo vị trí trong bank. Bộ lọc và blueprint nhận `id-prefix`.
-- Unified Question Model cho MCQ, đúng/sai, trả lời ngắn và tự luận; metadata học tập tùy chọn, đáp án có kiểu và lời giải nhiều bước.
-- `validate-question` với thông báo lỗi theo ID câu hỏi; chế độ kiểm tra nghiêm cho API mới và tương thích cho API cũ.
-- `render-question` với các chế độ học sinh, giáo viên, lời giải và đáp án.
-- `question-bank`, `bank-filter`, `bank-select` và `bank-shuffle-choices` với seed xác định.
-- `exam-variant`/`exam-variants`: ma trận chỉ tiêu từng phần, chọn không lặp, cân bằng mức sử dụng câu giữa nhiều mã đề và trộn đáp án trắc nghiệm có cập nhật đáp án đúng.
-- `render-exam-variant` và QR đáp án `exam-variant-qr` đọc trực tiếp từng biến thể; tám mẫu phiếu OMR chuẩn nhận `state("sbd")`/`state("made")` khi `#include`.
-- Semantic theme tokens nội bộ, tài liệu chuyển đổi và bài kiểm thử hồi quy câu hỏi/OMR.
-- Các module sách Đề cương và ma trận Logic từ nhánh phát triển nội bộ được đưa vào bản phát hành 1.1.0.
-- Giữ các namespace `book`, `beamer` và những export hình học/OMR của gói 1.0.6 đã xuất bản.
-- Nâng Touying lên 0.8.0 cho beamer; yêu cầu Typst tối thiểu 0.15.0.
+## 1.0.6 — ghi chép module local của repository (2026-09-13)
 
-### Changed
-
-- `tn`/`mcq`, `ds`/`tf`, `tln`/`short` và `tl` chuẩn hóa dữ liệu trước khi dùng renderer legacy; giữ nguyên chữ ký và hành vi hiển thị.
-- Sửa ví dụ `exam-template-demo.typ` dùng `overrightarrow` vì `vec` được export bởi hình học 3D và đã khiến ví dụ 1.0.6 không biên dịch.
-
-### Compatibility
-
-- Tài liệu 1.0.6 hợp lệ không cần đổi source khi nâng Typst lên 0.15.x. Với Typst 0.14.x, tiếp tục dùng sang-math 1.0.6.
-- Chưa phát hành lên Typst Universe; thay đổi phiên bản chỉ là bước chuẩn bị release.
-
-## Phần phát triển nội bộ sau 1.0.6, đưa vào 1.1.0
-
-Các chức năng bên dưới có trong nhánh phát triển ConicTypst nhưng chưa có trong
-gói `sang-math:1.0.6` đã xuất bản trên Typst Universe.
+Các mục trong phần này mô tả nhánh phát triển ConicTypst; chúng không đồng nghĩa với API đã phát hành trên Typst Universe. Bản phát hành 1.1 dựa trên chính mã 1.0.6 ở `typst/packages`.
 
 ### Hệ thống Sách Toàn năng & Đề Cương (`decuong-book.typ`)
 
@@ -57,11 +37,6 @@ gói `sang-math:1.0.6` đã xuất bản trên Typst Universe.
   - `#matrix-table(...)`: Bảng ma trận logic với hàng tiêu đề và cột định danh nổi bật.
 - **Bảng màu chủ đề 5 Chương chuẩn mực**: `C1`, `C2`, `C3`, `C4`, `C5`, `gold`, `ok`, `warn`.
 - **Độ co giãn BBT/BXD (`my-bxd`, `my-bbbt`)**: Tự động nhận diện số cột và thu phóng phù hợp với chế độ in 2 cột hoặc 1 cột.
-
-## 1.0.6 — 2026-09-21 (Typst Universe)
-
-- Bản public làm mốc tương thích cho 1.1.0; xem [PR #5890](https://github.com/typst/packages/pull/5890).
-- Bao gồm namespace `book`, `beamer`, QR OMR và các hàm khối tròn xoay/đường cong 3D.
 
 ## 1.0.5 — 2026-09-09
 

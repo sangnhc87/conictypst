@@ -29,7 +29,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        typst-version: ["0.15.0", "0.15.1"]
+        typst-version: ["0.14.2", "0.15.1"]
     steps:
       - uses: actions/checkout@v6
       - uses: typst-community/setup-typst@v5
@@ -40,16 +40,14 @@ jobs:
           for file in typst-pkg-sang-math/tests/*.typ; do
             typst compile --root . "$file" "/tmp/$(basename "$file" .typ).pdf"
           done
-          for file in typst-pkg-sang-math/tests/legacy/*.typ typst-pkg-sang-math/tests/integration/*.typ; do
+          for file in typst-pkg-sang-math/tests/legacy/*.typ; do
             typst compile --root . "$file" "/tmp/$(basename "$file" .typ).pdf"
           done
-          bash typst-pkg-sang-math/tests/run-validation.sh
       - name: Compile package examples
         run: |
           typst compile --root . typst-pkg-sang-math/examples/exam-template-demo.typ /tmp/exam-template-demo.pdf
           typst compile --root . typst-pkg-sang-math/examples/book-template-demo.typ /tmp/book-template-demo.pdf
-          typst compile --root . typst-pkg-sang-math/examples/question-bank-demo.typ /tmp/question-bank-demo.pdf
-          typst compile --root . typst-pkg-sang-math/examples/exam-variant-omr.typ /tmp/exam-variant-omr.pdf
+          typst compile --root . typst-pkg-sang-math/examples/qr-12-4-6.typ /tmp/qr-12-4-6.pdf
           for file in typst-pkg-sang-math/examples/copy-ready/*.typ; do
             name="$(basename "$file" .typ)"
             typst compile --root . "$file" "/tmp/${name}.pdf"

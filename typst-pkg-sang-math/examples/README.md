@@ -1,6 +1,10 @@
-# Bộ mẫu copy-ready cho sang-math 1.1.0
+# Bộ mẫu copy-ready cho sang-math
 
-Các file trong `copy-ready/` là mẫu API cũ dùng bản 1.0.2 đã phát hành trên Typst Universe. Giáo viên
+## QR và phiếu OMR 1.1
+
+[`qr-12-4-6.typ`](qr-12-4-6.typ) là ví dụ đầy đủ với cách gõ `#tn/#ds/#tln` của 1.0.6, QR đáp án cho giáo viên và phiếu ngang có SBD/mã đề. Tám file trong [`omr/`](omr/) có thể copy vào cùng thư mục đề rồi dùng `#include`; không cần API ngân hàng hay trộn đề.
+
+Các file trong `copy-ready/` dùng import chính thức từ Typst Universe. Giáo viên
 có thể tải một file, đổi phần **CẤU HÌNH NHANH**, thay nội dung câu hỏi và biên
 dịch ngay trên Typst.app, VS Code hoặc TypstConicHub.
 
@@ -13,16 +17,6 @@ dịch ngay trên Typst.app, VS Code hoặc TypstConicHub.
 | `05-phieu-hoc-tap-chuyen-de.typ` | Chuyên đề, lý thuyết, ví dụ và bài tập |
 | `06-de-co-bbt-va-hinh-cetz.typ` | Câu có bảng biến thiên và hình vector CeTZ |
 | `07-de-70-30-nhap-in-hai-mat.typ` | Đề in hai mặt: 70% nội dung, 30% nháp đổi bên chẵn/lẻ |
-
-## Ví dụ trộn đề và phiếu OMR 1.1
-
-[`question-bank-demo.typ`](question-bank-demo.typ) dùng `bank-mode()` để giữ cách gõ `tn/ds/tln/tl`, chỉ thêm một ID từ `bank.json` cho mỗi câu. Hàm tự suy ra lớp/chương/độ khó, còn tên lệnh xác định loại câu. Có thể dùng chung mã phân loại cho nhiều câu; lọc theo chương bằng `id-prefix`.
-
-[`exam-variant-omr.typ`](exam-variant-omr.typ) ghép ma trận 12–4–6, đề học sinh, QR đáp án giáo viên và phiếu ngang nhận `state("sbd")`/`state("made")`. Tám preset OMR nằm trong [`omr/`](omr/) để ví dụ tự biên dịch từ thư mục gói. Biên dịch với Typst 0.15.1 từ thư mục gốc của gói:
-
-```bash
-typst compile --root . examples/exam-variant-omr.typ
-```
 
 ## Đổi đề học sinh sang bản lời giải
 

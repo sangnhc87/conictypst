@@ -9,11 +9,11 @@ const output = path.join(root, 'public/hdsd/downloads/sang-math-1.1.0-preview-ex
 const check = process.argv.includes('--check');
 const fixedDate = new Date('2026-01-01T00:00:00.000Z');
 const manifest = JSON.parse(await fs.readFile(path.join(gallery, 'manifest.json'), 'utf8'));
-if (manifest.version !== '1.1.0-preview' || manifest.compiler !== '0.15.1') {
+if (manifest.version !== '1.1.0-preview' || manifest.compiler !== '0.14.2') {
   throw new Error('Unexpected guide manifest version/compiler');
 }
-if (!Array.isArray(manifest.examples) || manifest.examples.length < 20) {
-  throw new Error('Guide manifest needs all 20 copy-ready examples');
+if (!Array.isArray(manifest.examples) || manifest.examples.length !== 10) {
+  throw new Error('Guide manifest needs ten QR and OMR copy-ready examples');
 }
 
 const omrAssets = ['12-4-6ngang.typ', 'ds-12.typ', 'hybrid-28tn-12ds.typ', 'thptqg-toan-2025.typ', 'tln-10.typ', 'tn-40.typ', 'tn-50.typ', 'tn-60.typ'];
@@ -42,7 +42,7 @@ const visit = async (directory, prefix) => {
   }
 };
 await visit('typst-pkg-sang-math', 'typst-packages/local/sang-math/1.1.0');
-for (const file of ['typst.toml', 'LICENSE', 'README.md', 'MIGRATION.md', 'CHANGELOG.md', 'RELEASE.md', 'PROMPT_AI_TAO_DE.md', 'docs/question-model.md', 'examples/README.md']) {
+for (const file of ['typst.toml', 'LICENSE', 'README.md', 'CHANGELOG.md', 'RELEASE.md', 'PROMPT_AI_TAO_DE.md', 'examples/README.md']) {
   await add(`typst-pkg-sang-math/${file}`, `typst-packages/local/sang-math/1.1.0/${file}`);
 }
 for (const example of manifest.examples) {
@@ -60,18 +60,15 @@ for (const example of manifest.examples) {
   }
 }
 for (const file of omrAssets) await add(`public/hdsd/examples/sang-math-1-1/${file}`, `examples/sang-math-1-1/${file}`);
-await add('public/hdsd/typst/sang-math-geom.typ', 'typst/sang-math-geom.typ');
-await visit('public/hdsd/typst/conic-toan', 'typst/conic-toan');
 await add('public/hdsd/examples/sang-math-1-1/manifest.json', 'examples/sang-math-1-1/manifest.json');
 files.set('README.txt', Buffer.from(`SANG-MATH 1.1.0 — BO MAU PREVIEW CUA PR #3\n\n` +
   `Ban 1.1.0 chua phat hanh tren Typst Universe. Khong dung @preview/sang-math:1.1.0.\n` +
-  `Cai Typst 0.15.1, giai nen ZIP, mo terminal tai thu muc nay.\n\n` +
+  `Cai Typst 0.14.2 hoac moi hon, giai nen ZIP, mo terminal tai thu muc nay.\n\n` +
   `Vi du:\n` +
   `typst compile --root . --package-path ./typst-packages examples/sang-math-1-1/01-legacy-bon-dang.typ 01.pdf\n` +
-  `typst compile --root . --package-path ./typst-packages examples/sang-math-1-1/07-de-12-4-6-omr.typ 07.pdf\n` +
-  `typst compile --root . --package-path ./typst-packages --input profile=loigiai examples/sang-math-1-1/09-theme-va-profile.typ 09-loigiai.pdf\n\n` +
+  `typst compile --root . --package-path ./typst-packages examples/sang-math-1-1/02-qr-va-phieu-12-4-6.typ 02.pdf\n\n` +
   `Moi file .typ co the copy/sua va bien dich. 12-4-6ngang.typ va tn-40.typ can nam cung thu muc voi mau include.\n` +
-  `Vi du hinh hoc import typst/sang-math-geom.typ bang duong dan tuong doi; thu muc conic-toan/lib di kem.\n` +
+  `De van go truc tiep bang #tn/#ds/#tln/#tl; #sang-omr-qr tao QR dap an.\n` +
   `Tam phieu co state: 12-4-6ngang, ds-12, hybrid-28tn-12ds, thptqg-toan-2025, tln-10, tn-40, tn-50, tn-60.\n` +
   `Package co the tu dong tai @preview/cetz:0.5.2 va @preview/cades:0.3.1 neu may chua co cache.\n`, 'utf8'));
 

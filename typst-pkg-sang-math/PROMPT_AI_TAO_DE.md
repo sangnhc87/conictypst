@@ -4,8 +4,6 @@ File này dành cho giáo viên sưu tầm câu hỏi, dùng OCR/app/AI tạo ph
 chỉ tự biên soạn các câu khó. Có thể sao chép nguyên prompt tổng bên dưới vào
 ChatGPT, Gemini, Claude hoặc một AI viết mã khác.
 
-Các prompt cũ bên dưới dành cho đề in trực tiếp bằng `#tn/#ds/#tln/#tl` và ID tuần tự `TN01`… Khi cần ngân hàng/trộn đề ở 1.1, dùng prompt mới ở mục 7: vẫn là bốn tên lệnh ấy, nhưng mỗi câu có một mã phân loại lấy từ `bank.json`.
-
 Nếu không muốn tự sao chép prompt, dùng trang **AI sang-math có kiểm định** tại
 `https://hdsd-conictypst.pages.dev/ai-sang-math.html`. Trang này tự gắn hợp đồng
 API 1.0.5, kiểm tra cấu trúc đầu ra và gửi lỗi lại model để sửa.
@@ -177,35 +175,3 @@ AI chỉ là trợ lý soạn thảo. Trước khi dùng chính thức, giáo vi
 - xóa mọi `TODO-CAN-GV-KIEM-TRA` trước khi phát hành;
 - kiểm tra nguồn/bản quyền của câu sưu tầm và không yêu cầu AI sao chép nguyên văn
   tài liệu có bản quyền mà mình không được phép sử dụng.
-
-## 7. Prompt ngân hàng và trộn đề sang-math 1.1
-
-```text
-Bạn là giáo viên Toán THPT và chuyên gia Typst. Tạo một file Typst biên dịch được
-với sang-math 1.1.0 (Typst >= 0.15.0). Dùng đúng cú pháp quen thuộc:
-
-#import "@local/sang-math:1.1.0": *
-#let (tn, ds, tln, tl) = bank-mode()
-#let bank = question-bank(
-  tn([Đạo hàm của $x^2$ là gì?],
-    ([$x$], True([$2x$]), [$x^2$], [$2$]),
-    id: "1D7N2-1", loigiai: [$(x^2)'=2x$.]),
-)
-
-Thay câu mẫu bằng {{số lượng, lớp, chủ đề, cấu trúc}}. Mỗi câu chỉ nhập một
-`id` lấy đúng từ bank.json đã cung cấp; không tự bịa mã. ID tự cho lớp,
-chương, bài, dạng và mức N/H/V/C; tên tn/ds/tln/tl tự cho loại câu. Không lặp
-grade/topic/difficulty/kind. Nhiều câu có thể cùng mã phân loại. TN có một
-True(...); Đ/S có bốn mệnh đề, chỉ mệnh đề đúng bọc True(...); TLN có đáp án;
-tự luận có loigiai. Tự giải lại từng câu, xác minh đáp án và câu nhiễu.
-
-Tạo blueprint đúng {{số TN, Đ/S, TLN, tự luận}}, có thể lọc theo
-`id-prefix` của chương; sinh mã đề bằng exam-variant hoặc exam-variants
-với seed cố định. Xuất bản đề qua render-exam-variant. Nếu có phiếu 12–4–6,
-in QR đáp án giáo viên bằng exam-variant-qr(variant), sau đó đặt
-#state("sbd").update("1001")
-#state("made").update(ma-de)
-#include "12-4-6ngang.typ"
-trước phiếu. Không bịa nội dung bank.json nếu tệp chưa được cung cấp.
-Trả toàn bộ file chạy được, không dùng dấu ba chấm; nêu mã bank nào đã dùng.
-```

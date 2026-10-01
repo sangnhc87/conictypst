@@ -34,7 +34,7 @@ Nguyên tắc sản phẩm:
 | Module | Production | Snapshot quan trọng |
 |---|---|---|
 | TypstConicHub | <https://typstconichub.pages.dev/> | `4b59299d.typstconichub.pages.dev` — DOCX Equation thật, liên kết tải trực tiếp và giao diện Kho Cloud riêng đã triển khai |
-| HDSD | <https://hdsd-conictypst.pages.dev/> | `35c0ba06` — hướng dẫn sang-math 1.1, 20 ví dụ, tám phiếu OMR, ZIP tải được (2026-10-01); `ac5f52b6` giữ làm dự phòng |
+| HDSD | <https://hdsd-conictypst.pages.dev/> | `c63210f7` — hướng dẫn sang-math 1.1 dùng cú pháp `tn/ds/tln/tl` và mã `bank.json`, 20 ví dụ, tám phiếu OMR, ZIP tải được (2026-10-01); `35c0ba06` giữ làm dự phòng |
 | Geo2Code cộng đồng | <https://geo-conictypst.pages.dev/> | `f74573cd` — trang riêng cho bốn công cụ GeoGebra → TikZ/CeTZ, có tác giả và QR ủng hộ (2026-07-26); `03a2c45d` giữ làm dự phòng |
 | Sang Math Graphics Studio | <https://sang-math-graphics-studio.pages.dev/> | `d03c43ec` — production: bàn vẽ trực quan click/kéo cho cung A–O–B, tam giác A–B–C, đường tròn O–R và hình nón O–R–S; mã Typst sinh tự động, không chờ WASM khi thao tác; package + API compile sạch, HTTP 200 (2026-08-06); `81fbe6e4` giữ làm dự phòng |
 | Trộn đề | <https://hdsd-conictypst.pages.dev/tron-de> | hiện nằm trong project HDSD |
@@ -131,7 +131,8 @@ Trước khi sửa OMR lần nữa, đọc `sang-math-omr/readme.md` và kiểm 
 
 - HDSD sang-math 1.1 đã deploy riêng lên `hdsd-conictypst` tại
   <https://hdsd-conictypst.pages.dev/sang-math-1-1.html>. Trang có 20 file Typst
-  copy nhanh, tám preset OMR, hướng dẫn state SBD/mã đề, trộn seed và phân biệt
+  copy nhanh, tám preset OMR, hướng dẫn state SBD/mã đề, trộn seed, cú pháp
+  `bank-mode()` giữ tên `tn/ds/tln/tl` với một mã `bank.json`, và phân biệt
   QR `SMOMR`/`SMKEY`. Bản 1.1 vẫn chờ xét duyệt ở
   <https://github.com/typst/packages/pull/5987>; ZIP trên HDSD dùng local package.
   `test:hdsd:runtime`, `test:sang-math-guide`, HTTP 200 của production/snapshot/ZIP

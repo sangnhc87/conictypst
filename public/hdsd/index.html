@@ -70,6 +70,7 @@
     <a href="dashboard.html" class="nav-link">⚡ Dashboard</a>
     <a href="ai-sang-math.html" class="nav-link">✨ AI tạo đề có kiểm định</a>
     <a href="ecosystem.html" class="nav-link">🌿 Hệ sinh thái</a>
+    <a href="sang-math-1-1.html" class="nav-link">🧭 sang-math 1.1 · QR và phiếu tô</a>
     <a href="#intro" class="nav-link active" data-section="intro">🏠 Giới thiệu</a>
     <a href="#install" class="nav-link" data-section="install">⚙️ Cài đặt &amp; Biên dịch</a>
     <a href="#quickstart" class="nav-link" data-section="quickstart">🚀 Khởi động nhanh</a>
@@ -92,8 +93,8 @@
   </div>
   <div class="sidebar-section">
     <div class="sidebar-label">Module 2 — Sách &amp; Chuyên đề</div>
-    <a href="#decuong-book-v106" class="nav-link" data-section="decuong-book-v106">🔥 Sách Đề cương 1.0.6</a>
-    <a href="#logic-matrix-v106" class="nav-link" data-section="logic-matrix-v106">🧩 Ma trận Logic 1.0.6</a>
+    <a href="#decuong-book-v106" class="nav-link" data-section="decuong-book-v106">🔥 Sách Đề cương · preview 1.1</a>
+    <a href="#logic-matrix-v106" class="nav-link" data-section="logic-matrix-v106">🧩 Ma trận Logic · preview 1.1</a>
     <a href="#book-overview" class="nav-link" data-section="book-overview">📚 Tổng quan sách</a>
     <a href="#book-structure" class="nav-link" data-section="book-structure">🗂️ Cấu trúc phân cấp</a>
     <a href="#book-boxes" class="nav-link" data-section="book-boxes">📦 Hộp nội dung SGK</a>
@@ -131,9 +132,10 @@
 <!-- ═══════════════════════════════════════════ -->
 <section id="intro" class="doc-section">
   <div class="hero">
-    <div class="hero-badge">Tài liệu chính thức · sang-math 1.0.5 (Mới nhất)</div>
+    <div class="hero-badge">Tài liệu công khai · sang-math 1.0.6</div>
     <h1 class="hero-title">Một package Typst<br/><span class="accent">Từ Đề Thi Đến Sách &amp; Đa Môn</span></h1>
-    <p class="hero-desc">Hướng dẫn công khai theo đúng API đã merge của <strong>sang-math:1.0.5</strong>: một import duy nhất cho đề thi THPT chuẩn BGD 2025 (Toán, Vật lí, Hóa học), sách/chuyên đề, 18 theme đề, 12 theme sách, BBT/BXD, hình học và CeTZ nâng cao.</p>
+    <p class="hero-desc">Hướng dẫn API đã phát hành của <strong>sang-math:1.0.6</strong>: một import cho đề thi THPT chuẩn BGD 2025 (Toán, Vật lí, Hóa học), sách/chuyên đề, theme, BBT/BXD và hình học CeTZ. Phần Đề cương/Logic bên dưới thuộc bản phát triển 1.1.</p>
+    <p class="hero-desc"><a href="sang-math-1-1.html">Xem trước sang-math 1.1: giữ cách gõ 1.0.6, thêm QR đáp án và phiếu OMR; 10 file Typst copy ngay →</a></p>
     <div class="hero-pills">
       <span class="pill">📋 Đề thi chuẩn BGD 2025</span>
       <span class="pill">🧪 Đa môn: Toán, Lý, Hóa</span>
@@ -160,13 +162,13 @@
       <div class="feature-icon">📄</div>
       <div class="feature-title">Đề mẫu chuẩn copy dùng ngay</div>
       <div class="feature-desc">Mẫu đề hoàn chỉnh chuẩn Bộ GD&amp;ĐT 2025 cho Toán, Hóa học (kèm typsium), Vật lí (kèm ký hiệu mới), có bảng đáp án tự động.</div>
-      <div class="feature-tags"><span>sang-math:1.0.5</span><span>Toán · Lý · Hóa</span></div>
+      <div class="feature-tags"><span>sang-math:1.0.6</span><span>Toán · Lý · Hóa</span></div>
     </div>
     <div class="feature-card" onclick="navigateTo('exam-overview')">
       <div class="feature-icon">📋</div>
       <div class="feature-title">Đề thi 4 dạng câu</div>
       <div class="feature-desc">Trắc nghiệm, đúng-sai, trả lời ngắn và tự luận; tự đánh số, ID/tags, lời giải, bảng đáp án, 5 profile và 18 theme.</div>
-      <div class="feature-tags"><span>sang-math:1.0.5</span><span>#tn #ds #tln #tl</span></div>
+      <div class="feature-tags"><span>sang-math:1.0.6</span><span>#tn #ds #tln #tl</span></div>
     </div>
     <div class="feature-card" onclick="navigateTo('book-overview')">
       <div class="feature-icon">📚</div>
@@ -184,7 +186,7 @@
 
   <div class="info-box">
     <div class="info-box-title">ℹ️ Về hệ thống này</div>
-    <p>Thiết kế bởi <strong>GV Nguyễn Văn Sang</strong>, yêu cầu <strong>Typst ≥ 0.14.0</strong> và phát hành theo <strong>MIT License</strong>. Người dùng cộng đồng chỉ import <code>@preview/sang-math:1.0.5</code>; không cần tải hay nhớ đường dẫn các file nội bộ.</p>
+    <p>Thiết kế bởi <strong>GV Nguyễn Văn Sang</strong>, yêu cầu <strong>Typst ≥ 0.14.0</strong> và phát hành theo <strong>MIT License</strong>. Người dùng cộng đồng import <code>@preview/sang-math:1.0.6</code>; không cần tải hay nhớ đường dẫn các file nội bộ.</p>
     <p><a href="#exam-boiler" onclick="navigateTo('exam-boiler')">📄 Lấy đề mẫu chuẩn copy dùng ngay</a> · <a href="#sang-math-package" onclick="navigateTo('sang-math-package')">Xem hợp đồng API và hướng dẫn di trú</a></p>
   </div>
 </section>
@@ -207,7 +209,7 @@
   </div>
 
   <h2>Lệnh biên dịch chuẩn</h2>
-  <div class="callout callout-tip"><strong>Package public không cần <code>--root</code>.</strong> Typst tự tải <code>sang-math:1.0.5</code> và phụ thuộc CeTZ trong lần biên dịch đầu tiên.</div>
+  <div class="callout callout-tip"><strong>Package public không cần <code>--root</code>.</strong> Typst tự tải <code>sang-math:1.0.6</code> và phụ thuộc CeTZ trong lần biên dịch đầu tiên.</div>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
     <pre><code class="lang-bash">typst compile main.typ main.pdf
@@ -233,10 +235,10 @@ Không sao chép sang-exam.typ, bbt.typ hay modules/book.typ vào dự án.</cod
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
     <pre><code class="lang-typst">// Dùng nhiều nhóm API
-#import "@preview/sang-math:1.0.5": *
+#import "@preview/sang-math:1.0.6": *
 
 // Hoặc import tường minh để source dễ đọc
-#import "@preview/sang-math:1.0.5": tn, ds, tln, tl, True, exam-mode, sang-setup
+#import "@preview/sang-math:1.0.6": tn, ds, tln, tl, True, exam-mode, sang-setup
 
 // Chỉ cần import CeTZ trực tiếp khi tự tạo canvas hoặc dùng draw-*
 #import "@preview/cetz:0.5.2"</code></pre>
@@ -261,7 +263,7 @@ Không sao chép sang-exam.typ, bbt.typ hay modules/book.typ vào dự án.</cod
     <div class="code-block-wrap">
       <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
       <pre><code class="lang-typst">// ① Import package public
-#import "@preview/sang-math:1.0.5": *
+#import "@preview/sang-math:1.0.6": *
 
 // ② Chọn theme và profile
 #let preset = exam-preset(theme: "teal-pro", profile: "dethi")
@@ -325,7 +327,7 @@ Không sao chép sang-exam.typ, bbt.typ hay modules/book.typ vào dự án.</cod
     <h2>File sách / SGK cơ bản</h2>
     <div class="code-block-wrap">
       <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-      <pre><code class="lang-typst">#import "@preview/sang-math:1.0.5": *
+      <pre><code class="lang-typst">#import "@preview/sang-math:1.0.6": *
 
 #let theme = "sgk-modern"
 #show: book-theme.with(
@@ -375,7 +377,7 @@ Không sao chép sang-exam.typ, bbt.typ hay modules/book.typ vào dự án.</cod
     <div class="code-block-wrap">
       <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
       <pre><code class="lang-typst">
-#import "@preview/sang-math:1.0.5": *
+#import "@preview/sang-math:1.0.6": *
 #let preset = exam-preset(theme: "classic", profile: "dethi")
 #let (tn, ds, tln, tl) = exam-mode(..preset.question)
 
@@ -424,12 +426,12 @@ Không sao chép sang-exam.typ, bbt.typ hay modules/book.typ vào dự án.</cod
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
     <pre><code class="lang-typst">// Toàn bộ API
-#import "@preview/sang-math:1.0.5": *
+#import "@preview/sang-math:1.0.6": *
 
 // Hoặc import tường minh
-#import "@preview/sang-math:1.0.5": tn, ds, tln, tl, True, sang-setup
-#import "@preview/sang-math:1.0.5": exam-preset, exam-theme
-#import "@preview/sang-math:1.0.5": draw-ellipse, draw-cylinder</code></pre>
+#import "@preview/sang-math:1.0.6": tn, ds, tln, tl, True, sang-setup
+#import "@preview/sang-math:1.0.6": exam-preset, exam-theme
+#import "@preview/sang-math:1.0.6": draw-ellipse, draw-cylinder</code></pre>
   </div>
 
   <h2>Bản đồ API</h2>
@@ -464,7 +466,7 @@ Không sao chép sang-exam.typ, bbt.typ hay modules/book.typ vào dự án.</cod
   <h2>Mẫu package-first chuẩn</h2>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-    <pre><code class="lang-typst">#import "@preview/sang-math:1.0.5": *
+    <pre><code class="lang-typst">#import "@preview/sang-math:1.0.6": *
 
 #let preset = exam-preset(theme: "teal-pro", profile: "dethi")
 #let (tn, ds, tln, tl) = exam-mode(..preset.question)
@@ -485,7 +487,7 @@ Không sao chép sang-exam.typ, bbt.typ hay modules/book.typ vào dự án.</cod
   <table class="doc-table">
     <thead><tr><th>Cú pháp cũ</th><th>API package 1.0.0</th></tr></thead>
     <tbody>
-      <tr><td><code>#import "sang-exam.typ": *</code></td><td><code>#import "@preview/sang-math:1.0.5": *</code></td></tr>
+      <tr><td><code>#import "sang-exam.typ": *</code></td><td><code>#import "@preview/sang-math:1.0.6": *</code></td></tr>
       <tr><td><code>#import "bbt.typ": *</code></td><td>Không cần; BBT đã export từ package root.</td></tr>
       <tr><td><code>stexgv-doc</code></td><td><code>book-theme</code></td></tr>
       <tr><td><code>chapter / bai / muc</code></td><td><code>book-chapter / book-lesson / book-section</code></td></tr>
@@ -502,11 +504,11 @@ Không sao chép sang-exam.typ, bbt.typ hay modules/book.typ vào dự án.</cod
 <!-- ═══════════════════════════════════════════ -->
 <section id="exam-overview" class="doc-section hidden">
   <h1>📋 Tổng Quan Module Đề Thi</h1>
-  <p>Nhóm API đề thi của <code>sang-math:1.0.5</code> cung cấp đầy đủ công cụ soạn đề THPT theo cấu trúc Bộ GD&amp;ĐT từ 2025.</p>
+  <p>Nhóm API đề thi của <code>sang-math:1.0.6</code> cung cấp đầy đủ công cụ soạn đề THPT theo cấu trúc Bộ GD&amp;ĐT từ 2025.</p>
 
   <h2>Luồng làm việc</h2>
   <div class="flow-steps">
-    <div class="flow-step"><div class="flow-num">1</div><div><strong>Import</strong><br/>sang-math:1.0.5</div></div>
+    <div class="flow-step"><div class="flow-num">1</div><div><strong>Import</strong><br/>sang-math:1.0.6</div></div>
     <div class="flow-arrow">→</div>
     <div class="flow-step"><div class="flow-num">2</div><div><strong>Chọn preset</strong><br/>theme + profile</div></div>
     <div class="flow-arrow">→</div>
@@ -704,7 +706,7 @@ Không sao chép sang-exam.typ, bbt.typ hay modules/book.typ vào dự án.</cod
   <p>Cú pháp ngắn nhất để in dạng danh sách a), b), c), d). Mặc định tài liệu vẫn dùng bảng, nên nâng từ 1.0.3 lên 1.0.4 không tự đổi bố cục cũ.</p>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst · sang-math 1.0.4+</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-    <pre><code class="lang-typst">#import "@preview/sang-math:1.0.5": *
+    <pre><code class="lang-typst">#import "@preview/sang-math:1.0.6": *
 
 #let (tn, ds, tln, tl) = exam-mode()
 
@@ -751,7 +753,7 @@ Không sao chép sang-exam.typ, bbt.typ hay modules/book.typ vào dự án.</cod
   </div>
 
   <div class="callout callout-warning">
-    <strong>Phạm vi phiên bản:</strong> Không dùng các tham số trên với <code>sang-math:1.0.3</code>. Hãy đổi dòng import sang <code>@preview/sang-math:1.0.5</code> sau khi phiên bản này được phát hành. Cú pháp cũ <code>table: false</code> vẫn được 1.0.4 nhận để không làm hỏng file ví dụ đã lưu.
+    <strong>Phạm vi phiên bản:</strong> Không dùng các tham số trên với <code>sang-math:1.0.3</code>. Hãy dùng <code>@preview/sang-math:1.0.6</code> đã phát hành. Cú pháp cũ <code>table: false</code> vẫn được 1.0.4 nhận để không làm hỏng file ví dụ đã lưu.
   </div>
 </section>
 
@@ -1075,7 +1077,7 @@ classic.crimson // = rgb("#cc2200")  — đỏ đậm</code></pre>
   <h2>Dựng câu theo bộ lọc</h2>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-    <pre><code class="lang-typst">#import "@preview/sang-math:1.0.5": *
+    <pre><code class="lang-typst">#import "@preview/sang-math:1.0.6": *
 #import "modules/question-bank.typ": *
 #import "questions.typ": question-bank
 
@@ -1124,7 +1126,7 @@ npm run stexgv:mix -- --compile</code></pre>
   <h2>Import lõi trộn đề</h2>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-    <pre><code class="lang-typst">#import "@preview/sang-math:1.0.5": *
+    <pre><code class="lang-typst">#import "@preview/sang-math:1.0.6": *
 #import "questions.typ": question-bank
 #import "modules/question-bank.typ": (
   exam-slot,
@@ -1405,7 +1407,7 @@ npm run stexgv:mix -- --compile</code></pre>
 // ĐỀ THI MÔN TOÁN 12 — CHUẨN CẤU TRÚC BỘ GD&amp;ĐT 2025
 // Biên dịch: typst compile de-thi-toan.typ
 // ================================================================
-#import "@preview/sang-math:1.0.5": *
+#import "@preview/sang-math:1.0.6": *
 
 // 1. Chế độ: "dethi" (phát học sinh) hoặc "loigiai" (có giải &amp; bảng đáp án)
 #let profile = sys.inputs.at("profile", default: "loigiai")
@@ -1511,7 +1513,7 @@ npm run stexgv:mix -- --compile</code></pre>
       <pre><code class="lang-typst">// ================================================================
 // ĐỀ THI MÔN HÓA HỌC 12 — SỬ DỤNG SANG-MATH 1.0.5 + TYPSIUM 0.3.2
 // ================================================================
-#import "@preview/sang-math:1.0.5": *
+#import "@preview/sang-math:1.0.6": *
 #import "@preview/typsium:0.3.2": ce
 
 #let profile = sys.inputs.at("profile", default: "loigiai")
@@ -1602,7 +1604,7 @@ npm run stexgv:mix -- --compile</code></pre>
       <pre><code class="lang-typst">// ================================================================
 // ĐỀ THI MÔN VẬT LÍ 12 — SỬ DỤNG SANG-MATH 1.0.5
 // ================================================================
-#import "@preview/sang-math:1.0.5": *
+#import "@preview/sang-math:1.0.6": *
 
 #let profile = sys.inputs.at("profile", default: "loigiai")
 #let preset = exam-preset(theme: "royal", profile: profile, two-columns: true, opt-style: "circle")
@@ -1679,7 +1681,7 @@ npm run stexgv:mix -- --compile</code></pre>
 // ĐỀ THI SIÊU GỌN 1 CHẠM — KHÔNG CẦN KHAI BÁO BIẾN PRESET
 // Tự động in bảng đáp án cuối trang với answer-key: true
 // ================================================================
-#import "@preview/sang-math:1.0.5": *
+#import "@preview/sang-math:1.0.6": *
 
 #show: exam-ocean.with(
   school: "TRƯỜNG THPT NGUYỄN HUỆ",
@@ -1761,7 +1763,7 @@ npm run stexgv:mix -- --compile</code></pre>
   <h2>Khung sách tối thiểu</h2>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-    <pre><code class="lang-typst">#import "@preview/sang-math:1.0.5": *
+    <pre><code class="lang-typst">#import "@preview/sang-math:1.0.6": *
 
 #let theme = "sgk-modern"
 
@@ -1927,7 +1929,7 @@ npm run stexgv:mix -- --compile</code></pre>
   <h2>Mẫu hai mã đề</h2>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-    <pre><code class="lang-typst">#import "@preview/sang-math:1.0.5": *
+    <pre><code class="lang-typst">#import "@preview/sang-math:1.0.6": *
 
 #let preset = exam-preset(theme: "classic", profile: "dethi")
 #let (tn, ds, tln, tl) = exam-mode(..preset.question)
@@ -1960,7 +1962,7 @@ npm run stexgv:mix -- --compile</code></pre>
     <div class="code-header"><span class="code-lang">typst — chuyen-de-mau.typ</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
     <pre><code class="lang-typst">// Biên dịch: typst compile chuyen-de-mau.typ chuyen-de-mau.pdf
 
-#import "@preview/sang-math:1.0.5": *
+#import "@preview/sang-math:1.0.6": *
 
 #let theme = "sgk-modern" // đổi sang một trong 12 book theme
 
@@ -2024,9 +2026,9 @@ npm run stexgv:mix -- --compile</code></pre>
 <!-- SECTION: DECUONG BOOK (SANG-MATH 1.0.6) -->
 <!-- ═══════════════════════════════════════════ -->
 <section id="decuong-book-v106" class="doc-section hidden">
-  <div class="badge-v106" style="display:inline-block; background: linear-gradient(135deg, #1565c0, #0d47a1); color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.85em; font-weight: 600; margin-bottom: 12px;">MỚI TRONG SANG-MATH 1.0.6</div>
+  <div class="badge-v106" style="display:inline-block; background: linear-gradient(135deg, #1565c0, #0d47a1); color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.85em; font-weight: 600; margin-bottom: 12px;">PREVIEW SANG-MATH 1.1 · CHƯA PHÁT HÀNH</div>
   <h1>🔥 Sách Đề Cương &amp; Biên Soạn Toàn Năng</h1>
-  <p>Gói <code>sang-math:1.0.6</code> giới thiệu hệ thống <strong>Sách Đề Cương (decuong-book)</strong> chuyên nghiệp chuẩn hóa theo chương trình GDPT 2018. Bạn không còn phải quản lý hàng loạt file <code>preamble.typ</code>, <code>_config.typ</code> rườm rà — chỉ với một lệnh khai báo duy nhất, tài liệu tự động có bìa nghệ thuật, mục lục 3 cấp, bộ đếm chuẩn và chuyển đổi chế độ thông minh.</p>
+  <p><strong>Sách Đề Cương (decuong-book)</strong> là module phát triển riêng trong repository ConicTypst. Các ví dụ dưới đây dành cho bản local của repository; bản phát hành <code>@preview/sang-math:1.1.0</code> tập trung vào QR và phiếu OMR. Xem <a href="sang-math-1-1.html">hướng dẫn bản phát hành 1.1</a> khi cần QR và phiếu.</p>
 
   <div class="callout callout-tip">
     <strong>💡 Đột phá 1 chạm (Dual-Mode):</strong>
@@ -2071,12 +2073,12 @@ npm run stexgv:mix -- --compile</code></pre>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst — main.typ</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
     <pre><code class="lang-typst">// ═════════════════════════════════════════════════════════════════════════════
-// MAIN.TYP — BIÊN DỊCH TOÀN BỘ SÁCH ĐỀ CƯƠNG BẰNG SANG-MATH 1.0.6
+// MAIN.TYP — BIÊN DỊCH TOÀN BỘ SÁCH ĐỀ CƯƠNG BẰNG SANG-MATH 1.1 PREVIEW
 // Lệnh biên dịch: typst compile main.typ de-cuong-toan-10.pdf
 // Hoặc truyền mode từ CLI: typst compile --input mode=loigiai main.typ giai-toan-10.pdf
 // ═════════════════════════════════════════════════════════════════════════════
 
-#import "@local/sang-math:1.0.6": *
+#import "@local/sang-math:1.1.0": *
 
 #show: decuong-book.with(
   title: "ĐỀ CƯƠNG TOÁN 10 HỌC KỲ I",      // Tiêu đề sách (hoặc dùng: tieu-de)
@@ -2110,7 +2112,7 @@ npm run stexgv:mix -- --compile</code></pre>
   <p>Khi thầy cô đang làm việc trong VS Code / Antigravity IDE và mở riêng một file dạng toán (ví dụ: <code>bai01-dang07.typ</code>), hãy dùng <code>decuong-preview</code> để xem trước ngay lập tức mà không bị sinh ra trang bìa hay mục lục thừa.</p>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst — bai01-dang07.typ</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-    <pre><code class="lang-typst">#import "@local/sang-math:1.0.6": *
+    <pre><code class="lang-typst">#import "@local/sang-math:1.1.0": *
 
 // Xem trước bản LỜI GIẢI khi đang soạn bài:
 #show: decuong-preview.with(mode: "loigiai")
@@ -2236,6 +2238,7 @@ npm run stexgv:mix -- --compile</code></pre>
 <section id="logic-matrix-v106" class="doc-section hidden">
   <div class="badge-v106" style="display:inline-block; background: linear-gradient(135deg, #059669, #047857); color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.85em; font-weight: 600; margin-bottom: 12px;">CHUẨN SƯ PHẠM THPT</div>
   <h1>🧩 Ma Trận Suy Luận Logic</h1>
+  <p><strong>Trạng thái:</strong> các lệnh <code>matrix-table</code>, <code>co/khong</code> ở đây thuộc module phát triển riêng trong repository ConicTypst. Chúng không thuộc phạm vi bản phát hành 1.1 chỉ bổ sung <a href="sang-math-1-1.html">QR và phiếu OMR</a>.</p>
   <p>Phương pháp <strong>Lập bảng ma trận (Logic Grid Puzzle)</strong> là công cụ tư duy giải quyết 100% các bài toán suy luận logic trong đề thi THPT, thi Đánh giá năng lực (ĐHQG Hà Nội, ĐHQG TP.HCM) và các bài toán đố nổi tiếng (như câu đố Einstein, bài toán toà nhà, nghề nghiệp...).</p>
 
   <h2>Chu trình giải 3 bước sư phạm</h2>
@@ -2257,7 +2260,7 @@ npm run stexgv:mix -- --compile</code></pre>
     </div>
   </div>
 
-  <h2>Bộ macro ký hiệu có sẵn trong 1.0.6</h2>
+  <h2>Bộ macro ký hiệu trong bản preview 1.1</h2>
   <table class="doc-table">
     <thead>
       <tr>
@@ -2298,7 +2301,7 @@ npm run stexgv:mix -- --compile</code></pre>
   <h2>Mẫu Code ví dụ giải bài toán ma trận logic 3x3</h2>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-    <pre><code class="lang-typst">#import "@local/sang-math:1.0.6": *
+    <pre><code class="lang-typst">#import "@local/sang-math:1.1.0": *
 
 *Bài toán:* Ba bạn An, Bình, Cúc đến từ 3 tỉnh Hà Nội, Đà Nẵng, Cần Thơ và học 3 chuyên ngành Toán, Tin, Anh. Biết:
 - An không ở Hà Nội.
@@ -2337,7 +2340,7 @@ Xác định quê quán và chuyên ngành của từng bạn.
   <h2>Import</h2>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-    <pre><code class="lang-typst">#import "@preview/sang-math:1.0.5": *
+    <pre><code class="lang-typst">#import "@preview/sang-math:1.0.6": *
 
 // Dùng trực tiếp:
 #bbtv2(...)
@@ -2836,7 +2839,7 @@ ranks: ((0,), (2, -2), (0,))</code></pre>
   <div class="code-block-wrap">
     <div class="code-header"><span class="code-lang">typst</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
     <pre><code class="lang-typst">#import "@preview/cetz:0.5.2"
-#import "@preview/sang-math:1.0.5": draw-parabola, draw-ellipse, draw-hyperbola
+#import "@preview/sang-math:1.0.6": draw-parabola, draw-ellipse, draw-hyperbola
 
 #cetz.canvas(length: 1cm, {
   draw-ellipse(a: 2.5, b: 1.5, show-axes: true, show-foci: true)

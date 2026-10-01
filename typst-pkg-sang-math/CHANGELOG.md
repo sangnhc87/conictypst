@@ -2,7 +2,17 @@
 
 Các thay đổi đáng chú ý của `sang-math` được ghi tại đây. Gói tuân theo Semantic Versioning; nhánh `1.0.x` không được xóa hoặc đổi chữ ký API public đã phát hành.
 
-## 1.0.6 — 2026-09-13
+## 1.1.0 — chuẩn bị phát hành
+
+- Dùng Typst 0.15.0 trở lên để hỗ trợ Touying 0.8.0; cú pháp câu hỏi 1.0.6 được giữ nguyên.
+- Giữ nguyên cách gõ `#tn/#ds/#tln/#tl` và các export của bản đã phát hành 1.0.6.
+- Tám preset OMR nhận `state("sbd")` và `state("made")` để in/tô sẵn trước `#include`.
+- QR đáp án nhận `profile:` tùy chọn để kiểm số câu và chọn khổ đúng phiếu; khi bỏ tùy chọn này, hành vi 1.0.6 được giữ nguyên.
+- Mã hóa ký tự đặc biệt trong JSON QR; thêm `sang-omr-profile` để tra cấu hình phiếu.
+
+## 1.0.6 — ghi chép module local của repository (2026-09-13)
+
+Các mục trong phần này mô tả nhánh phát triển ConicTypst; chúng không đồng nghĩa với API đã phát hành trên Typst Universe. Bản phát hành 1.1 dựa trên chính mã 1.0.6 ở `typst/packages`.
 
 ### Hệ thống Sách Toàn năng & Đề Cương (`decuong-book.typ`)
 

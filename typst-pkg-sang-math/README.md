@@ -4,7 +4,9 @@ Bộ macro Typst dành cho Toán THPT Việt Nam: đề thi bốn dạng câu h�
 
 - Hướng dẫn trực tuyến: https://hdsd-conictypst.pages.dev
 - Mã nguồn: https://github.com/sangnhc87/conictypst
-- Yêu cầu: Typst 0.14.0 trở lên (do `cetz 0.5.2`)
+- Yêu cầu bản 1.1: Typst 0.15.0 trở lên (do `touying 0.8.0`); đã thử trên 0.15.1.
+
+Bản 1.1.0 giữ nguyên cách gõ câu hỏi của 1.0.6. Phần mới dành cho QR đáp án và phiếu OMR; bản chính thức đang chờ [PR phát hành #5987](https://github.com/typst/packages/pull/5987).
 
 ## Cài đặt
 
@@ -12,23 +14,24 @@ Bộ macro Typst dành cho Toán THPT Việt Nam: đề thi bốn dạng câu h�
 // Sử dụng bản chính thức trên Typst Universe:
 #import "@preview/sang-math:1.0.6": *
 
-// Hoặc sử dụng bản cài đặt local trên máy:
-#import "@local/sang-math:1.0.6": *
+// Hoặc dùng bản 1.1 đang phát triển trong ZIP hướng dẫn:
+#import "@local/sang-math:1.1.0": *
 ```
 
 Khi chỉ dùng một nhóm chức năng, có thể import tường minh:
 
 ```typ
-#import "@local/sang-math:1.0.6": tn, ds, tln, tl, True, decuong-book, decuong-preview
+#import "@local/sang-math:1.1.0": tn, ds, tln, tl, True, sang-omr-qr
 ```
 
 ## API chính
 
 | Nhóm | Macro tiêu biểu |
 |---|---|
-| **Sách Đề cương (Mới 1.0.6)** | `decuong-book`, `decuong-preview`, `chuyende-book`, `dethi-book`, `chuong`, `bai`, `dang`, `phuong-phap`, `bt-item`, `C1`..`C5` |
-| **Ma trận Logic (Mới 1.0.6)** | `matrix-table`, `co`, `yes`, `khong`, `no`, `logic-check`, `logic-cross` |
+| **Sách Đề cương (module local của repository)** | `decuong-book`, `decuong-preview`, `chuyende-book`, `dethi-book`, `chuong`, `bai`, `dang`, `phuong-phap`, `bt-item`, `C1`..`C5` |
+| **Ma trận Logic (module local của repository)** | `matrix-table`, `co`, `yes`, `khong`, `no`, `logic-check`, `logic-cross` |
 | **Đề thi THPT** | `tn`, `ds`, `tln`, `tl`, `exam-mode`, `exam-part`, `print-answer-key` |
+| **QR và phiếu OMR** | `sang-omr-qr`, `sang-omr-profile`, tám preset phiếu có state SBD/mã đề |
 | **Giao diện đề thi** | `exam-theme`, `exam-preset`, `exam-input-preset`, `exam-template-names` |
 | **Sách / SGK chuyên sâu** | `book-theme`, `book-chapter`, `book-lesson`, các hộp sư phạm (`goal-box`, `theorem-box`...) |
 | **Layout in hai mặt** | `layout-draft`, `layout-2col-draft` — nội dung 70%, nháp 30% đổi bên chẵn/lẻ |
@@ -37,7 +40,25 @@ Khi chỉ dùng một nhóm chức năng, có thể import tường minh:
 | **Conic & Khối tròn xoay** | `draw-parabola`, `draw-ellipse`, `draw-hyperbola`, `draw-cylinder`, `draw-cone`, `draw-sphere` |
 | **Ký hiệu toán & đa môn** | `RR`, `ZZ`, `NN`, `QQ`, `tfrac`, `heva`, `hoac`, `doC`, `ohm`, `pu-tn`... |
 
-`lib.typ` là cổng public duy nhất xuất toàn bộ hệ thống đề thi, sách đề cương, ma trận logic, BBT và hình học CeTZ.
+`lib.typ` là cổng import của bản local trong repository. Bản gửi Typst Universe 1.1 bắt đầu từ đúng mã đã phát hành 1.0.6 và chỉ bổ sung QR/OMR; các module phát triển riêng của repository không nằm trong PR phát hành.
+
+## QR đáp án và phiếu tô 1.1
+
+Viết đề bằng `#tn/#ds/#tln/#tl` như trước. `#sang-omr-qr` đọc đáp án từ đề đã in; thêm `profile:` khi muốn kiểm tra số câu khớp đúng phiếu. Bỏ `profile:` thì QR giữ hành vi 1.0.6. Phiếu có QR `SMOMR` nhận diện bố cục; QR đáp án `SMKEY` phải giữ riêng cho giáo viên.
+
+```typ
+#import "@local/sang-math:1.1.0": *
+#let ma-de = "0101"
+// Các câu #tn(...), #ds(...), #tln(...) viết như 1.0.6.
+#sang-omr-qr(ma-de: ma-de, profile: "12-4-6ngang")
+
+#pagebreak()
+#state("sbd").update("1001")
+#state("made").update(ma-de)
+#include "omr/12-4-6ngang.typ"
+```
+
+File phiếu cần nằm đúng vị trí của `#include`. Xem [ví dụ 12–4–6 đầy đủ](examples/qr-12-4-6.typ) và [hướng dẫn copy 10 tình huống](https://hdsd-conictypst.pages.dev/sang-math-1-1.html). State `1001` được in và tô thành SBD `001001`; nếu không đặt state, ô để trống. Tám tên phiếu: `12-4-6ngang`, `thptqg-toan-2025`, `ds-12`, `hybrid-28tn-12ds`, `tln-10`, `tn-40`, `tn-50`, `tn-60`. Hàm `sang-omr-profile("tn-40")` trả số câu và khổ giấy của preset.
 
 
 ## Câu đúng/sai dạng bảng hoặc danh sách

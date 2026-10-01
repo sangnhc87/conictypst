@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="sang-math 1.1 giữ cách gõ 1.0.6 và bổ sung mã QR đáp án, tám phiếu tô OMR có state SBD/mã đề; 10 file Typst copy ngay.">
+  <title>sang-math 1.1 — QR đáp án và phiếu tô OMR</title>
+  <link rel="stylesheet" href="sang-math-1-1.css"><script src="sang-math-1-1.js" defer></script>
+</head>
+<body class="sm11-page">
+<a class="sm11-skip" href="#main">Bỏ qua điều hướng</a>
+<header class="sm11-header">
+  <a class="sm11-brand" href="index.html">𝒯 <span>HDSD Typst</span></a>
+  <nav aria-label="Điều hướng trang"><a href="#bat-dau">Bắt đầu</a><a href="#qr">Mã QR</a><a href="#phieu">Phiếu tô</a><a href="#mau">10 file mẫu</a></nav>
+  <a class="sm11-header-cta" href="downloads/sang-math-1.1.0-preview-examples.zip" download>Tải ZIP</a>
+</header>
+<main id="main">
+  <section class="sm11-hero sm11-wrap" id="bat-dau">
+    <div class="sm11-eyebrow">Xem trước 1.1.0 · dựa trên 1.0.6 · Typst 0.15.0+</div>
+    <h1>Giữ nguyên cách gõ.<br><span>Thêm QR và phiếu tô.</span></h1>
+    <p class="sm11-lead">Đề vẫn viết bằng <code>#tn</code>, <code>#ds</code>, <code>#tln</code>, <code>#tl</code>. Bản 1.1 tập trung tạo QR đáp án và tám phiếu OMR có thể in/tô sẵn số báo danh, mã đề. Không cần học cú pháp ngân hàng hay trộn đề.</p>
+    <div class="sm11-actions"><a class="sm11-button sm11-button-primary" href="#mau">Xem và copy 10 mẫu</a><a class="sm11-button sm11-button-light" href="downloads/sang-math-1.1.0-preview-examples.zip" download>Tải mã + package local</a></div>
+    <p class="sm11-release"><strong>Trạng thái:</strong> mã nguồn ở <a href="https://github.com/sangnhc87/conictypst/pull/3">PR #3</a>; bản gửi Typst Universe ở <a href="https://github.com/typst/packages/pull/5987">PR #5987</a>. Khi PR phát hành chưa được hợp nhất, dùng <code>@local/sang-math:1.1.0</code> trong ZIP; bản công khai vẫn là <code>@preview/sang-math:1.0.6</code>.</p>
+  </section>
+  <section class="sm11-section sm11-section-tint" id="qr"><div class="sm11-wrap">
+    <div class="sm11-section-head"><span>01 / Cách gõ quen thuộc</span><h2>QR đáp án từ câu đã viết</h2><p><code>#sang-omr-qr</code> đọc đáp án của đề gõ bằng bốn lệnh cũ. Đặt QR ở trang dành cho giáo viên.</p></div>
+    <div class="sm11-codebar"><span>Typst · Ví dụ ngắn biên dịch được</span><button type="button" data-copy-target="qr-code">Copy code</button></div>
+    <pre id="qr-code"><code>#import "@local/sang-math:1.1.0": *
+#show: sang-setup
+#tn([Tính $2+3$.], ([$4$], True([$5$]), [$6$], [$7$]))
+#pagebreak()
+= QR đáp án giáo viên
+#sang-omr-qr(ma-de: "0101")</code></pre>
+    <div class="sm11-grid-2 sm11-spaced">
+      <div class="sm11-panel"><h3>Khi dùng phiếu cụ thể</h3><p>Với đề đủ 12 TN, 4 Đ/S, 6 TLN, gọi <code>#sang-omr-qr(ma-de: "0101", profile: "12-4-6ngang")</code>. Tùy chọn <code>profile</code> kiểm số câu có khớp phiếu và tự chọn khổ giấy. Bỏ tùy chọn này thì QR giữ hành vi 1.0.6.</p></div>
+      <div class="sm11-panel"><h3>Hai QR có nhiệm vụ khác nhau</h3><p><code>SMKEY</code> được tạo từ đáp án của đề để giáo viên nạp key. <code>SMOMR</code> trên phiếu nhận dạng bố cục ô tô; nó không chứa đáp án. Giữ QR đáp án riêng khỏi bản phát học sinh.</p></div>
+    </div>
+    <p class="sm11-small">QR mã hóa đúng dấu nháy, gạch chéo và xuống dòng trong đáp án ngắn. Gói không tự giải toán hoặc tự kiểm đáp án đúng; giáo viên cần rà soát nội dung đề.</p>
+  </div></section>
+  <section class="sm11-section sm11-wrap" id="phieu">
+    <div class="sm11-section-head"><span>02 / Phiếu tô</span><h2>Đặt SBD và mã đề trước khi include</h2><p>Nếu không gọi state, các ô để trống cho học sinh tự tô. Mã ngắn được đệm số 0 ở đầu.</p></div>
+    <div class="sm11-codebar"><span>Typst · SBD 1001 → 001001</span><button type="button" data-copy-target="omr-code">Copy code</button></div>
+    <pre id="omr-code"><code>#let ma-de = "0101"
+#state("sbd").update("1001")
+#state("made").update(ma-de)
+#include "12-4-6ngang.typ"</code></pre>
+    <p class="sm11-small">Đặt file <code>12-4-6ngang.typ</code> cạnh file đang biên dịch. SBD tối đa sáu chữ số; mã đề tối đa bốn chữ số, chỉ dùng chữ số. Xem file 02 để có đề, QR và phiếu trong một tài liệu hoàn chỉnh.</p>
+    <div class="sm11-table-wrap"><table><thead><tr><th>File phiếu</th><th>TN</th><th>Đ/S</th><th>TLN</th><th>Khổ</th></tr></thead><tbody>
+      <tr><td><code>12-4-6ngang.typ</code></td><td>12</td><td>4</td><td>6</td><td>A5 ngang</td></tr>
+      <tr><td><code>thptqg-toan-2025.typ</code></td><td>12</td><td>4</td><td>6</td><td>A4</td></tr>
+      <tr><td><code>ds-12.typ</code></td><td>0</td><td>12</td><td>0</td><td>A4</td></tr>
+      <tr><td><code>hybrid-28tn-12ds.typ</code></td><td>28</td><td>12</td><td>0</td><td>A4</td></tr>
+      <tr><td><code>tln-10.typ</code></td><td>0</td><td>0</td><td>10</td><td>A4</td></tr>
+      <tr><td><code>tn-40.typ</code></td><td>40</td><td>0</td><td>0</td><td>A4</td></tr>
+      <tr><td><code>tn-50.typ</code></td><td>50</td><td>0</td><td>0</td><td>A4</td></tr>
+      <tr><td><code>tn-60.typ</code></td><td>60</td><td>0</td><td>0</td><td>A4</td></tr>
+    </tbody></table></div>
+  </section>
+  <section class="sm11-section sm11-section-tint" id="mau"><div class="sm11-wrap">
+    <div class="sm11-section-head"><span>03 / Copy và chạy</span><h2>10 tình huống, 10 file Typst đầy đủ</h2><p>Chọn mẫu, bấm Copy code hoặc tải file. File có <code>#include</code> cần tải phiếu đi kèm hoặc dùng ZIP trọn bộ.</p></div>
+    <div class="sm11-grid-2 sm11-spaced">
+      <div class="sm11-panel"><h3>Chạy từ ZIP</h3><pre class="sm11-tree">typst --version
+typst compile --root . --package-path ./typst-packages examples/sang-math-1-1/01-legacy-bon-dang.typ 01.pdf
+typst compile --root . --package-path ./typst-packages examples/sang-math-1-1/02-qr-va-phieu-12-4-6.typ 02.pdf</pre></div>
+      <div class="sm11-panel"><h3>Có gì trong ZIP?</h3><p>Package local 1.1.0, hai ví dụ đề bằng cú pháp 1.0.6, tám tình huống phiếu tô, tám preset OMR và README chạy nhanh. Typst 0.15.0 hoặc mới hơn (đã thử trên 0.15.1); lần đầu có thể tải phụ thuộc CeTZ, Cades và Touying.</p></div>
+    </div>
+    <div class="sm11-toolbar sm11-spaced"><label for="sm11-search">Tìm mẫu</label><input id="sm11-search" type="search" placeholder="Ví dụ: QR, 12–4–6, TN40, SBD…"><div id="sm11-filters" class="sm11-filters" aria-label="Lọc theo chủ đề"></div></div>
+    <p id="sm11-count" class="sm11-count" aria-live="polite">Đang tải mẫu…</p><div id="sm11-gallery" class="sm11-gallery" aria-live="polite"></div>
+    <noscript>Để xem code trực tiếp cần bật JavaScript. Bạn vẫn có thể <a href="downloads/sang-math-1.1.0-preview-examples.zip">tải toàn bộ ZIP</a>.</noscript>
+  </div></section>
+  <section class="sm11-section sm11-wrap" id="su-dung">
+    <div class="sm11-section-head"><span>04 / Dùng trong phòng thi</span><h2>Từ file Typst đến hai bản in</h2><p>File 02 cho toàn bộ quy trình. Chỉ cần thay nội dung câu hỏi và đáp án, giữ nguyên bốn lệnh soạn đề.</p></div>
+    <div class="sm11-grid-2">
+      <div class="sm11-panel"><h3>1. Soạn và kiểm đáp án</h3><p>Viết đủ số câu bằng <code>#tn/#ds/#tln</code>. <code>True(...)</code> đánh dấu phương án hoặc mệnh đề đúng; đối số đáp án của <code>#tln</code> đi vào QR. Giáo viên tự kiểm lại toán học và cách chấp nhận đáp án ngắn.</p></div>
+      <div class="sm11-panel"><h3>2. Chọn đúng profile</h3><p>Gọi <code>#sang-omr-qr(ma-de: ma-de, profile: "12-4-6ngang")</code> cho phiếu ngang. Nếu số TN, Đ/S hoặc TLN lệch phiếu, Typst dừng với lỗi <code>answer counts do not match profile</code>. Với đề khác tám preset, bỏ <code>profile:</code> để dùng QR như 1.0.6.</p></div>
+      <div class="sm11-panel"><h3>3. Tạo phiếu tô</h3><p>Đặt <code>state("sbd")</code> và <code>state("made")</code> ngay trước <code>#include</code>. Phiếu sẽ in số và tô các cột tương ứng; bỏ state thì để ô trống. Mã đề trong QR đáp án và trên phiếu phải là cùng một mã.</p></div>
+      <div class="sm11-panel"><h3>4. Tách bản phát</h3><p>Phát đề và phiếu OMR cho học sinh. Giữ trang <code>SMKEY</code> cho giáo viên để nạp đáp án; phiếu học sinh chỉ mang <code>SMOMR</code> nhận dạng loại phiếu. Trước khi in hàng loạt, in thử một tờ và kiểm tra QR, bốn góc định vị cùng cột SBD/mã đề.</p></div>
+    </div>
+  </section>
+  <section class="sm11-section sm11-section-tint" id="xu-ly-loi"><div class="sm11-wrap">
+    <div class="sm11-section-head"><span>05 / Kiểm tra nhanh</span><h2>Khi file chưa ra đúng phiếu</h2><p>Những trường hợp dưới đây xuất hiện nhiều nhất khi copy code.</p></div>
+    <div class="sm11-grid-2">
+      <div class="sm11-panel"><h3>Không tìm thấy file phiếu</h3><p>Tải file <code>12-4-6ngang.typ</code> ở thẻ mẫu hoặc dùng ZIP. Đặt file đúng cạnh file có <code>#include "12-4-6ngang.typ"</code>. Trong ví dụ package dùng đường dẫn <code>omr/12-4-6ngang.typ</code> vì file nằm trong thư mục <code>omr</code>.</p></div>
+      <div class="sm11-panel"><h3>QR báo sai số câu</h3><p>Đếm lại từng lệnh <code>#tn</code>, <code>#ds</code>, <code>#tln</code>; <code>#tl</code> không có ô tô trong tám profile. Chọn profile đúng bảng ở trên. Không chỉnh số câu trên phiếu để che lỗi của đề.</p></div>
+      <div class="sm11-panel"><h3>SBD hoặc mã đề không tô</h3><p>Đặt state trước <code>#include</code> và truyền chữ số trong chuỗi, ví dụ <code>"1001"</code>. SBD nhận tối đa sáu chữ số, mã đề tối đa bốn; chữ cái, dấu cách và chuỗi quá dài sẽ làm Typst báo lỗi. SBD ngắn tự thêm số 0 ở đầu.</p></div>
+      <div class="sm11-panel"><h3>Import chưa có bản 1.1</h3><p>Trong khi PR Typst Universe đang xét duyệt, giải nén ZIP và dùng <code>@local/sang-math:1.1.0</code> cùng <code>--package-path ./typst-packages</code>. <code>@preview/sang-math:1.1.0</code> chỉ dùng sau khi bản phát hành thực sự xuất hiện.</p></div>
+    </div>
+  </div></section>
+</main>
+<footer class="sm11-footer"><div class="sm11-wrap"><span>sang-math 1.1 · QR và phiếu OMR</span><a href="index.html">HDSD</a><a href="https://github.com/typst/packages/pull/5987">PR phát hành</a></div></footer>
+<div id="sm11-toast" class="sm11-toast" role="status" aria-live="polite"></div>
+</body>
+</html>

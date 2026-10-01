@@ -8,15 +8,13 @@ const packageCopies = [
   new URL('../typst-pkg-submit/sang-exam.typ', import.meta.url),
 ]
 
-test('hai package copy giữ layout 1.0.1 mặc định và có canvas compat kiểu 1.0.0', async () => {
+test('hai package copy giữ phân số lớn mà không đổi toàn bộ inline math', async () => {
   for (const sourceUrl of packageCopies) {
     const source = await readFile(sourceUrl, 'utf8')
-    assert.match(source, /sys\.inputs\.at\(\s*"sang-math-canvas-compat"/)
-    assert.match(source, /if _studio-canvas-math\s*\{\s*math\.display\(it\)/)
-    assert.match(source, /else if repr\(it\)\.contains\("frac"\)\s*\{\s*box\(inset: \(y: 0\.16em\)\)/)
-    assert.equal(source.split('show math.equation.where(block: false): it => {').length - 1, 2)
-    assert.match(source, /if _studio-canvas-math\s*\{\s*show math\.frac: math\.display\s*body/)
-    assert.match(source, /#let tfrac\(a, b\)/)
+    assert.match(source, /#let sang-setup\(body, math-color: black\) = \{/)
+    assert.match(source, /show math\.frac: math\.display\s*show math\.equation: set text\(fill: math-color\)/)
+    assert.match(source, /#let tfrac\(a, b\) = \{\s*show math\.frac: f => f/)
+    assert.doesNotMatch(source, /show math\.equation: math\.display/)
   }
 })
 

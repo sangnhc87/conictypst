@@ -1,4 +1,8 @@
-# Bộ mẫu copy-ready cho sang-math 1.0.2
+# Bộ mẫu copy-ready cho sang-math
+
+## QR và phiếu OMR 1.1
+
+[`qr-12-4-6.typ`](qr-12-4-6.typ) là ví dụ đầy đủ với cách gõ `#tn/#ds/#tln` của 1.0.6, QR đáp án cho giáo viên và phiếu ngang có SBD/mã đề. Tám file trong [`omr/`](omr/) có thể copy vào cùng thư mục đề rồi dùng `#include`; không cần API ngân hàng hay trộn đề.
 
 Các file trong `copy-ready/` dùng import chính thức từ Typst Universe. Giáo viên
 có thể tải một file, đổi phần **CẤU HÌNH NHANH**, thay nội dung câu hỏi và biên

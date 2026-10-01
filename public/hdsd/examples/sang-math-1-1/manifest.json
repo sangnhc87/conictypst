@@ -1,0 +1,16 @@
+{
+  "version": "1.1.0-preview",
+  "compiler": "0.15.0",
+  "examples": [
+    {"id":"01","category":"Cú pháp 1.0.6","title":"Đề bốn dạng như trước","file":"01-legacy-bon-dang.typ","summary":"Giữ #tn, #ds, #tln, #tl và bảng đáp án; không cần học cách gõ mới.","result":"Đề và đáp án giáo viên.","requires":[]},
+    {"id":"02","category":"QR và phiếu","title":"Đề 12–4–6 + QR + phiếu ngang","file":"02-qr-va-phieu-12-4-6.typ","summary":"Soạn bằng #tn/#ds/#tln, tạo QR đáp án và phiếu có state SBD/mã đề.","result":"Đề học sinh, QR giáo viên và phiếu 12–4–6.","requires":["12-4-6ngang.typ"]},
+    {"id":"08","category":"QR và phiếu","title":"Chỉ in phiếu 12–4–6 ngang","file":"08-chi-phieu-omr.typ","summary":"Dùng state SBD/mã đề rồi #include khi không cần tạo đề trong cùng file.","result":"Phiếu 12–4–6 ngang với SBD 001001 và mã 0101.","requires":["12-4-6ngang.typ"]},
+    {"id":"14","category":"Phiếu tô","title":"Phiếu 40 TN có state","file":"14-phieu-tn40-state.typ","summary":"Tô trước SBD sáu chữ số và mã đề bốn chữ số trên preset TN40.","result":"Phiếu TN40 với SBD 012045 và mã 0234.","requires":["tn-40.typ"]},
+    {"id":"15","category":"Phiếu tô","title":"Phiếu 12 câu Đúng/Sai","file":"15-phieu-ds12-state.typ","summary":"Tô SBD và mã đề cho preset 12 câu Đúng/Sai.","result":"Phiếu DS12 in sẵn SBD/mã đề.","requires":["ds-12.typ"]},
+    {"id":"16","category":"Phiếu tô","title":"Phiếu 28 TN + 12 Đúng/Sai","file":"16-phieu-hybrid-28tn-12ds-state.typ","summary":"Preset kết hợp 28 câu TN và 12 câu Đúng/Sai có state.","result":"Phiếu hybrid in sẵn SBD/mã đề.","requires":["hybrid-28tn-12ds.typ"]},
+    {"id":"17","category":"Phiếu tô","title":"Phiếu THPTQG Toán 2025","file":"17-phieu-thptqg-2025-state.typ","summary":"Bố cục dọc 12 TN, 4 Đúng/Sai, 6 trả lời ngắn.","result":"Phiếu THPTQG Toán 2025 in sẵn SBD/mã đề.","requires":["thptqg-toan-2025.typ"]},
+    {"id":"18","category":"Phiếu tô","title":"Phiếu 10 trả lời ngắn","file":"18-phieu-tln10-state.typ","summary":"Preset TLN10 tô trước SBD và mã đề.","result":"Phiếu TLN10 in sẵn SBD/mã đề.","requires":["tln-10.typ"]},
+    {"id":"19","category":"Phiếu tô","title":"Phiếu 50 câu TN","file":"19-phieu-tn50-state.typ","summary":"Preset TN50 tô trước SBD và mã đề.","result":"Phiếu TN50 in sẵn SBD/mã đề.","requires":["tn-50.typ"]},
+    {"id":"20","category":"Phiếu tô","title":"Phiếu 60 câu TN","file":"20-phieu-tn60-state.typ","summary":"Preset TN60 tô trước SBD và mã đề.","result":"Phiếu TN60 in sẵn SBD/mã đề.","requires":["tn-60.typ"]}
+  ]
+}

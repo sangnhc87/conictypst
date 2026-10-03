@@ -1,6 +1,6 @@
 #import "@preview/sang-math:1.0.6": *
 
-#let mode = "dethi"
+#let mode = "loigiai"
 #let accent = rgb("0f766e")
 #let ma-de = "1234"
 #let in-qr-dap-an = true

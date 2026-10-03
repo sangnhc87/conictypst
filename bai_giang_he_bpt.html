@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài Giảng: Hệ Bất Phương Trình Bậc Nhất Hai Ẩn</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Roboto+Slab:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Reveal.js -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- MathJax for rendering math -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        :root {
+            --primary: #1d4ed8;      /* Blue 700 */
+            --primary-light: #eff6ff;/* Blue 50 */
+            --secondary: #0f172a;    /* Slate 900 */
+            --accent: #ea580c;       /* Orange 600 */
+            --success: #059669;      /* Emerald 600 */
+            --danger: #dc2626;       /* Red 600 */
+            --text-dark: #1e293b;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        .reveal {
+            font-family: 'Quicksand', sans-serif !important;
+            color: var(--text-dark);
+            font-size: 32px; 
+        }
+
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+            font-family: 'Roboto Slab', serif !important;
+            font-weight: 700 !important;
+            text-transform: none !important;
+            color: var(--secondary);
+            margin-bottom: 25px;
+        }
+
+        .reveal h1 { font-size: 2.2em; line-height: 1.3; color: var(--primary); text-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
+        .reveal h2 { 
+            font-size: 1.6em; 
+            display: inline-block; 
+            padding-bottom: 8px;
+            border-bottom: 4px solid var(--accent);
+            color: var(--primary);
+        }
+        .reveal h3 { font-size: 1.3em; color: var(--accent); }
+
+        .reveal p, .reveal li {
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .reveal ul {
+            display: block;
+            text-align: left;
+            margin-left: 2em;
+        }
+        
+        .reveal ol {
+            display: block;
+            text-align: left;
+            margin-left: 2em;
+        }
+
+        /* --- Glass Box / Container --- */
+        .glass-box {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            margin: 10px auto;
+            max-width: 1200px;
+            text-align: left;
+        }
+        
+        .flex-container {
+            display: flex;
+            align-items: stretch;
+            gap: 30px;
+        }
+        
+        .flex-col {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .highlight {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* --- Custom Cards --- */
+        .def-box {
+            background: linear-gradient(to right, #eff6ff, #ffffff);
+            border-left: 6px solid var(--primary);
+            padding: 20px 30px;
+            border-radius: 0 15px 15px 0;
+            margin: 20px 0;
+            font-size: 1.05em;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+        
+        .alert-box {
+            background: linear-gradient(to right, #fff7ed, #ffffff);
+            border-left: 6px solid var(--accent);
+            padding: 20px 30px;
+            border-radius: 0 15px 15px 0;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+        
+        .step-box {
+            background: #ffffff;
+            border: 2px solid var(--success);
+            border-radius: 12px;
+            padding: 15px 25px;
+            margin: 15px 0;
+            box-shadow: 0 4px 10px rgba(5, 150, 105, 0.1);
+            position: relative;
+        }
+        
+        .step-number {
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            background: var(--success);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9em;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .math-block {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.2em;
+            margin: 15px 0;
+            border: 1px dashed #cbd5e1;
+        }
+
+        /* MathJax adjustments */
+        .mjx-chtml {
+            margin: 0 !important;
+        }
+
+        /* Background animated blobs */
+        .bg-shape {
+            position: absolute;
+            z-index: -1;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 10s ease-in-out infinite;
+        }
+        .shape-1 {
+            top: -10%; left: -10%;
+            width: 500px; height: 500px;
+            background: #93c5fd; /* Light blue */
+            border-radius: 50%;
+        }
+        .shape-2 {
+            bottom: -10%; right: -10%;
+            width: 600px; height: 600px;
+            background: #fdba74; /* Light orange */
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+            animation-delay: -5s;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -50px) rotate(10deg); }
+            66% { transform: translate(-20px, 20px) rotate(-5deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <!-- Background decorative elements -->
+        <div class="bg-shape shape-1"></div>
+        <div class="bg-shape shape-2"></div>
+
+        <div class="slides">
+
+            <!-- Slide 1: Title -->
+            <section>
+                <div class="glass-box" style="text-align: center; padding: 60px;">
+                    <i class="fa-solid fa-chart-line" style="font-size: 3em; color: var(--primary); margin-bottom: 20px;"></i>
+                    <h1>Hệ Bất Phương Trình<br>Bậc Nhất Hai Ẩn</h1>
+                    <p style="font-size: 1.2em; color: var(--secondary); opacity: 0.8;">Môn: Toán học | Đại số và Giải tích</p>
+                    <div style="margin-top: 30px; font-size: 0.9em;">
+                        <span style="background: var(--primary-light); padding: 5px 15px; border-radius: 20px; color: var(--primary); font-weight: bold;">
+                            <i class="fa-solid fa-book-open"></i> Bài giảng chuẩn SGK
+                        </span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 2: Tình huống mở đầu -->
+            <section>
+                <div class="glass-box">
+                    <h2><i class="fa-solid fa-lightbulb"></i> 1. Tình huống mở đầu</h2>
+                    <div class="flex-container">
+                        <div class="flex-col">
+                            <p>Một xưởng mộc sản xuất hai loại bàn: <strong>Bàn làm việc</strong> và <strong>Bàn ăn</strong>.</p>
+                            <ul>
+                                <li>Mỗi bàn làm việc cần <strong>2 giờ</strong> cưa và <strong>1 giờ</strong> đánh bóng, lãi <strong>500 nghìn đồng</strong>.</li>
+                                <li>Mỗi bàn ăn cần <strong>1 giờ</strong> cưa và <strong>2 giờ</strong> đánh bóng, lãi <strong>400 nghìn đồng</strong>.</li>
+                            </ul>
+                            <p>Xưởng chỉ có tối đa <strong>10 giờ cưa</strong> và <strong>8 giờ đánh bóng</strong> mỗi ngày.</p>
+                        </div>
+                        <div class="flex-col">
+                            <div class="alert-box">
+                                <h3 style="margin-bottom: 10px; margin-top:0;"><i class="fa-solid fa-circle-question"></i> Câu hỏi đặt ra:</h3>
+                                <p style="font-size: 0.9em; margin-bottom: 0;">Cần sản xuất bao nhiêu bàn mỗi loại để <strong>tiền lãi thu được là lớn nhất</strong> mà vẫn không vượt quá số giờ lao động cho phép?</p>
+                            </div>
+                            <p style="font-size: 0.9em; text-align: center; color: var(--primary);">
+                                <em>Để giải bài toán này, ta cần sử dụng <strong>Hệ bất phương trình bậc nhất hai ẩn</strong>.</em>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 3: Định nghĩa -->
+            <section>
+                <div class="glass-box">
+                    <h2><i class="fa-solid fa-book"></i> 2. Định nghĩa</h2>
+                    
+                    <div class="def-box">
+                        <p style="margin-top:0;"><strong>Hệ bất phương trình bậc nhất hai ẩn</strong> là một hệ gồm hai hay nhiều bất phương trình bậc nhất hai ẩn <span class="highlight">x, y</span>.</p>
+                    </div>
+
+                    <p>Ví dụ một hệ bất phương trình:</p>
+                    <div class="math-block">
+                        \[
+                        \begin{cases}
+                        2x + y \le 10 \\
+                        x + 2y \le 8 \\
+                        x \ge 0 \\
+                        y \ge 0
+                        \end{cases}
+                        \]
+                    </div>
+
+                    <div class="alert-box">
+                        <p style="margin: 0;"><strong>Nghiệm của hệ:</strong> Là cặp số \( (x_0; y_0) \) đồng thời là nghiệm của <strong>tất cả</strong> các bất phương trình trong hệ.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 4: Biểu diễn miền nghiệm -->
+            <section>
+                <div class="glass-box">
+                    <h2><i class="fa-solid fa-pen-ruler"></i> 3. Biểu diễn miền nghiệm của Hệ BPT</h2>
+                    <p>Miền nghiệm của hệ là <strong>phần giao</strong> của các miền nghiệm của từng bất phương trình trong hệ.</p>
+                    
+                    <h3 style="margin-top: 20px;">Các bước biểu diễn miền nghiệm:</h3>
+                    
+                    <div class="step-box">
+                        <div class="step-number">1</div>
+                        <p style="margin:0;">Trên cùng một mặt phẳng tọa độ Oxy, vẽ các đường thẳng là bờ của các nửa mặt phẳng nghiệm.</p>
+                    </div>
+                    
+                    <div class="step-box">
+                        <div class="step-number">2</div>
+                        <p style="margin:0;">Xác định miền nghiệm của từng bất phương trình (bằng cách lấy điểm thử, thường là gốc tọa độ O).</p>
+                    </div>
+                    
+                    <div class="step-box">
+                        <div class="step-number">3</div>
+                        <p style="margin:0;"><strong>Gạch bỏ</strong> phần không thuộc miền nghiệm của mỗi bất phương trình.</p>
+                    </div>
+                    
+                    <div class="step-box">
+                        <div class="step-number">4</div>
+                        <p style="margin:0;">Phần mặt phẳng <strong>không bị gạch</strong> (kể cả bờ nếu có dấu "=") chính là miền nghiệm của hệ.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 5: Ví dụ biểu diễn -->
+            <section>
+                <div class="glass-box">
+                    <h2><i class="fa-solid fa-desktop"></i> 4. Ví dụ biểu diễn miền nghiệm</h2>
+                    <div class="flex-container">
+                        <div class="flex-col" style="flex: 1.2;">
+                            <p>Biểu diễn miền nghiệm của hệ:</p>
+                            <div class="math-block" style="font-size: 1em;">
+                                \[
+                                \begin{cases}
+                                x - y > 0 \quad (1)\\
+                                x - 3y \le -3 \quad (2)\\
+                                x + y > 5 \quad (3)
+                                \end{cases}
+                                \]
+                            </div>
+                            <ul style="font-size: 0.85em;">
+                                <li>Vẽ đường thẳng \(d_1: x - y = 0\), gạch phần chứa \(O(0;0)\).</li>
+                                <li>Vẽ đường thẳng \(d_2: x - 3y = -3\), gạch phần <strong>không</strong> chứa \(O(0;0)\).</li>
+                                <li>Vẽ đường thẳng \(d_3: x + y = 5\), gạch phần chứa \(O(0;0)\).</li>
+                            </ul>
+                        </div>
+                        <div class="flex-col" style="flex: 0.8; text-align: center;">
+                            <!-- Placeholder for graph -->
+                            <div style="background: #f1f5f9; border-radius: 10px; padding: 20px; border: 2px dashed #94a3b8;">
+                                <i class="fa-solid fa-chart-area" style="font-size: 4em; color: #94a3b8; margin-bottom: 10px;"></i>
+                                <p style="font-size: 0.8em; color: #64748b;">(Hình vẽ minh họa miền đa giác không bị gạch)</p>
+                            </div>
+                            <p style="font-size: 0.9em; margin-top: 15px;"><strong>Kết luận:</strong> Miền nghiệm là miền tam giác không bị gạch bỏ.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 6: Ứng dụng thực tế -->
+            <section>
+                <div class="glass-box">
+                    <h2><i class="fa-solid fa-gears"></i> 5. Ứng dụng thực tế (Bài toán tối ưu)</h2>
+                    
+                    <div class="def-box">
+                        <p style="margin: 0;"><strong>Định lí:</strong> Giá trị lớn nhất (GTLN) và giá trị nhỏ nhất (GTNN) của biểu thức \( F(x, y) = ax + by \) trên một miền đa giác lồi luôn đạt được tại <strong>các đỉnh của đa giác</strong> đó.</p>
+                    </div>
+
+                    <h3>Các bước giải bài toán tối ưu:</h3>
+                    <ul style="font-size: 0.9em;">
+                        <li><strong>Bước 1:</strong> Lập hệ bất phương trình mô tả các điều kiện của bài toán. Thiết lập hàm mục tiêu \( F(x,y) = ax + by \).</li>
+                        <li><strong>Bước 2:</strong> Biểu diễn miền nghiệm của hệ trên mặt phẳng tọa độ (tìm được một miền đa giác).</li>
+                        <li><strong>Bước 3:</strong> Tìm tọa độ các đỉnh của đa giác miền nghiệm.</li>
+                        <li><strong>Bước 4:</strong> Thay tọa độ các đỉnh vào biểu thức \( F(x,y) \). Giá trị lớn nhất/nhỏ nhất chính là đáp số của bài toán.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Slide 7: Các dạng toán -->
+            <section>
+                <div class="glass-box">
+                    <h2><i class="fa-solid fa-list-check"></i> 6. Phân loại các dạng bài tập</h2>
+                    <div class="flex-container" style="flex-wrap: wrap; gap: 20px;">
+                        
+                        <div style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-top: 4px solid var(--primary); flex: 1 1 45%;">
+                            <h4 style="margin-top:0; color: var(--primary);">Dạng 1: Nhận biết</h4>
+                            <p style="font-size: 0.85em; margin:0;">Kiểm tra xem một cặp số \( (x_0; y_0) \) có phải là nghiệm của hệ bất phương trình hay không.</p>
+                        </div>
+                        
+                        <div style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-top: 4px solid var(--success); flex: 1 1 45%;">
+                            <h4 style="margin-top:0; color: var(--success);">Dạng 2: Biểu diễn miền nghiệm</h4>
+                            <p style="font-size: 0.85em; margin:0;">Cho hệ BPT, yêu cầu vẽ đồ thị và xác định bằng hình ảnh phần mặt phẳng là miền nghiệm.</p>
+                        </div>
+
+                        <div style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-top: 4px solid var(--accent); flex: 1 1 45%;">
+                            <h4 style="margin-top:0; color: var(--accent);">Dạng 3: Bài toán ngược</h4>
+                            <p style="font-size: 0.85em; margin:0;">Cho trước hình vẽ miền nghiệm, yêu cầu tìm/lập lại hệ bất phương trình tương ứng.</p>
+                        </div>
+
+                        <div style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-top: 4px solid var(--danger); flex: 1 1 45%;">
+                            <h4 style="margin-top:0; color: var(--danger);">Dạng 4: Tối ưu hóa (Thực tế)</h4>
+                            <p style="font-size: 0.85em; margin:0;">Tìm GTLN, GTNN của biểu thức \( F = ax+by \) trên miền nghiệm (bài toán kinh tế, sản xuất).</p>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: 'c/t',
+            transition: 'slide',
+            backgroundTransition: 'fade',
+            // Disable default center alignment to let our glass boxes handle layout
+            center: false,
+            margin: 0.1,
+        });
+    </script>
+</body>
+</html>

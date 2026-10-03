@@ -1836,7 +1836,7 @@
   let isBatchMode = false;
   let activeStudentForModal = null;
   let activeStudentForRedeem = null;
-  let isTeacherUnlocked = localStorage.getItem('conic_teacher_unlocked') !== 'false';
+  let isTeacherUnlocked = localStorage.getItem('conic_teacher_unlocked') === 'true';
 
   const FUN_CHALLENGES = [
     "Hát một đoạn bài hát yêu thích tặng cả lớp 🎤",
@@ -1850,24 +1850,14 @@
   ];
 
   function checkUrlHashData() {
-    if (window.location.hash && window.location.hash.startsWith('#data=')) {
-      try {
-        const rawBase64 = window.location.hash.replace('#data=', '');
-        const jsonStr = decodeURIComponent(escape(atob(rawBase64)));
-        const importedClass = JSON.parse(jsonStr);
-        if (importedClass && importedClass.name && Array.isArray(importedClass.students)) {
-          const existingIdx = appState.classes.findIndex(c => c.id === importedClass.id);
-          if (existingIdx >= 0) {
-            appState.classes[existingIdx] = importedClass;
-          } else {
-            appState.classes.unshift(importedClass);
-          }
-          appState.currentClassId = importedClass.id;
-          isTeacherUnlocked = false;
-          localStorage.removeItem('conic_teacher_unlocked');
-        }
-      } catch (e) {
-        console.warn('Lỗi đọc dữ liệu từ URL hash:', e);
+    const params = new URLSearchParams(window.location.search);
+    const clsId = params.get('class');
+    if (clsId) {
+      const existingIdx = appState.classes.findIndex(c => c.id === clsId);
+      if (existingIdx >= 0) {
+        appState.currentClassId = clsId;
+        isTeacherUnlocked = false;
+        localStorage.removeItem('conic_teacher_unlocked');
       }
     }
   }
@@ -2776,7 +2766,7 @@
   // 8. THAO TÁC CỘNG ĐIỂM & BÙ ĐIỂM XP
   // ==========================================
   function adjustStudentPoints(studentId, deltaPoints, reason = 'Phát biểu xây dựng bài', sourceEl = null) {
-    if (userRole === 'guest' && document.body.classList.contains('student-mode')) {
+    if (!isTeacherUnlocked) {
       showToast('⚠️ Vui lòng đăng nhập Google (Thầy giáo hoặc Lớp trưởng) để ghi điểm.', 'warning');
       return;
     }
@@ -4854,6 +4844,8 @@
   }
 
   function initEventListeners() {
+    if (window.__eventsInited) return;
+    window.__eventsInited = true;
     initAssignTeamsEvents();
     initOfficersEvents();
     // 1. Chuyển lớp từ Dropdown hoặc Quick Pills
@@ -5066,6 +5058,10 @@
 
       if (teamBtn) {
         e.stopPropagation();
+        if (!isTeacherUnlocked) {
+          showToast('⚠️ Chỉ giáo viên mới được đổi tổ!', 'warning');
+          return;
+        }
         const id = teamBtn.dataset.id;
         const cls = getCurrentClass();
         const stu = cls.students.find(s => s.id === id);
@@ -5798,11 +5794,9 @@
     document.getElementById('btn-copy-share-link')?.addEventListener('click', () => {
       const cls = getCurrentClass();
       try {
-        const raw = JSON.stringify(cls);
-        const encoded = btoa(unescape(encodeURIComponent(raw)));
-        const shareUrl = window.location.origin + window.location.pathname + '#data=' + encoded;
+        const shareUrl = window.location.origin + window.location.pathname + '?class=' + cls.id;
         navigator.clipboard.writeText(shareUrl).then(() => {
-          alert(`🎉 Đã sao chép link bảng điểm kèm điểm số mới nhất của lớp ${cls.name}!\n\nThầy chỉ cần dán (Paste) vào nhóm Zalo lớp để học sinh và phụ huynh xem ngay ở chế độ Chỉ Xem!`);
+          alert(`🎉 Đã sao chép link bảng điểm MỚI NHẤT của lớp ${cls.name}!\n\nThầy chỉ cần dán (Paste) vào nhóm Zalo lớp để học sinh và phụ huynh xem ngay ở chế độ Chỉ Xem!\nĐiểm số sẽ tự động đồng bộ từ Đám Mây.`);
         }).catch(() => {
           prompt('Thầy hãy copy đường link chia sẻ này gửi cho học sinh:', shareUrl);
         });
@@ -7109,6 +7103,10 @@
       }
     }
     updateAuthUI();
+    if (userRole === 'guest' && typeof supabaseClient !== 'undefined' && supabaseClient && !window.hasAutoPulledCloudData) {
+      window.hasAutoPulledCloudData = true;
+      downloadDataFromSupabase();
+    }
   }
 
   function applyMonitorMode(targetClass) {
@@ -7287,20 +7285,26 @@
 
       // 2. Lớp học
       for (const cls of appState.classes) {
-        await supabaseClient
+        const { error: clsErr } = await supabaseClient
           .from('classes')
           .upsert({
             id: cls.id,
             year_id: '2026-2027',
             name: cls.name,
-            teacher_email: 'nguyensangnhc@gmail.com',
+            teacher_email: (typeof currentUser !== 'undefined' && currentUser && currentUser.email) ? currentUser.email : 'nguyensangnhc@gmail.com',
             monitor_email: cls.monitorEmail || null
           });
+        if (clsErr) throw new Error('Lỗi up lớp ' + cls.name + ': ' + clsErr.message);
 
         // 3. Học sinh
-        const studentPayloads = cls.students.map((s, idx) => ({
-          id: s.id,
-          class_id: cls.id,
+        const studentPayloads = cls.students.map((s, idx) => {
+          if (s.id && s.id.length > 20) {
+            const shortCls = cls.id.replace('class_', '');
+            s.id = shortCls + '_' + (s.sbd || String(Date.now()).slice(-5) + idx);
+          }
+          return {
+            id: s.id,
+            class_id: cls.id,
           stt: idx + 1,
           sbd: s.sbd || '',
           name: s.name,
@@ -7317,10 +7321,12 @@
           attitude: s.attitude ?? 10,
           giua_ky: s.giuaKy ?? 8.0,
           cuoi_ky: s.cuoiKy ?? 8.0
-        }));
+          };
+        });
 
         if (studentPayloads.length > 0) {
-          await supabaseClient.from('students').upsert(studentPayloads);
+          const { error: stuErr } = await supabaseClient.from('students').upsert(studentPayloads);
+          if (stuErr) throw new Error('Lỗi up HS lớp ' + cls.name + ': ' + stuErr.message);
         }
       }
 
@@ -7329,6 +7335,7 @@
     } catch (e) {
       if (statusEl) statusEl.innerHTML = `<span class="text-danger">❌ Lỗi đồng bộ: ${escapeHtml(e.message)}</span>`;
       showToast('Lỗi đồng bộ: ' + e.message, 'neg');
+      alert('Chi tiết lỗi Đám Mây: ' + e.message);
     }
   }
 
@@ -7512,8 +7519,9 @@
         }
         if (parts.length >= 3) sbd = parts[2];
 
+        const shortClsId = cls.id.replace('class_', '');
         newStu.push({
-          id: 'stu_' + Date.now() + '_' + idx,
+          id: shortClsId + '_' + sbd,
           name: name,
           team: team,
           sbd: sbd,

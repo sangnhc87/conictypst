@@ -24,6 +24,17 @@
     return Array.from({ length: 4 }, (_, index) => chars[index] ?? null);
   }
 
+  // Short answers are numbers. Leading zeroes and a trailing decimal zero do
+  // not change the student's mathematical answer (0042 = 42, 1,0 = 1).
+  function sameValue(left, right) {
+    const a = normalize(left);
+    const b = normalize(right);
+    if (a === b) return true;
+    const numeric = /^-?(?:\d+(?:,\d*)?|,\d+)$/;
+    return numeric.test(a) && numeric.test(b) &&
+      Number(a.replace(',', '.')) === Number(b.replace(',', '.'));
+  }
+
   function bubbleIndex(symbol, columnIndex) {
     const symbols = COLUMN_SYMBOLS[columnIndex];
     if (!symbols || symbol === null || symbol === undefined || symbol === '') return -1;
@@ -64,6 +75,7 @@
     COLUMN_SYMBOLS,
     normalize,
     align,
+    sameValue,
     bubbleIndex,
     decodeBubble,
     upgradeTemplate,

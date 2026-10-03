@@ -30,6 +30,7 @@
 
     const state = {
         sdkPromise: null,
+        sdkReady: false,
         app: null,
         auth: null,
         functions: null,
@@ -77,7 +78,10 @@
             const existing = document.querySelector(`script[data-omr-cloud-src="${src}"]`);
             if (existing) {
                 if (existing.dataset.loaded === '1') resolve();
-                else {
+                else if (existing.dataset.failed === '1') {
+                    existing.remove();
+                    resolve(loadScript(src));
+                } else {
                     existing.addEventListener('load', resolve, { once: true });
                     existing.addEventListener('error', reject, { once: true });
                 }
@@ -91,7 +95,11 @@
                 script.dataset.loaded = '1';
                 resolve();
             }, { once: true });
-            script.addEventListener('error', () => reject(new Error(`Không tải được ${src}`)), { once: true });
+            script.addEventListener('error', () => {
+                script.dataset.failed = '1';
+                script.remove();
+                reject(new Error(`Không tải được ${src}`));
+            }, { once: true });
             document.head.appendChild(script);
         });
     }
@@ -110,22 +118,35 @@
             state.auth = state.app.auth();
             state.identityAuth = state.identityApp.auth();
             state.functions = state.app.functions(REGION);
-            await Promise.all([
-                state.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL),
-                state.identityAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-            ]);
+            await Promise.all([setAvailablePersistence(state.auth), setAvailablePersistence(state.identityAuth)]);
             state.auth.onAuthStateChanged(handlePlatformAuthState);
             state.identityAuth.onAuthStateChanged(handleIdentityAuthState);
             state.identityAuth.getRedirectResult().catch(error => {
                 state.lastError = firebaseErrorMessage(error);
                 updateUi();
             });
+            state.sdkReady = true;
             return state.app;
         })().catch(error => {
             state.sdkPromise = null;
+            state.sdkReady = false;
             throw error;
         });
         return state.sdkPromise;
+    }
+
+    async function setAvailablePersistence(auth) {
+        const modes = firebase.auth.Auth.Persistence;
+        let lastError;
+        for (const mode of [modes.LOCAL, modes.SESSION, modes.NONE]) {
+            try {
+                await auth.setPersistence(mode);
+                return mode;
+            } catch (error) {
+                lastError = error;
+            }
+        }
+        throw lastError;
     }
 
     function callable(name) {
@@ -143,33 +164,39 @@
         if (code.includes('unauthorized-domain')) {
             return 'Tên miền chấm thi chưa được thêm vào Firebase Auth Authorized domains.';
         }
-        if (code.includes('popup-blocked')) return 'Trình duyệt đã chặn cửa sổ đăng nhập Google.';
+        if (code.includes('popup-blocked') || code.includes('operation-not-supported-in-this-environment')) {
+            return 'Trình duyệt đã chặn cửa sổ Google. Hãy mở trang này trực tiếp bằng Safari hoặc Chrome, cho phép cửa sổ bật lên rồi chạm Đăng nhập lại.';
+        }
         if (code.includes('network-request-failed')) return 'Mạng đang gián đoạn; dữ liệu vẫn được giữ trên máy.';
         if (code.includes('permission-denied')) return error?.message || 'Tài khoản chưa được admin cấp quyền OMR.';
         return error?.message || String(error || 'Lỗi không xác định');
     }
 
     async function signIn() {
-        await ensureFirebase();
+        // Firebase must be loaded before the tap: mobile browsers reject a popup
+        // opened after an asynchronous SDK download has consumed user activation.
+        if (!state.sdkReady) {
+            await ensureFirebase();
+            state.lastError = 'Đã tải xong bộ đăng nhập. Chạm Đăng nhập Google thêm một lần để mở cửa sổ Google.';
+            state.panelOpen = true;
+            updateUi();
+            return;
+        }
         if (state.identityAuth.currentUser) {
             await ensurePlatformSession(state.identityAuth.currentUser);
             return;
         }
         const provider = new firebase.auth.GoogleAuthProvider();
         provider.setCustomParameters({ prompt: 'select_account' });
-        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         try {
-            if (isMobile) {
-                await state.identityAuth.signInWithRedirect(provider);
-            } else {
-                await state.identityAuth.signInWithPopup(provider);
-            }
+            // Redirect through conicgv.firebaseapp.com loses its auth state under
+            // mobile third-party storage restrictions on Pages custom domains.
+            const credential = await state.identityAuth.signInWithPopup(provider);
+            state.lastError = '';
+            if (credential?.user) await ensurePlatformSession(credential.user);
         } catch (error) {
-            if (['auth/popup-blocked', 'auth/operation-not-supported-in-this-environment'].includes(error?.code)) {
-                await state.identityAuth.signInWithRedirect(provider);
-                return;
-            }
             state.lastError = firebaseErrorMessage(error);
+            state.panelOpen = true;
             updateUi();
             throw error;
         }
@@ -879,6 +906,12 @@
             note.className = 'omr-cloud-note';
             note.textContent = 'Chấm bài vẫn hoạt động hoàn toàn trên máy khi chưa đăng nhập hoặc mất mạng.';
             card.appendChild(note);
+            if (state.lastError) {
+                const error = document.createElement('div');
+                error.className = 'omr-cloud-error';
+                error.textContent = state.lastError;
+                card.appendChild(error);
+            }
             card.appendChild(actionButton('Đăng nhập Google', () => signIn().catch(() => {})));
             return card;
         }
@@ -998,7 +1031,7 @@
         if (state.initialized) return;
         state.initialized = true;
         ensureUi();
-        if (cloudEnabled() && navigator.onLine) {
+        if (navigator.onLine) {
             ensureFirebase().catch(error => {
                 state.lastError = firebaseErrorMessage(error);
                 updateUi();

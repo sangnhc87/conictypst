@@ -17,6 +17,7 @@
     'a3-cat-phach': { id: 'a3-cat-phach', name: 'A3 Cắt Phách', mcq: 12, tf: 2, tln: 4, paper: 'a3', version: 2 },
     '12-4-6ngang': { id: '12-4-6ngang', name: 'Toán 12-4-6 · A4 ngang', mcq: 12, tf: 4, tln: 6, paper: 'a5', version: 2 },
     'thptqg-toan': { id: 'thptqg-toan', name: 'THPTQG Toán · A4 dọc', mcq: 12, tf: 4, tln: 6, paper: 'a4', version: 2 },
+    '12-4-6-a4-scan': { id: '12-4-6-a4-scan', name: 'Phiếu Toán 12-4-6 chuẩn A4', mcq: 12, tf: 4, tln: 6, paper: 'a4', version: 1 },
     'tn-40': { id: 'tn-40', name: 'TN-40', mcq: 40, tf: 0, tln: 0, paper: 'a4', version: 2 },
     'tn-50': { id: 'tn-50', name: 'TN-50', mcq: 50, tf: 0, tln: 0, paper: 'a4', version: 2 },
     'tn-60': { id: 'tn-60', name: 'TN-60', mcq: 60, tf: 0, tln: 0, paper: 'a4', version: 2 },
@@ -51,12 +52,19 @@
   }
 
   function fromType(type, fallback) {
+    if (type === 'a3-phach' || /^a3-phach-\d+-\d+-\d+$/.test(String(type || ''))) {
+      return window.OmrA3CutSheet?.fromId(type) || window.OmrA3CutSheet?.descriptor(fallback || window.OmrA3CutSheet.DEFAULT) || null;
+    }
     if (type === 'custom') {
       return customDescriptor(fallback?.mcq, fallback?.tf, fallback?.tln, fallback?.paper, fallback?.compact);
     }
-    // A sheet without the handwriting area moves the two lower markers up to
-    // the real end of the OMR content. Give it its own QR/profile so it can
-    // never be graded with coordinates from the full-page variant.
+    // Both portrait variants keep the OMR page geometry identical; only the
+    // separate writing area changes. They therefore share one QR/profile.
+    if (BUILT_INS[type] && ['thptqg-toan', '12-4-6-a4-scan'].includes(type)) {
+      // The OMR side has identical geometry whether a writing area is printed
+      // or left blank, so both variants must share the same grading profile.
+      return { ...BUILT_INS[type] };
+    }
     if (BUILT_INS[type] && fallback?.compact) {
       const base = BUILT_INS[type];
       const descriptor = customDescriptor(base.mcq, base.tf, base.tln, base.paper, true);
@@ -72,6 +80,7 @@
   }
 
   function get(type) {
+    if (type === 'a3-phach' || /^a3-phach-\d+-\d+-\d+$/.test(String(type || ''))) return fromType(type);
     if (BUILT_INS[type]) return { ...BUILT_INS[type] };
     const cached = loadCache()[type];
     return cached?.descriptor ? { ...cached.descriptor } : null;
@@ -79,6 +88,7 @@
 
   function encode(descriptor) {
     if (!descriptor) return '';
+    if (descriptor.a3Cut) return `${QR_PREFIX}A3:${descriptor.mcq}:${descriptor.tf}:${descriptor.tln}`;
     if (!descriptor.custom && BUILT_INS[descriptor.id]) return `${QR_PREFIX}P:${descriptor.id}`;
     const paperCode = descriptor.paper === 'a5' ? 'H' : 'V';
     return `${QR_PREFIX}C:${descriptor.mcq}:${descriptor.tf}:${descriptor.tln}:${paperCode}:${descriptor.compact ? 'K' : 'F'}`;
@@ -97,6 +107,10 @@
     const body = text.slice(prefix.length);
     if (body.startsWith('P:')) return fromType(body.slice(2));
     const parts = body.split(':');
+    if (parts[0] === 'A3' && parts.length === 4) {
+      try { return window.OmrA3CutSheet?.descriptor({ mcq: Number(parts[1]), tf: Number(parts[2]), tln: Number(parts[3]) }) || null; }
+      catch (_) { return null; }
+    }
     if (parts[0] === 'C' && parts.length >= 5) {
       return customDescriptor(parts[1], parts[2], parts[3], parts[4] === 'H' ? 'a5' : 'a4', parts[5] === 'K');
     }

@@ -34,11 +34,11 @@ Nguyên tắc sản phẩm:
 | Module | Production | Snapshot quan trọng |
 |---|---|---|
 | TypstConicHub | <https://typstconichub.pages.dev/> | `4b59299d.typstconichub.pages.dev` — DOCX Equation thật, liên kết tải trực tiếp và giao diện Kho Cloud riêng đã triển khai |
-| HDSD | <https://hdsd-conictypst.pages.dev/> | <https://6d4cefcb.hdsd-conictypst.pages.dev/> — Atlas 199 học liệu, 43 giáo án lớp 10, 14 giáo án HKII lớp 12, 79/80 chuyên đề có PDF (2026-07-30); bản `06b50173` giữ làm dự phòng |
+| HDSD | <https://hdsd-conictypst.pages.dev/> | `ac5f52b6` — Conic Classroom gửi danh sách lớp/SBD sang OMR, hỗ trợ đồng bộ tự động và nhận điểm vào bảng đối chiếu, chỉ ghi sổ sau khi giáo viên xác nhận (2026-09-30); `2241f32a` dự phòng |
 | Geo2Code cộng đồng | <https://geo-conictypst.pages.dev/> | `f74573cd` — trang riêng cho bốn công cụ GeoGebra → TikZ/CeTZ, có tác giả và QR ủng hộ (2026-07-26); `03a2c45d` giữ làm dự phòng |
 | Sang Math Graphics Studio | <https://sang-math-graphics-studio.pages.dev/> | `d03c43ec` — production: bàn vẽ trực quan click/kéo cho cung A–O–B, tam giác A–B–C, đường tròn O–R và hình nón O–R–S; mã Typst sinh tự động, không chờ WASM khi thao tác; package + API compile sạch, HTTP 200 (2026-08-06); `81fbe6e4` giữ làm dự phòng |
 | Trộn đề | <https://hdsd-conictypst.pages.dev/tron-de> | hiện nằm trong project HDSD |
-| Sang Math OMR | <https://chamthi-conictypst.pages.dev/> | `9d44745e` — DS20 đủ 20 câu, không tràn khung, tọa độ Sinh/Tô/Chấm đồng bộ và xuất PNG 432 DPI (2026-07-30); `3aa78340` — bản production dự phòng |
+| Sang Math OMR | <https://chamthi-conictypst.pages.dev/> | `51b142a8` — camera tự nhận toàn trang A4, chụp khi ổn định, làm phẳng phối cảnh rồi chấm; đăng nhập Google mobile mở popup và CSP cho phép Firebase Auth (2026-10-01); `a4f3b709` dự phòng (bản này còn lỗi CSP khi đăng nhập) |
 | Trình chiếu PDF/Word | <https://trinhchieu.pages.dev/> | `6a7acebe` — local-first DOCX cho toàn bộ profile, editor đầy đủ như Toán, parser fallback theo section/chùm, công cụ riêng Hóa/GDCD/Ngữ văn; 44/44 test, HTTP 200 (2026-08-03); `033c6401` — bản dự phòng |
 | Thư viện Beamer | <https://beamer-gjv.pages.dev/> | `77d0ef83` — thêm bộ bài giảng Toán 12 HKII 45 trang, đủ Chương IV–VI và ôn tập (2026-07-30); `023febb9` — bản dự phòng |
 
@@ -254,6 +254,13 @@ Kiểm thử package đã qua:
 - đúng file `05_full_de_thi_mau.typ`: 6 trang.
 
 Smoke script: `scripts/test-hub-smoke.mjs`.
+
+Kiểm thử OMR ngày 2026-10-01:
+
+- `node sang-math-omr/test_auto_a4.mjs`: nhận A4 dọc/ngang bị nghiêng, vẫn đọc đủ marker và đi vào engine chấm; chọn ảnh từ máy vẫn hiện preview và bật nút chấm; mô phỏng camera điện thoại tự chụp, hiệu chỉnh ảnh 1600 × 2263 px và chuyển sang chấm.
+- `node sang-math-omr/test_mobile_auth.mjs`: trên user agent điện thoại, Firebase dùng popup, không dùng redirect; khi local storage lỗi, cả hai phiên Auth chuyển sang session.
+- Production/snapshot `51b142a8`: HTTP 200; browser mobile mở Google OAuth từ Firebase handler đến màn hình `accounts.google.com`, không còn lỗi CSP; chưa nhập tài khoản thật để xác nhận bước đồng bộ dữ liệu sau OAuth.
+- `npm run pages:prune -- chamthi-conictypst --dry-run`: `removableVisible: 0`, giữ hai deployment Production/main.
 
 ### 5.2 Cảnh báo build đã biết
 

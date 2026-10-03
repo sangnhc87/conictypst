@@ -103,7 +103,7 @@ def render_typst_to_svg(code_body: str, accent: str, is_canvas: bool = True) -> 
 #set page(width: auto, height: auto, margin: 5pt, fill: none)
 #let accent = {accent}
 
-#cetz.canvas({code_body})
+{code_body}
 """
     else:
         typst_code = f"""
@@ -222,33 +222,48 @@ def typst_to_katex(text: str, accent: str = 'rgb("1e40af")') -> str:
         text = strip_wrapper(text, '#' + _mac)
 
     # 2. Xử lý đồ thị CeTZ & Bảng Table → SVG
+    def extract_full_macro(text, kw):
+        idx = text.find(kw)
+        if idx == -1: return -1, -1, ""
+        if kw.endswith('('):
+            end = _balance(text, idx + len(kw) - 1, '(', ')')
+        elif kw.endswith('['):
+            end = _balance(text, idx + len(kw) - 1, '[', ']')
+        else:
+            return -1, -1, ""
+        if end == -1: return -1, -1, ""
+        pos = end
+        while True:
+            next_pos = pos + 1
+            while next_pos < len(text) and text[next_pos].isspace():
+                next_pos += 1
+            if next_pos < len(text) and text[next_pos] == '[':
+                brk_end = _balance(text, next_pos, '[', ']')
+                if brk_end != -1: pos = brk_end
+                else: break
+            else: break
+        return idx, pos, text[idx : pos+1]
+
     for macro in ['cetz.canvas', 'canvas', 'table', 'my-bxd', 'my-bbbt', 'bbt-opt', 'bbtv2', 'bbt']:
         while True:
-            kw = '#' + macro + '('
-            idx = text.find(kw)
+            idx, pos, full_macro = extract_full_macro(text, '#' + macro + '(')
+            if idx == -1:
+                idx, pos, full_macro = extract_full_macro(text, '#' + macro + '[')
             if idx == -1: break
-            end = _balance(text, idx + len(kw) - 1, '(', ')')
-            if end == -1: break
 
-            inner = text[idx + len(kw) : end]
             is_canvas = macro in ['cetz.canvas', 'canvas']
-            if is_canvas:
-                svg = render_typst_to_svg(inner, accent, is_canvas=True)
-                if svg:
+            svg = render_typst_to_svg(full_macro, accent, is_canvas=is_canvas)
+            if svg:
+                if is_canvas:
                     html_repl = f'<div style="text-align:center; margin: 12px 0;">{svg}</div>'
                 else:
-                    html_repl = '<div style="color:gray; font-style:italic;">[Hình vẽ minh họa CeTZ]</div>'
-            else:
-                full_table_code = f"#{macro}({inner})"
-                svg = render_typst_to_svg(full_table_code, accent, is_canvas=False)
-                if svg:
                     html_repl = f'<div style="text-align:center; overflow-x:auto; margin: 12px 0;">{svg}</div>'
-                else:
-                    html_repl = '<div style="color:gray; font-style:italic;">[Bảng dữ liệu]</div>'
+            else:
+                html_repl = f'<div style="color:gray; font-style:italic;">[{"Hình vẽ minh họa CeTZ" if is_canvas else "Bảng dữ liệu"}]</div>'
 
             html_key = f'%%HTML_{len(html_blocks)}%%'
             html_blocks[html_key] = html_repl
-            text = text[:idx] + html_key + text[end+1:]
+            text = text[:idx] + html_key + text[pos+1:]
 
     # 3. Bold/Italic ngoài math
     parts = re.split(r'(\$[^$]+\$)', text)
@@ -280,8 +295,14 @@ def typst_to_katex(text: str, accent: str = 'rgb("1e40af")') -> str:
         inner = re.sub(r'"([^"]*)"', lambda x: r'\text{' + x.group(1) + '}', inner)
 
         def balance_paren_args(s, func_name):
-            idx = s.find(func_name + '(')
-            if idx == -1: return None, -1, -1
+            start_search = 0
+            while True:
+                idx = s.find(func_name + '(', start_search)
+                if idx == -1: return None, -1, -1
+                if idx > 0 and s[idx-1].isalpha():
+                    start_search = idx + 1
+                    continue
+                break
             start = idx + len(func_name)
             depth = 0
             end = -1
@@ -317,6 +338,12 @@ def typst_to_katex(text: str, accent: str = 'rgb("1e40af")') -> str:
                     inner = inner[:start] + r'\overrightarrow{' + args[0] + '}' + inner[end+1:]
                     changed = True; break
             if changed: continue
+
+            # Gạch ngang trên: overline(A) -> \overline{A}
+            args, start, end = balance_paren_args(inner, 'overline')
+            if args is not None and len(args) >= 1:
+                inner = inner[:start] + r'\overline{' + args[0] + '}' + inner[end+1:]
+                changed = True; continue
 
             # Góc: hat(ABC) -> \widehat{ABC} (>=2 ký tự) hoặc \hat{A} (1 ký tự)
             args, start, end = balance_paren_args(inner, 'hat')
@@ -426,6 +453,7 @@ def typst_to_katex(text: str, accent: str = 'rgb("1e40af")') -> str:
             (r'\bunion\b', r'\cup'), (r'\bcup\b', r'\cup'),
             (r'\bsect\b', r'\cap'), (r'\bcap\b', r'\cap'),
             (r'\bempty\b', r'\emptyset'), (r'\bemptyset\b', r'\emptyset'),
+            (r'\bsetminus\b', r'\setminus'),
             (r'\bperp\b', r'\perp'), (r'\bparallel\b', r'\parallel'),
             (r'\bangle\b', r'\angle'), (r'\btriangle\b', r'\triangle'),
             (r'\bdegree\b', r'^\circ'), (r'\boo\b', r'\infty'), (r'\binfty\b', r'\infty'),
@@ -435,6 +463,7 @@ def typst_to_katex(text: str, accent: str = 'rgb("1e40af")') -> str:
             (r'\bsum\b', r'\sum'), (r'\bint\b', r'\int'),
         ]
         for pat, repl in word_syms:
+            if pat.startswith(r'\b'): pat = r'(?<!\\)' + pat
             inner = re.sub(pat, lambda m, r=repl: r, inner)
 
         # Thêm backslash cho các hàm toán và chữ Hy Lạp
@@ -703,6 +732,14 @@ function renderQuiz() {{
   }}
 
   container.innerHTML = html;
+  if (window.renderMathInElement) {{
+    window.renderMathInElement(container, {{
+      delimiters: [
+        {{left: '$$', right: '$$', display: true}},
+        {{left: '$', right: '$', display: false}}
+      ]
+    }});
+  }}
 }}
 
 function renderCard(q) {{
@@ -742,6 +779,8 @@ function renderCard(q) {{
     h += '</div>';
   }}
 
+  h += '<div style="margin-top: 14px;"><button class="btn-check" id="btn-check-' + q.number + '" onclick="checkQuestion(' + q.number + ')">Kiểm tra</button></div>';
+
   if (q.solution) {{
     h += '<div class="solution" id="sol-' + q.number + '">';
     h += '<div class="solution-title">Lời giải chi tiết:</div>';
@@ -754,6 +793,8 @@ function renderCard(q) {{
 }}
 
 function selectTN(qNum, optIdx) {{
+  var sol = document.getElementById('sol-' + qNum);
+  if (sol && sol.classList.contains('show')) return;
   userAnswers[qNum] = optIdx;
   for (var i = 0; i < 4; i++) {{
     var el = document.getElementById('opt-' + qNum + '-' + i);
@@ -764,6 +805,8 @@ function selectTN(qNum, optIdx) {{
 }}
 
 function setDS(qNum, optIdx, val) {{
+  var sol = document.getElementById('sol-' + qNum);
+  if (sol && sol.classList.contains('show')) return;
   if (!userAnswers[qNum]) userAnswers[qNum] = {{}};
   userAnswers[qNum][optIdx] = val;
   var btnD = document.getElementById('ds-btn-d-' + qNum + '-' + optIdx);
@@ -778,7 +821,57 @@ function setDS(qNum, optIdx, val) {{
 }}
 
 function setTLN(qNum, val) {{
+  var sol = document.getElementById('sol-' + qNum);
+  if (sol && sol.classList.contains('show')) return;
   userAnswers[qNum] = val.trim();
+}}
+
+function checkQuestion(qNum) {{
+  var q = questions.find(x => x.number === qNum);
+  if (!q) return;
+  
+  var solEl = document.getElementById('sol-' + qNum);
+  if (solEl) solEl.classList.add('show');
+  
+  var btn = document.getElementById('btn-check-' + qNum);
+  if (btn) btn.style.display = 'none';
+
+  if (q.type === "tn") {{
+    var corr = q.correct[0];
+    var user = userAnswers[qNum];
+    for (var i = 0; i < 4; i++) {{
+      var el = document.getElementById('opt-' + qNum + '-' + i);
+      if (!el) continue;
+      el.classList.add('disabled');
+      if (i === corr) el.classList.add('show-correct');
+      else if (i === user && user !== corr) el.classList.add('show-wrong');
+    }}
+  }} else if (q.type === "ds") {{
+    var userObj = userAnswers[qNum] || {{}};
+    q.options.forEach((opt, idx) => {{
+      var isTrue = q.correct.includes(idx);
+      var uVal = userObj[idx];
+      var itemEl = document.getElementById('ds-item-' + qNum + '-' + idx);
+      if (uVal === isTrue) {{
+        if (itemEl) itemEl.style.borderColor = "var(--green)";
+      }} else {{
+        if (itemEl) itemEl.style.borderColor = "var(--red)";
+      }}
+    }});
+  }} else if (q.type === "tln") {{
+    var inputEl = document.getElementById('tln-' + qNum);
+    var uAns = (userAnswers[qNum] || "").replace(',', '.');
+    var cAns = (q.answer || "").replace(',', '.');
+    if (inputEl) {{
+      inputEl.disabled = true;
+      if (uAns && (uAns === cAns || Math.abs(parseFloat(uAns) - parseFloat(cAns)) < 1e-4)) {{
+        inputEl.classList.add('correct-ans');
+      }} else {{
+        inputEl.classList.add('wrong-ans');
+        inputEl.value = (userAnswers[qNum] || "") + " (Đ/A đúng: " + q.answer + ")";
+      }}
+    }}
+  }}
 }}
 
 function submitExam() {{

@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-09-18T03:45:01.027Z",
+  "generated_at": "2026-09-29T05:40:41.234Z",
   "counts": {
-    "total": 547,
-    "cd": 120,
-    "vdc": 147,
+    "total": 550,
+    "cd": 123,
+    "vdc": 150,
     "lesson_plan": 126,
     "beamer": 301
   },
@@ -1806,6 +1806,26 @@
       "base_id": "CD-Tang-Giam-LienTuc"
     },
     {
+      "id": "CD-Tap-Hop-So-Do-Venn",
+      "kind": "cd",
+      "title": "Tap Hop So Do Venn",
+      "grade": 12,
+      "cluster": "Chuyên đề tổng hợp",
+      "status": "ready",
+      "difficulty": "VDC",
+      "tags": [
+        "Chuyên đề tổng hợp",
+        "Khối 12",
+        "VDC",
+        "Chuyên đề"
+      ],
+      "source_typ": "typst/exams/CD-Tap-Hop-So-Do-Venn.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Tap-Hop-So-Do-Venn.typ",
+      "pdf": "typst/exams/CD-Tap-Hop-So-Do-Venn.pdf",
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-Tap-Hop-So-Do-Venn.pdf",
+      "base_id": "CD-Tap-Hop-So-Do-Venn"
+    },
+    {
       "id": "CD-Thiet-Dien-Parabol-Hinh-Non",
       "kind": "cd",
       "title": "Thiet Dien Parabol Hinh Non",
@@ -2039,6 +2059,27 @@
       "base_id": "CD-ToanTaiChinh-VayTraGop"
     },
     {
+      "id": "CD-ToiUu-2026",
+      "kind": "cd",
+      "title": "ToiUu 2026",
+      "grade": 12,
+      "cluster": "Chuyên đề tổng hợp",
+      "status": "ready",
+      "difficulty": "VDC",
+      "tags": [
+        "Chuyên đề tổng hợp",
+        "Khối 12",
+        "VDC",
+        "Chuyên đề",
+        "đạo hàm"
+      ],
+      "source_typ": "typst/exams/CD-ToiUu-2026.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-ToiUu-2026.typ",
+      "pdf": "typst/exams/CD-ToiUu-2026.pdf",
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-ToiUu-2026.pdf",
+      "base_id": "CD-ToiUu-2026"
+    },
+    {
       "id": "CD-ToiUu-KinhTe-DaDieuKien-DeLuyen",
       "kind": "cd",
       "title": "ToiUu KinhTe DaDieuKien DeLuyen",
@@ -2161,6 +2202,26 @@
       "pdf": "typst/exams/CD-Treo-Vật.pdf",
       "pdf_url": "atlas-pdfs/chuyen-de/CD-Treo-V%E1%BA%ADt.pdf",
       "base_id": "CD-Treo-Vật"
+    },
+    {
+      "id": "CD-Tu-Duy-3-An",
+      "kind": "cd",
+      "title": "Tu Duy 3 An",
+      "grade": 12,
+      "cluster": "Chuyên đề tổng hợp",
+      "status": "ready",
+      "difficulty": "VDC",
+      "tags": [
+        "Chuyên đề tổng hợp",
+        "Khối 12",
+        "VDC",
+        "Chuyên đề"
+      ],
+      "source_typ": "typst/exams/CD-Tu-Duy-3-An.typ",
+      "source_url": "https://github.com/sangnhc87/conictypst/blob/main/typst/exams/CD-Tu-Duy-3-An.typ",
+      "pdf": "typst/exams/CD-Tu-Duy-3-An.pdf",
+      "pdf_url": "atlas-pdfs/chuyen-de/CD-Tu-Duy-3-An.pdf",
+      "base_id": "CD-Tu-Duy-3-An"
     },
     {
       "id": "CD-Vecto-ThucTe",

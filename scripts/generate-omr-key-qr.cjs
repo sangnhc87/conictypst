@@ -116,5 +116,7 @@ const output = `// Tự sinh bởi scripts/generate-omr-key-qr.cjs. Không sửa
 `;
 const outputPath = path.join(path.dirname(sourcePath), `${path.basename(sourcePath, '.typ')}-omr-key.typ`);
 fs.writeFileSync(outputPath, output);
+const jsonOutputPath = path.join(path.dirname(sourcePath), `${path.basename(sourcePath, '.typ')}-dap-an.json`);
+fs.writeFileSync(jsonOutputPath, JSON.stringify(payload));
 console.log(`QR key ${made}: ${Object.keys(key.mcq).length} TN, ${Object.keys(key.tf).length} DS, ${Object.keys(key.tln).length} TLN`);
 console.log(outputPath);

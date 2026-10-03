@@ -1,0 +1,58 @@
+{
+  "lesson_id": "toan10-he-bpt-bac-nhat-hai-an-v1",
+  "title": "Hệ bất phương trình bậc nhất hai ẩn",
+  "sections": {
+    "01": {
+      "title": "Tiết 1 · Mô hình và nghiệm của hệ",
+      "file": "sections/01-mo-hinh-va-nghiem.typ",
+      "minutes": 45,
+      "questions": [
+        {"id":"01-1","level":"Nhận biết","type":"single","prompt":"Cặp (2;1) có là nghiệm của hệ x ≥ 0, y ≥ 0, x + y ≤ 3 không?","options":["Có, vì cả ba điều kiện đều đúng","Không, vì x + y = 3","Không, vì x phải lớn hơn 2","Không thể kết luận"],"answer":0,"hint":"Thay x = 2, y = 1 vào từng bất phương trình.","explanation":"2 ≥ 0, 1 ≥ 0 và 2 + 1 = 3 ≤ 3. Điểm trên bờ vẫn thuộc miền khi có dấu ≤."},
+        {"id":"01-2","level":"Thông hiểu","type":"multi","prompt":"Những điểm nào thỏa đồng thời x ≥ 0, y ≥ 0, x + y ≤ 4? Chọn tất cả.","options":["(1;2)","(4;1)","(−1;2)","(0;4)"],"answer":[0,3],"hint":"Kiểm tra cả tính không âm lẫn tổng hai tọa độ.","explanation":"(1;2) và (0;4) thỏa cả ba điều kiện; (4;1) có tổng 5; (−1;2) có x âm."},
+        {"id":"01-3","level":"Nhận biết","type":"number","prompt":"Tính giá trị 2x + y − 8 tại (x;y) = (3;2).","answer":0,"tolerance":0,"hint":"Thay x = 3 và y = 2.","explanation":"2·3 + 2 − 8 = 0, vì vậy (3;2) nằm trên đường thẳng 2x + y = 8."},
+        {"id":"01-4","level":"Vận dụng","type":"feasible_point","prompt":"Nhập một nghiệm bất kỳ của hệ x + y ≤ 3, x − y ≥ 1, y ≥ 0.","answer":{"integer":false,"constraints":[{"a":1,"b":1,"c":3,"op":"≤","label":"x + y ≤ 3"},{"a":-1,"b":1,"c":-1,"op":"≤","label":"x − y ≥ 1"},{"a":0,"b":-1,"c":0,"op":"≤","label":"y ≥ 0"}]},"sample":"(2;1)","hint":"Điểm (2;1) là một gợi ý; thử thay vào từng điều kiện.","explanation":"Ví dụ (2;1) cho 2 + 1 = 3, 2 − 1 = 1 và 1 ≥ 0. Bài này chấp nhận mọi cặp hợp lệ."},
+        {"id":"01-5","level":"Thông hiểu","type":"single","prompt":"Với bất phương trình x + y < 4, điểm (1;3) thuộc miền nghiệm không?","options":["Có, vì nằm trên đường bờ","Không, vì 1 + 3 = 4 không nhỏ hơn 4","Có, vì hai tọa độ đều dương","Không, vì x khác y"],"answer":1,"hint":"Phân biệt < với ≤.","explanation":"Dấu < loại toàn bộ đường bờ x + y = 4."},
+        {"id":"01-6","level":"Vận dụng","type":"single","prompt":"Mỗi bàn cần 2 m² gỗ, mỗi ghế cần 1 m². Có tối đa 8 m² gỗ. Nếu x là số bàn và y là số ghế, điều kiện gỗ là gì?","options":["2x + y ≤ 8","x + 2y ≤ 8","2x + y ≥ 8","xy ≤ 8"],"answer":0,"hint":"Nhân số sản phẩm với lượng gỗ của từng loại rồi cộng.","explanation":"Tổng gỗ tiêu thụ là 2x + y và không được vượt quá 8 m²."}
+      ]
+    },
+    "02": {
+      "title": "Tiết 2 · Biểu diễn miền nghiệm",
+      "file": "sections/02-bieu-dien-mien-nghiem.typ",
+      "minutes": 45,
+      "questions": [
+        {"id":"02-1","level":"Nhận biết","type":"single","prompt":"Đường bờ x + y = 4 được vẽ thế nào khi biểu diễn x + y < 4?","options":["Nét đứt vì đường bờ bị loại","Nét liền vì đường bờ được lấy","Không cần vẽ","Chỉ vẽ một điểm"],"answer":0,"hint":"Dấu < có lấy trường hợp bằng không?","explanation":"Nét đứt biểu thị các điểm trên bờ không thuộc miền nghiệm."},
+        {"id":"02-2","level":"Thông hiểu","type":"multi","prompt":"Miền S: x ≥ 0, y ≥ 0, 2x + y ≤ 8, x + 2y ≤ 10 có những đỉnh nào? Chọn tất cả.","options":["(0;0)","(4;0)","(2;4)","(0;5)","(5;0)"],"answer":[0,1,2,3],"hint":"Tìm giao hai bờ xiên, rồi xét giao với hai trục.","explanation":"Các đỉnh theo thứ tự quanh miền là (0;0), (4;0), (2;4), (0;5). Điểm (5;0) vi phạm 2x + y ≤ 8."},
+        {"id":"02-3","level":"Vận dụng","type":"feasible_point","prompt":"Nhập một điểm trong miền x ≥ 1, y > 0, x + y < 4. Các bờ có dấu > hoặc < không được chọn.","answer":{"integer":false,"constraints":[{"a":-1,"b":0,"c":-1,"op":"≤","label":"x ≥ 1"},{"a":0,"b":-1,"c":0,"op":"<","label":"y > 0"},{"a":1,"b":1,"c":4,"op":"<","label":"x + y < 4"}]},"sample":"(1;1)","hint":"Thử (1;1); so sánh tổng với 4.","explanation":"(1;1) thỏa x ≥ 1, y > 0 và x + y = 2 < 4. Mọi điểm thỏa đủ ba điều kiện đều được nhận."},
+        {"id":"02-4","level":"Thông hiểu","type":"single","prompt":"Hệ x + y ≤ 1 và x + y ≥ 3 có miền nghiệm nào?","options":["Miền rỗng","Một đoạn thẳng","Một tam giác","Cả mặt phẳng"],"answer":0,"hint":"Một tổng có thể vừa không quá 1 vừa ít nhất 3 không?","explanation":"Không tồn tại cặp (x;y) nào thỏa hai điều kiện mâu thuẫn, nên giao hai nửa mặt phẳng rỗng."},
+        {"id":"02-5","level":"Nhận biết","type":"number","prompt":"Đường thẳng x + 2y = 10 cắt trục Oy tại tung độ bằng bao nhiêu?","answer":5,"tolerance":0,"hint":"Trên trục Oy thì x = 0.","explanation":"Thay x = 0 được 2y = 10, do đó y = 5."},
+        {"id":"02-6","level":"Vận dụng","type":"single","prompt":"Miền x ≥ 0, y ≥ 0, x + y ≥ 2 thuộc loại nào?","options":["Không bị chặn","Bị chặn bởi một tam giác","Rỗng","Chỉ có đúng hai điểm"],"answer":0,"hint":"Thử các điểm (t;0) với t tăng mãi.","explanation":"Với mọi t ≥ 2, điểm (t;0) đều thuộc miền. Miền kéo dài vô hạn về phía trục Ox dương."}
+      ]
+    },
+    "03": {
+      "title": "Tiết 3 · Đỉnh miền nghiệm và tối ưu tuyến tính",
+      "file": "sections/03-dinh-va-toi-uu.typ",
+      "minutes": 45,
+      "questions": [
+        {"id":"03-1","level":"Thông hiểu","type":"number","prompt":"Trên miền S của tiết 2, giá trị lớn nhất của P = 3x + 2y là bao nhiêu?","answer":14,"tolerance":0,"hint":"Tính P tại bốn đỉnh (0;0), (4;0), (2;4), (0;5).","explanation":"Các giá trị lần lượt là 0, 12, 14, 10. Giá trị lớn nhất bằng 14 tại (2;4)."},
+        {"id":"03-2","level":"Vận dụng","type":"point_exact","prompt":"Nhập tọa độ đỉnh đạt cực đại của P = 3x + 2y trên miền S.","answer":[2,4],"tolerance":0,"hint":"Giải giao của 2x + y = 8 và x + 2y = 10.","explanation":"Giải hệ hai phương trình bờ được x = 2, y = 4. Khi đó P = 14."},
+        {"id":"03-3","level":"Thông hiểu","type":"multi","prompt":"Trên miền x ≥ 0, y ≥ 0, x + y ≤ 4, những điểm nào cũng làm x + y lớn nhất?","options":["(4;0)","(0;4)","(2;2)","(1;1)"],"answer":[0,1,2],"hint":"Giá trị lớn nhất là 4; mọi điểm trên đoạn x + y = 4 đều đạt.","explanation":"Ba điểm đầu đều thuộc đoạn bờ x + y = 4; (1;1) cho giá trị 2."},
+        {"id":"03-4","level":"Vận dụng","type":"number","prompt":"Trên miền x ≥ 0, y ≥ 0, x + y ≥ 2, giá trị nhỏ nhất của x + y là bao nhiêu?","answer":2,"tolerance":0,"hint":"Dấu ≥ cho phép lấy đường bờ x + y = 2.","explanation":"Mọi điểm trên đoạn nối (2;0) và (0;2) đều đạt giá trị nhỏ nhất 2."},
+        {"id":"03-5","level":"Nâng cao","type":"single","prompt":"Mệnh đề nào đúng về việc tìm giá trị lớn nhất của hàm tuyến tính trên miền không bị chặn?","options":["Phải kiểm tra thêm; hàm có thể không có giá trị lớn nhất","Luôn chỉ cần xét các đỉnh","Luôn có giá trị lớn nhất tại gốc O","Miền không bị chặn luôn rỗng"],"answer":0,"hint":"Xét P = x trên miền x ≥ 0, y ≥ 0.","explanation":"Miền không bị chặn có thể làm hàm tăng vô hạn, nhưng cũng có thể vẫn có cực trị theo một hướng khác. Quy tắc xét đỉnh cần nêu giả thiết phù hợp."},
+        {"id":"03-6","level":"Nâng cao","type":"number","prompt":"Nếu lợi nhuận là 300 nghìn đồng mỗi bàn và 200 nghìn đồng mỗi ghế, tại phương án (2;4) lợi nhuận là bao nhiêu nghìn đồng?","answer":1400,"tolerance":0,"hint":"Tính 300·2 + 200·4.","explanation":"600 + 800 = 1400 nghìn đồng, tức 1,4 triệu đồng."}
+      ]
+    },
+    "04": {
+      "title": "Tiết 4 · Mô hình hóa và vận dụng",
+      "file": "sections/04-mo-hinh-va-van-dung.typ",
+      "minutes": 45,
+      "questions": [
+        {"id":"04-1","level":"Nhận biết","type":"single","prompt":"Xưởng làm bàn x và ghế y; mỗi bàn dùng 2 m² gỗ, mỗi ghế 1 m², kho có nhiều nhất 8 m². Bất phương trình nào đúng?","options":["2x + y ≤ 8","x + 2y ≤ 8","2x + y = 8","2x + y ≥ 8"],"answer":0,"hint":"“Nhiều nhất” tương ứng với dấu nào?","explanation":"Tổng lượng gỗ dùng là 2x + y và có thể ít hơn 8, nên viết ≤ 8."},
+        {"id":"04-2","level":"Thông hiểu","type":"multi","prompt":"Xưởng còn có 10 giờ công: bàn cần 1 giờ, ghế cần 2 giờ. Chọn tất cả điều kiện của mô hình.","options":["x ≥ 0 và y ≥ 0","2x + y ≤ 8","x + 2y ≤ 10","xy ≤ 10"],"answer":[0,1,2],"hint":"Mỗi nguồn lực tạo một bất phương trình cộng; số lượng sản phẩm không âm.","explanation":"Điều kiện đủ là x, y không âm, gỗ 2x + y ≤ 8 và giờ công x + 2y ≤ 10. Tích xy không biểu diễn nguồn lực nào."},
+        {"id":"04-3","level":"Vận dụng","type":"feasible_point","prompt":"Nhập một phương án sản xuất nguyên chiếc (x bàn; y ghế) thỏa cả điều kiện gỗ và giờ công.","answer":{"integer":true,"constraints":[{"a":-1,"b":0,"c":0,"op":"≤","label":"x ≥ 0"},{"a":0,"b":-1,"c":0,"op":"≤","label":"y ≥ 0"},{"a":2,"b":1,"c":8,"op":"≤","label":"2x + y ≤ 8"},{"a":1,"b":2,"c":10,"op":"≤","label":"x + 2y ≤ 10"}]},"sample":"(2;4)","hint":"Thử (2;4): gỗ 2·2 + 4, giờ công 2 + 2·4.","explanation":"(2;4) dùng đúng 8 m² gỗ và 10 giờ công. Hệ thống chấp nhận mọi cặp số nguyên không âm thỏa cả bốn điều kiện."},
+        {"id":"04-4","level":"Vận dụng","type":"number","prompt":"Nếu làm 3 bàn và 1 ghế, tổng gỗ tiêu thụ là bao nhiêu m²?","answer":7,"tolerance":0,"hint":"Tính 2·3 + 1.","explanation":"Ba bàn dùng 6 m², một ghế dùng 1 m²; tổng cộng 7 m²."},
+        {"id":"04-5","level":"Thông hiểu","type":"single","prompt":"Vì sao cần xét tính nguyên của (x;y) trong bài toán sản xuất bàn ghế?","options":["Vì không thể sản xuất một phần lẻ của một chiếc bàn hoặc ghế hoàn chỉnh","Vì mọi hệ bất phương trình đều chỉ có nghiệm nguyên","Vì đồ thị không thể hiện điểm có tọa độ thực","Vì lợi nhuận luôn là số nguyên"],"answer":0,"hint":"Hãy nghĩ đến đơn vị “chiếc”.","explanation":"Miền nghiệm liên tục chứa cả tọa độ thực; bài toán số lượng sản phẩm hoàn chỉnh chỉ chấp nhận các điểm lưới nguyên."},
+        {"id":"04-6","level":"Nâng cao","type":"multi","prompt":"Khi lập mô hình từ một tình huống thực tế, cần kiểm tra những việc nào? Chọn tất cả.","options":["Đơn vị và ý nghĩa của mỗi biến","Hướng dấu ≤, ≥ theo ngôn ngữ đề","Điều kiện không âm và nguyên nếu cần","Bỏ các ràng buộc vì đồ thị đã đủ"],"answer":[0,1,2],"hint":"Một mô hình đúng cần biến, ràng buộc và miền giá trị phù hợp.","explanation":"Phải xác định biến cùng đơn vị, diễn dịch đúng giới hạn và bổ sung điều kiện miền giá trị. Không được tự ý bỏ ràng buộc."}
+      ]
+    }
+  }
+}

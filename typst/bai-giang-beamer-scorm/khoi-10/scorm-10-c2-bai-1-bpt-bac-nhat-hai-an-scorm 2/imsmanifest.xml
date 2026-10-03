@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest identifier="MANIFEST-BG-scorm-10-c2-bai-1-bpt-bac-nhat-hai-an" version="1.2"
+  xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2"
+  xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.imsproject.org/xsd/imscp_rootv1p1p2 imscp_rootv1p1p2.xsd
+    http://www.adlnet.org/xsd/adlcp_rootv1p2 adlcp_rootv1p2.xsd">
+  <metadata><schema>ADL SCORM</schema><schemaversion>1.2</schemaversion></metadata>
+  <organizations default="org1">
+    <organization identifier="org1">
+      <title>scorm-10-c2-bai-1-bpt-bac-nhat-hai-an</title>
+      <item identifier="item1" identifierref="res1"><title>scorm-10-c2-bai-1-bpt-bac-nhat-hai-an</title></item>
+    </organization>
+  </organizations>
+  <resources>
+    <resource identifier="res1" type="webcontent" adlcp:scormtype="sco" href="index.html">
+      <file href="index.html"/>
+      <file href="slide-1.png"/>
+      <file href="slide-2.png"/>
+      <file href="slide-3.png"/>
+      <file href="slide-4.png"/>
+      <file href="slide-5.png"/>
+      <file href="slide-6.png"/>
+      <file href="slide-7.png"/>
+      <file href="slide-8.png"/>
+      <file href="slide-9.png"/>
+      <file href="slide-10.png"/>
+      <file href="slide-11.png"/>
+      <file href="slide-12.png"/>
+      <file href="slide-13.png"/>
+      <file href="slide-14.png"/>
+      <file href="slide-15.png"/>
+      <file href="slide-16.png"/>
+      <file href="slide-17.png"/>
+      <file href="slide-18.png"/>
+      <file href="slide-19.png"/>
+      <file href="slide-20.png"/>
+      <file href="slide-21.png"/>
+      <file href="slide-22.png"/>
+      <file href="slide-23.png"/>
+      <file href="slide-24.png"/>
+      <file href="slide-25.png"/>
+      <file href="slide-26.png"/>
+      <file href="slide-27.png"/>
+      <file href="slide-28.png"/>
+      <file href="slide-29.png"/>
+      <file href="slide-30.png"/>
+      <file href="slide-31.png"/>
+      <file href="slide-32.png"/>
+      <file href="slide-33.png"/>
+      <file href="slide-34.png"/>
+      <file href="slide-35.png"/>
+      <file href="slide-36.png"/>
+      <file href="slide-37.png"/>
+      <file href="slide-38.png"/>
+      <file href="slide-39.png"/>
+      <file href="slide-40.png"/>
+      <file href="slide-41.png"/>
+      <file href="slide-42.png"/>
+      <file href="slide-43.png"/>
+      <file href="slide-44.png"/>
+      <file href="slide-45.png"/>
+      <file href="slide-46.png"/>
+      <file href="slide-47.png"/>
+      <file href="slide-48.png"/>
+      <file href="slide-49.png"/>
+      <file href="slide-50.png"/>
+      <file href="slide-51.png"/>
+      <file href="slide-52.png"/>
+      <file href="slide-53.png"/>
+      <file href="slide-54.png"/>
+      <file href="slide-55.png"/>
+      <file href="slide-56.png"/>
+      <file href="slide-57.png"/>
+      <file href="slide-58.png"/>
+      <file href="slide-59.png"/>
+      <file href="slide-60.png"/>
+      <file href="slide-61.png"/>
+      <file href="slide-62.png"/>
+      <file href="slide-63.png"/>
+      <file href="slide-64.png"/>
+      <file href="slide-65.png"/>
+      <file href="slide-66.png"/>
+      <file href="slide-67.png"/>
+      <file href="slide-68.png"/>
+      <file href="slide-69.png"/>
+      <file href="slide-70.png"/>
+      <file href="slide-71.png"/>
+      <file href="slide-72.png"/>
+      <file href="slide-73.png"/>
+      <file href="slide-74.png"/>
+      <file href="slide-75.png"/>
+      <file href="slide-76.png"/>
+      <file href="slide-77.png"/>
+      <file href="slide-78.png"/>
+      <file href="slide-79.png"/>
+      <file href="slide-80.png"/>
+      <file href="slide-81.png"/>
+      <file href="slide-82.png"/>
+      <file href="slide-83.png"/>
+      <file href="slide-84.png"/>
+      <file href="slide-85.png"/>
+      <file href="slide-86.png"/>
+      <file href="slide-87.png"/>
+      <file href="slide-88.png"/>
+    </resource>
+  </resources>
+</manifest>

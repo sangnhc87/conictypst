@@ -520,6 +520,9 @@
               <p class="section-desc">Đầy đủ các cột ĐGTX, Điểm Chuyên cần/Thái độ, Giữa kỳ (x2), Cuối kỳ (x3), Tự tính ĐTB môn & Xếp loại</p>
             </div>
             <div class="card-top-actions teacher-only">
+              <button id="btn-export-class-omr" class="btn-sub-action" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; border: none; font-weight: 700;">
+                <span>📤</span> Đẩy sang Math OMR
+              </button>
               <button id="btn-import-omr-scores" class="btn-sub-action" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; font-weight: 700;">
                 <span>📥</span> Nhập điểm Sang Math OMR
               </button>
@@ -2128,7 +2131,7 @@ Trần Thị Bích	1	1002
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
   <script src="khbd-data.js"></script>
-  <script src="conic-classroom.js"></script>
+  <script src="conic-classroom.js?v=4-omr-auto-roster"></script>
 
   <!-- Modal Sổ Lịch Sử Các Nhiệm Vụ Học Tập -->
   <div id="modal-missions-history" class="modal-overlay">

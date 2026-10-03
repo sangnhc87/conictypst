@@ -70,6 +70,23 @@ test('workspace enforces teacher class and student limits', () => {
   assert.equal(normalized.studentCount, 2);
 });
 
+test('workspace retains answer-key revisions but drops history older than one year', () => {
+  const now = Date.now();
+  const normalized = __test.normalizeWorkspace({
+    students: [],
+    answerKeys: { '2468': { mcq: { 1: 'A' }, tf: {}, tln: {} } },
+    answerKeyUpdatedAt: { '2468': now, 'bad.code': now },
+    answerKeyHistory: [
+      { id: 'recent', code: '2468', source: 'QR', archivedAt: now - 1000, key: { mcq: { 1: 'B' }, tf: {}, tln: {} } },
+      { id: 'old', code: '2468', archivedAt: now - 366 * 24 * 60 * 60 * 1000, key: { mcq: { 1: 'C' } } },
+    ],
+  }, { maxClasses: 10, maxStudents: 500 });
+  assert.equal(normalized.output.answerKeyUpdatedAt['2468'], now);
+  assert.equal(normalized.output.answerKeyUpdatedAt['bad.code'], undefined);
+  assert.deepEqual(normalized.output.answerKeyHistory.map(item => item.id), ['recent']);
+  assert.equal(normalized.output.answerKeyHistory[0].key.mcq['1'], 'B');
+});
+
 test('new membership fields retain every legacy client alias', () => {
   const expiry = new Date('2027-07-14T00:00:00.000Z');
   const view = __test.tenantView('teacher-uid', {

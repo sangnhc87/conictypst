@@ -1,6 +1,6 @@
 #import "@preview/sang-math:1.0.6": *
 
-#let mode = "dethi"
+#let mode = "loigiai"
 #let accent = rgb("0f766e")
 #let ma-de = "1235" // Mã đề OMR: luôn dùng đúng 4 chữ số.
 #let in-qr-dap-an = true // Đổi thành true khi xuất bản giáo viên để quét key OMR.

@@ -19,17 +19,16 @@ window.OmrEngine = {
 
     let contours = new cv.MatVector();
     let hierarchy = new cv.Mat();
-    // Camera frames include the paper edge and background. RETR_EXTERNAL can
-    // treat that edge as one enclosing contour and hide all four markers.
-    // Keep the proven desktop/upload path unchanged and relax only live camera.
-    const retrievalMode = cameraMode ? cv.RETR_LIST : cv.RETR_EXTERNAL;
+    // A scanned test paper can contain the OMR form as an inset rectangle.
+    // RETR_EXTERNAL then returns only the enclosing page edge and suppresses
+    // the four black OMR markers. RETR_LIST preserves contours at every level
+    // for both file uploads and the live camera.
+    const retrievalMode = cv.RETR_LIST;
     cv.findContours(threshMarker, contours, hierarchy, retrievalMode, cv.CHAIN_APPROX_SIMPLE);
 
     let candidates = [];
     const imageArea = src.cols * src.rows;
-    const minArea = cameraMode
-      ? Math.max(12, imageArea * 0.000015)
-      : Math.max(35, imageArea * 0.00008);
+    const minArea = Math.max(12, imageArea * 0.000015);
     const maxArea = imageArea * 0.04;
     const collectCandidates = contourVector => {
       for (let i = 0; i < contourVector.size(); ++i) {
@@ -66,7 +65,7 @@ window.OmrEngine = {
       darkHierarchy.delete();
     }
 
-    if (cameraMode && candidates.length > 1) {
+    if (candidates.length > 1) {
       // RETR_LIST can return the inner and outer edge of the same printed
       // square. Keep the larger contour so a duplicate cannot become two
       // different corners during the extrema sort below.
@@ -93,20 +92,6 @@ window.OmrEngine = {
         const byDiff = [...pool].sort((a, b) => (a.cx - a.cy) - (b.cx - b.cy));
         return [bySum[0], byDiff[byDiff.length - 1], byDiff[0], bySum[bySum.length - 1]];
       };
-
-      if (!cameraMode) {
-        // Preserve the proven upload/desktop path exactly: use the four
-        // outermost candidates and require the sheet to fill the image.
-        const [tlCandidate, trCandidate, blCandidate, brCandidate] = extremaQuad(candidates);
-        const tl = [tlCandidate.cx, tlCandidate.cy];
-        const tr = [trCandidate.cx, trCandidate.cy];
-        const bl = [blCandidate.cx, blCandidate.cy];
-        const br = [brCandidate.cx, brCandidate.cy];
-        const spanW = (Math.hypot(tr[0] - tl[0], tr[1] - tl[1]) + Math.hypot(br[0] - bl[0], br[1] - bl[1])) / 2;
-        const spanH = (Math.hypot(bl[0] - tl[0], bl[1] - tl[1]) + Math.hypot(br[0] - tr[0], br[1] - tr[1])) / 2;
-        if (spanW >= src.cols * 0.35 && spanH >= src.rows * 0.35) return { tl, tr, bl, br };
-        return null;
-      }
 
       const expectedAspect = Number(options.expectedAspect);
       const evaluateCameraQuad = (tlCandidate, trCandidate, blCandidate, brCandidate) => {
@@ -144,15 +129,23 @@ window.OmrEngine = {
         const areaConsistency = Math.min(...cornerAreas) / Math.max(...cornerAreas);
         const quadAspect = spanW / Math.max(1, spanH);
         const aspectRatioDelta = expectedAspect > 0 ? quadAspect / expectedAspect : 1;
-        const expectedAspectOk = !(expectedAspect > 0) || (aspectRatioDelta >= 0.5 && aspectRatioDelta <= 2);
+        // The four markers must retain the template's orientation.  A portrait
+        // A4 page around an embedded landscape OMR sheet has a ratio near 0.5
+        // and is a common false quadrilateral in batch scans.  Allow ample
+        // perspective distortion, but reject that enclosing page rectangle.
+        const expectedAspectOk = !(expectedAspect > 0) || (aspectRatioDelta >= 0.75 && aspectRatioDelta <= 1.45);
         const horizontalBalance = Math.min(topW, bottomW) / Math.max(topW, bottomW);
         const verticalBalance = Math.min(leftH, rightH) / Math.max(leftH, rightH);
 
         const geometryOk = isConvex && expectedAspectOk &&
-          spanW >= src.cols * 0.18 && spanH >= src.rows * 0.18 &&
-          Math.min(topW, bottomW) >= src.cols * 0.14 &&
-          Math.min(leftH, rightH) >= src.rows * 0.14 &&
-          quadArea >= imageArea * 0.07 && areaConsistency >= 0.22 &&
+          spanW >= src.cols * 0.12 && spanH >= src.rows * 0.08 &&
+          Math.min(topW, bottomW) >= src.cols * 0.10 &&
+          Math.min(leftH, rightH) >= src.rows * 0.06 &&
+          quadArea >= imageArea * 0.035 && areaConsistency >= 0.22 &&
+          Math.abs(tr[1] - tl[1]) <= spanH * 0.32 &&
+          Math.abs(br[1] - bl[1]) <= spanH * 0.32 &&
+          Math.abs(bl[0] - tl[0]) <= spanW * 0.32 &&
+          Math.abs(br[0] - tr[0]) <= spanW * 0.32 &&
           horizontalBalance >= 0.42 && verticalBalance >= 0.42;
         if (!geometryOk) return null;
 
@@ -162,16 +155,52 @@ window.OmrEngine = {
         return { markers: { tl, tr, bl, br }, score };
       };
 
+      const findBestSimilarAreaQuad = pool => {
+        // When a full test sheet encloses an OMR form, the form's four solid
+        // corner markers are normally the largest same-size squares.  Find
+        // this compact candidate set first, before page-edge artifacts can
+        // win an extrema-based selection.
+        const edgeMarginX = src.cols * 0.04;
+        const edgeMarginY = src.rows * 0.04;
+        const innerPool = pool.filter(c =>
+          c.cx > edgeMarginX && c.cx < src.cols - edgeMarginX &&
+          c.cy > edgeMarginY && c.cy < src.rows - edgeMarginY
+        );
+        // 12 choose 4 is only 495 candidates per page. This is enough to
+        // retain the four large corner squares while keeping batch grading
+        // responsive even when a scan contains hundreds of answer bubbles.
+        const areaPool = [...innerPool].sort((a, b) => b.area - a.area).slice(0, 12);
+        const n = areaPool.length;
+        let best = null;
+        for (let i0 = 0; i0 < n - 3; i0++) {
+          for (let i1 = i0 + 1; i1 < n - 2; i1++) {
+            for (let i2 = i1 + 1; i2 < n - 1; i2++) {
+              for (let i3 = i2 + 1; i3 < n; i3++) {
+                const set = [areaPool[i0], areaPool[i1], areaPool[i2], areaPool[i3]];
+                const areas = set.map(c => c.area);
+                const minA = Math.min(...areas), maxA = Math.max(...areas);
+                if (maxA > minA * 2.5) continue;
+                const result = evaluateCameraQuad(...extremaQuad(set));
+                if (result && (!best || result.score > best.score)) best = result;
+              }
+            }
+          }
+        }
+        return best;
+      };
+
       const findBestCameraQuad = pool => {
         if (pool.length < 4) return null;
-        // The normal case is still the four true outermost markers. Accept it
-        // immediately when its geometry and marker sizes are coherent; the
-        // combinatorial fallback is only for a distracting object/background.
+        const similarAreaQuad = findBestSimilarAreaQuad(pool);
+        if (similarAreaQuad) return similarAreaQuad;
+
+        // Fast path for a crop that contains only the OMR form.
         const outermost = evaluateCameraQuad(...extremaQuad(pool));
         if (outermost) return outermost;
-        // A background object can be more extreme than a printed corner. Keep
-        // a small directional pool for each corner, then score combinations by
-        // sheet geometry and by the similar printed-marker areas.
+
+        // Directional fallback: useful when a background object is more
+        // extreme than one printed corner. Keep this small: it has O(n^4)
+        // cost and must never freeze a 43-page batch.
         const limit = Math.min(10, pool.length);
         const tlPool = [...pool].sort((a, b) => (a.cx + a.cy) - (b.cx + b.cy)).slice(0, limit);
         const brPool = [...pool].sort((a, b) => (b.cx + b.cy) - (a.cx + a.cy)).slice(0, limit);
@@ -188,7 +217,9 @@ window.OmrEngine = {
             }
           }
         }
-        return best;
+        if (best) return best;
+
+        return null;
       };
 
       const region = options.region;
@@ -206,6 +237,177 @@ window.OmrEngine = {
       if (result) return result.markers;
     }
     return null;
+  },
+
+  // The full-page A4 sheet has four corner and four mid-edge fiducials.
+  // Match square contours near their expected page locations. If one or two
+  // corner squares are damaged, fit a homography from the surviving markers;
+  // reject a fit whose reprojection error is too large.
+  detectA4ScanMarkers(src, a3Cut = false) {
+    const ratio = src.cols / src.rows;
+    if (ratio < 0.57 || ratio > 0.86) return null;
+    const pageWidth = a3Cut ? 172 : 210;
+    const expected = a3Cut ? [
+      ['tl', 11, 10], ['tm', 88.5, 10], ['tr', 166, 10],
+      ['ml', 11, 148], ['mr', 166, 148],
+      ['bl', 11, 286], ['bm', 88.5, 286], ['br', 166, 286]
+    ] : [
+      ['tl', 10, 10], ['tm', 105, 10], ['tr', 200, 10],
+      ['ml', 10, 148.5], ['mr', 200, 148.5],
+      ['bl', 10, 287], ['bm', 105, 287], ['br', 200, 287]
+    ];
+    const gray = new cv.Mat();
+    const dark = new cv.Mat();
+    const contours = new cv.MatVector();
+    const hierarchy = new cv.Mat();
+    const candidates = [];
+    try {
+      cv.cvtColor(src, gray, cv.COLOR_RGBA2GRAY);
+      cv.threshold(gray, dark, 165, 255, cv.THRESH_BINARY_INV);
+      cv.findContours(dark, contours, hierarchy, cv.RETR_LIST, cv.CHAIN_APPROX_SIMPLE);
+      const expectedArea = (4 * src.cols / pageWidth) * (4 * src.rows / 297);
+      for (let i = 0; i < contours.size(); i++) {
+        const contour = contours.get(i);
+        try {
+          const area = cv.contourArea(contour);
+          if (area < expectedArea * 0.25 || area > expectedArea * 2.8) continue;
+          const rect = cv.boundingRect(contour);
+          const aspect = rect.width / Math.max(1, rect.height);
+          const solidity = area / Math.max(1, rect.width * rect.height);
+          if (aspect < 0.68 || aspect > 1.42 || solidity < 0.85) continue;
+          const m = cv.moments(contour);
+          if (m.m00 > 0) candidates.push({ x: m.m10 / m.m00, y: m.m01 / m.m00, area });
+        } finally {
+          contour.delete();
+        }
+      }
+    } finally {
+      gray.delete(); dark.delete(); contours.delete(); hierarchy.delete();
+    }
+    candidates.sort((a, b) => b.area - a.area);
+    const unique = [];
+    for (const candidate of candidates) {
+      if (!unique.some(other => Math.hypot(candidate.x - other.x, candidate.y - other.y) < 4)) {
+        unique.push(candidate);
+      }
+    }
+    const matched = [];
+    const used = new Set();
+    for (const [name, mmX, mmY] of expected) {
+      let best = null, bestIndex = -1, bestCost = Infinity;
+      for (let i = 0; i < unique.length; i++) {
+        if (used.has(i)) continue;
+        const candidate = unique[i];
+        const ux = candidate.x / src.cols, vy = candidate.y / src.rows;
+        if (name[0] === 't' && vy > 0.14) continue;
+        if (name[0] === 'b' && vy < 0.86) continue;
+        if (name === 'ml' && ux > 0.18) continue;
+        if (name === 'mr' && ux < 0.82) continue;
+        const dx = Math.abs(candidate.x / src.cols - mmX / pageWidth);
+        const dy = Math.abs(candidate.y / src.rows - mmY / 297);
+        if (dx > 0.15 || dy > 0.13) continue;
+        const cost = dx * dx + dy * dy;
+        if (cost < bestCost) { best = candidate; bestIndex = i; bestCost = cost; }
+      }
+      if (best) {
+        used.add(bestIndex);
+        matched.push({ name, x: mmX / pageWidth, y: mmY / 297,
+          u: best.x / src.cols, v: best.y / src.rows, px: best.x, py: best.y });
+      }
+    }
+    if (matched.length < 6) return null;
+
+    const solve = (matrix, vector) => {
+      const n = vector.length;
+      const a = matrix.map((row, i) => [...row, vector[i]]);
+      for (let col = 0; col < n; col++) {
+        let pivot = col;
+        for (let row = col + 1; row < n; row++) {
+          if (Math.abs(a[row][col]) > Math.abs(a[pivot][col])) pivot = row;
+        }
+        if (Math.abs(a[pivot][col]) < 1e-9) return null;
+        [a[col], a[pivot]] = [a[pivot], a[col]];
+        const divisor = a[col][col];
+        for (let k = col; k <= n; k++) a[col][k] /= divisor;
+        for (let row = 0; row < n; row++) {
+          if (row === col) continue;
+          const factor = a[row][col];
+          for (let k = col; k <= n; k++) a[row][k] -= factor * a[col][k];
+        }
+      }
+      return a.map(row => row[n]);
+    };
+    const fit = pairs => {
+      const ata = Array.from({ length: 8 }, () => Array(8).fill(0));
+      const atb = Array(8).fill(0);
+      for (const p of pairs) {
+        const rows = [
+          [[p.x, p.y, 1, 0, 0, 0, -p.u * p.x, -p.u * p.y], p.u],
+          [[0, 0, 0, p.x, p.y, 1, -p.v * p.x, -p.v * p.y], p.v]
+        ];
+        for (const [row, value] of rows) {
+          for (let i = 0; i < 8; i++) {
+            atb[i] += row[i] * value;
+            for (let j = 0; j < 8; j++) ata[i][j] += row[i] * row[j];
+          }
+        }
+      }
+      return solve(ata, atb);
+    };
+    const project = (h, x, y) => {
+      const denominator = h[6] * x + h[7] * y + 1;
+      if (Math.abs(denominator) < 0.01) return null;
+      return [(h[0] * x + h[1] * y + h[2]) / denominator,
+        (h[3] * x + h[4] * y + h[5]) / denominator];
+    };
+    let accepted = [];
+    let bestError = Infinity;
+    // A nearby QR finder can look like a missing corner. Fit all four-point
+    // hypotheses and keep the one supported by the most registration marks.
+    for (let a = 0; a < matched.length - 3; a++) {
+      for (let b = a + 1; b < matched.length - 2; b++) {
+        for (let c = b + 1; c < matched.length - 1; c++) {
+          for (let d = c + 1; d < matched.length; d++) {
+            const trial = fit([matched[a], matched[b], matched[c], matched[d]]);
+            if (!trial) continue;
+            const inliers = matched.filter(p => {
+              const projected = project(trial, p.x, p.y);
+              return projected && Math.hypot(projected[0] - p.u, projected[1] - p.v) < 0.018;
+            });
+            const error = inliers.reduce((sum, p) => {
+              const projected = project(trial, p.x, p.y);
+              return sum + Math.hypot(projected[0] - p.u, projected[1] - p.v);
+            }, 0);
+            if (inliers.length > accepted.length ||
+              (inliers.length === accepted.length && error < bestError)) {
+              accepted = inliers;
+              bestError = error;
+            }
+          }
+        }
+      }
+    }
+    if (accepted.length < 6) return null;
+    const h = fit(accepted);
+    if (!h) return null;
+    const corners = {};
+    for (const [name, mmX, mmY] of expected.filter(item => ['tl', 'tr', 'bl', 'br'].includes(item[0]))) {
+      const actual = accepted.find(p => p.name === name);
+      const projected = project(h, mmX / pageWidth, mmY / 297);
+      if (!projected) return null;
+      corners[name] = actual ? [actual.px, actual.py] :
+        [projected[0] * src.cols, projected[1] * src.rows];
+    }
+    const top = Math.hypot(corners.tr[0] - corners.tl[0], corners.tr[1] - corners.tl[1]);
+    const bottom = Math.hypot(corners.br[0] - corners.bl[0], corners.br[1] - corners.bl[1]);
+    const left = Math.hypot(corners.bl[0] - corners.tl[0], corners.bl[1] - corners.tl[1]);
+    const right = Math.hypot(corners.br[0] - corners.tr[0], corners.br[1] - corners.tr[1]);
+    if (Math.min(top, bottom) < src.cols * 0.55 ||
+      Math.min(left, right) < src.rows * 0.55 ||
+      Math.max(top, bottom) / Math.min(top, bottom) > 1.45 ||
+      Math.max(left, right) / Math.min(left, right) > 1.45) return null;
+    return { ...corners, markerCount: accepted.length,
+      recovered: ['tl', 'tr', 'bl', 'br'].some(name => !accepted.some(p => p.name === name)) };
   },
 
   /**
@@ -240,9 +442,9 @@ window.OmrEngine = {
       return Number.isFinite(parsed) ? Math.max(0.24, Math.min(0.46, parsed)) : fallback;
     };
     const cornerWidth = Math.max(32, Math.min(regionWidth,
-      Math.round(regionWidth * clampRatio(options.cornerWidthRatio, 0.36))));
+      Math.round(regionWidth * clampRatio(options.cornerWidthRatio, 0.46))));
     const cornerHeight = Math.max(32, Math.min(regionHeight,
-      Math.round(regionHeight * clampRatio(options.cornerHeightRatio, 0.36))));
+      Math.round(regionHeight * clampRatio(options.cornerHeightRatio, 0.46))));
 
     const cornerRects = {
       tl: new cv.Rect(regionX, regionY, cornerWidth, cornerHeight),
@@ -368,11 +570,11 @@ window.OmrEngine = {
                 if (!moments.m00) continue;
                 const cx = moments.m10 / moments.m00;
                 const cy = moments.m01 / moments.m00;
-                const distance = Math.hypot(cx - anchorX, cy - anchorY) / Math.max(1, roiDiagonal);
+                const distance = (Math.hypot(cx - anchorX, cy - anchorY) / Math.max(1, roiDiagonal)) * 0.3;
                 const shapePenalty = Math.abs(Math.log(aspect)) * 0.22 +
                   (1 - extent) * 0.18 + (1 - solidity) * 0.12 +
                   Math.abs(approx.rows - 4) * 0.025;
-                const sizeBonus = Math.min(0.10, Math.sqrt(area) / Math.max(1, Math.min(rect.width, rect.height)) * 2.4);
+                const sizeBonus = Math.min(0.30, Math.sqrt(area) / Math.max(1, Math.min(rect.width, rect.height)) * 2.4);
                 candidates.push({
                   cx: rect.x + cx,
                   cy: rect.y + cy,
@@ -538,7 +740,11 @@ window.OmrEngine = {
     const runnerUp = ranked[1]?.value || 0;
     const innerMax = inner[maxIdx] || 0;
     const innerRunnerUp = Math.max(0, ...inner.filter((_, index) => index !== maxIdx));
-    const strongCount = values.filter(value => value > filledThreshold).length;
+    // Printed rings can exceed the outer-ink threshold after PDF rasterising.
+    // Count competing marks from the centre ink instead, which preserves real
+    // double fills while avoiding false "multiple choice" warnings on blanks.
+    const strongInnerFloor = Math.max(64, innerMax * 0.80);
+    const strongCount = inner.filter(value => value >= strongInnerFloor).length;
 
     const outerDistinct =
       maxCount - runnerUp >= 14 &&
@@ -554,14 +760,14 @@ window.OmrEngine = {
       runnerUp > emptyThreshold &&
       maxCount - runnerUp < 18 &&
       (maxCount === 0 || runnerUp / maxCount >= 0.80);
-    const ambiguous =
+    const ambiguous = selected && (
       strongCount > 1 ||
       (
-        maxCount > emptyThreshold &&
         comparableRunner &&
         innerMax >= 8 &&
         innerRunnerUp >= 8
-      );
+      )
+    );
     const weak = selected && maxCount < filledThreshold;
 
     const separation = maxCount > 0 ? (maxCount - runnerUp) / maxCount : 0;
@@ -580,6 +786,230 @@ window.OmrEngine = {
       strongCount,
       confidence
     };
+  },
+
+  /**
+   * A PDF scanner can stretch the printed grids slightly relative to the four
+   * outer markers. The 12-4-6 landscape sheet has regular bubble matrices,
+   * so recover their centres from the warped scan before reading the ink.
+   * This is limited to that legacy layout and never mutates the shared registry.
+   */
+  calibrate1246Scan(thresh, template) {
+    if (!template || Number(template?.warp?.width) < 1000) return template;
+
+    const contours = new cv.MatVector();
+    const hierarchy = new cv.Mat();
+    cv.findContours(thresh, contours, hierarchy, cv.RETR_LIST, cv.CHAIN_APPROX_SIMPLE);
+
+    const minSize = Math.max(14, Math.round(Math.min(thresh.cols, thresh.rows) * 0.010));
+    const maxSize = Math.max(38, Math.round(Math.min(thresh.cols, thresh.rows) * 0.034));
+    const candidates = [];
+    for (let index = 0; index < contours.size(); index++) {
+      const contour = contours.get(index);
+      const rect = cv.boundingRect(contour);
+      const area = cv.contourArea(contour);
+      contour.delete();
+      const aspect = rect.height ? rect.width / rect.height : 0;
+      if (
+        rect.width < minSize || rect.height < minSize ||
+        rect.width > maxSize || rect.height > maxSize ||
+        aspect < 0.72 || aspect > 1.30 ||
+        area < minSize * minSize * 0.28 || area > maxSize * maxSize * 0.82
+      ) continue;
+      candidates.push({ x: rect.x + rect.width / 2, y: rect.y + rect.height / 2, area });
+    }
+    contours.delete();
+    hierarchy.delete();
+
+    candidates.sort((left, right) => right.area - left.area);
+    const centres = [];
+    for (const candidate of candidates) {
+      if (!centres.some(existing => Math.hypot(existing.x - candidate.x, existing.y - candidate.y) < minSize * 0.42)) {
+        centres.push(candidate);
+      }
+    }
+
+    const uniqueAxis = values => [...new Set(values.map(value => Number(value.toFixed(2))))].sort((a, b) => a - b);
+    const flattenPoints = value => {
+      if (!Array.isArray(value)) return [];
+      if (value.length === 2 && value.every(Number.isFinite)) return [value];
+      return value.flatMap(flattenPoints);
+    };
+    const clusterAxis = (values, expectedCount) => {
+      const ordered = [...values].sort((a, b) => a - b);
+      const groups = [];
+      for (const value of ordered) {
+        const group = groups.at(-1);
+        if (group && Math.abs(value - group.mean) <= minSize * 0.36) {
+          group.values.push(value);
+          group.mean = group.values.reduce((sum, item) => sum + item, 0) / group.values.length;
+        } else {
+          groups.push({ values: [value], mean: value });
+        }
+      }
+      return groups
+        .filter(group => group.values.length >= 2)
+        .sort((left, right) => right.values.length - left.values.length)
+        .slice(0, expectedCount)
+        .map(group => group.mean)
+        .sort((a, b) => a - b);
+    };
+    const fitSparseAxis = (values, expected, opts = {}) => {
+      // A filled bubble often has no ring contour. Requiring two contours per
+      // column silently drops an entire column when several questions have
+      // the same chosen option, then old coordinates read the next option.
+      const ordered = [...values].sort((a, b) => a - b);
+      const groups = [];
+      for (const value of ordered) {
+        const group = groups.at(-1);
+        if (group && Math.abs(value - group.mean) <= minSize * 0.36) {
+          group.values.push(value);
+          group.mean = group.values.reduce((sum, item) => sum + item, 0) / group.values.length;
+        } else {
+          groups.push({ values: [value], mean: value });
+        }
+      }
+      const expectedPitch = (expected.at(-1) - expected[0]) / (expected.length - 1);
+      if (opts.allowSingle && groups.length === 1 && expected.length === 2) {
+        const nearest = expected.reduce((best, value, index) =>
+          Math.abs(value - groups[0].mean) < Math.abs(expected[best] - groups[0].mean)
+            ? index : best, 0);
+        const shift = groups[0].mean - expected[nearest];
+        return Math.abs(shift) <= expectedPitch * 0.5
+          ? expected.map(value => value + shift) : null;
+      }
+      if (groups.length < (opts.minimumMatches || expected.length - 1)) return null;
+      let best = null;
+      for (let left = 0; left < groups.length; left++) {
+        for (let right = left + 1; right < groups.length; right++) {
+          for (let first = 0; first < expected.length - 1; first++) {
+            for (let last = first + 1; last < expected.length; last++) {
+              const pitch = (groups[right].mean - groups[left].mean) / (last - first);
+              if (pitch < expectedPitch * 0.75 || pitch > expectedPitch * 1.35) continue;
+              const start = groups[left].mean - first * pitch;
+              if (Math.abs(start - expected[0]) > expectedPitch * (opts.maximumShift || 1.7)) continue;
+              const positions = expected.map((_, index) => start + index * pitch);
+              let support = 0, matched = 0, residual = 0;
+              for (const position of positions) {
+                const nearest = groups.reduce((bestGroup, group) =>
+                  Math.abs(group.mean - position) < Math.abs(bestGroup.mean - position)
+                    ? group : bestGroup, groups[0]);
+                const distance = Math.abs(nearest.mean - position);
+                if (distance > minSize * 0.42) continue;
+                matched++;
+                support += nearest.values.length;
+                residual += distance;
+              }
+              if (matched < (opts.minimumMatches || expected.length - 1)) continue;
+              const score = support * 10 + matched * 4 - residual -
+                Math.abs(start - expected[0]) / expectedPitch;
+              if (!best || score > best.score) best = { positions, score };
+            }
+          }
+        }
+      }
+      return best?.positions || null;
+    };
+    const remap = (collection, region, xCount, yCount, sparse = false) => {
+      const points = flattenPoints(collection);
+      const expectedXs = uniqueAxis(points.map(point => point[0]));
+      const expectedYs = uniqueAxis(points.map(point => point[1]));
+      if (expectedXs.length !== xCount || expectedYs.length !== yCount) return collection;
+
+      const inRegion = centres.filter(point =>
+        point.x >= region.left && point.x <= region.right &&
+        point.y >= region.top && point.y <= region.bottom &&
+        (sparse !== 'tf' || point.area >= minSize * minSize * 0.9)
+      );
+      const sparseOptions = sparse === 'tf'
+        ? { minimumMatches: 2, maximumShift: 0.9, allowSingle: true }
+        : {};
+      const observedXs = sparse
+        ? fitSparseAxis(inRegion.map(point => point.x), expectedXs, sparseOptions)
+        : clusterAxis(inRegion.map(point => point.x), xCount);
+      const observedYs = sparse
+        ? fitSparseAxis(inRegion.map(point => point.y), expectedYs, sparseOptions)
+        : clusterAxis(inRegion.map(point => point.y), yCount);
+      if (!observedXs || !observedYs) return collection;
+      if (observedXs.length !== xCount || observedYs.length !== yCount) return collection;
+      if (
+        observedXs.some((value, index) => index && value - observedXs[index - 1] < minSize * 0.75) ||
+        observedYs.some((value, index) => index && value - observedYs[index - 1] < minSize * 0.75)
+      ) return collection;
+
+      const xIndex = new Map(expectedXs.map((value, index) => [value, index]));
+      const yIndex = new Map(expectedYs.map((value, index) => [value, index]));
+      const visit = value => {
+        if (!Array.isArray(value)) return value;
+        if (value.length === 2 && value.every(Number.isFinite)) {
+          return [observedXs[xIndex.get(Number(value[0].toFixed(2)))], observedYs[yIndex.get(Number(value[1].toFixed(2)))]];
+        }
+        return value.map(visit);
+      };
+      return visit(collection);
+    };
+
+    const calibrated = JSON.parse(JSON.stringify(template));
+    calibrated.sbd = remap(calibrated.sbd, { left: 20, right: 270, top: 130, bottom: 390 }, 6, 10, true);
+    calibrated.made = remap(calibrated.made, { left: 280, right: 450, top: 130, bottom: 390 }, 4, 10, true);
+
+    for (const [start, end, region] of [
+      [1, 4, { left: 480, right: 670, top: 400, bottom: 525 }],
+      [5, 8, { left: 700, right: 880, top: 400, bottom: 525 }],
+      [9, 12, { left: 930, right: 1120, top: 400, bottom: 525 }]
+    ]) {
+      const questions = Array.from({ length: end - start + 1 }, (_, index) => start + index);
+      const rows = questions.map(question => calibrated.mcq[question]);
+      const remappedRows = remap(rows, region, 4, 4, true);
+      questions.forEach((question, index) => { calibrated.mcq[question] = remappedRows[index]; });
+    }
+
+    const sbdBaseTop = template.sbd?.[0]?.[0]?.[1];
+    const sbdBaseBottom = template.sbd?.[0]?.at(-1)?.[1];
+    const sbdScanTop = calibrated.sbd?.[0]?.[0]?.[1];
+    const sbdScanBottom = calibrated.sbd?.[0]?.at(-1)?.[1];
+    const scanYScale = Number.isFinite(sbdScanTop) && Number.isFinite(sbdScanBottom) &&
+      sbdBaseBottom > sbdBaseTop
+      ? (sbdScanBottom - sbdScanTop) / (sbdBaseBottom - sbdBaseTop) : 1;
+    const scanYShift = Number.isFinite(sbdScanTop)
+      ? sbdScanTop - scanYScale * sbdBaseTop : 0;
+    const legacyTfXs = {
+      '1': [1201, 1242], '2': [1375, 1415],
+      '3': [1201, 1240], '4': [1374.5, 1415]
+    };
+    for (const [question, region] of [
+      ['1', { left: 1160, right: 1270, top: 140, bottom: 260 }],
+      ['2', { left: 1340, right: 1460, top: 140, bottom: 260 }],
+      ['3', { left: 1160, right: 1270, top: 320, bottom: 450 }],
+      ['4', { left: 1340, right: 1460, top: 320, bottom: 450 }]
+    ]) {
+      if (!calibrated.tf?.[question]) continue;
+      const labels = ['a', 'b', 'c', 'd'];
+      const rows = labels.map(label => calibrated.tf[question][label]);
+      const remapped = remap(rows, region, 2, 4, 'tf');
+      const fallbackXs = scanYScale < 0.985 ? legacyTfXs[question] : null;
+      labels.forEach((label, index) => {
+        calibrated.tf[question][label] = remapped === rows
+          ? rows[index].map((point, column) => [
+              fallbackXs?.[column] ?? point[0],
+              point[1] * scanYScale + scanYShift
+            ])
+          : remapped[index];
+      });
+    }
+
+    // Infer each short-answer grid from the printed rings on this page. A
+    // fixed correction measured on one scanner drifts by a full bubble row on
+    // another scanner, even though the four outer markers still line up.
+    for (let question = 1; question <= 6; question++) {
+      const key = String(question);
+      if (!calibrated.tln?.[key]) continue;
+      const left = 105 + (question - 1) * 234;
+      calibrated.tln[key] = remap(calibrated.tln[key], {
+        left, right: left + 165, top: 685, bottom: 1020
+      }, 4, 12, true);
+    }
+    return calibrated;
   },
 
   rescoreAnswers(answerMap, template, fullAnswers, madeCode = '', scoringOverride = null) {
@@ -647,7 +1077,7 @@ window.OmrEngine = {
       const actual = String(answers[`tln-${uiQ}`] || '').trim().replace('.', ',');
       if (!expected) continue;
       tlnTotal++;
-      if (actual === expected) {
+      if (window.OmrTlnCodec.sameValue(actual, expected)) {
         tlnCorrect++;
         const points = scoring.tln?.points || 0;
         tlnPoints += points;
@@ -678,6 +1108,7 @@ window.OmrEngine = {
     let src = null, gray = null, threshMarker = null, contours = null,
       hierarchy = null, pts_src = null, pts_dst = null, M = null,
       warped = null;
+    let recoveredMarkerCount = 0;
 
     try {
       const canvas = document.createElement('canvas');
@@ -726,6 +1157,10 @@ window.OmrEngine = {
         }
       }
 
+      if (['a3-cat-phach', 'tln-10-ngang'].includes(templateName)) {
+        throw new Error('Mẫu phiếu này đang tạm ngưng vì bản in có ô tô bị lệch hoặc chồng nhau. Hãy chọn mẫu khác đã kiểm tra.');
+      }
+
       src = cv.imread(canvas);
 
       let isWarped = false;
@@ -733,12 +1168,18 @@ window.OmrEngine = {
         // Live camera already has a stable marker quadrilateral. Reusing it
         // avoids a second, higher-resolution detection failing after the UI
         // has visibly locked green. Upload/desktop calls still detect normally.
-        const markers = gradeOptions.markers || this.detectMarkers(
-          src,
-          gradeOptions.camera
-            ? { camera: true, expectedAspect: gradeOptions.expectedAspect }
-            : undefined
-        );
+        // Always use cameraMode (RETR_LIST) so that when the OMR sheet is
+        // embedded inside a full test-paper scan, RETR_EXTERNAL does not
+        // suppress the four corner markers by treating the page border as the
+        // outermost contour. cameraMode/RETR_LIST reads contours at every level.
+        const detectAspect = gradeOptions.expectedAspect ?? (() => {
+          const w = Number(template?.warp?.width), h = Number(template?.warp?.height);
+          return w > 0 && h > 0 ? w / h : undefined;
+        })();
+        const markers = gradeOptions.markers ||
+          (templateName === '12-4-6-a4-scan' || template?.a3Cut ? this.detectA4ScanMarkers(src, Boolean(template?.a3Cut)) : null) ||
+          this.detectMarkers(src, { camera: true, expectedAspect: detectAspect });
+        if (markers?.recovered) recoveredMarkerCount = markers.markerCount;
         const tl = markers?.tl, tr = markers?.tr, bl = markers?.bl, br = markers?.br;
 
         if (tl && tr && bl && br) {
@@ -747,8 +1188,17 @@ window.OmrEngine = {
             warpW = template.warp.width;
             warpH = template.warp.height;
           }
+          const calibratedCorners = [template?.warp?.TL, template?.warp?.TR, template?.warp?.BR, template?.warp?.BL];
+          const hasCalibratedCorners = calibratedCorners.every(point =>
+            Array.isArray(point) && Number.isFinite(point[0]) && Number.isFinite(point[1])
+          ) &&
+            (template.warp.TR[0] - template.warp.TL[0]) >= warpW * 0.7 &&
+            (template.warp.BR[1] - template.warp.TR[1]) >= warpH * 0.7;
+          const destinationCorners = hasCalibratedCorners
+            ? calibratedCorners
+            : [[0, 0], [warpW, 0], [warpW, warpH], [0, warpH]];
           pts_src = cv.matFromArray(4, 1, cv.CV_32FC2, [tl[0], tl[1], tr[0], tr[1], br[0], br[1], bl[0], bl[1]]);
-          pts_dst = cv.matFromArray(4, 1, cv.CV_32FC2, [0, 0, warpW, 0, warpW, warpH, 0, warpH]);
+          pts_dst = cv.matFromArray(4, 1, cv.CV_32FC2, destinationCorners.flat());
           M = cv.getPerspectiveTransform(pts_src, pts_dst);
           warped = new cv.Mat();
           cv.warpPerspective(src, warped, M, new cv.Size(warpW, warpH));
@@ -759,7 +1209,9 @@ window.OmrEngine = {
       }
 
       if (!isWarped && engine !== 'gemini') {
-        throw new Error('Không nhận đủ 4 marker góc. Hãy đặt trọn phiếu trong khung, tránh bóng và chụp thẳng hơn.');
+        throw new Error(templateName === '12-4-6-a4-scan' || template?.a3Cut
+          ? 'Không nhận đủ mốc định vị A4. Hãy scan trọn mép phiếu, rõ ít nhất 6 trong 8 mốc.'
+          : 'Không nhận đủ 4 marker góc. Hãy đặt trọn phiếu trong khung, tránh bóng và chụp thẳng hơn.');
       }
 
       const drawMat = isWarped ? warped : src;
@@ -767,11 +1219,15 @@ window.OmrEngine = {
 
       let geminiAns = { mcq: {}, tf: {}, tln: {}, sbd: '?', made: '?' };
       let warnings = [];
+      if (recoveredMarkerCount) {
+        warnings.push(`Đã căn phiếu từ ${recoveredMarkerCount}/8 mốc định vị; nên kiểm tra ảnh trước khi chốt điểm.`);
+      }
       const scanQuality = {
         identityAmbiguous: 0,
         identityMissing: 0,
         answerAmbiguous: 0,
         faintMarks: 0,
+        advisoryFaintMarks: 0,
         invalidShortAnswers: 0
       };
       if (engine === 'gemini') {
@@ -783,10 +1239,11 @@ window.OmrEngine = {
         rCanvas.height = tmpCanvas.height * scale;
         const rctx2 = rCanvas.getContext('2d');
         rctx2.drawImage(tmpCanvas, 0, 0, rCanvas.width, rCanvas.height);
-        const base64Image = rCanvas.toDataURL("image/jpeg", 0.7);
+        const base64Image = rCanvas.toDataURL("image/jpeg", 0.7).split(',', 2)[1];
 
         try {
-          geminiAns = await window.GeminiGrader.extractAnswers(base64Image, templateName, apiKey);
+          const model = document.getElementById('geminiModel')?.value;
+          geminiAns = await window.GeminiGrader.extractAnswers(base64Image, templateName, apiKey, template, model);
         } catch (err) {
           throw new Error("Gemini AI lỗi: " + err.message);
         }
@@ -854,7 +1311,12 @@ window.OmrEngine = {
         cv.cvtColor(warped, grayWarped, cv.COLOR_RGBA2GRAY);
         cv.adaptiveThreshold(grayWarped, threshWarped, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY_INV, 31, 15);
 
+        if (templateName === '12-4-6ngang') {
+          template = window.OmrEngine.calibrate1246Scan(threshWarped, template);
+        }
+
         const OPTIONS = ['A', 'B', 'C', 'D'];
+        const fullA4Scan = templateName === '12-4-6-a4-scan' || Boolean(template?.a3Cut);
         const THRESH_EMPTY = 60;
         const THRESH_FILLED = 110;
 
@@ -862,6 +1324,43 @@ window.OmrEngine = {
         // Use the same relative separation test in every path so upload and
         // camera cannot disagree on an otherwise identical page.
         const decideTlnColumn = (counts, innerCounts = counts) => {
+          if (templateName === '12-4-6ngang' && counts.length > 2) {
+            // On this compact grid a blank printed ring can contribute 80-110
+            // outer pixels, especially after an A4 scan is warped. A real fill
+            // also darkens its centre; compare that centre with other digits
+            // in the same column before accepting a mark.
+            const median = values => {
+              const ordered = [...values].sort((a, b) => a - b);
+              return ordered[Math.floor(ordered.length / 2)] || 0;
+            };
+            const outerFloor = Math.max(115, median(counts) + 38);
+            const innerFloor = Math.max(45, median(innerCounts) + 22);
+            const outerMedian = median(counts);
+            const marked = innerCounts
+              .map((value, index) => ({ index, inner: value, outer: counts[index] || 0 }))
+              .filter(item =>
+                (item.inner >= innerFloor && item.outer >= outerFloor) ||
+                // Blue ink and small scans can leave the centre light even
+                // when the outer sampling window clearly contains a fill.
+                (item.outer >= Math.max(100, outerMedian + 40) &&
+                  item.outer >= Math.max(...counts.filter((_, i) => i !== item.index), 0) + 40)
+              )
+              .sort((a, b) => (b.outer + b.inner) - (a.outer + a.inner));
+            const strongest = marked[0];
+            const ambiguous = marked.length > 1 &&
+              marked[1].inner >= strongest.inner * 0.65;
+            return {
+              selected: !!strongest,
+              ambiguous,
+              weak: !!strongest && (strongest.inner < 65 || strongest.outer < 160),
+              maxIdx: strongest?.index ?? -1,
+              maxCount: strongest?.outer ?? 0,
+              runnerUp: marked[1]?.outer ?? 0,
+              strongCount: marked.length,
+              filled: marked.length,
+              confidence: strongest && !ambiguous ? Math.min(1, strongest.inner / 110) : 0
+            };
+          }
           const analysis = window.OmrEngine.analyzeBubbleColumn(counts, innerCounts, {
             emptyThreshold: THRESH_EMPTY,
             filledThreshold: THRESH_FILLED
@@ -878,7 +1377,7 @@ window.OmrEngine = {
           for (let col = 0; col < template.sbd.length; col++) {
 
             let pts = template.sbd[col].map(p => [...p]);
-            if (col === 0) {
+            if (col === 0 && !fullA4Scan) {
               window._sbdOff = getLocalOffset(pts[0][0] - 12, pts[0][1] - 49);
             }
             if (window._sbdOff) pts = pts.map(p => [p[0] + window._sbdOff.dx, p[1] + window._sbdOff.dy]);
@@ -910,10 +1409,11 @@ window.OmrEngine = {
         // MADE
         if (template.made) {
           let str = "";
+          let emptyColumns = 0;
           for (let col = 0; col < template.made.length; col++) {
 
             let pts = template.made[col].map(p => [...p]);
-            if (col === 0) {
+            if (col === 0 && !fullA4Scan) {
               window._madeOff = getLocalOffset(pts[0][0] - 12, pts[0][1] - 49);
             }
             if (window._madeOff) pts = pts.map(p => [p[0] + window._madeOff.dx, p[1] + window._madeOff.dy]);
@@ -924,12 +1424,13 @@ window.OmrEngine = {
               emptyThreshold: THRESH_EMPTY,
               filledThreshold: THRESH_FILLED
             });
-            if (decision.ambiguous) {
+            if (!decision.selected) {
+              emptyColumns++;
+              scanQuality.identityMissing++;
+              str += "?";
+            } else if (decision.ambiguous) {
               warnings.push(`Mã đề cột ${col + 1} tô nhiều ô`);
               scanQuality.identityAmbiguous++;
-              str += "?";
-            } else if (!decision.selected) {
-              scanQuality.identityMissing++;
               str += "?";
             } else {
               if (decision.weak) {
@@ -939,7 +1440,10 @@ window.OmrEngine = {
               str += decision.maxIdx.toString();
             }
           }
-          geminiAns.made = str;
+          // Mã đề is optional when the teacher uses a single default answer
+          // key. A partially filled code remains invalid, but a deliberately
+          // blank code must not reject an otherwise readable answer sheet.
+          geminiAns.made = emptyColumns === template.made.length ? '' : str;
         }
 
 
@@ -951,9 +1455,9 @@ window.OmrEngine = {
             let currentPts = pts.map(p => [...p]);
             // If it's the first question of a column (e.g. Q1, Q11, Q21)
             // Wait, we can just detect if it's the start of a column by looking at Y coordinate!
-            if (q === 1 || (pts[0][1] < 300 && template.mcq[(q - 1).toString()] && template.mcq[(q - 1).toString()][0][1] > pts[0][1])) {
+            if (!fullA4Scan && (q === 1 || (pts[0][1] < 300 && template.mcq[(q - 1).toString()] && template.mcq[(q - 1).toString()][0][1] > pts[0][1]))) {
               window._mcqOff = getLocalOffset(pts[0][0] - 21, pts[0][1] - 20);
-            } else if (q === 1 && !window._mcqOff) {
+            } else if (!fullA4Scan && q === 1 && !window._mcqOff) {
               window._mcqOff = getLocalOffset(pts[0][0] - 21, pts[0][1] - 20);
             }
             if (window._mcqOff) currentPts = currentPts.map(p => [p[0] + window._mcqOff.dx, p[1] + window._mcqOff.dy]);
@@ -1034,7 +1538,7 @@ window.OmrEngine = {
 
               // Calibrate local offset using first sub-question (a) Đ bubble
               let qOff = null;
-              if (pts['a'] && pts['a'][0]) {
+              if (!fullA4Scan && pts['a'] && pts['a'][0]) {
                 qOff = getLocalOffset(pts['a'][0][0], pts['a'][0][1]);
               }
 
@@ -1102,6 +1606,7 @@ window.OmrEngine = {
                     if (decision.weak) {
                       warnings.push(`Câu ${uiQ} cột ${colIdx + 1} tô mờ`);
                       scanQuality.faintMarks++;
+                      scanQuality.advisoryFaintMarks++;
                     }
                     const symbol = window.OmrTlnCodec.decodeBubble(decision.maxIdx, colIdx);
                     if (symbol === null) {
@@ -1230,17 +1735,32 @@ window.OmrEngine = {
         // Fail closed when the perspective warp has clearly locked onto the
         // wrong dark shapes. A cropped sheet used to produce many plausible but
         // false answers; it is safer to ask for a new photo than return a score.
-        if (identityProblems.length > 0) {
+        if (identityProblems.length > 0 && templateName === '12-4-6ngang') {
+          // Older scanned 12-4-6 sheets sometimes contain an actually blank
+          // or double-filled identity digit.  The answer grid is still useful
+          // to show to the teacher, but must be clearly kept for manual review
+          // instead of aborting every subsequent sheet in a PDF batch.
+          warnings.push(
+            `Cần kiểm tra ${identityProblems.join(' và ')} trước khi dùng điểm của bài này.`
+          );
+        } else if (identityProblems.length > 0) {
           throw new Error(
             `Ảnh chưa đủ tin cậy để đọc ${identityProblems.join(' và ')}. ` +
-            'Hãy chụp lại đủ 4 marker, không cắt mép giấy và giữ phiếu phẳng.'
+            (templateName === '12-4-6-a4-scan'
+              ? 'Hãy scan rõ các mốc định vị, không cắt mép giấy và giữ phiếu phẳng.'
+              : 'Hãy chụp lại đủ 4 marker, không cắt mép giấy và giữ phiếu phẳng.')
+          );
+        }
+        if (severeAnswerIssues >= severeLimit && templateName !== '12-4-6ngang') {
+          throw new Error(
+            'Ảnh có quá nhiều vùng tô không rõ hoặc bị lệch sau khi căn chỉnh. ' +
+            (templateName === '12-4-6-a4-scan'
+              ? 'Hãy scan rõ hơn và giữ trọn các mốc định vị trong khung.'
+              : 'Hãy chụp gần hơn, đủ sáng và giữ trọn 4 marker trong khung.')
           );
         }
         if (severeAnswerIssues >= severeLimit) {
-          throw new Error(
-            'Ảnh có quá nhiều vùng tô không rõ hoặc bị lệch sau khi căn chỉnh. ' +
-            'Hãy chụp gần hơn, đủ sáng và giữ trọn 4 marker trong khung.'
-          );
+          warnings.push('Có nhiều ô cần xem lại trước khi chốt điểm.');
         }
       }
 
@@ -1470,7 +1990,7 @@ window.OmrEngine = {
 
           const tinfo = template.tln[q];
 
-          if (stuAns === expAns) {
+          if (window.OmrTlnCodec.sameValue(stuAns, expAns)) {
             tlnCorrect++;
             const points = (scoring && scoring.tln) ? scoring.tln.points : 0.5;
             tlnPoints += points;
@@ -1553,7 +2073,8 @@ window.OmrEngine = {
 
       return {
         templateId: templateName,
-        sbd: geminiAns.sbd || '?',
+        sbd: template?.phachMode && /^\d{6}$/.test(geminiAns.sbd || '') ? `P${geminiAns.sbd}` : (geminiAns.sbd || '?'),
+        phachCode: template?.phachMode && /^\d{6}$/.test(geminiAns.sbd || '') ? `P${geminiAns.sbd}` : undefined,
         warnings: warnings,
         made: geminiAns.made || '?',
         correct: totalCorrectMCQ, total: numQ,
@@ -1570,13 +2091,16 @@ window.OmrEngine = {
         wrongDetails: wrongDetails,
         answers: answerMap,
         quality: {
-          needsReview: warnings.length > 0,
+          needsReview: warnings.some(warning => !/^Câu \d+ cột \d+ tô mờ$/.test(warning)),
           confidence: Number(Math.max(
             0,
             Math.min(
               1,
               1 -
-              scanQuality.faintMarks * 0.025 -
+              scanQuality.identityAmbiguous * 0.20 -
+              scanQuality.identityMissing * 0.12 -
+              (scanQuality.faintMarks - scanQuality.advisoryFaintMarks) * 0.025 -
+              scanQuality.advisoryFaintMarks * 0.005 -
               scanQuality.answerAmbiguous * 0.12 -
               scanQuality.invalidShortAnswers * 0.18
             )

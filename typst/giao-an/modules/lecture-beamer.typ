@@ -141,7 +141,41 @@
     it
   }
 
-  title-slide()
+
+  // Custom Premium Title Slide
+  slide(title: none)[
+    #align(center + horizon)[
+      #context {
+        let s = _lec-style.get()
+        grid(
+          columns: (1fr),
+          align: center,
+          row-gutter: 20pt,
+          [
+            #block(
+              fill: s.accent,
+              inset: (x: 35pt, y: 35pt),
+              radius: 16pt,
+              stroke: 2.5pt + rgb("#fde047")
+            )[
+              #text(size: s.base * 1.7, fill: white, weight: "bold")[#title]
+              #v(0.8em)
+              #text(size: s.base * 0.9, fill: rgb("#fef08a"), weight: "bold")[#subtitle]
+            ]
+          ],
+          [
+            #v(1.5em)
+            #text(size: s.base * 1.1, fill: s.fg, weight: "bold")[👨‍🏫 #author]
+            #v(0.4em)
+            #text(size: s.base * 0.85, fill: s.muted)[🏫 #institution]
+            #v(0.4em)
+            #text(size: s.base * 0.8, fill: s.muted)[🗓️ #date]
+          ]
+        )
+      }
+    ]
+  ]
+
   body
 }
 
@@ -421,7 +455,7 @@
 // ══════════════════════════════════════════════════════════════════════════
 // MACRO: lt-two-col — Bố cục 2 cột tùy tỉ lệ
 // ══════════════════════════════════════════════════════════════════════════
-#let lt-two-col(ratio: (1fr, 1fr), gap: 16pt, left-body, right-body) = {
+#let lt-two-col(ratio: (1fr, 1fr), gap: 10pt, left-body, right-body) = {
   grid(
     columns: ratio,
     column-gutter: gap,
@@ -786,6 +820,7 @@
 
 // ── lt-exercise-hub: Bảng điều hướng bài tập tương tác ────────────────────
 #let lt-exercise-hub(title: "📋 BẢNG ĐIỀU HƯỚNG BÀI TẬP", questions: (), back-to: "lec-toc-main") = {
+  if sys.inputs.at("scorm", default: "false") == "true" { return [] }
   slide(title: none)[
     #[#metadata(none) #label("sec-exercise-hub")]
     #context {
@@ -836,6 +871,7 @@
 #let _lec-q-label = counter("lec-q-idx")
 
 #let lt-tn(stem, options, correct: (), loigiai: none, de: "", num: auto, highlight-correct: false, back-to: "lec-toc-main", fig: none, fig-pos: "right", fig-width: 35%, lines: 0, dir: "doc", accent: none, opt-fig: false, ..args) = {
+  if sys.inputs.at("scorm", default: "false") == "true" { return [] }
   slide(title: none)[
     #only(1)[#_lec-q-label.step()]
     #if num != auto { only(1)[#metadata(none) #label("cau-" + str(num))] }
@@ -961,6 +997,7 @@
 }
 
 #let lt-ds(stem, statements, loigiai: none, de: "", num: auto, back-to: "lec-toc-main", fig: none, fig-pos: "right", fig-width: 35%, lines: 0, dir: "doc", accent: none, ..args) = {
+  if sys.inputs.at("scorm", default: "false") == "true" { return [] }
   slide(title: none)[
     #only(1)[#_lec-q-label.step()]
     #if num != auto { only(1)[#metadata(none) #label("cau-" + str(num))] }
@@ -1093,6 +1130,7 @@
 }
 
 #let lt-tln(stem, answer, loigiai: none, de: "", num: auto, back-to: "lec-toc-main", fig: none, fig-pos: "right", fig-width: 35%, lines: 0, dir: "doc", accent: none, ..args) = {
+  if sys.inputs.at("scorm", default: "false") == "true" { return [] }
   slide(title: none)[
     #only(1)[#_lec-q-label.step()]
     #if num != auto { only(1)[#metadata(none) #label("cau-" + str(num))] }

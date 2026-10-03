@@ -1,7 +1,8 @@
 import { createHash } from 'node:crypto';
-import { access, cp, mkdir, readFile, readdir, rm, stat } from 'node:fs/promises';
+import { access, cp, mkdir, readFile, readdir, rm, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import vm from 'node:vm';
 
 const sourceRoot = path.dirname(fileURLToPath(import.meta.url));
 const outputRoot = path.resolve(process.argv[2] || '/private/tmp/chamthi-conictypst-stage');
@@ -13,6 +14,7 @@ if (!outputRoot.startsWith('/private/tmp/chamthi-conictypst-')) {
 const runtimeFiles = [
     '_headers',
     'index.html',
+    'scan.html',
     'premium_styles.css',
     'manifest.json',
     'icon-192.png',
@@ -26,7 +28,13 @@ const runtimeFiles = [
     'js/tf_grader.js',
     'js/tln_codec.js',
     'js/omr_engine.js',
+    'js/a4_scanner.js',
+    'js/document_scan_store.js',
+    'js/document_scanner_app.js',
     'js/omr_profiles.js',
+    'js/preset_calibrations.js',
+    'js/a4_scan_sheet.js',
+    'js/a3_cut_sheet.js',
     'js/omr_db.js',
     'js/omr_cloud_sync.js',
 ];
@@ -57,6 +65,29 @@ for (const relative of runtimeFiles) await copyFileFrom(sourceRoot, relative);
 for (const directory of ['js/vendor', 'tfjs_model', 'templates']) {
     await cp(path.join(sourceRoot, directory), path.join(outputRoot, directory), { recursive: true });
 }
+
+// The four sample Classroom rosters are already public in its DEFAULT_DATA.
+// Bundle only name, SBD and class so OMR can offer them without a cross-site login.
+const classroomSource = await readFile(path.resolve(sourceRoot, '../public/hdsd/conic-classroom.js'), 'utf8');
+const rosterStartMarker = 'const DEFAULT_DATA = ';
+const rosterEndMarker = '\n  };\n\n  // State ứng dụng';
+const rosterStart = classroomSource.indexOf(rosterStartMarker);
+const rosterEnd = classroomSource.indexOf(rosterEndMarker, rosterStart);
+if (rosterStart < 0 || rosterEnd < 0) throw new Error('Không tìm thấy DEFAULT_DATA của Conic Classroom.');
+const defaultDataLiteral = classroomSource.slice(rosterStart + rosterStartMarker.length, rosterEnd + '\n  }'.length);
+const defaultData = vm.runInNewContext(`(${defaultDataLiteral})`, Object.create(null), { timeout: 1000 });
+const classroomStudents = (defaultData.classes || []).flatMap(cls => (cls.students || []).map(student => ({
+    sbd: String(student.sbd || '').trim(),
+    name: String(student.name || '').trim(),
+    cls: String(cls.name || '').trim()
+}))).filter(student => student.sbd && student.name && student.cls);
+if (!classroomStudents.length) throw new Error('Danh sách mặc định Conic Classroom trống.');
+await writeFile(path.join(outputRoot, 'classroom-roster.json'), JSON.stringify({
+    source: 'conic-classroom-default',
+    classes: [...new Set(classroomStudents.map(student => student.cls))],
+    students: classroomStudents
+}));
+
 const serviceWorker = await readFile(path.join(outputRoot, 'sw.js'), 'utf8');
 const cachedUrls = [...serviceWorker.matchAll(/['"]\.\/([^?'"]+)(?:\?[^'"]*)?['"]/g)].map(match => match[1]);
 for (const relative of cachedUrls) await access(path.join(outputRoot, relative));

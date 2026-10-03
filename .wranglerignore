@@ -1,0 +1,14 @@
+typst.zip
+*.pdf
+.git/
+node_modules/
+scratch/
+brain/
+dist/
+dist-*/
+geo-*/
+sang-*/
+.aider*/
+__pycache__/
+*.tsbuildinfo
+*.log

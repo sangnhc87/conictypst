@@ -39,12 +39,15 @@ DANH_SACH_DE = [
     ("01", "02", "4",          "GTLN & GTNN — Đề 4"),
     ("01", "02", "5",          "GTLN & GTNN — Đề 5"),
     ("01", "02", "6",          "GTLN & GTNN — Đề 6"),
+    ("01", "02", "thucte",     "GTLN & GTNN — Ứng dụng thực tiễn"),
     ("01", "03", "1",          "Tiệm Cận — Đề 1"),
     ("01", "03", "2",          "Tiệm Cận — Đề 2"),
     ("01", "03", "3",          "Tiệm Cận — Đề 3"),
+    ("01", "03", "thucte",     "Tiệm Cận — Ứng dụng thực tiễn"),
     ("01", "04", "1",          "Khảo Sát Hàm Số — Đề 1"),
     ("01", "04", "2",          "Khảo Sát Hàm Số — Đề 2"),
     ("01", "04", "3",          "Khảo Sát Hàm Số — Đề 3"),
+    ("01", "04", "thucte",     "Khảo Sát Hàm Số — Ứng dụng thực tiễn"),
     ("01", "05", "1",          "Ứng Dụng Thực Tiễn — Đề 1"),
     ("02", "01", "1",          "Vectơ Không Gian — Đề 1"),
     ("02", "01", "2",          "Vectơ Không Gian — Đề 2"),
@@ -235,8 +238,11 @@ def typst_to_katex(text: str) -> str:
         if curr: parts.append(''.join(curr).strip())
         return [p.strip('"') for p in parts]
 
-    def render_table_svg(macro_name, inner):
+    def render_table_svg(full_macro_str):
         import subprocess, uuid, os
+        # Chuyển luma(230) thành màu xám tối để hợp với dark mode SCORM
+        full_macro_str = full_macro_str.replace("luma(230)", "rgb(\"#334155\")")
+        
         tmp_name = f"table_{uuid.uuid4().hex[:8]}"
         tmp_typ = f"/Users/admin/conictypst/typst/sach/DECUONG12-HK1/scorm/output/{tmp_name}.typ"
         tmp_svg = f"/Users/admin/conictypst/typst/sach/DECUONG12-HK1/scorm/output/{tmp_name}.svg"
@@ -245,7 +251,9 @@ def typst_to_katex(text: str) -> str:
 #import "/sach/DECUONG12-HK1/preamble.typ": *
 #import "/bbt.typ": *
 #set page(width: auto, height: auto, margin: 2pt, fill: none)
-#{macro_name}({inner})
+#set text(fill: rgb("#cbd5e1"))
+#show table: set table(stroke: 0.5pt + rgb("#cbd5e1"))
+{full_macro_str}
 """
         with open(tmp_typ, 'w') as f:
             f.write(typst_code)
@@ -256,7 +264,8 @@ def typst_to_katex(text: str) -> str:
                 svg = f.read()
             if svg.startswith('<?xml'):
                 svg = svg.split('?>', 1)[-1]
-            html = f'<div style="text-align:center; overflow-x:auto; margin: 10px 0;">{svg}</div>'
+            svg = svg.replace('\n', '').replace('\r', '')
+            html = f'<div style="text-align:center; overflow-x:auto; margin: 10px 0; white-space: normal;">{svg}</div>'
             try:
                 os.remove(tmp_typ)
                 os.remove(tmp_svg)
@@ -277,7 +286,7 @@ def typst_to_katex(text: str) -> str:
     def render_bbbt(inner):
         return render_table_svg('my-bbbt', inner)
 
-    def render_canvas(inner):
+    def render_canvas(full_macro_str):
         import subprocess, uuid, os
         tmp_name = f"cetz_{uuid.uuid4().hex[:8]}"
         tmp_typ = f"/Users/admin/conictypst/typst/sach/DECUONG12-HK1/scorm/output/{tmp_name}.typ"
@@ -286,6 +295,7 @@ def typst_to_katex(text: str) -> str:
         typst_code = f"""
 #import "@preview/cetz:0.5.2"
 #import "/sach/DECUONG12-HK1/preamble.typ": *
+#import "/modules/fractals.typ": *
 #set page(width: auto, height: auto, margin: 5pt, fill: none)
 #let draw-ellipse(cx, cy, rx, ry, stroke: 1pt, style: "solid") = {{
   let stroke-val = stroke
@@ -301,7 +311,8 @@ def typst_to_katex(text: str) -> str:
     arc((cx - rx, cy), start: 180deg, stop: 360deg, radius: (rx, ry), stroke: stroke-val)
   }}
 }}
-#cetz.canvas({inner})
+#let c-book = rgb("#4338CA")
+{full_macro_str}
 """
         with open(tmp_typ, 'w') as f:
             f.write(typst_code)
@@ -312,7 +323,8 @@ def typst_to_katex(text: str) -> str:
                 svg = f.read()
             if svg.startswith('<?xml'):
                 svg = svg.split('?>', 1)[-1]
-            html = f'<div style="text-align:center; margin: 10px 0;">{svg}</div>'
+            svg = svg.replace('\n', '').replace('\r', '')
+            html = f'<div style="text-align:center; margin: 10px 0; white-space: normal;">{svg}</div>'
             try:
                 os.remove(tmp_typ)
                 os.remove(tmp_svg)
@@ -328,20 +340,40 @@ def typst_to_katex(text: str) -> str:
             return html_key
 
 
+    def extract_full_macro(text, kw):
+        idx = text.find(kw)
+        if idx == -1: return -1, -1, ""
+        if kw.endswith('('):
+            end = _bal(text, idx + len(kw) - 1, '(', ')')
+        elif kw.endswith('['):
+            end = _bal(text, idx + len(kw) - 1, '[', ']')
+        else:
+            return -1, -1, ""
+        if end == -1: return -1, -1, ""
+        pos = end
+        while True:
+            next_pos = pos + 1
+            while next_pos < len(text) and text[next_pos].isspace():
+                next_pos += 1
+            if next_pos < len(text) and text[next_pos] == '[':
+                brk_end = _bal(text, next_pos, '[', ']')
+                if brk_end != -1: pos = brk_end
+                else: break
+            else: break
+        return idx, pos, text[idx : pos+1]
+
     for macro in ['my-bxd', 'my-bbbt', 'bbt-opt', 'bbtv2', 'bbt', 'canvas', 'cetz.canvas', 'table']:
         while True:
-            kw = '#' + macro + '('
-            idx = text.find(kw)
+            idx, pos, full_macro = extract_full_macro(text, '#' + macro + '(')
+            if idx == -1:
+                idx, pos, full_macro = extract_full_macro(text, '#' + macro + '[')
             if idx == -1: break
-            end = _balance(text, idx + len(kw) - 1, '(', ')')
-            if end == -1: break
             
-            inner = text[idx + len(kw) : end]
             if macro in ['canvas', 'cetz.canvas']:
-                html_key = render_canvas(inner)
+                html_key = render_canvas(full_macro)
             else:
-                html_key = render_table_svg(macro, inner)
-            text = text[:idx] + html_key + text[end+1:]
+                html_key = render_table_svg(full_macro)
+            text = text[:idx] + html_key + text[pos+1:]
 
     # Bold/italic Typst → HTML tags (Chỉ áp dụng ngoài block toán)
     parts = re.split(r'(\$[^$]+\$)', text)
@@ -350,6 +382,9 @@ def typst_to_katex(text: str) -> str:
         if part.startswith('$') and part.endswith('$'):
             result.append(part)
         else:
+            # HTML escape first
+            part = part.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+            # Then apply bold/italic
             part = re.sub(r'\*\*?([^*\n]+?)\*\*?', r'<strong>\1</strong>', part)
             part = re.sub(r'(?<!\w)_([^_\n]+)_(?!\w)', r'<em>\1</em>', part)
             result.append(part)
@@ -393,8 +428,14 @@ def typst_to_katex(text: str) -> str:
 
         def balance_paren_args(s, func_name):
             # Tìm func_name( và trả về danh sách các args (tách bởi dấu phẩy ở top-level)
-            idx = s.find(func_name + '(')
-            if idx == -1: return None, -1, -1
+            start_search = 0
+            while True:
+                idx = s.find(func_name + '(', start_search)
+                if idx == -1: return None, -1, -1
+                if idx > 0 and s[idx-1].isalpha():
+                    start_search = idx + 1
+                    continue
+                break
             start = idx + len(func_name)
             depth = 0
             end = -1
@@ -703,6 +744,7 @@ def typst_to_katex(text: str) -> str:
             (r'\bcong\b',    r'\cong'),
             (r'\bpropto\b',  r'\propto'),
             (r'\brightarrow\b',    r'\rightarrow'),
+            (r'\barrow\b',         r'\rightarrow'),
             (r'\bleftarrow\b',     r'\leftarrow'),
             (r'\bleftrightarrow\b',r'\leftrightarrow'),
             (r'\bRightarrow\b',    r'\Rightarrow'),
@@ -930,7 +972,15 @@ def typst_to_katex(text: str) -> str:
             part = convert_fraction(part)
             result.append(part)
         else:
-            part = part.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+            # Colorize numbers for better visual grouping (skipping HTML placeholders)
+            def _color_num(m):
+                num_str = m.group(1)
+                # Dùng hash để mỗi số có 1 màu riêng nhưng cố định (mang tính gợi ý nhóm)
+                colors = ['#f87171', '#60a5fa', '#34d399', '#fbbf24', '#a855f7', '#ec4899', '#2dd4bf']
+                c = colors[hash(num_str) % len(colors)]
+                return f'<strong style="color: {c};">{num_str}</strong>'
+            
+            part = re.sub(r'(?<!HTML_)\b(\d+(?:\.\d+)?)\b', _color_num, part)
             part = re.sub(r'\\\s+', '<br/>', part)
             part = part.replace('\n', '<br/>')
             result.append(part)
@@ -1583,7 +1633,7 @@ def build_all():
     print(f"\n🚀 Build {total} SCORM Quiz — Tài liệu Toán 12 HK1\n{'─'*55}")
 
     for i, (chuong, bai, de_so, ten_de) in enumerate(DANH_SACH_DE, 1):
-        src = ROOT_DIR / f"chuong-{chuong}" / f"bai{bai}-de{de_so}.typ"
+        src = ROOT_DIR / f"chuong-{chuong}" / f"bai{bai}-de-{de_so}.typ"
         print(f"[{i:02}/{total}] {ten_de}")
         if not src.exists():
             print(f"    ⏭️  Bỏ qua (không tìm thấy {src.name})")

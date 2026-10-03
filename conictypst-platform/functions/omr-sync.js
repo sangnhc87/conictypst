@@ -273,10 +273,29 @@ function normalizeWorkspace(input, limits) {
     }
     const sessions = [...new Set((Array.isArray(input.sessions) ? input.sessions : [])
         .map((item) => String(item || '').trim().slice(0, 120)).filter(Boolean))].slice(0, 100);
+    const historyCutoff = Date.now() - 365 * 24 * 60 * 60 * 1000;
+    const answerKeyHistory = (Array.isArray(input.answerKeyHistory) ? input.answerKeyHistory : [])
+        .filter((item) => item && typeof item === 'object' && Number(item.archivedAt) > historyCutoff)
+        .sort((a, b) => Number(b.archivedAt) - Number(a.archivedAt)).slice(0, 100)
+        .map((item) => ({
+            id: String(item.id || '').slice(0, 100),
+            code: String(item.code || '').slice(0, 20),
+            source: String(item.source || '').slice(0, 120),
+            archivedAt: Number(item.archivedAt),
+            key: cleanJson(item.key || {}),
+        })).filter((item) => item.id && item.code);
+    const answerKeyUpdatedAt = {};
+    for (const [code, timestamp] of Object.entries(input.answerKeyUpdatedAt || {}).slice(0, 200)) {
+        if (/^[a-zA-Z0-9_-]{1,20}$/.test(code) && Number.isFinite(Number(timestamp))) {
+            answerKeyUpdatedAt[code] = Number(timestamp);
+        }
+    }
     const output = {
         students,
         sessions,
         answerKeys: cleanJson(input.answerKeys || {}),
+        answerKeyUpdatedAt,
+        answerKeyHistory,
         scoring: input.scoring ? cleanJson(input.scoring) : null,
         templateId: String(input.templateId || '').slice(0, 80),
     };

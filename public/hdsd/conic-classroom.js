@@ -6256,12 +6256,15 @@ document.getElementById('btn-lookup-score')?.addEventListener('click', () => {
     if (!rawText || !rawText.trim()) return [];
     const lines = rawText.trim().split(/\r?\n/);
     const results = [];
+    
+    let sbdIdx = -1;
+    let nameIdx = -1;
+    let scoreIdx = -1;
 
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i].trim();
       if (!line) continue;
 
-      // Phân tách CSV xử lý cả dấu ngoặc kép
       const tokens = [];
       let current = '';
       let inQuote = false;
@@ -6278,8 +6281,17 @@ document.getElementById('btn-lookup-score')?.addEventListener('click', () => {
       }
       tokens.push(current.trim());
 
-      const lower = tokens.join(' ').toLowerCase();
-      if (lower.includes('sbd') || (lower.includes('họ tên') && lower.includes('điểm')) || lower.includes('stt')) {
+      const cleanTokens = tokens.map(t => t.replace(/"/g, '').trim());
+      const lower = cleanTokens.join(' ').toLowerCase();
+      
+      // Detect header row
+      if (sbdIdx === -1 && scoreIdx === -1 && (lower.includes('sbd') || lower.includes('điểm') || lower.includes('score'))) {
+        cleanTokens.forEach((t, idx) => {
+          const tl = t.toLowerCase();
+          if (tl === 'sbd' || tl === 'số báo danh') sbdIdx = idx;
+          else if (tl === 'họ tên' || tl.includes('name') || tl.includes('họ và tên')) nameIdx = idx;
+          else if (tl === 'điểm' || tl === 'score' || tl === 'tổng điểm' || tl === 'điểm số') scoreIdx = idx;
+        });
         continue;
       }
 
@@ -6287,25 +6299,36 @@ document.getElementById('btn-lookup-score')?.addEventListener('click', () => {
       let name = '';
       let score = null;
 
-      // Extract SBD and Name from left to right
-      tokens.forEach(tok => {
-        const clean = tok.replace(/"/g, '').trim();
-        if (!sbd && /^\d{4,8}$/.test(clean)) {
-          sbd = clean;
-        } else if (!name && /[a-zA-ZÀ-ỹ]{2,}/.test(clean) && isNaN(Number(clean))) {
-          name = clean;
-        }
-      });
-
-      // Extract Score from right to left (because score is usually the last numeric column <= 10)
-      for (let k = tokens.length - 1; k >= 0; k--) {
-        const clean = tokens[k].replace(/"/g, '').trim();
-        const num = parseFloat(clean);
-        // Only accept if it strictly matches a number format (e.g. 8.5 or 10)
-        if (!isNaN(num) && num >= 0 && num <= 10 && /^(\d+(\.\d+)?)$/.test(clean)) {
-          score = num;
-          break; // Stop at the first valid score from the right
-        }
+      // Use column mapping if header was found
+      if (sbdIdx !== -1 && scoreIdx !== -1 && cleanTokens.length > Math.max(sbdIdx, scoreIdx)) {
+         sbd = cleanTokens[sbdIdx] || '';
+         name = nameIdx !== -1 ? (cleanTokens[nameIdx] || '') : '';
+         const sVal = parseFloat(cleanTokens[scoreIdx]);
+         if (!isNaN(sVal) && sVal >= 0 && sVal <= 10) {
+           score = sVal;
+         }
+      } else {
+         // Fallback fuzzy matcher if no header found
+         cleanTokens.forEach(tok => {
+           if (!sbd && /^\d{4,8}$/.test(tok)) {
+             sbd = tok;
+           } else if (!name && /[a-zA-ZÀ-ỹ]{2,}/.test(tok) && isNaN(Number(tok))) {
+             name = tok;
+           }
+         });
+         
+         // Left to right for score (avoids grabbing MaDe at the end like "001")
+         for (let k = 0; k < cleanTokens.length; k++) {
+           const tok = cleanTokens[k];
+           const num = parseFloat(tok);
+           // Usually score has a decimal or is <= 10
+           if (!isNaN(num) && num >= 0 && num <= 10 && /^(\d+(\.\d+)?)$/.test(tok)) {
+             // Prevent "001" (mã đề) from being matched as score 1
+             if (tok.startsWith('0') && tok.length > 1 && !tok.startsWith('0.')) continue;
+             score = num;
+             break;
+           }
+         }
       }
 
       if (sbd || name) {
@@ -7561,6 +7584,106 @@ document.getElementById('btn-lookup-score')?.addEventListener('click', () => {
 
     document.getElementById('admin-btn-export-excel')?.addEventListener('click', () => {
       exportClassToCsv(getCurrentClass());
+    });
+
+    const omrRoster = () => appState.classes.flatMap(cls => (cls.students || []).map(student => ({
+      sbd: String(student.sbd || ''),
+      name: String(student.name || ''),
+      cls: String(cls.name || '')
+    })).filter(student => student.sbd && student.name));
+
+    if (!window.__conicOmrRosterListener) {
+      window.__conicOmrRosterListener = true;
+      window.addEventListener('message', event => {
+        if (event.origin !== 'https://chamthi-conictypst.pages.dev') return;
+        if (event.data?.type === 'conic-omr-grade-sync') {
+          if (userRole !== 'teacher' || appState.isStudentMode) return;
+          const payload = event.data;
+          const targetCol = String(payload.targetCol || 'dgtx1');
+          if (!['dgtx1', 'dgtx2', 'dgtx3', 'dgtx4', 'dgtx5', 'giuaKy', 'cuoiKy'].includes(targetCol)) return;
+          const className = String(payload.selectedClass || '');
+          const selected = className ? appState.classes.find(cls => cls.name === className) : getCurrentClass();
+          if (!selected) return;
+          const valid = (Array.isArray(payload.results) ? payload.results : []).slice(0, 1000).filter(result =>
+            /^\d{6}$/.test(String(result.sbd || '')) && Number.isFinite(Number(result.score)) && Number(result.score) >= 0 && Number(result.score) <= 10
+          );
+          if (!valid.length) return;
+          const batchKey = `${payload.sentAt || ''}:${targetCol}:${className}`;
+          window.__conicOmrGradeBatches ||= new Set();
+          if (!window.__conicOmrGradeBatches.has(batchKey)) {
+            window.__conicOmrGradeBatches.add(batchKey);
+            appState.currentClassId = selected.id;
+            saveState();
+            renderClassRibbon();
+            renderGradebookTab();
+            openImportOMRModal();
+            document.getElementById('omr-target-col').value = targetCol;
+            document.getElementById('omr-raw-paste').value = 'SBD,Họ tên,Điểm,Mã đề\n' + valid.map(result =>
+              `"${result.sbd}","","${Number(result.score)}","${String(result.made || '').replace(/"/g, '""')}"`
+            ).join('\n');
+            handleParseOMR();
+          }
+          event.source?.postMessage({ type: 'conic-omr-grade-sync-ack', received: valid.length, className, targetCol }, event.origin);
+          return;
+        }
+        if (event.data?.type !== 'conic-omr-request-classes') return;
+        if (userRole !== 'teacher') {
+          event.source?.postMessage({ type: 'conic-omr-class-sync-denied', silent: Boolean(event.data.silent) }, event.origin);
+          return;
+        }
+        event.source?.postMessage({
+          type: 'conic-omr-class-sync', version: 1,
+          selectedClass: getCurrentClass()?.name || '',
+          students: omrRoster()
+        }, event.origin);
+      });
+    }
+
+    document.getElementById('btn-export-class-omr')?.addEventListener('click', () => {
+      const allStudents = omrRoster();
+      
+      if (allStudents.length === 0) {
+        showToast('Không có học sinh nào để đồng bộ!', 'warning');
+        return;
+      }
+      
+      const payload = {
+        type: 'conic-omr-class-sync',
+        selectedClass: getCurrentClass()?.name || '',
+        students: allStudents
+      };
+
+      const omrWindow = window.open('https://chamthi-conictypst.pages.dev/', 'math-omr-class-sync');
+      if (!omrWindow) {
+        alert('Trình duyệt đã chặn cửa sổ Math OMR. Hãy cho phép popup và thử lại.');
+        return;
+      }
+
+      let attempts = 0;
+      const sendClass = () => {
+        try { omrWindow.postMessage(payload, 'https://chamthi-conictypst.pages.dev'); } catch (e) {}
+      };
+      
+      let retry;
+      const ackHandler = (e) => {
+        if (e.data?.type === 'conic-omr-class-sync-ack') {
+          window.clearInterval(retry);
+          window.removeEventListener('message', ackHandler);
+          showToast(`✅ Đã đồng bộ thành công ${allStudents.length} học sinh sang Math OMR!`, 'success');
+        }
+      };
+      window.addEventListener('message', ackHandler);
+      
+      retry = window.setInterval(() => {
+        attempts++;
+        if (omrWindow.closed || attempts > 15) {
+          window.clearInterval(retry);
+          return;
+        }
+        sendClass();
+      }, 500);
+
+      showToast(`Đang đẩy ${allStudents.length} học sinh sang Math OMR...`, 'info');
     });
 
     document.getElementById('admin-class-list')?.addEventListener('click', (e) => {

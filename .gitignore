@@ -15,6 +15,9 @@ __pycache__/
 # Build artifacts - không cần đưa lên Git
 *.pdf
 !public/hdsd/downloads/hdsd-sang-math-1.0.0.pdf
+!sang-math-omr/templates/12-4-6-a4-scan.pdf
+!sang-math-omr/templates/12-4-6-a4-scan-essay.pdf
+!sang-math-omr/templates/a3-phach-16-2-4.pdf
 scratch/
 brain/
 exported_figs/
@@ -49,3 +52,67 @@ sang-math-store/tmp/
 *.ldb
 pglite-debug.log
 firestore-debug.log
+
+# ── File tạm / rác dev ở root ──
+/test*.typ
+/test*.py
+/test*.js
+/test*.mjs
+/test*.html
+/scratch*.typ
+/scratch*.py
+/scratch*.mjs
+/scratch*.js
+/scratch-*.mjs
+/script.js
+/style.css
+/toi_uu_*.html
+/test.html
+
+# ── SVG cache / render cache ──
+**/.svg_cache/
+**/svg_cache/
+**/temp_render/
+
+# ── Python venv ──
+venv/
+.venv/
+
+# ── SCORM output zip (build artifact, nặng) ──
+**/scorm_output/*.zip
+**/scorm_output/scorm-*/
+typst/sach/DECUONG12-HK1/scorm/output/
+
+# ── inject / switch scripts tạm ──
+/inject_de*.py
+/switch_k10_dethi.py
+/tao_de.py
+/update_html.py
+/update_tln.py
+/validate_scorm.py
+/typst-scorm-builder.py
+/typst-to-scorm.py
+
+# ── Script tạm ở root (fix/find/generate/patch/recover/rename…) ──
+/fix_*.py
+/find_*.py
+/generate_de_*.py
+/generate_exams_*.py
+/generate_k10_*.py
+/generate_portal_*.py
+/generate_thuc_te_*.py
+/generator_*.py
+/format_*.py
+/patch_*.py
+/recover*.py
+/rename.py
+/rebuild_portal.py
+/extract.py
+/all_*.txt
+/errors.txt
+/label_errors.txt
+/de2_extracted.txt
+/exam_tln.txt
+/add_graphics_*.py
+/scratch_fix.py
+/scratch-push-*.mjs

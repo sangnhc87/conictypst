@@ -124,6 +124,13 @@ def _strip_block_macros(text: str) -> str:
 def _clean(text: str) -> str:
     """Chuyển Typst macros sang text thuần / KaTeX-friendly."""
     text = _strip_block_macros(text)
+    
+    # --- Xử lý KaTeX math gotchas ---
+    # Thay thế _max, _\max, _min, _\min thành _{\max}, _{\min} để KaTeX không lỗi
+    text = re.sub(r'_\\?max\b', r'_\\max', text)
+    text = re.sub(r'_\\?min\b', r'_\\min', text)
+    # --------------------------------
+    
     text = re.sub(r'\n{3,}', '\n\n', text)
     text = re.sub(r'  +', ' ', text)
     text = text.strip()
@@ -157,25 +164,55 @@ def _parse_options(paren_body: str) -> tuple:
         if pos >= len(text):
             break
 
-        if text[pos:pos+5] == 'True(':
+        if text[pos] == '(':
+            paren_e = _balance(text, pos, '(', ')')
+            if paren_e > pos:
+                inner_paren = text[pos+1:paren_e].strip()
+                body_m = re.search(r'body\s*:\s*\[', inner_paren)
+                if body_m:
+                    brk_s = body_m.end() - 1
+                    brk_e = _balance(inner_paren, brk_s, '[', ']')
+                    opt_text = inner_paren[brk_s+1:brk_e].strip() if brk_e > brk_s else ""
+                    
+                    is_true = False
+                    true_m = re.search(r'"true"\s*:\s*(true|false)', inner_paren, re.IGNORECASE)
+                    if true_m and true_m.group(1).lower() == 'true':
+                        is_true = True
+                        
+                    options.append(opt_text)
+                    if is_true:
+                        correct.append(idx)
+                    idx += 1
+                    pos = paren_e + 1
+                    continue
+            # If not matching body, just fallthrough (though it might be malformed)
+            pos += 1
+
+        elif text[pos:pos+5] == 'True(':
             paren_s = pos + 4
             paren_e = _balance(text, paren_s, '(', ')')
-            inner = text[paren_s+1:paren_e].strip()
-            if inner.startswith('['):
-                brk_e = _balance(inner, 0, '[', ']')
-                opt = inner[1:brk_e].strip()
+            if paren_e > paren_s:
+                inner = text[paren_s+1:paren_e].strip()
+                if inner.startswith('['):
+                    brk_e = _balance(inner, 0, '[', ']')
+                    opt = inner[1:brk_e].strip() if brk_e > 0 else inner
+                else:
+                    opt = inner
+                options.append(opt)
+                correct.append(idx)
+                idx += 1
+                pos = paren_e + 1
             else:
-                opt = inner
-            options.append(opt)
-            correct.append(idx)
-            idx += 1
-            pos = paren_e + 1
+                pos += 1
         elif text[pos] == '[':
             brk_e = _balance(text, pos, '[', ']')
-            opt = text[pos+1:brk_e].strip()
-            options.append(opt)
-            idx += 1
-            pos = brk_e + 1
+            if brk_e > pos:
+                opt = text[pos+1:brk_e].strip()
+                options.append(opt)
+                idx += 1
+                pos = brk_e + 1
+            else:
+                pos += 1
         else:
             pos += 1
 
@@ -185,12 +222,37 @@ def _parse_options(paren_body: str) -> tuple:
 def _extract_stem_and_opts(body: str, q_type: str):
     """Trích stem, options, correct, answer_short từ body của block."""
     # Xóa bỏ nội dung của fig: canvas(...) hoặc image(...) để không bị nhầm lẫn ngoặc vuông []
-    fig_match = re.search(r'\bfig\s*:\s*(?:canvas|image)\s*\(', body)
-    if fig_match:
-        start_paren = fig_match.end() - 1
-        end_paren = _balance(body, start_paren, '(', ')')
-        if end_paren > 0:
-            body = body[:fig_match.start()] + " " * (end_paren - fig_match.start() + 1) + body[end_paren+1:]
+    # NHƯNG giữ lại nội dung để prepend vào stem (tránh mất code vẽ hình)
+    fig_content = ""
+    fig_start = re.search(r'\bfig\s*:\s*', body)
+    if fig_start:
+        start_idx = fig_start.end()
+        m_name = re.match(r'([a-zA-Z0-9_\.-]+)\s*(\(|\[)', body[start_idx:])
+        if m_name:
+            macro = m_name.group(1)
+            bracket = m_name.group(2)
+            bracket_idx = start_idx + m_name.start(2)
+            if bracket == '(':
+                end = _balance(body, bracket_idx, '(', ')')
+            else:
+                end = _balance(body, bracket_idx, '[', ']')
+            
+            if end != -1:
+                pos = end
+                while True:
+                    next_pos = pos + 1
+                    while next_pos < len(body) and body[next_pos].isspace():
+                        next_pos += 1
+                    if next_pos < len(body) and body[next_pos] == '[':
+                        brk_end = _balance(body, next_pos, '[', ']')
+                        if brk_end != -1: pos = brk_end
+                        else: break
+                    else: break
+                
+                fig_content = f"#{body[start_idx:pos+1]}\n"
+                body = body[:fig_start.start()] + " " * (pos - fig_start.start() + 1) + body[pos+1:]
+
+
 
     stem = ''
     options, correct = [], []
@@ -216,6 +278,8 @@ def _extract_stem_and_opts(body: str, q_type: str):
     if first_bracket >= 0:
         stem_end = _balance(body, first_bracket, '[', ']')
         stem = body[first_bracket+1:stem_end].strip()
+        if fig_content:
+            stem = fig_content + "\n" + stem
 
         if q_type in ('tn', 'ds'):
             rest = body[stem_end+1:]
@@ -225,6 +289,19 @@ def _extract_stem_and_opts(body: str, q_type: str):
                 pe = _balance(rest, ps, '(', ')')
                 if pe > 0:
                     options, correct = _parse_options(rest[ps+1:pe])
+            
+            # If no True() found, check for correct: X, correct: (X, Y) or correct: "1010"
+            if not correct:
+                cm = re.search(r'correct\s*:\s*(\d+|"[01]+"|\'[01]+\'|\([^)]+\))', rest)
+                if cm:
+                    val = cm.group(1)
+                    if val.startswith('"') or val.startswith("'"):
+                        val_str = val[1:-1]
+                        correct = [i for i, c in enumerate(val_str) if c == '1']
+                    elif val.startswith('('):
+                        correct = [int(x.strip()) - 1 for x in val[1:-1].split(',')]
+                    else:
+                        correct = [int(val) - 1]
 
         elif q_type == 'tln':
             rest = body[stem_end+1:]
@@ -242,7 +319,7 @@ def _extract_stem_and_opts(body: str, q_type: str):
                         continue
                 j += 1
 
-    return stem, options, correct, answer_short
+    return _clean(stem) if stem else '', [_clean(o) for o in options], correct, _clean(answer_short) if answer_short else ''
 
 
 def parse_file(filepath: str) -> list:
@@ -250,7 +327,7 @@ def parse_file(filepath: str) -> list:
     questions = []
     cau_num = 0
 
-    pattern = re.compile(r'#(tn|ds|tln)\s*\(')
+    pattern = re.compile(r'(?:#|(?<=[,\s(]))(?:lt-|my-)?(tn|ds|tln)\s*\(')
     for m in pattern.finditer(text):
         q_type = m.group(1)
         body_start = m.end() - 1

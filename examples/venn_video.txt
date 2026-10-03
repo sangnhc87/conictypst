@@ -1,0 +1,9 @@
+Chào mừng các em đến với bài toán giải bằng sơ đồ Venn. Đề bài như sau: Lớp 10A có 35 học sinh thi học sinh giỏi ba môn Toán, Lý, Hóa. Mỗi bạn thi ít nhất 1 môn. Biết rằng có 12 bạn chỉ thi Toán, 14 bạn thi Lý, 15 bạn thi Hóa, và 3 bạn chỉ thi Lý và Hóa. Hỏi có bao nhiêu bạn đi thi cả ba môn Toán, Lý, Hóa?
+Đầu tiên, chúng ta cùng phân tích bài toán. Gọi Tê, Eo lờ, Hát lần lượt là tập hợp các học sinh thi môn Toán, Lý và Hóa. Tổng số học sinh của lớp là 35.
+Vì có mười hai học sinh chỉ thi môn Toán, ta lấy tổng số lớp trừ đi mười hai để ra số học sinh có tham gia thi Lý hoặc Hóa, kết quả là hai mươi ba học sinh.
+Hãy cùng nhìn vào sơ đồ Venn. Ta điền số mười hai vào vùng chỉ thi Toán, và số ba vào vùng chỉ thi Lý và Hóa. Các vùng còn lại chúng ta cần phải đi tìm.
+Bây giờ, ta tính số học sinh giao nhau. Theo nguyên lý bù trừ cho tập Lý và Hóa, ta có công thức: số phần tử của Lờ hợp Hát bằng số phần tử của Lờ cộng số phần tử của Hát, trừ đi phần giao của Lờ và Hát.
+Thay các giá trị đã biết vào công thức, ta được hai mươi ba bằng mười bốn cộng mười lăm trừ đi phần giao. Từ đó dễ dàng tính được phần giao của Lý và Hóa là sáu học sinh.
+Các em lưu ý, tập hợp thi Lý và Hóa gồm hai nhóm: nhóm chỉ thi Lý và Hóa, và nhóm thi cả 3 môn. Vì đề bài cho có 3 thí sinh chỉ thi Lý và Hóa, nên ta lấy sáu trừ ba bằng ba. Đây chính là số học sinh thi cả 3 môn.
+Quay lại với sơ đồ Venn, ta đã có thể tự tin điền số 3 vào chính giữa sơ đồ, tương ứng với vùng giao chung của cả ba môn.
+Kết luận, lớp mười a có đúng 3 học sinh đi thi cả ba môn Toán, Lý và Hóa.

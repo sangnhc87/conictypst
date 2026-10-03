@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b2132">
+  <title>Quét phiếu cả lớp · Sang Math OMR</title>
+  <style>
+    :root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#132436;background:#f3f7f8}
+    *{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button{cursor:pointer}
+    header{background:#0b2132;color:white;padding:15px max(18px,calc((100vw - 1220px)/2));display:flex;align-items:center;justify-content:space-between;gap:14px}
+    header a{color:white;text-decoration:none;font-size:13px;font-weight:700}header strong{font-size:17px;letter-spacing:.01em}
+    main{max-width:1220px;margin:auto;padding:22px 18px 50px}
+    .hero{display:flex;justify-content:space-between;gap:24px;align-items:end;margin-bottom:18px}
+    .hero h1{font-size:clamp(24px,4vw,38px);line-height:1.15;margin:0 0 8px;color:#11283d;letter-spacing:-.035em}
+    .hero p{margin:0;color:#587083;line-height:1.5;max-width:730px}.badge{border:1px solid #b9e4d5;background:#e9f8ef;color:#086844;border-radius:999px;padding:7px 12px;font-size:12px;font-weight:800;white-space:nowrap}
+    .layout{display:grid;grid-template-columns:minmax(0,1.22fr) minmax(300px,.78fr);gap:18px;align-items:start}
+    .panel{background:white;border:1px solid #dce7eb;border-radius:20px;box-shadow:0 10px 34px #153c4d0a;overflow:hidden}
+    .panel-head{padding:16px 18px;border-bottom:1px solid #e6eef1;display:flex;justify-content:space-between;align-items:center;gap:8px}
+    .panel-head h2{margin:0;font-size:16px;color:#153042}.panel-head small{color:#607889}
+    .stage{position:relative;background:#071521;aspect-ratio:3/4;max-height:68vh;margin:16px;border-radius:17px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+    .stage video,.stage canvas{position:absolute;width:100%;height:100%;inset:0}
+    .stage video{object-fit:fill}.stage canvas{pointer-events:none}
+    .stage .empty{color:#d2e4ec;text-align:center;padding:26px;max-width:300px;line-height:1.5}
+    .stage .empty b{display:block;font-size:18px;margin-bottom:7px}
+    .stage .scan-flash{position:absolute;inset:0;background:white;opacity:0;pointer-events:none;transition:opacity .28s}
+    .stage.flash .scan-flash{opacity:.82;transition:none}
+    .stage-status{position:absolute;bottom:14px;left:14px;right:14px;background:#0b2132cc;color:white;border-radius:10px;padding:10px 12px;font-size:12px;font-weight:700;text-align:center;backdrop-filter:blur(6px)}
+    .controls{display:flex;flex-wrap:wrap;gap:9px;padding:0 16px 16px}.button{border:1px solid #cedde3;background:white;color:#123247;border-radius:11px;padding:10px 13px;font-size:13px;font-weight:750;min-height:42px}
+    .button.primary{background:#078867;color:white;border-color:#078867}.button.dark{background:#16354a;color:white;border-color:#16354a}.button:disabled{opacity:.45;cursor:not-allowed}
+    .button:focus-visible,.page-action:focus-visible{outline:3px solid #62c8ff;outline-offset:2px}
+    .controls .grow{flex:1}.settings{display:flex;gap:10px;align-items:end;flex-wrap:wrap;padding:0 16px 17px}.settings label{font-size:11px;font-weight:800;color:#4a6372}.settings input,.settings select{display:block;margin-top:5px;border:1px solid #cbdbe2;border-radius:9px;padding:8px 10px;min-height:38px;max-width:100%}
+    .settings input{width:200px}.settings select{width:170px}
+    .tip{margin:0 16px 16px;background:#eef8f6;border:1px solid #d3ece6;border-radius:12px;color:#37665d;font-size:12px;line-height:1.5;padding:11px 13px}
+    .queue{padding:14px 16px;max-height:72vh;overflow:auto}.queue-empty{border:1px dashed #c9d8df;border-radius:14px;padding:30px;text-align:center;color:#617989;font-size:13px;line-height:1.5}
+    .scan-item{display:flex;gap:12px;align-items:center;border:1px solid #e0eaee;border-radius:13px;padding:9px;margin-bottom:9px;background:#fbfdfd}
+    .scan-item img{width:68px;height:91px;object-fit:cover;border:1px solid #d9e2e6;border-radius:6px;background:white}
+    .scan-item .meta{min-width:0;flex:1}.scan-item strong{display:block;font-size:13px}.scan-item small{display:block;color:#607889;margin-top:4px;font-size:11px}.scan-item .actions{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+    .page-action{border:1px solid #d4e0e6;background:white;color:#24465b;border-radius:7px;padding:5px 8px;font-size:11px;font-weight:700}.page-action.warn{color:#a03921}
+    .export{padding:15px 16px;border-top:1px solid #e6eef1;display:grid;grid-template-columns:1fr 1fr;gap:9px}.export .button{width:100%}.export .wide{grid-column:1/-1}
+    .notice{padding:0 16px 14px;font-size:12px;color:#37665d;min-height:24px;line-height:1.45}
+    .crop-dialog{position:fixed;inset:0;z-index:20;background:#081824e8;display:none;align-items:center;justify-content:center;padding:15px}.crop-dialog.open{display:flex}
+    .crop-card{background:white;border-radius:17px;padding:15px;width:min(94vw,760px);max-height:96vh;overflow:auto}
+    .crop-card h2{margin:0 0 5px;font-size:17px}.crop-card p{margin:0 0 12px;color:#617989;font-size:12px}.crop-card canvas{display:block;max-width:100%;max-height:68vh;margin:auto;touch-action:none;border-radius:8px;background:#0b2132}
+    .crop-actions{display:flex;gap:9px;margin-top:12px;justify-content:flex-end}
+    @media(max-width:840px){.layout{grid-template-columns:1fr}.hero{display:block}.badge{display:inline-block;margin-top:12px}.stage{max-height:65vh}.queue{max-height:none}}
+    @media(max-width:480px){header strong{font-size:14px}.stage{margin:10px;max-height:60vh}.controls,.settings{padding-left:10px;padding-right:10px}.controls .button{flex:1 1 42%}.export{grid-template-columns:1fr}.export .wide{grid-column:auto}}
+  </style>
+</head>
+<body>
+<header><strong>SANG MATH OMR · SCAN</strong><a href="./index.html">← Về trang chấm bài</a></header>
+<main>
+  <div class="hero"><div><h1>Quét cả lớp thành một PDF</h1><p>Camera tự tìm viền giấy, đợi khung hình ổn định, nắn phẳng phối cảnh và lưu từng trang. Kiểm tra thứ tự bài trước khi xuất PDF hoặc chuyển thẳng sang chấm OMR.</p></div><span class="badge">Ảnh và PDF lưu trên thiết bị</span></div>
+  <div class="layout">
+    <section class="panel" aria-label="Camera quét tài liệu">
+      <div class="panel-head"><h2>Camera quét phiếu</h2><small id="cameraResolution">Sẵn sàng</small></div>
+      <div class="stage" id="cameraStage">
+        <video id="scanVideo" autoplay muted playsinline aria-label="Hình ảnh camera"></video>
+        <canvas id="liveOverlay"></canvas>
+        <div class="empty" id="cameraEmpty"><b>Đặt phiếu trên nền tương phản</b>Giữ trọn 4 góc giấy trong khung. Ứng dụng sẽ tự quét khi giấy đủ rõ và đứng yên.</div>
+        <div class="scan-flash"></div><div class="stage-status" id="scanStatus" role="status">Bấm Mở camera để bắt đầu.</div>
+      </div>
+      <div class="controls">
+        <button class="button primary grow" id="startCamera" type="button">Mở camera</button>
+        <button class="button" id="manualShutter" type="button" disabled>Chụp trang</button>
+        <button class="button" id="torchButton" type="button" hidden>Đèn pin</button>
+        <button class="button" id="importButton" type="button">Thêm ảnh đã chụp</button>
+        <input id="importImages" type="file" accept="image/*" multiple hidden>
+      </div>
+      <div class="settings">
+        <label>Tên PDF<input id="pdfName" value="Phieu-scan-ca-lop" maxlength="70" autocomplete="off"></label>
+        <label>Loại phiếu<select id="scanProfile" style="width:220px"><option value="a4">A4 nguyên trang</option><option value="a3-phach">A3 đã cắt phách · gấp phần OMR</option></select></label>
+        <label>Chế độ xuất<select id="scanMode"><option value="color">Màu gốc · giữ nét tô</option><option value="gray">Xám rõ chữ</option></select></label>
+      </div>
+      <p class="tip" id="scanTip">Giữ camera song song mặt giấy, đủ sáng, tránh bóng tay. Sau khi quét, hãy nhấc phiếu cũ ra khỏi khung trước khi đặt phiếu tiếp theo. Trang tự luận nên để trong PDF riêng khi chấm OMR.</p>
+    </section>
+    <section class="panel" aria-label="Các trang đã quét">
+      <div class="panel-head"><h2>Trang đã quét <span id="pageCount">0</span></h2><small>Thứ tự PDF từ trên xuống</small></div>
+      <div class="queue" id="scanQueue"><div class="queue-empty">Chưa có trang. Mỗi phiếu A4 sau khi quét sẽ xuất hiện ở đây để xem lại, sửa góc hoặc đổi thứ tự.</div></div>
+      <div class="export">
+        <button class="button dark" id="downloadPdf" type="button" disabled>Tải PDF cả lớp</button>
+        <button class="button primary" id="gradePdf" type="button" disabled>Đưa PDF sang chấm</button>
+        <button class="button wide" id="clearPages" type="button" disabled>Xóa toàn bộ trang đã quét</button>
+      </div>
+      <div class="notice" id="exportStatus" role="status"></div>
+    </section>
+  </div>
+</main>
+<div class="crop-dialog" id="cropDialog" role="dialog" aria-modal="true" aria-label="Chỉnh bốn góc giấy">
+  <div class="crop-card"><h2>Chỉnh bốn góc giấy</h2><p>Kéo các điểm xanh vào đúng bốn góc trang A4 rồi bấm Lưu trang.</p><canvas id="cropCanvas"></canvas><div class="crop-actions"><button class="button" id="cancelCrop" type="button">Đóng</button><button class="button primary" id="acceptCrop" type="button">Lưu trang đã căn</button></div></div>
+</div>
+<script src="js/document_scan_store.js"></script>
+<script src="js/a4_scanner.js?v=2-document-scan"></script>
+<script src="js/vendor/jspdf.umd.min.js"></script>
+<script src="js/document_scanner_app.js"></script>
+<script async src="opencv.js" onload="onDocumentOpenCvReady()"></script>
+</body>
+</html>

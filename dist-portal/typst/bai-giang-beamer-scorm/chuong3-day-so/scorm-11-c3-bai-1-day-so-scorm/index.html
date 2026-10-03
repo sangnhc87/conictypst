@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scorm 11 C3 Bai 1 Day So</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[
+    {left:'$$',right:'$$',display:true},
+    {left:'$',right:'$',display:false}
+  ]})"></script>
+<style>
+:root {
+  --bg: #f8fafc; --card: #ffffff; --border: #e2e8f0;
+  --blue: #3b82f6; --blue-dim: #eff6ff;
+  --green: #16a34a; --green-dim: #f0fdf4;
+  --red: #dc2626; --red-dim: #fef2f2;
+  --yellow: #eab308; --yellow-dim: #fefce8;
+  --text: #0f172a; --muted: #475569;
+  --radius: 10px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: var(--bg); color: var(--text);
+  min-height: 100vh; display: flex; flex-direction: column;
+}
+.header {
+  background: linear-gradient(135deg,#003087 0%,#0047b3 100%);
+  padding: 10px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.5); flex-shrink: 0;
+}
+.header-info .school { font-size:10px; color:#90caf9; }
+.header-info .title  { font-size:15px; font-weight:700; color:#fff; margin:2px 0; }
+.header-info .sub    { font-size:11px; color:#bbdefb; }
+.progress-wrap {
+  display: flex; align-items: center; gap: 10px; flex-shrink: 0;
+}
+.progress-ring {
+  width: 50px; height: 50px;
+  border-radius: 50%;
+  background: conic-gradient(var(--blue) 0%, #1e2030 0%);
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.4s;
+}
+.progress-ring-inner {
+  width: 36px; height: 36px; background: #003087;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: #fff;
+}
+.score-badge {
+  background: rgba(0,0,0,0.1);
+  border: 1px solid rgba(0,0,0,0.2);
+  padding: 4px 12px; border-radius: 20px;
+  font-size: 12px; color: #fff; font-weight: 600;
+  min-width: 70px; text-align: center;
+}
+.main { flex: 1; padding: 16px 20px; max-width: 860px; margin: 0 auto; width: 100%; }
+.section-header {
+  font-size: 11px; font-weight: 700; color: var(--blue);
+  letter-spacing: 1px; text-transform: uppercase;
+  margin: 20px 0 10px; padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+.card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px; margin-bottom: 14px;
+  transition: border-color 0.2s;
+}
+.card.answered { border-color: var(--blue-dim); }
+.card.correct  { border-color: var(--green); background: var(--green-dim); }
+.card.wrong    { border-color: var(--red);   background: var(--red-dim); }
+.q-header {
+  display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px;
+}
+.q-num {
+  background: var(--blue); color: #fff;
+  border-radius: 6px; padding: 2px 8px;
+  font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 2px;
+}
+.q-num.ds-type { background: #7c3aed; }
+.q-num.tln-type { background: #0891b2; }
+.q-stem { font-size: 14px; line-height: 1.6; white-space: pre-line; }
+.options { display: flex; flex-direction: column; gap: 7px; margin-top: 10px; }
+.opt {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 13px; border-radius: 8px;
+  border: 1px solid var(--border); cursor: pointer;
+  transition: all 0.15s; font-size: 13.5px; line-height: 1.5;
+  background: rgba(0,0,0,0.02);
+}
+.opt:hover:not(.disabled) { border-color: var(--blue); background: rgba(76,142,247,0.08); }
+.opt .label {
+  min-width: 24px; height: 24px;
+  border: 2px solid var(--muted); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; flex-shrink: 0;
+  transition: all 0.15s;
+}
+.opt.selected .label { border-color: var(--blue); background: var(--blue); color: #fff; }
+.opt.show-correct  { border-color: var(--green); background: rgba(34,197,94,0.1); }
+.opt.show-correct .label { border-color: var(--green); background: var(--green); color: #fff; }
+.opt.show-wrong    { border-color: var(--red); background: rgba(239,68,68,0.1); }
+.opt.show-wrong .label { border-color: var(--red); background: var(--red); color: #fff; }
+.opt.disabled { cursor: default; }
+
+/* DS checkboxes */
+.ds-opt { cursor: pointer; padding: 8px 13px; border-radius: 8px;
+  border: 1px solid var(--border); font-size: 13.5px; margin-bottom: 6px;
+  display: flex; align-items: flex-start; gap: 10px; transition: all 0.15s;
+  background: rgba(0,0,0,0.02);
+}
+.ds-opt:hover:not(.disabled) { border-color: #7c3aed; background: rgba(124,58,237,0.08); }
+.ds-check { width: 22px; height: 22px; border-radius: 5px;
+  border: 2px solid var(--muted); flex-shrink: 0; margin-top: 2px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; transition: all 0.15s;
+}
+.ds-opt.selected .ds-check { border-color: #7c3aed; background: #7c3aed; color: #fff; }
+.ds-opt.show-correct { border-color: var(--green); background: rgba(34,197,94,0.1); }
+.ds-opt.show-correct .ds-check { border-color: var(--green); background: var(--green); color: #fff; }
+.ds-opt.show-wrong { border-color: var(--red); background: rgba(239,68,68,0.1); }
+.ds-opt.show-wrong .ds-check { border-color: var(--red); background: var(--red); color: #fff; }
+.ds-opt.disabled { cursor: default; }
+
+/* TLN input */
+.tln-row { display: flex; gap: 8px; margin-top: 10px; align-items: center; }
+.tln-input {
+  flex: 1; background: rgba(0,0,0,0.05); border: 1px solid var(--border);
+  border-radius: 8px; padding: 9px 13px; color: var(--text); font-size: 14px;
+  outline: none; transition: border-color 0.15s;
+}
+.tln-input:focus { border-color: #0891b2; }
+.tln-input.correct-input { border-color: var(--green); background: rgba(34,197,94,0.1); }
+.tln-input.wrong-input { border-color: var(--red); background: rgba(239,68,68,0.1); }
+.tln-input.disabled { cursor: default; }
+
+/* Buttons */
+.btn-check {
+  background: var(--blue); color: #fff; border: none;
+  padding: 9px 18px; border-radius: 8px; cursor: pointer;
+  font-size: 13px; font-weight: 600; transition: opacity 0.15s; white-space: nowrap;
+}
+.btn-check:hover { opacity: 0.85; }
+.btn-check:disabled { opacity: 0.4; cursor: default; }
+.btn-check.ds-btn { background: #7c3aed; }
+.btn-check.tln-btn { background: #0891b2; }
+
+/* Solution box */
+.solution {
+  margin-top: 12px; padding: 12px 14px;
+  background: rgba(0,0,0,0.03); border-left: 3px solid var(--blue);
+  border-radius: 0 8px 8px 0; font-size: 13px; line-height: 1.7;
+  display: none; white-space: pre-line;
+}
+.solution.show { display: block; }
+.solution-label { font-size: 10px; font-weight: 700; color: var(--blue);
+  text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px; }
+.feedback {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 600; margin-top: 8px;
+  padding: 6px 10px; border-radius: 6px;
+}
+.feedback.ok { background: rgba(34,197,94,0.15); color: var(--green); }
+.feedback.err { background: rgba(239,68,68,0.15); color: var(--red); }
+.feedback.partial { background: rgba(250,204,21,0.15); color: var(--yellow); }
+
+/* Footer */
+.footer-bar {
+  background: #080810; padding: 10px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-top: 1px solid var(--border); flex-shrink: 0;
+  font-size: 11px; color: var(--muted);
+}
+.btn-submit {
+  background: linear-gradient(135deg, #16a34a, #15803d);
+  color: #fff; border: none; padding: 8px 22px; border-radius: 8px;
+  cursor: pointer; font-size: 13px; font-weight: 700; transition: opacity 0.15s;
+}
+.btn-submit:hover { opacity: 0.88; }
+.btn-submit:disabled { opacity: 0.4; cursor: default; }
+.result-banner {
+  display: none; text-align: center; padding: 30px 20px;
+  background: var(--card); border-radius: var(--radius);
+  border: 1px solid var(--border); margin: 20px 0;
+}
+.result-banner.show { display: block; }
+.result-score { font-size: 52px; font-weight: 800; }
+.result-score.high { color: var(--green); }
+.result-score.mid  { color: var(--yellow); }
+.result-score.low  { color: var(--red); }
+.result-msg { font-size: 16px; margin-top: 8px; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-info">
+    <div class="school">TRƯỜNG THPT NGUYỄN HỮU CẢNH &nbsp;·&nbsp; TỔ TOÁN &nbsp;·&nbsp; NĂM HỌC 2026–2027</div>
+    <div class="title">Scorm 11 C3 Bai 1 Day So</div>
+    <div class="sub">TOÁN 12 — Quiz Luyện Tập Tương Tác</div>
+  </div>
+  <div class="progress-wrap">
+    <div>
+      <div id="score-badge" class="score-badge">0 / 0</div>
+      <div style="font-size:10px;color:#90caf9;text-align:center;margin-top:3px" id="done-lbl">Chưa làm</div>
+    </div>
+    <div class="progress-ring" id="prog-ring">
+      <div class="progress-ring-inner" id="prog-pct">0%</div>
+    </div>
+  </div>
+</div>
+
+<div class="main" id="main-content">
+
+  <!-- GALLERY SLIDER LÝ THUYẾT -->
+  <div class="section-header">Lý Thuyết Bài Giảng</div>
+  
+  <style>
+  .slider-container {
+    width: 100%;
+    margin: 0 auto 30px auto;
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    background: #ffffff;
+    border: 1px solid var(--border);
+  }
+  .slides {
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+  .slide {
+    min-width: 100%;
+    box-sizing: border-box;
+    position: relative;
+  }
+  .slide img {
+    width: 100%;
+    display: block;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+  .slider-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.7);
+    color: #333;
+    border: none;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    backdrop-filter: blur(4px);
+  }
+  .slider-nav:hover { 
+    background: rgba(255,255,255,0.95);
+    transform: translateY(-50%) scale(1.1);
+  }
+  .prev-btn { left: 16px; }
+  .next-btn { right: 16px; }
+  .slider-dots {
+    text-align: center;
+    padding: 16px;
+    background: #f8fafc;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: #cbd5e1;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+  .dot:hover { background: #94a3b8; transform: scale(1.2); }
+  .dot.active { 
+    background: var(--blue); 
+    transform: scale(1.4);
+    box-shadow: 0 0 8px rgba(37,99,235,0.4);
+  }
+  
+  /* Loading Overlay */
+  .slide-loader {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: #f8fafc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+  }
+  .slide-loader::after {
+    content: "";
+    width: 32px; height: 32px;
+    border: 3px solid #e2e8f0;
+    border-top-color: var(--blue);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .slide img {
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .slide img.loaded { opacity: 1; }
+  </style>
+  
+  <div class="slider-container">
+    <div class="slides" id="slideTrack"></div>
+    <button class="slider-nav prev-btn" onclick="moveSlide(-1)">❮</button>
+    <button class="slider-nav next-btn" onclick="moveSlide(1)">❯</button>
+    <div class="slider-dots" id="dotsContainer"></div>
+  </div>
+  
+  <script>
+    let slideIndex = 0;
+    const totalSlides = 19;
+    const track = document.getElementById('slideTrack');
+    const dotsContainer = document.getElementById('dotsContainer');
+    
+    // Tạo cấu trúc slides
+    for(let i=1; i<=totalSlides; i++) {
+      const slide = document.createElement('div');
+      slide.className = 'slide';
+      
+      const loader = document.createElement('div');
+      loader.className = 'slide-loader';
+      
+      const img = document.createElement('img');
+      img.src = `slides/slide-${i}.svg`;
+      img.alt = `Trang ${i}`;
+      img.loading = i <= 2 ? 'eager' : 'lazy'; // Load eager 2 slide đầu
+      
+      img.onload = () => {
+        img.classList.add('loaded');
+        loader.style.display = 'none';
+      };
+      
+      slide.appendChild(loader);
+      slide.appendChild(img);
+      track.appendChild(slide);
+      
+      const dot = document.createElement('span');
+      dot.className = 'dot';
+      dot.title = `Trang ${i}`;
+      dot.onclick = () => goToSlide(i-1);
+      dotsContainer.appendChild(dot);
+    }
+    
+    function updateSlider() {
+      track.style.transform = `translateX(-${slideIndex * 100}%)`;
+      const dots = document.querySelectorAll('.dot');
+      dots.forEach((d, i) => d.classList.toggle('active', i === slideIndex));
+    }
+    
+    function moveSlide(dir) {
+      slideIndex += dir;
+      if(slideIndex < 0) slideIndex = 0;
+      if(slideIndex >= totalSlides) slideIndex = totalSlides - 1;
+      updateSlider();
+    }
+    
+    function goToSlide(n) {
+      slideIndex = n;
+      updateSlider();
+    }
+    
+    // Bắt sự kiện phím mũi tên Trái/Phải để chuyển slide
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'ArrowLeft') moveSlide(-1);
+      if(e.key === 'ArrowRight') moveSlide(1);
+    });
+    
+    // Vuốt trên mobile
+    let touchStartX = 0;
+    track.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; }, {passive: true});
+    track.addEventListener('touchend', e => {
+      let touchEndX = e.changedTouches[0].screenX;
+      if (touchEndX < touchStartX - 50) moveSlide(1);
+      if (touchEndX > touchStartX + 50) moveSlide(-1);
+    }, {passive: true});
+
+    updateSlider();
+  </script>
+
+  <div class="section-header">Bài Tập Luyện Tập & Trắc Nghiệm</div>
+
+  <div id="quiz-container"></div>
+  <div id="result-banner" class="result-banner">
+    <div class="result-score" id="result-score"></div>
+    <div class="result-msg" id="result-msg"></div>
+    <div style="margin-top:16px;font-size:13px;color:var(--muted)">
+      Hãy xem lại lời giải các câu bên trên để hiểu rõ hơn.
+    </div>
+  </div>
+</div>
+
+<div class="footer-bar">
+  <span>TRƯỜNG THPT NGUYỄN HỮU CẢNH — TOÁN 12 — NĂM HỌC 2026–2027</span>
+  <button class="btn-submit" id="btn-submit" onclick="submitAll()">Nộp bài & Xem kết quả</button>
+</div>
+
+<script>
+// ─── Dữ liệu câu hỏi ─────────────────────────────────────────────────────────
+const QUESTIONS = [{"type": "tn", "number": 7, "stem": "Dãy số nào dưới đây là một dãy số tăng?", "solution": "<strong>Phân tích từng phương án:</strong> <br/>- A: Dãy giảm vì tử không đổi, mẫu tăng dần. <br/>- B: Dãy đan dấu, không tăng không giảm. <br/>- C: Ta có $u_{n+1} - u_n = 2(n+1)+1 - (2n+1) = 2 > 0$ nên đây là dãy tăng. <br/>- D: Chỉ tăng từ $n=5$ trở đi, không phải dãy tăng trên $\\mathbb{N}^*$.", "options": ["$u_n = \\dfrac{1}{n}$", "$u_n = (-1)^n$", "$u_n = 2n + 1$", "$u_n = n^2 - 10n$"], "correct": [2]}, {"type": "tn", "number": 8, "stem": "Cho dãy số $(u_n)$ được xác định bởi $u_1 = 2$ và hệ thức truy hồi $u_n = 3 u_{n-1} - 1$ với mọi $n \\ge 2$. Số hạng $u_4$ của dãy số bằng bao nhiêu?", "solution": "<strong>Tính tuần tự các số hạng:</strong> <br/>$u_2 = 3(2)-1 = 5$ <br/>$u_3 = 3(5)-1 = 14$ <br/>$u_4 = 3(14)-1 = 41$.", "options": ["$14$", "$41$", "$122$", "$40$"], "correct": [1]}, {"type": "tn", "number": 9, "stem": "Xét tính bị chặn của dãy số $u_n = \\dfrac{2n+1}{n+2}$. Khẳng định nào sau đây là đúng?", "solution": "<strong>B1: Biến đổi biểu thức:</strong> <br/>Ta có $u_n = \\dfrac{2n+4-3}{n+2} = 2 - \\dfrac{3}{n+2}$.<br/> <strong>B2: Đánh giá chặn dưới và chặn trên:</strong> <br/>Vì $n \\ge 1$ nên $\\dfrac{3}{n+2} \\le 1$, suy ra $u_n \\ge 2 - 1 = 1$. <br/>Đồng thời $\\dfrac{3}{n+2} > 0$ nên $u_n < 2$.<br/> <strong>B3: Kết luận:</strong> <br/>Vậy $1 \\le u_n < 2$, dãy số bị chặn.", "options": ["Dãy $(u_n)$ chỉ bị chặn dưới.", "Dãy $(u_n)$ chỉ bị chặn trên.", "Dãy $(u_n)$ bị chặn.", "Dãy $(u_n)$ không bị chặn."], "correct": [2]}, {"type": "tn", "number": 10, "stem": "Trong phương pháp quy nạp toán học, để chứng minh mệnh đề $P_{n}$ đúng với mọi $n \\in \\mathbb{N}^*$, ta thực hiện theo thứ tự nào?", "solution": "<strong>Các bước quy nạp toán học:</strong> <br/>Theo nguyên lý quy nạp toán học, ta phải thực hiện <strong style=\"color: #ec4899;\">3</strong> bước: <br/>- Bước khởi tạo: Chứng minh $P_{1}$ đúng. <br/>- Bước giả thiết: Giả sử $P_{k}$ đúng với $k \\ge 1$. <br/>- Bước nhảy: Chứng minh $P_{k+1}$ đúng.", "options": ["Giả sử $P_{k}$ đúng, chứng minh $P_{1}$ đúng, rồi suy ra $P_{k+1}$ đúng.", "Chứng minh $P_{1}$ đúng, giả sử $P_{k}$ đúng với $k \\ge 1$, chứng minh $P_{k+1}$ đúng.", "Chứng minh $P_{1}$ đúng, chứng minh $P_{2}$ đúng, suy ra $P_{n}$ đúng.", "Giả sử $P_{n}$ đúng, chứng minh lại bằng đại số."], "correct": [1]}, {"type": "tn", "number": 11, "stem": "<div style=\"text-align:center; margin: 10px 0; white-space: normal;\"><svg class=\"typst-doc\" viewBox=\"0 0 66.69291338582677 95.03937007874016\" width=\"66.69291338582677pt\" height=\"95.03937007874016pt\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:h5=\"http://www.w3.org/1999/xhtml\">    <g>        <g class=\"typst-group\" transform=\"matrix(1 0 0 1 5 5)\">            <g>                <path class=\"typst-shape\" fill=\"#e0f2fe\" fill-rule=\"nonzero\" stroke=\"#0074d9\" stroke-width=\"1\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 28.346456692913385 0)\" d=\"M 0 0v 28.346457 h 28.346457 v -28.346457 h -28.346457 Z \"/>                <path class=\"typst-shape\" fill=\"none\" transform=\"matrix(1 0 0 1 39.962185039370084 10.543228346456692)\" d=\"M 0 0h 5.115 v 7.26 h -5.115 v -7.26 Z \"/>                <g class=\"typst-group\">                    <g>                        <g class=\"typst-group\" transform=\"matrix(1 0 0 1 39.96218494488189 10.543228299212599)\">                            <g>                                <g class=\"typst-text\" transform=\"matrix(1 0 0 -1 0 7.238)\">                                    <use xlink:href=\"#gE830CC2A17783CF9DBCEBAB27924C349\" x=\"0\" y=\"0\" fill=\"#000000\" fill-rule=\"nonzero\"/>                                </g>                            </g>                        </g>                    </g>                </g>                <path class=\"typst-shape\" fill=\"#e0f2fe\" fill-rule=\"nonzero\" stroke=\"#0074d9\" stroke-width=\"1\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" d=\"M 0 0v 28.346457 h 28.346457 v -28.346457 h -28.346457 Z \"/>                <path class=\"typst-shape\" fill=\"none\" transform=\"matrix(1 0 0 1 11.615728346456692 10.543228346456692)\" d=\"M 0 0h 5.115 v 7.26 h -5.115 v -7.26 Z \"/>                <g class=\"typst-group\">                    <g>                        <g class=\"typst-group\" transform=\"matrix(1 0 0 1 11.615728251968504 10.543228299212599)\">                            <g>                                <g class=\"typst-text\" transform=\"matrix(1 0 0 -1 0 7.238)\">                                    <use xlink:href=\"#gE830CC2A17783CF9DBCEBAB27924C349\" x=\"0\" y=\"0\" fill=\"#000000\" fill-rule=\"nonzero\"/>                                </g>                            </g>                        </g>                    </g>                </g>                <path class=\"typst-shape\" fill=\"#bae6fd\" fill-rule=\"nonzero\" stroke=\"#0074d9\" stroke-width=\"1\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 0 28.346456692913385)\" d=\"M 0 0v 56.692913 h 56.692913 v -56.692913 h -56.692913 Z \"/>                <path class=\"typst-shape\" fill=\"none\" transform=\"matrix(1 0 0 1 25.788956692913384 53.06291338582677)\" d=\"M 0 0h 5.115 v 7.26 h -5.115 v -7.26 Z \"/>                <g class=\"typst-group\">                    <g>                        <g class=\"typst-group\" transform=\"matrix(1 0 0 1 25.788956598425194 53.062913338582675)\">                            <g>                                <g class=\"typst-text\" transform=\"matrix(1 0 0 -1 0 7.238)\">                                    <use xlink:href=\"#gB25C5562E4B2D14435658698B9AC5DA3\" x=\"0\" y=\"0\" fill=\"#000000\" fill-rule=\"nonzero\"/>                                </g>                            </g>                        </g>                    </g>                </g>            </g>        </g>    </g>    <defs id=\"glyph\">        <symbol id=\"gE830CC2A17783CF9DBCEBAB27924C349\" overflow=\"visible\">            <path d=\"M 0 0m 3.168 1.342 v 3.817 c 0 0.65999985 0.010999918 1.3309999 0.032999992 1.474 c 0 0.05499983 -0.022000074 0.05499983 -0.065999985 0.05499983 c -0.605 -0.3739996 -1.188 -0.6489997 -2.1560001 -1.0999999 c 0.022000074 -0.12099981 0.065999985 -0.23099995 0.16500008 -0.29699993 c 0.5059999 0.20900011 0.7479999 0.2750001 0.957 0.2750001 c 0.18700004 0 0.22000003 -0.26399994 0.22000003 -0.638 v -3.586 c 0 -0.913 -0.29700017 -0.968 -1.0670002 -1.001 c -0.065999985 -0.065999985 -0.065999985 -0.297 0 -0.36299998 c 0.53900003 0.011 0.93499994 0.022 1.529 0.022 c 0.5279999 0 0.79200006 -0.011 1.342 -0.022 c 0.065999985 0.066 0.065999985 0.297 0 0.36299998 c -0.77 0.033000022 -0.957 0.088 -0.957 1.001 Z \"/>        </symbol>        <symbol id=\"gB25C5562E4B2D14435658698B9AC5DA3\" overflow=\"visible\">            <path d=\"M 0 0m 0.671 5.148 c 0 -0.23099995 0.20899999 -0.4289999 0.43999994 -0.4289999 c 0.18700004 0 0.5170001 0.19799995 0.5170001 0.44000006 c 0 0.08799982 -0.022000074 0.15400028 -0.04400003 0.23099995 c -0.021999955 0.07700014 -0.08799994 0.17600012 -0.08799994 0.26399994 c 0 0.2750001 0.2859999 0.671 1.089 0.671 c 0.3959999 0 0.957 -0.27499962 0.957 -1.3309999 c 0 -0.704 -0.25300002 -1.276 -0.9020002 -1.9359999 l -0.8139999 -0.8030002 c -1.078 -1.0999999 -1.254 -1.6279999 -1.254 -2.277 c 0 0 0.561 0.022 0.913 0.022 h 1.9250001 c 0.352 0 0.85800004 -0.022 0.85800004 -0.022 c 0.14299965 0.583 0.25299978 1.408 0.26399994 1.7379999 c -0.065999985 0.055000067 -0.20900011 0.07700002 -0.31900024 0.055000067 c -0.1869998 -0.781 -0.37399983 -1.056 -0.76999974 -1.056 h -1.9580001 c 0 0.52800006 0.75899994 1.276 0.814 1.3310001 l 1.1110001 1.0669999 c 0.6270001 0.605 1.0999997 1.0890002 1.0999997 1.9250002 c 0 1.1879997 -0.9679997 1.6719999 -1.8589997 1.6719999 c -1.2210001 0 -1.98 -0.90199995 -1.98 -1.5620003 Z \"/>        </symbol>    </defs></svg></div><br/><br/>Người ta vẽ hình chữ nhật Vàng bằng cách ghép các hình vuông có cạnh là các số thuộc dãy Fibonacci: $1, 1, 2, 3, 5, 8, ...$. Gọi $F_n$ là dãy Fibonacci, biết $F_1 = 1, F_2 = 1, F_{n+2} = F_{n+1} + F_n$. Diện tích của hình chữ nhật ghép từ $n$ hình vuông đầu tiên bằng bao nhiêu?", "solution": "<strong>Quan sát quy luật ghép hình:</strong> <br/>Diện tích hình chữ nhật tạo bởi $n$ hình vuông Fibonacci luôn có kích thước cạnh là $F_n$ và $F_{n+1}$. <br/>Do đó diện tích luôn bằng $F_n \\times F_{n+1}$.<br/> <strong>Kiểm chứng:</strong> <br/>Ví dụ khi $n=3$, các cạnh hình vuông là <strong style=\"color: #ec4899;\">1</strong>, <strong style=\"color: #ec4899;\">1</strong>, <strong style=\"color: #a855f7;\">2</strong>. HCN tổng có cạnh $2$ và $3$, diện tích bằng $6 = 2 \\times 3 = F_3 \\times F_4$.", "options": ["$F_n^2$", "$F_n \\times F_{n-1}$", "$F_n \\times F_{n+1}$", "$(F_n + F_{n+1})^2$"], "correct": [2]}, {"type": "tn", "number": 12, "stem": "<div style=\"text-align:center; margin: 10px 0; white-space: normal;\"><svg class=\"typst-doc\" viewBox=\"0 0 240.1732283464567 50.25940157480314\" width=\"240.1732283464567pt\" height=\"50.25940157480314pt\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:h5=\"http://www.w3.org/1999/xhtml\">    <g>        <g class=\"typst-group\" transform=\"matrix(1 0 0 1 5 5)\">            <g>                <path class=\"typst-shape\" fill=\"none\" stroke=\"#ea580c\" stroke-width=\"1.5\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 1.7007874015748032 26.248818897637793)\" d=\"M 0 0m 0 -0.0000000000000031470889 h 28.346457 \"/>                <path class=\"typst-shape\" fill=\"none\" stroke=\"#ea580c\" stroke-width=\"1.5\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 1.7007874015748032 1.7007874015748017)\" d=\"M 0 0m 0 24.54803 l 14.173228 -24.54803 \"/>                <path class=\"typst-shape\" fill=\"none\" stroke=\"#ea580c\" stroke-width=\"1.5\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 15.874015748031498 1.7007874015748017)\" d=\"M 0 0m 14.173228 24.54803 l -14.173228 -24.54803 \"/>                <path class=\"typst-shape\" fill=\"#000000\" fill-rule=\"nonzero\" stroke=\"#000000\" stroke-width=\"1\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 28.346456692913385 24.548031496062986)\" d=\"M 0 0m 1.7007874 0 c -0.9384673 0 -1.7007874 0.7623201 -1.7007874 1.7007874 c 0 0.93846714 0.7623201 1.7007874 1.7007874 1.7007874 c 0.93846714 0 1.7007874 -0.7623203 1.7007874 -1.7007874 c 0 -0.9384673 -0.7623203 -1.7007874 -1.7007874 -1.7007874 Z \"/>                <path class=\"typst-shape\" fill=\"#000000\" fill-rule=\"nonzero\" stroke=\"#000000\" stroke-width=\"1\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 14.173228346456693 0)\" d=\"M 0 0m 1.7007874 -0.0000000000000031470889 c -0.9384673 0 -1.7007874 0.7623201 -1.7007874 1.7007874 c 0 0.93846714 0.7623201 1.7007874 1.7007874 1.7007874 c 0.93846714 0 1.7007874 -0.7623203 1.7007874 -1.7007874 c 0 -0.9384673 -0.7623203 -1.7007874 -1.7007874 -1.7007874 Z \"/>                <path class=\"typst-shape\" fill=\"#000000\" fill-rule=\"nonzero\" stroke=\"#000000\" stroke-width=\"1\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 0 24.548031496062986)\" d=\"M 0 0m 1.7007874 0 c -0.9384673 0 -1.7007874 0.7623201 -1.7007874 1.7007874 c 0 0.93846714 0.7623201 1.7007874 1.7007874 1.7007874 c 0.93846714 0 1.7007874 -0.7623203 1.7007874 -1.7007874 c 0 -0.9384673 -0.7623203 -1.7007874 -1.7007874 -1.7007874 Z \"/>                <path class=\"typst-shape\" fill=\"none\" transform=\"matrix(1 0 0 1 4.690015748031494 34.947401574803145)\" d=\"M 0 0h 22.368 v 5.28 h -22.368 v -5.28 Z \"/>                <g class=\"typst-group\">                    <g>                        <g class=\"typst-group\" transform=\"matrix(1 0 0 1 4.69001565354331 34.94740152755905)\">                            <g>                                <g class=\"typst-text\" transform=\"matrix(1 0 0 -1 0 5.264)\">                                    <use xlink:href=\"#g8678A1DD0F606A151F3993AFA6C86C7C\" x=\"0\" y=\"0\" fill=\"#000000\" fill-rule=\"nonzero\"/>                                    <use xlink:href=\"#gDD117D3D6D1029AD7699176AE33EC20B\" x=\"5.84\" y=\"0\" fill=\"#000000\" fill-rule=\"nonzero\"/>                                    <use xlink:href=\"#gFC57F677F4297F689B713E7754AFE71C\" x=\"8.008\" y=\"0\" fill=\"#000000\" fill-rule=\"nonzero\"/>                                    <use xlink:href=\"#g7490E77E2719EE7DC95366A1921C169\" x=\"12.344\" y=\"0\" fill=\"#000000\" fill-rule=\"nonzero\"/>                                    <use xlink:href=\"#g5AA96BFD497FC56DC80CBBF4B660684C\" x=\"18.648\" y=\"0\" fill=\"#000000\" fill-rule=\"nonzero\"/>                                </g>                            </g>                        </g>                    </g>                </g>                <path class=\"typst-shape\" fill=\"none\" stroke=\"#ea580c\" stroke-width=\"1.5\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 58.39370078740158 26.248818897637793)\" d=\"M 0 0m 0 -0.0000000000000031470889 h 28.346457 \"/>                <path class=\"typst-shape\" fill=\"none\" stroke=\"#ea580c\" stroke-width=\"1.5\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 58.39370078740158 1.7007874015748017)\" d=\"M 0 0m 0 24.54803 l 14.173228 -24.54803 \"/>                <path class=\"typst-shape\" fill=\"none\" stroke=\"#ea580c\" stroke-width=\"1.5\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 72.56692913385827 1.7007874015748017)\" d=\"M 0 0m 14.173228 24.54803 l -14.173228 -24.54803 \"/>                <path class=\"typst-shape\" fill=\"none\" stroke=\"#ea580c\" stroke-width=\"1.5\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 86.74015748031496 26.248818897637793)\" d=\"M 0 0m 0 -0.0000000000000031470889 h 28.346457 \"/>                <path class=\"typst-shape\" fill=\"none\" stroke=\"#ea580c\" stroke-width=\"1.5\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 100.91338582677166 1.7007874015748017)\" d=\"M 0 0m 14.173228 24.54803 l -14.173228 -24.54803 \"/>                <path class=\"typst-shape\" fill=\"none\" stroke=\"#ea580c\" stroke-width=\"1.5\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 86.74015748031496 1.7007874015748017)\" d=\"M 0 0m 0 24.54803 l 14.173228 -24.54803 \"/>                <path class=\"typst-shape\" fill=\"#000000\" fill-rule=\"nonzero\" stroke=\"#000000\" stroke-width=\"1\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 56.69291338582677 24.548031496062986)\" d=\"M 0 0m 1.7007874 0 c -0.9384673 0 -1.7007874 0.7623201 -1.7007874 1.7007874 c 0 0.93846714 0.7623201 1.7007874 1.7007874 1.7007874 c 0.93846714 0 1.7007874 -0.7623203 1.7007874 -1.7007874 c 0 -0.9384673 -0.7623203 -1.7007874 -1.7007874 -1.7007874 Z \"/>                <path class=\"typst-shape\" fill=\"#000000\" fill-rule=\"nonzero\" stroke=\"#000000\" stroke-width=\"1\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 85.03937007874016 24.548031496062986)\" d=\"M 0 0m 1.7007874 0 c -0.9384673 0 -1.7007874 0.7623201 -1.7007874 1.7007874 c 0 0.93846714 0.7623201 1.7007874 1.7007874 1.7007874 c 0.93846714 0 1.7007874 -0.7623203 1.7007874 -1.7007874 c 0 -0.9384673 -0.7623203 -1.7007874 -1.7007874 -1.7007874 Z \"/>                <path class=\"typst-shape\" fill=\"#000000\" fill-rule=\"nonzero\" stroke=\"#000000\" stroke-width=\"1\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 113.38582677165354 24.548031496062986)\" d=\"M 0 0m 1.7007874 0 c -0.9384673 0 -1.7007874 0.7623201 -1.7007874 1.7007874 c 0 0.93846714 0.7623201 1.7007874 1.7007874 1.7007874 c 0.93846714 0 1.7007874 -0.7623203 1.7007874 -1.7007874 c 0 -0.9384673 -0.7623203 -1.7007874 -1.7007874 -1.7007874 Z \"/>                <path class=\"typst-shape\" fill=\"#000000\" fill-rule=\"nonzero\" stroke=\"#000000\" stroke-width=\"1\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 70.86614173228347 0)\" d=\"M 0 0m 1.7007874 -0.0000000000000031470889 c -0.9384673 0 -1.7007874 0.7623201 -1.7007874 1.7007874 c 0 0.93846714 0.7623201 1.7007874 1.7007874 1.7007874 c 0.93846714 0 1.7007874 -0.7623203 1.7007874 -1.7007874 c 0 -0.9384673 -0.7623203 -1.7007874 -1.7007874 -1.7007874 Z \"/>                <path class=\"typst-shape\" fill=\"#000000\" fill-rule=\"nonzero\" stroke=\"#000000\" stroke-width=\"1\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 99.21259842519684 0)\" d=\"M 0 0m 1.7007874 -0.0000000000000031470889 c -0.9384673 0 -1.7007874 0.7623201 -1.7007874 1.7007874 c 0 0.93846714 0.7623201 1.7007874 1.7007874 1.7007874 c 0.93846714 0 1.7007874 -0.7623203 1.7007874 -1.7007874 c 0 -0.9384673 -0.7623203 -1.7007874 -1.7007874 -1.7007874 Z \"/>                <path class=\"typst-shape\" fill=\"none\" transform=\"matrix(1 0 0 1 75.55615748031495 34.947401574803145)\" d=\"M 0 0h 22.368 v 5.28 h -22.368 v -5.28 Z \"/>                <g class=\"typst-group\">                    <g>                        <g class=\"typst-group\" transform=\"matrix(1 0 0 1 75.55615738582678 34.94740152755905)\">                            <g>                                <g class=\"typst-text\" transform=\"matrix(1 0 0 -1 0 5.264)\">                                    <use xlink:href=\"#g8678A1DD0F606A151F3993AFA6C86C7C\" x=\"0\" y=\"0\" fill=\"#000000\" fill-rule=\"nonzero\"/>                                    <use xlink:href=\"#gDD117D3D6D1029AD7699176AE33EC20B\" x=\"5.84\" y=\"0\" fill=\"#000000\" fill-rule=\"nonzero\"/>                                    <use xlink:href=\"#gFC57F677F4297F689B713E7754AFE71C\" x=\"8.008\" y=\"0\" fill=\"#000000\" fill-rule=\"nonzero\"/>                                    <use xlink:href=\"#g7490E77E2719EE7DC95366A1921C169\" x=\"12.344\" y=\"0\" fill=\"#000000\" fill-rule=\"nonzero\"/>                                    <use xlink:href=\"#g56B834D27169F084F258225BDAF2C497\" x=\"18.648\" y=\"0\" fill=\"#000000\" fill-rule=\"nonzero\"/>                                </g>                            </g>                        </g>                    </g>                </g>                <path class=\"typst-shape\" fill=\"none\" stroke=\"#ea580c\" stroke-width=\"1.5\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 143.43307086614172 26.248818897637793)\" d=\"M 0 0m 0 -0.0000000000000031470889 h 28.346457 \"/>                <path class=\"typst-shape\" fill=\"none\" stroke=\"#ea580c\" stroke-width=\"1.5\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 143.43307086614172 1.7007874015748017)\" d=\"M 0 0m 0 24.54803 l 14.173228 -24.54803 \"/>                <path class=\"typst-shape\" fill=\"none\" stroke=\"#ea580c\" stroke-width=\"1.5\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 157.60629921259843 1.7007874015748017)\" d=\"M 0 0m 14.173228 24.54803 l -14.173228 -24.54803 \"/>                <path class=\"typst-shape\" fill=\"none\" stroke=\"#ea580c\" stroke-width=\"1.5\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 171.7795275590551 26.248818897637793)\" d=\"M 0 0m 0 -0.0000000000000031470889 h 28.346457 \"/>                <path class=\"typst-shape\" fill=\"none\" stroke=\"#ea580c\" stroke-width=\"1.5\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 185.95275590551182 1.7007874015748017)\" d=\"M 0 0m 14.173228 24.54803 l -14.173228 -24.54803 \"/>                <path class=\"typst-shape\" fill=\"none\" stroke=\"#ea580c\" stroke-width=\"1.5\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 171.7795275590551 1.7007874015748017)\" d=\"M 0 0m 0 24.54803 l 14.173228 -24.54803 \"/>                <path class=\"typst-shape\" fill=\"none\" stroke=\"#ea580c\" stroke-width=\"1.5\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 200.1259842519685 26.248818897637793)\" d=\"M 0 0m 0 -0.0000000000000031470889 h 28.346457 \"/>                <path class=\"typst-shape\" fill=\"none\" stroke=\"#ea580c\" stroke-width=\"1.5\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 214.29921259842519 1.7007874015748017)\" d=\"M 0 0m 14.173228 24.54803 l -14.173228 -24.54803 \"/>                <path class=\"typst-shape\" fill=\"none\" stroke=\"#ea580c\" stroke-width=\"1.5\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 200.1259842519685 1.7007874015748017)\" d=\"M 0 0m 0 24.54803 l 14.173228 -24.54803 \"/>                <path class=\"typst-shape\" fill=\"#000000\" fill-rule=\"nonzero\" stroke=\"#000000\" stroke-width=\"1\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 141.73228346456693 24.548031496062986)\" d=\"M 0 0m 1.7007874 0 c -0.9384673 0 -1.7007874 0.7623201 -1.7007874 1.7007874 c 0 0.93846714 0.7623201 1.7007874 1.7007874 1.7007874 c 0.93846714 0 1.7007874 -0.7623203 1.7007874 -1.7007874 c 0 -0.9384673 -0.7623203 -1.7007874 -1.7007874 -1.7007874 Z \"/>                <path class=\"typst-shape\" fill=\"#000000\" fill-rule=\"nonzero\" stroke=\"#000000\" stroke-width=\"1\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 170.07874015748033 24.548031496062986)\" d=\"M 0 0m 1.7007874 0 c -0.9384673 0 -1.7007874 0.7623201 -1.7007874 1.7007874 c 0 0.93846714 0.7623201 1.7007874 1.7007874 1.7007874 c 0.93846714 0 1.7007874 -0.7623203 1.7007874 -1.7007874 c 0 -0.9384673 -0.7623203 -1.7007874 -1.7007874 -1.7007874 Z \"/>                <path class=\"typst-shape\" fill=\"#000000\" fill-rule=\"nonzero\" stroke=\"#000000\" stroke-width=\"1\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 198.4251968503937 24.548031496062986)\" d=\"M 0 0m 1.7007874 0 c -0.9384673 0 -1.7007874 0.7623201 -1.7007874 1.7007874 c 0 0.93846714 0.7623201 1.7007874 1.7007874 1.7007874 c 0.93846714 0 1.7007874 -0.7623203 1.7007874 -1.7007874 c 0 -0.9384673 -0.7623203 -1.7007874 -1.7007874 -1.7007874 Z \"/>                <path class=\"typst-shape\" fill=\"#000000\" fill-rule=\"nonzero\" stroke=\"#000000\" stroke-width=\"1\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 226.77165354330708 24.548031496062986)\" d=\"M 0 0m 1.7007874 0 c -0.9384673 0 -1.7007874 0.7623201 -1.7007874 1.7007874 c 0 0.93846714 0.7623201 1.7007874 1.7007874 1.7007874 c 0.93846714 0 1.7007874 -0.7623203 1.7007874 -1.7007874 c 0 -0.9384673 -0.7623203 -1.7007874 -1.7007874 -1.7007874 Z \"/>                <path class=\"typst-shape\" fill=\"#000000\" fill-rule=\"nonzero\" stroke=\"#000000\" stroke-width=\"1\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 155.90551181102362 0)\" d=\"M 0 0m 1.7007874 -0.0000000000000031470889 c -0.9384673 0 -1.7007874 0.7623201 -1.7007874 1.7007874 c 0 0.93846714 0.7623201 1.7007874 1.7007874 1.7007874 c 0.93846714 0 1.7007874 -0.7623203 1.7007874 -1.7007874 c 0 -0.9384673 -0.7623203 -1.7007874 -1.7007874 -1.7007874 Z \"/>                <path class=\"typst-shape\" fill=\"#000000\" fill-rule=\"nonzero\" stroke=\"#000000\" stroke-width=\"1\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 184.251968503937 0)\" d=\"M 0 0m 1.7007874 -0.0000000000000031470889 c -0.9384673 0 -1.7007874 0.7623201 -1.7007874 1.7007874 c 0 0.93846714 0.7623201 1.7007874 1.7007874 1.7007874 c 0.93846714 0 1.7007874 -0.7623203 1.7007874 -1.7007874 c 0 -0.9384673 -0.7623203 -1.7007874 -1.7007874 -1.7007874 Z \"/>                <path class=\"typst-shape\" fill=\"#000000\" fill-rule=\"nonzero\" stroke=\"#000000\" stroke-width=\"1\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 212.5984251968504 0)\" d=\"M 0 0m 1.7007874 -0.0000000000000031470889 c -0.9384673 0 -1.7007874 0.7623201 -1.7007874 1.7007874 c 0 0.93846714 0.7623201 1.7007874 1.7007874 1.7007874 c 0.93846714 0 1.7007874 -0.7623203 1.7007874 -1.7007874 c 0 -0.9384673 -0.7623203 -1.7007874 -1.7007874 -1.7007874 Z \"/>                <path class=\"typst-shape\" fill=\"none\" transform=\"matrix(1 0 0 1 174.7687559055118 34.91540157480315)\" d=\"M 0 0h 22.368 v 5.344 h -22.368 v -5.344 Z \"/>                <g class=\"typst-group\">                    <g>                        <g class=\"typst-group\" transform=\"matrix(1 0 0 1 174.76875581102362 34.91540149606299)\">                            <g>                                <g class=\"typst-text\" transform=\"matrix(1 0 0 -1 0 5.264)\">                                    <use xlink:href=\"#g8678A1DD0F606A151F3993AFA6C86C7C\" x=\"0\" y=\"0\" fill=\"#000000\" fill-rule=\"nonzero\"/>                                    <use xlink:href=\"#gDD117D3D6D1029AD7699176AE33EC20B\" x=\"5.84\" y=\"0\" fill=\"#000000\" fill-rule=\"nonzero\"/>                                    <use xlink:href=\"#gFC57F677F4297F689B713E7754AFE71C\" x=\"8.008\" y=\"0\" fill=\"#000000\" fill-rule=\"nonzero\"/>                                    <use xlink:href=\"#g7490E77E2719EE7DC95366A1921C169\" x=\"12.344\" y=\"0\" fill=\"#000000\" fill-rule=\"nonzero\"/>                                    <use xlink:href=\"#g662457BD0B431AB5980DF6C57AC2CD4C\" x=\"18.648\" y=\"0\" fill=\"#000000\" fill-rule=\"nonzero\"/>                                </g>                            </g>                        </g>                    </g>                </g>            </g>        </g>    </g>    <defs id=\"glyph\">        <symbol id=\"g8678A1DD0F606A151F3993AFA6C86C7C\" overflow=\"visible\">            <path d=\"M 0 0m 4.9440002 0.9760001 v 3.208 c 0 0.66400003 0.13600016 0.704 0.6960001 0.72800016 c 0.04799986 0.04799986 0.04799986 0.21600008 0 0.26399994 c -0.32800007 -0.007999897 -0.73600006 -0.015999794 -1.04 -0.015999794 c -0.296 0 -0.6800003 0.007999897 -1.0320003 0.015999794 c -0.04799986 -0.04799986 -0.04799986 -0.21600008 0 -0.26399994 c 0.5600002 -0.024000168 0.69600034 -0.06400013 0.69600034 -0.72800016 v -1.28 h -2.7360003 v 1.28 c 0 0.66400003 0.13599992 0.704 0.6960001 0.72800016 c 0.04799986 0.04799986 0.04799986 0.21600008 0 0.26399994 c -0.30400014 -0.007999897 -0.6320001 -0.015999794 -1.0400002 -0.015999794 c -0.39999998 0 -0.728 0.007999897 -1.0320001 0.015999794 c -0.048000008 -0.04799986 -0.048000008 -0.21600008 0 -0.26399994 c 0.56 -0.024000168 0.69600004 -0.06400013 0.69600004 -0.72800016 v -3.208 c 0 -0.66400003 -0.13600004 -0.70400006 -0.69600004 -0.72800004 c -0.048000008 -0.048000008 -0.048000008 -0.216 0 -0.264 c 0.352 0.008 0.73600006 0.016 1.04 0.016 c 0.288 0 0.68000007 -0.008 1.0320002 -0.016 c 0.04799986 0.048 0.04799986 0.216 0 0.264 c -0.5600002 0.024000004 -0.6960001 0.063999996 -0.6960001 0.72800004 v 1.592 h 2.7360003 v -1.592 c 0 -0.66400003 -0.13600016 -0.70400006 -0.69600034 -0.72800004 c -0.04799986 -0.048000008 -0.04799986 -0.216 0 -0.264 c 0.36000013 0.008 0.7440002 0.016 1.0400002 0.016 c 0.296 0 0.6799998 -0.008 1.0320001 -0.016 c 0.04799986 0.048 0.04799986 0.216 0 0.264 c -0.55999994 0.024000004 -0.6960001 0.063999996 -0.6960001 0.72800004 Z \"/>        </symbol>        <symbol id=\"gDD117D3D6D1029AD7699176AE33EC20B\" overflow=\"visible\">            <path d=\"M 0 0m 1.4480001 0.9760001 v 1.592 c 0 0.4000001 0.031999946 0.9120002 0.031999946 0.9120002 c 0 0.031999826 -0.03999996 0.055999994 -0.10399997 0.055999994 c -0.22399998 -0.08800006 -0.544 -0.16000009 -1.0960001 -0.23200011 c -0.016000003 -0.048000097 0 -0.17599988 0.016000003 -0.22399998 c 0.44000006 -0.03999996 0.52000004 -0.08800006 0.52000004 -0.54400015 v -1.56 c 0 -0.66400003 -0.088 -0.6880001 -0.57600003 -0.72800004 c -0.048000008 -0.048000008 -0.048000008 -0.216 0 -0.264 c 0.264 0.008 0.57600003 0.016 0.896 0.016 c 0.32000005 0 0.6240001 -0.008 0.88800013 -0.016 c 0.04799986 0.048 0.04799986 0.216 0 0.264 c -0.48800015 0.03199999 -0.5760001 0.063999996 -0.5760001 0.72800004 Z m -0.656 4.392 c -0.032000005 0.008000374 -0.08000004 0.01600027 -0.120000005 0.01600027 c -0.27200004 0 -0.45600003 -0.13600016 -0.52000004 -0.18400002 l -0.016000003 -0.08799982 l 0.91200006 -0.8720002 c 0.1279999 -0.119999886 0.18400002 -0.15999985 0.232 -0.15999985 c 0.06400001 0 0.120000005 0.04799986 0.120000005 0.08799982 c 0 0.055999756 -0.008000016 0.11199999 -0.047999978 0.19199991 Z \"/>        </symbol>        <symbol id=\"gFC57F677F4297F689B713E7754AFE71C\" overflow=\"visible\">            <path d=\"M 0 0m 1.4720001 2.864 c -0.048000097 -0.055999994 -0.096000075 -0.07200003 -0.096000075 0 c -0.008000016 0.21600008 -0.02399993 0.5280001 -0.06400001 0.60800004 c -0.016000032 0.03999996 -0.031999946 0.06400013 -0.095999956 0.06400013 c -0.22400004 -0.08800006 -0.43200004 -0.16000009 -0.9840001 -0.23200011 c -0.016000003 -0.048000097 0 -0.17599988 0.016000003 -0.22399998 c 0.43199998 -0.03999996 0.52 -0.07999992 0.52 -0.54400015 v -1.56 c 0 -0.656 -0.07999998 -0.6880001 -0.56 -0.72800004 c -0.047999993 -0.048000008 -0.047999993 -0.216 0 -0.264 c 0.24000001 0.008 0.56 0.016 0.88000005 0.016 c 0.32000005 0 0.56000006 -0.008 0.8000001 -0.016 c 0.047999978 0.048 0.047999978 0.216 0 0.264 c -0.4080001 0.040000007 -0.48800004 0.07200001 -0.48800004 0.72800004 v 1.312 c 0 0.16799998 0.07200003 0.26399994 0.13599992 0.33599997 c 0.30400002 0.296 0.66400003 0.47200012 0.9760001 0.47200012 c 0.16000009 0 0.32800007 -0.10400009 0.42400002 -0.2880001 c 0.07999992 -0.15999985 0.095999956 -0.37599993 0.095999956 -0.61599994 v -1.2160001 c 0 -0.656 -0.07999992 -0.6880001 -0.49600005 -0.72800004 c -0.03999996 -0.048000008 -0.03999996 -0.216 0 -0.264 c 0.24000001 0.008 0.49600005 0.016 0.8160002 0.016 c 0.31999993 0 0.60800004 -0.008 0.84800005 -0.016 c 0.03999996 0.048 0.03999996 0.216 0 0.264 c -0.4480002 0.040000007 -0.536 0.07200001 -0.536 0.72800004 v 1.1920002 c 0 0.43999982 -0.032000065 0.8239999 -0.21600008 1.072 c -0.13599992 0.17599988 -0.38400006 0.27199984 -0.66400003 0.27199984 c -0.39199996 0 -0.84000003 -0.10399985 -1.312 -0.648 Z \"/>        </symbol>        <symbol id=\"g7490E77E2719EE7DC95366A1921C169\" overflow=\"visible\">            <path d=\"M 0 0m 1.3360001 2.288 c 0 0.16799998 0.07200003 0.26399994 0.13600004 0.33599997 c 0.30400002 0.296 0.7119999 0.47200012 1.0239999 0.47200012 c 0.16000009 0 0.32800007 -0.10400009 0.42400002 -0.2880001 c 0.08000016 -0.15999985 0.095999956 -0.37599993 0.095999956 -0.61599994 v -1.2160001 c 0 -0.656 -0.07999992 -0.6880001 -0.4959998 -0.72800004 c -0.0400002 -0.048000008 -0.0400002 -0.216 0 -0.264 c 0.22399998 0.008 0.4959998 0.016 0.816 0.016 c 0.31999993 0 0.5839999 -0.008 0.8479998 -0.016 c 0.03999996 0.048 0.03999996 0.216 0 0.264 c -0.44799995 0.040000007 -0.5359998 0.07200001 -0.5359998 0.72800004 v 1.1920002 c 0 0.43999982 -0.032000065 0.832 -0.21600008 1.072 c -0.13599992 0.17599988 -0.38400006 0.27199984 -0.66400003 0.27199984 c -0.39199996 0 -0.872 -0.10399985 -1.36 -0.648 c 0 -0.007999897 -0.008000016 -0.007999897 -0.016000032 -0.016000032 c -0.024000049 -0.031999826 -0.06400001 -0.07999992 -0.06400001 0.016000032 l 0.008000016 1.8 c 0 0.52 0.031999946 0.84000015 0.031999946 0.84000015 c 0 0.056000233 -0.031999946 0.07999992 -0.10399997 0.07999992 c -0.20000005 -0.07999992 -0.8000001 -0.19199991 -1.12 -0.21600008 c -0.016000003 -0.06399965 0 -0.19199991 0.047999993 -0.23999977 c 0.024000004 0 0.048000008 0 0.072 0 c 0.35200006 -0.024000168 0.44000006 -0.024000168 0.44000006 -0.65600014 v -3.496 c 0 -0.66400003 -0.096000016 -0.6960001 -0.56000006 -0.72800004 c -0.048000008 -0.048000008 -0.048000008 -0.216 0 -0.264 c 0.264 0.008 0.56000006 0.016 0.88000005 0.016 c 0.30400002 0 0.5680001 -0.008 0.79200006 -0.016 c 0.047999978 0.048 0.047999978 0.216 0 0.264 c -0.408 0.03199999 -0.48000002 0.063999996 -0.48000002 0.72800004 Z \"/>        </symbol>        <symbol id=\"g5AA96BFD497FC56DC80CBBF4B660684C\" overflow=\"visible\">            <path d=\"M 0 0m 2.3040001 0.9760001 v 2.776 c 0 0.48000026 0.007999897 0.9680002 0.02399993 1.0720003 c 0 0.03999996 -0.016000032 0.03999996 -0.04799986 0.03999996 c -0.44000018 -0.2720003 -0.8640002 -0.47200012 -1.5680002 -0.8000002 c 0.016000032 -0.08800006 0.048000038 -0.16799998 0.120000005 -0.21599984 c 0.36800003 0.15199971 0.544 0.20000005 0.6960001 0.20000005 c 0.13599992 0 0.15999997 -0.19200015 0.15999997 -0.46400023 v -2.608 c 0 -0.66400003 -0.21599996 -0.70400006 -0.776 -0.72800004 c -0.048000038 -0.048000008 -0.048000038 -0.216 0 -0.264 c 0.39199996 0.008 0.68000007 0.016 1.1120001 0.016 c 0.38400006 0 0.576 -0.008 0.9760001 -0.016 c 0.04799986 0.048 0.04799986 0.216 0 0.264 c -0.5600002 0.024000004 -0.6960001 0.063999996 -0.6960001 0.72800004 Z \"/>        </symbol>        <symbol id=\"g56B834D27169F084F258225BDAF2C497\" overflow=\"visible\">            <path d=\"M 0 0m 0.48800004 3.7440002 c 0 -0.16799998 0.15200001 -0.31200004 0.32 -0.31200004 c 0.13600004 0 0.376 0.14400005 0.376 0.31999993 c 0 0.06400013 -0.015999913 0.11199999 -0.031999946 0.16799998 c -0.016000032 0.055999994 -0.06400001 0.12800026 -0.06400001 0.19199991 c 0 0.20000029 0.20799994 0.4880004 0.79200006 0.4880004 c 0.2880001 0 0.6960001 -0.20000029 0.6960001 -0.9680002 c 0 -0.5120001 -0.18400002 -0.928 -0.65600014 -1.408 l -0.592 -0.5840001 c -0.78400004 -0.8000001 -0.91200006 -1.184 -0.91200006 -1.6560001 c 0 0 0.40800005 0.016 0.66400003 0.016 h 1.4 c 0.25600004 0 0.6240001 -0.016 0.6240001 -0.016 c 0.10400009 0.42400002 0.18400002 1.024 0.19200015 1.264 c -0.048000097 0.04000008 -0.15200019 0.055999994 -0.23200011 0.04000008 c -0.13599992 -0.5680001 -0.27200007 -0.76800007 -0.55999994 -0.76800007 h -1.4240001 c 0 0.384 0.55200005 0.92800003 0.592 0.968 l 0.80799997 0.77600014 c 0.4560001 0.44000006 0.8000002 0.79200006 0.8000002 1.4000001 c 0 0.8640001 -0.704 1.2159998 -1.3520001 1.2159998 c -0.888 0 -1.44 -0.65600014 -1.44 -1.1359999 Z \"/>        </symbol>        <symbol id=\"g662457BD0B431AB5980DF6C57AC2CD4C\" overflow=\"visible\">            <path d=\"M 0 0m 1.72 4.6000004 c 0.3440001 0 0.66400003 -0.20800018 0.66400003 -0.72000027 c 0 -0.39999986 -0.464 -1.016 -1.256 -1.128 l 0.04000008 -0.25600004 c 0.13599992 0.016000032 0.27999997 0.016000032 0.38399994 0.016000032 c 0.4560001 0 1.0480001 -0.12800002 1.0480001 -1.0320001 c 0 -1.064 -0.712 -1.28 -0.9920001 -1.28 c -0.408 0 -0.48000002 0.184 -0.576 0.328 c -0.08000004 0.11200005 -0.18400002 0.20800006 -0.34400004 0.20800006 c -0.16799998 0 -0.336 -0.15200001 -0.336 -0.28000003 c 0 -0.32000002 0.67200005 -0.536 1.1520001 -0.536 c 0.952 0 1.8000001 0.616 1.8000001 1.6720002 c 0 0.8720001 -0.6559999 1.1839999 -1.128 1.264 l -0.007999897 0.016000032 c 0.6559999 0.31200004 0.8399999 0.63999987 0.8399999 1.0639999 c 0 0.24000001 -0.055999994 0.43199992 -0.2479999 0.6320002 c -0.17600012 0.17600012 -0.4560001 0.3119998 -0.8720001 0.3119998 c -1.1760001 0 -1.5120001 -0.7680001 -1.5120001 -1.0319998 c 0 -0.11200023 0.08000001 -0.27200007 0.27199998 -0.27200007 c 0.28000003 0 0.31200004 0.26399994 0.31200004 0.4159999 c 0 0.5120001 0.55200005 0.6080003 0.76 0.6080003 Z \"/>        </symbol>    </defs></svg></div><br/><br/>Một dãy các hình tam giác được xếp từ các que diêm như sơ đồ trên. Hình thứ nhất gồm <strong style=\"color: #ec4899;\">1</strong> tam giác (<strong style=\"color: #ec4899;\">3</strong> que diêm), hình thứ hai gồm <strong style=\"color: #a855f7;\">2</strong> tam giác (<strong style=\"color: #ec4899;\">5</strong> que diêm), hình thứ ba gồm <strong style=\"color: #ec4899;\">3</strong> tam giác (<strong style=\"color: #a855f7;\">7</strong> que diêm). Công thức số que diêm $u_n$ cần dùng để xếp hình thứ $n$ là:", "solution": "<strong>B1: Xác định quy luật cấp số cộng:</strong> <br/>Số que diêm ở các hình lập thành một cấp số cộng với $u_1 = 3$ và công sai $d = 2$ (mỗi lần thêm <strong style=\"color: #ec4899;\">1</strong> tam giác ta cần thêm <strong style=\"color: #a855f7;\">2</strong> que diêm ghép vào cạnh có sẵn).<br/> <strong>B2: Tìm số hạng tổng quát:</strong> <br/>Công thức số hạng tổng quát: $u_n = u_1 + (n-1)d = 3 + 2(n-1) = 2n + 1$.", "options": ["$u_n = 3n$", "$u_n = 3^n$", "$u_n = 2n + 1$", "$u_n = 2n - 1$"], "correct": [2]}, {"type": "tn", "number": 13, "stem": "Cho dãy số $(u_n)$ xác định bởi $u_1 = 5$ và hệ thức truy hồi $u_{n+1} = u_n + 2n - 1$ với mọi $n \\ge 1$. Số hạng tổng quát của dãy số $(u_n)$ là công thức nào dưới đây?", "solution": "<strong>B1: Lập các hiệu số liên tiếp:</strong> <br/>Ta có: $u_{n+1} - u_n = 2n - 1$. <br/>Thay lần lượt $n = 1, 2, ..., n-1$, ta cộng các vế lại:<br/> <strong>B2: Tính tổng các hiệu số:</strong> <br/>$u_n - u_1 = \\sum_{i=1}^{n-1} (2i - 1) = (n-1)^2$.<br/> *B3: Rút ra công thức $u_n$:* <br/>Suy ra $u_n = 5 + (n-1)^2 = 5 + n^2 - 2n + 1 = n^2 - 2n + 6$.", "options": ["$u_n = n^2 - 2n + 6$", "$u_n = n^2 - 2n + 5$", "$u_n = n^2 + 2n + 2$", "$u_n = 2n^2 - n + 4$"], "correct": [0]}, {"type": "ds", "number": 14, "stem": "Cho dãy số $(u_n)$ được xác định bởi công thức $u_n = 2^n - 3n$. Xét tính đúng sai của các mệnh đề sau:", "solution": "<strong>Kiểm tra từng mệnh đề:</strong> <br/>- a) Đúng. Với $n=1$, $u_1 = 2^1 - 3(1) = -1$. <br/>- b) Sai. Ta có $u_1 = -1, u_2 = 2^2 - 3(2) = -2$. Do $u_2 < u_1$ nên dãy không tăng. <br/>- c) Đúng. $u_4 = 2^4 - 3(4) = 4, u_3 = 2^3 - 3(3) = -1$. Rõ ràng $4 > -1$. <br/>- d) Sai. Khi $n \\to +\\infty$, $2^n$ tăng nhanh hơn rất nhiều so với $3n$, nên $u_n \\to +\\infty$. Dãy không bị chặn trên.", "options": ["Số hạng đầu tiên của dãy là $u_1 = -1$.", "Dãy số $(u_n)$ là một dãy số tăng.", "Số hạng thứ <strong style=\"color: #a855f7;\">4</strong> của dãy lớn hơn số hạng thứ <strong style=\"color: #ec4899;\">3</strong>.", "Dãy số $(u_n)$ bị chặn trên."], "correct": [0, 2]}, {"type": "ds", "number": 15, "stem": "Trò chơi Tháp Hà Nội có <strong style=\"color: #ec4899;\">3</strong> cọc A, B, C. Người chơi cần chuyển $n$ đĩa từ cọc A sang cọc C, biết đĩa lớn không được đè lên đĩa nhỏ. Gọi $u_n$ là số bước di chuyển tối thiểu để chuyển $n$ đĩa. Ta có hệ thức: $u_1 = 1$, $u_{n+1} = 2 u_n + 1$. Xét tính đúng sai:", "solution": "<strong>Kiểm tra từng mệnh đề:</strong> <br/>- a) Đúng. Với $n=1$, $u_2 = 2(1) + 1 = 3$. <br/>- b) Sai. Với $n=2$, $u_3 = 2(3) + 1 = 7$ bước. <br/>- c) Đúng. Khởi tạo $n=1 \\Rightarrow 2^1-1=1$. Bước nhảy: $u_{k+1} = 2(2^k-1)+1 = 2^{k+1}-1$. <br/>- d) Sai. Số bước chuyển <strong style=\"color: #fbbf24;\">10</strong> đĩa là $u_{10} = 2^{10} - 1 = 1023$ bước. Thời gian là <strong style=\"color: #a855f7;\">1023</strong> giây $\\approx 17$ phút, chưa tới <strong style=\"color: #ec4899;\">1</strong> giờ.", "options": ["Để chuyển <strong style=\"color: #a855f7;\">2</strong> đĩa cần tối thiểu <strong style=\"color: #ec4899;\">3</strong> bước.", "Để chuyển <strong style=\"color: #ec4899;\">3</strong> đĩa cần tối thiểu <strong style=\"color: #60a5fa;\">6</strong> bước.", "Bằng phương pháp quy nạp, ta chứng minh được $u_n = 2^n - 1$.", "Để chuyển tháp <strong style=\"color: #fbbf24;\">10</strong> đĩa (<strong style=\"color: #ec4899;\">1</strong> đĩa/giây) sẽ mất hơn <strong style=\"color: #ec4899;\">1</strong> giờ đồng hồ."], "correct": [0, 2]}, {"type": "ds", "number": 16, "stem": "<div style=\"text-align:center; margin: 10px 0; white-space: normal;\"><svg class=\"typst-doc\" viewBox=\"0 0 112.04724409448819 112.04724409448819\" width=\"112.04724409448819pt\" height=\"112.04724409448819pt\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:h5=\"http://www.w3.org/1999/xhtml\">    <g>        <g class=\"typst-group\" transform=\"matrix(1 0 0 1 5 5)\">            <g>                <path class=\"typst-shape\" fill=\"#f8fafc\" fill-rule=\"nonzero\" stroke=\"#aaaaaa\" stroke-width=\"1\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" d=\"M 0 0m 51.02362 0 c -28.154016 0 -51.02362 22.869604 -51.02362 51.02362 c 0 28.154022 22.869604 51.02362 51.02362 51.02362 c 28.154022 0 51.02362 -22.869598 51.02362 -51.02362 c 0 -28.154016 -22.869598 -51.02362 -51.02362 -51.02362 Z \"/>                <path class=\"typst-shape\" fill=\"none\" stroke=\"#4338ca\" stroke-width=\"1.2\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 2.834645669291341 34.015748031496074)\" d=\"M 0 0m 0 34.015747 l 96.37795 -34.015747 \"/>                <path class=\"typst-shape\" fill=\"none\" stroke=\"#4338ca\" stroke-width=\"1.2\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 2.834645669291341 34.015748031496074)\" d=\"M 0 0l 96.37795 34.015747 \"/>                <path class=\"typst-shape\" fill=\"none\" stroke=\"#4338ca\" stroke-width=\"1.2\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 42.51968503937008 2.834645669291341)\" d=\"M 0 0m 0 96.37795 l 28.346457 -96.37795 \"/>                <path class=\"typst-shape\" fill=\"none\" transform=\"matrix(1 0 0 1 48.4661220472441 10.543228346456692)\" d=\"M 0 0h 5.115 v 7.26 h -5.115 v -7.26 Z \"/>                <g class=\"typst-group\">                    <g>                        <g class=\"typst-group\" transform=\"matrix(1 0 0 1 48.466121952755906 10.543228299212599)\">                            <g>                                <g class=\"typst-text\" transform=\"matrix(1 0 0 -1 0 7.238)\">                                    <use xlink:href=\"#gE830CC2A17783CF9DBCEBAB27924C349\" x=\"0\" y=\"0\" fill=\"#000000\" fill-rule=\"nonzero\"/>                                </g>                            </g>                        </g>                    </g>                </g>                <path class=\"typst-shape\" fill=\"none\" transform=\"matrix(1 0 0 1 14.450374015748038 24.716456692913383)\" d=\"M 0 0h 5.115 v 7.26 h -5.115 v -7.26 Z \"/>                <g class=\"typst-group\">                    <g>                        <g class=\"typst-group\" transform=\"matrix(1 0 0 1 14.450373921259846 24.716456645669293)\">                            <g>                                <g class=\"typst-text\" transform=\"matrix(1 0 0 -1 0 7.238)\">                                    <use xlink:href=\"#gB25C5562E4B2D14435658698B9AC5DA3\" x=\"0\" y=\"0\" fill=\"#000000\" fill-rule=\"nonzero\"/>                                </g>                            </g>                        </g>                    </g>                </g>                <path class=\"typst-shape\" fill=\"none\" transform=\"matrix(1 0 0 1 14.450374015748038 70.02678740157482)\" d=\"M 0 0h 5.115 v 7.348 h -5.115 v -7.348 Z \"/>                <g class=\"typst-group\">                    <g>                        <g class=\"typst-group\" transform=\"matrix(1 0 0 1 14.450373921259846 70.02678727559055)\">                            <g>                                <g class=\"typst-text\" transform=\"matrix(1 0 0 -1 0 7.238)\">                                    <use xlink:href=\"#gE295ED203C23BC2F3DEF59E54DE9E060\" x=\"0\" y=\"0\" fill=\"#000000\" fill-rule=\"nonzero\"/>                                </g>                            </g>                        </g>                    </g>                </g>                <path class=\"typst-shape\" fill=\"none\" transform=\"matrix(1 0 0 1 48.4661220472441 84.24401574803152)\" d=\"M 0 0h 5.115 v 7.26 h -5.115 v -7.26 Z \"/>                <g class=\"typst-group\">                    <g>                        <g class=\"typst-group\" transform=\"matrix(1 0 0 1 48.466121952755906 84.2440157007874)\">                            <g>                                <g class=\"typst-text\" transform=\"matrix(1 0 0 -1 0 7.238)\">                                    <use xlink:href=\"#g39E658C6570ACFFF9AD8B5C99BB5B9B5\" x=\"0\" y=\"0\" fill=\"#000000\" fill-rule=\"nonzero\"/>                                </g>                            </g>                        </g>                    </g>                </g>                <path class=\"typst-shape\" fill=\"none\" transform=\"matrix(1 0 0 1 82.48187007874016 70.02128740157481)\" d=\"M 0 0h 5.115 v 7.359 h -5.115 v -7.359 Z \"/>                <g class=\"typst-group\">                    <g>                        <g class=\"typst-group\" transform=\"matrix(1 0 0 1 82.48186998425197 70.02128735433071)\">                            <g>                                <g class=\"typst-text\" transform=\"matrix(1 0 0 -1 0 7.238)\">                                    <use xlink:href=\"#gCBE9C5D04ACD153F41375334E35EE95F\" x=\"0\" y=\"0\" fill=\"#000000\" fill-rule=\"nonzero\"/>                                </g>                            </g>                        </g>                    </g>                </g>                <path class=\"typst-shape\" fill=\"none\" transform=\"matrix(1 0 0 1 82.48187007874016 24.666956692913388)\" d=\"M 0 0h 5.115 v 7.359 h -5.115 v -7.359 Z \"/>                <g class=\"typst-group\">                    <g>                        <g class=\"typst-group\" transform=\"matrix(1 0 0 1 82.48186998425197 24.66695664566929)\">                            <g>                                <g class=\"typst-text\" transform=\"matrix(1 0 0 -1 0 7.238)\">                                    <use xlink:href=\"#gB3A759B70783836C062466F969B530CB\" x=\"0\" y=\"0\" fill=\"#000000\" fill-rule=\"nonzero\"/>                                </g>                            </g>                        </g>                    </g>                </g>                <path class=\"typst-shape\" fill=\"none\" transform=\"matrix(1 0 0 1 51.43133858267717 46.071905511811025)\" d=\"M 0 0h 3.72 v 5.368 h -3.72 v -5.368 Z \"/>                <g class=\"typst-group\">                    <g>                        <g class=\"typst-group\" transform=\"matrix(1 0 0 1 51.43133848818898 46.07190538582677)\">                            <g>                                <g class=\"typst-text\" transform=\"matrix(1 0 0 -1 0 5.264)\">                                    <use xlink:href=\"#g5D67D888D85B1214C606FE528BE581B\" x=\"0\" y=\"0\" fill=\"#000000\" fill-rule=\"nonzero\"/>                                </g>                            </g>                        </g>                    </g>                </g>            </g>        </g>    </g>    <defs id=\"glyph\">        <symbol id=\"gE830CC2A17783CF9DBCEBAB27924C349\" overflow=\"visible\">            <path d=\"M 0 0m 3.168 1.342 v 3.817 c 0 0.65999985 0.010999918 1.3309999 0.032999992 1.474 c 0 0.05499983 -0.022000074 0.05499983 -0.065999985 0.05499983 c -0.605 -0.3739996 -1.188 -0.6489997 -2.1560001 -1.0999999 c 0.022000074 -0.12099981 0.065999985 -0.23099995 0.16500008 -0.29699993 c 0.5059999 0.20900011 0.7479999 0.2750001 0.957 0.2750001 c 0.18700004 0 0.22000003 -0.26399994 0.22000003 -0.638 v -3.586 c 0 -0.913 -0.29700017 -0.968 -1.0670002 -1.001 c -0.065999985 -0.065999985 -0.065999985 -0.297 0 -0.36299998 c 0.53900003 0.011 0.93499994 0.022 1.529 0.022 c 0.5279999 0 0.79200006 -0.011 1.342 -0.022 c 0.065999985 0.066 0.065999985 0.297 0 0.36299998 c -0.77 0.033000022 -0.957 0.088 -0.957 1.001 Z \"/>        </symbol>        <symbol id=\"gB25C5562E4B2D14435658698B9AC5DA3\" overflow=\"visible\">            <path d=\"M 0 0m 0.671 5.148 c 0 -0.23099995 0.20899999 -0.4289999 0.43999994 -0.4289999 c 0.18700004 0 0.5170001 0.19799995 0.5170001 0.44000006 c 0 0.08799982 -0.022000074 0.15400028 -0.04400003 0.23099995 c -0.021999955 0.07700014 -0.08799994 0.17600012 -0.08799994 0.26399994 c 0 0.2750001 0.2859999 0.671 1.089 0.671 c 0.3959999 0 0.957 -0.27499962 0.957 -1.3309999 c 0 -0.704 -0.25300002 -1.276 -0.9020002 -1.9359999 l -0.8139999 -0.8030002 c -1.078 -1.0999999 -1.254 -1.6279999 -1.254 -2.277 c 0 0 0.561 0.022 0.913 0.022 h 1.9250001 c 0.352 0 0.85800004 -0.022 0.85800004 -0.022 c 0.14299965 0.583 0.25299978 1.408 0.26399994 1.7379999 c -0.065999985 0.055000067 -0.20900011 0.07700002 -0.31900024 0.055000067 c -0.1869998 -0.781 -0.37399983 -1.056 -0.76999974 -1.056 h -1.9580001 c 0 0.52800006 0.75899994 1.276 0.814 1.3310001 l 1.1110001 1.0669999 c 0.6270001 0.605 1.0999997 1.0890002 1.0999997 1.9250002 c 0 1.1879997 -0.9679997 1.6719999 -1.8589997 1.6719999 c -1.2210001 0 -1.98 -0.90199995 -1.98 -1.5620003 Z \"/>        </symbol>        <symbol id=\"gE295ED203C23BC2F3DEF59E54DE9E060\" overflow=\"visible\">            <path d=\"M 0 0m 2.365 6.325 c 0.47300005 0 0.91299987 -0.28599977 0.91299987 -0.9899998 c 0 -0.5500002 -0.638 -1.3970001 -1.7269999 -1.5510001 l 0.054999948 -0.352 c 0.18700004 0.022000074 0.385 0.022000074 0.5280001 0.022000074 c 0.62699986 0 1.441 -0.17600012 1.441 -1.4189999 c 0 -1.463 -0.9790001 -1.7600001 -1.3640001 -1.7600001 c -0.561 0 -0.65999997 0.253 -0.79199994 0.451 c -0.110000014 0.15399998 -0.25300002 0.28599995 -0.47300005 0.28599995 c -0.231 0 -0.46199998 -0.20899999 -0.46199998 -0.385 c 0 -0.43999997 0.924 -0.737 1.5840001 -0.737 c 1.309 0 2.4749997 0.847 2.4749997 2.2989998 c 0 1.1990001 -0.9019997 1.628 -1.5509996 1.7380002 l -0.011000156 0.021999836 c 0.90199995 0.4289999 1.1550002 0.8800001 1.1550002 1.4630003 c 0 0.32999992 -0.07700014 0.59399986 -0.34100008 0.86899996 c -0.2420001 0.24199963 -0.6270001 0.4289999 -1.1990001 0.4289999 c -1.617 0 -2.079 -1.0560002 -2.079 -1.4190001 c 0 -0.1539998 0.109999955 -0.37400007 0.37399995 -0.37400007 c 0.38500005 0 0.42899996 0.36299992 0.42899996 0.572 c 0 0.704 0.75900006 0.83599997 1.0450001 0.83599997 Z \"/>        </symbol>        <symbol id=\"g39E658C6570ACFFF9AD8B5C99BB5B9B5\" overflow=\"visible\">            <path d=\"M 0 0m 4.73 2.409 h -0.9130001 v 3.212 c 0 0.5500002 0 0.9790001 0.022000074 1.0669999 l -0.022000074 0.022000313 h -0.352 c -0.0769999 0 -0.13199997 -0.065999985 -0.17599988 -0.12100029 c -0.6930001 -0.84699965 -1.9690001 -2.6619997 -2.981 -4.2349997 c 0.032999992 -0.1650002 0.09900001 -0.46200013 0.429 -0.46200013 h 2.244 v -1.012 c 0 -0.506 -0.41799998 -0.506 -0.89100003 -0.53900003 c -0.065999985 -0.065999985 -0.065999985 -0.297 0 -0.36299998 c 0.352 0.011 0.79200006 0.022 1.2980001 0.022 c 0.4289999 0 0.8470001 -0.011 1.1989999 -0.022 c 0.065999985 0.066 0.065999985 0.297 0 0.36299998 c -0.53900003 0.044 -0.77 0.022000015 -0.77 0.53900003 v 1.012 h 0.7590003 c 0.1539998 0 0.31899977 0.20900011 0.31899977 0.34100008 c 0 0.109999895 -0.04400015 0.17599988 -0.16499996 0.17599988 Z m -1.7490001 3.1680002 v -3.1680002 h -2.1009998 c 0.561 0.90199995 1.3419999 2.1339998 2.1009998 3.1680002 Z \"/>        </symbol>        <symbol id=\"gCBE9C5D04ACD153F41375334E35EE95F\" overflow=\"visible\">            <path d=\"M 0 0m 3.509 2.079 c 0 -1.045 -0.5500002 -1.815 -1.21 -1.815 c -0.41799998 0 -0.561 0.27499998 -0.7260001 0.495 c -0.143 0.18699998 -0.32999992 0.35199994 -0.561 0.35199994 c -0.20899999 0 -0.41799998 -0.18699992 -0.41799998 -0.40699995 c 0 -0.451 0.93500006 -0.825 1.5619999 -0.825 c 1.3640001 0 2.332 1.012 2.332 2.398 c 0 1.0669999 -0.737 2.0240002 -1.9689999 2.0240002 c -0.47300005 0 -0.8800001 -0.09899998 -1.0780001 -0.17600012 l 0.22000003 1.8369999 c 0.40700006 -0.04400015 0.75900006 -0.09899998 1.287 -0.09899998 c 0.32999992 0 0.704 0.021999836 1.1550002 0.065999985 l 0.17599964 0.74800014 l -0.076999664 0.04400015 c -0.6270001 -0.06600046 -1.2210002 -0.12100029 -1.8040001 -0.12100029 c -0.40700006 0 -0.803 0.021999836 -1.188 0.05499983 l -0.37400007 -3.1679997 c 0.58300006 0.22000003 1.001 0.26399994 1.3970001 0.26399994 c 0.7149999 0 1.276 -0.47300005 1.276 -1.6719999 Z \"/>        </symbol>        <symbol id=\"gB3A759B70783836C062466F969B530CB\" overflow=\"visible\">            <path d=\"M 0 0m 1.584 3.773 c 0.29700005 1.0010002 1.001 2.1119998 2.4639997 2.662 c 0 0.13199997 -0.043999672 0.23099995 -0.13199997 0.28600025 c -1.1109998 -0.3300004 -1.793 -0.7920003 -2.409 -1.5070004 c -0.682 -0.7919998 -1.023 -1.7929997 -1.023 -2.6619997 c 0 -2.233 1.265 -2.673 2.112 -2.673 c 1.4410002 0 2.035 1.3970001 2.035 2.343 c 0 0.9460001 -0.50600004 1.793 -2.002 1.793 c -0.286 0 -0.7149999 -0.08799982 -1.045 -0.24199986 Z m -0.09899998 -0.3959999 c 0.36300004 0.24199986 0.72599995 0.25299978 0.913 0.25299978 c 1.0780001 0 1.3199999 -1.056 1.3199999 -1.606 c 0 -1.2099999 -0.4619999 -1.76 -1.0009999 -1.76 c -0.6930001 0 -1.32 0.374 -1.32 2.255 c 0 0.25300002 0.022000074 0.53900003 0.08800006 0.85800004 Z \"/>        </symbol>        <symbol id=\"g5D67D888D85B1214C606FE528BE581B\" overflow=\"visible\">            <path d=\"M 0 0m 1.36 4.28 h 1.432 c -0.62399983 -1.552 -1.256 -3.112 -1.8 -4.328 l 0.06399995 -0.056 l 0.544 0.023999996 c 0.45599997 1.3600001 0.896 2.688 1.7920002 4.872 l -0.12800002 0.09599972 c -0.13599992 -0.03999996 -0.31200004 -0.08799982 -0.61599994 -0.08799982 h -1.6480002 c -0.27199996 0 -0.25599998 0.07999992 -0.39999998 0.11199999 c -0.023999989 0 -0.032000005 0 -0.032000005 -0.024000168 c -0.008000016 -0.38399982 -0.095999986 -0.86399984 -0.16 -1.2799997 c 0.088 -0.024000168 0.16800001 -0.032000065 0.256 -0.024000168 c 0.176 0.63999987 0.44000006 0.6960001 0.696 0.6960001 Z \"/>        </symbol>    </defs></svg></div><br/><br/>Xét bài toán phân chia mặt phẳng: Cho $n$ đường thẳng trên mặt phẳng sao cho không có hai đường thẳng nào song song và không có ba đường thẳng nào đồng quy. Gọi $a_n$ là số miền (vùng) mà $n$ đường thẳng này chia mặt phẳng. Ta có công thức truy hồi: $a_1 = 2, a_{n+1} = a_n + n + 1$ với mọi $n \\ge 1$. Xét tính đúng sai của các khẳng định sau:", "solution": "<strong>Kiểm tra từng mệnh đề:</strong> <br/>- a) Đúng. Với $n=2$, $a_2 = a_1 + 2 = 4$ miền. <br/>- b) Sai. Với $n=3$, $a_3 = a_2 + 3 = 7$ miền (như hình minh họa). <br/>- c) Đúng. Chứng minh bằng quy nạp: Với $n=1$, $a_1 = \\dfrac{1+1+2}{2} = 2$ (đúng). Giả sử đúng với $n=k$, ta có $a_k = \\dfrac{k^2+k+2}{2}$. Khi đó $a_{k+1} = \\dfrac{k^2+k+2}{2} + k + 1 = \\dfrac{k^2 + 3k + 4}{2} = \\dfrac{(k+1)^2 + (k+1) + 2}{2}$ (đúng). <br/>- d) Đúng. Với $n=10$, $a_{10} = \\dfrac{10^2 + 10 + 2}{2} = \\dfrac{112}{2} = 56$ miền.", "options": ["Với <strong style=\"color: #a855f7;\">2</strong> đường thẳng, mặt phẳng được chia thành <strong style=\"color: #a855f7;\">4</strong> miền.", "Với <strong style=\"color: #ec4899;\">3</strong> đường thẳng, mặt phẳng được chia thành <strong style=\"color: #60a5fa;\">8</strong> miền.", "Công thức số hạng tổng quát của dãy số là $a_n = \\dfrac{n^2 + n + 2}{2}$.", "Với <strong style=\"color: #fbbf24;\">10</strong> đường thẳng, số miền tối đa được tạo thành là <strong style=\"color: #a855f7;\">56</strong> miền."], "correct": [0, 2, 3]}, {"type": "tln", "number": 17, "stem": "Cho dãy số $(u_n)$ được xác định bởi $u_1 = 1$ và hệ thức $u_{n+1} = 2 u_n + 3$. Tính giá trị của $u_5$.", "solution": "<strong>Tính tuần tự các số hạng:</strong> <br/>$u_2 = 2(1) + 3 = 5$ <br/>$u_3 = 2(5) + 3 = 13$ <br/>$u_4 = 2(13) + 3 = 29$ <br/>$u_5 = 2(29) + 3 = 61$.", "answer": "61"}, {"type": "tln", "number": 18, "stem": "Trong một mô hình sinh thái học, quần thể vi khuẩn nhân đôi mỗi giờ nhưng đồng thời bị tiêu diệt <strong style=\"color: #a855f7;\">500</strong> cá thể mỗi giờ do kháng sinh. Gọi $P_n$ là số vi khuẩn sau $n$ giờ, ta có $P_n = 2 P_{n-1} - 500$. Biết số lượng vi khuẩn ban đầu là $P_0 = 1000$. Sau <strong style=\"color: #ec4899;\">3</strong> giờ, lượng vi khuẩn còn lại là bao nhiêu?", "solution": "<strong>Tính tuần tự số lượng vi khuẩn:</strong> <br/>- Sau 1h: $P_1 = 2(1000) - 500 = 1500$. <br/>- Sau 2h: $P_2 = 2(1500) - 500 = 2500$. <br/>- Sau 3h: $P_3 = 2(2500) - 500 = 4500$.", "answer": "4500"}, {"type": "tln", "number": 19, "stem": "Dãy số Catalan được định nghĩa bằng hệ thức: $C_0=1$, $C_n = \\sum_{i=0}^{n-1} C_i C_{n-1-i}$. Tính giá trị của $C_3$.", "solution": "<strong>Tính tuần tự dãy Catalan:</strong> <br/>$C_0 = 1$ <br/>$C_1 = C_0 C_0 = 1$ <br/>$C_2 = C_0 C_1 + C_1 C_0 = 1 \\cdot 1 + 1 \\cdot 1 = 2$ <br/>$C_3 = C_0 C_2 + C_1 C_1 + C_2 C_0 = 1 \\cdot 2 + 1 \\cdot 1 + 2 \\cdot 1 = 5$.", "answer": "5"}, {"type": "tln", "number": 20, "stem": "Cho dãy số $(u_n)$ với $u_n = \\dfrac{2^n}{n}!$. Tìm số hạng lớn nhất của dãy số này.", "solution": "<strong>B1: Lập tỷ số giữa hai số hạng liên tiếp:</strong> <br/>$u_\\dfrac{{n+1}}{u}_n = \\dfrac{2^\\dfrac{{n+1}}{n+1}!}{\\dfrac{2^n}{n}!} = \\dfrac{2}{n+1}$.<br/> <strong>B2: Đánh giá sự tăng giảm của dãy số:</strong> <br/>- Với $n=1$: $\\dfrac{u_2}{u}_1 = \\dfrac{2}{2} = 1 \\Rightarrow u_2 = u_1 = 2$. <br/>- Với $n \\ge 2$: $n+1 > 2 \\Rightarrow \\dfrac{2}{n+1} < 1 \\Rightarrow u_{n+1} < u_n$.<br/> <strong>B3: Kết luận:</strong> <br/>Do đó dãy số giảm kể từ $n=2$. Số hạng lớn nhất của dãy là $u_1 = u_2 = 2$.", "answer": "2"}, {"type": "tln", "number": 21, "stem": "<div style=\"text-align:center; margin: 10px 0; white-space: normal;\"><svg class=\"typst-doc\" viewBox=\"0 0 95.03937007874016 95.03937007874016\" width=\"95.03937007874016pt\" height=\"95.03937007874016pt\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:h5=\"http://www.w3.org/1999/xhtml\">    <g>        <g class=\"typst-group\" transform=\"matrix(1 0 0 1 5 5)\">            <g>                <path class=\"typst-shape\" fill=\"#bae6fd\" fill-rule=\"nonzero\" stroke=\"#4338ca\" stroke-width=\"1\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 28.346456692913385 0)\" d=\"M 0 0v 28.346457 h 28.346457 v -28.346457 h -28.346457 Z \"/>                <path class=\"typst-shape\" fill=\"#bae6fd\" fill-rule=\"nonzero\" stroke=\"#4338ca\" stroke-width=\"1\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 14.173228346456693 28.346456692913385)\" d=\"M 0 0v 28.346457 h 28.346457 v -28.346457 h -28.346457 Z \"/>                <path class=\"typst-shape\" fill=\"#bae6fd\" fill-rule=\"nonzero\" stroke=\"#4338ca\" stroke-width=\"1\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 42.51968503937008 28.346456692913385)\" d=\"M 0 0v 28.346457 h 28.346457 v -28.346457 h -28.346457 Z \"/>                <path class=\"typst-shape\" fill=\"#bae6fd\" fill-rule=\"nonzero\" stroke=\"#4338ca\" stroke-width=\"1\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 0 56.69291338582677)\" d=\"M 0 0v 28.346457 h 28.346457 v -28.346457 h -28.346457 Z \"/>                <path class=\"typst-shape\" fill=\"#bae6fd\" fill-rule=\"nonzero\" stroke=\"#4338ca\" stroke-width=\"1\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 28.346456692913385 56.69291338582677)\" d=\"M 0 0v 28.346457 h 28.346457 v -28.346457 h -28.346457 Z \"/>                <path class=\"typst-shape\" fill=\"#bae6fd\" fill-rule=\"nonzero\" stroke=\"#4338ca\" stroke-width=\"1\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\" transform=\"matrix(1 0 0 1 56.69291338582677 56.69291338582677)\" d=\"M 0 0v 28.346457 h 28.346457 v -28.346457 h -28.346457 Z \"/>            </g>        </g>    </g></svg></div><br/><br/>Một người xếp các khối lập phương gỗ nhỏ thành một mô hình tháp bậc thang như sơ đồ trên (tầng <strong style=\"color: #ec4899;\">1</strong> có <strong style=\"color: #ec4899;\">1</strong> khối, tầng <strong style=\"color: #a855f7;\">2</strong> có <strong style=\"color: #ec4899;\">3</strong> khối xếp dạng tam giác, tầng <strong style=\"color: #ec4899;\">3</strong> có <strong style=\"color: #60a5fa;\">6</strong> khối...). Số khối gỗ ở mỗi tầng tạo thành dãy số tam giác $u_n = \\dfrac{n(n+1)}{2}$. Biết tháp có tất cả $10$ tầng. Tính tổng số khối lập phương gỗ cần dùng để dựng mô hình này.", "solution": "*B1: Công thức số khối gỗ ở tầng $n$:* <br/>Số khối gỗ ở tầng $n$ là $u_n = \\dfrac{n(n+1)}{2} = \\dfrac{1}{2} (n^2 + n)$.<br/> <strong>B2: Thiết lập tổng:</strong> <br/>Tổng số khối gỗ của <strong style=\"color: #fbbf24;\">10</strong> tầng là: <br/>$S = \\sum_{n=1}^{10} u_n = \\dfrac{1}{2} \\sum_{n=1}^{10} (n^2 + n) = \\dfrac{1}{2} [\\sum_{n=1}^{10} n^2 + \\sum_{n=1}^{10} n]$.<br/> <strong>B3: Tính toán kết quả:</strong> <br/>Ta biết $\\sum_{n=1}^{10} n^2 = \\dfrac{10 \\times 11 \\times 21}{6} = 385$ và $\\sum_{n=1}^{10} n = \\dfrac{10 \\times 11}{2} = 55$. <br/>Do đó, $S = \\dfrac{1}{2} [385 + 55] = \\dfrac{1}{2} [440] = 220$ khối gỗ.", "answer": "220"}];
+
+// ─── Trạng thái ──────────────────────────────────────────────────────────────
+const state = {
+  tn:  {},   // câu_idx → selected option index
+  ds:  {},   // câu_idx → Set of selected indices
+  tln: {},   // câu_idx → string input
+  checked: {}, // câu_idx → boolean
+  points: {},  // câu_idx → 0/0.25/0.5/0.75/1
+};
+
+let submitted = false;
+let scormAPI = null;
+
+// ─── SCORM 1.2 ───────────────────────────────────────────────────────────────
+function findAPI(w) {
+  let n = 0;
+  while (!w.API && w.parent && w.parent !== w) {
+    if (++n > 7) break;
+    w = w.parent;
+  }
+  return w.API;
+}
+function getAPI() {
+  if (!scormAPI) scormAPI = findAPI(window) || (window.opener && findAPI(window.opener));
+  return scormAPI;
+}
+function lmsInit() {
+  const api = getAPI();
+  if (api) { api.LMSInitialize(""); api.LMSSetValue("cmi.core.lesson_status","incomplete"); api.LMSCommit(""); }
+}
+function lmsFinish(score) {
+  const api = getAPI();
+  if (!api) return;
+  api.LMSSetValue("cmi.core.score.raw", String(Math.round(score)));
+  api.LMSSetValue("cmi.core.score.min", "0");
+  api.LMSSetValue("cmi.core.score.max", "10");
+  api.LMSSetValue("cmi.core.lesson_status", score >= 5 ? "passed" : "failed");
+  api.LMSCommit("");
+  api.LMSFinish("");
+}
+
+// ─── Render câu hỏi ──────────────────────────────────────────────────────────
+function renderAll() {
+  const container = document.getElementById('quiz-container');
+  let html = '';
+  let curSection = '';
+
+  QUESTIONS.forEach((q, i) => {
+    // Section header
+    const sectionMap = { tn: 'PHẦN I — Trắc Nghiệm (ABCD)', ds: 'PHẦN II — Đúng / Sai', tln: 'PHẦN III — Trả Lời Ngắn' };
+    const sec = sectionMap[q.type];
+    if (sec !== curSection) {
+      html += `<div class="section-header">${sec}</div>`;
+      curSection = sec;
+    }
+
+    html += `<div class="card" id="card-${i}">`;
+    html += `<div class="q-header">`;
+    html += `<span class="q-num ${q.type}-type">Câu ${q.number}</span>`;
+    html += `<div class="q-stem">${q.stem}</div>`;
+    html += `</div>`;
+
+    if (q.type === 'tn') {
+      html += renderTN(q, i);
+    } else if (q.type === 'ds') {
+      html += renderDS(q, i);
+    } else {
+      html += renderTLN(q, i);
+    }
+
+    // Solution
+    html += `<div class="solution" id="sol-${i}">`;
+    html += `<div class="solution-label">📝 Lời giải</div>`;
+    const solText = q.solution ? q.solution.replace(/\n/g, '<br/>') : '(Xem trong tài liệu)';
+    html += `<div style="line-height: 1.6;">${solText}</div>`;
+    html += `</div>`;
+
+    html += `</div>`;
+  });
+
+  container.innerHTML = html;
+  // Init DS state
+  QUESTIONS.forEach((q, i) => {
+    if (q.type === 'ds') state.ds[i] = new Set();
+  });
+};
+
+function renderTN(q, i) {
+  const labels = ['A','B','C','D'];
+  let html = '<div class="options">';
+  q.options.forEach((opt, j) => {
+    html += `<div class="opt" id="opt-${i}-${j}" onclick="selectTN(${i},${j})">
+      <div class="label">${labels[j]}</div>
+      <div>${opt}</div>
+    </div>`;
+  });
+  html += '</div>';
+  html += `<div style="text-align:right;margin-top:10px">
+    <button class="btn-check" id="btn-${i}" onclick="checkTN(${i})">Kiểm tra</button>
+  </div>`;
+  html += `<div class="feedback" id="fb-${i}" style="display:none"></div>`;
+  return html;
+};
+
+function renderDS(q, i) {
+  const labels = ['a','b','c','d'];
+  let html = '<div style="margin-top:8px">';
+  q.options.forEach((opt, j) => {
+    html += `<div class="ds-opt" id="dsopt-${i}-${j}" onclick="toggleDS(${i},${j})">
+      <div class="ds-check" id="dschk-${i}-${j}"></div>
+      <div><strong>${labels[j]}</strong>) ${opt}</div>
+    </div>`;
+  });
+  html += '</div>';
+  html += `<div style="text-align:right;margin-top:10px">
+    <button class="btn-check ds-btn" id="btn-${i}" onclick="checkDS(${i})">Kiểm tra</button>
+  </div>`;
+  html += `<div class="feedback" id="fb-${i}" style="display:none"></div>`;
+  return html;
+};
+
+function renderTLN(q, i) {
+  return `<div class="tln-row">
+    <input class="tln-input" id="tln-${i}" placeholder="Nhập đáp án..." oninput="state.tln[${i}]=this.value"/>
+    <button class="btn-check tln-btn" id="btn-${i}" onclick="checkTLN(${i})">Kiểm tra</button>
+  </div>
+  <div class="feedback" id="fb-${i}" style="display:none"></div>`;
+};
+
+// ─── Interaction ────────────────────────────────────────────────────────────────────────────
+function selectTN(qi, oi) {
+  if (state.checked[qi] || submitted) return;
+  const prev = state.tn[qi];
+  if (prev !== undefined) document.getElementById(`opt-${qi}-${prev}`).classList.remove('selected');
+  state.tn[qi] = oi;
+  document.getElementById(`opt-${qi}-${oi}`).classList.add('selected');
+};
+
+function toggleDS(qi, oi) {
+  if (state.checked[qi] || submitted) return;
+  const s = state.ds[qi];
+  const el = document.getElementById(`dsopt-${qi}-${oi}`);
+  const chk = document.getElementById(`dschk-${qi}-${oi}`);
+  if (s.has(oi)) { s.delete(oi); el.classList.remove('selected'); chk.textContent = ''; }
+  else           { s.add(oi);    el.classList.add('selected');    chk.textContent = '✓'; }
+};
+
+function checkTN(qi) {
+  if (state.checked[qi] || submitted) return;
+  const q = QUESTIONS[qi];
+  const sel = state.tn[qi];
+  if (sel === undefined) { alert('Bạn chưa chọn đáp án!'); return; }
+  state.checked[qi] = true;
+
+  const isCorrect = q.correct.includes(sel);
+  state.points[qi] = isCorrect ? 1 : 0;
+
+  q.options.forEach((_, j) => {
+    const el = document.getElementById(`opt-${qi}-${j}`);
+    el.classList.add('disabled');
+    if (q.correct.includes(j)) el.classList.add('show-correct');
+    else if (j === sel && !isCorrect) el.classList.add('show-wrong');
+  });
+
+  const fb = document.getElementById(`fb-${qi}`);
+  fb.style.display = 'flex';
+  fb.className = `feedback ${isCorrect ? 'ok' : 'err'}`;
+  fb.innerHTML = isCorrect ? '✅ Chính xác!' : `❌ Sai. Đáp án đúng: ${['A','B','C','D'][q.correct[0]]}`;
+
+  document.getElementById(`sol-${qi}`).classList.add('show');
+  document.getElementById(`btn-${qi}`).disabled = true;
+  document.getElementById(`card-${qi}`).classList.add(isCorrect ? 'correct' : 'wrong');
+  document.getElementById(`card-${qi}`).classList.add('answered');
+  setTimeout(() => { fb.scrollIntoView({behavior:'smooth', block:'nearest'}); }, 100);
+  updateProgress();
+};
+
+
+function checkDS(qi) {
+  if (state.checked[qi] || submitted) return;
+  const q = QUESTIONS[qi];
+  const sel = state.ds[qi];
+  if (sel.size === 0) { alert('Bạn chưa chọn mệnh đề nào!'); return; }
+  state.checked[qi] = true;
+
+  const correctSet = new Set(q.correct);
+  let correct_cnt = 0;
+  q.options.forEach((_, j) => {
+    const el = document.getElementById(`dsopt-${qi}-${j}`);
+    const chk = document.getElementById(`dschk-${qi}-${j}`);
+    el.classList.add('disabled');
+    const userSel = sel.has(j);
+    const isCor = correctSet.has(j);
+    if (isCor && userSel) { el.classList.add('show-correct'); correct_cnt++; }
+    else if (isCor && !userSel) { el.classList.add('show-correct'); chk.textContent = '✓'; }
+    else if (!isCor && userSel) { el.classList.add('show-wrong'); }
+  });
+
+  const total = q.correct.length;
+  const pts = correct_cnt === total && sel.size === total ? 1
+            : correct_cnt >= Math.ceil(total*0.75) ? 0.75
+            : correct_cnt >= Math.ceil(total*0.5) ? 0.5
+            : correct_cnt >= 1 ? 0.25 : 0;
+  state.points[qi] = pts;
+
+  const fb = document.getElementById(`fb-${qi}`);
+  fb.style.display = 'flex';
+  fb.className = `feedback ${pts === 1 ? 'ok' : pts >= 0.5 ? 'partial' : 'err'}`;
+  fb.innerHTML = pts === 1 ? `✅ Hoàn toàn đúng! (${correct_cnt}/${total})` : `⚠️ Đúng ${correct_cnt}/${total} mệnh đề`;
+
+  document.getElementById(`sol-${qi}`).classList.add('show');
+  document.getElementById(`btn-${qi}`).disabled = true;
+  document.getElementById(`card-${qi}`).classList.add(pts === 1 ? 'correct' : pts > 0 ? 'answered' : 'wrong');
+  updateProgress();
+};
+
+function checkTLN(qi) {
+  if (state.checked[qi] || submitted) return;
+  const q = QUESTIONS[qi];
+  const inp = document.getElementById(`tln-${qi}`);
+  const userVal = (state.tln[qi] || inp.value).trim();
+  if (!userVal) { alert('Bạn chưa nhập đáp án!'); return; }
+  state.checked[qi] = true;
+
+  // So sánh thông minh hơn: normalize unicode, số học, phân số
+  function normalizeTLN(s) {
+    return s
+      .replace(/\$/g, '')           // loại bỏ $
+      .replace(/−/g, '-')       // unicode minus − → -
+      .replace(/·/g, '.')       // · → .
+      .replace(/,/g, '.')            // dấu phẩy (số thập phân Việt) → .
+      .replace(/\s+/g, '')          // bỏ whitespace
+      .toLowerCase();
+  }
+  function tryNumeric(s) {
+    // Cố gắng đọc dưới dạng số thập phân
+    const n = parseFloat(s);
+    return isNaN(n) ? null : n;
+  }
+  function tryFraction(s) {
+    // Hỗ trợ dạng a/b → số
+    const m = s.match(/^(-?\d+)\s*\/\s*(-?\d+)$/);
+    if (m) return parseFloat(m[1]) / parseFloat(m[2]);
+    return null;
+  }
+
+  const normExpected = normalizeTLN(q.answer);
+  const normActual   = normalizeTLN(userVal);
+
+  let isCorrect = (normActual === normExpected);
+  if (!isCorrect) {
+    // So sánh số học với sai số nhỏ (1e-9)
+    const numE = tryFraction(normExpected) ?? tryNumeric(normExpected);
+    const numA = tryFraction(normActual)   ?? tryNumeric(normActual);
+    if (numE !== null && numA !== null) {
+      isCorrect = Math.abs(numE - numA) < 1e-9;
+    }
+  }
+  state.points[qi] = isCorrect ? 1 : 0;
+
+  inp.classList.add(isCorrect ? 'correct-input' : 'wrong-input');
+  inp.classList.add('disabled');
+  inp.readOnly = true;
+
+  const fb = document.getElementById(`fb-${qi}`);
+  fb.style.display = 'flex';
+  fb.className = `feedback ${isCorrect ? 'ok' : 'err'}`;
+  if (isCorrect) {
+    fb.innerHTML = '✅ Đúng rồi!';
+  } else {
+    fb.innerHTML = `❌ Chưa đúng. Đáp án: <span id="tln-ans-${qi}">${q.answer}</span>`;
+    // Re-render KaTeX cho đáp án
+    try {
+      const ansEl = document.getElementById(`tln-ans-${qi}`);
+      if (ansEl && window.renderMathInElement) renderMathInElement(ansEl);
+    } catch(e) {}
+  }
+
+  document.getElementById(`sol-${qi}`).classList.add('show');
+  document.getElementById(`btn-${qi}`).disabled = true;
+  document.getElementById(`card-${qi}`).classList.add(isCorrect ? 'correct' : 'wrong');
+  document.getElementById(`card-${qi}`).classList.add('answered');
+  // Auto-scroll đến feedback
+  setTimeout(() => { fb.scrollIntoView({behavior:'smooth', block:'nearest'}); }, 100);
+  updateProgress();
+};
+
+
+// ─── Progress ─────────────────────────────────────────────────────────────────
+function updateProgress() {
+  const total = QUESTIONS.length;
+  const done = Object.keys(state.checked).length;
+  const pts = Object.values(state.points).reduce((a,b) => a+b, 0);
+  const score10 = total > 0 ? (pts / total * 10).toFixed(1) : 0;
+
+  document.getElementById('score-badge').textContent = `${score10} / 10`;
+  document.getElementById('done-lbl').textContent = `${done}/${total} câu`;
+  const pct = total > 0 ? Math.round(done/total*100) : 0;
+  document.getElementById('prog-pct').textContent = pct + '%';
+  document.getElementById('prog-ring').style.background =
+    `conic-gradient(var(--blue) ${pct}%, #1e2030 ${pct}%)`;
+};
+
+// ─── Submit ───────────────────────────────────────────────────────────────────
+function submitAll() {
+  submitted = true;
+  document.getElementById('btn-submit').disabled = true;
+
+  // Tự động kiểm tra các câu chưa làm
+  QUESTIONS.forEach((q, i) => {
+    if (!state.checked[i]) {
+      state.points[i] = 0;
+      state.checked[i] = true;
+    }
+  });
+  updateProgress();
+
+  const total = QUESTIONS.length;
+  const pts = Object.values(state.points).reduce((a,b)=>a+b,0);
+  const score10 = total > 0 ? pts / total * 10 : 0;
+  const pct = Math.round(score10*10);
+
+  const banner = document.getElementById('result-banner');
+  banner.classList.add('show');
+  const sc = document.getElementById('result-score');
+  sc.textContent = score10.toFixed(1) + ' / 10';
+  sc.className = `result-score ${score10 >= 8 ? 'high' : score10 >= 5 ? 'mid' : 'low'}`;
+  document.getElementById('result-msg').textContent =
+    score10 >= 9 ? '🏆 Xuất sắc! Bạn nắm rất vững kiến thức.' :
+    score10 >= 7 ? '🎉 Tốt! Cần ôn thêm vài điểm nhỏ.' :
+    score10 >= 5 ? '📚 Cần ôn tập thêm một số phần.' :
+    '💪 Hãy xem lại lời giải và ôn tập kỹ hơn.';
+
+  banner.scrollIntoView({behavior:'smooth'});
+  lmsFinish(score10);
+};
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+window.addEventListener('load', () => {
+  lmsInit();
+  renderAll();
+  updateProgress();
+  // Re-render math after dynamic content
+  if (window.renderMathInElement) {
+    setTimeout(() => renderMathInElement(document.body, {
+      delimiters:[
+        {left:'$$',right:'$$',display:true},
+        {left:'$',right:'$',display:false}
+      ],
+      throwOnError: false
+    }), 200);
+  }
+});
+</script>
+</body>
+</html>

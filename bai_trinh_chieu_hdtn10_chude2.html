@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài trình chiếu: HĐTN & HN 10 - Chủ đề 2</title>
+    <!-- Reveal.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/league.min.css" id="theme">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        .reveal {
+            font-family: 'Inter', sans-serif;
+        }
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+            font-family: 'Outfit', sans-serif;
+            text-transform: none;
+            font-weight: 700;
+            color: #ffce00;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .reveal p, .reveal li {
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+        .highlight {
+            color: #00d2ff;
+            font-weight: 600;
+        }
+        .box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            margin-top: 20px;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .answer-box {
+            background: rgba(0, 210, 255, 0.15);
+            border-left: 5px solid #00d2ff;
+            padding: 15px;
+            text-align: left;
+            margin-top: 15px;
+        }
+        .task-title {
+            color: #ff4b2b !important;
+        }
+        /* Style for Animal Personality */
+        .animal-box {
+            padding: 15px;
+            border-radius: 10px;
+            color: white;
+            text-align: left;
+        }
+        .animal-d { background: rgba(231, 76, 60, 0.8); border: 2px solid #e74c3c; } /* Red */
+        .animal-i { background: rgba(241, 196, 15, 0.8); border: 2px solid #f1c40f; color: #333;} /* Yellow */
+        .animal-s { background: rgba(46, 204, 113, 0.8); border: 2px solid #2ecc71; } /* Green */
+        .animal-c { background: rgba(52, 152, 219, 0.8); border: 2px solid #3498db; } /* Blue */
+
+        /* Custom Background Gradient */
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Slide 1: Tiêu đề -->
+            <section>
+                <h2>Hoạt động trải nghiệm, Hướng nghiệp 10</h2>
+                <br>
+                <h1 style="font-size: 3.5rem;">CHỦ ĐỀ 2</h1>
+                <h3 style="color: white;">Khám phá và Phát triển Bản thân</h3>
+                <br>
+                <p style="font-size: 1.2rem; color: #fff;">Giáo viên: <b class="highlight">Thầy Nguyễn Văn Sang</b></p>
+            </section>
+
+            <!-- Slide 2: Mục tiêu -->
+            <section>
+                <h2>🎯 Mục tiêu bài học</h2>
+                <div class="box" style="text-align: left;">
+                    <ul style="list-style-type: '✔️ ';">
+                        <li>Khám phá điểm mạnh, điểm yếu qua bài trắc nghiệm tính cách.</li>
+                        <li>Nhận diện và điều chỉnh tư duy theo hướng tích cực.</li>
+                        <li>Trình bày được quan điểm sống của cá nhân.</li>
+                        <li>Lập kế hoạch phát huy điểm mạnh, khắc phục điểm yếu.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Slide 3: Hoạt động 1 - Test tính cách -->
+            <section>
+                <section>
+                    <h2 class="task-title">Hoạt động 1: Giải mã bản thân</h2>
+                    <div class="box" style="text-align: left;">
+                        <p><b>Nhiệm vụ (5 phút):</b></p>
+                        <p>1. Các em nhận <b style="color: #00d2ff;">"Phiếu Khảo Sát Tính Cách"</b> từ thầy (hoặc làm trực tiếp trên bảng).</p>
+                        <p>2. Đọc các từ khóa và đánh dấu ✔ vào ô miêu tả đúng nhất về em.</p>
+                        <p>3. Cộng tổng điểm ở từng Nhóm (A, B, C, D).</p>
+                        <p>👉 <i>Nhóm nào có điểm cao nhất, đó chính là tính cách nổi trội của em!</i></p>
+                        
+                        <div style="text-align: center; margin-top: 25px;">
+                            <a href="phieu_khao_sat_tinh_cach.html" target="_blank" style="background: linear-gradient(90deg, #ff4b2b, #ff416c); color: white; padding: 12px 30px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 1.2rem; box-shadow: 0 5px 15px rgba(255, 75, 43, 0.5); display: inline-block; transition: transform 0.2s;">📄 MỞ PHIẾU KHẢO SÁT</a>
+                        </div>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>🔍 KẾT QUẢ: BẠN LÀ AI?</h2>
+                    <p>Hãy xem nhóm cao điểm nhất của em tương ứng với con vật nào nhé!</p>
+                    <div class="grid-2">
+                        <div class="animal-box animal-d fragment fade-up">
+                            <h4>🦅 Nhóm A: ĐẠI BÀNG (Dominance)</h4>
+                            <p style="font-size: 0.9rem;">- <b>Điểm mạnh:</b> Mạnh mẽ, quyết đoán, tố chất thủ lĩnh, thích chinh phục mục tiêu.<br>- <b>Điểm yếu:</b> Đôi khi nóng nảy, thiếu kiên nhẫn, áp đặt người khác.</p>
+                        </div>
+                        <div class="animal-box animal-i fragment fade-up">
+                            <h4>🦚 Nhóm B: CHIM CÔNG (Influence)</h4>
+                            <p style="font-size: 0.9rem;">- <b>Điểm mạnh:</b> Vui vẻ, sáng tạo, truyền cảm hứng, rất dễ kết bạn.<br>- <b>Điểm yếu:</b> Hay quên, làm việc theo cảm hứng, thiếu tập trung.</p>
+                        </div>
+                        <div class="animal-box animal-s fragment fade-up">
+                            <h4>🕊️ Nhóm C: BỒ CÂU (Steadiness)</h4>
+                            <p style="font-size: 0.9rem;">- <b>Điểm mạnh:</b> Hiền lành, biết lắng nghe, trung thành, là người bạn tuyệt vời.<br>- <b>Điểm yếu:</b> Ngại thay đổi, sợ xung đột, khó từ chối người khác.</p>
+                        </div>
+                        <div class="animal-box animal-c fragment fade-up">
+                            <h4>🦉 Nhóm D: CÚ MÈO (Compliance)</h4>
+                            <p style="font-size: 0.9rem;">- <b>Điểm mạnh:</b> Tỉ mỉ, cẩn thận, làm việc logic và có kế hoạch rất rõ ràng.<br>- <b>Điểm yếu:</b> Quá cầu toàn, hay phán xét, đôi khi cứng nhắc.</p>
+                        </div>
+                    </div>
+                </section>
+            </section>
+
+            <!-- Slide 4: Hoạt động 2 -->
+            <section>
+                <section>
+                    <h2 class="task-title">Hoạt động 2: Tư duy tích cực</h2>
+                    <div class="box" style="text-align: left;">
+                        <p><b>Tình huống:</b> Tuần trước, em dành rất nhiều thời gian ôn tập môn Toán nhưng bài kiểm tra giữa kì lại chỉ được 5 điểm. Em cảm thấy rất thất vọng và tự ti.</p>
+                        <p>👉 <b>Nhiệm vụ (Viết bài ngắn):</b> Em hãy viết 3-4 câu để điều chỉnh suy nghĩ của mình theo hướng tích cực trong tình huống này.</p>
+                    </div>
+                </section>
+                <section>
+                    <h2>Gợi ý đáp án (Hoạt động 2)</h2>
+                    <div class="answer-box">
+                        <p><b>Gợi ý tư duy tích cực:</b></p>
+                        <ul style="list-style-type: '💡 ';">
+                            <li>"Điểm 5 không đánh giá toàn bộ năng lực của mình, đó chỉ là kết quả của một bài kiểm tra."</li>
+                            <li>"Ít nhất mình đã nỗ lực hết sức. Mình sẽ xem lại bài thi để biết mình sai ở đâu."</li>
+                            <li>"Mình sẽ nhờ thầy Sang hoặc bạn bè giảng lại những phần chưa hiểu để gỡ điểm ở bài kiểm tra tiếp theo."</li>
+                        </ul>
+                    </div>
+                </section>
+            </section>
+
+            <!-- Slide 5: Hoạt động 3 -->
+            <section>
+                <section>
+                    <h2 class="task-title">Hoạt động 3: Quan điểm sống</h2>
+                    <div class="box" style="text-align: left;">
+                        <p><b>Yêu cầu viết bài (5-7 dòng):</b></p>
+                        <p>Có người cho rằng: <i>"Quan điểm sống của học sinh chỉ cần là học thật giỏi để thi đỗ đại học."</i></p>
+                        <p>👉 Em có đồng ý với quan điểm này không? Hãy viết ra một đoạn văn ngắn trình bày <b>quan điểm sống của chính em</b> ở thời điểm hiện tại.</p>
+                    </div>
+                </section>
+                <section>
+                    <h2>Gợi ý đáp án (Hoạt động 3)</h2>
+                    <div class="answer-box">
+                        <p><b>Không hoàn toàn đồng ý. Học giỏi là tốt nhưng chưa đủ.</b></p>
+                        <p><b>Các quan điểm sống tích cực học sinh có thể nêu:</b></p>
+                        <ul>
+                            <li><b>Lối sống cống hiến:</b> Học tập kết hợp với tham gia hoạt động tình nguyện, giúp đỡ mọi người.</li>
+                            <li><b>Lối sống tự lập:</b> Tự quản lý thời gian, không phụ thuộc hoàn toàn vào cha mẹ.</li>
+                            <li><b>Lối sống trải nghiệm:</b> Dám thử thách bản thân ở nhiều lĩnh vực (thể thao, nghệ thuật) để tìm ra đam mê.</li>
+                        </ul>
+                    </div>
+                </section>
+            </section>
+
+            <!-- Slide 6: BÀI TẬP VỀ NHÀ -->
+            <section data-background-color="#b21f1f">
+                <h2>📝 GIAO NHIỆM VỤ VỀ NHÀ</h2>
+                <div class="box" style="background: rgba(0,0,0,0.5); text-align: left; border: 2px dashed #ffce00;">
+                    <h4 style="color: #ffce00;">Dự án cá nhân: "Bản kế hoạch của tôi"</h4>
+                    <p><b>Yêu cầu:</b> Dựa vào kết quả bài Test tính cách con vật hôm nay, em hãy lập một bảng kế hoạch để:</p>
+                    <ul>
+                        <li><b>Phát huy 1 điểm mạnh</b> (Nêu rõ hành động cụ thể).</li>
+                        <li><b>Khắc phục 1 điểm yếu</b> (Nêu phương pháp & thời gian thực hiện).</li>
+                    </ul>
+                    <p><b>Hình thức:</b> Viết tay hoặc đánh máy trên 1 trang giấy A4 (Khuyến khích trang trí sáng tạo, vẽ mindmap).</p>
+                    <hr>
+                    <p><b style="color: #ffce00;">⏰ Hạn nộp:</b> Buổi học ngày mai.<br> Lớp trưởng thu và nộp lại bàn giáo viên cho thầy Sang đầu giờ.</p>
+                </div>
+            </section>
+
+            <!-- Slide 7: Kết thúc -->
+            <section>
+                <h1 style="font-size: 4rem;">XIN CẢM ƠN!</h1>
+                <p>Các em nhớ hoàn thành bài tập đầy đủ nhé.</p>
+                <br>
+                <p style="font-size: 1.5rem; color: #ffce00;"><b>Thầy Nguyễn Văn Sang</b></p>
+            </section>
+        </div>
+    </div>
+
+    <!-- Reveal.js Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            transition: 'convex',
+            backgroundTransition: 'fade',
+            slideNumber: true,
+            autoAnimate: true // Mở autoAnimate
+        });
+    </script>
+</body>
+</html>

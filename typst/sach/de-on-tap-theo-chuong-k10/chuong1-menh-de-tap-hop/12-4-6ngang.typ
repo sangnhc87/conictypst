@@ -6,15 +6,15 @@
 #let qb = box(width: 1.15pt, height: 1.15pt, fill: black)
 #let qw = box(width: 1.15pt, height: 1.15pt, fill: white)
 
-#let bubble(label) = {
+#let bubble(label, is-filled: false) = {
   circle(
     radius: if true { 4.3pt } else { 5pt },
     stroke: 0.5pt + rgb("#333333"),
-    fill: white,
+    fill: if is-filled { black } else { white },
     align(center + horizon)[#text(
       size: if true { 6.0pt } else { 7pt },
       weight: "regular",
-      fill: rgb("#888888"),
+      fill: if is-filled { white } else { rgb("#888888") },
     )[#label]],
   )
 }
@@ -39,19 +39,23 @@
         #place(top + left, dx: -2pt, dy: -2pt)[#tracking-marker]
         #align(center)[#text(weight: "bold", size: 8pt)[SBD]]
         #v(if true { 1pt } else { 2pt })
-        #grid(
-          columns: (12pt,) * 6, gutter: if true { 1.2pt } else { 1.5pt },
-          ..range(6).map(i => align(center, box(
-            stroke: 0.8pt + black,
-            width: if true { 10pt } else { 11pt },
-            height: if true { 10pt } else { 11pt },
-          )))
-        )
-        #v(if true { 1pt } else { 2pt })
-        #grid(
-          columns: (12pt,) * 6, row-gutter: if true { 0.8pt } else { 1.5pt }, column-gutter: 1.5pt,
-          ..range(10).map(r => range(6).map(c => align(center, bubble(str(r))))).flatten()
-        )
+        #context {
+          let sbd = state("sbd", "").get()
+          grid(
+            columns: (12pt,) * 6, gutter: if true { 1.2pt } else { 1.5pt },
+            ..range(6).map(c => align(center, box(
+              stroke: 0.8pt + black,
+              width: if true { 10pt } else { 11pt },
+              height: if true { 10pt } else { 11pt },
+              align(center + horizon)[#text(weight: "bold", size: 8pt)[#(if c < sbd.len() { sbd.at(c) } else { "" })]]
+            )))
+          )
+          v(if true { 1pt } else { 2pt })
+          grid(
+            columns: (12pt,) * 6, row-gutter: if true { 0.8pt } else { 1.5pt }, column-gutter: 1.5pt,
+            ..range(10).map(r => range(6).map(c => align(center, bubble(str(r), is-filled: (c < sbd.len() and sbd.at(c) == str(r)))))).flatten()
+          )
+        }
       ],
     )
 
@@ -66,35 +70,24 @@
         #place(top + left, dx: -2pt, dy: -2pt)[#tracking-marker]
         #align(right)[#text(weight: "bold", size: 8pt)[Mã đề]]
         #v(if true { 1pt } else { 2pt })
-        #grid(
-          columns: (12pt,) * 4,
-          gutter: if true { 1.2pt } else { 1.5pt },
-          align(center, box(
-            stroke: 0.8pt + black,
-            width: if true { 10pt } else { 11pt },
-            height: if true { 10pt } else { 11pt },
-          )),
-          align(center, box(
-            stroke: 0.8pt + black,
-            width: if true { 10pt } else { 11pt },
-            height: if true { 10pt } else { 11pt },
-          )),
-          align(center, box(
-            stroke: 0.8pt + black,
-            width: if true { 10pt } else { 11pt },
-            height: if true { 10pt } else { 11pt },
-          )),
-          align(center, box(
-            stroke: 0.8pt + black,
-            width: if true { 10pt } else { 11pt },
-            height: if true { 10pt } else { 11pt },
-          )),
-        )
-        #v(if true { 1pt } else { 2pt })
-        #grid(
-          columns: (12pt,) * 4, row-gutter: if true { 0.8pt } else { 1.5pt }, column-gutter: 1.5pt,
-          ..range(10).map(r => range(4).map(c => align(center, bubble(str(r))))).flatten()
-        )
+        #context {
+          let made = state("made", "").get()
+          grid(
+            columns: (12pt,) * 4,
+            gutter: if true { 1.2pt } else { 1.5pt },
+            ..range(4).map(c => align(center, box(
+              stroke: 0.8pt + black,
+              width: if true { 10pt } else { 11pt },
+              height: if true { 10pt } else { 11pt },
+              align(center + horizon)[#text(weight: "bold", size: 8pt)[#(if c < made.len() { made.at(c) } else { "" })]]
+            )))
+          )
+          v(if true { 1pt } else { 2pt })
+          grid(
+            columns: (12pt,) * 4, row-gutter: if true { 0.8pt } else { 1.5pt }, column-gutter: 1.5pt,
+            ..range(10).map(r => range(4).map(c => align(center, bubble(str(r), is-filled: (c < made.len() and made.at(c) == str(r)))))).flatten()
+          )
+        }
       ],
     )
 

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <style>
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        padding: 10px;
+        text-align: center;
+        background: #f9fafb;
+      }
+      h2 {
+        color: #111827;
+        font-size: 1.2rem;
+      }
+      #result {
+        margin: 20px 0;
+        padding: 20px;
+        background: #fff;
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #059669;
+        min-height: 40px;
+        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+      }
+      button {
+        background-color: #10b981;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        border-radius: 8px;
+        cursor: pointer;
+        width: 100%;
+        transition: 0.2s;
+      }
+      button:hover {
+        background-color: #059669;
+      }
+      button:disabled {
+        background-color: #9ca3af;
+        cursor: not-allowed;
+      }
+      .loading {
+        font-style: italic;
+        color: #6b7280;
+        font-size: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>🎡 Vòng Quay May Mắn</h2>
+    <div id="result">Đang nạp danh sách...</div>
+    <button id="btnSpin" onclick="spin()" disabled>QUAY TÊN</button>
+
+    <script>
+      let studentsList = [];
+
+      // Nạp danh sách ngay khi mở sidebar
+      google.script.run.withSuccessHandler(function(names) {
+        studentsList = names;
+        const resDiv = document.getElementById('result');
+        if (studentsList.length > 0) {
+          resDiv.innerHTML = "Sẵn sàng!";
+          document.getElementById('btnSpin').disabled = false;
+        } else {
+          resDiv.innerHTML = "Lỗi: Không tìm thấy học sinh nào!";
+        }
+      }).getStudentNames();
+
+      function spin() {
+        if (studentsList.length === 0) return;
+        
+        const btn = document.getElementById('btnSpin');
+        const resDiv = document.getElementById('result');
+        btn.disabled = true;
+        
+        let counter = 0;
+        const maxTicks = 20; // Số lần chớp tên trước khi dừng
+        
+        // Hiệu ứng random nhấp nháy
+        const interval = setInterval(() => {
+          const randomIndex = Math.floor(Math.random() * studentsList.length);
+          resDiv.innerHTML = studentsList[randomIndex];
+          resDiv.style.color = "#9ca3af";
+          counter++;
+          
+          if (counter >= maxTicks) {
+            clearInterval(interval);
+            // Kết quả cuối cùng
+            const finalIndex = Math.floor(Math.random() * studentsList.length);
+            resDiv.innerHTML = '🎉 ' + studentsList[finalIndex] + ' 🎉';
+            resDiv.style.color = "#059669";
+            btn.disabled = false;
+            
+            // Xóa học sinh này khỏi mảng tạm để không quay trúng lần sau (tuỳ chọn)
+            studentsList.splice(finalIndex, 1);
+            if (studentsList.length === 0) {
+              btn.innerText = "Hết học sinh!";
+              btn.disabled = true;
+            }
+          }
+        }, 50);
+      }
+    </script>
+  </body>
+</html>

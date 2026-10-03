@@ -1,7 +1,7 @@
 #import "@preview/sang-math:1.0.6": *
 #import "@preview/cetz:0.3.1"
 
-#let mode = "dethi"
+#let mode = "loigiai"
 #let accent = rgb("0f766e")
 #let ma-de = "1236"
 #let in-qr-dap-an = true

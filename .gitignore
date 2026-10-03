@@ -83,6 +83,18 @@ venv/
 **/scorm_output/scorm-*/
 typst/sach/DECUONG12-HK1/scorm/output/
 
+# ── SCORM bài giảng beamer (zip nặng >50MB, build lại được từ .typ) ──
+# Giữ local để dạy hàng năm, không push GitHub
+typst/bai-giang-beamer-scorm/
+typst/bai-giang/
+dist-portal/
+
+# ── Manim video (nặng, không cần thiết trên GitHub) ──
+manim_xepghe/
+
+# ── Scratch (rác tạm) ──
+scratch/
+
 # ── inject / switch scripts tạm ──
 /inject_de*.py
 /switch_k10_dethi.py

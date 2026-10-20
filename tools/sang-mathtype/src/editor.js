@@ -21,6 +21,7 @@ const favs = new Set(LS('sangmath.editor.favs', []))
 let recent = LS('sangmath.editor.recent', [])
 const saveLS = () => { try { localStorage.setItem('sangmath.editor.favs', JSON.stringify([...favs])); localStorage.setItem('sangmath.editor.recent', JSON.stringify(recent)) } catch { /* bỏ qua */ } }
 let bridge = null
+let getB = null
 let editingInWord = false
 let undo = []
 let redo = []
@@ -450,6 +451,7 @@ function sceneForMeta() {
 }
 
 function setBridgeButtons() {
+  if (getB) bridge = getB() // cầu nối Word được gán sau khi Office sẵn sàng: luôn đọc lại
   $('edInsert').hidden = editingInWord || !bridge
   $('edUpdate').hidden = !editingInWord || !bridge
 }
@@ -468,6 +470,7 @@ export function setEditingInWord(on) { editingInWord = on; setBridgeButtons() }
 
 export function initEditor(getBridge, hostApi) {
   host = hostApi
+  getB = getBridge
   const sync = () => { bridge = getBridge(); setBridgeButtons() }
   sync()
   loadDraft()
@@ -536,6 +539,7 @@ export function initEditor(getBridge, hostApi) {
     const p = stagePoint(e)
     addItem(id, snapv(p.x), snapv(p.y))
   })
+  window.addEventListener('sm-bridge', () => setBridgeButtons())
   window.addEventListener('sm-view', e => { if (e.detail === 'figure' && !$('edMode').hidden) setTimeout(onShow, 0) })
   window.addEventListener('resize', () => { if (!$('edMode').hidden) { layoutStage(); paintAll() } })
   new ResizeObserver(() => { if (!$('edMode').hidden) { layoutStage(); paintAll() } }).observe($('edStageWrap'))

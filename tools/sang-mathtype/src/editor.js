@@ -582,6 +582,29 @@ export function initEditor(getBridge, hostApi) {
       document.body.append(a); a.click(); a.remove()
     } catch (err) { host.showError(String(err.message || err).split('\n')[0]) }
   })
+  $('edSavePng').addEventListener('click', async () => {
+    try {
+      const image = await finalImage()
+      const bytes = Uint8Array.from(atob(image.png), c => c.charCodeAt(0))
+      const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(new Blob([bytes], { type: 'image/png' })), download: 'hinh-ve.png' })
+      document.body.append(a); a.click(); a.remove()
+    } catch (err) { host.showError(String(err.message || err).split('\n')[0]) }
+  })
+  $('edSaveProj').addEventListener('click', () => {
+    const data = JSON.stringify({ app: 'sangmath-editor', v: 1, W: scene.W, H: scene.H, items: scene.items.map(({ id, ...r }) => r) }, null, 1)
+    const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(new Blob([data], { type: 'application/json' })), download: 'du-an-ve-hinh.json' })
+    document.body.append(a); a.click(); a.remove()
+  })
+  $('edOpenProj').addEventListener('click', () => $('edProjFile').click())
+  $('edProjFile').addEventListener('change', async () => {
+    const f = $('edProjFile').files[0]; $('edProjFile').value = ''
+    if (!f) return
+    try {
+      const d = JSON.parse(await f.text())
+      if (d.app !== 'sangmath-editor' || !Array.isArray(d.items)) throw new Error('Đây không phải tệp dự án Sang Math.')
+      pushUndo(); loadScene(d)
+    } catch (err) { host.showError(String(err.message || err).split('\n')[0]) }
+  })
   $('edToCode').addEventListener('click', () => host.openInCodeMode(code()))
   $('edCode').addEventListener('focus', () => { $('edCode').value = code() })
   if (location.search.includes('debug')) window.__ed = { scene, addItem, select, code, loadScene, finalImage }

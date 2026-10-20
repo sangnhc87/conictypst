@@ -1,0 +1,14 @@
+{
+  "name": "Sang Math – Công thức & vẽ hình Toán Lý Hóa",
+  "short_name": "Sang Math",
+  "start_url": "taskpane.html?app=1",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1a56db",
+  "lang": "vi",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}

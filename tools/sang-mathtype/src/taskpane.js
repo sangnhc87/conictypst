@@ -542,3 +542,4 @@ if (window.wordBridge) {
 if (location.search.includes('debug')) window.__sm = { renderFormula, renderIcon, CATEGORIES }
 initFigure(() => bridge)
 initUpdater()
+if ('serviceWorker' in navigator && window.isSecureContext) window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => { /* webview không hỗ trợ: bỏ qua */ }))

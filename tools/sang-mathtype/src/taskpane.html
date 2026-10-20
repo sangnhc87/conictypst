@@ -22,7 +22,6 @@
   <button id="tabExam" type="button" hidden>Trộn đề</button>
   <button id="tabBeautify" type="button" hidden>Làm đẹp đề</button>
   <button id="tabTools" type="button" hidden>Công cụ soạn</button>
-  <button id="tabCoffee" type="button" class="tab-coffee" title="Mời tác giả một ly cà phê">☕</button>
 </nav>
 
 <main id="examView" class="exam" hidden>
@@ -106,25 +105,6 @@
     <p id="ewStatus" class="status muted" aria-live="polite"></p>
     <ul id="ewResults" class="ew-results"></ul>
     <div id="ewKey"></div>
-  </div>
-</main>
-
-<main id="coffeeView" class="coffee" hidden>
-  <div class="coffee-card">
-    <div class="coffee-text">
-      <p class="coffee-kicker">☕ Một lời nhắn nhỏ</p>
-      <h2>Mời tác giả một ly cà phê</h2>
-      <p>Sang Math <b>miễn phí</b> và sẽ luôn miễn phí cho thầy cô. Công thức và hình vẽ được xử lý ngay trên máy của thầy cô, không có quảng cáo.</p>
-      <p>Phần mềm do một giáo viên THPT tự làm, để việc soạn đề, vẽ hình Toán – Lý – Hóa bớt nhọc nhằn hơn. Nếu công cụ này đã giúp thầy cô tiết kiệm được một buổi vẽ hình hay gõ công thức, một ly cà phê nhỏ sẽ tiếp thêm sức cho tác giả làm tiếp những mẫu mới.</p>
-      <p class="coffee-soft">Còn nếu chưa tiện cũng không sao ạ. Giới thiệu Sang Math cho một đồng nghiệp đã là món quà rất quý rồi. Xin cảm ơn thầy cô! 🌿</p>
-      <dl class="coffee-bank">
-        <div><dt>Ngân hàng</dt><dd>VPBank</dd></div>
-        <div><dt>Chủ tài khoản</dt><dd>NGUYEN VAN SANG</dd></div>
-        <div><dt>Số tài khoản</dt><dd><span id="coffeeAcc">10389821115</span> <button id="coffeeCopy" type="button" title="Sao chép số tài khoản">Chép số</button></dd></div>
-      </dl>
-      <p class="coffee-note">Mở ứng dụng ngân hàng, chọn quét mã QR (VietQR). Nội dung chuyển khoản tùy thầy cô ghi, ví dụ "cà phê Sang Math".</p>
-    </div>
-    <img class="coffee-qr" src="qr-donate.png" alt="Mã QR VietQR VPBank của Nguyễn Văn Sang" width="220" height="336">
   </div>
 </main>
 
@@ -423,7 +403,28 @@
   </section>
 </main>
 
-<footer class="about">Tác giả: Nguyễn Văn Sang · GV THPT Nguyễn Hữu Cảnh, TP. Hồ Chí Minh</footer>
+<footer class="about">Tác giả: Nguyễn Văn Sang · GV THPT Nguyễn Hữu Cảnh, TP. Hồ Chí Minh · <button id="coffeeBtn" type="button" class="coffee-btn">☕ Mời tác giả ly cà phê</button></footer>
+
+<dialog id="coffeeDlg" class="coffee-dlg" aria-labelledby="coffeeTitle">
+  <form method="dialog" class="coffee-x"><button aria-label="Đóng">✕</button></form>
+  <div class="cd-body">
+    <div class="cd-left">
+      <p class="cd-kicker">☕ Một lời nhắn nhỏ</p>
+      <h2 id="coffeeTitle">Mời tác giả một ly cà phê</h2>
+      <p>Sang Math <b>miễn phí</b> và sẽ luôn miễn phí cho thầy cô. Mọi thứ được xử lý ngay trên máy, không quảng cáo.</p>
+      <p>Phần mềm do một giáo viên THPT tự làm để việc soạn đề, vẽ hình bớt nhọc nhằn. Nếu nó đã giúp thầy cô tiết kiệm được một buổi vẽ hình hay gõ công thức, một ly cà phê nhỏ sẽ tiếp thêm sức để tác giả làm tiếp những mẫu mới.</p>
+      <p class="cd-soft">Chưa tiện cũng không sao ạ. Giới thiệu cho một đồng nghiệp đã là món quà rất quý. Xin cảm ơn thầy cô! 🌿</p>
+      <div class="cd-bank">
+        <span>VPBank · NGUYEN VAN SANG</span>
+        <span><b id="coffeeAcc">10389821115</b> <button id="coffeeCopy" type="button">Chép số</button></span>
+      </div>
+    </div>
+    <div class="cd-right">
+      <img src="qr-donate.png" alt="Mã QR VietQR VPBank của Nguyễn Văn Sang" width="200" height="306">
+      <small>Mở app ngân hàng, quét QR</small>
+    </div>
+  </div>
+</dialog>
 
 <script type="module" src="taskpane.js"></script>
 </body>

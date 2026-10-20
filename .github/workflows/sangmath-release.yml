@@ -1,0 +1,37 @@
+# Đăng bản cài Sang Math (Windows + Mac) lên GitHub Releases.
+# Dùng:  git tag sangmath-v1.0.0 && git push origin sangmath-v1.0.0
+# Add-in là trang web: các tệp này chỉ đăng ký add-in với Word, nên không phải đóng gói lại mỗi lần cập nhật.
+name: sangmath-release
+on:
+  push:
+    tags: ['sangmath-v*']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Đóng gói
+        run: |
+          cd release/sangmath
+          zip -X Cai-SangMath-Mac.zip Cai-SangMath-Mac.command Go-SangMath-Mac.command
+          mkdir -p ../out
+          cp Cai-SangMath-Windows.cmd Go-SangMath-Windows.cmd Cai-SangMath-Mac.zip HUONG-DAN-CAI.md ../out/
+      - name: Tạo Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Sang Math ${{ github.ref_name }}
+          body_path: release/sangmath/HUONG-DAN-CAI.md
+          files: |
+            release/out/Cai-SangMath-Windows.cmd
+            release/out/Go-SangMath-Windows.cmd
+            release/out/Cai-SangMath-Mac.zip
+      - name: Lưu bản thử (chạy tay)
+        if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: sangmath-installers
+          path: release/out/

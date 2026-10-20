@@ -39,3 +39,8 @@ Xem ảnh `sheet-*.png` bằng công cụ Read thay vì đọc mã. Một lần 
 Ba định dạng chèn (mặc định `svgn`): `svgn` = SVG + PNG dự phòng cực nhỏ (1/8 độ phân giải, cho Office 2016+/365, nhẹ nhất);
 `svg` = SVG + PNG dự phòng 1/3 (tương thích Google Docs, Word cũ); `png` = PNG đầy đủ. Mac app dán thẳng SVG. Xem `packageXml` trong `src/word.js`.
 Một đề có hàng nghìn công thức: mỗi công thức là một SVG nhỏ + PNG dự phòng; giữ `svgn` để file nhẹ.
+
+## Offline / web / PWA
+`build.mjs` ghi `dist/sw.js` (từ `src/sw.template.js`, danh sách mọi tệp) và `app.webmanifest`; `taskpane.js` đăng ký service worker. Lần đầu có mạng thì lưu toàn bộ ~475 tệp, sau đó chạy offline (đã thử bằng Chrome: tắt máy chủ vẫn dựng được hình). Mỗi build có CACHE riêng nên bản mới tự thay bản cũ.
+Service worker **không đăng ký được với chứng chỉ tự ký** (`https://localhost:3155`) hay trong khung trình duyệt nhúng; muốn thử offline dùng `python3 -m http.server --bind 127.0.0.1` trong `dist/` + Chrome. Add-in trong khung Word có chạy service worker hay không thì chưa kiểm chứng. Công cụ Trộn đề (Pyodide) chưa hỗ trợ offline.
+Trang web đầy đủ: `taskpane.html?app=1` (nút "Mở Sang Math trên web" ở `index.html`); có Lưu PNG/SVG, Lưu/Mở dự án (.json).

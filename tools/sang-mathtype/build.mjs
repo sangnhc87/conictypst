@@ -49,6 +49,7 @@ if (base) {
 }
 writeFileSync(path.join(out, 'manifest.xml'), manifest)
 writeFileSync(path.join(out, 'version.json'), JSON.stringify({ v: BUILD_ID }))
+copyFileSync(path.join(here, 'src/app.webmanifest'), path.join(out, 'app.webmanifest'))
 await buildDraw(here, out)
 // Bộ máy trộn đề chạy bằng Pyodide trong add-in: worker + các tệp Python dùng chung với app Mac
 copyFileSync(path.join(here, 'src/exam.worker.js'), path.join(out, 'exam.worker.js'))
@@ -57,4 +58,14 @@ for (const f of ['docx_shuffler.py', 'sm_analyze.py']) copyFileSync(path.join(he
 
 // Bộ cài một lệnh cho Mac và Windows (tệp văn bản để curl / iwr tải về chạy)
 for (const f of ['install-mac.sh', 'install-windows.ps1']) copyFileSync(path.join(here, 'installers', f), path.join(out, f))
+// Service worker: danh sách mọi tệp (trừ chính nó, version.json, trình cài, nhật ký) để chạy ngoại tuyến sau lần đầu có mạng
+{
+  const { readdirSync, statSync } = await import('node:fs')
+  const walk = (d, b = d) => readdirSync(d).flatMap(n => { const p = path.join(d, n); return statSync(p).isDirectory() ? walk(p, b) : [path.relative(b, p)] })
+  const skip = new Set(['sw.js', 'version.json', '_headers', 'install-mac.sh', 'install-windows.ps1'])
+  const files = walk(out).filter(f => !skip.has(f) && !f.startsWith('draw/t/')).sort()
+  files.push('taskpane', './')
+  writeFileSync(path.join(out, 'sw.js'), readFileSync(path.join(here, 'src/sw.template.js'), 'utf8').replace('__BUILD_ID__', BUILD_ID).replace('__FILES__', JSON.stringify(files)))
+  console.log(`  sw: ${files.length} tệp lưu ngoại tuyến`)
+}
 console.log('Đã dựng xong:', out)

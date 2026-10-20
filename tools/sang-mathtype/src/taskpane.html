@@ -1,6 +1,9 @@
 <!doctype html>
 <html lang="vi">
 <head>
+<link rel="manifest" href="app.webmanifest">
+<meta name="theme-color" content="#1a56db">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sang Math cho Word</title>
@@ -266,6 +269,10 @@
         <button id="edUpdate" class="primary" type="button" hidden>Cập nhật hình đã chọn</button>
         <button id="edCopy" type="button">Sao chép ảnh</button>
         <button id="edSave" type="button">Lưu SVG</button>
+        <button id="edSavePng" type="button">Lưu PNG</button>
+        <button id="edSaveProj" type="button" title="Lưu bảng vẽ thành tệp .json để mở lại và sửa tiếp">💾 Lưu dự án</button>
+        <button id="edOpenProj" type="button" title="Mở tệp dự án .json đã lưu">📂 Mở dự án</button>
+        <input id="edProjFile" type="file" accept=".json,application/json" hidden>
       </div>
       <details class="style-details"><summary>Mã Typst của bảng vẽ</summary>
         <textarea id="edCode" spellcheck="false" rows="10" readonly></textarea>

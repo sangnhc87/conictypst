@@ -2,5 +2,3 @@ certs/
 dist/
 out/
 .cache/
-node_modules/
-.DS_Store

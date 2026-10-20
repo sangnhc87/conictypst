@@ -1,6 +1,6 @@
-# Đăng bản cài Sang Math (Windows + Mac) lên GitHub Releases.
-# Dùng:  git tag sangmath-v1.0.0 && git push origin sangmath-v1.0.0
-# Add-in là trang web: các tệp này chỉ đăng ký add-in với Word, nên không phải đóng gói lại mỗi lần cập nhật.
+# Đăng bản cài Sang Math lên GitHub Releases: SangMath-Setup.exe (Windows), SangMath.dmg (Mac) + tệp script dự phòng.
+# Dùng:  git tag sangmath-v1.1.0 && git push origin sangmath-v1.1.0   (hoặc chạy tay: Actions > sangmath-release)
+# Add-in là trang web: các bản cài chỉ đăng ký add-in với Word, nên không phải đóng gói lại mỗi lần cập nhật.
 name: sangmath-release
 on:
   push:
@@ -9,16 +9,43 @@ on:
 permissions:
   contents: write
 jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Cài Inno Setup
+        shell: pwsh
+        run: choco install innosetup -y --no-progress
+      - name: Dịch trình cài .exe
+        shell: pwsh
+        working-directory: release/sangmath/windows
+        run: |
+          $ver = if ('${{ github.ref_name }}' -match 'sangmath-v(.+)') { $Matches[1] } else { '0.0.0' }
+          & "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe" "/DAppVer=$ver" SangMath.iss
+          Get-ChildItem out
+      - uses: actions/upload-artifact@v4
+        with: { name: win, path: release/sangmath/windows/out/SangMath-Setup.exe }
+  mac:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Tạo .dmg
+        run: bash release/sangmath/mac/build-dmg.sh release/sangmath/mac/out
+      - uses: actions/upload-artifact@v4
+        with: { name: mac, path: release/sangmath/mac/out/SangMath.dmg }
   release:
+    needs: [windows, mac]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Đóng gói
+      - uses: actions/download-artifact@v4
+        with: { path: dl }
+      - name: Đóng gói script dự phòng
         run: |
           cd release/sangmath
           zip -X Cai-SangMath-Mac.zip Cai-SangMath-Mac.command Go-SangMath-Mac.command
-          mkdir -p ../out
-          cp Cai-SangMath-Windows.cmd Go-SangMath-Windows.cmd Cai-SangMath-Mac.zip HUONG-DAN-CAI.md ../out/
+          mkdir -p ../out && cp Cai-SangMath-Windows.cmd Go-SangMath-Windows.cmd Cai-SangMath-Mac.zip ../out/
+          cp ../../dl/win/SangMath-Setup.exe ../../dl/mac/SangMath.dmg ../out/
       - name: Tạo Release
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
@@ -26,12 +53,12 @@ jobs:
           name: Sang Math ${{ github.ref_name }}
           body_path: release/sangmath/HUONG-DAN-CAI.md
           files: |
+            release/out/SangMath-Setup.exe
+            release/out/SangMath.dmg
             release/out/Cai-SangMath-Windows.cmd
-            release/out/Go-SangMath-Windows.cmd
             release/out/Cai-SangMath-Mac.zip
+            release/out/Go-SangMath-Windows.cmd
       - name: Lưu bản thử (chạy tay)
         if: ${{ !startsWith(github.ref, 'refs/tags/') }}
         uses: actions/upload-artifact@v4
-        with:
-          name: sangmath-installers
-          path: release/out/
+        with: { name: sangmath-installers, path: release/out/ }

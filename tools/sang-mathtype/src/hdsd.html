@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hướng dẫn sử dụng Sang Math: vẽ hình Toán – Lý – Hóa</title>
+<style>
+  :root { --bg:#fff; --fg:#1d2433; --muted:#5b6478; --line:#d9dde6; --accent:#1a56db; --soft:#f3f5f9; --ok:#15803d; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#1c1f26; --fg:#e8ebf2; --muted:#9aa3b5; --line:#343a47; --accent:#6ea0ff; --soft:#262a33; --ok:#4ade80; } }
+  * { box-sizing:border-box; }
+  body { margin:0; font:16px/1.65 system-ui,-apple-system,"Segoe UI",sans-serif; color:var(--fg); background:var(--bg); }
+  .wrap { max-width:900px; margin:0 auto; padding:20px 16px 70px; }
+  header { padding:6px 0 14px; border-bottom:1px solid var(--line); margin-bottom:14px; }
+  h1 { margin:0 0 4px; font-size:27px; } h2 { margin:34px 0 8px; font-size:22px; padding-top:6px; border-top:1px solid var(--line); } h3 { margin:20px 0 6px; font-size:17px; color:var(--accent); }
+  p, li { color:var(--muted); } li b, p b { color:var(--fg); }
+  nav { position:sticky; top:0; background:var(--bg); padding:8px 0; display:flex; flex-wrap:wrap; gap:6px; z-index:5; border-bottom:1px solid var(--line); }
+  nav a { padding:5px 12px; border-radius:999px; background:var(--soft); color:var(--fg); text-decoration:none; font-size:14px; border:1px solid var(--line); }
+  nav a:hover { border-color:var(--accent); }
+  code { background:var(--soft); padding:1px 6px; border-radius:5px; font-size:14px; }
+  table { border-collapse:collapse; width:100%; margin:8px 0 12px; font-size:15px; }
+  th, td { border:1px solid var(--line); padding:6px 10px; text-align:left; vertical-align:top; } th { background:var(--soft); color:var(--fg); } td { color:var(--muted); }
+  .ex { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin:5px 0; }
+  .ex code { font-size:15px; padding:3px 9px; user-select:all; } .ex span { color:var(--muted); font-size:14px; }
+  .ex button { border:1px solid var(--line); background:var(--soft); color:var(--fg); border-radius:8px; padding:2px 9px; cursor:pointer; font:inherit; font-size:13px; }
+  .tip { border-left:4px solid var(--ok); background:var(--soft); padding:8px 12px; border-radius:0 8px 8px 0; margin:10px 0; color:var(--fg); }
+  .warn { border-left:4px solid #d97706; background:var(--soft); padding:8px 12px; border-radius:0 8px 8px 0; margin:10px 0; color:var(--fg); }
+  kbd { border:1px solid var(--line); border-bottom-width:2px; border-radius:5px; padding:0 6px; background:var(--soft); font-size:13px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Hướng dẫn sử dụng Sang Math</h1>
+  <p>Vẽ hình Toán – Lý – Hóa kéo thả và dán thẳng vào Word. Tác giả: Nguyễn Văn Sang, GV THPT Nguyễn Hữu Cảnh, TP.HCM. Trang này dùng được cả khi không có mạng (sau lần mở đầu tiên).</p>
+</header>
+<nav>
+  <a href="#nhanh">Bắt đầu nhanh</a><a href="#bang">Bảng vẽ & phím tắt</a><a href="#hoa">Hóa học</a><a href="#smiles">Vẽ chất từ SMILES</a><a href="#ly">Vật lí</a><a href="#toan">Toán</a><a href="#word">Chèn vào Word</a><a href="#offline">Offline & cài đặt</a><a href="#loi">Gặp lỗi?</a>
+</nav>
+
+<h2 id="nhanh">1. Bắt đầu nhanh (3 bước)</h2>
+<ol>
+  <li>Mở thẻ <b>Vẽ hình</b> → <b>Bảng vẽ kéo thả</b>. Chọn nhóm <b>Hóa học / Vật lí / Toán</b> ở khung trái (hoặc gõ tên vào ô tìm: <i>ống nghiệm, điện trở, elip, benzen, chóp…</i>).</li>
+  <li><b>Kéo mẫu vào bảng</b> (hoặc bấm vào mẫu để thêm). Bấm chọn mẫu trên bảng để <b>kéo, xoay (núm tròn phía trên), đổi cỡ (ô vuông góc dưới)</b>. Khung phải là <b>bảng thuộc tính</b>: đổi số liệu, nhãn, màu, bật/tắt chi tiết.</li>
+  <li>Bấm <b>Chèn hình vào Word</b> (hình vào đúng vị trí con trỏ). Muốn sửa lại hình đã chèn: bấm chọn hình trong Word, rồi chỉnh trong Sang Math và bấm <b>Cập nhật hình đã chọn</b>.</li>
+</ol>
+<div class="tip">Dùng không cần Word: mở <a href="taskpane?app=1">trang web Sang Math</a>, vẽ xong bấm <b>Lưu PNG / Lưu SVG</b> hoặc <b>Sao chép ảnh</b>, rồi dán vào tài liệu.</div>
+
+<h2 id="bang">2. Bảng vẽ và phím tắt</h2>
+<table>
+<tr><th>Thao tác</th><th>Cách làm</th></tr>
+<tr><td>Thêm mẫu</td><td>Kéo từ kho vào bảng, hoặc bấm vào thẻ mẫu</td></tr>
+<tr><td>Ghim mẫu hay dùng</td><td>Bấm ☆ trên thẻ mẫu; xem ở thẻ <b>★ Yêu thích</b>. Thẻ <b>🕘 Gần đây</b> nhớ mẫu vừa dùng</td></tr>
+<tr><td>Di chuyển nhẹ</td><td>Phím mũi tên (0,1 cm); giữ <kbd>Shift</kbd> nhích 0,5 cm</td></tr>
+<tr><td>Xoay</td><td>Kéo núm tròn; <kbd>[</kbd> / <kbd>]</kbd> xoay 15°; giữ <kbd>Shift</kbd> khi kéo để nhảy 15°</td></tr>
+<tr><td>Sao chép / dán / nhân đôi</td><td><kbd>Ctrl/Cmd</kbd>+<kbd>C</kbd>, <kbd>V</kbd>, <kbd>D</kbd></td></tr>
+<tr><td>Xóa</td><td><kbd>Delete</kbd> hoặc nút 🗑 Xóa trong bảng thuộc tính</td></tr>
+<tr><td>Hoàn tác / làm lại</td><td><kbd>Ctrl/Cmd</kbd>+<kbd>Z</kbd> / <kbd>Shift</kbd>+<kbd>Z</kbd></td></tr>
+<tr><td>Thu phóng</td><td>Nút − / + hoặc <kbd>Ctrl/Cmd</kbd> + cuộn chuột</td></tr>
+<tr><td>Căn mẫu</td><td>6 nút căn sát trái/phải/trên/dưới và giữa trong bảng thuộc tính</td></tr>
+<tr><td>Thu gọn bảng</td><td>Nút <b>⤢ Vừa nội dung</b>: bảng co vừa khít hình</td></tr>
+<tr><td>Lưu/mở dự án</td><td><b>💾 Lưu dự án</b> (tệp .json) và <b>📂 Mở dự án</b> để sửa tiếp lần sau</td></tr>
+</table>
+
+<h2 id="hoa">3. Hóa học</h2>
+<ul>
+  <li><b>Dụng cụ thủy tinh:</b> cốc, bình tam giác, bình cầu, ống nghiệm (đứng/nghiêng), ống đong, buret, phễu, phễu chiết, bình Kíp, bình cất Wurtz, bình cầu 3 cổ, bình định mức, pipet, ống sinh hàn… Mỗi mẫu chỉnh được kích thước, mực chất lỏng, màu dung dịch.</li>
+  <li><b>Sơ đồ thí nghiệm hoàn chỉnh:</b> điều chế SO₂, CO₂, NH₃, C₂H₄, C₂H₂, Cl₂, O₂, H₂; lọc thường; chưng cất; điện phân NaCl; pin Zn–Cu; ăn mòn điện hóa; mạ điện; tráng bạc; thí nghiệm phun NH₃.</li>
+  <li><b>Mô hình & cấu tạo:</b> nguyên tử Bo, ô lượng tử, obitan, phân tử quả cầu – que (H₂O, CH₄, benzen…), tinh thể (NaCl, kim cương, than chì, lập phương tâm khối/diện), glucozơ dạng vòng, axit amin, đồng phân.</li>
+  <li><b>Công thức hóa học:</b> mẫu <b>Công thức hóa học</b> nhận chuỗi bất kỳ: <code>H2SO4</code>, <code>Fe^3+</code>, <code>SO4^2-</code>, <code>CH3COOH</code>. Số tự hạ chỉ số, <code>^</code> lên điện tích.</li>
+  <li><b>Đồ thị & giản đồ:</b> chuẩn độ pH, năng lượng phản ứng, tốc độ, cân bằng.</li>
+</ul>
+<div class="tip">Ghép sơ đồ riêng: kéo dụng cụ (bình, ống dẫn thẳng/gấp khúc, đèn cồn, giá sắt, nút, bọt khí) rồi xoay, chồng lớp bằng nút <b>▲ Lên trên / ▼ Xuống dưới</b>.</div>
+
+<h2 id="smiles">4. Vẽ bất kỳ chất nào bằng mã SMILES</h2>
+<p><b>SMILES</b> là cách viết cấu tạo phân tử thành một dòng chữ. Gõ mã, Sang Math tự vẽ <b>công thức khung</b> hoặc <b>mô hình quả cầu – que</b>. Mẫu nằm ở nhóm <b>Hóa học → "Vẽ chất từ SMILES / tên"</b>. Có sẵn khoảng 135 chất THPT: gõ tên vào ô tìm kiếm (vd. <i>axit axetic, glyxin, glucozơ, toluen</i>) rồi kéo vào bảng.</p>
+
+<h3>Cách chọn chất</h3>
+<ol>
+  <li>Mẫu <b>"Công thức khung từ mã SMILES"</b>: gõ mã vào ô <i>Mã SMILES</i> của bảng thuộc tính, hoặc chọn tên ở ô <i>chọn nhanh theo tên chất</i> (ô này ưu tiên hơn ô mã).</li>
+  <li>Mẫu <b>"Mô hình quả cầu – que"</b>: cùng cách, có đủ nguyên tử H.</li>
+  <li>Mẫu theo tên (nhóm <i>Công thức: Ancol – phenol, Este, Amino axit…</i>): kéo ra là có hình, vẫn <b>sửa được mã SMILES</b> để biến thành chất khác.</li>
+</ol>
+
+<h3>Quy tắc viết SMILES (ngắn gọn)</h3>
+<table>
+<tr><th>Muốn viết</th><th>Cách viết</th><th>Ví dụ</th></tr>
+<tr><td>Nguyên tử</td><td>Ký hiệu nguyên tố, <b>không cần ghi H</b> (tự thêm cho đủ hóa trị): <code>C N O S P F Cl Br I</code></td><td><code>CCO</code> = etanol</td></tr>
+<tr><td>Liên kết</td><td>Đơn: bỏ trống (hoặc <code>-</code>). Đôi: <code>=</code>. Ba: <code>#</code></td><td><code>C=C</code> etilen, <code>C#C</code> axetilen</td></tr>
+<tr><td>Nhánh</td><td>Đặt trong ngoặc <code>( )</code> ngay sau nguyên tử gắn nhánh</td><td><code>CC(C)C</code> isobutan, <code>CC(=O)O</code> axit axetic</td></tr>
+<tr><td>Vòng</td><td>Hai nguyên tử đóng vòng ghi <b>cùng một số</b></td><td><code>C1CCCCC1</code> xiclohexan</td></tr>
+<tr><td>Vòng thơm</td><td>Viết <b>chữ thường</b> <code>c n o s</code></td><td><code>c1ccccc1</code> benzen, <code>Cc1ccccc1</code> toluen</td></tr>
+<tr><td>Ion / điện tích</td><td>Đặt trong <code>[ ]</code>, thêm <code>+</code>/<code>-</code> và số H</td><td><code>[NH4+]</code>, <code>[O-]</code></td></tr>
+<tr><td>Nhóm nitro</td><td><code>[N+](=O)[O-]</code></td><td><code>[O-][N+](=O)c1ccccc1</code> nitrobenzen</td></tr>
+</table>
+
+<h3>Ví dụ (bấm "Chép" rồi dán vào ô Mã SMILES)</h3>
+<div class="ex"><code>CCO</code><span>etanol</span><button data-c="CCO">Chép</button></div>
+<div class="ex"><code>CC(=O)O</code><span>axit axetic</span><button data-c="CC(=O)O">Chép</button></div>
+<div class="ex"><code>CC(=O)OCC</code><span>etyl axetat</span><button data-c="CC(=O)OCC">Chép</button></div>
+<div class="ex"><code>CC(C)C</code><span>isobutan (2-metylpropan)</span><button data-c="CC(C)C">Chép</button></div>
+<div class="ex"><code>C=CC=C</code><span>buta-1,3-đien</span><button data-c="C=CC=C">Chép</button></div>
+<div class="ex"><code>Oc1ccccc1</code><span>phenol</span><button data-c="Oc1ccccc1">Chép</button></div>
+<div class="ex"><code>NCC(O)=O</code><span>glyxin</span><button data-c="NCC(O)=O">Chép</button></div>
+<div class="ex"><code>NCC(=O)NC(C)C(O)=O</code><span>đipeptit Gly-Ala</span><button data-c="NCC(=O)NC(C)C(O)=O">Chép</button></div>
+<div class="ex"><code>OCC1OC(O)C(O)C(O)C1O</code><span>glucozơ dạng vòng</span><button data-c="OCC1OC(O)C(O)C(O)C1O">Chép</button></div>
+<div class="ex"><code>c1ccc2ccccc2c1</code><span>naphtalen (vòng ngưng tụ)</span><button data-c="c1ccc2ccccc2c1">Chép</button></div>
+
+<h3>Cách tự viết SMILES từ công thức cấu tạo</h3>
+<ol>
+  <li>Đi dọc <b>mạch chính</b> từ đầu này sang đầu kia, viết từng nguyên tử.</li>
+  <li>Gặp nhánh thì viết nhánh trong <code>( )</code> rồi quay lại mạch chính. Vd. 2-metylbutan: <code>CCC(C)C</code>.</li>
+  <li>Liên kết đôi/ba thì thêm <code>=</code> / <code>#</code> trước nguyên tử tiếp theo. Vd. axit acrylic: <code>C=CC(=O)O</code>.</li>
+  <li>Có vòng: chọn một liên kết để "cắt", gắn số 1 vào hai đầu. Vd. xiclopentan: <code>C1CCCC1</code>.</li>
+</ol>
+<div class="warn"><b>Lưu ý:</b> (1) viết đúng hoa/thường: <code>Cl</code>, <code>Br</code> viết hoa chữ đầu, vòng thơm viết <code>c</code> thường; (2) chưa vẽ <b>lập thể</b> (cis/trans, đồng phân quang học): dấu <code>/ \ @</code> bị bỏ qua; (3) phân tử rất nhiều nhánh có thể bị chồng nhãn nhẹ, hãy giảm <i>Độ dài liên kết</i> hoặc tách thành hai hình; (4) nếu mã sai, mẫu hiện dòng chữ đỏ báo lỗi.</div>
+<div class="tip">Tùy chọn <b>"Ghi CH₃, CH₂… ở đầu mạch"</b>: bật để thấy nhóm metyl ở đầu mạch (kiểu sách giáo khoa Việt Nam), tắt để thành công thức khung thuần.</div>
+
+<h2 id="ly">5. Vật lí</h2>
+<ul>
+  <li><b>Cơ học:</b> vật, lò xo, lực (mũi tên có nhãn), mặt phẳng nghiêng và lực trên mặt phẳng nghiêng, ròng rọc, con lắc đơn/lò xo, đòn bẩy, đo g bằng con lắc, con lắc xoắn.</li>
+  <li><b>Điện – mạch điện:</b> điện trở, biến trở, đèn, tụ, cuộn cảm, nguồn, vôn kế/ampe kế, điốt, máy biến áp, mạch RLC (kèm giản đồ Fresnel, đồ thị u–i), mạch LC, cầu Wheatstone, chỉnh lưu. Phần tử mạch xoay được bằng núm xoay; nối bằng <b>dây dẫn</b> và <b>điểm nối</b>.</li>
+  <li><b>Điện từ:</b> nam châm, ống dây, đường sức từ, từ trường dòng thẳng, cảm ứng điện từ, khung dây quay, lực Lo-ren-xơ, điện trường đều.</li>
+  <li><b>Quang học:</b> thấu kính hội tụ/phân kì (dựng ảnh), gương, lăng kính, khúc xạ, mắt cận/viễn có kính sửa; <b>giao thoa – nhiễu xạ:</b> Young hoàn chỉnh, hai nguồn sóng nước, nhiễu xạ khe hẹp.</li>
+  <li><b>Nhiệt:</b> bộ ba đồ thị p–V, V–T, p–T cho đẳng nhiệt/đẳng áp/đẳng tích, chu trình (chữ nhật, tam giác, Cacnô), xi-lanh, nhiệt lượng kế.</li>
+  <li><b>Sóng – hạt nhân – lượng tử:</b> sóng ngang, sóng dừng, đồ thị dao động, sóng điện từ, thang sóng điện từ, quang điện, Rutherford, ống Cu-lít-giơ, quang phổ vạch, phản ứng phân hạch, phóng xạ.</li>
+</ul>
+<div class="tip">Hầu hết mẫu có ô <b>"Ghi chú"</b> để bật/tắt nhãn và công thức; mũi tên lực, tia sáng có nhãn gõ tự do (hỗ trợ công thức dạng <code>$F_1$</code>).</div>
+
+<h2 id="toan">6. Toán</h2>
+<ul>
+  <li><b>Đồ thị hàm số:</b> mẫu <b>"Đồ thị y = f(x)"</b> và <b>"Đồ thị có tiệm cận & điểm đặc biệt"</b>. Gõ hàm như <code>x^3 - 3x</code>, <code>(2x-1)/(x-1)</code>, <code>sqrt(x)</code>, <code>ln(x)</code>, <code>pow(2,x)</code>, <code>abs(x-1)</code>, <code>sin(x)</code>. Có sẵn hàm bậc ba, trùng phương, phân thức, mũ, logarit, lượng giác.</li>
+  <li><b>Tiệm cận & điểm:</b> ô <i>Tiệm cận đứng / ngang</i> nhập số cách nhau dấu phẩy (<code>1</code>, <code>2</code>); <i>Tiệm cận xiên</i> nhập <code>m:n</code> cho y = mx + n; <i>Điểm đặc biệt</i> nhập <code>x:y:nhãn</code> ngăn bằng dấu chấm phẩy: <code>0:1:A; 0.5:0:B</code>.</li>
+  <li><b>Miền nghiệm hệ bất phương trình:</b> gõ như <code>x+y&lt;=6; x-y&gt;=-2; x&gt;=0; y&gt;=0</code> (cách nhau bằng chấm phẩy).</li>
+  <li><b>Hình học phẳng:</b> tam giác, đường tròn nội/ngoại tiếp, trung tuyến, đường cao, phân giác, trung trực, hệ thức lượng, vectơ, đường tròn và tiếp tuyến.</li>
+  <li><b>Hình không gian:</b> chóp đều, lăng trụ, hình lập phương, thiết diện (lập phương, chóp), góc đường–mặt, góc mặt–mặt, khoảng cách, mặt cầu nội/ngoại tiếp, hình trụ/nón/nón cụt, Oxyz. Có ô <b>"Kiểu chiếu"</b>: <i>chiếu xiên</i> (kiểu sách giáo khoa) hoặc <i>phối cảnh xoay</i>; nét khuất tự động nét đứt.</li>
+  <li><b>Conic:</b> elip, hypebol, parabol (tiêu điểm, đường chuẩn, điểm M).</li>
+  <li><b>Bảng biến thiên & xét dấu:</b> hàm bậc ba, trùng phương, phân thức, căn, mũ, logarit, sin; xét dấu nhị thức, tam thức, tích, thương; hoặc <b>BBT tự nhập</b> (ba hàng x, y′, y).</li>
+  <li><b>Xác suất & thống kê:</b> cây xác suất hai bước (tự tính xác suất kết quả), cây tự nhập (mức 1 và mức 2), bảng phân phối, bảng hai chiều, bảng xúc xắc 6×6, histogram, boxplot (1–2 mẫu), phân phối chuẩn, phân tán + hồi quy.</li>
+  <li><b>Lượng giác & giải tích:</b> đường tròn lượng giác (góc đặc biệt, tọa độ), đồ thị sin/cos/tan, diện tích hình phẳng, thể tích khối tròn xoay.</li>
+</ul>
+
+<h2 id="word">7. Chèn vào Word, định dạng ảnh</h2>
+<table>
+<tr><th>Lựa chọn</th><th>Khi nào dùng</th></tr>
+<tr><td><b>SVG nhẹ</b> (mặc định)</td><td>Word 2019 / Microsoft 365 trở lên. File Word nhẹ nhất, hình nét vô hạn. Nên dùng cho đề có nhiều công thức, hình.</td></tr>
+<tr><td><b>SVG</b></td><td>Cần xem tốt trên Google Docs hoặc Word cũ.</td></tr>
+<tr><td><b>PNG</b></td><td>Tương thích mọi nơi, nhưng nặng hơn.</td></tr>
+</table>
+<p>Ô <b>Rộng khi chèn (cm)</b> đặt bề rộng hình trong tài liệu. Hình chèn kèm mã nguồn trong văn bản thay thế nên mở lại vẫn sửa được.</p>
+
+<h2 id="offline">8. Offline và cài đặt</h2>
+<ul>
+  <li>Lần đầu mở trang web Sang Math khi có mạng, trình duyệt tự lưu ứng dụng; sau đó dùng được khi mất mạng.</li>
+  <li>Cài vào Word: tải <b>SangMath-Setup.exe</b> (Windows) hoặc <b>SangMath.dmg</b> (Mac) ở <a href="https://github.com/sangnhc87/conictypst/releases/latest">trang tải</a>, chạy một lần. Sau đó mỗi khi có bản mới, Sang Math tự cập nhật.</li>
+  <li>Windows hiện cảnh báo "protected your PC": bấm <b>More info → Run anyway</b>. Mac: bấm chuột phải vào ứng dụng cài → <b>Open</b>.</li>
+</ul>
+
+<h2 id="loi">9. Gặp lỗi?</h2>
+<table>
+<tr><th>Hiện tượng</th><th>Cách xử lý</th></tr>
+<tr><td>Hình mất màu / đen khi chèn</td><td>Đóng Word, mở lại (nhận bản mới) rồi chèn lại.</td></tr>
+<tr><td>Không thấy nút "Chèn hình vào Word"</td><td>Nút chỉ hiện khi mở bên trong Word. Mở trên trình duyệt thì dùng Lưu PNG/SVG.</td></tr>
+<tr><td>Mẫu báo "⚠ lỗi mẫu"</td><td>Kiểm tra ô nhập (biểu thức hàm, mã SMILES, số liệu); bỏ dấu lạ.</td></tr>
+<tr><td>Trong Word chỉ thấy ảnh mờ</td><td>Máy dùng Word cũ không hiển thị SVG: chọn lại định dạng <b>SVG</b> hoặc <b>PNG</b>.</td></tr>
+<tr><td>Cần mẫu chưa có</td><td>Báo thầy Sang để bổ sung.</td></tr>
+</table>
+</div>
+<script>
+  for (const b of document.querySelectorAll('[data-c]')) b.addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(b.dataset.c); b.textContent = 'Đã chép' } catch { b.textContent = 'Chép tay' }
+    setTimeout(() => { b.textContent = 'Chép' }, 1600)
+  })
+</script>
+</body>
+</html>

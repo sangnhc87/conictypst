@@ -1,0 +1,3 @@
+Bản chụp bộ máy từ /Users/admin/tron-de-react/public/python (docx_shuffler.py, docx_beautifier.py)
+Ngày chụp: 2026-10-20
+Muốn dùng bản mới nhất: đặt biến SM_EXAM_ENGINE=/đường/dẫn/thư mục/python

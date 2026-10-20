@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>Sang Math: lệnh trên thanh menu</title>
+<script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+</head>
+<body>
+<script>
+// Nút "Sang Math" trên thanh menu Word: gọi app desktop (đang chạy nền) hiện cửa sổ lên.
+async function showSangMath(event) {
+  try { await fetch('https://localhost:3155/show', { cache: 'no-store' }) } catch (e) { /* app chưa mở */ }
+  event.completed()
+}
+Office.onReady(() => Office.actions.associate('showSangMath', showSangMath))
+</script>
+</body>
+</html>

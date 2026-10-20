@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+  xmlns:ov="http://schemas.microsoft.com/office/taskpaneappversionoverrides"
+  xsi:type="TaskPaneApp">
+  <Id>1392035f-25bf-4817-81b9-523377b1695e</Id>
+  <Version>1.0.0.0</Version>
+  <ProviderName>Nguyễn Văn Sang - THPT Nguyễn Hữu Cảnh, TP.HCM</ProviderName>
+  <DefaultLocale>vi-VN</DefaultLocale>
+  <DisplayName DefaultValue="Sang Math"/>
+  <Description DefaultValue="Gõ công thức Typst hoặc LaTeX, chèn vào Word thành hình đẹp và sửa lại được."/>
+  <IconUrl DefaultValue="https://localhost:3155/icons/icon-32.png"/>
+  <HighResolutionIconUrl DefaultValue="https://localhost:3155/icons/icon-64.png"/>
+  <SupportUrl DefaultValue="https://localhost:3155/"/>
+  <AppDomains><AppDomain>https://localhost:3155</AppDomain></AppDomains>
+  <Hosts><Host Name="Document"/></Hosts>
+  <DefaultSettings><SourceLocation DefaultValue="https://localhost:3155/taskpane.html"/></DefaultSettings>
+  <Permissions>ReadWriteDocument</Permissions>
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="VersionOverridesV1_0">
+    <Hosts>
+      <Host xsi:type="Document">
+        <DesktopFormFactor>
+          <GetStarted>
+            <Title resid="Title"/>
+            <Description resid="Desc"/>
+            <LearnMoreUrl resid="Url"/>
+          </GetStarted>
+          <FunctionFile resid="CmdUrl"/>
+          <ExtensionPoint xsi:type="PrimaryCommandSurface">
+            <OfficeTab id="TabHome">
+              <Group id="SangGroup">
+                <Label resid="Title"/>
+                <Icon>
+                  <bt:Image size="16" resid="Icon16"/>
+                  <bt:Image size="32" resid="Icon32"/>
+                  <bt:Image size="80" resid="Icon80"/>
+                </Icon>
+                <Control xsi:type="Button" id="SangOpen">
+                  <Label resid="Title"/>
+                  <Supertip><Title resid="Title"/><Description resid="Desc"/></Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon16"/>
+                    <bt:Image size="32" resid="Icon32"/>
+                    <bt:Image size="80" resid="Icon80"/>
+                  </Icon>
+                  <Action xsi:type="ExecuteFunction">
+                    <FunctionName>showSangMath</FunctionName>
+                  </Action>
+                </Control>
+              </Group>
+            </OfficeTab>
+          </ExtensionPoint>
+        </DesktopFormFactor>
+      </Host>
+    </Hosts>
+    <Resources>
+      <bt:Images>
+        <bt:Image id="Icon16" DefaultValue="https://localhost:3155/icons/icon-16.png"/>
+        <bt:Image id="Icon32" DefaultValue="https://localhost:3155/icons/icon-32.png"/>
+        <bt:Image id="Icon80" DefaultValue="https://localhost:3155/icons/icon-80.png"/>
+      </bt:Images>
+      <bt:Urls>
+        <bt:Url id="Url" DefaultValue="https://localhost:3155/taskpane.html"/>
+        <bt:Url id="CmdUrl" DefaultValue="https://localhost:3155/commands.html"/>
+      </bt:Urls>
+      <bt:ShortStrings><bt:String id="Title" DefaultValue="Sang Math"/></bt:ShortStrings>
+      <bt:LongStrings><bt:String id="Desc" DefaultValue="Mở bảng công thức Sang Math (app cần đang chạy)."/></bt:LongStrings>
+    </Resources>
+  </VersionOverrides>
+</OfficeApp>

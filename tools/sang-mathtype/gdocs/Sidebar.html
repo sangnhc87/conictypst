@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base target="_top">
+<style>
+  html, body { margin: 0; height: 100%; overflow: hidden; }
+  iframe { border: 0; width: 100%; height: 100%; display: block; }
+</style>
+</head>
+<body>
+<iframe id="app" src="https://sangmath-word.pages.dev/taskpane?host=gdocs" allow="clipboard-write"></iframe>
+<script>
+  // Cầu nối: trang online (iframe) <-> Apps Script. Chỉ nhận tin từ đúng địa chỉ trang.
+  const ORIGIN = 'https://sangmath-word.pages.dev';
+  const frame = document.getElementById('app');
+  const send = msg => frame.contentWindow.postMessage(msg, ORIGIN);
+  let busy = false, lastAlt = null;
+
+  window.addEventListener('message', event => {
+    if (event.origin !== ORIGIN || event.source !== frame.contentWindow) return;
+    const m = event.data || {};
+    if (m.type === 'sm:ready') { lastAlt = null; poll(); return; } // trang vừa tải xong: gửi lại vùng chọn hiện tại
+    if (m.type !== 'sm:insert' && m.type !== 'sm:replace') return;
+    google.script.run
+      .withSuccessHandler(() => send({ type: 'sm:ack', id: m.id, ok: true }))
+      .withFailureHandler(err => send({ type: 'sm:ack', id: m.id, ok: false, error: String(err && err.message || err) }))
+      .insertFormula(m.png, m.alt, m.widthPt, m.heightPt, m.type === 'sm:replace', !!m.block);
+  });
+
+  // Docs không báo sự kiện chọn: hỏi lại định kỳ (chỉ khi khung đang hiện và không có lệnh trước đang chạy).
+  function poll() {
+    if (busy || document.hidden) return;
+    busy = true;
+    google.script.run
+      .withSuccessHandler(alt => { busy = false; if (alt !== lastAlt) { lastAlt = alt; send({ type: 'sm:selection', alt }); } })
+      .withFailureHandler(() => { busy = false; })
+      .getSelectedFormula();
+  }
+  setInterval(poll, 1500);
+</script>
+</body>
+</html>

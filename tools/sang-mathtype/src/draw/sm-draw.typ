@@ -1232,10 +1232,17 @@
 // Công thức khung tổng quát: pts = tọa độ đỉnh; bonds = ((i, j, bậc), …); lbls = (chỉ-số: "nhãn", …) – đỉnh có nhãn thì đầu liên kết lùi lại.
 #let khung(pts, bonds, lbls: (:), w: 1.4pt, sz: 10pt) = {
   import draw: *
+  let half(i) = {
+    // nửa bề rộng nhãn (cm) để đầu liên kết lùi vừa đủ
+    if str(i) not in lbls { return 0 }
+    let n = lbls.at(str(i)).clusters().filter(c => c.match(regex("[A-Za-z]")) != none).len()
+    0.13 + 0.1 * n
+  }
   for bd in bonds {
     let i = bd.at(0)
     let j = bd.at(1)
     let n = bd.at(2)
+    let side = bd.at(3, default: none)
     let a = pts.at(i)
     let b = pts.at(j)
     let dx = b.at(0) - a.at(0)
@@ -1243,16 +1250,23 @@
     let d = calc.sqrt(dx * dx + dy * dy)
     let ux = dx / d
     let uy = dy / d
-    let sa = if str(i) in lbls { 0.26 } else { 0 }
-    let sb = if str(j) in lbls { 0.26 } else { 0 }
+    let sa = half(i)
+    let sb = half(j)
     let a2 = (a.at(0) + ux * sa, a.at(1) + uy * sa)
     let b2 = (b.at(0) - ux * sb, b.at(1) - uy * sb)
-    for k in range(n) {
-      let o = (k - (n - 1) / 2) * 0.12
-      line((a2.at(0) - uy * o, a2.at(1) + ux * o), (b2.at(0) - uy * o, b2.at(1) + ux * o), stroke: w)
+    if side != none and n == 2 {
+      line(a2, b2, stroke: w)
+      let o = 0.16 * side
+      let sh = 0.13
+      line((a2.at(0) - uy * o + ux * sh, a2.at(1) + ux * o + uy * sh), (b2.at(0) - uy * o - ux * sh, b2.at(1) + ux * o - uy * sh), stroke: w)
+    } else {
+      for k in range(n) {
+        let o = (k - (n - 1) / 2) * 0.12
+        line((a2.at(0) - uy * o, a2.at(1) + ux * o), (b2.at(0) - uy * o, b2.at(1) + ux * o), stroke: w)
+      }
     }
   }
-  for (k, v) in lbls { lab(pts.at(int(k)), ct(v), size: sz) }
+  for (k, v) in lbls { lab(pts.at(int(k)), ch(v), size: sz) }
 }
 
 // Vòng glucozơ dạng Haworth. alpha: OH ở C1 hướng xuống (α) hay lên (β)

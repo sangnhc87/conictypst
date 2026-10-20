@@ -19,6 +19,7 @@ Các thẻ lớn trong giao diện (`src/tabs.js`): **Công thức** · **Vẽ h
 | Việc | Tệp |
 |---|---|
 | **Thêm/sửa mẫu rời** của bảng kéo thả | `src/draw/stamps-ext.mjs` (khai báo + thuộc tính) và `src/draw/sm-draw.typ` (hàm vẽ CeTZ). Mẫu đợt 1: `src/draw/stamps.mjs` (+ danh sách `BASE`/`MORE`, `stampDocument`, `sceneDocument`, `normExpr`) |
+| **Vẽ chất hữu cơ/vô cơ từ SMILES** (công thức khung, mô hình quả cầu–que; danh sách ~135 chất THPT) | `src/draw/smiles.mjs` (parser + bố cục 2D + sinh mã CeTZ, tự viết, offline), `src/draw/chat-list.mjs` (tên → SMILES), mẫu `hc-*` ở cuối `stamps-ext.mjs`; hàm `khung` trong `sm-draw.typ` |
 | Hình mẫu hoàn chỉnh ("Hình mẫu có sẵn", ~32 hình) | `src/draw/templates/*.typ` (dòng đầu `// @ten`, `// @nhom`, `// @muc`, `// @mota`) |
 | Giao diện bảng kéo thả (kho mẫu, thu phóng, căn, undo, dự án) | `src/editor.js`; HTML khối `#edMode` trong `src/taskpane.html`; CSS ở **cuối** `src/taskpane.css` |
 | Thẻ Vẽ hình (chuyển chế độ, hình mẫu có sẵn) | `src/figure.js` |
@@ -38,13 +39,15 @@ Các thẻ lớn trong giao diện (`src/tabs.js`): **Công thức** · **Vẽ h
 Tài liệu phụ: `README.md` (dùng app/add-in), `HUONG-DAN-TAO-WEB-VE-HINH.md` (tách bảng vẽ thành website riêng).
 
 ## 3. Hệ thống vẽ hình (phần phát triển nhiều nhất)
-- **363 mẫu rời** (Hóa 117 · Vật lí 110 · Toán 130 · Chung 6), mỗi mẫu: `S(id, nhóm, nhóm-con, tên, 'cetz'|'content', code(p), props, extra)`.
+- **498 mẫu rời** (Hóa 252 · Vật lí 110 · Toán 130 · Chung 6), mỗi mẫu: `S(id, nhóm, nhóm-con, tên, 'cetz'|'content', code(p), props, extra)`.
   - `'cetz'`: lệnh CeTZ vẽ quanh gốc (0,0). `'content'`: khối Typst đặt giữa gốc (bảng biến thiên, bảng xác suất…). `extra.needs: ['bbt'|'geo']` để nạp thêm thư viện sang-math (`/sang-math/bbt.typ`, `geometry.typ` lấy từ `../../typst-pkg-sang-math/`).
   - `props` dùng helper `num/txt/bool/sel/col`; `p` đã gộp mặc định; chuỗi người dùng nhập phải qua `q()` (escape) hoặc `normExpr()` (biểu thức hàm).
   - `stamps-ext.mjs` nhận helper từ `stamps.mjs` qua `makeExt({...})`; `R(k,nhãn,mặc định,min,max,bước)` là phím tắt `num`.
 - **Hàm vẽ** trong `sm-draw.typ`: dụng cụ Hóa (`coc`, `erlen`, `binh-cau`, `ong-nghiem`, `buret`, `binh-kip`, `kieng`, `thap-chung-cat`…), sơ đồ thí nghiệm (`tn-so2`, `tn-nh3`, `dieu-che-cl2`…), `khung`/`dong-phan`/`o-mang` (công thức khung, đồng phân, tinh thể), mạch điện `sym(a,b,kind)`, đồ thị (`truc`, `duong`, `do-thi`, `do-thi-dac-biet`, `ba-do-thi-khi`), 3D (`pj`, `da-dien`, `chop-deu`, `lap-phuong`, `thiet-dien-lp`, `mat-cau-3d`…), conic, xác suất/thống kê (`cay-xs`, `histogram`, `hop-boxplot`), `mien-nghiem`…
 - **Bộ dựng 3D**: `pj(kieu:"co-dien"|"phoi-canh")` trả `{f, v}` (chiếu + vectơ nhìn); `da-dien(vs, fs, pr, …)` vẽ khối lồi, cạnh khuất nét đứt tự động (mặt nhìn thấy = pháp tuyến·v > 0). Cầu cần `phoi-canh` (chiếu vuông góc để đường tròn khớp).
 - Bảng kéo thả lưu `scene = {W, H, items:[{id,k,x,y,s,r,f,z,p}]}` (cm, gốc góc dưới trái). Dự án `.json` = `{app:'sangmath-editor', v:1, W, H, items}`. Nháp tự lưu ở `localStorage` (`sangmath.editor.draft`), yêu thích/gần đây (`sangmath.editor.favs|recent`).
+
+- **SMILES**: `skeletonCode(smi,{len,ghiC})` / `ballStickCode(smi,{len})` trả chuỗi `khung(...)` / `mo-hinh(...)`. Hỗ trợ nguyên tử hữu cơ + `[ngoặc]`, `- = # :`, nhánh, vòng `1-9/%nn`, thơm (Kekulé hoá), điện tích; bỏ qua lập thể. Bố cục: vòng đa giác đều, vòng ngưng tụ lật qua cạnh chung, mạch zigzag (nhánh lớn tiếp tục mạch chính). Chưa tối ưu tránh chồng cho phân tử rất nhánh (vd. axit xitric hơi chồng nhãn). Thêm chất mới: thêm một dòng `[nhóm, tên, SMILES]` vào `chat-list.mjs` (tự sinh mẫu + ảnh).
 
 ### Quy ước & bẫy khi thêm mẫu (đã gặp thật)
 1. **Không đặt tên trùng hàm CeTZ** (`fill, stroke, anchor, scale, rotate, translate, group, line, circle, arc, rect, content, grid, ellipse, polygon, mark…`) cho hàm hoặc biến; `ellipse(...)` của CeTZ có tham số khác → dùng `circle(pos, radius: (rx, ry))`.

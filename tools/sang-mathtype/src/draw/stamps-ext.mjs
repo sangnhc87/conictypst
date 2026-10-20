@@ -1,5 +1,8 @@
 // Mẫu rời đợt 2 (Hóa – Lý – Toán mở rộng). Tách khỏi stamps.mjs để dễ bảo trì; hàm vẽ nằm trong sm-draw.typ.
 // makeExt nhận bộ dựng thuộc tính từ stamps.mjs và trả về danh sách mẫu.
+import { skeletonCode, ballStickCode } from './smiles.mjs'
+import { CHAT } from './chat-list.mjs'
+
 export function makeExt({ S, num, txt, bool, sel, col, liq, L, csv, nums, strs, tup, q, mk, rgbq, ct, normExpr }) {
   const KIEU = [['co-dien', 'Hình chiếu xiên (sách giáo khoa)'], ['phoi-canh', 'Phối cảnh xoay (chiếu vuông góc)']]
 
@@ -206,5 +209,10 @@ export function makeExt({ S, num, txt, bool, sel, col, liq, L, csv, nums, strs, 
     S('g-he-thuc-luong', 'Toán', 'Hình học phẳng', 'Hệ thức lượng trong tam giác vuông', 'cetz', () => `he-thuc-luong()`),
     S('g-oxyz-diem', 'Toán', 'Hình không gian', 'Điểm M(x; y; z) trong hệ trục Oxyz', 'cetz', p => `oxyz-diem(x: ${p.x}, y: ${p.y}, z: ${p.z})`, [num('x', 'x', 2, { min: 1, max: 4, step: 1 }), num('y', 'y', 3, { min: 1, max: 5, step: 1 }), num('z', 'z', 2, { min: 1, max: 4, step: 1 })]),
     ...[['tru', 'Hình trụ (r, h)'], ['non', 'Hình nón (r, h, l)'], ['noncut', 'Hình nón cụt (R, r, h)']].map(([k, n]) => S('g-xoay-' + k, 'Toán', 'Hình không gian', n, 'cetz', p => `hinh-tron-xoay(kind: ${q(k)}, r: ${p.r}, h: ${p.h}, r2: ${p.r2})`, [R('r', 'Bán kính đáy', 1.6, 0.6, 3), R('h', 'Chiều cao', 3.2, 1, 6), R('r2', 'Bán kính đáy nhỏ (nón cụt)', 0.8, 0.2, 2)])),
+
+    // ═══ HÓA: vẽ công thức từ SMILES (mọi chất) ═══
+    S('hc-smiles-khung', 'Hóa học', 'Vẽ chất từ SMILES / tên', 'Công thức khung từ mã SMILES (nhập bất kỳ chất nào)', 'cetz', p => { try { return skeletonCode(p.chon ? (CHAT.find(c => c[1] === p.chon) || [])[2] || p.smiles : p.smiles, { len: p.len, ghiC: p.ghic }) } catch (e) { return `lab((0,0), text(fill: c-red)[${String(e.message).replace(/[\[\]#$]/g, ' ')}], size: 9pt)` } }, [txt('smiles', 'Mã SMILES (vd. CC(=O)O, c1ccccc1, NCC(O)=O)', 'CC(=O)OCC'), sel('chon', 'Hoặc chọn nhanh theo tên chất', '', [['', '— dùng mã SMILES ở trên —'], ...CHAT.map(c => [c[1], `${c[0]}: ${c[1]}`])]), R('len', 'Độ dài liên kết (cm)', 0.9, 0.5, 1.8, 0.05), bool('ghic', 'Ghi CH₃, CH₂… ở đầu mạch', true)]),
+    S('hc-smiles-cau', 'Hóa học', 'Vẽ chất từ SMILES / tên', 'Mô hình quả cầu – que từ mã SMILES (có H)', 'cetz', p => { try { return ballStickCode(p.chon ? (CHAT.find(c => c[1] === p.chon) || [])[2] || p.smiles : p.smiles, { len: p.len }) } catch (e) { return `lab((0,0), text(fill: c-red)[${String(e.message).replace(/[\[\]#$]/g, ' ')}], size: 9pt)` } }, [txt('smiles', 'Mã SMILES', 'CCO'), sel('chon', 'Hoặc chọn nhanh theo tên chất', '', [['', '— dùng mã SMILES ở trên —'], ...CHAT.map(c => [c[1], `${c[0]}: ${c[1]}`])]), R('len', 'Độ dài liên kết (cm)', 1.3, 0.8, 2.2, 0.05)]),
+    ...CHAT.map(([g, n, smi]) => S('hc-' + n.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''), 'Hóa học', 'Công thức: ' + g, n, 'cetz', p => { try { return skeletonCode(p.smiles, { len: p.len, ghiC: p.ghic }) } catch (e) { return `lab((0,0), text(fill: c-red)[${String(e.message).replace(/[\[\]#$]/g, ' ')}], size: 9pt)` } }, [txt('smiles', 'Mã SMILES (sửa được)', smi), R('len', 'Độ dài liên kết (cm)', 0.9, 0.5, 1.8, 0.05), bool('ghic', 'Ghi CH₃, CH₂… ở đầu mạch', true)])),
   ]
 }

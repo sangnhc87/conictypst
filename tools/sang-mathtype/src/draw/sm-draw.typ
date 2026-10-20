@@ -2268,9 +2268,9 @@
 #let ten-chu(n) = ("A", "B", "C", "D", "E", "F").slice(0, n)
 
 // Chóp đều S.A₁…Aₙ: đường cao SO, trung đoạn SM (M là trung điểm AB)
-#let chop-deu(n: 4, a: 3.0, h: 3.4, kieu: "co-dien", cao: true, trung-doan: false, nhan: true) = {
+#let chop-deu(n: 4, a: 3.0, h: 3.4, kieu: "co-dien", yaw: 25deg, pitch: 22deg, cao: true, trung-doan: false, nhan: true) = {
   import draw: *
-  let pr = pj(kieu: kieu)
+  let pr = pj(kieu: kieu, yaw: yaw, pitch: pitch)
   let R = a / (2 * calc.sin(180deg / n))
   // đáy: cạnh AB song song trục x ở phía trước
   let base = day-deu(n, R, a0: -90deg - 180deg / n).map(p => p)
@@ -2292,9 +2292,9 @@
 }
 
 // Lăng trụ n cạnh (n = 3 hoặc 4…), đứng hoặc xiên (lệch (dx, dy) ở đáy trên)
-#let lang-tru(n: 3, a: 2.6, h: 3.0, dx: 0.0, dy: 0.0, kieu: "co-dien", nhan: true, tam-giac-deu: false) = {
+#let lang-tru(n: 3, a: 2.6, h: 3.0, dx: 0.0, dy: 0.0, kieu: "co-dien", yaw: 25deg, pitch: 22deg, nhan: true, tam-giac-deu: false) = {
   import draw: *
-  let pr = pj(kieu: kieu)
+  let pr = pj(kieu: kieu, yaw: yaw, pitch: pitch)
   let base = if n == 4 { ((0, 0, 0), (a, 0, 0), (a, a * 0.8, 0), (0, a * 0.8, 0)) } else { ((0, 0, 0), (a, 0, 0), (a * 0.38, a * 0.7, 0)) }
   let top = base.map(p => (p.at(0) + dx, p.at(1) + dy, h))
   let vs = base + top
@@ -2304,9 +2304,9 @@
 }
 
 // Hình lập phương ABCD.A′B′C′D′ với phần phụ: none | "cheo" (AC′) | "cheo-mat" (AC, BD) | "mat-cheo" (ACC′A′)
-#let lap-phuong(a: 3.0, kieu: "co-dien", them: "none", nhan: true) = {
+#let lap-phuong(a: 3.0, kieu: "co-dien", yaw: 25deg, pitch: 22deg, them: "none", nhan: true) = {
   import draw: *
-  let pr = pj(kieu: kieu)
+  let pr = pj(kieu: kieu, yaw: yaw, pitch: pitch)
   let vs = ((0, 0, 0), (a, 0, 0), (a, a, 0), (0, a, 0), (0, 0, a), (a, 0, a), (a, a, a), (0, a, a))
   let fs = ((0, 1, 2, 3), (4, 5, 6, 7), (0, 1, 5, 4), (1, 2, 6, 5), (2, 3, 7, 6), (3, 0, 4, 7))
   if them == "mat-cheo" {
@@ -2335,9 +2335,9 @@
   let w = cross3(n, u)
   pts.sorted(key: p => calc.atan2(dot3(sub3(p, c), u), dot3(sub3(p, c), w)))
 }
-#let thiet-dien-lp(kind: "luc-giac", a: 3.0, kieu: "co-dien", nhan: true) = {
+#let thiet-dien-lp(kind: "luc-giac", a: 3.0, kieu: "co-dien", yaw: 25deg, pitch: 22deg, nhan: true) = {
   import draw: *
-  let pr = pj(kieu: kieu)
+  let pr = pj(kieu: kieu, yaw: yaw, pitch: pitch)
   let vs = ((0, 0, 0), (a, 0, 0), (a, a, 0), (0, a, 0), (0, 0, a), (a, 0, a), (a, a, a), (0, a, a))
   let fs = ((0, 1, 2, 3), (4, 5, 6, 7), (0, 1, 5, 4), (1, 2, 6, 5), (2, 3, 7, 6), (3, 0, 4, 7))
   let nm = ("A", "B", "C", "D", "A′", "B′", "C′", "D′")
@@ -2366,9 +2366,9 @@
 }
 
 // Chóp S.ABCD (đáy chữ nhật) với thiết diện: "song-song" (song song đáy tại tỉ số t), "qua-sac" (mp SAC), "ba-diem" (qua M∈SA, N∈SB, P∈SC)
-#let thiet-dien-chop(kind: "song-song", t: 0.5, a: 3.2, b: 2.2, h: 3.3, kieu: "co-dien", nhan: true) = {
+#let thiet-dien-chop(kind: "song-song", t: 0.5, a: 3.2, b: 2.2, h: 3.3, kieu: "co-dien", yaw: 25deg, pitch: 22deg, nhan: true) = {
   import draw: *
-  let pr = pj(kieu: kieu)
+  let pr = pj(kieu: kieu, yaw: yaw, pitch: pitch)
   let vs = ((0, 0, 0), (a, 0, 0), (a, b, 0), (0, b, 0), (a * 0.45, b * 0.5, h))
   let fs = ((0, 1, 2, 3), (0, 1, 4), (1, 2, 4), (2, 3, 4), (3, 0, 4))
   let S = vs.at(4)
@@ -2395,9 +2395,9 @@
 }
 
 // Góc giữa đường thẳng và mặt phẳng (chóp S.ABCD, SA ⊥ đáy): góc SCA; hoặc góc giữa mặt bên và đáy (chóp đều): góc SMO
-#let chop-goc(kind: "duong-mat", a: 3.0, h: 3.2, kieu: "co-dien", nhan: true) = {
+#let chop-goc(kind: "duong-mat", a: 3.0, h: 3.2, kieu: "co-dien", yaw: 25deg, pitch: 22deg, nhan: true) = {
   import draw: *
-  let pr = pj(kieu: kieu)
+  let pr = pj(kieu: kieu, yaw: yaw, pitch: pitch)
   if kind == "duong-mat" {
     let b = a * 0.7
     let vs = ((0, 0, 0), (a, 0, 0), (a, b, 0), (0, b, 0), (0, 0, h))
@@ -2430,9 +2430,9 @@
 }
 
 // Khoảng cách từ A tới (SBC), chóp S.ABCD đáy chữ nhật, SA ⊥ đáy: AH ⊥ SB
-#let kc-diem-mp(a: 3.0, b: 2.2, h: 3.3, kieu: "co-dien", nhan: true) = {
+#let kc-diem-mp(a: 3.0, b: 2.2, h: 3.3, kieu: "co-dien", yaw: 25deg, pitch: 22deg, nhan: true) = {
   import draw: *
-  let pr = pj(kieu: kieu)
+  let pr = pj(kieu: kieu, yaw: yaw, pitch: pitch)
   let vs = ((0, 0, 0), (a, 0, 0), (a, b, 0), (0, b, 0), (0, 0, h))
   let fs = ((0, 1, 2, 3), (0, 1, 4), (1, 2, 4), (2, 3, 4), (3, 0, 4))
   line(..(vs.at(4), vs.at(1), vs.at(2)).map(p => (pr.f)(p)), close: true, fill: c-blue.lighten(85%), stroke: none)
@@ -3446,4 +3446,14 @@
     }
   }
   for yy in (-1, 1) { line((-0.06, 1.5 * yy), (0.06, 1.5 * yy), stroke: 0.6pt); lab((-0.1, 1.5 * yy), text(size: 8pt)[#yy], at: "east", size: 8pt) }
+}
+
+// Phương trình hoá học đã có hệ số: vế trái/phải = ((hệ số, "công thức", "↑|↓|"), …); dk = điều kiện trên mũi tên; kieu "->" hoặc "<=>"
+#let pt-hh(trai, phai, dk: "", duoi: "", kieu: "->", size: 13pt) = {
+  import draw: *
+  let term(t) = [#if t.at(0) != 1 [#t.at(0)]#ch(t.at(1))#if t.at(2) != "" [#t.at(2)]]
+  let side(a) = a.map(term).join([ $+$ ])
+  let arrow = if kieu == "<=>" { $arrow.l.r.double$ } else { $arrow.r$ }
+  let mid = if dk != "" { [#box(inset: (x: 3pt))[#stack(dir: ttb, spacing: 2pt, align(center, text(size: 0.7em, ct(dk))), align(center, text(size: 1.3em, arrow)), align(center, text(size: 0.7em, ct(duoi))))]] } else { [ #text(size: 1.3em, arrow) ] }
+  content((0, 0), text(size: size)[#side(trai)#mid#side(phai)], anchor: "center")
 }

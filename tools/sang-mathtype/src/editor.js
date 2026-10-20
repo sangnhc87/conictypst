@@ -1,6 +1,7 @@
 // Bảng vẽ kéo thả: kéo dụng cụ/ký hiệu/hình từ kho vào bảng, di chuyển, xoay, đổi cỡ, sửa thuộc tính, rồi chèn vào Word.
 import { renderStamp, renderFigure } from './engine.js'
 import { STAMPS, STAMP_MAP, GROUPS, defaults, itemDocument, sceneDocument } from './draw/stamps.mjs'
+import { BO_HINH } from './draw/bo-hinh.mjs'
 
 const $ = id => document.getElementById(id)
 const PT_PER_CM = 28.3465
@@ -333,6 +334,27 @@ function renderInspector() {
   abtn('↕', 'Căn giữa dọc', e => { it.y = rnd(it.y + (scene.H / 2 - (e.t - e.h / 2))) })
   abtn('⤓', 'Căn sát dưới bảng', e => { it.y = rnd(it.y - (e.t - e.h - 0.2)) })
   box.append(al)
+  if (st.props.some(x => x.k === 'yaw') && st.props.some(x => x.k === 'pitch')) {
+    // Xoay khối 3D bằng chuột: kéo trên ô vuông để đổi góc nhìn (chuyển sang phối cảnh vuông góc)
+    const box3 = document.createElement('div'); box3.className = 'ed-3d'
+    const lab3 = document.createElement('div'); lab3.className = 'ed-3d-t'; lab3.textContent = 'Xoay khối 3D: kéo chuột trên ô'
+    const padEl = document.createElement('div'); padEl.className = 'ed-3d-pad'; padEl.textContent = '⟲ kéo để xoay'
+    const views = document.createElement('div'); views.className = 'ed-btns'
+    let tm3 = 0
+    const apply = () => { clearTimeout(tm3); tm3 = setTimeout(() => { ensureImage(it); paintAll(); updateCode(); saveDraft() }, 140) } // không dựng lại bảng thuộc tính để ô kéo không bị mất
+    const setView = (yaw, pitch, kieu) => { if (kieu && 'kieu' in it.p) it.p.kieu = kieu; it.p.yaw = Math.round(yaw); it.p.pitch = Math.round(pitch); apply() }
+    padEl.addEventListener('pointerdown', e => {
+      e.preventDefault(); padEl.setPointerCapture(e.pointerId); pushUndo()
+      let x0 = e.clientX, y0 = e.clientY, yaw0 = Number(it.p.yaw ?? 25), pit0 = Number(it.p.pitch ?? 22)
+      const mv = ev => setView(Math.max(-180, Math.min(180, yaw0 + (ev.clientX - x0) * 0.8)), Math.max(5, Math.min(75, pit0 - (ev.clientY - y0) * 0.5)), 'phoi-canh')
+      const up = () => { padEl.removeEventListener('pointermove', mv); padEl.removeEventListener('pointerup', up) }
+      padEl.addEventListener('pointermove', mv); padEl.addEventListener('pointerup', up)
+    })
+    for (const [t, y, pt, k] of [['SGK', 25, 22, 'co-dien'], ['Phối cảnh', 28, 22, 'phoi-canh'], ['Từ trên', 20, 62, 'phoi-canh'], ['Từ bên', 80, 14, 'phoi-canh'], ['Mặt sau', 155, 22, 'phoi-canh']]) {
+      const b = Object.assign(document.createElement('button'), { type: 'button', textContent: t, title: `Góc nhìn: ${t}` }); b.addEventListener('click', () => { pushUndo(); setView(y, pt, k); refreshAll() }); views.append(b)
+    }
+    box3.append(lab3, padEl, views); box.append(box3)
+  }
   if (st.props.length) {
     const p = document.createElement('div'); p.className = 'ed-props'
     let timer = 0
@@ -357,7 +379,70 @@ function renderInspector() {
 }
 
 // ---------- kho mẫu ----------
-const VIRT = ['★ Yêu thích', '🕘 Gần đây']
+function renderSets(list) {
+  const note = document.createElement('div'); note.className = 'count'; note.textContent = `${BO_HINH.length} bộ hình. Bấm "Thêm cả bộ" để xếp tự động vào bảng (hoàn tác được).`; list.append(note)
+  let cur = null
+  for (const b of BO_HINH) {
+    if (b.g !== cur) { cur = b.g; const h = document.createElement('h4'); h.innerHTML = `<span class="car">▾</span> ${b.g}`; list.append(h) }
+    const card = document.createElement('div'); card.className = 'set-card'
+    const t = document.createElement('div'); t.className = 'set-t'; t.innerHTML = `<b></b><em>Lớp ${b.lop}</em>`; t.querySelector('b').textContent = b.ten
+    const d = document.createElement('div'); d.className = 'set-d'; d.textContent = `${b.mo} · ${b.items.length} hình`
+    const th = document.createElement('div'); th.className = 'set-th'
+    for (const it of b.items.slice(0, 4)) { const im = document.createElement('img'); im.loading = 'lazy'; im.alt = ''; im.src = `draw/stamps/${it.k}.svg`; th.append(im) }
+    const btn = Object.assign(document.createElement('button'), { type: 'button', textContent: '＋ Thêm cả bộ vào bảng' })
+    btn.addEventListener('click', () => addSet(b))
+    card.append(t, d, th, btn); list.append(card)
+  }
+}
+
+// Thêm cả bộ: thay nội dung bảng (hoàn tác được), dựng ảnh rồi xếp lưới theo kích thước thật
+async function addSet(b) {
+  pushUndo()
+  scene.items = []; imgs.clear(); selected = null
+  b.items.forEach((x, i) => { const st = STAMP_MAP.get(x.k); if (st) scene.items.push({ id: newId(), k: x.k, x: 1, y: 1, s: 1, r: 0, f: false, z: i, p: { ...defaults(st), ...x.p } }) })
+  refreshAll()
+  for (let t = 0; t < 120; t++) { // chờ dựng xong (tối đa ~30 giây)
+    if (scene.items.every(it => imgs.get(it.id))) break
+    await new Promise(r => setTimeout(r, 250))
+  }
+  const k = 1 / PT_PER_CM
+  const sizes = scene.items.map(it => { const im = imgs.get(it.id); return im && !im.error ? { w: im.wPt * k, h: im.hPt * k, ox: im.ox * k, oy: im.oy * k } : { w: 2, h: 2, ox: 1, oy: 1 } })
+  const cols = Math.max(1, Math.min(b.cot, scene.items.length))
+  const gap = 0.8
+  const pack = sc => {
+    let rows = [], row = [], rw = 0
+    scene.items.forEach((it, i) => {
+      if (row.length === cols) { rows.push(row); row = []; rw = 0 }
+      row.push(i)
+    })
+    if (row.length) rows.push(row)
+    const colW = Array.from({ length: cols }, (_, c) => Math.max(0.5, ...rows.map(r => (r[c] != null ? sizes[r[c]].w * sc : 0))))
+    const rowH = rows.map(r => Math.max(0.5, ...r.map(i => sizes[i].h * sc)))
+    return { rows, colW, rowH, W: colW.reduce((a, v) => a + v, 0) + gap * (cols + 1), H: rowH.reduce((a, v) => a + v, 0) + gap * (rows.length + 1) }
+  }
+  let sc = 1, P = pack(sc)
+  while ((P.W > 40 || P.H > 30) && sc > 0.25) { sc *= 0.9; P = pack(sc) }
+  scene.W = Math.max(6, Math.ceil(P.W)); scene.H = Math.max(4, Math.ceil(P.H))
+  let top = gap
+  P.rows.forEach((r, ri) => {
+    let left = gap
+    r.forEach((i, ci) => {
+      const it = scene.items[i], sz = sizes[i]
+      it.s = Math.round(sc * 100) / 100
+      const x0 = left + (P.colW[ci] - sz.w * it.s) / 2
+      const y0 = top + (P.rowH[ri] - sz.h * it.s) / 2
+      it.x = rnd(x0 + sz.ox * it.s)
+      it.y = rnd(scene.H - (y0 + sz.oy * it.s))
+      left += P.colW[ci] + gap
+    })
+    top += P.rowH[ri] + gap
+  })
+  $('edW').value = scene.W; $('edH').value = scene.H
+  layoutStage(); refreshAll()
+}
+
+const BOTAB = '📚 Bộ hình theo bài'
+const VIRT = ['★ Yêu thích', '🕘 Gần đây', BOTAB]
 function renderPalette() {
   const tabs = $('edGroups')
   tabs.replaceChildren(...[...GROUPS, ...VIRT].map(g => {
@@ -371,6 +456,7 @@ function renderPalette() {
   const q = norm(query)
   const list = $('edPalette')
   list.replaceChildren()
+  if (!q && group === BOTAB) { renderSets(list); return }
   let items
   if (q) { const words = q.split(/\s+/).filter(Boolean); items = STAMPS.filter(s => { const h = norm(`${s.n} ${s.s} ${s.g} ${s.id}`); return words.every(w => h.includes(w)) }) }
   else if (group === VIRT[0]) items = STAMPS.filter(s => favs.has(s.id))

@@ -63,7 +63,7 @@ export function packageXml(image, meta, id, format = 'png', numbered = false) {
   const run = drawingRun(image, meta, id, 'rId1', 'rId2', format)
   const rels = `<Relationship Id="rId1" Type="${REL}/image" Target="media/smath${id}.png"/>` +
     (svg ? `<Relationship Id="rId2" Type="${REL}/image" Target="media/smath${id}.svg"/>` : '')
-  const media = part(`/word/media/smath${id}.png`, 'image/png', `<pkg:binaryData>${image.png}</pkg:binaryData>`) +
+  const media = part(`/word/media/smath${id}.png`, 'image/png', `<pkg:binaryData>${svg && image.pngLite ? image.pngLite : image.png}</pkg:binaryData>`) +
     (svg ? part(`/word/media/smath${id}.svg`, 'image/svg+xml', `<pkg:binaryData>${b64(image.svg)}</pkg:binaryData>`) : '')
   return wrapPackage(asParagraph(run, numbered), rels, media)
 }

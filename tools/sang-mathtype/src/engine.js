@@ -22,6 +22,13 @@ const DEFAULT_SCALE = 8
 /** Add-in trên Word Online/Windows: ảnh nhỏ hơn (360 PPI, vẫn nét) để chèn nhanh hơn. */
 export function setScale(n) { SCALE = n }
 const currentScale = () => SCALE
+/** PNG dự phòng nhỏ (1/3 độ phân giải) cho chế độ SVG: Word 2016+ dùng SVG nên PNG chỉ phòng khi mở bằng bản cũ; file nhẹ hơn rõ rệt. */
+function liteCanvas(c, f = 3) {
+  const o = document.createElement('canvas')
+  o.width = Math.max(1, Math.round(c.width / f)); o.height = Math.max(1, Math.round(c.height / f))
+  const x = o.getContext('2d'); x.imageSmoothingQuality = 'high'; x.drawImage(c, 0, 0, o.width, o.height)
+  return o.toDataURL('image/png').split(',')[1]
+}
 
 let ready = null
 
@@ -252,6 +259,7 @@ export async function renderFormula(opts) {
   return {
     svg,
     png: out.toDataURL('image/png').split(',')[1],
+    pngLite: liteCanvas(out),
     pxW: sw,
     pxH: sh,
     widthPt: sw / SCALE,
@@ -324,6 +332,7 @@ export async function renderFigure(code, scale = 4) {
   return {
     svg: flattenSvg(svgReal, [sx / scale, sy / scale, sw / scale, sh / scale], true),
     png: outC.toDataURL('image/png').split(',')[1],
+    pngLite: liteCanvas(outC),
     pxW: sw, pxH: sh, widthPt: sw / scale, heightPt: sh / scale, descentPt: 0,
   }
 }

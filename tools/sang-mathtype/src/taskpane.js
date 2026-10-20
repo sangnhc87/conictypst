@@ -353,6 +353,7 @@ async function syncSelection() {
 
 function useBridge(b) {
   bridge = b
+  window.dispatchEvent(new Event('sm-bridge'))
   if (b === office || b === gdocs) setScale(5) // ảnh nhẹ hơn khi chèn qua Office.js / Apps Script
   // Add-in Office: mặc định "SVG nhẹ" (SVG + PNG dự phòng cực nhỏ, Office 2016+) cho file docx nhẹ; chọn PNG nếu cần tương thích tối đa.
   if ((b === office || b === gdocs) && !(safe(() => JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}')) || {}).fmt) document.querySelector('input[name=fmt][value=svgn]').checked = true

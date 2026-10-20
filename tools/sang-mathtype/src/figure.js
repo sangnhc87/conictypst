@@ -16,7 +16,7 @@ let group = 'Tất cả'
 let query = ''
 const codeCache = new Map()
 
-const fmt = () => (document.querySelector('input[name=figfmt]:checked') || {}).value || 'svg'
+const fmt = () => (document.querySelector('input[name=figfmt]:checked') || {}).value || 'svgn'
 const norm = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd')
 
 function showError(msg) { const e = $('figError'); e.textContent = msg || ''; e.hidden = !msg }

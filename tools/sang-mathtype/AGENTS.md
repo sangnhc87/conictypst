@@ -41,7 +41,7 @@ Hướng dẫn sử dụng cho giáo viên: `src/hdsd.html` (→ `https://sangma
 Tài liệu phụ: `README.md` (dùng app/add-in), `HUONG-DAN-TAO-WEB-VE-HINH.md` (tách bảng vẽ thành website riêng).
 
 ## 3. Hệ thống vẽ hình (phần phát triển nhiều nhất)
-- **498 mẫu rời** (Hóa 252 · Vật lí 110 · Toán 130 · Chung 6), mỗi mẫu: `S(id, nhóm, nhóm-con, tên, 'cetz'|'content', code(p), props, extra)`.
+- **511 mẫu rời** (Hóa 265 · Vật lí 110 · Toán 130 · Chung 6), mỗi mẫu: `S(id, nhóm, nhóm-con, tên, 'cetz'|'content', code(p), props, extra)`.
   - `'cetz'`: lệnh CeTZ vẽ quanh gốc (0,0). `'content'`: khối Typst đặt giữa gốc (bảng biến thiên, bảng xác suất…). `extra.needs: ['bbt'|'geo']` để nạp thêm thư viện sang-math (`/sang-math/bbt.typ`, `geometry.typ` lấy từ `../../typst-pkg-sang-math/`).
   - `props` dùng helper `num/txt/bool/sel/col`; `p` đã gộp mặc định; chuỗi người dùng nhập phải qua `q()` (escape) hoặc `normExpr()` (biểu thức hàm).
   - `stamps-ext.mjs` nhận helper từ `stamps.mjs` qua `makeExt({...})`; `R(k,nhãn,mặc định,min,max,bước)` là phím tắt `num`.
@@ -49,6 +49,9 @@ Tài liệu phụ: `README.md` (dùng app/add-in), `HUONG-DAN-TAO-WEB-VE-HINH.md
 - **Bộ dựng 3D**: `pj(kieu:"co-dien"|"phoi-canh")` trả `{f, v}` (chiếu + vectơ nhìn); `da-dien(vs, fs, pr, …)` vẽ khối lồi, cạnh khuất nét đứt tự động (mặt nhìn thấy = pháp tuyến·v > 0). Cầu cần `phoi-canh` (chiếu vuông góc để đường tròn khớp).
 - Bảng kéo thả lưu `scene = {W, H, items:[{id,k,x,y,s,r,f,z,p}]}` (cm, gốc góc dưới trái). Dự án `.json` = `{app:'sangmath-editor', v:1, W, H, items}`. Nháp tự lưu ở `localStorage` (`sangmath.editor.draft`), yêu thích/gần đây (`sangmath.editor.favs|recent`).
 
+- **Cân bằng phương trình**: `src/draw/can-bang.mjs` (`balance(text)` – ma trận nguyên tố + điện tích, khử Gauss trên phân số; báo lỗi tiếng Việt nếu nhiều nghiệm/không cân bằng được) → hàm `pt-hh` trong `sm-draw.typ`; mẫu `hh-*` cuối `stamps-ext.mjs`.
+- **Bộ hình theo bài**: `src/draw/bo-hinh.mjs` (27 bộ: id mẫu + props), tab `📚 Bộ hình theo bài` trong `editor.js` (`renderSets`, `addSet`: dựng ảnh rồi xếp lưới theo kích thước thật, co tỉ lệ nếu >40×30 cm). Thêm bộ: thêm một dòng `B(...)`; id mẫu phải tồn tại.
+- **Xoay 3D**: các mẫu hình không gian có prop `yaw`/`pitch` (+`kieu`); `renderInspector` hiện ô kéo chuột và 5 góc nhìn nhanh khi mẫu có cả hai prop (cập nhật nhẹ, không dựng lại bảng thuộc tính để ô kéo không mất).
 - **SMILES**: `skeletonCode(smi,{len,ghiC})` / `ballStickCode(smi,{len})` trả chuỗi `khung(...)` / `mo-hinh(...)`. Hỗ trợ nguyên tử hữu cơ + `[ngoặc]`, `- = # :`, nhánh, vòng `1-9/%nn`, thơm (Kekulé hoá), điện tích; bỏ qua lập thể. Bố cục: vòng đa giác đều, vòng ngưng tụ lật qua cạnh chung, mạch zigzag (nhánh lớn tiếp tục mạch chính). Chưa tối ưu tránh chồng cho phân tử rất nhánh (vd. axit xitric hơi chồng nhãn). Thêm chất mới: thêm một dòng `[nhóm, tên, SMILES]` vào `chat-list.mjs` (tự sinh mẫu + ảnh).
 
 ### Quy ước & bẫy khi thêm mẫu (đã gặp thật)

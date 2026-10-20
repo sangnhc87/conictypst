@@ -51,19 +51,20 @@ export function drawingRun(image, meta, id, rIdPng, rIdSvg, format) {
   const cy = Math.round(image.heightPt * 12700)
   const lower = -Math.round(image.descentPt * 2) // w:position tính theo nửa điểm, âm = hạ xuống
   const descr = esc(encodeMeta(meta))
-  const blip = format === 'svg'
+  const blip = (format === 'svg' || format === 'svgn')
     ? `<a:blip r:embed="${rIdPng}"><a:extLst><a:ext uri="{96DAC541-7B7A-43D3-8B79-37D633B846F1}"><asvg:svgBlip xmlns:asvg="http://schemas.microsoft.com/office/drawing/2016/SVG/main" r:embed="${rIdSvg}"/></a:ext></a:extLst></a:blip>`
     : `<a:blip r:embed="${rIdPng}"/>`
   return `<w:r><w:rPr><w:noProof/><w:position w:val="${lower}"/></w:rPr><w:drawing><wp:inline distT="0" distB="0" distL="0" distR="0"><wp:extent cx="${cx}" cy="${cy}"/><wp:docPr id="${id}" name="Công thức ${id}" title="Công thức Sang Math" descr="${descr}"/><wp:cNvGraphicFramePr><a:graphicFrameLocks noChangeAspect="1"/></wp:cNvGraphicFramePr><a:graphic><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic><pic:nvPicPr><pic:cNvPr id="${id}" name="smath${id}.png" descr="${descr}"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill>${blip}<a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${cx}" cy="${cy}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr></pic:pic></a:graphicData></a:graphic></wp:inline></w:drawing></w:r>`
 }
 
-/** format: 'png' | 'svg' (SVG vector, PNG dự phòng) */
+/** format: 'png' | 'svg' (SVG + PNG dự phòng nhỏ) | 'svgn' (SVG nhẹ cho Office 2016+: PNG dự phòng rất nhỏ) */
 export function packageXml(image, meta, id, format = 'png', numbered = false) {
-  const svg = format === 'svg'
+  const svg = format === 'svg' || format === 'svgn'
+  const fallback = format === 'svgn' ? (image.pngTiny || image.pngLite || image.png) : svg ? (image.pngLite || image.png) : image.png
   const run = drawingRun(image, meta, id, 'rId1', 'rId2', format)
   const rels = `<Relationship Id="rId1" Type="${REL}/image" Target="media/smath${id}.png"/>` +
     (svg ? `<Relationship Id="rId2" Type="${REL}/image" Target="media/smath${id}.svg"/>` : '')
-  const media = part(`/word/media/smath${id}.png`, 'image/png', `<pkg:binaryData>${svg && image.pngLite ? image.pngLite : image.png}</pkg:binaryData>`) +
+  const media = part(`/word/media/smath${id}.png`, 'image/png', `<pkg:binaryData>${fallback}</pkg:binaryData>`) +
     (svg ? part(`/word/media/smath${id}.svg`, 'image/svg+xml', `<pkg:binaryData>${b64(image.svg)}</pkg:binaryData>`) : '')
   return wrapPackage(asParagraph(run, numbered), rels, media)
 }

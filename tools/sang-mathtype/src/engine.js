@@ -260,6 +260,7 @@ export async function renderFormula(opts) {
     svg,
     png: out.toDataURL('image/png').split(',')[1],
     pngLite: liteCanvas(out),
+    pngTiny: liteCanvas(out, 8),
     pxW: sw,
     pxH: sh,
     widthPt: sw / SCALE,
@@ -333,6 +334,7 @@ export async function renderFigure(code, scale = 4) {
     svg: flattenSvg(svgReal, [sx / scale, sy / scale, sw / scale, sh / scale], true),
     png: outC.toDataURL('image/png').split(',')[1],
     pngLite: liteCanvas(outC),
+    pngTiny: liteCanvas(outC, 8),
     pxW: sw, pxH: sh, widthPt: sw / scale, heightPt: sh / scale, descentPt: 0,
   }
 }

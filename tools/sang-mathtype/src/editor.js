@@ -434,7 +434,7 @@ function sized(image) {
   return { ...image, widthPt: image.widthPt * k, heightPt: image.heightPt * k }
 }
 
-const fmt = () => (document.querySelector('input[name=edfmt]:checked') || {}).value || 'svg'
+const fmt = () => (document.querySelector('input[name=edfmt]:checked') || {}).value || 'svgn'
 
 async function act(fn) {
   try {

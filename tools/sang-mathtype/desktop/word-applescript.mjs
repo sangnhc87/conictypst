@@ -133,7 +133,7 @@ function withDpi(png, ppi = 576) {
 
 function writeImage(payload, i = 0) {
   mkdirSync(SHARE, { recursive: true })
-  const svg = payload.format === 'svg'
+  const svg = payload.format === 'svg' || payload.format === 'svgn'
   const file = path.join(SHARE, `f${Date.now()}_${i}.${svg ? 'svg' : 'png'}`)
   writeFileSync(file, svg ? payload.svg : withDpi(Buffer.from(payload.png, 'base64')))
   return file

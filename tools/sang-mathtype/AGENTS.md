@@ -36,4 +36,6 @@ Xem ảnh `sheet-*.png` bằng công cụ Read thay vì đọc mã. Một lần 
 - Không commit `certs/`, `dist/`, `out/`, `.cache/` (đã có trong `.gitignore`).
 
 ## Hiệu năng/dung lượng docx
-Chế độ SVG chèn SVG + PNG dự phòng **nhỏ** (`pngLite`, 1/3 độ phân giải) để file Word nhẹ; chế độ PNG dùng PNG đầy đủ 576 PPI.
+Ba định dạng chèn (mặc định `svgn`): `svgn` = SVG + PNG dự phòng cực nhỏ (1/8 độ phân giải, cho Office 2016+/365, nhẹ nhất);
+`svg` = SVG + PNG dự phòng 1/3 (tương thích Google Docs, Word cũ); `png` = PNG đầy đủ. Mac app dán thẳng SVG. Xem `packageXml` trong `src/word.js`.
+Một đề có hàng nghìn công thức: mỗi công thức là một SVG nhỏ + PNG dự phòng; giữ `svgn` để file nhẹ.

@@ -36,6 +36,8 @@ Các thẻ lớn trong giao diện (`src/tabs.js`): **Công thức** · **Vẽ h
 | Công cụ soạn đề cho Word | `src/tools/*` (`parse`, `plans`, `runner`, `ui`, host-office/host-desktop), `src/omml*.js`, `src/convert.js`, `src/toequation.js` |
 | Trộn đề | `src/exam*.js`, `src/exam.worker.js`, `exam/engine/*.py` |
 
+Hướng dẫn sử dụng cho giáo viên: `src/hdsd.html` (→ `https://sangmath-word.pages.dev/hdsd`, có mục #smiles #hoa #ly #toan…); **khi thêm tính năng/mẫu mới, cập nhật trang này**. Link 📖 nằm ở kho mẫu (`#edHelp`, đổi theo nhóm) và trong bảng thuộc tính mẫu `hc-*`.
+
 Tài liệu phụ: `README.md` (dùng app/add-in), `HUONG-DAN-TAO-WEB-VE-HINH.md` (tách bảng vẽ thành website riêng).
 
 ## 3. Hệ thống vẽ hình (phần phát triển nhiều nhất)

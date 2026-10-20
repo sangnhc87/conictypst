@@ -297,6 +297,7 @@ function renderInspector() {
   const st = STAMP_MAP.get(it.k)
   box.replaceChildren()
   const h = document.createElement('h4'); h.textContent = st.n; box.append(h)
+  if (st.id.startsWith('hc-')) { const a = Object.assign(document.createElement('a'), { href: 'hdsd.html#smiles', target: '_blank', rel: 'noopener', textContent: '📖 Cách viết mã SMILES' }); a.className = 'ed-help'; box.append(a) }
   let tm = 0
   const later = () => { clearTimeout(tm); tm = setTimeout(() => refreshAll(), 280) }
   const grid = document.createElement('div'); grid.className = 'ed-pos'
@@ -365,6 +366,8 @@ function renderPalette() {
     b.addEventListener('click', () => { group = g; $('edSearch').value = ''; query = ''; renderPalette() })
     return b
   }))
+  const hl = $('edHelp')
+  if (hl) hl.href = `hdsd.html#${group === 'Hóa học' ? 'smiles' : group === 'Vật lí' ? 'ly' : group === 'Toán' ? 'toan' : 'nhanh'}`
   const q = norm(query)
   const list = $('edPalette')
   list.replaceChildren()

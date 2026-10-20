@@ -363,3 +363,6 @@ body[data-exmode=shuffle] .only-beautify { display:none !important; }
 .cell .face { width:100%; overflow:hidden; }
 .cell .face img { max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain; }
 .grid.wide .cell .face img, .grid.named .cell .face img { max-width:100%; }
+
+.ed-help { display:inline-block; font-size:12px; color:var(--h1); text-decoration:none; padding:2px 2px; }
+.ed-help:hover { text-decoration:underline; }

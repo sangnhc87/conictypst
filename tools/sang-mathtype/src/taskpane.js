@@ -74,6 +74,13 @@ async function fillIcons(cells) {
       img.src = url
       const face = cell.querySelector('.face')
       face.replaceChildren(img)
+      // công thức dài: cho ô trải 2-4 cột để không bị tràn/chồng lên ô bên cạnh
+      try {
+        await img.decode()
+        const ratio = img.naturalWidth / Math.max(1, img.naturalHeight)
+        const span = ratio > 10 ? 4 : ratio > 6.5 ? 3 : ratio > 3.4 ? 2 : 1
+        if (span > 1) cell.style.gridColumn = `span ${span}`
+      } catch { /* bỏ qua */ }
     } catch { /* giữ nhãn chữ */ }
     await new Promise(r => setTimeout(r)) // nhường luồng giao diện giữa các biểu tượng
   }

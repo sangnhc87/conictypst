@@ -357,3 +357,9 @@ body[data-exmode=shuffle] .only-beautify { display:none !important; }
 .about .ver { opacity:.7; }
 .ed-bar .seg-one { padding:5px 11px; border:1px solid var(--line); border-radius:9px; background:var(--soft); color:var(--fg); font:inherit; cursor:pointer; }
 .ed-bar .seg-one:hover { background:color-mix(in srgb, var(--h1) 14%, var(--soft)); }
+
+/* Ô ký hiệu: ảnh luôn nằm trong ô (không tràn sang ô bên cạnh) */
+.cell { min-width:0; overflow:hidden; }
+.cell .face { width:100%; overflow:hidden; }
+.cell .face img { max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain; }
+.grid.wide .cell .face img, .grid.named .cell .face img { max-width:100%; }

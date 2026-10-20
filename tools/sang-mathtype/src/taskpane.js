@@ -519,6 +519,8 @@ el.code.addEventListener('keydown', e => {
 // ---------- thẻ Công thức / Vẽ hình ----------
 $('tabFormula').addEventListener('click', () => showView('formula'))
 $('tabFigure').addEventListener('click', () => showView('figure'))
+$('tabCoffee').addEventListener('click', () => showView('coffee'))
+$('coffeeCopy').addEventListener('click', async () => { const b = $('coffeeCopy'); try { await navigator.clipboard.writeText($('coffeeAcc').textContent.trim()); b.textContent = 'Đã chép' } catch { b.textContent = 'Chép tay nhé' } setTimeout(() => { b.textContent = 'Chép số' }, 1800) })
 
 // ---------- khởi động ----------
 const engineReady = initEngine()

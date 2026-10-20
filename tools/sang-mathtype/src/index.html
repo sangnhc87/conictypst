@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sang Math: công thức cho Word</title>
+<style>
+  :root { --bg:#fff; --fg:#1d2433; --muted:#5b6478; --line:#d9dde6; --accent:#1a56db; --accent-fg:#fff; --soft:#f3f5f9; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#1c1f26; --fg:#e8ebf2; --muted:#9aa3b5; --line:#343a47; --accent:#6ea0ff; --accent-fg:#0b1220; --soft:#262a33; } }
+  * { box-sizing: border-box; }
+  body { margin:0; font:16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; color:var(--fg); background:var(--bg); }
+  main { max-width:780px; margin:0 auto; padding:32px 16px 56px; }
+  h1 { margin:0 0 6px; font-size:28px; }
+  h2 { margin:30px 0 8px; font-size:19px; }
+  p, li { color:var(--muted); }
+  .lead { font-size:18px; color:var(--fg); }
+  .btn { display:inline-block; padding:10px 18px; border-radius:10px; background:var(--accent); color:var(--accent-fg); font-weight:600; text-decoration:none; margin:4px 8px 4px 0; }
+  .btn.alt { background:var(--soft); color:var(--fg); border:1px solid var(--line); }
+  code { background:var(--soft); padding:1px 6px; border-radius:5px; font-size:14px; }
+  .cmd { position:relative; margin:8px 0 14px; }
+  .cmd pre { margin:0; padding:12px 84px 12px 12px; background:var(--soft); border:1px solid var(--line); border-radius:10px; overflow-x:auto; font:13px/1.5 ui-monospace, Menlo, Consolas, monospace; color:var(--fg); white-space:pre-wrap; word-break:break-all; }
+  .cmd button { position:absolute; top:8px; right:8px; padding:4px 10px; border:1px solid var(--line); border-radius:8px; background:var(--bg); color:var(--fg); cursor:pointer; font:inherit; font-size:13px; }
+  ol { padding-left:22px; }
+  .card { border:1px solid var(--line); border-radius:12px; padding:4px 18px 10px; margin:12px 0; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Sang Math</h1>
+  <p class="lead">Gõ công thức Typst hoặc LaTeX (có sẵn bảng ký hiệu Toán, Lý, Hóa), chèn vào Word thành hình đẹp kiểu TeX và <b>sửa lại bất cứ lúc nào</b>. Chuyển qua lại với Equation của Word. Miễn phí, không cần cửa hàng.</p>
+
+  <h2>Cài đặt chỉ một lệnh</h2>
+  <div class="card">
+    <h3>Word trên Mac</h3>
+    <p>Mở ứng dụng <b>Terminal</b>, dán lệnh dưới rồi nhấn Enter:</p>
+    <div class="cmd"><pre id="mac">curl -fsSL https://sangmath-word.pages.dev/install-mac.sh | bash</pre><button data-copy="mac">Chép</button></div>
+    <p>Thoát hẳn Word (Cmd+Q) rồi mở lại. Vào <b>Chèn → Add-ins → My Add-ins → Developer Add-ins → Sang Math</b>.</p>
+  </div>
+  <div class="card">
+    <h3>Word trên Windows</h3>
+    <p>Mở <b>PowerShell</b> (không cần quyền quản trị), dán lệnh rồi nhấn Enter:</p>
+    <div class="cmd"><pre id="win">powershell -NoProfile -ExecutionPolicy Bypass -Command "iwr https://sangmath-word.pages.dev/install-windows.ps1 -UseBasicParsing | iex"</pre><button data-copy="win">Chép</button></div>
+    <p>Thoát hẳn Word rồi mở lại. Vào <b>Chèn → My Add-ins → Developer Add-ins → Sang Math</b>.</p>
+  </div>
+  <div class="card">
+    <h3>Word trên web</h3>
+    <ol>
+      <li>Tải <a href="manifest.xml" download>manifest.xml</a>.</li>
+      <li>Trong Word trên web: Chèn → Add-ins → More Add-ins → My Add-ins → <b>Upload My Add-in</b> → chọn tệp vừa tải.</li>
+    </ol>
+  </div>
+
+  <h2>Cho cả trường hoặc tổ chức (dành cho quản trị viên)</h2>
+  <p>Quản trị Microsoft 365 làm một lần, mọi người dùng thấy nút <b>Sang Math</b> trong Word (Windows, Mac, web) mà không phải cài gì:</p>
+  <ol>
+    <li>Vào <b>admin.microsoft.com</b> → Settings → <b>Integrated apps</b> → <b>Upload custom apps</b>.</li>
+    <li>Chọn loại <b>Office Add-in</b>, tải <a href="manifest.xml" download>manifest.xml</a> lên (hoặc dán địa chỉ <code>https://sangmath-word.pages.dev/manifest.xml</code>).</li>
+    <li>Chọn người dùng (mọi người hoặc từng nhóm) → Deploy. Có thể mất vài giờ để hiện trong Word.</li>
+  </ol>
+
+  <h2>Tự động cập nhật</h2>
+  <p>Add-in chạy từ trang này nên <b>luôn là bản mới nhất</b>: mỗi lần có cải tiến, người dùng chỉ cần đóng và mở lại khung Sang Math (hoặc mở lại Word). Không phải cài lại, kể cả cách cài bằng lệnh hay qua quản trị viên. Chỉ khi tệp manifest thay đổi (rất hiếm) mới cần chạy lại lệnh cài.</p>
+
+  <h2>Gỡ cài đặt</h2>
+  <p>Mac: <code>curl -fsSL https://sangmath-word.pages.dev/install-mac.sh | bash -s -- --remove</code><br>
+  Windows (PowerShell): <code>$env:SM_REMOVE=1; iwr https://sangmath-word.pages.dev/install-windows.ps1 -UseBasicParsing | iex</code></p>
+
+  <h2>Dùng thử không cần cài</h2>
+  <p><a href="taskpane">Mở bản web</a>: gõ công thức rồi bấm <b>Sao chép ảnh</b> để dán vào tài liệu. Ảnh dán là ảnh thường, muốn sửa lại phải chèn bằng add-in ở trên.</p>
+
+  <h2>Tác giả</h2>
+  <p><b>Nguyễn Văn Sang</b>, giáo viên Trường THPT Nguyễn Hữu Cảnh, TP. Hồ Chí Minh.</p>
+
+  <h2>Quyền riêng tư và giấy phép</h2>
+  <p>Công thức được dựng ngay trong trình duyệt hoặc Word của bạn bằng WebAssembly; <b>không gửi nội dung lên máy chủ nào</b>. Sản phẩm dùng Typst (Apache-2.0), mitex (MIT), typst.ts (Apache-2.0) và font New Computer Modern (SIL OFL).</p>
+</main>
+<script>
+  for (const b of document.querySelectorAll('[data-copy]')) b.addEventListener('click', async () => {
+    const text = document.getElementById(b.dataset.copy).textContent
+    try { await navigator.clipboard.writeText(text); b.textContent = 'Đã chép' } catch { b.textContent = 'Hãy chép tay' }
+    setTimeout(() => { b.textContent = 'Chép' }, 2000)
+  })
+</script>
+</body>
+</html>

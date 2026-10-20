@@ -1,0 +1,210 @@
+// Mẫu rời đợt 2 (Hóa – Lý – Toán mở rộng). Tách khỏi stamps.mjs để dễ bảo trì; hàm vẽ nằm trong sm-draw.typ.
+// makeExt nhận bộ dựng thuộc tính từ stamps.mjs và trả về danh sách mẫu.
+export function makeExt({ S, num, txt, bool, sel, col, liq, L, csv, nums, strs, tup, q, mk, rgbq, ct, normExpr }) {
+  const KIEU = [['co-dien', 'Hình chiếu xiên (sách giáo khoa)'], ['phoi-canh', 'Phối cảnh xoay (chiếu vuông góc)']]
+
+  // phân số: "a/b" hoặc số thập phân → {n, d}; nhân hai xác suất
+  const gcd = (a, b) => (b ? gcd(b, a % b) : Math.abs(a))
+  const parseP = t => {
+    const s = String(t).trim().replace(',', '.')
+    const m = s.match(/^(-?\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)$/)
+    if (m) return { n: Number(m[1]), d: Number(m[2]) }
+    const v = Number(s)
+    return Number.isFinite(v) ? { n: v, d: 1 } : null
+  }
+  const mulP = (a, b) => {
+    const x = parseP(a), y = parseP(b)
+    if (!x || !y) return '?'
+    const intish = v => Number.isInteger(v)
+    if (intish(x.n) && intish(x.d) && intish(y.n) && intish(y.d)) {
+      const n = x.n * y.n, d = x.d * y.d, g = gcd(n, d) || 1
+      return d / g === 1 ? String(n / g) : `${n / g}/${d / g}`
+    }
+    const v = (x.n / x.d) * (y.n / y.d)
+    return String(Number(v.toFixed(4)))
+  }
+  const semi = s => String(s).split(';').map(x => x.trim()).filter(Boolean)
+  const R = (k, l, d, mn, mx, st = 0.1) => num(k, l, d, { min: mn, max: mx, step: st })
+  return [
+    // ═══ HÓA: dụng cụ bổ sung ═══
+    S('binh-kip', 'Hóa học', 'Dụng cụ thủy tinh', 'Bình Kíp (điều chế khí)', 'cetz', p => `binh-kip((0,0), liq: ${L(p)}, solid: ${rgbq(p.ran)}, kl: ${p.nhan ? ct(p.nhan) : 'none'})`, [liq(), col('ran', 'Màu chất rắn', '64748b'), txt('nhan', 'Nhãn dưới bình', 'ZnS + dd HCl')]),
+    S('coc-kieng', 'Hóa học', 'Dụng cụ khác', 'Cốc đun trên kiềng + đèn cồn', 'cetz', p => `coc-kieng((0,0), w: ${p.w}, h: ${p.h}, lvl: ${p.lvl}, liq: ${L(p)}, flame: ${p.lua}, nhiet: ${p.nk}, nhan: ${p.nhan ? ct(p.nhan) : 'none'})`, [R('w', 'Rộng cốc', 2.4, 1.4, 4), R('h', 'Cao cốc', 2.4, 1.4, 4), R('lvl', 'Mực chất lỏng', 0.6, 0, 1, 0.05), liq(), bool('lua', 'Có ngọn lửa', true), bool('nk', 'Có nhiệt kế', true), txt('nhan', 'Nhãn trong cốc', 'H2O')]),
+    S('can-dien-tu', 'Hóa học', 'Dụng cụ khác', 'Cân điện tử', 'cetz', p => `can-dien-tu((0,0), hien: ${q(p.hien)}, vat: ${p.vat})`, [txt('hien', 'Số hiển thị', '125,40 g'), bool('vat', 'Có cốc trên đĩa cân', true)]),
+    S('binh-wurtz', 'Hóa học', 'Dụng cụ thủy tinh', 'Bình cất Wurtz (có nhánh)', 'cetz', p => `binh-wurtz((0,0), r: ${p.r}, lvl: ${p.lvl}, liq: ${L(p)}, nhanh: ${p.nhanh}, nhiet: ${p.nk})`, [R('r', 'Bán kính bình', 1.2, 0.7, 2.5), R('lvl', 'Mực chất lỏng', 0.4, 0, 0.8, 0.05), liq(), R('nhanh', 'Dài nhánh bên', 1.8, 0.8, 4), bool('nk', 'Có nhiệt kế', true)]),
+    S('binh-cau-3', 'Hóa học', 'Dụng cụ thủy tinh', 'Bình cầu 3 cổ', 'cetz', p => `binh-cau-3-co((0,0), r: ${p.r}, lvl: ${p.lvl}, liq: ${L(p)})`, [R('r', 'Bán kính', 1.3, 0.8, 2.5), R('lvl', 'Mực chất lỏng', 0.35, 0, 0.8, 0.05), liq()]),
+    S('ong-U-ran', 'Hóa học', 'Dụng cụ thủy tinh', 'Ống chữ U đựng chất rắn', 'cetz', p => `ong-U-ran((0,0), w: ${p.w}, h: ${p.h}, solid: ${rgbq(p.ran)}, nhan: ${p.nhan ? ct(p.nhan) : 'none'})`, [R('w', 'Rộng', 1.4, 0.9, 3), R('h', 'Cao hai nhánh', 2.4, 1.5, 5), col('ran', 'Màu chất rắn', '64748b'), txt('nhan', 'Nhãn (vd. CaCl2 khan)', 'CaCl2 khan')]),
+    S('thap-chung-cat', 'Hóa học', 'Dụng cụ khác', 'Tháp chưng cất phân đoạn dầu mỏ', 'cetz', p => `thap-chung-cat((0,0), h: ${p.h}, w: ${p.w}, mam: ${p.mam}, cac: ${strs(p.cac)})`, [R('h', 'Cao', 6, 4, 9), R('w', 'Rộng', 1.6, 1, 3), num('mam', 'Số mâm', 7, { min: 3, max: 12, step: 1 }), txt('cac', 'Các phân đoạn (trên → dưới, ≥ 4)', 'Khí, Xăng, Dầu hỏa, Dầu điêden, Dầu nhờn, Cặn mazut')]),
+    // ═══ HÓA: mô hình & công thức ═══
+    S('glucozo-vong', 'Hóa học', 'Hữu cơ (công thức khung)', 'Glucozơ dạng vòng (Haworth α/β)', 'cetz', p => `glucozo-vong(alpha: ${p.dang === 'a'}, so: ${p.so})`, [sel('dang', 'Dạng', 'a', [['a', 'α-glucozơ'], ['b', 'β-glucozơ']]), bool('so', 'Đánh số C', true)]),
+    S('axit-amin', 'Hóa học', 'Hữu cơ (công thức khung)', 'Axit amin (H₂N–CHR–COOH)', 'cetz', p => `axit-amin(r: ${q(p.r)}, ion: ${p.ion})`, [txt('r', 'Gốc R (vd. CH3, CH2OH)', 'R'), bool('ion', 'Dạng ion lưỡng cực', false)]),
+    S('mach-ankan', 'Hóa học', 'Hữu cơ (công thức khung)', 'Ankan / anken / ankin n nguyên tử C', 'cetz', p => `mach-n(${p.n}, kind: ${q(p.kind)}, vt: ${p.vt}, so: ${p.so})`, [num('n', 'Số nguyên tử C', 5, { min: 2, max: 12, step: 1 }), sel('kind', 'Loại', 'ankan', [['ankan', 'Ankan (no)'], ['anken', 'Anken (nối đôi)'], ['ankin', 'Ankin (nối ba)']]), num('vt', 'Nối bội giữa C thứ…', 1, { min: 1, max: 11, step: 1 }), bool('so', 'Đánh số C', true)]),
+    ...[['C4H10', 'Đồng phân C₄H₁₀ (butan, isobutan)'], ['C5H12', 'Đồng phân C₅H₁₂ (3 chất)'], ['C4H8', 'Đồng phân anken C₄H₈ (3 chất)'], ['C2H6O', 'Đồng phân C₂H₆O (ancol – ete)'], ['C3H8O', 'Đồng phân ancol C₃H₈O'], ['C2H4O2', 'Đồng phân C₂H₄O₂ (axit – este)']].map(([k, n]) => S('dp-' + k.toLowerCase(), 'Hóa học', 'Đồng phân', n, 'cetz', () => `dong-phan(${q(k)})`)),
+    S('tt-nacl', 'Hóa học', 'Tinh thể', 'Ô mạng tinh thể NaCl (khối 3D)', 'cetz', p => `o-mang(kind: "nacl", s: ${p.s}, nhan: ${p.nhan})`, [R('s', 'Cạnh ô (cm)', 3.2, 1.5, 6), bool('nhan', 'Chú thích ion', true)]),
+    S('tt-kimcuong', 'Hóa học', 'Tinh thể', 'Tinh thể kim cương (ô lập phương)', 'cetz', p => `o-mang(kind: "kimcuong", s: ${p.s}, nhan: ${p.nhan})`, [R('s', 'Cạnh ô (cm)', 3.6, 1.5, 6), bool('nhan', 'Chú thích', true)]),
+    S('tt-thanchi', 'Hóa học', 'Tinh thể', 'Tinh thể than chì (cấu trúc lớp)', 'cetz', p => `than-chi(nhan: ${p.nhan})`, [bool('nhan', 'Ghi khoảng cách', true)]),
+    S('tt-tamkhoi', 'Hóa học', 'Tinh thể', 'Mạng lập phương tâm khối (Fe, Na…)', 'cetz', p => `o-mang(kind: "tamkhoi", s: ${p.s})`, [R('s', 'Cạnh ô (cm)', 3, 1.5, 6)]),
+    S('tt-tamdien', 'Hóa học', 'Tinh thể', 'Mạng lập phương tâm diện (Cu, Al…)', 'cetz', p => `o-mang(kind: "tamdien", s: ${p.s})`, [R('s', 'Cạnh ô (cm)', 3, 1.5, 6)]),
+    // ═══ HÓA: sơ đồ thí nghiệm hoàn chỉnh ═══
+    S('tn-so2', 'Hóa học', 'Sơ đồ thí nghiệm', 'Điều chế SO₂ (Na₂SO₃ + H₂SO₄ đặc)', 'cetz', () => `tn-so2()`),
+    S('tn-co2', 'Hóa học', 'Sơ đồ thí nghiệm', 'Điều chế CO₂ (CaCO₃ + HCl)', 'cetz', () => `tn-co2()`),
+    S('tn-nh3', 'Hóa học', 'Sơ đồ thí nghiệm', 'Điều chế NH₃ (NH₄Cl + Ca(OH)₂, đun)', 'cetz', () => `tn-nh3()`),
+    S('tn-c2h4', 'Hóa học', 'Sơ đồ thí nghiệm', 'Điều chế C₂H₄ (etanol + H₂SO₄ đặc, 170°C)', 'cetz', () => `tn-c2h4()`),
+    S('tn-c2h2', 'Hóa học', 'Sơ đồ thí nghiệm', 'Điều chế C₂H₂ (CaC₂ + H₂O)', 'cetz', () => `tn-c2h2()`),
+    S('tn-an-mon', 'Hóa học', 'Sơ đồ thí nghiệm', 'Ăn mòn điện hóa (Fe – Cu)', 'cetz', p => `tn-an-mon(a: ${q(p.a)}, c: ${q(p.c)}, dd: ${q(p.dd)})`, [txt('a', 'Điện cực anot (kim loại mạnh)', 'Fe'), txt('c', 'Điện cực catot', 'Cu'), txt('dd', 'Dung dịch điện li', 'dd NaCl')]),
+    S('tn-ma-dien', 'Hóa học', 'Sơ đồ thí nghiệm', 'Mạ điện (anot Cu, dd CuSO₄)', 'cetz', p => `tn-ma-dien(anot: ${q(p.anot)}, catot: ${q(p.catot)}, dd: ${q(p.dd)})`, [txt('anot', 'Anot', 'Cu'), txt('catot', 'Vật cần mạ', 'Vật cần mạ'), txt('dd', 'Dung dịch', 'dd CuSO4')]),
+    S('tn-trang-bac', 'Hóa học', 'Sơ đồ thí nghiệm', 'Thí nghiệm tráng bạc (glucozơ)', 'cetz', () => `tn-trang-bac()`),
+    // ═══ LÝ: thí nghiệm kinh điển ═══
+    S('v-young', 'Vật lí', 'Giao thoa & nhiễu xạ', 'Thí nghiệm Young (hoàn chỉnh)', 'cetz', p => `young-tn(i: ${p.i}, a: ${p.a}, D: ${p.D}, nhan: ${p.nhan})`, [R('i', 'Khoảng vân i (cm)', 0.6, 0.3, 1.2, 0.05), R('a', 'Khoảng cách hai khe a', 1.2, 0.6, 2.4, 0.1), R('D', 'Khoảng cách D', 6, 3, 10, 0.5), bool('nhan', 'Ghi chú (a, D, i, E₁…)', true)]),
+    S('v-cam-ung', 'Vật lí', 'Điện từ', 'Cảm ứng điện từ: nam châm – ống dây – điện kế', 'cetz', p => `cam-ung-tn(tien: ${p.tien}, vong: ${p.vong})`, [bool('tien', 'Nam châm tiến lại gần', true), num('vong', 'Số vòng dây vẽ', 7, { min: 4, max: 12, step: 1 })]),
+    S('v-quang-dien', 'Vật lí', 'Vật lí hạt nhân & lượng tử', 'Thí nghiệm quang điện (tế bào quang điện)', 'cetz', () => `quang-dien-tn()`),
+    S('v-rutherford', 'Vật lí', 'Vật lí hạt nhân & lượng tử', 'Thí nghiệm Rutherford (tán xạ α)', 'cetz', p => `rutherford-tn(nhan: ${p.nhan})`, [bool('nhan', 'Ghi chú', true)]),
+    S('v-wheatstone', 'Vật lí', 'Mạch điện (thí nghiệm)', 'Mạch cầu Wheatstone', 'cetz', p => `cau-wheatstone(nhan: ${p.nhan})`, [bool('nhan', 'Ghi chú điều kiện cân bằng', true)]),
+    S('v-bien-ap', 'Vật lí', 'Điện từ', 'Máy biến áp (lõi sắt, N₁, N₂)', 'cetz', p => `may-bien-ap(n1: [${p.n1}], n2: [${p.n2}], nhan: ${p.nhan})`, [txt('n1', 'Cuộn sơ cấp', '$N_1$'), txt('n2', 'Cuộn thứ cấp', '$N_2$'), bool('nhan', 'Ghi chú U₁, U₂', true)]),
+    S('v-chinh-luu', 'Vật lí', 'Mạch điện (thí nghiệm)', 'Mạch chỉnh lưu kèm đồ thị', 'cetz', p => `chinh-luu(kind: ${q(p.kind)}, nhan: ${p.nhan})`, [sel('kind', 'Kiểu', 'nua', [['nua', 'Nửa chu kì (1 điốt)'], ['cau', 'Hai nửa chu kì (cầu 4 điốt)']]), bool('nhan', 'Ghi chú', true)]),
+    S('v-khung-tt', 'Vật lí', 'Điện từ', 'Khung dây quay trong từ trường (α giữa n và B)', 'cetz', p => `khung-tu-truong(ga: ${p.alpha}deg, nhan: ${p.nhan})`, [R('alpha', 'Góc α (độ)', 40, 0, 90, 1), bool('nhan', 'Ghi chú Φ = BS cos α', true)]),
+    S('v-con-lac-xoan', 'Vật lí', 'Cơ học', 'Con lắc xoắn', 'cetz', p => `con-lac-xoan(gt: ${p.theta}deg, nhan: ${p.nhan})`, [R('theta', 'Góc xoắn θ (độ)', 35, 5, 80, 1), bool('nhan', 'Ghi chú', true)]),
+    S('v-culitgio', 'Vật lí', 'Vật lí hạt nhân & lượng tử', 'Ống Cu-lít-giơ (tia X)', 'cetz', () => `ong-culitgio()`),
+    S('v-do-g', 'Vật lí', 'Cơ học', 'Đo gia tốc rơi tự do bằng con lắc đơn', 'cetz', p => `do-g-con-lac(l: ${p.l}, nhan: ${p.nhan})`, [R('l', 'Chiều dài dây (cm vẽ)', 4, 2.5, 6, 0.1), bool('nhan', 'Ghi chú', true)]),
+    // ═══ LÝ: đồ thị chất khí, chu trình, giao thoa – nhiễu xạ ═══
+    ...[['nhiet', 'đẳng nhiệt (T không đổi)'], ['ap', 'đẳng áp (p không đổi)'], ['tich', 'đẳng tích (V không đổi)']].map(([k, n]) => S('v-3dt-' + k, 'Vật lí', 'Đồ thị chất khí', 'Ba đồ thị p–V, V–T, p–T: quá trình ' + n, 'cetz', p => `ba-do-thi-khi(qt: ${q(k)}, ten: ${p.ten})`, [bool('ten', 'Ghi tên quá trình', true)])),
+    ...[['pv-nhiet2', 'p–V: hai đường đẳng nhiệt T₁ < T₂'], ['pv-ap', 'p–V: đẳng áp'], ['pv-tich', 'p–V: đẳng tích'], ['vt-ap', 'V–T: đẳng áp (đường qua gốc)'], ['vt-celsius', 'V–t (°C): đẳng áp, cắt trục tại −273°C'], ['pt-tich', 'p–T: đẳng tích (đường qua gốc)'], ['pt-celsius', 'p–t (°C): đẳng tích, cắt trục tại −273°C'], ['vt-nhiet', 'V–T: đẳng nhiệt'], ['pt-nhiet', 'p–T: đẳng nhiệt']].map(([k, n]) => S('v-khi-' + k, 'Vật lí', 'Đồ thị chất khí', 'Đồ thị ' + n, 'cetz', () => `do-thi-khi(${q(k)})`)),
+    ...[['hcn', 'Chu trình hình chữ nhật (đẳng tích – đẳng áp)'], ['tamgiac', 'Chu trình tam giác (đẳng áp – đẳng tích – tuyến tính)'], ['carno', 'Chu trình Cacnô (2 đẳng nhiệt, 2 đoạn nhiệt)']].map(([k, n]) => S('v-ct-' + k, 'Vật lí', 'Đồ thị chất khí', n, 'cetz', p => `chu-trinh(kind: ${q(k)}, tomau: ${p.mau})`, [bool('mau', 'Tô màu phần diện tích (công)', true)])),
+    S('v-gt-2nguon', 'Vật lí', 'Giao thoa & nhiễu xạ', 'Giao thoa sóng nước hai nguồn (vân cực đại, cực tiểu)', 'cetz', p => `giao-thoa-2-nguon(lam: ${p.lam}, d: ${p.d}, kmax: ${p.kmax})`, [R('lam', 'Bước sóng λ', 0.7, 0.4, 1.4, 0.05), R('d', 'Khoảng cách hai nguồn', 2, 1, 4, 0.1), num('kmax', 'Số vân vẽ mỗi bên', 3, { min: 1, max: 5, step: 1 })]),
+    S('v-nhieu-xa', 'Vật lí', 'Giao thoa & nhiễu xạ', 'Nhiễu xạ qua khe hẹp (đồ thị cường độ)', 'cetz', p => `nhieu-xa-khe-don(nhan: ${p.nhan})`, [bool('nhan', 'Ghi chú', true)]),
+    S('v-gt-I', 'Vật lí', 'Giao thoa & nhiễu xạ', 'Đồ thị cường độ vân giao thoa Young', 'cetz', p => `giao-thoa-I(i: ${p.i}, n: ${p.n})`, [R('i', 'Khoảng vân (cm)', 1, 0.6, 2, 0.1), num('n', 'Số vân mỗi bên', 3, { min: 1, max: 6, step: 1 })]),
+    // ═══ TOÁN: hình học không gian ═══
+    ...[[3, 'Chóp tam giác đều S.ABC'], [4, 'Chóp tứ giác đều S.ABCD'], [5, 'Chóp ngũ giác đều S.ABCDE'], [6, 'Chóp lục giác đều S.ABCDEF']].map(([n, t]) => S('s-chop-deu-' + n, 'Toán', 'Hình không gian', t, 'cetz', p => `chop-deu(n: ${n}, a: ${p.a}, h: ${p.h}, kieu: ${q(p.kieu)}, cao: ${p.cao}, trung-doan: ${p.td}, nhan: ${p.nhan})`, [R('a', 'Cạnh đáy', 2.6, 1.4, 5), R('h', 'Chiều cao', 3.4, 1.5, 6), sel('kieu', 'Kiểu chiếu', 'co-dien', KIEU), bool('cao', 'Vẽ đường cao SO', true), bool('td', 'Vẽ trung đoạn SM', false), bool('nhan', 'Ghi tên đỉnh', true)])),
+    ...[[3, 'Lăng trụ tam giác ABC.A′B′C′'], [4, 'Lăng trụ tứ giác ABCD.A′B′C′D′']].map(([n, t]) => S('s-langtru-' + n, 'Toán', 'Hình không gian', t, 'cetz', p => `lang-tru(n: ${n}, a: ${p.a}, h: ${p.h}, dx: ${p.dx}, dy: ${p.dy}, kieu: ${q(p.kieu)}, nhan: ${p.nhan})`, [R('a', 'Cạnh đáy', 2.6, 1.4, 5), R('h', 'Chiều cao', 3, 1.5, 6), R('dx', 'Độ xiên theo x (0 = lăng trụ đứng)', 0, -2, 2), R('dy', 'Độ xiên theo chiều sâu', 0, -2, 2), sel('kieu', 'Kiểu chiếu', 'co-dien', KIEU), bool('nhan', 'Ghi tên đỉnh', true)])),
+    S('s-lapphuong', 'Toán', 'Hình không gian', 'Hình lập phương ABCD.A′B′C′D′', 'cetz', p => `lap-phuong(a: ${p.a}, kieu: ${q(p.kieu)}, them: ${q(p.them)}, nhan: ${p.nhan})`, [R('a', 'Cạnh', 3, 1.5, 6), sel('kieu', 'Kiểu chiếu', 'co-dien', KIEU), sel('them', 'Vẽ thêm', 'none', [['none', 'Không'], ['cheo', 'Đường chéo AC′'], ['cheo-mat', 'Hai đường chéo đáy AC, BD'], ['mat-cheo', 'Mặt chéo ACC′A′']]), bool('nhan', 'Ghi tên đỉnh', true)]),
+    ...[['luc-giac', 'Thiết diện lục giác đều của hình lập phương'], ['tam-giac', 'Thiết diện tam giác BDA′ của hình lập phương'], ['chu-nhat', 'Thiết diện hình chữ nhật ACC′A′'], ['ngu-giac', 'Thiết diện ngũ giác của hình lập phương']].map(([k, t]) => S('s-td-lp-' + k, 'Toán', 'Thiết diện', t, 'cetz', p => `thiet-dien-lp(kind: ${q(k)}, a: ${p.a}, kieu: ${q(p.kieu)}, nhan: ${p.nhan})`, [R('a', 'Cạnh', 3, 1.5, 6), sel('kieu', 'Kiểu chiếu', 'co-dien', KIEU), bool('nhan', 'Ghi tên', true)])),
+    ...[['song-song', 'Thiết diện của chóp bởi mặt phẳng song song đáy'], ['qua-sac', 'Thiết diện của chóp bởi mặt phẳng (SAC)'], ['ba-diem', 'Thiết diện của chóp qua ba điểm trên SA, SB, SC']].map(([k, t]) => S('s-td-chop-' + k, 'Toán', 'Thiết diện', t, 'cetz', p => `thiet-dien-chop(kind: ${q(k)}, t: ${p.t}, a: ${p.a}, b: ${p.b}, h: ${p.h}, kieu: ${q(p.kieu)}, nhan: ${p.nhan})`, [R('t', 'Tỉ số SM/SA', 0.5, 0.2, 0.9, 0.05), R('a', 'Dài đáy', 3.2, 1.8, 5), R('b', 'Rộng đáy', 2.2, 1.2, 4), R('h', 'Cao', 3.3, 1.8, 6), sel('kieu', 'Kiểu chiếu', 'co-dien', KIEU), bool('nhan', 'Ghi tên', true)])),
+    S('s-goc-dt-mp', 'Toán', 'Góc & khoảng cách', 'Góc giữa đường thẳng SC và mặt phẳng đáy', 'cetz', p => `chop-goc(kind: "duong-mat", a: ${p.a}, h: ${p.h}, kieu: ${q(p.kieu)}, nhan: ${p.nhan})`, [R('a', 'Dài đáy', 3, 1.8, 5), R('h', 'Cao SA', 3.2, 1.8, 6), sel('kieu', 'Kiểu chiếu', 'co-dien', KIEU), bool('nhan', 'Ghi chú', true)]),
+    S('s-goc-mp-mp', 'Toán', 'Góc & khoảng cách', 'Góc giữa mặt bên và mặt đáy (chóp đều)', 'cetz', p => `chop-goc(kind: "mat-mat", a: ${p.a}, h: ${p.h}, kieu: ${q(p.kieu)}, nhan: ${p.nhan})`, [R('a', 'Cạnh đáy', 3, 1.8, 5), R('h', 'Chiều cao', 3.2, 1.8, 6), sel('kieu', 'Kiểu chiếu', 'co-dien', KIEU), bool('nhan', 'Ghi chú', true)]),
+    S('s-kc-diem-mp', 'Toán', 'Góc & khoảng cách', 'Khoảng cách từ A đến (SBC)', 'cetz', p => `kc-diem-mp(a: ${p.a}, b: ${p.b}, h: ${p.h}, kieu: ${q(p.kieu)}, nhan: ${p.nhan})`, [R('a', 'Dài AB', 3, 1.8, 5), R('b', 'Rộng AD', 2.2, 1.2, 4), R('h', 'Cao SA', 3.3, 1.8, 6), sel('kieu', 'Kiểu chiếu', 'co-dien', KIEU), bool('nhan', 'Ghi chú', true)]),
+    S('s-kc-cheo-nhau', 'Toán', 'Góc & khoảng cách', 'Khoảng cách hai đường thẳng chéo nhau', 'cetz', p => `kc-hai-dt-cheo(nhan: ${p.nhan})`, [bool('nhan', 'Ghi chú', true)]),
+    ...[['cube-ngoai', 'Mặt cầu ngoại tiếp hình lập phương'], ['cube-noi', 'Mặt cầu nội tiếp hình lập phương'], ['chop-ngoai', 'Mặt cầu ngoại tiếp chóp tứ giác đều'], ['chop-noi', 'Mặt cầu nội tiếp chóp tứ giác đều']].map(([k, t]) => S('s-cau-' + k, 'Toán', 'Mặt cầu', t, 'cetz', p => `mat-cau-3d(kind: ${q(k)}, a: ${p.a}, h: ${p.h}, yaw: ${p.yaw}deg, pitch: ${p.pitch}deg, nhan: ${p.nhan})`, [R('a', 'Cạnh', 2.8, 1.5, 4.5), R('h', 'Cao chóp (chỉ với chóp)', 3.2, 1.8, 5), R('yaw', 'Xoay ngang (độ)', 28, 0, 60, 1), R('pitch', 'Nhìn từ trên (độ)', 22, 8, 45, 1), bool('nhan', 'Ghi chú', true)])),
+    // ═══ TOÁN: conic ═══
+    S('g-elip-tn', 'Toán', 'Conic', 'Elip (tiêu điểm F₁, F₂, đỉnh, điểm M)', 'cetz', p => `elip-tn(a: ${p.a}, b: ${Math.min(p.b, p.a)}, t: ${p.t}deg, chuan: ${p.chuan}, nhan: ${p.nhan})`, [R('a', 'Bán trục lớn a', 3, 1, 5), R('b', 'Bán trục bé b', 2, 0.5, 5), R('t', 'Vị trí M (độ)', 50, 5, 175, 1), bool('chuan', 'Vẽ hai đường chuẩn', false), bool('nhan', 'Ghi chú', true)]),
+    S('g-hypebol-tn', 'Toán', 'Conic', 'Hypebol (tiêu điểm, đỉnh, tiệm cận)', 'cetz', p => `hypebol-tn(a: ${p.a}, b: ${p.b}, t: ${p.t}, tiem-can: ${p.tc}, chuan: ${p.chuan}, nhan: ${p.nhan})`, [R('a', 'Bán trục thực a', 1.8, 0.8, 3), R('b', 'Bán trục ảo b', 1.3, 0.5, 3), R('t', 'Vị trí M (tham số)', 0.9, 0.2, 1.6, 0.05), bool('tc', 'Vẽ tiệm cận và hình chữ nhật cơ sở', true), bool('chuan', 'Vẽ hai đường chuẩn', false), bool('nhan', 'Ghi chú', true)]),
+    S('g-parabol-tn', 'Toán', 'Conic', 'Parabol (tiêu điểm F, đường chuẩn Δ)', 'cetz', p => `parabol-tn(p: ${p.p}, x0: ${p.x0}, huong: ${q(p.huong)}, nhan: ${p.nhan})`, [R('p', 'Tham số tiêu p', 1, 0.4, 2.5), R('x0', 'Hoành độ M (theo trục)', 2, 0.4, 5), sel('huong', 'Hướng mở', 'phai', [['phai', 'Mở sang phải: y² = 2px'], ['len', 'Mở lên: x² = 2py']]), bool('nhan', 'Ghi chú', true)]),
+    // ═══ TOÁN: đồ thị hàm số có tiệm cận, điểm đặc biệt ═══
+    S('g-dac-biet', 'Toán', 'Đồ thị hàm số', 'Đồ thị có tiệm cận & điểm đặc biệt (tự nhập)', 'cetz', p => `do-thi-dac-biet(${q(normExpr(p.f))}, x1: ${p.x1}, x2: ${p.x2}, y1: ${p.y1}, y2: ${p.y2}, tcd: ${nums(p.tcd)}, tcn: ${nums(p.tcn)}, tcx: ${tup(csv(p.tcx).map(s => { const [m, n] = s.split(':'); return `(${Number(m) || 0}, ${Number(n) || 0})` }))}, diem: ${tup(String(p.diem).split(';').map(s => s.trim()).filter(Boolean).map(s => { const [x, y, n] = s.split(':'); return `(${Number(x) || 0}, ${Number(y) || 0}, ${q(n || '')})` }))})`, [txt('f', 'Hàm số y = f(x)', '(2*x-1)/(x-1)'), num('x1', 'x từ', -3, { min: -12, max: 0, step: 1 }), num('x2', 'x đến', 5, { min: 1, max: 12, step: 1 }), num('y1', 'y từ', -3, { min: -12, max: 0, step: 1 }), num('y2', 'y đến', 6, { min: 1, max: 12, step: 1 }), txt('tcd', 'Tiệm cận đứng x = (cách nhau dấu phẩy)', '1'), txt('tcn', 'Tiệm cận ngang y = (dấu phẩy)', '2'), txt('tcx', 'Tiệm cận xiên m:n cho y = mx + n (dấu phẩy)', ''), txt('diem', 'Điểm đặc biệt x:y:nhãn, cách nhau dấu chấm phẩy', '0:1:A; 0.5:0:B')]),
+    ...[
+      ['g-ptcd', 'Đồ thị y = (2x − 1)/(x − 1) với tiệm cận và giao điểm trục', '(2*x-1)/(x-1)', -3, 5, -3, 6, '1', '2', '', '0:1:A; 0.5:0:B'],
+      ['g-bac3-ct', 'Đồ thị y = x³ − 3x với điểm cực đại, cực tiểu', 'x^3 - 3*x', -3, 3, -4, 4, '', '', '', '-1:2:CĐ; 1:-2:CT'],
+      ['g-tcx', 'Đồ thị y = (x² − x + 1)/(x − 1) có tiệm cận xiên', '(x^2 - x + 1)/(x - 1)', -3, 5, -5, 7, '1', '', '1:0', '0:-1:CĐ; 2:3:CT'],
+      ['g-tp-ct', 'Đồ thị y = −x⁴ + 2x² có ba điểm cực trị', '-x^4 + 2*x^2', -2, 2, -2, 2, '', '', '', '-1:1:CĐ; 0:0:CT; 1:1:CĐ'],
+      ['g-mu-tc', 'Đồ thị y = 2ˣ với tiệm cận ngang y = 0', 'pow(2,x)', -3, 3, -1, 6, '', '0', '', '0:1:A'],
+      ['g-log-tc', 'Đồ thị y = ln x với tiệm cận đứng x = 0', 'ln(x)', 0, 6, -3, 3, '0', '', '', '1:0:A'],
+    ].map(([id, n, f, x1, x2, y1, y2, tcd, tcn, tcx, dm]) => S(id, 'Toán', 'Đồ thị hàm số', n, 'cetz', p => `do-thi-dac-biet(${q(normExpr(f))}, x1: ${x1}, x2: ${x2}, y1: ${y1}, y2: ${y2}, tcd: ${nums(tcd)}, tcn: ${nums(tcn)}, tcx: ${tup(csv(tcx).map(s => { const [m, nn] = s.split(':'); return `(${m}, ${nn})` }))}, diem: ${tup(dm.split(';').map(s => s.trim()).filter(Boolean).map(s => { const [x, y, nh] = s.split(':'); return `(${x}, ${y}, ${q(nh)})` }))}, luoi: ${p.luoi})`, [bool('luoi', 'Vẽ lưới', true)])),
+    // ═══ TOÁN: bảng biến thiên & xét dấu (bổ sung đủ dạng) ═══
+    S('b-pt-bac2', 'Toán', 'Bảng biến thiên & xét dấu', 'BBT phân thức bậc hai/bậc nhất (2 cực trị, 1 tiệm cận đứng)', 'content', p => `sb.bbtv2(x-vals: ($-oo$, $${p.x1}$, $${p.x0}$, $${p.x2}$, $+oo$), d-signs: ($+$, $0$, $-$, $||$, $-$, $0$, $+$), v-vals: ($-oo$, $${p.ymax}$, ($-oo$, $+oo$), $${p.ymin}$, $+oo$))`, [txt('x1', 'x cực đại', '0'), txt('x0', 'Tiệm cận đứng x =', '1'), txt('x2', 'x cực tiểu', '2'), txt('ymax', 'Giá trị cực đại', '-1'), txt('ymin', 'Giá trị cực tiểu', '3')], { needs: ['bbt'] }),
+    S('b-pt-bac2-dd', 'Toán', 'Bảng biến thiên & xét dấu', 'BBT phân thức bậc hai/bậc nhất đồng biến (không cực trị)', 'content', p => `sb.bbtv2(x-vals: ($-oo$, $${p.x0}$, $+oo$), d-signs: ($+$, $||$, $+$), v-vals: ($-oo$, ($+oo$, $-oo$), $+oo$))`, [txt('x0', 'Tiệm cận đứng x =', '1')], { needs: ['bbt'] }),
+    S('b-tp-1ct-d', 'Toán', 'Bảng biến thiên & xét dấu', 'BBT trùng phương một cực trị (a > 0)', 'content', p => `sb.bbtv2(x-vals: ($-oo$, $0$, $+oo$), d-signs: ($-$, $0$, $+$), v-vals: ($+oo$, $${p.y0}$, $+oo$))`, [txt('y0', 'Giá trị cực tiểu', '1')], { needs: ['bbt'] }),
+    S('b-tp-1ct-a', 'Toán', 'Bảng biến thiên & xét dấu', 'BBT trùng phương một cực trị (a < 0)', 'content', p => `sb.bbtv2(x-vals: ($-oo$, $0$, $+oo$), d-signs: ($+$, $0$, $-$), v-vals: ($-oo$, $${p.y0}$, $-oo$))`, [txt('y0', 'Giá trị cực đại', '1')], { needs: ['bbt'] }),
+    S('b-bac3-a', 'Toán', 'Bảng biến thiên & xét dấu', 'BBT hàm bậc ba (a < 0, có 2 cực trị)', 'content', p => `sb.bbtv2(x-vals: ($-oo$, $${p.x1}$, $${p.x2}$, $+oo$), d-signs: ($-$, $0$, $+$, $0$, $-$), v-vals: ($+oo$, $${p.vmin}$, $${p.vmax}$, $-oo$))`, [txt('x1', 'x cực tiểu', '0'), txt('x2', 'x cực đại', '2'), txt('vmin', 'Giá trị cực tiểu', '-4'), txt('vmax', 'Giá trị cực đại', '0')], { needs: ['bbt'] }),
+    S('b-can', 'Toán', 'Bảng biến thiên & xét dấu', 'BBT hàm căn y = √x', 'content', p => `sb.bbtv2(x-vals: ($0$, $+oo$), d-signs: ($+$,), v-vals: ($0$, $+oo$))`, [], { needs: ['bbt'] }),
+    S('b-mu-dd', 'Toán', 'Bảng biến thiên & xét dấu', 'BBT hàm mũ y = aˣ (a > 1)', 'content', () => `sb.bbtv2(x-vals: ($-oo$, $+oo$), d-signs: ($+$,), v-vals: ($0$, $+oo$))`, [], { needs: ['bbt'] }),
+    S('b-mu-nb', 'Toán', 'Bảng biến thiên & xét dấu', 'BBT hàm mũ y = aˣ (0 < a < 1)', 'content', () => `sb.bbtv2(x-vals: ($-oo$, $+oo$), d-signs: ($-$,), v-vals: ($+oo$, $0$))`, [], { needs: ['bbt'] }),
+    S('b-log-dd', 'Toán', 'Bảng biến thiên & xét dấu', 'BBT hàm logarit y = logₐx (a > 1)', 'content', () => `sb.bbtv2(x-vals: ($0$, $+oo$), d-signs: ($+$,), v-vals: ($-oo$, $+oo$))`, [], { needs: ['bbt'] }),
+    S('b-log-nb', 'Toán', 'Bảng biến thiên & xét dấu', 'BBT hàm logarit y = logₐx (0 < a < 1)', 'content', () => `sb.bbtv2(x-vals: ($0$, $+oo$), d-signs: ($-$,), v-vals: ($+oo$, $-oo$))`, [], { needs: ['bbt'] }),
+    S('b-sin', 'Toán', 'Bảng biến thiên & xét dấu', 'BBT hàm y = sin x trên [0; 2π]', 'content', () => `sb.bbtv2(x-vals: ($0$, $pi/2$, $(3 pi)/2$, $2 pi$), d-signs: ($+$, $0$, $-$, $0$, $+$), v-vals: ($0$, $1$, $-1$, $0$))`, [], { needs: ['bbt'] }),
+    S('b-xd-nhithuc', 'Toán', 'Bảng biến thiên & xét dấu', 'Xét dấu nhị thức bậc nhất ax + b', 'content', p => `sb.bxd(func: $a x + b$, x-vals: ($-oo$, $${p.x0}$, $+oo$), f-signs: (${p.a === '+' ? '$-$, $0$, $+$' : '$+$, $0$, $-$'}))`, [txt('x0', 'Nghiệm −b/a', '2'), sel('a', 'Dấu của a', '+', [['+', 'a > 0'], ['-', 'a < 0']])], { needs: ['bbt'] }),
+    S('b-xd-tamthuc2', 'Toán', 'Bảng biến thiên & xét dấu', 'Xét dấu tam thức bậc hai (Δ > 0, hai nghiệm)', 'content', p => `sb.bxd(func: $f(x)$, x-vals: ($-oo$, $${p.x1}$, $${p.x2}$, $+oo$), f-signs: (${p.a === '+' ? '$+$, $0$, $-$, $0$, $+$' : '$-$, $0$, $+$, $0$, $-$'}))`, [txt('x1', 'Nghiệm x₁', '-1'), txt('x2', 'Nghiệm x₂', '3'), sel('a', 'Dấu của a', '+', [['+', 'a > 0'], ['-', 'a < 0']])], { needs: ['bbt'] }),
+    S('b-xd-kep', 'Toán', 'Bảng biến thiên & xét dấu', 'Xét dấu tam thức bậc hai (Δ = 0, nghiệm kép)', 'content', p => `sb.bxd(func: $f(x)$, x-vals: ($-oo$, $${p.x0}$, $+oo$), f-signs: (${p.a === '+' ? '$+$, $0$, $+$' : '$-$, $0$, $-$'}))`, [txt('x0', 'Nghiệm kép', '1'), sel('a', 'Dấu của a', '+', [['+', 'a > 0'], ['-', 'a < 0']])], { needs: ['bbt'] }),
+    S('b-xd-tich', 'Toán', 'Bảng biến thiên & xét dấu', 'Xét dấu tích (x + 2)(x − 1)(x − 3)', 'content', () => `sb.bxd-tich(x-vals: ($-oo$, $-2$, $1$, $3$, $+oo$), factors: (([$x + 2$], ($-$, $0$, $+$, $+$, $+$, $+$, $+$)), ([$x - 1$], ($-$, $-$, $-$, $0$, $+$, $+$, $+$)), ([$x - 3$], ($-$, $-$, $-$, $-$, $-$, $0$, $+$))), result-label: [$f(x)$])`, [], { needs: ['bbt'] }),
+    S('b-xd-thuong', 'Toán', 'Bảng biến thiên & xét dấu', 'Xét dấu thương (x − 1)/(x + 2)', 'content', () => `sb.bxd(func: ([$x - 1$], [$x + 2$], [$f(x)$]), x-vals: ($-oo$, $-2$, $1$, $+oo$), f-signs: (($-$, $-$, $-$, $0$, $+$), ($-$, $||$, $+$, $+$, $+$), ($+$, $||$, $-$, $0$, $+$)))`, [], { needs: ['bbt'] }),
+    // ═══ TOÁN: xác suất ═══
+    S('x-cay-2', 'Toán', 'Xác suất', 'Cây xác suất hai bước (A, Ā rồi B, B̄)', 'cetz', p => {
+      const pa = p.pa, pb1 = p.pba, pb2 = p.pbna
+      const comp = v => { const x = parseP(v); if (!x) return '?'; if (x.d !== 1) return `${x.d - x.n}/${x.d}`; return String(Number((1 - x.n).toFixed(4))) }
+      const kq = [mulP(pa, pb1), mulP(pa, comp(pb1)), mulP(comp(pa), pb2), mulP(comp(pa), comp(pb2))]
+      return `cay-xs(("A", "overline(A)"), (${q(pa)}, ${q(comp(pa))}), ("B", "overline(B)"), ((${q(pb1)}, ${q(comp(pb1))}), (${q(pb2)}, ${q(comp(pb2))})), kq: ${p.kq ? tup(kq.map(q)) : 'none'})`
+    }, [txt('pa', 'P(A) (số hoặc phân số a/b)', '3/5'), txt('pba', 'P(B|A)', '2/3'), txt('pbna', 'P(B|Ā)', '1/4'), bool('kq', 'Ghi xác suất kết quả', true)]),
+    S('x-cay-tuy', 'Toán', 'Xác suất', 'Cây xác suất tự nhập (2 mức, 2–3 nhánh)', 'cetz', p => {
+      const l1 = csv(p.l1), l2 = csv(p.l2), p1 = csv(p.p1), p2 = semi(p.p2).map(csv)
+      const kq = []
+      l1.forEach((_, i) => l2.forEach((_, j) => kq.push(mulP(p1[i] ?? '?', (p2[i] || [])[j] ?? '?'))))
+      return `cay-xs(${tup(l1.map(q))}, ${tup(p1.map(q))}, ${tup(l2.map(q))}, ${tup(l1.map((_, i) => tup((p2[i] || l2.map(() => '?')).map(q))))}, kq: ${p.kq ? tup(kq.map(q)) : 'none'})`
+    }, [txt('l1', 'Biến cố mức 1 (cách nhau dấu phẩy, cú pháp công thức)', 'A, B, C'), txt('p1', 'Xác suất mức 1', '1/2, 1/3, 1/6'), txt('l2', 'Biến cố mức 2', 'D, E'), txt('p2', 'Xác suất mức 2 theo từng nút mức 1 (ngăn bằng ;)', '1/2, 1/2; 1/3, 2/3; 3/4, 1/4'), bool('kq', 'Ghi xác suất kết quả', true)]),
+    S('x-bang-pp', 'Toán', 'Xác suất', 'Bảng phân phối xác suất của biến ngẫu nhiên X', 'content', p => `table(columns: ${csv(p.x).length + 1}, align: center, stroke: 0.6pt, inset: 6pt, [$X$], ${csv(p.x).map(v => `[$${v}$]`).join(', ')}, [$P$], ${csv(p.p).map(v => `[$${v}$]`).join(', ')})`, [txt('x', 'Giá trị x, cách nhau dấu phẩy', '0, 1, 2, 3'), txt('p', 'Xác suất p, cách nhau dấu phẩy', '1/8, 3/8, 3/8, 1/8')]),
+    S('x-bang-2chieu', 'Toán', 'Xác suất', 'Bảng xác suất hai biến cố (A, B)', 'content', p => `table(columns: 4, align: center, stroke: 0.6pt, inset: 7pt, [ ], [$B$], [$overline(B)$], [Tổng], [$A$], [$${p.ab}$], [$${p.anb}$], [$${p.a}$], [$overline(A)$], [$${p.nab}$], [$${p.nanb}$], [$${p.na}$], [Tổng], [$${p.b}$], [$${p.nb}$], [$1$])`, [txt('ab', 'P(A ∩ B)', '0.2'), txt('anb', 'P(A ∩ B̄)', '0.3'), txt('a', 'P(A)', '0.5'), txt('nab', 'P(Ā ∩ B)', '0.1'), txt('nanb', 'P(Ā ∩ B̄)', '0.4'), txt('na', 'P(Ā)', '0.5'), txt('b', 'P(B)', '0.3'), txt('nb', 'P(B̄)', '0.7')]),
+    S('x-bang-xucxac', 'Toán', 'Xác suất', 'Không gian mẫu gieo hai xúc xắc (bảng 6×6, tô tổng)', 'content', p => `table(columns: 7, align: center, stroke: 0.5pt, inset: 6pt, fill: (x, y) => { if x > 0 and y > 0 and x + y == ${Number(p.tong) || 0} { rgb("#fde68a") } else if x == 0 or y == 0 { rgb("#e2e8f0") } else { none } }, [$+$], ${[1, 2, 3, 4, 5, 6].map(v => `[$${v}$]`).join(', ')}, ${[1, 2, 3, 4, 5, 6].map(r => [`[$${r}$]`, ...[1, 2, 3, 4, 5, 6].map(c => `[$${r + c}$]`)].join(', ')).join(', ')})`, [num('tong', 'Tô các ô có tổng bằng (0 = không tô)', 7, { min: 0, max: 12, step: 1 })]),
+    // ═══ TOÁN: thống kê ═══
+    S('x-histogram', 'Toán', 'Thống kê', 'Biểu đồ tần số ghép nhóm (histogram)', 'cetz', p => `histogram(${nums(p.edges)}, ${nums(p.freq)}, W: ${p.W}, H: ${p.H}, da-giac: ${p.dg}, nhan: ${p.nhan})`, [txt('edges', 'Các biên lớp (n + 1 số)', '0, 10, 20, 30, 40, 50'), txt('freq', 'Tần số từng lớp (n số)', '4, 9, 14, 8, 3'), R('W', 'Rộng', 7, 3, 12), R('H', 'Cao', 4, 2, 8), bool('dg', 'Vẽ đa giác tần số', false), bool('nhan', 'Ghi số trên cột', true)]),
+    S('x-boxplot', 'Toán', 'Thống kê', 'Biểu đồ hộp (1 mẫu)', 'cetz', p => `hop-boxplot(((${q(p.ten)}, ${p.mn}, ${p.q1}, ${p.md}, ${p.q3}, ${p.mx}),), ${p.t0}, ${p.t1}, W: ${p.W}, buoc: ${p.buoc}, nhan: ${p.nhan})`, [txt('ten', 'Tên mẫu', ''), R('mn', 'Giá trị nhỏ nhất', 2, -100, 1000, 0.5), R('q1', 'Tứ phân vị Q₁', 5, -100, 1000, 0.5), R('md', 'Trung vị Q₂', 7, -100, 1000, 0.5), R('q3', 'Tứ phân vị Q₃', 10, -100, 1000, 0.5), R('mx', 'Giá trị lớn nhất', 14, -100, 1000, 0.5), R('t0', 'Trục từ', 0, -100, 1000, 1), R('t1', 'Trục đến', 16, -100, 1000, 1), R('buoc', 'Bước chia', 2, 1, 100, 1), R('W', 'Rộng', 8, 4, 14), bool('nhan', 'Ghi Q₁, Q₂, Q₃', true)]),
+    S('x-boxplot-2', 'Toán', 'Thống kê', 'Biểu đồ hộp so sánh hai mẫu', 'cetz', p => `hop-boxplot(${tup([[p.n1, p.a], [p.n2, p.b]].map(([n, v]) => { const x = csv(v).map(z => (Number.isFinite(Number(z)) ? z : '0')); return `(${q(n)}, ${x.slice(0, 5).concat(Array(5).fill('0')).slice(0, 5).join(', ')})` }))}, ${p.t0}, ${p.t1}, W: ${p.W}, buoc: ${p.buoc}, nhan: ${p.nhan})`, [txt('n1', 'Tên mẫu 1', 'Lớp A'), txt('a', 'min, Q1, Q2, Q3, max', '3, 5, 7, 9, 12'), txt('n2', 'Tên mẫu 2', 'Lớp B'), txt('b', 'min, Q1, Q2, Q3, max', '2, 6, 8, 11, 15'), R('t0', 'Trục từ', 0, -100, 1000, 1), R('t1', 'Trục đến', 16, -100, 1000, 1), R('buoc', 'Bước chia', 2, 1, 100, 1), R('W', 'Rộng', 8, 4, 14), bool('nhan', 'Ghi Q₁, Q₂, Q₃', false)]),
+    S('x-chuan', 'Toán', 'Thống kê', 'Phân phối chuẩn N(μ, σ²)', 'cetz', p => `phan-phoi-chuan(ky: ${p.mu}, dl: ${p.sg}, k: ${p.k}, to-mau: ${p.tm}, nhan: ${p.nhan})`, [R('mu', 'Kỳ vọng μ', 0, -100, 100, 0.5), R('sg', 'Độ lệch chuẩn σ', 1, 0.1, 50, 0.1), num('k', 'Vẽ đến μ ± kσ', 3, { min: 2, max: 4, step: 1 }), bool('tm', 'Tô vùng μ ± σ', true), bool('nhan', 'Ghi ≈ 68%', true)]),
+    S('x-phan-tan', 'Toán', 'Thống kê', 'Biểu đồ phân tán và đường hồi quy', 'cetz', p => `phan-tan(${nums(p.x)}, ${nums(p.y)}, hoi-quy: ${p.hq}, W: ${p.W}, H: ${p.H}, nhan: ${p.nhan})`, [txt('x', 'Giá trị x', '1, 2, 3, 4, 5, 6, 7'), txt('y', 'Giá trị y', '2.1, 2.9, 4.2, 4.8, 6.1, 6.8, 8.2'), bool('hq', 'Vẽ đường hồi quy', true), R('W', 'Rộng', 6, 3, 12), R('H', 'Cao', 4, 2, 8), bool('nhan', 'Ghi phương trình', true)]),
+    S('x-duong', 'Toán', 'Thống kê', 'Biểu đồ đường (đoạn thẳng)', 'cetz', p => `bieu-do-duong(${nums(p.v)}, ${strs(p.n)}, W: ${p.W}, H: ${p.H})`, [txt('v', 'Giá trị, cách nhau dấu phẩy', '12, 15, 14, 20, 18, 25'), txt('n', 'Nhãn tương ứng', 'T1, T2, T3, T4, T5, T6'), R('W', 'Rộng', 6, 3, 12), R('H', 'Cao', 3.5, 2, 8)]),
+    S('x-bang-tanso', 'Toán', 'Thống kê', 'Bảng tần số ghép nhóm (đại diện, tích lũy)', 'content', p => {
+      const e = csv(p.edges).map(Number), f = csv(p.freq).map(Number)
+      const n = f.length
+      let acc = 0
+      const cum = f.map(v => (acc += v))
+      const cols = 2 + (p.dd ? 1 : 0) + (p.tl ? 1 : 0)
+      const head = ['[Nhóm]', '[Tần số]', ...(p.dd ? ['[Giá trị đại diện]'] : []), ...(p.tl ? ['[Tần số tích lũy]'] : [])]
+      const rows = f.map((v, i) => [`[$[${e[i]}; ${e[i + 1]})$]`, `[$${v}$]`, ...(p.dd ? [`[$${(e[i] + e[i + 1]) / 2}$]`] : []), ...(p.tl ? [`[$${cum[i]}$]`] : [])]).flat()
+      return `table(columns: ${cols}, align: center, stroke: 0.6pt, inset: 6pt, ${head.join(', ')}, ${rows.join(', ')}, [$N$], [$${acc}$]${cols > 2 ? ', ' + Array(cols - 2).fill('[ ]').join(', ') : ''})`
+    }, [txt('edges', 'Các biên lớp (n + 1 số)', '0, 10, 20, 30, 40, 50'), txt('freq', 'Tần số (n số)', '4, 9, 14, 8, 3'), bool('dd', 'Cột giá trị đại diện', true), bool('tl', 'Cột tần số tích lũy', true)]),
+    // ═══════ ĐỢT 3 ═══════
+    // ── Hóa
+    S('binh-dinh-muc', 'Hóa học', 'Dụng cụ thủy tinh', 'Bình định mức', 'cetz', p => `binh-dinh-muc((0,0), h: ${p.h}, r: ${p.r}, lvl: ${p.lvl}, liq: ${L(p)}, nhan: ${p.nhan ? ct(p.nhan) : 'none'})`, [R('h', 'Cao', 4.2, 3, 7), R('r', 'Bán kính bầu', 1, 0.6, 2), R('lvl', 'Mực chất lỏng', 0.55, 0, 0.9, 0.05), liq(), txt('nhan', 'Nhãn (vd. 100 mL)', '100 mL')]),
+    S('pipet', 'Hóa học', 'Dụng cụ thủy tinh', 'Pipet có quả bóp', 'cetz', p => `pipet((0,0), h: ${p.h}, mau: ${L(p)}, mut: ${p.mut})`, [R('h', 'Cao', 4.6, 3, 8), liq(), bool('mut', 'Có quả bóp cao su', true)]),
+    S('tn-loc', 'Hóa học', 'Sơ đồ thí nghiệm', 'Lọc thường (phễu, giấy lọc, đũa thủy tinh)', 'cetz', () => `loc-thuong()`),
+    S('tn-chung-cat', 'Hóa học', 'Sơ đồ thí nghiệm', 'Chưng cất thường (bình cất, sinh hàn, bình hứng)', 'cetz', () => `chung-cat-thuong()`),
+    S('tn-cl2', 'Hóa học', 'Sơ đồ thí nghiệm', 'Điều chế Cl₂ (MnO₂ + HCl đặc) và tinh chế, thu khí', 'cetz', () => `dieu-che-cl2()`),
+    S('tn-o2', 'Hóa học', 'Sơ đồ thí nghiệm', 'Điều chế O₂ (nhiệt phân KMnO₄), thu qua nước', 'cetz', () => `dieu-che-o2()`),
+    S('tn-h2', 'Hóa học', 'Sơ đồ thí nghiệm', 'Điều chế H₂ (Zn + HCl), thu qua nước', 'cetz', () => `dieu-che-h2()`),
+    S('tn-dien-phan-nacl', 'Hóa học', 'Sơ đồ thí nghiệm', 'Điện phân dung dịch NaCl (điện cực trơ)', 'cetz', () => `dien-phan-nacl()`),
+    S('tn-pin-zn-cu', 'Hóa học', 'Sơ đồ thí nghiệm', 'Pin điện hóa Zn – Cu (cầu muối, vôn kế)', 'cetz', p => `pin-zn-cu(a: ${q(p.a)}, c: ${q(p.c)})`, [txt('a', 'Anot (kim loại mạnh)', 'Zn'), txt('c', 'Catot', 'Cu')]),
+    S('tn-phun-nh3', 'Hóa học', 'Sơ đồ thí nghiệm', 'Thí nghiệm phun NH₃ (tính tan lớn trong nước)', 'cetz', () => `phun-nh3()`),
+    S('o-nguyen-to', 'Hóa học', 'Nguyên tử & electron', 'Ô nguyên tố trong bảng tuần hoàn', 'cetz', p => `o-nguyen-to(${q(p.z)}, ${q(p.sym)}, ${q(p.ten)}, ${q(p.kl)}, dam: ${p.dam ? q(p.dam) : 'none'}, col: ${rgbq(p.mau)})`, [txt('z', 'Số hiệu nguyên tử Z', '11'), txt('sym', 'Ký hiệu', 'Na'), txt('ten', 'Tên', 'Natri'), txt('kl', 'Khối lượng nguyên tử', '22,99'), txt('dam', 'Độ âm điện (tùy chọn)', '0,93'), col('mau', 'Màu nhóm', '2563eb')]),
+    S('pt-ch4-tudien', 'Hóa học', 'Phân tử (quả cầu – que)', 'CH₄ dạng tứ diện (nét nêm)', 'cetz', () => `ch4-tu-dien()`),
+    S('dp-but2en', 'Hóa học', 'Đồng phân', 'Đồng phân hình học but-2-en (cis, trans)', 'cetz', () => `dong-phan("CIS")`),
+    // ── Lý
+    S('v-rlc', 'Vật lí', 'Mạch điện (thí nghiệm)', 'Mạch RLC nối tiếp', 'cetz', p => `rlc-noi-tiep(nhan: ${p.nhan})`, [bool('nhan', 'Ghi chú', true)]),
+    S('v-fresnel', 'Vật lí', 'Mạch điện (thí nghiệm)', 'Giản đồ Fresnel mạch RLC', 'cetz', p => `gian-do-fresnel(ur: ${p.ur}, ul: ${p.ul}, uc: ${p.uc})`, [R('ur', 'U_R', 3, 1, 6), R('ul', 'U_L', 3.6, 0.5, 7), R('uc', 'U_C', 1.6, 0.5, 7)]),
+    S('v-ui', 'Vật lí', 'Dao động & sóng', 'Đồ thị u, i lệch pha φ', 'cetz', p => `do-thi-ui(dp: ${p.phi}deg)`, [R('phi', 'Độ lệch pha φ (độ)', 60, -180, 180, 5)]),
+    S('v-mach-lc', 'Vật lí', 'Mạch điện (thí nghiệm)', 'Mạch dao động LC', 'cetz', () => `mach-lc()`),
+    S('v-lorentz', 'Vật lí', 'Điện từ', 'Hạt trong từ trường đều (lực Lo-ren-xơ)', 'cetz', p => `luc-lorentz(r: ${p.r}, duong: ${p.ct})`, [R('r', 'Bán kính quỹ đạo', 1.8, 1, 3), bool('ct', 'Ghi công thức', true)]),
+    S('v-dien-truong', 'Vật lí', 'Điện từ', 'Êlectron lệch trong điện trường đều', 'cetz', () => `dien-truong-lech()`),
+    S('v-mat', 'Vật lí', 'Quang học', 'Mắt: bình thường / cận / viễn (có kính sửa)', 'cetz', p => `mat-kinh(kind: ${q(p.kind)}, kinh: ${p.kinh})`, [sel('kind', 'Loại mắt', 'can', [['bt', 'Bình thường'], ['can', 'Cận thị'], ['vien', 'Viễn thị']]), bool('kinh', 'Đã đeo kính sửa', false)]),
+    S('v-conlac-ngang', 'Vật lí', 'Cơ học', 'Con lắc lò xo nằm ngang', 'cetz', () => `con-lac-lo-xo-ngang()`),
+    S('v-don-bay', 'Vật lí', 'Cơ học', 'Đòn bẩy cân bằng', 'cetz', p => `don-bay(d1: ${p.d1}, d2: ${p.d2}, f1: [${p.f1}], f2: [${p.f2}])`, [R('d1', 'Cánh tay đòn d₁', 2.4, 0.8, 4), R('d2', 'Cánh tay đòn d₂', 1.6, 0.8, 4), txt('f1', 'Lực 1', '$F_1$'), txt('f2', 'Lực 2', '$F_2$')]),
+    S('v-luc-nghieng', 'Vật lí', 'Cơ học', 'Lực tác dụng lên vật trên mặt phẳng nghiêng', 'cetz', p => `luc-mat-nghieng(al: ${p.al}deg, ma-sat: ${p.ms})`, [R('al', 'Góc nghiêng α (độ)', 30, 10, 60, 1), bool('ms', 'Vẽ lực ma sát', true)]),
+    S('v-tt-daythang', 'Vật lí', 'Điện từ', 'Từ trường của dòng điện thẳng dài', 'cetz', p => `tu-truong-day-thang(ra: ${p.ra})`, [bool('ra', 'Dòng điện hướng ra (⊙); tắt = hướng vào (⊗)', true)]),
+    S('v-song-dt', 'Vật lí', 'Dao động & sóng', 'Sóng điện từ (E, B, c)', 'cetz', () => `song-dien-tu()`),
+    S('v-thang-sdt', 'Vật lí', 'Dao động & sóng', 'Thang sóng điện từ', 'cetz', () => `thang-song-dt()`),
+    S('v-pho-vach', 'Vật lí', 'Vật lí hạt nhân & lượng tử', 'Quang phổ vạch của hiđrô', 'cetz', p => `quang-pho-vach(kind: ${q(p.kind)})`, [sel('kind', 'Loại', 'phat-xa', [['phat-xa', 'Phát xạ'], ['hap-thu', 'Hấp thụ']])]),
+    S('v-phan-hach', 'Vật lí', 'Vật lí hạt nhân & lượng tử', 'Phản ứng phân hạch U-235', 'cetz', () => `phan-hach()`),
+    S('v-nhiet-luong-ke', 'Vật lí', 'Nhiệt & hạt nhân', 'Nhiệt lượng kế', 'cetz', () => `nhiet-luong-ke()`),
+    // ── Toán
+    S('g-lg-tron', 'Toán', 'Lượng giác', 'Đường tròn lượng giác (góc đặc biệt, tọa độ)', 'cetz', p => `duong-tron-lg(goc: ${p.goc}, toa-do: ${p.td})`, [bool('goc', 'Ghi số đo cung', true), bool('td', 'Ghi tọa độ điểm', true)]),
+    ...['sin', 'cos', 'tan'].map(k => S('g-lg-' + k, 'Toán', 'Lượng giác', `Đồ thị y = ${k} x`, 'cetz', p => `do-thi-lg(kind: ${q(k)}, chu-ky: ${p.ck})`, [num('ck', 'Số nửa-chu kì mỗi bên (×π)', 2, { min: 1, max: 3, step: 1 })])),
+    S('g-mien-nghiem', 'Toán', 'Đồ thị hàm số', 'Miền nghiệm hệ bất phương trình bậc nhất hai ẩn', 'cetz', p => {
+      const cons = String(p.cons).split(/[;\n]/).map(s => s.trim()).filter(Boolean).map(s => {
+        const m = s.replace(/\s+/g, '').replace('≤', '<=').replace('≥', '>=').match(/^(.*?)(<=|>=|<|>)(-?[\d.]+)$/)
+        if (!m) return null
+        const lhs = m[1].replace(/-/g, '+-')
+        let a = 0, b = 0
+        for (const t of lhs.split('+').filter(Boolean)) {
+          const mm = t.match(/^(-?[\d.]*)([xy])$/)
+          if (!mm) return null
+          const k = mm[1] === '' ? 1 : mm[1] === '-' ? -1 : Number(mm[1])
+          if (mm[2] === 'x') a += k; else b += k
+        }
+        return `(${a}, ${b}, ${m[3]}, ${q(m[2].startsWith('>') ? '>=' : '<=')})`
+      }).filter(Boolean)
+      return `mien-nghiem(${tup(cons)}, x1: ${p.x1}, x2: ${p.x2}, y1: ${p.y1}, y2: ${p.y2}, u: ${p.u})`
+    }, [txt('cons', 'Các bất phương trình, cách nhau dấu chấm phẩy (vd. x+y<=6; x-y>=-2; x>=0; y>=0)', 'x+y<=6; x-y>=-2; x>=0; y>=0'), num('x1', 'x từ', -1, { min: -10, max: 0, step: 1 }), num('x2', 'x đến', 8, { min: 2, max: 15, step: 1 }), num('y1', 'y từ', -1, { min: -10, max: 0, step: 1 }), num('y2', 'y đến', 8, { min: 2, max: 15, step: 1 }), R('u', 'Cỡ ô (cm)', 0.6, 0.3, 1.2, 0.05)]),
+    S('g-dien-tich', 'Toán', 'Tích phân', 'Diện tích hình phẳng giới hạn bởi y = f(x), y = g(x)', 'cetz', p => `dien-tich-tp(${q(normExpr(p.f))}, g: ${p.g ? q(normExpr(p.g)) : 'none'}, a: ${p.a}, b: ${p.b}, x1: ${p.x1}, x2: ${p.x2}, y1: ${p.y1}, y2: ${p.y2}, u: ${p.u}, nhan: ${p.nhan})`, [txt('f', 'f(x) (đường trên)', '4 - x^2'), txt('g', 'g(x) (để trống = trục Ox)', ''), R('a', 'Cận a', -1, -8, 8, 0.5), R('b', 'Cận b', 2, -8, 8, 0.5), R('x1', 'x từ', -3, -10, 0, 1), R('x2', 'x đến', 3, 1, 10, 1), R('y1', 'y từ', -1, -10, 0, 1), R('y2', 'y đến', 5, 1, 10, 1), R('u', 'Cỡ ô (cm)', 0.8, 0.3, 1.5, 0.05), bool('nhan', 'Ghi S', true)]),
+    S('g-the-tich', 'Toán', 'Tích phân', 'Thể tích khối tròn xoay quanh Ox', 'cetz', p => `the-tich-xoay(${q(normExpr(p.f))}, a: ${p.a}, b: ${p.b}, u: ${p.u}, nhan: ${p.nhan})`, [txt('f', 'f(x)', 'sqrt(x)'), R('a', 'Cận a', 0, -5, 5, 0.5), R('b', 'Cận b', 3, 0.5, 8, 0.5), R('u', 'Cỡ ô (cm)', 0.9, 0.3, 1.5, 0.05), bool('nhan', 'Ghi công thức', true)]),
+    S('g-vecto-tong', 'Toán', 'Hình học phẳng', 'Tổng hai vectơ (quy tắc tam giác / hình bình hành)', 'cetz', p => `vecto-tong(kind: ${q(p.kind)})`, [sel('kind', 'Quy tắc', 'tam-giac', [['tam-giac', 'Quy tắc tam giác'], ['hbh', 'Quy tắc hình bình hành']])]),
+    S('g-dt-tiep-tuyen', 'Toán', 'Hình học phẳng', 'Đường tròn và tiếp tuyến tại M (Oxy)', 'cetz', p => `duong-tron-tt(cx: ${p.cx}, cy: ${p.cy}, r: ${p.r}, goc: ${p.g}deg)`, [R('cx', 'Tâm I.x', 2, 0.5, 6), R('cy', 'Tâm I.y', 2, 0.5, 6), R('r', 'Bán kính', 1.8, 0.8, 4), R('g', 'Vị trí M (độ)', 40, 0, 360, 5)]),
+    ...[['trung-tuyen', 'Ba đường trung tuyến, trọng tâm G'], ['duong-cao', 'Ba đường cao, trực tâm H'], ['phan-giac', 'Ba đường phân giác, tâm đường tròn nội tiếp I'], ['trung-truc', 'Ba đường trung trực, tâm đường tròn ngoại tiếp O']].map(([k, n]) => S('g-tgdb-' + k, 'Toán', 'Hình học phẳng', n, 'cetz', () => `tam-giac-dac-biet(kind: ${q(k)})`)),
+    S('g-he-thuc-luong', 'Toán', 'Hình học phẳng', 'Hệ thức lượng trong tam giác vuông', 'cetz', () => `he-thuc-luong()`),
+    S('g-oxyz-diem', 'Toán', 'Hình không gian', 'Điểm M(x; y; z) trong hệ trục Oxyz', 'cetz', p => `oxyz-diem(x: ${p.x}, y: ${p.y}, z: ${p.z})`, [num('x', 'x', 2, { min: 1, max: 4, step: 1 }), num('y', 'y', 3, { min: 1, max: 5, step: 1 }), num('z', 'z', 2, { min: 1, max: 4, step: 1 })]),
+    ...[['tru', 'Hình trụ (r, h)'], ['non', 'Hình nón (r, h, l)'], ['noncut', 'Hình nón cụt (R, r, h)']].map(([k, n]) => S('g-xoay-' + k, 'Toán', 'Hình không gian', n, 'cetz', p => `hinh-tron-xoay(kind: ${q(k)}, r: ${p.r}, h: ${p.h}, r2: ${p.r2})`, [R('r', 'Bán kính đáy', 1.6, 0.6, 3), R('h', 'Chiều cao', 3.2, 1, 6), R('r2', 'Bán kính đáy nhỏ (nón cụt)', 0.8, 0.2, 2)])),
+  ]
+}

@@ -1,0 +1,18 @@
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: no-referrer
+  Cache-Control: no-cache
+/draw/*
+  Cache-Control: no-cache
+/version.json
+  Cache-Control: no-store
+/wasm/*
+  Cache-Control: public, max-age=604800
+/fonts/*
+  Cache-Control: public, max-age=86400
+/mitex/*
+  Cache-Control: public, max-age=86400
+/install-mac.sh
+  Content-Type: text/plain; charset=utf-8
+/install-windows.ps1
+  Content-Type: text/plain; charset=utf-8

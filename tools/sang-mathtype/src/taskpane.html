@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sang Math cho Word</title>
+<link rel="stylesheet" href="taskpane.css">
+</head>
+<body data-exmode="shuffle">
+<header class="top" id="topbar">
+  <h1>Sang Math</h1>
+  <input id="search" type="search" placeholder="Tìm ký hiệu: phân số, véc-tơ, tích phân, nước, vận tốc…" autocomplete="off">
+  <span id="mode" class="chip">Thêm mới</span>
+</header>
+
+<nav id="tabs" class="tabs">
+  <button id="tabFormula" class="on" type="button">Công thức</button>
+  <button id="tabFigure" type="button">Vẽ hình</button>
+  <button id="tabExam" type="button" hidden>Trộn đề</button>
+  <button id="tabBeautify" type="button" hidden>Làm đẹp đề</button>
+  <button id="tabTools" type="button" hidden>Công cụ soạn</button>
+</nav>
+
+<main id="examView" class="exam" hidden>
+  <section class="exam-left">
+    <div id="drop" class="drop" tabindex="0" role="button" aria-label="Chọn hoặc kéo file đề thi">
+      <b>Kéo file đề (.docx) vào đây</b><span>hoặc bấm để chọn</span>
+    </div>
+    <div id="examFile" class="card" hidden>
+      <div class="file-head"><b id="examName"></b>
+        <span class="file-actions"><button id="examOpenWord" class="link" type="button">Mở bằng Word</button><button id="examReveal" class="link" type="button">Hiện trong Finder</button></span>
+      </div>
+      <ul id="examCounts" class="counts"></ul>
+      <div id="examAnswers" class="answers"></div>
+      <ul id="examWarn" class="warn"></ul>
+    </div>
+    <p id="examStatus" class="status muted" aria-live="polite"></p>
+    <div id="examEnv" class="error" hidden></div>
+  </section>
+
+  <section class="exam-right">
+    <div class="card">
+      <h3 class="only-shuffle">Trộn đề</h3><h3 class="only-beautify">Làm đẹp đề (giữ nguyên thứ tự câu)</h3>
+      <div class="grid2">
+        <label>Hồ sơ đầu đề <select id="profile"></select></label>
+        <label>Sở GD&amp;ĐT <input id="so_giao_duc" type="text"></label>
+        <label>Trường <input id="truong" type="text"></label>
+        <label>Tên kỳ thi <input id="ten_ky_thi" type="text" placeholder="KIỂM TRA GIỮA KÌ 1 - NĂM HỌC 2025-2026"></label>
+        <label>Môn thi <input id="mon_thi" type="text"></label>
+        <label>Thời gian <input id="thoi_gian" type="text"></label>
+      </div>
+      <div class="row only-shuffle">
+        <label class="grow">Danh sách mã đề <input id="madelist" type="text" placeholder="101,102,103,104"></label>
+        <label>Tạo nhanh <input id="mdCount" type="number" min="1" max="40" value="4" style="width:56px"> mã <button id="mdMake" type="button" class="link">Tạo</button></label>
+      </div>
+      <div class="row only-shuffle">
+        <label class="check"><input id="keep_original" type="checkbox"> Giữ nguyên thứ tự (mã đầu không trộn)</label>
+        <button id="profileSave" class="link" type="button">Lưu hồ sơ này</button>
+      </div>
+      <div id="profileSaveRow" class="row" hidden>
+        <label class="grow">Tên hồ sơ <input id="profileName" type="text" placeholder="THPT Nguyễn Hữu Cảnh - Toán 12"></label>
+        <button id="profileOk" type="button" class="link">Lưu</button>
+      </div>
+      <div class="row savedir">
+        <label class="grow">Lưu kết quả vào <input id="saveDir" type="text" readonly placeholder="Mặc định: thư viện đề (xem bên dưới)"></label>
+        <button id="saveDirPick" type="button" class="link">Chọn thư mục…</button>
+        <button id="saveDirClear" type="button" class="link">Mặc định</button>
+      </div>
+      <details class="style-details" open>
+        <summary>Tuỳ chọn làm đẹp đề (màu, khung, bảng Đ/S, dòng kẻ…)</summary>
+        <div id="styleMount"></div>
+      </details>
+      <div class="actions"><button id="runShuffle" class="primary only-shuffle" type="button" disabled>Trộn đề</button><button id="runBeautify" class="primary only-beautify" type="button" disabled>Làm đẹp đề</button></div>
+    </div>
+
+    <div class="card">
+      <h3>Thư viện đề</h3>
+      <p class="muted" id="libPath"></p>
+      <div id="history"></div>
+    </div>
+  </section>
+</main>
+
+<main id="examWebView" class="examweb" hidden>
+  <div class="card">
+    <h3>Trộn đề trong tài liệu đang mở</h3>
+    <p class="muted">Dùng cùng bộ máy với app Mac. Đề cần đúng cấu trúc: PHẦN I trắc nghiệm A B C D, PHẦN II đúng/sai a) b) c) d), PHẦN III trả lời ngắn; đáp án đúng đánh dấu bằng gạch chân chữ cái.</p>
+    <button id="ewLoad" type="button">Phân tích tài liệu đang mở</button>
+    <div id="ewInfo" class="answers"></div>
+    <div class="grid2">
+      <label>Sở GD&amp;ĐT <input id="ew_so_giao_duc" type="text"></label>
+      <label>Trường <input id="ew_truong" type="text"></label>
+      <label>Tên kỳ thi <input id="ew_ten_ky_thi" type="text" placeholder="KIỂM TRA GIỮA KÌ 1"></label>
+      <label>Môn thi <input id="ew_mon_thi" type="text"></label>
+      <label>Thời gian <input id="ew_thoi_gian" type="text"></label>
+      <label class="only-shuffle">Danh sách mã đề <input id="ewMadelist" type="text" placeholder="101,102,103,104"></label>
+    </div>
+    <details class="style-details"><summary>Tuỳ chọn làm đẹp đề (màu, khung, bảng Đ/S, dòng kẻ…)</summary><div id="ewStyleMount"></div></details>
+    <p class="muted">Bấm "Tải về" để chọn nơi lưu (nếu trình duyệt hỏi). Trong Word trên máy tính, tệp có thể vào thư mục Tải xuống; muốn chọn thư mục tuỳ ý và lưu tự động thì dùng app Sang Math trên Mac.</p>
+    <label class="check only-shuffle"><input id="ewKeep" type="checkbox"> Giữ nguyên thứ tự (mã đầu không trộn)</label>
+    <div class="actions"><button id="ewShuffle" class="primary only-shuffle" type="button" disabled>Trộn đề</button><button id="ewBeautify" class="primary only-beautify" type="button" disabled>Làm đẹp đề</button></div>
+    <p id="ewStatus" class="status muted" aria-live="polite"></p>
+    <ul id="ewResults" class="ew-results"></ul>
+    <div id="ewKey"></div>
+  </div>
+</main>
+
+<main id="toolsView" class="tools" hidden>
+  <div class="tools-bar">
+    <span class="seg" role="radiogroup" aria-label="Phạm vi">
+      <button id="tlScopeDoc" class="on" type="button" title="Làm trên toàn bộ tài liệu">Toàn tài liệu</button>
+      <button id="tlScopeSel" type="button" title="Chỉ làm trên phần đang bôi đen trong Word">Vùng chọn</button>
+    </span>
+    <button id="tlUndo" type="button" disabled>↶ Hoàn tác</button>
+    <span id="tlStatus" class="status muted" aria-live="polite"></span>
+  </div>
+
+  <div class="card">
+    <h3>1. Đánh số lại câu và phương án</h3>
+    <p class="muted">Sửa Câu 1, 2, 3… và A. B. C. D. (Phần II: a) b) c) d)) theo đúng thứ tự trong đề.</p>
+    <div class="row">
+      <label>Bắt đầu từ <input id="tlStart" type="number" min="1" value="1"></label>
+      <label class="check"><input id="tlOpts" type="checkbox" checked> Sửa cả phương án A.B.C.D</label>
+      <label class="check"><input id="tlRestart" type="checkbox"> Đánh lại từ đầu ở mỗi PHẦN</label>
+    </div>
+    <div class="actions"><button id="tlRenumber" class="primary" type="button">Đánh số lại</button></div>
+  </div>
+
+  <div class="card">
+    <h3>2. Chuẩn hóa định dạng đề</h3>
+    <div class="grid2">
+      <label>Mẫu đề có sẵn <select id="tlTpl"></select></label>
+      <label>Phông chữ <input id="tlFont" type="text"></label>
+      <label>Cỡ chữ (pt) <input id="tlSize" type="number" min="8" max="20" step="0.5"></label>
+      <label>Giãn dòng <input id="tlLine" type="number" min="1" max="3" step="0.05"></label>
+      <label>Canh lề nội dung <select id="tlAlign"><option value="justify">Đều hai bên</option><option value="left">Trái</option></select></label>
+      <label>Cách đoạn sau (pt) <input id="tlAfter" type="number" min="0" max="24" step="1"></label>
+    </div>
+    <div class="row">
+      <label class="check"><input id="tlRule" type="checkbox" checked> Dòng kẻ dưới tiêu đề PHẦN</label>
+      <label class="check"><input id="tlBoldQ" type="checkbox" checked> "Câu n." in đậm</label>
+    </div>
+    <div class="actions"><button id="tlFormat" class="primary" type="button">Chuẩn hóa định dạng</button></div>
+  </div>
+
+  <div class="card">
+    <h3>3. Đáp án đúng, lời giải</h3>
+    <div class="row">
+      <label class="check"><input id="tlSrcAuto" name="tlSrc" type="radio" checked> Tự đọc từ đề (chữ cái đáp án đã gạch chân)</label>
+      <label class="check"><input id="tlSrcKey" name="tlSrc" type="radio"> Gõ đáp án</label>
+    </div>
+    <label class="block" id="tlKeyWrap" hidden>Ví dụ: 1A 2B 3C 4D hoặc ABCDABCD
+      <textarea id="tlKey" rows="2" spellcheck="false" placeholder="1A 2B 3C 4D…"></textarea></label>
+    <div class="row"><button id="tlReadKey" class="link" type="button">Đọc đáp án từ đề</button><span id="tlKeyInfo" class="muted"></span></div>
+    <div class="row">
+      <label class="check"><input id="tlMkBold" type="checkbox" checked> In đậm</label>
+      <label class="check"><input id="tlMkColorOn" type="checkbox" checked> Tô màu <input id="tlMkColor" type="color" value="#c00000"></label>
+      <label class="check"><input id="tlMkUnder" type="checkbox"> Gạch chân</label>
+    </div>
+    <div class="actions">
+      <button id="tlMark" class="primary" type="button">Tô đáp án đúng</button>
+      <button id="tlUnmark" type="button">Bỏ tô</button>
+      <button id="tlHide" type="button" title="Dùng chữ ẩn của Word, không xóa nội dung">Ẩn lời giải và bảng đáp án</button>
+      <button id="tlShow" type="button">Hiện lại</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>4. Chèn bảng đáp án, khung điểm, phiếu trả lời, mã QR</h3>
+    <div class="row">
+      <label class="check"><input name="tlWhere" id="tlWhereSel" type="radio" checked> Tại con trỏ</label>
+      <label class="check"><input name="tlWhere" id="tlWhereEnd" type="radio"> Cuối tài liệu</label>
+      <label>Mã đề <input id="tlMa" type="text" style="width:64px" placeholder="101"></label>
+    </div>
+    <div class="actions">
+      <button id="tlInsAns" type="button">Bảng đáp án</button>
+      <button id="tlInsScore" type="button">Khung điểm</button>
+      <button id="tlInsSheet" type="button">Phiếu trả lời</button>
+      <button id="tlInsQr" type="button">Mã QR đáp án</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>5. Danh sách câu hỏi ⇄ bảng</h3>
+    <div class="actions">
+      <button id="tlExport" type="button">Xuất ra bảng trong Word</button>
+      <button id="tlCopyTsv" type="button">Chép (dán vào Excel)</button>
+      <button id="tlImport" type="button">Nhập từ bảng trong Word</button>
+    </div>
+    <details class="style-details"><summary>Nhập từ Excel / Google Sheets (dán vào đây)</summary>
+      <textarea id="tlPaste" rows="4" spellcheck="false" placeholder="Cột: Câu · Phần · Nội dung · A · B · C · D · Đáp án · Lời giải"></textarea>
+      <div class="actions"><button id="tlImportPaste" type="button">Nhập vào đề</button></div>
+    </details>
+  </div>
+
+  <div class="card">
+    <h3>6. Giải một câu bằng AI</h3>
+    <p class="muted">Bôi đen câu hỏi (cả các phương án) trong Word rồi bấm Giải. Lời giải được chèn ngay sau câu.</p>
+    <div class="actions"><button id="tlSolve" class="primary" type="button">Giải câu đang chọn</button></div>
+    <details class="style-details" id="tlAiBox"><summary>Cài đặt khóa API (chỉ lưu trên máy này)</summary>
+      <div class="grid2">
+        <label>Nhà cung cấp <select id="tlProv"></select></label>
+        <label>Mô hình <input id="tlModel" type="text"></label>
+        <label class="wide">Khóa API <input id="tlApiKey" type="password" autocomplete="off" placeholder="dán khóa của thầy cô"></label>
+        <label class="wide" id="tlUrlWrap" hidden>Địa chỉ API (https) <input id="tlUrl" type="text"></label>
+      </div>
+      <p class="muted">Khóa nằm trong bộ nhớ của trình duyệt/app này và chỉ được gửi tới địa chỉ nhà cung cấp ở trên, kèm nội dung câu hỏi. Không gửi tới nơi nào khác.</p>
+      <div class="actions"><button id="tlKeySave" type="button">Lưu khóa</button><button id="tlKeyClear" type="button">Xóa khóa</button></div>
+    </details>
+  </div>
+</main>
+
+<main id="figureView" class="figure" hidden>
+  <div class="fig-modes">
+    <button id="modeEd" class="on" type="button">Bảng vẽ kéo thả</button>
+    <button id="modeTpl" type="button">Hình mẫu có sẵn</button>
+    <span class="muted">Kéo dụng cụ từ kho vào bảng, di chuyển, xoay, đổi cỡ rồi chèn vào Word.</span>
+  </div>
+  <p id="figError" class="error" hidden></p>
+
+  <div id="edMode" class="ed">
+    <aside class="ed-pal">
+      <input id="edSearch" type="search" placeholder="Tìm: ống nghiệm, điện trở, benzen, đồ thị…" autocomplete="off">
+      <div id="edGroups" class="fig-groups"></div>
+      <div id="edPalette" class="ed-palette"></div>
+    </aside>
+    <section class="ed-main">
+      <div class="ed-bar">
+        <div class="seg">
+          <button id="edUndo" type="button" title="Hoàn tác (Cmd/Ctrl+Z)">↶</button>
+          <button id="edRedo" type="button" title="Làm lại (Cmd/Ctrl+Shift+Z)">↷</button>
+          <button id="edClear" type="button" title="Xóa hết mẫu trên bảng">🗑</button>
+        </div>
+        <button id="edFit" type="button" class="seg-one" title="Thu gọn bảng vừa khít nội dung (bỏ khoảng trống thừa)">⤢ Vừa nội dung</button>
+        <div class="seg">
+          <button id="edZoomOut" type="button" title="Thu nhỏ (Ctrl + cuộn)">−</button>
+          <button id="edZoomFit" type="button" title="Vừa khung"><span id="edZoomLbl">100%</span></button>
+          <button id="edZoomIn" type="button" title="Phóng to (Ctrl + cuộn)">+</button>
+        </div>
+        <label>Khổ bảng
+          <select id="edPreset">
+            <option value="">Tùy chỉnh</option>
+            <option value="22x13">22 × 13 (ngang rộng)</option>
+            <option value="16x10">16 × 10 (vừa)</option>
+            <option value="12x8">12 × 8 (nhỏ)</option>
+            <option value="10x12">10 × 12 (đứng)</option>
+            <option value="30x18">30 × 18 (lớn)</option>
+          </select>
+        </label>
+        <label class="dim"><input id="edW" type="number" min="6" max="40" step="1" value="22"> × <input id="edH" type="number" min="4" max="30" step="1" value="13"> cm</label>
+        <label class="check"><input id="edSnap" type="checkbox" checked> Căn lưới</label>
+        <label class="check"><input id="edGrid" type="checkbox" checked> Hiện lưới</label>
+      </div>
+      <div id="edStageWrap" class="ed-stage-wrap"><div id="edStage" class="stage"></div></div>
+      <div class="ed-status"><span id="edPos">x: –, y: –</span><span id="edCount">0 mẫu</span><span class="hint">Kéo mẫu vào bảng · Ctrl+cuộn để thu phóng · ←↑↓→ nhích · Del xóa · Ctrl+C/V/D sao chép · [ ] xoay 15°</span></div>
+      <div class="row">
+        <label>Rộng khi chèn <input id="edWidth" type="number" min="3" max="20" step="0.5" value="12"> cm</label>
+        <span class="inl">
+          <label><input type="radio" name="edfmt" value="svg" checked> SVG</label>
+          <label><input type="radio" name="edfmt" value="png"> PNG</label>
+        </span>
+      </div>
+      <div class="actions">
+        <button id="edInsert" class="primary" type="button" hidden>Chèn hình vào Word</button>
+        <button id="edUpdate" class="primary" type="button" hidden>Cập nhật hình đã chọn</button>
+        <button id="edCopy" type="button">Sao chép ảnh</button>
+        <button id="edSave" type="button">Lưu SVG</button>
+      </div>
+      <details class="style-details"><summary>Mã Typst của bảng vẽ</summary>
+        <textarea id="edCode" spellcheck="false" rows="10" readonly></textarea>
+        <button id="edToCode" class="link" type="button">Sửa tay trong chế độ mã →</button>
+      </details>
+    </section>
+    <aside class="ed-insp"><div id="edInspector"></div></aside>
+  </div>
+
+  <div id="tplMode" class="fig-body" hidden>
+    <section class="fig-left">
+      <input id="figSearch" type="search" placeholder="Tìm hình: mạch điện, thấu kính, chưng cất, đồ thị…" autocomplete="off">
+      <div id="figGroups" class="fig-groups"></div>
+      <div id="figList" class="fig-list"></div>
+    </section>
+    <section class="fig-right">
+      <div class="card">
+        <h3 id="figTitle">Chọn một hình mẫu bên trái</h3>
+        <p id="figDesc" class="muted"></p>
+        <div id="figParams" class="fig-params"></div>
+        <div id="figPreview" class="preview fig-preview" aria-live="polite"><span class="hint">Xem trước sẽ hiện ở đây</span></div>
+        <div class="row">
+          <label>Rộng <input id="figWidth" type="number" min="3" max="20" step="0.5" value="12"> cm</label>
+          <span class="inl">
+            <label><input type="radio" name="figfmt" value="svg" checked> SVG</label>
+            <label><input type="radio" name="figfmt" value="png"> PNG</label>
+          </span>
+        </div>
+        <div class="actions">
+          <button id="figInsert" class="primary" type="button" hidden>Chèn hình vào Word</button>
+          <button id="figUpdate" class="primary" type="button" hidden>Cập nhật hình đã chọn</button>
+          <button id="figCopy" type="button">Sao chép ảnh</button>
+          <button id="figSave" type="button">Lưu SVG</button>
+        </div>
+        <details class="style-details"><summary>Mã vẽ (Typst + CeTZ): sửa để vẽ theo ý</summary>
+          <textarea id="figCode" spellcheck="false" rows="14"></textarea>
+          <p class="muted">Thêm/sửa dòng <code>#let p-ten = giá trị // Nhãn</code> ở đầu mã để tạo ô nhập tham số.</p>
+        </details>
+      </div>
+    </section>
+  </div>
+</main>
+
+<main class="layout" id="formulaView">
+  <section class="left">
+    <div class="pal">
+      <nav class="cats">
+        <div class="groups" id="groups"></div>
+        <div class="catlist" id="cats"></div>
+      </nav>
+      <div class="grid" id="grid"></div>
+    </div>
+  </section>
+
+  <section class="right">
+    <div class="quick" id="quick" aria-label="Thanh nhanh"></div>
+
+    <div class="toolbar">
+      <div class="seg" role="tablist" aria-label="Ngôn ngữ công thức">
+        <button id="langTypst" class="on" type="button">Typst</button>
+        <button id="langLatex" type="button">LaTeX</button>
+      </div>
+      <button id="clear" class="link" type="button">Xóa</button>
+      <button id="copycode" class="link" type="button">Chép mã</button>
+    </div>
+
+    <textarea id="code" spellcheck="false" rows="3" placeholder="Gõ công thức hoặc bấm ký hiệu bên trái"></textarea>
+
+    <div id="preview" class="preview" aria-live="polite"><span class="hint">Xem trước sẽ hiện ở đây</span></div>
+    <p id="error" class="error" hidden></p>
+
+    <div class="row">
+      <label>Cỡ chữ <input id="size" type="number" min="8" max="72" value="13" step="0.5"> pt</label>
+      <label>Màu <input id="color" type="color" value="#000000"></label>
+      <label class="check"><input id="display" type="checkbox" checked> Phân số, cận to</label>
+      <label class="check" id="numLabel"><input id="numbered" type="checkbox"> Đánh số (1), (2)…</label>
+      <span id="fmtBox" class="inl" hidden>
+        <label><input type="radio" name="fmt" value="svg" checked> SVG</label>
+        <label><input type="radio" name="fmt" value="png"> PNG</label>
+      </span>
+    </div>
+
+    <p id="blockHint" class="muted" hidden></p>
+
+    <div class="actions">
+      <button id="insert" class="primary" type="button" hidden>Chèn vào Word</button>
+      <button id="update" class="primary" type="button" hidden>Cập nhật công thức đã chọn</button>
+      <button id="copy" type="button">Sao chép ảnh</button>
+      <button id="grab" type="button" hidden title="Chọn công thức trong Word hoặc đặt con trỏ sát nó (⌘⇧E)">Lấy công thức trong Word</button>
+    </div>
+
+    <div class="more">
+      <details id="bulkBox" hidden>
+        <summary>Đổi cỡ chữ / màu hàng loạt</summary>
+        <div class="row">
+          <label class="check"><input id="bulkDoSize" type="checkbox" checked> Cỡ chữ <input id="bulkSize" type="number" min="8" max="72" value="13" step="0.5"> pt</label>
+          <label class="check"><input id="bulkDoColor" type="checkbox"> Màu <input id="bulkColor" type="color" value="#000000"></label>
+          <select id="bulkScope">
+            <option value="doc">Toàn bộ tài liệu</option>
+            <option value="sel">Chỉ vùng đang chọn</option>
+          </select>
+          <button id="bulkGo" type="button">Áp dụng</button>
+        </div>
+        <p id="bulkMsg" class="muted"></p>
+      </details>
+      <details id="convBox" hidden>
+        <summary>Chuyển đổi Equation của Word ⇄ Sang Math</summary>
+        <p class="muted">Dựng lại các Equation có sẵn thành hình đẹp, sửa lại được. "Cả tài liệu" chuyển tất cả (giống Ctrl+A). Dùng PNG nếu cần nộp lên K12Online. Chưa ưng thì nhấn Ctrl/Cmd+Z để hoàn tác.</p>
+        <div class="row">
+          <button id="convSel" type="button">Chuyển vùng đang chọn</button>
+          <button id="convDoc" type="button">Chuyển cả tài liệu</button>
+        </div>
+        <p class="muted">Chiều ngược lại: đổi công thức Sang Math thành Equation của Word (chữ của Word, sửa bằng trình soạn Equation; không còn là hình nên K12Online có thể không hiển thị).</p>
+        <div class="row">
+          <button id="backSel" type="button">Thành Equation: vùng chọn</button>
+          <button id="backDoc" type="button">Thành Equation: cả tài liệu</button>
+        </div>
+        <p id="convMsg" class="muted"></p>
+      </details>
+      <details>
+        <summary>Gần đây</summary>
+        <ul id="history"></ul>
+      </details>
+    </div>
+  </section>
+</main>
+
+<footer class="about">Tác giả: Nguyễn Văn Sang · GV THPT Nguyễn Hữu Cảnh, TP. Hồ Chí Minh</footer>
+
+<script type="module" src="taskpane.js"></script>
+</body>
+</html>

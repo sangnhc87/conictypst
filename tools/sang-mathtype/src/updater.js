@@ -33,7 +33,7 @@ export function initUpdater() {
   const tag = document.createElement('span')
   tag.className = 'ver'
   tag.textContent = mine ? `bản ${mine.slice(2, 8)}.${mine.slice(8, 12)}` : ''
-  document.querySelector('.about')?.append(' · ', tag)
+  document.getElementById('aboutVer')?.append('· ', tag)
   setTimeout(check, 4000)
   setInterval(check, 10 * 60 * 1000)
   document.addEventListener('visibilitychange', () => { if (!document.hidden) check() })

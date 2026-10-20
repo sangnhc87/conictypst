@@ -10,12 +10,12 @@ export function registerExam(id) {
 }
 
 export function showView(name) {
-  for (const id of ['formulaView', 'figureView', 'examView', 'examWebView', 'toolsView']) $(id).hidden = true
+  for (const id of ['formulaView', 'figureView', 'examView', 'examWebView', 'toolsView', 'coffeeView']) $(id).hidden = true
   const exam = name === 'exam' || name === 'beautify'
-  const target = exam ? examViewId : name === 'figure' ? 'figureView' : name === 'tools' ? 'toolsView' : 'formulaView'
+  const target = exam ? examViewId : name === 'figure' ? 'figureView' : name === 'tools' ? 'toolsView' : name === 'coffee' ? 'coffeeView' : 'formulaView'
   if (target) $(target).hidden = false
   $('topbar').hidden = name !== 'formula'
   window.dispatchEvent(new CustomEvent('sm-view', { detail: name }))
   document.body.dataset.exmode = name === 'beautify' ? 'beautify' : 'shuffle'
-  for (const [tab, n] of [['tabFormula', 'formula'], ['tabExam', 'exam'], ['tabBeautify', 'beautify'], ['tabFigure', 'figure'], ['tabTools', 'tools']]) $(tab).classList.toggle('on', n === name)
+  for (const [tab, n] of [['tabFormula', 'formula'], ['tabExam', 'exam'], ['tabBeautify', 'beautify'], ['tabFigure', 'figure'], ['tabTools', 'tools'], ['tabCoffee', 'coffee']]) $(tab).classList.toggle('on', n === name)
 }

@@ -20,7 +20,7 @@ await build({
   outfile: path.join(out, 'taskpane.js'), logLevel: 'info',
   nodePaths: [path.join(root, 'node_modules')],
 })
-for (const f of ['index.html', 'taskpane.html', 'taskpane.css', 'commands.html', 'hdsd.html', '_headers']) copyFileSync(path.join(here, 'src', f), path.join(out, f))
+for (const f of ['index.html', 'taskpane.html', 'taskpane.css', 'commands.html', 'hdsd.html', 'qr-donate.png', '_headers']) copyFileSync(path.join(here, 'src', f), path.join(out, f))
 // compiler.wasm ~29 MiB vượt giới hạn 25 MiB/tệp của Cloudflare Pages: tách đôi, engine nối lại khi tải.
 const compiler = readFileSync(path.join(root, 'node_modules/@myriaddreamin/typst-ts-web-compiler/pkg/typst_ts_web_compiler_bg.wasm'))
 const half = Math.ceil(compiler.length / 2)

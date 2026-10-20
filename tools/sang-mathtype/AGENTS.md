@@ -27,6 +27,7 @@ Các thẻ lớn trong giao diện (`src/tabs.js`): **Công thức** · **Vẽ h
 | Chèn vào Word (OOXML), đọc lại alt text | `src/word.js` (`packageXml`, `drawingRun`, `encodeMeta/decodeMeta`) |
 | Giao diện chính, bảng ký hiệu | `src/taskpane.js`, `src/taskpane.html`, `src/palette.js` (≈550 ký hiệu Toán/Lý/Hóa) |
 | Cầu nối: Office.js / app Mac / Google Docs | `src/word.js` (Office), `src/desktop.js` + `desktop/*.mjs` (Mac), `src/gdocs.js` + `gdocs/` |
+| Thẻ ☕ Cà phê (ủng hộ tác giả, QR VietQR VPBank, số TK) | khối `#coffeeView` trong `src/taskpane.html`, `src/tabs.js`, `src/qr-donate.png` (copy từ `images/qr-donate.png` của repo), CSS cuối `taskpane.css` |
 | Tự cập nhật + số phiên bản | `src/updater.js`, `build.mjs` (ghi `dist/version.json`) |
 | Offline/PWA | `src/sw.template.js` (→ `dist/sw.js`), `src/app.webmanifest`, `icons/icon-192/512.png` |
 | Đóng gói | `build.mjs` (toàn bộ) và `draw-build.mjs` (gói CeTZ + dựng ảnh xem trước mẫu bằng `typst` CLI, có cache `.cache/`) |

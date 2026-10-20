@@ -173,6 +173,19 @@ function flattenSvg(svgText, viewBox, hitBox = false) {
   for (const n of doc.querySelectorAll('*')) {
     for (const a of [...n.attributes]) if (a.name.startsWith('data-') || a.name === 'class') n.removeAttribute(a.name)
   }
+  // Word không hiểu màu 8 chữ số #rrggbbaa (Typst xuất cho màu trong suốt) và tô đen: tách thành màu + *-opacity
+  const HEX8 = /^#([0-9a-fA-F]{6})([0-9a-fA-F]{2})$/
+  for (const n of doc.querySelectorAll('*')) {
+    for (const [attr, op] of [['fill', 'fill-opacity'], ['stroke', 'stroke-opacity'], ['stop-color', 'stop-opacity']]) {
+      const v = n.getAttribute(attr)
+      const m = v && HEX8.exec(v.trim())
+      if (!m) continue
+      n.setAttribute(attr, `#${m[1]}`)
+      const a = parseInt(m[2], 16) / 255
+      const prev = parseFloat(n.getAttribute(op) ?? '1')
+      n.setAttribute(op, String(Math.round(a * prev * 1000) / 1000))
+    }
+  }
   svg.removeAttribute('style')
   svg.removeAttribute('xmlns:h5')
   const [x, y, w, h] = viewBox

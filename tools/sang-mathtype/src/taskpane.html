@@ -118,6 +118,37 @@
     <span id="tlStatus" class="status muted" aria-live="polite"></span>
   </div>
 
+  <div class="card" id="tlDocBox" hidden>
+    <h3>★ Làm đẹp tài liệu bất kỳ (không phải đề thi)</h3>
+    <p class="muted">Chọn việc cần làm, bấm <b>Xem trước</b> (chỉ đếm số chỗ sẽ sửa) hoặc <b>Áp dụng</b>. Phạm vi theo nút "Toàn tài liệu / Vùng chọn" phía trên. Hoàn tác: <b>Ctrl/Cmd + Z</b> trong Word.</p>
+    <fieldset class="dc-group"><legend>Đánh số và danh sách</legend>
+      <label class="check"><input id="dcLists" type="checkbox"> Đổi <b>đánh số / gạch đầu dòng tự động</b> của Word thành chữ thường (số hoặc ký hiệu gõ sẵn trong văn bản)</label>
+      <label class="dc-sub">Ký hiệu thay gạch đầu dòng
+        <select id="dcBullet"><option value="dot">• chấm tròn</option><option value="dash">– gạch ngắn</option><option value="hyphen">- gạch nối</option><option value="square">▪ ô vuông nhỏ</option></select></label>
+      <label class="check"><input id="dcRenum" type="checkbox"> <b>Đánh số lại thứ tự</b> các mục gõ tay: Câu/Bài/Ví dụ <i>n</i>., 1. 2. 3., a) b) c), I. II. (cấp nhỏ tự khởi lại khi sang mục lớn)</label>
+      <label class="check dc-sub"><input id="dcResetHead" type="checkbox" checked> Khởi lại thứ tự sau mỗi tiêu đề (Heading hoặc dòng IN HOA)</label>
+    </fieldset>
+    <fieldset class="dc-group"><legend>Dấu cách, tab, đoạn trống</legend>
+      <label class="check"><input id="dcTabs" type="checkbox"> Đổi <b>3 dấu cách trở lên</b> thành 1 dấu <b>tab</b> (canh cột bằng tab thay vì gõ cách)</label>
+      <label class="check"><input id="dcSpaces" type="checkbox"> Gộp 2 dấu cách trở lên thành 1</label>
+      <label class="check"><input id="dcPunct" type="checkbox"> Xóa dấu cách thừa <b>trước</b> dấu câu , . ; : ! ? )</label>
+      <label class="check"><input id="dcEmpty" type="checkbox"> Xóa các <b>đoạn trống liên tiếp</b> (giữ lại một)</label>
+    </fieldset>
+    <fieldset class="dc-group"><legend>Định dạng đồng nhất cho đoạn thường (bỏ qua tiêu đề)</legend>
+      <label class="check"><input id="dcFmt" type="checkbox"> Áp dụng định dạng dưới đây</label>
+      <div class="grid2">
+        <label>Phông chữ <input id="dcFont" type="text" placeholder="Times New Roman"></label>
+        <label>Cỡ chữ (pt) <input id="dcSize" type="number" min="8" max="24" step="0.5" placeholder="13"></label>
+        <label>Giãn dòng <input id="dcLine" type="number" min="1" max="3" step="0.05" placeholder="1.15"></label>
+        <label>Canh lề <select id="dcAlign"><option value="">(giữ nguyên)</option><option value="justify">Đều hai bên</option><option value="left">Trái</option><option value="center">Giữa</option></select></label>
+        <label>Cách đoạn sau (pt) <input id="dcAfter" type="number" min="0" max="36" step="1" placeholder="6"></label>
+        <label>Thụt dòng đầu (pt) <input id="dcIndent" type="number" min="0" max="72" step="1" placeholder="0"></label>
+      </div>
+      <label class="check"><input id="dcSkipTbl" type="checkbox" checked> Bỏ qua nội dung trong bảng</label>
+    </fieldset>
+    <div class="actions"><button id="dcPreview" type="button">Xem trước</button><button id="dcApply" class="primary" type="button">Áp dụng làm đẹp</button></div>
+  </div>
+
   <div class="card">
     <h3>1. Đánh số lại câu và phương án</h3>
     <p class="muted">Sửa Câu 1, 2, 3… và A. B. C. D. (Phần II: a) b) c) d)) theo đúng thứ tự trong đề.</p>

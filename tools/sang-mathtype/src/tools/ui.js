@@ -3,6 +3,7 @@ import { showView } from '../tabs.js'
 import { parseExam, planRenumber, planMark, planHide, resolveAnswers } from './parse.js'
 import { TEMPLATES, planFormat, planAnswerTable, planScoreBox, planAnswerSheet, planQr, planExportTable, planImportTable, planSolution, parseTsv, toTsv } from './plans.js'
 import { createRunner } from './runner.js'
+import { runDocClean } from './doc-clean.js'
 import { PROVIDERS, loadConfig, saveConfig, clearConfig, solveQuestion } from './solve.js'
 
 const $ = id => document.getElementById(id)
@@ -37,6 +38,37 @@ export function initTools(host, getEngineAnswers) {
       for (const b of document.querySelectorAll('#toolsView .actions button, #toolsView .tools-bar button')) b.disabled = false
       refreshUndo()
     }
+  }
+
+  // ---------- làm đẹp tài liệu bất kỳ (chỉ khi chạy trong Word qua Office.js) ----------
+  if (host.name === 'office') {
+    $('tlDocBox').hidden = false
+    const num = id => { const v = parseFloat($(id).value); return Number.isFinite(v) ? v : null }
+    const docOpts = () => ({
+      lists: $('dcLists').checked, bullet: $('dcBullet').value, renumber: $('dcRenum').checked, resetHeading: $('dcResetHead').checked,
+      tabs: $('dcTabs').checked, spaces: $('dcSpaces').checked, punct: $('dcPunct').checked, empties: $('dcEmpty').checked,
+      skipTables: $('dcSkipTbl').checked,
+      format: $('dcFmt').checked ? { font: $('dcFont').value.trim(), size: num('dcSize'), line: num('dcLine'), align: $('dcAlign').value, after: num('dcAfter'), indent: num('dcIndent') } : null,
+    })
+    const summary = (r, dry) => {
+      const parts = []
+      if (r.lists) parts.push(`${r.lists} mục danh sách → chữ`)
+      if (r.renumber) parts.push(`${r.renumber} nhãn đánh số lại`)
+      if (r.tabs) parts.push(`${r.tabs} chỗ cách → tab`)
+      if (r.spaces) parts.push(`${r.spaces} chỗ gộp cách`)
+      if (r.punct) parts.push(`${r.punct} dấu cách trước dấu câu`)
+      if (r.empties) parts.push(`${r.empties} đoạn trống`)
+      if (r.format) parts.push(`${r.format} đoạn định dạng`)
+      return parts.length ? `${dry ? 'Sẽ sửa' : 'Đã sửa'} (${scopeName()}): ${parts.join(' · ')}.` : 'Không có chỗ nào cần sửa theo các lựa chọn này.'
+    }
+    const anyChecked = () => { const o = docOpts(); return o.lists || o.renumber || o.tabs || o.spaces || o.punct || o.empties || o.format }
+    const runDoc = dry => guard(dry ? 'Xem trước' : 'Làm đẹp tài liệu', async () => {
+      if (!anyChecked()) throw new Error('Hãy tích chọn ít nhất một việc cần làm.')
+      const r = await runDocClean(docOpts(), scope, dry, t => status(`${t}…`))
+      status(summary(r, dry))
+    })
+    $('dcPreview').addEventListener('click', () => runDoc(true))
+    $('dcApply').addEventListener('click', () => runDoc(false))
   }
 
   // ---------- phạm vi ----------

@@ -6,6 +6,7 @@ const $ = id => document.getElementById(id)
 const PARAM_RE = /^#let (p-[\w-]+) = (.+?)\s*\/\/\s*(.+)$/
 
 let bridge = null
+let getB = null
 let manifest = null
 let current = null // { id, ten }
 let last = null
@@ -162,6 +163,7 @@ async function act(fn) {
 }
 
 function setButtons() {
+  if (getB) bridge = getB() // cầu nối Word có sau khi Office sẵn sàng: luôn đọc lại, tránh ẩn nút nhầm
   $('figInsert').hidden = editing || !bridge
   $('figUpdate').hidden = !editing || !bridge
 }
@@ -184,6 +186,9 @@ export function openMeta(m, show) {
 export function leaveEditing() { if (editing) { editing = false; setButtons() }; setEditingInWord(false) }
 
 export async function initFigure(getBridge) {
+  getB = getBridge
+  window.addEventListener('sm-bridge', () => setButtons())
+  window.addEventListener('sm-view', () => setButtons())
   const sync = () => { bridge = getBridge(); setButtons() }
   sync()
   $('modeEd').addEventListener('click', () => setMode('ed'))

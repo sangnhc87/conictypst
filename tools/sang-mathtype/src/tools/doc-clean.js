@@ -49,6 +49,110 @@ export function planRenumber(paras, { resetHeading = true } = {}) {
   return fixes
 }
 
+/**
+ * Sửa lỗi dính chữ sau dấu câu: dấu phẩy, chấm phẩy, hai chấm, hỏi, than, chấm theo sau là chữ cái.
+ * Giữ nguyên số thập phân (1,5 hoặc 3.14).
+ */
+const PUNCT_GAP_RE = /([,;:])([A-Za-zÀ-ỹ])|([?!])([A-Za-zÀ-ỹ])|([a-zà-ỹA-ZÀ-Ỹ0-9)\]]\.)([A-ZÀ-Ỹa-zà-ỹ])/g
+export function planPunctGaps(paras) {
+  const fixes = []
+  paras.forEach((p, i) => {
+    let m
+    const re = new RegExp(PUNCT_GAP_RE.source, 'g')
+    while ((m = re.exec(p.text)) !== null) {
+      let from, to
+      if (m[1]) { from = m[0]; to = `${m[1]} ${m[2]}` }
+      else if (m[3]) { from = m[0]; to = `${m[3]} ${m[4]}` }
+      else if (m[5]) { from = m[0]; to = `${m[5].slice(0, -1)}. ${m[6]}` }
+      if (from && to && from !== to) fixes.push({ p: i, from, to })
+    }
+  })
+  return fixes
+}
+
+/**
+ * Dọn khoảng trắng thừa trong ngoặc đơn (), vuông [], nhọn {}.
+ * Ví dụ: "( phương trình )" -> "(phương trình)"
+ */
+const BRACKET_OPEN_RE = /([(\[{])\s+([^\s)\]}])/g
+const BRACKET_CLOSE_RE = /([^\s(\[{])\s+([)\]}])/g
+export function planBracketSpaces(paras) {
+  const fixes = []
+  paras.forEach((p, i) => {
+    let m
+    const reOpen = new RegExp(BRACKET_OPEN_RE.source, 'g')
+    while ((m = reOpen.exec(p.text)) !== null) {
+      fixes.push({ p: i, from: m[0], to: `${m[1]}${m[2]}` })
+    }
+    const reClose = new RegExp(BRACKET_CLOSE_RE.source, 'g')
+    while ((m = reClose.exec(p.text)) !== null) {
+      fixes.push({ p: i, from: m[0], to: `${m[1]}${m[2]}` })
+    }
+  })
+  return fixes
+}
+
+/**
+ * Tự động viết hoa chữ cái đầu câu sau dấu kết câu (., ?, !)
+ */
+const CAP_FIRST_RE = /([.!?]\s+)([a-zà-ỹ])/g
+export function planCapFirst(paras) {
+  const fixes = []
+  paras.forEach((p, i) => {
+    let m
+    const re = new RegExp(CAP_FIRST_RE.source, 'g')
+    while ((m = re.exec(p.text)) !== null) {
+      fixes.push({ p: i, from: m[0], to: `${m[1]}${m[2].toUpperCase()}` })
+    }
+  })
+  return fixes
+}
+
+/**
+ * Tìm các nhãn phương án trắc nghiệm A. B. C. D. hoặc a) b) c) d) để in đậm.
+ */
+const OPT_BOLD_RE = /(?:^|[\s\t])([A-D]\.|\([A-D]\)|[a-d]\))(?=\s|$)/g
+export function planBoldOptions(paras) {
+  const targets = []
+  paras.forEach((p, i) => {
+    let m
+    const re = new RegExp(OPT_BOLD_RE.source, 'g')
+    while ((m = re.exec(p.text)) !== null) {
+      targets.push({ p: i, label: m[1] })
+    }
+  })
+  return targets
+}
+
+/**
+ * Canh thẳng hàng các phương án bằng dấu Tab khi phân cách bằng nhiều dấu cách.
+ */
+const OPT_ALIGN_RE = /\s{2,}([B-D]\.|\([B-D]\)|[b-d]\))(?=\s)/g
+export function planAlignOptions(paras) {
+  const fixes = []
+  paras.forEach((p, i) => {
+    let m
+    const re = new RegExp(OPT_ALIGN_RE.source, 'g')
+    while ((m = re.exec(p.text)) !== null) {
+      fixes.push({ p: i, from: m[0], to: `\t${m[1]}` })
+    }
+  })
+  return fixes
+}
+
+/**
+ * Chống mồ côi: Tìm các đoạn là câu hỏi, bài tập, ví dụ, tiêu đề để gán keepWithNext = true.
+ */
+export function planKeepWithNext(paras) {
+  const indices = []
+  paras.forEach((p, i) => {
+    if (p.heading || isHeadingText(p.text) || detectLabel(p.text)) {
+      indices.push(i)
+    }
+  })
+  return indices
+}
+
 /** Ký tự đầu dòng của Word (Symbol font, ô vuông...) → ký hiệu chữ thường. */
 export const isBulletString = s => !!s && !/[0-9A-Za-zÀ-ỹ]/.test(s)
 
@@ -65,10 +169,31 @@ async function loadParas(ctx, scope, extra = '') {
   return paras.items
 }
 
-export const ZERO = { lists: 0, renumber: 0, tabs: 0, spaces: 0, punct: 0, empties: 0, format: 0 }
+async function applyFixes(ctx, items, fixes) {
+  if (!fixes || !fixes.length) return
+  const found = fixes.map(f => {
+    const r = items[f.p].search(f.from, { matchCase: true })
+    r.load('items')
+    return { f, r }
+  })
+  await ctx.sync()
+  for (const { f, r } of found) {
+    if (r.items && r.items[0]) r.items[0].insertText(f.to, 'Replace')
+  }
+  await ctx.sync()
+}
+
+export const ZERO = {
+  lists: 0, renumber: 0, tabs: 0, spaces: 0, punct: 0, punctGap: 0, brackets: 0, capFirst: 0,
+  empties: 0, boldOpts: 0, alignOpts: 0, keepNext: 0, tables: 0, softBreaks: 0, pageSetup: 0, format: 0
+}
 
 /**
- * opts = { lists, bullet, renumber, resetHeading, tabs, spaces, punct, empties, format: {font,size,line,align,after,indent} | null, skipTables }
+ * opts = {
+ *   lists, bullet, renumber, resetHeading, tabs, spaces, punct, punctGap, brackets, capFirst,
+ *   boldOpts, alignOpts, keepNext, tableCenter, softBreaks, pageSetupA4,
+ *   format: {font,size,line,align,after,indent} | null, skipTables
+ * }
  * dry = true: chỉ đếm số chỗ sẽ sửa.
  */
 export async function runDocClean(opts, scope, dry = false, onStep = () => {}) {
@@ -101,14 +226,75 @@ export async function runDocClean(opts, scope, dry = false, onStep = () => {}) {
       const fixes = planRenumber(items.map(p => ({ text: p.text, heading: SKIP_BUILTIN.test(p.styleBuiltIn || '') })), { resetHeading: opts.resetHeading !== false })
       rep.renumber = fixes.length
       if (!dry && fixes.length) {
-        const found = fixes.map(f => { const r = items[f.p].search(f.from, { matchCase: true }); r.load('items'); return { f, r } })
+        await applyFixes(ctx, items, fixes)
+      }
+    }
+
+    // 3) sửa lỗi dính chữ sau dấu câu
+    if (opts.punctGap) {
+      onStep('Thêm cách sau dấu câu dính chữ')
+      const items = await loadParas(ctx, scope)
+      const fixes = planPunctGaps(items.map(p => ({ text: p.text })))
+      rep.punctGap = fixes.length
+      if (!dry && fixes.length) {
+        await applyFixes(ctx, items, fixes)
+      }
+    }
+
+    // 4) dọn khoảng trắng trong ngoặc
+    if (opts.brackets) {
+      onStep('Dọn khoảng trắng trong ngoặc')
+      const items = await loadParas(ctx, scope)
+      const fixes = planBracketSpaces(items.map(p => ({ text: p.text })))
+      rep.brackets = fixes.length
+      if (!dry && fixes.length) {
+        await applyFixes(ctx, items, fixes)
+      }
+    }
+
+    // 5) viết hoa chữ đầu câu sau dấu chấm
+    if (opts.capFirst) {
+      onStep('Viết hoa chữ đầu câu')
+      const items = await loadParas(ctx, scope)
+      const fixes = planCapFirst(items.map(p => ({ text: p.text })))
+      rep.capFirst = fixes.length
+      if (!dry && fixes.length) {
+        await applyFixes(ctx, items, fixes)
+      }
+    }
+
+    // 6) canh thẳng hàng phương án bằng tab
+    if (opts.alignOpts) {
+      onStep('Canh tab các phương án')
+      const items = await loadParas(ctx, scope)
+      const fixes = planAlignOptions(items.map(p => ({ text: p.text })))
+      rep.alignOpts = fixes.length
+      if (!dry && fixes.length) {
+        await applyFixes(ctx, items, fixes)
+      }
+    }
+
+    // 7) in đậm nhãn phương án A. B. C. D.
+    if (opts.boldOpts) {
+      onStep('In đậm nhãn phương án')
+      const items = await loadParas(ctx, scope)
+      const targets = planBoldOptions(items.map(p => ({ text: p.text })))
+      rep.boldOpts = targets.length
+      if (!dry && targets.length) {
+        const searchJobs = targets.map(t => {
+          const r = items[t.p].search(t.label, { matchCase: true })
+          r.load('items/font')
+          return { t, r }
+        })
         await ctx.sync()
-        for (const { f, r } of found) if (r.items[0]) r.items[0].insertText(f.to, 'Replace')
+        for (const { r } of searchJobs) {
+          if (r.items && r.items[0]) r.items[0].font.bold = true
+        }
         await ctx.sync()
       }
     }
 
-    // 3) dấu cách / tab / dấu câu
+    // 8) dấu cách / tab / dấu câu
     const rng = scopeRange(ctx, scope)
     const wild = async (pattern, label, replaceWith) => {
       const r = rng.search(pattern, { matchWildcards: true })
@@ -121,7 +307,22 @@ export async function runDocClean(opts, scope, dry = false, onStep = () => {}) {
     if (opts.spaces) { onStep('Gộp dấu cách thừa'); await wild(' {2,}', 'spaces', ' ') }
     if (opts.punct) { onStep('Dọn dấu cách trước dấu câu'); await wild(' {1,}[,.;:!?\\)]', 'punct', t => t.trim()) }
 
-    // 4) đoạn trống liên tiếp
+    // 9) ngắt dòng mềm (Shift+Enter) -> ngắt đoạn
+    if (opts.softBreaks) {
+      onStep('Đổi ngắt dòng mềm thành đoạn')
+      const r = rng.search('^l')
+      r.load('items')
+      await ctx.sync()
+      rep.softBreaks = r.items.length
+      if (!dry && rep.softBreaks) {
+        for (const x of r.items) {
+          try { x.insertText('\r', 'Replace') } catch {}
+        }
+        await ctx.sync()
+      }
+    }
+
+    // 10) đoạn trống liên tiếp
     if (opts.empties) {
       onStep('Xóa đoạn trống thừa')
       const items = await loadParas(ctx, scope)
@@ -139,7 +340,56 @@ export async function runDocClean(opts, scope, dry = false, onStep = () => {}) {
       if (!dry) { for (const p of del) p.delete(); await ctx.sync() }
     }
 
-    // 5) định dạng đồng nhất cho đoạn thường
+    // 11) chống mồ côi tiêu đề & câu hỏi
+    if (opts.keepNext) {
+      onStep('Chống mồ côi tiêu đề & câu hỏi')
+      const items = await loadParas(ctx, scope)
+      const hits = planKeepWithNext(items.map(p => ({ text: p.text, heading: SKIP_BUILTIN.test(p.styleBuiltIn || '') })))
+      rep.keepNext = hits.length
+      if (!dry && hits.length) {
+        for (const idx of hits) {
+          items[idx].keepWithNext = true
+        }
+        await ctx.sync()
+      }
+    }
+
+    // 12) căn giữa toàn bộ bảng
+    if (opts.tableCenter) {
+      onStep('Căn giữa các bảng')
+      const tables = scopeRange(ctx, scope).tables
+      tables.load('items')
+      await ctx.sync()
+      rep.tables = tables.items.length
+      if (!dry && rep.tables) {
+        for (const tbl of tables.items) {
+          try { tbl.alignment = 'Center' } catch {}
+        }
+        await ctx.sync()
+      }
+    }
+
+    // 13) đặt lề trang chuẩn A4 (Nghị định 30/2020)
+    if (opts.pageSetupA4) {
+      onStep('Đặt lề trang in chuẩn A4')
+      const sections = ctx.document.sections
+      sections.load('items/pageSetup')
+      await ctx.sync()
+      rep.pageSetup = sections.items.length
+      if (!dry && rep.pageSetup) {
+        for (const sec of sections.items) {
+          try {
+            sec.pageSetup.topMargin = 56.7    // 2.0 cm
+            sec.pageSetup.bottomMargin = 56.7 // 2.0 cm
+            sec.pageSetup.leftMargin = 85.05  // 3.0 cm
+            sec.pageSetup.rightMargin = 42.5  // 1.5 cm
+          } catch {}
+        }
+        await ctx.sync()
+      }
+    }
+
+    // 14) định dạng đồng nhất cho đoạn thường
     const f = opts.format
     if (f && (f.font || f.size || f.line || f.align || f.after != null || f.indent != null)) {
       onStep('Định dạng đồng nhất')

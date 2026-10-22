@@ -4,7 +4,8 @@ import {
   planRenumber, detectLabel, isBulletString,
   planPunctGaps, planBracketSpaces, planCapFirst,
   planBoldOptions, planAlignOptions, planKeepWithNext,
-  tcvn3ToUnicode, hasTcvn3, planSplitOptions
+  tcvn3ToUnicode, hasTcvn3, planSplitOptions,
+  planMathSymbols, cleanMathText, planHighlightSolutions, planRemoveSolutions
 } from '../src/tools/doc-clean.js'
 
 const P = t => ({ text: t })
@@ -93,6 +94,33 @@ test('tách 4 phương án trắc nghiệm trên 1 dòng thành 4 dòng', () => 
     [0, '\rD.'],
     [1, '\rB.']
   ])
+})
+
+test('chuẩn hóa ký hiệu Toán thô (mũi tên, số mũ, nhiệt độ, phép nhân, dấu đồng dạng ∽, quan hệ toán)', () => {
+  const raw = 'x <= 0 => x + 1 >= 1 <=> f(x) != 0. Khi a +- b, diện tích 20cm2, thể tích 5m3, 37 oC, 2 * 3 = 10^3, ΔABC ~ ΔA\'B\'C\'.'
+  const res = cleanMathText(raw)
+  assert.equal(res, 'x ≤ 0 ⇒ x + 1 ≥ 1 ⇔ f(x) ≠ 0. Khi a ± b, diện tích 20cm², thể tích 5m³, 37°C, 2 × 3 = 10³, ΔABC ∽ ΔA\'B\'C\'.')
+  const fixes = planMathSymbols([{ text: 'x <= 2 => x < 5, tam giác ABC ~ DEF' }])
+  assert.equal(fixes.length, 3)
+  assert.equal(fixes[0].to, '≤')
+  assert.equal(fixes[1].to, '⇒')
+  assert.ok(fixes[2].to.includes('∽'))
+})
+
+test('quản lý lời giải: nhận diện và tách lời giải', () => {
+  const paras = [
+    { text: 'Câu 1. Cho hàm số f(x)' },
+    { text: 'A. 1\tB. 2' },
+    { text: 'Lời giải:' },
+    { text: 'Ta có f(x) = x' },
+    { text: 'Câu 2. Tính đạo hàm' },
+    { text: 'Hướng dẫn giải:' },
+    { text: 'Ta có f\'(x) = 1' }
+  ]
+  const hl = planHighlightSolutions(paras)
+  assert.deepEqual(hl, [2, 5])
+  const del = planRemoveSolutions(paras)
+  assert.deepEqual(del, [2, 3, 5, 6])
 })
 
 

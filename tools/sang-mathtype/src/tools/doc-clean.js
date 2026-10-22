@@ -217,6 +217,90 @@ export function planSplitOptions(paras) {
   return fixes
 }
 
+/**
+ * Chuẩn hóa ký hiệu Toán text thô:
+ * - Mũi tên: => thành ⇒, <=> thành ⇔, -> thành →, <- thành ←
+ * - Quan hệ & so sánh: <= thành ≤, >= thành ≥, != thành ≠, +- thành ±
+ * - Ký hiệu độ C: 25 oC, 100 0C -> 25°C, 100°C
+ * - Đơn vị mũ: cm2, m3, km2 -> cm², m³, km²
+ * - Lũy thừa 10: 10^2, 10^3 -> 10², 10³
+ * - Phép nhân: 2 * 3 -> 2 × 3
+ * - Dấu đồng dạng chuẩn Toán Việt Nam: tam giác ABC ~ DEF -> ABC ∽ DEF, ΔABC ~ ΔA'B'C' -> ΔABC ∽ ΔA'B'C'
+ */
+const SUP_DIGITS = { '0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴', '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹' }
+const toSup = s => s.split('').map(c => SUP_DIGITS[c] || c).join('')
+
+export const MATH_TOKEN_RE = /(<==>|<=>|==>|=>|-->|->|<--|<-|<=|>=|!=|\+-|\b\d+\s*[oO0]\s*C\b|(?:\d+\s*)?(?:cm|dm|m|km|mm)(?:2|3)\b|\b10\^\d+\b|\d+\s*[*]\s*\d+|\b[A-Z]{3}\s*~\s*[A-Z]{3}\b|(?:tam giác|Δ|∆)\s*[A-Z0-9']+\s*~\s*(?:tam giác|Δ|∆)?\s*[A-Z0-9']+)/gi
+
+export function cleanMathToken(token) {
+  if (!token) return ''
+  if (token === '<==>' || token === '<=>') return '⇔'
+  if (token === '==>' || token === '=>') return '⇒'
+  if (token === '-->' || token === '->') return '→'
+  if (token === '<--' || token === '<-') return '←'
+  if (token === '<=') return '≤'
+  if (token === '>=') return '≥'
+  if (token === '!=') return '≠'
+  if (token === '+-') return '±'
+  if (/\d+\s*[oO0]\s*C\b/i.test(token)) return token.replace(/(\d+)\s*[oO0]\s*C\b/i, '$1°C')
+  if (/(cm|dm|m|km|mm)(?:2|3)\b/.test(token)) return token.replace(/(cm|dm|m|km|mm)(2|3)\b/, (_, u, n) => u + (n === '2' ? '²' : '³'))
+  if (/\b10\^\d+\b/.test(token)) return token.replace(/\b10\^(\d+)\b/, (_, n) => '10' + toSup(n))
+  if (/\d+\s*[*]\s*\d+/.test(token)) return token.replace(/(\d+)\s*[*]\s*(\d+)/, '$1 × $2')
+  if (/\b[A-Z]{3}\s*~\s*[A-Z]{3}\b/.test(token)) return token.replace(/\b([A-Z]{3})\s*~\s*([A-Z]{3})\b/, '$1 ∽ $2')
+  if (/(?:tam giác|Δ|∆)/i.test(token) && token.includes('~')) return token.replace('~', '∽')
+  return token
+}
+
+export function cleanMathText(text) {
+  if (!text) return ''
+  return text.replace(MATH_TOKEN_RE, m => cleanMathToken(m))
+}
+
+export function planMathSymbols(paras) {
+  const fixes = []
+  paras.forEach((p, i) => {
+    let m
+    const re = new RegExp(MATH_TOKEN_RE.source, MATH_TOKEN_RE.flags)
+    while ((m = re.exec(p.text)) !== null) {
+      const from = m[0]
+      const to = cleanMathToken(from)
+      if (from !== to) fixes.push({ p: i, from, to })
+    }
+  })
+  return fixes
+}
+
+/** Nhận diện đoạn bắt đầu phần Lời giải / Hướng dẫn giải */
+export const SOL_RE = /^(\s*)[*_]*(Lời giải|Hướng dẫn giải|HDG|Lời giải chi tiết|HD|Giải)[:.-]?[*_]*[:.-]?(?:\s+|$)/i
+
+export function planHighlightSolutions(paras) {
+  const hits = []
+  paras.forEach((p, i) => {
+    if (SOL_RE.test(p.text)) hits.push(i)
+  })
+  return hits
+}
+
+export function planRemoveSolutions(paras) {
+  const del = []
+  let inSol = false
+  paras.forEach((p, i) => {
+    if (SOL_RE.test(p.text)) {
+      inSol = true
+      del.push(i)
+      return
+    }
+    if (inSol) {
+      if (detectLabel(p.text) || p.heading || isHeadingText(p.text)) {
+        inSol = false
+      } else {
+        del.push(i)
+      }
+    }
+  })
+  return del
+}
+
 /** Ký tự đầu dòng của Word (Symbol font, ô vuông...) → ký hiệu chữ thường. */
 export const isBulletString = s => !!s && !/[0-9A-Za-zÀ-ỹ]/.test(s)
 
@@ -235,21 +319,33 @@ async function loadParas(ctx, scope, extra = '') {
 
 async function applyFixes(ctx, items, fixes) {
   if (!fixes || !fixes.length) return
-  const found = fixes.map(f => {
+  // Gộp các fix cùng đoạn và cùng chuỗi tìm kiếm để không search trùng lặp
+  const uniq = []
+  const seen = new Set()
+  for (const f of fixes) {
+    const key = `${f.p}@@${f.from}@@${f.to}`
+    if (!seen.has(key)) { seen.add(key); uniq.push(f) }
+  }
+  const found = uniq.map(f => {
     const r = items[f.p].search(f.from, { matchCase: true })
     r.load('items')
     return { f, r }
   })
   await ctx.sync()
   for (const { f, r } of found) {
-    if (r.items && r.items[0]) r.items[0].insertText(f.to, 'Replace')
+    if (r.items && r.items.length) {
+      for (const item of r.items) {
+        item.insertText(f.to, 'Replace')
+      }
+    }
   }
   await ctx.sync()
 }
 
 export const ZERO = {
   lists: 0, renumber: 0, tabs: 0, spaces: 0, punct: 0, punctGap: 0, brackets: 0, capFirst: 0,
-  empties: 0, boldOpts: 0, alignOpts: 0, splitOpts: 0, clearMarks: 0,
+  boldOpts: 0, alignOpts: 0, splitOpts: 0, clearMarks: 0,
+  mathSymbols: 0, solHighlight: 0, solRemove: 0,
   keepNext: 0, tables: 0, cantSplit: 0, softBreaks: 0, pageSetup: 0, tcvn3: 0, format: 0
 }
 
@@ -309,6 +405,17 @@ export async function runDocClean(opts, scope, dry = false, onStep = () => {}) {
         }
       }
       if (!dry) await ctx.sync()
+    }
+
+    // 2c) chuẩn hóa ký hiệu toán gõ text thô
+    if (opts.mathSymbols) {
+      onStep('Chuẩn hóa ký hiệu Toán thô (mũi tên, số mũ, độ C, đồng dạng ∽)')
+      const items = await loadParas(ctx, scope)
+      const fixes = planMathSymbols(items.map(p => ({ text: p.text })))
+      rep.mathSymbols = fixes.length
+      if (!dry && fixes.length) {
+        await applyFixes(ctx, items, fixes)
+      }
     }
 
     // 3) sửa lỗi dính chữ sau dấu câu
@@ -403,6 +510,38 @@ export async function runDocClean(opts, scope, dry = false, onStep = () => {}) {
       }
     }
 
+    // 7c) làm nổi bật khối Lời giải
+    if (opts.solHighlight) {
+      onStep('Làm nổi bật khối Lời giải')
+      const items = await loadParas(ctx, scope)
+      const hits = planHighlightSolutions(items.map(p => ({ text: p.text })))
+      rep.solHighlight = hits.length
+      if (!dry && hits.length) {
+        for (const idx of hits) {
+          try {
+            items[idx].font.bold = true
+            items[idx].font.italic = true
+            items[idx].leftIndent = 14.17
+          } catch {}
+        }
+        await ctx.sync()
+      }
+    }
+
+    // 7d) tẩy / xóa sạch phần Lời giải để in đề
+    if (opts.solRemove) {
+      onStep('Tẩy lời giải để in đề')
+      const items = await loadParas(ctx, scope)
+      const delIndices = planRemoveSolutions(items.map(p => ({ text: p.text, heading: SKIP_BUILTIN.test(p.styleBuiltIn || '') })))
+      rep.solRemove = delIndices.length
+      if (!dry && delIndices.length) {
+        for (let i = delIndices.length - 1; i >= 0; i--) {
+          try { items[delIndices[i]].delete() } catch {}
+        }
+        await ctx.sync()
+      }
+    }
+
     // 8) dấu cách / tab / dấu câu
     const rng = scopeRange(ctx, scope)
     const wild = async (pattern, label, replaceWith) => {
@@ -478,16 +617,20 @@ export async function runDocClean(opts, scope, dry = false, onStep = () => {}) {
       }
     }
 
-    // 12b) chống xẻ đôi hàng bảng và lặp tiêu đề
+    // 12b) lặp tiêu đề bảng qua trang & in đậm dòng đầu
     if (opts.cantSplit) {
-      onStep('Chống xẻ đôi hàng bảng')
+      onStep('Lặp dòng tiêu đề bảng qua trang & in đậm')
       const tables = scopeRange(ctx, scope).tables
       tables.load('items')
       await ctx.sync()
       rep.cantSplit = tables.items.length
       if (!dry && rep.cantSplit) {
         for (const tbl of tables.items) {
-          try { tbl.headerRowCount = 1 } catch {}
+          try {
+            tbl.headerRowCount = 1
+            const firstRow = tbl.rows.getFirst()
+            firstRow.font.bold = true
+          } catch {}
         }
         await ctx.sync()
       }

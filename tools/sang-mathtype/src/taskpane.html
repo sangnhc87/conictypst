@@ -133,6 +133,7 @@ if (!window.wordBridge && new URLSearchParams(location.search).get('host') !== '
       <button id="dcPresetLesson" type="button" class="btn-preset">📖 Giáo án / Chuyên đề</button>
       <button id="dcPresetWeb" type="button" class="btn-preset">🧹 Dọn sạch file mạng</button>
       <button id="dcPresetClearKey" type="button" class="btn-preset">🎯 Tẩy đáp án (in đề)</button>
+      <button id="dcPresetClearSol" type="button" class="btn-preset">🎯 Tẩy lời giải (đề trần)</button>
       <button id="dcPresetReset" type="button" class="btn-preset-reset">↺ Bỏ chọn</button>
     </div>
 
@@ -146,6 +147,7 @@ if (!window.wordBridge && new URLSearchParams(location.search).get('host') !== '
     </fieldset>
 
     <fieldset class="dc-group"><legend>2. Chính tả, dấu câu & khoảng trắng thông minh</legend>
+      <label class="check"><input id="dcMathSymbols" type="checkbox" checked> Chuẩn hóa <b>ký hiệu toán học thô</b> (<code>=&gt;</code> → <code>⇒</code>, <code>&lt;=&gt;</code> → <code>⇔</code>, <code>-&gt;</code> → <code>→</code>, <code>&lt;=</code> → <code>≤</code>, <code>&gt;=</code> → <code>≥</code>, <code>!=</code> → <code>≠</code>, <code>+-</code> → <code>±</code>, <code>ABC ~ DEF</code> → <code>ABC ∽ DEF</code> (đồng dạng chuẩn VN), <code>oC</code> → <code>°C</code>, <code>cm2/m3</code> → <code>cm²/m³</code>, <code>10^n</code> → <code>10ⁿ</code>, <code>2*3</code> → <code>2 × 3</code>)</label>
       <label class="check"><input id="dcPunctGap" type="checkbox"> Sửa lỗi <b>dính chữ sau dấu câu</b> (ví dụ: <code>Toán,Lý</code> → <code>Toán, Lý</code>; <code>xong.Tiếp</code> → <code>xong. Tiếp</code>; giữ nguyên số thập phân <code>1,5</code> hay <code>3.14</code>)</label>
       <label class="check"><input id="dcBrackets" type="checkbox"> Xóa khoảng trắng thừa <b>trong dấu ngoặc</b> (ví dụ: <code>( phương trình )</code> → <code>(phương trình)</code>)</label>
       <label class="check"><input id="dcCapFirst" type="checkbox"> Tự động <b>viết hoa chữ cái đầu câu</b> sau dấu chấm (., ?, !)</label>
@@ -162,7 +164,12 @@ if (!window.wordBridge && new URLSearchParams(location.search).get('host') !== '
       <label class="check"><input id="dcClearMarks" type="checkbox"> <b>Tẩy gạch chân / chữ đỏ / highlight đáp án</b> (tạo đề thi thử sạch sẽ cho học sinh)</label>
     </fieldset>
 
-    <fieldset class="dc-group"><legend>4. Trình bày sư phạm, bảng biểu & trang in</legend>
+    <fieldset class="dc-group"><legend>4. Quản lý Lời giải & Hướng dẫn giải</legend>
+      <label class="check"><input id="dcHighlightSol" type="checkbox"> <b>Làm nổi bật lời giải</b> (tự động in đậm + in nghiêng + thụt lề các khối <i>Lời giải / Hướng dẫn giải / HDG</i>)</label>
+      <label class="check"><input id="dcRemoveSol" type="checkbox"> <b>Tẩy sạch toàn bộ lời giải</b> (xóa sạch các đoạn <i>Lời giải/HDG</i> đến hết câu để tạo đề thi trần cho học sinh)</label>
+    </fieldset>
+
+    <fieldset class="dc-group"><legend>5. Trình bày sư phạm, bảng biểu & trang in</legend>
       <label class="check"><input id="dcKeepNext" type="checkbox" checked> <b>Chống "mồ côi" câu hỏi & tiêu đề</b> (luôn giữ dòng <i>Câu/Bài/Ví dụ/Heading</i> đi liền với nội dung, không bị rớt lẻ loi ở đáy trang)</label>
       <label class="check"><input id="dcTableCenter" type="checkbox"> <b>Căn giữa toàn bộ bảng</b> ra chính giữa trang giấy</label>
       <label class="check"><input id="dcCantSplit" type="checkbox"> <b>Chống xẻ đôi hàng bảng qua trang</b> & tự động lặp lại dòng tiêu đề bảng ở mỗi trang mới</label>
@@ -170,7 +177,7 @@ if (!window.wordBridge && new URLSearchParams(location.search).get('host') !== '
       <label class="check"><input id="dcPageSetupA4" type="checkbox"> Đặt <b>lề trang in chuẩn A4</b> (Nghị định 30: Trên 2cm, Dưới 2cm, Trái 3cm, Phải 1.5cm)</label>
     </fieldset>
 
-    <fieldset class="dc-group"><legend>5. Định dạng đồng nhất cho đoạn thường (bỏ qua tiêu đề)</legend>
+    <fieldset class="dc-group"><legend>6. Định dạng đồng nhất cho đoạn thường (bỏ qua tiêu đề)</legend>
       <label class="check"><input id="dcFmt" type="checkbox"> Áp dụng định dạng dưới đây</label>
       <div class="grid2">
         <label>Phông chữ <input id="dcFont" type="text" placeholder="Times New Roman"></label>

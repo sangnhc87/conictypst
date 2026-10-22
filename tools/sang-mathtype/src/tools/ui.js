@@ -49,8 +49,10 @@ export function initTools(host, getEngineAnswers) {
       tabs: $('dcTabs').checked, spaces: $('dcSpaces').checked, punct: $('dcPunct').checked, empties: $('dcEmpty').checked,
       punctGap: $('dcPunctGap').checked, brackets: $('dcBrackets').checked, capFirst: $('dcCapFirst').checked,
       boldOpts: $('dcBoldOpts').checked, alignOpts: $('dcAlignOpts').checked,
-      keepNext: $('dcKeepNext').checked, tableCenter: $('dcTableCenter').checked,
+      splitOpts: $('dcSplitOpts')?.checked || false, clearMarks: $('dcClearMarks')?.checked || false,
+      keepNext: $('dcKeepNext').checked, tableCenter: $('dcTableCenter').checked, cantSplit: $('dcCantSplit')?.checked || false,
       softBreaks: $('dcSoftBreaks').checked, pageSetupA4: $('dcPageSetupA4').checked,
+      tcvn3: $('dcTcvn3')?.checked || false,
       skipTables: $('dcSkipTbl').checked,
       format: $('dcFmt').checked ? { font: $('dcFont').value.trim(), size: num('dcSize'), line: num('dcLine'), align: $('dcAlign').value, after: num('dcAfter'), indent: num('dcIndent') } : null,
     })
@@ -58,11 +60,14 @@ export function initTools(host, getEngineAnswers) {
       const parts = []
       if (r.lists) parts.push(`${r.lists} mục danh sách → chữ`)
       if (r.renumber) parts.push(`${r.renumber} nhãn đánh số lại`)
+      if (r.tcvn3) parts.push(`${r.tcvn3} đoạn .VnTime → Unicode`)
       if (r.punctGap) parts.push(`${r.punctGap} chỗ thêm cách sau dấu câu`)
       if (r.brackets) parts.push(`${r.brackets} chỗ dọn cách trong ngoặc`)
       if (r.capFirst) parts.push(`${r.capFirst} chỗ viết hoa đầu câu`)
       if (r.boldOpts) parts.push(`${r.boldOpts} phương án in đậm`)
       if (r.alignOpts) parts.push(`${r.alignOpts} chỗ canh tab phương án`)
+      if (r.splitOpts) parts.push(`${r.splitOpts} phương án tách dòng`)
+      if (r.clearMarks) parts.push(`${r.clearMarks} phương án tẩy gạch chân/màu`)
       if (r.tabs) parts.push(`${r.tabs} chỗ cách → tab`)
       if (r.spaces) parts.push(`${r.spaces} chỗ gộp cách`)
       if (r.punct) parts.push(`${r.punct} dấu cách trước dấu câu`)
@@ -70,15 +75,90 @@ export function initTools(host, getEngineAnswers) {
       if (r.empties) parts.push(`${r.empties} đoạn trống`)
       if (r.keepNext) parts.push(`${r.keepNext} câu/tiêu đề chống mồ côi`)
       if (r.tables) parts.push(`${r.tables} bảng căn giữa`)
+      if (r.cantSplit) parts.push(`${r.cantSplit} bảng chống xẻ đôi hàng`)
       if (r.pageSetup) parts.push(`${r.pageSetup} trang đặt lề chuẩn A4`)
       if (r.format) parts.push(`${r.format} đoạn định dạng`)
       return parts.length ? `${dry ? 'Sẽ sửa' : 'Đã sửa'} (${scopeName()}): ${parts.join(' · ')}.` : 'Không có chỗ nào cần sửa theo các lựa chọn này.'
     }
     const anyChecked = () => {
       const o = docOpts()
-      return o.lists || o.renumber || o.tabs || o.spaces || o.punct || o.punctGap || o.brackets || o.capFirst ||
-        o.boldOpts || o.alignOpts || o.softBreaks || o.empties || o.keepNext || o.tableCenter || o.pageSetupA4 || o.format
+      return o.lists || o.renumber || o.tcvn3 || o.tabs || o.spaces || o.punct || o.punctGap || o.brackets || o.capFirst ||
+        o.boldOpts || o.alignOpts || o.splitOpts || o.clearMarks || o.softBreaks || o.empties || o.keepNext || o.tableCenter || o.cantSplit || o.pageSetupA4 || o.format
     }
+
+    const setAllChecks = checked => {
+      ['dcLists', 'dcRenum', 'dcTcvn3', 'dcPunctGap', 'dcBrackets', 'dcCapFirst', 'dcPunct', 'dcSpaces', 'dcTabs', 'dcEmpty',
+       'dcBoldOpts', 'dcAlignOpts', 'dcSplitOpts', 'dcClearMarks', 'dcKeepNext', 'dcTableCenter', 'dcCantSplit', 'dcSoftBreaks', 'dcPageSetupA4', 'dcFmt'].forEach(id => {
+        const el = $(id); if (el) el.checked = checked
+      })
+    }
+
+    $('dcPresetExam')?.addEventListener('click', () => {
+      setAllChecks(false)
+      $('dcLists').checked = true
+      $('dcRenum').checked = true
+      $('dcPunctGap').checked = true
+      $('dcBrackets').checked = true
+      $('dcBoldOpts').checked = true
+      $('dcAlignOpts').checked = true
+      $('dcKeepNext').checked = true
+      $('dcPageSetupA4').checked = true
+      $('dcFmt').checked = true
+      $('dcFont').value = 'Times New Roman'
+      $('dcSize').value = '12'
+      $('dcLine').value = '1.15'
+      $('dcAlign').value = 'justify'
+      $('dcAfter').value = '3'
+      $('dcIndent').value = '0'
+      status('Đã chọn mẫu: 📝 Đề thi chuẩn')
+    })
+
+    $('dcPresetLesson')?.addEventListener('click', () => {
+      setAllChecks(false)
+      $('dcLists').checked = true
+      $('dcRenum').checked = true
+      $('dcPunctGap').checked = true
+      $('dcBrackets').checked = true
+      $('dcCapFirst').checked = true
+      $('dcKeepNext').checked = true
+      $('dcTableCenter').checked = true
+      if ($('dcCantSplit')) $('dcCantSplit').checked = true
+      $('dcPageSetupA4').checked = true
+      $('dcFmt').checked = true
+      $('dcFont').value = 'Times New Roman'
+      $('dcSize').value = '13'
+      $('dcLine').value = '1.2'
+      $('dcAlign').value = 'justify'
+      $('dcAfter').value = '6'
+      $('dcIndent').value = '18'
+      status('Đã chọn mẫu: 📖 Giáo án / Chuyên đề')
+    })
+
+    $('dcPresetWeb')?.addEventListener('click', () => {
+      setAllChecks(false)
+      $('dcSpaces').checked = true
+      $('dcTabs').checked = true
+      $('dcPunct').checked = true
+      $('dcPunctGap').checked = true
+      $('dcBrackets').checked = true
+      $('dcSoftBreaks').checked = true
+      $('dcEmpty').checked = true
+      status('Đã chọn mẫu: 🧹 Dọn sạch tài liệu mạng')
+    })
+
+    $('dcPresetClearKey')?.addEventListener('click', () => {
+      setAllChecks(false)
+      if ($('dcClearMarks')) $('dcClearMarks').checked = true
+      $('dcBoldOpts').checked = true
+      $('dcAlignOpts').checked = true
+      status('Đã chọn mẫu: 🎯 Tẩy đáp án (xóa gạch chân / màu)')
+    })
+
+    $('dcPresetReset')?.addEventListener('click', () => {
+      setAllChecks(false)
+      status('Đã bỏ chọn tất cả')
+    })
+
     const runDoc = dry => guard(dry ? 'Xem trước' : 'Làm đẹp tài liệu', async () => {
       if (!anyChecked()) throw new Error('Hãy tích chọn ít nhất một việc cần làm.')
       const r = await runDocClean(docOpts(), scope, dry, t => status(`${t}…`))

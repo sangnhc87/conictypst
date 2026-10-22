@@ -153,6 +153,70 @@ export function planKeepWithNext(paras) {
   return indices
 }
 
+/**
+ * Bảng mã chuyển đổi TCVN3 (.VnTime, .VnTimeH...) sang Unicode chuẩn.
+ */
+export const TCVN3_MAP = {
+  184: 'á', 181: 'à', 182: 'ả', 183: 'ã', 185: 'ạ',
+  168: 'ă', 190: 'ắ', 187: 'ằ', 188: 'ẳ', 189: 'ẵ', 198: 'ặ',
+  169: 'â', 202: 'ấ', 199: 'ầ', 200: 'ẩ', 201: 'ẫ', 203: 'ậ',
+  208: 'é', 204: 'è', 206: 'ẻ', 207: 'ẽ', 209: 'ẹ',
+  170: 'ê', 213: 'ế', 210: 'ề', 211: 'ể', 212: 'ễ', 214: 'ệ',
+  221: 'í', 215: 'ì', 216: 'ỉ', 220: 'ĩ', 222: 'ị',
+  227: 'ó', 223: 'ò', 225: 'ỏ', 226: 'õ', 228: 'ọ',
+  171: 'ô', 233: 'ố', 229: 'ồ', 231: 'ổ', 232: 'ỗ', 234: 'ộ',
+  172: 'ơ', 238: 'ớ', 235: 'ờ', 236: 'ở', 237: 'ỡ', 239: 'ợ',
+  243: 'ú', 240: 'ù', 241: 'ủ', 242: 'ũ', 244: 'ụ',
+  173: 'ư', 248: 'ứ', 245: 'ừ', 246: 'ử', 247: 'ữ', 249: 'ự',
+  253: 'ý', 250: 'ỳ', 251: 'ỷ', 252: 'ỹ', 254: 'ỵ',
+  174: 'đ',
+  161: 'Ă', 162: 'Â', 163: 'Đ', 164: 'Ê', 165: 'Ô', 166: 'Ơ', 167: 'Ư'
+}
+
+export function hasTcvn3(str) {
+  if (!str) return false
+  for (let i = 0; i < str.length; i++) {
+    if (TCVN3_MAP[str.charCodeAt(i)]) return true
+  }
+  return false
+}
+
+export function tcvn3ToUnicode(str) {
+  if (!str) return ''
+  let out = ''
+  for (let i = 0; i < str.length; i++) {
+    const c = str.charCodeAt(i)
+    out += TCVN3_MAP[c] || str[i]
+  }
+  return out
+}
+
+export function planTcvn3(paras) {
+  const fixes = []
+  paras.forEach((p, i) => {
+    if (hasTcvn3(p.text)) {
+      fixes.push({ p: i, from: p.text, to: tcvn3ToUnicode(p.text) })
+    }
+  })
+  return fixes
+}
+
+/**
+ * Tách các phương án trắc nghiệm trên cùng một dòng thành các dòng riêng biệt.
+ */
+const OPT_SPLIT_RE = /(?:[\t]|\s{2,})([B-D]\.|\([B-D]\)|[b-d]\))(?=\s)/g
+export function planSplitOptions(paras) {
+  const fixes = []
+  paras.forEach((p, i) => {
+    let m
+    const re = new RegExp(OPT_SPLIT_RE.source, 'g')
+    while ((m = re.exec(p.text)) !== null) {
+      fixes.push({ p: i, from: m[0], to: `\r${m[1]}` })
+    }
+  })
+  return fixes
+}
+
 /** Ký tự đầu dòng của Word (Symbol font, ô vuông...) → ký hiệu chữ thường. */
 export const isBulletString = s => !!s && !/[0-9A-Za-zÀ-ỹ]/.test(s)
 
@@ -185,7 +249,8 @@ async function applyFixes(ctx, items, fixes) {
 
 export const ZERO = {
   lists: 0, renumber: 0, tabs: 0, spaces: 0, punct: 0, punctGap: 0, brackets: 0, capFirst: 0,
-  empties: 0, boldOpts: 0, alignOpts: 0, keepNext: 0, tables: 0, softBreaks: 0, pageSetup: 0, format: 0
+  empties: 0, boldOpts: 0, alignOpts: 0, splitOpts: 0, clearMarks: 0,
+  keepNext: 0, tables: 0, cantSplit: 0, softBreaks: 0, pageSetup: 0, tcvn3: 0, format: 0
 }
 
 /**
@@ -228,6 +293,22 @@ export async function runDocClean(opts, scope, dry = false, onStep = () => {}) {
       if (!dry && fixes.length) {
         await applyFixes(ctx, items, fixes)
       }
+    }
+
+    // 2b) chuyển mã TCVN3 (.VnTime) sang Unicode
+    if (opts.tcvn3) {
+      onStep('Chuyển mã .VnTime → Unicode')
+      const items = await loadParas(ctx, scope, 'items/font/name')
+      for (const p of items) {
+        const isVn = (p.font && p.font.name && p.font.name.startsWith('.Vn')) || hasTcvn3(p.text)
+        if (isVn) {
+          rep.tcvn3++
+          if (dry) continue
+          p.insertText(tcvn3ToUnicode(p.text), 'Replace')
+          p.font.name = 'Times New Roman'
+        }
+      }
+      if (!dry) await ctx.sync()
     }
 
     // 3) sửa lỗi dính chữ sau dấu câu
@@ -274,6 +355,17 @@ export async function runDocClean(opts, scope, dry = false, onStep = () => {}) {
       }
     }
 
+    // 6b) tách các phương án thành từng dòng riêng
+    if (opts.splitOpts) {
+      onStep('Tách phương án thành từng dòng')
+      const items = await loadParas(ctx, scope)
+      const fixes = planSplitOptions(items.map(p => ({ text: p.text })))
+      rep.splitOpts = fixes.length
+      if (!dry && fixes.length) {
+        await applyFixes(ctx, items, fixes)
+      }
+    }
+
     // 7) in đậm nhãn phương án A. B. C. D.
     if (opts.boldOpts) {
       onStep('In đậm nhãn phương án')
@@ -289,6 +381,23 @@ export async function runDocClean(opts, scope, dry = false, onStep = () => {}) {
         await ctx.sync()
         for (const { r } of searchJobs) {
           if (r.items && r.items[0]) r.items[0].font.bold = true
+        }
+        await ctx.sync()
+      }
+    }
+
+    // 7b) tẩy gạch chân và màu chữ đáp án
+    if (opts.clearMarks) {
+      onStep('Tẩy gạch chân / màu đáp án')
+      const items = await loadParas(ctx, scope)
+      const optParas = items.filter(p => OPT_BOLD_RE.test(p.text))
+      rep.clearMarks = optParas.length
+      if (!dry && optParas.length) {
+        for (const p of optParas) {
+          try {
+            p.font.underline = 'None'
+            p.font.color = '#000000'
+          } catch {}
         }
         await ctx.sync()
       }
@@ -364,6 +473,21 @@ export async function runDocClean(opts, scope, dry = false, onStep = () => {}) {
       if (!dry && rep.tables) {
         for (const tbl of tables.items) {
           try { tbl.alignment = 'Center' } catch {}
+        }
+        await ctx.sync()
+      }
+    }
+
+    // 12b) chống xẻ đôi hàng bảng và lặp tiêu đề
+    if (opts.cantSplit) {
+      onStep('Chống xẻ đôi hàng bảng')
+      const tables = scopeRange(ctx, scope).tables
+      tables.load('items')
+      await ctx.sync()
+      rep.cantSplit = tables.items.length
+      if (!dry && rep.cantSplit) {
+        for (const tbl of tables.items) {
+          try { tbl.headerRowCount = 1 } catch {}
         }
         await ctx.sync()
       }

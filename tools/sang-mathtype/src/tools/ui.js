@@ -227,7 +227,55 @@ export function initTools(host, getEngineAnswers) {
     })
     $('dcPreview').addEventListener('click', () => runDoc(true))
     $('dcApply').addEventListener('click', () => runDoc(false))
+
+    // Tác vụ nhanh trực tiếp trong các module
+    $('btnDirectConvertLists')?.addEventListener('click', () => guard('Đổi đánh số tự động', async () => {
+      const bullet = $('dcBullet')?.value || 'dot'
+      const r = await runDocClean({ lists: true, bullet }, scope, false, t => status(`${t}…`))
+      status(r.lists ? `Đã đổi ${r.lists} mục đánh số tự động thành chữ thường (${scopeName()}).` : 'Không có mục đánh số tự động nào trong văn bản.')
+    }))
+
+    $('btnDirectApplyOpts')?.addEventListener('click', () => guard('Chuẩn hóa phương án', async () => {
+      const boldOpts = $('dcBoldOpts')?.checked ?? true
+      const alignOpts = $('dcAlignOpts')?.checked ?? true
+      const splitOpts = $('dcSplitOpts')?.checked ?? false
+      const r = await runDocClean({ boldOpts, alignOpts, splitOpts }, scope, false, t => status(`${t}…`))
+      const parts = []
+      if (r.boldOpts) parts.push(`${r.boldOpts} in đậm`)
+      if (r.alignOpts) parts.push(`${r.alignOpts} canh tab`)
+      if (r.splitOpts) parts.push(`${r.splitOpts} tách dòng`)
+      status(parts.length ? `Đã chuẩn hóa phương án (${scopeName()}): ${parts.join(' · ')}.` : 'Các phương án đã chuẩn hóa, không cần sửa.')
+    }))
+
+    $('btnDirectHighlightSol')?.addEventListener('click', () => guard('Làm nổi bật lời giải', async () => {
+      const r = await runDocClean({ solHighlight: true }, scope, false, t => status(`${t}…`))
+      status(r.solHighlight ? `Đã làm nổi bật ${r.solHighlight} khối lời giải (${scopeName()}).` : 'Không tìm thấy khối lời giải nào trong văn bản.')
+    }))
+
+    $('btnDirectRemoveSol')?.addEventListener('click', () => guard('Tẩy sạch lời giải', async () => {
+      const r = await runDocClean({ solRemove: true, clearMarks: true }, scope, false, t => status(`${t}…`))
+      status(r.solRemove ? `Đã xóa ${r.solRemove} đoạn lời giải & tẩy đáp án thành đề thi trần (${scopeName()}).` : 'Không tìm thấy lời giải nào để xóa.')
+    }))
   }
+
+  // ---------- Sub-tabs module cho Công cụ soạn ----------
+  const subTabs = document.querySelectorAll('.tm-tab')
+  const subPanes = document.querySelectorAll('.tool-pane')
+  const SUBTAB_KEY = 'sangmath.tool.subtab'
+  const switchSubTab = targetId => {
+    subTabs.forEach(t => {
+      const match = t.getAttribute('data-target') === targetId
+      t.classList.toggle('on', match)
+      t.setAttribute('aria-selected', match ? 'true' : 'false')
+    })
+    subPanes.forEach(p => { p.hidden = p.id !== targetId })
+    safe(() => localStorage.setItem(SUBTAB_KEY, targetId))
+  }
+  subTabs.forEach(btn => {
+    btn.addEventListener('click', () => switchSubTab(btn.getAttribute('data-target')))
+  })
+  const lastSubTab = safe(() => localStorage.getItem(SUBTAB_KEY))
+  if (lastSubTab && $(lastSubTab)) switchSubTab(lastSubTab)
 
   // ---------- phạm vi ----------
   const setScope = s => { scope = s; $('tlScopeDoc').classList.toggle('on', s === 'doc'); $('tlScopeSel').classList.toggle('on', s === 'sel') }

@@ -34,7 +34,7 @@ Các thẻ lớn trong giao diện (`src/tabs.js`): **Công thức** · **Vẽ h
 | Máy chủ thử cục bộ | `serve.mjs` (HTTPS cổng 3155 nếu có `certs/`) |
 | Kiểm tra mẫu | `tests/check-stamps.mjs`; các test khác `tests/*.test.mjs` (OMML, Office bridge, gdocs, công cụ) – chưa rà lại cách chạy ở phiên gần nhất |
 | Trình cài cho người dùng | `release/sangmath/**` + `.github/workflows/sangmath-release.yml` (ở **gốc repo**) |
-| **Làm đẹp tài liệu bất kỳ** (khối ★ đầu thẻ Công cụ soạn: đổi danh sách tự động → chữ, đánh số lại Câu/1./a)/I., tab, dấu cách, đoạn trống, định dạng) | `src/tools/doc-clean.js` (`detectLabel`, `planRenumber` thuần + `runDocClean` gọi Office.js), khối `#tlDocBox` trong `taskpane.html`, nối ở `src/tools/ui.js` (chỉ khi `host.name === 'office'`), test `tests/doc-clean.test.mjs`. **Phần gọi Word chưa thử trong Word thật** |
+| **Làm đẹp tài liệu bất kỳ** (khối ★ đầu thẻ Công cụ soạn: đổi danh sách tự động → chữ, đánh số lại Câu/1./a)/I., dính chữ sau dấu câu, khoảng trắng ngoặc, viết hoa đầu câu, in đậm/canh tab phương án A-D, chống mồ côi keepWithNext, căn giữa bảng, ngắt dòng mềm, lề A4 NĐ30, format đoạn) | `src/tools/doc-clean.js` (các hàm `plan*` thuần + `runDocClean` gọi Office.js), khối `#tlDocBox` trong `taskpane.html`, nối ở `src/tools/ui.js` (chỉ khi `host.name === 'office'`), test `tests/doc-clean.test.mjs` (10 test pass). **Phần gọi Word chưa thử trong Word thật** |
 | Công cụ soạn đề cho Word | `src/tools/*` (`parse`, `plans`, `runner`, `ui`, host-office/host-desktop), `src/omml*.js`, `src/convert.js`, `src/toequation.js` |
 | Trộn đề | `src/exam*.js`, `src/exam.worker.js`, `exam/engine/*.py` |
 

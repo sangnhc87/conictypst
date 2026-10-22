@@ -47,6 +47,10 @@ export function initTools(host, getEngineAnswers) {
     const docOpts = () => ({
       lists: $('dcLists').checked, bullet: $('dcBullet').value, renumber: $('dcRenum').checked, resetHeading: $('dcResetHead').checked,
       tabs: $('dcTabs').checked, spaces: $('dcSpaces').checked, punct: $('dcPunct').checked, empties: $('dcEmpty').checked,
+      punctGap: $('dcPunctGap').checked, brackets: $('dcBrackets').checked, capFirst: $('dcCapFirst').checked,
+      boldOpts: $('dcBoldOpts').checked, alignOpts: $('dcAlignOpts').checked,
+      keepNext: $('dcKeepNext').checked, tableCenter: $('dcTableCenter').checked,
+      softBreaks: $('dcSoftBreaks').checked, pageSetupA4: $('dcPageSetupA4').checked,
       skipTables: $('dcSkipTbl').checked,
       format: $('dcFmt').checked ? { font: $('dcFont').value.trim(), size: num('dcSize'), line: num('dcLine'), align: $('dcAlign').value, after: num('dcAfter'), indent: num('dcIndent') } : null,
     })
@@ -54,14 +58,27 @@ export function initTools(host, getEngineAnswers) {
       const parts = []
       if (r.lists) parts.push(`${r.lists} mục danh sách → chữ`)
       if (r.renumber) parts.push(`${r.renumber} nhãn đánh số lại`)
+      if (r.punctGap) parts.push(`${r.punctGap} chỗ thêm cách sau dấu câu`)
+      if (r.brackets) parts.push(`${r.brackets} chỗ dọn cách trong ngoặc`)
+      if (r.capFirst) parts.push(`${r.capFirst} chỗ viết hoa đầu câu`)
+      if (r.boldOpts) parts.push(`${r.boldOpts} phương án in đậm`)
+      if (r.alignOpts) parts.push(`${r.alignOpts} chỗ canh tab phương án`)
       if (r.tabs) parts.push(`${r.tabs} chỗ cách → tab`)
       if (r.spaces) parts.push(`${r.spaces} chỗ gộp cách`)
       if (r.punct) parts.push(`${r.punct} dấu cách trước dấu câu`)
+      if (r.softBreaks) parts.push(`${r.softBreaks} ngắt dòng mềm → đoạn`)
       if (r.empties) parts.push(`${r.empties} đoạn trống`)
+      if (r.keepNext) parts.push(`${r.keepNext} câu/tiêu đề chống mồ côi`)
+      if (r.tables) parts.push(`${r.tables} bảng căn giữa`)
+      if (r.pageSetup) parts.push(`${r.pageSetup} trang đặt lề chuẩn A4`)
       if (r.format) parts.push(`${r.format} đoạn định dạng`)
       return parts.length ? `${dry ? 'Sẽ sửa' : 'Đã sửa'} (${scopeName()}): ${parts.join(' · ')}.` : 'Không có chỗ nào cần sửa theo các lựa chọn này.'
     }
-    const anyChecked = () => { const o = docOpts(); return o.lists || o.renumber || o.tabs || o.spaces || o.punct || o.empties || o.format }
+    const anyChecked = () => {
+      const o = docOpts()
+      return o.lists || o.renumber || o.tabs || o.spaces || o.punct || o.punctGap || o.brackets || o.capFirst ||
+        o.boldOpts || o.alignOpts || o.softBreaks || o.empties || o.keepNext || o.tableCenter || o.pageSetupA4 || o.format
+    }
     const runDoc = dry => guard(dry ? 'Xem trước' : 'Làm đẹp tài liệu', async () => {
       if (!anyChecked()) throw new Error('Hãy tích chọn ít nhất một việc cần làm.')
       const r = await runDocClean(docOpts(), scope, dry, t => status(`${t}…`))

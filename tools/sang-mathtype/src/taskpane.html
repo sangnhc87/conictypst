@@ -122,12 +122,22 @@
     <h3>★ Làm đẹp tài liệu (chuẩn hóa toàn diện như BTPro / VnTools)</h3>
     <p class="muted">Chọn các việc cần làm, bấm <b>Xem trước</b> (chỉ quét đếm, không đổi tài liệu) hoặc <b>Áp dụng</b>. Phạm vi theo nút "Toàn tài liệu / Vùng chọn". Hoàn tác tức thì: <b>Ctrl/Cmd + Z</b> trong Word.</p>
     
-    <fieldset class="dc-group"><legend>1. Đánh số và danh sách</legend>
+    <div class="dc-presets">
+      <div class="dc-preset-title">⚡ 1-Chạm thiết lập mẫu nhanh:</div>
+      <button id="dcPresetExam" type="button" class="btn-preset">📝 Đề thi chuẩn</button>
+      <button id="dcPresetLesson" type="button" class="btn-preset">📖 Giáo án / Chuyên đề</button>
+      <button id="dcPresetWeb" type="button" class="btn-preset">🧹 Dọn sạch file mạng</button>
+      <button id="dcPresetClearKey" type="button" class="btn-preset">🎯 Tẩy đáp án (in đề)</button>
+      <button id="dcPresetReset" type="button" class="btn-preset-reset">↺ Bỏ chọn</button>
+    </div>
+
+    <fieldset class="dc-group"><legend>1. Đánh số, danh sách & bảng mã</legend>
       <label class="check"><input id="dcLists" type="checkbox"> Đổi <b>đánh số / gạch đầu dòng tự động</b> của Word thành chữ thường (số hoặc ký hiệu gõ sẵn)</label>
       <label class="dc-sub">Ký hiệu thay gạch đầu dòng
         <select id="dcBullet"><option value="dot">• chấm tròn</option><option value="dash">– gạch ngắn</option><option value="hyphen">- gạch nối</option><option value="square">▪ ô vuông nhỏ</option></select></label>
       <label class="check"><input id="dcRenum" type="checkbox"> <b>Đánh số lại thứ tự</b> các mục gõ tay: Câu/Bài/Ví dụ <i>n</i>., 1. 2. 3., a) b) c), I. II. (cấp nhỏ tự khởi lại khi sang mục lớn)</label>
       <label class="check dc-sub"><input id="dcResetHead" type="checkbox" checked> Khởi lại thứ tự sau mỗi tiêu đề (Heading hoặc dòng IN HOA)</label>
+      <label class="check"><input id="dcTcvn3" type="checkbox"> Chuyển mã font cũ <b>.VnTime / TCVN3 sang Unicode</b> (đổi font thành Times New Roman chuẩn)</label>
     </fieldset>
 
     <fieldset class="dc-group"><legend>2. Chính tả, dấu câu & khoảng trắng thông minh</legend>
@@ -143,11 +153,14 @@
     <fieldset class="dc-group"><legend>3. Trắc nghiệm: Phương án A, B, C, D (kiểu BTPro / McMix)</legend>
       <label class="check"><input id="dcBoldOpts" type="checkbox"> Tự động <b>in đậm nhãn phương án</b> (<b>A.</b> <b>B.</b> <b>C.</b> <b>D.</b> hoặc <b>a)</b> <b>b)</b> <b>c)</b> <b>d)</b>)</label>
       <label class="check"><input id="dcAlignOpts" type="checkbox"> <b>Canh thẳng hàng các phương án</b> bằng dấu Tab (thay thế chuỗi dấu cách giữa các phương án trên cùng dòng)</label>
+      <label class="check"><input id="dcSplitOpts" type="checkbox"> <b>Tách mỗi phương án thành 1 dòng riêng</b> (dành cho phương án dài bị dính chung 1 dòng)</label>
+      <label class="check"><input id="dcClearMarks" type="checkbox"> <b>Tẩy gạch chân / chữ đỏ / highlight đáp án</b> (tạo đề thi thử sạch sẽ cho học sinh)</label>
     </fieldset>
 
     <fieldset class="dc-group"><legend>4. Trình bày sư phạm, bảng biểu & trang in</legend>
       <label class="check"><input id="dcKeepNext" type="checkbox" checked> <b>Chống "mồ côi" câu hỏi & tiêu đề</b> (luôn giữ dòng <i>Câu/Bài/Ví dụ/Heading</i> đi liền với nội dung, không bị rớt lẻ loi ở đáy trang)</label>
       <label class="check"><input id="dcTableCenter" type="checkbox"> <b>Căn giữa toàn bộ bảng</b> ra chính giữa trang giấy</label>
+      <label class="check"><input id="dcCantSplit" type="checkbox"> <b>Chống xẻ đôi hàng bảng qua trang</b> & tự động lặp lại dòng tiêu đề bảng ở mỗi trang mới</label>
       <label class="check"><input id="dcSoftBreaks" type="checkbox"> Đổi <b>ngắt dòng mềm (Shift + Enter)</b> thành ngắt đoạn chuẩn (Enter)</label>
       <label class="check"><input id="dcPageSetupA4" type="checkbox"> Đặt <b>lề trang in chuẩn A4</b> (Nghị định 30: Trên 2cm, Dưới 2cm, Trái 3cm, Phải 1.5cm)</label>
     </fieldset>

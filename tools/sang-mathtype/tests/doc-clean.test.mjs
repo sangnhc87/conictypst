@@ -3,7 +3,8 @@ import assert from 'node:assert/strict'
 import {
   planRenumber, detectLabel, isBulletString,
   planPunctGaps, planBracketSpaces, planCapFirst,
-  planBoldOptions, planAlignOptions, planKeepWithNext
+  planBoldOptions, planAlignOptions, planKeepWithNext,
+  tcvn3ToUnicode, hasTcvn3, planSplitOptions
 } from '../src/tools/doc-clean.js'
 
 const P = t => ({ text: t })
@@ -79,4 +80,19 @@ test('chống mồ côi: nhận diện câu hỏi và tiêu đề', () => {
   ])
   assert.deepEqual(hits, [0, 2, 3])
 })
+test('chuyển mã TCVN3 (.VnTime) sang Unicode chuẩn', () => {
+  const raw = 'To\xb5n h\xe4c v\xb5 Gi\xb8o vi\xaan'
+  assert.ok(hasTcvn3(raw))
+  assert.equal(tcvn3ToUnicode(raw), 'Toàn học và Giáo viên')
+})
+test('tách 4 phương án trắc nghiệm trên 1 dòng thành 4 dòng', () => {
+  const f = planSplitOptions(['A. 1\tB. 2\tC. 3\tD. 4', 'A. Đúng      B. Sai'].map(P))
+  assert.deepEqual(f.map(x => [x.p, x.to]), [
+    [0, '\rB.'],
+    [0, '\rC.'],
+    [0, '\rD.'],
+    [1, '\rB.']
+  ])
+})
+
 

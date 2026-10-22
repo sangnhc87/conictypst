@@ -8,6 +8,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sang Math cho Word</title>
 <link rel="stylesheet" href="taskpane.css">
+<script>
+if (!window.wordBridge && new URLSearchParams(location.search).get('host') !== 'gdocs' && !new URLSearchParams(location.search).get('app')) {
+  document.write('<script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"><\/script>');
+}
+</script>
 </head>
 <body data-exmode="shuffle">
 <header class="top" id="topbar">

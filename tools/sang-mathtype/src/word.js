@@ -74,9 +74,24 @@ const newId = () => 1000 + Math.floor(Math.random() * 900000)
 /** Chèn tại con trỏ (hoặc thay vùng chọn). payload: { image, meta, format, numbered }. */
 export function insertFormula(payload) {
   return Word.run(async ctx => {
-    ctx.document.getSelection().insertOoxml(build(payload), 'Replace')
-    await ctx.sync()
-    if (payload.numbered) await refreshNumbers(ctx)
+    try {
+      ctx.document.getSelection().insertOoxml(build(payload), 'Replace')
+      await ctx.sync()
+      if (payload.numbered) await refreshNumbers(ctx)
+    } catch (ooxmlErr) {
+      // Dự phòng cho Word Online / môi trường chặn OOXML: chèn ảnh Base64 trực tiếp
+      try {
+        const pngBase64 = payload.image.pngLite || payload.image.png
+        if (pngBase64) {
+          const pic = ctx.document.getSelection().insertInlinePictureFromBase64(pngBase64, 'Replace')
+          pic.altTextDescription = encodeMeta(payload.meta)
+          pic.altTextTitle = 'Hình Sang Math'
+          await ctx.sync()
+          return
+        }
+      } catch {}
+      throw ooxmlErr
+    }
   })
 }
 
@@ -98,8 +113,22 @@ export function replaceSelectedFormula(payload) {
     pics.load('items')
     await ctx.sync()
     const target = pics.items.length ? pics.items[0].getRange() : ctx.document.getSelection()
-    target.insertOoxml(build(payload), 'Replace')
-    await ctx.sync()
+    try {
+      target.insertOoxml(build(payload), 'Replace')
+      await ctx.sync()
+    } catch (ooxmlErr) {
+      try {
+        const pngBase64 = payload.image.pngLite || payload.image.png
+        if (pngBase64) {
+          const pic = target.insertInlinePictureFromBase64(pngBase64, 'Replace')
+          pic.altTextDescription = encodeMeta(payload.meta)
+          pic.altTextTitle = 'Hình Sang Math'
+          await ctx.sync()
+          return
+        }
+      } catch {}
+      throw ooxmlErr
+    }
   })
 }
 

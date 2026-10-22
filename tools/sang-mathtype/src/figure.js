@@ -29,8 +29,12 @@ function setMode(mode) {
   $('modeEd').classList.toggle('on', ed)
   $('modeTpl').classList.toggle('on', !ed)
   if (ed) editorShown()
+  else setButtons()
 }
-export const showFigureView = () => { if (!$('edMode').hidden) editorShown() }
+export const showFigureView = () => {
+  setButtons()
+  if (!$('edMode').hidden) editorShown()
+}
 
 // ---------- danh sách mẫu ----------
 function renderGroups() {

@@ -538,14 +538,24 @@ if (window.wordBridge) {
 } else if (new URLSearchParams(location.search).get('host') === 'gdocs' && window.parent !== window) {
   useBridge(gdocs) // chạy trong khung bên phải của Google Docs
 } else {
-  // Add-in Office: nạp office.js khi cần (app desktop không nạp để khỏi mở cửa sổ phụ của Office).
-  const script = document.createElement('script')
-  script.src = 'https://appsforoffice.microsoft.com/lib/1/hosted/office.js'
-  script.onload = () => Office.onReady(info => {
-    // Ngoài Word (mở thẳng trình duyệt) không có đối tượng tài liệu: chỉ dùng để xem thử.
-    if (info.host === Office.HostType.Word) useBridge(office)
-  })
-  document.head.append(script)
+  const attachOffice = () => {
+    if (typeof Office !== 'undefined') {
+      Office.onReady(info => {
+        // Trong Word (Desktop Windows/Mac hoặc Word Online)
+        if (info && (info.host === Office.HostType.Word || info.host === 'Word' || window.Word)) {
+          useBridge(office)
+        }
+      })
+    }
+  }
+  if (typeof Office !== 'undefined') {
+    attachOffice()
+  } else {
+    const script = document.createElement('script')
+    script.src = 'https://appsforoffice.microsoft.com/lib/1/hosted/office.js'
+    script.onload = attachOffice
+    document.head.append(script)
+  }
 }
 
 // Chỉ để kiểm thử tự động: mở taskpane.html?debug

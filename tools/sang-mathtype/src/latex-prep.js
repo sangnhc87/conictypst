@@ -9,6 +9,7 @@ export function spaceCases(latex) {
 // sang ký tự Unicode tương ứng, mitex để nguyên rồi Typst vẽ như ký hiệu thường.
 const LATEX_UNICODE = {
   cap: '∩', bigcap: '⋂', partial: '∂', oplus: '⊕', otimes: '⊗', odot: '⊙', hbar: 'ħ', langle: '⟨', rangle: '⟩', euro: '€',
+  backsim: '∽', dongdang: '∽',
 }
 export const unicodeCompat = latex => latex.replace(/\\([A-Za-z]+)/g, (m, name) => LATEX_UNICODE[name] ?? m)
 

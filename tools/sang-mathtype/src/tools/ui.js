@@ -48,8 +48,10 @@ export function initTools(host, getEngineAnswers) {
       lists: $('dcLists').checked, bullet: $('dcBullet').value, renumber: $('dcRenum').checked, resetHeading: $('dcResetHead').checked,
       tabs: $('dcTabs').checked, spaces: $('dcSpaces').checked, punct: $('dcPunct').checked, empties: $('dcEmpty').checked,
       punctGap: $('dcPunctGap').checked, brackets: $('dcBrackets').checked, capFirst: $('dcCapFirst').checked,
+      mathSymbols: $('dcMathSymbols')?.checked || false,
       boldOpts: $('dcBoldOpts').checked, alignOpts: $('dcAlignOpts').checked,
       splitOpts: $('dcSplitOpts')?.checked || false, clearMarks: $('dcClearMarks')?.checked || false,
+      solHighlight: $('dcHighlightSol')?.checked || false, solRemove: $('dcRemoveSol')?.checked || false,
       keepNext: $('dcKeepNext').checked, tableCenter: $('dcTableCenter').checked, cantSplit: $('dcCantSplit')?.checked || false,
       softBreaks: $('dcSoftBreaks').checked, pageSetupA4: $('dcPageSetupA4').checked,
       tcvn3: $('dcTcvn3')?.checked || false,
@@ -61,6 +63,7 @@ export function initTools(host, getEngineAnswers) {
       if (r.lists) parts.push(`${r.lists} mục danh sách → chữ`)
       if (r.renumber) parts.push(`${r.renumber} nhãn đánh số lại`)
       if (r.tcvn3) parts.push(`${r.tcvn3} đoạn .VnTime → Unicode`)
+      if (r.mathSymbols) parts.push(`${r.mathSymbols} chỗ ký hiệu toán (mũi tên, số mũ, đồng dạng ∽)`)
       if (r.punctGap) parts.push(`${r.punctGap} chỗ thêm cách sau dấu câu`)
       if (r.brackets) parts.push(`${r.brackets} chỗ dọn cách trong ngoặc`)
       if (r.capFirst) parts.push(`${r.capFirst} chỗ viết hoa đầu câu`)
@@ -68,6 +71,8 @@ export function initTools(host, getEngineAnswers) {
       if (r.alignOpts) parts.push(`${r.alignOpts} chỗ canh tab phương án`)
       if (r.splitOpts) parts.push(`${r.splitOpts} phương án tách dòng`)
       if (r.clearMarks) parts.push(`${r.clearMarks} phương án tẩy gạch chân/màu`)
+      if (r.solHighlight) parts.push(`${r.solHighlight} khối lời giải nổi bật`)
+      if (r.solRemove) parts.push(`${r.solRemove} đoạn lời giải đã tẩy sạch`)
       if (r.tabs) parts.push(`${r.tabs} chỗ cách → tab`)
       if (r.spaces) parts.push(`${r.spaces} chỗ gộp cách`)
       if (r.punct) parts.push(`${r.punct} dấu cách trước dấu câu`)
@@ -82,21 +87,61 @@ export function initTools(host, getEngineAnswers) {
     }
     const anyChecked = () => {
       const o = docOpts()
-      return o.lists || o.renumber || o.tcvn3 || o.tabs || o.spaces || o.punct || o.punctGap || o.brackets || o.capFirst ||
-        o.boldOpts || o.alignOpts || o.splitOpts || o.clearMarks || o.softBreaks || o.empties || o.keepNext || o.tableCenter || o.cantSplit || o.pageSetupA4 || o.format
+      return o.lists || o.renumber || o.tcvn3 || o.mathSymbols || o.tabs || o.spaces || o.punct || o.punctGap || o.brackets || o.capFirst ||
+        o.boldOpts || o.alignOpts || o.splitOpts || o.clearMarks || o.solHighlight || o.solRemove || o.softBreaks || o.empties || o.keepNext || o.tableCenter || o.cantSplit || o.pageSetupA4 || o.format
     }
 
+    const ALL_DC_IDS = [
+      'dcLists', 'dcBullet', 'dcRenum', 'dcResetHead', 'dcTcvn3',
+      'dcMathSymbols', 'dcPunctGap', 'dcBrackets', 'dcCapFirst', 'dcPunct', 'dcSpaces', 'dcTabs', 'dcEmpty',
+      'dcBoldOpts', 'dcAlignOpts', 'dcSplitOpts', 'dcClearMarks',
+      'dcHighlightSol', 'dcRemoveSol',
+      'dcKeepNext', 'dcTableCenter', 'dcCantSplit', 'dcSoftBreaks', 'dcPageSetupA4',
+      'dcFmt', 'dcFont', 'dcSize', 'dcLine', 'dcAlign', 'dcAfter', 'dcIndent', 'dcSkipTbl'
+    ]
+
     const setAllChecks = checked => {
-      ['dcLists', 'dcRenum', 'dcTcvn3', 'dcPunctGap', 'dcBrackets', 'dcCapFirst', 'dcPunct', 'dcSpaces', 'dcTabs', 'dcEmpty',
-       'dcBoldOpts', 'dcAlignOpts', 'dcSplitOpts', 'dcClearMarks', 'dcKeepNext', 'dcTableCenter', 'dcCantSplit', 'dcSoftBreaks', 'dcPageSetupA4', 'dcFmt'].forEach(id => {
+      ['dcLists', 'dcRenum', 'dcTcvn3', 'dcMathSymbols', 'dcPunctGap', 'dcBrackets', 'dcCapFirst', 'dcPunct', 'dcSpaces', 'dcTabs', 'dcEmpty',
+       'dcBoldOpts', 'dcAlignOpts', 'dcSplitOpts', 'dcClearMarks', 'dcHighlightSol', 'dcRemoveSol',
+       'dcKeepNext', 'dcTableCenter', 'dcCantSplit', 'dcSoftBreaks', 'dcPageSetupA4', 'dcFmt'].forEach(id => {
         const el = $(id); if (el) el.checked = checked
       })
     }
+
+    const DOC_STORE = 'sangmath.docclean.opts'
+    const saveDocCleanOpts = () => {
+      try {
+        const state = {}
+        for (const id of ALL_DC_IDS) {
+          const el = $(id)
+          if (!el) continue
+          state[id] = el.type === 'checkbox' ? el.checked : el.value
+        }
+        localStorage.setItem(DOC_STORE, JSON.stringify(state))
+      } catch {}
+    }
+    const loadDocCleanOpts = () => {
+      try {
+        const raw = localStorage.getItem(DOC_STORE)
+        if (!raw) return
+        const state = JSON.parse(raw)
+        for (const [id, val] of Object.entries(state)) {
+          const el = $(id)
+          if (!el) continue
+          if (el.type === 'checkbox') el.checked = !!val
+          else if (val != null) el.value = val
+        }
+      } catch {}
+    }
+
+    loadDocCleanOpts()
+    $('tlDocBox')?.addEventListener('change', saveDocCleanOpts)
 
     $('dcPresetExam')?.addEventListener('click', () => {
       setAllChecks(false)
       $('dcLists').checked = true
       $('dcRenum').checked = true
+      $('dcMathSymbols').checked = true
       $('dcPunctGap').checked = true
       $('dcBrackets').checked = true
       $('dcBoldOpts').checked = true
@@ -111,12 +156,14 @@ export function initTools(host, getEngineAnswers) {
       $('dcAfter').value = '3'
       $('dcIndent').value = '0'
       status('Đã chọn mẫu: 📝 Đề thi chuẩn')
+      saveDocCleanOpts()
     })
 
     $('dcPresetLesson')?.addEventListener('click', () => {
       setAllChecks(false)
       $('dcLists').checked = true
       $('dcRenum').checked = true
+      $('dcMathSymbols').checked = true
       $('dcPunctGap').checked = true
       $('dcBrackets').checked = true
       $('dcCapFirst').checked = true
@@ -132,6 +179,7 @@ export function initTools(host, getEngineAnswers) {
       $('dcAfter').value = '6'
       $('dcIndent').value = '18'
       status('Đã chọn mẫu: 📖 Giáo án / Chuyên đề')
+      saveDocCleanOpts()
     })
 
     $('dcPresetWeb')?.addEventListener('click', () => {
@@ -144,6 +192,7 @@ export function initTools(host, getEngineAnswers) {
       $('dcSoftBreaks').checked = true
       $('dcEmpty').checked = true
       status('Đã chọn mẫu: 🧹 Dọn sạch tài liệu mạng')
+      saveDocCleanOpts()
     })
 
     $('dcPresetClearKey')?.addEventListener('click', () => {
@@ -152,11 +201,23 @@ export function initTools(host, getEngineAnswers) {
       $('dcBoldOpts').checked = true
       $('dcAlignOpts').checked = true
       status('Đã chọn mẫu: 🎯 Tẩy đáp án (xóa gạch chân / màu)')
+      saveDocCleanOpts()
+    })
+
+    $('dcPresetClearSol')?.addEventListener('click', () => {
+      setAllChecks(false)
+      if ($('dcRemoveSol')) $('dcRemoveSol').checked = true
+      if ($('dcClearMarks')) $('dcClearMarks').checked = true
+      $('dcBoldOpts').checked = true
+      $('dcAlignOpts').checked = true
+      status('Đã chọn mẫu: 🎯 Tẩy lời giải & đáp án (tạo đề thi trần)')
+      saveDocCleanOpts()
     })
 
     $('dcPresetReset')?.addEventListener('click', () => {
       setAllChecks(false)
       status('Đã bỏ chọn tất cả')
+      saveDocCleanOpts()
     })
 
     const runDoc = dry => guard(dry ? 'Xem trước' : 'Làm đẹp tài liệu', async () => {

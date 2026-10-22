@@ -83,7 +83,7 @@ const MATH = [
   cat('Toán', 'rel', 'Quan hệ', '≤', [
     T('Bằng', '=', '='), T('Khác (không bằng)', 'eq.not', '\\ne'), T('Nhỏ hơn', '<', '<'), T('Lớn hơn', '>', '>'),
     T('Nhỏ hơn hoặc bằng', 'lt.eq', '\\le'), T('Lớn hơn hoặc bằng', 'gt.eq', '\\ge'), T('Nhỏ hơn hẳn', 'lt.double', '\\ll'), T('Lớn hơn hẳn', 'gt.double', '\\gg'),
-    T('Xấp xỉ', 'approx', '\\approx'), T('Đồng nhất, đồng dư', 'equiv', '\\equiv'), T('Tương đương (~)', 'tilde.op', '\\sim'), T('Bằng nhau (hai tam giác)', 'tilde.equiv', '\\cong'),
+    T('Xấp xỉ', 'approx', '\\approx'), T('Đồng nhất, đồng dư', 'equiv', '\\equiv'), T('Đồng dạng (∽)', 'tilde.rev', '\\backsim', { kw: 'dong dang backsim chu s nam ngang reversed tilde' }), T('Tương đương (~)', 'tilde.op', '\\sim'), T('Bằng nhau (hai tam giác)', 'tilde.equiv', '\\cong'),
     T('Tỉ lệ với', 'prop', '\\propto'), T('Vuông góc', 'perp', '\\perp'), T('Song song', 'parallel', '\\parallel'), T('Không song song', 'parallel.not', '\\nparallel'),
     T('Định nghĩa là', 'colon.eq', ':='), T('Không nhỏ hơn', 'lt.not', '\\nless'), T('Không lớn hơn', 'gt.not', '\\ngtr'), T('Gần bằng (≃)', 'tilde.eq', '\\simeq'),
   ]),
@@ -181,7 +181,7 @@ const MATH = [
   ]),
   cat('Toán', 'geo', 'Hình học', '△', [
     T('Góc ABC', 'angle ⟦A B C⟧', '\\angle ⟦ABC⟧'), T('Số đo góc', 'hat(⟦A⟧) = 60 degree', '\\widehat{⟦A⟧}=60^\\circ'), T('Góc vuông', 'angle ⟦A B C⟧ = 90 degree', '\\angle ⟦ABC⟧=90^\\circ'), T('Tam giác ABC', 'triangle.stroked.t ⟦A B C⟧', '\\triangle ⟦ABC⟧'),
-    T('Song song', '⟦A B⟧ parallel C D', '⟦AB⟧\\parallel CD'), T('Vuông góc', '⟦A B⟧ perp C D', '⟦AB⟧\\perp CD'), T('Đồng dạng', 'triangle.stroked.t ⟦A B C⟧ tilde.op triangle.stroked.t D E F', '\\triangle ⟦ABC⟧\\sim\\triangle DEF'), T('Bằng nhau (tam giác)', 'triangle.stroked.t ⟦A B C⟧ tilde.equiv triangle.stroked.t D E F', '\\triangle ⟦ABC⟧\\cong\\triangle DEF'),
+    T('Song song', '⟦A B⟧ parallel C D', '⟦AB⟧\\parallel CD'), T('Vuông góc', '⟦A B⟧ perp C D', '⟦AB⟧\\perp CD'), T('Đồng dạng (tam giác)', 'triangle.stroked.t ⟦A B C⟧ tilde.rev triangle.stroked.t D E F', '\\triangle ⟦ABC⟧\\backsim\\triangle DEF', { kw: 'dong dang tam giac backsim chu s nam ngang' }), T('Dấu đồng dạng (∽)', 'tilde.rev', '\\backsim', { kw: 'dong dang backsim' }), T('Bằng nhau (tam giác)', 'triangle.stroked.t ⟦A B C⟧ tilde.equiv triangle.stroked.t D E F', '\\triangle ⟦ABC⟧\\cong\\triangle DEF'),
     T('Véc-tơ AB', 'arrow(⟦A B⟧)', '\\overrightarrow{⟦AB⟧}'), T('Độ dài véc-tơ', 'abs(arrow(⟦A B⟧))', '\\left|\\overrightarrow{⟦AB⟧}\\right|'), T('Tích vô hướng', 'arrow(⟦u⟧) dot arrow(v) = abs(arrow(u)) abs(arrow(v)) cos alpha', '\\vec{⟦u⟧}\\cdot\\vec{v}=|\\vec{u}||\\vec{v}|\\cos\\alpha'),
     T('Tích có hướng', 'arrow(⟦u⟧) times arrow(v)', '\\vec{⟦u⟧}\\times\\vec{v}'), T('Tọa độ véc-tơ', 'arrow(⟦u⟧) = (x; y; z)', '\\vec{⟦u⟧}=(x;y;z)'), T('Tọa độ điểm', 'M(⟦x_0⟧; y_0; z_0)', 'M(⟦x_0⟧;y_0;z_0)'),
     T('Khoảng cách điểm - đường thẳng', 'd(M, Delta) = abs(a x_0 + b y_0 + c)/sqrt(a^2 + b^2)', 'd(M,\\Delta)=\\frac{|ax_0+by_0+c|}{\\sqrt{a^2+b^2}}'), T('Phương trình đường tròn', '(x - ⟦a⟧)^2 + (y - b)^2 = R^2', '(x-⟦a⟧)^2+(y-b)^2=R^2'),

@@ -123,167 +123,219 @@ if (!window.wordBridge && new URLSearchParams(location.search).get('host') !== '
     <span id="tlStatus" class="status muted" aria-live="polite"></span>
   </div>
 
-  <div class="card" id="tlDocBox" hidden>
-    <h3>★ Làm đẹp tài liệu (chuẩn hóa toàn diện như BTPro / VnTools)</h3>
-    <p class="muted">Chọn các việc cần làm, bấm <b>Xem trước</b> (chỉ quét đếm, không đổi tài liệu) hoặc <b>Áp dụng</b>. Phạm vi theo nút "Toàn tài liệu / Vùng chọn". Hoàn tác tức thì: <b>Ctrl/Cmd + Z</b> trong Word.</p>
-    
-    <div class="dc-presets">
-      <div class="dc-preset-title">⚡ 1-Chạm thiết lập mẫu nhanh:</div>
-      <button id="dcPresetExam" type="button" class="btn-preset">📝 Đề thi chuẩn</button>
-      <button id="dcPresetLesson" type="button" class="btn-preset">📖 Giáo án / Chuyên đề</button>
-      <button id="dcPresetWeb" type="button" class="btn-preset">🧹 Dọn sạch file mạng</button>
-      <button id="dcPresetClearKey" type="button" class="btn-preset">🎯 Tẩy đáp án (in đề)</button>
-      <button id="dcPresetClearSol" type="button" class="btn-preset">🎯 Tẩy lời giải (đề trần)</button>
-      <button id="dcPresetReset" type="button" class="btn-preset-reset">↺ Bỏ chọn</button>
-    </div>
+  <nav class="tool-modules" role="tablist">
+    <button id="tmBtnClean" class="tm-tab on" type="button" role="tab" aria-selected="true" data-target="tmPaneClean"><span class="tm-ic">🧹</span>Làm đẹp & Định dạng</button>
+    <button id="tmBtnNumber" class="tm-tab" type="button" role="tab" aria-selected="false" data-target="tmPaneNumber"><span class="tm-ic">🔢</span>Đánh số & Trắc nghiệm</button>
+    <button id="tmBtnAnswer" class="tm-tab" type="button" role="tab" aria-selected="false" data-target="tmPaneAnswer"><span class="tm-ic">🎯</span>Đáp án & Lời giải</button>
+    <button id="tmBtnTable" class="tm-tab" type="button" role="tab" aria-selected="false" data-target="tmPaneTable"><span class="tm-ic">📋</span>Bảng biểu & Phiếu</button>
+    <button id="tmBtnAi" class="tm-tab" type="button" role="tab" aria-selected="false" data-target="tmPaneAi"><span class="tm-ic">🤖</span>Trợ lý AI</button>
+  </nav>
 
-    <fieldset class="dc-group"><legend>1. Đánh số, danh sách & bảng mã</legend>
-      <label class="check"><input id="dcLists" type="checkbox"> Đổi <b>đánh số / gạch đầu dòng tự động</b> của Word thành chữ thường (số hoặc ký hiệu gõ sẵn)</label>
-      <label class="dc-sub">Ký hiệu thay gạch đầu dòng
-        <select id="dcBullet"><option value="dot">• chấm tròn</option><option value="dash">– gạch ngắn</option><option value="hyphen">- gạch nối</option><option value="square">▪ ô vuông nhỏ</option></select></label>
-      <label class="check"><input id="dcRenum" type="checkbox"> <b>Đánh số lại thứ tự</b> các mục gõ tay: Câu/Bài/Ví dụ <i>n</i>., 1. 2. 3., a) b) c), I. II. (cấp nhỏ tự khởi lại khi sang mục lớn)</label>
-      <label class="check dc-sub"><input id="dcResetHead" type="checkbox" checked> Khởi lại thứ tự sau mỗi tiêu đề (Heading hoặc dòng IN HOA)</label>
-      <label class="check"><input id="dcTcvn3" type="checkbox"> Chuyển mã font cũ <b>.VnTime / TCVN3 sang Unicode</b> (đổi font thành Times New Roman chuẩn)</label>
-    </fieldset>
-
-    <fieldset class="dc-group"><legend>2. Chính tả, dấu câu & khoảng trắng thông minh</legend>
-      <label class="check"><input id="dcMathSymbols" type="checkbox" checked> Chuẩn hóa <b>ký hiệu toán học thô</b> (<code>=&gt;</code> → <code>⇒</code>, <code>&lt;=&gt;</code> → <code>⇔</code>, <code>-&gt;</code> → <code>→</code>, <code>&lt;=</code> → <code>≤</code>, <code>&gt;=</code> → <code>≥</code>, <code>!=</code> → <code>≠</code>, <code>+-</code> → <code>±</code>, <code>ABC ~ DEF</code> → <code>ABC ∽ DEF</code> (đồng dạng chuẩn VN), <code>oC</code> → <code>°C</code>, <code>cm2/m3</code> → <code>cm²/m³</code>, <code>10^n</code> → <code>10ⁿ</code>, <code>2*3</code> → <code>2 × 3</code>)</label>
-      <label class="check"><input id="dcPunctGap" type="checkbox"> Sửa lỗi <b>dính chữ sau dấu câu</b> (ví dụ: <code>Toán,Lý</code> → <code>Toán, Lý</code>; <code>xong.Tiếp</code> → <code>xong. Tiếp</code>; giữ nguyên số thập phân <code>1,5</code> hay <code>3.14</code>)</label>
-      <label class="check"><input id="dcBrackets" type="checkbox"> Xóa khoảng trắng thừa <b>trong dấu ngoặc</b> (ví dụ: <code>( phương trình )</code> → <code>(phương trình)</code>)</label>
-      <label class="check"><input id="dcCapFirst" type="checkbox"> Tự động <b>viết hoa chữ cái đầu câu</b> sau dấu chấm (., ?, !)</label>
-      <label class="check"><input id="dcPunct" type="checkbox"> Xóa dấu cách thừa <b>trước</b> dấu câu (, . ; : ! ? ))</label>
-      <label class="check"><input id="dcSpaces" type="checkbox"> Gộp 2 dấu cách trở lên thành 1</label>
-      <label class="check"><input id="dcTabs" type="checkbox"> Đổi <b>3 dấu cách trở lên</b> thành 1 dấu <b>tab</b></label>
-      <label class="check"><input id="dcEmpty" type="checkbox"> Xóa các <b>đoạn trống liên tiếp</b> (giữ lại một)</label>
-    </fieldset>
-
-    <fieldset class="dc-group"><legend>3. Trắc nghiệm: Phương án A, B, C, D (kiểu BTPro / McMix)</legend>
-      <label class="check"><input id="dcBoldOpts" type="checkbox"> Tự động <b>in đậm nhãn phương án</b> (<b>A.</b> <b>B.</b> <b>C.</b> <b>D.</b> hoặc <b>a)</b> <b>b)</b> <b>c)</b> <b>d)</b>)</label>
-      <label class="check"><input id="dcAlignOpts" type="checkbox"> <b>Canh thẳng hàng các phương án</b> bằng dấu Tab (thay thế chuỗi dấu cách giữa các phương án trên cùng dòng)</label>
-      <label class="check"><input id="dcSplitOpts" type="checkbox"> <b>Tách mỗi phương án thành 1 dòng riêng</b> (dành cho phương án dài bị dính chung 1 dòng)</label>
-      <label class="check"><input id="dcClearMarks" type="checkbox"> <b>Tẩy gạch chân / chữ đỏ / highlight đáp án</b> (tạo đề thi thử sạch sẽ cho học sinh)</label>
-    </fieldset>
-
-    <fieldset class="dc-group"><legend>4. Quản lý Lời giải & Hướng dẫn giải</legend>
-      <label class="check"><input id="dcHighlightSol" type="checkbox"> <b>Làm nổi bật lời giải</b> (tự động in đậm + in nghiêng + thụt lề các khối <i>Lời giải / Hướng dẫn giải / HDG</i>)</label>
-      <label class="check"><input id="dcRemoveSol" type="checkbox"> <b>Tẩy sạch toàn bộ lời giải</b> (xóa sạch các đoạn <i>Lời giải/HDG</i> đến hết câu để tạo đề thi trần cho học sinh)</label>
-    </fieldset>
-
-    <fieldset class="dc-group"><legend>5. Trình bày sư phạm, bảng biểu & trang in</legend>
-      <label class="check"><input id="dcKeepNext" type="checkbox" checked> <b>Chống "mồ côi" câu hỏi & tiêu đề</b> (luôn giữ dòng <i>Câu/Bài/Ví dụ/Heading</i> đi liền với nội dung, không bị rớt lẻ loi ở đáy trang)</label>
-      <label class="check"><input id="dcTableCenter" type="checkbox"> <b>Căn giữa toàn bộ bảng</b> ra chính giữa trang giấy</label>
-      <label class="check"><input id="dcCantSplit" type="checkbox"> <b>Chống xẻ đôi hàng bảng qua trang</b> & tự động lặp lại dòng tiêu đề bảng ở mỗi trang mới</label>
-      <label class="check"><input id="dcSoftBreaks" type="checkbox"> Đổi <b>ngắt dòng mềm (Shift + Enter)</b> thành ngắt đoạn chuẩn (Enter)</label>
-      <label class="check"><input id="dcPageSetupA4" type="checkbox"> Đặt <b>lề trang in chuẩn A4</b> (Nghị định 30: Trên 2cm, Dưới 2cm, Trái 3cm, Phải 1.5cm)</label>
-    </fieldset>
-
-    <fieldset class="dc-group"><legend>6. Định dạng đồng nhất cho đoạn thường (bỏ qua tiêu đề)</legend>
-      <label class="check"><input id="dcFmt" type="checkbox"> Áp dụng định dạng dưới đây</label>
-      <div class="grid2">
-        <label>Phông chữ <input id="dcFont" type="text" placeholder="Times New Roman"></label>
-        <label>Cỡ chữ (pt) <input id="dcSize" type="number" min="8" max="24" step="0.5" placeholder="13"></label>
-        <label>Giãn dòng <input id="dcLine" type="number" min="1" max="3" step="0.05" placeholder="1.15"></label>
-        <label>Canh lề <select id="dcAlign"><option value="">(giữ nguyên)</option><option value="justify">Đều hai bên</option><option value="left">Trái</option><option value="center">Giữa</option></select></label>
-        <label>Cách đoạn sau (pt) <input id="dcAfter" type="number" min="0" max="36" step="1" placeholder="6"></label>
-        <label>Thụt dòng đầu (pt) <input id="dcIndent" type="number" min="0" max="72" step="1" placeholder="0"></label>
+  <!-- MODULE 1: Làm đẹp & Định dạng -->
+  <div id="tmPaneClean" class="tool-pane">
+    <div class="card" id="tlDocBox">
+      <h3>★ Làm đẹp & Chuẩn hóa tài liệu</h3>
+      <p class="muted">Chọn các việc cần làm, bấm <b>Xem trước</b> hoặc <b>Áp dụng</b>. Phạm vi theo nút "Toàn tài liệu / Vùng chọn". Hoàn tác tức thì: <b>Ctrl/Cmd + Z</b> trong Word.</p>
+      
+      <div class="dc-presets">
+        <div class="dc-preset-title">⚡ 1-Chạm thiết lập mẫu nhanh:</div>
+        <button id="dcPresetExam" type="button" class="btn-preset">📝 Đề thi chuẩn</button>
+        <button id="dcPresetLesson" type="button" class="btn-preset">📖 Giáo án / Chuyên đề</button>
+        <button id="dcPresetWeb" type="button" class="btn-preset">🧹 Dọn sạch file mạng</button>
+        <button id="dcPresetReset" type="button" class="btn-preset-reset">↺ Bỏ chọn</button>
       </div>
-      <label class="check"><input id="dcSkipTbl" type="checkbox" checked> Bỏ qua nội dung trong bảng</label>
-    </fieldset>
-    <div class="actions"><button id="dcPreview" type="button">Xem trước</button><button id="dcApply" class="primary" type="button">Áp dụng làm đẹp</button></div>
-  </div>
 
-  <div class="card">
-    <h3>1. Đánh số lại câu và phương án</h3>
-    <p class="muted">Sửa Câu 1, 2, 3… và A. B. C. D. (Phần II: a) b) c) d)) theo đúng thứ tự trong đề.</p>
-    <div class="row">
-      <label>Bắt đầu từ <input id="tlStart" type="number" min="1" value="1"></label>
-      <label class="check"><input id="tlOpts" type="checkbox" checked> Sửa cả phương án A.B.C.D</label>
-      <label class="check"><input id="tlRestart" type="checkbox"> Đánh lại từ đầu ở mỗi PHẦN</label>
-    </div>
-    <div class="actions"><button id="tlRenumber" class="primary" type="button">Đánh số lại</button></div>
-  </div>
+      <fieldset class="dc-group"><legend>1. Chính tả, dấu câu & khoảng trắng thông minh</legend>
+        <label class="check"><input id="dcMathSymbols" type="checkbox" checked> Chuẩn hóa <b>ký hiệu toán học thô</b> (<code>=&gt;</code> → <code>⇒</code>, <code>&lt;=&gt;</code> → <code>⇔</code>, <code>-&gt;</code> → <code>→</code>, <code>&lt;=</code> → <code>≤</code>, <code>&gt;=</code> → <code>≥</code>, <code>!=</code> → <code>≠</code>, <code>+-</code> → <code>±</code>, <code>ABC ~ DEF</code> → <code>ABC ∽ DEF</code> (đồng dạng chuẩn VN), <code>oC</code> → <code>°C</code>, <code>cm2/m3</code> → <code>cm²/m³</code>, <code>10^n</code> → <code>10ⁿ</code>, <code>2*3</code> → <code>2 × 3</code>)</label>
+        <label class="check"><input id="dcPunctGap" type="checkbox"> Sửa lỗi <b>dính chữ sau dấu câu</b> (ví dụ: <code>Toán,Lý</code> → <code>Toán, Lý</code>; <code>xong.Tiếp</code> → <code>xong. Tiếp</code>; giữ nguyên số thập phân <code>1,5</code> hay <code>3.14</code>)</label>
+        <label class="check"><input id="dcBrackets" type="checkbox"> Xóa khoảng trắng thừa <b>trong dấu ngoặc</b> (ví dụ: <code>( phương trình )</code> → <code>(phương trình)</code>)</label>
+        <label class="check"><input id="dcCapFirst" type="checkbox"> Tự động <b>viết hoa chữ cái đầu câu</b> sau dấu chấm (., ?, !)</label>
+        <label class="check"><input id="dcPunct" type="checkbox"> Xóa dấu cách thừa <b>trước</b> dấu câu (, . ; : ! ? ))</label>
+        <label class="check"><input id="dcSpaces" type="checkbox"> Gộp 2 dấu cách trở lên thành 1</label>
+        <label class="check"><input id="dcTabs" type="checkbox"> Đổi <b>3 dấu cách trở lên</b> thành 1 dấu <b>tab</b></label>
+        <label class="check"><input id="dcEmpty" type="checkbox"> Xóa các <b>đoạn trống liên tiếp</b> (giữ lại một)</label>
+      </fieldset>
 
-  <div class="card">
-    <h3>2. Chuẩn hóa định dạng đề</h3>
-    <div class="grid2">
-      <label>Mẫu đề có sẵn <select id="tlTpl"></select></label>
-      <label>Phông chữ <input id="tlFont" type="text"></label>
-      <label>Cỡ chữ (pt) <input id="tlSize" type="number" min="8" max="20" step="0.5"></label>
-      <label>Giãn dòng <input id="tlLine" type="number" min="1" max="3" step="0.05"></label>
-      <label>Canh lề nội dung <select id="tlAlign"><option value="justify">Đều hai bên</option><option value="left">Trái</option></select></label>
-      <label>Cách đoạn sau (pt) <input id="tlAfter" type="number" min="0" max="24" step="1"></label>
-    </div>
-    <div class="row">
-      <label class="check"><input id="tlRule" type="checkbox" checked> Dòng kẻ dưới tiêu đề PHẦN</label>
-      <label class="check"><input id="tlBoldQ" type="checkbox" checked> "Câu n." in đậm</label>
-    </div>
-    <div class="actions"><button id="tlFormat" class="primary" type="button">Chuẩn hóa định dạng</button></div>
-  </div>
+      <fieldset class="dc-group"><legend>2. Bảng mã font cũ .VnTime / TCVN3</legend>
+        <label class="check"><input id="dcTcvn3" type="checkbox"> Chuyển mã font cũ <b>.VnTime / TCVN3 sang Unicode</b> (đổi font thành Times New Roman chuẩn)</label>
+      </fieldset>
 
-  <div class="card">
-    <h3>3. Đáp án đúng, lời giải</h3>
-    <div class="row">
-      <label class="check"><input id="tlSrcAuto" name="tlSrc" type="radio" checked> Tự đọc từ đề (chữ cái đáp án đã gạch chân)</label>
-      <label class="check"><input id="tlSrcKey" name="tlSrc" type="radio"> Gõ đáp án</label>
-    </div>
-    <label class="block" id="tlKeyWrap" hidden>Ví dụ: 1A 2B 3C 4D hoặc ABCDABCD
-      <textarea id="tlKey" rows="2" spellcheck="false" placeholder="1A 2B 3C 4D…"></textarea></label>
-    <div class="row"><button id="tlReadKey" class="link" type="button">Đọc đáp án từ đề</button><span id="tlKeyInfo" class="muted"></span></div>
-    <div class="row">
-      <label class="check"><input id="tlMkBold" type="checkbox" checked> In đậm</label>
-      <label class="check"><input id="tlMkColorOn" type="checkbox" checked> Tô màu <input id="tlMkColor" type="color" value="#c00000"></label>
-      <label class="check"><input id="tlMkUnder" type="checkbox"> Gạch chân</label>
-    </div>
-    <div class="actions">
-      <button id="tlMark" class="primary" type="button">Tô đáp án đúng</button>
-      <button id="tlUnmark" type="button">Bỏ tô</button>
-      <button id="tlHide" type="button" title="Dùng chữ ẩn của Word, không xóa nội dung">Ẩn lời giải và bảng đáp án</button>
-      <button id="tlShow" type="button">Hiện lại</button>
+      <fieldset class="dc-group"><legend>3. Trình bày sư phạm, bảng biểu & trang in</legend>
+        <label class="check"><input id="dcKeepNext" type="checkbox" checked> <b>Chống "mồ côi" câu hỏi & tiêu đề</b> (luôn giữ dòng <i>Câu/Bài/Ví dụ/Heading</i> đi liền với nội dung, không bị rớt lẻ loi ở đáy trang)</label>
+        <label class="check"><input id="dcTableCenter" type="checkbox"> <b>Căn giữa toàn bộ bảng</b> ra chính giữa trang giấy</label>
+        <label class="check"><input id="dcCantSplit" type="checkbox"> <b>Chống xẻ đôi hàng bảng qua trang</b> & tự động lặp lại dòng tiêu đề bảng ở mỗi trang mới</label>
+        <label class="check"><input id="dcSoftBreaks" type="checkbox"> Đổi <b>ngắt dòng mềm (Shift + Enter)</b> thành ngắt đoạn chuẩn (Enter)</label>
+        <label class="check"><input id="dcPageSetupA4" type="checkbox"> Đặt <b>lề trang in chuẩn A4</b> (Nghị định 30: Trên 2cm, Dưới 2cm, Trái 3cm, Phải 1.5cm)</label>
+      </fieldset>
+
+      <fieldset class="dc-group"><legend>4. Định dạng đồng nhất cho đoạn thường (bỏ qua tiêu đề)</legend>
+        <label class="check"><input id="dcFmt" type="checkbox"> Áp dụng định dạng dưới đây</label>
+        <div class="grid2">
+          <label>Phông chữ <input id="dcFont" type="text" placeholder="Times New Roman"></label>
+          <label>Cỡ chữ (pt) <input id="dcSize" type="number" min="8" max="24" step="0.5" placeholder="13"></label>
+          <label>Giãn dòng <input id="dcLine" type="number" min="1" max="3" step="0.05" placeholder="1.15"></label>
+          <label>Canh lề <select id="dcAlign"><option value="">(giữ nguyên)</option><option value="justify">Đều hai bên</option><option value="left">Trái</option><option value="center">Giữa</option></select></label>
+          <label>Cách đoạn sau (pt) <input id="dcAfter" type="number" min="0" max="36" step="1" placeholder="6"></label>
+          <label>Thụt dòng đầu (pt) <input id="dcIndent" type="number" min="0" max="72" step="1" placeholder="0"></label>
+        </div>
+        <label class="check"><input id="dcSkipTbl" type="checkbox" checked> Bỏ qua nội dung trong bảng</label>
+      </fieldset>
+
+      <div class="actions"><button id="dcPreview" type="button">Xem trước</button><button id="dcApply" class="primary" type="button">Áp dụng làm đẹp</button></div>
     </div>
   </div>
 
-  <div class="card">
-    <h3>4. Chèn bảng đáp án, khung điểm, phiếu trả lời, mã QR</h3>
-    <div class="row">
-      <label class="check"><input name="tlWhere" id="tlWhereSel" type="radio" checked> Tại con trỏ</label>
-      <label class="check"><input name="tlWhere" id="tlWhereEnd" type="radio"> Cuối tài liệu</label>
-      <label>Mã đề <input id="tlMa" type="text" style="width:64px" placeholder="101"></label>
-    </div>
-    <div class="actions">
-      <button id="tlInsAns" type="button">Bảng đáp án</button>
-      <button id="tlInsScore" type="button">Khung điểm</button>
-      <button id="tlInsSheet" type="button">Phiếu trả lời</button>
-      <button id="tlInsQr" type="button">Mã QR đáp án</button>
-    </div>
-  </div>
-
-  <div class="card">
-    <h3>5. Danh sách câu hỏi ⇄ bảng</h3>
-    <div class="actions">
-      <button id="tlExport" type="button">Xuất ra bảng trong Word</button>
-      <button id="tlCopyTsv" type="button">Chép (dán vào Excel)</button>
-      <button id="tlImport" type="button">Nhập từ bảng trong Word</button>
-    </div>
-    <details class="style-details"><summary>Nhập từ Excel / Google Sheets (dán vào đây)</summary>
-      <textarea id="tlPaste" rows="4" spellcheck="false" placeholder="Cột: Câu · Phần · Nội dung · A · B · C · D · Đáp án · Lời giải"></textarea>
-      <div class="actions"><button id="tlImportPaste" type="button">Nhập vào đề</button></div>
-    </details>
-  </div>
-
-  <div class="card">
-    <h3>6. Giải một câu bằng AI</h3>
-    <p class="muted">Bôi đen câu hỏi (cả các phương án) trong Word rồi bấm Giải. Lời giải được chèn ngay sau câu.</p>
-    <div class="actions"><button id="tlSolve" class="primary" type="button">Giải câu đang chọn</button></div>
-    <details class="style-details" id="tlAiBox"><summary>Cài đặt khóa API (chỉ lưu trên máy này)</summary>
-      <div class="grid2">
-        <label>Nhà cung cấp <select id="tlProv"></select></label>
-        <label>Mô hình <input id="tlModel" type="text"></label>
-        <label class="wide">Khóa API <input id="tlApiKey" type="password" autocomplete="off" placeholder="dán khóa của thầy cô"></label>
-        <label class="wide" id="tlUrlWrap" hidden>Địa chỉ API (https) <input id="tlUrl" type="text"></label>
+  <!-- MODULE 2: Đánh số & Trắc nghiệm -->
+  <div id="tmPaneNumber" class="tool-pane" hidden>
+    <div class="card">
+      <div class="feature-hero">
+        <h4>⚡ Xóa Auto-Number của Word (chuyển thành chữ thường)</h4>
+        <p>Đề thi tải từ mạng về thường bị Word tự động bật danh sách gạch đầu dòng/số (bullet/numbered list) làm nhảy thụt lề và sai thứ tự khi sao chép. Bấm nút dưới đây để gỡ bỏ toàn bộ danh sách tự động của Word, đổi thành số và ký hiệu thường gõ tay cố định.</p>
       </div>
-      <p class="muted">Khóa nằm trong bộ nhớ của trình duyệt/app này và chỉ được gửi tới địa chỉ nhà cung cấp ở trên, kèm nội dung câu hỏi. Không gửi tới nơi nào khác.</p>
-      <div class="actions"><button id="tlKeySave" type="button">Lưu khóa</button><button id="tlKeyClear" type="button">Xóa khóa</button></div>
-    </details>
+      <label class="check"><input id="dcLists" type="checkbox" checked> Tự động đổi đánh số / gạch đầu dòng Word thành chữ thường</label>
+      <div class="row">
+        <label class="dc-sub">Ký hiệu thay gạch đầu dòng
+          <select id="dcBullet"><option value="dot">• chấm tròn</option><option value="dash">– gạch ngắn</option><option value="hyphen">- gạch nối</option><option value="square">▪ ô vuông nhỏ</option></select></label>
+      </div>
+      <div class="actions"><button id="btnDirectConvertLists" class="primary" type="button">⚡ Đổi đánh số tự động thành chữ</button></div>
+    </div>
+
+    <div class="card">
+      <h3>1. Đánh số lại thứ tự câu và phương án</h3>
+      <p class="muted">Sửa Câu 1, 2, 3… và A. B. C. D. (Phần II: a) b) c) d)) theo đúng thứ tự liên tục trong đề.</p>
+      <div class="row">
+        <label>Bắt đầu từ <input id="tlStart" type="number" min="1" value="1"></label>
+        <label class="check"><input id="tlOpts" type="checkbox" checked> Sửa cả phương án A.B.C.D</label>
+        <label class="check"><input id="tlRestart" type="checkbox"> Đánh lại từ đầu ở mỗi PHẦN</label>
+      </div>
+      <div class="row" style="margin-top:6px">
+        <label class="check"><input id="dcRenum" type="checkbox" checked> Đánh số lại mục gõ tay (Câu/Bài/Ví dụ n., 1. 2. 3., a) b) c))</label>
+        <label class="check dc-sub"><input id="dcResetHead" type="checkbox" checked> Khởi lại thứ tự sau mỗi tiêu đề</label>
+      </div>
+      <div class="actions"><button id="tlRenumber" class="primary" type="button">Đánh số lại thứ tự</button></div>
+    </div>
+
+    <div class="card">
+      <h3>2. Chuẩn hóa phương án trắc nghiệm A, B, C, D</h3>
+      <p class="muted">Tự động canh chỉnh định dạng cho 4 phương án trắc nghiệm để đề thi đều đẹp, chuyên nghiệp.</p>
+      <div class="row">
+        <label class="check"><input id="dcBoldOpts" type="checkbox" checked> In đậm nhãn phương án (<b>A.</b> <b>B.</b> <b>C.</b> <b>D.</b> hoặc <b>a)</b> <b>b)</b> <b>c)</b> <b>d)</b>)</label>
+        <label class="check"><input id="dcAlignOpts" type="checkbox" checked> Canh thẳng hàng các phương án bằng dấu Tab</label>
+        <label class="check"><input id="dcSplitOpts" type="checkbox"> Tách mỗi phương án thành 1 dòng riêng (dành cho phương án dài)</label>
+      </div>
+      <div class="actions"><button id="btnDirectApplyOpts" class="primary" type="button">Chuẩn hóa phương án A. B. C. D.</button></div>
+    </div>
+  </div>
+
+  <!-- MODULE 3: Đáp án & Lời giải -->
+  <div id="tmPaneAnswer" class="tool-pane" hidden>
+    <div class="card">
+      <h3>1. Đáp án đúng (Tô màu & Gạch chân)</h3>
+      <div class="row">
+        <label class="check"><input id="tlSrcAuto" name="tlSrc" type="radio" checked> Tự đọc từ đề (chữ cái đáp án đã gạch chân)</label>
+        <label class="check"><input id="tlSrcKey" name="tlSrc" type="radio"> Gõ đáp án</label>
+      </div>
+      <label class="block" id="tlKeyWrap" hidden>Ví dụ: 1A 2B 3C 4D hoặc ABCDABCD
+        <textarea id="tlKey" rows="2" spellcheck="false" placeholder="1A 2B 3C 4D…"></textarea></label>
+      <div class="row"><button id="tlReadKey" class="link" type="button">Đọc đáp án từ đề</button><span id="tlKeyInfo" class="muted"></span></div>
+      <div class="row">
+        <label class="check"><input id="tlMkBold" type="checkbox" checked> In đậm</label>
+        <label class="check"><input id="tlMkColorOn" type="checkbox" checked> Tô màu <input id="tlMkColor" type="color" value="#c00000"></label>
+        <label class="check"><input id="tlMkUnder" type="checkbox"> Gạch chân</label>
+      </div>
+      <div class="actions">
+        <button id="tlMark" class="primary" type="button">Tô đáp án đúng</button>
+        <button id="tlUnmark" type="button">Bỏ tô đáp án</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>2. Quản lý Lời giải & Tạo đề thi trần</h3>
+      <div class="feature-hero">
+        <h4>📖 Quản lý Lời giải & In ấn linh hoạt</h4>
+        <p>Linh hoạt làm nổi bật lời giải để đọc/soạn bài, dùng chữ ẩn của Word để giấu lời giải, hoặc tẩy sạch toàn bộ lời giải và đáp án để in đề thi trần phát cho học sinh làm bài.</p>
+      </div>
+      <div style="display:none">
+        <input id="dcHighlightSol" type="checkbox">
+        <input id="dcRemoveSol" type="checkbox">
+        <input id="dcClearMarks" type="checkbox">
+        <button id="dcPresetClearKey" type="button"></button>
+        <button id="dcPresetClearSol" type="button"></button>
+      </div>
+      <div class="actions">
+        <button id="btnDirectHighlightSol" type="button">✨ Làm nổi bật lời giải</button>
+        <button id="tlHide" type="button" title="Dùng chữ ẩn của Word, không xóa nội dung">Ẩn lời giải & đáp án</button>
+        <button id="tlShow" type="button">Hiện lại lời giải</button>
+        <button id="btnDirectRemoveSol" class="primary" type="button" title="Xóa toàn bộ lời giải và tẩy màu đáp án">🎯 Tẩy sạch lời giải & đáp án (Đề trần)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODULE 4: Bảng biểu & Phiếu -->
+  <div id="tmPaneTable" class="tool-pane" hidden>
+    <div class="card">
+      <h3>1. Chuẩn hóa định dạng đề</h3>
+      <div class="grid2">
+        <label>Mẫu đề có sẵn <select id="tlTpl"></select></label>
+        <label>Phông chữ <input id="tlFont" type="text"></label>
+        <label>Cỡ chữ (pt) <input id="tlSize" type="number" min="8" max="20" step="0.5"></label>
+        <label>Giãn dòng <input id="tlLine" type="number" min="1" max="3" step="0.05"></label>
+        <label>Canh lề nội dung <select id="tlAlign"><option value="justify">Đều hai bên</option><option value="left">Trái</option></select></label>
+        <label>Cách đoạn sau (pt) <input id="tlAfter" type="number" min="0" max="24" step="1"></label>
+      </div>
+      <div class="row">
+        <label class="check"><input id="tlRule" type="checkbox" checked> Dòng kẻ dưới tiêu đề PHẦN</label>
+        <label class="check"><input id="tlBoldQ" type="checkbox" checked> "Câu n." in đậm</label>
+      </div>
+      <div class="actions"><button id="tlFormat" class="primary" type="button">Chuẩn hóa định dạng</button></div>
+    </div>
+
+    <div class="card">
+      <h3>2. Chèn bảng đáp án, khung điểm, phiếu trả lời, mã QR</h3>
+      <div class="row">
+        <label class="check"><input name="tlWhere" id="tlWhereSel" type="radio" checked> Tại con trỏ</label>
+        <label class="check"><input name="tlWhere" id="tlWhereEnd" type="radio"> Cuối tài liệu</label>
+        <label>Mã đề <input id="tlMa" type="text" style="width:64px" placeholder="101"></label>
+      </div>
+      <div class="actions">
+        <button id="tlInsAns" type="button">Bảng đáp án</button>
+        <button id="tlInsScore" type="button">Khung điểm</button>
+        <button id="tlInsSheet" type="button">Phiếu trả lời</button>
+        <button id="tlInsQr" type="button">Mã QR đáp án</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>3. Danh sách câu hỏi ⇄ bảng</h3>
+      <div class="actions">
+        <button id="tlExport" type="button">Xuất ra bảng trong Word</button>
+        <button id="tlCopyTsv" type="button">Chép (dán vào Excel)</button>
+        <button id="tlImport" type="button">Nhập từ bảng trong Word</button>
+      </div>
+      <details class="style-details"><summary>Nhập từ Excel / Google Sheets (dán vào đây)</summary>
+        <textarea id="tlPaste" rows="4" spellcheck="false" placeholder="Cột: Câu · Phần · Nội dung · A · B · C · D · Đáp án · Lời giải"></textarea>
+        <div class="actions"><button id="tlImportPaste" type="button">Nhập vào đề</button></div>
+      </details>
+    </div>
+  </div>
+
+  <!-- MODULE 5: Trợ lý AI -->
+  <div id="tmPaneAi" class="tool-pane" hidden>
+    <div class="card">
+      <h3>Giải một câu bằng AI</h3>
+      <p class="muted">Bôi đen câu hỏi (cả các phương án) trong Word rồi bấm Giải. Lời giải được chèn ngay sau câu.</p>
+      <div class="actions"><button id="tlSolve" class="primary" type="button">Giải câu đang chọn</button></div>
+      <details class="style-details" id="tlAiBox"><summary>Cài đặt khóa API (chỉ lưu trên máy này)</summary>
+        <div class="grid2">
+          <label>Nhà cung cấp <select id="tlProv"></select></label>
+          <label>Mô hình <input id="tlModel" type="text"></label>
+          <label class="wide">Khóa API <input id="tlApiKey" type="password" autocomplete="off" placeholder="dán khóa của thầy cô"></label>
+          <label class="wide" id="tlUrlWrap" hidden>Địa chỉ API (https) <input id="tlUrl" type="text"></label>
+        </div>
+        <p class="muted">Khóa nằm trong bộ nhớ của trình duyệt/app này và chỉ được gửi tới địa chỉ nhà cung cấp ở trên, kèm nội dung câu hỏi. Không gửi tới nơi nào khác.</p>
+        <div class="actions"><button id="tlKeySave" type="button">Lưu khóa</button><button id="tlKeyClear" type="button">Xóa khóa</button></div>
+      </details>
+    </div>
   </div>
 </main>
 

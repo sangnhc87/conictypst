@@ -311,6 +311,80 @@ body[data-exmode=shuffle] .only-beautify { display:none !important; }
 .tools .grid2 input, .tools .grid2 select { min-width:0; width:100%; }
 .tools .row label.check { display:inline-flex; align-items:center; gap:4px; }
 
+/* Sub-tabs điều hướng module công cụ soạn */
+.tool-modules {
+  display: flex;
+  gap: 5px;
+  overflow-x: auto;
+  padding: 4px 2px 8px;
+  margin-bottom: 2px;
+  border-bottom: 1px solid var(--line);
+  flex: none;
+  scrollbar-width: none;
+}
+.tool-modules::-webkit-scrollbar { display: none; }
+.tm-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--soft);
+  color: var(--fg);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all .15s ease;
+}
+.tm-tab:hover {
+  background: color-mix(in srgb, var(--h1) 12%, var(--soft));
+  border-color: color-mix(in srgb, var(--h1) 35%, transparent);
+}
+.tm-tab.on {
+  background: linear-gradient(115deg, var(--h1), var(--h2));
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 2px 6px color-mix(in srgb, var(--h1) 35%, transparent);
+}
+.tm-tab .tm-ic { font-size: 13.5px; }
+
+.tool-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.tool-pane[hidden] {
+  display: none !important;
+}
+
+.feature-hero {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--h1) 6%, var(--card));
+  border: 1px solid color-mix(in srgb, var(--h1) 20%, var(--line));
+  margin-bottom: 8px;
+}
+.feature-hero h4 {
+  margin: 0;
+  font-size: 13px;
+  color: var(--h1);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.feature-hero p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
 /* ===== Bảng vẽ kéo thả: giao diện đợt 2 ===== */
 .ed { grid-template-columns: 290px minmax(0, 1fr) 250px; gap:12px; }
 .ed-pal, .ed-insp { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:10px; box-shadow:var(--shadow); }
